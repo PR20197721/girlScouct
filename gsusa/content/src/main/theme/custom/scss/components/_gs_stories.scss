@@ -8,7 +8,8 @@
    @media (min-width: 0) and (max-width: 440px) and (orientation: portrait) {
      @include block-grid(1);
    }
-   .left-col & {
+   .left-col &,
+   .right-col & {
      @media #{$medium-up} {
        @include block-grid(1);
      }
