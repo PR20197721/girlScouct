@@ -9,34 +9,62 @@
 	                jcr:primaryType="cq:Panel"
 	                title="Properties">
 	                <items jcr:primaryType="cq:WidgetCollection">
-                        <anchor
+                        <url
                         	jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter an anchor for the link. If left blank, no anchor will be used"
-                            fieldLabel="Anchor"
-                            name="./anchor"
+                            fieldDescription="Enter the URL to share. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news"
+                            fieldLabel="URL"
+                            name="./url"
+                            allowBlank="false"
                             xtype="textfield"/>
+                        <title
+                        	jcr:primaryType="cq:Widget"
+                        	fieldDescription="Enter the title of the post to share. Note: This will only appear for certain social networks, like Facebook and Pinterest. If blank, social network may generate a title based on page content or metadata."
+                        	fieldLabel="Title"
+                        	name="./title"
+                        	xtype="textfield"/>
+                       	<facebook
+                       		jcr:primaryType="cq:Widget"
+                       		fieldDescription="Check to show Facebook Share Button"
+                       		fieldLabel="Share via Facebook"
+                       		name="./facebook"
+                       		type="checkbox"
+                       		xtype="selection"/>
+                       	<twitter
+                       		jcr:primaryType="cq:Widget"
+                       		fieldDescription="Check to show Tweet Button"
+                       		fieldLabel="Share via Tweet"
+                       		name="./tweet"
+                       		type="checkbox"
+                       		xtype="selection"/>
+                       	<pinterest
+                       		jcr:primaryType="cq:Widget"
+                       		fieldDescription="Check to show Pinterest Share Button"
+                       		fieldLabel="Share via Pinterest"
+                       		name="./pinterest"
+                       		type="checkbox"
+                       		xtype="selection"/>
                 	</items>
             	</properties>
-            	<twitter
+            	<message
             		jcr:primaryType="cq:Panel"
 	                title="Twitter">
 	                <items jcr:primaryType="cq:WidgetCollection">
 	            		<twitter-message
 		                	jcr:primaryType="cq:Widget"
-		                    fieldDescription="Enter the default message for the Twitter share popup (max 140 characters). If blank, twitter button will be hidden"
+		                    fieldDescription="Enter the message to Tweet (max 140 characters). If blank, Twitter may pull data from page or page metadata"
 		                    fieldLabel="Twitter Message"
 		                    maxLength="140"
 		                    maxLengthText="Message can not be longer than 140 characters"
 		                    name="./twitterMessage"
 		                    xtype="textarea"/>
-		                <hashtags
+		                <other-message
 		                	jcr:primaryType="cq:Widget"
-		                    fieldDescription="Enter hashtags to appear at the end of the message. They will be affected by the 140 character limit. Do not enter the '#' symbol, and separate the hashtags by comma. Don't use any spaces."
-		                    fieldLabel="Hashtags"
-		                    name="./hashtags"
-		                    xtype="textfield"/>
+		                	fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
+		                	fieldLabel="Facebook/Pinterest Message"
+		                	name="./otherMessage"
+		                	xtype="textarea"/>
 		            </items>
-            	</twitter>
+            	</message>
         	</items>
         </tabs>
     </items>

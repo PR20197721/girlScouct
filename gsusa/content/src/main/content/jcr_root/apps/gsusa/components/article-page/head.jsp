@@ -45,7 +45,7 @@
 	//Externalizer not properly configured
 	//String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
 	
-	String canonicalUrl = currentPage.getPath().replaceFirst("content", "http://girlscouts.org");
+	String canonicalUrl = currentPage.getPath().replaceFirst("/content", "http://girlscouts.org");
    	
     %>
     <!-- Facebook - Open Graph Data -->
