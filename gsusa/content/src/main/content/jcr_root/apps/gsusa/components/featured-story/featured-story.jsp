@@ -36,10 +36,25 @@
             <span class="icon-cross"></span>
         </div>
         <div class="contents">
-          <cq:include path="par" resourceType="foundation/components/parsys" />
+            <cq:include path="par" resourceType="foundation/components/parsys" />
         </div>
     </div>
 </section>
+
+<%
+	// Get ready to hide parsys.
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+%>
+		<script>
+		    CQ.WCM.on("editablesready", function(){
+	            var toggle = new gsusa.functions.ToggleParsys("<%= resource.getPath() %>/par");
+	            gsusa.functions.ToggleParsysAll.refs.push(toggle);
+	            toggle.hideParsys();
+	        });
+		</script>
+<%
+	}
+%>
 
 <%!
     public String hexToDec(String hex) {
