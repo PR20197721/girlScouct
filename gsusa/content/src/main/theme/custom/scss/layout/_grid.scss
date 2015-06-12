@@ -14,7 +14,7 @@
   }
 }
 .three-cols {
-  .middle_col {
+  .middle-col {
     @include grid-column(24);
     @media #{$medium-up} {
       @include grid-column(13);
