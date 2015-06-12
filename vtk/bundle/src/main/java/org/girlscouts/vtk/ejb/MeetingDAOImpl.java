@@ -1287,8 +1287,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ gradeLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
+			
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata: "+ meetings.get(i).getPosition() +" : "+meetings.get(i).getPath());
 			Comparator<Meeting> comp = new BeanComparator("position");
-			Collections.sort(meetings, comp);
+			if( meetings!=null)
+				Collections.sort(meetings, comp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

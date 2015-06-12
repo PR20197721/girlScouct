@@ -473,6 +473,14 @@ public class TroopUtil {
 	public String editCustActivity(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request)
 			throws IllegalAccessException, ParseException {
+		
+		
+		if (troop != null
+						&& !userUtil.hasPermission(troop,
+								Permission.PERMISSION_EDIT_ACTIVITY_ID))
+					throw new IllegalAccessException();
+
+		
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		String vtkErr = "";

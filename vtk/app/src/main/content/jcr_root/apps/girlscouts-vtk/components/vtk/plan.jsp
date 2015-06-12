@@ -82,13 +82,16 @@
             var x, yearPlanName;
             if( this.state.data.schedule!=null) {
                x =  this.state.data.schedule;
-                 yearPlanName = this.state.data.yearPlan;
-                  return (
+               yearPlanName = this.state.data.yearPlan;
+               return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            } else {
-                return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP'){
+            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");    
+            }else{
+            	return React.createElement("h3",null);
             }
+            
         }
       });
 
@@ -234,6 +237,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
+          
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
           delay:150,
@@ -253,6 +257,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         }
     }).disableSelection();
+          
       },
       componentWillUpdate: function() {
 

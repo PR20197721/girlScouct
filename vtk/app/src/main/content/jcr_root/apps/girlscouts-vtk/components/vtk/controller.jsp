@@ -841,8 +841,11 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 
-			if (troop.getYearPlan() == null)
+			if (troop.getYearPlan() == null){
+				ObjectMapper mapper = new ObjectMapper();
+                out.println("{\"yearPlan\":\"NYP\"}");
 				return;
+			}
 
 			boolean isFirst = false;
 			if ((request.getAttribute("isFirst") != null
