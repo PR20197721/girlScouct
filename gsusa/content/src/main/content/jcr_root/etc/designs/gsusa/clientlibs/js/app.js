@@ -104,6 +104,9 @@
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
+          if (typeof gsusa.functions.ToggleParsysAll.toggleAll !== 'undefined') {
+             gsusa.functions.ToggleParsysAll.toggleAll(true);
+          }
           // target.animate({
           //   opacity: 1,
           //   visibility: 'visible'
@@ -126,6 +129,9 @@
           //   visibility: 'hidden'
           // }, 500);
           e.stopPropagation();
+          if (typeof gsusa.functions.ToggleParsysAll.toggleAll !== 'undefined') {
+              gsusa.functions.ToggleParsysAll.toggleAll(false);
+          }
           return false;
         });
       });
