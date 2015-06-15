@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="nt:unstructured"
+    scrolling="Auto"
+    sling:resourceType="gsusa/components/iframe"
+    src="http://www.girlscouts.org/who_we_are/careers/_iframe_default.asp"/>

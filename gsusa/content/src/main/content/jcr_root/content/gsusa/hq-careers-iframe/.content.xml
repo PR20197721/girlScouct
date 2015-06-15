@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    height="3400"
+    jcr:primaryType="nt:unstructured"
+    scrolling="Auto"
+    sling:resourceType="gsusa/components/iframe"
+    src="http://www.recruitingcenter.net/clients/girlscouts/publicjobs"
+    width="765"/>
