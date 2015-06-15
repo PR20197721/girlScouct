@@ -38,13 +38,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 
 @Component(metatype = false)
 @Service(Servlet.class)
@@ -60,6 +56,7 @@ implements OptingServlet {
 
 	protected static final String NAME = "name";
     protected static final String FORM_ACTION = "formAction";
+    protected static final String CW_RW = "cwrw";
 
     protected static final String MAILTO_PROPERTY = "mailto";
     protected static final String CC_PROPERTY = "cc";
@@ -105,14 +102,8 @@ implements OptingServlet {
 
         final ValueMap props = ResourceUtil.getValueMap(request.getResource());
     	String url = props.get(FORM_ACTION, "https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
-//        String id = props.get(FormsConstants.START_PROPERTY_FORMID, "");
-        CloseableHttpClient httpclient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost(url);
-        List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-        nvps.add(new BasicNameValuePair("username", "vip"));
-        nvps.add(new BasicNameValuePair("password", "secret"));
-        httpPost.setEntity(new UrlEncodedFormEntity(nvps));
-        CloseableHttpResponse response2 = httpclient.execute(httpPost);
+        String id = props.get(FormsConstants.START_PROPERTY_FORMID, "");
+    	callHttpClient(url);
         
 //        final String[] mailTo = values.get(MAILTO_PROPERTY, String[].class);
         int status = 200;
@@ -323,6 +314,49 @@ implements OptingServlet {
         }
         response.setStatus(status);
     }
+    
+    private void callHttpClient(String url) {
+    	// Create an instance of HttpClient.
+        HttpClient client = new HttpClient();
+
+        // Create a method instance.
+        PostMethod method = new PostMethod(url);
+        NameValuePair[] data = {
+          new NameValuePair("user", "joe"),
+          new NameValuePair("password", "bloggs")
+        };
+        method.setRequestBody(data);     
+        method.addRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        // Provide custom retry handler is necessary
+        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
+        		new DefaultHttpMethodRetryHandler(3, false));
+
+        try {
+          // Execute the method.
+          int statusCode = client.executeMethod(method);
+          if (statusCode != HttpStatus.SC_OK) {
+            System.err.println("Method failed: " + method.getStatusLine());
+          }
+
+          // Read the response body.
+          byte[] responseBody = method.getResponseBody();
+
+          // Deal with the response.
+          // Use caution: ensure correct character encoding and is not binary data
+          System.out.println(new String(responseBody));
+
+        } catch (HttpException e) {
+          System.err.println("Fatal protocol violation: " + e.getMessage());
+          e.printStackTrace();
+        } catch (IOException e) {
+          System.err.println("Fatal transport error: " + e.getMessage());
+          e.printStackTrace();
+        } finally {
+          // Release the connection.
+          method.releaseConnection();
+        } 
+		
+	}
 
 
 }
