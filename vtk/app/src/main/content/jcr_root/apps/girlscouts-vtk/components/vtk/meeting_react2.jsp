@@ -459,7 +459,7 @@ React.createElement(ActivityPlan),
         	if( meetingLocation!=null){
 			   return React.createElement("p", null, 
 			            
-			                React.createElement("span", null, "Location: "+meetingLocation.name+"  -"),
+			                React.createElement("span", null, "Location: "+meetingLocation.name+"  - "),
 			                React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address="+meetingLocation.address, target: "_blank"}, meetingLocation.address+" ")
 			            
 			        )
