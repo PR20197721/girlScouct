@@ -1,8 +1,5 @@
 <% 
-boolean isImgExists= false;
-Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png");
-if (res != null && !res.getResourceType().equals("sling:nonexisting")){
-	isImgExists=true;
+if (isImgExists){
  %>
    <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <%}else{%>
@@ -57,7 +54,7 @@ var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().g
 
 var displayCurrent = function(){
 	
-	console.log("DISPPLAYCURRENT*********************<%=isImgExists%>");
+	
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
 

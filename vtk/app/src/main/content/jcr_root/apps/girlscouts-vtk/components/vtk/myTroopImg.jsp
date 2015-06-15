@@ -5,6 +5,12 @@
     <% return; }
      String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
 
+     boolean isImgExists= false;
+     Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png");
+     if (res != null && !res.getResourceType().equals("sling:nonexisting")){
+         isImgExists=true;
+     }
+     
     %>
 <div id="vtkNav"></div>
 
@@ -29,7 +35,7 @@
         $('#upload-tool').remove();
         $('.clearfix.btn-wrap').remove();
         $('#modal_upload_image').foundation('reveal', 'close');
-        displayCurrent();
+        if( <%=isImgExists%>){displayCurrent();}
         if(localMediaStream != null && localMediaStream != undefined){
                 localMediaStream.stop();
             }
