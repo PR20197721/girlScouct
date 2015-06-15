@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:pdf="http://ns.adobe.com/pdf/1.3/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2015-05-29T11:11:30.284-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:extracted="{Date}2015-05-29T11:11:27.083-04:00"
+            dam:Producer="htmldoc 1.9svn Copyright 1997-2006 Easy Software Products, All Rights Reserved."
+            dam:sha1="934ca8586fe2865d0e3823986cd53434d0710425"
+            dam:size="{Long}132268"
+            dc:format="application/pdf"
+            dc:subject="[null]"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            pdf:Producer="htmldoc 1.9svn Copyright 1997-2006 Easy Software Products, All Rights Reserved."/>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>
