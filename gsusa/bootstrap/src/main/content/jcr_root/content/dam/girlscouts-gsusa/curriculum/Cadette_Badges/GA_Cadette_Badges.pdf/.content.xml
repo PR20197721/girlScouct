@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:pdf="http://ns.adobe.com/pdf/1.3/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2015-05-29T11:05:26.123-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:Author="Keith Garton"
+            dam:extracted="{Date}2015-05-29T11:05:24.241-04:00"
+            dam:Producer="Mac OS X 10.7.2 Quartz PDFContext"
+            dam:sha1="8431b961f3f305b945661c91faf0af38c0c29e50"
+            dam:size="{Long}528003"
+            dc:creator="[Keith Garton]"
+            dc:description="[]"
+            dc:format="application/pdf"
+            dc:subject="[]"
+            dc:title="[GA_Cadette_Badges]"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="GA_Cadette_Badges"
+            pdf:Keywords=""
+            pdf:Producer="Mac OS X 10.7.2 Quartz PDFContext"
+            xmp:CreateDate="{Date}2012-07-19T07:11:27.000-04:00"
+            xmp:CreatorTool="Word"
+            xmp:MetadataDate="{Date}2012-07-19T07:11:27.000-04:00"
+            xmp:ModifyDate="{Date}2012-07-19T07:11:27.000-04:00"/>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>
