@@ -1,13 +1,13 @@
 <% 
 boolean isImgExists= false;
-Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?");
+Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png");
 if (res != null && !res.getResourceType().equals("sling:nonexisting")){
 	isImgExists=true;
  %>
    <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <%}else{%>
-   <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
    
+   <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
 <%} %>
 
 <div id="image-tool" style="width:100%"></div>
@@ -56,6 +56,8 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
 var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
 
 var displayCurrent = function(){
+	
+	console.log("DISPPLAYCURRENT*********************<%=isImgExists%>");
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
 
@@ -78,7 +80,7 @@ var displayCurrent = function(){
     	$('#current-picture').css("width", "100%");
     }
     
-   // currentPic.src = imgPath + Date.now();
+    currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");
@@ -653,13 +655,15 @@ var dataURL = image_target.src;
 	};
 	
 	window.onload=function() {
+		
 		cancelButton.addEventListener('click',cancel, false);
-		displayCurrent();
+		if( <%=isImgExists%>){displayCurrent();}
 	}
 <%} else{
 	%>
+	
 	window.onload=function() {
-		displayCurrent();
+	if( <%=isImgExists%>){displayCurrent();}
 	}<%
 }%>
 
