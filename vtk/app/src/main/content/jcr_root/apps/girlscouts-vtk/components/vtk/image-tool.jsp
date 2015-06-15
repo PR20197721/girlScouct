@@ -1,4 +1,15 @@
-<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+<% 
+boolean isImgExists= false;
+Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?");
+if (res != null && !res.getResourceType().equals("sling:nonexisting")){
+	isImgExists=true;
+ %>
+   <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+<%}else{%>
+   <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
+   
+<%} %>
+
 <div id="image-tool" style="width:100%"></div>
 
 <script>
@@ -66,8 +77,8 @@ var displayCurrent = function(){
     	$('.icon-photo-camera').css("display","auto"); 
     	$('#current-picture').css("width", "100%");
     }
-      
-    currentPic.src = imgPath + Date.now();
+    
+   // currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");

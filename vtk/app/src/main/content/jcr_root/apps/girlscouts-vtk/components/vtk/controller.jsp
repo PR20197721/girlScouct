@@ -748,7 +748,7 @@ if( achievement !=null && achievement.getUsers()!=null ){
 
 
 
-
+/* 6/15/15 pop mult loc
 if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
     for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
         if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){
@@ -758,7 +758,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
         }
     }
 }
-
+*/
 
 
 
