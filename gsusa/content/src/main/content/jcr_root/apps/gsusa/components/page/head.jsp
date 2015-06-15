@@ -41,6 +41,16 @@
     <% if (favIcon != null) { %>
     <link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-    <% } %>
-    <title><%= currentPage.getTitle() == null ? xssAPI.encodeForHTML(currentPage.getName()) : xssAPI.encodeForHTML(currentPage.getTitle()) %></title>
+    <% } 
+    
+	String title = "";
+	try {
+        	title = currentPage.getContentResource().adaptTo(ValueMap.class).get("seoTitle", "");
+    		if (title.isEmpty()) {
+    			title = currentPage.getTitle() == null ? currentPage.getName() : currentPage.getTitle();
+		}
+        } catch (Exception e) {}
+    	title = xssAPI.encodeForHTML(title);   
+    %>
+    <title><%= title %></title>
 </head>
