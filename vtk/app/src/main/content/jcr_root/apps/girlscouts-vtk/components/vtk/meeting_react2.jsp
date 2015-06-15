@@ -75,10 +75,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var mid= null;
     var helper=null;
     var nextMeetingDate=null;
-    var meetingLocation=null;
+    //var meetingLocation=null;
     var thisMeetingType=null;
     var sentEmails=0;
     var sentEmailsSubject=null;
+    var locations =null;
+    
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -278,7 +280,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
             React.createElement("p", null, this.props.blurb), 
             React.createElement("section", null, 
         
-            React.createElement(MeetingLocation)
+            React.createElement(MeetingLocation, {location: this.props.location})
       ), 
       React.createElement("section", null, 
         // React.createElement("p", null, "Category:"), 
@@ -443,6 +445,17 @@ React.createElement(ActivityPlan),
     
     var MeetingLocation = React.createClass({displayName: "Location",
         render: function() {
+        	
+        	var meetingLocation= null;
+        	var loc= this.props.location;
+console.log("LocationsssS:" + loc);  	
+            if( locations!=null &&  loc!=null &&  loc!='' ){
+                for(var i=0;i<locations.length;i++){
+                    if( locations!=null && locations[i].path== loc)
+                     meetingLocation = locations[i];
+                }
+            }
+        	
         	if( meetingLocation!=null){
 			   return React.createElement("p", null, 
 			            
@@ -631,10 +644,7 @@ React.createElement(ActivityPlan),
         	  x =  this.state.data.meetingEvents;
               sched = this.state.data.schedule;
               
-              
-              if( this.state.data.locations!=null ){
-            	  meetingLocation = this.state.data.locations[0];
-              }
+              locations= this.state.data.locations;
              
               return (
                    React.createElement(MeetingList, {data: x, schedule: sched}) 
@@ -648,9 +658,12 @@ React.createElement(ActivityPlan),
         	  x =  this.state.data.meetingEvents;//meetingCanceled;
                   sched = this.state.data.schedule;
                   
+                  /*
                   if( this.state.data.locations!=null ){
                       meetingLocation = this.state.data.locations[0];
                   }
+                  */
+                  locations= this.state.data.locations;
                   
                   return (
                        React.createElement(MeetingList, {data: x, schedule: sched}) 

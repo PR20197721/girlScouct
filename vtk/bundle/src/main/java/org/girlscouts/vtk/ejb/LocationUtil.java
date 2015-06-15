@@ -134,6 +134,7 @@ public class LocationUtil {
 					&& meetings.get(i).getLocationRef().equals(locationRef)
 					&& !processedMeetings.contains(meetings.get(i).getPath()))
 				meetings.get(i).setLocationRef("");
+			meetings.get(i).setDbUpdate(true);
 		}
 		troopUtil.updateTroop(user, troop);
 
@@ -191,6 +192,7 @@ public class LocationUtil {
 						&& meetings.get(i).getLocationRef()
 								.equals(locationToRmPath)) {
 					meetings.get(i).setLocationRef("");
+					meetings.get(i).setDbUpdate(true);
 				}
 			}
 			troopUtil.updateTroop(user, troop);
