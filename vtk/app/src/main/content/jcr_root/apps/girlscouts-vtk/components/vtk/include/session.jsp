@@ -81,6 +81,9 @@
 	} catch (ClassCastException cce) {
 		session.invalidate();
 		log.error("ApiConfig class cast exception -- probably due to restart.  Logging out user.");
+        try {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (Exception setStatusException) { setStatusException.printStackTrace(); }
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
