@@ -15,7 +15,9 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Number of Stories"
                         name="./number"
-                        xtype="numberfield"/>
+                        xtype="numberfield"
+                        maxValue="6"
+                        maxText="You can only create up to a maximum of 6 featured stories"/>
                 </items>
             </tab1>
         </items>
