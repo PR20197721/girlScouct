@@ -114,7 +114,7 @@
                       React.createElement("div", {className: "row"},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                               React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                              React.createElement("p", {className: "hide-for-print"}, "Drag and drop to reorder meetings")
+                              React.createElement("p", {className: "hide-for-print <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
                         React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
