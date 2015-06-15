@@ -37,7 +37,7 @@
       z-index: 2;
       color: #333;
       left: 0;
-      min-height: rem-calc(570);
+      max-height: rem-calc(570);
       .bg-wrapper {
         height: 100%;
       }
