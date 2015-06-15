@@ -78,6 +78,11 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 		if(slingRequest.getParameter("state") != null){
 			stateParam = URLDecoder.decode(slingRequest.getParameter("state"), "UTF-8");
 		}
+		boolean searchMade = false;
+		boolean anyResults = false;
+		if(slingRequest.getParameter("type") != null && slingRequest.getParameter("state") != null){
+			searchMade = true;
+		}
 		for(String key : map.keySet()){
 			StringBuilder sb = new StringBuilder();
 			boolean hasResults = false;
@@ -90,6 +95,7 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 			for(Node n : map.get(key)){
 				if((typeParam.equals("All") || (n.hasProperty("sType") && n.getProperty("sType").getString().equals(typeParam))) && (stateParam.equals("All") || (n.hasProperty("state") && n.getProperty("state").getString().equals(stateParam)))){
 					hasResults = true;
+					anyResults = true;
 					StringBuilder record = new StringBuilder("<div id=\"Record\">\n");
 					
 					if(n.hasProperty("sponsor") && n.hasProperty("website")){
@@ -253,6 +259,9 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 <%= sb.toString() %>
 <%
 			}
+		}
+		if(searchMade && !anyResults){
+			%> Sorry, no results found <%
 		}
 	}
 %>
