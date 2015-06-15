@@ -9,7 +9,7 @@ require 'sass-globbing'
 http_path = "/"
 css_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/css"
 sass_dir = "custom/scss"
-images_dir = "custom/images"
+images_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/images"
 javascripts_dir = "custom/js"
 fonts_dir = "custom/fonts"
 
@@ -19,7 +19,7 @@ fonts_dir = "custom/fonts"
 # output_style = :expanded or :nested or :compact or :compressed
 
 # To enable relative paths to assets via compass helper functions. Uncomment:
-# relative_assets = true
+relative_assets = true
 
 # To disable debugging comments that display the original location of your selectors. Uncomment:
 # line_comments = false

@@ -4,15 +4,19 @@
 <%
 String placeholderText = properties.get("placeholder-text","");
 String searchAction = properties.get("searchAction", null);
-String action="";
+String action = (String)request.getAttribute("altSearchPath");
 if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
 	Please edit Search Box Component
 <%
+} else if(searchAction==null){
+	%> Search Not Configured <%
 } else {
-	action = currentSite.get(searchAction,String.class);
+
+	if( !(action!=null && !action.trim().equals("")) )
+	    	action = currentSite.get(searchAction,String.class);	
 %>
-	<form action="<%=action%>.html" method="get">
-		<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField" />
+    <form action="<%=action%>.html" method="get"> 
+		<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField"/>
 	</form>
 <%}%>
