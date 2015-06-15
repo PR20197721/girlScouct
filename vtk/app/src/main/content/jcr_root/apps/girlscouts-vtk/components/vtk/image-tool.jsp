@@ -37,7 +37,7 @@ var picData;
 var aspectWeirdness = false; //applies to mobile safari, which has resizing issues
 var aspectRatio = 1;
 var resizeImageInstance;
-var successMsg = "You image has been uploaded. ";
+var successMsg = "Your image has been uploaded. ";
 
 var maxWidth = 960;
 var maxHeight = 340;
