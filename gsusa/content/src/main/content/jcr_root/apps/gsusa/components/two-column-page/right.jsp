@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- right -->
-right
-<cq:include path="content/left/par" resourceType="foundation/components/parsys" />
+    <div id="mainContent">
+        <cq:include path="content/right/par" resourceType="foundation/components/parsys" />
+    </div>
 <!-- END of right -->
