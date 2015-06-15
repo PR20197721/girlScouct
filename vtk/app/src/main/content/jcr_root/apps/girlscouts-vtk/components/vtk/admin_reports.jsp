@@ -90,5 +90,5 @@ if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeature
     <%}}%>
   </div>
 </div>
-
+<script>loadNav('reports')</script>
 <div id="modal_report_detail"  class="reveal-modal" data-reveal></div>
