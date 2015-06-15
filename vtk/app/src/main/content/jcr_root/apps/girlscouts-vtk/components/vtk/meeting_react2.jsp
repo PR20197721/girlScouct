@@ -448,7 +448,7 @@ React.createElement(ActivityPlan),
         	
         	var meetingLocation= null;
         	var loc= this.props.location;
-console.log("LocationsssS:" + loc);  	
+ 	
             if( locations!=null &&  loc!=null &&  loc!='' ){
                 for(var i=0;i<locations.length;i++){
                     if( locations!=null && locations[i].path== loc)
