@@ -257,6 +257,12 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
+
+
+//System.err.println("REFCOUN: "+ (String)session.getAttribute("refererCouncil") +" : "+ VtkUtil.getCouncilInClient(request)+" : " +councilId )	;	
+
+
+				
 				if (councilId == null || councilId.trim().equals("")){
 					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
 							.getCouncilInClient(request));
@@ -269,19 +275,18 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 				
 				
 			    String refererCouncil = (String)session.getAttribute("refererCouncil");
+			    
+	    
 			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
 			        redirectUrl = "/content/" + refererCouncil + "/";
 			        redirectUrl = resourceResolver.map(redirectUrl);
 			    }
 			}
 		}
-
 		if (redirectUrl == null) {
-			if (councilMapper.getCouncilUrl().isEmpty()) {
-				redirectUrl = configManager.getConfig("baseUrl");
-			} else {
+			
 				redirectUrl = councilMapper.getCouncilUrl();
-			}
+			
 		}
 
 		// TODO: language?
@@ -296,8 +301,10 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
+		
+		//baseUrl: config in CRXED /etc/map.publish.dev/http/alex.gsnetx.org.80 
+		redirectUrl= resourceResolver.map(redirectUrl);	
 		redirectUrl = configManager.getConfig("communityUrl")+"/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(redirectUrl);
-
 		redirect(response, redirectUrl);
 	}
 
