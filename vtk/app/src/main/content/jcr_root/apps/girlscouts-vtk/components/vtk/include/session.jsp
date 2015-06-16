@@ -87,12 +87,13 @@
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
-	if (apiConfig.getTroops() == null
+	
+	if(apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
-		out.println("<span class='error'>Sorry, your troop grade program level does not have access to the volunteer toolkit at this time.</span>");
+		out.println("<span class='error'>Oops! It looks like your role doesn't have access to the Volunteer Toolkit. It's currently reserved for Troop Leaders of Daisy, Brownie, and Junior Troops. If this is a mistake or you have additional questions, please click on Contact Us at the top of the page.</span>");
 		return;
 	}
 
