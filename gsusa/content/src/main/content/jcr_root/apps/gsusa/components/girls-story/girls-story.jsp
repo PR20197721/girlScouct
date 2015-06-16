@@ -6,15 +6,15 @@
                 com.day.cq.wcm.foundation.Image" %>
 
 <%@page session="false"%><%
-
     String path = properties.get("path", "");
     String[] storyPathArray = properties.get("storypath", String[].class);
     String selected = properties.get("source", "");
     ArrayList<String> validStoryPath = new ArrayList<String>();
     Boolean firstTimeInit = true;
- 
+
     if (selected.equals("dir")) { //user picks a directory
         if (!path.isEmpty()) {
+        	//grab the directory and get all its children
 			firstTimeInit = false;
 			PageManager pm = resourceResolver.adaptTo(PageManager.class);
 			Page parent = pm.getPage(path);
@@ -35,12 +35,16 @@
         } 
     }
     
+    //if the validStoryPath is still empty after all the data processing
+    //the user input is likely to be invalid. Set it to firstTimeInit
     if (validStoryPath.isEmpty()) {
-		firstTimeInit = true;
-	}
+        firstTimeInit = true;
+    }
     %>
+    
     <%if (!firstTimeInit) { %>
-    	<ul class="gs-stories-block"><%
+        <ul class="gs-stories-block"><%
+        //use validStoryPath to generate the girls story component
         for (String storyPath: validStoryPath) {
             Resource res = resourceResolver.resolve(storyPath + "/jcr:content");
             String imagePath = storyPath + "/jcr:content/image.img.png";
@@ -56,10 +60,6 @@
              }
         }%>
 	</ul>
-    	
-    	
-		<%
-        } else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
         	%>Please click here to edit. <%
-    	}
-    %>
+      }%>
