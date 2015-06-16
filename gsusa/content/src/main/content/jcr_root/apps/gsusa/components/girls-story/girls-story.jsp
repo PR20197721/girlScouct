@@ -21,7 +21,13 @@
 			Iterator<Page> children = parent.listChildren();
 			while (children.hasNext()){
 				Page child = children.next();
-				validStoryPath.add(child.getPath());
+				Node childNode = child.adaptTo(Node.class);
+				Node contentNode = childNode.getNode("jcr:content");
+				//TODO: we need a more robust validation. 
+				//Currently only check to see if there is a description
+				if(contentNode.hasProperty("description")){
+					validStoryPath.add(child.getPath());
+				}
 			}
         }
     } else { //manually picked
