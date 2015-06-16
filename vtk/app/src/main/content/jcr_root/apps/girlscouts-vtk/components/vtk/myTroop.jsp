@@ -7,12 +7,15 @@
   String activeTab = "myTroop";
   boolean showVtkNav = true;
 %>
-<%@include file="include/tab_navigation.jsp"%>
+ <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content">
 <%
 	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) { %>
     <%@include file="mytroop_react.jsp"%><% 
   } else { %>
+  <%@include file='myTroopImg.jsp' %>
     <%@include file="myTroopOff.jsp"%>
 <% } %>
+<script>loadNav('myTroop')</script>
 </div><!--panel-wrapper-->
+

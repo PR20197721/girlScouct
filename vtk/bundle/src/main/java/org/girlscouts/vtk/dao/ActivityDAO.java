@@ -10,8 +10,6 @@ public interface ActivityDAO {
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws IllegalStateException, IllegalAccessException;
 
-	// public void updateActivitiesCancel( User user, String uuid )throws
-	// IllegalStateException, IllegalAccessException;
 	public boolean isActivity(User user, String uuid)
 			throws IllegalStateException, IllegalAccessException;
 

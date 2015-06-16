@@ -3,10 +3,9 @@ package org.girlscouts.vtk.impl.servlets;
 import java.io.DataOutputStream;
 import java.net.URL;
 import java.util.Dictionary;
-
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -25,11 +24,11 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.ejb.TroopUtil;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +50,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	private static final String SIGNOUT = "signout";
 	// Salesforce callback code
 	private static final String CODE = "code";
-
 	private String OAuthUrl;
 	private String clientId;
 	private String callbackUrl;
@@ -72,14 +70,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	private ResourceResolver resourceResolver;
+	
+	@Reference
+	private TroopHashGenerator troopHashGenerator;
 
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		String action = request.getParameter(ACTION);
-
-		// if(true){ autoLogin(request, response); return; }
-
 		if (action == null) {
 			salesforceCallback(request, response);
 		} else if (action.equals(SIGNIN)) {
@@ -127,10 +125,13 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} catch (Exception e) {
 		}
 		String redirectUrl;
-		
-		
-//	System.err.println("tataxxx: "+ callbackUrl +" : " +targetUrl);	
 		if (config == null || config.getId() == null) {
+/*
+			String refererCouncil = request.getParameter("refererCouncil");
+			if (refererCouncil == null) {
+				refererCouncil = "";
+			}
+*/
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
@@ -138,17 +139,13 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} else {
 			redirectUrl = targetUrl;
 		}
-
 		redirect(response, redirectUrl);
 	}
 
 	private void signOut(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
-
 		boolean isLogoutApi = false, isLogoutWeb = false;
-
 		HttpSession session = request.getSession();
-
 		try {
 			troopUtil.logout(((org.girlscouts.vtk.models.User) session
 					.getAttribute(org.girlscouts.vtk.models.User.class
@@ -159,10 +156,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
 				.getName());
-
 		String redirectUrl = null;
 		if (apiConfig != null) {
 			try {
@@ -170,23 +165,24 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			try {
 				logoutApi(apiConfig, true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			try {
 				isLogoutWeb = logoutWeb(apiConfig);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
-				redirectUrl = councilMapper.getCouncilUrl(councilId);
+				if (councilId == null || councilId.trim().equals(""))
+					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
+							.getCouncilInClient(request));
+				else
+					redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
 			    String refererCouncil = (String)session.getAttribute("refererCouncil");
 			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
@@ -202,20 +198,16 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		// TODO: language?
 		redirectUrl += "en.html";
-
 		try {
 			session.invalidate();
 		} catch (IllegalStateException e) {
 			// Catch request sent twice
 		}
 		session = null;
-
 		apiConfig = null;
-
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-
 		redirect(response, redirectUrl);
 	}
 
@@ -223,22 +215,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
 
-		// save refererCouncil
-		String refererCouncil = request.getParameter("state");
-		if (refererCouncil != null && !refererCouncil.isEmpty()) {
-		    session.setAttribute("refererCouncil", refererCouncil);
-		}
-		
 		ApiConfig apiConfig = null;
 		try {
 			apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
 					.getName());
-
 		} catch (java.lang.ClassCastException e) {
 			e.printStackTrace();
 		}
-		// if ((ApiConfig)session.getAttribute(ApiConfig.class.getName()) !=
-		// null) {
+
 		if (apiConfig != null) {
 			log.error("In Salesforce callback but the ApiConfig already exists. Redirect.");
 			redirect(response, targetUrl);
@@ -248,30 +232,34 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		if (code == null) {
 			log.error("In Salesforce callback but \"code\" parameter not returned. Quit.");
 			return;
-		}
-
+		} else
+			setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
 		session.setAttribute(ApiConfig.class.getName(), config);
-
-		// sf user - should not be in session. move into vtk.User
 		User user = dao.getUser(config);
 		session.setAttribute(User.class.getName(), user);
 		config.setUser(user);
-
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
-		if(config.getTroops()!=null && config.getTroops().size()>0){
-				// CHN to LOAD PERMISSION HERE
-				vtkUser.setPermissions(config.getTroops().get(0).getPermissionTokens());
+		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			// CHN to LOAD PERMISSION HERE
+			vtkUser.setPermissions(config.getTroops().get(0)
+					.getPermissionTokens());
+
+			// load config
+			vtkUser.setCurrentYear(getCurrentYear(
+					request.getResourceResolver(), vtkUser.getApiConfig()
+							.getTroops().get(0).getCouncilCode()));
 		
-				// load config
-				vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
-						vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
+		// Set cookie troopDataPath 
+		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+		Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+		cookie.setPath("/");
+		response.addCookie(cookie);
 		}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
-
 		redirect(response, targetUrl);
 	}
 
@@ -287,34 +275,26 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	// aPI logout
 	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
 			throws Exception {
-
 		DataOutputStream wr = null;
 		boolean isSucc = false;
 		URL obj = null;
 		HttpsURLConnection con = null;
-
 		try {
 			String url = "https://test.salesforce.com/services/oauth2/revoke"; // DYNAMIC
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
-
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			String urlParameters = "token=" + apiConfig.getAccessToken();
-
 			con.setDoOutput(true);
 			wr = new DataOutputStream(con.getOutputStream());
 			wr.writeBytes(urlParameters);
-
 			wr.flush();
 			wr.close();
-
 			int responseCode = con.getResponseCode();
-
 			if (responseCode == 200)
 				isSucc = true;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -326,25 +306,20 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 				e.printStackTrace();
 			}
 		}
-
 		return isSucc;
 	}
 
 	// web salesforce logout
 	public boolean logoutWeb(ApiConfig apiConfig) throws Exception {
-
 		DataOutputStream wr = null;
 		boolean isSucc = false;
 		URL obj = null;
 		HttpsURLConnection con = null;
-
 		try {
 			String url = apiConfig.getInstanceUrl()
 					+ "/secur/logout.jsp?display=touch"; // DYNAMIC
-
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
-
 			con.setRequestMethod("POST");
 			con.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
@@ -354,11 +329,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
-
 			int responseCode = con.getResponseCode();
 			if (responseCode == 200)
 				isSucc = true;
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -370,83 +343,45 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 				e.printStackTrace();
 			}
 		}
-
 		return isSucc;
-	}
-
-	private void autoLogin(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
-		HttpSession session = request.getSession();
-
-		ApiConfig config = new ApiConfig();
-		config.setId("test");
-		config.setAccessToken("test");
-		config.setInstanceUrl("etst");
-		config.setUserId("userId");
-		config.setUser(new User());
-
-		java.util.List<Troop> troops = new java.util.ArrayList();
-		Troop troop = new Troop();
-		troop.setCouncilCode(1);
-		troop.setGradeLevel("1-Brownie");
-		troop.setTroopId("troopId");
-		troop.setTroopName("test");
-
-		troops.add(troop);
-		config.setTroops(troops);
-
-		session.setAttribute(ApiConfig.class.getName(), config);
-
-		String redirectUrl;
-
-		// redirect(response,
-		// "http://localhost:4503/content/girlscouts-vtk/en/vtk.html");
 	}
 
 	private String getCurrentYear(ResourceResolver resourceResolver,
 			int councilId) {
-
 		String elem = null;
-
 		try {
-
 			String branch = councilMapper.getCouncilBranch(councilId + "");
-
 			branch += "/jcr:content";
-
 			ValueMap valueMap = (ValueMap) resourceResolver.resolve(branch)
 					.adaptTo(ValueMap.class);
-
 			elem = valueMap.get("currentYear", "");
-
 		} catch (Exception e) {
+			System.err.println("SalesforceAuthServlet: Current Year not set");
 			e.printStackTrace();
 		}
-
 		return (elem == null || elem.trim().equals("")) ? getCurrentYearDefault(resourceResolver)
 				: elem;
 
 	}
 
 	private String getCurrentYearDefault(ResourceResolver resourceResolver) {
-
 		String elem = null;
-
 		try {
-
 			String branch = "/content/gateway/jcr:content";
-
 			ValueMap valueMap = (ValueMap) resourceResolver.resolve(branch)
 					.adaptTo(ValueMap.class);
-
 			elem = valueMap.get("currentYear", "");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return elem;
-
 	}
 
+	public void setCouncilInClient(
+			org.apache.sling.api.SlingHttpServletResponse response,
+			String councilCode) {
+		Cookie cookie = new Cookie("vtk_referer_council", councilCode);
+		cookie.setMaxAge(-1);
+		response.addCookie(cookie);
+	}
 }

@@ -19,9 +19,9 @@
     	  		case ACTIVITY:
   					java.util.Date endDate = ( (Activity) planView.getYearPlanComponent() ).getEndDate();
 					out.println("-");
-					if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%><%= FORMAT_MMMM_dd_hhmm_AMPM.format(endDate)%><% }
-					else if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%><%=FORMAT_MMMM_dd_hhmm_AMPM.format(endDate)%><% }				
-					else{%><%=FORMAT_hhmm_AMPM.format(endDate) %> <% }
+					if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%><%= VtkUtil.formatDate(VtkUtil.FORMAT_MMMM_dd_hhmm_AMPM, endDate)%><% }
+					else if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMMM_dd_hhmm_AMPM, endDate)%><% }				
+					else{%><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMP, endDate) %> <% }
 					break;
              	case MEETING:
 	            	Calendar meetingDate = null;
@@ -30,7 +30,7 @@
 	        		meetingDate.add(Calendar.MINUTE, planView.getMeetingLength());
 	        		//Date meetingEnd = null;
 	        		Date meetingEnd = meetingDate.getTime();%>
-					-<span><%=FORMAT_hhmm_AMPM.format(meetingEnd)%></span><% 
+					-<span><%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, meetingEnd)%></span><% 
             		break; 
           }
 

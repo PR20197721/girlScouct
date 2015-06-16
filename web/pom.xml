@@ -250,5 +250,6 @@
     <module>bundle</module>
     <module>app</module>
     <module>content</module>
+    <module>pdfbox-wrapper</module>
   </modules>
 </project>

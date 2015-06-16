@@ -88,5 +88,5 @@
 		 
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-		 
+		  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script>
 	</body>

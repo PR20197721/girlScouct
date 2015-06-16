@@ -2,9 +2,15 @@ package org.girlscouts.vtk.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
@@ -13,8 +19,22 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 
-public enum VtkUtil {
-	;
+public class VtkUtil {
+	// do not use these objects explicitly as they are not thread safe
+	// use the two synchronized  parseDate and formatDate utility methods below
+	public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
+	public static final SimpleDateFormat FORMAT_hhmm_AMPM = new SimpleDateFormat("hh:mm a");
+	public static final SimpleDateFormat FORMAT_hhmm = new SimpleDateFormat("hh:mm");
+	public static final SimpleDateFormat FORMAT_AMPM = new SimpleDateFormat("a");
+	public static final SimpleDateFormat FORMAT_MONTH = new SimpleDateFormat("MMM");
+	public static final SimpleDateFormat FORMAT_DAY_OF_MONTH = new SimpleDateFormat("d");
+	public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMM d");
+	public static final SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new SimpleDateFormat("MMMM dd hh:mm a");
+	public static final SimpleDateFormat FORMAT_MEETING_REMINDER = new SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
+	public static final SimpleDateFormat FORMAT_CALENDAR_DATE = new SimpleDateFormat( "MMM dd, yyyy hh:mm a");
+	public static final SimpleDateFormat FORMAT_FULL = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
+	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static boolean isLocation(java.util.List<Location> locations,
 			String locationName) {
@@ -127,18 +147,10 @@ public enum VtkUtil {
     
     
     public static final java.util.List<MeetingE> sortMeetingsById( java.util.List<MeetingE> meetings){
-    	
-    	//for(int i=0;i<meetings.size();i++)
-    	//	System.err.println("tatax sorting before: "+ i+" :" +meetings.get(i).getId());
-    	
-    	
+    	if( meetings==null ) return meetings;
     	Comparator<MeetingE> comp = new BeanComparator("id");
 		Collections.sort(meetings, comp);
-		
-		//for(int i=0;i<meetings.size();i++)
-    	//	System.err.println("tatax sorting after: "+ i+" :" +meetings.get(i).getId());
-		
-    	return meetings;
+		return meetings;
     	
     }
     
@@ -172,9 +184,32 @@ public enum VtkUtil {
   
 public static final boolean  isSameDate( java.util.Date date1, java.util.Date date2){
 	 return DateUtils.isSameDay(date1, date2);
-	  
-	  
   }
-  
-  
+
+public static String formatDate(SimpleDateFormat f, Date d) {
+    synchronized(f) {
+        return f.format(d);
+    }
+}
+public static Date parseDate(SimpleDateFormat f, String d) throws ParseException{
+    synchronized(f) {
+		return f.parse(d);
+    }
+}
+
+public static String getCouncilInClient(HttpServletRequest request){
+	Cookie[] cookies = request.getCookies();
+	if (cookies != null) {
+		 for (int i = 0; i < cookies.length; i++) {
+			if (cookies[i].getName().equals("vtk_referer_council")) {
+				
+						return cookies[i].getValue();
+					
+
+			}
+
+		}
+	}
+	return null;
+}
 }

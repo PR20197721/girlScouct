@@ -11,8 +11,6 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Cal implements Serializable {
 
-		
-	
 	@Field(path = true) String path;
 	@Field String dates;
 	private boolean isDbUpdate=false;
@@ -51,8 +49,8 @@ public class Cal implements Serializable {
 
 	public void addDate(java.util.Date date) {
 
-		// TODO check if null or empty
-
+		if( date ==null ) return;
+		
 		String fmtDates = getDates();
 		fmtDates += date.getTime() + ",";
 
@@ -65,7 +63,4 @@ public class Cal implements Serializable {
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
 	}
-
-	
-
 }

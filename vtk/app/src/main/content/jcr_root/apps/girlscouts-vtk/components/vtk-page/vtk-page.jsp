@@ -30,7 +30,7 @@ if( !isAutoLogin ){
 }else{
 	
 	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
-	troopUtil.autoLogin(session);
+	//troopUtil.autoLogin(session);
 	
 }
 	
@@ -80,6 +80,15 @@ if( !isAutoLogin ){
 	
 %><%= Doctype.fromRequest(request).getDeclaration() %>
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
+
+<%
+final org.girlscouts.vtk.ejb.UserUtil userUtilHead = sling.getService(org.girlscouts.vtk.ejb.UserUtil.class); 
+String referer= userUtilHead.getCouncilUrlPath((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()), request);
+referer= referer +"en/site-search";
+request.setAttribute("altSearchPath", referer);
+%>
+
+
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
 

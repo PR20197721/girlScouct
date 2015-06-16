@@ -1,16 +1,20 @@
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="session.jsp"%>
 
 <%
+org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
 Activity activity = (Activity)planView.getYearPlanComponent();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
-
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
@@ -100,7 +104,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
 	    	//closeMe();
-	    	$('#editCustActiv').foundation('reveal', 'close');
+	    	$('#modal_popup_activity').foundation('reveal', 'close');
 	    }
 	    else {
 	      alert("The form has one or more errors.  Please update the form and try again.");
@@ -151,7 +155,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	function closeMe(){ $('.ui-dialog-content').dialog('close'); }
 </script>
 
-<div id="editCustActiv"  class="reveal-modal" data-reveal>
+<div> <!--   id="editCustActiv"  class="reveal-modal" data-reveal -->
 <div class="header clearfix">
     <h3 class="columns large-22">Edit Activity</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
@@ -167,28 +171,28 @@ Activity activity = (Activity)planView.getYearPlanComponent();
         <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName()%>" placeholder="Activity Name" />
       </div>
       <div class="small-24 large-3 medium-3 columns date">
-         <input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate())%>" placeholder="mm/dd/yyyy" class="date calendarField"/>
+         <input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, activity.getDate())%>" placeholder="mm/dd/yyyy" class="date calendarField"/>
       </div>
       <div class="large-1 columns medium-1 small-1 date">
         <label for="newCustActivity_date"><a class="icon-calendar"></a></label>
       </div>
       <div class="small-16 medium-2 large-2 columns">
-        <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getDate())%>" />
+        <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getDate())%>" />
       </div>
       <div class="small-8 medium-2 large-2 columns">
         
       <select id="newCustActivity_startTime_AP" class="ampm">
-        <option value="AM" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>AM</option>
-        <option value="PM" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>PM</option>
+        <option value="AM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>AM</option>
+        <option value="PM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>PM</option>
       </select>
       </div>
       <div class="small-16 medium-2 large-2 columns">
-       <input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate())%>" /> 
+       <input type="text" id="newCustActivity_endTime" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getEndDate())%>" /> 
       </div>
       <div class="small-8 medium-2 large-2 columns">
         <select id="newCustActivity_endTime_AP"  class="ampm">
-          <option value="AM" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>AM</option>
-          <option value="PM" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>PM</option>
+          <option value="AM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM,activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>AM</option>
+          <option value="PM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>PM</option>
         </select>
       </div>
     </div><!--/row-->

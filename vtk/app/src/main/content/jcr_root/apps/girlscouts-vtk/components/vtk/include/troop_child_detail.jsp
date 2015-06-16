@@ -1,18 +1,29 @@
 <dd class="accordion-navigation clearfix">
   <div id="panel<%=i+1%>b" class="content clearfix">
     <ul class="column large-4">
+             <li>DOB:
                             <%
-                            if(contact.getDob() != null){
-                            %><li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li><%
-                                    }
-                            else{
-                            %><li>DOB: null</li><%
+                           
+                            if( contact.getDob() != null ){
+                            	try{
+                            		
+                            	     %><%=  VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.FORMAT_yyyyMMdd,contact.getDob()) ) %><%
+                            	
+                            	}catch(Exception e){e.printStackTrace();}
+                                    
+                            }else{
+                            	
+                                %>N/A<%
                             }
                             %>
+            </li>                
       <li>AGE: <%=contact.getAge() %></li>
     </ul>
     <ul class="column large-18 right">
-      <li><address><p><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></p></address></li>
+      <li><address><p>
+        <%=contact.getAddress()==null ? "" : contact.getAddress() %><br/><%=contact.getCity()==null ? "" : contact.getCity() %>, 
+        <%=contact.getState()==null ? "" : contact.getState() %><br/><%=contact.getZip()==null ? "" : contact.getZip() %>
+        </p></address></li>
     </ul>
      <ul class="column large-18">
      
@@ -51,7 +62,7 @@
           <p>
           <% for(int y=0;y<infos.size();y++) {
               if(infos.get(y).isAttended()) {
-                out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                out.println( VtkUtil.formatDate(VtkUtil.FORMAT_Md,(java.util.Date)sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
                 out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
               }
           } %>
@@ -60,3 +71,5 @@
      </ul>
   </div>
 </dd>
+
+

@@ -1,22 +1,9 @@
-<%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
-<%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
-	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
-	java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm");
-	java.text.SimpleDateFormat FORMAT_AMPM = new java.text.SimpleDateFormat("a");
-	java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat("MMM");
-	java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("d");
-	java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat("MMM dd hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat("MMMM dd hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat( "MMM dd yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat( "MMM dd, yyyy hh:mm a");
+<%@page	import="java.text.SimpleDateFormat, org.apache.commons.lang3.time.FastDateFormat, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil, org.apache.commons.lang3.time.FastDateFormat"%>
+<%!
+
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
-	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
-	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
-	java.text.SimpleDateFormat fmr_ddmm = new java.text.SimpleDateFormat("M/d");
-	java.text.SimpleDateFormat fmt_yyyyMMdd = new java.text.SimpleDateFormat("yyyy-MM-dd");
-	
+    java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
+    
 	boolean isCachableContacts=false;
 	
 	public boolean hasPermission(Troop troop, int permissionId) {
@@ -45,13 +32,13 @@
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
+	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
@@ -87,21 +74,26 @@
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			out.println("Your session has timed out.  Please refresh this page and login.");
 			return;
 		}
 	} catch (ClassCastException cce) {
 		session.invalidate();
 		log.error("ApiConfig class cast exception -- probably due to restart.  Logging out user.");
+        try {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (Exception setStatusException) { setStatusException.printStackTrace(); }
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
-	if (apiConfig.getTroops() == null
+	
+	if(apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
-		out.println("<span class='error'>Sorry, your troop grade program level does not have access to the volunteer toolkit at this time.</span>");
+		out.println("<span class='error'>Oops! It looks like your role doesn't have access to the Volunteer Toolkit. It's currently reserved for Troop Leaders of Daisy, Brownie, and Junior Troops. If this is a mistake or you have additional questions, please click on Contact Us at the top of the page.</span>");
 		return;
 	}
 

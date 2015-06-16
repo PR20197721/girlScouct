@@ -28,7 +28,7 @@
 %>
 			<div class="date">
         <%if( troop.getYearPlan().getSchedule()!=null ) {%>
-				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
+				<div class="cal"><span class="month"><%= VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, searchDate)%><br/></span><span class="day"><%= VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, searchDate)%><br/></span><span class="time hide-for-small"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, searchDate)%></span></div>
         <%} else {%>
                                 <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%=meetingCount%></span></div>
         <%}%>
@@ -88,7 +88,7 @@
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
         
        <%  if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
-			<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
+			<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meetingB</a>
 			<br/>
 		<%} %>
 <%
@@ -215,7 +215,7 @@ if( _aidTags!=null )
 <%
 		if( troop.getYearPlan().getSchedule()!=null ){ 
 %>
-				<td class="agendaTime"><%=FORMAT_hhmm_AMPM.format(activSched.getTime()) %></td>   
+				<td class="agendaTime"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activSched.getTime()) %></td>   
 <%
 		}
 	}
