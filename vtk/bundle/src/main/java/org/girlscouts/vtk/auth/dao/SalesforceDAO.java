@@ -492,8 +492,14 @@ public class SalesforceDAO {
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
 							.getJSONObject("Parent").getString("Name"));
-					troop.setRole(results.getJSONObject(i).getString(
+					
+					try{
+						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
+					}catch(Exception e){e.printStackTrace(); troop.setRole("DP");}
+					
+					
+					
 					log.debug("User Roll: "
 							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
