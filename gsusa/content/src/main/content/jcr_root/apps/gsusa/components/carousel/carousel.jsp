@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <div class="hero-feature">
+    <div class="overlay"></div>
     <ul class="main-slider">
         <li>
             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
@@ -26,50 +27,52 @@
             </section>
         </div>
     </div>
-    <div class="inner-sliders">
-        <ul class="slide-1">
-            <li>
-                <p>slide 1</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 2</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 3</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
-            </li>
-        </ul>
-        <ul class="slide-2">
-            <li>
-                <p>slide 1</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 2</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 3</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
-            </li>
-        </ul>
-        <ul class="slide-3">
-            <li>
-                <p>slide 1</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 2</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
-            </li>
-            <li>
-                <p>slide 3</p>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
-            </li>
-        </ul>
-        <button type="button" data-role="none" class="slick-prev" aria-label="previous" style="display: block;">Previous</button>
-        <button type="button" data-role="none" class="slick-next" aria-label="next" style="display: block;">Next</button>
+    <div class="position">
+        <div class="inner-sliders">
+            <ul class="slide-1">
+                <li>
+                    <h3>what do girlscouts do? stuff like this:</h3>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <h3>what do girlscouts do? stuff like this:</h3>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <h3>what do girlscouts do? stuff like this:</h3>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                </li>
+            </ul>
+    <!--         <ul class="slide-2">
+                <li>
+                    <h3>what do girlscouts do? stuff like this:</h3>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <p>slide 2</p>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <p>slide 3</p>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                </li>
+            </ul>
+            <ul class="slide-3">
+                <li>
+                    <p>slide 1</p>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <p>slide 2</p>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                </li>
+                <li>
+                    <p>slide 3</p>
+                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                </li>
+            </ul> -->
+            <button type="button" data-role="none" class="slick-prev" aria-label="previous" style="display: block;">Previous</button>
+            <button type="button" data-role="none" class="slick-next" aria-label="next" style="display: block;">Next</button>
+        </div>
     </div>
 </div>
