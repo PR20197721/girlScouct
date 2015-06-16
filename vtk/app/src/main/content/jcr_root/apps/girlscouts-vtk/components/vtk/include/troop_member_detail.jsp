@@ -22,7 +22,7 @@
               <i class="icon-mail"></i><%=contact.getEmail() %>
             </a>
           <% } %>
-          <span class="column large-4"><%=contact.getPhone() %></span>
+          <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
         </dt>       
         <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID) ||
         		user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) ){ %>

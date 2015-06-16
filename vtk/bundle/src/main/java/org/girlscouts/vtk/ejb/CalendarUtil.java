@@ -383,4 +383,16 @@ public class CalendarUtil {
 			return sepThisYear.getTimeInMillis();
 		}
 	}
+	
+	/*
+	public boolean isEventPastGSYear(User user, Troop troop){
+		
+		boolean isPast=false;
+		Cal cal = troop.getYearPlan().getSchedule();
+		String freq= 
+		
+		return isPast;
+		
+	}
+	*/
 }
