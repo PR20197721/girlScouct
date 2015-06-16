@@ -11,9 +11,10 @@
         int height = properties.get("height",600);
         int tweetLimit = properties.get("tweetLimit",-1);
 		%>
-		<div class="twitter-feed">
-			<a class="twitter-timeline"
-  				href="https://twitter.com/<%= username %>"
+		<div class="twitter-feed" style="overflow:scroll; max-height:<%= height + "px" %>; max-width: <%= width + "px" %>">
+			<a class="twitter-timeline" data-link-color="#00ae58"
+				href="https://twitter.com/<%= username %>"
+  				data-chrome="nofooter noborders transparent" 
   				data-widget-id="<%= widgetID %>"
 			<%if(tweetLimit != -1){ %>
 				data-tweet-limit="<%=tweetLimit%>"
