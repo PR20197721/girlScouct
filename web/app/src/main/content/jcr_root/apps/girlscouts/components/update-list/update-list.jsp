@@ -10,12 +10,14 @@ java.util.Iterator,
 java.util.Collections,
 java.util.Comparator,
 java.text.SimpleDateFormat,
-java.util.Date"%>
+java.util.Date,
+java.util.Calendar"%>
 <%
 
   String rPath = properties.get("reference", null);
   String seeAll = properties.get("showSeeAll","false");
-
+  
+  
 
   String link = properties.get("link", rPath);//href of the "see all"button
   ArrayList<ValueMap> updateList = new ArrayList();
@@ -34,22 +36,35 @@ java.util.Date"%>
       while(iter.hasNext()){
 
         Page itemPage = iter.next();
+       
         ValueMap props = itemPage.getProperties();
+        
+        
         updateList.add(props);
       }
       Collections.reverse(updateList);
       Collections.sort(updateList, new Comparator() {
+   	  Calendar cal =  Calendar.getInstance();
+   	  DateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
       public int compare(Object a, Object b) {
+    	  
       ValueMap aProps = (ValueMap) a;
       ValueMap bProps = (ValueMap) b;
+	  
+	  try{
+	  	cal.setTime(format.parse(aProps.get("date", "1999-01-01T02:30:00.000-04:00")));
+	  	Date aDate = cal.getTime();
+	  
+	  	cal.setTime(format.parse(bProps.get("date", "1999-01-01T02:30:00.000-04:00")));
 
-      String[] dateArr1 = aProps.get("date", "00/00/00").split("/");
-      String d1 = dateArr1[2] + dateArr1[0] + dateArr1[1];
-
-      String[] dateArr2 = bProps.get("date", "00/00/00").split("/");
-      String d2 = dateArr2[2] + dateArr2[0] + dateArr2[1];
-
-      return d2.compareTo(d1);
+     	Date bDate = cal.getTime();
+     	return bDate.compareTo(aDate);
+	  } catch(Exception e){
+		  e.printStackTrace();
+	  }
+      
+		return 0;
+      
       }
     });
   }
@@ -72,11 +87,16 @@ java.util.Date"%>
         int nItems = properties.get("nItems",updateList.size());
         for(int i=0; i<nItems&&i<updateList.size(); i++) {
         ValueMap updateItem = updateList.get(i);
-        String dateField = updateItem.get("date", "00/00/00");
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
-		Date date = sdf.parse(dateField);
+        String dateField = updateItem.get("date", "1999-01-01T02:30:00.000-04:00");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
+		Date date = sdf.parse("1999-01-01T02:30:00.000-04:00");
+		try{
+			date = sdf.parse(dateField);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 
-        SimpleDateFormat displayDateFormat = new SimpleDateFormat("MM.dd.yyyy");
+        SimpleDateFormat displayDateFormat = new SimpleDateFormat("MM.dd.yyyy h:mm a");
 		String formattedDateStr = displayDateFormat.format(date);
 
         %>

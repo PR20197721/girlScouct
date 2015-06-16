@@ -4,9 +4,9 @@
 		<div class="large-3 medium-3 small-6 columns">
 			<div class="bg-square">
 				<div class="date">
-		    	<p class="month"><%= FORMAT_MONTH.format(activity.getDate())%></p>
-		      <p class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></p>
-		      <p class="hour"><%= FORMAT_hhmm_AMPM.format(date) %></p>
+		    	<p class="month"><%= VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, activity.getDate())%></p>
+		      <p class="day"><%= VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, activity.getDate())%></p>
+		      <p class="hour"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, date) %></p>
 			  </div>
 			</div><!--/square-->
 		</div>

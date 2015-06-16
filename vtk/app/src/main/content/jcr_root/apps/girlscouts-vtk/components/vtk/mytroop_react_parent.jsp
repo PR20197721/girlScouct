@@ -113,7 +113,7 @@ for(int y=0;y<infos.size();y++){
                 <p>
                               <% for(int y=0;y<infos.size();y++) {
                                   if(infos.get(y).isAttended()) {
-                                    out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                                    out.println(FORMAT_Md.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
                                     out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
                                   }
                               } %>

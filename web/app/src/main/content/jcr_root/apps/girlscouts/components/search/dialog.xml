@@ -24,7 +24,7 @@
                         xtype="pathfield"/>
                     <docsrchpath
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Default /content/dam/&amp;lt;council&amp;gt;/en/documents)"
+                        fieldDescription="(Default /content/dam/girlscouts-&amp;lt;council&amp;gt;/documents)"
                         fieldLabel="Path to search documents"
                         name="./docusrchpath"
                         xtype="pathfield"/>

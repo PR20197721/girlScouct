@@ -7,7 +7,7 @@
   <%-- Reminder Email --%>
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
 	     <li><%
-	     if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
+	     if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
   		    <%-- ACTIVITY VIEW--%>
 	     	<a href="#" data-reveal-id="modal-meeting-reminder" title="Activity Reminder Email" >Edit/Send Invitation/Reminder</a><%
 	     }else {%>
@@ -48,10 +48,10 @@
     	</li>
    		<li>(
     		<%if( pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") ==null || pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL").equals("")){ %>
-        	none present, no achievements
+        	0 present, no achievements
     		<%}else{ %>
 	       	<% if(pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT")) ==0 ){ %>
-	          none present, 
+	          0 present, 
 	        <%}else{%>
 	          <%= pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,
 	        <%}%>

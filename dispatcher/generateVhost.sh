@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ $# -eq 0 ]; then
-    echo "generateVhost.sh [prod/preview/stage] [councilurlname] [number of conf name]"
+    echo "generateVhost.sh [prod/preview/stage] [councilurlname] [index of vhost]"
     exit 1
 fi
 
@@ -8,21 +8,26 @@ if [ "$1" = "prod" ]
 then
     var0="<VirtualHost *:80>
     ServerName "$1"."$2".org
-    #ServerName www."$2".org"
+    #ServerName www."$2".org
+    DocumentRoot /mnt/var/www/html
+    ErrorDocument 404 /content/"$2"/en/404.html
+    ErrorDocument 500 /content/"$2"/en/500.html"
+
 else
     var0="<VirtualHost *:80>
-    ServerName "$1"."$2".org"
+    ServerName "$1"."$2".org
+    DocumentRoot /mnt/var/www/html
+    ErrorDocument 404 \"404 GirlScouts\""
 fi
     
-var="    DocumentRoot /mnt/var/www/html
-    ErrorDocument 404 \"404 GirlScouts\"
-
+var="
     RewriteEngine On
     RewriteLog \"logs/rewrite-www-"$2"-org.log\"
     RewriteLogLevel 5
 
     RewriteRule ^/en.html / [R=301,L]
     RewriteRule ^/$ /content/"$2"/en.html [PT]
+    RewriteRule ^/robots.txt$ /en/robots.txt [PT]
 
     RewriteCond %{REQUEST_URI} !^/etc(.*) [NC]
     RewriteCond %{REQUEST_URI} !^/libs(.*) [NC]

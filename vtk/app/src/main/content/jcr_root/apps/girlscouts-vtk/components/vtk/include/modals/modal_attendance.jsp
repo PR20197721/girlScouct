@@ -4,7 +4,7 @@
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 <% 
-	java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 	String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
@@ -41,27 +41,29 @@
 					<tbody>
 						<%
 							for(int i=0;i<contacts.size();i++){
+								if(contacts.get(i).getId()!=null){
 						%> 
-						<tr>
-							<td>
-								<p><%=contacts.get(i).getFirstName() %></p>         
-							</td>
-							<td>
-								<input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>" onclick="setDefaultAchievement(this.checked, 'c<%=contacts.get(i).getId() %>')">
-								<label for="a<%=contacts.get(i).getId() %>"></label>
-							</td>
-							<%
-							 if( showAchievement ){
-							%>
-							<td>
-								<input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
-								<label for="c<%=contacts.get(i).getId() %>"></label>
-							</td>
-							<%
-									}
-							%>
-						</tr>
-						<%
+								<tr>
+									<td>
+										<p><%=contacts.get(i).getFirstName() %></p>         
+									</td>
+									<td>
+										<input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>" onclick="setDefaultAchievement(this.checked, 'c<%=contacts.get(i).getId() %>')">
+										<label for="a<%=contacts.get(i).getId() %>"></label>
+									</td>
+									<%
+									 if( showAchievement ){
+									%>
+									<td>
+										<input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+										<label for="c<%=contacts.get(i).getId() %>"></label>
+									</td>
+									<%
+											}
+									%>
+								</tr>
+								<%
+								}
 							}
 						%>
 					</tbody>

@@ -109,7 +109,7 @@ a:hover {
         padding-left: 0px;
         padding-right: 0px;
     }*/
-  
+
   .news-block {
     margin: 0;
   }
@@ -120,7 +120,7 @@ a:hover {
   /*   .small-8.medium-12.large-8.columns.events-image {
         padding: 0;
     }*/
-  
+
   .small-16.medium-12.large-16.columns.events-data {
     padding: 0px 15px 0px 15px;
     margin-bottom: 15px;
@@ -142,7 +142,7 @@ a:hover {
         margin-bottom: 15px;
     }*/
   /* TODO: apply font size change to link titles with or without links*/
-  
+
   .news-data > h3 a {
     margin: 0;
     font-size: 1rem;
@@ -183,11 +183,11 @@ a:hover {
 @media only screen and (min-width: 60.063em) {
  .right-off-canvas-menu {
     visibility: hidden !important;
-    display: none !important; 
+    display: none !important;
   }
   .right-off-canvas-menu * {
     visibility: hidden !important;
-    display: none !important; 
+    display: none !important;
   }
 }
 a.menu {
@@ -297,7 +297,7 @@ a:hover.menuHighlight {
   font-size: 0.875em;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
-  color:#C1EAD4; 
+  color:#C1EAD4;
 }
 #footer a:hover {
     color: #ffffff;
@@ -332,7 +332,7 @@ a:hover.menuHighlight {
 /*  color:white;*/
   font-size: 32px;
 }
-@media only screen and (max-width: 40em) { 
+@media only screen and (max-width: 40em) {
   #footer div.footer-navigation {
     background-color: #009447;
 /*    padding:10px 0 0 20px;*/
@@ -563,7 +563,7 @@ input.form-btn, a.form-btn {
   font-size: 14px;
   letter-spacing: 1px;
   /*line-height: 34px;*/
-  
+
   height: 43px;
   margin: 0;
   padding: 9px 0;
@@ -757,7 +757,7 @@ td.fc-header-left {
 }
 #header .small-search-hamburger {
     float: right;
-    padding-right: 5px;
+/*    padding-right: 5px;*/
 }
 .hrStyle >hr {
     border-color: #9C9C9C;
@@ -942,7 +942,7 @@ div#contactsList {
 }
 div.wrapper .row:nth-child(2) {
   /* background-color: red; */
-  
+
   padding: 5px 0;
 }
 .categoriesList li {
@@ -957,7 +957,7 @@ div.wrapper .row:nth-child(2) {
   background: url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat right center;
   /*background-repeat: no-repeat;
     background-position: right center;
-    */ 
+    */
   width: 140px;
   height: 25px;
   color: gray;
@@ -1030,7 +1030,7 @@ form#contact-us textarea {
 .centered-table {
   display: table;
   /* Allow the centering to work */
-  
+
   margin: 0 auto;
 }
 .advancedSearch {
@@ -1163,7 +1163,7 @@ div#eventListWrapper {
   position: relative;
 }
 .styled-select select {
-    
+
     width: 152px
 }
 ul.searchResultsList li {
@@ -1354,5 +1354,9 @@ padding: 40px 0px 40px 0;
 .page-500 {
   padding-top: 20px;
   padding-bottom: 20px;
+}
+
+#main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
+	max-width: 170px;
 }
 

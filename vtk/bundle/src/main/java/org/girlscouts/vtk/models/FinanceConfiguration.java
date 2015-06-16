@@ -9,17 +9,23 @@ import java.util.List;
 public class FinanceConfiguration implements Serializable{
 
 	public static final String FINANCE_CONFIG = "finance_configuration";
+	public static final String RECIPIENT = "recipient";
 	private static final long serialVersionUID = 6064391709671475214L;
-
-	
-	
 
 	private List<String> incomeFields;
 	
 	private List<String> expenseFields;
 	
 	private String period;
-
+	
+	private String recipient;
+	
+	private boolean isPersisted;
+	
+	public FinanceConfiguration(){
+		this.isPersisted = false;
+	}
+	
 	public List<String> getIncomeFields() {
 		if(this.incomeFields == null){
 			List<String> income = new ArrayList<String>();
@@ -33,7 +39,6 @@ public class FinanceConfiguration implements Serializable{
 		} else{
 			return this.incomeFields;
 		}
-		
 	}
 
 	public void setIncomeFields(List<String> incomeFields) {
@@ -68,6 +73,22 @@ public class FinanceConfiguration implements Serializable{
 		return this.period;
 	}
 
+	public String getRecipient() {
+		return recipient;
+	}
 
-	
+	public void setRecipient(String recipient) {
+		this.recipient = recipient;
+	}
+
+
+	public boolean isPersisted() {
+		return isPersisted;
+	}
+
+
+	public void setPersisted(boolean isPersisted) {
+		this.isPersisted = isPersisted;
+	}
+
 }

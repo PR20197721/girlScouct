@@ -1,9 +1,18 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.util.ByteArrayDataSource;
+
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -11,8 +20,10 @@ import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.Troop;
-import org.girlscouts.vtk.models.User;
-import org.codehaus.jackson.map.ObjectMapper;
+
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+import com.day.text.csv.Csv;
 
 @Component
 @Service(value = FinanceUtil.class)
@@ -20,6 +31,9 @@ public class FinanceUtil {
 
 	@Reference
 	TroopDAO troopDAO;
+	
+	@Reference
+	private MessageGatewayService messageGatewayService;
 
 	public Finance getFinances(Troop troop, int qtr, String currentYear) {
 		return troopDAO.getFinances(troop, qtr, currentYear);
@@ -45,8 +59,101 @@ public class FinanceUtil {
 		String expenses = params.get(Finance.EXPENSES)[0];
 		String income = params.get(Finance.INCOME)[0];
 		String period = params.get(Finance.PERIOD)[0];
-		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period);
+		String recipient = params.get(FinanceConfiguration.RECIPIENT)[0];
+		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period, recipient);
 		// TODO NOTIFY Council here
+	}
+	
+	public void sendFinanceDataEmail(Troop troop, int qtr, String currentYear){
+		Finance finance = getFinances(troop, qtr, currentYear);
+		FinanceConfiguration financeConfig = getFinanceConfig(troop, currentYear);
+		
+		try {
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			
+			StringWriter writer = new StringWriter();
+			Csv csvWriter = new Csv();
+			csvWriter.writeInit(writer);
+			
+			
+			
+			csvWriter.writeRow("Troop Name: ", troop.getSfTroopName(), "Troop Id: ", troop.getSfTroopId() );
+			
+			if(qtr != 0){
+				csvWriter.writeRow("Finaces for Year:", currentYear, "Quarter: ", Integer.toString(qtr));
+			}else{
+				csvWriter.writeRow("Finaces for Year:", currentYear);
+			}
+			
+			csvWriter.writeRow("Income", "", "Expenses", "");
+			
+			List<String> incomeFields = financeConfig.getIncomeFields();
+			List<String> expenseFields = financeConfig.getExpenseFields();
+			
+			NumberFormat formatter = NumberFormat.getCurrencyInstance();
+			double totalIncome = 0.0;
+			double totalExpenses = 0.0;
+			double balance = 0.0;
+			
+			for(int i = 0; i < incomeFields.size() || i < expenseFields.size(); i++){
+				String incomeField = "";
+				String incomeValue = "";
+				if(i < incomeFields.size()){
+					incomeField = incomeFields.get(i);
+					double moneyValue = finance.getIncomeByName(incomeField);
+					incomeValue = formatter.format(moneyValue);
+					totalIncome += moneyValue;
+				}
+				String expenseField = "";
+				String expenseValue = "";
+				if(i < expenseFields.size()){
+					expenseField = expenseFields.get(i);
+					double moneyValue = finance.getExpenseByName(expenseField);
+					expenseValue = formatter.format(moneyValue);
+					totalExpenses += moneyValue;
+				}
+				csvWriter.writeRow(incomeField, incomeValue, expenseField, expenseValue);
+				
+			}
+			
+			balance = totalIncome - totalExpenses;
+			csvWriter.writeRow("", "", "", "");
+			csvWriter.writeRow("", "", "", "Total Income", formatter.format(totalIncome));
+			csvWriter.writeRow("", "", "", "Total Expenses", formatter.format(totalExpenses));
+			csvWriter.writeRow("", "", "", "Current Balance", formatter.format(balance));
+			
+			csvWriter.close();
+			
+			writer.close();
+			String csvContents = writer.toString();
+			
+			String recipient = financeConfig.getRecipient();
+			HtmlEmail email = new HtmlEmail();
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+			emailRecipients.add(new InternetAddress(recipient));
+			email.setTo(emailRecipients);
+			email.setSubject("Troop Finances");
+			
+			
+			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
+			if(messageGateway == null){
+				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
+			}else{
+				messageGateway.send(email);
+			}
+			
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 

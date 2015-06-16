@@ -1,4 +1,12 @@
-		<% java.util.List <String> existingAids = new java.util.ArrayList();
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="../session.jsp"%>	
+	
+		<% 
+		org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
+		java.util.List <String> existingAids = new java.util.ArrayList();
 				List<Asset> _aidTags = planView.getAidTags();	
 
 	if(_aidTags!=null)
@@ -12,13 +20,12 @@
 	%>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 
-	<div id="modal_meeting_aids" class="reveal-modal" data-reveal>
-		<div class="header clearfix">
-		  <h3 class="columns large-22">Meeting aids</h3>
-		  <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
-		</div>
-		<div class="scroll">
-			<div class="content">
+	   <div class="header clearfix">
+          <h3 class="columns large-22">Meeting aids</h3>
+          <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+        </div>
+        <div class="scroll">
+            <div class="content">
 				<table width="90%" align="center" class="browseMeetingAids">
 					<% 
 				  	for(int i=0;i<gresources.size();i++) {
@@ -42,9 +49,10 @@
 					</tr>
 				 	<% } %>
 				</table>
-			</div>
-		</div>
+		
 	</div>
+	</div>
+	
 <script>
   function assignAid(aidId, meetingId, assetName, assetDocType){
 	  $.ajax({

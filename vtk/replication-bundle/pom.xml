@@ -20,9 +20,21 @@
     <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.day.commons.osgi.wrapper</groupId>
+            <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+            <version>3.1.0.018</version>
+            <scope>provided</scope>
+        </dependency>
     	<dependency>
              <groupId>org.girlscouts.vtk</groupId>
              <artifactId>modified-checker-bundle</artifactId>
+             <scope>provided</scope>
+    	</dependency>
+    	<dependency>
+             <groupId>org.girlscouts.vtk</groupId>
+             <artifactId>girlscouts-vtk-bundle</artifactId>
+             <version>${project.version}</version>
              <scope>provided</scope>
     	</dependency>
         <dependency>
@@ -48,6 +60,8 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>4.9</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -122,6 +136,51 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.5.2</version>
         </dependency>
+
+        <!-- Testing -->
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.testing.osgi-mock</artifactId>
+            <version>1.2.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.sling</groupId>
+            <artifactId>org.apache.sling.testing.jcr-mock</artifactId>
+            <version>1.1.4</version>
+            <scope>test</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.quartz-scheduler</groupId>
+           <artifactId>quartz</artifactId>
+           <version>2.2.1</version>
+            <scope>test</scope>
+       </dependency>
+       <dependency>
+           <groupId>org.quartz-scheduler</groupId>
+           <artifactId>quartz-jobs</artifactId>
+           <version>2.2.1</version>
+            <scope>test</scope>
+       </dependency>
+       
+		<dependency>
+      		<groupId>org.powermock</groupId>
+      		<artifactId>powermock-module-junit4</artifactId>
+      		<version>1.6.2</version>
+      		<scope>test</scope>
+   		</dependency>
+   		<dependency>
+      		<groupId>org.powermock</groupId>
+      		<artifactId>powermock-api-easymock</artifactId>
+      		<version>1.6.2</version>
+      		<scope>test</scope>
+   		</dependency>
+   		<dependency>
+  			<groupId>org.easymock</groupId>
+  			<artifactId>easymock</artifactId>
+  			<version>3.3.1</version>
+  			<scope>test</scope>
+		</dependency>  
     </dependencies>
 
     <!-- ====================================================================== -->
