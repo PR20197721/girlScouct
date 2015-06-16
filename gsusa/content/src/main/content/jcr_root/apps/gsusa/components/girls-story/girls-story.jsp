@@ -11,12 +11,12 @@
     String selected = properties.get("source", "");
     ArrayList<String> validStoryPath = new ArrayList<String>();
     Boolean firstTimeInit = true;
+	PageManager pm = resourceResolver.adaptTo(PageManager.class);
 
     if (selected.equals("dir")) { //user picks a directory
         if (!path.isEmpty()) {
         	//grab the directory and get all its children
 			firstTimeInit = false;
-			PageManager pm = resourceResolver.adaptTo(PageManager.class);
 			Page parent = pm.getPage(path);
 			Iterator<Page> children = parent.listChildren();
 			while (children.hasNext()){
@@ -35,7 +35,14 @@
 	    	for(String storyPath: storyPathArray){
 	            if (!storyPath.isEmpty()) {
 	                firstTimeInit = false;
-					validStoryPath.add(storyPath);
+	    			Page p = pm.getPage(storyPath);
+	    			Node pageNode = p.adaptTo(Node.class);
+					Node contentNode = pageNode.getNode("jcr:content");
+					//TODO: we need a more robust validation. 
+					//Currently only check to see if there is a description
+					if(contentNode.hasProperty("description")){
+						validStoryPath.add(storyPath);
+					}
 	            }
 	        }
         } 
