@@ -865,7 +865,7 @@ React.createElement(ActivityPlan),
       var minutes = total % 60;
 
       if( hours<=0 )
-        return (minutes < 10 ? "0"+ minutes : minutes);
+        return ":"+(minutes < 10 ? "0"+ minutes : minutes);
      else
       return hours+":"+ (minutes < 10 ? "0"+ minutes : minutes);
 
