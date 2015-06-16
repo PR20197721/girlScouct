@@ -11,10 +11,9 @@
 	                <items jcr:primaryType="cq:WidgetCollection">
                         <url
                         	jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the URL to share. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news"
+                            fieldDescription="Enter the URL to share. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news. If left blank, the current page will be used"
                             fieldLabel="URL"
                             name="./url"
-                            allowBlank="false"
                             xtype="textfield"/>
                         <title
                         	jcr:primaryType="cq:Widget"
@@ -47,7 +46,7 @@
             	</properties>
             	<message
             		jcr:primaryType="cq:Panel"
-	                title="Twitter">
+	                title="Message">
 	                <items jcr:primaryType="cq:WidgetCollection">
 	            		<twitter-message
 		                	jcr:primaryType="cq:Widget"

@@ -109,5 +109,26 @@
 
   fix_bottom_footer();
   slide_search_bar();
+  
+	window.fbAsyncInit = function(){
+		FB.init({
+			appId:"419540344831322",
+			status:true,
+			cookie:true,
+			xfbml:true,
+			oauth:true,
+			channelUrl:"https://www.girlscouts.org/gogoldonlinechannel.ashx"
+		});
+	};
+  
+  var addthis_config = addthis_config || {};
+  addthis_config.data_track_addressbar = false;
+  addthis_config.data_track_clickback = false;
+  
+  addthis.addEventListener('addthis.ready', function (e) {
+      feederize('419540344831322',
+          "Registration",
+          "");
+  });
 
 }(jQuery));

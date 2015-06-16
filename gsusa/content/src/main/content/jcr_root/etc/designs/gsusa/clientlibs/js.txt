@@ -4,6 +4,8 @@ jquery.min.js
 foundation.min.js
 slick.min.js
 twitter-feed-widget.js
-facebook-sdk.js
+addthis_widget.js
+feederizer.js
+all.js
 
 app.js
