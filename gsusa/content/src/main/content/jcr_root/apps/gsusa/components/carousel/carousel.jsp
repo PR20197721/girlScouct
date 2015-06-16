@@ -1,28 +1,21 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <div class="hero-feature">
-    <ul>
+    <ul class="main-slider">
         <li>
-            <div class="hero-text">
-                <h2>This is a huge idea that gives a show-her-wow type of energy.</h2>
-                <a href="#" class="button">Read more</a>
-            </div>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <div class="hero-text">
-                <h2>This is a second header.</h2>
-                <a href="#" class="button">Explore</a>
-            </div>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt=""/>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <div class="hero-text">
-                <h2>This is some other header.</h2>
-                <a href="#" class="button">Check it</a>
-            </div>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt=""/>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
         </li>
     </ul>
+    <div class="hero-text">
+        <h2>Introduce girls to</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <a href="#" class="button">Explore gilscouts</a>
+    </div>
     <div class="join">
         <div class="wrapper">
             <a href="#" title="join">Join now</a>
@@ -32,5 +25,51 @@
                 <button class="button btn">GO</button>
             </section>
         </div>
+    </div>
+    <div class="inner-sliders">
+        <ul class="slide-1">
+            <li>
+                <p>slide 1</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 2</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 3</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+            </li>
+        </ul>
+        <ul class="slide-2">
+            <li>
+                <p>slide 1</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 2</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 3</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+            </li>
+        </ul>
+        <ul class="slide-3">
+            <li>
+                <p>slide 1</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 2</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+            </li>
+            <li>
+                <p>slide 3</p>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+            </li>
+        </ul>
+        <button type="button" data-role="none" class="slick-prev" aria-label="previous" style="display: block;">Previous</button>
+        <button type="button" data-role="none" class="slick-next" aria-label="next" style="display: block;">Next</button>
     </div>
 </div>
