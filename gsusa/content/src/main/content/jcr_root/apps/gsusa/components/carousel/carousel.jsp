@@ -29,20 +29,49 @@
     </div>
     <div class="position">
         <div class="inner-sliders">
-            <ul class="slide-1">
+            <ul class="inner">
                 <li>
-                    <h3>what do girlscouts do? stuff like this:</h3>
-                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                    <ul class="slide-1">
+                        <li>
+                            <h3>what do girlscouts do? stuff like this:</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>what do girlscouts do? stuff like this:</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>what do girlscouts do? stuff like this:</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>what do girlscouts do? stuff like this:</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <h3>what do girlscouts do? stuff like this:</h3>
-                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
-                </li>
-                <li>
-                    <h3>what do girlscouts do? stuff like this:</h3>
-                    <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                    <ul class="slide-2">
+                        <li>
+                            <h3>we like to get outdoors</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>we like to get outdoors</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>we like to get outdoors</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                        </li>
+                        <li>
+                            <h3>we like to get outdoors</h3>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                        </li>
+                    </ul>
                 </li>
             </ul>
+
     <!--    <ul class="slide-2">
                 <li>
                     <h3>what do girlscouts do? stuff like this:</h3>
@@ -71,8 +100,8 @@
                     <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
                 </li>
             </ul> -->
-            <button type="button" data-role="none" class="slick-prev" aria-label="previous" style="display: block;">Previous</button>
-            <button type="button" data-role="none" class="slick-next" aria-label="next" style="display: block;">Next</button>
+<!--             <button type="button" data-role="none" class="slick-prev" aria-label="previous" style="display: block;">Previous</button>
+            <button type="button" data-role="none" class="slick-next" aria-label="next" style="display: block;">Next</button> -->
         </div>
     </div>
 </div>
