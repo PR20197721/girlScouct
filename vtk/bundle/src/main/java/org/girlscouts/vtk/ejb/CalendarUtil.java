@@ -393,13 +393,14 @@ public class CalendarUtil {
 		java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(cal.getDates());
 		
 		//sort here -sched 
+		Collections.sort(sched);
 		
 		String freq=  troop.getYearPlan().getCalFreq();
 		long lastDate = sched.get(sched.size()-1).getTime();
 		java.util.List<String> exclDates = VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() );
 		long nextDate= getNextDate( exclDates, lastDate,  freq, false );
 		java.util.Calendar nextDateCal =  java.util.Calendar.getInstance();
-		nextDateCal.setTimeInMillis(nextDate);
+		nextDateCal.setTimeInMillis(sched.get(0).getTime());
 		
 		java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
 		cutOffDate.setTime( sched.get(0));
@@ -408,7 +409,7 @@ public class CalendarUtil {
 		cutOffDate.set(java.util.Calendar.MONTH, java.util.Calendar.JULY);
 		cutOffDate.set(java.util.Calendar.DATE, 31);
 		
-System.err.println("tattt: "+ cutOffDate.getTime() +" : "+ nextDateCal.getTime());		
+		
 		if( nextDate<= cutOffDate.getTime().getTime() )
 			return true;
 		
