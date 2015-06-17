@@ -44,6 +44,7 @@
         }, 100, function () {
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
+          $('.join').removeClass('change');
         });
       }
     });
@@ -183,6 +184,7 @@
           'opacity': 1
         }, 1000);
         $(".position").css('z-index', '100');
+        $('.join').addClass('change');
       }
     });
   }

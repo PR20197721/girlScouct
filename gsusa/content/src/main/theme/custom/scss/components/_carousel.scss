@@ -143,6 +143,13 @@ div.carousel {
     bottom: 0;
     width: 100%;
     height: rem-calc(90);
+    &.change {
+      z-index: 200;
+      height : rem-calc(60);
+      padding : rem-calc(14 0);
+      opacity : 1;
+      background-color : $white;
+    }
     a {
       font-size: rem-calc(30);
       font-weight: 600;
