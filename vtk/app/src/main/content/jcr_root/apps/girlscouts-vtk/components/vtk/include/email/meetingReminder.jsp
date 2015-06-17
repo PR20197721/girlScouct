@@ -46,8 +46,8 @@
 	<div style="background-color:yellow;"></div>
 
 	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
-		<%if (_meeting.getEmlTemplate()!=null) {%>
-		<%= _meeting.getEmlTemplate()%> 
+ 		<%if (_meeting.getEmlTemplate()!=null) {%>
+		<%= _meeting.getEmlTemplate()%>  
 		<%}else{ %>
 		<p>Hello Girl Scout Families,</p>
 		<br/><p>Here are the details of our next meeting:</p>
@@ -76,7 +76,12 @@
 				<td><%= _meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
+		<%JcrCollectionHoldString eInvite =  _meeting.getMeetingInfo().getMeetingInfo().get("email invite");
+		if(eInvite!=null && eInvite.getStr()!=null && !eInvite.getStr().trim().isEmpty()) {%>
+		<%=_meeting.getMeetingInfo().getMeetingInfo().get("email invite").getStr() %>
+		<% }else{%> 
 		<%=_meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+		<% } %>
 		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
 		<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>

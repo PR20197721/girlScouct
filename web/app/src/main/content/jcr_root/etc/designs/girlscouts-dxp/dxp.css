@@ -1,0 +1,68 @@
+/* COUNCIL-SPECIFIC STYLING FOR DIGITAL EXPERIENCE */
+
+.header-wrapper{
+	background-image: url("/content/dam/dxp/headers/DXPhome2.jpg");
+ }
+
+.hover-effect {
+  position:relative;
+  min-height:110px;
+}
+
+.hover-effect img {
+  position:absolute;
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+
+.hover-effect img.transparent {
+	opacity: 0;
+    }
+
+section.clearfix.header {
+	background-color: #f6f6f6;
+    display:block;
+    max-width:100%;
+    height:3em;
+    padding:0px 1em .25em;
+    margin-bottom: 3%;
+    }
+
+.clearfix.header h3{
+	float:left;
+    color: #767676;
+    font-size: x-large;
+    display:inline;
+    position:relative;
+    top:50%;
+    -webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+    }
+
+.clearfix.header a.more-link{
+	float:right;
+    font-size: large;
+    display:inline;
+    position:relative;
+    top:50%;
+    -webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+    }
+
+section.clearfix ul{
+	margin-bottom:5%;
+}
+
+p.columns.title{
+    padding-left:1%;
+	font-size: xx-large;
+}
+
+p.columns.desc{
+    padding-left:1%;
+	font-size: large;
+}

@@ -32,7 +32,6 @@
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
@@ -75,21 +74,26 @@
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			out.println("Your session has timed out.  Please refresh this page and login.");
 			return;
 		}
 	} catch (ClassCastException cce) {
 		session.invalidate();
 		log.error("ApiConfig class cast exception -- probably due to restart.  Logging out user.");
+        try {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        } catch (Exception setStatusException) { setStatusException.printStackTrace(); }
 		out.println("Your session has timed out.  Please login.");
 		return;
 	}
-	if (apiConfig.getTroops() == null
+	
+	if(apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
-		out.println("<span class='error'>Sorry, your troop grade program level does not have access to the volunteer toolkit at this time.</span>");
+		out.println("<span class='error'>Oops! It looks like your role doesn't have access to the Volunteer Toolkit. It's currently reserved for Troop Leaders of Daisy, Brownie, and Junior Troops. If this is a mistake or you have additional questions, please click on Contact Us at the top of the page.</span>");
 		return;
 	}
 

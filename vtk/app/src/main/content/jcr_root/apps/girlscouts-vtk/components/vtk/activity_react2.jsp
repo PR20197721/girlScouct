@@ -5,26 +5,175 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 %>
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-<%@include file="include/tab_navigation.jsp"%>
-<div id="modal_popup" class="reveal-modal" data-reveal></div>
 
+
+
+  <div id="vtkTabNav"></div>
+  
 <div id="panelWrapper" class="row content meeting-detail">
-  <%@include file="include/utility_nav.jsp"%>
-  <%@include file="include/activity_edit_react.jsp"%>
-  <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+  <div id="vtkNav"></div>
+  <div id="modal_popup" class="reveal-modal" data-reveal></div>
+  <%@include file="include/modals/modal_meeting_reminder.jsp" %>     
   <%@include file="include/modals/modal_view_sent_emails.jsp"%>			
   <div id="theActivity">
 
 
     <script type="text/javascript">
+    
+
+    
+    
+    
       var isActivNew=0;
       var aPath;
       var meetingStartDate="";
       var meetingEndDate="";
-  
+      var activityHelper=null;
+      var sentEmails=0;
+      
+      
+      
+      var ActivityCommunication = React.createClass({displayName: "Activity communication",
+          render: function() {
+              <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
+       return ( 		   
+    		   React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+
+		        React.createElement("h6", null, "manage communications"), 
+		
+		          React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"}, 
+
+
+                     React.createElement("li", null, 
+                    		 React.createElement( Emails)
+                   )
+                )
+                 )
+                 )
+        <%}else{%>return React.createElement("span")<%} %>
+      
+        	  
+        	  
+        	  
+        	  
+        	  
+          }
+          });
+         
+       
+          
+          var Emails = React.createClass({displayName: "Emails Activity",
+              render: function() {
+            	  if( activityHelper.permissions!=null && activityHelper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_ACT_ID%>')!=-1){
+                      return (
+                              React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder"
+                              ,  React.createElement(ViewEmailWithPermis)
+                              )
+                              )
+                  }else{
+                     return( React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder"
+                      ,React.createElement(ViewEmailNoPermis)
+                      ))
+                  }
+              }
+            });  
+          
+          
+          
+          
+          
+          
+          
+          var ViewEmailWithPermis = React.createClass({displayName: "ViewEmailWithPermis",
+              render: function() {
+            	  if( sentEmails>0){
+                      
+                       return (
+                    		   React.createElement("li", null, 
+                    				   React.createElement("span", null, "(", sentEmails, " sent -"), 
+                    						   React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+                              )
+                      )
+                  }else{
+                	  return React.createElement("li")
+                  }
+              }
+            });  
+          
+          
+          
+          
+          
+          var ViewEmailNoPermis = React.createClass({displayName: "ViewEmailNoPermis",
+              render: function() {
+            	  if( sendEmails>0){
+                      return (
+                    		  React.createElement("li", null,
+                              React.createElement("span", null,   "(", sendEmails, " sent -"), 
+                                         React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+                      ))
+                  }else{
+                      return (React.createElement("li", null,
+                              React.createElement("span", null, "(", "0 sent ", ")") 
+                       ))
+                  }
+              }
+            });  
+          
+          
+      var NavDirectionNext = React.createClass({displayName: "NavDirectionNext",
+          render: function() {
+              if(activityHelper.nextDate !=0 && activityHelper.nextDate!=null ){
+                  return (  
+                         React.createElement("a", { className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+activityHelper.nextDate})
+                  
+                        );
+                }else{
+                    return React.createElement("span", null, "");
+                }
+          }
+        });
+      
+      var ActivityDate = React.createClass({displayName: "Prev Date",
+          render: function() {
+             
+
+    	      if(activityHelper.currentDate !=null && (activityHelper.currentDate > new Date("1/1/1977")) ){ 
+    	    	  return React.createElement("p", {className: "date"},
+    	    			  React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
+
+    	            React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
+
+    	            React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
+    	            )
+    	     }else{
+    	    	 return React.createElement("p")
+    	     }
+            
+    	      
+          }
+      });  
+      
+      
+    
+    var NavDirectionPrev = React.createClass({displayName: "Prev Date",
+        render: function() {
+            if(activityHelper.prevDate!=0 && activityHelper.prevDate!=null ){
+              return (
+            		React.createElement("span", null,
+                      React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+activityHelper.prevDate})
+                    ) 
+                 )
+            }else{
+                return React.createElement("span");
+            }
+         
+        }
+      });     
+      
+      
       var CommentBox = React.createClass({
       loadCommentsFromServer: function( isFirst ) {
-        //console.log("loading..");
         $.ajax({
             url: this.props.url + 
         		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
@@ -35,7 +184,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               	this.setState({data:data});
           	  }.bind(this),
               error: function(xhr, status, err) {
-                //-console.error(this.props.url, status, err.toString());
               }.bind(this)
             });
         	if( isActivNew ==1 ){
@@ -60,15 +208,17 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         },
         render: function() {
         	var x;
-        	
-        	if( this.state.data.uid!=null){
-    			x= this.state.data;
+       	
+        	if( this.state.data.activities!=null){
+	
+    			x= this.state.data.activities[0];
     			aPath= x.path;
     			meetingStartDate=new Date(Number(x.date));
     			meetingEndDate=new Date(Number(x.endDate));
-      
-         getEventImg( x.refUid );
-
+    		    activityHelper= this.state.data.helper;
+                getEventImg( x.refUid );
+         
+                sendEmails = x.sentEmails;
               return (
             		  React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment(meetingStartDate).format('MMMM'), meetingModDAY: moment(meetingStartDate).format('DD'), meetingModHOUR: moment(meetingStartDate).format('h:mm a')})
                       
@@ -79,7 +229,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         }
       });
       React.render(
-    	      React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=<%=aid%>", pollInterval: 10000}),
+    	      React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=x"+getElem(), pollInterval: 10000}),
     	        document.getElementById('theActivity')
     	      );
         var Activity = React.createClass({
@@ -90,41 +240,19 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                 /*nav include*/
                 React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
 
-  React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
+  React.createElement("div", {className: "meeting-navigation activity-navigation row collapse"}, 
 
     React.createElement("p", {className: "column"}, 
 
-    React.createElement("span", null, 
-
-       <%if(planView.getPrevDate()!=0){ %>
-
-            React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
-       <%}else{%>""<%}%>   
-      
-
-      )
+   React.createElement(NavDirectionPrev)
 
     ), 
 
     React.createElement("div", {className: "column"}, 
 
-      React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
+      React.createElement("h3", null, "ACTIVITY : ",this.props.id, this.props.meetingTitle), 
 
-      React.createElement("p", {className: "date"}, 
-
-      <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %> 
-
-         React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
-
-            React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
-
-            React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
-    <%}else{%>""<%}%>
- 
-            
-      
-
-      )
+     React.createElement(ActivityDate, {meetingModMONTH:this.props.meetingModMONTH, meetingModDAY:this.props.meetingModDAY, meetingModHOUR:this.props.meetingModHOUR})
 
     ), 
 
@@ -132,11 +260,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
       React.createElement("span", null, 
 
-      <% if(planView.getNextDate()!=0 ){  %>
-
-            React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
-
-     <%}else{%>""<%}%>
+    		  React.createElement(NavDirectionNext)
 
     
 
@@ -156,7 +280,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
              React.createElement("ul", {className: "small-block-grid-2"}, 
                 React.createElement("li", null, React.createElement("p", null, "Location Name:"), React.createElement("p", null, this.props.data.locationName ? this.props.data.locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '')), 
                 React.createElement("li", null, React.createElement("p", null, "Location Address:"), React.createElement("p", null, this.props.data.locationAddress ? this.props.data.locationAddress.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '', " ", this.props.data.locationRef ? this.props.data.locationRef.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '')), 
-                React.createElement("li", null, React.createElement("p", null, "Age:"), React.createElement("p", null, "<%=troop.getSfTroopAge()%>")), 
+                React.createElement("li", null, React.createElement("p", null, "Age:"), React.createElement("p", null, activityHelper.getSfTroopAge)), 
                 React.createElement("li", null, React.createElement("p", null, "Cost:"), React.createElement("p", null,  fmtMaskedMoney(this.props.data.cost)))
               ), 
               React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}})
@@ -164,62 +288,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
             
 
 
-/*communication*/
-        <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
-
-,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
-
-  React.createElement("h6", null, "manage communications"), 
-
-  React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"}, 
-
-
-    	React.createElement("li", null, 
-
-		<% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
-
-	    	React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder")
-	
-	    	), 
-	
-	    	React.createElement("li", null, 
-	
-			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
-	
-	     	React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
-	     	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
-	
-	 		<%} else{%>""<%}%>
-	
-	  		)
-		<%}else {%>
-
-	    	React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder")
-	
-			), 
-	
-			React.createElement("li", null, 
-	
-			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
-	
-	 		React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
-	 		React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
-	
-			<%} else{%>
-		 		React.createElement("span", null,"(","0 sent ",")") 
-
-			<%}%>
-	
-			)
-		<% } %>
-
-
-
-	)
-
-)
-<%} %>
-/*end communication*/
+,React.createElement(ActivityCommunication)
 
 
 )
@@ -236,8 +305,11 @@ Number.prototype.format = function(n, x) {
  function fmtMaskedMoney(amount){
         return "$"+amount.format(2);
     }
+ 
+ loadNav('planView');
     </script>
   </div>
 
 </div>
+<div id="modal_popup_activity" class="reveal-modal" data-reveal></div>
 <!-- PAGE STOP activity_react2.jsp -->

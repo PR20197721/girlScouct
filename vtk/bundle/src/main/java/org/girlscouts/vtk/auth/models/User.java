@@ -7,9 +7,6 @@ public class User implements Serializable {
 	private String name, email, phone, mobilePhone, assistantPhone, homePhone,
 			contactId, sfUserId;
 
-	// tmp
-	// private String ageLevel="brownie";
-
 	public String getContactId() {
 		return contactId;
 	}
@@ -18,10 +15,6 @@ public class User implements Serializable {
 		this.contactId = contactId;
 	}
 
-	/*
-	 * public String getAgeLevel() { return ageLevel; } public void
-	 * setAgeLevel(String ageLevel) { this.ageLevel = ageLevel; }
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}

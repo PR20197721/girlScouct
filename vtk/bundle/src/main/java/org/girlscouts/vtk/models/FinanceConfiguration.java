@@ -12,9 +12,6 @@ public class FinanceConfiguration implements Serializable{
 	public static final String RECIPIENT = "recipient";
 	private static final long serialVersionUID = 6064391709671475214L;
 
-	
-	
-
 	private List<String> incomeFields;
 	
 	private List<String> expenseFields;
@@ -29,7 +26,6 @@ public class FinanceConfiguration implements Serializable{
 		this.isPersisted = false;
 	}
 	
-
 	public List<String> getIncomeFields() {
 		if(this.incomeFields == null){
 			List<String> income = new ArrayList<String>();
@@ -43,7 +39,6 @@ public class FinanceConfiguration implements Serializable{
 		} else{
 			return this.incomeFields;
 		}
-		
 	}
 
 	public void setIncomeFields(List<String> incomeFields) {
@@ -96,6 +91,4 @@ public class FinanceConfiguration implements Serializable{
 		this.isPersisted = isPersisted;
 	}
 
-
-	
 }
