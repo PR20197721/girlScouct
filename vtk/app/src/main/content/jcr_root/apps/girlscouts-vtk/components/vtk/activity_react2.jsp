@@ -8,7 +8,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
 
-  <div id="vtkTabNav"></div>
+<div id="vtkTabNav"></div>
   
 <div id="panelWrapper" class="row content meeting-detail">
   <div id="vtkNav"></div>

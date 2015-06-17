@@ -12,32 +12,35 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     <div class="row">
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
-          <!--if on YP page this menu shows-->
+          <!-- if on YP page this menu shows -->
             <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
             		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
-            		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+            		<li><a href="#" onclick="doMeetingLib('<%=calendarUtil.isEventPastGSYear(user, troop)%>')" title="Add Meeting">Add Meeting </a></li>
             		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }
              %>
 
-          <!-- if on Meeting Detail Page-->
+          <!-- if on Meeting Detail Page -->
             <% if("planView".equals(activeTab)) { %>
             <!--if activity detail page-->
             <% switch(planView.getYearPlanComponent().getType() ) {
               case ACTIVITY:
             	  pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
                 Activity activity = (Activity)planView.getYearPlanComponent();
-                if( activity.getIsEditable() ){%>
+                if( hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
                 <li>
                      <a data-reveal-id="modal_popup_activity" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit Activity</a>
                   </li>
               <% }
-                if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+                if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                 activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
                 <li><a href="<%=activity.getRegisterUrl()%>"  target="_blank">Register for this event</a></li><%
-                } %>
-                  <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+                } 
+                
+                if(hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
+                    %><li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+                } 
                   break;
             case MEETING:
             	pageContext.setAttribute("YearPlanComponent", "MEETING");
@@ -55,7 +58,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           }%> 
         
           <!-- if on a My Troop page-->
-          <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ) { %>
+          <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)  ) { %>
           <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>

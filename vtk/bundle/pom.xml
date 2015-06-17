@@ -19,10 +19,12 @@
     <packaging>bundle</packaging>
     <name>Girl Scouts Volunteer Toolkit Bundle</name>
 
+
 <properties>
     <slf4jVersion>1.7.12</slf4jVersion>
     <junitVersion>4.12</junitVersion>
   </properties>
+
 
     <dependencies>
         <dependency>
@@ -97,6 +99,7 @@
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.jcr.api</artifactId>
         </dependency>
+
 
         <dependency>
             <groupId>com.adobe.granite</groupId>
@@ -260,6 +263,7 @@
         <!-- end import dep -->
 
 
+
         <dependency>
             <groupId>org.apache.servicemix.bundles</groupId>
             <artifactId>org.apache.servicemix.bundles.shiro</artifactId>
@@ -355,6 +359,7 @@
       <artifactId>commons-codec</artifactId>
       <version>1.9</version>
     </dependency>
+
 
 <!-- 
 <dependency>

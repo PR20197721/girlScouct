@@ -30,7 +30,7 @@ public class VTKDataCacheInvalidator implements Job {
     private static final Logger log = LoggerFactory.getLogger(VTKReplicationReceiver.class);
     
     // Interval for the next invalidation, in milliseconds.
-    private static final int INTERVAL = 1000;
+    private static final int INTERVAL = 100;
     private static final String JOB_NAME = "VTKDataCacheInvalidatorJob";
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
@@ -65,7 +65,6 @@ public class VTKDataCacheInvalidator implements Job {
     }
     
     public void addPath(String path) {
-    	System.out.println("ADDING PATH: " + path);
         synchronized(lock) {
             // If paths set is empty, assume nothing is scheduled. Schedule a new task.
             if (paths.isEmpty()) {
@@ -107,7 +106,6 @@ public class VTKDataCacheInvalidator implements Job {
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
             log.debug("Path: " + path);
-            System.out.println("Invalidating Path: " + path);
             get.setRequestHeader("CQ-Action", "Delete");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);

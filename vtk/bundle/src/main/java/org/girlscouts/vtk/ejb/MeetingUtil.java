@@ -530,11 +530,15 @@ public class MeetingUtil {
 		if (troop.getYearPlan().getMeetingEvents() == null)
 			troop.getYearPlan().setMeetingEvents(new java.util.ArrayList());
 		troop.getYearPlan().getMeetingEvents().add(meeting);
-		if (troop.getYearPlan().getSchedule() != null) {
+	
+		if (troop.getYearPlan().getSchedule() != null ) {
 			java.util.List<java.util.Date> sched = VtkUtil
 					.getStrCommDelToArrayDates(troop.getYearPlan()
 							.getSchedule().getDates());
-			long newDate = new CalendarUtil().getNextDate(VtkUtil
+
+			long newDate = new java.util.Date().getTime()+5000;
+			if( !troop.getYearPlan().getSchedule().getDates().trim().equals("") )
+			  newDate= new CalendarUtil().getNextDate(VtkUtil
 					.getStrCommDelToArrayStr(troop.getYearPlan()
 							.getCalExclWeeksOf()), sched.get(sched.size() - 1)
 					.getTime(), troop.getYearPlan().getCalFreq(), false);
@@ -994,7 +998,10 @@ public class MeetingUtil {
 
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		if( troop.getYearPlan()!=null )
-			sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
+
+			sched = getYearPlanSched(
+				user, troop.getYearPlan(), false, false);
+
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");
 			return null;

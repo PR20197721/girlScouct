@@ -325,51 +325,106 @@ System.err.println("*************** "+OAuthUrl);
 					log.debug("_____ " + results.get(i));
 					Contact contact = new Contact();
 					try {
-						contact.setFirstName(results.getJSONObject(i)
+						try{contact.setFirstName(results.getJSONObject(i)
 								.getString("Name"));
-						contact.setEmail(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						try{contact.setEmail(results.getJSONObject(i).getString(
 								"Email"));
-						contact.setPhone(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setPhone(results.getJSONObject(i).getString(
 								"Phone"));
-						contact.setId(results.getJSONObject(i).getString("Id"));
-						contact.setAddress(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setId(results.getJSONObject(i).getString("Id"));
+						}catch(Exception e){}
+						
+						
+						try{contact.setAddress(results.getJSONObject(i).getString(
 								"MailingStreet"));
-						contact.setCity(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setCity(results.getJSONObject(i).getString(
 								"MailingCity"));
-						contact.setState(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setState(results.getJSONObject(i).getString(
 								"MailingState"));
-						contact.setState(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setState(results.getJSONObject(i).getString(
 								"MailingPostalCode"));
-						contact.setCountry(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setCountry(results.getJSONObject(i).getString(
 								"MailingCountry"));
-						contact.setZip(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						try{contact.setZip(results.getJSONObject(i).getString(
 								"MailingPostalCode"));
-						contact.setAge(results.getJSONObject(i).getInt(
+						}catch(Exception e){}
+						
+						try{contact.setAge(results.getJSONObject(i).getInt(
 								"rC_Bios__Age__c"));
-						contact.setDob(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setDob(results.getJSONObject(i).getString(
 								"Birthdate"));
-						contact.setRole(results.getJSONObject(i).getString(
+						}catch(Exception e){}
+						
+						
+						try{contact.setRole(results.getJSONObject(i).getString(
 								"rC_Bios__Role__c"));
-						contact.setAccountId(results.getJSONObject(i)
+						}catch(Exception e){}
+						
+						
+						try{contact.setAccountId(results.getJSONObject(i)
 								.getString("AccountId"));
-						contact.setContactId(results.getJSONObject(i)
+						}catch(Exception e){}
+						
+						
+						try{contact.setContactId(results.getJSONObject(i)
 								.getString("Id"));
+						}catch(Exception e){}
+						
+						
 						contact.setType(0);
 						Contact contactSub = new Contact();
-						contactSub.setEmail(results.getJSONObject(i)
+						try{contactSub.setEmail(results.getJSONObject(i)
 								.getJSONObject("Account")
 								.getJSONObject("rC_Bios__Preferred_Contact__r")
 								.getString("Email"));
-						contactSub.setFirstName(results.getJSONObject(i)
+						}catch(Exception e){}
+						
+						
+						try{contactSub.setFirstName(results.getJSONObject(i)
 								.getJSONObject("Account")
 								.getJSONObject("rC_Bios__Preferred_Contact__r")
 								.getString("FirstName"));
-						contactSub.setLastName(results.getJSONObject(i)
+						}catch(Exception e){}
+						
+						
+						try{contactSub.setLastName(results.getJSONObject(i)
 								.getJSONObject("Account")
 								.getJSONObject("rC_Bios__Preferred_Contact__r")
 								.getString("LastName"));
-						contactSub.setAccountId(results.getJSONObject(i)
+						}catch(Exception e){}
+						
+						
+						try{contactSub.setAccountId(results.getJSONObject(i)
 								.getJSONObject("Account").getString("Id"));
+						
+						}catch(Exception e){}
+						
+						
 						contactSub.setType(1);// caregiver
 						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
 						contactsSub.add(contactSub);
@@ -440,8 +495,14 @@ System.err.println("*************** "+OAuthUrl);
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
 							.getJSONObject("Parent").getString("Name"));
-					troop.setRole(results.getJSONObject(i).getString(
+					
+					try{
+						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
+					}catch(Exception e){e.printStackTrace(); /*troop.setRole("DP");*/}
+					
+					
+					
 					log.debug("User Roll: "
 							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType

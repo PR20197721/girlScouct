@@ -63,7 +63,9 @@
           return {data: []};
         },
         componentDidMount: function() {
+
         	loadNav('plan'); 	
+
           this.loadCommentsFromServer();
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
@@ -76,13 +78,21 @@
             var x, yearPlanName;
             if( this.state.data.schedule!=null) {
                x =  this.state.data.schedule;
-                 yearPlanName = this.state.data.yearPlan;
-                  return (
+               yearPlanName = this.state.data.yearPlan;
+               return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            } else {
-                return React.createElement("div", null);
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
+            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");    
+           
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
+            	yesPlan();
+                return React.createElement("h3",null);
+            }else{
+            	
+            	return React.createElement("h3",null);
             }
+            
         }
       });
 
@@ -100,7 +110,7 @@
                       React.createElement("div", {className: "row"},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                               React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                              React.createElement("p", {className: "hide-for-print"}, "Drag and drop to reorder meetings")
+                              React.createElement("p", {className: "hide-for-print <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
                         React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
@@ -217,7 +227,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       componentDidMount: function() {
         resizeWindow();
         link_bg_square();
-        loadNav('plan');
+        //loadNav('plan');
 
        if (Modernizr.touch) {
          scrollTarget = ".touchscroll";
@@ -228,6 +238,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
+          
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
           delay:150,
@@ -247,6 +258,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         }
     }).disableSelection();
+          
       },
       componentWillUpdate: function() {
 
@@ -386,7 +398,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
        });
 
 */
- 
+
 
       </script>
 
