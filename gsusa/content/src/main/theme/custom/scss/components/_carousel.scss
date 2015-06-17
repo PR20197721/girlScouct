@@ -28,9 +28,13 @@ div.carousel {
   }
   .slick-dots {
     bottom: rem-calc(-150);
+    margin-left: 0;
     li {
       height: rem-calc(100);
       width: rem-calc(170);
+      &:first-child {
+        margin-left: 0;
+      }
     }
   }
   .slick-prev,
@@ -155,13 +159,14 @@ div.carousel {
     position: absolute;
     top: 0;
     width: 100%;
-    z-index: 10;
+    z-index: -1;
     display: block;
-    visibility: hidden;
+    // visibility: hidden;
+    opacity: 0;
   }
   .inner-sliders {
     margin: 0 auto;
-    width: 90%;
+    width: 73.958333%;
     color: $white;
     ul {
       // display: none;
@@ -171,8 +176,14 @@ div.carousel {
         // max-height: 450px;
         h3 {
           color: $white;
+          margin: 0;
+          text-transform: uppercase;
+          text-align: center;
+          background-color: $black;
         }
         img {
+          height: 337px;
+          width: 100%;
         }
       }
     }

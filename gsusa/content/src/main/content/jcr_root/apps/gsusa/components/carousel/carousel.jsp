@@ -43,7 +43,7 @@
                     <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
                 </li>
             </ul>
-    <!--         <ul class="slide-2">
+    <!--    <ul class="slide-2">
                 <li>
                     <h3>what do girlscouts do? stuff like this:</h3>
                     <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
