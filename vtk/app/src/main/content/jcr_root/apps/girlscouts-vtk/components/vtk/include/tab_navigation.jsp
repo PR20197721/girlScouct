@@ -18,6 +18,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
 
 <div id="troop" class="row hide-for-print">
   <div class="columns large-7 medium-9 right">
+   <a href="/content/girlscouts-vtk/en/vtk.home.html">Member profile</a>
     <select id="reloginid" onchange="relogin()">
       <%
         for (int i = 0; i < troops.size(); i++) {
