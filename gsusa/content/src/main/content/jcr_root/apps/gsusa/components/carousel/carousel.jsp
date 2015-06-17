@@ -13,9 +13,12 @@
         </li>
     </ul>
     <div class="hero-text">
-        <h2>Introduce girls to</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        <a href="#" class="button">Explore gilscouts</a>
+        <section>
+            <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
+            <h2>Introduce girls to</h2>
+            <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
+            <a href="#" class="button">Explore gilscouts</a>
+        </section>
     </div>
     <div class="join">
         <div class="wrapper">
@@ -34,18 +37,34 @@
                     <ul class="slide-1">
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
-                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                            <div class="text">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero4.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
+                            <div class="text">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
+                            <div class="text white">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
+                            <div class="text">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
                         </li>
                     </ul>
@@ -54,18 +73,34 @@
                     <ul class="slide-2">
                         <li>
                             <h3>we like to get outdoors</h3>
+                            <div class="text white">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
+                            <div class="text white">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
+                            <div class="text white">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
+                            <div class="text white">
+                                <h4>Splash, Paddle, and Sail</h4>
+                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                            </div>
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
                         </li>
                     </ul>
