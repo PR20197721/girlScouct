@@ -20,9 +20,4 @@
             </parameters>
         </image>
     </cq:dropTargets>
-    <cq:inplaceEditing
-        jcr:primaryType="cq:InplaceEditingConfig"
-        active="{Boolean}true"
-        configPath="../../dialog/items/tab1/items/text"
-        editorType="text"/>
 </jcr:root>

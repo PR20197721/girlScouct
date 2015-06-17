@@ -72,7 +72,10 @@
                 </li><%
              }
         }%>
-	</ul>
-	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-        	%>Please click here to edit. <%
-      }%>
+        </ul><%
+        return;
+	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+        %>Please click here to edit. <%
+        return;
+    }
+%>
