@@ -453,7 +453,7 @@ System.err.println("*************** "+OAuthUrl);
 		return contacts;
 	}
 
-	public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId) {
+	public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId)throws IllegalAccessException {
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
@@ -463,11 +463,15 @@ System.err.println("*************** "+OAuthUrl);
 			method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
-			method.setHeader("Authorization", "OAuth " +getToken(apiConfig));
-	//System.err.println("ttatatatat00DZ000000Mia06@appled.strudel@gmail.com");	
+	System.err.println("tatat");		
+			//method.setHeader("Authorization", "OAuth " +getToken(apiConfig)+"X");
+	
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
+			
+			System.err.println("Status code: "+ statusCode);	
+			
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
 			}
