@@ -31,7 +31,10 @@ public class VTKDataCacheInvalidator implements Job {
     
     // Interval for the next invalidation, in milliseconds.
     private static final int INTERVAL = 100;
+    // Interval for the cleanup, in seconds.
+    private static final int PERIODIIC_INTERVAL = 10; 
     private static final String JOB_NAME = "VTKDataCacheInvalidatorJob";
+    private static final String PERIODIC_JOB_NAME = "VTKDataCacheInvalidatorPeriodicJob";
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
 
@@ -56,11 +59,17 @@ public class VTKDataCacheInvalidator implements Job {
             Session session = repository.loginAdministrative(null);
             flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
             session.logout();
+            try {
+                // Schedule a periodic cleanup process so there is a remedy a missed invalidation.
+                scheduler.addPeriodicJob(PERIODIC_JOB_NAME, this, null, PERIODIIC_INTERVAL, true);
+            } catch (Exception e) {
+                log.error("VTKDataCacheInvalidator: Cannot schedule periodic.");
+            }
             log.info("Started.");
         } catch (RepositoryException e) {
             log.error("VTKDataCacheInvalidator: RepositoryException while initializing.");
             e.printStackTrace();
-        }
+        } 
     }
     
     @Deactivate
