@@ -663,7 +663,7 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(isMsgConf){
-	if( isMsgConf ){
+	if( !isMsgConf ){
 		
 		if( !confirm("Adding Meeting might schedule event outside of current Girlscounts year. Would you like to proceed?") ){ return; }
 	}
