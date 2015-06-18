@@ -401,7 +401,12 @@ config.setOAuthUrl(OAuthUrl);
 
 HttpSession session = request.getSession();
 session.setAttribute(ApiConfig.class.getName(), config);
-User user = dao.getUser(config);
+User user = null;
+try{ user=dao.getUser(config);  }catch(Exception e){e.printStackTrace();}
+if(user==null){
+	 response.setStatus(500);
+	 return;
+}
 session.setAttribute(User.class.getName(), user);
 config.setUser(user);
 org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
@@ -450,7 +455,10 @@ redirect(response, targetUrl);
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
 		session.setAttribute(ApiConfig.class.getName(), config);
-		User user = dao.getUser(config);
+		User user = null;
+		try{user= dao.getUser(config);}catch(Exception e){e.printStackTrace();}
+		if( user==null ){ response.setStatus(500); return;}
+		
 		session.setAttribute(User.class.getName(), user);
 		config.setUser(user);
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();

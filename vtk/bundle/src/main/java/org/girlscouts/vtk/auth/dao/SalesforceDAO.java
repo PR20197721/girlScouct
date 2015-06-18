@@ -463,8 +463,10 @@ System.err.println("*************** "+OAuthUrl);
 			method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
-	System.err.println("tatat");		
-			//method.setHeader("Authorization", "OAuth " +getToken(apiConfig)+"X");
+	System.err.println("tatat "+ apiConfig.getWebServicesUrl()
+			+ "/services/apexrest/activeUserTroopData?userId="
+			+ contactId);		
+			method.setHeader("Authorization", "OAuth " +getToken(apiConfig));
 	
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
@@ -474,6 +476,7 @@ System.err.println("*************** "+OAuthUrl);
 			
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
+				throw new IllegalAccessException();
 			}
 			HttpEntity entity = resp.getEntity();
 			entity.getContent();
@@ -580,7 +583,7 @@ System.err.println("*************** "+OAuthUrl);
 	}
 	
 	
-	public User getUser(ApiConfig apiConfig) {
+	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
 		User user= new User();
 		CloseableHttpClient connection = null;
 //System.err.println("tata new user");		
@@ -593,6 +596,7 @@ System.err.println("*************** "+OAuthUrl);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
+				throw new IllegalAccessException();
 			}
 			HttpEntity entity = null;
 			String rsp = null;
