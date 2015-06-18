@@ -188,7 +188,21 @@
       }
     });
   }
-
+  function scroll_feeds() {
+    $('.scroll-more').bind("click", function () {
+      var feed_height = $('.social-block').scrollTop() + $('.social-block').outerHeight();
+      var inner_height = $('.twitter-timeline-rendered').height();
+      if (feed_height >= inner_height) {
+        $('.social-block').animate({
+          scrollTop: 0
+        }, 500);
+        return false;
+      }
+      $('.social-block').animate({
+        scrollTop: "+=" + $('.social-block').height() + "px"
+      }, 500);
+    });
+  }
   // $('.slider-nav').slick({
   //   slidesToShow: 1,
   //   slidesToScroll: 4,
@@ -204,4 +218,5 @@
   document_close_all();
   explore_button();
   join_now();
+  scroll_feeds();
 }(jQuery));
