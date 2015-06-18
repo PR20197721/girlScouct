@@ -386,10 +386,10 @@ public class CalendarUtil {
 	
 	
 	public boolean isEventPastGSYear(User user, Troop troop){
-		
+		if( troop.getYearPlan()==null || troop.getYearPlan().getSchedule()==null ) return true;
 		boolean isPast=false;
 		Cal cal = troop.getYearPlan().getSchedule();
-		if( cal==null ) return true;
+		
 		java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(cal.getDates());
 		
 		//sort here -sched 
