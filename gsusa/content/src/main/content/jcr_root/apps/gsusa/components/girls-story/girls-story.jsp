@@ -11,17 +11,23 @@
     String selected = properties.get("source", "");
     ArrayList<String> validStoryPath = new ArrayList<String>();
     Boolean firstTimeInit = true;
+	PageManager pm = resourceResolver.adaptTo(PageManager.class);
 
     if (selected.equals("dir")) { //user picks a directory
         if (!path.isEmpty()) {
         	//grab the directory and get all its children
 			firstTimeInit = false;
-			PageManager pm = resourceResolver.adaptTo(PageManager.class);
 			Page parent = pm.getPage(path);
 			Iterator<Page> children = parent.listChildren();
 			while (children.hasNext()){
 				Page child = children.next();
-				validStoryPath.add(child.getPath());
+				Node childNode = child.adaptTo(Node.class);
+				Node contentNode = childNode.getNode("jcr:content");
+				//TODO: we need a more robust validation. 
+				//Currently only check to see if there is a description
+				if(contentNode.hasProperty("description")){
+					validStoryPath.add(child.getPath());
+				}
 			}
         }
     } else { //manually picked
@@ -29,7 +35,14 @@
 	    	for(String storyPath: storyPathArray){
 	            if (!storyPath.isEmpty()) {
 	                firstTimeInit = false;
-					validStoryPath.add(storyPath);
+	    			Page p = pm.getPage(storyPath);
+	    			Node pageNode = p.adaptTo(Node.class);
+					Node contentNode = pageNode.getNode("jcr:content");
+					//TODO: we need a more robust validation. 
+					//Currently only check to see if there is a description
+					if(contentNode.hasProperty("description")){
+						validStoryPath.add(storyPath);
+					}
 	            }
 	        }
         } 
@@ -59,7 +72,10 @@
                 </li><%
              }
         }%>
-	</ul>
-	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-        	%>Please click here to edit. <%
-      }%>
+        </ul><%
+        return;
+	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+        %>Please click here to edit. <%
+        return;
+    }
+%>
