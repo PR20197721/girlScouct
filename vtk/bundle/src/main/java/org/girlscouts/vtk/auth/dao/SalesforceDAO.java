@@ -477,7 +477,7 @@ System.err.println("tata: troop **OAuth** troopInfo URL  " + apiConfig.getWebSer
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("tata: troopresp <<<<<Apex resp: " + response);
+//System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -500,7 +500,7 @@ System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
-					}catch(Exception e){e.printStackTrace(); troop.setRole("DP");}
+					}catch(Exception e){e.printStackTrace(); /*troop.setRole("DP");*/}
 					
 					
 					
