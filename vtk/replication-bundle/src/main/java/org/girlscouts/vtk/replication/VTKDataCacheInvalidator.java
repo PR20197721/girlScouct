@@ -76,6 +76,7 @@ public class VTKDataCacheInvalidator implements Job {
     // Remove the scheduled job and try to invalidate the job right away.
     public void deactivate() {
         scheduler.removeJob(JOB_NAME);
+        scheduler.removeJob(PERIODIC_JOB_NAME);
         execute(null);
     }
     
