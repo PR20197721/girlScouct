@@ -382,6 +382,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			String councilCode) {
 		Cookie cookie = new Cookie("vtk_referer_council", councilCode);
 		cookie.setMaxAge(-1);
+		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
 }
