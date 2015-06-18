@@ -2,6 +2,7 @@
 	String path=(String)request.getAttribute("path");
 	String title=(String)request.getAttribute("title");
 	String date=(String)request.getAttribute("date");
+	String date_yyyyMMdd=(String)request.getAttribute("date_yyyyMMdd");
 	String text=(String)request.getAttribute("text");
 	String external_url=(String)request.getAttribute("external_url");
 
@@ -38,22 +39,23 @@
 		}
 	}
 %> 
-<ul class="searchResultsList">
-<li> 
+
+<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"> 
 	<h2>
 <%if(!external_url.isEmpty()){ %>
-	<a href="<%=external_url%>" target="_blank"><%=title%></a>
+	<a href="<%=external_url%>" target="_blank" itemprop="name"><%=title%></a>
 <%}else{ %>
-	<a href="<%=path%>.html"><%=title%></a>
+	<a href="<%=path%>.html" itemprop="name"><%=title%></a>
 <%} %>
 	</h2>
 <%
 	if (date != null && date.length() > 0) {
 %>
-<%=date%><br/>
+<span itemprop="datePublished" content="<%=date_yyyyMMdd%>"><%=date%></span>
+<br/>
 <%
 	}
 %>
-		<article><%=text %></article>
+		<article itemscope itemprop="description"><%=text %></article>
 	</li>
-</ul>
+

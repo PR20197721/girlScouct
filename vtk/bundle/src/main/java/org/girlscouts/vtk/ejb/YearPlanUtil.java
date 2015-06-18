@@ -3,9 +3,7 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.servlet.http.HttpSession;
-
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
@@ -13,7 +11,6 @@ import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
-
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -50,7 +47,7 @@ public class YearPlanUtil {
 
 	@Reference
 	private MeetingDAO meetingDAO;
-	
+
 	@Reference
 	private CouncilDAO councilDAO;
 
@@ -73,7 +70,6 @@ public class YearPlanUtil {
 			return;
 
 		java.util.List<Activity> activity2Cancel = new java.util.ArrayList<Activity>();
-
 		java.util.List<Activity> activities = troop.getYearPlan()
 				.getActivities();
 		for (int i = 0; i < activities.size(); i++) {
@@ -82,9 +78,8 @@ public class YearPlanUtil {
 							.get(i).getCancelled().equals("true"))
 					&& !activityDAO.isActivityByPath(user, activities.get(i)
 							.getRefUid())) {
-				activities.get(i).setCancelled("true"); // org
+				activities.get(i).setCancelled("true");
 				activity2Cancel.add(activities.get(i));
-				// troopDAO.updateTroop(user, troop);
 			}
 		}
 
@@ -127,13 +122,10 @@ public class YearPlanUtil {
 		while (itr.hasNext()) {
 			java.util.Date dt = (java.util.Date) itr.next();
 			YearPlanComponent _comp = (YearPlanComponent) sched.get(dt);
-
 			Calendar cal = java.util.Calendar.getInstance();
 			cal.setTime(dt);
-
 			String desc = "", location = "";
-			java.util.Date endDate=null;
-
+			java.util.Date endDate = null;
 			switch (_comp.getType()) {
 			case ACTIVITY:
 				Activity a = ((Activity) _comp);
@@ -143,7 +135,7 @@ public class YearPlanUtil {
 						+ (a.getLocationAddress() == null ? "" : a
 								.getLocationAddress().replace("\r", ""));
 				desc = ((Activity) _comp).getName();
-				endDate= a.getEndDate();
+				endDate = a.getEndDate();
 				break;
 
 			case MEETING:
@@ -152,18 +144,20 @@ public class YearPlanUtil {
 				desc = meetingInfo.getName();
 				location = getLocation(troop,
 						((MeetingE) _comp).getLocationRef());
-				
-				int totalMeetingMin = VtkUtil.getMeetingEndTime(((MeetingE) _comp).getMeetingInfo());
-				java.util.Calendar endTimeCal = java.util.Calendar.getInstance();
+				int totalMeetingMin = VtkUtil
+						.getMeetingEndTime(((MeetingE) _comp).getMeetingInfo());
+				java.util.Calendar endTimeCal = java.util.Calendar
+						.getInstance();
 				endTimeCal.setTime(cal.getTime());
 				endTimeCal.add(java.util.Calendar.MINUTE, totalMeetingMin);
 				endDate = endTimeCal.getTime();
-				
 				break;
 			}
-if( endDate ==null ) endDate = cal.getTime();
+			if (endDate == null)
+				endDate = cal.getTime();
 			final List events = new ArrayList();
-			final VEvent event = new VEvent(new DateTime(cal.getTime()), new DateTime(endDate),  desc);
+			final VEvent event = new VEvent(new DateTime(cal.getTime()),
+					new DateTime(endDate), desc);
 			event.getProperties().add(new Description(desc));
 			if (location != null)
 				event.getProperties()
@@ -219,7 +213,6 @@ if( endDate ==null ) endDate = cal.getTime();
 	}
 
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
-		//return meetingDAO.getCouncilMilestones(councilCode);
 		return councilDAO.getCouncilMilestones(councilCode);
 	}
 
@@ -227,12 +220,6 @@ if( endDate ==null ) endDate = cal.getTime();
 			throws IllegalAccessException {
 
 		Meeting meeting = meetingDAO.getMeeting(user, path);
-		/*
-		 * //sort agendas; set activNum java.util.List<Activity> activities =
-		 * meeting.getActivities(); for(int i=0;i<activities.size();i++){
-		 * activities.get(i).setActivityNumber(i+1); }
-		 */
-
 		return meeting;
 	}
 
@@ -273,9 +260,9 @@ if( endDate ==null ) endDate = cal.getTime();
 				meeting);
 	}
 
-	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
-		councilDAO.updateCouncilMilestones(milestones,cid);
-		//meetingDAO.saveCouncilMilestones(milestones);
+	public void saveCouncilMilestones(java.util.List<Milestone> milestones,
+			String cid) {
+		councilDAO.updateCouncilMilestones(milestones, cid);
 	}
 
 	public java.util.List<Activity> searchA1(User user, Troop troop,
@@ -301,10 +288,6 @@ if( endDate ==null ) endDate = cal.getTime();
 	public void createCustActivity(User user, Troop troop,
 			java.util.List<org.girlscouts.vtk.models.Activity> activities,
 			String activityId) throws IllegalAccessException {
-
-		// java.util.List <org.girlscouts.vtk.models.Activity> activities =
-		// (java.util.List
-		// <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
 		for (int i = 0; i < activities.size(); i++) {
 			if (activities.get(i).getUid().equals(activityId)) {
 				createActivity(user, troop, activities.get(i));

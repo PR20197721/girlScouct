@@ -24,7 +24,5 @@ public class ContactExtras {
 		public void setYearPlanComponent(YearPlanComponent yearPlanComponent) {
 			this.yearPlanComponent = yearPlanComponent;
 		}
-		
-		
-		
+	
 }

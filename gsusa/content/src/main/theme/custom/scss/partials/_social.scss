@@ -1,0 +1,31 @@
+//twitter-feed
+.social-block {
+  max-height: 540px;
+  overflow: hidden;
+  height: 100%;
+  margin-bottom: rem-calc(5);
+  [class^="icon-"],
+  [class*=" icon-"]{
+    font-size: 50px;
+    display: block;
+    color: #797979;
+    text-align: center;
+  }
+}
+.twitter-feed {
+  padding-bottom: rem-calc(97);
+  .wrapper {
+    @include grid-column(8);
+    position: relative;
+    padding-bottom: rem-calc(45);
+    .scroll-more {
+      @include css-triangle(97px, #e8e8e8, top);
+      border-top-width: rem-calc(31);
+      position: absolute;
+      left: 50%;
+      margin-left: -97px;
+      cursor: pointer;
+      display: block;
+    }
+  }
+}

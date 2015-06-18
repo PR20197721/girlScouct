@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ $# -eq 0 ]; then
-    echo "generateVhost.sh [prod/preview/stage] [councilurlname] [number of conf name]"
+    echo "generateVhost.sh [prod/preview/stage] [councilurlname] [index of vhost]"
     exit 1
 fi
 
@@ -27,6 +27,7 @@ var="
 
     RewriteRule ^/en.html / [R=301,L]
     RewriteRule ^/$ /content/"$2"/en.html [PT]
+    RewriteRule ^/robots.txt$ /en/robots.txt [PT]
 
     RewriteCond %{REQUEST_URI} !^/etc(.*) [NC]
     RewriteCond %{REQUEST_URI} !^/libs(.*) [NC]

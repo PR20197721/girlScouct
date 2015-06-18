@@ -2,5 +2,8 @@
 
 jquery.min.js
 foundation.min.js
-app.js
+slick.min.js
 twitter-feed-widget.js
+facebook-sdk.js
+
+app.js

@@ -21,9 +21,9 @@
     boolean isQuarterly = true;
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());    
 %>
-<%@include file="include/tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail">
-<%@include file="include/utility_nav.jsp"%>
+<div id="vtkNav"></div>
 <%
 	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_FINANCE_FEATURE)) {
 		
@@ -141,3 +141,4 @@
 	}
 %>
 </div>
+<script>loadNav('finances');</script>

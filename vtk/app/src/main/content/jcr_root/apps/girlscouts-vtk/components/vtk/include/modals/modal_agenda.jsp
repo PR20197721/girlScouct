@@ -26,7 +26,7 @@
             <input type="text" placeholder="Description" id="newCustAgendaTxt"/>
           </div>
         </section>
-        <input type="button" onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button btn right" value="Save"/>
+        <input type="button" onclick="createCustAgendaItem2(moment(thisMeetingDate).valueOf(), '1', thisMeetingPath)" class="button btn right" value="Save"/>
       </form>
     </div>
   </div>

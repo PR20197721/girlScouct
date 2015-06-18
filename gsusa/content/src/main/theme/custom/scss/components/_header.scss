@@ -1,0 +1,29 @@
+.header {
+  a {
+    color: $white;
+    &:hover {
+      color: #FAA61A;
+    }
+  }
+  .top-header {
+    padding-top: rem-calc(10);
+    padding-bottom: rem-calc(10);
+    background: $primary-color;
+    color: $white;
+    .search-form,
+    .inline-list {
+      float: right;
+      clear: both;
+    }
+  }
+  .logo-section {
+    @include grid-column(6);
+    @media #{$small-only} {
+      margin: 0 auto;
+      float: none;
+    }
+  }
+  .utility {
+    @include grid-column(18);
+  }
+}

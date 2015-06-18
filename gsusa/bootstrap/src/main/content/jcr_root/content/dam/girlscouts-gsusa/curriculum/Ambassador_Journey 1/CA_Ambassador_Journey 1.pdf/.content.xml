@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:pdf="http://ns.adobe.com/pdf/1.3/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2015-05-29T10:53:14.206-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:extracted="{Date}2015-05-29T10:53:12.099-04:00"
+            dam:Producer="Mac OS X 10.5.8 Quartz PDFContext"
+            dam:sha1="20b091a3e87f169e0a80116b340bece5cbfa15f7"
+            dam:size="{Long}64018"
+            dc:format="application/pdf"
+            dc:subject="[null]"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            pdf:Producer="Mac OS X 10.5.8 Quartz PDFContext"
+            xmp:CreateDate="{Date}2009-12-16T20:04:18.000-05:00"
+            xmp:MetadataDate="{Date}2009-12-16T20:04:18.000-05:00"
+            xmp:ModifyDate="{Date}2009-12-16T20:04:18.000-05:00"/>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>

@@ -1,39 +1,36 @@
 package org.girlscouts.vtk.replication;
 
-import com.day.cq.replication.ReplicationAction;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.ReplicationEvent;
-import com.day.cq.replication.ReplicationException;
-import com.day.cq.replication.ReplicationReceiver;
-import com.day.cq.replication.impl.content.durbo.DurboImportResult;
-import com.day.cq.replication.impl.content.durbo.DurboImporter;
-import com.day.jcr.vault.fs.io.ImportOptions;
-import com.day.jcr.vault.packaging.JcrPackage;
-import com.day.jcr.vault.packaging.JcrPackageManager;
-import com.day.jcr.vault.packaging.Packaging;
-import com.day.jcr.vault.util.DefaultProgressListener;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.jcr.Item;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeDefinition;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.osgi.OsgiUtil;
-import org.osgi.service.event.Event;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.day.cq.replication.ReplicationAction;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.impl.content.durbo.DurboImportResult;
+import com.day.cq.replication.impl.content.durbo.DurboImporter;
 
 @Component(metatype=true, immediate=true)
 @Service(VTKReplicationReceiver.class)
@@ -41,6 +38,7 @@ public class ReplicationReceiverImpl
   implements VTKReplicationReceiver
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
+  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk/[0-9]+/troops/([^/]+)");
 
   @Property(longValue=1048576L)
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
@@ -50,7 +48,10 @@ public class ReplicationReceiverImpl
   private EventAdmin eventAdmin;
   private long tmpfileThreshold;
   private DurboImporter durboImporter;
-
+  @Reference
+  private VTKDataCacheInvalidator invalidator;
+  @Reference
+  private TroopHashGenerator troopHashGenerator;
 
   @Activate
   protected void activate(Map<String, Object> props)
@@ -79,6 +80,20 @@ public class ReplicationReceiverImpl
     Node receivedNode = null;
     if (action.getType() == ReplicationActionType.ACTIVATE)
     {
+      // Invalidate cache if it is troop data
+      String path = action.getPath();
+      Matcher troopMatcher = TROOP_PATTERN.matcher(path);
+      String affectedTroop = null;
+      while (troopMatcher.find()) {
+          affectedTroop = troopMatcher.group(1);
+          log.debug("Affected Troop found: " + affectedTroop);
+      }
+      if (affectedTroop != null) {
+          String troopPath = troopHashGenerator.getPath(affectedTroop);
+          log.debug("Invalidate troop: " + troopPath);
+          invalidator.addPath(troopPath);
+      }
+      
       DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
       receivedNode = importResult.getCreatedNode();
 

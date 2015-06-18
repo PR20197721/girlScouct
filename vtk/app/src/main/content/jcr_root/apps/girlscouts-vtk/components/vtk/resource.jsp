@@ -16,26 +16,27 @@
 <%@include file="include/session.jsp"%>
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
-	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
+	final String GLOBAL_MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
+	final String LOCAL_MEETING_AID_PATH = "/content/dam/girlscouts-vtk/local/aid/meetings";
 	final String TYPE_MEETING_AIDS = "meeting-aids";
 	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
-
 <%-- VTK tab --%>
 <%
     String activeTab = "resource";
     boolean showVtkNav = true;
 %>
 
-<%@include file="include/tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
 <div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
 
 <div id="panelWrapper" class="row content">
+<div id="vtkNav"></div>
   <div class="columns large-20 large-centered">
 		<script>
 			var fixVerticalSizing = false;
@@ -130,10 +131,22 @@
 							    // TODO: encode URL
 							    String link = "?category=" + currentMinor.getPath();
 							    String title = currentMinor.getTitle();
-							    long minorCount;
+							    long minorCount = 0;
+								    try{
+								    String levelMeetingsRootPath = getMeetingsRootPath(troop);
+								    Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+								    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+								    while (iter.hasNext()) {
+								    	Resource meetingResource = iter.next();
+								        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
+								        
+								        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId());
+								    	minorCount+= lresources.size();
+								    }
+							    }catch(Exception e){}
 							    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
-							        minorCount = countAidAssets(
-							                MEETING_AID_PATH,
+							        minorCount += countAidAssets(
+							                GLOBAL_MEETING_AID_PATH,
 							                queryBuilder,
 							                resourceResolver.adaptTo(Session.class)
 							        );
@@ -177,11 +190,48 @@
 
 				if (categoryPage != null) {
 				    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+				    	
+				    	%><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+				    	
+				    	//LOCAL AIDS
+				    	try {
+						    String levelMeetingsRootPath = getMeetingsRootPath(troop);
+						    Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+						    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+						    while (iter.hasNext()) {
+						        Resource meetingResource = iter.next();
+						        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
+						        
+						        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId()); 
+						        for(int i=0;i<lresources.size();i++){
+								    org.girlscouts.vtk.models.Asset la = lresources.get(i);
+									String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
+						%>
+								   	<tr>
+					
+										<td width="40">
+						<%
+									if (lAssetImage != null) {
+						%>	
+											<img src="<%= lAssetImage %>" width="40" height="40" border="0"/>
+						<%
+									}
+						%>
+										</td>
+								   		<td><a class="previewItem" href="<%=la.getRefId() %>" target="_blank"><%= la.getTitle() %></a> </td>
+								   		<td width="40">
+								   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+								   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
+								   			<%} %>
+								   			</td>
+					
+									</tr>
+								   	<%
+						        }
+							}
+					    } catch (Exception e) {}
 					  
-					    	
-					   java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,MEETING_AID_PATH+"/"); 
-					 
-					    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+					   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
 					    for(int i=0;i<gresources.size();i++){
 						org.girlscouts.vtk.models.Asset a = gresources.get(i);
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
@@ -226,19 +276,21 @@
 			%>
 	</div>
 </div>
-
+<script>loadNav('resource');</script>
 <%!
-	private long countAllChildren(Page page) {
-		// TODO: Need an effecient way.
-		if (page == null) {
-		    return 0;
-		}
 
+	private long countAllChildren(Page page) {
+		// TODO: Need an efficient way.
 		long count = 1;
 		Iterator<Page> iter = page.listChildren();
-		while (iter.hasNext()) {
-		    Page currentPage = iter.next();
-		    count += countAllChildren(currentPage);
+		if(!iter.hasNext()){
+			count = 0;
+		}
+		else{
+			while (iter.hasNext()) {
+			    Page currentPage = iter.next();
+			    count += countAllChildren(currentPage);
+			}
 		}
 		return count;
 	}

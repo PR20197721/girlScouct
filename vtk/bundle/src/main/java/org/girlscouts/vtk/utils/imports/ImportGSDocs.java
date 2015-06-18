@@ -376,9 +376,7 @@ public class ImportGSDocs {
 
 		if (oldfile.renameTo(newfile)) {
 			System.out.println("Rename succesful");
-
 		} else {
-			System.out.println("Rename failed");
 			return false;
 		}
 		return true;
@@ -576,7 +574,6 @@ public class ImportGSDocs {
 					byte[] tmp = new byte[4 * 1024];
 					java.io.FileOutputStream fos = null;
 					String opFilePath = dir + "/" + zEntry.getName();
-					System.out.println("Extracting file to " + opFilePath);
 					fos = new java.io.FileOutputStream(opFilePath);
 					int size = 0;
 					while ((size = zipIs.read(tmp)) != -1) {
