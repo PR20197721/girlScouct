@@ -1,16 +1,20 @@
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="session.jsp"%>
 
 <%
+org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
 Activity activity = (Activity)planView.getYearPlanComponent();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
-
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
 <script	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
@@ -100,7 +104,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
 	    	//closeMe();
-	    	$('#editCustActiv').foundation('reveal', 'close');
+	    	$('#modal_popup_activity').foundation('reveal', 'close');
 	    }
 	    else {
 	      alert("The form has one or more errors.  Please update the form and try again.");
@@ -151,7 +155,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	function closeMe(){ $('.ui-dialog-content').dialog('close'); }
 </script>
 
-<div id="editCustActiv"  class="reveal-modal" data-reveal>
+<div> <!--   id="editCustActiv"  class="reveal-modal" data-reveal -->
 <div class="header clearfix">
     <h3 class="columns large-22">Edit Activity</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>

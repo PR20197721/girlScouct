@@ -6,7 +6,7 @@
     enabled="{Boolean}true"
     eventType="{Long}1"
     excludeList=""
-    glob="/content/dam/girlscouts-.*/banners/large(/.*/)renditions/original"
+    glob="/content/dam/girlscouts-.*/images/banners/large(/.*/)renditions/original"
     nodetype="nt:file"
     runModes="author"
     workflow="/etc/workflow/models/dam/gs_update_asset_sp_right_hero/jcr:content/model"/>

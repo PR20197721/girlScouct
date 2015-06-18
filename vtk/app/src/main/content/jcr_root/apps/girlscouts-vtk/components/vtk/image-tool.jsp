@@ -1,4 +1,12 @@
-<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+<% 
+if (isImgExists){
+ %>
+   <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+<%}else{%>
+   
+   <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
+<%} %>
+
 <div id="image-tool" style="width:100%"></div>
 
 <script>
@@ -26,7 +34,7 @@ var picData;
 var aspectWeirdness = false; //applies to mobile safari, which has resizing issues
 var aspectRatio = 1;
 var resizeImageInstance;
-var successMsg = "You image has been uploaded. ";
+var successMsg = "Your image has been uploaded. ";
 
 var maxWidth = 960;
 var maxHeight = 340;
@@ -45,6 +53,8 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
 var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
 
 var displayCurrent = function(){
+	
+	
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
 
@@ -66,7 +76,7 @@ var displayCurrent = function(){
     	$('.icon-photo-camera').css("display","auto"); 
     	$('#current-picture').css("width", "100%");
     }
-      
+    
     currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
 
@@ -518,8 +528,14 @@ var displayCurrent = function(){
 	    	y2 = selection.y2;
 	    	width = selection.width;
 	    	height = selection.height;
-	    	submitCrop.disabled = false;
-	    	coordsSelected = true;
+	    	if(width > 1 && height > 1){
+	    		submitCrop.disabled = false;
+	    		coordsSelected = true;
+	    	}
+	    	else{
+	    		submitCrop.disabled = true;
+	    		coordsSelected = false;
+	    	}
 	    };
 	
 	    crop = function(){
@@ -636,13 +652,15 @@ var dataURL = image_target.src;
 	};
 	
 	window.onload=function() {
+		
 		cancelButton.addEventListener('click',cancel, false);
-		displayCurrent();
+		if( <%=isImgExists%>){displayCurrent();}
 	}
 <%} else{
 	%>
+	
 	window.onload=function() {
-		displayCurrent();
+	if( <%=isImgExists%>){displayCurrent();}
 	}<%
 }%>
 
