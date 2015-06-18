@@ -48,13 +48,19 @@ public class VTKDataCacheInvalidator implements Job {
     protected SlingRepository repository;
     
     @Activate
-    public void init() throws RepositoryException {
+    public void init() {
         lock = new Object();
         paths = new HashSet<String>();
         httpClient = new HttpClient();
-        Session session = repository.loginAdministrative(null);
-        flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
-        session.logout();
+        try {
+            Session session = repository.loginAdministrative(null);
+            flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
+            session.logout();
+            log.info("Started.");
+        } catch (RepositoryException e) {
+            log.error("VTKDataCacheInvalidator: RepositoryException while initializing.");
+            e.printStackTrace();
+        }
     }
     
     @Deactivate
@@ -76,7 +82,7 @@ public class VTKDataCacheInvalidator implements Job {
     
     // The method is executed when scheduled time arrives.
     public void execute(JobContext ctx) {
-        log.debug("Execute timestamp: " + System.currentTimeMillis());
+        log.info("VTKDataCacheInvalidator: Execute timestamp: " + System.currentTimeMillis());
         Set<String> _paths;
         synchronized(lock) {
             _paths = paths;
@@ -95,37 +101,37 @@ public class VTKDataCacheInvalidator implements Job {
             scheduler.fireJobAt(JOB_NAME, this, null, new Date(System.currentTimeMillis() + INTERVAL));
            
         } catch (Exception e) {
-            log.error("Job not scheduled. Execute right now.");
+            log.error("VTKDataCacheInvalidator: Job not scheduled. Execute right now.");
             execute(null);
         }
     }
 
     public void invalidateCache(Collection<String> paths) {
         // Heavy lifting that does not require synchronization.
-        log.debug("==================Invalidating cache: ");
+        log.info("VTKDataCacheInvalidator: ==================Invalidating cache: ");
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
-            log.debug("Path: " + path);
+            log.debug("VTKDataCacheInvalidator: Path: " + path);
             get.setRequestHeader("CQ-Action", "Delete");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);
             try {
                 int resStatus = httpClient.executeMethod(get);
                 if (resStatus != 200) {
-                    log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
-                    addPath(path);
+                    log.error("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                    //addPath(path);
                 } else {
-                    log.debug("Successfully invalidate the cache: " + path);
+                    log.info("VTKDataCacheInvalidator: Successfully invalidate the cache: " + path);
                 }
                 
             } catch (Exception e) {
             	
-                log.debug("Cannot invalidate this path: " + path + ". Putting back to the queue.");
-                addPath(path);
+                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                //addPath(path);
             } finally{
             	get.releaseConnection();
             }
         }
-        log.debug("Invalidating cache done ==================");
+        log.info("VTKDataCacheInvalidator: Invalidating cache done ==================");
     }
 }
