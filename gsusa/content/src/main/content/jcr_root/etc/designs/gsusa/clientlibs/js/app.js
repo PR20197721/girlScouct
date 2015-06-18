@@ -117,7 +117,8 @@
 			cookie:true,
 			xfbml:true,
 			oauth:true,
-			channelUrl:"https://www.girlscouts.org/gogoldonlinechannel.ashx"
+			//channelUrl:"https://www.girlscouts.org/gogoldonlinechannel.ashx"
+			channelUrl:"http://girlscouts.org"
 		});
 	};
   
