@@ -31,11 +31,12 @@ div.carousel {
     bottom: rem-calc(-150);
     margin-left: 0;
     position: relative;
-    bottom: rem-calc(-12);
+    bottom: rem-calc(-10);
     text-align: left;
     li {
       height: rem-calc(100);
       width: 23.943662%;
+      margin: 0 .7%;
       &:first-child {
         margin-left: 0;
       }
@@ -143,6 +144,13 @@ div.carousel {
     bottom: 0;
     width: 100%;
     height: rem-calc(90);
+    &.change {
+      z-index: 200;
+      height : rem-calc(60);
+      padding : rem-calc(14 0);
+      opacity : 1;
+      background-color : $white;
+    }
     a {
       font-size: rem-calc(30);
       font-weight: 600;
