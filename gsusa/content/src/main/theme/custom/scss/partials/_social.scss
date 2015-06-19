@@ -1,8 +1,8 @@
 //twitter-feed
 .social-block {
-  max-height: 540px;
+  max-height: rem-calc(410);
   overflow: hidden;
-  height: 100%;
+  height: rem-calc(410);
   margin-bottom: rem-calc(5);
   [class^="icon-"],
   [class*=" icon-"]{
@@ -13,19 +13,19 @@
   }
 }
 .twitter-feed {
-  padding-bottom: rem-calc(97);
+  @include grid-column(8);
+  background-color: $white;
+  position: relative;
+  padding-bottom: rem-calc(45);
   .wrapper {
-    @include grid-column(8);
-    position: relative;
-    padding-bottom: rem-calc(45);
     .scroll-more {
       @include css-triangle(97px, #e8e8e8, top);
       border-top-width: rem-calc(31);
+      border-bottom-width: rem-calc(1);
       position: absolute;
       left: 50%;
       margin-left: -97px;
       cursor: pointer;
-      display: block;
     }
   }
 }

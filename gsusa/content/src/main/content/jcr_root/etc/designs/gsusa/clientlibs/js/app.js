@@ -113,6 +113,9 @@
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
+          try {
+            gsusa.functions.ToggleParsysAll.toggleAll(true);
+          } catch (ignore) {}
           if ($(window).width() <= 640) {
             target.css({
               "min-height" : "100",
@@ -126,6 +129,9 @@
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
           target.hide("slow");
+          try {
+            gsusa.functions.ToggleParsysAll.toggleAll(false);
+          } catch (ignore) {}
           e.stopPropagation();
           return false;
         });
@@ -187,17 +193,21 @@
     });
   }
   function scroll_feeds() {
-    $('.scroll-more').bind("click", function () {
-      var feed_height = $('.social-block').scrollTop() + $('.social-block').outerHeight();
-      var inner_height = $('.twitter-timeline-rendered').height();
+    $('.scroll-more').bind("click", function (e) {
+      var target = $(e.target);
+      var scroll_area = $(this).siblings('.social-block');
+
+      var feed_height = scroll_area.scrollTop() + scroll_area.outerHeight();
+      var inner_height = scroll_area.parents().find('.twitter-timeline-rendered').height();
+
       if (feed_height >= inner_height) {
-        $('.social-block').animate({
+        scroll_area.animate({
           scrollTop: 0
         }, 500);
         return false;
       }
-      $('.social-block').animate({
-        scrollTop: "+=" + $('.social-block').height() + "px"
+      scroll_area.animate({
+        scrollTop: "+=" + scroll_area.height() + "px"
       }, 500);
     });
   }
