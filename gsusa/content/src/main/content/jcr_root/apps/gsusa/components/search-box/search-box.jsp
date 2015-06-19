@@ -12,7 +12,9 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 } else {
 	action = currentSite.get(searchAction,String.class);
 %>
-	<form action="<%=action%>.html" method="get">
-		<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField" />
+	<form action="<%=action%>.html" method="get" class="search-form">
+		<input type="text" name="q" placeholder="<%=placeholderText %>" />
 	</form>
 <%}%>
+
+
