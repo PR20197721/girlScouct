@@ -496,7 +496,7 @@ public class SalesforceDAO {
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
-					}catch(Exception e){e.printStackTrace(); troop.setRole("DP");}
+					}catch(Exception e){e.printStackTrace();/* troop.setRole("DP");*/}
 					
 					
 					
