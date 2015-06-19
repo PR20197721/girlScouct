@@ -64,13 +64,29 @@
 }
 //left column navigation
 .left-nav {
+  @include grid-row($behavior: nest-collapse);
+  margin-top: rem-calc(54);
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
+    @include grid-column(20, $collapse: true);
     li {
+      // height: rem-calc(36);
+      padding: rem-calc(8 0 6 0);
+      a {
+        padding-left: rem-calc(11);
+      }
       &.active,
       &.current {
+        background: #e3e3e3;
+        position: relative;
+        &:after {
+          @include css-triangle(18px, #e3e3e3, left);
+          right: rem-calc(-36);
+          top: 0;
+          position: absolute;
+        }
         a {
           font-weight: 700;
         }
