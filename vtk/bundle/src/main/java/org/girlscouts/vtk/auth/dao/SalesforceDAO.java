@@ -455,6 +455,9 @@ public class SalesforceDAO {
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+System.err.println("tata: troop **OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
+		+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
@@ -474,6 +477,7 @@ public class SalesforceDAO {
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
+//System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -496,7 +500,7 @@ public class SalesforceDAO {
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
-					}catch(Exception e){e.printStackTrace(); troop.setRole("DP");}
+					}catch(Exception e){e.printStackTrace(); /*troop.setRole("DP");*/}
 					
 					
 					

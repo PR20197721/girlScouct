@@ -662,7 +662,13 @@ function bindAssetToYPC(assetId, ypcId){
 }
 
 
-function doMeetingLib(){
+function doMeetingLib(isMsgConf){
+    if( !isMsgConf ){
+		
+		if( !confirm("This action will create a meeting outside of the current GirlScouts school year. Would you like to proceed?") ){
+			return;
+		}
+	}
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
 }
 

@@ -18,7 +18,16 @@
 	    councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
    		branch = mapper.getCouncilBranch(councilId);
 	} catch (Exception e) {
-	    String refererCouncil = (String)session.getAttribute("refererCouncil");
+	    Cookie[] cookies = request.getCookies();
+	    String refererCouncil = null;
+	    if (cookies != null) {
+	    	for (Cookie cookie : cookies) {
+	    	    if (cookie.getName().equals("vtk_referer_council")) {
+	    	        refererCouncil = cookie.getValue();
+	    	    }
+	    	}
+	    }
+
 	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
 	        branch = "/content/" + refererCouncil;
 	    } else {
