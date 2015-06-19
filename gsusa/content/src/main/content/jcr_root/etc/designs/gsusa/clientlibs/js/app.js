@@ -203,14 +203,6 @@
       }, 500);
     });
   }
-  // $('.slider-nav').slick({
-  //   slidesToShow: 1,
-  //   slidesToScroll: 4,
-  //   asNavFor: '.inner-sliders',
-  //   dots: false,
-  //   arrows: true,
-  // });
-
 
   fix_bottom_footer();
   slide_search_bar();
