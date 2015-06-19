@@ -114,6 +114,9 @@
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
+          try {
+            gsusa.functions.ToggleParsysAll.toggleAll(true);
+          } catch (e) {}
           if ($(window).width() <= 640) {
             target.css({
               "min-height" : "100",
@@ -127,6 +130,9 @@
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
           target.hide("slow");
+          try {
+            gsusa.functions.ToggleParsysAll.toggleAll(false);
+          } catch (e) {}
           e.stopPropagation();
           return false;
         });
