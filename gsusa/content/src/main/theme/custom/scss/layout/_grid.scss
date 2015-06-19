@@ -1,19 +1,39 @@
 .right-col,
 .left-col {
-    @include grid-column(5);
+    @include grid-column(24);
+    @media #{$medium-up} {
+      @include grid-column(5);
+    }
   }
 .two-cols {
-  .middle-col{
-    @include grid-column(19);
+  .middle-col {
+    @include grid-column(24);
+    @media #{$medium-up} {
+      @include grid-column(18);
+    }
   }
 }
 .three-cols {
-  .middle_col{
-    @include grid-column(14);
+  .middle-col {
+    @include grid-column(24);
+    @media #{$medium-up} {
+      @include grid-column(13);
+    }
+  }
+  .right-col {
+    @include grid-column(24);
+    @media #{$medium-up} {
+      @include grid-column(6);
+    }
   }
 }
 .one-cols {
   .middle-col {
     @include grid-column(24);
+  }
+}
+@media #{$small-only} {
+  .left-col {
+    display: none;
   }
 }

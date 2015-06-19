@@ -38,9 +38,6 @@ public class SentEmail implements Serializable {
 	public SentEmail(EmailMeetingReminder emr) {
 		this.uid="MR" + new Date().getTime() + "_" + Math.random();
 		this.sentDate=new Date();
-//		if(emr.getTo()!=null && !emr.getTo().isEmpty()){
-//			addresses=emr.getTo()+";";
-//		}
 		if(emr.getCc()!=null && !emr.getCc().isEmpty()){
 			addresses+=emr.getCc();
 		}
@@ -57,7 +54,6 @@ public class SentEmail implements Serializable {
 		this.path = path;
 	}
 
-	
 	private void generateDiffString(String template, String copy){
 		List<String> original = Arrays.asList(template.split("\r?\n|\r"));
 		List<String> revised = Arrays.asList(copy.split("\r?\n|\r"));
@@ -81,9 +77,6 @@ public class SentEmail implements Serializable {
 			pfe.printStackTrace();
 		}
         return htmlMsg;
-
-
-        
 	}
 	
 	public String getUid() {

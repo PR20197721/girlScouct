@@ -323,7 +323,4 @@ public class Activity extends YearPlanComponent implements Serializable {
 	public void setImg(String img) {
 		this.img = img;
 	}
-
-	
-	
 }

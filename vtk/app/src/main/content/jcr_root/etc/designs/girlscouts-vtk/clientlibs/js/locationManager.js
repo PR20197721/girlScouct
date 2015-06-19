@@ -32,6 +32,7 @@ function applyLocToAllMeetings(locationPath){
 		},
 		success: function(result) {
 			//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+			alert("Location successfully modified.");
 			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 		}
 	});
@@ -56,6 +57,7 @@ function updLocations(locationPath,idName){
 		},
 		success: function(result) {
 			//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+			alert("Location successfully modified.");
 			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 			
 		}

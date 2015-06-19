@@ -7,16 +7,12 @@ import java.util.Set;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-
-
 @Node(jcrMixinTypes = "mix:lockable")
 public class Finance implements Serializable {
-
 	
 	public static final String INCOME = "income";
 	public static final String EXPENSES = "expenses";
 	public static final String PERIOD = "period";
-	
 	private static final long serialVersionUID = 8084860336298434137L;
 
 	@Field(path = true)
@@ -29,7 +25,6 @@ public class Finance implements Serializable {
 	public Map<String, Double> income;
 	
 	public Finance(){
-		
 	}
 
 	@Field(id = true)
@@ -43,9 +38,6 @@ public class Finance implements Serializable {
 		this.income = income;
 	}
 	
-	
-	
-
 	public String getPath() {
 		return path;
 	}
@@ -89,7 +81,5 @@ public class Finance implements Serializable {
 	public void setFinancialQuarter(int financialQuarter) {
 		this.financialQuarter = financialQuarter;
 	}
-
-	
 
 }

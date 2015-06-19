@@ -6,7 +6,7 @@
     enabled="{Boolean}true"
     eventType="{Long}16"
     excludeList=""
-    glob="/content/dam/girlscouts-.*/logo/medium(/.*/)renditions/original"
+    glob="/content/dam/girlscouts-.*/images/logo/medium(/.*/)renditions/original"
     nodetype="nt:file"
     runModes="author"
     workflow="/etc/workflow/models/dam/gs_update_asset_medium_logo/jcr:content/model"/>
