@@ -16,9 +16,13 @@
     	<div>
     	    <cq:include path="header/eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
         </div>
-        <form action="/content/gsusa/en/site-search.html" method="get" class="search-form">
+        <div>
+    	    <cq:include path="header/search" resourceType="gsusa/components/search-box" />
+        </div>
+        
+        <!-- <form action="/content/gsusa/en/site-search.html" method="get" class="search-form">
             <input type="search" name="q" placeholder="Search" />
-        </form>
+        </form> -->
     </section>
 </div>
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
