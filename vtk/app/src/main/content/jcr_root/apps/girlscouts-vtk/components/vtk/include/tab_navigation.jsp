@@ -118,7 +118,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
             <ul class="dropdown">
             <% if("plan".equals(activeTab)  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
               <li><a onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
-              <li><a onclick="doMeetingLib()">Add Meeting</a></li>
+              <li><a onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add Meeting</a></li>
               <li><a onclick="newActivity()">Add Activity</a></li>
               <li><a onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a></li>
             <% } %>
@@ -151,14 +151,12 @@ PlanView planView = meetingUtil.planView(user, troop, request);
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
                        if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
                     	  if (meetingPath != null && meetingPath != ""  ) {
-                          Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
+                          //Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
                           
                             
                           %>
                           
-                        <li>
-                        <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-                        </li>
+                        <li id="replaceMeetingSmall"></li>
                         <%
                         }
                     } catch (Exception te) {
