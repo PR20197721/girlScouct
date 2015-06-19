@@ -16,7 +16,7 @@
     	<div>
     	    <cq:include path="header/eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
         </div>
-        <form action="/content/gateway/en/site-search.html" method="get" class="search-form">
+        <form action="/content/gsusa/en/site-search.html" method="get" class="search-form">
             <input type="search" name="q" placeholder="Search" />
         </form>
     </section>
