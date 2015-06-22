@@ -9,10 +9,13 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 		%>
 **PLEASE ENTER A FILE PATH
 		<%
-	} else {
+	} else if (!path.equals("")) {
 		//Categorize scholarship pages by type
 		PageManager pm = resourceResolver.adaptTo(PageManager.class);
 		Page parent = pm.getPage(path);
+		if (parent == null){
+			break;
+		}
 		Iterator<Page> children = parent.listChildren();
 		TreeMap<String,ArrayList<Node>> map = new TreeMap<String,ArrayList<Node>>();
 		SortedSet<String> types = new TreeSet<String>();
