@@ -110,26 +110,24 @@
   fix_bottom_footer();
   slide_search_bar();
   
-	window.fbAsyncInit = function(){
-		FB.init({
-			appId:"419540344831322",
-			status:true,
-			cookie:true,
-			xfbml:true,
-			oauth:true,
-			//channelUrl:"https://www.girlscouts.org/gogoldonlinechannel.ashx"
-			channelUrl:"http://girlscouts.org"
-		});
-	};
-  
-  var addthis_config = addthis_config || {};
-  addthis_config.data_track_addressbar = false;
-  addthis_config.data_track_clickback = false;
-  
-  addthis.addEventListener('addthis.ready', function (e) {
-      feederize('419540344831322',
-          "Registration",
-          "");
-  });
+  FB.init({appId: "812732212178798", status: true, cookie: true});
 
 }(jQuery));
+  	
+function postToFeed() {
+    	 
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          link: 'http://author-girlscouts-dev2.adobecqms.net',
+          name: 'Title here',
+          caption: 'Caption here',
+          description: 'Description here'
+        };
+ 
+        function callback(response) {
+        	console.log("Post ID: " + response['post_id']);
+        }
+ 
+        FB.ui(obj, callback);
+      }

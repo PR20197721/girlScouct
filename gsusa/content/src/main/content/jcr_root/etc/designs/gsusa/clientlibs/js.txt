@@ -5,7 +5,6 @@ foundation.min.js
 slick.min.js
 twitter-feed-widget.js
 addthis_widget.js
-feederizer.js
 all.js
 
 app.js

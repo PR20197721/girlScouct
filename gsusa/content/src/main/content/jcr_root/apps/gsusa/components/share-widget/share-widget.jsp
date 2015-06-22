@@ -21,15 +21,18 @@ if(!fb && !twitter && !pinterest){
 }else{
 	%> <div id="addthisToolbox_<%= uniqueId %>" class="addthis_toolbox addthis_default_style addthis_32x32_style" style="margin:2px"> <%
 	if(fb){
-		sb = new StringBuilder();
+		/*sb = new StringBuilder();
 		sb.append("<a id=\"addthis_button_facebook" + uniqueId + "\" class=\"addthis_button_facebook\" addthis:url=\"" + url + "\"");
 		if(!title.equals("")){
 			sb.append(" addthis:title=\"" + title + "\"");
 		}
 		if(!otherMsg.equals("")){
 			sb.append(" addthis:description=\"" + otherMsg + "\"");
-		}
-		sb.append("></a>");
+		}		
+		sb.append("></a>");*/
+		
+		sb.append("<a onclick=\"postToFeed(); return false;\">Post to Feed</a>");
+		
 		%> <%= sb.toString() %> <%
 	} if(twitter){
 		sb = new StringBuilder();
