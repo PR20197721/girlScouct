@@ -13,8 +13,8 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 	<p>**Please select at least one search type</p>
 	
 	<% }else{ 
+		path = path + ".html";
 	%>
-	
 	<p>Find Councils</p>
 	
 	<% if(zip == true){ %>
@@ -34,7 +34,4 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 		Council Code: <input type="text" name="council-code">
 	</form>
 	<% } %>
-	
-	<div id = "<%= divId %>"></div>
-
 <% } %>
