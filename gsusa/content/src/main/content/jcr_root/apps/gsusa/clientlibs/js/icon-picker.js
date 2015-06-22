@@ -23,7 +23,7 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
                     'myId',  // numeric value is the key
                     'displayText'
                 ],
-                data: [[1, 'item1'], [2, 'item2']]  // data is local
+                data: [['css1', 'item1'], ['css2', 'item2']]  // data is local
             }),
             valueField: 'myId',
             displayField: 'displayText',
@@ -31,13 +31,15 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
             listeners:{
                 scope: this,
                 'select': function() {
-                	alert('hello' + this.comboField.getValue());
+                    console.info(this.comboField.getValue());
+                    $(this.labelField.el.dom).addClass(this.comboField.getValue());
                 }
             }
         });
         this.add(this.comboField);
 
-        this.add(new CQ.Ext.form.Label({text: "ICON"}));
+        this.labelField = new CQ.Ext.form.Label({text: "ICON"});
+        this.add(this.labelField);
     },
 
     // overriding CQ.form.CompositeField#setValue
