@@ -18,6 +18,7 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
         this.comboField = new CQ.Ext.form.ComboBox({
             mode: 'local',
             anyMatch: true,
+            hiddenName: this.name,
             store: new CQ.Ext.data.ArrayStore({
                 id: 0,
                 fields: [
