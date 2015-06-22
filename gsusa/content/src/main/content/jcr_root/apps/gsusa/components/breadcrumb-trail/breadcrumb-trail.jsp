@@ -1,5 +1,4 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%!
 	int MAX_TITLE = 58;
 	public String trimTitle(String str) {
