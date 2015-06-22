@@ -190,8 +190,8 @@
   }
   function scroll_feeds() {
     $('.scroll-more').bind("click", function () {
-      var feed_height = $('.social-block').scrollTop() + $('.social-block').outerHeight();
-      var inner_height = $('.twitter-timeline-rendered').height();
+      var feed_height = $('.social-block').scrollTop() + $('.social-block').outerHeight(),
+        inner_height = $('.twitter-timeline-rendered').height();
       if (feed_height >= inner_height) {
         $('.social-block').animate({
           scrollTop: 0
