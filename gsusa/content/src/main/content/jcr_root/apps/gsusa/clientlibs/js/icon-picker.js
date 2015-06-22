@@ -32,7 +32,7 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
                 scope: this,
                 'select': function() {
                     console.info(this.comboField.getValue());
-                    $(this.labelField.el.dom).addClass(this.comboField.getValue());
+                    $(this.labelField.el.dom).attr('class', this.comboField.getValue());
                 }
             }
         });
