@@ -27,7 +27,13 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
             }),
             valueField: 'myId',
             displayField: 'displayText',
-            triggerAction: 'all'
+            triggerAction: 'all',
+            listeners:{
+                scope: this,
+                'select': function() {
+                	alert('hello' + this.comboField.getValue());
+                }
+            }
         });
         this.add(this.comboField);
 
