@@ -1,6 +1,9 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><% 
+	}
 	String title = properties.get("title", "FEATURED STORY");
 
 	String description = properties.get("description", "");

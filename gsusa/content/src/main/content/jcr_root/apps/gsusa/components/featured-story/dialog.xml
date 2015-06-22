@@ -19,6 +19,11 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Description"
                         name="./description"/>
+                    <icon
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Icon"
+                        xtype="iconpicker"
+                        name="icon"/>
                     <background-color
                         jcr:primaryType="cq:Widget"
                         colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"

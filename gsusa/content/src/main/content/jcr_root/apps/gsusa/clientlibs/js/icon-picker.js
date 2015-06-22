@@ -15,21 +15,23 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
     initComponent: function() {
         gsusa.components.IconPicker.superclass.initComponent.call(this);
 
-        this.hiddenField = new CQ.Ext.form.Hidden({
-            name: this.name
+        this.comboField = new CQ.Ext.form.ComboBox({
+            mode: 'local',
+            store: new CQ.Ext.data.ArrayStore({
+                id: 0,
+                fields: [
+                    'myId',  // numeric value is the key
+                    'displayText'
+                ],
+                data: [[1, 'item1'], [2, 'item2']]  // data is local
+            }),
+            valueField: 'myId',
+            displayField: 'displayText',
+            triggerAction: 'all'
         });
-        this.add(this.hiddenField);
+        this.add(this.comboField);
 
-        this.add(new CQ.Ext.form.Label({text: "Label"}));
-        this.labelField = new CQ.Ext.form.TextField({
-            listeners: {
-                change: {
-                    scope:this,
-                    fn:this.updateHidden
-                }
-            }
-        });
-        this.add(this.labelField);
+        this.add(new CQ.Ext.form.Label({text: "ICON"}));
     },
 
     // overriding CQ.form.CompositeField#setValue
