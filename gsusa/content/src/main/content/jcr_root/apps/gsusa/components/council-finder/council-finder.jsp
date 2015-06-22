@@ -5,40 +5,33 @@
 boolean zip = properties.get("zip",false);
 boolean state = properties.get("state", false);
 boolean councilCode = properties.get("council-code", false);
+String path = properties.get("path","");
 
-if(zip == false && state == false && councilCode == false && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(path.equals("") || (zip == false && state == false && councilCode == false) && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
 
 	<p>**Please select at least one search type</p>
 	
 	<% }else{ 
-	long rand = System.currentTimeMillis();
-	String divId = "council-finder-output" + rand;
 	%>
 	
 	<p>Find Councils</p>
 	
 	<% if(zip == true){ %>
-	<form class="zipSearch">
+	<form class="zipSearch" action="<%= path %>" method="get">
 		Zip Code: <input type="text" name="zip">
-		<input type="hidden" name="url" value="<%= currentNode.getPath() %>">
-		<input type="hidden" name="div-id" value= "<%= divId %>">
 	</form>
 	<% } %>
 	
 	<% if(state == true){ %>
-	<form class="stateSearch">
-		State: <input type="text" name="state">
-		<input type="hidden" name="url" value="<%= currentNode.getPath() %>">
-		<input type="hidden" name="div-id" value= "<%= divId %>">
+	<form class="stateSearch" action="<%= path %>" method="get">
+		State (Abbreviated e.g. 'NY'): <input type="text" name="state">
 	</form>
 	<% } %>
 	
 	<% if(councilCode == true){ %>
-	<form class="councilCodeSearch">
+	<form class="councilCodeSearch" action="<%= path %>" method="get">
 		Council Code: <input type="text" name="council-code">
-		<input type="hidden" name="url" value="<%= currentNode.getPath() %>">
-		<input type="hidden" name="div-id" value= "<%= divId %>">
 	</form>
 	<% } %>
 	
