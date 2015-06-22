@@ -32,20 +32,24 @@ gsusa.components.IconPicker= CQ.Ext.extend(CQ.form.CompositeField, {
             triggerAction: 'all',
             listeners:{
                 scope: this,
-                'select': function() {
-                    $(this.labelField.el.dom).attr('class', this.comboField.getValue() + ' icon-picker-label');
-                }
+                'select': this.updateIcon
             }
         });
         this.add(this.comboField);
 
         this.labelField = new CQ.Ext.form.Label();
         this.add(this.labelField);
-    },
 
+    },
+    
+    updateIcon: function() {
+        $(this.labelField.el.dom).attr('class', this.comboField.getValue() + ' icon-picker-label');
+    },
+    
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
         this.comboField.setValue(value);
+        this.updateIcon();
     },
 
     // overriding CQ.form.CompositeField#getValue
