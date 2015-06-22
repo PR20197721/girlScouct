@@ -31,10 +31,20 @@
           && target.closest(".story").css('display') !== 'none') {
         $(".story").hide("slow");
       }
-      if (target.closest('.join a').length === 0
+      if (target.closest('.join .wrapper').length === 0
           && target.closest(".join section").css('display') !== 'none') {
         $('.join section').fadeOut('500', function () {
           $('.join a').fadeIn('slow');
+        });
+      }
+      if (target.closest('.hero-feature').length === 0
+          && target.closest(".hero-feature").css('display') !== 'none') {
+        $('.position').animate({
+          'opacity': 0,
+        }, 100, function () {
+          $('.hero-feature .overlay').fadeOut();
+          $('.position').css('z-index', '-1');
+          $('.join').removeClass('change');
         });
       }
     });
@@ -104,13 +114,6 @@
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
-          if (typeof gsusa.functions.ToggleParsysAll.toggleAll !== 'undefined') {
-             gsusa.functions.ToggleParsysAll.toggleAll(true);
-          }
-          // target.animate({
-          //   opacity: 1,
-          //   visibility: 'visible'
-          // }, 500);
           if ($(window).width() <= 640) {
             target.css({
               "min-height" : "100",
@@ -124,30 +127,96 @@
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
           target.hide("slow");
-          // target.animate({
-          //   opacity: 0,
-          //   visibility: 'hidden'
-          // }, 500);
           e.stopPropagation();
-          if (typeof gsusa.functions.ToggleParsysAll.toggleAll !== 'undefined') {
-              gsusa.functions.ToggleParsysAll.toggleAll(false);
-          }
           return false;
         });
       });
     }
   }
 
-  $('.hero-feature ul').slick({
+  $('.main-slider').slick({
     dots: false,
     infinite: true,
     speed: 500,
     fade: true,
-    cssEase: 'linear'
+    autoplay: true,
+    arrows: false,
+    cssEase: 'linear',
+    // onAfterChange: function (slick) {
+    //   console.log(slick.$slides);
+    //   if ($(".inner-sliders ul").is(':visible')) {
+    //     slick.slickPause();
+    //   }
+    // }
   });
+  $('.inner-sliders .inner').slick({
+    dots: false,
+    infinite: false,
+    speed: 500,
+    fade: false,
+    dotsClass: 'slick-dots',
+    cssEase: 'linear',
+    arrows: true,
+  });
+
+  $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
+    dots: true,
+    infinite: false,
+    speed: 500,
+    fade: true,
+    dotsClass: 'slick-dots',
+    cssEase: 'linear',
+    arrows: false,
+    customPaging: function (slick, index) {
+      return slick.$slides.eq(index).find('img').prop('outerHTML');
+    }
+  });
+  function explore_button() {
+    $(".hero-text .button").on("click", function () {
+      $('.main-slider').slick('slickPause');
+      $('.main-slider').slick({
+        autoplay: false
+      });
+      console.log('first carousel paused');
+      $('.overlay').fadeIn();
+      if ($(".position").css("opacity") === '0') {
+        $(".position").animate({
+          'opacity': 1
+        }, 1000);
+        $(".position").css('z-index', '100');
+        $('.join').addClass('change');
+      }
+    });
+  }
+  function scroll_feeds() {
+    $('.scroll-more').bind("click", function () {
+      var feed_height = $('.social-block').scrollTop() + $('.social-block').outerHeight();
+      var inner_height = $('.twitter-timeline-rendered').height();
+      if (feed_height >= inner_height) {
+        $('.social-block').animate({
+          scrollTop: 0
+        }, 500);
+        return false;
+      }
+      $('.social-block').animate({
+        scrollTop: "+=" + $('.social-block').height() + "px"
+      }, 500);
+    });
+  }
+  // $('.slider-nav').slick({
+  //   slidesToShow: 1,
+  //   slidesToScroll: 4,
+  //   asNavFor: '.inner-sliders',
+  //   dots: false,
+  //   arrows: true,
+  // });
+
+
   fix_bottom_footer();
   slide_search_bar();
   show_hide_features();
   document_close_all();
+  explore_button();
   join_now();
+  scroll_feeds();
 }(jQuery));

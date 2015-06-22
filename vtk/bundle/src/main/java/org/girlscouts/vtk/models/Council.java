@@ -14,7 +14,6 @@ public class Council implements Serializable {
 
 	public Council(String path) {
 		this.path = path;
-
 	}
 
 	@Field(path = true)

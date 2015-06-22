@@ -136,9 +136,4 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
-	
-	
-
-	
-	
 }

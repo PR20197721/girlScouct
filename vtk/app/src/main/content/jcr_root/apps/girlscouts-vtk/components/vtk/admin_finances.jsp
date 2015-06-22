@@ -39,9 +39,9 @@
 	boolean hasAdminPermissions = true;
 	String financeFieldTag = "";
 %>
-<%@include file="include/admin_tab_navigation.jsp"%>
+ <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail finances">
-<%@include file="include/utility_nav.jsp"%>
+<div id="vtkNav"></div>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
 			
@@ -144,3 +144,4 @@
 
 //-->
 </script>
+<script>loadNav('finances')</script>

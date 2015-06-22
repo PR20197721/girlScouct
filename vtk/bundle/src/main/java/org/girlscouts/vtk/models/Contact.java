@@ -6,9 +6,6 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Contact implements java.io.Serializable, Comparable<Contact> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9143046810103196285L;
 
 	@Field(id = true)

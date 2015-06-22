@@ -42,6 +42,14 @@ cTrans.put("664", "Oregon and SW Washington");
 cTrans.put("234", "North East Ohio");
 cTrans.put("661", "Sierra Nevada");
 
+
+cTrans.put("664", "Oregon & SW Wash");
+cTrans.put("240", "Western Ohio");
+cTrans.put("607", "Arizona Cactus Pine");
+cTrans.put("536", "Kansas Heartland");
+cTrans.put("563", "Western Oklahoma");
+cTrans.put("564", "Eastern Oklahoma");
+
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
 		
@@ -327,13 +335,8 @@ cTrans.put("661", "Sierra Nevada");
 			
 			
 			if( users.get(i).getSfTroopAge()==null ){
-				//System.err.println("testss : "+ (users.get(i).getYearPlan()==null ));
 				String ref= users.get(i).getYearPlan().getMeetingEvents().get(0).getRefId();
-				//System.err.println("REf: "+ ref);
-			//System.err.println("test: "+ users.get(i).getRefId());	
-				String planId = ref.substring( ref.lastIndexOf("/") +1).toLowerCase();
-			//System.err.println( "plaI: " +planId );
-				
+			    String planId = ref.substring( ref.lastIndexOf("/") +1).toLowerCase();	
 				if( planId.startsWith("d"))
 					users.get(i).setSfTroopAge("1-Daisy");
 				else if( planId.startsWith("b"))
@@ -341,10 +344,8 @@ cTrans.put("661", "Sierra Nevada");
 				else if( planId.startsWith("j"))
 					users.get(i).setSfTroopAge("3-Junior");
 			}
-			//System.err.println( users.get(i).getSfTroopAge() );
 		  }catch(Exception e){e.printStackTrace();}
 		}
-		
 		return users;
 	}
 
@@ -363,9 +364,7 @@ cTrans.put("661", "Sierra Nevada");
 	
 	public java.util.List<String> getTroops( java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container, 
 			String council){
-		
-		java.util.List <String> troops =new java.util.ArrayList<String>();
-		
+		java.util.List <String> troops =new java.util.ArrayList<String>();	
 		for(int i=0;i<container.size();i++){
 			org.girlscouts.vtk.models.YearPlanRpt ypr = container.get(i);
 			if( ypr.getCouncil().equals( council) && !troops.contains(ypr.getTroop())  )

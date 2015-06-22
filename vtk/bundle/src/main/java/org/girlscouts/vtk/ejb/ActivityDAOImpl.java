@@ -2,13 +2,11 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -17,19 +15,15 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Filter;
-import org.apache.jackrabbit.ocm.query.Query;
-import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
-import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
-import org.girlscouts.vtk.models.ActivitySearch;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
@@ -80,7 +74,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			classes.add(Asset.class);
 			classes.add(Milestone.class);
 			classes.add(SentEmail.class);
-
+			classes.add(MeetingCanceled.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -214,7 +208,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 			if (!isFound)
 				isActivity = false;
 
-			// log.debug("ChL "+ isActivity);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -312,9 +305,9 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		return activity;
 	}
-	
+
 	public boolean updateActivity(User user, Troop troop, Activity activity)
-			throws IllegalAccessException, IllegalStateException{
+			throws IllegalAccessException, IllegalStateException {
 
 		Session session = null;
 		if (troop != null
@@ -337,7 +330,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 					mapper);
 			ocm.update(activity);
 			ocm.save();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

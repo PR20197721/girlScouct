@@ -11,13 +11,9 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Achievement implements Serializable {
 
-	@Field(path = true)
-	private String path;
-	@Field(id = true)
-	private String id;
-	@Field
-	String users; // sf id
-
+	@Field(path = true) private String path;
+	@Field(id = true) private String id;
+	@Field String users; // sf id
 	@Field int total;
 	
 	public String getPath() {

@@ -2,12 +2,10 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.jcr.Session;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -19,12 +17,9 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
-//import org.apache.jackrabbit.ocm.query.Query;
-//import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
-import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
@@ -51,20 +46,15 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			classes.add(YearPlan.class);
 			classes.add(Meeting.class);
 			classes.add(Cal.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(YearPlan.class);
-
 			java.util.Calendar today = java.util.Calendar.getInstance();
-			// int year = today.get(java.util.Calendar.YEAR);
-
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
 					+ user.getCurrentYear() + "/" + ageLevel + "/");
-
 			Query query = queryManager.createQuery(filter);
 			yearPlans = (List<YearPlan>) ocm.getObjects(query);
 
@@ -176,7 +166,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-
 		return toRet;
 	}
 }

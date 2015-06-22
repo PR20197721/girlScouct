@@ -134,6 +134,4 @@ public class Location implements Serializable {
 		this.isDbUpdate = isDbUpdate;
 	}
 
-	
-	
 }

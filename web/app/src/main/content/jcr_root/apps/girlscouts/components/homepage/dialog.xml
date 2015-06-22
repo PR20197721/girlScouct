@@ -136,6 +136,16 @@
                             name="./headerImagePath"
                             rootPath="/content/dam"
                             xtype="pathfield"/>
+                        <primary-email
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Primary email address to receive the rollout notification."
+                            fieldLabel="Primary Email Address"
+                            name="./email1"/>
+                        <backup-email
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Backup email address to receive the rollout notification."
+                            fieldLabel="Backup Email Address"
+                            name="./email2"/>
                     </items>
                 </girl-scouts>
             </items>

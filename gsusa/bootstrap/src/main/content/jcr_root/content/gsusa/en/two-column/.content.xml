@@ -2,8 +2,8 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-06-15T13:21:07.447-04:00"
-        cq:lastModifiedBy="admin"
+        cq:lastModified="{Date}2015-06-15T13:18:39.556-04:00"
+        cq:lastModifiedBy="dlubin"
         cq:template="/apps/girlscouts/templates/page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
@@ -16,25 +16,20 @@
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
-                    <council-careers
+                    <iframe
                         jcr:created="{Date}2015-06-15T13:18:36.852-04:00"
                         jcr:createdBy="dlubin"
-                        jcr:lastModified="{Date}2015-06-15T13:20:28.675-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:lastModified="{Date}2015-06-15T13:18:36.852-04:00"
+                        jcr:lastModifiedBy="dlubin"
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="gsusa/components/iframe"
-                        scrolling="Auto"
-                        src="http://www.girlscouts.org/who_we_are/careers/_iframe_default.asp"/>
-                    <hq-careers
+                        sling:resourceType="gsusa/components/iframe"/>
+                    <iframe_0
                         jcr:created="{Date}2015-06-15T13:18:39.554-04:00"
                         jcr:createdBy="dlubin"
-                        jcr:lastModified="{Date}2015-06-15T13:21:07.444-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:lastModified="{Date}2015-06-15T13:18:39.554-04:00"
+                        jcr:lastModifiedBy="dlubin"
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="gsusa/components/iframe"
-                        height="3400"
-                        scrolling="Auto"
-                        src="http://www.recruitingcenter.net/clients/girlscouts/publicjobs"/>
+                        sling:resourceType="gsusa/components/iframe"/>
                 </par>
             </right>
         </content>

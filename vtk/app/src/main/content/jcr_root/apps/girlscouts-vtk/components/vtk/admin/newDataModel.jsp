@@ -50,15 +50,12 @@ int count=0;
 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext();) {
 	javax.jcr.query.Row r = it.nextRow();
 	javax.jcr.Value excerpt = r.getValue("jcr:path");
-	//paths.add( excerpt.getString() );
-	//System.err.println("Adding path: "+ excerpt.getString());
 	String p = excerpt.getString();
 	
 	javax.jcr.Node t =  jcr_session.getNode( p );
 	javax.jcr.NodeIterator itr= t.getNodes();
 	if( t.getNodes().getSize()>1 ){
 		count++;
-		//out.println("<hr/>");
 		%>
 		 
 			<tr style="background-color:gray;">
@@ -87,26 +84,10 @@ for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext();) {
 			
 			if( lastMod!=null)
 				NoTs=false;
-			
-			/*
-			Node n_sched =null;
-			try{ 
-				n_sched = jcr_session.getNode(n.getPath()+"/yearPlan/schedule");
-				sched++;	
-			}catch(Exception e){e.printStackTrace();}
-			
-			Node n_location =null;
-			try{ 
-				n_location = jcr_session.getNode(n.getPath()+"/yearPlan/locations");
-				
-			}catch(Exception e){e.printStackTrace();}
-			*/
 			Node n_cust =null;
 			try{ 
 				n_cust = jcr_session.getNode(n.getPath()+"/lib");
 			}catch(Exception e){}
-			
-			
 			
 			Node n_year =null;
 			try{ 

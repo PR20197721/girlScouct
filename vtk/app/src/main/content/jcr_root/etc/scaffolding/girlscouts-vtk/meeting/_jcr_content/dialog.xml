@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Properties">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <ocm_classname
+                    jcr:primaryType="cq:Widget"
+                    value="org.girlscouts.vtk.models.Meeting"
+                    name="./ocm_classname"
+                    xtype="hidden"/>
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    value="girlscouts-vtk/components/vtk-data"
+                    name="./sling:resourceType"
+                    xtype="hidden"/>
+                <vtkDataType
+                    jcr:primaryType="cq:Widget"
+                    value="meeting"
+                    name="./vtkDataType"
+                    xtype="hidden"/>
+                <id
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Id"
+                    regex="/^[a-zA-Z][0-9a-zA-Z]*$/"
+                    regexText="ID should begin with an alphabet and contain only alphabets and digits."
+                    allowBlank="{Boolean}false"
+                    fieldSubLabel="e.g. B14B01"
+                    name="./id"/>
+                <level
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Level"
+                    allowBlank="{Boolean}false"
+                    name="./level"
+                    xtype="selection"
+                    type="radio">
+                    <options
+                        jcr:primaryType="cq:WidgetCollection">
+                        <brownie
+                            jcr:primaryType="nt:unstructured"
+                            text="Brownie"
+                            value="Brownie"/>
+                        <daisy
+                            jcr:primaryType="nt:unstructured"
+                            text="Daisy"
+                            value="Daisy"/>
+                        <junior
+                            jcr:primaryType="nt:unstructured"
+                            text="Junior"
+                            value="Junior"/>
+                    </options>
+                </level>
+                <name
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Name"
+                    allowBlank="{Boolean}false"
+                    name="./name"/>
+                <meeting_short_description
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Meeting Short Description"
+                    allowBlank="{Boolean}false"
+                    name="./meetingInfo/meeting short description/str"/>
+                <blurb
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Blurb"
+                    allowBlank="{Boolean}false"
+                    name="./blurb"/>
+                <cat
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Category"
+                    allowBlank="{Boolean}false"
+                    name="./cat"/>
+                <aidTags
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Aid Tags"
+                    name="./aidTags"
+                    namespaces="[girlscouts-vtk]"
+                    xtype="vtk-tags"/>
+                <resources
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Resources"
+                    name="./resources"
+                    namespaces="[girlscouts-vtk]"
+                    xtype="vtk-tags"/>
+                <isAchievement
+                    jcr:primaryType="cq:Widget"
+                    checkboxBoolTypeHint="{Boolean}true"
+                    fieldLabel="Is Achievement"
+                    name="./isAchievement"
+                    type="checkbox"
+                    xtype="selection"/>
+                <overview
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Overview"
+                    name="./meetingInfo/overview/str"
+                    allowBlank="{Boolean}false"
+                    xtype="richtext">
+                    <rtePlugins jcr:primaryType="nt:unstructured">
+                        <links jcr:primaryType="nt:unstructured">
+                            <linkDialogConfig
+                                jcr:primaryType="nt:unstructured"
+                                height="{Long}316">
+                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                    <linkAdvanced
+                                        jcr:primaryType="cq:Widget"
+                                        collapsed="{Boolean}true"
+                                        collapsible="{Boolean}true"
+                                        inputValue="advanced"
+                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+                                        title="Link tracking"
+                                        xtype="dialogfieldset">
+                                        <items jcr:primaryType="cq:WidgetCollection">
+                                            <enable
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="enabletracking"
+                                                fieldDescription="override analytics framework settings"
+                                                fieldLabel="Custom link tracking"
+                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                xtype="checkbox">
+                                                <listeners
+                                                    jcr:primaryType="nt:unstructured"
+                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                            </enable>
+                                            <events
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevents"
+                                                fieldDescription="e.g.: event2, event7"
+                                                fieldLabel="Include SiteCatalyst events"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                xtype="textfield"/>
+                                            <evars
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevars"
+                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                fieldLabel="Include SiteCatalyst variables"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                xtype="textfield"/>
+                                        </items>
+                                    </linkAdvanced>
+                                </linkAttributes>
+                            </linkDialogConfig>
+                        </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                    </rtePlugins>
+                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+                        <chars jcr:primaryType="nt:unstructured">
+                            <em-dash
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
+                        </chars>
+                    </specialCharsConfig>
+                </overview>
+                <overview_ocm
+                    jcr:primaryType="cq:Widget"
+                    name="./meetingInfo/overview/ocm_classname"
+                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    xtype="hidden"/>
+                <detailed_activity_plan
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Detailed Activity Plan"
+                    allowBlank="{Boolean}false"
+                    name="./meetingInfo/detailed activity plan/str"
+                    xtype="richtext">
+                    <rtePlugins jcr:primaryType="nt:unstructured">
+                        <links jcr:primaryType="nt:unstructured">
+                            <linkDialogConfig
+                                jcr:primaryType="nt:unstructured"
+                                height="{Long}316">
+                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                    <linkAdvanced
+                                        jcr:primaryType="cq:Widget"
+                                        collapsed="{Boolean}true"
+                                        collapsible="{Boolean}true"
+                                        inputValue="advanced"
+                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+                                        title="Link tracking"
+                                        xtype="dialogfieldset">
+                                        <items jcr:primaryType="cq:WidgetCollection">
+                                            <enable
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="enabletracking"
+                                                fieldDescription="override analytics framework settings"
+                                                fieldLabel="Custom link tracking"
+                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                xtype="checkbox">
+                                                <listeners
+                                                    jcr:primaryType="nt:unstructured"
+                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                            </enable>
+                                            <events
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevents"
+                                                fieldDescription="e.g.: event2, event7"
+                                                fieldLabel="Include SiteCatalyst events"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                xtype="textfield"/>
+                                            <evars
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevars"
+                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                fieldLabel="Include SiteCatalyst variables"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                xtype="textfield"/>
+                                        </items>
+                                    </linkAdvanced>
+                                </linkAttributes>
+                            </linkDialogConfig>
+                        </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                    </rtePlugins>
+                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+                        <chars jcr:primaryType="nt:unstructured">
+                            <em-dash
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
+                        </chars>
+                    </specialCharsConfig>
+                </detailed_activity_plan>
+                <detailed_activity_plan_ocm
+                    jcr:primaryType="cq:Widget"
+                    name="./meetingInfo/detailed activity plan/ocm_classname"
+                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    xtype="hidden"/>
+                <materials
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Materials"
+                    name="./meetingInfo/materials/str"
+                    allowBlank="{Boolean}false"
+                    xtype="richtext">
+                    <rtePlugins jcr:primaryType="nt:unstructured">
+                        <links jcr:primaryType="nt:unstructured">
+                            <linkDialogConfig
+                                jcr:primaryType="nt:unstructured"
+                                height="{Long}316">
+                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                    <linkAdvanced
+                                        jcr:primaryType="cq:Widget"
+                                        collapsed="{Boolean}true"
+                                        collapsible="{Boolean}true"
+                                        inputValue="advanced"
+                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+                                        title="Link tracking"
+                                        xtype="dialogfieldset">
+                                        <items jcr:primaryType="cq:WidgetCollection">
+                                            <enable
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="enabletracking"
+                                                fieldDescription="override analytics framework settings"
+                                                fieldLabel="Custom link tracking"
+                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                xtype="checkbox">
+                                                <listeners
+                                                    jcr:primaryType="nt:unstructured"
+                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                            </enable>
+                                            <events
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevents"
+                                                fieldDescription="e.g.: event2, event7"
+                                                fieldLabel="Include SiteCatalyst events"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                xtype="textfield"/>
+                                            <evars
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevars"
+                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                fieldLabel="Include SiteCatalyst variables"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                xtype="textfield"/>
+                                        </items>
+                                    </linkAdvanced>
+                                </linkAttributes>
+                            </linkDialogConfig>
+                        </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                    </rtePlugins>
+                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+                        <chars jcr:primaryType="nt:unstructured">
+                            <em-dash
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
+                        </chars>
+                    </specialCharsConfig>
+                </materials>
+                <materials_ocm
+                    jcr:primaryType="cq:Widget"
+                    name="./meetingInfo/materials/ocm_classname"
+                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    xtype="hidden"/>
+                <email_invite
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Email Invite"
+                    name="./meetingInfo/email invite/str"
+                    xtype="richtext">
+                    <rtePlugins jcr:primaryType="nt:unstructured">
+                        <links jcr:primaryType="nt:unstructured">
+                            <linkDialogConfig
+                                jcr:primaryType="nt:unstructured"
+                                height="{Long}316">
+                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                    <linkAdvanced
+                                        jcr:primaryType="cq:Widget"
+                                        collapsed="{Boolean}true"
+                                        collapsible="{Boolean}true"
+                                        inputValue="advanced"
+                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+                                        title="Link tracking"
+                                        xtype="dialogfieldset">
+                                        <items jcr:primaryType="cq:WidgetCollection">
+                                            <enable
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="enabletracking"
+                                                fieldDescription="override analytics framework settings"
+                                                fieldLabel="Custom link tracking"
+                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                xtype="checkbox">
+                                                <listeners
+                                                    jcr:primaryType="nt:unstructured"
+                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                            </enable>
+                                            <events
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevents"
+                                                fieldDescription="e.g.: event2, event7"
+                                                fieldLabel="Include SiteCatalyst events"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                xtype="textfield"/>
+                                            <evars
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevars"
+                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                fieldLabel="Include SiteCatalyst variables"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                xtype="textfield"/>
+                                        </items>
+                                    </linkAdvanced>
+                                </linkAttributes>
+                            </linkDialogConfig>
+                        </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                    </rtePlugins>
+                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+                        <chars jcr:primaryType="nt:unstructured">
+                            <em-dash
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
+                        </chars>
+                    </specialCharsConfig>
+                </email_invite>
+                <email_invite_ocm
+                    jcr:primaryType="cq:Widget"
+                    name="./meetingInfo/email invite/ocm_classname"
+                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    xtype="hidden"/>
+                <email_summary
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Email Summary"
+                    name="./meetingInfo/email summary/str"
+                    xtype="richtext">
+                    <rtePlugins jcr:primaryType="nt:unstructured">
+                        <links jcr:primaryType="nt:unstructured">
+                            <linkDialogConfig
+                                jcr:primaryType="nt:unstructured"
+                                height="{Long}316">
+                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                    <linkAdvanced
+                                        jcr:primaryType="cq:Widget"
+                                        collapsed="{Boolean}true"
+                                        collapsible="{Boolean}true"
+                                        inputValue="advanced"
+                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+                                        title="Link tracking"
+                                        xtype="dialogfieldset">
+                                        <items jcr:primaryType="cq:WidgetCollection">
+                                            <enable
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="enabletracking"
+                                                fieldDescription="override analytics framework settings"
+                                                fieldLabel="Custom link tracking"
+                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                xtype="checkbox">
+                                                <listeners
+                                                    jcr:primaryType="nt:unstructured"
+                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                            </enable>
+                                            <events
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevents"
+                                                fieldDescription="e.g.: event2, event7"
+                                                fieldLabel="Include SiteCatalyst events"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                xtype="textfield"/>
+                                            <evars
+                                                jcr:primaryType="nt:unstructured"
+                                                attribute="adhocevars"
+                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                fieldLabel="Include SiteCatalyst variables"
+                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                xtype="textfield"/>
+                                        </items>
+                                    </linkAdvanced>
+                                </linkAttributes>
+                            </linkDialogConfig>
+                        </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                    </rtePlugins>
+                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+                        <chars jcr:primaryType="nt:unstructured">
+                            <em-dash
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
+                        </chars>
+                    </specialCharsConfig>
+                </email_summary>
+                <email_summary_ocm
+                    jcr:primaryType="cq:Widget"
+                    name="./meetingInfo/email summary/ocm_classname"
+                    value="org.girlscouts.vtk.models.JcrCollectionHoldString"
+                    xtype="hidden"/>
+                <agenda-label
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Agenda"
+                    xtype="label"/>
+                <agenda
+                    jcr:primaryType="cq:Widget"
+                    hideLabel="{Boolean}true"
+                    name="./agenda"
+                    xtype="vtk-agendalist">
+                    <fieldConfig
+                        jcr:primaryType="nt:unstructured"
+                        xtype="vtk-agenda"/>
+                </agenda>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>
