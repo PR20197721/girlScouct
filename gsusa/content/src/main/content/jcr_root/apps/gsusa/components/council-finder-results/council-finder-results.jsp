@@ -46,7 +46,9 @@ else{
 		<script>
 		$.ajax(
 				{url: "<%= ajax %>",
-					success: display(response)
+					success: function(response){
+						display(response);
+						}
 					});
 		</script>
 		<%
