@@ -8,10 +8,10 @@
 	    description = "No Description";
 	}
 	String bgcolor = properties.get("bgcolor", "E70C82");
-	bgcolor = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ',' 
+	bgcolor = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 	        + hexToDec(bgcolor.substring(2, 4)) + ','
 	        + hexToDec(bgcolor.substring(4, 6)) + ", .8)";
-	
+
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
@@ -35,7 +35,7 @@
             </div>
             <span class="icon-cross"></span>
         </div>
-        <div class="contents">
+        <div class="contents clearfix">
             <cq:include path="par" resourceType="foundation/components/parsys" />
         </div>
     </div>

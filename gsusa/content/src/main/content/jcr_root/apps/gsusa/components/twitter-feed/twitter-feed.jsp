@@ -8,7 +8,7 @@
     }
 	else{
     	int width = properties.get("width",520);
-        int height = properties.get("height",600);
+        int height = properties.get("height",460);
         int tweetLimit = properties.get("tweetLimit",-1);
 		%>
         <div class="wrapper clearfix">
@@ -22,7 +22,7 @@
     			<%if(tweetLimit != -1) { %>
     				data-tweet-limit="<%=tweetLimit%>"
                 <% } %>
-                    width="100%">
+                    width="100%" height="460px">
     				Tweets by @<%= username %>
     			</a>
     		</div>
