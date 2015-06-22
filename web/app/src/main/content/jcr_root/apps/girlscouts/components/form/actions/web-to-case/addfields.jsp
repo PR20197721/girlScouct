@@ -31,10 +31,10 @@
 //get the counicl code
 String councilCode = "111";
 ConfigManager configs=sling.getService(ConfigManager.class);
-String mappings = configs.getConfig("councilMapping");
+String[] mappings = configs.getCouncilMapping();
 System.out.print(mappings);
 HashMap<String,String> councilMap = new HashMap<String, String>();
-/* if (mappings != null) {
+ if (mappings != null) {
   for (int i = 0; i < mappings.length; i++) {
     String[] configRecord = mappings[i].split("::");
     if (configRecord.length >= 2) {
@@ -44,7 +44,7 @@ HashMap<String,String> councilMap = new HashMap<String, String>();
           + mappings[i]);
     }
   }
-} */
+} 
 final String pagePath = currentPage.getPath();
 // /content/gsctx/en/formpage -> gsctx
 int pos = pagePath.indexOf('/', 1);
@@ -53,7 +53,7 @@ int pos = pagePath.indexOf('/', 1);
         branch = branch.substring(0, pos);
 if(councilMap.get(branch)!=null){
 councilCode = councilMap.get(branch);
-} 
+}  
 
 
 
@@ -61,4 +61,4 @@ councilCode = councilMap.get(branch);
     final ValueMap props = ResourceUtil.getValueMap(resource);
     String cwrw = props.get("cwrw", "cw");
 %>
-<input type="hidden" name="origin" value="<%= branch+cwrw %>">
+<input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
