@@ -4,6 +4,7 @@ import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+import com.day.cq.wcm.foundation.forms.FormsConstants;
 
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.Email;
@@ -36,10 +37,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
-import org.apache.commons.httpclient.*;
-import org.apache.commons.httpclient.methods.*;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.NameValuePair;
+import org.apache.commons.httpclient.Header;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.HttpException;
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 
 @Component(metatype = false)
@@ -54,20 +62,21 @@ public class WebtoCaseServlet extends SlingAllMethodsServlet
 implements OptingServlet {
 	protected static final String EXTENSION = "html";
 
-	protected static final String NAME = "name";
-    protected static final String FORM_ACTION = "formAction";
-    protected static final String CW_RW = "cwrw";
-
-    protected static final String MAILTO_PROPERTY = "mailto";
-    protected static final String CC_PROPERTY = "cc";
-    protected static final String BCC_PROPERTY = "bcc";
-    protected static final String SUBJECT_PROPERTY = "subject";
-    protected static final String FROM_PROPERTY = "from";
-    protected final Logger logger = LoggerFactory.getLogger(getClass());
-
-    @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
-    protected MailService mailService;
+    protected static final String URL_PROPERTY = "formActionURL";
+//    protected static final String CW_RW_PROPERTY = "cwrw";
     
+    protected static final String ORIGIN = "origin";
+
+	protected static final String NAME = "name";
+    protected static final String EMAIL = "email";
+    protected static final String PHONE = "phone";
+    protected static final String PREFERRED_METHOD_OF_CONTACT = "00NG000000DdNmM";
+    protected static final String BEST_TIME_TO_CALL = "00NG000000DdNmL";
+    protected static final String ZIP_CODE = "00NG000000DdNmN";
+    protected static final String SUBJECT = "subject";
+    protected static final String DESCRIPTION = "description";
+    protected final Logger logger = LoggerFactory.getLogger(getClass());
+    private List<NameValuePair> data = new LinkedList<NameValuePair>();
     /**
      * @see org.apache.sling.api.servlets.OptingServlet#accepts(org.apache.sling.api.SlingHttpServletRequest)
      */
@@ -82,6 +91,7 @@ implements OptingServlet {
                          SlingHttpServletResponse response)
             throws ServletException, IOException {
         this.doPost(request, response);
+       
     }
 
     /**
@@ -91,8 +101,6 @@ implements OptingServlet {
                           SlingHttpServletResponse response)
             throws ServletException, IOException {
 
-        
-
         if (ResourceUtil.isNonExistingResource(request.getResource())) {
             logger.debug("Received fake request!");
             response.setStatus(500);
@@ -101,260 +109,110 @@ implements OptingServlet {
         final ResourceBundle resBundle = request.getResourceBundle(null);
 
         final ValueMap props = ResourceUtil.getValueMap(request.getResource());
-    	String url = props.get(FORM_ACTION, "https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
+    	String url = props.get(URL_PROPERTY, "https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
         String id = props.get(FormsConstants.START_PROPERTY_FORMID, "");
-    	callHttpClient(url);
         
-//        final String[] mailTo = values.get(MAILTO_PROPERTY, String[].class);
         int status = 200;
-//        if (mailTo == null || mailTo.length == 0 || mailTo[0].length() == 0) {
-//            // this is a sanity check
-//            logger.error("The mailto configuration is missing in the form begin at " + request.getResource().getPath());
-//
-//            status = 500;
-//        } else if (localService == null) {
-//            logger.error("The mail service is currently not available! Unable to send form mail.");
-//
-//            status = 500;
-//        } else {
-//            try {
-                final StringBuilder builder = new StringBuilder();
-                builder.append(request.getScheme());
-                builder.append("://");
-                builder.append(request.getServerName());
-                if ((request.getScheme().equals("https") && request.getServerPort() != 443)
-                        || (request.getScheme().equals("http") && request.getServerPort() != 80)) {
-                    builder.append(':');
-                    builder.append(request.getServerPort());
-                }
-                builder.append(request.getRequestURI());
-                
-             // let's get all parameters first and sort them alphabetically!
-                final List<String> contentNamesList = new ArrayList<String>();
-                final Iterator<String> names = FormsHelper.getContentRequestParameterNames(request);
-                while (names.hasNext()) {
-                    final String name = names.next();
-                    contentNamesList.add(name);
-                }
-                Collections.sort(contentNamesList);
 
-                final List<String> namesList = new ArrayList<String>();
-                final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
-                while (fields.hasNext()) {
-                    final Resource field = fields.next();
-                    final FieldDescription[] descs = FieldHelper.getFieldDescriptions(request, field);
-                    for (final FieldDescription desc : descs) {
-                        // remove from content names list
-                        contentNamesList.remove(desc.getName());
-                        if (!desc.isPrivate()) {
-                            namesList.add(desc.getName());
-                        }
-                    }
-                }
-                namesList.addAll(contentNamesList);
-
-                // construct msg
-                final StringBuilder buffer = new StringBuilder();
-                //buffer.append(text);
-//
-//                // we sort the names first - we use the order of the form field and
-//                // append all others at the end (for compatibility)
-//                
-//                String nameString = "";
-//                String memberNameString = "";
-//                String messageString = "";
-//
-//                // now add form fields to message
-//                // and uploads as attachments
-//                final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
-//                
-//                if(request.getParameterValues("comments") != null){
-//                	final String[] commentValues = request.getParameterValues("comments");
-//                	buffer.append("Message: ");
-//                    for (final String v : commentValues) {
-//                    	buffer.append(v);
-//                    	buffer.append("\n\n");
-//                    }
-//                }
-//                
-//                for (final String name : namesList) {
-//                    final RequestParameter rp = request.getRequestParameter(name);
-//                    if (rp == null) {
-//                        //see Bug https://bugs.day.com/bugzilla/show_bug.cgi?id=35744
-//                        logger.debug("skipping form element {} from mail content because it's not in the request", name);
-//                    } else if (rp.isFormField()) {
-//                    	if(name.equals("reason")){
-//                    		buffer.append("#category ");
-//                    	}
-//                    	else if(name.equals("email")){
-//                    		buffer.append("#creator ");
-//                    	}
-//                    	else if(name.equals("phone")){
-//                    		buffer.append("#set Phone=");
-//                    	}
-//                    	else if(name.equals("memberName")){
-//                    		buffer.append("#set Member Name=");
-//                    	}
-//                    	else if(name.equals("dob")){
-//                    		buffer.append("#set Member Date of Birth=");
-//                    	}
-//                    	else if(name.equals("address")){
-//                    		buffer.append("#set Address=");
-//                    	}
-//                    	else if(name.equals("city")){
-//                    		buffer.append("#set City=");
-//                    	}
-//                    	else if(name.equals("state")){
-//                    		buffer.append("#set State=");
-//                    	}
-//                    	else if(name.equals("zipcode")){
-//                    		buffer.append("#set Zip=");
-//                    	}
-//                    	else if(!name.equals("name") && !name.equals("comments") && !name.equals("Submit")){
-//                    		buffer.append("#set " + name + " ");
-//                    	}
-//                        final String[] pValues = request.getParameterValues(name);
-//                        for (final String v : pValues) {
-//                        	if(name.equals("name")){
-//                        		nameString=v;
-//                        	}
-//                        	else if(name.equals("memberName")){
-//                        		memberNameString = v;
-//                        		buffer.append(v);
-//                        		buffer.append("\n");
-//                        	}
-//                        	else if(!name.equals("comments") && !name.equals("Submit")){
-//                        		buffer.append(v);
-//                        		buffer.append("\n");
-//                        	}
-//                        }
-//                    } else if (rp.getSize() > 0) {
-//                        attachments.add(rp);
-//
-//                    } else {
-//                        //ignore
-//                    }
-//                }
-//                // if we have attachments we send a multi part, otherwise a simple email
-//                final Email email;
-//                if (attachments.size() > 0) {
-//                    buffer.append("\n");
-//                    buffer.append(resBundle.getString("Attachments"));
-//                    buffer.append(":\n");
-//                    final MultiPartEmail mpEmail = new MultiPartEmail();
-//                    email = mpEmail;
-//                    for (final RequestParameter rp : attachments) {
-//                        final ByteArrayDataSource ea = new ByteArrayDataSource(rp.getInputStream(), rp.getContentType());
-//                        mpEmail.attach(ea, rp.getFileName(), rp.getFileName());
-//
-//                        buffer.append("- ");
-//                        buffer.append(rp.getFileName());
-//                        buffer.append("\n");
-//                    }
-//                } else {
-//                    email = new SimpleEmail();
-//                }
-//                email.setCharset("utf-8");
-//                email.setMsg(buffer.toString());
-//                // mailto
-//                for (final String rec : mailTo) {
-//                    email.addTo(rec);
-//                }
-//                // cc
-//                final String[] ccRecs = values.get(CC_PROPERTY, String[].class);
-//                if (ccRecs != null) {
-//                    for (final String rec : ccRecs) {
-//                        email.addCc(rec);
-//                    }
-//                }
-//                // bcc
-//                final String[] bccRecs = values.get(BCC_PROPERTY, String[].class);
-//                if (bccRecs != null) {
-//                    for (final String rec : bccRecs) {
-//                        email.addBcc(rec);
-//                    }
-//                }
-//
-//                // subject and from address
-//                //final String subject = values.get(SUBJECT_PROPERTY, resBundle.getString("Form Mail"));
-//                final String subject = nameString + " | " + memberNameString;
-//                email.setSubject(subject);
-//                final String fromAddress = values.get(FROM_PROPERTY, "");
-//                if (fromAddress.length() > 0) {
-//                    email.setFrom(fromAddress);
-//                }
-//                if (this.logger.isDebugEnabled()) {
-//                    this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
-//                            new Object[]{fromAddress, mailTo, subject, buffer});
-//                }
-//                localService.sendEmail(email);
-//
-//            } catch (EmailException e) {
-//                logger.error("Error sending email: " + e.getMessage(), e);
-//                status = 500;
-//            }
-//        }
-        // check for redirect
-        String redirectTo = request.getParameter(":redirect");
-        if (redirectTo != null) {
-            if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
-                int pos = redirectTo.indexOf('?');
-                redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
-                response.sendRedirect(redirectTo);
-            } else {
-                logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
-                response.sendError(403);
+        final StringBuilder builder = new StringBuilder();
+        builder.append(request.getScheme());
+        builder.append("://");
+        builder.append(request.getServerName());
+        if ((request.getScheme().equals("https") && request.getServerPort() != 443)
+                || (request.getScheme().equals("http") && request.getServerPort() != 80)) {
+            builder.append(':');
+            builder.append(request.getServerPort());
+        }
+        builder.append(request.getRequestURI());
+        
+        
+        for(Iterator<String> itr=FormsHelper.getContentRequestParameterNames(request); itr.hasNext();){
+    		final String paraName=itr.next();
+            RequestParameter[] paras = request.getRequestParameters(paraName);
+            for(RequestParameter paraValue : paras){
+            	if(paraValue.isFormField()){//do not support file upload
+            		 data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
+            	}
+            							
             }
-            return;
         }
-        if (FormsHelper.isRedirectToReferrer(request)) {
-            FormsHelper.redirectToReferrer(request, response,
-                    Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
-            return;
-        }
+    	PostMethod method = callHttpClient(url);
+    	status = method.getStatusCode();
         response.setStatus(status);
+        for(Header header:method.getResponseHeaders()){
+            response.setHeader(header.getName(), header.getValue());
+        }
+        response.getWriter().write(method.getResponseBodyAsString());
+        response.getWriter().flush();
+
+             
+        // check for redirect
+//        String redirectTo = request.getParameter(":redirect");
+//        if (redirectTo != null) {
+//            if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
+//                int pos = redirectTo.indexOf('?');
+//                redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
+//                response.sendRedirect(redirectTo);
+//            } else {
+//                logger.error("Invalid redirect specified: {}", new Object[]{redirectTo});
+//                response.sendError(403);
+//            }
+//            return;
+//        }
+        
+        String redirectLocation;
+        Header locationHeader = method.getResponseHeader("location");
+        if (locationHeader != null) {
+            redirectLocation = locationHeader.getValue();
+        } else {
+            // The response is invalid and did not provide the new location for
+            // the resource.  Report an error or possibly handle the response
+            // like a 404 Not Found error.
+        }
+//        if (FormsHelper.isRedirectToReferrer(request)) {
+//            FormsHelper.redirectToReferrer(request, response,
+//                    Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+//            return;
+//        }
+        
     }
     
-    private void callHttpClient(String url) {
+    private PostMethod callHttpClient(String url) {
     	// Create an instance of HttpClient.
         HttpClient client = new HttpClient();
 
         // Create a method instance.
         PostMethod method = new PostMethod(url);
-        NameValuePair[] data = {
-          new NameValuePair("user", "joe"),
-          new NameValuePair("password", "bloggs")
-        };
-        method.setRequestBody(data);     
+        NameValuePair[] dataArray = data.toArray(new NameValuePair[data.size()]);
+        method.setRequestBody(dataArray);     
         method.addRequestHeader("Content-Type","application/x-www-form-urlencoded");
         // Provide custom retry handler is necessary
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
         		new DefaultHttpMethodRetryHandler(3, false));
-
         try {
           // Execute the method.
           int statusCode = client.executeMethod(method);
           if (statusCode != HttpStatus.SC_OK) {
-            System.err.println("Method failed: " + method.getStatusLine());
+            logger.error("Method failed: " + method.getStatusLine());
           }
 
           // Read the response body.
-          byte[] responseBody = method.getResponseBody();
-
+          String responseBody = method.getResponseBodyAsString();
           // Deal with the response.
           // Use caution: ensure correct character encoding and is not binary data
-          System.out.println(new String(responseBody));
+          System.out.println(responseBody);
 
         } catch (HttpException e) {
-          System.err.println("Fatal protocol violation: " + e.getMessage());
+          logger.error("Fatal protocol violation: " + e.getMessage());
           e.printStackTrace();
         } catch (IOException e) {
-          System.err.println("Fatal transport error: " + e.getMessage());
+          logger.error("Fatal transport error: " + e.getMessage());
           e.printStackTrace();
         } finally {
           // Release the connection.
           method.releaseConnection();
-        } 
+        }
+        return method;
 		
 	}
 
