@@ -21,7 +21,7 @@
 
 
     Page trail = null;
-    long level = 3;
+    long level = 2;
     int currentLevel = currentPage.getDepth();
     while (level < currentLevel - 1) {
         trail = currentPage.getAbsoluteParent((int) level);
@@ -59,7 +59,7 @@
         }
         String displayTitle = trimTitle(title);
         %>
-        <span class="breadcrumbCurrent"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
+        <span class="breadcrumb-current"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
         <%
             if (trailStr.length() > 0) {
             %><%= xssAPI.filterHTML(trailStr) %><%
