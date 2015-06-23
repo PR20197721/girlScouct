@@ -38,11 +38,11 @@ if(theseDamDocuments.equals("")){
 	Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
 	if (matcher.find()) {
 		theseDamDocuments = "/" + matcher.group(1) + "/dam/girlscouts-" +  matcher.group(2) + "/documents";
-			
+
 	}
 }
 long startTime = System.nanoTime();
-mapPath.put("group.2_path", theseDamDocuments); 
+mapPath.put("group.2_path", theseDamDocuments);
 mapPath.put("group.4_path", documentLocation);
 PredicateGroup predicatePath =PredicateGroup.create(mapPath);
 Map mapFullText = new HashMap();
@@ -71,42 +71,42 @@ query.setExcerpt(true);
 SearchResult result = query.getResult();
 List<Hit> hits = result.getHits();
 %>
-<center>
-     <form action="${currentPage.path}.html" id="searchForm">
-        <input type="text" name="q" value="${escapedQueryForAttr}" class="searchField" />
-     </form>
-</center>
-<br/>
+
+<form action="${currentPage.path}.html" id="searchForm" class="row">
+    <input type="text" name="q" value="${escapedQueryForAttr}" class="searchField" />
+    <input type="submit" value="search" class="button" />
+</form>
+
 <%if(hits.isEmpty()){ %>
     <fmt:message key="noResultsText">
       <fmt:param value="${escapedQuery}"/>
     </fmt:message>
- <%} else{ %>
-    <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
-  <br/>
+<% } else { %>
+    <p><strong>
+        <%= properties.get("resultPagesText","Results for")%> "${escapedQuery}"
+    </strong></p>
+    <ul class="search-row">
 <%
-	for(Hit hit: hits){
-		try{
+
+	for(Hit hit: hits) {
+		try {
 			DocHit docHit = new DocHit(hit);
 			String path = docHit.getURL();
 			int idx = path.lastIndexOf('.');
 			String extension = idx >= 0 ? path.substring(idx + 1) : "";
 			%>
-			<br/>
-		<%
-		if(!extension.isEmpty() && !extension.equals("html")){
-		%>
-			<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
-		<%}%>
-			<a href="<%=path%>"><%=docHit.getTitle() %></a>
-			<div>
-				<%=docHit.getExcerpt()%>
-			</div>
-			<br/>
-		 <%}catch(Exception w){}
-	}	
-}
-%>
+            <li>
+                <% if(!extension.isEmpty() && !extension.equals("html")) { %>
+                <span class="icon type_<%=extension%>"><!-- <img src="/etc/designs/default/0.gif" alt="*"> --></span>
+                <% } %>
+                <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
+                <p><%=docHit.getExcerpt()%></p>
+            </li>
+        <% } catch(Exception w) {}
+    } %>
+    </ul>
+<% } %>
+
 <script>
 jQuery('#searchForm').bind('submit', function(event){
 	if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === ''){
