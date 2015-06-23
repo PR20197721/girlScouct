@@ -9,15 +9,16 @@ else{
 	<div id="results-area"></div>
 	<script>
 		var res = $("#results-area");
-		var display = function(json){
-			if (json.councils == undefined){
+		var display = function(data){
+			console.log(data);
+			if (data.councils == undefined){
 				res.html("<p>It looks like something went wrong with your search. Please try again</p>");
 			}
-			else if(json.councils.length == 0){
+			else if(data.councils.length == 0){
 				res.html("<p>No results found</p>");
 			}
 			else{
-				for(council in json.councils){
+				for(council in data.councils){
 					res.append("<div class=\"council\"");
 					res.append("<p><strong>" + council.councilFullName + "</strong></p>");
 					res.append("<p>" + council.city + ", " + council.state + " " + council.zipcode + "</p>");
@@ -41,37 +42,26 @@ else{
 	String state = slingRequest.getParameter("state");
 	String code = slingRequest.getParameter("council-code");
 	if(zip != null){
-		String ajax = "/councilfinder/ajax_results.asp?zip=" + zip;
+		String url = "/councilfinder/ajax_results.asp?zip=" + zip;
 		%>
 		<script>
-		$.ajax(
-				{url: "<%= ajax %>",
-					success: function(response){
-						display(response);
-						}
-					});
+		$.get("<%= url %>",display);
 		</script>
 		<%
 	}
 	if(state != null){
-		String ajax = "/councilfinder/ajax_results.asp?state=" + state.toUpperCase();
+		String url = "/councilfinder/ajax_results.asp?state=" + state.toUpperCase();
 		%>
 		<script>
-		$.ajax(
-				{url: "<%= ajax %>",
-					success: display(response)
-					});
+		$.get("<%= url %>",display);
 		</script>
 		<%
 	}
 	if(code != null){
-		String ajax = "/councilfinder/ajax_results.asp?code=" + code;
+		String url = "/councilfinder/ajax_results.asp?code=" + code;
 		%>
 		<script>
-		$.ajax(
-				{url: "<%= ajax %>",
-					success: display(response)
-					});
+		$.get("<%= url %>",display);
 		</script>
 		<%
 	}
