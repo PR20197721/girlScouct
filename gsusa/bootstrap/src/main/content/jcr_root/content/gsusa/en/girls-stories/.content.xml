@@ -8,7 +8,7 @@
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Girl Scouts USA"
+        jcr:title="Girl Stories Main"
         jcr:uuid="8f0c8d81-8903-40be-89e8-067d7cbe301a"
         sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">

@@ -11,7 +11,7 @@
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Search | Girl Scouts USA"
+        jcr:title="Search"
         jcr:uuid="23484ab7-f1f0-4299-bd2a-557f1a6e7169"
         sling:resourceType="gsusa/components/page"
         seoTitle="Search | Girl Scouts USA">
