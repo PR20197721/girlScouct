@@ -827,4 +827,113 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			e.printStackTrace();
 		} 
 	}
+	
+	private Page buildWebToCasePage(PageManager manager, Session session, String path, String councilTitle, String councilName){
+		Page returnPage = null;
+		
+		try {
+			returnPage = manager.create(path, "web-to-case", "/apps/girlscouts/templates/three-column-page", "Submit a Case");
+			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
+			jcrNode.setProperty("sling:resourceType", "girlscouts/components/three-column-page");
+			jcrNode.setProperty("seoTitle", "Submit a Case | " + councilTitle);
+			jcrNode.setProperty("hideInNav", true);
+			
+			Node contentNode = jcrNode.addNode("content");
+			contentNode.setPrimaryType("nt:unstructured");
+			
+			Node middleNode = contentNode.addNode("middle");
+			middleNode.setPrimaryType("nt:unstructured");
+			
+			Node parNode = middleNode.addNode("par");
+			parNode.setPrimaryType("nt:unstructured");
+			parNode.setProperty("sling:resourceType", "foundation/components/parsys");
+			
+			Node formStartNode = parNode.addNode("form_start");
+			formStartNode.setProperty("actionType","girlscouts/components/form/actions/web-to-case");
+			formStartNode.setProperty("formid","web-to-case");
+			formStartNode.setProperty("cwrw","cw");
+			formStartNode.setProperty("formActionURL","https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
+			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
+			
+			Node titleNode = parNode.addNode("title");
+			titleNode.setPrimaryType("nt:unstructured");
+			titleNode.setProperty("sling:resourceType", "girlscouts/components/title");
+			titleNode.setProperty("title","Submit a Case to Volunteer Systems");
+			
+			Node textNode = parNode.addNode("text");
+			textNode.setProperty("constraintType", "foundation/components/form/constraints/name");
+			textNode.setPrimaryType("nt:unstructured");
+			textNode.setProperty("jcr:title", "Contact Name");
+			textNode.setProperty("name", "name");
+			textNode.setProperty("required", true);
+			textNode.setProperty("requiredMessage", "Your name is required");
+			textNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			textNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			
+			Node emailNode = parNode.addNode("text_0");
+			emailNode.setProperty("constraintType", "girlscouts/components/form/constraints/email-no-whitespace");
+			emailNode.setPrimaryType("nt:unstructured");
+			emailNode.setProperty("jcr:title", "Email");
+			emailNode.setProperty("name", "email");
+			emailNode.setProperty("required", true);
+			emailNode.setProperty("requiredMessage", "Your email address is required");
+			emailNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			emailNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node phoneNode = parNode.addNode("text_1");
+			phoneNode.setProperty("constraintType", "girlscouts/components/form/constraints/numeric-no-whitespace");
+			phoneNode.setProperty("jcr:description", "Please enter phone number in the following format: 5555555555");
+			phoneNode.setPrimaryType("nt:unstructured");
+			phoneNode.setProperty("jcr:title", "Phone");
+			phoneNode.setProperty("name", "phone");
+			phoneNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			phoneNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node methodNode = parNode.addNode("dropdown");
+			methodNode.setProperty("jcr:title","Preferred Method of Contact");
+			methodNode.setPrimaryType("nt:unstructured");
+			methodNode.setProperty("name","00NG000000DdNmM");
+			text5Node.setProperty("constraintType", "foundation/components/form/constraints/numeric");
+			text5Node.setPrimaryType("nt:unstructured");
+			text5Node.setProperty("jcr:title", "ZIP Code");
+			text5Node.setProperty("name", "zipcode");
+			text5Node.setProperty("required", true);
+			text5Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text5Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node captchaNode = parNode.addNode("Captcha");
+			captchaNode.setProperty("constraintMessage", "Invalid Captcha");
+			captchaNode.setProperty("jcr:description", "(Please type verification code in the box above. Click Refresh to get new code)");
+			captchaNode.setPrimaryType("nt:unstructured");
+			captchaNode.setProperty("jcr:title", "Verification Code");
+			captchaNode.setProperty("required", true);
+			captchaNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			captchaNode.setProperty("sling:resourceType", "girlscouts/components/form/captcha");
+			
+			Node text1Node = parNode.addNode("text_1");
+			text1Node.setPrimaryType("nt:unstructured");
+			text1Node.setProperty("jcr:title", "Comments");
+			text1Node.setProperty("name", "comments");
+			text1Node.setProperty("rows", 4);
+			text1Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text1Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node submitNode = parNode.addNode("submit");
+			submitNode.setProperty("css", "form-btn");
+			submitNode.setPrimaryType("nt:unstructured");
+			submitNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			submitNode.setProperty("sling:resourceType", "foundation/components/form/submit");
+			
+			Node formEndNode = parNode.addNode("form_end_1395155284038");
+			formEndNode.setPrimaryType("nt:unstructured");
+			formEndNode.setProperty("sling:resourceType", "foundation/components/form/end");
+			
+		} catch (WCMException e) {
+			LOG.error("Cannot build contact us page: \n" +  e.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return returnPage;
+	}
 }
