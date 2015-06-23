@@ -7,7 +7,7 @@
 %>
 **PLEASE ENTER A FILE PATH
 <%
-	} else if(!path.equals("")) {
+	} else if (!path.equals("")) {
 		path = path + "/";
 		try{
 			resourceResolver.resolve(path);
@@ -15,7 +15,7 @@
 			//TODO: dynamically get the domain
 			%>
 			<script>
-			window.open("/content/gsusa/en/404.html");
+				window.open("/content/gsusa/en/404.html");
 			</script>
 			<%
 		}
