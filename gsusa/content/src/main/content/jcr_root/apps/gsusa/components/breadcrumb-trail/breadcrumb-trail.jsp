@@ -21,7 +21,7 @@
 
 
     Page trail = null;
-    long level = 2;
+    long level = 3;
     int currentLevel = currentPage.getDepth();
     while (level < currentLevel - 1) {
         trail = currentPage.getAbsoluteParent((int) level);
