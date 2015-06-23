@@ -46,3 +46,12 @@ form {
     }
   }
 }
+.curriculum-filter,
+.scholarship-search {
+  form {
+    label {
+      font-weight: 600;
+      margin-bottom: rem-calc(10);
+    }
+  }
+}
