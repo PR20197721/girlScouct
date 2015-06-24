@@ -1,7 +1,11 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><% 
+	}
 	String title = properties.get("title", "FEATURED STORY");
+	String icon = properties.get("icon", "icon-photo-camera");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -19,7 +23,7 @@
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolor %>">
-    <span class="icon-photo-camera"></span>
+    <span class="<%= icon %>"></span>
     <div class="contents">
         <h3><%= title %></h3>
         <p class="dek"><%=description%></p>
@@ -29,7 +33,7 @@
     <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
         <div class="header">
             <div class="left-wrapper">
-                <span class="icon-photo-camera"></span>
+                <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
                 <p class="dek"><%=description%></p>
             </div>

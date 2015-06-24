@@ -12,8 +12,13 @@
     <filter jcr:primaryType="nt:unstructured">
         <f0
             jcr:primaryType="cq:Page"
-            mode="replace"
+            mode="merge"
             root="/content/gsusa"
+            rules="[]"/>
+        <f1
+            jcr:primaryType="sling:OrderedFolder"
+            mode="merge"
+            root="/content/dam/girlscouts-gsusa"
             rules="[]"/>
     </filter>
 </jcr:root>
