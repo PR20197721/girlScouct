@@ -9,7 +9,7 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
 	Please edit Search Box Component
 <%
-} else {
+} else if(null != searchAction) {
 	action = currentSite.get(searchAction,String.class);
 %>
 	<form action="<%=action%>.html" method="get" class="search-form">
