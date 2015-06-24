@@ -11,27 +11,44 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 %>
 
 	<p>**Please select at least one search type</p>
-	
-	<% }else{ 
+
+	<% } else {
 		path = path + ".html";
 	%>
 	<p>Find Councils</p>
-	
-	<% if(zip == true){ %>
-	<form class="zipSearch" action="<%= path %>" method="get">
-		Zip Code: <input type="text" name="zip">
-	</form>
+	<% if(zip == true || state == true || councilCode == true) { %>
+	<ul class="block-grid">
 	<% } %>
-	
-	<% if(state == true){ %>
-	<form class="stateSearch" action="<%= path %>" method="get">
-		State (Abbreviated e.g. 'NY'): <input type="text" name="state">
-	</form>
-	<% } %>
-	
-	<% if(councilCode == true){ %>
-	<form class="councilCodeSearch" action="<%= path %>" method="get">
-		Council Code: <input type="text" name="council-code">
-	</form>
+		<% if(zip == true) { %>
+			<li>
+				<form class="zipSearch" action="<%= path %>" method="get" />
+					<h6>By Zip Code</h6>
+					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
+					<input type="text" name="zip" />
+				</form>
+			</li>
+		<% } %>
+
+			<% if(state == true) { %>
+			<li>
+				<form class="stateSearch" action="<%= path %>" method="get">
+					<h6>By State</h6>
+					<p>Find a Girl Scout<br/> Council by State</p>
+					<input type="text" name="state" />
+				</form>
+			</li>
+		<% } %>
+
+		<% if(councilCode == true) { %>
+			<li>
+				<form class="councilCodeSearch" action="<%= path %>" method="get">
+					<h6>By Council Code:</h6>
+					<p>Find a Girl Scout<br/> Council by Council Name</p>
+					<input type="text" name="council-code" />
+				</form>
+			</li>
+		<% } %>
+	<% if(zip == true || state == true || councilCode == true) { %>
+	</ul>
 	<% } %>
 <% } %>

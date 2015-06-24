@@ -298,7 +298,7 @@
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-                <ul class="small-block-grid-6 formCheckboxes">
+                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr1= levels.keySet().iterator();
                     int i=0;
                     while( itr1.hasNext() ){
@@ -315,7 +315,7 @@
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
-                <ul class="small-block-grid-6 formCheckboxes">
+                <ul class="small-block-grid-2 large-block-grid-6 medium-block-grid-3 formCheckboxes">
                   <% java.util.Iterator itr= categories.keySet().iterator();
                   i=0;
                   while( itr.hasNext() ){

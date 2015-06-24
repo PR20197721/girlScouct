@@ -1,3 +1,9 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%
+    String imgPath = "";
+    try {
+        imgPath = ((ValueMap)resource.getChild("image").adaptTo(ValueMap.class)).get("fileReference", "");
+    } catch (Exception e) {}
 
-<img src="/etc/designs/gsusa/clientlibs/images/logo.png" alt="gsusa home" />
+%>
+<img src="<%= imgPath %>" alt="gsusa home" />

@@ -22,9 +22,9 @@ import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
-import com.day.cq.wcm.api.msm.LiveRelationship;
-import com.day.cq.wcm.api.msm.LiveRelationshipManager;
-import com.day.cq.wcm.api.msm.RolloutManager;
+import com.day.cq.wcm.msm.api.LiveRelationship;
+import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutManager;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
@@ -84,9 +84,9 @@ public class RolloutProcess implements WorkflowProcess {
         }
 
         try {
-            Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, false);
+            Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
             for (LiveRelationship relation : relations) {
-                rolloutManager.rollout(resourceResolver, relation);
+                rolloutManager.rollout(resourceResolver, relation, false);
                 session.save();
                 String targetPath = relation.getTargetPath();
                 // Remove jcr:content

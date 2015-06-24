@@ -16,24 +16,34 @@
             root="/apps/gsusa"
             rules="[]"/>
         <f1
-            jcr:primaryType="cq:Page"
+            jcr:primaryType="nt:folder"
             mode="replace"
-            root="/etc/designs/gsusa"
+            root="/etc/designs/gsusa/fonts"
             rules="[]"/>
         <f2
+            jcr:primaryType="cq:ClientLibraryFolder"
+            mode="replace"
+            root="/etc/designs/gsusa/clientlibs"
+            rules="[]"/>
+        <f3
             jcr:primaryType="nt:folder"
             mode="replace"
             root="/etc/workflow/scripts/gsusa"
             rules="[]"/>
-        <f3
+        <f4
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/dam/update_asset"
             rules="[]"/>
-        <f4
+        <f5
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/dam/video/hq"
+            rules="[]"/>
+        <f6
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/gsusa"
             rules="[]"/>
     </filter>
 </jcr:root>

@@ -3,14 +3,10 @@ package org.girlscouts.vtk.ejb;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
-//import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
@@ -19,21 +15,11 @@ import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-
-import net.fortuna.ical4j.model.DateTime;
-import net.fortuna.ical4j.model.component.VEvent;
-import net.fortuna.ical4j.model.property.CalScale;
-import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.ProdId;
-import net.fortuna.ical4j.model.property.Version;
-import net.fortuna.ical4j.util.UidGenerator;
-
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -43,11 +29,9 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.auth.permission.PermissionConstants;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
-import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
@@ -64,12 +48,10 @@ import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
@@ -104,35 +86,24 @@ public class MeetingDAOImpl implements MeetingDAO {
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
-		/*
-		 * if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
-		 * troop.setErrCode("112"); throw new
-		 * java.lang.IllegalAccessException(); }
-		 */
-
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
-			// filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan"+
-			// yearPlanId + "/meetings/");
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
 					+ user.getCurrentYear()
 					+ "/brownie/yearPlan"
 					+ yearPlanId
 					+ "/meetings/");
-
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -149,7 +120,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by plan path
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			String yearPlanPath) throws IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -160,18 +130,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
+			classes.add(Achievement.class);
+			classes.add(Attendance.class);
 			session = sessionFactory.getSession();
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope(yearPlanPath);
-
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -182,35 +151,35 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ex.printStackTrace();
 			}
 		}
-
 		return meetings;
 	}
 
 	public Meeting getMeeting(User user, String path)
 			throws IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
 		Meeting meeting = null;
 		Session session = null;
-
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			meeting = (Meeting) ocm.getObject(path);
-
+			
+			
+			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
+				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
+				if(globalMeetingInfo!=null)
+					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -229,18 +198,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.List<MeetingE> getAllUsersEventMeetings(User user,
 			Troop troop, String yearPlanId) throws IllegalStateException,
 			IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-		// return meetings;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -290,7 +256,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
-
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -304,10 +269,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			if (meeting == null)
 				meeting = getMeeting(user, meetingEvent.getRefId());
-
 			String newPath = troop.getPath() + "/lib/meetings/"
 					+ meeting.getId() + "_" + Math.random();
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
@@ -315,10 +278,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
 				ocm.save();
 			}
-
 			meetingEvent.setRefId(newPath);
 			meeting.setPath(newPath);
-
 			ocm.insert(meeting);
 			ocm.update(meetingEvent);
 			ocm.save();
@@ -371,17 +332,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if (meeting == null)
 				meeting = getMeeting(user, meetingEvent.getRefId());
 
-			String newPath = meetingEvent.getRefId();// troop.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
+			String newPath = meetingEvent.getRefId();
 
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
 				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
 				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
 				ocm.save();
 			}
-
 			meetingEvent.setRefId(newPath);
 			meeting.setPath(newPath);
-
 			ocm.update(meeting);
 			ocm.update(meetingEvent);
 			ocm.save();
@@ -421,18 +380,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 
 		try {
-
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			ocm.update(meeting);
 			ocm.save();
 
@@ -451,7 +407,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	// check if USED???
 	public List<Meeting> search() {
 		Session session = null;
 		List<Meeting> meetings = null;
@@ -461,17 +416,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-
 			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan/brownie/");
 			Query query = queryManager.createQuery(filter);
-
 			meetings = (List<Meeting>) ocm.getObjects(query);
 
 		} catch (Exception e) {
@@ -484,57 +435,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ex.printStackTrace();
 			}
 		}
-
 		return meetings;
 
-	}
-
-	public java.util.List<String> doSpellCheck(String word) throws Exception {
-
-		Session session = null;
-		java.util.List<String> suggest = new java.util.ArrayList();
-
-		try {
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = (javax.jcr.query.QueryManager) session
-					.getWorkspace().getQueryManager();
-
-			javax.jcr.query.Query query = qm
-					.createQuery(
-							"SELECT rep:spellcheck() FROM nt:base WHERE jcr:path = '/content/dam/' AND SPELLCHECK('"
-									+ word + "')", javax.jcr.query.Query.SQL);
-
-			RowIterator rows = query.execute().getRows();
-			// the above query will always return the root node no matter what
-			// string we check
-			Row r = rows.nextRow();
-			// get the result of the spell checking
-
-			Value v = r.getValue("rep:spellcheck()");
-			if (v == null) {
-				// no suggestion returned, the spelling is correct or the spell
-				// checker
-				// does not know how to correct it.
-			} else {
-				String suggestion = v.getString();
-				suggest.add(suggestion);
-			}
-
-			Value values[] = r.getValues();
-			for (int i = 0; i < values.length; i++) {
-				suggest.add(values[i].getString());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return suggest;
 	}
 
 	public List<org.girlscouts.vtk.models.Search> getData(User user,
@@ -546,7 +448,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 
 		Session session = null;
-
 		List<org.girlscouts.vtk.models.Search> matched = null;
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
@@ -564,28 +465,22 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
-			map.put("group.3_path", "/content/dam/girlscouts-vtk/global/resource");
+			map.put("group.3_path",
+					"/content/dam/girlscouts-vtk/global/resource");
 			map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
 			map.put("group.1_path", resourceRootPath);
-			
 			map.put("group.p.or", "true"); // combine this group with OR
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "2000"); // same as query.setHitsPerPage(20)
 										// below
-			
-		System.err.println("tataxx: "+ resourceRootPath);
-		
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
 			query.setExcerpt(true);
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 			SearchResult result = query.getResult();
-			System.err.println("tataxxxx: "+query.toString());
-
 			for (Hit hit : result.getHits()) {
 				try {
 					String path = hit.getPath();
-
 					java.util.Map<String, String> exc = hit.getExcerpts();
 					java.util.Iterator itr = exc.keySet().iterator();
 					while (itr.hasNext()) {
@@ -637,7 +532,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ex.printStackTrace();
 			}
 		}
-
 		return matched;
 	}
 
@@ -1393,8 +1287,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 					+ gradeLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
+			
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata: "+ meetings.get(i).getPosition() +" : "+meetings.get(i).getPath());
 			Comparator<Meeting> comp = new BeanComparator("position");
-			Collections.sort(meetings, comp);
+			if( meetings!=null)
+				Collections.sort(meetings, comp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2035,7 +1933,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(Attendance.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
 			attendance = (Attendance) ocm.getObject(mid);
 
 		} catch (Exception e) {
@@ -2139,9 +2038,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		return false;
 	}
-	
+
 	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
-			throws IllegalAccessException, IllegalStateException{
+			throws IllegalAccessException, IllegalStateException {
 
 		Session session = null;
 		if (troop != null
@@ -2165,7 +2064,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			ocm.update(meeting);
 			ocm.save();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

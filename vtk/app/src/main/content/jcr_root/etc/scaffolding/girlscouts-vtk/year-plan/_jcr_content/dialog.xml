@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Properties">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <ocm_classname
+                    jcr:primaryType="cq:Widget"
+                    value="org.girlscouts.vtk.models.YearPlan"
+                    name="./ocm_classname"
+                    xtype="hidden"/>
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    value="girlscouts-vtk/components/vtk-data"
+                    name="./sling:resourceType"
+                    xtype="hidden"/>
+                <vtkDataType
+                    jcr:primaryType="cq:Widget"
+                    value="year-plan"
+                    name="./vtkDataType"
+                    xtype="hidden"/>
+                <id
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Id"
+                    fieldSubLabel="Should be a number. e.g. 5"
+                    regex="/^[0-9]*$/"
+                    regexText="ID should only contain digits."
+                    allowBlank="{Boolean}false"
+                    name="./id"/>
+                <name
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Name"
+                    allowBlank="{Boolean}false"
+                    name="./name"/>
+                <level
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Level"
+                    xtype="selection"
+                    type="radio"
+                    allowBlank="{Boolean}false"
+                    name="./level">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        change="function(field){girlscouts.components.VTKMeetingIdList.updateMeetingList(field, field.getValue());}"/>
+                    <options
+                        jcr:primaryType="cq:WidgetCollection">
+                        <brownie
+                            jcr:primaryType="nt:unstructured"
+                            text="Brownie"
+                            value="brownie"/>
+                        <daisy
+                            jcr:primaryType="nt:unstructured"
+                            text="Daisy"
+                            value="daisy"/>
+                        <junior
+                            jcr:primaryType="nt:unstructured"
+                            text="Junior"
+                            value="junior"/>
+                    </options>
+                </level>
+                <desc
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Description"
+                    allowBlank="{Boolean}false"
+                    name="./desc"/>
+                <meetings
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Meetings"
+                    xtype="vtk-meeting-id-list">
+                    <fieldConfig
+                        jcr:primaryType="nt:unstructured"
+                        optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions"
+                        type="select"
+                        xtype="vtk-meeting-id"/>
+                </meetings>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>

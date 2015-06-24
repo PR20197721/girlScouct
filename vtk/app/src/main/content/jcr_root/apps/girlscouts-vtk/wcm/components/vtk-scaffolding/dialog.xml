@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="365"
+    title="Scaffolding Properties">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <props jcr:primaryType="cq:Panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <titletext
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Title of this scaffolding"
+                    fieldLabel="Title Text"
+                    name="./jcr:title"
+                    xtype="textfield"/>
+                <description
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Description of this scaffolding"
+                    fieldLabel="Description"
+                    name="./jcr:description"
+                    xtype="textarea"/>
+                <template
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Select a template to be used for new pages."
+                    fieldLabel="Target Template"
+                    name="./cq:targetTemplate"
+                    options="/bin/wcm/templates.json"
+                    optionsRoot="templates"
+                    optionsTextField="title"
+                    optionsValueField="path"
+                    type="select"
+                    xtype="selection"/>
+                <targetpath
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Path to the parent page under which new pages are created."
+                    fieldLabel="Target Path"
+                    name="./cq:targetPath"
+                    xtype="pathfield"/>
+            </items>
+        </props>
+    </items>
+</jcr:root>

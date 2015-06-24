@@ -2,9 +2,7 @@ package org.girlscouts.vtk.impl.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.http.HttpSession;
-
 import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -31,9 +29,6 @@ public class HelloServlet extends SlingSafeMethodsServlet {
 				sayPleaseSignIn(out);
 			} else {
 				// TODO: Users may be lazy loaded. May refactor later.
-
-				// 080614 User user =
-				// (User)session.getAttribute(User.class.getName());
 				User user = null;
 				try {
 					user = (User) session.getAttribute(User.class.getName());

@@ -24,7 +24,7 @@
 			width = "width: " + width + "px;";
 		}
 		else{
-			width = "width: " + width;
+			width = "width: " + width + ";";
 		}
 	}
 	if(!height.equals("")){

@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- body -->
-<body data-grid-framework="f4" data-grid-color="salmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="20px" data-grid-nbcols="24">
+<body data-grid-framework="f4" data-grid-color="salmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
     <div id="fb-root"></div> <!-- Allows Facebook Share buttons -->
     <div class="off-canvas-wrap" data-offcanvas>
 

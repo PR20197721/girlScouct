@@ -81,7 +81,7 @@ $include-html-grid-classes: $include-html-classes;
 
 $row-width: rem-calc(960);
 $total-columns: 24;
-$column-gutter: rem-calc(20);
+$column-gutter: rem-calc(10);
 
 // c. Global
 // - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -118,6 +118,13 @@ $gs-orange      : #E29618;
 $gs-light-orange: #F2C63F;
 $hp_button      : #ec008c;
 $bg_breaking_news: #e34c38;
+
+$lightorange : #FAA61A;
+$darkorange  : #F27536;
+$fuchsia      : #EC008C;
+$purple       : #AB218E;
+$cyan         : #00AAE5;
+$lightgreen   : #C4D82E;
 
 // We use these as default colors throughout
 $primary-color: #00AE58; //green

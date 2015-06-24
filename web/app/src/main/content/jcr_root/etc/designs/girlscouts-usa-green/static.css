@@ -1008,16 +1008,16 @@ div.textimage.nowrap div.text p {
   text-align: right;
 }
 .srch-box form {
-/*  margin: 5px 0 0 0;*/
-  margin:0;
+  margin: 5px 0 0 0;
+/*  margin:0;*/
 }
 .srch-box form:after {
   font-family: "JollyFont";
   position: absolute;
   content: "\e66c";
   color: rgb(0, 174, 88);
-  top: 0px;
-  left: 94%;
+  top: 5px;
+  left: 91%;
   font-size: 1.3em;
 }
 .srch-box form input[type="text"] {
@@ -1520,6 +1520,12 @@ form .form_captcha_input {
 @media only screen and (max-width: 420px) {
   .home-section .columns.small-2 {
     margin-top:.8%;
+  }
+  #header span {
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
   }
 }
 .home-section .lists-image {
