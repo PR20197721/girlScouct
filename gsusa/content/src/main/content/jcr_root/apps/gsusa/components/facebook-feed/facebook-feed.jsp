@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 
 <%
 String fbPage = properties.get("fbPage","GirlScoutsUSA");
@@ -7,16 +8,8 @@ String url = "/" + fbPage + "?fields=posts.limit(1){id,full_picture}&access_toke
 %>
 
 <script>
-var fbCheck = window.fbAsyncInit;
-window.fbAsyncInit = function(){
-	if(typeof fbCheck != 'function'){
-		FB.init({
-			appId : '419540344831322',
-			xfbml : true,
-			version : 'v2.3'
-		});
-	}
-};
+
+var toParse = JSON.parse(<%= jsonData %>);
 FB.api(
 	"<%=url%>",
 	function(response) {

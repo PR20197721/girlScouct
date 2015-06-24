@@ -1,12 +1,9 @@
-var fbCheck = window.fbAsyncInit;
 window.fbAsyncInit = function(){
-	if(typeof fbCheck != 'function'){
-		FB.init({
-			appId : '419540344831322',
-			xfbml : true,
-			version : 'v2.3'
-		});
-	}
+	FB.init({
+		appId : '419540344831322',
+		xfbml : true,
+		version : 'v2.3'
+	});
 };
 
 (function(d, s, id) {
