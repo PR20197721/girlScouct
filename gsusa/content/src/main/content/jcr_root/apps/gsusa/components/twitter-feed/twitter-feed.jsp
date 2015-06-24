@@ -9,7 +9,7 @@
 	else{
     	int width = properties.get("width",520);
         int height = properties.get("height",460);
-        int tweetLimit = properties.get("tweetLimit",-1);
+        int tweetLimit = properties.get("tweetLimit",20);
 		%>
         <div class="wrapper clearfix">
     		<div class="social-block">
@@ -19,7 +19,7 @@
       				data-chrome="noheader nofooter noborders transparent"
       				data-widget-id="<%= widgetID %>"
                     data-aria-polite="assertive"
-    			<%if(tweetLimit != -1) { %>
+    			<%if(tweetLimit != -1) {//Previously used to give option of unlimited tweets %>
     				data-tweet-limit="<%=tweetLimit%>"
                 <% } %>
                     width="100%" height="460px">

@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
+    <careers/>
+    <contact-us/>
+    <permission-request/>
+    <scholarship-search/>
+    <curriculum-filter/>
+    <girls-stories/>
+    <site-search/>
     <scholarships/>
     <jcr:content
         cq:designPath="/etc/designs/gsusa"
-        cq:lastModified="{Date}2015-06-12T16:36:53.456-04:00"
+        cq:lastModified="{Date}2015-06-24T16:59:32.760-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2015-06-12T12:52:41.229-04:00"
         cq:lastReplicatedBy="dlubin"
         cq:lastReplicationAction="Activate"
+        cq:tags="[look,at,these,tags_]"
         cq:template="/apps/girlscouts/templates/page"
+        jcr:description="This is a page description!"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Girl Scouts USA"
-        jcr:uuid="cbf3c2fc-3f36-4481-84cc-0b17a277c6bf"
-        sling:resourceType="gsusa/components/homepage">
+        jcr:uuid="2a71edd5-bfb2-4eaf-9225-f1b90b55737b"
+        sling:resourceType="gsusa/components/homepage"
+        globalLanding="/content/gsusa/en/site-search"
+        seoTitle="Girl Scouts of America">
         <header jcr:primaryType="nt:unstructured">
             <eyebrow-nav
                 jcr:lastModified="{Date}2015-06-12T12:34:01.199-04:00"
@@ -139,19 +150,32 @@
                         fileReference="/content/dam/geometrixx/travel/train_station_woman.jpg"/>
                 </story_4>
                 <story_5
-                    jcr:lastModified="{Date}2015-06-11T14:55:48.009-04:00"
+                    jcr:lastModified="{Date}2015-06-24T16:53:53.610-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="FAA61A"
                     description="Donec nec justo eget felis facillisis fermentum."
-                    title="NEWS">
+                    title="SOCIAL">
                     <bg
-                        jcr:lastModified="{Date}2015-06-11T14:55:48.009-04:00"
+                        jcr:lastModified="{Date}2015-06-24T16:53:53.610-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/geometrixx/travel/train_platform_1.jpg"/>
+                    <par
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/parsys">
+                        <twitter_feed
+                            jcr:created="{Date}2015-06-24T16:56:51.162-04:00"
+                            jcr:createdBy="admin"
+                            jcr:lastModified="{Date}2015-06-24T16:57:14.812-04:00"
+                            jcr:lastModifiedBy="admin"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/twitter-feed"
+                            username="girlscouts"
+                            widgetID="344885593781710848"/>
+                    </par>
                 </story_5>
             </featured-stories>
             <breaking-news
@@ -170,8 +194,12 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"/>
         </content>
+        <image
+            jcr:lastModified="{Date}2015-06-24T16:59:32.757-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
     </jcr:content>
-    <two-column/>
     <one-column/>
     <three-column/>
 </jcr:root>

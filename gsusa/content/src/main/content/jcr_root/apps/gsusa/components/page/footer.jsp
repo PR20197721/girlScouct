@@ -6,7 +6,7 @@
 %>
 <section>
     <ul class="inline-list">
-        <li><a href="#" title="Contact Us">Contact Us</a></li>
+        <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
         <li><a href="#" title="Visit Us">Visit Us</a></li>
         <li><a href="#" title="Careers">Careers</a></li>
         <li><a href="#" title="Blog">Blog</a></li>

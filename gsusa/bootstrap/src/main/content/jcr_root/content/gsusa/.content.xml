@@ -15,7 +15,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Girl Scouts USA"
-        jcr:uuid="095577b9-3bfd-4ca0-8566-7abe3ab6553d"
+        jcr:uuid="6eaa5e9a-0006-4759-b95c-430e09e867e7"
         sling:resourceType="foundation/components/page">
         <image jcr:primaryType="nt:unstructured">
             <file/>
