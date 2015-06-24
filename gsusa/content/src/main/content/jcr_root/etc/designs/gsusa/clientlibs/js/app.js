@@ -219,4 +219,5 @@
   explore_button();
   join_now();
   scroll_feeds();
+  
 }(jQuery));

@@ -1,16 +1,42 @@
 <%@include file="/libs/foundation/global.jsp"%>
 
+<%
+String fbPage = properties.get("fbPage","GirlScoutsUSA");
+String token = properties.get("token","419540344831322|-TeLW4iF6EzJKH-ozdPE0uSWCdQ");
+String url = "/" + fbPage + "?fields=posts.limit(1){id,full_picture}&access_token=" + token;
+%>
+
 <script>
+var fbCheck = window.fbAsyncInit;
+window.fbAsyncInit = function(){
+	if(typeof fbCheck != 'function'){
+		FB.init({
+			appId : '419540344831322',
+			xfbml : true,
+			version : 'v2.3'
+		});
+	}
+};
 FB.api(
-	"/GirlScoutsUSA?fields=posts.limit(1){id,object_id}&access_token=CAACEdEose0cBAPQaH5VEB7OCfCKUdMUnW69hpZByF99nRaQaptfx8G9DkG1HBrnOZAUEOZAscVso3T1z3LQcv3fcUfmc5lsdk7I3VkzYx7oA5IuJSZCOYZC35JhUlCbIlZBdxrFxiSzhdRLBCeo2HtcJlBKI8Sf6oCdrLYyttoeqFErn2rDpLNqNtL4PG4SBKOERDLqbBEiSDuJNGEwfoVY8EtTVHhA1wZD",
+	"<%=url%>",
 	function(response) {
 		if(response && !response.error){
-			console.log("ID: " + response.posts.data[0].object_id);
+			console.log("ID: " + response.posts.data[0].id);
 			FB.api(
-				"/" + response.posts.data[0].object_id + "?fields=images&access_token=CAACEdEose0cBAPQaH5VEB7OCfCKUdMUnW69hpZByF99nRaQaptfx8G9DkG1HBrnOZAUEOZAscVso3T1z3LQcv3fcUfmc5lsdk7I3VkzYx7oA5IuJSZCOYZC35JhUlCbIlZBdxrFxiSzhdRLBCeo2HtcJlBKI8Sf6oCdrLYyttoeqFErn2rDpLNqNtL4PG4SBKOERDLqbBEiSDuJNGEwfoVY8EtTVHhA1wZD",
+				"/" + response.posts.data[0].id + "?fields=attachments&access_token=<%=token%>",
 				function(response) {
 					if(response && !response.error){
-						console.log(response.images[0].source);
+						if(response.attachments.data[0].subattachments != undefined){
+							for(var i=0; i<response.attachments.data[0].subattachments.data.length; i++){
+								console.log(response.attachments.data[0].subattachments.data[i].media.image.src);
+							}
+						}
+						else if(response.attachments.data[0].attachments.data[0].media.image.src != undefined){
+							console.log(response.attachments.data[0].attachments.data[0].media.image.src);
+						}
+						else{
+							console.log("No image found");
+						}
 					}
 				}
 			);
