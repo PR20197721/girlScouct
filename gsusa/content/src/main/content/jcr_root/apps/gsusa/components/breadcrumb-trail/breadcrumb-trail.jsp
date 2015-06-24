@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@page import="com.day.cq.wcm.api.WCMMode"%>
 <%!
 	int MAX_TITLE = 58;
 	public String trimTitle(String str) {
@@ -10,8 +11,11 @@
 		return ret;
 	}
 %>
-<nav class="breadcrumbs">
+
 <%
+	String breadcrumbRoot = properties.get("breadcrumbRoot", "");
+	Boolean isHidden = properties.get("isHidden", false);
+
 	Resource resrc = resource.getResourceResolver().getResource(currentPage.getPath() +"/jcr:content");
 	String t_resourse = resrc.getResourceType();
 	String delimStr = currentStyle.get("delim", "");
@@ -19,51 +23,64 @@
 	String delim = "";
 	String title="";
 
-
-    Page trail = null;
-    long level = 3;
-    int currentLevel = currentPage.getDepth();
-    while (level < currentLevel - 1) {
-        trail = currentPage.getAbsoluteParent((int) level);
-        if (trail == null) {
-            break;
-        }
-        title = trail.getNavigationTitle();
-        if (title == null || title.equals("")) {
-            title = trail.getNavigationTitle();
-        }
-        if (title == null || title.equals("")) {
-            title = trail.getTitle();
-        }
-        if (title == null || title.equals("")) {
-            title = trail.getName();
-        }
-        %>
-        <%= xssAPI.filterHTML(delim) %><a href="<%= xssAPI.getValidHref(trail.getPath()+".html") %>"><%= xssAPI.encodeForHTML(title) %></a>
-        <%
-            delim = delimStr;
-        level++;
-    }
-    trail = currentPage.getAbsoluteParent((int) level);
-    if(trail != null){
-        title = trail.getNavigationTitle();
-        
-        if (title == null || title.equals("")) {
-            title = trail.getNavigationTitle();
-        }
-        if (title == null || title.equals("")) {
-            title = trail.getTitle();
-        }
-        if (title == null || title.equals("")) {
-            title = trail.getName();
-        }
-        String displayTitle = trimTitle(title);
-        %>
-        <span class="breadcrumb-current"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
-        <%
-            if (trailStr.length() > 0) {
-            %><%= xssAPI.filterHTML(trailStr) %><%
-        }
-    }
+	if (!isHidden) {  %>
+		<nav class="breadcrumbs"><%
+	    Page trail = null;
+	    long level; //topic
+	    int currentLevel = currentPage.getDepth();
+	    if ("root".equals(breadcrumbRoot)) {
+	    	level = 2;
+	    } else if ("subTopic".equals(breadcrumbRoot)) {
+	    	level = 4;
+	    } else {  //default to topic;
+	    	level = 3;
+	    }
+	    
+	    while (level < currentLevel - 1) {
+	        trail = currentPage.getAbsoluteParent((int) level);
+	        if (trail == null) {
+	            break;
+	        }
+	        title = trail.getNavigationTitle();
+	        if (title == null || title.equals("")) {
+	            title = trail.getNavigationTitle();
+	        }
+	        if (title == null || title.equals("")) {
+	            title = trail.getTitle();
+	        }
+	        if (title == null || title.equals("")) {
+	            title = trail.getName();
+	        }
+	        %>
+	        <%= xssAPI.filterHTML(delim) %><a href="<%= xssAPI.getValidHref(trail.getPath()+".html") %>"><%= xssAPI.encodeForHTML(title) %></a>
+	        <%
+	            delim = delimStr;
+	        level++;
+	    }
+	    trail = currentPage.getAbsoluteParent((int) level);
+	    if(trail != null){
+	        title = trail.getNavigationTitle();
+	        
+	        if (title == null || title.equals("")) {
+	            title = trail.getNavigationTitle();
+	        }
+	        if (title == null || title.equals("")) {
+	            title = trail.getTitle();
+	        }
+	        if (title == null || title.equals("")) {
+	            title = trail.getName();
+	        }
+	        String displayTitle = trimTitle(title);
+	        %>
+	        <span class="breadcrumb-current"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
+	        <%
+	            if (trailStr.length() > 0) {
+	            %><%= xssAPI.filterHTML(trailStr) %><%
+	        }
+	    }%>
+	    </nav> <%
+	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		 %>Breadcrumb is currently hidden for this page. Please click here to edit. <%
+	}
 %>
-</nav>
+
