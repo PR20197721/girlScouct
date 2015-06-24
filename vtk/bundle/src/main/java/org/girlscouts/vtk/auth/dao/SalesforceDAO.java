@@ -589,14 +589,16 @@ System.err.println("*************** "+OAuthUrl);
 //System.err.println("tata new user");		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+System.err.println("tatata: userId "+apiConfig.getUserId());		
+		method.setHeader("Authorization", "OAuth " + getToken(apiConfig) );
+System.err.println("tatata sso token: "+ getToken(apiConfig));		
 		try {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
-				throw new IllegalAccessException();
+				//-throw new IllegalAccessException();
 			}
 			HttpEntity entity = null;
 			String rsp = null;
@@ -611,6 +613,7 @@ System.err.println("*************** "+OAuthUrl);
 				resp.close();
 			}
 			rsp = "{\"records\":" + rsp + "}";
+System.err.println("tatata: resp; "+ rsp);			
 			log.debug(">>>>> " + rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
