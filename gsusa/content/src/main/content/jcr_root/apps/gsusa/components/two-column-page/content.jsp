@@ -4,6 +4,9 @@
     <div class="left-col">
         <cq:include script="left.jsp"/>
     </div>
+    <div class="hero-section">
+    IF HERO, PLACE IT HERE GOES HERE
+    </div>
     <div class="middle-col">
         <cq:include script="main.jsp"/>
     </div>
