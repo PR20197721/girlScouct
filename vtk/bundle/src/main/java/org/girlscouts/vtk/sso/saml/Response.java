@@ -50,7 +50,7 @@ public class Response {
 		Base64 base64 = new Base64();
 		byte[] decodedB = base64.decode(response);
 		String decodedS = new String(decodedB);
-
+//System.err.println("tatata: decode: "+ (base64.e));
 //decodedS= decodedS.replace("ogDP", "caca");		
 
 

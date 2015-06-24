@@ -590,11 +590,16 @@ System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
 		User user= new User();
 		CloseableHttpClient connection = null;
 //System.err.println("tata new user");		
+		
+		getToken();
+		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+System.err.println("tatata url : "+apiConfig.getWebServicesUrl()
+		+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());		
 System.err.println("tatata: userId "+apiConfig.getUserId());		
-		method.setHeader("Authorization", "OAuth " + getToken(apiConfig) );
-//method.setHeader("Authorization", "SAML " + getToken(apiConfig) );
+		//method.setHeader("Authorization", "OAuth 00DZ000000Mia06!AQ4AQOZNCmp9zZQCSTU_11g4OgJkjxQcZg8fybfqwzmQwrEeXpAMs73FbknGLBSDuIgRNxuk1fdgrVjpjPEVIIYxqaZvh30u");// + getToken(apiConfig) );
+method.setHeader("Authorization", "SAML " + getToken(apiConfig) );
 System.err.println("tatata sso token: "+ getToken(apiConfig));		
 		try {
 			connection = connectionFactory.getConnection();
@@ -695,4 +700,84 @@ System.err.println("tatata: resp; "+ rsp);
 		return user;
 	}
 
+	
+	public ApiConfig getToken() {
+		
+System.err.println("*************** "+OAuthUrl);
+		HttpClient httpclient = new HttpClient();
+		String tokenUrl = OAuthUrl + "/services/oauth2/token";
+		PostMethod post = new PostMethod(tokenUrl);
+		//post.addParameter("code", code);
+		post.addParameter("grant_type", "assertion");
+		post.addParameter("assertion_type", "urn:oasis:names:tc:SAML:2.0:profiles:SSO:browser");
+		post.addParameter("assertion", "_c24d8c729a7b77287638e441c093a5e41435170640066");
+		//post.addParameter("redirect_uri", callbackUrl);
+		log.debug(post.getRequestCharSet());
+		log.debug(post.getRequestEntity().toString());
+
+		try {
+
+			
+			log.debug(post.getRequestCharSet());
+			Header headers[] = post.getRequestHeaders();
+			for (Header h : headers) {
+				log.debug("Headers: " + h.getName() + " : " + h.getValue());
+			}
+			log.debug(":::> " + post.getQueryString());
+			log.debug(OAuthUrl + "/services/oauth2/token");
+			log.debug("___________________doAuth________end___________________________");
+			httpclient.executeMethod(post);
+			log.debug("doAuth: " + post.getResponseBodyAsString());
+			
+System.err.println("tata: token "+post.getResponseBodyAsString());			
+			if (post.getStatusCode() == HttpStatus.SC_OK) {
+				try {
+					JSONObject authResponse = new JSONObject(new JSONTokener(
+							new InputStreamReader(
+									post.getResponseBodyAsStream())));
+					ApiConfig config = new ApiConfig();
+					config.setAccessToken(authResponse
+							.getString("access_token"));
+					config.setInstanceUrl(authResponse
+							.getString("instance_url"));
+					config.setWebServicesUrl(authResponse
+							.getString("sfdc_community_url"));
+					String refreshTokenStr = null;
+					try {
+						refreshTokenStr = authResponse
+								.getString("refresh_token");
+					} catch (Exception npe) {
+						// skip refresh token
+						log.debug("Skipping refresh token because SF is not providing it");
+					}
+					log.debug("Access token: "
+							+ authResponse.getString("access_token"));
+					log.debug("REfresh tolen: " + refreshTokenStr);
+
+					String id = authResponse.getString("id");
+					config.setId(id);
+					config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+					if (refreshTokenStr != null) {
+						config.setRefreshToken(refreshTokenStr);
+					}
+					config.setCallbackUrl(callbackUrl);
+					config.setClientId(clientId);
+					config.setClientSecret(clientSecret);
+					config.setOAuthUrl(OAuthUrl);
+					return config;
+				} catch (JSONException e) {
+					log.error("JSON Parse exception: " + e.toString());
+				}
+			} else {
+				log.error("Return status not OK: " + post.getStatusCode() + " "
+						+ post.getResponseBodyAsString());
+			}
+		} catch (Exception e) {
+			log.error("Error executing HTTP POST when authenticating: "
+					+ e.toString());
+		} finally {
+			post.releaseConnection();
+		}
+		return null;
+	}
 }
