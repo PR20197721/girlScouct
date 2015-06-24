@@ -457,6 +457,9 @@ System.err.println("*************** "+OAuthUrl);
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+		
+System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
+				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);	
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
@@ -591,6 +594,7 @@ System.err.println("*************** "+OAuthUrl);
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
 System.err.println("tatata: userId "+apiConfig.getUserId());		
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig) );
+//method.setHeader("Authorization", "SAML " + getToken(apiConfig) );
 System.err.println("tatata sso token: "+ getToken(apiConfig));		
 		try {
 			connection = connectionFactory.getConnection();
