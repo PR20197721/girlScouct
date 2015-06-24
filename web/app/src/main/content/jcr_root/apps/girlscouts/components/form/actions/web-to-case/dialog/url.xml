@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Widget"
     allowBlank="false"
     defaultValue="https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8"
-    fieldLabel="POST URL"
-    name="./formActionURL"
+    fieldLabel="Request URL"
+    name="./requestURL"
     value="https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8"
     xtype="textfield"/>
