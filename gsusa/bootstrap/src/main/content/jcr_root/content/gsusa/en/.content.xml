@@ -52,6 +52,12 @@
                     sling:resourceType="foundation/components/image"
                     fileReference="/content/dam/gsusa/logo/logo.png"/>
             </logo>
+            <search
+                jcr:lastModified="{Date}2015-06-24T17:19:29.536-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/search-box"
+                searchAction="globalLanding"/>
         </header>
         <content jcr:primaryType="nt:unstructured">
             <featured-stories
