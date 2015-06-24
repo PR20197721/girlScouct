@@ -8,6 +8,7 @@
     IF HERO, PLACE IT HERE GOES HERE
     </div>
     <div class="middle-col">
+		<cq:include path="content/middle/breadcrumb" resourceType="gsusa/components/breadcrumb-trail" />
         <cq:include script="main.jsp"/>
     </div>
 </div>
