@@ -848,7 +848,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			parNode.setPrimaryType("nt:unstructured");
 			parNode.setProperty("sling:resourceType", "foundation/components/parsys");
 			
-			Node formStartNode = parNode.addNode("form_start");
+			Node formStartNode = parNode.addNode("web-to-case-form_start");
 			formStartNode.setProperty("actionType","girlscouts/components/form/actions/web-to-case");
 			formStartNode.setProperty("formid","web-to-case");
 			formStartNode.setProperty("cwrw","cw");
@@ -860,15 +860,15 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			titleNode.setProperty("sling:resourceType", "girlscouts/components/title");
 			titleNode.setProperty("title","Submit a Case to Volunteer Systems");
 			
-			Node textNode = parNode.addNode("text");
-			textNode.setProperty("constraintType", "foundation/components/form/constraints/name");
-			textNode.setPrimaryType("nt:unstructured");
-			textNode.setProperty("jcr:title", "Contact Name");
-			textNode.setProperty("name", "name");
-			textNode.setProperty("required", true);
-			textNode.setProperty("requiredMessage", "Your name is required");
-			textNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			textNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			Node nameNode = parNode.addNode("text");
+			nameNode.setProperty("constraintType", "foundation/components/form/constraints/name");
+			nameNode.setPrimaryType("nt:unstructured");
+			nameNode.setProperty("jcr:title", "Contact Name");
+			nameNode.setProperty("name", "name");
+			nameNode.setProperty("required", true);
+			nameNode.setProperty("requiredMessage", "Your name is required");
+			nameNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			nameNode.setProperty("sling:resourceType", "foundation/components/form/text");
 			
 			Node emailNode = parNode.addNode("text_0");
 			emailNode.setProperty("constraintType", "girlscouts/components/form/constraints/email-no-whitespace");
@@ -893,30 +893,61 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			methodNode.setProperty("jcr:title","Preferred Method of Contact");
 			methodNode.setPrimaryType("nt:unstructured");
 			methodNode.setProperty("name","00NG000000DdNmM");
-			text5Node.setProperty("constraintType", "foundation/components/form/constraints/numeric");
-			text5Node.setPrimaryType("nt:unstructured");
-			text5Node.setProperty("jcr:title", "ZIP Code");
-			text5Node.setProperty("name", "zipcode");
-			text5Node.setProperty("required", true);
-			text5Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			text5Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			methodNode.setProperty("options",new String[]{"=--None--","Phone","E-mail","Either"});
+			methodNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			methodNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
 			
-			Node captchaNode = parNode.addNode("Captcha");
-			captchaNode.setProperty("constraintMessage", "Invalid Captcha");
-			captchaNode.setProperty("jcr:description", "(Please type verification code in the box above. Click Refresh to get new code)");
-			captchaNode.setPrimaryType("nt:unstructured");
-			captchaNode.setProperty("jcr:title", "Verification Code");
-			captchaNode.setProperty("required", true);
-			captchaNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			captchaNode.setProperty("sling:resourceType", "girlscouts/components/form/captcha");
+			Node timeNode = parNode.addNode("text_2");
+			timeNode.setPrimaryType("nt:unstructured");
+			timeNode.setProperty("jcr:title", "Best Time To Call");
+			timeNode.setProperty("name", "00NG000000DdNmL");
+			timeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			timeNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			timeNode.setProperty("maxlength", 255);
+
 			
-			Node text1Node = parNode.addNode("text_1");
-			text1Node.setPrimaryType("nt:unstructured");
-			text1Node.setProperty("jcr:title", "Comments");
-			text1Node.setProperty("name", "comments");
-			text1Node.setProperty("rows", 4);
-			text1Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			text1Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			Node zipNode =  parNode.addNode("text_3");
+			zipNode.setProperty("constraintType", "foundation/components/form/constraints/numeric");
+			zipNode.setPrimaryType("nt:unstructured");
+			zipNode.setProperty("jcr:title", "Zip Code");
+			zipNode.setProperty("name", "00NG000000DdNmN");
+			zipNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			zipNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			zipNode.setProperty("maxlength", 5);
+			
+			Node typeNode = parNode.addNode("dropdown_0");
+			typeNode.setPrimaryType("nt:unstructured");
+			typeNode.setProperty("jcr:title", "Type");
+			typeNode.setProperty("required", true);
+			typeNode.setProperty("requiredMessage", "Please select a type.");
+			typeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			typeNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
+			typeNode.setProperty("options",
+					new String[]{"=--None--","Troop Support/Girl Program","Service Area Support",
+								"Product Sales","Registration/Reservations","Recruitment","Shop",
+								"Giving/Sponsorships","General","Other"});
+			
+			
+			Node subjectNode = parNode.addNode("text_4");
+			subjectNode.setPrimaryType("nt:unstructured");
+			subjectNode.setProperty("jcr:title", "Subject");
+			subjectNode.setProperty("name", "subject");
+			subjectNode.setProperty("required", true);
+			subjectNode.setProperty("requiredMessage", "A subject is required.");
+			subjectNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			subjectNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node descriptionNode = parNode.addNode("text_5");
+			descriptionNode.setPrimaryType("nt:unstructured");
+			descriptionNode.setProperty("jcr:title", "Description");
+			descriptionNode.setProperty("name", "description");
+			descriptionNode.setProperty("rows", 3);
+			descriptionNode.setProperty("required", true);
+			descriptionNode.setProperty("requiredMessage", "Please add descriptions.");
+			descriptionNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			descriptionNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			descriptionNode.setProperty("maxlength", 32000);
+
 			
 			Node submitNode = parNode.addNode("submit");
 			submitNode.setProperty("css", "form-btn");
@@ -924,7 +955,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			submitNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
 			submitNode.setProperty("sling:resourceType", "foundation/components/form/submit");
 			
-			Node formEndNode = parNode.addNode("form_end_1395155284038");
+			Node formEndNode = parNode.addNode("web-to-case-form_end");
 			formEndNode.setPrimaryType("nt:unstructured");
 			formEndNode.setProperty("sling:resourceType", "foundation/components/form/end");
 			
