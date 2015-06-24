@@ -28,37 +28,43 @@
                    org.girlscouts.vtk.helpers.ConfigManager"%><%
 %><%@ taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-//get the counicl code
-String councilCode = "111";
-ConfigManager configs=sling.getService(ConfigManager.class);
-String[] mappings = configs.getCouncilMapping();
-System.out.print(mappings);
-HashMap<String,String> councilMap = new HashMap<String, String>();
- if (mappings != null) {
-  for (int i = 0; i < mappings.length; i++) {
-    String[] configRecord = mappings[i].split("::");
-    if (configRecord.length >= 2) {
-      councilMap.put(configRecord[1], configRecord[0]);
-    } else {
-      log.error("Malformatted council mapping record: "
-          + mappings[i]);
-    }
-  }
-} 
-final String pagePath = currentPage.getPath();
-// /content/gsctx/en/formpage -> gsctx
-int pos = pagePath.indexOf('/', 1);
-        String branch = pagePath.substring(pos + 1);
-        pos = branch.indexOf('/');
-        branch = branch.substring(0, pos);
-if(councilMap.get(branch)!=null){
-councilCode = councilMap.get(branch);
-}  
-
-
-
-//get cw or rw
+    //get councilmapping in vtk system
+		String councilCode = "";
+		ConfigManager configs=sling.getService(ConfigManager.class);
+		String[] mappings = configs.getCouncilMapping();
+		HashMap<String,String> councilMap = new HashMap<String, String>();
+		 if (mappings != null) {
+		  for (int i = 0; i < mappings.length; i++) {
+		    String[] configRecord = mappings[i].split("::");
+		    if (configRecord.length >= 2) {
+		      councilMap.put(configRecord[1], configRecord[0]);
+		    } else {
+		      log.error("Malformatted council mapping record: "
+		          + mappings[i]);
+		    }
+		  }
+		} 
+		//get branch name
+		String branch = "";
+		final String pagePath = currentPage.getPath();
+		// /content/gsctx/en/formpage -> gsctx
+		int pos = pagePath.indexOf('/', 1);
+    branch = pagePath.substring(pos + 1);
+    pos = branch.indexOf('/');
+    branch = branch.substring(0, pos);
+		//get council code        
+		if(councilMap.get(branch)!=null){
+			  councilCode = councilMap.get(branch);
+		}  
+		//get cw or rw
     final ValueMap props = ResourceUtil.getValueMap(resource);
-    String cwrw = props.get("cwrw", "cw");
+    String cwrw = props.get("cwrw", "");
+    if(!councilCode.isEmpty() && !cwrw.isEmpty()){
 %>
+<input type=hidden name="orgid" value="00DG0000000leqU">
+<input type=hidden name="retURL" value="/">
 <input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
+<%  } 
+    if(props.get("debug", "false").equals("true")){
+%><input type="hidden" name="debug" value=1>
+<%  } %>
