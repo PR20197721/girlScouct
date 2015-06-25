@@ -961,6 +961,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			descriptionNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
 			descriptionNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
 			descriptionNode.setProperty("maxlength", 32000);
+			phoneNode.setProperty("jcr:description", "Max length: 32000 characters.");
+
 
 			
 			Node submitNode = parNode.addNode("submit");
