@@ -3,13 +3,13 @@
     <div class="overlay"></div>
     <ul class="main-slider">
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/gsusa/images/homepage-heroes/home1.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/gsusa/images/homepage-heroes/home2.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
         </li>
     </ul>
     <div class="hero-text">
