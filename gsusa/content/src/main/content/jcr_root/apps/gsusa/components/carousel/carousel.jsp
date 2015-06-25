@@ -20,16 +20,7 @@
             <a href="#" class="button">Explore gilscouts</a>
         </section>
     </div>
-    <div class="join">
-        <div class="wrapper">
-            <a href="#" title="join">Join now</a>
-            <section>
-                <span>FIND YOUR LOCAL COUNCIL</span>
-                <input type="text" pattern="[0-9]*" name="zipcode" placeholder="enter ZIP code" />
-                <button class="button btn">GO</button>
-            </section>
-        </div>
-    </div>
+    <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
     <div class="position">
         <div class="inner-sliders">
             <ul class="inner">
@@ -77,7 +68,7 @@
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
@@ -85,7 +76,7 @@
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" class="slide-thumb"/>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt="" />
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
@@ -93,7 +84,7 @@
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" class="slide-thumb"/>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt="" />
                         </li>
                         <li>
                             <h3>we like to get outdoors</h3>
@@ -101,7 +92,7 @@
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
+                            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" />
                         </li>
                     </ul>
                 </li>

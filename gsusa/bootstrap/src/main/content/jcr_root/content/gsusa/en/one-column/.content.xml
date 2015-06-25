@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-06-18T14:11:37.965-04:00"
+        cq:lastModified="{Date}2015-06-24T18:10:21.144-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/girlscouts/templates/page"
         jcr:isCheckedOut="{Boolean}true"
@@ -18,5 +18,13 @@
                     sling:resourceType="foundation/components/parsys"/>
             </right>
         </content>
+        <header jcr:primaryType="nt:unstructured">
+            <search
+                jcr:lastModified="{Date}2015-06-24T18:10:21.143-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/search-box"
+                searchAction="globalLanding"/>
+        </header>
     </jcr:content>
 </jcr:root>

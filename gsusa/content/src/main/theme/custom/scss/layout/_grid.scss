@@ -28,7 +28,6 @@
   }
 }
 .hero-section {
-  background: red;
   @media #{$medium-up} {
     @include grid-column(19);
   }

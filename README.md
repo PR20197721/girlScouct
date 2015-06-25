@@ -212,3 +212,6 @@ Sling Resource Resolver config
 ## Online help
 http://docs.adobe.com/docs/en/aem/6-0/develop/dev-tools/ht-projects-maven.html
 
+
+## Dispatcher Download
+https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher.html

@@ -18,6 +18,8 @@ blockquote {
       font-size: rem-calc(48);
       position: absolute;
       line-height: .8;
+      font-style: italic;
+      width: 100%;
     }
     &:before {
       content: open-quote;
@@ -76,5 +78,6 @@ blockquote {
   }
   .social-icons {
     float: right;
+    margin-right: rem-calc(18);
   }
 }
