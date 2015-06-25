@@ -1,15 +1,12 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<!-- left -->
-<div id="leftContent">
-    <div class="cascading-menus">
-		<ul style="padding:0px" class="side-nav">
-            <li class="active current"><div><a href="/en/about-girl-scouts/who-we-are.html">Who We Are</a></div></li>
-            <li><div><a href="/en/about-girl-scouts/our-program.html">Our Program</a></div></li>
-            <li><div><a href="/en/about-girl-scouts/our-history.html">Our History</a></div></li>
-            <li><div><a href="/en/about-girl-scouts/join.html">Join</a></div></li>
-            <li><div><a href="/en/about-girl-scouts/Renew.html">Renew</a></div></li>
-        </ul>
-    </div>
+
+<nav class="left-nav">
+    <ul>
+        <li class="active current"><a href="#" title="Who we are">Who We Are</a></li>
+        <li><a href="#" title="Our program">Our Program</a></li>
+        <li><a href="#" title="our history">Our History</a></li>
+        <li><a href="#" title="join">Join</a></li>
+        <li><a href="#" title="renew">Renew</a></li>
+    </ul>
     <cq:include path="content/left/par" resourceType="foundation/components/parsys" />
-</div>
-<!-- END of left -->
+</nav>

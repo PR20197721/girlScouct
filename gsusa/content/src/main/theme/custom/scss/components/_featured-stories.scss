@@ -40,6 +40,7 @@
       max-height: rem-calc(570);
       .bg-wrapper {
         height: 100%;
+        @include grid-column(24, $collapse:true);
       }
       .header {
         @include grid-row();
@@ -47,13 +48,17 @@
         * {
           color: $white;
         }
+        h3 {
+          font-weight: 300;
+          margin-top: 1.4%;
+        }
         .icon-cross {
           @include grid-column(1, false, false,  0, 0, 0, true);
           font-size: rem-calc(40);
           cursor: pointer;
         }
         .left-wrapper {
-          @include grid-column(22);
+          @include grid-column(22, $collapse:true);
           @media #{$medium-up} {
             @include grid-column(22, $offset:1, $collapse: true);
           }
@@ -66,7 +71,7 @@
         }
       }
       .contents {
-        @include grid-column(22, false, true);
+        @include grid-column(22, $center:true, $collapse:true);
         margin-top: rem-calc(10);
       }
     }

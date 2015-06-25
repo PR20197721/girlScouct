@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 <div class="hero-feature">
     <div class="overlay"></div>
     <ul class="main-slider">
@@ -104,6 +105,14 @@
                             <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt="" class="slide-thumb"/>
                         </li>
                     </ul>
+                    <li>
+                        <ul class="slide-3">
+                            <li>
+                                <h3>we like to socialize</h3>
+                                Fasebook goes here
+                            </li>
+                        </ul>
+                    </li>
                 </li>
             </ul>
         </div>

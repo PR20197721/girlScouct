@@ -24,5 +24,6 @@
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
 
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+	<cq:includeClientLib categories="apps.girlscouts.authoring" />
 	<cq:includeClientLib categories="apps.gsusa.authoring" />
 <% } %>

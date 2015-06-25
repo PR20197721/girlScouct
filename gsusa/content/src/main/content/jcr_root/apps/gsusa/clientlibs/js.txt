@@ -1,5 +1,7 @@
 #base=js
 
 main.js
+dynamic-pathfield.js
 simple-link-widget.js
 toggleparsys.js
+icon-picker.js
