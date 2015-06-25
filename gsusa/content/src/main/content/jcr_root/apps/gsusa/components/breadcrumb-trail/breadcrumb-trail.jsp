@@ -24,7 +24,7 @@
 	String title="";
 
 	if (!isHidden) {  %>
-		<nav class="breadcrumbs"><%
+		<ul class="breadcrumb inline-list"><%
 	    Page trail = null;
 	    long level; //topic
 	    int currentLevel = currentPage.getDepth();
@@ -52,7 +52,7 @@
 	            title = trail.getName();
 	        }
 	        %>
-	        <%= xssAPI.filterHTML(delim) %><a href="<%= xssAPI.getValidHref(trail.getPath()+".html") %>"><%= xssAPI.encodeForHTML(title) %></a>
+	        <li><%= xssAPI.filterHTML(delim) %><a href="<%= xssAPI.getValidHref(trail.getPath()+".html") %>"><%= xssAPI.encodeForHTML(title) %></a></li>
 	        <%
 	            delim = delimStr;
 	        level++;
@@ -72,13 +72,13 @@
 	        }
 	        String displayTitle = trimTitle(title);
 	        %>
-	        <span class="breadcrumb-current"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
+	        <li><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></li>
 	        <%
 	            if (trailStr.length() > 0) {
 	            %><%= xssAPI.filterHTML(trailStr) %><%
 	        }
 	    }%>
-	    </nav> <%
+	    </ul> <%
 	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		 %>Breadcrumb is currently hidden for this page. Please click here to edit. <%
 	}
