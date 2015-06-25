@@ -7,18 +7,8 @@
 %>
 **PLEASE ENTER A FILE PATH
 <%
-	} else if (!path.equals("")) {
+	} else if(!path.equals("")) {
 		path = path + "/";
-		try{
-			resourceResolver.resolve(path);
-		} catch(Exception e){
-			//TODO: dynamically get the domain
-			%>
-			<script>
-				window.open("/content/gsusa/en/404.html");
-			</script>
-			<%
-		}
 %>
 <script>
 function openPDF() {
@@ -29,8 +19,24 @@ function openPDF() {
 	var filePath = escape("<%= path %>" + grade + "_" + program + "/" +
 	state + "_" + grade + "_" + program + ".pdf");
 
-	// console.log(filePath);
-	window.open(filePath,"PDF");
+	$.ajax({
+		method: "POST",
+   		url: "<%= currentNode.getPath() + ".html" %>",
+        data: { path: filePath },
+	})
+		.done(function( msg ) {
+			var json = JSON.parse(msg);
+	   		console.log( json );
+	   		if(json.key == "found"){
+	   			window.open(filePath);
+	   		}
+	   		else{
+	   			window.location.href="/content/gsusa/en/404.html";
+	   		}
+		})
+		.fail(function(msg){
+			console.log( msg );
+	});
 }
 </script>
 
