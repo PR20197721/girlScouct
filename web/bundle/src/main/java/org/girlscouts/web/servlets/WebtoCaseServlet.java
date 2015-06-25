@@ -61,10 +61,12 @@ import org.apache.commons.httpclient.params.HttpMethodParams;
 public class WebtoCaseServlet extends SlingAllMethodsServlet
 implements OptingServlet {
 	protected static final String EXTENSION = "html";
+	protected static final boolean DEBUG = false;
 	protected static final String SALESFORCE_URL="https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
+
 	protected static final String URL_PROPERTY = "requestURL";
 	protected static final String CW_RW_PROPERTY = "cwrw";
-	protected static final String DEBUG = "debug";
+	protected static final String FORM_DEBUG = "debug";
 	protected static final String ORIGIN = "origin";
 	protected static final String ORGID = "orgid";
 	protected static final String NAME = "name";
@@ -75,6 +77,7 @@ implements OptingServlet {
 	protected static final String ZIP_CODE = "00NG000000DdNmN";
 	protected static final String SUBJECT = "subject";
 	protected static final String DESCRIPTION = "description";
+
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private List<NameValuePair> data = new LinkedList<NameValuePair>();
 	private PostMethod method = null;
@@ -114,7 +117,7 @@ implements OptingServlet {
 		String url = props.get(URL_PROPERTY, String.class);
 		String id = props.get(FormsConstants.START_PROPERTY_FORMID, String.class);
 		int status = 200;
-		debug = request.getRequestParameter(DEBUG)!=null;
+		debug = (request.getRequestParameter(FORM_DEBUG)!=null)||DEBUG;
 
 		if(url==null || url.isEmpty()){
 			logger.error("The POST request URL is missing the form begin at "+request.getResource().getPath());
@@ -133,30 +136,18 @@ implements OptingServlet {
 				for(RequestParameter paraValue : paras){
 					if(paraValue.isFormField()){//do not support file upload
 						data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
-
 					}
-
 				}
 			}
 			method = callHttpClient(url);
 			status = method.getStatusCode();
 			for(Header header:method.getResponseHeaders()){
 				response.setHeader(header.getName(), header.getValue());
-				if(debug)
-					System.out.println("http client response header: "+header.getName()+" :: "+header.getValue());
+				System.out.println("http client response header: "+header.getName()+" :: "+header.getValue());
 			}
 
 		}
-		
-		if(debug){
-			response.setStatus(status);
-			response.getWriter().write(method.getStatusLine().toString());
-			if(method.getResponseBodyAsString()!=null){
-			response.getWriter().write(method.getResponseBodyAsString());
-			}
-			response.getWriter().flush();
-			return;
-		}
+
 		//check for redirect
 		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
 		if (redirectTo != null) {
@@ -171,13 +162,21 @@ implements OptingServlet {
 			return;
 		}
 
-		if (FormsHelper.isRedirectToReferrer(request)) {
-			FormsHelper.redirectToReferrer(request, response,
-					Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+		if(debug){//check debug mode
+			response.setStatus(status);
+			response.getWriter().write(method.getStatusLine().toString());
+			if(method.getResponseBodyAsString()!=null){
+				response.getWriter().write(method.getResponseBodyAsString());
+			}
+			response.getWriter().flush();
 			return;
 		}
 
-		response.setStatus(status);
+		//redirect to referrer
+		FormsHelper.redirectToReferrer(request, response,
+				Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
+		return;
+
 
 
 	}
