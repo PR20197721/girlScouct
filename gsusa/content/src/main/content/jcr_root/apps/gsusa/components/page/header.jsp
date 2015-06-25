@@ -8,7 +8,7 @@
 %>
 <div class="top-header row">
     <section class="logo-section">
-        <a href="/" title="girscouts.com home">
+        <a href="/content/gsusa/en.html" title="girscouts.com home">
             <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
         </a>
     </section>
