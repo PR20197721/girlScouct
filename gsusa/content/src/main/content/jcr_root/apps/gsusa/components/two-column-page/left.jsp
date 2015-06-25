@@ -9,6 +9,7 @@
         <li><a href="#" title="renew">Renew</a></li>
         <li><a href="/content/gsusa/en/careers.html" title="careers">Careers</a></li>
         <li><a href="/content/gsusa/en/contact-us.html" title="contact-us">Contact Us</a></li>
+        <li><a href="/content/gsusa/en/permission-request.html" title="permission-request">Permission Request</a>
         <li><a href="/content/gsusa/en/curriculum-filter.html" title="curriculum-filter">Curriculums</a></li>
         <li><a href="/content/gsusa/en/scholarship-search.html" title="scholarship-search">Scholarships</a></li>
     </ul>
