@@ -64,7 +64,7 @@ implements OptingServlet {
 	protected static final String SALESFORCE_URL="https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
 	protected static final String URL_PROPERTY = "requestURL";
 	protected static final String CW_RW_PROPERTY = "cwrw";
-
+	protected static final String DEBUG = "debug";
 	protected static final String ORIGIN = "origin";
 	protected static final String ORGID = "orgid";
 	protected static final String NAME = "name";
@@ -78,10 +78,12 @@ implements OptingServlet {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private List<NameValuePair> data = new LinkedList<NameValuePair>();
 	private PostMethod method = null;
+	private boolean debug = false;
 	/**
 	 * @see org.apache.sling.api.servlets.OptingServlet#accepts(org.apache.sling.api.SlingHttpServletRequest)
 	 */
 	public boolean accepts(SlingHttpServletRequest request) {
+		reset();
 		return EXTENSION.equals(request.getRequestPathInfo().getExtension());
 	}
 
@@ -112,6 +114,8 @@ implements OptingServlet {
 		String url = props.get(URL_PROPERTY, String.class);
 		String id = props.get(FormsConstants.START_PROPERTY_FORMID, String.class);
 		int status = 200;
+		debug = request.getRequestParameter(DEBUG)!=null;
+
 		if(url==null || url.isEmpty()){
 			logger.error("The POST request URL is missing the form begin at "+request.getResource().getPath());
 			status = 500;
@@ -129,6 +133,7 @@ implements OptingServlet {
 				for(RequestParameter paraValue : paras){
 					if(paraValue.isFormField()){//do not support file upload
 						data.add(new NameValuePair(paraName,paraValue.getString()));//add to encription
+
 					}
 
 				}
@@ -137,17 +142,23 @@ implements OptingServlet {
 			status = method.getStatusCode();
 			for(Header header:method.getResponseHeaders()){
 				response.setHeader(header.getName(), header.getValue());
+				if(debug)
+					System.out.println("http client response header: "+header.getName()+" :: "+header.getValue());
 			}
 
 		}
-
-
-
-		response.setStatus(status);
+		
+		if(debug){
+			response.setStatus(status);
+			response.getWriter().write(method.getStatusLine().toString());
+			if(method.getResponseBodyAsString()!=null){
+			response.getWriter().write(method.getResponseBodyAsString());
+			}
+			response.getWriter().flush();
+			return;
+		}
 		//check for redirect
-		String redirectTo = null;
-		//		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
-
+		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
 		if (redirectTo != null) {
 			if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
 				int pos = redirectTo.indexOf('?');
@@ -158,29 +169,15 @@ implements OptingServlet {
 				response.sendError(403);
 			}
 			return;
-		}else {
-			String redirectLocation="";
-			Header locationHeader = method.getResponseHeader("location");
-			if (locationHeader != null) {
-				redirectLocation = locationHeader.getValue();
-			} 
-			response.getWriter().write(method.getStatusLine().toString());
-			response.getWriter().write(method.getResponseBodyAsString());
-			if(!redirectLocation.isEmpty()){
-				response.sendRedirect(response.encodeRedirectURL(redirectLocation));
-				return;
-			}
-			response.getWriter().flush();
+		}
+
+		if (FormsHelper.isRedirectToReferrer(request)) {
+			FormsHelper.redirectToReferrer(request, response,
+					Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
 			return;
 		}
 
-
-//		if (FormsHelper.isRedirectToReferrer(request)) {
-//			FormsHelper.redirectToReferrer(request, response,
-//					Collections.singletonMap("stats", new String[]{String.valueOf(status)}));
-//			return;
-//		}
-
+		response.setStatus(status);
 
 
 	}
@@ -192,7 +189,12 @@ implements OptingServlet {
 		// Create a method instance.
 		PostMethod method = new PostMethod(url);
 		NameValuePair[] dataArray = data.toArray(new NameValuePair[data.size()]);
-		method.setRequestBody(dataArray);     
+		method.setRequestBody(dataArray);
+		if(debug){
+			for(NameValuePair para:method.getParameters()){
+				System.out.println("http client request para: "+para.getName()+" :: "+para.getValue());
+			}
+		}
 		method.addRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		// Provide custom retry handler is necessary
 		method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
@@ -203,9 +205,11 @@ implements OptingServlet {
 			if (statusCode != HttpStatus.SC_OK) {
 				logger.error("Method failed: " + method.getStatusLine());
 			}
+			if (debug) {
+				System.out.println("http client postMethod StatusLine: " + method.getStatusLine());
+				System.out.println("http client postMethod Response: " + method.getResponseBodyAsString());
+			}
 
-			System.out.println("http client postMethod StatusLine: " + method.getStatusLine());
-			System.out.println("http client postMethod Response: " + method.getResponseBodyAsString());
 
 		} catch (HttpException e) {
 			logger.error("Fatal protocol violation: " + e.getMessage());
@@ -219,6 +223,11 @@ implements OptingServlet {
 		}
 		return method;
 
+	}
+	private void reset() {
+		data.clear();
+		method=null;
+		debug=false;
 	}
 
 
