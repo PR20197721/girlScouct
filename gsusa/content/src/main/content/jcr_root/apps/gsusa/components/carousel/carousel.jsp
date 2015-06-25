@@ -3,13 +3,13 @@
     <div class="overlay"></div>
     <ul class="main-slider">
         <li>
-            <img src="/content/dam/gsusa/images/homepage-heroes/home1.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <img src="/content/dam/gsusa/images/homepage-heroes/home2.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.png" alt="" class="slide-thumb"/>
         </li>
         <li>
-            <img src="/content/dam/gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
+            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
         </li>
     </ul>
     <div class="hero-text">
