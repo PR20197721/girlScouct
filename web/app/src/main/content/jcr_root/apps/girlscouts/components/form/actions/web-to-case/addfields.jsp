@@ -62,7 +62,7 @@
     if(!councilCode.isEmpty() && !cwrw.isEmpty()){
 %>
 <input type=hidden name="orgid" value="00DG0000000leqU">
-<input type=hidden name="retURL" value="/">
+<!-- <input type=hidden name="retURL" value="/">-->
 <input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
 <%  } 
     String debugEmail = props.get("debug", "");
