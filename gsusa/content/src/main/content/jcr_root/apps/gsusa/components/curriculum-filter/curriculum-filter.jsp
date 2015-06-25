@@ -35,7 +35,7 @@ function openPDF() {
 	   		}
 		})
 		.fail(function(msg){
-			alert( msg );
+			console.log( msg );
 	});
 }
 </script>
