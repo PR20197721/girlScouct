@@ -20,6 +20,7 @@
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
 FormsHelper.setForwardPath(slingRequest, resource.getPath() + ".webtocase.html");
-FormsHelper.setRedirectToReferrer(request, true);
-
+/* FormsHelper.setRedirectToReferrer(request, true);
+ */
+%>
 %>
