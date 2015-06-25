@@ -65,6 +65,9 @@
 <input type=hidden name="retURL" value="/">
 <input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
 <%  } 
-    if(props.get("debug", "false").equals("true")){
-%><input type="hidden" name="debug" value=1>
+    String debugEmail = props.get("debug", "");
+    if(!debugEmail.isEmpty()){
+%>
+<input type="hidden" name="debug" value=1>
+<input type="hidden" name="debugEmail" value="<%=debugEmail%>">
 <%  } %>
