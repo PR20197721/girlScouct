@@ -112,21 +112,25 @@ implements OptingServlet {
 			return;
 		}
 		final ResourceBundle resBundle = request.getResourceBundle(null);
-
+		
 		final ValueMap props = ResourceUtil.getValueMap(request.getResource());
 		String url = props.get(URL_PROPERTY, String.class);
 		String id = props.get(FormsConstants.START_PROPERTY_FORMID, String.class);
 		int status = 200;
 		debug = (request.getRequestParameter(FORM_DEBUG)!=null)||DEBUG;
-
+		String errormsg = "";
 		if(url==null || url.isEmpty()){
-			logger.error("The POST request URL is missing the form begin at "+request.getResource().getPath());
+			errormsg = "The POST request URL is missing the form begin at "+request.getResource().getPath();
+			logger.error(errormsg);
 			status = 500;
+
 		}else if(request.getRequestParameter(ORIGIN)==null) {
-			logger.error("The 'origin' value is missing the form, please check if the council is in Salesforce Volenteer System");
+			errormsg = "The 'origin' value is missing the form, please check if the council is in Salesforce Volenteer System";
+			logger.error(errormsg);
 			status = 500;
 		}else if(request.getRequestParameter(ORGID)==null){
-			logger.error("The 'orgid' value is missing the form, please check if the council is in Salesforce Volenteer System");
+			errormsg = "The 'orgid' value is missing the form, please check if the council is in Salesforce Volenteer System";
+			logger.error(errormsg);
 			status = 500;
 		}else{
 			//				ValueMap formValues = FormsHelper.getGlobalFormValues(request); 
@@ -164,12 +168,17 @@ implements OptingServlet {
 
 		if(debug){//check debug mode
 			response.setStatus(status);
-			response.getWriter().write(method.getStatusLine().toString());
-			if(method.getResponseBodyAsString()!=null){
-				response.getWriter().write(method.getResponseBodyAsString());
+			if(method!=null){
+				response.getWriter().write(method.getStatusLine().toString());
+				if(method.getResponseBodyAsString()!=null){
+					response.getWriter().write(method.getResponseBodyAsString());
+				}
+				response.getWriter().flush();
+				return;
 			}
-			response.getWriter().flush();
+				response.getWriter().write(errormsg);
 			return;
+
 		}
 
 		//redirect to referrer
