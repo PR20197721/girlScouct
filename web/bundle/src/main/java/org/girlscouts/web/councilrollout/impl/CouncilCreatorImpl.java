@@ -107,6 +107,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
+				pages.add(buildWebToCasePage(pageManager, session, languagePath, councilTitle));
 				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
@@ -827,10 +828,16 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			e.printStackTrace();
 		} 
 	}
-	
-	private Page buildWebToCasePage(PageManager manager, Session session, String path, String councilTitle, String councilName){
+	/**
+	 * Creates the Salesforce Web to Case page with it's form and properties
+	 * @param  languagePath  path to the page's /en directory
+	 * @param  councilTitle  full name of the council
+	 * @return the newly created web to case page
+	 * @author cwu
+	 */
+	private Page buildWebToCasePage(PageManager manager, Session session, String languagePath, String councilTitle){
 		Page returnPage = null;
-		
+		String path =languagePath + "/our-council";
 		try {
 			returnPage = manager.create(path, "web-to-case", "/apps/girlscouts/templates/three-column-page", "Submit a Case");
 			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
@@ -854,6 +861,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			formStartNode.setProperty("cwrw","cw");
 			formStartNode.setProperty("formActionURL","https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
 			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
+			formStartNode.setProperty("redirect", languagePath);
+
 			
 			Node titleNode = parNode.addNode("title");
 			titleNode.setPrimaryType("nt:unstructured");
@@ -868,7 +877,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			nameNode.setProperty("required", true);
 			nameNode.setProperty("requiredMessage", "Your name is required");
 			nameNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			nameNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			nameNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			nameNode.setProperty("maxlength", 80);
+
 			
 			Node emailNode = parNode.addNode("text_0");
 			emailNode.setProperty("constraintType", "girlscouts/components/form/constraints/email-no-whitespace");
@@ -887,8 +898,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			phoneNode.setProperty("jcr:title", "Phone");
 			phoneNode.setProperty("name", "phone");
 			phoneNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			phoneNode.setProperty("sling:resourceType", "foundation/components/form/text");
-			
+			phoneNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			phoneNode.setProperty("maxlength", 20);
+
 			Node methodNode = parNode.addNode("dropdown");
 			methodNode.setProperty("jcr:title","Preferred Method of Contact");
 			methodNode.setPrimaryType("nt:unstructured");
@@ -907,7 +919,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 
 			
 			Node zipNode =  parNode.addNode("text_3");
-			zipNode.setProperty("constraintType", "foundation/components/form/constraints/numeric");
+			zipNode.setProperty("constraintType", "girlscouts/components/form/constraints/numeric-no-whitespace");
 			zipNode.setPrimaryType("nt:unstructured");
 			zipNode.setProperty("jcr:title", "Zip Code");
 			zipNode.setProperty("name", "00NG000000DdNmN");
@@ -935,7 +947,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			subjectNode.setProperty("required", true);
 			subjectNode.setProperty("requiredMessage", "A subject is required.");
 			subjectNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			subjectNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			subjectNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			subjectNode.setProperty("maxlength", 255);
+
 			
 			Node descriptionNode = parNode.addNode("text_5");
 			descriptionNode.setPrimaryType("nt:unstructured");
