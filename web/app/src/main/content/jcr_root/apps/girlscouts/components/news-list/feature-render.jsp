@@ -16,7 +16,7 @@ String external_url=(String)request.getAttribute("external_url");
   <% if(!imgPath.isEmpty()){ %>
     <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
   <%} else { %>
-    <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
+    <img src="/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/news_icon.jpg" alt="news icon"/>
   <% } %>
   </div>
  	<div class="column large-20 medium-20 small-15 list-text">

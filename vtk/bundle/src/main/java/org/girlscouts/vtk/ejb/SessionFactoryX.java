@@ -12,7 +12,6 @@ import org.apache.sling.jcr.api.SlingRepository;
 @Service(value = SessionFactoryX.class)
 public class SessionFactoryX extends BasePoolableObjectFactory {
 
-	// @Reference
 	private SlingRepository repository;
 
 	public SessionFactoryX() {

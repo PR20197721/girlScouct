@@ -3,9 +3,11 @@
       <h3 class="columns large-22"><%=troop.getTroop().getTroopName()%> photo</h3>
       <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
     </div>
-    <div class="content row">
-      <div class="columns large-24" id="upload-crop-area">
-        <p id="instructions"></p>
+    <div class="scroll">
+      <div class="content row">
+        <div class="columns large-24" id="upload-crop-area">
+          <p id="instructions"></p>
+        </div>
       </div>
     </div>
   </div>

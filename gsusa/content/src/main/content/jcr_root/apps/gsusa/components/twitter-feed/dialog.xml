@@ -10,12 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<widget-id
-                		jcr:primaryType="cq:Widget"
-                		fieldDescription="If you have a Widget ID for your own widget, please enter it here. If you don't have an ID, create a widget under settings on your Twitter profile."
-                		fieldLabel="Widget ID"
-                		name="./widgetID"
-                		xtype="textfield"/>
+                    <widget-id
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="If you have a Widget ID for your own widget, please enter it here. If you don't have an ID, create a widget under settings on your Twitter profile."
+                        fieldLabel="Widget ID"
+                        name="./widgetID"
+                        xtype="textfield"/>
                     <username
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter your username as it appears in the URL on your profile page"
@@ -36,8 +36,9 @@
                         xtype="numberfield"/>
                     <tweet-limit
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Optional) Specify a limit for how many tweets will appear"
+                        fieldDescription="Specify a limit for how many tweets will appear. Will default to 20 if left blank"
                         fieldLabel="Tweet Limit"
+                        minValue="1"
                         name="./tweetLimit"
                         xtype="numberfield"/>
                 </items>

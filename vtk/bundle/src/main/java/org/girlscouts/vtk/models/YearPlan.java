@@ -11,53 +11,48 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 public class YearPlan implements Serializable {
 
 	public YearPlan() {
-
-		/*
-		 * java.util.List <Milestone> milestones = new java.util.ArrayList();
-		 * 
-		 * Milestone m= new Milestone(); m.setBlurb("Cookie Sales Start");
-		 * m.setDate( new java.util.Date("12/07/2014") ); milestones.add(m);
-		 * 
-		 * 
-		 * m= new Milestone(); m.setBlurb("Troops re-register"); m.setDate( new
-		 * java.util.Date("09/30/2014") ); milestones.add(m);
-		 * 
-		 * 
-		 * 
-		 * m= new Milestone(); m.setBlurb("Cookie Sales End"); m.setDate( new
-		 * java.util.Date("03/29/2015") ); milestones.add(m);
-		 * 
-		 * 
-		 * this.milestones= milestones;
-		 */
-
 		calFreq = "biweekly";
 	}
 
-	@Field private String name, desc, id, refId, altered, resources;
+	@Field
+	private String name, desc, id, refId, altered, resources;
 	@Field(path = true) String path;
-	@Collection( autoUpdate = false) private java.util.List<MeetingE> meetingEvents;
-	
-	@Collection  (autoUpdate= false) private java.util.List<Activity> activities;
-	@Bean( autoUpdate = false) private Cal schedule;
-	@Collection (autoUpdate= false) private java.util.List<Location> locations;
-	@Field private Long calStartDate;
-	@Field private String calFreq, calExclWeeksOf;
-	private boolean isDbUpdate=false;
+	@Collection(autoUpdate = false)
+	private java.util.List<MeetingE> meetingEvents;
+	@Collection(autoUpdate = false)
+	private java.util.List<Activity> activities;
+	@Bean(autoUpdate = false)
+	private Cal schedule;
+	@Collection(autoUpdate = false)
+	private java.util.List<Location> locations;
+	@Field
+	private Long calStartDate;
+	@Field
+	private String calFreq, calExclWeeksOf;
+	private boolean isDbUpdate = false;
 	private java.util.List<Milestone> milestones;
-	@Collection( autoUpdate = false) 
+	@Collection(autoUpdate = false)
 	private java.util.List<MeetingCanceled> meetingCanceled;
+	private Helper helper;
 	
 	
 	
+	public Helper getHelper() {
+		return helper;
+	}
+
+	public void setHelper(Helper helper) {
+		this.helper = helper;
+	}
+
 	public String getResources() {
 		return resources;
 	}
 
 	public void setResources(String resources) {
 		this.resources = resources;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public java.util.List<Milestone> getMilestones() {
@@ -65,26 +60,7 @@ public class YearPlan implements Serializable {
 	}
 
 	public void setMilestones(java.util.List<Milestone> milestones) {
-		// -this.milestones = milestones;
-		/*
-		 * milestones = new java.util.ArrayList();
-		 * 
-		 * Milestone m= new Milestone(); m.setBlurb("Cookie Sales Start");
-		 * m.setDate( new java.util.Date("12/07/2014") ); milestones.add(m);
-		 * 
-		 * 
-		 * m= new Milestone(); m.setBlurb("Troops re-register"); m.setDate( new
-		 * java.util.Date("09/30/2014") ); milestones.add(m);
-		 * 
-		 * 
-		 * 
-		 * m= new Milestone(); m.setBlurb("Cookie Sales End"); m.setDate( new
-		 * java.util.Date("03/29/2015") ); milestones.add(m);
-		 */
 		this.milestones = milestones;
-
-		//-calFreq = "biweekly"; // todo rm
-
 	}
 
 	public String getAltered() {
@@ -92,15 +68,15 @@ public class YearPlan implements Serializable {
 	}
 
 	public void setAltered(String altered) {
-		
-		if( altered!=null && this.altered!=null && !this.altered.equals(altered)){
-			isDbUpdate=true;
-			
+
+		if (altered != null && this.altered != null
+				&& !this.altered.equals(altered)) {
+			isDbUpdate = true;
+
 		}
-		
+
 		this.altered = altered;
-		
-		
+
 	}
 
 	public Long getCalStartDate() {
@@ -109,8 +85,8 @@ public class YearPlan implements Serializable {
 
 	public void setCalStartDate(Long calStartDate) {
 		this.calStartDate = calStartDate;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public String getCalFreq() {
@@ -119,8 +95,8 @@ public class YearPlan implements Serializable {
 
 	public void setCalFreq(String calFreq) {
 		this.calFreq = calFreq;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public String getCalExclWeeksOf() {
@@ -129,8 +105,8 @@ public class YearPlan implements Serializable {
 
 	public void setCalExclWeeksOf(String calExclWeeksOf) {
 		this.calExclWeeksOf = calExclWeeksOf;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public Cal getSchedule() {
@@ -163,8 +139,8 @@ public class YearPlan implements Serializable {
 
 	public void setRefId(String refId) {
 		this.refId = refId;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public java.util.List<MeetingE> getMeetingEvents() {
@@ -180,12 +156,12 @@ public class YearPlan implements Serializable {
 	}
 
 	public void setPath(String path) {
-		if( this.path!=null && path!=null && !path.equals(this.path)){
-			isDbUpdate=true;
-			
+		if (this.path != null && path != null && !path.equals(this.path)) {
+			isDbUpdate = true;
+
 		}
 		this.path = path;
-		
+
 	}
 
 	public String getId() {
@@ -194,8 +170,8 @@ public class YearPlan implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public String getName() {
@@ -204,8 +180,8 @@ public class YearPlan implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
-		isDbUpdate=true;
-		
+		isDbUpdate = true;
+
 	}
 
 	public String getDesc() {
@@ -214,8 +190,8 @@ public class YearPlan implements Serializable {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-		isDbUpdate=true;
-	
+		isDbUpdate = true;
+
 	}
 
 	public boolean isDbUpdate() {
@@ -230,7 +206,8 @@ public class YearPlan implements Serializable {
 		return meetingCanceled;
 	}
 
-	public void setMeetingCanceled(java.util.List<MeetingCanceled> meetingCanceled) {
+	public void setMeetingCanceled(
+			java.util.List<MeetingCanceled> meetingCanceled) {
 		this.meetingCanceled = meetingCanceled;
 	}
 

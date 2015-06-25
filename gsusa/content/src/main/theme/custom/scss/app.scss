@@ -1,7 +1,7 @@
 @import "normalize";
 @import "settings";
 // @import "foundation";
-// @import "font-awesome";
+//@import "fontawesome";
 
 //Import pages
 // @import "pages/**/*";
@@ -50,18 +50,25 @@
     // "foundation/components/switches",
     // "foundation/components/tables";
 
-@import "slick",
+
+@import
+      //Import slick carousel
+      "slick",
+      //import google open sans fonts.
         url(http://fonts.googleapis.com/css?family=Open+Sans),
 
-//Import global
+      //Import global
         "base/**/*",
 
-//Import layout
+      //Import layout
         "layout/**/*",
 
-//Import components
-        "components/**/*",
+      //Import components
+      "components/**/*",
 
-//Import partials
-        "partials/**/*";
+      //Import partials
+      "partials/**/*",
+
+      //Import partials
+      "pages/**/*";
 

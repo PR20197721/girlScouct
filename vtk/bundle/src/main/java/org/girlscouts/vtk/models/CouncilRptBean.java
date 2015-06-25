@@ -49,7 +49,4 @@ public class CouncilRptBean {
 		this.troopId = troopId;
 	}
 	
-	
-	
-	
 }

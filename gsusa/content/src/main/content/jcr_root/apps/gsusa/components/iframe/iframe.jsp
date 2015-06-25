@@ -4,7 +4,7 @@
 	String src = properties.get("src","");
 	String width = properties.get("width", "");
 	String height = properties.get("height", "");
-	boolean scrolling = properties.get("scrolling",false);
+	String scrolling = properties.get("scrolling","auto");
 	boolean border = properties.get("frame-border",false);
 	
 	String outerCss = properties.get("outer-css","");
@@ -24,7 +24,7 @@
 			width = "width: " + width + "px;";
 		}
 		else{
-			width = "width: " + width;
+			width = "width: " + width + ";";
 		}
 	}
 	if(!height.equals("")){
@@ -57,7 +57,6 @@
 		innerClassStr = "class = \"" + innerClass + "\"";
 	}
 	
-	String scrollingStr = scrolling ? "yes":"no";
 	int frameBorder = border ? 1:0;
 	
 	if(src.equals("")){		
@@ -66,7 +65,7 @@ Please enter a URL for the iframe
 <%
 	} else {
 		String divTag = "<div id=\"outerFrame\" " + outerClassStr + " " + outerStyleStr + ">";
-		String iframeTag = "<iframe src=\"" + src + "\" id=\"innerFrame\" " + innerClassStr + "scrolling=\"" + scrollingStr + "\" frameBorder=\"" + frameBorder + "\" " + innerStyleStr + "></iframe>";
+		String iframeTag = "<iframe src=\"" + src + "\" id=\"innerFrame\" " + innerClassStr + "scrolling=\"" + scrolling + "\" frameBorder=\"" + frameBorder + "\" " + innerStyleStr + "></iframe>";
 		String divClose = "</div>";
 %>
 

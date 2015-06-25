@@ -16,8 +16,14 @@
   ==============================================================================
 
 --%><%@ page session="false" %><%
+%><%@page import="com.day.cq.wcm.api.WCMMode" %><%
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
+
+<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+	<cq:includeClientLib categories="apps.girlscouts.authoring" />
+	<cq:includeClientLib categories="apps.gsusa.authoring" />
+<% } %>

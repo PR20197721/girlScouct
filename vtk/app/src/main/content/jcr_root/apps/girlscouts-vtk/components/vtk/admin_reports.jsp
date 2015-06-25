@@ -5,9 +5,9 @@
 <% 
     String activeTab = "reports";
 %>
-<%@include file="include/admin_tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content reports meeting-detail">
-  <%@include file="include/utility_nav.jsp"%>
+<div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
 if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
@@ -90,5 +90,5 @@ if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeature
     <%}}%>
   </div>
 </div>
-
+<script>loadNav('reports')</script>
 <div id="modal_report_detail"  class="reveal-modal" data-reveal></div>

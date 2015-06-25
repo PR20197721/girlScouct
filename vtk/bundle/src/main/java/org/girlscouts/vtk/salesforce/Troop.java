@@ -18,6 +18,14 @@ public class Troop implements Serializable {
 
 	private int councilCode, type;
 	private Set<Integer> permissionTokens;
+	private String role; //userRole from Salesforce Job_Code__c
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public Set<Integer> getPermissionTokens() {
 		return permissionTokens;

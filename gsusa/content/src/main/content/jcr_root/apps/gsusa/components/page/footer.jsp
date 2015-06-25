@@ -6,11 +6,17 @@
 %>
 <section>
     <ul class="inline-list">
-        <li><a href="#" title="Donations">Donations</a></li>
-        <li><a href="#" title="Sponsorships">Sponsorships</a></li>
-        <li><a href="#" title="Newsletter">Newsletter</a></li>
-        <li><a href="#" title="Privacy Policy">Privacy Policy</a></li>
-        <li><a href="#" title="Terms and Conditions">Terms and Conditions</a></li>
+        <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
+        <li><a href="#" title="Visit Us">Visit Us</a></li>
+        <li><a href="#" title="Careers">Careers</a></li>
+        <li><a href="#" title="Blog">Blog</a></li>
+        <li><a href="#" title="Press Room">Press Room</a></li>
+        <li><a href="#" title="FAQ">FAQ</a></li>
+        <li><a href="#" title="Investors">Investors</a></li>
+        <li><a href="#" title="Subscribe to Our Newsletter">Subscribe to Our Newsletter</a></li>
+        <li><a href="#" title="Help">Help</a></li>
+        <li><a href="#" title="Follow Us">Follow Us</a></li>
+        <li><a href="#" title="Trademark Statement">Trademark Statement</a></li>
     </ul>
     <form class="email-signin" action="#">
         <label>Keep in touch</label>
