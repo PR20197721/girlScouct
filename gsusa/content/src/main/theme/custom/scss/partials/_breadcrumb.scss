@@ -1,0 +1,19 @@
+.breadcrumb {
+  text-transform:uppercase;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  > li {
+    border-right: solid 1px;
+    margin-right: 5px;
+    margin-left:0;
+    padding-right: 5px;
+    line-height: 1;
+    font-size: 0.75em;
+    &:last-child {
+      border:none;
+    }
+//    a {
+//      font-size: 0.75em;
+//    }
+  }
+}
