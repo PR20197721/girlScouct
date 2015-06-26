@@ -930,6 +930,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Node typeNode = parNode.addNode("dropdown_0");
 			typeNode.setPrimaryType("nt:unstructured");
 			typeNode.setProperty("jcr:title", "Type");
+			typeNode.setProperty("name","type");
 			typeNode.setProperty("required", true);
 			typeNode.setProperty("requiredMessage", "Please select a type.");
 			typeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
