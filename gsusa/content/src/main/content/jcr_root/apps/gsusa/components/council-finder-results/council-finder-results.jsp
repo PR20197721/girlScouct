@@ -18,9 +18,9 @@ else{
 				res.html("<p>No results found</p>");
 			}
 			else{
-				res.append("<ul class=\"council\">");
 				for(var i=0; i < json.councils.length; i++){	
-					res.append("<li><p><strong>" + json.councils[i].councilFullName + "</strong></p>");
+					res.append("<ul class=\"council\">");
+					res.append("<li><p><strong>" + json.councils[i].councilFullName + "</strong></p></li>");
 					res.append("<p>" + json.councils[i].city + ", " + json.councils[i].state + " " + json.councils[i].zipcode + "</p>");
 					res.append("<p>" + json.councils[i].phone + "</p>");
 					if(json.councils[i].tollFreePhone != undefined && json.councils[i].tollFreePhone != ""){
@@ -31,9 +31,9 @@ else{
 					res.append("<p>Twitter: <a href=\"" + json.councils[i].twitter + "\">" + json.councils[i].twitter + "</a></p>");
 					res.append("<a href=\"" + json.councils[i].joinUrl + "\">Join</a>");
 					res.append("<a href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>");
-					res.append("<a href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>");
+					res.append("<a href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a>");
+					res.append("</ul>");
 				}
-				res.append("</ul>");
 			}
 		};
 	</script>
