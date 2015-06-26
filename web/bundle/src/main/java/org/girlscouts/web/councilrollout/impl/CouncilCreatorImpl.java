@@ -870,7 +870,6 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			titleNode.setProperty("title","Submit a Case to Volunteer Systems");
 			
 			Node nameNode = parNode.addNode("text");
-			nameNode.setProperty("constraintType", "foundation/components/form/constraints/name");
 			nameNode.setPrimaryType("nt:unstructured");
 			nameNode.setProperty("jcr:title", "Contact Name");
 			nameNode.setProperty("name", "name");
@@ -961,7 +960,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			descriptionNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
 			descriptionNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
 			descriptionNode.setProperty("maxlength", 32000);
-			phoneNode.setProperty("jcr:description", "Max length: 32000 characters.");
+			descriptionNode.setProperty("jcr:description", "Max length: 32000 characters.");
 
 
 			

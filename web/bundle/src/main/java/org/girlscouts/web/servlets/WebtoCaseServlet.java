@@ -154,7 +154,7 @@ implements OptingServlet {
 
 		//check for redirect
 		String redirectTo = request.getParameter(FormsConstants.REQUEST_PROPERTY_REDIRECT);
-		if (redirectTo != null) {
+		if (redirectTo != null && !redirectTo.trim().isEmpty()) {
 			if (AuthUtil.isRedirectValid(request, redirectTo) || redirectTo.equals(FormsHelper.getReferrer(request))) {
 				int pos = redirectTo.indexOf('?');
 				redirectTo = redirectTo + (pos == -1 ? '?' : '&') + "status=" + status;
