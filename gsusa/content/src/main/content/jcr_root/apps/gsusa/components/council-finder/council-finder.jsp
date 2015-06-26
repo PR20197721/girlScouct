@@ -15,7 +15,7 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 	<% } else {
 		path = path + ".html";
 	%>
-	<p>Find Councils</p>
+	<h3>Find Councils</h3>
 	<% if(zip == true || state == true || councilCode == true) { %>
 	<ul class="block-grid">
 	<% } %>
