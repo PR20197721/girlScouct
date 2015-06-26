@@ -19,7 +19,7 @@ else{
 			}
 			else{
 				res.append("<ul class=\"council\">");
-				for(var i=0; i < json.councils.length; i++){
+				for(var i=0; i < json.councils.length; i++) {
 					res.append("<li><p><strong>" + json.councils[i].councilFullName + "</strong></p>");
 					res.append("<p>" + json.councils[i].city + ", " + json.councils[i].state + " " + json.councils[i].zipcode + "</p>");
 					res.append("<p>" + json.councils[i].phone + "</p>");
