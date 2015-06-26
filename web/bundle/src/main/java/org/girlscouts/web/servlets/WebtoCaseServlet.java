@@ -82,6 +82,7 @@ implements OptingServlet {
 	private List<NameValuePair> data = new LinkedList<NameValuePair>();
 	private PostMethod method = null;
 	private boolean debug = false;
+	private String errormsg = "";
 	/**
 	 * @see org.apache.sling.api.servlets.OptingServlet#accepts(org.apache.sling.api.SlingHttpServletRequest)
 	 */
@@ -119,22 +120,21 @@ implements OptingServlet {
 		String cwrw = props.get(CW_RW_PROPERTY,String.class);
 		int status = 200;
 		debug = (request.getRequestParameter(FORM_DEBUG)!=null)||DEBUG;
-		String errormsg = "";
 		if(url==null || url.isEmpty()){
-			errormsg = "The POST request URL is missing the form start at "+request.getResource().getPath();
+			errormsg = "The POST request URL is missing the form start at "+request.getResource().getPath()+".\n\nPlease go to action configuration.";
 			logger.error(errormsg);
 			status = 500;
 
 		}else if(request.getRequestParameter(ORIGIN)==null) {
 			if(cwrw==null || CW_RW_PROPERTY.indexOf(cwrw)<0 ){
-				errormsg= "The cwrw definition is missing the form start at "+request.getResource().getPath();
+				errormsg= "The cwrw property is missing the form start at "+request.getResource().getPath()+".\n\nPlease go to action configuration.";
 			}else{
-				errormsg = "The 'origin' value is missing the form. The council code can not be found. Please check if the council is in Salesforce Volenteer System.";
+				errormsg = "The 'origin' value is missing the form. The council code can not be found. \n\nPlease check if the council is in Salesforce Volenteer System.";
 			}
 			logger.error(errormsg);
 			status = 500;
 		}else if(request.getRequestParameter(ORGID)==null){
-			errormsg = "The 'orgid' value is missing the form, please check if the council is in Salesforce Volenteer System";
+			errormsg = "The 'orgid' value is missing the form. \n\nPlease check if the council is in Salesforce Volenteer System";
 			logger.error(errormsg);
 			status = 500;
 		}else{
@@ -149,7 +149,7 @@ implements OptingServlet {
 				}
 			}
 			method = callHttpClient(url);
-			if(method!=null){
+			if(method.hasBeenUsed() && method.isRequestSent()){
 				status = method.getStatusCode();
 				System.out.println("http client response header: ");
 				for(Header header:method.getResponseHeaders()){
@@ -158,7 +158,8 @@ implements OptingServlet {
 				}
 			}else{
 				status = 500;
-				errormsg = "http client returns null postMethod, exceptions thown."
+				errormsg = "Http client POST has not been executed, exceptions thrown: \n\n" + errormsg;
+				errormsg += "\n\nPlease check the log to see details.";
 			}
 
 		}
@@ -180,16 +181,16 @@ implements OptingServlet {
 		if(debug){//check debug mode
 			response.setStatus(status);
 			if(method!=null){
-				response.getWriter().write(method.getStatusLine().toString());
+				if(method.getStatusLine()!=null){
+					response.getWriter().write(method.getStatusLine().toString());
+				}
 				if(method.getResponseBodyAsString()!=null){
 					response.getWriter().write(method.getResponseBodyAsString());
-				}
-				response.getWriter().flush();
-				return;
+				}	
 			}
 			response.getWriter().write(errormsg);
+			response.getWriter().flush();
 			return;
-
 		}
 
 		//redirect to referrer
@@ -232,12 +233,18 @@ implements OptingServlet {
 
 
 		} catch (HttpException e) {
-			logger.error("Fatal protocol violation: " + e.getMessage());
+			errormsg = "Fatal protocol violation: " + e.getMessage();
+			logger.error(errormsg);
 			e.printStackTrace();
 		} catch (IOException e) {
-			logger.error("Fatal transport error: " + e.getMessage());
+			errormsg = "Fatal transport error: " + e.getMessage();
+			logger.error(errormsg);
 			e.printStackTrace();
-		} finally {
+		} catch (Exception e){
+			errormsg="Fatal error: " + e.getMessage();
+			logger.error(errormsg);
+			e.printStackTrace();
+		}finally {
 			// Release the connection.
 			method.releaseConnection();
 		}
@@ -248,6 +255,7 @@ implements OptingServlet {
 		data.clear();
 		method=null;
 		debug=false;
+		errormsg="";
 	}
 
 
