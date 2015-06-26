@@ -2,14 +2,14 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-06-24T18:10:21.144-04:00"
+        cq:lastModified="{Date}2015-06-26T09:49:46.390-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/girlscouts/templates/page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
-        jcr:title="One Column Template"
-        jcr:uuid="bcba3151-d9a5-4e64-92e3-5da909c1a9fc"
+        jcr:title="Thank You"
+        jcr:uuid="ec6f17b5-7b42-480d-9577-4c4e08139f67"
         sling:resourceType="gsusa/components/page">
         <content jcr:primaryType="nt:unstructured">
             <right jcr:primaryType="nt:unstructured">
@@ -17,6 +17,21 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys"/>
             </right>
+            <main jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <text
+                        jcr:created="{Date}2015-06-26T09:49:04.784-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2015-06-26T09:49:46.382-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;h3>Thank you! We'll be in touch shortly!&lt;/h3>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </main>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search
