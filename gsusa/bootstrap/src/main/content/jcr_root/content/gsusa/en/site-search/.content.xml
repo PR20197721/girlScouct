@@ -36,7 +36,7 @@
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/search"
-                        searchIn="/content"/>
+                        searchIn="/content/gsusa"/>
                 </par>
             </main>
         </content>

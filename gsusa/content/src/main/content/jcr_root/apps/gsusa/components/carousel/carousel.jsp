@@ -100,7 +100,7 @@
                         <ul class="slide-3">
                             <li>
                                 <h3>we like to socialize</h3>
-                                Fasebook goes here
+                                <cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
                             </li>
                         </ul>
                     </li>

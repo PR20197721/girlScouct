@@ -52,10 +52,12 @@ if(jsonData != ""){
     //console.log(toParse);
 
     if(toParse.attachments.data[0].subattachments != undefined){
-    	for(var i=0; i<toParse.attachments.data[0].subattachments.data.length; i++) {
+    	imageArea.append("<img src=\"" + toParse.attachments.data[0].subattachments.data[0].media.image.src + "\" alt=\"Facebook Feed Image\">");
+    	// Use if multiple images are ever used in a carousel-within-a-carousel
+    	/*for(var i=0; i<toParse.attachments.data[0].subattachments.data.length; i++) {
     		//console.log(toParse.attachments.data[0].subattachments.data[i].media.image.src);
     		imageArea.append("<img src=\"" + toParse.attachments.data[0].subattachments.data[i].media.image.src + "\" alt=\"Facebook Feed Image\">");
-    	}
+    	}*/
     } else if(toParse.attachments.data[0].media.image.src != undefined) {
     	//console.log(toParse.attachments.data[0].media.image.src);
     	imageArea.append("<img src=\"" + toParse.attachments.data[0].media.image.src + "\" alt=\"Facebook Feed Image\">");
