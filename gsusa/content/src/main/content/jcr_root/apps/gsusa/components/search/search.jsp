@@ -15,7 +15,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
-String documentLocation = "/content/dam/girlscouts-shared/documents";
+String documentLocation = "/content/dam/gsusa-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
@@ -37,7 +37,7 @@ if(theseDamDocuments.equals("")){
 	Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
 	Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
 	if (matcher.find()) {
-		theseDamDocuments = "/" + matcher.group(1) + "/dam/girlscouts-" +  matcher.group(2) + "/documents";
+		theseDamDocuments = "/" + matcher.group(1) + "/dam/gsusa-" +  matcher.group(2) + "/documents";
 
 	}
 }
