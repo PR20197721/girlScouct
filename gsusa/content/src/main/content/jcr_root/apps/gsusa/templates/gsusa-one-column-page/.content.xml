@@ -7,5 +7,5 @@
     ranking="{Long}4">
     <jcr:content
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="gsusa/components/one-column-page"/>
+        sling:resourceType="gsusa/components/page"/>
 </jcr:root>
