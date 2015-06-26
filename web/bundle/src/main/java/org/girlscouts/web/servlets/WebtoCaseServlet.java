@@ -149,11 +149,16 @@ implements OptingServlet {
 				}
 			}
 			method = callHttpClient(url);
-			status = method.getStatusCode();
-			System.out.println("http client response header: ");
-			for(Header header:method.getResponseHeaders()){
-				response.setHeader(header.getName(), header.getValue());
-				System.out.println(header.getName()+" :: "+header.getValue());
+			if(method!=null){
+				status = method.getStatusCode();
+				System.out.println("http client response header: ");
+				for(Header header:method.getResponseHeaders()){
+					response.setHeader(header.getName(), header.getValue());
+					System.out.println(header.getName()+" :: "+header.getValue());
+				}
+			}else{
+				status = 500;
+				errormsg = "http client returns null postMethod, exceptions thown."
 			}
 
 		}
