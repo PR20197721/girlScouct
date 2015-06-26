@@ -199,9 +199,8 @@
       $('.main-slider').slick({
         autoplay: false
       });
-      console.log('first carousel paused');
+      console.log('main carousel paused');
       if ($(window).width() > 640) {
-        console.log("click and small");
         $('.overlay').fadeIn();
         if ($(".position").css("opacity") === '0') {
           $(".position").animate({
@@ -234,7 +233,6 @@
   }
   $(window).resize(function () {
     if ($(window).width() < 640) {
-      console.log($(window).width());
       $('.overlay').hide();
       // $('.inner-sliders').css({
       //   opacity: 0,
