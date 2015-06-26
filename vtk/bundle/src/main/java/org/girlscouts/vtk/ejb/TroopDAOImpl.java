@@ -291,8 +291,11 @@ public class TroopDAOImpl implements TroopDAO {
 								.replace("/" + troop.getId(), ""),
 						"/");
 				int i = 0;
+				
+	System.err.println("tata path: "+ troop.getPath() );			
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
+	System.err.println("tata elem: "+node);				
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
 						if (i == 2) {
@@ -1156,12 +1159,19 @@ public class TroopDAOImpl implements TroopDAO {
 								.replace("/" + troop.getId(), ""),
 						"/");
 				int i = 0;
+	System.err.println("tata path: "+ troop.getPath());			
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
+	System.err.println("tata node: "+ node +" : "+i);				
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
-						if (i == 2) {
+						
+						if (i == 1) {
+				System.err.println("tata creating new council: "+ path);			
 							ocm.insert(new Council(path));
+						}else if (i == 0) {
+							JcrUtils.getOrCreateByPath(path, "nt:unstructured", mySession);
+							//mySession.save();
 						} else {
 							ocm.insert(troop);
 						}
