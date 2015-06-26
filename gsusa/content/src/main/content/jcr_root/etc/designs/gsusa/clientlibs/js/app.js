@@ -184,7 +184,7 @@
       return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
     },
   });
-  $('.inner-sliders .slide-2').slick({
+  $('.inner-sliders .slide-2, .inner-sliders .slide-3').slick({
     dots: false,
     infinite: false,
     speed: 500,
@@ -192,7 +192,6 @@
     cssEase: 'linear',
     arrows: false,
   });
-
   function explore_button() {
     $(".hero-text .button").on("click", function () {
       $('.main-slider').slick('slickPause');
