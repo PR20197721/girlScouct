@@ -22,11 +22,9 @@ if(!fb && !twitter && !pinterest){
 	%> <div id="addthisToolbox_<%= uniqueId %>" class="addthis_toolbox addthis_default_style addthis_32x32_style" style="margin:2px"> <%
 	if(fb){
 	%>
-	    <div id='fb-root'></div>
-    <script src='http://connect.facebook.net/en_US/all.js'></script>
-    <p><a onclick='postToFeed(); return false;'>Post to Feed Mikez</a></p>
-    <p id='msg'></p>
+    <a class="facebook-icon" onclick="postToFeed(); return false;" />
  
+    <script src='http://connect.facebook.net/en_US/all.js'></script>
     <script> 
       FB.init({appId: "1604075353204563", status: true, cookie: true});
  
@@ -44,7 +42,6 @@ if(!fb && !twitter && !pinterest){
         };
  
         function callback(response) {
-          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
         }
  
         FB.ui(obj, callback);
