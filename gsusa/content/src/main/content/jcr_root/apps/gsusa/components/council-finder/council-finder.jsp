@@ -34,7 +34,7 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 				<form class="stateSearch" action="<%= path %>" method="get">
 					<h6>By State</h6>
 					<p>Find a Girl Scout<br/> Council by State</p>
-					<input type="text" name="state" />
+					<cq:include script="state-form.jsp" />
 				</form>
 			</li>
 		<% } %>
