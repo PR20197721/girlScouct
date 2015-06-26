@@ -205,7 +205,7 @@ div.carousel {
   }
   .inner-sliders {
     margin: 0 auto;
-    @include grid-column(18, $center:true);
+    @include grid-column(22, $center:true, $collapse:true);
     // width: 73.958333%;
     color: $white;
     ul {
@@ -213,12 +213,11 @@ div.carousel {
         h3 {
           color: $white;
           margin: rem-calc(13 0);
-          text-transform: uppercase;
           text-align: center;
           font-weight: 300;
         }
-        .slick-track img {
-          height: 337px;
+        .slick-track .slide-thumb {
+          height: rem-calc(310);
           width: 100%;
         }
         .text {

@@ -72,7 +72,7 @@
 	        }
 	        String displayTitle = trimTitle(title);
 	        %>
-	        <li><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></li>
+	        <li><span><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span></li>
 	        <%
 	            if (trailStr.length() > 0) {
 	            %><%= xssAPI.filterHTML(trailStr) %><%

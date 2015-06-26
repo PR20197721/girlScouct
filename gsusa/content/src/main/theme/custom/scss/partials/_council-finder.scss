@@ -1,0 +1,25 @@
+.council-finder {
+  .block-grid {
+    @media #{$medium-up} {
+      @include block-grid(3);
+    }
+    li {
+      form {
+        border: solid 1px #ccc;
+      }
+    }
+    p {
+      padding: rem-calc(5 10);
+    }
+    h6 {
+      background: $primary-color;
+      padding: rem-calc(5 10);
+      color: $white;
+      margin: 0;
+    }
+    input[type="text"] {
+      width: 95%;
+      margin: 0 auto rem-calc(10);
+    }
+  }
+}

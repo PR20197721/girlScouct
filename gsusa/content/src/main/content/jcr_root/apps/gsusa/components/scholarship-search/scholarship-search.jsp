@@ -10,6 +10,14 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 **PLEASE ENTER A FILE PATH
 		<%
 	} else if (!path.equals("")) {
+		String typeParam = "All";
+		String stateParam = "All";
+		if(slingRequest.getParameter("type") != null){
+			typeParam = URLDecoder.decode(slingRequest.getParameter("type"), "UTF-8");
+		}
+		if(slingRequest.getParameter("state") != null){
+			stateParam = URLDecoder.decode(slingRequest.getParameter("state"), "UTF-8");
+		}
 		//Categorize scholarship pages by type
 		PageManager pm = resourceResolver.adaptTo(PageManager.class);
 		Page parent = pm.getPage(path);
@@ -51,6 +59,10 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 			<%
 				for(String t : types){
 					String tOpt = "<option name=\"" + URLEncoder.encode(t, "US-ASCII") + "\">" + t + "</option>";
+					if(t.equals(typeParam)){
+						tOpt = "<option selected=\"selected\" name=\"" + URLEncoder.encode(t, "US-ASCII") + "\">" + t + "</option>";
+					}
+					
 			%>
 			<%= tOpt %>
 			<%
@@ -65,6 +77,9 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 			<%
 				for(String s : states){
 					String sOpt = "<option name=\"" + URLEncoder.encode(s, "US-ASCII") + "\">" + s + "</option>";
+					if(s.equals(stateParam)){
+						sOpt = "<option selected=\"selected\" name=\"" + URLEncoder.encode(s, "US-ASCII") + "\">" + s + "</option>";
+					}
 			%>
 			<%= sOpt %>
 			<%
@@ -75,14 +90,6 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 	<input type="submit" value="Search" class="button">
 </form>
 <%
-	String typeParam = "All";
-	if(slingRequest.getParameter("type") != null){
-		typeParam = URLDecoder.decode(slingRequest.getParameter("type"), "UTF-8");
-	}
-	String stateParam = "All";
-	if(slingRequest.getParameter("state") != null){
-		stateParam = URLDecoder.decode(slingRequest.getParameter("state"), "UTF-8");
-	}
 	boolean searchMade = false;
 	boolean anyResults = false;
 	if(slingRequest.getParameter("type") != null && slingRequest.getParameter("state") != null){

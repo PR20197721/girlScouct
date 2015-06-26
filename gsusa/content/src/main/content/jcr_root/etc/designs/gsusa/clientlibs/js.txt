@@ -1,10 +1,12 @@
 #base=js
 
+facebook-sdk.js
+twitter-feed-widget.js
 jquery.min.js
 foundation.min.js
 slick.min.js
-twitter-feed-widget.js
 addthis_widget.js
 all.js
+council-finder.js
 
 app.js

@@ -18,7 +18,7 @@
         cq:lastReplicationAction="Activate"
         cq:tags="[look,at,these,tags_]"
         cq:template="/apps/girlscouts/templates/page"
-        jcr:description="This is a page description!"
+        jcr:description="The official Web site of the Girl Scouts of the USA – where there's something for everyone. Join now, volunteer or reconnect as an alumna. Adventure awaits!"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
@@ -26,7 +26,7 @@
         jcr:uuid="2a71edd5-bfb2-4eaf-9225-f1b90b55737b"
         sling:resourceType="gsusa/components/homepage"
         globalLanding="/content/gsusa/en/site-search"
-        seoTitle="Girl Scouts of America">
+        seoTitle="Girl Scouts | Official Web Site">
         <header jcr:primaryType="nt:unstructured">
             <eyebrow-nav
                 jcr:lastModified="{Date}2015-06-12T12:34:01.199-04:00"

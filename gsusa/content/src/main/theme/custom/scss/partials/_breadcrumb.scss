@@ -3,17 +3,24 @@
   margin-top: 10px;
   margin-bottom: 10px;
   > li {
-    border-right: solid 1px;
+//    border-right: solid 1px;
     margin-right: 5px;
     margin-left:0;
     padding-right: 5px;
     line-height: 1;
     font-size: 0.75em;
-    &:last-child {
-      border:none;
+    > * {
+      display:inline-block;
     }
-//    a {
-//      font-size: 0.75em;
-//    }
+    &:after {
+      content:'>';
+      margin-left: rem-calc(9);
+    }
+    &:last-child {
+      &:after {
+        border:none;
+        content:none;
+      }
+    }
   }
 }
