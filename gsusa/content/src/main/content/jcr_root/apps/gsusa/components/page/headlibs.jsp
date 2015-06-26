@@ -19,6 +19,7 @@
 %><%@page import="com.day.cq.wcm.api.WCMMode" %><%
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
+%><cq:includeClientLib categories="cq.shared"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
