@@ -17,9 +17,12 @@
       color: $white;
       margin: 0;
     }
-    input[type="text"] {
+    section {
       width: 95%;
       margin: 0 auto rem-calc(10);
+      select {
+        margin: 0;
+      }
     }
   }
 }

@@ -24,7 +24,7 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 				<form class="zipSearch" action="<%= path %>" method="get" />
 					<h6>By Zip Code</h6>
 					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
-					<input type="text" name="zip" />
+					<section><input type="text" name="zip" /></section>
 				</form>
 			</li>
 		<% } %>
@@ -44,7 +44,7 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 				<form class="councilCodeSearch" action="<%= path %>" method="get">
 					<h6>By Council Code:</h6>
 					<p>Find a Girl Scout<br/> Council by Council Name</p>
-					<input type="text" name="council-code" />
+					<section><input type="text" name="council-code" /></section>
 				</form>
 			</li>
 		<% } %>
