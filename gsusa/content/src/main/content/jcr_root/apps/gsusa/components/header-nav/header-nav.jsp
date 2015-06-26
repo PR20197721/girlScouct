@@ -34,7 +34,7 @@
 <!-- OFF CANVAS MENU BAR -->
     <nav class="tab-bar hide-for-medium-up">
         <section>
-            <form action="/content/en/site-search.html" method="get" class="search-form">
+            <form action="/content/gsusa/en/site-search.html" method="get" class="search-form">
                 <input type="search" name="q" placeholder="Search" />
                 <span class="icon-search-magnifying-glass"></span>
             </form>
