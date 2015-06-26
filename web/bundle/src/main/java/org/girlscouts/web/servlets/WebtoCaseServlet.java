@@ -112,20 +112,25 @@ implements OptingServlet {
 			return;
 		}
 		final ResourceBundle resBundle = request.getResourceBundle(null);
-		
+
 		final ValueMap props = ResourceUtil.getValueMap(request.getResource());
 		String url = props.get(URL_PROPERTY, String.class);
 		String id = props.get(FormsConstants.START_PROPERTY_FORMID, String.class);
+		String cwrw = props.get(CW_RW_PROPERTY,String.class);
 		int status = 200;
 		debug = (request.getRequestParameter(FORM_DEBUG)!=null)||DEBUG;
 		String errormsg = "";
 		if(url==null || url.isEmpty()){
-			errormsg = "The POST request URL is missing the form begin at "+request.getResource().getPath();
+			errormsg = "The POST request URL is missing the form start at "+request.getResource().getPath();
 			logger.error(errormsg);
 			status = 500;
 
 		}else if(request.getRequestParameter(ORIGIN)==null) {
-			errormsg = "The 'origin' value is missing the form. the council code may not be found. Please check if the council is in Salesforce Volenteer System.";
+			if(cwrw==null || CW_RW_PROPERTY.indexOf(cwrw)<0 ){
+				errormsg= "The cwrw definition is missing the form start at "+request.getResource().getPath();
+			}else{
+				errormsg = "The 'origin' value is missing the form. The council code can not be found. Please check if the council is in Salesforce Volenteer System.";
+			}
 			logger.error(errormsg);
 			status = 500;
 		}else if(request.getRequestParameter(ORGID)==null){
@@ -177,7 +182,7 @@ implements OptingServlet {
 				response.getWriter().flush();
 				return;
 			}
-				response.getWriter().write(errormsg);
+			response.getWriter().write(errormsg);
 			return;
 
 		}
