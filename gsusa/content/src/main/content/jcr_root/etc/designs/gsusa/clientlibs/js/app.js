@@ -158,19 +158,19 @@
     dotsClass: 'slick-dots',
     cssEase: 'linear',
     arrows: true,
-    responsive: [
-      {
-        breakpoint: 640,
-        settings: "unslick"
-      },
-      {
-        breakpoint: 480,
-        settings: "unslick"
-      }
+    // responsive: [
+    //   {
+    //     breakpoint: 640,
+    //     settings: "unslick"
+    //   },
+    //   {
+    //     breakpoint: 480,
+    //     settings: "unslick"
+    //   }
       // You can unslick at a given breakpoint now by adding:
       // settings: "unslick"
       // instead of a settings object
-    ]
+    // ]
   });
   $('.inner-sliders .slide-1').slick({
     dots: true,
@@ -199,9 +199,8 @@
       $('.main-slider').slick({
         autoplay: false
       });
-      console.log('first carousel paused');
-      if ($(window).width() > 641) {
-        console.log("click and small");
+      console.log('main carousel paused');
+      if ($(window).width() > 640) {
         $('.overlay').fadeIn();
         if ($(".position").css("opacity") === '0') {
           $(".position").animate({
@@ -231,12 +230,14 @@
         scrollTop: "+=" + scroll_area.height() + "px"
       }, 500);
     });
-  }`
+  }
   $(window).resize(function () {
-    if ($(window).width() < 641) {
-      console.log($(window).width());
+    if ($(window).width() < 640) {
       $('.overlay').hide();
-      $('.inner-sliders').hide();
+      // $('.inner-sliders').css({
+      //   opacity: 0,
+      //   "z-index": 1
+      // });
     }
   });
 
