@@ -87,6 +87,9 @@ div.carousel {
     height: 100%;
     background-color: rgba(0,0,0,0.8);
     z-index: 2;
+    @media #{$small-only} {
+      display: none;
+    }
   }
   .hero-text {
     position: absolute;
@@ -208,6 +211,9 @@ div.carousel {
     @include grid-column(22, $center:true, $collapse:true);
     // width: 73.958333%;
     color: $white;
+    @media #{$small-only} {
+      display: none;
+    }
     ul {
       li.slick-slide {
         h3 {
@@ -223,9 +229,12 @@ div.carousel {
         .text {
           position: absolute;
           width: rem-calc(185);
-          margin-left: rem-calc(35);
+          margin-left: rem-calc(20);
           color: #000;
-          margin-top: rem-calc(30);
+          margin-top: rem-calc(10);
+          padding: rem-calc(5 5 0 5);
+          background-color: rgba(0,0,0, .5);
+          text-shadow: 0 0 2px #000;
           &.white {
             color: $white;
             h4 {

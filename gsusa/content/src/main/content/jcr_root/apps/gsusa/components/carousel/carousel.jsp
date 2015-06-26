@@ -29,7 +29,7 @@
                     <ul class="slide-1">
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
-                            <div class="text">
+                            <div class="text white">
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
@@ -37,7 +37,7 @@
                         </li>
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
-                            <div class="text">
+                            <div class="text white">
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
@@ -53,7 +53,7 @@
                         </li>
                         <li>
                             <h3>what do girlscouts do? stuff like this:</h3>
-                            <div class="text">
+                            <div class="text white">
                                 <h4>Splash, Paddle, and Sail</h4>
                                 <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
                             </div>
