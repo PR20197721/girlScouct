@@ -6,9 +6,9 @@ String canonicalUrl = currentPage.getPath().replaceFirst("/content", "http://gir
 String url = properties.get("url",canonicalUrl);
 
 String title = properties.get("title","");
-boolean fb = properties.get("facebook",false);
-boolean twitter = properties.get("tweet",false);
-boolean pinterest = properties.get("pinterest",false);
+boolean fb = properties.get("facebook",true);
+boolean twitter = properties.get("tweet",true);
+boolean pinterest = properties.get("pinterest",true);
 String twitterMsg = properties.get("twitterMessage","");
 String otherMsg = properties.get("otherMessage","");
 
@@ -21,20 +21,40 @@ if(!fb && !twitter && !pinterest){
 }else{
 	%> <div id="addthisToolbox_<%= uniqueId %>" class="addthis_toolbox addthis_default_style addthis_32x32_style" style="margin:2px"> <%
 	if(fb){
-		/*sb = new StringBuilder();
-		sb.append("<a id=\"addthis_button_facebook" + uniqueId + "\" class=\"addthis_button_facebook\" addthis:url=\"" + url + "\"");
-		if(!title.equals("")){
-			sb.append(" addthis:title=\"" + title + "\"");
-		}
-		if(!otherMsg.equals("")){
-			sb.append(" addthis:description=\"" + otherMsg + "\"");
-		}		
-		sb.append("></a>");*/
-		
-		sb.append("<a onclick=\"postToFeed(); return false;\">Post to Feed</a>");
-		
-		%> <%= sb.toString() %> <%
-	} if(twitter){
+	%>
+	    <div id='fb-root'></div>
+    <script src='http://connect.facebook.net/en_US/all.js'></script>
+    <p><a onclick='postToFeed(); return false;'>Post to Feed Mikez</a></p>
+    <p id='msg'></p>
+ 
+    <script> 
+      FB.init({appId: "1604075353204563", status: true, cookie: true});
+ 
+      function postToFeed() {
+ 
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          redirect_uri: 'https://www.google.org/gogoldonline',
+          link: 'https://www.girlscouts.org/gogoldonline//post.aspx?postid=2514',
+          picture: 'https://www.google.com/images/srpr/logo11w.png',
+          name: 'Facebook Dialogs',
+          caption: 'FB CAPTION HERE',
+          description: 'Here is description. Here is description. Here is description. Here is description. Here is description. '
+        };
+ 
+        function callback(response) {
+          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+        }
+ 
+        FB.ui(obj, callback);
+      }
+ 
+    </script>
+	<% 
+	}
+
+	if(twitter){
 		sb = new StringBuilder();
 		sb.append("<a id=\"addthis_button_twitter" + uniqueId + "\" class=\"addthis_button_twitter\" addthis:url=\"" + url + "\"");
 		if(!twitterMsg.equals("")){
@@ -42,7 +62,9 @@ if(!fb && !twitter && !pinterest){
 		}
 		sb.append("></a>");
 		%> <%= sb.toString() %> <%
-	} if(pinterest){
+	}
+	
+	if(pinterest){
 		sb = new StringBuilder();
 		sb.append("<a id=\"addthis_button_pinterest_share" + uniqueId + "\" class=\"addthis_button_pinterest_share\" addthis:url=\"" + url + "\"");
 		if(!title.equals("")){
