@@ -33,12 +33,12 @@ if(!fb && !twitter && !pinterest){
         // calling the API ...
         var obj = {
           method: 'feed',
-          redirect_uri: 'https://www.google.org/gogoldonline',
-          link: 'https://www.girlscouts.org/gogoldonline//post.aspx?postid=2514',
-          picture: 'https://www.google.com/images/srpr/logo11w.png',
-          name: 'Facebook Dialogs',
-          caption: 'FB CAPTION HERE',
-          description: 'Here is description. Here is description. Here is description. Here is description. Here is description. '
+          redirect_uri: 'http://girlscouts-stage.adobecqms.net/content/gsusa/en/two-column.html',
+          link: 'http://girlscouts-stage.adobecqms.net/content/gsusa/en/two-column.html',
+          picture: 'http://girlscouts-stage.adobecqms.net/content/dam/girlscouts-gsusa/logo/logo-green-bg.png',
+          name: 'Girl Scouts Video',
+          caption: 'Video Caption',
+          description: 'Checkout this great video!!!'
         };
  
         function callback(response) {

@@ -237,8 +237,6 @@
   fix_bottom_footer();
   slide_search_bar();
   
-  FB.init({appId: "812732212178798", status: true, cookie: true});
-
   show_hide_features();
   document_close_all();
   explore_button();
@@ -246,21 +244,3 @@
   scroll_feeds();
 
 }(jQuery));
-  	
-function postToFeed() {
-    	 
-        // calling the API ...
-        var obj = {
-          method: 'feed',
-          link: 'http://author-girlscouts-dev2.adobecqms.net',
-          name: 'Title here',
-          caption: 'Caption here',
-          description: 'Description here'
-        };
- 
-        function callback(response) {
-        	console.log("Post ID: " + response['post_id']);
-        }
- 
-        FB.ui(obj, callback);
-      }
