@@ -22,6 +22,11 @@
       margin: 0 auto rem-calc(10);
       select {
         margin: 0;
+        width: 79%;
+      }
+      .button.tiny {
+        vertical-align: top;
+        margin-bottom: 0;
       }
     }
   }

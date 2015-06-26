@@ -53,4 +53,5 @@
 		<option value="WI">Wisconsin</option>
 		<option value="WY">Wyoming</option>
 	</select>
+	<input type="submit" value="Go" class="button tiny"/>
 </section>

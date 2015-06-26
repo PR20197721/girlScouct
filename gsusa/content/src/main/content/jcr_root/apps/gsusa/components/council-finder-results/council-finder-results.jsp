@@ -18,22 +18,23 @@ else{
 				res.html("<p>No results found</p>");
 			}
 			else{
-				res.append("<ul class=\"council\">");
+				var result = "<ul class=\"councils\">";
 				for(var i=0; i < json.councils.length; i++) {
-					res.append("<li><p><strong>" + json.councils[i].councilFullName + "</strong></p>");
-					res.append("<p>" + json.councils[i].city + ", " + json.councils[i].state + " " + json.councils[i].zipcode + "</p>");
-					res.append("<p>" + json.councils[i].phone + "</p>");
-					if(json.councils[i].tollFreePhone != undefined && json.councils[i].tollFreePhone != ""){
-						res.append("<p>" + json.councils[i].tollFreePhone + " - Local Toll Free Phone</p>");
+					result += "<li><h5>" + json.councils[i].councilFullName + "</h5>";
+					result += "<section><p>" + json.councils[i].city + ", " + json.councils[i].state + " " + json.councils[i].zipcode + "</p>";
+					result += "<p>" + json.councils[i].phone + "</p>";
+					if(json.councils[i].tollFreePhone != undefined && json.councils[i].tollFreePhone != "") {
+						result += "<p>" + json.councils[i].tollFreePhone + " - Local Toll Free Phone</p>";
 					}
-					res.append("<p>Website: <a href=\"" + json.councils[i].website + "\">" + json.councils[i].website + "</a></p>");
-					res.append("<p>Facebook: <a href=\"" + json.councils[i].facebook + "\">" + json.councils[i].facebook + "</a></p>");
-					res.append("<p>Twitter: <a href=\"" + json.councils[i].twitter + "\">" + json.councils[i].twitter + "</a></p>");
-					res.append("<a href=\"" + json.councils[i].joinUrl + "\">Join</a>");
-					res.append("<a href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>");
-					res.append("<a href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>");
+					result += "<p>Website: <a href=\"" + json.councils[i].website + "\">" + json.councils[i].website + "</a></p>";
+					result += "<p>Facebook: <a href=\"" + json.councils[i].facebook + "\">" + json.councils[i].facebook + "</a></p>";
+					result += "<p>Twitter: <a href=\"" + json.councils[i].twitter + "\">" + json.councils[i].twitter + "</a></p></section>";
+					result += "<a class=\"button small radius\" href=\"" + json.councils[i].joinUrl + "\">Join</a>";
+					result += "<a class=\"button small radius\" href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>";
+					result += "<a class=\"button small radius\" href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>";
 				}
-				res.append("</ul>");
+				result += "</ul>";
+				res.html(result);
 			}
 		};
 	</script>
