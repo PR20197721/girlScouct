@@ -919,6 +919,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			
 			Node zipNode =  parNode.addNode("text_3");
 			zipNode.setProperty("constraintType", "girlscouts/components/form/constraints/numeric-no-whitespace");
+			zipNode.setProperty("constraintMessage", "Please enter your 5-digit zip code.");
 			zipNode.setPrimaryType("nt:unstructured");
 			zipNode.setProperty("jcr:title", "Zip Code");
 			zipNode.setProperty("name", "00NG000000DdNmN");
