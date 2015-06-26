@@ -80,7 +80,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Troop.class);
 			classes.add(Attendance.class);
 			classes.add(Achievement.class);
-			classes.add(MeetingCanceled.class);
+			classes.add(org.girlscouts.vtk.models.MeetingCanceled.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
