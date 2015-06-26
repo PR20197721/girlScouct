@@ -125,7 +125,7 @@ implements OptingServlet {
 			status = 500;
 
 		}else if(request.getRequestParameter(ORIGIN)==null) {
-			errormsg = "The 'origin' value is missing the form, please check if the council is in Salesforce Volenteer System";
+			errormsg = "The 'origin' value is missing the form. the council code may not be found. Please check if the council is in Salesforce Volenteer System.";
 			logger.error(errormsg);
 			status = 500;
 		}else if(request.getRequestParameter(ORGID)==null){
@@ -145,9 +145,10 @@ implements OptingServlet {
 			}
 			method = callHttpClient(url);
 			status = method.getStatusCode();
+			System.out.println("http client response header: ");
 			for(Header header:method.getResponseHeaders()){
 				response.setHeader(header.getName(), header.getValue());
-				System.out.println("http client response header: "+header.getName()+" :: "+header.getValue());
+				System.out.println(header.getName()+" :: "+header.getValue());
 			}
 
 		}
@@ -199,8 +200,9 @@ implements OptingServlet {
 		NameValuePair[] dataArray = data.toArray(new NameValuePair[data.size()]);
 		method.setRequestBody(dataArray);
 		if(debug){
+			System.out.println("http client request para: ");
 			for(NameValuePair para:method.getParameters()){
-				System.out.println("http client request para: "+para.getName()+" :: "+para.getValue());
+				System.out.println(para.getName()+" :: "+para.getValue());
 			}
 		}
 		method.addRequestHeader("Content-Type","application/x-www-form-urlencoded");
