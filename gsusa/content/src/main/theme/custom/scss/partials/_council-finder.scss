@@ -28,4 +28,23 @@
     padding: rem-calc(5 10);
     margin-right: rem-calc(5);
   }
+  p {
+    margin: 0;
+  }
+  section {
+    margin-bottom: rem-calc(15);
+  }
+  ul {
+    list-style: none;
+    li {
+      border-bottom: solid 1px #ccc;
+      margin-bottom: rem-calc(20);
+      padding-bottom: rem-calc(20);
+      &:last-child {
+        border: none;
+        margin: 0;
+        padding: 0;
+      }
+    }
+  }
 }
