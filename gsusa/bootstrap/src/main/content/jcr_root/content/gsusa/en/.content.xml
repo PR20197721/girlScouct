@@ -102,7 +102,7 @@
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="00AAE5"
                     description="Donec nec justo eget felis facillisis fermentum."
-                    title="SHOP">
+                    title="DONATE">
                     <bg
                         jcr:lastModified="{Date}2015-06-11T16:23:05.116-04:00"
                         jcr:lastModifiedBy="dlubin"
@@ -147,7 +147,7 @@
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="C4D82E"
                     description="Donec nec justo eget felis facillisis fermentum."
-                    title="DONATE">
+                    title="SHOP">
                     <bg
                         jcr:lastModified="{Date}2015-06-11T14:55:40.388-04:00"
                         jcr:lastModifiedBy="admin"
