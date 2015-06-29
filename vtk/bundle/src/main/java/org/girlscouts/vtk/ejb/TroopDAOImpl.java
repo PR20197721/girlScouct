@@ -1166,14 +1166,14 @@ public class TroopDAOImpl implements TroopDAO {
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
 						
-						if (i == 1) {
+						if (i == 2) {
 				System.err.println("tata creating new council: "+ path);			
 							ocm.insert(new Council(path));
 						}else if (i == 0) {
 							JcrUtils.getOrCreateByPath(path, "nt:unstructured", mySession);
 							//mySession.save();
 						} else {
-							ocm.insert(troop);
+							//ocm.insert(troop);
 						}
 					}
 					i++;
