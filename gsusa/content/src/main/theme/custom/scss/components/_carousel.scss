@@ -7,7 +7,7 @@
 // $slick-loader-path: "./" !default;
 // $slick-arrow-color: red;
 // $slick-dot-color: black !default;
-// $slick-dot-color-active: $slick-dot-color !default;
+// $slick-dot-color-active: red !default;
 $slick-prev-character: "\f137";
 $slick-next-character: "\f138";
 // $slick-dot-character: "\f111";
@@ -46,6 +46,11 @@ div.carousel {
       img {
         width: 100%;
         height: 100%;
+      }
+      &.slick-active {
+        img {
+          opacity: .7;
+        }
       }
     }
   }
