@@ -23,7 +23,7 @@
 				Page child = children.next();
 				Node childNode = child.adaptTo(Node.class);
 				Node contentNode = childNode.getNode("jcr:content");
-				//TODO: we need a more robust validation. 
+				//TODO: we need a more robust validation.
 				//Currently only check to see if there is a description
 				if(contentNode.hasProperty("description")){
 					validStoryPath.add(child.getPath());
@@ -38,23 +38,23 @@
 	    			Page p = pm.getPage(storyPath);
 	    			Node pageNode = p.adaptTo(Node.class);
 					Node contentNode = pageNode.getNode("jcr:content");
-					//TODO: we need a more robust validation. 
+					//TODO: we need a more robust validation.
 					//Currently only check to see if there is a description
 					if(contentNode.hasProperty("description")){
 						validStoryPath.add(storyPath);
 					}
 	            }
 	        }
-        } 
+        }
     }
-    
+
     //if the validStoryPath is still empty after all the data processing
     //the user input is likely to be invalid. Set it to firstTimeInit
     if (validStoryPath.isEmpty()) {
         firstTimeInit = true;
     }
     %>
-    
+
     <%if (!firstTimeInit) { %>
         <ul class="gs-stories-block"><%
         //use validStoryPath to generate the girls story component
@@ -72,7 +72,7 @@
                 </li><%
              }
         }%>
-        </ul><%
+        </ul></div><%
         return;
 	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
         %>Please click here to edit. <%

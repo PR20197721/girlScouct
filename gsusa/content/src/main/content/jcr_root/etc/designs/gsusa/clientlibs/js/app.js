@@ -226,6 +226,15 @@
       }, 500);
     });
   }
+  function equilize_gs_stories() {
+    var blocks = $('.gs-stories-block li div');
+    var maxHeight = Math.max.apply(Math, blocks.map(function () {
+      console.log($(this).height());
+      return $(this).height();
+
+    }).get());
+    blocks.height(maxHeight);
+  }
   $(window).resize(function () {
     if ($(window).width() < 640) {
       $('.overlay').hide();
@@ -243,5 +252,6 @@
   explore_button();
   join_now();
   scroll_feeds();
+  equilize_gs_stories();
 
 }(jQuery));
