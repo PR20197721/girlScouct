@@ -1,55 +1,63 @@
 footer {
   background: $primary-color;
   color: #C1EAD4;
+  @media #{$small-only} {
+    padding: 0;
+  }
   padding: rem-calc(40) 0;
   @include grid-row();
-  section {
-    @include grid-column(24);
-    &:first-child {
-      padding-bottom: rem-calc(40);
-    }
-  }
   .inline-list {
-    margin: 0;
-    li {
-      margin-left: 0;
-      @media #{$medium-up} {
-        margin: 0 rem-calc(20) 0 0;
-      }
-      padding: 0;
-      &:last-child {
-        margin: 0;
-      }
-    }
+    margin-bottom: 0;
   }
   .copyright {
-    line-height: rem-calc(26);
-    @include grid-column(14, false, false, 0, 0 , 0, true);
-  }
-  .copyright,
-  section:first-child .inline-list{
-    @media #{$medium-up} {
-      @include grid-column (18, false, false, 0, 0 , 0, true);
+    @media #{$large-up} {
+      @include grid-column (18);
+    }
+    @media #{$medium-only} {
+      @include grid-column (16);
     }
   }
-  section:first-child .inline-list {
-    @media #{$small-only} {
-      @include block-grid(2);
+  //footer navigation list.
+  section:first-child {
+    margin-bottom: rem-calc(30);
+    .inline-list {
+      li {
+        margin-left: 0;
+        @media #{$medium-up} {
+          margin-right: rem-calc(20);
+        }
+      }
+      @media #{$large-up} {
+        @include grid-column (18);
+      }
+      @media #{$medium-only} {
+        @include grid-column (16);
+      }
+      @media #{$small-only} {
+        @include block-grid(2);
+        padding: rem-calc(0 10);
+      }
     }
-  }
-  section:nth-child(2) .inline-list {
-    float: right;
-  }
-  .social-links {
-    @include grid-column(10);
   }
   .email-signin,
   .social-links {
-    @media #{$medium-up} {
-      @include grid-column(6);
+    @media #{$large-up} {
+      @include grid-column(6, $float:right);
+    }
+    @media #{$medium-only} {
+      @include grid-column(8, $float:right);
     }
   }
-
+  .social-links {
+    @media #{$small-only} {
+      background: #009447;
+      padding: rem-calc(15 0);
+      margin-top: rem-calc(20);
+      ul {
+        width: 52%;
+      }
+    }
+  }
   a {
     color: #C1EAD4;
     &:hover {
@@ -63,11 +71,20 @@ footer {
     margin-right: rem-calc(5);
   }
   .email-signin {
+    @media #{$small-only} {
+      background: #009447;
+      padding: rem-calc(15 10);
+      margin-bottom: rem-calc(20);
+    }
     input {
-      width: 56%;
+      width: 58.695652%;
       height: auto;
       padding: rem-calc(1  5  0 5);
       font-size: rem-calc(12);
+      margin-bottom: 0;
+       @media #{$small-only} {
+        width: 75%;
+       }
     }
   }
 }
