@@ -51,28 +51,25 @@ div.carousel {
   }
   .slick-prev,
   .slick-next {
-    border-radius: 50%;
-    width: rem-calc(40);
-    height: rem-calc(40);
-    background: $black;
+    width: rem-calc(20);
+    height: rem-calc(70);
+    margin: 0;
+    padding: 0;
     &:before {
-      font-family: "FontAwesome";
-      font-size: rem-calc(35);
       opacity: 1;
+      display: block;
     }
   }
   .slick-prev {
     left: rem-calc(10);
     &:before {
-      content: "\f0d9";
-      margin-right: rem-calc(4);
+      content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
     }
   }
   .slick-next {
     right: rem-calc(10);
     &:before {
-      content: "\f0da";
-      margin-left: rem-calc(4);
+      content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
     }
   }
 }
