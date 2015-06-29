@@ -32,8 +32,8 @@
 		            <council
 		            	jcr:primaryType="cq:Widget"
 		            	fieldDescription="Search By Council Name"
-		            	fieldLabel="Council Code"
-		            	name="./council-code"
+		            	fieldLabel="Council Name"
+		            	name="./council-name"
 		            	type="checkbox"
 		            	xtype="selection"/>
 		        </items>

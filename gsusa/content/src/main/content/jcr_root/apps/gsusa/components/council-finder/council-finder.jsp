@@ -4,10 +4,10 @@
 <%
 boolean zip = properties.get("zip",false);
 boolean state = properties.get("state", false);
-boolean councilCode = properties.get("council-code", false);
+boolean councilName = properties.get("council-name", false);
 String path = properties.get("path","");
 
-if(path.equals("") || (zip == false && state == false && councilCode == false) && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(path.equals("") || (zip == false && state == false && councilName == false) && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
 
 	<p>**Please select at least one search type</p>
@@ -16,7 +16,7 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 		path = path + ".html";
 	%>
 	<h3>Find Councils</h3>
-	<% if(zip == true || state == true || councilCode == true) { %>
+	<% if(zip == true || state == true || councilName == true) { %>
 	<ul class="block-grid">
 	<% } %>
 		<% if(zip == true) { %>
@@ -39,16 +39,38 @@ if(path.equals("") || (zip == false && state == false && councilCode == false) &
 			</li>
 		<% } %>
 
-		<% if(councilCode == true) { %>
+		<% if(councilName == true) { %>
 			<li>
 				<form class="councilCodeSearch" action="<%= path %>" method="get">
-					<h6>By Council Code:</h6>
-					<p>Find a Girl Scout<br/> Council by Council Name</p>
-					<section><input type="text" name="council-code" /></section>
 				</form>
 			</li>
+			<script>
+			$.get("/councilfinder/ajax_results.asp?short=yes", function(data){
+				var request = "";
+		  		<%
+		  		if(slingRequest.getParameter("council-code") != null){
+		  			%> request = <%= slingRequest.getParameter("council-code") %> <%
+		  		}
+		  		%>
+				var json = JSON.parse(data);
+				var codeSearch = $(".councilCodeSearch");
+				var appendStr = "<h6>By Council Name:</h6>"+
+						"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
+						"<section><select name=\"council-code\"><option value=\"N/A\">Select a Council:</option>";
+				for(var i=0; i < json.councils.length; i++) {
+					var option = "<option ";
+					if(request == json.councils[i].councilCode){
+						option = "<option selected=\"selected\" ";
+					}
+					appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode + 
+							"\">" + json.councils[i].councilShortName + "</option>";
+				}
+				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
+				codeSearch.append(appendStr);
+			})
+			</script>
 		<% } %>
-	<% if(zip == true || state == true || councilCode == true) { %>
+	<% if(zip == true || state == true || councilName == true) { %>
 	</ul>
 	<% } %>
 <% } %>
