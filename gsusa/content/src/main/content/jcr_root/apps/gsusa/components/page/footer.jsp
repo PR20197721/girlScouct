@@ -4,7 +4,11 @@
     // All pages share the same footer from the site root.
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
 %>
-<section>
+<section class="clearfix">
+    <form class="email-signin" action="#">
+        <label>Keep in touch</label>
+        <input type="email" name="email" placeholder="Email address" />
+    </form>
     <ul class="inline-list">
         <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
         <li><a href="#" title="Visit Us">Visit Us</a></li>
@@ -18,12 +22,8 @@
         <li><a href="#" title="Follow Us">Follow Us</a></li>
         <li><a href="#" title="Trademark Statement">Trademark Statement</a></li>
     </ul>
-    <form class="email-signin" action="#">
-        <label>Keep in touch</label>
-        <input type="email" name="email" placeholder="Email address" />
-    </form>
 </section>
-<section>
+<section class="clearfix">
     <span class="copyright">&#64;2015 Girl Scouts of America</span>
     <div class="social-links">
         <ul class="inline-list">
