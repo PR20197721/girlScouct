@@ -22,6 +22,7 @@ function openPDF() {
 	$.ajax({
 		method: "POST",
    		url: "<%= currentNode.getPath() + ".html" %>",
+   		async: false,
         data: { path: filePath },
 	})
 		.done(function( msg ) {
