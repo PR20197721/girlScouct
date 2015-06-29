@@ -5,4 +5,6 @@
         jcr:primaryType="nt:unstructured"
         jcr:title="Images"/>
     <homepage-heroes/>
+    <logo/>
+    <misc/>
 </jcr:root>

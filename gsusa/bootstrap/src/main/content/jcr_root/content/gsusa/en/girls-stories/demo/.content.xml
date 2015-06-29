@@ -14,7 +14,7 @@
             jcr:primaryType="nt:unstructured"
             jcr:title="test"
             sling:resourceType="foundation/components/image"
-            fileReference="/content/dam/gsusa/temp/girl-climbing.png"
+            fileReference="/content/dam/girlscouts-gsusa/temp/girl-climbing.png"
             height="200"
             imageRotate="0"
             width="200"/>

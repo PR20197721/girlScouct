@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="dam:Asset">
+<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}true"
+    jcr:mixinTypes="[mix:versionable]"
+    jcr:primaryType="dam:Asset"
+    jcr:uuid="01829e92-ee64-4c5d-9d21-6da217905836">
     <jcr:content
-        jcr:lastModified="{Date}2015-06-23T11:47:50.750-04:00"
+        cq:lastReplicated="{Date}2015-06-25T16:03:38.229-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:name="girlfaces.png"
+        cq:parentPath="/content/dam/girlscouts-gsusa/temp"
+        jcr:lastModified="{Date}2015-06-25T12:03:21.135-04:00"
         jcr:lastModifiedBy="admin"
+        jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="{Long}24"
@@ -21,13 +30,16 @@
             dam:sha1="55eab678d5f1975e500a75ddfb3d79ddd1b26801"
             dam:size="{Long}62079"
             dc:format="image/png"
+            dc:modified="{Date}2015-06-25T12:03:21.135-04:00"
             exif:PixelXDimension="201"
             exif:PixelYDimension="203"
+            jcr:lastModified="{Date}2015-06-25T12:03:21.135-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             tiff:ImageLength="{Long}203"
             tiff:ImageWidth="{Long}201"/>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>
