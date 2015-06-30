@@ -8,9 +8,11 @@ String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
 %>
 
-
+ 
 <%
-  if (troops != null && troops.size() > 1) {
+out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
+
+if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
     cookie.setMaxAge(-1);
     response.addCookie(cookie);

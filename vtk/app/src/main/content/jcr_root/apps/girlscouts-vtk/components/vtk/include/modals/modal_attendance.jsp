@@ -5,7 +5,7 @@
 <%@include file="../session.jsp"%>
 <% 
 	java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-	String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
+	String path = VtkUtil.getYearPlanBase(user, troop)+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
 	Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
 	Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
 

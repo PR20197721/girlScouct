@@ -49,6 +49,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -1494,7 +1495,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Troop.class);
-			council = (Council) ocm.getObject("/vtk/" + councilId);
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1756,7 +1757,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
-			Node vtk = session.getNode("/vtk");
+			Node vtk = session.getNode(VtkUtil.getYearPlanBase(null, null));
 			NodeIterator vtks = vtk.getNodes();
 			while (vtks.hasNext()) {
 				Node _vtk = (Node) vtks.next();

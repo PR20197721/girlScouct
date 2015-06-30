@@ -17,6 +17,7 @@ import org.girlscouts.vtk.dao.ContactDAO;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = ContactDAO.class)
@@ -80,7 +81,7 @@ public class ContactDAOImpl implements ContactDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Contact.class);
 
-			contact = (Contact) ocm.getObject("/vtk/" + troop.getSfCouncil()
+			contact = (Contact) ocm.getObject( VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil()
 					+ "/troops/" + troop.getId() + "/contacts/" + contactId);
 
 		} catch (Exception e) {

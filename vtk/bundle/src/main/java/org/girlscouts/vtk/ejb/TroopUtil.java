@@ -146,7 +146,8 @@ public class TroopUtil {
 		if (council == null)
 			return null;
 		troop = new Troop(troopId);
-		troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
+		//troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
+		troop.setPath( VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/" + troopId);
 		return troop;
 
 	}

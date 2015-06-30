@@ -18,6 +18,8 @@ import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
 public class VtkUtil {
 	// do not use these objects explicitly as they are not thread safe
@@ -212,4 +214,17 @@ public static String getCouncilInClient(HttpServletRequest request){
 	}
 	return null;
 }
+
+public static String getYearPlanBase(User user, Troop troop){
+
+	String ypBase= "/vtk";
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	if( now.get(java.util.Calendar.MONTH) >7 ) //after Aug 1 -> NEXT YEAR
+		ypBase += now.get(java.util.Calendar.YEAR) +1;
+	else
+		ypBase += now.get(java.util.Calendar.YEAR);
+	
+	return ypBase+"/";	
 }
+
+}//end class

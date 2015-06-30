@@ -48,6 +48,7 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.jackrabbit.util.Text;
@@ -103,9 +104,9 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			ocm.refresh(true);
-			troop = (Troop) ocm.getObject("/vtk/" + councilId + "/troops/"
-					+ troopId);
-
+			//troop = (Troop) ocm.getObject("/vtk/" + councilId + "/troops/"+ troopId);
+			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/"+ troopId);
+			
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());
 
@@ -417,7 +418,7 @@ public class TroopDAOImpl implements TroopDAO {
 			Filter filter = queryManager.createFilter(UserGlobConfig.class);
 
 			troopGlobConfig = (UserGlobConfig) ocm
-					.getObject("/vtk/global-settings");
+					.getObject("/"+VtkUtil.getYearPlanBase(null, null)+"/global-settings");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -754,6 +755,7 @@ public class TroopDAOImpl implements TroopDAO {
 			java.lang.IllegalAccessException {
 
 		modifyTroop(user, troop);
+
 
 		if (troop.getYearPlan().getPath() == null
 				|| !troop.getYearPlan().getPath().startsWith(troop.getPath()))
@@ -1151,34 +1153,18 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 
 			if (ocm.objectExists(troop.getPath())) {
+		
 				ocm.update(troop);
 			} else {
-				String path = "";
-				StringTokenizer t = new StringTokenizer(
-						("/" + troop.getPath())
-								.replace("/" + troop.getId(), ""),
-						"/");
-				int i = 0;
-	System.err.println("tata path: "+ troop.getPath());			
-				while (t.hasMoreElements()) {
-					String node = t.nextToken();
-	System.err.println("tata node: "+ node +" : "+i);				
-					path += "/" + node;
-					if (!mySession.itemExists(path)) {
-						
-						if (i == 2) {
-				System.err.println("tata creating new council: "+ path);			
-							ocm.insert(new Council(path));
-						}else if (i == 0) {
-							JcrUtils.getOrCreateByPath(path, "nt:unstructured", mySession);
-							//mySession.save();
-						} else {
-							//ocm.insert(troop);
-						}
-					}
-					i++;
-				}
+				
+				
+
+				JcrUtils.getOrCreateByPath("/"+troop.getCouncilPath()+"/troops", "nt:unstructured",
+						mySession);
 				ocm.insert(troop);
+				
+	
+	
 			}
 
 			String old_errCode = troop.getErrCode();
@@ -1211,6 +1197,8 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);
 			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
