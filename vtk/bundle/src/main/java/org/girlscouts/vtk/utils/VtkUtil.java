@@ -204,12 +204,8 @@ public static String getCouncilInClient(HttpServletRequest request){
 	if (cookies != null) {
 		 for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("vtk_referer_council")) {
-				
 						return cookies[i].getValue();
-					
-
 			}
-
 		}
 	}
 	return null;
@@ -219,7 +215,7 @@ public static String getYearPlanBase(User user, Troop troop){
 
 	String ypBase= "/vtk";
 	java.util.Calendar now= java.util.Calendar.getInstance();
-	if( now.get(java.util.Calendar.MONTH) >7 ) //after Aug 1 -> NEXT YEAR
+	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
 		ypBase += now.get(java.util.Calendar.YEAR) +1;
 	else
 		ypBase += now.get(java.util.Calendar.YEAR);
