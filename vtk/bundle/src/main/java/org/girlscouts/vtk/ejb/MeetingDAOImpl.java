@@ -917,25 +917,27 @@ public class MeetingDAOImpl implements MeetingDAO {
 				
 				if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/categories")) {
-					/*
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
 					 	
 					categories.put(elem, null);
 					*/
-					categories.put(r.getNode().getName(), null);
+					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/program-level")) {
-					/*
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
 					levels.put(elem, null);
 					*/
-					levels.put(r.getNode().getName(),null);
+					levels.put(r.getNode().getName(),elem);
 				}
 				
 			}
@@ -1612,8 +1614,8 @@ System.err.println("tata start searchA1.. ");
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				//sqlCat += " contains( parent.[cq:tags], 'categories/"+ t.nextToken() + "') ";
-				sqlCat += " contains( LOWER(parent.[cq:tags]), 'categories/"+ t.nextToken() + "') ";
+				 sqlCat += " contains( parent.[cq:tags], 'categories/"+ t.nextToken() + "') ";
+				
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
