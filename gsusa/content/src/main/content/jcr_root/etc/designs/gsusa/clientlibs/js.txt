@@ -2,6 +2,7 @@
 
 facebook-sdk.js
 twitter-feed-widget.js
+volunteer.js
 jquery.min.js
 foundation.min.js
 slick.min.js
