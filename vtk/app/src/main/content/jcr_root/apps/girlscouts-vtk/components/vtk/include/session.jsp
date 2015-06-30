@@ -1,4 +1,10 @@
-<%@page	import="java.text.SimpleDateFormat, org.apache.commons.lang3.time.FastDateFormat, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil, org.apache.commons.lang3.time.FastDateFormat"%>
+<%@page	import="java.text.SimpleDateFormat,
+                org.apache.commons.lang3.time.FastDateFormat,
+                org.girlscouts.vtk.models.Troop,
+                org.girlscouts.vtk.auth.permission.*,
+                org.girlscouts.vtk.utils.VtkUtil,
+                org.apache.commons.lang3.time.FastDateFormat,
+                org.apache.sling.runmode.RunMode"%>
 <%!
 
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
@@ -258,9 +264,16 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 	request.setAttribute("footerScript", footerScript);
 }
 
-/*
-    String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('sessionjsp');</script>";
+RunMode runModeService = sling.getService(RunMode.class);
+String apps[] = new String[1];
+apps[0]="prod";
+if( runModeService.isActive(apps) ){ 
+    String footerScript ="<script>window['ga-disable-UA-61431888-1'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
-*/
+}else{
+	String footerScript ="<script>window['ga-disable-UA-61431888-1'] = true;</script>";
+    request.setAttribute("footerScript", footerScript);
+}
+
 
 %>

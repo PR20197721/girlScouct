@@ -53,6 +53,7 @@ function x1_1(planPath, planName){
 		//loadMeetings();
 		if( html !=null && $.trim(html)!="" )
 			{alert( $.trim(html)); return; }
+		vtkTrackerPushAction('CreateYearPlan');
 		 location.reload();
 	});
 }
@@ -83,9 +84,11 @@ function doUpdMeeting(newVals){
 
 		dataType: 'html', // Choosing a JSON datatype
 
-	}).done(function( html ) { loadMeetings();});
-
-
+	}).done(function( html ) { 
+		loadMeetings();
+		vtkTrackerPushAction('ChangeMeetingPosition');
+	});
+		
 }
 
 function reloadMeeting(){
@@ -295,8 +298,7 @@ function addLocation(){
 			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;
 			$("#addLocationForm").trigger("reset");
-			vtkTrackerPushAction('addLocation');
-
+			vtkTrackerPushAction('AddLocation');
 		}
 	});
 }
@@ -314,7 +316,7 @@ function updSched(i, meetingPath, currDt){
 		"&isCancelledMeeting="+ isCancelled;
 
 	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?act=UpdateSched&updSched=true&"+urlParam, function( response, status, xhr ) {
-		if ( status != "error" ) { }else{ }
+		if ( status != "error" ) { vtkTrackerPushAction('UpdateSched'); }else{ }  
 	});
 
 }
@@ -400,6 +402,7 @@ function buildSchedContr(calStartDt, calAP, z, calTime, _level, orgDt){
 		success: function(result) {
 			//-loadCalMng();
 		//	location.reload();
+			vtkTrackerPushAction('CreateSchedule');
 			location.reload(true);
 		}
 	});
@@ -472,7 +475,7 @@ function rmCustActivity(x){
 			alert("Sorry.  Unable to remove activity: " + status);
 		}
 	});
-	vtkTrackerPushAction('removeActivity');
+	vtkTrackerPushAction('RemoveActivity');
 }
 
 function createNewCustActivity(){
@@ -524,7 +527,7 @@ function createNewCustActivity(){
 		},
 		success: function(result) {
 			location.reload();
-			vtkTrackerPushAction('createNewCustomActivity');
+			vtkTrackerPushAction('CreateActivity');
 		}
 	});
 }
@@ -567,8 +570,8 @@ function editNewCustActivity(activityUid){
 			//location.reload();
 			//var x= new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP);
 			//alert(x);
-			//-self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP).getTime();
-			vtkTrackerPushAction('editCustomActivity');
+			//-self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP).getTime(); 
+			vtkTrackerPushAction('ChangeCustomActivity');
 		}
 	});
 }
@@ -632,6 +635,7 @@ function relogin(){
 			a:Date.now()
 		},
 		success: function(result) {
+			vtkTrackerPushAction('ChangeTroop');
 			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
@@ -655,7 +659,7 @@ function bindAssetToYPC(assetId, ypcId){
 				a:Date.now()
 			},
 			success: function(result) {
-
+				vtkTrackerPushAction('AddAsset');
 			}
 		});
 
@@ -772,7 +776,7 @@ function rmMeeting( rmDate, mid){
 		},
 		success: function(result) {
 			location.reload();
-			vtkTrackerPushAction('removeMeeting');
+			vtkTrackerPushAction('RemoveMeeting');
 		}
 	});
 }
@@ -829,11 +833,12 @@ function councilRpt(troopId, cid){
 	}
 
 	function vtkTrackerPushAction(vAction){
-		/*
-		ga('vtkTracker.send', 'pageview', {
-			dimension4: vAction
-			});
-		*/
+		
+			ga('vtkTracker.send', 'pageview', {
+				dimension4: vAction
+				});
+	  
+		
 	}
 
 

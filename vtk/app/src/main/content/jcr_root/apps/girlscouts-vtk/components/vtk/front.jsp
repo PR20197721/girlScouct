@@ -1,11 +1,10 @@
 <%@page import="javax.jcr.query.RowIterator, javax.jcr.query.*, javax.jcr.Session, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
 <%@include file="/libs/foundation/global.jsp"%>
-<script src="/etc/designs/girlscouts-vtk/clientlibs.modern.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script>
 function markReported(path){
 	$.ajax({
 	    url: '/content/girlscouts-vtk/controllers/vtk.front1.html?rand='+Date.now(),
-	    type: 'POST',
 	    data: { 
 	        path:path,         
 	        a:Date.now()
@@ -31,7 +30,7 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
 
           
            String sql = "";
-           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop' and isAnalytics is null";
+           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop' and analyticsLastUpdated is null";
 
            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
@@ -57,7 +56,7 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
                    %>
                    
                    <script>
-                   markReported('<%=path%>');
+                   
 (function(i,s,o,g,r,a,m){
     i['GoogleAnalyticsObject']=r;
     i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
@@ -73,11 +72,11 @@ ga('create', 'UA-61431888-1', 'auto', {'name': 'vtkTracker'});
         dimension3: "<%=rpt[0]%>",
         dimension4: "testImprt",
         'hitCallback': function() {
-            console.log('Sent!!');
+        	markReported('<%=path%>');
            
           },
          'hitCallbackFail' : function () {
-            console.log("Unable to send Google Analytics data");
+            console.log("Unable to send Google Analytics data : <%=path%>");
             
          }
         
@@ -99,7 +98,14 @@ int refr= r.nextInt(5000-1000) + 1000;
 
 
 <script>
-function refresh() {      
+
+function refresh() {
+   
+	    //uncomment 2 lines auto post db to google
+        /*
+        window.location.reload(true);
+        setTimeout(refresh, <%=refr%>);
+        */
 }
 setTimeout(refresh, <%=refr%>);
 </script>
