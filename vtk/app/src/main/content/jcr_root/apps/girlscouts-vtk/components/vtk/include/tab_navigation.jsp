@@ -1,15 +1,24 @@
 <%@ page
-  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="org.girlscouts.vtk.helpers.ConfigManager,
+                org.girlscouts.vtk.helpers.CouncilMapper,java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="session.jsp"%>
 <%
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
-%>
+
+/*
+//Get URL for community page
+ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
+String communityUrl = "";
+if (configManager != null) {
+    communityUrl = configManager.getConfig("communityUrl");
+}
+*/
+String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 
 
-<%
   if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
     cookie.setMaxAge(-1);
@@ -17,22 +26,27 @@ PlanView planView = meetingUtil.planView(user, troop, request);
 %>
 
 <div id="troop" class="row hide-for-print">
-  <div class="columns large-7 medium-9 right">
-    <select id="reloginid" onchange="relogin()">
-      <%
-        for (int i = 0; i < troops.size(); i++) {
-      %>
-      <option value="<%=troops.get(i).getTroopId()%>"
-        <%=troop.getTroop().getTroopId()
-              .equals(troops.get(i).getTroopId()) ? "SELECTED"
-              : ""%>><%=troops.get(i).getTroopName()%>
-        :
-        <%=troops.get(i).getGradeLevel()%></option>
-      <%
-        }
-      %>
-    </select>
-  </div>
+	  
+	  <div class="columns large-7 medium-9 right">
+	    <select id="reloginid" onchange="relogin()">
+	      <%
+	        for (int i = 0; i < troops.size(); i++) {
+	      %>
+	      <option value="<%=troops.get(i).getTroopId()%>"
+	        <%=troop.getTroop().getTroopId()
+	              .equals(troops.get(i).getTroopId()) ? "SELECTED"
+	              : ""%>><%=troops.get(i).getTroopName()%>
+	        :
+	        <%=troops.get(i).getGradeLevel()%></option>
+	      <%
+	        }
+	      %>
+	    </select>
+	  </div>
+	  <div class="columns large-4 medium-4">
+	  
+       <a href="<%=communityUrl%>">Member Profile</a>
+      </div>
 </div>
 <%
   }
