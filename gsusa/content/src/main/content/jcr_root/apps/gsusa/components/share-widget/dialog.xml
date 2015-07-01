@@ -5,66 +5,72 @@
     <items jcr:primaryType="cq:WidgetCollection">
         <tabs jcr:primaryType="cq:TabPanel">
             <items jcr:primaryType="cq:WidgetCollection">
-            	<properties
-	                jcr:primaryType="cq:Panel"
-	                title="Properties">
-	                <items jcr:primaryType="cq:WidgetCollection">
+                <properties
+                    jcr:primaryType="cq:Panel"
+                    title="Properties">
+                    <items jcr:primaryType="cq:WidgetCollection">
                         <url
-                        	jcr:primaryType="cq:Widget"
+                            jcr:primaryType="cq:Widget"
                             fieldDescription="Enter the URL to share. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news. If left blank, the current page will be used"
                             fieldLabel="URL"
                             name="./url"
                             xtype="textfield"/>
                         <title
-                        	jcr:primaryType="cq:Widget"
-                        	fieldDescription="Enter the title of the post to share. Note: This will only appear for certain social networks, like Facebook and Pinterest. If blank, social network may generate a title based on page content or metadata."
-                        	fieldLabel="Title"
-                        	name="./title"
-                        	xtype="textfield"/>
-                       	<facebook
-                       		jcr:primaryType="cq:Widget"
-                       		fieldDescription="Check to show Facebook Share Button"
-                       		fieldLabel="Share via Facebook"
-                       		name="./facebook"
-                       		type="checkbox"
-                       		xtype="selection"/>
-                       	<twitter
-                       		jcr:primaryType="cq:Widget"
-                       		fieldDescription="Check to show Tweet Button"
-                       		fieldLabel="Share via Tweet"
-                       		name="./tweet"
-                       		type="checkbox"
-                       		xtype="selection"/>
-                       	<pinterest
-                       		jcr:primaryType="cq:Widget"
-                       		fieldDescription="Check to show Pinterest Share Button"
-                       		fieldLabel="Share via Pinterest"
-                       		name="./pinterest"
-                       		type="checkbox"
-                       		xtype="selection"/>
-                	</items>
-            	</properties>
-            	<message
-            		jcr:primaryType="cq:Panel"
-	                title="Message">
-	                <items jcr:primaryType="cq:WidgetCollection">
-	            		<twitter-message
-		                	jcr:primaryType="cq:Widget"
-		                    fieldDescription="Enter the message to Tweet (max 140 characters). If blank, Twitter may pull data from page or page metadata"
-		                    fieldLabel="Twitter Message"
-		                    maxLength="140"
-		                    maxLengthText="Message can not be longer than 140 characters"
-		                    name="./twitterMessage"
-		                    xtype="textarea"/>
-		                <other-message
-		                	jcr:primaryType="cq:Widget"
-		                	fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
-		                	fieldLabel="Facebook/Pinterest Message"
-		                	name="./otherMessage"
-		                	xtype="textarea"/>
-		            </items>
-            	</message>
-        	</items>
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="If blank, "
+                            fieldLabel="Title"
+                            name="./title"
+                            xtype="textfield"/>
+                        <facebook
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="{Boolean}true"
+                            fieldDescription="Check to show Facebook Share Button"
+                            fieldLabel="Share via Facebook"
+                            name="./facebook"
+                            type="checkbox"
+                            value="{Boolean}true"
+                            xtype="selection"/>
+                        <facebook-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
+                            fieldLabel="Facebook/Pinterest Message"
+                            name="./otherMessage"
+                            xtype="textarea"/>
+                        <twitter
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="{Boolean}true"
+                            fieldDescription="Check to show Tweet Button"
+                            fieldLabel="Share via Tweet"
+                            name="./tweet"
+                            type="checkbox"
+                            value="{Boolean}true"
+                            xtype="selection"/>
+                        <twitter-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter the message to Tweet (max 140 characters). If blank, Twitter may pull data from page or page metadata"
+                            fieldLabel="Twitter Message"
+                            maxLength="140"
+                            maxLengthText="Message can not be longer than 140 characters"
+                            name="./twitterMessage"
+                            xtype="textarea"/>
+                        <pinterest
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="{Boolean}true"
+                            fieldDescription="Check to show Pinterest Share Button"
+                            fieldLabel="Share via Pinterest"
+                            name="./pinterest"
+                            type="checkbox"
+                            value="{Boolean}true"
+                            xtype="selection"/>
+                        <pinterest-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
+                            fieldLabel="Facebook/Pinterest Message"
+                            name="./otherMessage"
+                            xtype="textarea"/>
+                    </items>
+                </properties>
+            </items>
         </tabs>
     </items>
 </jcr:root>
