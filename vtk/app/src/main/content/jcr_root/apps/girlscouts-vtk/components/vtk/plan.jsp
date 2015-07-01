@@ -325,6 +325,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             data: '',
             dataType: 'html',
         }).done(function( html ) {
+        	vtkTrackerPushAction('MoveMeetings');
         	console.info('Before calling callback');
         	if (callback) {
         		console.info('Calling callback');

@@ -801,6 +801,7 @@ React.createElement(ActivityPlan),
     dataType: 'html', 
     success: function (data) { 
     	//location.reload();
+    	vtkTrackerPushAction('MoveAgendas');
     },
     error: function (data) { 
     }

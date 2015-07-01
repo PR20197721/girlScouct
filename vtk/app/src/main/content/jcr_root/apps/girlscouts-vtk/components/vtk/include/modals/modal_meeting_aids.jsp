@@ -69,6 +69,7 @@
 				a:Date.now()
 			},
 			success: function(result) {
+				vtkTrackerPushAction('AddMeetingAid');
 				location.reload();
 			}
 		});

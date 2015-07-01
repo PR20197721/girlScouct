@@ -578,6 +578,7 @@ function editNewCustActivity(activityUid){
 }
 
 function searchActivity(){
+	
 	var existActivSFind = document.getElementById("existActivSFind").value;
 	var existActivSMon  = document.getElementById("existActivSMon").value;
 	var existActivSYr = document.getElementById("existActivSYr").value;
@@ -605,7 +606,7 @@ function searchActivity(){
 		"&existActivSLevl="+_level+
 		"&existActivSCat="+existActivSCat;
 	$("#listExistActivity").load("/content/girlscouts-vtk/controllers/vtk.controller.html?searchExistActivity=true"+ urlParam);
-	vtkTrackerPushAction('search');
+	
 }
 
 $('#plan_hlp_hrf').click(function() {
@@ -835,6 +836,8 @@ function councilRpt(troopId, cid){
 	}
 
 	function vtkTrackerPushAction(vAction){
+		if( vAction!='View')
+		 {alert("google vtk action: "+vAction);}
 		
 			ga('vtkTracker.send', 'pageview', {
 				dimension4: vAction
