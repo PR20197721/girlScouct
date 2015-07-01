@@ -45,6 +45,10 @@
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
           $('.join').removeClass('change');
+          $('.main-slider').slick({
+            autoplay: true
+          });
+          console.log('main carousel automated');
         });
       }
     });
