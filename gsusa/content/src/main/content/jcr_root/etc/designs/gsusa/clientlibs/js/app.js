@@ -45,6 +45,10 @@
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
           $('.join').removeClass('change');
+          $('.main-slider').slick({
+            autoplay: true
+          });
+          console.log('main carousel automated');
         });
       }
     });
@@ -107,7 +111,7 @@
           "top" : 'auto'
         });
       }
-      $(".featured-stories li").each(function (index) {
+      $(".featured-stories li").each(function () {
         var elem = $(this);
         var target = elem.find('.story');
         //clicking on the LI will open the section with content.
@@ -143,7 +147,7 @@
   $('.main-slider').slick({
     dots: false,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     fade: true,
     autoplay: true,
     arrows: false,
@@ -174,8 +178,6 @@
   });
   $('.inner-sliders .slide-1').slick({
     dots: true,
-    infinite: false,
-    speed: 500,
     fade: true,
     dotsClass: 'slick-dots',
     cssEase: 'linear',
@@ -186,8 +188,6 @@
   });
   $('.inner-sliders .slide-2, .inner-sliders .slide-3').slick({
     dots: false,
-    infinite: false,
-    speed: 500,
     fade: true,
     cssEase: 'linear',
     arrows: false,
@@ -212,8 +212,8 @@
     });
   }
   function scroll_feeds() {
-    $('.scroll-more').bind("click", function (e) {
-      var target = $(e.target);
+    $('.scroll-more').bind("click", function () {
+      // var target = $(e.target);
       var scroll_area = $(this).siblings('.social-block');
 
       var feed_height = scroll_area.scrollTop() + scroll_area.outerHeight();
@@ -229,6 +229,15 @@
         scrollTop: "+=" + scroll_area.height() + "px"
       }, 500);
     });
+  }
+  function equilize_gs_stories() {
+    var blocks = $('.gs-stories-block li div');
+    var maxHeight = Math.max.apply(Math, blocks.map(function () {
+      console.log($(this).height());
+      return $(this).height();
+
+    }).get());
+    blocks.height(maxHeight);
   }
   $(window).resize(function () {
     if ($(window).width() < 640) {
@@ -248,5 +257,6 @@
   explore_button();
   join_now();
   scroll_feeds();
+  equilize_gs_stories();
 
 }(jQuery));

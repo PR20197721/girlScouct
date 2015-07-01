@@ -7,7 +7,7 @@
 // $slick-loader-path: "./" !default;
 // $slick-arrow-color: red;
 // $slick-dot-color: black !default;
-// $slick-dot-color-active: $slick-dot-color !default;
+// $slick-dot-color-active: red !default;
 $slick-prev-character: "\f137";
 $slick-next-character: "\f138";
 // $slick-dot-character: "\f111";
@@ -47,32 +47,34 @@ div.carousel {
         width: 100%;
         height: 100%;
       }
+      &.slick-active {
+        img {
+          opacity: .7;
+        }
+      }
     }
   }
   .slick-prev,
   .slick-next {
-    border-radius: 50%;
-    width: rem-calc(40);
-    height: rem-calc(40);
-    background: $black;
+    width: rem-calc(20);
+    height: rem-calc(70);
+    margin: 0;
+    padding: 0;
     &:before {
-      font-family: "FontAwesome";
-      font-size: rem-calc(35);
       opacity: 1;
+      display: block;
     }
   }
   .slick-prev {
     left: rem-calc(10);
     &:before {
-      content: "\f0d9";
-      margin-right: rem-calc(4);
+      content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
     }
   }
   .slick-next {
     right: rem-calc(10);
     &:before {
-      content: "\f0da";
-      margin-left: rem-calc(4);
+      content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
     }
   }
 }
@@ -210,11 +212,11 @@ div.carousel {
         display: inline;
         width: 20%;
         padding-left: rem-calc(5);
+        font-size: rem-calc(20);
+        vertical-align: top;
       }
       button {
-        padding: rem-calc(7);
         margin: 0;
-
       }
     }
   }

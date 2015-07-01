@@ -2,18 +2,17 @@
 <jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="dam:Asset">
     <jcr:content
-        cq:lastReplicated="{Date}2015-06-12T12:52:41.114-04:00"
-        cq:lastReplicatedBy="dlubin"
+        cq:lastReplicated="{Date}2015-06-25T16:03:42.003-04:00"
+        cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
-        jcr:lastModified="{Date}2015-06-11T15:35:33.900-04:00"
+        jcr:lastModified="{Date}2015-06-25T12:04:27.234-04:00"
         jcr:lastModifiedBy="admin"
         jcr:mixinTypes="[cq:ReplicationStatus]"
-        jcr:primaryType="dam:AssetContent"
-        newRendition="{Boolean}true">
+        jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="{Long}32"
             dam:Comments="XML:com.adobe.xmp: &lt;x:xmpmeta xmlns:x=&quot;adobe:ns:meta/&quot; x:xmptk=&quot;XMP Core 5.4.0&quot;>&#xa;   &lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;>&#xa;      &lt;rdf:Description rdf:about=&quot;&quot;&#xa;            xmlns:exif=&quot;http://ns.adobe.com/exif/1.0/&quot;>&#xa;         &lt;exif:PixelXDimension>200&lt;/exif:PixelXDimension>&#xa;         &lt;exif:PixelYDimension>200&lt;/exif:PixelYDimension>&#xa;      &lt;/rdf:Description>&#xa;   &lt;/rdf:RDF>&#xa;&lt;/x:xmpmeta>&#xa;&#xa;"
-            dam:extracted="{Date}2015-06-11T15:35:33.568-04:00"
+            dam:extracted="{Date}2015-06-25T12:04:22.932-04:00"
             dam:Fileformat="PNG"
             dam:MIMEtype="image/png"
             dam:Numberofimages="{Long}1"
@@ -32,7 +31,7 @@
             jcr:primaryType="nt:unstructured"
             tiff:ImageLength="{Long}200"
             tiff:ImageWidth="{Long}200"/>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>

@@ -5,7 +5,7 @@
         cq:lastModified="{Date}2015-06-24T18:15:25.945-04:00"
         cq:lastModifiedBy="admin"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Scholarship Search"
+        jcr:title="Curriculum Filter"
         sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">
             <main jcr:primaryType="nt:unstructured">
