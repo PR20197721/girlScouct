@@ -20,7 +20,7 @@
  */
 
 gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
-
+	
     hiddenField: null,
     pathField: null,
 	linkField: null,
@@ -40,7 +40,7 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     // overriding CQ.Ext.Component#initComponent
     initComponent: function() {
         gsusa.components.LinkWidget.superclass.initComponent.call(this);
-
+        
         this.hiddenField = new CQ.Ext.form.Hidden({
             name: this.name
         });

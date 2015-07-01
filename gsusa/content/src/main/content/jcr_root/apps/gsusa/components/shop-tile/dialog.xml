@@ -11,12 +11,11 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<shop-link
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Shop Button Link"
-                    	name="./shopLink"
-                    	xtype="pathfield"
-                    />
+                    <shop-link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Shop Button Link"
+                        name="./shopLink"
+                        xtype="pathfield"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         hideLabel="{Boolean}true"
@@ -78,19 +77,20 @@
                 </items>
             </properties>
             <images
-            jcr:primaryType="cq:Panel"
+                jcr:primaryType="cq:Panel"
                 title="Images">
                 <items jcr:primaryType="cq:WidgetCollection">
-            		<multi
+                    <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
                         name="./imgs"
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
+                            limit="{Long}10"
                             xtype="shoplink"/>
                     </multi>
-            	</items>
+                </items>
             </images>
         </items>
     </items>
