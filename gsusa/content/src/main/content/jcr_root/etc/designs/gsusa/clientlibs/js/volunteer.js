@@ -42,7 +42,6 @@ $('.FormVolunteer').submit(function (event) {
             //var curZipcode = $(me).find("[name='ZipVolunteer']").val();
             _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue]);
         
-            //submit_facebook_conversion_pixel("volunteer/"+src);
             submit_facebook_conversion_pixel("volunteer/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully
             window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
@@ -79,5 +78,6 @@ function facebookTrackingSendClick() {
     window._fbq = window._fbq || [];
     window._fbq.push(['track', '6012336501089', {'value':'0.00','currency':'USD'}]);
 }
+
 
 
