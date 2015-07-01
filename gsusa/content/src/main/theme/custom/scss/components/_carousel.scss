@@ -272,3 +272,19 @@ div.carousel {
     }
   }
 }
+.shop-slider {
+  .slick-track .slick-slide {
+      padding: .3%;
+    a {
+      display: block;
+      img {
+        min-height: 310px;
+      }
+    }
+    &.shadow-box {
+      img {
+        box-shadow:0px 1px 6px #000
+      }
+    }
+  }
+}
