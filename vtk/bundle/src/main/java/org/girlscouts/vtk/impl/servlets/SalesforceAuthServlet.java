@@ -339,6 +339,7 @@ e1.printStackTrace();
 String token= null, userId= null;
 try {
 	System.err.println("TATATATAT>>> "+ request.getParameter("SAMLResponse"));
+	System.out.println("xSaml target: "+ targetUrl);
 	 samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
 	 samlResponse.setDestinationUrl(request.getRequestURL().toString());
 	  if (samlResponse.isValid()) {
