@@ -36,7 +36,6 @@
         }
     }
 
-
     // language
     branch += "/en/jcr:content";
     System.out.println("##branch = " + branch);

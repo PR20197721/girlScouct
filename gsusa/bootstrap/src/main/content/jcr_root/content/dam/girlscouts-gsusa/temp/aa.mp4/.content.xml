@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        cq:lastReplicated="{Date}2015-06-25T16:03:44.527-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        jcr:lastModified="{Date}2015-06-25T12:04:29.420-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:mixinTypes="[cq:ReplicationStatus]"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:extracted="{Date}2015-06-25T12:04:24.492-04:00"
+            dam:sha1="05311d8b2ce5a28dc2ba621371eea0083cd9aed3"
+            dam:size="{Long}12866049"
+            dc:extent="{Long}15030"
+            dc:format="video/mp4"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            tiff:ImageLength="{Double}1080.0"
+            tiff:ImageWidth="{Double}1920.0"/>
+        <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
+    </jcr:content>
+</jcr:root>

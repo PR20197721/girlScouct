@@ -1,0 +1,51 @@
+//twitter-feed
+.social-block {
+  max-height: rem-calc(410);
+  overflow: hidden;
+  height: rem-calc(410);
+  margin-bottom: rem-calc(5);
+  [class^="icon-"],
+  [class*=" icon-"]{
+    font-size: 50px;
+    display: block;
+    color: #797979;
+    text-align: center;
+  }
+}
+.twitter-feed {
+  @media #{$medium-up} {
+    @include grid-column(8);
+  }
+  background-color: $white;
+  position: relative;
+  padding-bottom: rem-calc(45);
+  .wrapper {
+    .scroll-more {
+      @include css-triangle(97px, #e8e8e8, top);
+      border-top-width: rem-calc(31);
+      border-bottom-width: rem-calc(1);
+      position: absolute;
+      left: 50%;
+      margin-left: -97px;
+      cursor: pointer;
+    }
+  }
+}
+//inner carousel fb component
+.facebook-feed {
+  max-height: rem-calc(420);
+  overflow: hidden;
+  .facebook-feed-image-area {
+    float:left;
+    width: rem-calc(521);
+    img {
+      // max-height: rem-calc(420);
+      // width: rem-calc(530);
+      width: 100%;
+    }
+  }
+  .facebook-embed-area {
+    width: rem-calc(359);
+    float: left;
+  }
+}

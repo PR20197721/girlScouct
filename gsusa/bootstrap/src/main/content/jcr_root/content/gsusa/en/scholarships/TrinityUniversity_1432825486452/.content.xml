@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-05-28T11:04:46.471-04:00"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="gsusa/components/scholarship-page"
+        awardContent1="$5,000"
+        awardContent2="$4,000"
+        awardContent3="$3,000"
+        awardName1="Girl Scout Leadership Scholarship - Gold Award "
+        awardName2="Girl Scout Leadership Scholarship - Silver Award"
+        awardName3="Girl Scout Leadership Scholarship"
+        awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Girl Scout from Girl Scout Council of the Nationâs Capital"
+        awardReq2="Girl Scout Silver Award recipient (and all requested documentation)&#xa;Girl Scout from Girl Scout Council of the Nationâs Capital"
+        awardReq3="Girl Scout from Girl Scout Council of the Nationâs Capital"
+        city="Washington"
+        contact="www.trinitydc.edu/enrollment/trinity-aid-cas/"
+        contactPhone="202.884.9400"
+        contactTitle="Trinity's Office of Admissions"
+        hideInNav="true"
+        sponsor="Trinity University "
+        state="DC"
+        sType="College/University"
+        website="http://www.trinitydc.edu/"/>
+</jcr:root>

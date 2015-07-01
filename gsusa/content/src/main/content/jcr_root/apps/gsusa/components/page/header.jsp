@@ -1,0 +1,25 @@
+<%@include file="/libs/foundation/global.jsp" %>
+<!-- header -->
+<%
+    // All pages share the same header from the site root.
+    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+    String logoPath = headerPath + "/logo";
+    String headerNavPath = headerPath + "/header-nav";
+%>
+<div class="top-header row">
+    <section class="logo-section">
+        <a href="/content/gsusa/en.html" title="girscouts.com home">
+            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+        </a>
+    </section>
+    <section class="utility show-for-medium-up">
+    	<div>
+    	    <cq:include path="header/eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
+        </div>
+        <div>
+    	    <cq:include path="header/search" resourceType="gsusa/components/search-box" />
+        </div>
+    </section>
+</div>
+<cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
+<!--/header -->

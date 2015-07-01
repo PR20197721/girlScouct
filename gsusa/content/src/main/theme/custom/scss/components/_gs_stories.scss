@@ -1,0 +1,49 @@
+.gs-stories-block {
+  @media (min-width: 1026px) and (max-width: 99999999px) {
+    @include block-grid(3, $gs-block-grid-default-spacing);
+  }
+   @media (min-width: 441px) and (max-width: 1025px) {
+    @include block-grid(2);
+   }
+   @media (min-width: 0) and (max-width: 440px) and (orientation: portrait) {
+     @include block-grid(1);
+   }
+   .left-col &,
+   .right-col & {
+     @media #{$medium-up} {
+       @include block-grid(1);
+     }
+   }
+  a {
+    color: $black;
+    &:after {
+      content: ">";
+      color: $primary-color;
+      margin-left: 5px;
+      vertical-align: middle;
+    }
+  }
+  li {
+    div {
+      @include clearfix;
+      background: #e3e3e3;
+      padding-top: rem-calc(8);
+      // max-height: rem-calc(270);
+      padding-bottom: rem-calc(20);
+      // height: 100%;
+      text-align: left;
+      @media #{$small-up} {
+        text-align: center;
+      }
+      img {
+        padding: 0 rem-calc(10);
+      }
+      p {
+        text-align: center;
+        max-width: 90%;
+        margin: rem-calc(15) auto 0;
+        line-height: 1.4;
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="sling:OrderedFolder">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Homepage Heroes"/>
+    <_x0031_.png/>
+    <_x0032_.png/>
+    <_x0033_.png/>
+    <_x0034_.png/>
+    <_x0035_.png/>
+    <_x0036_.png/>
+    <_x0037_.png/>
+    <home3.png/>
+    <home2.png/>
+    <home4.png/>
+    <_x0038_.png/>
+    <home1.png/>
+</jcr:root>
