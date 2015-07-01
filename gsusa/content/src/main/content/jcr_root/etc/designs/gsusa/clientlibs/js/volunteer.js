@@ -1,21 +1,22 @@
 $('.FormVolunteer').submit(function (event) {
 
-    console.info("heeeeo");
-
-    strGACampaign = ""; //getParameterByName("utm_campaign");
-    strGAMedium = ""; //getParameterByName("utm_medium");
-    strGASource = ""; //getParameterByName("utm_source");  
+    strGACampaign = getParameterByName("utm_campaign");
+    strGAMedium = getParameterByName("utm_medium");
+    strGASource = getParameterByName("utm_source");  
 
     me = event.target;
+	zipValue = $(me).find("[name='ZipVolunteer']").val();
 
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
-        zipcode:$(me).find("[name='ZipVolunteer']").val(),
+        zipcode: zipValue,
         source:"homepage",
         actiontype:"volunteer",
         GACampaign:strGACampaign,
         GAMedium:strGAMedium,
         GASource:strGASource
     }, function(txt) {
+        console.info("done");
+
         var found = true;
         //submission page contains either welcome or thank you
         //no need to check since it is not critical
@@ -38,17 +39,18 @@ $('.FormVolunteer').submit(function (event) {
 
         if(found) {
             //register zipcode entered to google analytics
-            var curZipcode = $('#ZipVolunteer').val();
-            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+curZipcode]);
+            //var curZipcode = $(me).find("[name='ZipVolunteer']").val();
+            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue]);
         
-            submit_facebook_conversion_pixel("volunteer/"+src);
+            //submit_facebook_conversion_pixel("volunteer/"+src);
+            submit_facebook_conversion_pixel("volunteer/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully
             window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
         } else {
             // invalidate the zipcode field manually
-            $("#ZipVolunteer").val('Invalid');
+            $(me).find("[name='ZipVolunteer']").val('Invalid');
             // .valid() should work but somehow with edge animation, it doesn't work.. so instead, using .select()
-            $("#ZipVolunteer").select();		
+            $(me).find("[name='ZipVolunteer']").select();		
         }
     });
 
@@ -78,6 +80,4 @@ function facebookTrackingSendClick() {
     window._fbq.push(['track', '6012336501089', {'value':'0.00','currency':'USD'}]);
 }
 
-function isNumber(n) {
-  return !isNaN(parseFloat(n)) && isFinite(n);
-}
+
