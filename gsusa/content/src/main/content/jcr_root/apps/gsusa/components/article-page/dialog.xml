@@ -40,7 +40,11 @@
                             fieldDescription="Enter the default title for Facebook and Twitter share popups. Facebook must be set up here."
                             fieldLabel="Share Title"
                             name="./shareTitle"
-                            xtype="textfield"/>
+                            xtype="textfield">
+                            <listeners
+                                jcr:primaryType="nt:unstructured"
+                                loadcontent="function(){&#xa;    var field = $('input[name=&quot;./shareTitle&quot;]');&#xa;    if (field.val().length == 0) {&#xa;        field.val($('input[name=&quot;./jcr:title&quot;]').val());&#xa;    }&#xa;}&#xa;"/>
+                        </share-title>
                         <fb-message
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Enter the default message for the Facebook share popup"
@@ -59,17 +63,17 @@
                     </items>
                 </social>
                 <share-image-tab
-                	cropParameter="./imageCrop"
-                	ddGroups="media"
-                	fileNameParameter="./fileName"
-                	fileReferenceParameter="./fileReference"
-                	jcr:primaryType="cq:Widget"
-                	mapParameter="./imageMap"
-                	name="./file"
-                	requestSuffix=".img.png"
-                	rotateParameter="./imageRotate"
-		            title="Share Image"
-		            xtype="html5smartimage"/>
+                    jcr:primaryType="cq:Widget"
+                    cropParameter="./imageCrop"
+                    ddGroups="media"
+                    fileNameParameter="./fileName"
+                    fileReferenceParameter="./fileReference"
+                    mapParameter="./imageMap"
+                    name="./file"
+                    requestSuffix=".img.png"
+                    rotateParameter="./imageRotate"
+                    title="Share Image"
+                    xtype="html5smartimage"/>
             </items>
         </tabs>
     </items>
