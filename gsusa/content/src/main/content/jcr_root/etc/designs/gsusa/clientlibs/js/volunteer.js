@@ -1,22 +1,21 @@
-$('.FormVolunteer').submit(function () {
+$('.FormVolunteer').submit(function (event) {
 
     console.info("heeeeo");
 
-    strGACampaign = "a"; //getParameterByName("utm_campaign");
-    strGAMedium = "b"; //getParameterByName("utm_medium");
-    strGASource = "c"; //getParameterByName("utm_source");  
-//
-    $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
-        zipcode:$('#ZipVolunteer').val(),
-	source:"homepage",
-	actiontype:"volunteer",
-	GACampaign:strGACampaign,
-	GAMedium:strGAMedium,
-	GASource:strGASource
-    }, function(txt) {
+    strGACampaign = ""; //getParameterByName("utm_campaign");
+    strGAMedium = ""; //getParameterByName("utm_medium");
+    strGASource = ""; //getParameterByName("utm_source");  
 
-    
-        console.info(txt);
+    me = event.target;
+
+    $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
+        zipcode:$(me).find("[name='ZipVolunteer']").val(),
+        source:"homepage",
+        actiontype:"volunteer",
+        GACampaign:strGACampaign,
+        GAMedium:strGAMedium,
+        GASource:strGASource
+    }, function(txt) {
         var found = true;
         //submission page contains either welcome or thank you
         //no need to check since it is not critical
