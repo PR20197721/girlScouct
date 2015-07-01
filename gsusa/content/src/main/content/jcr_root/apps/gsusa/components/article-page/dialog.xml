@@ -33,47 +33,28 @@
                     xtype="cqinclude"/>
                 <social
                     jcr:primaryType="cq:Widget"
-                    title="Social Media">
+                    title="Article Metadata">
                     <items jcr:primaryType="cq:WidgetCollection">
-                        <share-title
+                        <article-title
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the default title for Facebook and Twitter share popups. Facebook must be set up here."
-                            fieldLabel="Share Title"
-                            name="./shareTitle"
+                            fieldDescription="The title of this article. Default to the title of the page."
+                            fieldLabel="Article Title"
+                            name="./articleTitle"
                             xtype="textfield">
                             <listeners
                                 jcr:primaryType="nt:unstructured"
-                                loadcontent="function(){&#xa;    var field = $('input[name=&quot;./shareTitle&quot;]');&#xa;    if (field.val().length == 0) {&#xa;        field.val($('input[name=&quot;./jcr:title&quot;]').val());&#xa;    }&#xa;}&#xa;"/>
-                        </share-title>
-                        <fb-message
+                                loadcontent="function(){&#xa;    var field = $('input[name=&quot;./articleTitle&quot;]');&#xa;    if (field.val().length == 0) {&#xa;        field.val($('input[name=&quot;./jcr:title&quot;]').val());&#xa;    }&#xa;}&#xa;"/>
+                        </article-title>
+                        <short-description
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the default message for the Facebook share popup"
-                            fieldLabel="Facebook Default Message"
-                            maxLength="500"
-                            name="./fbMessage"
-                            xtype="textarea"/>
-                        <twitter-message
-                            jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the default message for the Twitter share popup (max 140 characters)"
-                            fieldLabel="Twitter Default Message"
+                            fieldDescription="A short description of this article."
+                            fieldLabel="Short Description"
                             maxLength="140"
                             maxLengthText="Message can not be longer than 140 characters"
-                            name="./twitterMessage"
+                            name="./description"
                             xtype="textarea"/>
                     </items>
                 </social>
-                <share-image-tab
-                    jcr:primaryType="cq:Widget"
-                    cropParameter="./imageCrop"
-                    ddGroups="media"
-                    fileNameParameter="./fileName"
-                    fileReferenceParameter="./fileReference"
-                    mapParameter="./imageMap"
-                    name="./file"
-                    requestSuffix=".img.png"
-                    rotateParameter="./imageRotate"
-                    title="Share Image"
-                    xtype="html5smartimage"/>
             </items>
         </tabs>
     </items>
