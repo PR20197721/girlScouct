@@ -213,6 +213,7 @@ public static String getCouncilInClient(HttpServletRequest request){
 
 public static String getYearPlanBase(User user, Troop troop){
 
+	/*
 	String ypBase= "/vtk";
 	java.util.Calendar now= java.util.Calendar.getInstance();
 	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
@@ -220,7 +221,20 @@ public static String getYearPlanBase(User user, Troop troop){
 	else
 		ypBase += now.get(java.util.Calendar.YEAR);
 	
-	return ypBase+"/";	
+	return ypBase+"/";
+	*/
+	return "/vtk"+ getCurrentGSYear() +"/";
 }
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSYear(){
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
+		return now.get(java.util.Calendar.YEAR) +1;
+	else
+		return now.get(java.util.Calendar.YEAR);	
+}
+
 
 }//end class
