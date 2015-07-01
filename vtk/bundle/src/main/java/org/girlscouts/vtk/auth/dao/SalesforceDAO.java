@@ -591,7 +591,7 @@ System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
 		CloseableHttpClient connection = null;
 //System.err.println("tata new user");		
 		
-		getToken();
+	//-	getToken();
 		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
@@ -599,7 +599,7 @@ System.err.println("tatata url : "+apiConfig.getWebServicesUrl()
 		+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());		
 System.err.println("tatata: userId "+apiConfig.getUserId());		
 		//method.setHeader("Authorization", "OAuth 00DZ000000Mia06!AQ4AQOZNCmp9zZQCSTU_11g4OgJkjxQcZg8fybfqwzmQwrEeXpAMs73FbknGLBSDuIgRNxuk1fdgrVjpjPEVIIYxqaZvh30u");// + getToken(apiConfig) );
-method.setHeader("Authorization", "SAML " + getToken(apiConfig) );
+method.setHeader("Authorization", "OAuth " + getToken(apiConfig) );
 System.err.println("tatata sso token: "+ getToken(apiConfig));		
 		try {
 			connection = connectionFactory.getConnection();
