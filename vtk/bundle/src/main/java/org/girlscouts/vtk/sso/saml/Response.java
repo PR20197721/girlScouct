@@ -125,13 +125,19 @@ public class Response {
 	//					}
 						Node recipient = childs.item(c).getAttributes().getNamedItem("Recipient");					
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
+							
 							validSubjectConfirmation = false;
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
 						if(notOnOrAfter != null){						
 							final Calendar notOnOrAfterDate = javax.xml.bind.DatatypeConverter.parseDateTime(notOnOrAfter.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+							
+							//server diff: per Mike
+							now.add(java.util.Calendar.MINUTE, -1);
+							
 							if(notOnOrAfterDate.before(now)){
+	  						
 								validSubjectConfirmation = false;
 							}
 						}
@@ -140,6 +146,7 @@ public class Response {
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
+						
 								validSubjectConfirmation = false;
 							}
 						}
