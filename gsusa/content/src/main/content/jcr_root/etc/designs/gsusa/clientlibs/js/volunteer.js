@@ -1,4 +1,4 @@
-$('.FormVolunteer').submit(function (event) {
+$('.formVolunteer').submit(function (event) {
 
     strGACampaign = getParameterByName("utm_campaign");
     strGAMedium = getParameterByName("utm_medium");
@@ -13,18 +13,16 @@ $('.FormVolunteer').submit(function (event) {
         actiontype:"volunteer",
         GACampaign:strGACampaign,
         GAMedium:strGAMedium,
-        GASource:strGASource
+        GASource:"volunteer"
     }, function(txt) {
-        console.info("done");
-
         var found = true;
         //submission page contains either welcome or thank you
         //no need to check since it is not critical
         if (txt.search(/INSERTED/i) == -1) {
-            alert('Sorry, there is no local council serving zipcode '+$('#ZipVolunteer').val());
+            alert('Sorry, there is no local council serving zipcode '+ zipValue);
             //spinner.stop(spinner_div);
         }
-                    
+
         //see if we can still parse and process url
         var result = txt.split(",");
         if(!isNumber(result[0])) {
@@ -78,6 +76,5 @@ function facebookTrackingSendClick() {
     window._fbq = window._fbq || [];
     window._fbq.push(['track', '6012336501089', {'value':'0.00','currency':'USD'}]);
 }
-
 
 
