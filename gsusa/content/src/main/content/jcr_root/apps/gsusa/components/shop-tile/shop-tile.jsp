@@ -34,8 +34,10 @@ if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
 </div>
 <div class="rich-text">
+<h3>Gifts for girl scout dads</h3>
 <cq:text property="text" escapeXml="true"
         placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-</div>
 <a href="<%=shopNowLink%>" class="button">Shop Now</a>
+</div>
+
 <% } %>

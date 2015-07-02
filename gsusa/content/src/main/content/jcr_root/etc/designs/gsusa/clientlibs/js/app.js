@@ -189,6 +189,9 @@
     cssEase: 'linear',
     arrows: false,
   });
+  $('.shop-slider').on('init', function () {
+    $(this).find('.slick-active:eq(1)').addClass('shadow-box');
+  });
   $('.shop-slider').slick({
     dots: false,
     infinite: false,
