@@ -1,16 +1,30 @@
-<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer, java.net.URLEncoder" %>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+                java.lang.StringBuilder,
+                java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
-String canonicalUrl = currentPage.getPath().replaceFirst("/content", "http://girlscouts.org");
+// Get the URL
+String canonicalUrl = resourceResolver.map(currentPage.getPath());
 String url = properties.get("url",canonicalUrl);
 
+// Get the title
 String title = properties.get("title","");
-boolean fb = properties.get("facebook",true);
-boolean twitter = properties.get("tweet",true);
-boolean pinterest = properties.get("pinterest",true);
-String twitterMsg = properties.get("twitterMessage","");
-String otherMsg = properties.get("otherMessage","");
+ValueMap pageProps = currentPage.getProperties();
+if (title.isEmpty()) {
+	title = pageProps.get("articleTitle", ""); 
+}
+if (title.isEmpty()) {
+    title = pageProps.get("jcr:title", "");
+}
+
+boolean fb = properties.get("showFacebook",true);
+boolean twitter = properties.get("showTweet",true);
+boolean pinterest = properties.get("showPinterest",true);
+
+String facebookText = properties.get("facebookText","");
+String twitterText = properties.get("twitterText","");
+String pinterestText = properties.get("pinterestText","");
 
 StringBuilder sb = new StringBuilder();
 
