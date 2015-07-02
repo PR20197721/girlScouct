@@ -3,6 +3,7 @@
 facebook-sdk.js
 twitter-feed-widget.js
 volunteer.js
+join.js
 gaq.js
 utils.js
 jquery.min.js
