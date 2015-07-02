@@ -5,6 +5,7 @@
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
     String logoPath = headerPath + "/logo";
     String headerNavPath = headerPath + "/header-nav";
+    String headerJoinPath = headerPath + "/join";
 %>
 <div class="top-header row">
     <section class="logo-section">
@@ -14,7 +15,8 @@
     </section>
     <section class="utility show-for-medium-up">
     	<div>
-    	    <cq:include path="header/eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
+    	    <cq:include path="<%=headerNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
+    	    <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
         </div>
         <div>
     	    <cq:include path="header/search" resourceType="gsusa/components/search-box" />
