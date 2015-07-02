@@ -239,6 +239,16 @@
     }).get());
     blocks.height(maxHeight);
   }
+  function show_final() {
+    $('.slick-disabled').on('click', function (event) {
+      if ($('.slick-next').hasClass('slick-disabled')) {
+        console.log('doc close');
+        event.stopPropagation();
+        var target = $(event.target);
+        $('.final-comp').show();
+      }
+    });
+  }
   $(window).resize(function () {
     if ($(window).width() < 640) {
       $('.overlay').hide();
@@ -257,5 +267,6 @@
   join_now();
   scroll_feeds();
   equilize_gs_stories();
+  show_final();
 
 }(jQuery));
