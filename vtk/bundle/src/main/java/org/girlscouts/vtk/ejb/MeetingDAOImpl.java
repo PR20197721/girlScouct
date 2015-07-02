@@ -1081,7 +1081,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				regionSql += " and LOWER(region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1616,7 +1616,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+ VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
