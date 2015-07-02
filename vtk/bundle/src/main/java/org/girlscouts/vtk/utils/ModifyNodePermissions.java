@@ -40,7 +40,7 @@ public class ModifyNodePermissions {
   try {
    
    session = repository.loginAdministrative(null);
-  System.err.println("tata: "+ nodePath +" : "+nodePath.substring(0, nodePath.length()-1)); 
+  
    JcrUtils.getOrCreateByPath(nodePath.substring(0, nodePath.length()-1), "nt:unstructured", session);
 
    UserManager userMgr = ((org.apache.jackrabbit.api.JackrabbitSession) session).getUserManager();
