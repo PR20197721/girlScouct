@@ -34,6 +34,7 @@ import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.CouncilInfo;
+import org.girlscouts.vtk.utils.ModifyNodePermissions;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +53,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
+	@Reference
+	private ModifyNodePermissions permiss;
+	
 	@Activate
 	void activate() {
 	}
@@ -126,9 +130,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
+			
+			String vtkBase = VtkUtil.getYearPlanBase(user, null);
+			if (!session.itemExists(vtkBase)) {
+				//create vtk base
+				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
+				permiss.modifyNodePermissions(vtkBase, "vtk");
+			}
+			
+			
 			//council = new Council("/vtk/" + councilId);
-			council = new Council(VtkUtil.getYearPlanBase(user, null) + councilId);
-	System.err.println("tata creating council: "+VtkUtil.getYearPlanBase(user, null) + councilId )	;	
+			council = new Council(vtkBase + councilId);
+		
 			ocm.insert(council);
 			ocm.save();
 		} catch (Exception e) {
