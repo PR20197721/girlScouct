@@ -13,7 +13,7 @@
             <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
         </li>
     </ul>
-    <div class="hero-text">
+    <div class="hero-text first">
         <section>
             <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
             <h2>Introduce girls to</h2>
