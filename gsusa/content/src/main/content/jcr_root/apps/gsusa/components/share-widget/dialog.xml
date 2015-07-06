@@ -23,7 +23,6 @@
                             xtype="textfield"/>
                         <hideFacebook
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Check to show Facebook Share Button"
                             fieldLabel="Hide Facebook"
                             name="./hideFacebook"
                             type="checkbox"
@@ -36,7 +35,6 @@
                             xtype="textarea"/>
                         <hideTwitter
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Check to show Twitter Button"
                             fieldLabel="Hide Twitter"
                             name="./hideTwitter"
                             type="checkbox"
@@ -51,7 +49,6 @@
                             xtype="textarea"/>
                         <hidePinterest
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Check to show Pinterest Share Button"
                             fieldLabel="Hide Pinterest"
                             name="./hidePinterest"
                             type="checkbox"
@@ -64,6 +61,26 @@
                             xtype="textarea"/>
                     </items>
                 </properties>
+                <image
+                    uploadTextReference="Drop an image. If left blank, the article image will be used."
+                    jcr:primaryType="cq:Widget"
+                    allowUpload="{Boolean}false"
+                    ddGroups="[media]"
+                    fileNameParameter="./image/fileName"
+                    fileReferenceParameter="./image/fileReference"
+                    name="./image/file"
+                    requestSuffix="/image.img.png"
+                    title="Image"
+                    xtype="html5smartimage">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <resType
+                            jcr:primaryType="cq:Widget"
+                            ignoreData="{Boolean}true"
+                            name="./image/sling:resourceType"
+                            value="foundation/components/image"
+                            xtype="hidden"/>
+                    </items>
+                </image>
             </items>
         </tabs>
     </items>

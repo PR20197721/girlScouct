@@ -22,7 +22,13 @@ if (title.isEmpty()) {
 // Get the Image URL
 String imageUrl = "";
 if (currentNode.hasNode("image")) {
-    imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+    imageUrl = resourceResolver.map(currentNode.getPath() + "/image.img.png");
+}
+if (imageUrl.isEmpty()) {
+    String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+    if (session.nodeExists(pageImagePath)) {
+    	imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+    }
 }
 
 // Options to show
