@@ -24,8 +24,8 @@
 						xtype="textfield"/>
                     <count
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify a limit for how many images will appear. Will default to 20 if left blank"
-                        fieldLabel="Picture Count"
+                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
+                        fieldLabel="Count"
                         minValue="1"
                         name="./count"
                         xtype="numberfield"/>
