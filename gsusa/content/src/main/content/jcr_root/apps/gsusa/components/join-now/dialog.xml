@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
-    title="Volunteer"
+    title="Join"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -9,7 +9,7 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Volunteer Settings">
+                title="Join Now Settings">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <outerBtnName
                         jcr:primaryType="cq:Widget"
