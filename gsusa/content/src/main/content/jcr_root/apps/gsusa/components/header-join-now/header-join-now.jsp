@@ -14,6 +14,7 @@
     <form class="formJoin">
 	  <%= title %>
 	  <input type="text" name="ZipJoin" maxlength="5">
+	  <input type="hidden" name="source" value="<%= source %>">
 	  <input class="button" type="submit" value="<%= searchBtnName %>">
     </form>
   </div>

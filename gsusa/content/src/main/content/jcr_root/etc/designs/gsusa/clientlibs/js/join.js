@@ -6,14 +6,15 @@ $('.formJoin').submit(function (event) {
 
     me = event.target;
 	zipValue = $(me).find("[name='ZipJoin']").val();
+	source = $(me).find("[name='source']").val();
 
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
         zipcode: zipValue,
-        source:"homepage",
-        actiontype:"join",
-        GACampaign:strGACampaign,
-        GAMedium:strGAMedium,
-        GASource:strGASource
+        source: source,
+        actiontype: "join",
+        GACampaign: strGACampaign,
+        GAMedium: strGAMedium,
+        GASource: strGASource
     }, function(txt) {
         var found = true;
         //submission page contains either welcome or thank you

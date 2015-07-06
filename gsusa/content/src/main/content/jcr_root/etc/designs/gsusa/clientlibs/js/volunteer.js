@@ -10,11 +10,11 @@ $('.formVolunteer').submit(function (event) {
 
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
         zipcode: zipValue,
-        source:source,
-        actiontype:"volunteer",
-        GACampaign:strGACampaign,
-        GAMedium:strGAMedium,
-        GASource:strGASource
+        source: source,
+        actiontype: "volunteer",
+        GACampaign: strGACampaign,
+        GAMedium: strGAMedium,
+        GASource: strGASource
     }, function(txt) {
         var found = true;
         //submission page contains either welcome or thank you
