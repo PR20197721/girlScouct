@@ -11,62 +11,56 @@
                     <items jcr:primaryType="cq:WidgetCollection">
                         <url
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the URL to share. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news. If left blank, the current page will be used"
+                            fieldDescription="If left blank, the current page will be used. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news."
                             fieldLabel="URL"
                             name="./url"
                             xtype="textfield"/>
                         <title
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="If blank, "
+                            fieldDescription="If left blank, the page title will be used."
                             fieldLabel="Title"
                             name="./title"
                             xtype="textfield"/>
-                        <facebook
+                        <hideFacebook
                             jcr:primaryType="cq:Widget"
-                            defaultValue="{Boolean}true"
                             fieldDescription="Check to show Facebook Share Button"
-                            fieldLabel="Share via Facebook"
-                            name="./facebook"
+                            fieldLabel="Hide Facebook"
+                            name="./hideFacebook"
                             type="checkbox"
-                            value="{Boolean}true"
                             xtype="selection"/>
                         <facebook-text
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
-                            fieldLabel="Facebook/Pinterest Message"
-                            name="./otherMessage"
+                            fieldDescription="If blank, Facebook may pull data from page or page metadata."
+                            fieldLabel="Facebook Message"
+                            name="./facebookText"
                             xtype="textarea"/>
-                        <twitter
+                        <hideTwitter
                             jcr:primaryType="cq:Widget"
-                            defaultValue="{Boolean}true"
-                            fieldDescription="Check to show Tweet Button"
-                            fieldLabel="Share via Tweet"
-                            name="./tweet"
+                            fieldDescription="Check to show Twitter Button"
+                            fieldLabel="Hide Twitter"
+                            name="./hideTwitter"
                             type="checkbox"
-                            value="{Boolean}true"
                             xtype="selection"/>
                         <twitter-text
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the message to Tweet (max 140 characters). If blank, Twitter may pull data from page or page metadata"
+                            fieldDescription="Max 140 characters. If blank, Twitter may pull data from page or page metadata."
                             fieldLabel="Twitter Message"
                             maxLength="140"
                             maxLengthText="Message can not be longer than 140 characters"
                             name="./twitterMessage"
                             xtype="textarea"/>
-                        <pinterest
+                        <hidePinterest
                             jcr:primaryType="cq:Widget"
-                            defaultValue="{Boolean}true"
                             fieldDescription="Check to show Pinterest Share Button"
-                            fieldLabel="Share via Pinterest"
-                            name="./pinterest"
+                            fieldLabel="Hide Pinterest"
+                            name="./hidePinterest"
                             type="checkbox"
-                            value="{Boolean}true"
                             xtype="selection"/>
                         <pinterest-text
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter a message for other social media. You can make this message longer, but it may be cut off depending on the social network's requirements"
-                            fieldLabel="Facebook/Pinterest Message"
-                            name="./otherMessage"
+                            fieldLabel="Pinterest Message"
+                            fieldDescription="If blank, Pinterest may pull data from page or page metadata."
+                            name="./pinterestText"
                             xtype="textarea"/>
                     </items>
                 </properties>

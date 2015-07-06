@@ -21,14 +21,14 @@ if (title.isEmpty()) {
 
 // Get the Image URL
 String imageUrl = "";
-if (currenNode.hasNode("image")) {
+if (currentNode.hasNode("image")) {
     imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
 }
 
 // Options to show
-boolean showFacebook = properties.get("showFacebook",true);
-boolean showTwitter = properties.get("showTweet",true);
-boolean showPinterest = properties.get("showPinterest",true);
+boolean hideFacebook = properties.get("hideFacebook", false);
+boolean hideTwitter = properties.get("hideTwitter", false);
+boolean hidePinterest = properties.get("hidePinterest", false);
 
 // Texts
 String description = pageProps.get("description", "");
@@ -39,16 +39,15 @@ String pinterestText = properties.get("pinterestText", description);
 
 
 // IDs
-String facebookId = currentSide.getValue("facebookId", ""); 
+String facebookId = currentSite.get("facebookId", ""); 
 
 long uniqueId = System.currentTimeMillis();
 
-
-if(!showFacebook && !showTwitter && !showPinterest && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) == WCMMode.EDIT){
     %> **Please check at least one social network to share <%
 } else {
     %> <div id="addthisToolbox_<%= uniqueId %>" class="addthis_toolbox addthis_default_style addthis_32x32_style" style="margin:2px"> <%
-    if (showFacebook) {
+    if (!hideFacebook) {
     %>
     <a class="facebook-icon" onclick="postToFeed(); return false;" />
  
@@ -79,7 +78,7 @@ if(!showFacebook && !showTwitter && !showPinterest && WCMMode.fromRequest(reques
     }
 
     StringBuilder sb = new StringBuilder();
-    if(showTwitter){
+    if(!hideTwitter){
         sb.append("<a id=\"addthis_button_twitter" + uniqueId + "\" class=\"addthis_button_twitter\" addthis:url=\"" + url + "\"");
         sb.append(" addthis:title=\"" + title + "\"");
         if(!title.equals("")){
@@ -91,7 +90,7 @@ if(!showFacebook && !showTwitter && !showPinterest && WCMMode.fromRequest(reques
         sb.append("></a>");
     }
     
-    if(showPinterest){
+    if(!hidePinterest){
         sb.append("<a id=\"addthis_button_pinterest_share" + uniqueId + "\" class=\"addthis_button_pinterest_share\" addthis:url=\"" + url + "\"");
         sb.append(" addthis:title=\"" + title + "\"");
         if(!title.equals("")){
