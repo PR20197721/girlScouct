@@ -10,7 +10,7 @@
 	%>
         <div class="wrapper clearfix">
             <div class="social-block">
-                <span class="icon-social-twitter-tweet-bird"></span>
+                <img src="http://www.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
                 <div class="blog-feed-area"></div>
             </div>
             <span class="scroll-more"></span>
