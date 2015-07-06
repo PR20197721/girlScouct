@@ -3,6 +3,8 @@
     String callToActionName = properties.get("callToActionName", "Join Now");
     String searchBtnName = properties.get("searchBtnName", "Go");
     String title = properties.get("title", "Find Your Local Council");
+    String source = properties.get("source", "homepage");
+
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
