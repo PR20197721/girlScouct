@@ -17,6 +17,7 @@
     	<div>
     	    <cq:include path="<%=headerNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
     	    <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
+    	    <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
         </div>
         <div>
     	    <cq:include path="header/search" resourceType="gsusa/components/search-box" />
