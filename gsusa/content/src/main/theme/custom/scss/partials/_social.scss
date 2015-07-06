@@ -12,7 +12,8 @@
     text-align: center;
   }
 }
-.twitter-feed {
+.twitter-feed,
+.blog-feed {
   @media #{$medium-up} {
     @include grid-column(8);
   }
