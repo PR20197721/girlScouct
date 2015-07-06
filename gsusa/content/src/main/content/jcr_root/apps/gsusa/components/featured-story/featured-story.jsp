@@ -6,6 +6,7 @@
 	}
 	String title = properties.get("title", "FEATURED STORY");
 	String icon = properties.get("icon", "icon-photo-camera");
+	String theme = properties.get("theme", "classic");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -20,6 +21,8 @@
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
+	
+	if(theme.equals("classic")){
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolor %>">
@@ -44,6 +47,9 @@
         </div>
     </div>
 </section>
+<% }else if(theme.equals("colorless")) { %>
+
+<% } %>
 
 <%
 	// Get ready to hide parsys.

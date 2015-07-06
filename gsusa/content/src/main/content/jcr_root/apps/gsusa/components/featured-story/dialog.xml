@@ -30,6 +30,23 @@
                         fieldLabel="Background Color"
                         name="./bgcolor"
                         xtype="colorfield"/>
+                    <theme
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Theme"
+                    	name="./theme"
+                    	type="select"
+    					xtype="selection">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+					        <classic
+					            jcr:primaryType="nt:unstructured"
+					            text="Classic"
+					            value="classic"/>
+					        <colorless-background
+					        	jcr:primaryType="nt:unstructured"
+					        	text="Colorless Background"
+					        	value="colorless"/>	
+					    </options>
+                    </theme>
                 </items>
             </tab1>
             <background-image
