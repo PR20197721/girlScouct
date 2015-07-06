@@ -13,27 +13,33 @@
 	    description = "No Description";
 	}
 	String bgcolor = properties.get("bgcolor", "E70C82");
-	bgcolor = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
+	
+	String bgcolorClassic = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 	        + hexToDec(bgcolor.substring(2, 4)) + ','
 	        + hexToDec(bgcolor.substring(4, 6)) + ", .8)";
+	
+	String bgcolorCL = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
+	        + hexToDec(bgcolor.substring(2, 4)) + ','
+	        + hexToDec(bgcolor.substring(4, 6)) + ", 0)";
 
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
 	
-	if(theme.equals("classic")){
 %>
 <!-- <div><%= title %></div> -->
-<div class="thumb" style="background-color: <%= bgcolor %>">
+<div class="thumb" style="background-color: <%= bgcolorClassic %>">
     <span class="<%= icon %>"></span>
     <div class="contents">
         <h3><%= title %></h3>
         <p class="dek"><%=description%></p>
     </div>
 </div>
+
+<% if(theme.equals("classic")){ %>
 <section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
-    <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
+    <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
@@ -47,8 +53,23 @@
         </div>
     </div>
 </section>
-<% }else if(theme.equals("colorless")) { %>
 
+<% }else if(theme.equals("colorless")) { %>
+<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+    <div class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
+        <div class="header">
+            <div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
+                <span class="<%= icon %>"></span>
+                <h3><%= title %></h3>
+                <p class="dek"><%=description%></p>
+                <div class="contents clearfix">
+            		<cq:include path="par" resourceType="foundation/components/parsys" />
+        		</div>
+            </div>
+            <span class="icon-cross"></span>
+        </div>
+    </div>
+</section>
 <% } %>
 
 <%
