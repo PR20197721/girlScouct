@@ -13,14 +13,15 @@
   }
 }
 .twitter-feed,
-.blog-feed {
+.blog-feed,
+.instagram-feed {
   @media #{$medium-up} {
     @include grid-column(8);
   }
-  background-color: $white;
-  position: relative;
-  padding-bottom: rem-calc(45);
   .wrapper {
+    background-color: $white;
+    position: relative;
+    padding-bottom: rem-calc(45);
     .scroll-more {
       @include css-triangle(97px, #e8e8e8, top);
       border-top-width: rem-calc(31);
@@ -29,6 +30,15 @@
       left: 50%;
       margin-left: -97px;
       cursor: pointer;
+    }
+  }
+}
+.blog-feed {
+  .align-center {
+    text-align: center;
+    img {
+      width: rem-calc(150);
+      height: rem-calc(42);
     }
   }
 }

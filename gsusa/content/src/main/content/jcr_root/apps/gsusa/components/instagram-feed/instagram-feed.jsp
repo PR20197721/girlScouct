@@ -32,14 +32,21 @@
 	 }
 	if(result != ""){
 		%>
-	    <div class="instagram-feed-image-area"></div>
+		<div class="wrapper clearfix">
+		    <div class="social-block">
+		        <span class="icon-social-instagram"></span>
+		        <div class="instagram-feed-image-area"></div>
+		    </div>
+		    <span class="scroll-more"></span>
+		</div>
+
 
 	    <script>
 	    var feedArea = $(".instagram-feed-image-area");
 
 	    var count = <%= count %>;
 	    var toParse = <%= result %>;
-	    
+
 	    if(toParse.data != undefined){
 	    	var output = "";
 	    	for(var i=0; i < toParse.data.length; i++){
