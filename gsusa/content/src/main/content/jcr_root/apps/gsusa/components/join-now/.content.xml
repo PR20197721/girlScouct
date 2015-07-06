@@ -5,4 +5,8 @@
     jcr:title="Join Now"
     sling:resourceSuperType="foundation/components/parbase"
     allowedParents="[*/parsys]"
-    componentGroup="GSUSA"/>
+    componentGroup="GSUSA">
+    <jcr:content
+    
+    
+    </jcr:root>

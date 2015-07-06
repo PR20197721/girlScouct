@@ -1,9 +1,9 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%
-    String callToActionName = properties.get("callToActionName", String.class);
-    String searchBtnName = properties.get("searchBtnName", String.class);
-    String title = properties.get("title", String.class);
+    String callToActionName = properties.get("callToActionName", "Volunteer");
+    String searchBtnName = properties.get("searchBtnName", "Go");
+    String title = properties.get("title", "Find Your Local Council");
 	Boolean isHidden = properties.get("isVolunteerHidden", false);
 	
 	if (!isHidden) {%>

@@ -1,8 +1,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-    String callToActionName = properties.get("callToActionName", String.class);
-    String searchBtnName = properties.get("searchBtnName", String.class);
-    String title = properties.get("title", String.class);
+    String callToActionName = properties.get("callToActionName", "Volunteer Now");
+    String searchBtnName = properties.get("searchBtnName", "Go");
+    String title = properties.get("title", "Find Your Local Council");
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
