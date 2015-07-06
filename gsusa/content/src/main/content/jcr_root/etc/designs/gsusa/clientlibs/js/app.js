@@ -45,7 +45,16 @@
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
           $('.join').removeClass('change');
+          $('.main-slider').slick({
+            autoplay: true
+          });
+          //console.log('main carousel automated');
         });
+      }
+      if (target.closest('.final-comp').length === 0
+          && target.closest(".final-comp").css('display') !== 'none') {
+        $(".final-comp").hide();
+        $('.hero-text.first').show();
       }
     });
   }
@@ -149,52 +158,52 @@
     arrows: false,
     cssEase: 'linear',
   });
-
-  $('.inner-sliders .inner').slick({
-    dots: false,
-    infinite: false,
-    speed: 500,
-    fade: false,
-    dotsClass: 'slick-dots',
-    cssEase: 'linear',
-    arrows: true,
-    // responsive: [
-    //   {
-    //     breakpoint: 640,
-    //     settings: "unslick"
-    //   },
-    //   {
-    //     breakpoint: 480,
-    //     settings: "unslick"
-    //   }
-      // You can unslick at a given breakpoint now by adding:
-      // settings: "unslick"
-      // instead of a settings object
-    // ]
-  });
-  $('.inner-sliders .slide-1').slick({
-    dots: true,
-    fade: true,
-    dotsClass: 'slick-dots',
-    cssEase: 'linear',
-    arrows: false,
-    customPaging: function (slick, index) {
-      return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
-    },
-  });
-  $('.inner-sliders .slide-2, .inner-sliders .slide-3').slick({
-    dots: false,
-    fade: true,
-    cssEase: 'linear',
-    arrows: false,
-  });
   function explore_button() {
     $(".hero-text .button").on("click", function () {
+      $('.inner-sliders .inner').slick({
+        dots: false,
+        infinite: false,
+        speed: 500,
+        fade: false,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: true,
+        // responsive: [
+        //   {
+        //     breakpoint: 640,
+        //     settings: "unslick"
+        //   },
+        //   {
+        //     breakpoint: 480,
+        //     settings: "unslick"
+        //   }
+        //   You can unslick at a given breakpoint now by adding:
+        //   settings: "unslick"
+        //   instead of a settings object
+        // ]
+      });
+      $('.inner-sliders .slide-1').slick({
+        dots: true,
+        fade: true,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: false,
+        customPaging: function (slick, index) {
+          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
+        },
+      });
+      $('.inner-sliders .slide-2, .inner-sliders .slide-3').slick({
+        dots: false,
+        fade: true,
+        cssEase: 'linear',
+        arrows: false,
+      });
       $('.main-slider').slick('slickPause');
       $('.main-slider').slick({
         autoplay: false
       });
       console.log('main carousel paused');
+      $('.inner-sliders .inner').slick('init');
       if ($(window).width() > 640) {
         $('.overlay').fadeIn();
         if ($(".position").css("opacity") === '0') {
@@ -235,6 +244,24 @@
     }).get());
     blocks.height(maxHeight);
   }
+  // function show_final() {
+  $('.inner-sliders .inner').on('afterChange', function () {
+    // if ($('inner-sliders .slick-slider .slick-active').last()) {
+    $('.slick-next.slick-disabled').on('click', function (event) {
+      event.stopPropagation();
+      $('.position').animate({
+        'opacity': 0,
+      }, 100, function () {
+        $('.hero-feature .overlay').fadeOut();
+        $('.position').css('z-index', '-1');
+        $('.join').removeClass('change');
+        $('.hero-text.first').hide();
+      });
+      $('.final-comp').show();
+      $('.inner-sliders .inner').slick('unslick');
+    });
+    // }
+  });
   $(window).resize(function () {
     if ($(window).width() < 640) {
       $('.overlay').hide();
@@ -253,5 +280,6 @@
   join_now();
   scroll_feeds();
   equilize_gs_stories();
+  //show_final();
 
 }(jQuery));
