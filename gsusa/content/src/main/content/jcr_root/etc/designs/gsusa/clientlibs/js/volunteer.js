@@ -6,10 +6,11 @@ $('.formVolunteer').submit(function (event) {
 
     me = event.target;
 	zipValue = $(me).find("[name='ZipVolunteer']").val();
+	source = $(me).find("[name='source']").val();
 
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
         zipcode: zipValue,
-        source:"homepage",
+        source:source,
         actiontype:"volunteer",
         GACampaign:strGACampaign,
         GAMedium:strGAMedium,
