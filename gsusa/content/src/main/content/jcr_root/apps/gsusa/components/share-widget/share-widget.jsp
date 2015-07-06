@@ -66,7 +66,6 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
         // calling the API ...
         var obj = {
           method: 'feed',
-          redirect_uri: '<%= url %>',
           link: '<%= url %>',
           picture: '<%= imageUrl %>',
           name: '<%= title %>',
