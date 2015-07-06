@@ -48,7 +48,7 @@
           $('.main-slider').slick({
             autoplay: true
           });
-          console.log('main carousel automated');
+          //console.log('main carousel automated');
         });
       }
       if (target.closest('.final-comp').length === 0
