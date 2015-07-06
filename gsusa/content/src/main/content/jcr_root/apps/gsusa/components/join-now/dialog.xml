@@ -15,16 +15,19 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Call To Action Name"
                         name="./callToActionName"
+                        defaultValue="Join Now"
                         xtype="textfield"/>
                     <searchBtnName
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Search Button Name"
                         name="./searchBtnName"
+                        defaultValue="GO"
                         xtype="textfield"/>
                     <title
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title"
                         name="./title"
+                        defaultValue="Find Your Local Council"
                         xtype="textfield"/>
                 </items>
             </tab1>
