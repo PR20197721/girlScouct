@@ -24,27 +24,41 @@
                     </chkbox>
                     <outerBtnName
                         jcr:primaryType="cq:Widget"
+                        defaultValue="Volunteer Now"
                         fieldLabel="Call To Action Name"
                         itemId="obn"
-                        defaultValue="Volunteer Now"
                         name="./callToActionName"
                         xtype="textfield"/>
                     <title
                         jcr:primaryType="cq:Widget"
+                        defaultValue="Find Your Local Council"
                         fieldLabel="Title"
                         itemId="title"
-                        defaultValue="Find Your Local Council"
                         name="./title"
                         xtype="textfield"/>
                     <searchBtnName
                         jcr:primaryType="cq:Widget"
+                        defaultValue="GO"
                         fieldLabel="Search Button Name"
                         itemId="s"
                         name="./searchBtnName"
-                        defaultValue="GO"
                         xtype="textfield"/>
                 </items>
             </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Advanced Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="homepage"
+                        fieldLabel="Source"
+                        name="./source"
+                        maxLength="25"
+                        maxLengthText="The source cannot be longer than 25 characters"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
         </items>
     </items>
 </jcr:root>

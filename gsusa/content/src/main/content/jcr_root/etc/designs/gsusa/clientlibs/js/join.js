@@ -13,7 +13,7 @@ $('.formJoin').submit(function (event) {
         actiontype:"join",
         GACampaign:strGACampaign,
         GAMedium:strGAMedium,
-        GASource:"join"
+        GASource:strGASource
     }, function(txt) {
         var found = true;
         //submission page contains either welcome or thank you

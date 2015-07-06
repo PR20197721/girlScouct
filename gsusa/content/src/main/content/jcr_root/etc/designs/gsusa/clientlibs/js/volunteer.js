@@ -13,7 +13,7 @@ $('.formVolunteer').submit(function (event) {
         actiontype:"volunteer",
         GACampaign:strGACampaign,
         GAMedium:strGAMedium,
-        GASource:"volunteer"
+        GASource:strGASource
     }, function(txt) {
         var found = true;
         //submission page contains either welcome or thank you

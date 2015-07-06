@@ -13,23 +13,23 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <outerBtnName
                         jcr:primaryType="cq:Widget"
+                        defaultValue="Volunteer Now"
                         fieldLabel="Call To Action Name"
                         name="./callToActionName"
-                        defaultValue="Volunteer Now"
                         value="Volunteer Now"
                         xtype="textfield"/>
                     <searchBtnName
                         jcr:primaryType="cq:Widget"
+                        defaultValue="GO"
                         fieldLabel="Search Button Name"
                         name="./searchBtnName"
-                        defaultValue="GO"
                         value="GO"
                         xtype="textfield"/>
                     <title
                         jcr:primaryType="cq:Widget"
+                        defaultValue="Find Your Local Council"
                         fieldLabel="Title"
                         name="./title"
-                        defaultValue="Find Your Local Council"
                         value="Find Your Local Council"
                         xtype="textfield"/>
                 </items>
@@ -53,6 +53,20 @@
                         xtype="hidden"/>
                 </items>
             </background-image>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Advanced Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="homepage"
+                        fieldLabel="Source"
+                        name="./source"
+                        maxLength="25"
+                        maxLengthText="The source cannot be longer than 25 characters"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
         </items>
     </items>
 </jcr:root>
