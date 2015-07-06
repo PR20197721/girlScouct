@@ -31,9 +31,12 @@ boolean showTwitter = properties.get("showTweet",true);
 boolean showPinterest = properties.get("showPinterest",true);
 
 // Texts
-String facebookText = properties.get("facebookText","");
-String twitterText = properties.get("twitterText","");
-String pinterestText = properties.get("pinterestText","");
+String description = pageProps.get("description", "");
+
+String facebookText = properties.get("facebookText", description);
+String twitterText = properties.get("twitterText", description);
+String pinterestText = properties.get("pinterestText", description);
+
 
 // IDs
 String facebookId = currentSide.getValue("facebookId", ""); 
@@ -96,6 +99,9 @@ if(!showFacebook && !showTwitter && !showPinterest && WCMMode.fromRequest(reques
         }
         if(!pinterestText.equals("")){
             sb.append(" addthis:description=\"" + pinterestText + "\"");
+        }
+        if (!imageUrl.isEmpty()) {
+            sb.append(" pi:pinit:media=\"" + imageUrl + "\"");
         }
         sb.append("></a>");
     }
