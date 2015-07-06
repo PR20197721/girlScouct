@@ -22,14 +22,16 @@
     
     $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(title,url)&userIp=" + ip,function(data){
     	//kconsole.log(data);
-    	blogFeedArea.append("<ul>");
+    	var output = "";
+    	output += "<ul>";
     	for (var i=0; i<data.items.length; i++){
-    		blogFeedArea.append('<li><a href="' + data.items[i].url + '" target="_blank"><div class="title">' + data.items[i].title + '</div></a></li>');
+    		output += '<li><a href="' + data.items[i].url + '" target="_blank"><div class="title">' + data.items[i].title + '</div></a></li>';
     	}
-    	blogFeedArea.append("</ul>");
+    	output += "</ul>";
+    	blogFeedArea.html(output);
     })
    	.fail(function() {
-   	    console.log("FAILURE");
+   	    console.log("Blog feed failed to get data");
    	  });
     
     
