@@ -55,6 +55,7 @@
           && target.closest(".final-comp").css('display') !== 'none') {
         $(".final-comp").hide();
         $('.hero-text.first').show();
+        $('.join').show();
       }
     });
   }
@@ -258,6 +259,7 @@
         $('.hero-text.first').hide();
       });
       $('.final-comp').show();
+      $('.join').hide();
       $('.inner-sliders .inner').slick('unslick');
     });
     // }
@@ -274,7 +276,7 @@
 
   fix_bottom_footer();
   slide_search_bar();
-  
+
   show_hide_features();
   document_close_all();
   explore_button();

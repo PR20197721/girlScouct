@@ -21,7 +21,6 @@
             <a href="#" class="button">Explore Girlscouts</a>
         </section>
     </div>
-    <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
     <div class="position">
         <div class="inner-sliders">
             <ul class="inner">
@@ -119,4 +118,5 @@
             </div>
         <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="main-image" />
     </div>
+    <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
 </div>
