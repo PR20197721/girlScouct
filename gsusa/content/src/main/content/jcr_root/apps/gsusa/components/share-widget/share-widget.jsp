@@ -1,66 +1,113 @@
-<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer, java.net.URLEncoder" %>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+                javax.jcr.Session,
+                java.lang.StringBuilder,
+                java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%
-	String fbTitle = "";
-	String fbMessage = "";
-	Node currentPageNode = currentPage.adaptTo(Node.class).getNode("jcr:content");
-	if(currentPageNode.hasProperty("shareTitle")){
-		fbTitle = currentPageNode.getProperty("shareTitle").getString();
-	}
-	if(currentPageNode.hasProperty("fbMessage")){
-		fbMessage = currentPageNode.getProperty("fbMessage").getString();
-	}
-	String anchor = properties.get("anchor", "");
-	String imagePath = properties.get("fileReference", "");
-	
-	String twitterMessage = properties.get("twitterMessage", "");
-	String hashtags = properties.get("hashtags", "");
-	
-	if(fbMessage.equals("") && twitterMessage.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
-		%> **Please configure the share widget component so that there is either a facebook or twitter message <%
-	}
-	
-	else{
-		if(anchor.equals("")){
-			%> <div> <%
-		}else{
-			%> <div id="<%= anchor %>">
-		<% }
-		
-		//Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-		//Externalizer not yet configured
-		//String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
-		
-		String canonicalUrl = currentPage.getPath().replaceFirst("/content", "http://girlscouts.org");
-		String url = !anchor.equals("") ? canonicalUrl + ".html#" + anchor : canonicalUrl + ".html";
-		
-		if(!fbMessage.equals("")){
-			StringBuilder fb = new StringBuilder();
-			fb.append("<div class=\"fb-share-button\" data-href=\"" + url + "\" data-layout=\"button_count\" data-desc=\"" + fbMessage + "\"");
-			if(!fbTitle.equals("")){
-				fb.append(" data-title=\"" + fbTitle + "\"");
-			} if(!imagePath.equals("")){
-				fb.append(" data-image=\"" + imagePath + "\"");
-			}
-			fb.append("></div>");
-	%>
-	
-	<%= fb.toString() %>
-	
-	<% 	}if(!twitterMessage.equals("")){
-			StringBuilder tw = new StringBuilder();
-			String htmlEncodedTweet = URLEncoder.encode(twitterMessage, "US-ASCII");
-			tw.append("<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?url=" + url
-					+ "&via=girlscouts&text=" + htmlEncodedTweet);
-			if(!hashtags.equals("")){
-				tw.append("&hashtags=" + hashtags + "\"");
-			}
-			tw.append(">Tweet</a>");
-			
-	%>
-	
-	<%= tw.toString() %>
-		<% } %>
-	</div>
-<% } %>
+// Get the URL
+String canonicalUrl = resourceResolver.map(currentPage.getPath());
+String url = properties.get("url", canonicalUrl);
+
+// Get the title
+String title = properties.get("title","");
+ValueMap pageProps = currentPage.getProperties();
+if (title.isEmpty()) {
+    title = pageProps.get("articleTitle", ""); 
+}
+if (title.isEmpty()) {
+    title = pageProps.get("jcr:title", "");
+}
+
+// Get the Image URL
+String imageUrl = "";
+if (currentNode.hasNode("image")) {
+    imageUrl = resourceResolver.map(currentNode.getPath() + "/image.img.png");
+}
+if (imageUrl.isEmpty()) {
+    String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+    Session session = (Session)resourceResolver.adaptTo(Session.class);
+    if (session.nodeExists(pageImagePath)) {
+    	imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+    }
+}
+
+// Options to show
+boolean hideFacebook = properties.get("hideFacebook", false);
+boolean hideTwitter = properties.get("hideTwitter", false);
+boolean hidePinterest = properties.get("hidePinterest", false);
+
+// Texts
+String description = pageProps.get("description", "");
+
+String facebookText = properties.get("facebookText", description);
+String twitterText = properties.get("twitterText", description);
+String pinterestText = properties.get("pinterestText", description);
+
+
+// IDs
+String facebookId = currentSite.get("facebookId", ""); 
+
+long uniqueId = System.currentTimeMillis();
+
+if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) == WCMMode.EDIT){
+    %> **Please check at least one social network to share <%
+} else {
+    %> <div id="addthisToolbox_<%= uniqueId %>" class="addthis_toolbox addthis_default_style addthis_32x32_style" style="margin:2px"> <%
+    if (!hideFacebook) {
+    %>
+    <a class="facebook-icon" onclick="postToFeed(); return false;" />
+ 
+    <script src='http://connect.facebook.net/en_US/all.js'></script>
+    <script> 
+      FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
+ 
+      function postToFeed() {
+ 
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          link: '<%= url %>',
+          picture: '<%= imageUrl %>',
+          name: '<%= title %>',
+          description: '<%= facebookText %>'
+        };
+ 
+        function callback(response) {
+        }
+ 
+        FB.ui(obj, callback);
+      }
+ 
+    </script>
+    <% 
+    }
+
+    StringBuilder sb = new StringBuilder();
+    if(!hideTwitter){
+        sb.append("<a id=\"addthis_button_twitter" + uniqueId + "\" class=\"addthis_button_twitter\" addthis:url=\"" + url + "\"");
+        if(!title.equals("")){
+            sb.append(" addthis:title=\"" + title + "\"");
+        }
+        if(!twitterText.equals("")){
+            sb.append(" addthis:description=\"" + twitterText + "\"");
+        }
+        sb.append("></a>");
+    }
+    
+    if(!hidePinterest){
+        sb.append("<a id=\"addthis_button_pinterest_share" + uniqueId + "\" class=\"addthis_button_pinterest_share\" addthis:url=\"" + url + "\"");
+        if(!title.equals("")){
+            sb.append(" addthis:title=\"" + title + "\"");
+        }
+        if(!pinterestText.equals("")){
+            sb.append(" addthis:description=\"" + pinterestText + "\"");
+        }
+        sb.append("></a>");
+    }
+    
+    %> <%= sb.toString() %> <%
+    %> </div> <%
+}
+%>

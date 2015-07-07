@@ -40,6 +40,10 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
+                        <facebook-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Facebook ID"
+                            name="./facebookId"/>
                     </items>
                 </gsusa>
             </items>

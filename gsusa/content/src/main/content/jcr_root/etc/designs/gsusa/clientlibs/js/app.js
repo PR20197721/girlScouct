@@ -274,6 +274,7 @@
 
   fix_bottom_footer();
   slide_search_bar();
+  
   show_hide_features();
   document_close_all();
   explore_button();
