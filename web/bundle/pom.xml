@@ -182,12 +182,6 @@
 	<scope>provided</scope>
 </dependency>
 <dependency>
-  <groupId>org.apache.jackrabbit</groupId>
-  <artifactId>jackrabbit-jcr2dav</artifactId>
-  <version>2.3.0</version>
-  <scope>compile</scope>
-</dependency>
-<dependency>
 	<groupId>com.day.cq</groupId>
 	<artifactId>cq-security-api</artifactId>
 	<version>5.6.2</version>
@@ -216,6 +210,12 @@
 	<artifactId>com.adobe.granite.replication.core</artifactId>
 	<version>5.12.2</version>
 	<scope>provided</scope>
+</dependency>
+    <dependency>
+      <groupId>com.adobe.granite.bundles</groupId>
+      <artifactId>json</artifactId>
+      <version>20090211_1</version>
+      <scope>provided</scope>
 </dependency>
         <!-- END STATS -->
         <dependency>

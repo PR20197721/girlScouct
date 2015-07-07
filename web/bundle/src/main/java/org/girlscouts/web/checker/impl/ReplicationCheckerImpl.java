@@ -1,8 +1,11 @@
 package org.girlscouts.web.checker.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.Session;
@@ -20,12 +23,18 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.settings.SlingSettingsService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.checker.ReplicationChecker;
+import org.apache.commons.httpclient.*;
+import org.apache.commons.httpclient.methods.*;
+import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.json.JSONObject;
+import org.json.JSONException;
+import java.io.IOException;
+
+
 @Component
 @Service(value = ReplicationChecker.class)
 @Properties({
@@ -39,23 +48,19 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 	
 	@Reference
 	private SlingSettingsService slingSettings;
+	
+	private String pubUrl;
 
-	/**
-	 * Creates the layout of the site (national pages)
-	 * 
-	 * @param  contentPath  path leading up to council root, e.g. "/content/"
-	 * @param  councilName  the domain name of the council
-	 * @param  councilTitle  the full name of the council
-	 * @return a list containing all pages that were created
-	 */
-	public List<Asset> checkAssets(Session authSession, Session pubSession, ResourceResolver rr, String contentPath) 
+	public List<Asset> checkAssets(Session authSession, String pubUrl, ResourceResolver rr, String contentPath) 
 			throws GirlScoutsException{
 		if(!slingSettings.getRunModes().contains("author")){
 			LOG.error("REPLICATION CHECKER ERROR: need to run in author mode.");
 			throw new GirlScoutsException(new Exception("Replication Checker Run Mode Error"),
 					"only runnable in author mode.");
 		}
-		ArrayList<Asset> nonExistingAssets = new ArrayList<Asset>();
+		Map<String, List<String>> pubAssetsMap = new HashMap<String, List<String>>();
+		List<Asset> absentAssets = new ArrayList<Asset>();
+		this.pubUrl=pubUrl;
 		
 		try {
 			String sql = "SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(s, '"
@@ -66,8 +71,8 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 				Asset asset = assetRes.adaptTo(Asset.class);
 				ReplicationStatus repStatus = assetRes.adaptTo(ReplicationStatus.class);
 				if(repStatus.isActivated()){
-					if(!existInPublish(pubSession, asset)){
-						nonExistingAssets.add(asset);
+					if(!existInPublish(pubAssetsMap, asset)){
+						absentAssets.add(asset);
 					}
 				}
 			}
@@ -76,14 +81,76 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 			e.printStackTrace();
 			throw new GirlScoutsException(e,null);
 		} 
-		return nonExistingAssets;
+		pubAssetsMap = null;
+		return absentAssets;
 		
 		
 	}
 	
-	private boolean existInPublish(Session session, Asset asset)throws RepositoryException{
-		return session.nodeExists(asset.getPath());
+	private boolean existInPublish(Map assetMap, Asset asset){
+		String path = asset.getPath();
+		if(path.lastIndexOf("/")>0){
+			String parentPath = asset.getPath().substring(0,path.lastIndexOf("/"));
+			if(!assetMap.containsKey(parentPath)){
+				try{
+					assetMap.put(parentPath, getAssetsFromJson(parentPath));
+				}catch(GirlScoutsException e){
+					LOG.error(e.getReason());
+					return false;
+				}
+			}
+			return ((List)(assetMap.get(parentPath))).contains(asset.getName());
+
+		}else{
+			return false;
+		}
 	}
+	private List<String> getAssetsFromJson(String path) throws GirlScoutsException{
+		//http GET url
+    	String url = pubUrl+path+".1.json";
+    	// Create an instance of HttpClient.
+        HttpClient client = new HttpClient();
+
+        // Create a method instance.
+        GetMethod method = new GetMethod(url);
+    
+        method.addRequestHeader("accept", "application/json");
+        // Provide custom retry handler is necessary
+        method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
+        		new DefaultHttpMethodRetryHandler(3, false));
+
+        try {
+          // Execute the method.
+          int statusCode = client.executeMethod(method);
+          if (statusCode != HttpStatus.SC_OK) {
+            System.err.println("Method failed: " + method.getStatusLine());
+          }
+
+          // Read the response body.
+          System.out.println(method.getResponseBodyAsString());
+          // Deal with the response.
+          JSONObject jsonObject = new JSONObject(method.getResponseBodyAsString());
+          return Arrays.asList(JSONObject.getNames(jsonObject));
+
+        } catch (HttpException e) {
+          System.err.println("Fatal protocol violation: " + e.getMessage());
+          e.printStackTrace();
+          throw new GirlScoutsException(e,"HttpExceptions thrown when calling httpClient");
+        } catch (IOException e) {
+          System.err.println("Fatal transport error: " + e.getMessage());
+          e.printStackTrace();
+          throw new GirlScoutsException(e,"IOExceptions thrown when calling httpClient");
+        } catch(JSONException e){
+           e.printStackTrace();
+           throw new GirlScoutsException(e,"JsonExceptions thrown when reading the response");
+        }
+        
+        finally {
+          // Release the connection.
+          method.releaseConnection();
+        } 
+	}
+	
 
 	
 }
