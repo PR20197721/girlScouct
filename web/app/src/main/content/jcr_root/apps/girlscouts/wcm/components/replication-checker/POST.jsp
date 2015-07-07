@@ -33,17 +33,6 @@ if (action.equals("check")) {
         return;
     }
 
-    String username = request.getParameter("username");
-    if (username == null || username.isEmpty()) {
-        %>Username is empty. Abort<%
-        return;
-    }
-    String password = request.getParameter("password");
-    if (password == null || password.isEmpty()) {
-        %>Password is empty. Abort<%
-        return;
-    }
-
     Session authSession = (Session) resourceResolver.adaptTo(Session.class);
 
     if (!authSession.nodeExists(contentPath)) {   
@@ -52,25 +41,19 @@ if (action.equals("check")) {
     else {
     	try{
 
-    		  Repository repository = JcrUtils.getRepository(pubServer);
+/*     		  Repository repository = JcrUtils.getRepository(pubServer);
     		  SimpleCredentials creds = new SimpleCredentials(username, password.toCharArray());
-    		  Session pubSession = repository.login(creds);
-          %><br>Absent assets:<br><%
+    		  Session pubSession = repository.login(creds); */
+          %>Checking <%=pubServer+contentPath%>...<br><%
           ReplicationChecker checker = sling.getService(ReplicationChecker.class);
-	        ArrayList<Asset> assetList = new ArrayList<Asset>(checker.checkAssets(authSession, pubSession, resourceResolver,contentPath) );
+	        ArrayList<Asset> assetList = new ArrayList<Asset>(checker.checkAssets(authSession, pubServer, resourceResolver,contentPath) );
+	        %><br>Absent assets (<%=assetList.size()%> in total):<br><%
 	        for (Asset asset : assetList) {
           %>"<%= asset.getPath()%>"<br><%
           }
-      }catch(LoginException e){
-            %>LoginException:<%=e.getMessage()%><%
-            e.printStackTrace();
-            return;
-      }catch(RepositoryException e){
-          e.printStackTrace();
-          %>RepositoryException:<%=e.getMessage()%><%
-          return;
       }catch(GirlScoutsException e){
-        	 %>GirlScoutsException:<%=e.getMessage()%><%
+        	 %>GirlScoutsException:<%=e.getException().getMessage()%><br>
+        	 Reason:<%=e.getReason()%><%
         	 e.printStackTrace();
       }catch(Exception e){
           %>Exception:<%=e.getMessage()%><%
