@@ -7,6 +7,7 @@
 	String title = properties.get("title", "FEATURED STORY");
 	String icon = properties.get("icon", "icon-photo-camera");
 	String theme = properties.get("theme", "classic");
+	String btnText = properties.get("buttonText", "");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -62,17 +63,30 @@
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
                 <p class="dek"><%=description%></p>
-                <div class="contents clearfix">
-            		<cq:include path="par" resourceType="foundation/components/parsys" />
-        		</div>
+				<div class="button"><%= btnText %></div>
             </div>
             <span class="icon-cross"></span>
         </div>
     </div>
 </section>
-<% } %>
-
+<% } else if(theme.equals("social")){ %>
+<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+    <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
+        <div class="header">
+            <div class="left-wrapper">
+                <span class="<%= icon %>"></span>
+                <h3><%= title %></h3>
+                <p class="dek"><%=description%></p>
+            </div>
+            <span class="icon-cross"></span>
+        </div>
+        <div class="contents clearfix">
+            <cq:include path="social-feed" resourceType="gsusa/components/social-feed-tile" />
+        </div>
+    </div>
+</section>
 <%
+	}
 	// Get ready to hide parsys.
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>

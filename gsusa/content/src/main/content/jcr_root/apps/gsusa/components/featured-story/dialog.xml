@@ -45,8 +45,18 @@
 					        	jcr:primaryType="nt:unstructured"
 					        	text="Colorless Background"
 					        	value="colorless"/>	
+					       	<social
+					       		jcr:primaryType="nt:unstructured"
+					       		text="Social"
+					       		value="social"/>
 					    </options>
                     </theme>
+                    <button-text
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Button Text"
+                    	fieldDescription="For applicable themes, please select the text to appear in the button"
+                    	name="./buttonText"
+                    	xtype="textfield"/>
                 </items>
             </tab1>
             <background-image
