@@ -1,4 +1,5 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
+                javax.jcr.Session,
                 java.lang.StringBuilder,
                 java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -26,6 +27,7 @@ if (currentNode.hasNode("image")) {
 }
 if (imageUrl.isEmpty()) {
     String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+    Session session = (Session)resourceResolver.adaptTo(Session.class);
     if (session.nodeExists(pageImagePath)) {
     	imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
     }
@@ -85,7 +87,6 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
     StringBuilder sb = new StringBuilder();
     if(!hideTwitter){
         sb.append("<a id=\"addthis_button_twitter" + uniqueId + "\" class=\"addthis_button_twitter\" addthis:url=\"" + url + "\"");
-        sb.append(" addthis:title=\"" + title + "\"");
         if(!title.equals("")){
             sb.append(" addthis:title=\"" + title + "\"");
         }
@@ -97,7 +98,6 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
     
     if(!hidePinterest){
         sb.append("<a id=\"addthis_button_pinterest_share" + uniqueId + "\" class=\"addthis_button_pinterest_share\" addthis:url=\"" + url + "\"");
-        sb.append(" addthis:title=\"" + title + "\"");
         if(!title.equals("")){
             sb.append(" addthis:title=\"" + title + "\"");
         }

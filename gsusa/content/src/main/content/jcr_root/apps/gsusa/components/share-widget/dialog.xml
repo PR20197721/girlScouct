@@ -43,6 +43,7 @@
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Max 140 characters. If blank, Twitter may pull data from page or page metadata."
                             fieldLabel="Twitter Message"
+                            hidden="{Boolean}true"
                             maxLength="140"
                             maxLengthText="Message can not be longer than 140 characters"
                             name="./twitterMessage"
@@ -55,14 +56,14 @@
                             xtype="selection"/>
                         <pinterest-text
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="Pinterest Message"
                             fieldDescription="If blank, Pinterest may pull data from page or page metadata."
+                            fieldLabel="Pinterest Message"
+                            hidden="{Boolean}true"
                             name="./pinterestText"
                             xtype="textarea"/>
                     </items>
                 </properties>
                 <image
-                    uploadTextReference="Drop an image. If left blank, the article image will be used."
                     jcr:primaryType="cq:Widget"
                     allowUpload="{Boolean}false"
                     ddGroups="[media]"
@@ -71,6 +72,7 @@
                     name="./image/file"
                     requestSuffix="/image.img.png"
                     title="Image"
+                    uploadTextReference="Drop an image. If left blank, the article image will be used."
                     xtype="html5smartimage">
                     <items jcr:primaryType="cq:WidgetCollection">
                         <resType
