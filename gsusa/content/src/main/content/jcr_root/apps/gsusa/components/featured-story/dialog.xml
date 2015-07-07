@@ -35,7 +35,9 @@
                     	fieldLabel="Theme"
                     	name="./theme"
                     	type="select"
-    					xtype="selection">
+    					xtype="selection"
+    					value="classic"
+    					defaultValue="classic">
                     	<options jcr:primaryType="cq:WidgetCollection">
 					        <classic
 					            jcr:primaryType="nt:unstructured"
@@ -49,6 +51,10 @@
 					       		jcr:primaryType="nt:unstructured"
 					       		text="Social"
 					       		value="social"/>
+					       	<video
+					       		jcr:primaryType="nt:unstructured"
+					       		text="Video"
+					       		value="video"/>
 					    </options>
                     </theme>
                     <button-text
