@@ -9,11 +9,13 @@
     
     buildMenu(rootPage, currentPage.getPath(), sb);
 %>
-<%= sb.toString() %>
+<nav class="left-nav">
+    <%= sb.toString() %>
+</nav>
 
 <%!
     public void buildMenu(Page rootPage, String currentPath, StringBuilder sb) {
-        sb.append("<ul>");
+        sb.append("\n<ul>\n");
 
         Iterator<Page> iter = rootPage.listChildren();
         while(iter.hasNext()) {
@@ -23,20 +25,29 @@
             }
             String title = page.getTitle();
             if (title != null && !title.isEmpty()) {
-                sb.append("<li>");
+                String path = page.getPath();
+                boolean isActive = currentPath.startsWith(path);
+                String activeCls = isActive ? "active" : "";
+                boolean isCurrent = currentPath.equals(path);
+                String currentCls = isCurrent ? " current" : "";
+                
+                if (isActive || isCurrent) {
+                    sb.append("<li class=\"" + activeCls + currentCls + "\">");
+                } else {
+                    sb.append("<li>");
+                }
                 sb.append("<a href=\"" + page.getPath() + ".html\">");
                 sb.append(page.getTitle());
                 sb.append("</a>");
                 
-                String path = page.getPath();
-                if (currentPath.startsWith(path)) {
+                if (isActive) {
                     buildMenu(page, currentPath, sb);
                 }
                 
-                sb.append("</li>");
+                sb.append("</li>\n");
             }
         }
 
-        sb.append("</ul>");
+        sb.append("</ul>\n");
     }
 %>
