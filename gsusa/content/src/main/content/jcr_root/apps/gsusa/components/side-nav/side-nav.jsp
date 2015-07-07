@@ -5,6 +5,8 @@
 <%
     StringBuilder sb = new StringBuilder();
     Page rootPage = currentPage.getAbsoluteParent(2);
+    Iterator<Page> iter = rootPage.listChildren();
+    
     buildMenu(rootPage, currentPage.getPath(), sb);
 %>
 <%= sb.toString() %>
@@ -22,13 +24,12 @@
             String title = page.getTitle();
             if (title != null && !title.isEmpty()) {
                 sb.append("<li>");
-                sb.append("<a href=\"" + page.getPath() + "\">");
+                sb.append("<a href=\"" + page.getPath() + ".html\">");
                 sb.append(page.getTitle());
                 sb.append("</a>");
                 
-                String rootPath = rootPage.getPath();
-                if (currentPath.startsWith(rootPath) && // is a child page
-                        !currentPath.equals(rootPath)) { // not a leaf child 
+                String path = page.getPath();
+                if (currentPath.startsWith(path)) {
                     buildMenu(page, currentPath, sb);
                 }
                 
