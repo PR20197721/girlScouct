@@ -14,7 +14,7 @@
 	   <input type="text" name="ZipJoin" maxlength="5">
 	   <input type="hidden" name="source" value="<%= source %>">
 <!-- 	  <input class="button" type="submit" value="<%= searchBtnName %>"> -->
-        <input class="button" type="submit" value="<%= callToActionName %>">
+        <span class="button"><%= callToActionName %></span>
     </form>
 <!--     <a href="#" title="Join"><%= callToActionName %>></a> -->
 

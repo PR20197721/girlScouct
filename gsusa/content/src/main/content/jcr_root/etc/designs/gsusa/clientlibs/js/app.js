@@ -72,12 +72,12 @@
     var searchjoin = {
       form : $('.formJoin'),
       input: $('.formJoin input[type="text"]'),
-      button: $('.formJoin .button')
+      button: $('.formJoin .button'),
     };
     var searchvolunteer = {
       form : $('.formVolunteer'),
       input: $('.formVolunteer input[type="text"]'),
-      button: $('.formVolunteer .button')
+      button: $('.formVolunteer .button'),
     };
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
@@ -104,16 +104,15 @@
 
     searchjoin.button.click(function (event) {
       event.stopPropagation();
-      event.preventDefault();
       searchjoin.input.stop().animate({
         width: 'toggle',
       }, 500, function () {
         if (searchjoin.input.is(':visible')) {
           searchjoin.input.focus();
-          searchjoin.button.addClass('hide');
+          searchjoin.button.addClass('on');
         } else {
           // searchSlider.button.focus();
-          searchjoin.button.removeClass('hide');
+          searchjoin.button.removeClass('on');
         }
       });
     });
@@ -125,10 +124,10 @@
       }, 500, function () {
         if (searchvolunteer.input.is(':visible')) {
           searchvolunteer.input.focus();
-          searchvolunteer.button.addClass('hide');
+          searchvolunteer.button.addClass('on');
         } else {
           // searchSlider.button.focus();
-          searchvolunteer.button.removeClass('hide');
+          searchvolunteer.button.removeClass('on');
         }
       });
       event.preventDefault();
