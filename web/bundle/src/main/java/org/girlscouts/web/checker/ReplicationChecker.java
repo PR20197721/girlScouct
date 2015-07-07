@@ -1,10 +1,12 @@
-package org.girlscouts.web.replication;
+package org.girlscouts.web.checker;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.Session;
+
+import com.day.cq.dam.api.Asset;
 
 import org.apache.sling.api.resource.ResourceResolver;
 

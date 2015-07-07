@@ -7,6 +7,7 @@ import java.util.List;
 import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
+import javax.jcr.RepositoryException;
 
 import com.day.cq.dam.api.Asset;
 import com.day.cq.replication.ReplicationStatus;
@@ -24,7 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.girlscouts.web.exception.GirlScoutsException;
-
+import org.girlscouts.web.checker.ReplicationChecker;
 @Component
 @Service(value = ReplicationChecker.class)
 @Properties({
@@ -35,9 +36,6 @@ import org.girlscouts.web.exception.GirlScoutsException;
 
 public class ReplicationCheckerImpl implements ReplicationChecker {
 	private static Logger LOG = LoggerFactory.getLogger(ReplicationCheckerImpl.class);
-	
-	@Reference
-    private LiveRelationshipManager relationManager;
 	
 	@Reference
 	private SlingSettingsService slingSettings;
@@ -83,8 +81,8 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
 		
 	}
 	
-	private boolean existInPublish(Session session, Asset asset){
-		return if(session.nodeExists(asset.getPath()));
+	private boolean existInPublish(Session session, Asset asset)throws RepositoryException{
+		return session.nodeExists(asset.getPath());
 	}
 
 	
