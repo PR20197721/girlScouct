@@ -8,19 +8,12 @@
     String source = properties.get("source", "homepage");
 
 	if (!isHidden) {%>
-
-
-  <div>
-    <a href="#" title="Volunteer"><%= callToActionName %>></a>
+<!--     <a href="#" title="Volunteer"><%= callToActionName %></a> -->
     <form class="formVolunteer">
-	  <%= title %>
-	  <input type="text" name="ZipVolunteer" maxlength="5">
-      <input type="hidden" name="source" value="<%= source %>">
-	  <input class="button" type="submit" value="<%= searchBtnName %>">
+	   <input type="text" name="ZipVolunteer" maxlength="5">
+        <input type="hidden" name="source" value="<%= source %>">
+	    <input class="button" type="submit" value="<%= callToActionName %>">
     </form>
-  </div>
-
-
 	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {%>
 		Click to edit the Volunteer component in the eyebrow
 	<%}

@@ -8,18 +8,16 @@
 	Boolean isHidden = properties.get("isJoinHidden", false);
     String source = properties.get("source", "homepage");
 
-	
-	if (!isHidden) {%>
 
-  <div>
-    <a href="#" title="Join"><%= callToActionName %>></a>
+	if (!isHidden) {%>
     <form class="formJoin">
-	  <%= title %>
-	  <input type="text" name="ZipJoin" maxlength="5">
-	  <input type="hidden" name="source" value="<%= source %>">
-	  <input class="button" type="submit" value="<%= searchBtnName %>">
+	   <input type="text" name="ZipJoin" maxlength="5">
+	   <input type="hidden" name="source" value="<%= source %>">
+<!-- 	  <input class="button" type="submit" value="<%= searchBtnName %>"> -->
+        <input class="button" type="submit" value="<%= callToActionName %>">
     </form>
-  </div>
+<!--     <a href="#" title="Join"><%= callToActionName %>></a> -->
+
 
 	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {%>
 		Click to edit the join component in the eyebrow

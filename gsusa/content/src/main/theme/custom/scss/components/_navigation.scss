@@ -1,7 +1,7 @@
 .right-small {
   border:none;
 }
-.header-nav {
+.header-nav.row {
   background: #009447;
 }
 .right-submenu .back  > a {
@@ -93,4 +93,8 @@
       }
     }
   }
+}
+.eyebrow-nav {
+  float: left;
+  margin-right: rem-calc(90);
 }

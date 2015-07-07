@@ -57,3 +57,27 @@
     }
   }
 }
+.header-volunteer-now,
+.header-join-now {
+  float:left;
+  position: relative;
+  .button {
+    background-color: #fece24;
+    color: $black;
+    font-size: rem-calc(13);
+    padding: rem-calc(5 9);
+    font-weight: 600;
+    text-transform: capitalize;
+  }
+  form input[type="text"] {
+    display: none;
+    position: absolute;
+    right: 100%;
+    float: left;
+    width: 100%;
+    height: 28px;
+  }
+}
+.header-volunteer-now {
+  margin-left: rem-calc(5);
+}

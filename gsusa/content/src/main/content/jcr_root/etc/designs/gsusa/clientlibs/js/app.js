@@ -69,7 +69,16 @@
       input: $(".tab-bar .search-form input"),
       button: $(".tab-bar .search-form span")
     };
-
+    var searchjoin = {
+      form : $('.formJoin'),
+      input: $('.formJoin input[type="text"]'),
+      button: $('.formJoin .button')
+    };
+    var searchvolunteer = {
+      form : $('.formVolunteer'),
+      input: $('.formVolunteer input[type="text"]'),
+      button: $('.formVolunteer .button')
+    };
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
       if (e.which === 27) {
@@ -93,10 +102,58 @@
       });
     });
 
+    searchjoin.button.click(function (event) {
+      event.stopPropagation();
+      event.preventDefault();
+      searchjoin.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (searchjoin.input.is(':visible')) {
+          searchjoin.input.focus();
+          searchjoin.button.addClass('hide');
+        } else {
+          // searchSlider.button.focus();
+          searchjoin.button.removeClass('hide');
+        }
+      });
+    });
+
+    searchvolunteer.button.click(function (event) {
+      event.stopPropagation();
+      searchvolunteer.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (searchvolunteer.input.is(':visible')) {
+          searchvolunteer.input.focus();
+          searchvolunteer.button.addClass('hide');
+        } else {
+          // searchSlider.button.focus();
+          searchvolunteer.button.removeClass('hide');
+        }
+      });
+      event.preventDefault();
+    });
+
     searchSlider.form.submit(function () {
       if (searchSlider.input.val() !== "") {
         searchSlider.form.submit();
         searchSlider.input.val('');
+      } else {
+        return false;
+      }
+    });
+    searchvolunteer.form.submit(function () {
+      if (searchvolunteer.input.val() !== "") {
+        searchvolunteer.form.submit();
+        searchvolunteer.input.val('');
+      } else {
+        return false;
+      }
+    });
+    searchvolunteer.form.submit(function () {
+      if (searchvolunteer.input.val() !== "") {
+        searchvolunteer.form.submit();
+        searchvolunteer.input.val('');
       } else {
         return false;
       }
