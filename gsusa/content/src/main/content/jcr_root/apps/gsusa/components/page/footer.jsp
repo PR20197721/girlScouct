@@ -6,6 +6,7 @@
 %>
 <section class="clearfix">
     <form class="email-signin" action="#">
+    	<input name="CORPHOME" type="hidden" value="Yes" />
         <label>Keep in touch</label>
         <input type="email" name="email" placeholder="Email address" />
     </form>
