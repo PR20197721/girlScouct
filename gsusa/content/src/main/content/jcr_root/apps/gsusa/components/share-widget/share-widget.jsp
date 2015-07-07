@@ -104,9 +104,6 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
         if(!pinterestText.equals("")){
             sb.append(" addthis:description=\"" + pinterestText + "\"");
         }
-        if (!imageUrl.isEmpty()) {
-            sb.append(" pi:pinit:media=\"" + imageUrl + "\"");
-        }
         sb.append("></a>");
     }
     
