@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-07-07T16:03:52.455-04:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/gsusa/templates/gsusa-two-column-page"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Sprint 4"
+        sling:resourceType="gsusa/components/two-column-page"/>
+    <horses1/>
+    <art1/>
+    <lake1/>
+    <horses2/>
+    <art2/>
+    <lake2/>
+    <horses3/>
+    <art3/>
+    <lake3/>
+</jcr:root>

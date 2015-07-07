@@ -2,32 +2,28 @@
 <jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="dam:Asset">
     <jcr:content
-        cq:lastReplicated="{Date}2015-06-29T14:36:22.749-04:00"
-        cq:lastReplicatedBy="admin"
-        cq:lastReplicationAction="Activate"
-        jcr:lastModified="{Date}2015-06-29T13:53:09.733-04:00"
+        jcr:lastModified="{Date}2015-07-07T15:56:09.329-04:00"
         jcr:lastModifiedBy="admin"
-        jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
         <metadata
-            dam:Bitsperpixel="{Long}3"
-            dam:extracted="{Date}2015-06-29T13:53:08.655-04:00"
-            dam:Fileformat="GIF"
-            dam:MIMEtype="image/gif"
+            dam:Bitsperpixel="{Long}24"
+            dam:extracted="{Date}2015-07-07T15:56:08.701-04:00"
+            dam:Fileformat="JPEG"
+            dam:MIMEtype="image/jpeg"
             dam:Numberofimages="{Long}1"
             dam:Numberoftextualcomments="{Long}0"
             dam:Physicalheightindpi="{Long}72"
-            dam:Physicalheightininches="{Double}4.44444465637207"
+            dam:Physicalheightininches="{Double}4.625"
             dam:Physicalwidthindpi="{Long}72"
-            dam:Physicalwidthininches="{Double}6.861111164093018"
+            dam:Physicalwidthininches="{Double}6.94444465637207"
             dam:Progressive="no"
-            dam:sha1="236f3f2adfdfc72bea0bfb333ffb50db24a6cb3a"
-            dam:size="{Long}9441"
-            dc:format="image/gif"
+            dam:sha1="dce2686e2140ea84bf457cf7605e5a1a736584bd"
+            dam:size="{Long}114975"
+            dc:format="image/jpeg"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
-            tiff:ImageLength="{Long}320"
-            tiff:ImageWidth="{Long}494"/>
+            tiff:ImageLength="{Long}333"
+            tiff:ImageWidth="{Long}500"/>
         <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
     </jcr:content>

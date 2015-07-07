@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-07-07T16:00:16.895-04:00"
+        cq:lastModifiedBy="admin"
+        cq:scaffolding="/etc/scaffolding/gsusa/girls-story"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Lake3"
+        jcr:uuid="3cc9df48-172e-4754-9385-6043849dd8e1"
+        description="I can't think of anything else to say here. Hello everyone!">
+        <image
+            jcr:lastModified="{Date}2015-07-07T16:00:16.894-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/image"
+            fileReference="/content/dam/girlscouts-gsusa/images/misc/lake3.jpeg"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>
