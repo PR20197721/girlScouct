@@ -12,14 +12,14 @@
 %>
 
 <div class="standalone-volunteer">
+    <img src="<%= bg %>" class="bg-image" />
     <div class="wrapper">
-        <a href="#" title="Volunteer"><%= callToActionName %>></a>
-        <img src="<%= bg %>">
-        <form class="formJoin">
-            <%= title %>
-            <input type="text" name="ZipJoin" maxlength="5">
+        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
+        <form class="formJoin hide">
+            <label><%= title %></label>
+            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter Zip code">
             <input type="hidden" name="source" value="<%= source %>">
-        	<input class="button" type="submit" value="<%= searchBtnName %>">
+        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
         </form>
     </div>
 </div>

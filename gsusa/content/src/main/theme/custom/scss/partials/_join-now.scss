@@ -1,0 +1,59 @@
+.standalone-volunteer {
+  position: relative;
+  min-height: rem-calc(270);
+  .wrapper {
+    position: absolute;
+    bottom: rem-calc(10);
+    width: rem-calc(198);
+    left: 50%;
+    margin-left: rem-calc(-99);
+  }
+  .button.arrow {
+    white-space: nowrap;
+    padding-left: rem-calc(10);
+    z-index: 2;
+    margin: 0;
+    width: 100%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
+  .bg-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+  }
+  form {
+    position: absolute;
+    bottom: 0;
+    background: $white;
+    width: 100%;
+    z-index: 3;
+    padding-bottom: rem-calc(10);
+    padding-left: rem-calc(6);
+    label {
+      color: $primary-color;
+      text-transform: uppercase;
+      margin-bottom: rem-calc(20);
+      font-size: rem-calc(13);
+    }
+    input[type="text"] {
+      width: rem-calc(140);
+      float: left;
+    }
+    input[type="submit"] {
+      padding: rem-calc(8 5 7 5);
+      margin-bottom: 0;
+    }
+  }
+}

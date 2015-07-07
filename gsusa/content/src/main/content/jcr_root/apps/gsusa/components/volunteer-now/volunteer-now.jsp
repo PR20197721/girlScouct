@@ -11,11 +11,11 @@
 %>
 
 <div class="standalone-volunteer">
+    <img src="<%= bg %>" class="bg-image" />
     <div class="wrapper">
-        <a href="#" title="Volunteer"><%= callToActionName %>></a>
-        <img src="<%= bg %>">
-        <form class="formVolunteer">
-            <%= title %>
+        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
+        <form class="formVolunteer hide">
+            <label><%= title %></label>
             <input type="text" name="ZipVolunteer" maxlength="5">
             <input type="hidden" name="source" value="<%= source %>">
         	<input class="button" type="submit" value="<%= searchBtnName %>">

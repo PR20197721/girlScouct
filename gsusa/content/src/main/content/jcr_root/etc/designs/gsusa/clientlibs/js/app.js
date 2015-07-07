@@ -56,6 +56,10 @@
         $(".final-comp").hide();
         $('.hero-text.first').show();
       }
+      if (target.closest('.standalone-volunteer').length === 0
+          && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
+        $('.button.arrow').siblings('form').addClass('hide');
+      }
     });
   }
 
@@ -158,6 +162,7 @@
     arrows: false,
     cssEase: 'linear',
   });
+
   function explore_button() {
     $(".hero-text .button").on("click", function () {
       $('.inner-sliders .inner').slick({
@@ -271,7 +276,11 @@
       // });
     }
   });
-
+  $('.button.arrow').on("click", function () {
+    event.preventDefault();
+    var this_form = $(this).siblings("form");
+    this_form.removeClass('hide');
+  });
   fix_bottom_footer();
   slide_search_bar();
   show_hide_features();
