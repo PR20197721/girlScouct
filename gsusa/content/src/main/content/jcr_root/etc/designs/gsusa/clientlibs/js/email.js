@@ -13,7 +13,7 @@ $('.email-signin').submit(function (event) {
 		} else {
 			// show thank you 
 			$(me).find("[name='email']").val('');
-			alert('works! Let's show thank you message now!');
+			$('.email-output-message').html("<p>Thank you! We look forward to staying connected</p>");
 		}
 	});
 
