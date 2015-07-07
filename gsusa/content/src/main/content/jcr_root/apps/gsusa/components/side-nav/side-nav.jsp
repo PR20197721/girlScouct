@@ -15,10 +15,15 @@
 
 <%!
     public void buildMenu(Page rootPage, String currentPath, StringBuilder sb) {
-        sb.append("\n<ul>\n");
 
         Iterator<Page> iter = rootPage.listChildren();
+        boolean hasChild = false;
         while(iter.hasNext()) {
+            if (hasChild == false) {
+                sb.append("<ul>");
+                hasChild = true;
+            }
+            
             Page page = iter.next();
             if (page.isHideInNav()) {
                 continue;
@@ -44,10 +49,12 @@
                     buildMenu(page, currentPath, sb);
                 }
                 
-                sb.append("</li>\n");
+                sb.append("</li>");
             }
         }
-
-        sb.append("</ul>\n");
+        
+        if (hasChild) {
+            sb.append("</ul>");
+        }
     }
 %>
