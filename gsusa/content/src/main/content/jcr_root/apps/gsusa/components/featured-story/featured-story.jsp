@@ -20,6 +20,12 @@
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
+	
+	String noPadding = "";
+	if (properties.get("noPadding", "false").equals("true")) {
+	    noPadding = " no-padding";
+	}
+	
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolor %>">
@@ -29,7 +35,7 @@
         <p class="dek"><%=description%></p>
     </div>
 </div>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
         <div class="header">
             <div class="left-wrapper">
