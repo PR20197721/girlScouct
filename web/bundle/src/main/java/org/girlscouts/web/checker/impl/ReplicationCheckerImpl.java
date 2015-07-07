@@ -118,7 +118,7 @@ public class ReplicationCheckerImpl implements ReplicationChecker {
         // Provide custom retry handler is necessary
         method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
         		new DefaultHttpMethodRetryHandler(3, false));
-
+        System.out.println("<=============Sending Request: GET "+url+"================>");
         try {
           // Execute the method.
           int statusCode = client.executeMethod(method);
