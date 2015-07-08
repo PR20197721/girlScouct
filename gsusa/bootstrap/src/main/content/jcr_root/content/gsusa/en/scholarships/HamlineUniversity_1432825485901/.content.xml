@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:lastModified="{Date}2015-05-28T11:04:45.916-04:00"
         cq:lastModifiedBy="admin"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
+        jcr:uuid="05a3ac2e-0cc3-4f5d-af91-183da82fccf4"
         sling:resourceType="gsusa/components/scholarship-page"
         awardContent1="$1,000 - $3,000 (renewable for three years annually)"
         awardName1="Robbins Scholarship"
