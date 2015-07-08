@@ -87,6 +87,7 @@ function saveFinanceAdmin(){
 		},
 		success: function(result) {
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
 

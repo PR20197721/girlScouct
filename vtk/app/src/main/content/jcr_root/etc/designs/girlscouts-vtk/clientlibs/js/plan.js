@@ -836,9 +836,6 @@ function councilRpt(troopId, cid){
 	}
 
 	function vtkTrackerPushAction(vAction){
-		if( vAction!='View')
-		 {alert("google vtk action: "+vAction);}
-		
 			ga('vtkTracker.send', 'pageview', {
 				dimension4: vAction
 				});

@@ -16,10 +16,12 @@ import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
@@ -34,12 +36,27 @@ public class FinanceUtil {
 	
 	@Reference
 	private MessageGatewayService messageGatewayService;
-
-	public Finance getFinances(Troop troop, int qtr, String currentYear) {
+	
+	@Reference
+	UserUtil userUtil;
+	
+	public Finance getFinances(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException {
+		
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_FINANCE_ID))
+			throw new IllegalAccessException();
+		
 		return troopDAO.getFinances(troop, qtr, currentYear);
 	}
 
-	public void updateFinances(Troop troop, String currentYear, java.util.Map<String, String[]> params) {
+	public void updateFinances(User user, Troop troop, String currentYear, java.util.Map<String, String[]> params) throws IllegalAccessException {
+		
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_EDIT_FINANCE_ID))
+			throw new IllegalAccessException();
+		
 		Finance finance = new Finance();
 		Set<String> keySet = params.keySet();
 		for(String temp : keySet){
@@ -50,11 +67,23 @@ public class FinanceUtil {
 		// TODO NOTIFY Council here
 	}
 	
-	public FinanceConfiguration getFinanceConfig(Troop troop, String currentYear) {
+	public FinanceConfiguration getFinanceConfig(User user, Troop troop, String currentYear) throws IllegalAccessException {
+		
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_FINANCE_ID))
+			throw new IllegalAccessException();
+		
 		return troopDAO.getFinanceConfiguration(troop, currentYear);
 	}
 
-	public void updateFinanceConfiguration(Troop troop, String currentYear, java.util.Map<java.lang.String, java.lang.String[]> params) {
+	public void updateFinanceConfiguration(User user, Troop troop, String currentYear, java.util.Map<java.lang.String, java.lang.String[]> params) throws IllegalAccessException {
+		
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_EDIT_FINANCE_ID))
+			throw new IllegalAccessException();
+		
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		String expenses = params.get(Finance.EXPENSES)[0];
 		String income = params.get(Finance.INCOME)[0];
@@ -64,9 +93,15 @@ public class FinanceUtil {
 		// TODO NOTIFY Council here
 	}
 	
-	public void sendFinanceDataEmail(Troop troop, int qtr, String currentYear){
-		Finance finance = getFinances(troop, qtr, currentYear);
-		FinanceConfiguration financeConfig = getFinanceConfig(troop, currentYear);
+	public void sendFinanceDataEmail(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException{
+		
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_EDIT_FINANCE_ID))
+			throw new IllegalAccessException();
+		
+		Finance finance = getFinances(user, troop, qtr, currentYear);
+		FinanceConfiguration financeConfig = getFinanceConfig( user, troop, currentYear);
 		
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
