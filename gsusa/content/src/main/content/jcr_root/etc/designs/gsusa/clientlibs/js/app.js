@@ -65,6 +65,11 @@
       input: $(".tab-bar .search-form input"),
       button: $(".tab-bar .search-form span")
     };
+    var joinNow = {
+      form: $(".join-now-form"),
+      input: $(".join-now-form .join-text"),
+      button: $(".join-now-form .button.join-now")
+    };
 
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
@@ -88,7 +93,20 @@
         }
       });
     });
-
+    joinNow.button.click(function (event) {
+      event.stopPropagation();
+      joinNow.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (joinNow.input.is(':visible')) {
+          joinNow.input.focus();
+          joinNow.button.addClass('hide');
+        } else {
+          // searchSlider.button.focus();
+          joinNow.button.removeClass('hide');
+        }
+      });
+    });
     searchSlider.form.submit(function () {
       if (searchSlider.input.val() !== "") {
         searchSlider.form.submit();
@@ -97,6 +115,7 @@
         return false;
       }
     });
+
   }
   //home page join now link will open the email form.
   function join_now() {
@@ -159,7 +178,7 @@
     cssEase: 'linear',
   });
   function explore_button() {
-    $(".hero-text .button").on("click", function () {
+    $(".hero-text .button.explore").on("click", function () {
       $('.inner-sliders .inner').slick({
         dots: false,
         infinite: false,
