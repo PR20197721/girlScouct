@@ -74,6 +74,14 @@
         @include grid-column(22, $center:true, $collapse:true);
         margin-top: rem-calc(10);
       }
+      &.no-padding {
+        .contents {
+          @include grid-column(24, $center:true, $collapse:true);
+          margin-left: 0;
+          margin-right: 0;
+        }
+      }
+
     }
     &:only-child {
       max-width: 100%;
