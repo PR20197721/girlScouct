@@ -17,16 +17,6 @@
     List<String[]> headerNavs = new ArrayList<String[]>();
     List<String[]> eyebrowNavs = new ArrayList<String[]>();
     
-    int found = -1;
-    // find in eyebrow nav first
-    for (int i = 0; i < eyebrowNavValues.length; i++) {
-        String[] nav = eyebrowNavValues[i].getString().split("\\|\\|\\|"); // path, text
-        eyebrowNavs.add(nav);
-        if (currentPage.getPath().startsWith(nav[0]) && found == -1) { // if current page belong to this branch
-            found = i + headerNavValues.length;
-        }
-    }
-    
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
@@ -40,7 +30,7 @@
     StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\">");
     buildTopMenu(headerNavs, currentPage.getPath(), resourceResolver, sb, found);
-    buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, found - headerNavValues.length);
+    buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1);
     sb.append("</nav>");
 %>
 <%= sb.toString() %>
