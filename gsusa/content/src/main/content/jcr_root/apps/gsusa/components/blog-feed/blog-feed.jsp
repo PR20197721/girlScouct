@@ -28,8 +28,8 @@
     var comma = ip.indexOf(",");
     ip = ip.substring(0, comma);
 
-    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(title,url)&userIp=" + ip,function(data){
-    	//kconsole.log(data);
+    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(title,url,content)&userIp=" + ip,function(data){
+    	//console.log(data);
     	var output = "";
     	output += "<ul>";
     	for (var i=0; i<data.items.length; i++){
