@@ -3,4 +3,4 @@
     jcr:description="Navigation on the side of the page. Supports multiple levels."
     jcr:primaryType="cq:Component"
     jcr:title="Side Navigation"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>

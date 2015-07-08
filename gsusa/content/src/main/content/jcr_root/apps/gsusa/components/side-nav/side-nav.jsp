@@ -19,15 +19,16 @@
         Iterator<Page> iter = rootPage.listChildren();
         boolean hasChild = false;
         while(iter.hasNext()) {
+            Page page = iter.next();
+            if (page.isHideInNav()) {
+                continue;
+            }
+
             if (hasChild == false) {
                 sb.append("<ul>");
                 hasChild = true;
             }
             
-            Page page = iter.next();
-            if (page.isHideInNav()) {
-                continue;
-            }
             String title = page.getTitle();
             if (title != null && !title.isEmpty()) {
                 String path = page.getPath();
