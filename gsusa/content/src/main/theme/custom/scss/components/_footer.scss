@@ -40,7 +40,8 @@ footer {
     }
   }
   .email-signin,
-  .social-links {
+  .social-links,
+  .email-output-message {
     @media #{$large-up} {
       @include grid-column(6, $float:right);
     }

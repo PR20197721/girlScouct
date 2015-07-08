@@ -1,5 +1,5 @@
 $('.email-signin').submit(function (event) {
-    var me = event.target;
+  var me = event.target;
 	var emailAddress = $(me).find("[name='email']").val();
 	var corphomeValue = $(me).find("[name='CORPHOME']").val();
 
@@ -11,8 +11,9 @@ $('.email-signin').submit(function (event) {
 		if(txt.search(/OK/i) == -1) {
 			alert('Sorry, we are having a difficulty processing your request.\nPlease try again later.');
 		} else {
-			// show thank you 
+			// show thank you
 			$(me).find("[name='email']").val('');
+			$('.email-signin').hide();
 			$('.email-output-message').html("<p>Thank you! We look forward to staying connected</p>");
 		}
 	});
