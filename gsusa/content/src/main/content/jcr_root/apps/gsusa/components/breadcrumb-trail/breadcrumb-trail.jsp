@@ -77,6 +77,10 @@
 	            if (trailStr.length() > 0) {
 	            %><%= xssAPI.filterHTML(trailStr) %><%
 	        }
+	    } else { //breadcrumb would be null if the root of the breadcrumb is set to a subtopic, but the page is actually a topic page
+	    	//user mistakes
+	    	//The user is not allowed to set the breadcrumb to start with subtopic when he/she is in the topic page
+	    	%>Breadcrumb root is not set up properly. Please set the "breadcrumb root" one to two layers up to allow the current page to find its parent.<% 
 	    }%>
 	    </ul> <%
 	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
