@@ -21,6 +21,17 @@
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
+
+        // Take small label. If not available, use medium label instead, otherwise large.
+        String label = nav.length >= 5 ? nav[4] : "";
+        if (label.isEmpty()) {
+            label = nav.length >= 4 ? nav[3] : label;
+        }
+        if (label.isEmpty()) {
+            label = nav[0];
+        }
+        nav[0] = label;
+
         headerNavs.add(nav);
         if (currentPage.getPath().startsWith(nav[1]) && found == -1) { // if current page belong to this branch
             found = i;
