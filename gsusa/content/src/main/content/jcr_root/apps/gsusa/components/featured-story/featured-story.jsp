@@ -76,7 +76,6 @@
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
             </div>
             <span class="icon-cross"></span>
         </div>
@@ -92,7 +91,6 @@
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
             </div>
             <span class="icon-cross"></span>
         </div>
