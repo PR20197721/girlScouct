@@ -42,7 +42,7 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<a href=\"" + page.getPath() + ".html\">");
+                sb.append("<a href=\"" + page.getPath() + ".html\" title=\"" + page.getTitle() +"\">");
                 sb.append(page.getTitle());
                 sb.append("</a>");
                 
