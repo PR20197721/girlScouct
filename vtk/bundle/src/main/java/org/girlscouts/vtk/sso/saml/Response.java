@@ -1,10 +1,14 @@
 package org.girlscouts.vtk.sso.saml;
 
 import java.lang.reflect.Method;
+import java.security.PrivateKey;
+import java.security.Provider;
+import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -301,4 +305,41 @@ public String getUserId() throws Exception {
 	return nodes.item(0).getTextContent();
 }
 	
+
+
+/*
+private static Element signSamlElement(Element element,PrivateKey privKey,PublicKey pubKey){
+	  try {
+	    final String providerName=System.getProperty("jsr105Provider",JSR_105_PROVIDER);
+	    final XMLSignatureFactory sigFactory=XMLSignatureFactory.getInstance("DOM",(Provider)Class.forName(providerName).newInstance());
+	    final List envelopedTransform=Collections.singletonList(sigFactory.newTransform(Transform.ENVELOPED,(TransformParameterSpec)null));
+	    final Reference ref=sigFactory.newReference("",sigFactory.newDigestMethod(DigestMethod.SHA1,null),envelopedTransform,null,null);
+	    SignatureMethod signatureMethod;
+	    if (pubKey instanceof DSAPublicKey) {
+	      signatureMethod=sigFactory.newSignatureMethod(SignatureMethod.DSA_SHA1,null);
+	    }
+	 else     if (pubKey instanceof RSAPublicKey) {
+	      signatureMethod=sigFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,null);
+	    }
+	 else {
+	      throw new RuntimeException("Error signing SAML element: Unsupported type of key");
+	    }
+	    final CanonicalizationMethod canonicalizationMethod=sigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,(C14NMethodParameterSpec)null);
+	    final SignedInfo signedInfo=sigFactory.newSignedInfo(canonicalizationMethod,signatureMethod,Collections.singletonList(ref));
+	    final KeyInfoFactory keyInfoFactory=sigFactory.getKeyInfoFactory();
+	    final KeyValue keyValuePair=keyInfoFactory.newKeyValue(pubKey);
+	    final KeyInfo keyInfo=keyInfoFactory.newKeyInfo(Collections.singletonList(keyValuePair));
+	    org.w3c.dom.Element w3cElement=toDom(element);
+	    DOMSignContext dsc=new DOMSignContext(privKey,w3cElement);
+	    org.w3c.dom.Node xmlSigInsertionPoint=getXmlSignatureInsertLocation(w3cElement);
+	    dsc.setNextSibling(xmlSigInsertionPoint);
+	    XMLSignature signature=sigFactory.newXMLSignature(signedInfo,keyInfo);
+	    signature.sign(dsc);
+	    return toJdom(w3cElement);
+	  }
+	 catch (  final Exception e) {
+	    throw new RuntimeException("Error signing SAML element: " + e.getMessage(),e);
+	  }
+	}
+	*/
 }

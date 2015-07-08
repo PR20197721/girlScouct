@@ -82,7 +82,7 @@ public class AuthRequest {
 		return result;
 	}
 
-	private String encodeSAMLRequest(byte[] pSAMLRequest) throws RuntimeException {
+	public String encodeSAMLRequest(byte[] pSAMLRequest) throws RuntimeException {
 
 		Base64 base64Encoder = new Base64();
 

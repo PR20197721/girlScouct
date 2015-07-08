@@ -2,7 +2,10 @@ package org.girlscouts.vtk.auth.dao;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -24,12 +27,16 @@ import org.girlscouts.vtk.ejb.ConnectionFactory;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.sso.saml.OAuthRequest;
+import org.girlscouts.vtk.sso.saml.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 // TODO: Need thread pool here
 public class SalesforceDAO {
@@ -701,33 +708,157 @@ System.err.println("tatata: resp; "+ rsp);
 	}
 
 	
-	public ApiConfig getToken() {
+	public ApiConfig getToken(String ASSERTION, String token, String userId, String certificateS) {
 		
-System.err.println("*************** "+OAuthUrl);
-		HttpClient httpclient = new HttpClient();
-		String tokenUrl = OAuthUrl + "/services/oauth2/token";
-		PostMethod post = new PostMethod(tokenUrl);
-		//post.addParameter("code", code);
-		post.addParameter("grant_type", "assertion");
-		post.addParameter("assertion_type", "urn:oasis:names:tc:SAML:2.0:profiles:SSO:browser");
-		post.addParameter("assertion", "_c24d8c729a7b77287638e441c093a5e41435170640066");
-		//post.addParameter("redirect_uri", callbackUrl);
-		log.debug(post.getRequestCharSet());
-		log.debug(post.getRequestEntity().toString());
+System.err.println("******Getting token****");
+System.err.println("Assertion: "+ new String(new Base64().decode(ASSERTION)));
 
+/*
+//Security Checks
+ Document xmlDoc=null;
+try {
+	
+	xmlDoc = Utils.loadXML( new String(new Base64().decode(ASSERTION)));
+} catch (Exception e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+
+ org.w3c.dom.Element rootElement = xmlDoc.getDocumentElement();		
+			xmlDoc.getDocumentElement().normalize();
+			
+			
+			NodeList nodes = xmlDoc.getElementsByTagNameNS("*", "SignatureValue");
+		
+			String signatureValue = nodes.item(0).getChildNodes().item(0).getNodeValue();
+	System.err.println("tata sign: "+ signatureValue);
+*/
+
+String x = new String(new Base64().decode(ASSERTION));
+x=x.substring( x.indexOf("<ds:Signature"),  x.indexOf("</ds:Signature>")+15);
+System.err.println("tata testX: "+ x);
+
+String y =null, z=null;
+try{
+ y = new String(new Base64().decode(ASSERTION));
+ 
+  z = y;
+ z= z.substring( z.indexOf("IssueInstant=\"")+14, z.indexOf("\" Version"));
+ System.err.println("tata z: "+ z);
+ 
+y=y.substring( y.indexOf("auth.sfauth.html\" ID=\"")+22,  y.indexOf("\" IssueInstant="));
+System.err.println("tata y: "+ y);
+}catch(Exception e){e.printStackTrace();}
+	
+
+
+
+String assertion="<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
+"<saml:Assertion xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" ID=\""+y+"\" IssueInstant=\""+z+"\" Version=\"2.0\">"+
+  "<saml:Issuer Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:entity\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH</saml:Issuer>"+
+  
+  
+x+
+"<saml:Subject xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<saml:NameID Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+token+"</saml:NameID>"+
+  "<saml:SubjectConfirmation Method=\"urn:oasis:names:tc:SAML:2.0:cm:bearer\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+  "<saml:SubjectConfirmationData NotOnOrAfter=\"2013-09-05T19:30:14.654Z\" Recipient=\"https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token\"/>"+
+  "</saml:SubjectConfirmation>"+
+"</saml:Subject>"+
+"<saml:Conditions NotBefore=\"2013-09-05T19:25:14.654Z\" NotOnOrAfter=\"2015-07-07T19:30:14.654Z\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<saml:AudienceRestriction xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<saml:Audience>https://gsuat-gsmembers.cs17.force.com/members</saml:Audience>"+
+"</saml:AudienceRestriction>"+
+"</saml:Conditions>"+
+  "<saml:AuthnStatement AuthnInstant=\"2013-09-05T19:25:14.655Z\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+    "<saml:AuthnContext xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+    "<saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified</saml:AuthnContextClassRef>"+
+    "</saml:AuthnContext>"+
+  "</saml:AuthnStatement>"+
+"</saml:Assertion>";
+
+assertion="<?xml version=\"1.0\" encoding=\"UTF-8\"?><Assertion xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" ID=\""+y+"\" IssueInstant=\""+z+"\" Version=\"2.0\">"+
+  "<Issuer>https://girlscouts--gsuat.cs17.my.salesforce.com</Issuer>"+
+  
+  
+x+
+"<Subject xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<NameID Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress\">"+token+"</NameID>"+
+  "<SubjectConfirmation Method=\"urn:oasis:names:tc:SAML:2.0:cm:bearer\">"+
+  "<SubjectConfirmationData NotOnOrAfter=\"2016-09-05T19:30:14.654Z\" Recipient=\"https://login.salesforce.com/services/oauth2/token\"/>"+
+  "</SubjectConfirmation>"+
+"</Subject>"+
+"<Conditions NotBefore=\"2013-09-05T19:25:14.654Z\" NotOnOrAfter=\"2015-07-07T19:30:14.654Z\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<AudienceRestriction xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+"<Audience>https://login.salesforce.com</Audience>"+
+"</AudienceRestriction>"+
+"</Conditions>"+
+  "<AuthnStatement AuthnInstant=\"2015-07-07T19:25:14.655Z\">"+
+    "<AuthnContext xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">"+
+    "<AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:X509</AuthnContextClassRef>"+
+    "</AuthnContext>"+
+  "</AuthnStatement>"+
+"</Assertion>";
+
+
+//sample
+String xx= "<?xml version=\"1.0\" encoding=\"UTF-8\"?><saml:Assertion xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\" ID=\"_cd3649b3639560458bc9d9b33dfee8d21378409114655\" IssueInstant=\"2013-09-05T19:25:14.654Z\" Version=\"2.0\">  <saml:Issuer Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:entity\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">3MVG9PhR6g6B7ps45QoRvhVGGMmR_DT4kxXzVXOo6TTHF3QO1nmqOAstC92 4qSUiUeEDcuGV4tmAxyo_fV8j</saml:Issuer>  <ds:Signature xmlns:ds=\"http://www.w3.org/2000/09/xmldsig#\">    <ds:SignedInfo>    <ds:CanonicalizationMethod Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"/>    <ds:SignatureMethod Algorithm=\"http://www.w3.org/2001/04/xmldsig-more#rsa-sha256\"/>    <ds:Reference URI=\"#_cd3649b3639560458bc9d9b33dfee8d21378409114655\">      <ds:Transforms>      <ds:Transform Algorithm=\"http://www.w3.org/2000/09/xmldsig#enveloped-signature\"/>      <ds:Transform Algorithm=\"http://www.w3.org/2001/10/xml-exc-c14n#\"><ec:InclusiveNamespaces xmlns:ec=\"http://www.w3.org/2001/10/xml-exc-c14n#\" PrefixList=\"ds saml\"/></ds:Transform>      </ds:Transforms>    <ds:DigestMethod Algorithm=\"http://www.w3.org/2000/09/xmldsig#sha1\"/>    <ds:DigestValue>N8DxylbIeNg8JDO87WIqXGkoIWA=</ds:DigestValue>    </ds:Reference>    </ds:SignedInfo>    <ds:SignatureValue>XV0lFJrkhJykGYQbIs0JBFEHdt4pe2gBgitcXrscNVX2hKGpwQ+WqjF8EKrqV4Q3/Q4KglrXl/6sxJr6WOmxWtIQC4oWhSvVyfag34zQoecZeunEdFSMlnvPtqBVzJu9hJjy/QDqDWfMeWvF9S50Azd0EhJxz/Ly1i28o4aCXQQ=    </ds:SignatureValue>    <ds:KeyInfo>    <ds:X509Data>    <ds:X509Certificate>MIICOzCCAaSgAwIBAgIGAR7RRteKMA0GCSqGSIb3DQEBBQUAMGExCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzENMAsGA1UEChMEUEFDUzENMAsGA1UECxMEU0ZEQzEPMA0GA1UEAxMGU0FNTDIwMB4XDTA5MDExMzE4MzUyN1oXDTE0MDExMTE4MzUyN1owYTELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1TYW4gRnJhbmNpc2NvMQ0wCwYDVQQKEwRQQUNTMQ0wCwYDVQQLEwRTRkRDMQ8wDQYDVQQDEwZTQU1MMjAwgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAJNGcu8nW6xq2l/dAgbJmSfHLGRn+vCuKWY+LAELw+Kerjaj5Dq3ZGW38HR4BmZksG3g4eA1RXn1hiZGI1Q6Ei59QE/OZQx2zVSTb7+oIwRcDHEB1+RraYT3LJuh4JwUDVfEj3WgDnTjE5vD46l/CR5EXf4VL8uo8T40FkA51AhTAgMBAAEwDQYJKoZIhvcNAQEFBQADgYEAehxggY6tBl8x1SSvCUyUIHvxssAn1AutgZLKWuR1+FXfJzdVdE2F77nrV9YifIERUwhONiS82mBOkKqZZPL1hcKhKSnFZN2iWmm1sspL73I/eAwVsOUj+bS3v9POo4ceAD/QCCY8gUAInTH0Mq1eOdJMhYKnw/blUyqjZn9rajY=    </ds:X509Certificate>    </ds:X509Data>    </ds:KeyInfo>  </ds:Signature><saml:Subject xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"><saml:NameID Format=\"urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">test@example.org</saml:NameID>  <saml:SubjectConfirmation Method=\"urn:oasis:names:tc:SAML:2.0:cm:bearer\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">  <saml:SubjectConfirmationData NotOnOrAfter=\"2013-09-05T19:30:14.654Z\" Recipient=\"https://login.salesforce.com/services/oauth2/token\"/>  </saml:SubjectConfirmation></saml:Subject><saml:Conditions NotBefore=\"2013-09-05T19:25:14.654Z\" NotOnOrAfter=\"2013-09-05T19:30:14.654Z\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"><saml:AudienceRestriction xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\"><saml:Audience>https://login.salesforce.com/services/oauth2/token</saml:Audience></saml:AudienceRestriction></saml:Conditions>  <saml:AuthnStatement AuthnInstant=\"2013-09-05T19:25:14.655Z\" xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">    <saml:AuthnContext xmlns:saml=\"urn:oasis:names:tc:SAML:2.0:assertion\">    <saml:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:unspecified</saml:AuthnContextClassRef>    </saml:AuthnContext>  </saml:AuthnStatement></saml:Assertion>";
+
+
+
+System.err.println("***********************start*************************************************");
+System.err.println("CHECK ASSERTION: "+ assertion);
+System.err.println("*************************end***********************************************");
+
+Base64 base64 = new Base64();
+/*
+try{
+	byte[] decodedB = base64.decode(ASSERTION);
+	ASSERTION = new String(decodedB);
+	//System.err.println("CHECK decoded: "+ ASSERTION);
+}catch(Exception e){e.printStackTrace();}
+ASSERTION = ASSERTION.replace("https://girlscouts--gsuat.cs17.my.salesforce.com", "3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH");
+System.err.println("tata ASERTION to TOKEN REQ: "+ ASSERTION);
+
+//byte[] encoded = base64.encode(assertion.getBytes());
+System.err.println("************************************************************************");
+ASSERTION.replace("https://girlscouts--gsuat.cs17.my.salesforce.com", "");
+ASSERTION= new String(base64.encode(ASSERTION.getBytes()));
+System.err.println("TEST B4: "+ ASSERTION);
+*/
+
+
+		HttpClient httpclient = new HttpClient();
+		String tokenUrl =  "https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token";
+		tokenUrl="https://login.salesforce.com/services/oauth2/token";
+		PostMethod post = new PostMethod(tokenUrl);
+		
+		/*
+		post.addParameter("grant_type", "urn:ietf:params:oauth:grant-type:saml2-bearer");//encoded.toString());
+		post.addParameter("assertion", new String(base64.encode(assertion.getBytes())));   //ASSERTION); //encoded.toString());//ASSERTION);
+		*/
+		
+		
+		String thisAssertion = new String(base64.encode(assertion.getBytes()));
+		post.addParameter("grant_type", "assertion");
+		try {
+			post.addParameter("assertion" , thisAssertion);
+//			post.addParameter("assertion" , java.net.URLEncoder.encode(new String(base64.encode(assertion.getBytes())), "UTF-8"));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		post.addParameter("assertion_type", "urn:oasis:names:tc:SAML:2.0:profiles:SSO:browser");
+
+		System.out.println("This assertion: " + post.getParameter("assertion"));
 		try {
 
 			
 			log.debug(post.getRequestCharSet());
 			Header headers[] = post.getRequestHeaders();
-			for (Header h : headers) {
-				log.debug("Headers: " + h.getName() + " : " + h.getValue());
-			}
-			log.debug(":::> " + post.getQueryString());
-			log.debug(OAuthUrl + "/services/oauth2/token");
-			log.debug("___________________doAuth________end___________________________");
+			
 			httpclient.executeMethod(post);
-			log.debug("doAuth: " + post.getResponseBodyAsString());
+			
 			
 System.err.println("tata: token "+post.getResponseBodyAsString());			
 			if (post.getStatusCode() == HttpStatus.SC_OK) {

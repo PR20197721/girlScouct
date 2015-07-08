@@ -340,6 +340,11 @@ String token= null, userId= null;
 try {
 	System.err.println("TATATATAT>>> "+ request.getParameter("SAMLResponse"));
 	System.out.println("xSaml target: "+ targetUrl);
+	
+	
+	
+	
+	
 	 samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
 //tmp patch http https load balancer
 	 samlResponse.setDestinationUrl(request.getRequestURL().toString().replace("http://my-stage", "https://my-stage") );
@@ -347,6 +352,13 @@ try {
 	
 		 token =samlResponse.getNameId(); //samlResponse.getToken(request.getParameter("SAMLResponse"));
 		 userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));//samlResponse.getUserId();
+		 
+		 
+		 System.err.println("tata getting OAuth token...");
+		 ApiConfig ac= new SalesforceDAO(null,null).getToken( request.getParameter("SAMLResponse"), token, userId, certificateS );
+		
+		 
+		 
 	  }else{
 		  
 		  try{

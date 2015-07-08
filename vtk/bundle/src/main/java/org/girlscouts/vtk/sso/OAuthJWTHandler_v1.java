@@ -32,6 +32,7 @@ public class OAuthJWTHandler_v1 {
 	 @SuppressWarnings("deprecation")
 	public static void main(String[] args) {}
 public void doIt(){
+	//Security.addProvider(new com.sun.crypto.provider.SunJCE());
 
 		    String header = "{\"alg\":\"RS256\"}";
 		    String claimTemplate = "'{'\"iss\": \"{0}\", \"prn\": \"{1}\", \"aud\": \"{2}\", \"exp\": \"{3}\"'}'";
@@ -48,20 +49,21 @@ public void doIt(){
 		      //Create the JWT Claims Object
 		      String[] claimArray = new String[4];
 		      claimArray[0] = "3MVG9GiqKapCZBwHKlrZlQzDydYIMVImlAqkN6xOQASZjR1gpCDTFSdBAHismLIq003WzHDWbw_bne9NY6WGE";
-		      claimArray[1] = "appled.strudel@gmail.com";
+		      claimArray[1] = "00Dg0000006SfYn@ana.pope@gsfuture.org.gsuat";
 		      claimArray[2] = "http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
 		      MessageFormat claims;
 		      claims = new MessageFormat(claimTemplate);
 		      String payload = claims.format(claimArray);
-		      System.out.println("Paylnad "+payload);
+		      System.out.println("test11111: "+payload);
 		      //Add the encoded claims object
 		      token.append(Base64.encodeBase64URLSafeString(payload.getBytes("UTF-8")));
 
 		      //Load the private key from a keystore
 		      KeyStore keystore = KeyStore.getInstance("JKS");
-		      keystore.load(new FileInputStream("/Users/akobovich/keystore.jks"), "icruise123".toCharArray());
+		      keystore.load(new FileInputStream("/Users/akobovich/Downloads/keystore.jks"), "icruise123".toCharArray());
 		      PrivateKey privateKey = (PrivateKey) keystore.getKey("server", "icruise123".toCharArray());
+		    System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
 		      Signature signature = Signature.getInstance("SHA256withRSA");
 		      signature.initSign(privateKey);
@@ -79,7 +81,7 @@ public void doIt(){
 		      HttpParams params = client.getParams();
 		      HttpClientParams.setCookiePolicy(params, CookiePolicy.RFC_2109);
 		      params.setParameter(HttpConnectionParams.CONNECTION_TIMEOUT, 30000);
-		      HttpPost oauthPost = new HttpPost("https://gsuat-gsmembers.cs11.force.com/members/services/oauth2/token"); // community user
+		      HttpPost oauthPost = new HttpPost("https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token"); // community user
 		      List<BasicNameValuePair> parametersBody = new ArrayList<BasicNameValuePair>();
 		      parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));
@@ -88,7 +90,7 @@ public void doIt(){
 		      System.out.println("Request "+oauthPost);
 		      
 		      HttpResponse response = client.execute(oauthPost);
-		      System.out.println("Response "+response.toString());
+		      System.out.println("test Response "+response.toString());
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));
@@ -99,25 +101,6 @@ public void doIt(){
 		     System.out.println("Access token is "+accessToken);
 		      System.out.println("successful....");		
 		      
-		   // Get user info using JWT access token 
-		      String instanceURL = (String)jobj.get("instance_url");
-		      List<BasicNameValuePair> qsList = new ArrayList<BasicNameValuePair>();
-		        qsList.add(new BasicNameValuePair("q", "select name, title from contact limit 10"));		      
-		      String queryString = URLEncodedUtils.format(qsList, HTTP.UTF_8);
-		      String url = instanceURL+"/services/data/v29.0/query/?"+queryString;
-		      System.out.println("Request URL is "+url);
-		      HttpGet userInfoRequest = new HttpGet(url);
-		      userInfoRequest.setHeader("Authorization", "Bearer "+accessToken);
-		        HttpResponse userInfoResponse = client.execute(userInfoRequest);		      
-			      int ccode = userInfoResponse.getStatusLine().getStatusCode();
-		
-			      System.out.println("success" + ccode);
-			      BufferedReader br = new BufferedReader(new InputStreamReader(userInfoResponse.getEntity().getContent()));
-			      String readline;
-			      while ((readline=br.readLine())!=null)
-			    	  System.out.println(readline);
-			      br.close();
-			  
 				  
 		    } catch (Exception e) {
 		        e.printStackTrace();
