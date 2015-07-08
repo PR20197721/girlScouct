@@ -69,6 +69,22 @@
         </div>
     </div>
 </section>
+<% } else if(theme.equals("shop")){ %>
+<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+    <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
+        <div class="header">
+            <div class="left-wrapper">
+                <span class="<%= icon %>"></span>
+                <h3><%= title %></h3>
+                <p class="dek"><%=description%></p>
+            </div>
+            <span class="icon-cross"></span>
+        </div>
+        <div class="contents clearfix">
+            <cq:include path="shop-tile" resourceType="gsusa/components/shop-tile" />
+        </div>
+    </div>
+</section>
 <% } else if(theme.equals("social")){ %>
 <section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
