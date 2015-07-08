@@ -306,3 +306,24 @@ div.carousel {
     }
   }
 }
+
+.video-wrapper {
+  height: 310px;
+  overflow: hidden;
+  p {
+    color: $black;
+  }
+  .video {
+    float: left;
+    height: 100%;
+    width: 37.21429rem;
+  }
+  .video-article {
+    width: 25.64286rem;
+    float: left;
+    background-color: white;
+    padding: rem-calc(20 25);
+    overflow-y: auto;
+    height: 100%;
+  }
+}

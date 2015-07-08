@@ -180,7 +180,7 @@
         //   instead of a settings object
         // ]
       });
-      $('.inner-sliders .slide-1').slick({
+      $('.inner-sliders .slide-1, .inner-sliders .slide-4').slick({
         dots: true,
         fade: true,
         dotsClass: 'slick-dots',

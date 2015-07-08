@@ -98,10 +98,64 @@
                     <li>
                         <ul class="slide-3">
                             <li>
-                                <h3>We like to socialize</h3>
+                                <h3>And people are always talking agout us</h3>
                                 <cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <ul class="slide-4">
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                            <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/5.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                             <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/6.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                             <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/7.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                            <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/8.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
                     </li>
                 </li>
             </ul>
