@@ -45,10 +45,7 @@
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
           $('.join').removeClass('change');
-          $('.main-slider').slick({
-            autoplay: true
-          });
-          //console.log('main carousel automated');
+          $('.main-slider').slick('slickPlay');
         });
       }
       if (target.closest('.final-comp').length === 0
@@ -199,10 +196,42 @@
         cssEase: 'linear',
         arrows: false,
       });
-      $('.main-slider').slick('slickPause');
-      $('.main-slider').slick({
-        autoplay: false
+      $('.shop-slider').on('init', function () {
+        $(this).find('.slick-active:eq(1)').addClass('shadow-box');
       });
+      $('.shop-slider').slick({
+        dots: false,
+        infinite: false,
+        speed: 500,
+        autoplay: false,
+        arrows: false,
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        responsive: [{
+          breakpoint: 640,
+          settings: {
+            slidesToShow: 1
+          }
+        }]
+    
+          // $('.slick-track .slick-slide.slick-active').each(function (i) {
+          //   if (i % 4 === 3) {
+          //     $(this).addClass('test');
+          //   }
+          // });
+      });
+      $('.shop-slider').on('afterChange', function () {
+        $(this).removeClass('shadow-box');
+        $(this).find('.slick-active').each(function (i) {
+          $(this).removeClass('shadow-box');
+          if (i % 3 === 1) {
+            $(this).addClass('shadow-box');
+          }
+        });
+      });
+
+      $('.main-slider').slick('slickPause');
+      // $('.main-slider').slickPause();
       console.log('main carousel paused');
       $('.inner-sliders .inner').slick('init');
       if ($(window).width() > 640) {
@@ -217,6 +246,7 @@
       }
     });
   }
+
   function scroll_feeds() {
     $('.scroll-more').bind("click", function () {
       // var target = $(e.target);
@@ -236,6 +266,7 @@
       }, 500);
     });
   }
+
   function equilize_gs_stories() {
     var blocks = $('.gs-stories-block li div');
     var maxHeight = Math.max.apply(Math, blocks.map(function () {

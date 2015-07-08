@@ -30,6 +30,13 @@
                         fieldLabel="Background Color"
                         name="./bgcolor"
                         xtype="colorfield"/>
+                    <no-padding
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="No Padding"
+                        fieldDescription="The popup tile will have no padding if checked."
+                        name="./noPadding"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </tab1>
             <background-image

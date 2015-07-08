@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><% 
+	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 	}
 	String title = properties.get("title", "FEATURED STORY");
 	String icon = properties.get("icon", "icon-photo-camera");
@@ -20,6 +20,12 @@
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
+
+	String noPadding = "";
+	if (properties.get("noPadding", "false").equals("true")) {
+	    noPadding = " no-padding";
+	}
+
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolor %>">
@@ -29,7 +35,7 @@
         <p class="dek"><%=description%></p>
     </div>
 </div>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<div class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
         <div class="header">
             <div class="left-wrapper">
@@ -43,7 +49,7 @@
             <cq:include path="par" resourceType="foundation/components/parsys" />
         </div>
     </div>
-</section>
+</div>
 
 <%
 	// Get ready to hide parsys.
