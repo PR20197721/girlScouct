@@ -46,6 +46,18 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
+                    <videoLink
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Video Link"
+                        name="./jcr:content/jcr:videoLink"/>
+                    <videoPath
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Video Path"
+                        name="./jcr:content/jcr:videoPath"
+                        rootPath="/content/dam/girlscouts-gsusa/"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
             <advanced
