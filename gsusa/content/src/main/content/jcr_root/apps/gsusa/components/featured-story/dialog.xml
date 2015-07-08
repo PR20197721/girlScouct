@@ -47,6 +47,10 @@
 					        	jcr:primaryType="nt:unstructured"
 					        	text="Colorless Background"
 					        	value="colorless"/>	
+					        <shop
+					        	jcr:primaryType="nt:unstructured"
+					        	text="Shop"
+					        	value="shop"/>
 					       	<social
 					       		jcr:primaryType="nt:unstructured"
 					       		text="Social"
