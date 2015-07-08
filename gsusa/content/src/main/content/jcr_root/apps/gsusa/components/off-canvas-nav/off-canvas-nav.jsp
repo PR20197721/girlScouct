@@ -22,7 +22,7 @@
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
         headerNavs.add(nav);
-        if (currentPage.getPath().startsWith(nav[0]) && found == -1) { // if current page belong to this branch
+        if (currentPage.getPath().startsWith(nav[1]) && found == -1) { // if current page belong to this branch
             found = i;
         }
     }
@@ -47,7 +47,7 @@
         sb.append("<ul class=\"off-canvas-list\">");
         for (String[] nav : navs) {
             if (count == found) {
-                if (currentPath.equals(nav[0])) {
+                if (currentPath.equals(nav[1])) {
                 	sb.append("<li class=\"active current\">");
                 } else {
                 	sb.append("<li class=\"active\">");
@@ -55,9 +55,9 @@
             } else {
                 sb.append("<li>");
             }
-            sb.append("<a href=\"" + genLink(rr, nav[0]) + "\" title=\"" + nav[1] + "\">" + nav[1] + "</a>");
+            sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\">" + nav[0] + "</a>");
             if (count == found) {
-                Page rootPage = rr.resolve(nav[0]).adaptTo(Page.class);
+                Page rootPage = rr.resolve(nav[1]).adaptTo(Page.class);
                 buildMenu(rootPage, currentPath, sb);
             }
             sb.append("</li>");
