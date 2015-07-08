@@ -44,31 +44,8 @@
         </section>
     </nav> <!-- END NAV.TAB-BAR HIDE-FOR-LARGE-UP -->
 
-    <!-- OFF CANVAS MENU -->
-    <nav class="right-off-canvas-menu">
-        <ul class="off-canvas-list">
-            <% for (int i = 0; i < navs.length; i++) {
-                request.setAttribute(LABEL_KEY, labels.get(i));
-                request.setAttribute(LINK_KEY, links.get(i));
-            %>
-            <cq:include script="item.jsp" />
-            <% } %>
-        </ul>
-<%
-        // This is a workaround to include the eyebrow nav without adding the editor bar.
-        // It leaves the editing bar on the main area so authors can edit. 
-        final String EYEBROW_PROPS_KEY = "gsusa.eyebrow.items.data";
-        final String EYEBROW_PATH = "/content/gsusa/en/jcr:content/header/eyebrow-nav";
-        ValueMap eyebrowProps = (ValueMap)resourceResolver.resolve(EYEBROW_PATH).adaptTo(ValueMap.class);
-        request.setAttribute(EYEBROW_PROPS_KEY, eyebrowProps);
-%>
-        <ul class="off-canvas-list">
-            <cq:include script="/apps/gsusa/components/eyebrow-nav/items.jsp" />
-        </ul>
-<%
-        request.removeAttribute(EYEBROW_PROPS_KEY);
-%>
-    </nav>
+    <!--  OFF CANVAS -->
+    <cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />
 <%
 	    request.removeAttribute(LABEL_KEY);
 	    request.removeAttribute(LINK_KEY);
