@@ -27,7 +27,7 @@ if (action == null || action.isEmpty()) {
 }
 
 if (action.equals("check")) {
-    String pubServer = request.getParameter("server");
+    String pubServer = request.getParameter("url");
     if (pubServer == null || pubServer.isEmpty()) {
         %>Server URL is empty. Abort.<%
         return;
@@ -39,17 +39,16 @@ if (action.equals("check")) {
         %>Content path does not exist. Abort.<% 
     } 
     else {
+      %><h4>Replication Status for <%=pubServer+contentPath%>:</h4><%
     	try{
-
 /*     		  Repository repository = JcrUtils.getRepository(pubServer);
     		  SimpleCredentials creds = new SimpleCredentials(username, password.toCharArray());
     		  Session pubSession = repository.login(creds); */
-          %>Checking <%=pubServer+contentPath%>...<br><%
           ReplicationChecker checker = sling.getService(ReplicationChecker.class);
 	        ArrayList<Asset> assetList = new ArrayList<Asset>(checker.checkAssets(authSession, pubServer, resourceResolver,contentPath) );
-	        %><br>Absent assets (<%=assetList.size()%> in total):<br><%
+	        %>Absent assets (<%=assetList.size()%> in total):<br><%
 	        for (Asset asset : assetList) {
-          %>"<%= asset.getPath()%>"<br><%
+          %><%= asset.getPath()%><br><%
           }
       }catch(GirlScoutsException e){
         	 %>GirlScoutsException:<%=e.getException().getMessage()%><br>
