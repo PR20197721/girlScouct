@@ -1,4 +1,4 @@
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -45,7 +45,8 @@
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
+                <cq:text property="text" escapeXml="true"
+        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
             </div>
             <span class="icon-cross"></span>
         </div>
@@ -62,7 +63,8 @@
             <div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
+                <cq:text property="text" escapeXml="true"
+        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
 				<div class="button"><%= btnText %></div>
             </div>
             <span class="icon-cross"></span>
@@ -106,7 +108,9 @@
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
+                <cq:text property="text" escapeXml="true"
+        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+        		<div class="button"><%= btnText %></div>
             </div>
             <span class="icon-cross"></span>
         </div>

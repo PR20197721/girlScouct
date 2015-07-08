@@ -71,8 +71,12 @@
                     jcr:lastModifiedBy="dlubin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
-                    bgcolor="C4D82E"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    bgcolor="AB218E"
+                    buttonText="SEE ALL GIRL STORIES"
+                    description="Be the role model she'll always remember."
+                    text="<p>Introduce girls to experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide, and mentor, helping them develop skills and confidence that will last long after the meeting is over.</p> <h3>Be the role model she'll always remember.</h3>"
+                    textIsRich="true"
+                    theme="video"
                     title="GIRL STORIES">
                     <bg
                         jcr:lastModified="{Date}2015-06-12T12:51:50.792-04:00"
@@ -80,28 +84,19 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/gsusa/temp/girl-climbing.png"/>
-                    <par
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="foundation/components/parsys">
-                        <image
-                            jcr:created="{Date}2015-06-12T12:36:54.642-04:00"
-                            jcr:createdBy="dlubin"
-                            jcr:lastModified="{Date}2015-06-12T12:37:06.756-04:00"
-                            jcr:lastModifiedBy="dlubin"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
-                            fileReference="/content/dam/geometrixx/travel/plane_3.jpg"
-                            imageCrop="11,89,910,422"
-                            imageRotate="0"/>
-                    </par>
                 </story_0>
                 <story_1
                     jcr:lastModified="{Date}2015-06-11T16:23:05.116-04:00"
                     jcr:lastModifiedBy="dlubin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
-                    bgcolor="00AAE5"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    bgcolor="C4D82E"
+                    buttonText="INVEST TODAY"
+                    description="Invest in a girl and she'll change the world."
+                    icon="icon-filled-heart"
+                    text="<h3>Invest in a girl and she'll change the world.</h3> <p>We provide girls with the opportunity to discover their potential and the skills they need to thrive. Whether she's hiking a mountain trail, learning to code, or planting a rain garden with her troop, with us she'll learn she can</p>"
+                    textIsRich="true"
+                    theme="colorless"
                     title="DONATE">
                     <bg
                         jcr:lastModified="{Date}2015-06-11T16:23:05.116-04:00"
@@ -116,7 +111,12 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="F27536"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    buttonText="VOLUNTEER TODAY"
+                    description="Be the role model she'll always remember."
+                    icon="icon-empty-star"
+                    text="<p>Introduce girls to experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide, and mentor, helping them develop skills and confidence that will last long after the meeting is over.</p>"
+                    textIsRich="true"
+                    theme="video"
                     title="VOLUNTEER">
                     <bg
                         jcr:lastModified="{Date}2015-06-11T14:55:13.904-04:00"
@@ -131,7 +131,12 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="00AAE5"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    buttonText="JOIN THE ALUMNAE NETWORK"
+                    description="Join the Alumnae Network."
+                    icon="icon-flower"
+                    text="<p>A better world for girls--when we work together, we have the power to create one. Whether you spent a month, a year, or a decade as a Girl Scout when you were younger, we need you to help us be the voice for today's girls. Reconnect with Girl Scouts and learn about the amazing things Girl Scouts are doing today and how you can help.</p>"
+                    textIsRich="true"
+                    theme="colorless"
                     title="ALUMNAE">
                     <bg
                         jcr:lastModified="{Date}2015-06-12T12:37:37.678-04:00"
@@ -145,8 +150,11 @@
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
-                    bgcolor="C4D82E"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    bgcolor="EC008C"
+                    description="Check out our incredible offers."
+                    icon="icon-open-sign"
+                    textIsRich="true"
+                    theme="shop"
                     title="SHOP">
                     <bg
                         jcr:lastModified="{Date}2015-06-11T14:55:40.388-04:00"
@@ -161,7 +169,10 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="FAA61A"
-                    description="Donec nec justo eget felis facillisis fermentum."
+                    description="Look at what the Girl Scouts are up to."
+                    icon="icon-cloud"
+                    textIsRich="true"
+                    theme="social"
                     title="SOCIAL">
                     <bg
                         jcr:lastModified="{Date}2015-06-24T16:53:53.610-04:00"
@@ -169,19 +180,6 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/geometrixx/travel/train_platform_1.jpg"/>
-                    <par
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="foundation/components/parsys">
-                        <twitter_feed
-                            jcr:created="{Date}2015-06-24T16:56:51.162-04:00"
-                            jcr:createdBy="admin"
-                            jcr:lastModified="{Date}2015-06-24T16:57:14.812-04:00"
-                            jcr:lastModifiedBy="admin"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="gsusa/components/twitter-feed"
-                            username="girlscouts"
-                            widgetID="344885593781710848"/>
-                    </par>
                 </story_5>
             </featured-stories>
             <breaking-news
