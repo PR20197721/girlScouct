@@ -4,7 +4,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     StringBuilder sb = new StringBuilder();
-    Page rootPage = currentPage.getAbsoluteParent(2);
+    Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
     
     buildMenu(rootPage, currentPage.getPath(), sb);
