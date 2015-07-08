@@ -1,6 +1,5 @@
-<%
-        if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
-%>
+
+ <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID) ){ %>
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">

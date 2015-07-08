@@ -23,14 +23,14 @@
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
 
-	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
-	String SHOW_FINANCE_FEATURE = "showFinance"; 
-	String SHOW_PARENT_FEATURE = "showParent";
-	String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
-	String SHOW_PERMISSION_FEATURE = "showPermission";
+	//String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	//String SHOW_FINANCE_FEATURE = "showFinance"; 
+	//String SHOW_PARENT_FEATURE = "showParent";
+	//String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
+	//String SHOW_PERMISSION_FEATURE = "showPermission";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE, SHOW_ADMIN_FEATURE, SHOW_PERMISSION_FEATURE};
+	String[] ENABLED_FEATURES = new String[] {};//SHOW_BETA_FEATURE};
 
 %>
 <%
@@ -237,28 +237,7 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 <%
 		troop.setRefresh(true);
 	}
-//	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
-	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_PERMISSION_FEATURE)) {
-%>
-<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
-	<div class="small-18 medium-18 large-18 columns">
-		<select name="chngPermis">
-			<option value="<%=PermissionConstants.GROUP_LEADER%>">
-				Leader-
-				<%=PermissionConstants.GROUP_LEADER%></option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_2G%>">GROUP_MEMBER_2G_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_1G%>">GROUP_MEMBER_1G_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_NO_TROOP%>">GROUP_MEMBER_NO_TROOP_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_TROOP%>">GROUP_MEMBER_TROOP_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_GUEST%>">GROUP_GUEST_PERMISSIONS</option>
-		</select>
-	</div>
-	<div class="small-6 medium-6 large-6 columns">
-		<input type="submit" value="Change my permission" class="button" />
-	</div>
-</form>
-<%
-	}
+
 if( false ){//troop!=null && troop.getYearPlan()!=null){
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);

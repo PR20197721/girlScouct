@@ -319,7 +319,7 @@ React.createElement(ActivityPlan),
         		
         		
         		/*communication*/
-        <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
+         <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
 
 ,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
 

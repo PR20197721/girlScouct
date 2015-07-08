@@ -25,7 +25,7 @@
 <div id="panelWrapper" class="row content meeting-detail">
 <div id="vtkNav"></div>
 <%
-	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_FINANCE_FEATURE)) {
+if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
 		if(financeConfig.isPersisted()){
 			try { 
@@ -50,7 +50,7 @@
         
 			String financeFieldTag = "";
 			String save_btn = "";
-			if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
+			 if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){ 
 	
 				financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 			} else{

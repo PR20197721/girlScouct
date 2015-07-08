@@ -26,7 +26,8 @@ public class PermissionConstants {
 	public static final int PERMISSION_canViewMemberdDetail_TROOP_ID=303;
 	
 	public static final int PERMISSION_VIEW_FINANCE_ID = 400;
-
+	public static final int PERMISSION_EDIT_FINANCE_ID = 401;
+	
         public static final int PERMISSION_EDIT_YEARPLAN_MEETING_ID = 510;
         public static final int PERMISSION_ADD_YEARPLAN_MEETING_ID = 511;
         public static final int PERMISSION_RM_YEARPLAN_MEETING_ID = 512;

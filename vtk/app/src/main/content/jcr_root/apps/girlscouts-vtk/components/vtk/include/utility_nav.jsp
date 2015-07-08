@@ -64,14 +64,15 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           <% } %>
             	  <!-- if finance page -->
             <% if("finances".equals(activeTab)) {
-            		if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
-            	<li>
-            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
-            		<p>edit finance fields</p>
-            <% } else { %>
-                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
-            <% } %>
-            	</li>
+            	
+            		 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+			            	<li>
+			            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
+			            		<p>edit finance fields</p>
+			            <% } else { %>
+			                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
+			            <% } %>
+			            	</li>
             <%
             		}
             	}
