@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><% 
+	   %><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 	}
 	String title = properties.get("title", "FEATURED STORY");
 	String icon = properties.get("icon", "icon-photo-camera");
@@ -14,11 +14,11 @@
 	    description = "No Description";
 	}
 	String bgcolor = properties.get("bgcolor", "E70C82");
-	
+
 	String bgcolorClassic = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 	        + hexToDec(bgcolor.substring(2, 4)) + ','
 	        + hexToDec(bgcolor.substring(4, 6)) + ", .8)";
-	
+
 	String bgcolorCL = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 	        + hexToDec(bgcolor.substring(2, 4)) + ','
 	        + hexToDec(bgcolor.substring(4, 6)) + ", 0)";
@@ -27,7 +27,7 @@
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
-	
+
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolorClassic %>">
@@ -56,14 +56,17 @@
 </section>
 
 <% }else if(theme.equals("colorless")) { %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story colorless" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
         <div class="header">
             <div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <p class="dek"><%=description%></p>
-				<div class="button"><%= btnText %></div>
+                <div class="text">
+                    <p class="desc">Invest in a girl and she'll change the world.</p>
+                    <p class="dek"><%=description%></p>
+                </div>
+				<div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
             </div>
             <span class="icon-cross"></span>
         </div>
