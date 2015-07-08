@@ -129,6 +129,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	        	    	if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
 				            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
 				            String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";%>
+			                <span class="icon-play"></span>
 			                <li>
 			                  <div>
 		                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
@@ -143,6 +144,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				            if (!json.isNull(0)) {
 				            	imagePath = json.getJSONObject(0).getString("thumbnail_large");
 		            		}%>
+		            		<span class="icon-play"></span>
 			                <li>
 			                  <div>
 		                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
@@ -159,6 +161,7 @@ public  String readUrlFile(String urlString) throws Exception {
 		            	}
 	      	        } else if (!"".equals(vm.get("jcr:videoPath", ""))) { //it has an video
 	      	        	String imagePath = vm.get("jcr:videoPath", "") + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";%>
+		                <span class="icon-play"></span>
 		                <li>
 		                  <div>
 		                    <img src="<%= imagePath %>" alt="<%= description %>"/>
@@ -180,8 +183,8 @@ public  String readUrlFile(String urlString) throws Exception {
 	    </ul></div><%
 	    return;
 	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	        %>Please click here to edit. <%
-	        return;
+		%>Please click here to edit. <%
+		return;
 	}
 
 %>
