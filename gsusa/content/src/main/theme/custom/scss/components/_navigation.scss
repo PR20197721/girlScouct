@@ -79,9 +79,10 @@
       padding: rem-calc(8 0 6 0);
       a {
         padding-left: rem-calc(11);
+        color: #333 !important;
+
       }
-      &.active,
-      &.current {
+      &.active.current {
         background: #e3e3e3;
         position: relative;
         &:after {
@@ -93,6 +94,12 @@
         a {
           font-weight: 700;
         }
+      }
+      &.active > a {
+        font-weight: 700;
+      }
+      ul {
+        margin-left: rem-calc(20);
       }
     }
   }
