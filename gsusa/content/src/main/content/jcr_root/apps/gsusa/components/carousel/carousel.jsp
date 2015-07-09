@@ -1,10 +1,16 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 <%
+	String[] emptyArray = new String[1];
     String content = properties.get("content", "Join Now");
     String btnName = properties.get("button", "Explore Girl Scouts");
     String title = properties.get("title", "Introduce girls to");
-    String[] imagePathArray = properties.get("imagePath", String[].class);
+    String[] imagePathArray = properties.get("imagePath", emptyArray);
+    
+    String[] content2 = properties.get("content2", emptyArray);
+    String[] imagePath2 = properties.get("imagePath2", emptyArray);
+    String[] subtitle2 = properties.get("subtitle2", emptyArray);
+    String title2 = properties.get("title2", "");
 %>
 
 
@@ -23,46 +29,24 @@
             <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
             <h2><%= title %></h2>
             <p><%= content %></p>
-            <a href="#" class="button explore"><%= btnName %></a>
+            <a href="#" class="button explore"><%= btnName %>=</a>
         </section>
     </div>
     <div class="position">
         <div class="inner-sliders">
             <ul class="inner">
                 <li>
-                    <ul class="slide-1">
+                    <ul class="slide-1"> 
+                    <% 	for (int i = 0 ; i < imagePath2.length; i++) {%>
                         <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
+                            <h3><%= title2 %></h3>
                             <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                <h4><%= subtitle2[i] %></h4>
+                                <p><%= content2[i] %></p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/1.png" alt="" class="slide-thumb"/>
+                            <img src="<%= imagePath2[i] %>" alt="" class="slide-thumb"/>
                         </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/2.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/3.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/4.png" alt="" class="slide-thumb"/>
-                        </li>
+                        <%} %>
                     </ul>
                 </li>
                 <li>

@@ -41,6 +41,46 @@
                     </imagePath>
                 </items>
             </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Second Page">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title2
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Title"
+                        name="./title2"
+                        xtype="textfield"/>
+                    <imagePath2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Images"
+                        name="./imagePath2"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
+                    </imagePath2>
+                    <content2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Content"
+                        name="./content2"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            xtype="textfield"/>
+                    </content2>
+                    <subtitle2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Subtitle"
+                        name="./subtitle2"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            xtype="textfield"/>
+                    </subtitle2>
+                </items>
+            </tab2>
         </items>
     </items>
 </jcr:root>
