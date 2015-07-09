@@ -223,7 +223,15 @@ public static String getYearPlanBase(User user, Troop troop){
 	
 	return ypBase+"/";
 	*/
-	return "/vtk"+ getCurrentGSYear() +"/";
+	
+	int currentGSYear= getCurrentGSYear();
+	if( currentGSYear==2015)
+		return "/vtk/";
+	else
+		return "/vtk"+ currentGSYear +"/";
+	
+	//return "/vtk"+ getCurrentGSYear() +"/";
+	
 }
 
 
