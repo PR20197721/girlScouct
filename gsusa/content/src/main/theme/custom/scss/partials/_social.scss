@@ -3,7 +3,7 @@
   max-height: rem-calc(410);
   overflow: hidden;
   height: rem-calc(410);
-  margin-bottom: rem-calc(5);
+  margin: rem-calc(7);
   [class^="icon-"],
   [class*=" icon-"]{
     font-size: 50px;
@@ -37,9 +37,30 @@
   .align-center {
     text-align: center;
     img {
-      width: rem-calc(150);
       height: rem-calc(42);
+      margin: rem-calc(10);
     }
+  }
+  a.title {
+    color: #00a950;
+    font-weight: bold;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    line-height:1.3;
+  }
+  li {
+    max-width: 100% !important;
+    margin-bottom: rem-calc(15);
+  }
+  li img {
+    margin-top: rem-calc(5);
+    margin-bottom: rem-calc(5);
+  }
+  p.dateline {
+    font-size:0.9rem;
+    color:#666666;
   }
 }
 //inner carousel fb component
@@ -59,4 +80,11 @@
     width: rem-calc(359);
     float: left;
   }
+}
+.instagram-feed-image-head-area {
+  margin-bottom: rem-calc(10);
+  margin-top: rem-calc(10);
+}
+.instagram-feed-image-area {
+  @include block-grid(3);
 }

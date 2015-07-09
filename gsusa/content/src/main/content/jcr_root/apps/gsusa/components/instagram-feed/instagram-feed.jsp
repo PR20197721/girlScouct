@@ -35,13 +35,16 @@
 		<div class="wrapper clearfix">
 		    <div class="social-block">
 		        <span class="icon-social-instagram"></span>
-		        <div class="instagram-feed-image-area"></div>
+			<div class="instagram-feed-image-head-area"></div>
+		        <ul class="instagram-feed-image-area">
+			</ul>
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>
 
 
 	    <script>
+            var feedHeadArea = $(".instagram-feed-image-head-area");
 	    var feedArea = $(".instagram-feed-image-area");
 
 	    var count = <%= count %>;
@@ -49,8 +52,9 @@
 
 	    if(toParse.data != undefined){
 	    	var output = "";
-	    	for(var i=0; i < toParse.data.length; i++){
-	    		output = '<a href="' + toParse.data[i].link + '" target="_blank"><img src="' + toParse.data[i].images.standard_resolution.url + '" /></a>';
+		feedHeadArea.append('<a href="' + toParse.data[0].link + '" target="_blank"><img src="' + toParse.data[0].images.standard_resolution.url + '" /></a>');
+	    	for(var i=1; i < toParse.data.length; i++){
+	    		output = '<li><a href="' + toParse.data[i].link + '" target="_blank"><img src="' + toParse.data[i].images.standard_resolution.url + '" /></a></li>';
 	    		feedArea.append(output);
 	    	}
 	    }
