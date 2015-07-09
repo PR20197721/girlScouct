@@ -258,7 +258,7 @@
             });
             $(".featured-stories").css('position', 'static');
           }
-          return false;
+          return true;
         });
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
