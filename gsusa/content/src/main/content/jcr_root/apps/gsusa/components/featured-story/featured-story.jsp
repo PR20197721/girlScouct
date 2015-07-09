@@ -59,7 +59,7 @@
             <cq:include path="par" resourceType="foundation/components/parsys" />
         </div>
     </div>
-</div>
+</section>
 
 <% }else if(theme.equals("colorless")) { %>
 <section class="story colorless" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
