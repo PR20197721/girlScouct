@@ -117,7 +117,7 @@ try{
 		String title = docHit.getTitle();
 		String description = docHit.getDescription();
 
-		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
+		Node node = resourceResolver.resolve(pth).adaptTo(Node.class);
 
 		//GSWS-132: Prevents unwanted (folder) results
 		if(!node.getPrimaryNodeType().getName().equals("dam:Asset") && !node.getPrimaryNodeType().getName().equals("cq:Page")){
