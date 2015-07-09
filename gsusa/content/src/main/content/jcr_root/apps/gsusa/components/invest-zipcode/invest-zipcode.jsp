@@ -3,6 +3,7 @@
 
 	<script>
 		var completeAndRedirectInvest = function(data){
+			<% if(WCMMode.fromRequest(request) != WCMMode.EDIT){ %>
 			var toPost = $('.invest-zip').serialize();
 			$.ajax({
 				method: "POST",
@@ -21,6 +22,9 @@
 					}
 				}
 			});
+			<% }else{ %>
+			alert("This tool can only be used on a live page");
+			<% } %>
 		}
 	</script>
 

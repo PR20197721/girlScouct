@@ -15,11 +15,11 @@ if(!message.equals("")) {
 		<%
 		if(!filePath.equals("")) { %>
 			<img src="<%= filePath %>" alt="Breaking News Image" style="max-width:50px; max-height:50px" class="thumbnail"/>
-		<% } 
+		<% }
 		if(!url.equals("")) { %>
 			<a href="<%= url %>" target="_blank" title="<%= message %>">
 		<% } %>
-			<strong>BREAKING NEWS:</strong> <%= message %>
+			<strong>BREAKING NEWS:</strong> <span><%= message %></span>
 		<%
 		if(!url.equals("")) {
 			%></a><%

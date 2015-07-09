@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/gsusa"
-        cq:lastModified="{Date}2015-07-09T15:23:13.666-04:00"
+        cq:lastModified="{Date}2015-07-09T17:55:23.755-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2015-07-09T14:56:48.188-04:00"
         cq:lastReplicatedBy="admin"
@@ -27,11 +27,11 @@
                 sling:resourceType="gsusa/components/eyebrow-nav"
                 navs="[Join|||/content/gsusa/en,Volunteer|||/content/gsusa/en,Invest in Girls|||/content/gsusa/en,En Espa&amp;#241;ol|||/content/gsusa/en]"/>
             <header-nav
-                jcr:lastModified="{Date}2015-06-12T12:34:08.557-04:00"
-                jcr:lastModifiedBy="dlubin"
+                jcr:lastModified="{Date}2015-07-09T17:55:23.751-04:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="gsusa/components/header-nav"
-                navs="[About Girl Scouts|||/content/gsusa/en,Our Program|||/content/gsusa/en,Store|||/content/gsusa/en,Cookies|||/content/gsusa/en,For Girls|||/content/gsusa/en]"/>
+                navs="[About Girl Scouts|||/content/gsusa/en/about-girl-scouts||||||About Girl Scouts|||About,Our Program|||/content/gsusa/en/our-program||||||Our Program|||Our Program,Girls|||/content/gsusa/en/girls||||||Girls|||Girls,Adults|||/content/gsusa/en/adults||||||Adults|||Adults,Shop|||/content/gsusa/en/shop||||||Shop|||Shop,Cookies|||/content/gsusa/en/cookies||||||Cookies|||Cookies]"/>
             <logo
                 jcr:lastModified="{Date}2015-06-11T14:49:31.664-04:00"
                 jcr:lastModifiedBy="admin"
@@ -45,7 +45,7 @@
                     fileReference="/content/dam/girlscouts-gsusa/images/logo/logo.png"/>
             </logo>
             <search
-                jcr:lastModified="{Date}2015-06-24T17:19:29.536-04:00"
+                jcr:lastModified="{Date}2015-07-09T17:43:09.492-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="gsusa/components/search-box"
@@ -196,25 +196,25 @@
             </featured-stories>
         </content>
     </jcr:content>
-    <_x0034_04/>
     <about-girl-scouts/>
-    <adults/>
-    <bog/>
-    <careers/>
-    <contact-us/>
-    <cookies/>
-    <demo/>
-    <faq/>
-    <follow-us/>
-    <girls/>
-    <help/>
-    <investors/>
     <our-program/>
-    <press-room/>
-    <scholarships/>
+    <girls/>
+    <adults/>
     <shop/>
-    <site-search/>
-    <subscribe-to-our-newsletter/>
-    <trademark-statement/>
+    <cookies/>
+    <contact-us/>
     <visit-us/>
+    <careers/>
+    <bog/>
+    <press-room/>
+    <faq/>
+    <investors/>
+    <subscribe-to-our-newsletter/>
+    <help/>
+    <follow-us/>
+    <trademark-statement/>
+    <_x0034_04/>
+    <scholarships/>
+    <site-search/>
+    <demo/>
 </jcr:root>

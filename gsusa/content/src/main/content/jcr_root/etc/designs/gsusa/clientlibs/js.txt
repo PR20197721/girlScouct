@@ -10,7 +10,6 @@ utils.js
 jquery.min.js
 foundation.min.js
 slick.min.js
-addthis_widget.js
 all.js
 council-finder.js
 

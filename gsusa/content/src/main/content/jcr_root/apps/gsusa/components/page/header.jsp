@@ -20,7 +20,7 @@
 	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
         </div>
         <div>
-    	    <cq:include path="header/search" resourceType="gsusa/components/search-box" />
+    	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
         </div>
     </section>
 </div>
