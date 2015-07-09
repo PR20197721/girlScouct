@@ -27,10 +27,10 @@
         $(".tab-bar .search-form span").removeClass('hide');
         $(".tab-bar .search-form input").hide('slow');
       }
-      if (target.closest('.featured-stories li').length === 0
-          && target.closest(".story").css('display') !== 'none') {
-        $(".story").hide("slow");
-      }
+      //if (target.closest('.featured-stories li').length === 0
+      //    && target.closest(".story").css('display') !== 'none') {
+      //  $(".story").hide("slow");
+      //}
       if (target.closest('.join .wrapper').length === 0
           && target.closest(".join section").css('display') !== 'none') {
         $('.join section').fadeOut('500', function () {
