@@ -50,6 +50,9 @@
         }
       }
     }
+    & * {
+      list-style: none;
+    }
   }
   ul.off-canvas-list:last-child {
     > li > a {
