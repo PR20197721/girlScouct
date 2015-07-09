@@ -115,4 +115,15 @@
       float: none;
     }
   }
+        .blog-feed-area {
+		a.title {
+			color: #009900;
+		}
+		ul {
+			list-style: none;
+		}
+                li {
+                        max-width: 90% !important;
+                }
+        }
 }

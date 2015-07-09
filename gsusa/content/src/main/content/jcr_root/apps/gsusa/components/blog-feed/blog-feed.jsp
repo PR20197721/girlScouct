@@ -28,12 +28,35 @@
     var comma = ip.indexOf(",");
     ip = ip.substring(0, comma);
 
-    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(title,url,content)&userIp=" + ip,function(data){
-    	//console.log(data);
+/*
+To test run the following on the page console:
+$.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key=AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0&maxResults=1",function(data){
+  console.log(data);
+});
+
+*/
+    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(published,title,url,content)&userIp=" + ip,function(data){
     	var output = "";
     	output += "<ul>";
+	var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+	var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+
     	for (var i=0; i<data.items.length; i++){
-    		output += '<li><a href="' + data.items[i].url + '" target="_blank"><div class="title">' + data.items[i].title + '</div></a></li>';
+	  var contentData = data.items[i].content;
+	  var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi
+  	  var imageTag = "";
+	  if (contentData && contentData.match(imageUrlPattern)) {
+		imageTag = contentData.match(imageUrlPattern)[0];
+          }
+	  var tmpDiv = document.createElement("div");
+	  tmpDiv.innerHTML = contentData;
+	  var shortDescription = (tmpDiv.textContent || tmpDiv.innerText || "").trim();
+	  var dateline = new Date(data.items[i].published);
+	  var DESCRIPTION_LENGTH = 200;
+	  if (shortDescription.length > DESCRIPTION_LENGTH) {
+	    shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
+	  }
+    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + data.items[i].url + '" target="_blank" class="title">' + data.items[i].title + '</a>' + imageTag + '<p>' + shortDescription + '</p></li>';
     	}
     	output += "</ul>";
     	blogFeedArea.html(output);
