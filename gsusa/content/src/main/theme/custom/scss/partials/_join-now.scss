@@ -4,9 +4,9 @@
   //TODO: temp solution. should not be fixed size. Please change it so that it will resize image properly
   width: 225px;
   min-height: rem-calc(270);
+      margin-bottom: rem-calc(20);
   &.form-no-image {
     min-height: 100%;
-    margin-bottom: rem-calc(20);
   }
 
   .wrapper {
