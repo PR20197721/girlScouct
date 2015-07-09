@@ -1,24 +1,29 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
+<%
+    String content = properties.get("content", "Join Now");
+    String btnName = properties.get("button", "Explore Girl Scouts");
+    String title = properties.get("title", "Introduce girls to");
+    String[] imagePathArray = properties.get("imagePath", String[].class);
+%>
+
+
 <div class="hero-feature">
     <div class="overlay"></div>
     <ul class="main-slider">
+<% 	for (int i = 0 ; i < imagePathArray.length; i++) {%>
         <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="slide-thumb"/>
+            <img src="<%=imagePathArray[i] %>" class="slide-thumb"/>
         </li>
-        <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.png" alt="" class="slide-thumb"/>
-        </li>
-        <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
-        </li>
+    <%}
+%>
     </ul>
     <div class="hero-text first">
         <section>
             <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
-            <h2>Introduce girls to</h2>
-            <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-            <a href="#" class="button explore">Explore Girlscouts</a>
+            <h2><%= title %></h2>
+            <p><%= content %></p>
+            <a href="#" class="button explore"><%= btnName %></a>
         </section>
     </div>
     <div class="position">
