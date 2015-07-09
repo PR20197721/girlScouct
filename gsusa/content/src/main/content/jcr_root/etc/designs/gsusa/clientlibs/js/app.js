@@ -95,17 +95,27 @@
     });
     joinNow.button.click(function (event) {
       event.stopPropagation();
+      event.preventDefault();
       joinNow.input.stop().animate({
         width: 'toggle',
       }, 500, function () {
         if (joinNow.input.is(':visible')) {
           joinNow.input.focus();
           joinNow.button.addClass('hide');
+          joinNow.form.submit(function () {
+            if (joinNow.input.val() !== "") {
+              joinNow.form.submit();
+              joinNow.input.val('');
+            } else {
+              return false;
+            }
+          });
         } else {
           // searchSlider.button.focus();
           joinNow.button.removeClass('hide');
         }
       });
+
     });
     searchSlider.form.submit(function () {
       if (searchSlider.input.val() !== "") {
@@ -115,7 +125,6 @@
         return false;
       }
     });
-
   }
   //home page join now link will open the email form.
   function join_now() {
