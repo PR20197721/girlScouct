@@ -9,17 +9,29 @@
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
-%>
+	if (!bg.equals("")) {%>
 
-<div class="standalone-volunteer">
-    <img src="<%= bg %>" class="bg-image" />
-    <div class="wrapper">
-        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
-        <form class="formJoin hide">
-            <label><%= title %></label>
-            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter Zip code">
-            <input type="hidden" name="source" value="<%= source %>">
-        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
-        </form>
-    </div>
-</div>
+	<div class="standalone-volunteer">
+	    <img src="<%= bg %>" class="bg-image" />
+	    <div class="wrapper">
+	        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
+	        <form class="formJoin hide">
+	            <label><%= title %></label>
+	            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter Zip code">
+	            <input type="hidden" name="source" value="<%= source %>">
+	        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
+	        </form>
+	    </div>
+	</div> <%
+	} else { %>
+		<div class="standalone-volunteer">
+	    <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
+	    <form class="formJoin hide form-no-image">
+	        <label><%= title %></label>
+	        <input type="text" name="ZipJoin" maxlength="5">
+	        <input type="hidden" name="source" value="<%= source %>">
+	        <input class="button" type="submit" value="<%= searchBtnName %>">
+	    </form>
+	</div><%
+	}
+	%>

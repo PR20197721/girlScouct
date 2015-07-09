@@ -10,7 +10,7 @@
 
 
 	if (!isHidden) {%>
-    <form class="formJoin">
+    <form class="formHeaderJoin">
 	   <input type="text" name="ZipJoin" maxlength="5">
 	   <input type="hidden" name="source" value="<%= source %>">
 <!-- 	  <input class="button" type="submit" value="<%= searchBtnName %>"> -->

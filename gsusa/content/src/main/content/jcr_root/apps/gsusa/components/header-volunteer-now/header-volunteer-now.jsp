@@ -9,7 +9,7 @@
 
 	if (!isHidden) {%>
 <!--     <a href="#" title="Volunteer"><%= callToActionName %></a> -->
-    <form class="formVolunteer">
+    <form class="formHeaderVolunteer">
 	   <input type="text" name="ZipVolunteer" maxlength="5">
         <input type="hidden" name="source" value="<%= source %>">
 	    <span class="button"><%= callToActionName %></span>

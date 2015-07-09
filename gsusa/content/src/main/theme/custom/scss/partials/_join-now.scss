@@ -1,5 +1,8 @@
-.standalone-volunteer {
+.standalone-volunteer, 
+.standalone-join {
   position: relative;
+  //TODO: temp solution. should not be fixed size. Please change it so that it will resize image properly
+  width: 225px;
   min-height: rem-calc(270);
   .wrapper {
     position: absolute;
@@ -7,6 +10,28 @@
     width: rem-calc(198);
     left: 50%;
     margin-left: rem-calc(-99);
+  }
+  form.form-no-image {
+    bottom: 0;
+    background: $white;
+    width: 100%;
+    z-index: 3;
+    padding-bottom: rem-calc(10);
+    padding-left: rem-calc(6);
+    label {
+      color: $primary-color;
+      text-transform: uppercase;
+      margin-bottom: rem-calc(20);
+      font-size: rem-calc(13);
+    }
+    input[type="text"] {
+      width: rem-calc(140);
+      float: left;
+    }
+    input[type="submit"] {
+      padding: rem-calc(8 5 7 5);
+      margin-bottom: 0;
+    }
   }
   .button.arrow {
     white-space: nowrap;
@@ -33,7 +58,7 @@
     z-index: 1;
     height: 100%;
   }
-  form {
+  form:not(.form-no-image) {
     position: absolute;
     bottom: 0;
     background: $white;
@@ -69,7 +94,7 @@
     font-weight: 600;
     text-transform: capitalize;
     margin-bottom: 0;
-    &.on:before {
+/*    &.on:before {
       content: "";
       position: absolute;
       display: block;
@@ -79,7 +104,7 @@
       top: rem-calc(10);
       left: rem-calc(-24);
       margin-top: rem-calc(-10);
-    }
+    }*/
   }
   form input[type="text"] {
     display: none;
@@ -87,7 +112,7 @@
     right: 100%;
     float: left;
     width: 150%;
-    height: rem-calc(24);
+    height: rem-calc(22);
     border: none;
   }
 }

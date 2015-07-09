@@ -79,6 +79,16 @@
       input: $('.formVolunteer input[type="text"]'),
       button: $('.formVolunteer .button'),
     };
+    var headerjoin = {
+      form : $('.formHeaderJoin'),
+      input: $('.formHeaderJoin input[type="text"]'),
+      button: $('.formHeaderJoin .button'),
+    };
+    var headervolunteer = {
+      form : $('.formHeaderVolunteer'),
+      input: $('.formHeaderVolunteer input[type="text"]'),
+      button: $('.formHeaderVolunteer .button'),
+    };
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
       if (e.which === 27) {
@@ -116,6 +126,20 @@
         }
       });
     });
+    headerjoin.button.click(function (event) {
+      event.stopPropagation();
+      headerjoin.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (headerjoin.input.is(':visible')) {
+          headerjoin.input.focus();
+          headerjoin.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          headerjoin.button.removeClass('on');
+        }
+      });
+    });
 
     searchvolunteer.button.click(function (event) {
       event.stopPropagation();
@@ -128,6 +152,21 @@
         } else {
           // searchSlider.button.focus();
           searchvolunteer.button.removeClass('on');
+        }
+      });
+      event.preventDefault();
+    });
+    headervolunteer.button.click(function (event) {
+      event.stopPropagation();
+      headervolunteer.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (headervolunteer.input.is(':visible')) {
+          headervolunteer.input.focus();
+          headervolunteer.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          headervolunteer.button.removeClass('on');
         }
       });
       event.preventDefault();
@@ -149,10 +188,10 @@
         return false;
       }
     });
-    searchvolunteer.form.submit(function () {
-      if (searchvolunteer.input.val() !== "") {
-        searchvolunteer.form.submit();
-        searchvolunteer.input.val('');
+    headervolunteer.form.submit(function () {
+      if (headervolunteer.input.val() !== "") {
+        headervolunteer.form.submit();
+        headervolunteer.input.val('');
       } else {
         return false;
       }
@@ -332,6 +371,7 @@
       // });
     }
   });
+  
   $('.button.arrow').on("click", function () {
     event.preventDefault();
     var this_form = $(this).siblings("form");
