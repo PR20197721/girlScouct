@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:psAux="http://ns.adobe.com/exif/1.0/aux/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="dam:Asset">
+<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:psAux="http://ns.adobe.com/exif/1.0/aux/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}true"
+    jcr:mixinTypes="[mix:versionable]"
+    jcr:primaryType="dam:Asset"
+    jcr:uuid="a5968ecd-391d-4cf9-b456-ad7d2eb12e3d">
     <jcr:content
-        jcr:lastModified="{Date}2015-07-07T15:57:55.471-04:00"
+        cq:name="lake2.jpg"
+        cq:parentPath="/content/dam/girlscouts-gsusa/images/misc"
+        jcr:lastModified="{Date}2015-07-09T11:56:18.528-04:00"
         jcr:lastModifiedBy="admin"
         jcr:primaryType="dam:AssetContent">
         <metadata
@@ -27,6 +32,7 @@
             dam:size="{Long}38140"
             dc:description=""
             dc:format="image/jpeg"
+            dc:modified="{Date}2015-07-09T11:56:18.528-04:00"
             exif:ComponentsConfiguration="[[B@40f64a3e]"
             exif:CompressedBitsPerPixel="{Double}8.0"
             exif:CustomRendered="{Long}0"
@@ -50,6 +56,8 @@
             exif:SceneType="{Long}1"
             exif:Sharpness="{Long}0"
             exif:WhiteBalance="{Long}0"
+            jcr:lastModified="{Date}2015-07-09T11:56:18.528-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             psAux:ISO="{Long}100"
@@ -58,7 +66,7 @@
             tiff:Make="SONY"
             tiff:Model="DSC-S780"
             tiff:YCbCrPositioning="{Long}2"/>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>
