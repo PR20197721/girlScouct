@@ -136,6 +136,7 @@
           joinNow.button.removeClass('hide');
         }
       });
+    });
 
     searchjoin.button.click(function (event) {
       event.stopPropagation();

@@ -208,13 +208,6 @@
             <par
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys">
-                <blog_feed
-                    jcr:created="{Date}2015-07-06T10:17:53.819-04:00"
-                    jcr:createdBy="admin"
-                    jcr:lastModified="{Date}2015-07-06T10:17:53.819-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="gsusa/components/blog-feed"/>
             </par>
         </content>
         <image
