@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-08T09:56:29.378-04:00"
+        cq:lastModified="{Date}2015-07-09T17:53:47.729-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/gsusa/templates/gsusa-one-column-page"
         jcr:isCheckedOut="{Boolean}true"
@@ -20,4 +20,5 @@
     <girls-stories/>
     <one-column/>
     <three-column/>
+    <invest/>
 </jcr:root>
