@@ -7,7 +7,5 @@
 <a class="addthis_button_tweet" style="width:94px; padding:0px"></a>
 <a class="addthis_counter addthis_button_compact" style="width:18px; padding:0px"></a>
 </div>
-
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4e44375e77f1bc80"></script>
 </div>
 <!-- AddThis Button END -->
