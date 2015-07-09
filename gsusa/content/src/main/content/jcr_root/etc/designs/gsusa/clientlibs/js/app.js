@@ -54,6 +54,10 @@
         $('.hero-text.first').show();
         $('.join').show();
       }
+      if (target.closest('.standalone-volunteer').length === 0
+          && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
+        $('.button.arrow').siblings('form').addClass('hide');
+      }
     });
   }
 
@@ -63,7 +67,26 @@
       input: $(".tab-bar .search-form input"),
       button: $(".tab-bar .search-form span")
     };
-
+    var searchjoin = {
+      form : $('.formJoin'),
+      input: $('.formJoin input[type="text"]'),
+      button: $('.formJoin .button'),
+    };
+    var searchvolunteer = {
+      form : $('.formVolunteer'),
+      input: $('.formVolunteer input[type="text"]'),
+      button: $('.formVolunteer .button'),
+    };
+    var headerjoin = {
+      form : $('.formHeaderJoin'),
+      input: $('.formHeaderJoin input[type="text"]'),
+      button: $('.formHeaderJoin .button'),
+    };
+    var headervolunteer = {
+      form : $('.formHeaderVolunteer'),
+      input: $('.formHeaderVolunteer input[type="text"]'),
+      button: $('.formHeaderVolunteer .button'),
+    };
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
       if (e.which === 27) {
@@ -87,10 +110,86 @@
       });
     });
 
+    searchjoin.button.click(function (event) {
+      event.stopPropagation();
+      searchjoin.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (searchjoin.input.is(':visible')) {
+          searchjoin.input.focus();
+          searchjoin.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          searchjoin.button.removeClass('on');
+        }
+      });
+    });
+    headerjoin.button.click(function (event) {
+      event.stopPropagation();
+      headerjoin.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (headerjoin.input.is(':visible')) {
+          headerjoin.input.focus();
+          headerjoin.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          headerjoin.button.removeClass('on');
+        }
+      });
+    });
+
+    searchvolunteer.button.click(function (event) {
+      event.stopPropagation();
+      searchvolunteer.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (searchvolunteer.input.is(':visible')) {
+          searchvolunteer.input.focus();
+          searchvolunteer.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          searchvolunteer.button.removeClass('on');
+        }
+      });
+      event.preventDefault();
+    });
+    headervolunteer.button.click(function (event) {
+      event.stopPropagation();
+      headervolunteer.input.stop().animate({
+        width: 'toggle',
+      }, 500, function () {
+        if (headervolunteer.input.is(':visible')) {
+          headervolunteer.input.focus();
+          headervolunteer.button.addClass('on');
+        } else {
+          // searchSlider.button.focus();
+          headervolunteer.button.removeClass('on');
+        }
+      });
+      event.preventDefault();
+    });
+
     searchSlider.form.submit(function () {
       if (searchSlider.input.val() !== "") {
         searchSlider.form.submit();
         searchSlider.input.val('');
+      } else {
+        return false;
+      }
+    });
+    searchvolunteer.form.submit(function () {
+      if (searchvolunteer.input.val() !== "") {
+        searchvolunteer.form.submit();
+        searchvolunteer.input.val('');
+      } else {
+        return false;
+      }
+    });
+    headervolunteer.form.submit(function () {
+      if (headervolunteer.input.val() !== "") {
+        headervolunteer.form.submit();
+        headervolunteer.input.val('');
       } else {
         return false;
       }
@@ -156,6 +255,7 @@
     arrows: false,
     cssEase: 'linear',
   });
+
   function explore_button() {
     $(".hero-text .button").on("click", function () {
       $('.inner-sliders .inner').slick({
@@ -304,7 +404,12 @@
       // });
     }
   });
-
+  
+  $('.button.arrow').on("click", function () {
+    event.preventDefault();
+    var this_form = $(this).siblings("form");
+    this_form.removeClass('hide');
+  });
   fix_bottom_footer();
   slide_search_bar();
 

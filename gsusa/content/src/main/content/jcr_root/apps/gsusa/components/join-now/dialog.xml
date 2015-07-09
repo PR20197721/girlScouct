@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Join"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Join Now Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <outerBtnName
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Join Now"
+                        fieldLabel="Call To Action Name"
+                        name="./callToActionName"
+                        xtype="textfield"/>
+                    <searchBtnName
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="GO"
+                        fieldLabel="Search Button Name"
+                        name="./searchBtnName"
+                        xtype="textfield"/>
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Find Your Local Council"
+                        fieldLabel="Title"
+                        name="./title"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+            <background-image
+                jcr:primaryType="cq:Widget"
+                allowUpload="{Boolean}false"
+                ddGroups="[media]"
+                fileNameParameter="./bg/fileName"
+                fileReferenceParameter="./bg/fileReference"
+                name="./bg/file"
+                requestSuffix="/bg.img.png"
+                title="Background Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./bg/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </background-image>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Advanced Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="homepage"
+                        fieldLabel="Source"
+                        name="./source"
+                        maxLength="25"
+                        maxLengthText="The source cannot be longer than 25 characters"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>

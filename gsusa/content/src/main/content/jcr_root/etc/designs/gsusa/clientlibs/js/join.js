@@ -1,17 +1,17 @@
-$('.formVolunteer, .formHeaderVolunteer').submit(function (event) {
+$('.formJoin, formHeaderJoin').submit(function (event) {
 
     strGACampaign = getParameterByName("utm_campaign");
     strGAMedium = getParameterByName("utm_medium");
     strGASource = getParameterByName("utm_source");  
 
     me = event.target;
-	zipValue = $(me).find("[name='ZipVolunteer']").val();
+	zipValue = $(me).find("[name='ZipJoin']").val();
 	source = $(me).find("[name='source']").val();
 
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
         zipcode: zipValue,
         source: source,
-        actiontype: "volunteer",
+        actiontype: "join",
         GACampaign: strGACampaign,
         GAMedium: strGAMedium,
         GASource: strGASource
@@ -38,17 +38,17 @@ $('.formVolunteer, .formHeaderVolunteer').submit(function (event) {
 
         if(found) {
             //register zipcode entered to google analytics
-            //var curZipcode = $(me).find("[name='ZipVolunteer']").val();
-            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue]);
+            //var curZipcode = $(me).find("[name='ZipJoin']").val();
+            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/join/zipcode_entered'+"/"+zipValue]);
         
-            submit_facebook_conversion_pixel("volunteer/"+"homepage");
+            submit_facebook_conversion_pixel("join/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully
             window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
         } else {
             // invalidate the zipcode field manually
-            $(me).find("[name='ZipVolunteer']").val('Invalid');
+            $(me).find("[name='ZipJoin']").val('Invalid');
             // .valid() should work but somehow with edge animation, it doesn't work.. so instead, using .select()
-            $(me).find("[name='ZipVolunteer']").select();		
+            $(me).find("[name='ZipJoin']").select();		
         }
     });
 
