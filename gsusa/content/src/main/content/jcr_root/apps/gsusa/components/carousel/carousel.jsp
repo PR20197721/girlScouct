@@ -11,6 +11,20 @@
     String[] imagePath2 = properties.get("imagePath2", emptyArray);
     String[] subtitle2 = properties.get("subtitle2", emptyArray);
     String title2 = properties.get("title2", "");
+    
+    String[] content3 = properties.get("content3", emptyArray);
+    String[] imagePath3 = properties.get("imagePath3", emptyArray);
+    String[] subtitle3 = properties.get("subtitle3", emptyArray);
+    String title3 = properties.get("title3", "");
+    
+    String title4 = properties.get("title4", "");
+    
+    String title5 = properties.get("title5", "");
+    
+    String title6 = properties.get("title6", "");
+    String content6 = properties.get("content6", "");
+    String imagePath6 = properties.get("imagePath6", "");
+    
 %>
 
 
@@ -51,43 +65,21 @@
                 </li>
                 <li>
                     <ul class="slide-2">
+                    <% 	for (int i = 0 ; i < imagePath3.length; i++) {%>
                         <li>
-                            <h3>we like to get outdoors</h3>
+                            <h3><%= title3 %></h3>
                             <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                <h4><%= subtitle3[i] %></h4>
+                                <p><%= content3[i] %></p>
                             </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/5.png" alt="" class="slide-thumb"/>
+                            <img src="<%= imagePath3[i] %>" alt="" class="slide-thumb"/>
                         </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/6.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/7.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/8.png" alt="" class="slide-thumb"/>
-                        </li>
+                    <%} %>
                     </ul>
                     <li>
                         <ul class="slide-3">
                             <li>
-                                <h3>And people are always talking agout us</h3>
+                                <h3><%= title4 %></h3>
                                 <cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
                             </li>
                         </ul>
@@ -154,15 +146,15 @@
         <div class="hero-text">
                 <section>
                     <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon">
-                    <h2>Closing Statement</h2>
-                    <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
+                    <h2><%= title6%></h2>
+                    <p><%= content6 %> </p>
                     <form action="#" name="join-now" class="join-now-form clearfix">
                         <input type="text" class="join-text hide" placeholder="Enter Zip code">
                         <a href="#" class="button join-now">Join Now</a>
                     </form>
                 </section>
             </div>
-        <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="main-image" />
+        <img src="<%= imagePath6 %>" alt="" class="main-image" />
     </div>
     <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
 </div>

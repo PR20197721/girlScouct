@@ -60,6 +60,15 @@
                             jcr:primaryType="cq:Widget"
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
+                        <subtitle2
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Subtitle"
+                            name="./subtitle2"
+                            xtype="multifield">
+                            <fieldConfig
+                                jcr:primaryType="cq:Widget"
+                                xtype="textfield"/>
+                        </subtitle2>
                     </imagePath2>
                     <content2
                         jcr:primaryType="cq:Widget"
@@ -70,17 +79,106 @@
                             jcr:primaryType="cq:Widget"
                             xtype="textfield"/>
                     </content2>
-                    <subtitle2
+                </items>
+            </tab2>
+            <tab3
+                jcr:primaryType="cq:Panel"
+                title="Second Page">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title3
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Title"
+                        name="./title3"
+                        xtype="textfield"/>
+                    <imagePath3
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Images"
+                        name="./imagePath3"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
+                    </imagePath3>
+                    <subtitle3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Subtitle"
-                        name="./subtitle2"
+                        name="./subtitle3"
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
                             xtype="textfield"/>
-                    </subtitle2>
+                    </subtitle3>
+                    <content3
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Content"
+                        name="./content3"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </content3>
                 </items>
-            </tab2>
+            </tab3>
+            <tab4
+                jcr:primaryType="cq:Panel"
+                title="Third Page (Social)">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title4
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Title"
+                        name="./title4"
+                        xtype="textfield"/>
+                    <imagePath3
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Please change the social page in the edit menu on the page itself"
+                        value="Please change the social page in the edit menu on the page itself"
+                        xtype="displayfield"/>
+                </items>
+            </tab4>
+            <tab5
+                jcr:primaryType="cq:Panel"
+                title="Third Page (Social)">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title5
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Title"
+                        name="./title5"
+                        xtype="textfield"/>
+                    <imagePath3
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Please change the social page in the edit menu on the page itself"
+                        value="Please change the social page in the edit menu on the page itself"
+                        xtype="displayfield"/>
+                </items>
+            </tab5>
+            <tab6
+                jcr:primaryType="cq:Panel"
+                title="Closing Page">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title6
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Closing Statement"
+                        fieldLabel="Title"
+                        name="./title6"
+                        xtype="textfield"/>
+                    <content6
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="lorem ipsum"
+                        fieldLabel="Content"
+                        name="./content6"
+                        xtype="textfield"/>
+                    <imagePath6
+                        jcr:primaryType="cq:Widget"
+                        name="./imagePath6"
+                        rootPath="/content/dam/girlscouts-gsusa"
+                        xtype="pathfield"/>
+                </items>
+            </tab6>
         </items>
     </items>
 </jcr:root>
