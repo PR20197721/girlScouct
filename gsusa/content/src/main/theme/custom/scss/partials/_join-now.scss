@@ -99,7 +99,7 @@
     font-weight: 600;
     text-transform: capitalize;
     margin-bottom: 0;
-/*    &.on:before {
+    &.on:before {
       content: "";
       position: absolute;
       display: block;
@@ -109,7 +109,7 @@
       top: rem-calc(10);
       left: rem-calc(-24);
       margin-top: rem-calc(-10);
-    }*/
+    }
   }
   form input[type="text"] {
     display: none;
@@ -117,7 +117,7 @@
     right: 100%;
     float: left;
     width: 150%;
-    height: rem-calc(22);
+    height: 100%;
     border: none;
   }
 }
