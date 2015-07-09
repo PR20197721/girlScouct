@@ -104,20 +104,28 @@
     </div>
 </section>
 <% } else if(theme.equals("video")){ %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story video" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-                <cq:text property="text" escapeXml="true"
-        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-        		<div class="button"><%= btnText %></div>
+
             </div>
             <span class="icon-cross"></span>
         </div>
         <div class="contents clearfix">
-            <cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
+            <div class="left-float">
+                <cq:text property="text" escapeXml="true"
+            placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+                <div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
+            </div>
+            <div class="right-float">
+                <div class="video">
+                    <iframe width="560" height="315" src="https://www.youtube.com/embed/GaMylwohL14" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
+            </div>
         </div>
     </div>
 </section>

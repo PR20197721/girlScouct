@@ -115,6 +115,30 @@
           }
         }
       }
+      &.video {
+        .contents {
+          & * {
+            color: $white;
+          }
+          p {
+            font-size: rem-calc(20);
+            margin-bottom: rem-calc(10);
+          }
+          .left-float {
+            @media #{$medium-up} {
+              @include grid-column(8);
+            }
+          }
+          .right-float {
+            @media #{$medium-up} {
+              @include grid-column(14, $offset:1);
+            }
+          }
+          .button {
+            box-shadow: inset 0 0 0 99999px rgba(0,0,0,.3);
+          }
+        }
+      }
     }
     &:only-child {
       max-width: 100%;
