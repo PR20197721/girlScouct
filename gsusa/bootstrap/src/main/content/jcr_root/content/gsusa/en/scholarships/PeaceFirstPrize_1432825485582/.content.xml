@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:lastModified="{Date}2015-05-28T11:04:45.597-04:00"
         cq:lastModifiedBy="admin"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
+        jcr:uuid="86e0119b-5787-433a-a9b3-62ea97318ff9"
         sling:resourceType="gsusa/components/scholarship-page"
         awardContent1="The top ten winners receive a $25,000, two-year Fellowship which can be used to 1. Contribute to the winnerâs education and professional development, and/or 2. Support the winnerâs ongoing peacemaking work. Winners also participate in a 2-year fellowship group of peacemaking leaders; leadership development program; mentoring and opportunities to actively engage in Peace Firstâs mission and work through participation in national and local peace initiatives."
         awardName1="Peace First Prize"

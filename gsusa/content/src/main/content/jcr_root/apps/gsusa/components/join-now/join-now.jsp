@@ -1,13 +1,37 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<div class="standalone-join">
-    <div class="wrapper">
-        <a href="#" title="join">Join now</a>
-        <section>
-            <form action="" method="post" id="findCouncilByZip" onsubmit="return handleFindCouncilByZip(this.zipcode.value)">
-                <span>FIND YOUR LOCAL COUNCIL</span>
-                <input type="text" pattern="[0-9]*" name="zipcode" placeholder="enter ZIP code" />
-                <button class="button btn" type="submit" form="findCouncilByZip">GO</button>
-            </form>
-        </section>
-    </div>
-</div>
+<%
+    String callToActionName = properties.get("callToActionName", "Join Now");
+    String searchBtnName = properties.get("searchBtnName", "Go");
+    String title = properties.get("title", "Find Your Local Council");
+    String source = properties.get("source", "homepage");
+
+	String bg = "";
+	try {
+		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+	} catch (Exception e) {}
+	if (!bg.equals("")) {%>
+
+	<div class="standalone-volunteer">
+	    <img src="<%= bg %>" class="bg-image" />
+	    <div class="wrapper">
+	        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
+	        <form class="formJoin hide">
+	            <label><%= title %></label>
+	            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter Zip code">
+	            <input type="hidden" name="source" value="<%= source %>">
+	        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
+	        </form>
+	    </div>
+	</div> <%
+	} else { %>
+		<div class="standalone-volunteer form-no-image">
+	    <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
+	    <form class="formJoin hide">
+	        <label><%= title %></label>
+	        <input type="text" name="ZipJoin" maxlength="5">
+	        <input type="hidden" name="source" value="<%= source %>">
+	        <input class="button" type="submit" value="<%= searchBtnName %>">
+	    </form>
+	</div><%
+	}
+	%>

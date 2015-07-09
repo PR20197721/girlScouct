@@ -18,7 +18,7 @@
             <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
             <h2>Introduce girls to</h2>
             <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-            <a href="#" class="button">Explore Girlscouts</a>
+            <a href="#" class="button explore">Explore Girlscouts</a>
         </section>
     </div>
     <div class="position">
@@ -98,10 +98,64 @@
                     <li>
                         <ul class="slide-3">
                             <li>
-                                <h3>We like to socialize</h3>
+                                <h3>And people are always talking agout us</h3>
                                 <cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <ul class="slide-4">
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                            <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/5.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                             <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/6.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                             <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/7.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                        <li>
+                            <h3>And people are always talking agout us</h3>
+                            <div class="video-wrapper">
+                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/8.png" alt="" class="slide-thumb"/></div>
+                                <div class="video-article">
+                                    <h4>Splash, Paddle, and Sail</h4>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
                     </li>
                 </li>
             </ul>
@@ -113,7 +167,10 @@
                     <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon">
                     <h2>Closing Statement</h2>
                     <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-                    <a href="#" class="button">Join Now</a>
+                    <form action="#" name="join-now" class="join-now-form clearfix">
+                        <input type="text" class="join-text hide" placeholder="Enter Zip code">
+                        <a href="#" class="button join-now">Join Now</a>
+                    </form>
                 </section>
             </div>
         <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="main-image" />

@@ -2,6 +2,8 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     title="Header Navigation"
+    width="{Long}1000"
+    height="{Long}500"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -30,6 +32,129 @@
                         fieldLabel="Background Color"
                         name="./bgcolor"
                         xtype="colorfield"/>
+                    <no-padding
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="No Padding"
+                        fieldDescription="The popup tile will have no padding if checked."
+                        name="./noPadding"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <theme
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Theme"
+                    	name="./theme"
+                    	type="select"
+    			xtype="selection"
+    			value="classic"
+    			defaultValue="classic">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+				<classic
+					jcr:primaryType="nt:unstructured"
+					text="Classic"
+					value="classic"/>
+				<colorless-background
+					jcr:primaryType="nt:unstructured"
+					text="Colorless Background"
+					value="colorless"/>	
+				<shop
+					jcr:primaryType="nt:unstructured"
+					text="Shop"
+					value="shop"/>
+				<social
+					jcr:primaryType="nt:unstructured"
+					text="Social"
+					value="social"/>
+				<video
+					jcr:primaryType="nt:unstructured"
+					text="Video"
+					value="video"/>
+			</options>
+                    </theme>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Content for applicable tiles"
+                        name="./text"
+                        xtype="richtext">
+                        <rtePlugins jcr:primaryType="nt:unstructured">
+                            <links jcr:primaryType="nt:unstructured">
+                                <linkDialogConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    height="{Long}316">
+                                    <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                        <linkAdvanced
+                                            jcr:primaryType="cq:Widget"
+                                            collapsed="{Boolean}true"
+                                            collapsible="{Boolean}true"
+                                            inputValue="advanced"
+                                            name="./linkdialog/cq:adhocLinkTrackingTab"
+                                            title="Link tracking"
+                                            xtype="dialogfieldset">
+                                            <items jcr:primaryType="cq:WidgetCollection">
+                                                <enable
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="enabletracking"
+                                                    fieldDescription="override analytics framework settings"
+                                                    fieldLabel="Custom link tracking"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                    xtype="checkbox">
+                                                    <listeners
+                                                        jcr:primaryType="nt:unstructured"
+                                                        check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                                </enable>
+                                                <events
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevents"
+                                                    fieldDescription="e.g.: event2, event7"
+                                                    fieldLabel="Include SiteCatalyst events"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                    xtype="textfield"/>
+                                                <evars
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevars"
+                                                    fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                    fieldLabel="Include SiteCatalyst variables"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                    xtype="textfield"/>
+                                            </items>
+                                        </linkAdvanced>
+                                    </linkAttributes>
+                                </linkDialogConfig>
+                            </links>
+                            <justify
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h3
+                                	jcr:primaryType="nt:unstructured"
+                                	description="Header 3"
+                                	tag="h3"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        </rtePlugins>
+                    </text>
+                    <isRichTextFlag
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./textIsRich"
+                        value="true"
+                        xtype="hidden"/>
+                    <button-text
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Button Text"
+                    	fieldDescription="For applicable themes, please select the text to appear in the button"
+                    	name="./buttonText"
+                    	xtype="textfield"/>
+>>>>>>> GSDO-159v2
                 </items>
             </tab1>
             <background-image

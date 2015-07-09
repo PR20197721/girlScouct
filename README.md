@@ -16,19 +16,18 @@ Basic intro to CQ/AEM
 
 
 ## Your first application
-1. run the start.sh script to start the author server (first time takes a few minutes)
-    look inside that script, it's really just a one liner:
-    java -jar -Xmx1500M -XX:MaxPermSize=512M -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=4508 cq-author-p4502.jar
+1. Create a folder for AEM projects and set the environment variable AEM_HOME (e.g. AEM_HOME=/usr/local/aem).  This folder will contain all of your aem instance binaries and their respective repository.  As a convention name project folder accordingly: PROJECT_NAME-AEM_TYPE (e.g. girlscouts-author or girlscouts-publish).  You will need to place three items in this folder to get started:
+	- license.properties (with applicable license information)
+	- aem jar file named according to aem instance type and port (e.g. cq56-author-4502.jar)
+	- startup.sh with java startup parameters for the aem jar file (e.g. java -Xmx1536m -XX:MaxPermSize=384M -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=45022 -verbose:gc -XX:+PrintGCDetails -DauthEnabled=false -jar cq56-author-4502.jar -v -nofork -ll 3)
 
-   notice how the name of the jar itself determines the port it runs on (here it is port 4502):
+2. run the start.sh script to start the author server (first time takes a few minutes)
 
-2. browse localhost:4502
+3. browse localhost:4502
 
-3. log in with one of the default user/passwords:
+4. log in with one of the default user/passwords:
     admin/admin
     author/author
-
-
 
 ## Pushing and pulling code btwn CQ and your file system
 

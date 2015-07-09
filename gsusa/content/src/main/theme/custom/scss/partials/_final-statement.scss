@@ -4,6 +4,22 @@
     right: 3%;
     background: none;
     z-index: 2;
+    // @media #{$medium-only} {
+    //   top: 0;
+    //   @include grid-column(12);
+    // }
+    form {
+      input[type="text"] {
+        display: none;
+        position: absolute;
+        right: 50%;
+        width: rem-calc(200);
+        height: rem-calc(47);
+        border: none;
+        padding-left: rem-calc(5);
+        color: #333;
+      }
+    }
     .button {
       background: $white;
       color: $primary-color;
@@ -22,6 +38,9 @@
         margin-top: rem-calc(-10);
       }
     }
+    // section {
+    //   width: 100%;
+    // }
   }
   .main-image {
     position: absolute;

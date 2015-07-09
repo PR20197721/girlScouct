@@ -21,7 +21,7 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
-                            xtype="simplelink"/>
+                            xtype="customlink"/>
                     </multi>
                 </items>
             </first>

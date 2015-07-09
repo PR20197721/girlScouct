@@ -1,0 +1,27 @@
+.invest-button{
+  color: $white;
+  background-color: #fbb41f;
+  padding: rem-calc(6 25);
+  border-radius: rem-calc(3);
+  margin: 0px;
+  width: rem-calc(247);
+  > p {
+    margin-bottom: rem-calc(10);
+  }
+  p {
+    font-family: omnes-pro, sans-serif;
+    font-weight: 800;
+    font-size: rem-calc(18);
+    line-height: 1.2;
+  }
+  input[type="text"] {
+    max-width: rem-calc(135);
+    float: left;
+  }
+  button {
+    background: none;
+    font-size: 40px;
+    padding: 0;
+    float: right;
+  }
+}
