@@ -123,8 +123,8 @@
             <div class="right-float">
                 <div class="video">
                     <iframe width="560" height="315" src="https://www.youtube.com/embed/GaMylwohL14" frameborder="0" allowfullscreen></iframe>
+                	<cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
                 </div>
-                <cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
             </div>
         </div>
     </div>
