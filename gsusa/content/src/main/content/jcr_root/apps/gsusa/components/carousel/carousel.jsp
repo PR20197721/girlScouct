@@ -18,7 +18,7 @@
             <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
             <h2>Introduce girls to</h2>
             <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-            <a href="#" class="button">Explore Girlscouts</a>
+            <a href="#" class="button explore">Explore Girlscouts</a>
         </section>
     </div>
     <div class="position">
@@ -167,7 +167,10 @@
                     <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon">
                     <h2>Closing Statement</h2>
                     <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-                    <a href="#" class="button">Join Now</a>
+                    <form action="#" name="join-now" class="join-now-form clearfix">
+                        <input type="text" class="join-text hide" placeholder="Enter Zip code">
+                        <a href="#" class="button join-now">Join Now</a>
+                    </form>
                 </section>
             </div>
         <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="main-image" />
