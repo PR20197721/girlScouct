@@ -1,5 +1,6 @@
 <%@page import="org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper" %>
+                org.girlscouts.vtk.helpers.CouncilMapper,
+                org.girlscouts.vtk.utils.VtkUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
  
  <!-- 
@@ -28,7 +29,7 @@
     	councilId = Integer.toString(councilIdInt);
     	branch = mapper.getCouncilBranch(councilId);
     } catch (Exception e) {
-        String refererCouncil = (String)session.getAttribute("refererCouncil");
+        String refererCouncil = VtkUtil.getCouncilInClient(request);
         if (refererCouncil != null && !refererCouncil.isEmpty()) {
             branch = "/content/" + refererCouncil;
         } else {
