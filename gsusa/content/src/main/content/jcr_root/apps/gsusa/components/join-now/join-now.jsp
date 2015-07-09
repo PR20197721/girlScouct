@@ -24,9 +24,9 @@
 	    </div>
 	</div> <%
 	} else { %>
-		<div class="standalone-volunteer">
+		<div class="standalone-volunteer form-no-image">
 	    <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
-	    <form class="formJoin hide form-no-image">
+	    <form class="formJoin hide">
 	        <label><%= title %></label>
 	        <input type="text" name="ZipJoin" maxlength="5">
 	        <input type="hidden" name="source" value="<%= source %>">

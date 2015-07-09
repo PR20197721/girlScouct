@@ -4,7 +4,7 @@
     String searchBtnName = properties.get("searchBtnName", "Go");
     String title = properties.get("title", "Find Your Local Council");
     String source = properties.get("source", "homepage");
-	
+
     String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
@@ -24,9 +24,9 @@
 		    </div>
 		</div> <%
 	} else { //bg is null, doing this mainly for css %>
-		<div class="standalone-volunteer">
+		<div class="standalone-volunteer form-no-image">
 		    <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
-		    <form class="formVolunteer hide form-no-image">
+		    <form class="formVolunteer hide">
 		        <label><%= title %></label>
 		        <input type="text" name="ZipVolunteer" maxlength="5">
 		        <input type="hidden" name="source" value="<%= source %>">
