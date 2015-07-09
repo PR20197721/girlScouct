@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="dam:Asset">
+<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:xmpRights="http://ns.adobe.com/xap/1.0/rights/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}true"
+    jcr:mixinTypes="[mix:versionable]"
+    jcr:primaryType="dam:Asset"
+    jcr:uuid="3cf01a03-1c24-491f-b1d7-60f211d4f3a4">
     <jcr:content
-        jcr:lastModified="{Date}2015-07-07T15:57:55.488-04:00"
+        cq:name="lake1.jpg"
+        cq:parentPath="/content/dam/girlscouts-gsusa/images/misc"
+        jcr:lastModified="{Date}2015-07-09T11:56:32.002-04:00"
         jcr:lastModifiedBy="admin"
         jcr:primaryType="dam:AssetContent">
         <metadata
@@ -32,11 +37,14 @@
             dc:creator="[YanLev]"
             dc:description="[Fun kids on the beach]"
             dc:format="image/jpeg"
+            dc:modified="{Date}2015-07-09T11:56:32.002-04:00"
             dc:title="[167217827]"
             exif:ExifImageLength="{Long}367"
             exif:ExifImageWidth="{Long}550"
             exif:PixelXDimension="{Double}300.0"
             exif:PixelYDimension="{Double}300.0"
+            jcr:lastModified="{Date}2015-07-09T11:56:32.001-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             jcr:title="167217827"
@@ -54,7 +62,7 @@
             xmpMM:DocumentID="adobe:docid:photoshop:8c1ba3a1-d251-11e2-ad9a-ff310d8d02d1"
             xmpMM:InstanceID="uuid:2b368902-d252-11e2-ad9a-ff310d8d02d1"
             xmpRights:WebStatement="http://www.gettyimages.com"/>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>

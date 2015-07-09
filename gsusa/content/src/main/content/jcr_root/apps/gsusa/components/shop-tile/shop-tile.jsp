@@ -10,7 +10,7 @@ String buttonText = properties.get("buttonText", "");
 if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
 <p> Please select at least one image to display</p>
-<% }else{%>
+<% }else if(imgs != null){%>
         <div class="shop-slider">
 	<% for (int i = 0; i < imgs.length; i++) {
                 String[] split = imgs[i].split("\\|\\|\\|");

@@ -21,6 +21,10 @@
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
+        
+        if (nav.length < 2) {
+            continue;
+        }
 
         // Take small label. If not available, use medium label instead, otherwise large.
         String label = nav.length >= 5 ? nav[4] : "";
