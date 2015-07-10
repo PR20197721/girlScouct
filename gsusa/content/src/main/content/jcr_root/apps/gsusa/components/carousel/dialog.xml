@@ -149,6 +149,18 @@
                         fieldLabel="Title"
                         name="./title5"
                         xtype="textfield"/>
+                    <subtitle50
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Subtitle 1"
+                        name="./subtitle50"
+                        xtype="textfield"/>
+                    <content50
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Content 1"
+                        name="./content50"
+                        xtype="textfield"/>
                     <videoType50
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Select a source"
@@ -171,16 +183,28 @@
                     </videoType50>
                     <videoLink50
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Link"
+                        fieldLabel="Video Link 1"
                         itemId="videoLink50"
                         name="./videoLink50"
                         xtype="textfield"/>
                     <videoPath50
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Path"
+                        fieldLabel="Video Path 1"
                         itemId="videoPath50"
                         name="./videoPath50"
                         xtype="pathfield"/>
+                    <subtitle51
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Subtitle 2"
+                        name="./subtitle51"
+                        xtype="textfield"/>
+                    <content51
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Content 2"
+                        name="./content51"
+                        xtype="textfield"/>
                     <videoType51
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Select a source"
@@ -203,16 +227,28 @@
                     </videoType51>
                     <videoLink51
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Link"
+                        fieldLabel="Video Link 2"
                         itemId="videoLink51"
                         name="./videoLink51"
                         xtype="textfield"/>
                     <videoPath51
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Path"
+                        fieldLabel="Video Path 2"
                         itemId="videoPath51"
                         name="./videoPath51"
                         xtype="pathfield"/>
+                    <subtitle52
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Subtitle 3"
+                        name="./subtitle52"
+                        xtype="textfield"/>
+                    <content52
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Content 3"
+                        name="./content52"
+                        xtype="textfield"/>
                     <videoType52
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Select a source"
@@ -235,16 +271,28 @@
                     </videoType52>
                     <videoLink52
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Link"
+                        fieldLabel="Video Link 3"
                         itemId="videoLink52"
                         name="./videoLink52"
                         xtype="textfield"/>
                     <videoPath52
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Path"
+                        fieldLabel="Video Path 3"
                         itemId="videoPath52"
                         name="./videoPath52"
                         xtype="pathfield"/>
+                    <subtitle53
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Subtitle 4"
+                        name="./subtitle53"
+                        xtype="textfield"/>
+                    <content53
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Content 4"
+                        name="./content53"
+                        xtype="textfield"/>
                     <videoType53
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Select a source"
@@ -267,13 +315,13 @@
                     </videoType53>
                     <videoLink53
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Link"
+                        fieldLabel="Video Link 4"
                         itemId="videoLink53"
                         name="./videoLink53"
                         xtype="textfield"/>
                     <videoPath53
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Path"
+                        fieldLabel="Video Path 4"
                         itemId="videoPath53"
                         name="./videoPath53"
                         xtype="pathfield"/>

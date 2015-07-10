@@ -73,6 +73,8 @@ public  String readUrlFile(String urlString) throws Exception {
     String[] videoThumbNail = new String[4];
     String[] videoId = new String[4];
     String[] embeded = new String[4];
+    String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
+    String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
     
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
@@ -172,8 +174,8 @@ public  String readUrlFile(String urlString) throws Exception {
 		                                <%= embeded[i] %>
 		                                </div>
 		                                <div class="video-article">
-		                                    <h4>Splash, Paddle, and Sail</h4>
-		                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+		                                    <h4><%= subtitle5[i] %></h4>
+		                                    <p><%= content5[i]%></p>
 		                                </div>
 		                            </div>
 		                        </li>
