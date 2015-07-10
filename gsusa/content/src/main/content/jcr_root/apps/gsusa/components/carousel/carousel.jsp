@@ -167,7 +167,7 @@ public  String readUrlFile(String urlString) throws Exception {
                         for (int i = 0 ; i < 4; i++) {
                             if ("link".equals(videoType5[i])) {%>
 		                        <li>
-		                            <h3>And people are always talking agout us</h3>
+		                            <h3><%= title5 %></h3>
 		                            <div class="video-wrapper">
 		                                <div class="video">
 		                                <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
