@@ -6,11 +6,17 @@
     StringBuilder sb = new StringBuilder();
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
-    
+
+    String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
     buildMenu(rootPage, currentPage.getPath(), sb);
 %>
 <nav class="left-nav">
-    <%= sb.toString() %>
+  <ul>
+    <li class="active<%= rootPageCurrent %>">
+      <a href="<%= rootPage.getPath() %>" title="<%= rootPage.getTitle()%>"><%= rootPage.getTitle() %></a>
+      <%= sb.toString() %>
+    </li>
+  </ul>
 </nav>
 
 <%!
