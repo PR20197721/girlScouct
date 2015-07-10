@@ -116,7 +116,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>
-                  <div id="<%= modalId %>" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <div id="<%= modalId %>" class="reveal-modal girls-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <cq:include path="<%= videoCompPath %>" resourceType="gsusa/components/video" />
                   </div>
                               
