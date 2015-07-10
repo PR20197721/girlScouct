@@ -10,7 +10,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="demo_2"
         jcr:uuid="47ccdcf1-8fdf-430c-b9a8-216ac536fdd8"
-        description="Girl scout is cool">
+        description="Girl scout is cool"
+        type="image">
         <image
             jcr:description="she is looking at something"
             jcr:lastModified="{Date}2015-06-23T11:56:00.512-04:00"

@@ -10,7 +10,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="demo"
         jcr:uuid="58498765-1290-429a-8fcd-1f6bf11cd27b"
-        description="This is a girl story demo">
+        description="This is a girl story demo"
+        type="image">
         <image
             jcr:lastModified="{Date}2015-06-11T15:17:19.470-04:00"
             jcr:lastModifiedBy="admin"

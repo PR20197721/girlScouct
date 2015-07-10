@@ -10,7 +10,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="demo_4"
         jcr:uuid="006b9cd6-6aa7-42f2-88d7-5d968f062ff7"
-        description="Swimming is fun!">
+        description="Swimming is fun!"
+        type="image">
         <image
             jcr:lastModified="{Date}2015-06-23T11:57:25.451-04:00"
             jcr:lastModifiedBy="admin"
