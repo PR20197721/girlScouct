@@ -194,6 +194,45 @@
                     </social-feed>
                 </story_5>
             </featured-stories>
+            <carousel
+                jcr:lastModified="{Date}2015-07-10T01:55:15.704-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/carousel"
+                button="Explore Girl Scouts"
+                content="Experiences the new girl scout website by joining us. Our new website has some of the new technologies deployed on our servers, including Adobe CQ5, MySql Database and jQuery!"
+                content2="[Learn how to launch\, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure.,Every girl deserves a chance to see the world.,Girl Scouts developed a new approach called pathways to ensure that girls and adults have flexible ways to participate in Girl Scouting. ,The Girl Scout camping experience allows girls to live together in simple outdoor settings\, to learn how to make their own decisions\, and to do fun activities with other girls their own age.]"
+                content3="[Learn how to launch\, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.,Girl Scout troops and groups travel from across the United States year-round to visit the Juliette Gordon Low Birthplace—a Girl Scout national center in Savannah\, Georgia and the birthplace of Juliette Gordon Low\, founder of Girl Scouts of the USA. Built in 1821\, the house has been elegantly restored to reflect the 1880s and is located in the heart of the Savannah Historic District.]"
+                content50="scout is cool"
+                content51="scout is also cool"
+                content52="Scout may be cool"
+                content53="else"
+                content6="Come Join Us! We are fun, educational and much more."
+                imagePath="[/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png]"
+                imagePath2="[/content/dam/girlscouts-gsusa/images/homepage-heroes/1.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/2.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/3.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/4.png]"
+                imagePath3="[/content/dam/girlscouts-gsusa/images/homepage-heroes/7.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/5.png]"
+                imagepath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png"
+                imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png"
+                subtitle2="[Water Sports,Travel,Pathways,Camping]"
+                subtitle3="[Go Go Ninja Go!,Go Go Ninja]"
+                subtitle50="Girl"
+                subtitle51="Boy"
+                subtitle52="Alien"
+                subtitle53="what"
+                title="New Webpage"
+                title2="Secone Page title"
+                title3="We like to get outdoors"
+                title4="This is cool"
+                title5="This is a test"
+                title6="Don't Wait"
+                videoLink50="https://vimeo.com/6271487"
+                videoLink51="https://www.youtube.com/watch?v=T9V45IhnMRU"
+                videoLink52="https://www.youtube.com/watch?v=LbuuTeGGwnY"
+                videoLink53="https://www.youtube.com/watch?v=v489sYYjtHI"
+                videoType50="link"
+                videoType51="link"
+                videoType52="link"
+                videoType53="link"/>
         </content>
     </jcr:content>
     <about-girl-scouts/>
