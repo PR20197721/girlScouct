@@ -20,6 +20,7 @@
     String title4 = properties.get("title4", "");
     
     String title5 = properties.get("title5", "");
+    String videoLink5 = properties.get("videoLink5", "");
     
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
@@ -89,7 +90,11 @@
                         <li>
                             <h3>And people are always talking agout us</h3>
                             <div class="video-wrapper">
-                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/5.png" alt="" class="slide-thumb"/></div>
+                                <div class="video">
+                                
+                                  <iframe width="420" height="315" src="https://www.youtube.com/embed/WK7hb5S3Fig" frameborder="0" allowfullscreen></iframe>
+                                
+                                </div>
                                 <div class="video-article">
                                     <h4>Splash, Paddle, and Sail</h4>
                                     <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>

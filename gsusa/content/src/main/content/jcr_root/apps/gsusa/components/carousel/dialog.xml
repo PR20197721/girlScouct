@@ -141,7 +141,7 @@
             </tab4>
             <tab5
                 jcr:primaryType="cq:Panel"
-                title="Third Page (Social)">
+                title="Third Page (Video)">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <title5
                         jcr:primaryType="cq:Widget"
@@ -149,11 +149,46 @@
                         fieldLabel="Title"
                         name="./title5"
                         xtype="textfield"/>
-                    <imagePath3
+                    <videoLink51
                         jcr:primaryType="cq:Widget"
-                        defaultValue="Please change the social page in the edit menu on the page itself"
-                        value="Please change the social page in the edit menu on the page itself"
-                        xtype="displayfield"/>
+                        fieldLabel="Video Link"
+                        name="./videoLink51"
+                        xtype="textfield"/>
+                    <videoPath51
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Path"
+                        name="./videoPath51"
+                        xtype="pathfield"/>
+                    <videoLink52
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Link"
+                        name="./videoLink52"
+                        xtype="textfield"/>
+                    <videoPath52
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Path"
+                        name="./videoPath52"
+                        xtype="pathfield"/>
+                    <videoLink53
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Link"
+                        name="./videoLink53"
+                        xtype="textfield"/>
+                    <videoPath53
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Path"
+                        name="./videoPath53"
+                        xtype="pathfield"/>
+                    <videoLink54
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Link"
+                        name="./videoLink54"
+                        xtype="textfield"/>
+                    <videoPath54
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Path"
+                        name="./videoPath54"
+                        xtype="pathfield"/>
                 </items>
             </tab5>
             <tab6
