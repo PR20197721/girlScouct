@@ -104,6 +104,7 @@ public  String readUrlFile(String urlString) throws Exception {
     %>
 
     <%if (!firstTimeInit) { %>
+    	<div>
         <ul class="gs-stories-block"><%
         //use validStoryPath to generate the girls story component
         for (String storyPath: validStoryPath) {
