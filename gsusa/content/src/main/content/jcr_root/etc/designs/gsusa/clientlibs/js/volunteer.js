@@ -1,5 +1,4 @@
-$('.formVolunteer, .formHeaderVolunteer').submit(function (event) {
-
+$('.formVol, .formHeaderVolunteer').submit(function (event) {
     strGACampaign = getParameterByName("utm_campaign");
     strGAMedium = getParameterByName("utm_medium");
     strGASource = getParameterByName("utm_source");  

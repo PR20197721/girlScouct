@@ -15,7 +15,7 @@
 		    <img src="<%= bg %>" class="bg-image" />
 		    <div class="wrapper">
 		        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
-		        <form class="formVolunteer hide">
+		        <form class="formVol hide">
 		            <label><%= title %></label>
 		            <input type="text" name="ZipVolunteer" maxlength="5">
 		            <input type="hidden" name="source" value="<%= source %>">
@@ -25,8 +25,8 @@
 		</div> <%
 	} else { //bg is null, doing this mainly for css %>
 		<div class="standalone-volunteer form-no-image">
-		    <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
-		    <form class="formVolunteer hide">
+		    <a href="#" title="Volunteer Now" class="button arrow"><%= callToActionName %></a>
+		    <form class="formVol hide">
 		        <label><%= title %></label>
 		        <input type="text" name="ZipVolunteer" maxlength="5">
 		        <input type="hidden" name="source" value="<%= source %>">
