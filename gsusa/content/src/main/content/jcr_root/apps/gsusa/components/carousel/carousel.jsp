@@ -198,7 +198,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <h2><%= title6%></h2>
                     <p><%= content6 %> </p>
                     <form action="#" name="join-now" class="formJoin join-now-form clearfix">
-                        <input type="text" class="join-text hide" placeholder="Enter Zip code">
+                        <input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter Zip code">
+                        <input type="hidden" name="source" value="homepage">
                         <a href="#" class="button join-now">Join Now</a>
                     </form>
                 </section>
