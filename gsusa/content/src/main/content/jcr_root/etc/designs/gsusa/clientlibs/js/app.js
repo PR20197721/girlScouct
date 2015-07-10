@@ -341,7 +341,7 @@
             slidesToShow: 1
           }
         }]
-    
+
           // $('.slick-track .slick-slide.slick-active').each(function (i) {
           //   if (i % 4 === 3) {
           //     $(this).addClass('test');
@@ -432,8 +432,8 @@
       // });
     }
   });
-  
-  $('.button.arrow').on("click", function () {
+
+  $('.button.arrow').on("click", function (event) {
     event.preventDefault();
     var this_form = $(this).siblings("form");
     this_form.removeClass('hide');
