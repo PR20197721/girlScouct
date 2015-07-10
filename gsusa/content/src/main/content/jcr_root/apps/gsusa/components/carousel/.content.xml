@@ -3,4 +3,4 @@
     jcr:description="Carousel"
     jcr:primaryType="cq:Component"
     jcr:title="Carousel"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>
