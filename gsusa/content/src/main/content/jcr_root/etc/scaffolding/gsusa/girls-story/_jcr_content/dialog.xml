@@ -46,7 +46,7 @@
                         </options>
                         <listeners
                             jcr:primaryType="nt:unstructured"
-                            selectionchanged="function(field, value) {&#xa;&#x9;var imageField = $($('input[name=&quot;./jcr:content/image/fileName&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var videoField = $($('input[name=&quot;./jcr:content/video&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var externalVideoField = $($('input[name=&quot;./jcr:content/externalVideo&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;&#xa;&#x9;imageField.hide();&#xa;&#x9;videoField.hide();&#xa;&#x9;externalVideoField.hide();&#xa;&#x9;&#xa;&#x9;if (value === 'image') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;} else if (value === 'video') {&#xa;&#x9;&#x9;videoField.show();&#xa;&#x9;} else if (value === 'external-video') {&#xa;&#x9;&#x9;externalVideoField.show();&#xa;&#x9;}&#xa;}"/>
+                            selectionchanged="function(field, value) {&#xa;&#x9;var imageField = $($('input[name=&quot;./jcr:content/image/fileName&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var videoField = $($('input[name=&quot;./jcr:content/video/asset&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var externalVideoField = $($('input[name=&quot;./jcr:content/externalVideo&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;&#xa;&#x9;imageField.hide();&#xa;&#x9;videoField.hide();&#xa;&#x9;externalVideoField.hide();&#xa;&#x9;&#xa;&#x9;if (value === 'image') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;} else if (value === 'video') {&#xa;&#x9;&#x9;videoField.show();&#xa;&#x9;} else if (value === 'external-video') {&#xa;&#x9;&#x9;externalVideoField.show();&#xa;&#x9;}&#xa;}"/>
                     </type>
                     <image
                         jcr:primaryType="cq:Widget"
@@ -80,9 +80,17 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
                         fieldLabel="Video Path"
-                        name="./jcr:content/video"
+                        name="./jcr:content/video/asset"
                         rootPath="/content/dam/girlscouts-gsusa/"
-                        xtype="pathfield"/>
+                        xtype="pathfield">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                name="./jcr:content/video/sling:resourceType"
+                                value="gsusa/components/video"
+                                xtype="hidden"/>
+                        </items>
+                    </video>
                 </items>
             </tab1>
             <advanced
