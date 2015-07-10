@@ -3,4 +3,4 @@
     jcr:description="Shop Tile Carousel and Rich Text"
     jcr:primaryType="cq:Component"
     jcr:title="Shop Tile"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>
