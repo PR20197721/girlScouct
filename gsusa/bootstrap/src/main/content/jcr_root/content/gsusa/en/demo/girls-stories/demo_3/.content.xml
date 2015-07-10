@@ -10,7 +10,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="demo_3"
         jcr:uuid="6f219a6c-8356-4239-8bd8-bb910673ea65"
-        description="The girl is eating popsicle">
+        description="The girl is eating popsicle"
+        type="image">
         <image
             jcr:lastModified="{Date}2015-06-23T11:56:39.618-04:00"
             jcr:lastModifiedBy="admin"
