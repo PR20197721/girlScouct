@@ -68,9 +68,9 @@
       button: $(".tab-bar .search-form span")
     };
     var joinNow = {
-      form: $(".join-now-form"),
-      input: $(".join-now-form .join-text"),
-      button: $(".join-now-form .button.join-now")
+      form: $(".join-now-form .formJoin"),
+      input: $(".join-now-form .join-text .formJoin"),
+      button: $(".join-now-form .button.join-now .formJoin")
     };
     var searchjoin = {
       form : $('.formJoin'),

@@ -197,7 +197,7 @@ public  String readUrlFile(String urlString) throws Exception {
                     <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon">
                     <h2><%= title6%></h2>
                     <p><%= content6 %> </p>
-                    <form action="#" name="join-now" class="join-now-form clearfix">
+                    <form action="#" name="join-now" class="formJoin join-now-form clearfix">
                         <input type="text" class="join-text hide" placeholder="Enter Zip code">
                         <a href="#" class="button join-now">Join Now</a>
                     </form>
