@@ -318,6 +318,9 @@ div.carousel {
     height: 100%;
     width: 37.21429rem;
   }
+  .video > img.slide-thumb {
+    display: none;
+  }
   .video-article {
     width: 25.64286rem;
     float: left;

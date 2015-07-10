@@ -68,9 +68,9 @@
       button: $(".tab-bar .search-form span")
     };
     var joinNow = {
-      form: $(".join-now-form"),
-      input: $(".join-now-form .join-text"),
-      button: $(".join-now-form .button.join-now")
+      form: $(".join-now-form .formJoin"),
+      input: $(".join-now-form .join-text .formJoin"),
+      button: $(".join-now-form .button.join-now .formJoin")
     };
     var searchjoin = {
       form : $('.formJoin'),
@@ -308,7 +308,7 @@
         //   instead of a settings object
         // ]
       });
-      $('.inner-sliders .slide-1, .inner-sliders .slide-4').slick({
+      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
         dots: true,
         fade: true,
         dotsClass: 'slick-dots',
@@ -318,7 +318,7 @@
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
         },
       });
-      $('.inner-sliders .slide-2, .inner-sliders .slide-3').slick({
+      $('.inner-sliders .slide-3').slick({
         dots: false,
         fade: true,
         cssEase: 'linear',
