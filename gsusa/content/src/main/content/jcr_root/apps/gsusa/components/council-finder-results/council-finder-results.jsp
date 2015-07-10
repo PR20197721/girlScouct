@@ -1,10 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 
 <%
-if(slingRequest.getParameter("zip") == null && slingRequest.getParameter("state") == null && slingRequest.getParameter("council-code") == null){
-	%> Sorry, no results found <%
-}
-else{
+if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state") != null || slingRequest.getParameter("council-code") != null){
 	%>
 	<div id="results-area"></div>
 	<script>

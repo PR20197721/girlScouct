@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
 	cq:layout="editbar"
-    cq:actions="[delete]"
+    cq:actions="[text:Council Finder Results,-,delete]"
     cq:disableTargeting="{Boolean}true"
     jcr:primaryType="cq:EditConfig">
     <cq:listeners
