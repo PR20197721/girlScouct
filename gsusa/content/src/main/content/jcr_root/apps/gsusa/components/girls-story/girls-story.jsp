@@ -108,6 +108,10 @@ public  String readUrlFile(String urlString) throws Exception {
         //use validStoryPath to generate the girls story component
         for (String storyPath: validStoryPath) {
             Resource res = resourceResolver.resolve(storyPath + "/jcr:content");
+            if (res.adaptTo(ValueMap.class).get("type", "").equals("video")) {
+                %>VIDEOVIDEO<%
+                
+            } else {
             
             if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
 	            ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
@@ -188,6 +192,7 @@ public  String readUrlFile(String urlString) throws Exception {
 					}
 	       		}
 	    	}
+        }
 		}%>
 	    </ul></div><%
 	    return;
