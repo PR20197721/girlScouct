@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Carouse"
     xtype="dialog">
@@ -149,45 +149,133 @@
                         fieldLabel="Title"
                         name="./title5"
                         xtype="textfield"/>
+                    <videoType50
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Select a source"
+                        name="./videoType50"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="Path"
+                                value="path"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath50&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink50&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
+                    </videoType50>
+                    <videoLink50
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Link"
+                        itemId="videoLink50"
+                        name="./videoLink50"
+                        xtype="textfield"/>
+                    <videoPath50
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Video Path"
+                        itemId="videoPath50"
+                        name="./videoPath50"
+                        xtype="pathfield"/>
+                    <videoType51
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Select a source"
+                        name="./videoType51"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="Path"
+                                value="path"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath51&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink51&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
+                    </videoType51>
                     <videoLink51
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Link"
+                        itemId="videoLink51"
                         name="./videoLink51"
                         xtype="textfield"/>
                     <videoPath51
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Path"
+                        itemId="videoPath51"
                         name="./videoPath51"
                         xtype="pathfield"/>
+                    <videoType52
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Select a source"
+                        name="./videoType52"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="Path"
+                                value="path"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath52&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink52&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
+                    </videoType52>
                     <videoLink52
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Link"
+                        itemId="videoLink52"
                         name="./videoLink52"
                         xtype="textfield"/>
                     <videoPath52
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Path"
+                        itemId="videoPath52"
                         name="./videoPath52"
                         xtype="pathfield"/>
+                    <videoType53
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Select a source"
+                        name="./videoType53"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="Path"
+                                value="path"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath53&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink53&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
+                    </videoType53>
                     <videoLink53
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Link"
+                        itemId="videoLink53"
                         name="./videoLink53"
                         xtype="textfield"/>
                     <videoPath53
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Video Path"
+                        itemId="videoPath53"
                         name="./videoPath53"
-                        xtype="pathfield"/>
-                    <videoLink54
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Link"
-                        name="./videoLink54"
-                        xtype="textfield"/>
-                    <videoPath54
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Video Path"
-                        name="./videoPath54"
                         xtype="pathfield"/>
                 </items>
             </tab5>

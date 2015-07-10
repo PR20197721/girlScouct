@@ -20,12 +20,18 @@
     String title4 = properties.get("title4", "");
     
     String title5 = properties.get("title5", "");
-    String videoLink5 = properties.get("videoLink5", "");
+    String videoType51 = properties.get("videoType51", "");
+    String videoType52 = properties.get("videoType52", "");
+    String videoType53 = properties.get("videoType53", "");
+    String videoType54 = properties.get("videoType54", "");
+    String[] videoType5 = {videoType51, videoType52, videoType53, videoType54};
+    String[] videoThumbNail;
     
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
     String imagePath6 = properties.get("imagePath6", "");
     
+   
 %>
 
 
