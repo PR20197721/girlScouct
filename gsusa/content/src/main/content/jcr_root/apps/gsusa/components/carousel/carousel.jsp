@@ -1,5 +1,50 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
+<%@page import="org.apache.sling.commons.json.*,
+				java.io.*,
+				java.util.regex.*,
+				java.net.*,
+				org.apache.sling.commons.json.*" %>
+
+<%!
+public String extractYTId(String ytUrl) {
+    String vId = null;
+    Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+    Matcher matcher = pattern.matcher(ytUrl);
+    if (matcher.matches()){
+        vId = matcher.group(1);
+    }
+    return vId;
+}
+
+public String extractVimeoId(String vimeoUrl) {
+    String vId = null;
+    Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
+    Matcher matcher = pattern.matcher(vimeoUrl);
+    if (matcher.matches()){
+        vId = matcher.group(1);
+    }
+    return vId;
+}
+
+public  String readUrlFile(String urlString) throws Exception {
+    BufferedReader reader = null;
+    try {
+        URL url = new URL(urlString);
+        reader = new BufferedReader(new InputStreamReader(url.openStream()));
+        StringBuffer buffer = new StringBuffer();
+        int read;
+        char[] chars = new char[1024];
+        while ((read = reader.read(chars)) != -1)
+            buffer.append(chars, 0, read); 
+        return buffer.toString();
+    } finally {
+        if (reader != null)
+            reader.close();
+    }
+}
+%>
+
+
 <%
 	String[] emptyArray = new String[1];
     String content = properties.get("content", "Join Now");
@@ -20,18 +65,41 @@
     String title4 = properties.get("title4", "");
     
     String title5 = properties.get("title5", "");
+    String videoType50 = properties.get("videoType50", "");
     String videoType51 = properties.get("videoType51", "");
     String videoType52 = properties.get("videoType52", "");
     String videoType53 = properties.get("videoType53", "");
-    String videoType54 = properties.get("videoType54", "");
-    String[] videoType5 = {videoType51, videoType52, videoType53, videoType54};
-    String[] videoThumbNail;
+    String[] videoType5 = {videoType50, videoType51, videoType52, videoType53};
+    String[] videoThumbNail = new String[4];
+    String[] videoId = new String[4];
+    String[] embeded = new String[4];
     
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
     String imagePath6 = properties.get("imagePath6", "");
     
-   
+    for (int i = 0 ; i < 4; i++ ){
+    	if ("link".equals(videoType5[i])) {
+    		String link = properties.get("videoLink5" + i, "");
+    		if (link.indexOf("youtube") != -1) {
+    			String ytId = extractYTId(link);
+    			videoId[i] = ytId;
+    			videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
+    			embeded[i] = "<iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/" + ytId + "\" frameborder=\"0\" allowfullscreen></iframe>";
+    		} else if (link.indexOf("vimeo") != -1) {
+    			String vimeoId = extractVimeoId(link);
+    			videoId[i] = vimeoId;
+    			String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+	            JSONArray json = new JSONArray(jsonOutput);
+	            if (!json.isNull(0)) {
+	    			videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+        		}
+	            embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"500\" height=\"281\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href=\"https://vimeo.com/"+ vimeoId +"\">Spheres</a> from <a href=\"https://vimeo.com/regishervagault\">Regis Hervagault</a> on <a href=\"https://vimeo.com\">Vimeo</a>.</p>";
+    		} else {
+    			videoThumbNail[i] = "not supported";
+    		}
+    	}
+    }
 %>
 
 
@@ -93,60 +161,28 @@
                     </li>
                     <li>
                         <ul class="slide-4">
-                        <li>
-                            <h3>And people are always talking agout us</h3>
-                            <div class="video-wrapper">
-                                <div class="video">
-                                
-                                  <iframe width="420" height="315" src="https://www.youtube.com/embed/WK7hb5S3Fig" frameborder="0" allowfullscreen></iframe>
-                                
-                                </div>
-                                <div class="video-article">
-                                    <h4>Splash, Paddle, and Sail</h4>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                </div>
-                            </div>
-
-                        </li>
-                        <li>
-                            <h3>And people are always talking agout us</h3>
-                             <div class="video-wrapper">
-                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/6.png" alt="" class="slide-thumb"/></div>
-                                <div class="video-article">
-                                    <h4>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut</h4>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All
-                                </div>
-                            </div>
-
-                        </li>
-                        <li>
-                            <h3>And people are always talking agout us</h3>
-                             <div class="video-wrapper">
-                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/7.png" alt="" class="slide-thumb"/></div>
-                                <div class="video-article">
-                                    <h4>Splash, Paddle, and Sail</h4>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                </div>
-                            </div>
-
-                        </li>
-                        <li>
-                            <h3>And people are always talking agout us</h3>
-                            <div class="video-wrapper">
-                                <div class="video"><img src="/etc/designs/gsusa/clientlibs/images/8.png" alt="" class="slide-thumb"/></div>
-                                <div class="video-article">
-                                    <h4>Splash, Paddle, and Sail</h4>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                                </div>
-                            </div>
-
-                        </li>
+                        <%
+                        for (int i = 0 ; i < 4; i++) {
+                            if ("link".equals(videoType5[i])) {%>
+		                        <li>
+		                            <h3>And people are always talking agout us</h3>
+		                            <div class="video-wrapper">
+		                                <div class="video">
+		                                <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+		                                <%= embeded[i] %>
+		                                </div>
+		                                <div class="video-article">
+		                                    <h4>Splash, Paddle, and Sail</h4>
+		                                    <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
+		                                </div>
+		                            </div>
+		                        </li>
+                        <%	} else { 
+                        	//path
+                        	}
+                        }
+                        %>
+                        
                     </ul>
                     </li>
                 </li>
