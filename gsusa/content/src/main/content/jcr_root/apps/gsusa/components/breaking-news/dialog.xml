@@ -21,7 +21,8 @@
                         fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                         fieldLabel="URL"
                         name="./url"
-                        xtype="textfield"/>
+                        linkPattern="\{0\}.html"
+                        xtype="pathfield"/>
                 </items>
             </properties>
             <image

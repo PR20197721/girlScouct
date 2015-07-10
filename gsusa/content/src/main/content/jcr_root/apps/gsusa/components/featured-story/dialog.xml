@@ -154,7 +154,13 @@
                     	fieldDescription="For applicable themes, please select the text to appear in the button"
                     	name="./buttonText"
                     	xtype="textfield"/>
->>>>>>> GSDO-159v2
+                    <button-link
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Button Link"
+                    	fieldDescription="For applicable themes, please enter the url the button will link to"
+                    	name="./buttonLink"
+                    	linkPattern="\{0\}.html"
+                    	xtype="pathfield" />
                 </items>
             </tab1>
             <background-image

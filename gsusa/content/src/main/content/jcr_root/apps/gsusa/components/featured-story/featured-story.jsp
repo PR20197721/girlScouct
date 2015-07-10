@@ -8,6 +8,7 @@
 	String icon = properties.get("icon", "icon-photo-camera");
 	String theme = properties.get("theme", "classic");
 	String btnText = properties.get("buttonText", "");
+	String btnLink = properties.get("buttonLink", "#");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -72,7 +73,7 @@
                 <cq:text property="text" escapeXml="true"
         placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
 		</div>
-		<div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
+		<a href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
             </div>
             <span class="icon-cross"></span>
         </div>
@@ -123,7 +124,7 @@
             <div class="left-float">
                 <cq:text property="text" escapeXml="true"
             placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-                <div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
+                <a href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
             </div>
             <div class="right-float">
                 <div class="video">
