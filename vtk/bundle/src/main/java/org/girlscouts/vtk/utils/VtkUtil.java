@@ -225,7 +225,7 @@ public static String getYearPlanBase(User user, Troop troop){
 	*/
 	
 	int currentGSYear= getCurrentGSYear();
-	if( currentGSYear==2015)
+	if( currentGSYear==2014)
 		return "/vtk/";
 	else
 		return "/vtk"+ currentGSYear +"/";
@@ -239,9 +239,9 @@ public static String getYearPlanBase(User user, Troop troop){
 public static int getCurrentGSYear(){
 	java.util.Calendar now= java.util.Calendar.getInstance();
 	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
-		return now.get(java.util.Calendar.YEAR) +1;
+		return now.get(java.util.Calendar.YEAR) ;
 	else
-		return now.get(java.util.Calendar.YEAR);	
+		return now.get(java.util.Calendar.YEAR) -1;	
 }
 
 

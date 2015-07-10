@@ -121,6 +121,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by plan path
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			String yearPlanPath) throws IllegalAccessException {
+		
+		
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -142,6 +144,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			filter.setScope(yearPlanPath);
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
+			
+			System.err.println("tatag 44: "+ meetings.get(0).getRefId() +" : "+ yearPlanPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
