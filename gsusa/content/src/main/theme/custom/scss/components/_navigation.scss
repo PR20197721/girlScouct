@@ -59,9 +59,9 @@
       padding-left: rem-calc(25);
     }
   }
-  li.active {
+  li.active.current {
     > a {
-      background: #B0B0B0;
+      color: #FAA61A;
     }
   }
 }
