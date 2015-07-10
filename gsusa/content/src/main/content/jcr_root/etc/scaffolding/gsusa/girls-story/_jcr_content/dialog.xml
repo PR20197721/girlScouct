@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Girls Story"
     xtype="dialog">
@@ -23,6 +23,31 @@
                         allowBlank="{Boolean}false"
                         fieldLabel="Description"
                         name="./jcr:content/description"/>
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Type"
+                        name="./type"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option0
+                                jcr:primaryType="nt:unstructured"
+                                text="Image"
+                                value="image"/>
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Video"
+                                value="video"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="External Video"
+                                value="external-video"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(field, value) {&#xa;&#x9;var imageField = $($('input[name=&quot;./jcr:content/image/fileName&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var videoField = $($('input[name=&quot;./jcr:content/video&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var externalVideoField = $($('input[name=&quot;./jcr:content/externalVideo&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;&#xa;&#x9;imageField.hide();&#xa;&#x9;videoField.hide();&#xa;&#x9;externalVideoField.hide();&#xa;&#x9;&#xa;&#x9;if (value === 'image') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;} else if (value === 'video') {&#xa;&#x9;&#x9;videoField.show();&#xa;&#x9;} else if (value === 'external-video') {&#xa;&#x9;&#x9;externalVideoField.show();&#xa;&#x9;}&#xa;}"/>
+                    </type>
                     <image
                         jcr:primaryType="cq:Widget"
                         border="true"
@@ -46,16 +71,16 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
-                    <videoLink
+                    <external-video
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
                         fieldLabel="Video Link"
-                        name="./jcr:content/jcr:videoLink"/>
-                    <videoPath
+                        name="./jcr:content/externalVideo"/>
+                    <video
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
                         fieldLabel="Video Path"
-                        name="./jcr:content/jcr:videoPath"
+                        name="./jcr:content/video"
                         rootPath="/content/dam/girlscouts-gsusa/"
                         xtype="pathfield"/>
                 </items>
