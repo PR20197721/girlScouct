@@ -324,39 +324,6 @@
         cssEase: 'linear',
         arrows: false,
       });
-      $('.shop-slider').on('init', function () {
-        $(this).find('.slick-active:eq(1)').addClass('shadow-box');
-      });
-      $('.shop-slider').slick({
-        dots: false,
-        infinite: false,
-        speed: 500,
-        autoplay: false,
-        arrows: false,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        responsive: [{
-          breakpoint: 640,
-          settings: {
-            slidesToShow: 1
-          }
-        }]
-
-          // $('.slick-track .slick-slide.slick-active').each(function (i) {
-          //   if (i % 4 === 3) {
-          //     $(this).addClass('test');
-          //   }
-          // });
-      });
-      $('.shop-slider').on('afterChange', function () {
-        $(this).removeClass('shadow-box');
-        $(this).find('.slick-active').each(function (i) {
-          $(this).removeClass('shadow-box');
-          if (i % 3 === 1) {
-            $(this).addClass('shadow-box');
-          }
-        });
-      });
 
       $('.main-slider').slick('slickPause');
       // $('.main-slider').slickPause();
@@ -374,6 +341,40 @@
       }
     });
   }
+  
+  $('.shop-slider').on('init', function () {
+      $(this).find('.slick-active:eq(1)').addClass('shadow-box');
+    });
+    $('.shop-slider').slick({
+      dots: false,
+      infinite: false,
+      speed: 500,
+      autoplay: false,
+      arrows: false,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      responsive: [{
+        breakpoint: 640,
+        settings: {
+          slidesToShow: 1
+        }
+      }]
+
+        // $('.slick-track .slick-slide.slick-active').each(function (i) {
+        //   if (i % 4 === 3) {
+        //     $(this).addClass('test');
+        //   }
+        // });
+    });
+    $('.shop-slider').on('afterChange', function () {
+      $(this).removeClass('shadow-box');
+      $(this).find('.slick-active').each(function (i) {
+        $(this).removeClass('shadow-box');
+        if (i % 3 === 1) {
+          $(this).addClass('shadow-box');
+        }
+      });
+    });
 
   function scroll_feeds() {
     $('.scroll-more').bind("click", function () {
