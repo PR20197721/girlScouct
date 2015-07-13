@@ -2,19 +2,22 @@
 <jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="dam:Asset">
     <jcr:content
-        cq:lastReplicated="{Date}2015-06-25T16:03:46.039-04:00"
-        cq:lastReplicatedBy="admin"
+        cq:lastReplicated="{Date}2015-07-10T11:25:27.044-04:00"
+        cq:lastReplicatedBy="dlubin"
         cq:lastReplicationAction="Activate"
-        jcr:lastModified="{Date}2015-06-25T12:04:27.138-04:00"
+        jcr:lastModified="{Date}2015-07-13T09:52:29.693-04:00"
         jcr:lastModifiedBy="admin"
         jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
         <metadata
-            dam:extracted="{Date}2015-06-25T12:04:20.189-04:00"
+            dam:extracted="{Date}2015-07-09T16:06:47.362-04:00"
             dam:sha1="c87513350b306c004066682ebcfb7df7828894c6"
             dam:size="{Long}21001305"
             dc:extent="{Long}10010"
             dc:format="video/quicktime"
+            dc:modified="{Date}2015-07-09T15:55:38.698-04:00"
+            jcr:lastModified="{Date}2015-07-09T15:55:38.697-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             tiff:ImageLength="{Double}1080.0"
