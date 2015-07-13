@@ -149,12 +149,14 @@
                         fieldLabel="Title"
                         name="./title5"
                         xtype="textfield"/>
+                
                     <items0
                         jcr:primaryType="cq:Widget"
+                        animCollapse="{Boolean}true"
                         collapsed="{Boolean}true"
                         collapsible="{Boolean}true"
                         title="Content 1"
-                        xtype="fieldset">
+                        xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
                             <subtitle50
                                 jcr:primaryType="cq:Widget"
@@ -198,16 +200,18 @@
                                 jcr:primaryType="cq:Widget"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
+                                minLength="200"
                                 name="./videoPath50"
                                 xtype="pathfield"/>
                         </items>
                     </items0>
                     <items1
                         jcr:primaryType="cq:Widget"
+                        animCollapse="{Boolean}true"
                         collapsed="{Boolean}true"
                         collapsible="{Boolean}true"
                         title="Content 2"
-                        xtype="fieldset">
+                        xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
                             <subtitle51
                                 jcr:primaryType="cq:Widget"
@@ -257,10 +261,11 @@
                     </items1>
                     <items2
                         jcr:primaryType="cq:Widget"
+                        animCollapse="{Boolean}true"
                         collapsed="{Boolean}true"
                         collapsible="{Boolean}true"
                         title="Content 3"
-                        xtype="fieldset">
+                        xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
                             <subtitle52
                                 jcr:primaryType="cq:Widget"
@@ -310,10 +315,11 @@
                     </items2>
                     <items3
                         jcr:primaryType="cq:Widget"
+                        animCollapse="{Boolean}true"
                         collapsed="{Boolean}true"
                         collapsible="{Boolean}true"
                         title="Content 4"
-                        xtype="fieldset">
+                        xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
                             <subtitle53
                                 jcr:primaryType="cq:Widget"
