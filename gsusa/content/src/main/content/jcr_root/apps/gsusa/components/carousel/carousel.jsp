@@ -80,6 +80,21 @@ public  String readUrlFile(String urlString) throws Exception {
     String content6 = properties.get("content6", "");
     String imagePath6 = properties.get("imagePath6", "");
     
+    //validation
+    String errorMessage = "";
+    
+    if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length) {
+    	errorMessage += "The number of images/subtitles/content are different in First Page (Image)) <br>";
+    }
+    if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length) {
+    	errorMessage += "The number of images/subtitles/content are different in Second Page (Image)) <br>";
+    }
+    if (!"".equals(errorMessage)) { %>
+		<p> The following errors occur: <br> <%= errorMessage %></p>  
+	<%	return;
+	}
+    
+    //now get all the variables
     for (int i = 0 ; i < 4; i++ ){
     	if ("link".equals(videoType5[i])) {
     		String link = properties.get("videoLink5" + i, "");

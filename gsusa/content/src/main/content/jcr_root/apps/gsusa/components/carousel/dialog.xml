@@ -38,6 +38,7 @@
                             jcr:primaryType="cq:Widget"
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"
+                            editable="{Boolean}false"
                             limit="{Long}4"/>
                     </imagePath>
                 </items>
@@ -61,6 +62,7 @@
                             jcr:primaryType="cq:Widget"
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"
+                            editable="{Boolean}false"
                             limit="{Long}4"/>
                     </imagePath2>
                     <subtitle2
@@ -104,6 +106,7 @@
                             jcr:primaryType="cq:Widget"
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"
+                            editable="{Boolean}false"
                             limit="{Long}4"/>
                     </imagePath3>
                     <subtitle3
@@ -208,6 +211,7 @@
                                 itemId="videoPath50"
                                 minLength="200"
                                 name="./videoPath50"
+                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items0>
@@ -262,6 +266,7 @@
                                 fieldLabel="Video Path 2"
                                 itemId="videoPath51"
                                 name="./videoPath51"
+                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items1>
@@ -316,6 +321,7 @@
                                 fieldLabel="Video Path 3"
                                 itemId="videoPath52"
                                 name="./videoPath52"
+                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items2>
@@ -370,6 +376,7 @@
                                 fieldLabel="Video Path 4"
                                 itemId="videoPath53"
                                 name="./videoPath53"
+                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items3>
@@ -396,6 +403,7 @@
                         fieldLabel="Background Image"
                         name="./imagePath6"
                         rootPath="/content/dam/girlscouts-gsusa"
+                        editable="{Boolean}false"
                         xtype="pathfield"/>
                 </items>
             </tab6>
