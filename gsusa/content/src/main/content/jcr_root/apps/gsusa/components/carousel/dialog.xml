@@ -36,10 +36,10 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"
                             editable="{Boolean}false"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
                     </imagePath>
                 </items>
             </tab1>
@@ -60,10 +60,10 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"
                             editable="{Boolean}false"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
                     </imagePath2>
                     <subtitle2
                         jcr:primaryType="cq:Widget"
@@ -72,8 +72,8 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            xtype="textfield"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            xtype="textfield"/>
                     </subtitle2>
                     <content2
                         jcr:primaryType="cq:Widget"
@@ -82,8 +82,8 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            xtype="textfield"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            xtype="textfield"/>
                     </content2>
                 </items>
             </tab2>
@@ -104,10 +104,10 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"
                             editable="{Boolean}false"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"/>
                     </imagePath3>
                     <subtitle3
                         jcr:primaryType="cq:Widget"
@@ -116,8 +116,8 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            xtype="textfield"
-                            limit="{Long}4"/>
+                            limit="{Long}4"
+                            xtype="textfield"/>
                     </subtitle3>
                     <content3
                         jcr:primaryType="cq:Widget"
@@ -158,7 +158,6 @@
                         fieldLabel="Title"
                         name="./title5"
                         xtype="textfield"/>
-                
                     <items0
                         jcr:primaryType="cq:Widget"
                         animCollapse="{Boolean}true"
@@ -167,6 +166,30 @@
                         title="Content 1"
                         xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
+                            <videoType50
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Select a source"
+                                name="./videoType50"
+                                type="radiogroup"
+                                xtype="selection">
+                                <options jcr:primaryType="cq:WidgetCollection">
+                                    <option0
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="none"/>
+                                    <option1
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Link"
+                                        value="link"/>
+                                    <option2
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Path"
+                                        value="path"/>
+                                </options>
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath50&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink50&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else if (val === &quot;link&quot;){&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   } &#xa;}"/>
+                            </videoType50>
                             <subtitle50
                                 jcr:primaryType="cq:Widget"
                                 defaultValue="What do girl scouts do? Stuff like this:"
@@ -179,26 +202,6 @@
                                 fieldLabel="Content 1"
                                 name="./content50"
                                 xtype="textfield"/>
-                            <videoType50
-                                jcr:primaryType="cq:Widget"
-                                fieldLabel="Select a source"
-                                name="./videoType50"
-                                type="radiogroup"
-                                xtype="selection">
-                                <options jcr:primaryType="cq:WidgetCollection">
-                                    <option1
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Link"
-                                        value="link"/>
-                                    <option2
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Path"
-                                        value="path"/>
-                                </options>
-                                <listeners
-                                    jcr:primaryType="nt:unstructured"
-                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath50&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink50&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
-                            </videoType50>
                             <videoLink50
                                 jcr:primaryType="cq:Widget"
                                 fieldLabel="Video Link 1"
@@ -207,11 +210,11 @@
                                 xtype="textfield"/>
                             <videoPath50
                                 jcr:primaryType="cq:Widget"
+                                editable="{Boolean}false"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
                                 minLength="200"
                                 name="./videoPath50"
-                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items0>
@@ -223,6 +226,30 @@
                         title="Content 2"
                         xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
+                            <videoType51
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Select a source"
+                                name="./videoType51"
+                                type="radiogroup"
+                                xtype="selection">
+                                <options jcr:primaryType="cq:WidgetCollection">
+                                    <option0
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="none"/>
+                                    <option1
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Link"
+                                        value="link"/>
+                                    <option2
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Path"
+                                        value="path"/>
+                                </options>
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath51&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink51&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else if (val === &quot;link&quot;){&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   } &#xa;}"/>
+                            </videoType51>
                             <subtitle51
                                 jcr:primaryType="cq:Widget"
                                 defaultValue="What do girl scouts do? Stuff like this:"
@@ -235,26 +262,6 @@
                                 fieldLabel="Content 2"
                                 name="./content51"
                                 xtype="textfield"/>
-                            <videoType51
-                                jcr:primaryType="cq:Widget"
-                                fieldLabel="Select a source"
-                                name="./videoType51"
-                                type="radiogroup"
-                                xtype="selection">
-                                <options jcr:primaryType="cq:WidgetCollection">
-                                    <option1
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Link"
-                                        value="link"/>
-                                    <option2
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Path"
-                                        value="path"/>
-                                </options>
-                                <listeners
-                                    jcr:primaryType="nt:unstructured"
-                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath51&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink51&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
-                            </videoType51>
                             <videoLink51
                                 jcr:primaryType="cq:Widget"
                                 fieldLabel="Video Link 2"
@@ -263,10 +270,10 @@
                                 xtype="textfield"/>
                             <videoPath51
                                 jcr:primaryType="cq:Widget"
+                                editable="{Boolean}false"
                                 fieldLabel="Video Path 2"
                                 itemId="videoPath51"
                                 name="./videoPath51"
-                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items1>
@@ -278,6 +285,30 @@
                         title="Content 3"
                         xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
+                            <videoType52
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Select a source"
+                                name="./videoType52"
+                                type="radiogroup"
+                                xtype="selection">
+                                <options jcr:primaryType="cq:WidgetCollection">
+                                    <option0
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="none"/>
+                                    <option1
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Link"
+                                        value="link"/>
+                                    <option2
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Path"
+                                        value="path"/>
+                                </options>
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath52&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink52&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else if (val === &quot;link&quot;){&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   } &#xa;}"/>
+                            </videoType52>
                             <subtitle52
                                 jcr:primaryType="cq:Widget"
                                 defaultValue="What do girl scouts do? Stuff like this:"
@@ -290,26 +321,6 @@
                                 fieldLabel="Content 3"
                                 name="./content52"
                                 xtype="textfield"/>
-                            <videoType52
-                                jcr:primaryType="cq:Widget"
-                                fieldLabel="Select a source"
-                                name="./videoType52"
-                                type="radiogroup"
-                                xtype="selection">
-                                <options jcr:primaryType="cq:WidgetCollection">
-                                    <option1
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Link"
-                                        value="link"/>
-                                    <option2
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Path"
-                                        value="path"/>
-                                </options>
-                                <listeners
-                                    jcr:primaryType="nt:unstructured"
-                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath52&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink52&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
-                            </videoType52>
                             <videoLink52
                                 jcr:primaryType="cq:Widget"
                                 fieldLabel="Video Link 3"
@@ -318,10 +329,10 @@
                                 xtype="textfield"/>
                             <videoPath52
                                 jcr:primaryType="cq:Widget"
+                                editable="{Boolean}false"
                                 fieldLabel="Video Path 3"
                                 itemId="videoPath52"
                                 name="./videoPath52"
-                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items2>
@@ -333,6 +344,30 @@
                         title="Content 4"
                         xtype="dialogfieldset">
                         <items jcr:primaryType="cq:WidgetCollection">
+                            <videoType53
+                                jcr:primaryType="cq:Widget"
+                                fieldLabel="Select a source"
+                                name="./videoType53"
+                                type="radiogroup"
+                                xtype="selection">
+                                <options jcr:primaryType="cq:WidgetCollection">
+                                    <option0
+                                        jcr:primaryType="nt:unstructured"
+                                        text="None"
+                                        value="none"/>
+                                    <option1
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Link"
+                                        value="link"/>
+                                    <option2
+                                        jcr:primaryType="nt:unstructured"
+                                        text="Path"
+                                        value="path"/>
+                                </options>
+                                <listeners
+                                    jcr:primaryType="nt:unstructured"
+                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath53&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink53&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else if (val === &quot;link&quot;){&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   } &#xa;}"/>
+                            </videoType53>
                             <subtitle53
                                 jcr:primaryType="cq:Widget"
                                 defaultValue="What do girl scouts do? Stuff like this:"
@@ -345,26 +380,6 @@
                                 fieldLabel="Content 4"
                                 name="./content53"
                                 xtype="textfield"/>
-                            <videoType53
-                                jcr:primaryType="cq:Widget"
-                                fieldLabel="Select a source"
-                                name="./videoType53"
-                                type="radiogroup"
-                                xtype="selection">
-                                <options jcr:primaryType="cq:WidgetCollection">
-                                    <option1
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Link"
-                                        value="link"/>
-                                    <option2
-                                        jcr:primaryType="nt:unstructured"
-                                        text="Path"
-                                        value="path"/>
-                                </options>
-                                <listeners
-                                    jcr:primaryType="nt:unstructured"
-                                    selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;videoPath53&quot;); &#xa;    var linkField = panel.getComponent(&quot;videoLink53&quot;);&#xa;&#xa;    if (val === &quot;path&quot;) {&#xa;       pathField.show();&#xa;&#x9;  linkField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;  linkField.show();&#xa;   }&#xa;}"/>
-                            </videoType53>
                             <videoLink53
                                 jcr:primaryType="cq:Widget"
                                 fieldLabel="Video Link 4"
@@ -373,10 +388,10 @@
                                 xtype="textfield"/>
                             <videoPath53
                                 jcr:primaryType="cq:Widget"
+                                editable="{Boolean}false"
                                 fieldLabel="Video Path 4"
                                 itemId="videoPath53"
                                 name="./videoPath53"
-                                editable="{Boolean}false"
                                 xtype="pathfield"/>
                         </items>
                     </items3>
@@ -400,10 +415,10 @@
                         xtype="textfield"/>
                     <imagePath6
                         jcr:primaryType="cq:Widget"
+                        editable="{Boolean}false"
                         fieldLabel="Background Image"
                         name="./imagePath6"
                         rootPath="/content/dam/girlscouts-gsusa"
-                        editable="{Boolean}false"
                         xtype="pathfield"/>
                 </items>
             </tab6>

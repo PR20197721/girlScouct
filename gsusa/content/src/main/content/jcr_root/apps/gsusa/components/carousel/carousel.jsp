@@ -112,8 +112,10 @@ public  String readUrlFile(String urlString) throws Exception {
 	    			videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
         		}
 	            embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"500\" height=\"281\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href=\"https://vimeo.com/"+ vimeoId +"\">Spheres</a> from <a href=\"https://vimeo.com/regishervagault\">Regis Hervagault</a> on <a href=\"https://vimeo.com\">Vimeo</a>.</p>";
-    		} else {
+    		} else if ("path".equals(videoType5[i])) {
     			videoThumbNail[i] = "not supported";
+    		} else {
+    			//videoType5[i] equals "none". Do nothing
     		}
     	}
     }
