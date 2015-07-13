@@ -1,4 +1,4 @@
-package org.girlscouts.web.spiceworksMailServlet;
+package org.girlscouts.web.servlets;
 
 import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
