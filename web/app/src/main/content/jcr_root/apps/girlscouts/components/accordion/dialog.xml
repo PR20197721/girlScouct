@@ -12,7 +12,7 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <children
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Enter the titles of the Accordions you would like. Please don't use more than one accordion on a page unless necessary. Multiple accordions on a single page may cause issues."
+                        fieldDescription="Enter the titles of the Accordions you would like"
                         fieldLabel="Titles"
                         name="./children"
                         xtype="multifield">
