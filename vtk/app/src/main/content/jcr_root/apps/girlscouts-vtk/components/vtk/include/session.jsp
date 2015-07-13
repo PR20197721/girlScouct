@@ -246,11 +246,11 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 RunMode runModeService = sling.getService(RunMode.class);
 String apps[] = new String[1];
 apps[0]="prod";
-if( true){ //PUT BACK AFTER TEST !!! runModeService.isActive(apps) ){ 
-    String footerScript ="<script>window['ga-disable-UA-61431888-1'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
+if( runModeService.isActive(apps) ){ 
+    String footerScript ="<script>window['ga-disable-UA-64215500-1'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
 }else{
-	String footerScript ="<script>window['ga-disable-UA-61431888-1'] = true;</script>";
+	String footerScript ="<script>window['ga-disable-UA-64215500-1'] = true;</script>";
     request.setAttribute("footerScript", footerScript);
 }
 
