@@ -61,7 +61,7 @@ public void doIt(){
 
 		      //Load the private key from a keystore
 		      KeyStore keystore = KeyStore.getInstance("JKS");
-		      keystore.load(new FileInputStream("/Users/akobovich/Downloads/keystore.jks"), "icruise123".toCharArray());
+		      keystore.load(new FileInputStream("/Users/akobovich/Desktop/alex.jks"), "icruise123".toCharArray());
 		      PrivateKey privateKey = (PrivateKey) keystore.getKey("server", "icruise123".toCharArray());
 		    System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
