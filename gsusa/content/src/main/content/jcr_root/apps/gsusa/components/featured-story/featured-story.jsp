@@ -63,7 +63,7 @@
 </section>
 
 <% }else if(theme.equals("colorless")) { %>
-<section class="story colorless" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story colorless<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
         <div class="header">
             <div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
@@ -80,7 +80,7 @@
     </div>
 </section>
 <% } else if(theme.equals("shop")){ %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
@@ -95,7 +95,7 @@
     </div>
 </section>
 <% } else if(theme.equals("social")){ %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
@@ -110,7 +110,7 @@
     </div>
 </section>
 <% } else if(theme.equals("video")){ %>
-<section class="story video" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story video<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
