@@ -11,8 +11,7 @@ if((path.equals("") || imgPath.equals("")) && WCMMode.fromRequest(request) == WC
 <%
 }else if(!path.equals("") && !imgPath.equals("")){
 %>
-
-	<img src="<%= imgPath %>" alt="United States map" width="494" height="320" border="0" usemap="#Map"><map name="Map">
+	<img id="council-map-img" src="<%= imgPath %>" alt="United States map" width="494" height="320" border="0" usemap="#Map" /><map id="council-map" name="Map">
     <area shape="rect" coords="16,232,80,245" href="<%= path %>.html?state=AK" alt="Alaska">
     <area shape="rect" coords="16,255,80,267" href="<%= path %>.html?state=HI" alt="Hawaii">
     <area shape="rect" coords="16,274,90,286" href="<%= path %>.html?state=PR" alt="Puerto Rico">
@@ -67,7 +66,7 @@ if((path.equals("") || imgPath.equals("")) && WCMMode.fromRequest(request) == WC
     <area shape="poly" coords="420,111,427,112,430,119,426,134,418,128,422,120" href="<%= path %>.html?state=NJ" alt="New Jersey">
     <area shape="poly" coords="417,129,426,139,420,140" href="<%= path %>.html?state=DE" alt="Delaware">
     <area shape="poly" coords="400,132,415,128,418,142,425,140,426,147,420,154,412,142" href="<%= path %>.html?state=MD" alt="Maryland">
-</map>
+	</map>
 
 <%
 }

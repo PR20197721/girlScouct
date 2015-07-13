@@ -439,6 +439,37 @@
     var this_form = $(this).siblings("form");
     this_form.removeClass('hide');
   });
+  
+    var ImageMap = function(map, img){
+	  var n,
+      areas = map.getElementsByTagName('area'),
+      len = areas.length,
+      coords = [],
+      currentWidth = img.clientWidth,
+      previousWidth = img.clientWidth;
+	  for (n = 0; n < len; n++) {
+	      coords[n] = areas[n].coords.split(',');
+	  }
+	  this.resize = function () {
+		  currentWidth = img.clientWidth;
+	      var n, m, clen,
+	          x = currentWidth / previousWidth;
+	      for (n = 0; n < len; n++) {
+	          clen = coords[n].length;
+	          for (m = 0; m < clen; m++) {
+	              coords[n][m] *= x;
+	          }
+	          areas[n].coords = coords[n].join(',');
+	      }
+	      previousWidth = currentWidth;
+	      return true;
+	  };
+	  window.onresize = this.resize;
+  }
+  
+  var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
+  imageMap.resize();
+  
   fix_bottom_footer();
   slide_search_bar();
 
