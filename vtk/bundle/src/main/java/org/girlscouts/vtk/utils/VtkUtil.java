@@ -8,12 +8,19 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Dictionary;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
@@ -21,7 +28,25 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 
-public class VtkUtil {
+@Component
+@Service(value = VtkUtil.class)
+public class VtkUtil  implements ConfigListener{
+	
+	@Reference
+	ConfigManager configManager;
+	
+	
+	private static String gsNewYear;
+
+	@SuppressWarnings("rawtypes")
+	public void updateConfig(Dictionary configs) {
+		
+System.err.println("tata xxx T");		
+		gsNewYear = (String) configs.get("gsNewYear");
+	}
+	
+	public void caca(){System.err.println(" tata xxx 1 : "+ gsNewYear);}
+	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
 	public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
@@ -235,8 +260,15 @@ public static String getYearPlanBase(User user, Troop troop){
 }
 
 
+
 /*GS Year starts Aug 1 */
 public static int getCurrentGSYear(){
+	
+	System.err.println ("tatat222222 :" +gsNewYear) ;
+	if( gsNewYear==null )
+		gsNewYear = new VtkUtil().getX();
+	System.err.println ("tatat333333 :" +gsNewYear) ;
+	
 	java.util.Calendar now= java.util.Calendar.getInstance();
 	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
 		return now.get(java.util.Calendar.YEAR) ;
@@ -244,5 +276,9 @@ public static int getCurrentGSYear(){
 		return now.get(java.util.Calendar.YEAR) -1;	
 }
 
+
+private String getX(){
+	return gsNewYear;
+}
 
 }//end class

@@ -39,6 +39,9 @@
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
 	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
+	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
+	
+	vtkUtil.caca();
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
