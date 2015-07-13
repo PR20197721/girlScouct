@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-13T14:07:43.567-04:00"
+        cq:lastModified="{Date}2015-07-13T16:44:36.491-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/gsusa/templates/gsusa-three-column-page"
         jcr:primaryType="cq:PageContent"
@@ -12,19 +12,29 @@
             <main jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys"/>
+            </main>
+            <right jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys"/>
+            </right>
+            <hero jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
                     <council_map
-                        jcr:created="{Date}2015-07-13T14:07:02.089-04:00"
+                        jcr:created="{Date}2015-07-13T16:43:56.645-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-07-13T14:07:30.746-04:00"
+                        jcr:lastModified="{Date}2015-07-13T16:44:23.496-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/council-map"
                         path="/content/gsusa/en/demo/council-finder-results"/>
                     <council_finder
-                        jcr:created="{Date}2015-07-13T14:07:05.688-04:00"
+                        jcr:created="{Date}2015-07-13T16:44:08.352-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-07-13T14:07:43.554-04:00"
+                        jcr:lastModified="{Date}2015-07-13T16:44:36.483-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/council-finder"
@@ -33,7 +43,7 @@
                         state="true"
                         zip="true"/>
                 </par>
-            </main>
+            </hero>
         </content>
     </jcr:content>
 </jcr:root>
