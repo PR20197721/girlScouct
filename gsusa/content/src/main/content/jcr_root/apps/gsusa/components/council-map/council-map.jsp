@@ -11,7 +11,7 @@ if((path.equals("") || imgPath.equals("")) && WCMMode.fromRequest(request) == WC
 <%
 }else if(!path.equals("") && !imgPath.equals("")){
 %>
-	<img id="council-map-img" src="<%= imgPath %>" alt="United States map" width="494" height="320" border="0" usemap="#Map" /><map id="council-map" name="Map">
+	<img id="council-map-img" src="<%= imgPath %>" alt="United States map" height="320" style="width:494px" border="0" usemap="#Map" /><map id="council-map" name="Map">
     <area shape="rect" coords="16,232,80,245" href="<%= path %>.html?state=AK" alt="Alaska">
     <area shape="rect" coords="16,255,80,267" href="<%= path %>.html?state=HI" alt="Hawaii">
     <area shape="rect" coords="16,274,90,286" href="<%= path %>.html?state=PR" alt="Puerto Rico">

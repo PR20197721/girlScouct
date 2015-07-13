@@ -446,7 +446,7 @@
       len = areas.length,
       coords = [],
       currentWidth = img.clientWidth,
-      previousWidth = img.clientWidth;
+      previousWidth = parseInt(img.style.width, 10);
 	  for (n = 0; n < len; n++) {
 	      coords[n] = areas[n].coords.split(',');
 	  }
