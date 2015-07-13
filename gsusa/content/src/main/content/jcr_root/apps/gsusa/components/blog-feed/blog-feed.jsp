@@ -56,7 +56,7 @@ $.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key
 	  if (shortDescription.length > DESCRIPTION_LENGTH) {
 	    shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
 	  }
-    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + data.items[i].url + '" target="_blank" class="title">' + data.items[i].title + '</a>' + imageTag + '<p>' + shortDescription + '</p></li>';
+    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + data.items[i].url + '" target="_blank" class="title">' + data.items[i].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + data.items[i].url + '" target="_blank" class="title"> continue reading ></a></p></li>';
     	}
     	output += "</ul>";
     	blogFeedArea.html(output);
