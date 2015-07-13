@@ -213,7 +213,6 @@
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
-                                minLength="200"
                                 name="./videoPath50"
                                 xtype="pathfield"/>
                         </items>

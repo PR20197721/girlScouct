@@ -112,11 +112,16 @@ public  String readUrlFile(String urlString) throws Exception {
 	    			videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
         		}
 	            embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"500\" height=\"281\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href=\"https://vimeo.com/"+ vimeoId +"\">Spheres</a> from <a href=\"https://vimeo.com/regishervagault\">Regis Hervagault</a> on <a href=\"https://vimeo.com\">Vimeo</a>.</p>";
-    		} else if ("path".equals(videoType5[i])) {
-    			videoThumbNail[i] = "not supported";
     		} else {
-    			//videoType5[i] equals "none". Do nothing
+    			videoThumbNail[i] = "not supported";
     		}
+    	} else if ("path".equals(videoType5[i])) {
+    		String videoPath = properties.get("videoPath5" + i, "");
+    		videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
+    		embeded[i] = "<p> video component goes here</p>";
+    	} else {
+			//videoType5[i] equals "none". Do nothing
+
     	}
     }
 %>
@@ -182,7 +187,7 @@ public  String readUrlFile(String urlString) throws Exception {
                         <ul class="slide-4">
                         <%
                         for (int i = 0 ; i < 4; i++) {
-                            if ("link".equals(videoType5[i])) {%>
+                            if ("link".equals(videoType5[i]) || "path".equals(videoType5[i])) {%>
 		                        <li>
 		                            <h3><%= title5 %></h3>
 		                            <div class="video-wrapper">
@@ -197,7 +202,7 @@ public  String readUrlFile(String urlString) throws Exception {
 		                            </div>
 		                        </li>
                         <%	} else { 
-                        	//path
+                        	//none
                         	}
                         }
                         %>
