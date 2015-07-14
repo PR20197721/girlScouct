@@ -50,5 +50,10 @@
             mode="replace"
             root="/etc/scaffolding/gsusa"
             rules="[]"/>
+        <f8
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/gsusa"
+            rules="[]"/>
     </filter>
 </jcr:root>

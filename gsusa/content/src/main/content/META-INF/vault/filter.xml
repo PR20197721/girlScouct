@@ -8,4 +8,5 @@
     <filter root="/etc/workflow/scripts/gsusa"/>
     <filter root="/etc/dam/video/hq"/>
     <filter root="/etc/scaffolding/gsusa"/>
+    <filter root="/etc/designs/gsusa/"/>
 </workspaceFilter>
