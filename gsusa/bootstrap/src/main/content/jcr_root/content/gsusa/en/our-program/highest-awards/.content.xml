@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Highest Awards"
         jcr:uuid="c1eac2e5-9708-4eff-9cf2-3339f8d8a954"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:10:23.549-04:00"
             cq:lastRolledoutBy="admin"

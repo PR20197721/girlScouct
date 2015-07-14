@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Grade Levels"
         jcr:uuid="24e0ec96-1fd3-4ada-a557-6b912d583b62"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:06:09.431-04:00"
             cq:lastRolledoutBy="admin"

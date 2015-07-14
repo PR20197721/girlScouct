@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="What Daisies Do"
         jcr:uuid="e3e7942a-ead0-42e4-acf2-99fe968deb3a"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:06:09.652-04:00"
             cq:lastRolledoutBy="admin"

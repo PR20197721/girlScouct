@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="What Cadettes Do"
         jcr:uuid="2c30ec40-3ef1-4d92-97ae-8e1cb67cdc9f"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:06:09.845-04:00"
             cq:lastRolledoutBy="admin"

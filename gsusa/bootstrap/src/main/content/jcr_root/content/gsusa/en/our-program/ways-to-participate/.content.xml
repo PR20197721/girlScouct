@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Ways To Participate"
         jcr:uuid="014952a7-1c8a-4066-b43d-7b6e1f6d4bfa"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:07:23.476-04:00"
             cq:lastRolledoutBy="admin"

@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Camp &amp; Outdoors "
         jcr:uuid="467aa76d-8a50-4880-9271-6564525df48a"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:07:23.546-04:00"
             cq:lastRolledoutBy="admin"
