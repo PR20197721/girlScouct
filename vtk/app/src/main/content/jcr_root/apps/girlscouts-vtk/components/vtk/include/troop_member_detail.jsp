@@ -24,7 +24,7 @@
           <% } %>
           <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
         </dt>       
-        <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID) ||
+        <%if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
         		user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) ){ %>
           <%@include file='troop_child_detail.jsp' %>
         <%} %>

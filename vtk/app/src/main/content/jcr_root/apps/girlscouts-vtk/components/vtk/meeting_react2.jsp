@@ -471,7 +471,7 @@ React.createElement(ActivityPlan),
         render: function() {
     
     		if( this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
-    					&& helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_VIEW_ATTENDANCE_ID%>')!=-1){
+    					&& helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_ATTENDANCE_ID%>')!=-1){
     			
     			var isArch = (this.props.data.type == '<%=YearPlanComponentType.MEETING%>') ? this.props.data.meetingInfo.isAchievement : "false" ;
     			var mName=this.props.data.meetingInfo.name;
