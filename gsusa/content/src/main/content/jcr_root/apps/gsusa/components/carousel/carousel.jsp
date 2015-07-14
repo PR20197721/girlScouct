@@ -3,7 +3,11 @@
 				java.io.*,
 				java.util.regex.*,
 				java.net.*,
-				org.apache.sling.commons.json.*" %>
+				org.apache.sling.commons.json.*,
+				org.apache.sling.api.request.RequestDispatcherOptions,
+                com.day.cq.wcm.api.components.IncludeOptions,
+                org.apache.sling.jcr.api.SlingRepository" %>
+<%@page session="false" %>
 
 <%!
 public String extractYTId(String ytUrl) {
@@ -42,6 +46,9 @@ public  String readUrlFile(String urlString) throws Exception {
             reader.close();
     }
 }
+public void addVideoNode(String videoPath, String videoName) {
+	
+}
 %>
 
 
@@ -75,6 +82,7 @@ public  String readUrlFile(String urlString) throws Exception {
     String[] embeded = new String[4];
     String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
     String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
+	String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
     
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
@@ -124,7 +132,27 @@ public  String readUrlFile(String urlString) throws Exception {
     	} else if ("path".equals(videoType5[i])) {
     		String videoPath = properties.get("videoPath5" + i, "");
     		videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
-    		embeded[i] = "<p> video component goes here</p>";
+    		
+    		//add video node
+    		if (currentNode != null) {
+    	        SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
+    	        Session session = repository.loginAdministrative(null); 
+
+    	        Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
+    	        if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+    	            vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
+    	            vid.setProperty("asset", videoPath);
+    	            vid.setProperty("sling:resourceType", "gsusa/components/video");
+    	        } else {
+    	        	vid.setProperty("asset", videoPath);
+    	            vid.setProperty("sling:resourceType", "gsusa/components/video");
+    	        }
+
+    	        session.save();
+    	        session.logout();
+    	    }
+    		//done adding video.
+    		embeded[i] = "";
     	} else {
 			//videoType5[i] equals "none". Do nothing
 
@@ -193,7 +221,7 @@ public  String readUrlFile(String urlString) throws Exception {
                         <ul class="slide-4">
                         <%
                         for (int i = 0 ; i < 4; i++) {
-                            if ("link".equals(videoType5[i]) || "path".equals(videoType5[i])) {%>
+                            if ("link".equals(videoType5[i])) {%>
 		                        <li>
 		                            <h3><%= title5 %></h3>
 		                            <div class="video-wrapper">
@@ -207,8 +235,22 @@ public  String readUrlFile(String urlString) throws Exception {
 		                                </div>
 		                            </div>
 		                        </li>
-                        <%	} else { 
-                        	//none
+                        <%	} else if ("path".equals(videoType5[i])) { %>
+	                        	<li>
+		                            <h3><%= title5 %></h3>
+		                            <div class="video-wrapper">
+		                                <div class="video">
+		                                <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+		                                <cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
+		                                </div>
+		                                <div class="video-article">
+		                                    <h4><%= subtitle5[i] %></h4>
+		                                    <p><%= content5[i]%></p>
+		                                </div>
+		                            </div>
+		                        </li> <%
+                        	} else { 
+                        		//none
                         	}
                         }
                         %>
