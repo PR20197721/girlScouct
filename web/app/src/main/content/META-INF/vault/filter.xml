@@ -11,11 +11,8 @@
     <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
-    <filter root="/etc/designs/girlscouts-gsnetx"/>
     <filter root="/etc/designs/girlscouts-usa"/>
     <filter root="/etc/designs/girlscouts-usa-blue"/>
-    <filter root="/etc/designs/girlscoutsnccp"/>
-    <filter root="/etc/designs/girlscouts-nccp"/>
     <filter root="/etc/designs/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-dxp"/>
