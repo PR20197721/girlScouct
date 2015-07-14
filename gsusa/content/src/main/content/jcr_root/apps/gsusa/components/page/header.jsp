@@ -14,12 +14,14 @@
         </a>
     </section>
     <section class="utility show-for-medium-up">
-    	<div>
+    	<div class="clearfix">
 	        <cq:include path="<%=headerNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
-	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
-	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
+            <div class="join-buttons">
+    	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
+    	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
+            </div>
         </div>
-        <div>
+        <div class="clearfix">
     	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
         </div>
     </section>
