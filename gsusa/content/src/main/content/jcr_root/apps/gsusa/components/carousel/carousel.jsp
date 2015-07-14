@@ -140,10 +140,11 @@ public void addVideoNode(String videoPath, String videoName) {
 
     	        Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
     	        if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-    	            vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
+    	        	vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
     	            vid.setProperty("asset", videoPath);
     	            vid.setProperty("sling:resourceType", "gsusa/components/video");
     	        } else {
+    	        	vid = session.getNode(resource.getPath() + "/" + vidNames[i]);
     	        	vid.setProperty("asset", videoPath);
     	            vid.setProperty("sling:resourceType", "gsusa/components/video");
     	        }
