@@ -167,8 +167,8 @@ $medium-breakpoint: em-calc(1024);
 $large-breakpoint:  em-calc(1440);
 $xlarge-breakpoint: em-calc(1920);
 
-$small-range:   (0, 40em);
-$medium-range:  (40em  + em-calc(1), 64em);
+$small-range:   (0, 48em);
+$medium-range:  (48.06em  + em-calc(1), 64em);
 $large-range:   (64em + em-calc(1), 90em);
 $xlarge-range:  (90em  + em-calc(1), 120em);
 $xxlarge-range: (120em + em-calc(1), em-calc(99999999));
