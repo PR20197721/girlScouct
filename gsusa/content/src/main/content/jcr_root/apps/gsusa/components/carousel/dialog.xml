@@ -419,8 +419,30 @@
                         name="./imagePath6"
                         rootPath="/content/dam/girlscouts-gsusa"
                         xtype="pathfield"/>
+                    <closingSource
+                        jcr:primaryType="cq:Widget"
+                        value="homepage"
+                        defaultValue="homepage"
+                        fieldLabel="Source"
+                        name="./closingSource6"
+                        fieldDescription="This field is used for tracking in Google Analytics."
+                        xtype="textfield"/>
                 </items>
             </tab6>
+            <tab7
+                jcr:primaryType="cq:Panel"
+                title="Bottom Overlay">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <Source
+                        jcr:primaryType="cq:Widget"
+                        value="homepage"
+                        defaultValue="homepage"
+                        fieldLabel="Source"
+                        name="./source7"
+                        fieldDescription="This field is used for tracking in Google Analytics."
+                        xtype="textfield"/>
+                </items>
+            </tab7>
         </items>
     </items>
 </jcr:root>
