@@ -8,7 +8,7 @@
 <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail finances">
 <div id="vtkNav"></div>
-<% if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){ 
+<% if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
 	%>
 	 <span class="error">You have no permissions to view this page</span> 
 	 </div> <!-- end panelWrapper -->

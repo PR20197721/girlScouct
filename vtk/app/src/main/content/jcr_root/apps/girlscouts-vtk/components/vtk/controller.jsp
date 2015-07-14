@@ -807,8 +807,8 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
 					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ATTENDANCE_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ATTENDANCE_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
 					helper.setPermissions(permissions);
 					
 					

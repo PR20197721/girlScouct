@@ -13,7 +13,7 @@
   if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ 
     %><%@include file="mytroop_react.jsp"%><% 
   } else { %>
-  <%@include file='myTroopImg.jsp' %>
+    <%@include file='myTroopImg.jsp' %>
     <%@include file="myTroopOff.jsp"%>
 <% } %>
 <script>loadNav('myTroop')</script>

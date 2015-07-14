@@ -30,8 +30,10 @@ public class Permission extends PermissionConstants {
 	/*** TROOP ***/
 	public static final Permission troop_view = new Permission( PERMISSION_VIEW_TROOP_ID, login);
 	public static final Permission troop_edit = new Permission( PERMISSION_EDIT_TROOP_ID, troop_view);
-	public static final Permission troop_canViewOwnChildDetail= new Permission( PERMISSION_canViewOwnChildDetail_TROOP_ID, troop_view);
-	public static final Permission troop_canViewMemberdDetail = new Permission( PERMISSION_canViewMemberdDetail_TROOP_ID, troop_view);
+	public static final Permission troop_edit_img = new Permission( PERMISSION_EDIT_TROOP_IMG_ID, troop_view);
+	
+	public static final Permission troop_canViewOwnChildDetail= new Permission( PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID, troop_view);
+	public static final Permission troop_canViewMemberdDetail = new Permission( PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, troop_view);
 	
 	/*** FINANCE ***/
 	public static final Permission finance_view = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
@@ -44,7 +46,7 @@ public class Permission extends PermissionConstants {
 	public static final Permission milestons_view = new Permission(PERMISSION_VIEW_MILESTONE_ID, login);
 	
 	/*** ATTENDANCE ***/
-	public static final Permission attendance_view = new Permission(PERMISSION_VIEW_ATTENDANCE_ID, meeting_view);
+	public static final Permission attendance_view = new Permission(PERMISSION_EDIT_ATTENDANCE_ID, meeting_view);
 	
 	/*** EMAIL ***/
 	public static final Permission email_send_mt = new Permission(PERMISSION_SEND_EMAIL_MT_ID, meeting_edit);

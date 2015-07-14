@@ -27,13 +27,15 @@
 	//String SHOW_FINANCE_FEATURE = "showFinance"; 
 	//String SHOW_PARENT_FEATURE = "showParent";
 	//String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
-	//String SHOW_PERMISSION_FEATURE = "showPermission";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
 	String[] ENABLED_FEATURES = new String[] {};//SHOW_BETA_FEATURE};
 
 %>
 <%
+
+
+
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -112,6 +114,20 @@
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
+	
+	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
+	     troop.getTroop().getPermissionTokens().add( new Integer(400) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(303) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(601) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(401) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(402) );
+	} else if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("false")){
+		troop.getTroop().getPermissionTokens().remove( 400 );
+		troop.getTroop().getPermissionTokens().remove( 303 );
+		troop.getTroop().getPermissionTokens().remove( 601 );
+		troop.getTroop().getPermissionTokens().remove( 401 );
+		troop.getTroop().getPermissionTokens().remove( 402 );
+	}
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&

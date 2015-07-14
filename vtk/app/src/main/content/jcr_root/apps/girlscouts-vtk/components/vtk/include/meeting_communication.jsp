@@ -41,7 +41,7 @@
   		</li>
   		
  		 <%if(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING &&
-  			hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%>
+  			hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID )) {%>
   		<li>        
     		<a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>Record Attendance &amp; Achievements</a>
     	</li>
