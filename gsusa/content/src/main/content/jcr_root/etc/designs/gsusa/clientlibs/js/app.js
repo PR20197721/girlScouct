@@ -467,8 +467,10 @@
 	  window.onresize = this.resize;
   }
   
-  var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
-  imageMap.resize();
+  if(document.getElementById('council-map') && document.getElementById('council-map-img')){
+	  var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
+	  imageMap.resize();
+  }
   
   fix_bottom_footer();
   slide_search_bar();
