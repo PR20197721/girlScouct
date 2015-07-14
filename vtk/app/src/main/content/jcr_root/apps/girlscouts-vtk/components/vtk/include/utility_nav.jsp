@@ -63,12 +63,16 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
             	  <!-- if finance page -->
-            <% if("finances".equals(activeTab)) {
+            <% if("finances".equals(activeTab) || "financesadmin".equals(activeTab)) {
             	
             		 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
 			            	<li>
 			            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
 			            		<p>edit finance fields</p>
+			           
+			            <% } else if("financesadmin".equals(activeTab)){ %>
+                             <a title="Finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
+                        
 			            <% } else { %>
 			                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
 			            <% } %>

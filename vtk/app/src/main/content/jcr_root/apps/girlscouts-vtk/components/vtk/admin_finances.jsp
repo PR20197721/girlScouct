@@ -12,7 +12,7 @@
 	%>
 	 <span class="error">You have no permissions to view this page</span> 
 	 </div> <!-- end panelWrapper -->
-	 <script>loadNav('finances')</script>
+	 <script>loadNav('financesadmin')</script>
 	<%
 	return;
 }%>
@@ -154,4 +154,4 @@
 
 //-->
 </script>
-<script>loadNav('finances')</script>
+<script>loadNav('financesadmin')</script>

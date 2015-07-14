@@ -55,6 +55,8 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 			} else{
 				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
 			    save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">SEND</a>";
+			    
+	            
 			}
 %>
 <%@include file="include/finances_navigator.jsp"%>

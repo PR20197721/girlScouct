@@ -98,7 +98,7 @@ String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
           <% }  %>
        
        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-          <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
+          <dd <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
         <% }  %>
@@ -140,6 +140,12 @@ String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
             </ul>
           </li>
           <%}%>
+          
+          
+          
+           
+          
+          
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
           <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
             <ul class="dropdown">
@@ -189,7 +195,40 @@ String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
 	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
 		     <% } %>
-          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a></li>
+         
+         
+          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
+		         <ul>
+		          <% if("finances".equals(activeTab)) {
+		                
+		                     if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+		                            <li>
+		                       
+		                             <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
+		                       
+		                            </li>
+		            <%
+		                    }
+		                }else if("financesadmin".equals(activeTab)){
+		                	
+		                	 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+                             <li>
+                        
+                              <a title="enter finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
+                        
+                             </li>
+                            <%
+		                	 }
+                     }
+		                	
+		                	
+		                
+		            %>
+		            
+		            
+		            
+		            </ul>
+          </li>
          <% } %>
           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>
