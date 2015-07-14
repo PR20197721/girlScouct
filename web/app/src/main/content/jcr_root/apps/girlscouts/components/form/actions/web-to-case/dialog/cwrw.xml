@@ -10,11 +10,11 @@
     <options jcr:primaryType="cq:WidgetCollection">
         <cw
             jcr:primaryType="nt:unstructured"
-            text="cw"
+            text="cw (customer care web to case)"
             value="cw"/>
         <rw
             jcr:primaryType="nt:unstructured"
-            text="rw"
+            text="rw (registration web to case)"
             value="rw"/>
     </options>
 </jcr:root>
