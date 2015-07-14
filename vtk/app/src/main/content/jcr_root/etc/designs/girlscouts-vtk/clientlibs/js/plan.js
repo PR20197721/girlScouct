@@ -923,8 +923,21 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
-
+	
+		if(activeTab!=null && activeTab=='myTroop'){
+			vtkTrackerPushAction('ViewTroop');
+		}
+		
+		if(activeTab!=null && activeTab=='reports'){
+			vtkTrackerPushAction('ViewReport');
+		}
+		
+		if(activeTab!=null && activeTab=='finances'){
+			vtkTrackerPushAction('ViewFinances');
+		}
+		
 	}
+	
 
 
 	function loadUNav(activeTab){

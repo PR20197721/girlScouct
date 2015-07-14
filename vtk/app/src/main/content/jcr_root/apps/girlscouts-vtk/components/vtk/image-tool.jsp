@@ -553,6 +553,7 @@ var displayCurrent = function(){
 				$('#upload-tool').remove();
 		
 		        upload();
+		        vtkTrackerPushAction('ModifyTroopImage');
 	    	}
 	    };
 	    
