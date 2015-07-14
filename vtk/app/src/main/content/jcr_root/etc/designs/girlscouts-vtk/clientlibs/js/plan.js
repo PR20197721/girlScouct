@@ -927,6 +927,15 @@ function councilRpt(troopId, cid){
 		if(activeTab!=null && activeTab=='myTroop'){
 			vtkTrackerPushAction('ViewTroop');
 		}
+		
+		if(activeTab!=null && activeTab=='reports'){
+			vtkTrackerPushAction('ViewReport');
+		}
+		
+		if(activeTab!=null && activeTab=='finances'){
+			vtkTrackerPushAction('ViewFinances');
+		}
+		
 	}
 	
 

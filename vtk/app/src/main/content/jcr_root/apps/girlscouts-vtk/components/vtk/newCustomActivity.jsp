@@ -482,7 +482,7 @@ function searchActivities() {
 		},
 		success: function(result) {
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
-			vtkTrackerPushAction('searchActivities');
+			vtkTrackerPushAction('SearchActivities');
 		}
 	});
 }
