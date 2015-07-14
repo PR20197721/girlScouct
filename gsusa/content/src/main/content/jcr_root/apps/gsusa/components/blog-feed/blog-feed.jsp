@@ -52,7 +52,7 @@ $.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key
 
 	var posts = [];
     for (var i=0; i<data.items.length; i++){
-    	if(data.items[i].id == pinID){
+    	if(pinID != "" && data.items[i].id == pinID){
     		posts.unshift(data.items[i]);
     	}	
     	else{
