@@ -923,8 +923,12 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
-
+	
+		if(activeTab!=null && activeTab=='myTroop'){
+			vtkTrackerPushAction('ViewTroop');
+		}
 	}
+	
 
 
 	function loadUNav(activeTab){

@@ -905,6 +905,8 @@ React.createElement(ActivityPlan),
   }
   
   loadNav('planView');
+  vtkTrackerPushAction('ViewMeetingDetail');
+  
       </script>
   </div>
 </div>
