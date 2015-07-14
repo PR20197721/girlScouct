@@ -17,7 +17,7 @@
 		        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
 		        <form class="formVol hide">
 		            <label><%= title %></label>
-		            <input type="text" name="ZipVolunteer" maxlength="5">
+		            <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
 		            <input type="hidden" name="source" value="<%= source %>">
 		        	<input class="button" type="submit" value="<%= searchBtnName %>">
 		        </form>
@@ -28,7 +28,7 @@
 		    <a href="#" title="Volunteer Now" class="button arrow"><%= callToActionName %></a>
 		    <form class="formVol hide">
 		        <label><%= title %></label>
-		        <input type="text" name="ZipVolunteer" maxlength="5">
+		        <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
 		        <input type="hidden" name="source" value="<%= source %>">
 		        <input class="button" type="submit" value="<%= searchBtnName %>">
 		    </form>

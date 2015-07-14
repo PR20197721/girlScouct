@@ -17,7 +17,7 @@
 	        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
 	        <form class="formJoin hide">
 	            <label><%= title %></label>
-	            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter Zip code">
+	            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter ZIP code">
 	            <input type="hidden" name="source" value="<%= source %>">
 	        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
 	        </form>
@@ -28,7 +28,7 @@
 	    <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
 	    <form class="formJoin hide">
 	        <label><%= title %></label>
-	        <input type="text" name="ZipJoin" maxlength="5">
+	        <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter ZIP code">
 	        <input type="hidden" name="source" value="<%= source %>">
 	        <input class="button" type="submit" value="<%= searchBtnName %>">
 	    </form>
