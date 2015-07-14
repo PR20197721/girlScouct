@@ -913,22 +913,33 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
+				
+				
 				if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/categories")) {
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
-
+					 	
 					categories.put(elem, null);
+					*/
+					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/program-level")) {
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
 					levels.put(elem, null);
+					*/
+					levels.put(r.getNode().getName(),elem);
 				}
+				
 			}
 
 			if ((categories == null || categories.size() == 0)
@@ -1568,6 +1579,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
 			throws IllegalAccessException, IllegalStateException {
+		
+System.err.println("tata start searchA1.. ");		
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
@@ -1601,8 +1614,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " contains(parent.[cq:tags], 'categories/"
-						+ t.nextToken() + "') ";
+				 sqlCat += " contains( parent.[cq:tags], 'categories/"+ t.nextToken() + "') ";
+				
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1648,6 +1661,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
+	System.err.println("tata sql: "+ sql);		
 			int i = 0;
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {

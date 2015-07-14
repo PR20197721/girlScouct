@@ -269,6 +269,7 @@ public class YearPlanUtil {
 			String lvl, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
 			throws IllegalAccessException {
+System.err.println("tata tpUtil");		
 		return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate,
 				endDate, region);
 	}
@@ -310,7 +311,7 @@ public class YearPlanUtil {
 
 	public void search(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
+System.err.println("tata search...");
 		try {
 			java.util.Date startDate = null, endDate = null;
 			if (request.getParameter("startDate") != null

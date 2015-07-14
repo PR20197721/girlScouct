@@ -324,7 +324,7 @@
                   %>
                   <li>
                     <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
-                    <label class="tty" for="sch_cats_<%=i %>"><p><span><%= str %></span></p></label>
+                    <label class="tty" for="sch_cats_<%=i %>"><p><span><%= categories.get(str) %></span></p></label>
                   </li>
                   <% } %>
                 <ul>
