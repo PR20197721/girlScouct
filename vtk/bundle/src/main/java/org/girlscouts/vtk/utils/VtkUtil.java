@@ -45,7 +45,7 @@ System.err.println("tata xxx T");
 		gsNewYear = (String) configs.get("gsNewYear");
 	}
 	
-	public void caca(){System.err.println(" tata xxx 1 : "+ gsNewYear);}
+	public void caca(){configManager.register(this); System.err.println(" tata xxx 1 : "+ gsNewYear);}
 	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
