@@ -35,9 +35,10 @@
 		<div class="wrapper clearfix">
 		    <div class="social-block">
 		        <span class="icon-social-instagram"></span>
-			<div class="instagram-feed-image-head-area"></div>
-		        <ul class="instagram-feed-image-area">
-			</ul>
+		        <div class="block-area">
+					<div class="instagram-feed-image-head-area"></div>
+			        <ul class="instagram-feed-image-area"></ul>
+			      </div>
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>

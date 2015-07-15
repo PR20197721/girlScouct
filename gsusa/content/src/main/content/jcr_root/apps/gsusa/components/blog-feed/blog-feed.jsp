@@ -13,7 +13,7 @@
                 <div class="align-center">
                     <img src="http://www.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
                 </div>
-                <div class="blog-feed-area"></div>
+                <div class="blog-feed-area block-area"></div>
             </div>
             <span class="scroll-more"></span>
         </div>
