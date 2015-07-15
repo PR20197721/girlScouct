@@ -105,7 +105,7 @@ public  String readUrlFile(String urlString) throws Exception {
 
     <%if (!firstTimeInit) { %>
     	<div>
-        <ul class="gs-stories-block"><%
+        <ul class="our-stories-block"><%
         //use validStoryPath to generate the our story component
         for (String storyPath: validStoryPath) {
             Resource res = resourceResolver.resolve(storyPath + "/jcr:content");

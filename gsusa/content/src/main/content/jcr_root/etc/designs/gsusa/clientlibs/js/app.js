@@ -404,8 +404,8 @@
     });
   }
 
-  function equilize_gs_stories() {
-    var blocks = $('.gs-stories-block li div');
+  function equilize_our_stories() {
+    var blocks = $('.our-stories-block li div');
     var maxHeight = Math.max.apply(Math, blocks.map(function () {
       console.log($(this).height());
       return $(this).height();
@@ -490,7 +490,7 @@
   explore_button();
   join_now();
   scroll_feeds();
-  equilize_gs_stories();
+  equilize_our_stories();
   //show_final();
 
 }(jQuery));

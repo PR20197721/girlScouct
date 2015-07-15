@@ -1,4 +1,4 @@
-.gs-stories-block {
+.our-stories-block {
   @media (min-width: 1026px) and (max-width: 99999999px) {
     @include block-grid(3, $gs-block-grid-default-spacing);
   }
@@ -47,6 +47,6 @@
     }
   }
 }
-.girls-story-video-popup {
+.our-story-video-popup {
   padding: 0;
 }
