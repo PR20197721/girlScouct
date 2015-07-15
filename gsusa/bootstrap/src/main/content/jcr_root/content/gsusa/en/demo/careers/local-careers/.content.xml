@@ -12,7 +12,7 @@
         jcr:uuid="819f4094-d8c1-4220-bf28-f2e7edd7f03e"
         sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">
-            <middle jcr:primaryType="nt:unstructured">
+            <main jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -26,7 +26,7 @@
                         scrolling="Auto"
                         src="http://www.girlscouts.org/who_we_are/careers/_iframe_default.asp"/>
                 </par>
-            </middle>
+            </main>
         </content>
     </jcr:content>
 </jcr:root>
