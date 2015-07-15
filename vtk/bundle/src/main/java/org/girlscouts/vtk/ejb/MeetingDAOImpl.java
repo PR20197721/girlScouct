@@ -671,50 +671,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 
 		List<Asset> matched = new ArrayList<Asset>();
-		Session session = null;
-		try {
-			String sql = "select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"
-					+ meetingName + "/%' and jcr:mixinTypes='cq:Taggable'";
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
+		String rootPath0 = "/content/dam/girlscouts-vtk/local/aid/meetings/" + meetingName;
+		matched.addAll(getAssetsFromPath(rootPath0, AssetComponentType.AID));
 
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				Value excerpt = r.getValue("jcr:path");
-				String path = excerpt.getString();
-				if (path.contains("/jcr:content"))
-					path = path.substring(0, (path.indexOf("/jcr:content")));
-
-				Asset search = new Asset();
-				search.setRefId(path);
-				search.setType(AssetComponentType.AID);
-				search.setIsCachable(true);
-				try {
-					search.setDescription(r.getValue("dc:description")
-							.getString());
-				} catch (Exception e) {
-				}
-				try {
-					search.setTitle(r.getValue("dc:title").getString());
-				} catch (Exception e) {
-				}
-				matched.add(search);
-
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
 		return matched;
 	}
 
@@ -831,7 +790,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	private List<Asset> getAssetsFromPath(String rootPath) {
+	private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type) {
 	    List<Asset> assets = new ArrayList<Asset>();
 	    Session session = null;
 	    try {
@@ -843,12 +802,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	            if (!node.hasNode("jcr:content")) {
 	                continue;
 	            }
-	            Node props = node.getNode("jcr:content");
+	            Node props = node.getNode("jcr:content/metadata");
 
 	            Asset asset = new Asset();
 	            asset.setRefId(node.getPath());
 	            asset.setIsCachable(true);
-	            asset.setType(AssetComponentType.RESOURCE);
+	            asset.setType(type);
 
 	            asset.setDescription(props.getProperty("dc:description").getString());
 	            asset.setTitle(props.getProperty("dc:title").getString());
@@ -879,7 +838,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		List<Asset> matched = new ArrayList<Asset>();
 		String rootPath0 = "/content/dam/girlscouts-vtk/local/resource/meetings/" + meetingName;
-		matched.addAll(getAssetsFromPath(rootPath0));
+		matched.addAll(getAssetsFromPath(rootPath0, AssetComponentType.RESOURCE));
 
 		return matched;
 	}
