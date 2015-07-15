@@ -35,7 +35,7 @@ public  String readUrlFile(String urlString) throws Exception {
         int read;
         char[] chars = new char[1024];
         while ((read = reader.read(chars)) != -1)
-            buffer.append(chars, 0, read); 
+            buffer.append(chars, 0, read);
         return buffer.toString();
     } finally {
         if (reader != null)
@@ -51,19 +51,19 @@ public  String readUrlFile(String urlString) throws Exception {
     String btnName = properties.get("button", "Explore Girl Scouts");
     String title = properties.get("title", "Introduce girls to");
     String[] imagePathArray = properties.get("imagePath", emptyArray);
-    
+
     String[] content2 = properties.get("content2", emptyArray);
     String[] imagePath2 = properties.get("imagePath2", emptyArray);
     String[] subtitle2 = properties.get("subtitle2", emptyArray);
     String title2 = properties.get("title2", "");
-    
+
     String[] content3 = properties.get("content3", emptyArray);
     String[] imagePath3 = properties.get("imagePath3", emptyArray);
     String[] subtitle3 = properties.get("subtitle3", emptyArray);
     String title3 = properties.get("title3", "");
-    
+
     String title4 = properties.get("title4", "");
-    
+
     String title5 = properties.get("title5", "");
     String videoType50 = properties.get("videoType50", "");
     String videoType51 = properties.get("videoType51", "");
@@ -75,11 +75,11 @@ public  String readUrlFile(String urlString) throws Exception {
     String[] embeded = new String[4];
     String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
     String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
-    
+
     String title6 = properties.get("title6", "");
     String content6 = properties.get("content6", "");
     String imagePath6 = properties.get("imagePath6", "");
-    
+
     for (int i = 0 ; i < 4; i++ ){
     	if ("link".equals(videoType5[i])) {
     		String link = properties.get("videoLink5" + i, "");
@@ -127,7 +127,7 @@ public  String readUrlFile(String urlString) throws Exception {
         <div class="inner-sliders">
             <ul class="inner">
                 <li>
-                    <ul class="slide-1"> 
+                    <ul class="slide-1">
                     <% 	for (int i = 0 ; i < imagePath2.length; i++) {%>
                         <li>
                             <h3><%= title2 %></h3>
@@ -179,12 +179,12 @@ public  String readUrlFile(String urlString) throws Exception {
 		                                </div>
 		                            </div>
 		                        </li>
-                        <%	} else { 
+                        <%	} else {
                         	//path
                         	}
                         }
                         %>
-                        
+
                     </ul>
                     </li>
                 </li>
@@ -198,7 +198,7 @@ public  String readUrlFile(String urlString) throws Exception {
                     <h2><%= title6%></h2>
                     <p><%= content6 %> </p>
                     <form action="#" name="join-now" class="formJoin join-now-form clearfix">
-                        <input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter Zip code">
+                        <input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter ZIP code">
                         <input type="hidden" name="source" value="homepage">
                         <a href="#" class="button join-now">Join Now</a>
                     </form>
