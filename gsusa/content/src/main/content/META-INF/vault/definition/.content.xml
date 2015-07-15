@@ -50,5 +50,10 @@
             mode="replace"
             root="/etc/scaffolding/gsusa"
             rules="[]"/>
+        <f8
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/gsusa/jcr:content/page/video"
+            rules="[]"/>
     </filter>
 </jcr:root>
