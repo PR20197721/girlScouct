@@ -166,22 +166,21 @@ public class FinanceUtil {
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			emailRecipients.add(new InternetAddress(recipient));
-			email.setFrom("donotreply@girlscouts.org");
+			email.setFrom("NOREPLY@girlscouts.org");
 			email.setTo(emailRecipients);
-			email.setSubject("Troop "+troop.getTroop().getTroopName()+" Finances - "+user.getApiConfig().getUser().getName());
+			email.setSubject("Troop \""+troop.getTroop().getTroopName()+"\" finances from "+user.getApiConfig().getUser().getName());
 			
-	System.err.println("tata subj "+ "Troop Finance Report \""+troop.getTroop().getTroopName()+"\" from "+user.getApiConfig().getUser().getName());		
 			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
 			if(messageGateway == null){
 				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
 			}else{
-				System.err.println("tata2");			
+							
 				messageGateway.send(email);
-				System.err.println("tata3");
+				
 			}
 			
 			
-			System.err.println("tata4");		
+					
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

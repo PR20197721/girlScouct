@@ -62,6 +62,7 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 <%@include file="include/finances_navigator.jsp"%>
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
 	<form class="cmxform" id="financeForm"  onchange="enableSaveButton()">
+		<p id="error-message" class="error-message"></p>
 		<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
 		<div class="errorMsg error"></div>
 		<div class="row">

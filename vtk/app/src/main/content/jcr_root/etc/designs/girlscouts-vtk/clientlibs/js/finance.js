@@ -143,6 +143,7 @@ function saveFinances(){
 		success: function(result) {
 			
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
 	vtkTrackerPushAction('ModifyFinanceData');
@@ -234,6 +235,9 @@ function expensesAtMinimum(){
 	
 function deleteIncomeRow(counter){ 
 	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
 	
 	 if (!confirm("Warning: Are you sure you want to remove this category? Doing so will remove all data association with this category")) {
 		 return false;
@@ -253,6 +257,10 @@ function deleteIncomeRow(counter){
 }
 
 function deleteExpenseRow(counter){ 
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
 	
 	if(expensesAtMinimum()){
 		return false;

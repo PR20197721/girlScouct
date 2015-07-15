@@ -54,9 +54,7 @@
 
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
-			
 			<p id="error-message" class="error-message"></p>
-			
 			<div class="row options">
 			 <section class="column large-12 medium-12">
 				 <span>Reporting Frequency:</span>
