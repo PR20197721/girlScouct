@@ -34,6 +34,7 @@
             <background-image
                 jcr:primaryType="cq:Widget"
                 allowUpload="{Boolean}false"
+                cropParameter="./bg/imageCrop"
                 ddGroups="[media]"
                 fileNameParameter="./bg/fileName"
                 fileReferenceParameter="./bg/fileReference"
@@ -46,8 +47,8 @@
                         jcr:primaryType="cq:Widget"
                         ignoreData="{Boolean}true"
                         name="./bg/sling:resourceType"
-                        value="foundation/components/image"
-                        xtype="hidden"/>
+                        value="girlscouts/components/image"
+                        xtype="hidden"/>                    
                 </items>
             </background-image>
             <tab2
