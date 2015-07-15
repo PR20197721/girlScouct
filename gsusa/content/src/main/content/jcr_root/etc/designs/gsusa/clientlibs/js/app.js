@@ -282,12 +282,16 @@
     blocks.height(maxHeight);
   }
   $(window).resize(function () {
-    if ($(window).width() < 640) {
+    if ($(window).width() < 768) {
       $('.overlay').hide();
+      $(".hero-text .button").hide();
       // $('.inner-sliders').css({
       //   opacity: 0,
       //   "z-index": 1
       // });
+    }
+    else {
+      $(".hero-text .button").show();
     }
   });
 
