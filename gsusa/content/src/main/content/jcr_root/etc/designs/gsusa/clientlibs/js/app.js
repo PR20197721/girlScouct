@@ -390,7 +390,7 @@
       var scroll_area = $(this).siblings('.social-block');
 
       var feed_height = scroll_area.scrollTop() + scroll_area.outerHeight();
-      var inner_height = scroll_area.parents().find('.twitter-timeline-rendered').height();
+      var inner_height = scroll_area.parents().find('.block-area').height();
 
       if (feed_height >= inner_height) {
         scroll_area.animate({
@@ -439,8 +439,7 @@
       //   opacity: 0,
       //   "z-index": 1
       // });
-    }
-    else {
+    } else {
       $(".hero-text .button").show();
     }
   });
