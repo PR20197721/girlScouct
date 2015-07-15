@@ -27,7 +27,7 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldLabel="Type"
-                        name="./type"
+                        name="./jcr:content/type"
                         type="radio"
                         xtype="selection">
                         <options jcr:primaryType="cq:WidgetCollection">
