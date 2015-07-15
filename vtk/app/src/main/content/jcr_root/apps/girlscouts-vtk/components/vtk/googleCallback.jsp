@@ -82,7 +82,7 @@ public void sendRpt(String code, java.util.List <String[]> rptResultsToPost) {
       // tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-61431888-1/customDataSources/LRL3ltweTK6tX5dDJY3Jrw/uploads";
     
     
-    tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-64215500-1/customDataSources/4muCUenURUeHi3nwC1dL2Q/uploads";
+    tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-2646810-36/customDataSources/4muCUenURUeHi3nwC1dL2Q/uploads";
     
     
     org.apache.commons.httpclient.methods.PostMethod post = new org.apache.commons.httpclient.methods.PostMethod(tokenUrl);

@@ -65,7 +65,7 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
     a.src=g;
     m.parentNode.insertBefore(a,m)})
     (window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-64215500-1', 'auto', {'name': 'vtkTracker'});
+ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
     ga('vtkTracker.send', 'pageview', {
         dimension1: "<%=rpt[3]%>",
         dimension2: "<%=rpt[2]%>",

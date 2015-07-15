@@ -56,7 +56,7 @@ public class SalesforceDAO {
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair(
 				"q",
-				"SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='"
+				"SELECT ID,name,email, phone, mobilephone, ContactId, FirstName, LastName  from User where id='"
 						+ config.getUserId() + "' limit 1");
 		get.setQueryString(params);
 		try {
@@ -115,6 +115,19 @@ public class SalesforceDAO {
 							e.printStackTrace();
 						}
 
+						
+						try {
+							user.setFirstName(results.getJSONObject(current)
+									.getString("FirstName"));
+							user.setLastName(results.getJSONObject(current)
+									.getString("LastName"));
+						
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						
+						
 						try {
 							String email = results.getJSONObject(current)
 									.getString("Email");
