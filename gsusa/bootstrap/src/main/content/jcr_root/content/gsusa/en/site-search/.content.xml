@@ -21,15 +21,6 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
                     <search
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/search"/>
-                </par>
-            </middle>
-            <middle jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
-                    <search
                         jcr:created="{Date}2015-06-18T16:51:46.798-04:00"
                         jcr:createdBy="admin"
                         jcr:lastModified="{Date}2015-06-18T17:07:31.800-04:00"

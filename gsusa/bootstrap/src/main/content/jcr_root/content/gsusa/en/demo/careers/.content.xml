@@ -11,7 +11,7 @@
         jcr:uuid="94712bf6-2a81-4bf5-a83a-c9f00f58638e"
         sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">
-            <middle jcr:primaryType="nt:unstructured">
+            <main jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -77,7 +77,7 @@
                         sling:resourceType="girlscouts/components/embedded"
                         html="&lt;a href=&quot;/content/gsusa/en/demo/careers/local-careers.html&quot; class=&quot;button tiny&quot; style=&quot;float: right;&quot;>View All Jobs&lt;/a>&lt;div class=&quot;clearfix&quot;>&lt;/div>"/>
                 </par>
-            </middle>
+            </main>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search

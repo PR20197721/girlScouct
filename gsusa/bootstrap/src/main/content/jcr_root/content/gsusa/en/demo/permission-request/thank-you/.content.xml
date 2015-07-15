@@ -17,7 +17,7 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys"/>
             </right>
-            <middle jcr:primaryType="nt:unstructured">
+            <main jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -31,7 +31,7 @@
                         text="&lt;h3>Thank you! We'll be in touch shortly!&lt;/h3>&#xa;"
                         textIsRich="true"/>
                 </par>
-            </middle>
+            </main>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search

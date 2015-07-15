@@ -32,7 +32,7 @@
                         sling:resourceType="gsusa/components/iframe"/>
                 </par>
             </right>
-            <middle jcr:primaryType="nt:unstructured">
+            <main jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -45,7 +45,7 @@
                         sling:resourceType="foundation/components/video"
                         asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
                 </par>
-            </middle>
+            </main>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search
