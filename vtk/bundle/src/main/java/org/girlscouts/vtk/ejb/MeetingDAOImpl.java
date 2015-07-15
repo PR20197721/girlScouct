@@ -795,7 +795,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 	    Session session = null;
 	    try {
 	        session = sessionFactory.getSession();
+	        if (!session.nodeExists(rootPath)) {
+	            return assets;
+	        }
 	        Node rootNode = session.getNode(rootPath);
+
 	        NodeIterator iter = rootNode.getNodes();
 	        while (iter.hasNext()) {
 	            Node node = iter.nextNode();
