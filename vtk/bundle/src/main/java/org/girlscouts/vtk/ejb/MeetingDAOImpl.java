@@ -831,6 +831,44 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
+	private List<Asset> getAssetsFromPath(String rootPath) {
+	    List<Asset> assets = new ArrayList<Asset>();
+	    Session session = null;
+	    try {
+	        session = sessionFactory.getSession();
+	        Node rootNode = session.getNode(rootPath);
+	        NodeIterator iter = rootNode.getNodes();
+	        while (iter.hasNext()) {
+	            Node node = iter.nextNode();
+	            if (!node.hasNode("jcr:content")) {
+	                continue;
+	            }
+	            Node props = node.getNode("jcr:content");
+
+	            Asset asset = new Asset();
+	            asset.setRefId(node.getPath());
+	            asset.setIsCachable(true);
+	            asset.setType(AssetComponentType.RESOURCE);
+
+	            asset.setDescription(props.getProperty("dc:description").getString());
+	            asset.setTitle(props.getProperty("dc:title").getString());
+
+	            assets.add(asset);
+	        }
+	    } catch (Exception e) {
+	        log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
+	    } finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+	    }
+	    return assets;
+	}
+	
 	public List<Asset> getResource_local(User user, String tags,
 			String meetingName) throws IllegalAccessException {
 
@@ -840,49 +878,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 
 		List<Asset> matched = new ArrayList<Asset>();
-		Session session = null;
-		try {
-			String sql = "select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"
-					+ meetingName + "/%' and jcr:mixinTypes='cq:Taggable'";
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
+		String rootPath0 = "/content/dam/girlscouts-vtk/local/resource/meetings/" + meetingName;
+		matched.addAll(getAssetsFromPath(rootPath0));
 
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				Value excerpt = r.getValue("jcr:path");
-				String path = excerpt.getString();
-				if (path.contains("/jcr:content"))
-					path = path.substring(0, (path.indexOf("/jcr:content")));
-
-				Asset search = new Asset();
-				search.setRefId(path);
-				search.setIsCachable(true);
-				search.setType(AssetComponentType.RESOURCE);
-				try {
-					search.setDescription(r.getValue("dc:description")
-							.getString());
-				} catch (Exception e) {
-				}
-				try {
-					search.setTitle(r.getValue("dc:title").getString());
-				} catch (Exception e) {
-				}
-				matched.add(search);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
 		return matched;
 	}
 
