@@ -64,12 +64,12 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="AB218E"
-                    buttonText="SEE ALL GIRL STORIES"
+                    buttonText="SEE ALL OUR STORIES"
                     description="Be the role model she'll always remember."
                     text="&lt;p>Introduce girls to experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide, and mentor, helping them develop skills and confidence that will last long after the meeting is over.&lt;/p>&#xa;&lt;h3>Be the role model she'll always remember.&lt;/h3>&#xa;"
                     textIsRich="true"
                     theme="video"
-                    title="GIRL STORIES">
+                    title="OUR STORIES">
                     <bg
                         jcr:lastModified="{Date}2015-07-10T10:10:25.567-04:00"
                         jcr:lastModifiedBy="admin"
