@@ -602,12 +602,11 @@ System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
 		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-System.err.println("tatata url : "+apiConfig.getWebServicesUrl()
-		+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());		
-System.err.println("tatata: userId "+apiConfig.getUserId());		
+//System.err.println("tatata url : "+apiConfig.getWebServicesUrl()+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());		
+System.err.println("tatata user SSO token: "+apiConfig.getAccessToken() );		
 		//method.setHeader("Authorization", "OAuth 00DZ000000Mia06!AQ4AQOZNCmp9zZQCSTU_11g4OgJkjxQcZg8fybfqwzmQwrEeXpAMs73FbknGLBSDuIgRNxuk1fdgrVjpjPEVIIYxqaZvh30u");// + getToken(apiConfig) );
-method.setHeader("Authorization", "OAuth " + getToken(apiConfig) );
-System.err.println("tatata sso token: "+ getToken(apiConfig));		
+method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());//getToken(apiConfig) );
+//System.err.println("tatata sso token: "+ getToken(apiConfig));		
 		try {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);

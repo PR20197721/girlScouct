@@ -17,6 +17,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.json.simple.parser.*;
 import org.json.simple.*;
 
@@ -31,9 +32,10 @@ public class OAuthJWTHandler_v1 {
 	
 	 @SuppressWarnings("deprecation")
 	public static void main(String[] args) {}
-public void doIt(){
+public ApiConfig doIt(String email){
 	//Security.addProvider(new com.sun.crypto.provider.SunJCE());
-
+	ApiConfig config=null;
+	 
 		    String header = "{\"alg\":\"RS256\"}";
 		    String claimTemplate = "'{'\"iss\": \"{0}\", \"prn\": \"{1}\", \"aud\": \"{2}\", \"exp\": \"{3}\"'}'";
 
@@ -48,9 +50,9 @@ public void doIt(){
 
 		      //Create the JWT Claims Object
 		      String[] claimArray = new String[4];
-		      claimArray[0] = "3MVG9GiqKapCZBwHKlrZlQzDydYIMVImlAqkN6xOQASZjR1gpCDTFSdBAHismLIq003WzHDWbw_bne9NY6WGE";
-		      claimArray[1] = "00Dg0000006SfYn@ana.pope@gsfuture.org.gsuat";
-		      claimArray[2] = "http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
+		      claimArray[0] = "3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH";
+		      claimArray[1] = email; //"ana.pope@gsfuture.org.gsuat";
+		      claimArray[2] = "https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
 		      MessageFormat claims;
 		      claims = new MessageFormat(claimTemplate);
@@ -61,8 +63,8 @@ public void doIt(){
 
 		      //Load the private key from a keystore
 		      KeyStore keystore = KeyStore.getInstance("JKS");
-		      keystore.load(new FileInputStream("/Users/akobovich/Desktop/alex.jks"), "icruise123".toCharArray());
-		      PrivateKey privateKey = (PrivateKey) keystore.getKey("server", "icruise123".toCharArray());
+		      keystore.load(new FileInputStream("/Users/akobovich/Desktop/mycert.jks"), "icruise123".toCharArray());
+		      PrivateKey privateKey = (PrivateKey) keystore.getKey("mycert", "icruise123".toCharArray());
 		    System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
 		      Signature signature = Signature.getInstance("SHA256withRSA");
@@ -101,10 +103,40 @@ public void doIt(){
 		     System.out.println("Access token is "+accessToken);
 		      System.out.println("successful....");		
 		      
+		      
+		      
+		      
+		      
+		        config = new ApiConfig();
+				config.setAccessToken((String)jobj.get("access_token"));
+				config.setInstanceUrl((String)jobj.get("instance_url"));
+				config.setWebServicesUrl((String)jobj.get("sfdc_community_url"));
+				String refreshTokenStr = null;
+				try {
+					refreshTokenStr = (String)jobj.get("refresh_token");
+				} catch (Exception npe) {
+					// skip refresh token
+					
+				}
+				/*
+				String id = (String)jobj.get("id");
+				config.setId(id);
+				config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+				if (refreshTokenStr != null) {
+					config.setRefreshToken(refreshTokenStr);
+				}
+				//config.setCallbackUrl(callbackUrl);
+				//config.setClientId(clientId);
+				//config.setClientSecret(clientSecret);
+				//config.setOAuthUrl(OAuthUrl);
+		      */
+		      
 				  
 		    } catch (Exception e) {
 		        e.printStackTrace();
 		    }
-		  }
+		    return   config;
+}
+
 }
 

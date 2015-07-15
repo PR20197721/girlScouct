@@ -355,9 +355,7 @@ try {
 		 
 		 
 		 System.err.println("tata getting OAuth token...");
-		 ApiConfig ac= new SalesforceDAO(null,null).getToken( request.getParameter("SAMLResponse"), token, userId, certificateS );
-		
-		 
+	// request.getSession().setAttribute(ApiConfig.class.getName(), config);
 		 
 	  }else{
 		  
@@ -390,8 +388,14 @@ setCouncilInClient(response, request.getParameter("state"));
 SalesforceDAO dao = salesforceDAOFactory.getInstance();
 //ApiConfig config = dao.doAuth(code);
 
-ApiConfig config = new ApiConfig();
-config.setAccessToken(token);
+//ApiConfig config = new ApiConfig();
+//config.setAccessToken(token);
+
+// ApiConfig ac= new SalesforceDAO(null,null).getToken( request.getParameter("SAMLResponse"), token, userId, certificateS );
+ApiConfig config= new org.girlscouts.vtk.sso.OAuthJWTHandler_v1().doIt(token.substring( token.indexOf("@")+1)); 
+System.err.println("tata setting config: "+ config.getAccessToken());
+
+
 config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));//"https://gsusa--gsuat.cs11.my.salesforce.com");
 config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));//"https://gsuat-gsmembers.cs11.force.com/members");
 String refreshTokenStr = null;
