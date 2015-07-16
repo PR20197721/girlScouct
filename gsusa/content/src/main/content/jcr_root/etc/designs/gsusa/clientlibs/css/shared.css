@@ -1,4 +1,67 @@
 /*The Following CSS is Shared with Councils */
+
+/*advertisement*/
+div#rightContent div.advertisement a {
+    display: inline-block;
+}
+
+/*contacts-list*/
+#contactsList h2 {
+  font-size: 1.2em;
+}
+#contactsList th {
+  color: #ffffff;
+}
+#contactsList tr:first-child {
+  /*background-color: #00ae58;*/
+}
+
+table, tr:first-child {
+  border-collapse: collapse;
+  /*border: 1px solid black;*/
+}
+#contactsList table {
+  width: 100%;
+}
+div#contactsList {
+  padding-top: 10px;
+}
+.contact-list td.name {
+  width: 30%;
+  padding-left: 0px;
+}
+.contact-list td.title {
+  width: 40%;
+}
+.contact-list td.phone {
+  width: 25%;
+}
+.contact-list td.email {
+  width: 5%;
+}
+.contact-list table tr:nth-of-type(even) {
+  background: white;
+}
+.contact-list table {
+  background: white;
+  margin-bottom: 1.25rem;
+  border: none;
+}
+div.wrapper .row:nth-child(2) {
+  /* background-color: red; */
+
+  padding: 5px 0;
+}
+.categoriesList li {
+  padding-bottom: 0px;
+  padding-right: 0px;
+}
+.emailicon {
+  background: url('/etc/designs/girlscouts/images/envelope.png') no-repeat;
+  width: 20px;
+  height: 14px;
+}
+
 /*accordion*/
 .accordion.section dt {
   background:#f6f6f6;
@@ -32,7 +95,4 @@
   margin-top: -5px;
 }
 
-/*advertisement*/
-div#rightContent div.advertisement a {
-    display: inline-block;
-  }
+  
