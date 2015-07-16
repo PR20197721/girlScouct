@@ -8,8 +8,10 @@
     List<String> mediumLabels = new ArrayList<String>();
     List<String> smallLabels = new ArrayList<String>();
     List<String> links = new ArrayList<String>();
-    String action = currentSite.get("globalLanding",String.class);
+    
+    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
+    request.setAttribute("fromHeaderNav", "true");
     if (navs != null) {
 %>
         <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
@@ -46,10 +48,7 @@
 <!-- OFF CANVAS MENU BAR -->
     <nav class="tab-bar hide-for-medium-up">
         <section>
-           <form action="<%= action %>.html" method="get" class="search-form">
-                <input type="text" name="q" placeholder="Search" />
-                <span class="icon-search-magnifying-glass"></span>
-            </form>
+           <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
         </section>
         <section class="right-small">
             <a class="right-off-canvas-toggle menu-icon" role="button" href="#"><span></span></a>
@@ -59,6 +58,8 @@
     <!--  OFF CANVAS -->
     <cq:include path="./off-canvas-nav" resourceType="gsusa/components/off-canvas-nav" />
 <%
+	request.removeAttribute("fromHeaderNav");
+
     } else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
         %>Double click here to edit header navigation.<%
     }
