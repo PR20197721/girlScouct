@@ -9,11 +9,20 @@
 
     String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
     buildMenu(rootPage, currentPage.getPath(), sb);
+    String rootPageDispTitle = "" ;
+    
+    if (rootPage.getNavigationTitle() != null && !"".equals(rootPage.getNavigationTitle())) {
+    	rootPageDispTitle = rootPage.getNavigationTitle(); 
+    } else {
+    	rootPageDispTitle = rootPage.getTitle();
+    }
+    
+    
 %>
 <nav class="left-nav">
   <ul>
     <li class="active<%= rootPageCurrent %>">
-      <a href="<%= rootPage.getPath() %>" title="<%= rootPage.getTitle()%>"><%= rootPage.getTitle() %></a>
+      <a href="<%= rootPage.getPath() %>" title="<%= rootPageDispTitle%>"><%= rootPageDispTitle %></a>
       <%= sb.toString() %>
     </li>
   </ul>
@@ -34,8 +43,13 @@
                 sb.append("<ul>");
                 hasChild = true;
             }
+            String title = "";
+            if (page.getNavigationTitle() != null && !"".equals(page.getNavigationTitle())) {
+            	title = page.getNavigationTitle();
+            } else {
+            	title = page.getTitle();
+           	}
             
-            String title = page.getTitle();
             if (title != null && !title.isEmpty()) {
                 String path = page.getPath();
                 boolean isActive = (currentPath + "/").startsWith(path + "/");
@@ -48,8 +62,8 @@
                 } else {
                     sb.append("<li>");
                 }
-                sb.append("<a href=\"" + page.getPath() + ".html\" title=\"" + page.getTitle() +"\">");
-                sb.append(page.getTitle());
+                sb.append("<a href=\"" + page.getPath() + ".html\" title=\"" + title +"\">");
+                sb.append(title);
                 sb.append("</a>");
                 
                 if (isActive) {
