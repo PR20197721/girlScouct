@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
@@ -15,6 +16,7 @@ import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -53,6 +55,7 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
@@ -668,22 +671,21 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName) throws IllegalAccessException {
+			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		return getLocalAssets(meetingName, AssetComponentType.AID);
+		return getLocalAssets(meetingName, meetingPath, AssetComponentType.AID);
 	}
 	
 	private static final String AID_PATHS_PROP = "aidPaths";
 	private static final String RESOURCE_PATHS_PROP = "resourcePaths";
-	private List<Asset> getLocalAssets(String meetingName, AssetComponentType type) {
+	private List<Asset> getLocalAssets(String meetingName, String meetingPath, AssetComponentType type) {
 	    List<Asset> assets = new ArrayList<Asset>();
 	    
-		String meetingPath = getSchoolYearVtkMeetingPath(meetingName);
 		Session session = null;
 		try {
 		    session = sessionFactory.getSession();
@@ -886,37 +888,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 	
 	public List<Asset> getResource_local(User user, String tags,
-			String meetingName) throws IllegalAccessException {
+			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		return getLocalAssets(meetingName, AssetComponentType.RESOURCE);
+		return getLocalAssets(meetingName, meetingPath, AssetComponentType.RESOURCE);
 	}
 	
 	private String getSchoolYearDamPath() {
 		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
 		String path = "/content/dam/girlscouts-vtk" + schoolYear;
 		return path;
-	}
-	
-	private String getSchoolYearVtkMeetingPath(String meetingName) {
-		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
-		// TODO: refactor here. We need the level passed in as well. Now it is guessing from meeting name.
-		String level;
-		switch (Character.toUpperCase(meetingName.charAt(0))) {
-		case 'B': level = "brownie"; break;
-		case 'D': level = "daisy"; break;
-		case 'J': level = "junior"; break;
-		case 'C': level = "cadette"; break;
-		case 'S': level = "senior"; break;
-		default: level = "brownie";
-		}
-		
-	    String path = "/content/girlscouts-vtk/meetings/myyearplan" + schoolYear + "/" + level + "/" + meetingName;
-	    return path;
 	}
 	
 	public SearchTag searchA(User user, String councilCode)

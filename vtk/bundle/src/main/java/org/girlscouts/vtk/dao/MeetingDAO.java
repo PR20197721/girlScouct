@@ -82,13 +82,13 @@ public interface MeetingDAO {
 			throws IllegalAccessException;
 
 	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName) throws IllegalAccessException;
+			String meetingName, String meetingPath) throws IllegalAccessException;
 
 	public List<Asset> getAidTag(User user, String tags, String meetingName)
 			throws IllegalAccessException;
 
 	public List<Asset> getResource_local(User user, String tags,
-			String meetingName) throws IllegalAccessException;
+			String meetingName, String meetingPath) throws IllegalAccessException;
 
 	public List<Asset> getResource_global(User user, String tags,
 			String meetingName) throws IllegalAccessException;
