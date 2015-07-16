@@ -67,7 +67,14 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				}
 				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
 				codeSearch.append(appendStr);
-			})
+			}).fail(function() {
+				var codeSearch = $(".councilCodeSearch");
+				var appendStr = "<h6>By Council Name:</h6>"+
+				"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
+				"<section><select name=\"council-code\"><option value=\"N/A\">Select a Council:</option>";
+				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
+				codeSearch.append(appendStr);
+			});
 			</script>
 		<% } %>
 	<% if(zip == true || state == true || councilName == true) { %>
