@@ -675,11 +675,53 @@ public class MeetingDAOImpl implements MeetingDAO {
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		List<Asset> matched = new ArrayList<Asset>();
-		String rootPath0 = "/content/dam/girlscouts-vtk/local/aid/meetings/" + meetingName;
-		matched.addAll(getAssetsFromPath(rootPath0, AssetComponentType.AID));
+		return getLocalAssets(meetingName, AssetComponentType.AID);
+	}
+	
+	private static final String ASSET_PATHS_PROP = "assetpaths";
+	private List<Asset> getLocalAssets(String meetingName, AssetComponentType type) {
+	    List<Asset> assets = new ArrayList<Asset>();
+	    
+		String meetingPath = getSchoolYearVtkMeetingPath(meetingName);
+		Session session = null;
+		try {
+		    session = sessionFactory.getSession();
 
-		return matched;
+		    // First, respect the "assetpaths" field in the meeting. Search assets there. This field has multiple values.
+    		Node meetingNode = session.getNode(meetingPath);
+    		if (meetingNode.hasProperty(ASSET_PATHS_PROP)) {
+    		    Value[] assetPaths =  meetingNode.getProperty(ASSET_PATHS_PROP).getValues();
+    		    for (int i = 0; i < assetPaths.length; i++) {
+    		        String assetPath = assetPaths[i].getString();
+    		        log.debug("Asset Path = " + assetPath);
+    		        assets.addAll(getAssetsFromPath(assetPath, type, session));
+    		    }
+    		}
+    		
+    		// Then, generate an "expected" path, check if there is overrides
+    		String typeString;
+    		switch (type) {
+    		case AID: typeString = "aid"; break;
+    		case RESOURCE: typeString = "resource"; break;
+    		default: typeString = "aid";
+    		}
+    		String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetingName/meetings/" + meetingName;
+    		if (session.nodeExists(rootPath)) {
+    		    assets.addAll(getAssetsFromPath(rootPath, type, session));
+    		}
+		} catch (Exception e) {
+		    log.error("Error getting local assets for meeting: " + meetingName + ". Root cause was: " + e.getMessage());
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return assets;
 	}
 
 	private List<Asset> getAidTag_custasset(User user, String uid)
@@ -795,11 +837,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type) {
+	private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type, Session session) {
 	    List<Asset> assets = new ArrayList<Asset>();
-	    Session session = null;
 	    try {
-	        session = sessionFactory.getSession();
 	        if (!session.nodeExists(rootPath)) {
 	            return assets;
 	        }
@@ -807,33 +847,33 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	        NodeIterator iter = rootNode.getNodes();
 	        while (iter.hasNext()) {
-	            Node node = iter.nextNode();
-	            if (!node.hasNode("jcr:content")) {
-	                continue;
+	            Node node = null;
+	            try {
+    	            node = iter.nextNode();
+    	            if (!node.hasNode("jcr:content")) {
+    	                continue;
+    	            }
+    	            Node props = node.getNode("jcr:content/metadata");
+    
+    	            Asset asset = new Asset();
+    	            asset.setRefId(node.getPath());
+    	            asset.setIsCachable(true);
+    	            asset.setType(type);
+    
+    	            asset.setDescription(props.getProperty("dc:description").getString());
+    	            asset.setTitle(props.getProperty("dc:title").getString());
+    
+    	            assets.add(asset);
+	            } catch (Exception e) {
+	                if (node != null) {
+	                    log.warn("Cannot get asset " + node.getPath());
+	                }
+	                log.warn("Cannot get asset. rootPath = " + rootPath + ". Root cause was: " + e.getMessage());
 	            }
-	            Node props = node.getNode("jcr:content/metadata");
-
-	            Asset asset = new Asset();
-	            asset.setRefId(node.getPath());
-	            asset.setIsCachable(true);
-	            asset.setType(type);
-
-	            asset.setDescription(props.getProperty("dc:description").getString());
-	            asset.setTitle(props.getProperty("dc:title").getString());
-
-	            assets.add(asset);
 	        }
 	    } catch (Exception e) {
 	        log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
-	    } finally {
-			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-	    }
+	    } 
 	    return assets;
 	}
 	
@@ -845,13 +885,32 @@ public class MeetingDAOImpl implements MeetingDAO {
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		List<Asset> matched = new ArrayList<Asset>();
-		String rootPath0 = "/content/dam/girlscouts-vtk/local/resource/meetings/" + meetingName;
-		matched.addAll(getAssetsFromPath(rootPath0, AssetComponentType.RESOURCE));
-
-		return matched;
+		return getLocalAssets(meetingName, AssetComponentType.RESOURCE);
 	}
-
+	
+	private String getSchoolYearDamPath() {
+		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
+		String path = "/content/dam/girlscouts-vtk" + schoolYear;
+		return path;
+	}
+	
+	private String getSchoolYearVtkMeetingPath(String meetingName) {
+		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
+		// TODO: refactor here. We need the level passed in as well. Now it is guessing from meeting name.
+		String level;
+		switch (Character.toUpperCase(meetingName.charAt(0))) {
+		case 'B': level = "brownie"; break;
+		case 'D': level = "daisy"; break;
+		case 'J': level = "junior"; break;
+		case 'C': level = "cadette"; break;
+		case 'S': level = "senior"; break;
+		default: level = "brownie";
+		}
+		
+	    String path = "/content/girlscouts-vtk/meetings/myyearplan" + schoolYear + "/" + level + "/" + meetingName;
+	    return path;
+	}
+	
 	public SearchTag searchA(User user, String councilCode)
 			throws IllegalAccessException {
 
