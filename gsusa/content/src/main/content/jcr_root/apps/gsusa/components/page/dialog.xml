@@ -43,6 +43,7 @@
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Default to the title of the page."
                             fieldLabel="Title"
+                            fieldSubLabel="articleTitle"
                             name="./articleTitle"
                             xtype="textfield">
                             <listeners
@@ -52,6 +53,7 @@
                         <short-description
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Short Description"
+                            fieldSubLabel="description"
                             name="./description"
                             xtype="textarea"/>
                         <image-label
