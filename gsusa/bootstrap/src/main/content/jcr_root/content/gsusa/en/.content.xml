@@ -265,6 +265,7 @@
                 imagePath3="[/content/dam/girlscouts-gsusa/images/homepage-heroes/7.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/5.png]"
                 imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png"
                 imagepath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png"
+                interval="1000"
                 subtitle2="[Water Sports,Travel,Pathways,Camping]"
                 subtitle3="[Go Go Ninja Go!,Go Go Ninja]"
                 subtitle50="Girl"

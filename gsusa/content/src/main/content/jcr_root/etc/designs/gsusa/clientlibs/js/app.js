@@ -16,6 +16,7 @@
       "min-height" : total_height
     });
   }
+
   function document_close_all() {
     //when clicking outside of the form it will close the input.
     $(document).click(function (event) {
@@ -99,7 +100,7 @@
         searchSlider.button.click();
       }
     });
-
+    
     //if the input is not shown display on clicking the looking glass.
     searchSlider.button.click(function (event) {
       event.stopPropagation();
@@ -310,10 +311,12 @@
     }
   }
 
+  //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
+
   $('.main-slider').slick({
     dots: false,
     infinite: true,
-    speed: 1000,
+    speed: interval,
     fade: true,
     autoplay: true,
     arrows: false,

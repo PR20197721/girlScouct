@@ -58,6 +58,8 @@ public void addVideoNode(String videoPath, String videoName) {
     String btnName = properties.get("button", "Explore Girl Scouts");
     String title = properties.get("title", "Introduce girls to");
     String[] imagePathArray = properties.get("imagePath", emptyArray);
+    Integer interval = properties.get("interval", 1000);
+
     
     String[] content2 = properties.get("content2", emptyArray);
     String[] imagePath2 = properties.get("imagePath2", emptyArray);
@@ -98,13 +100,15 @@ public void addVideoNode(String videoPath, String videoName) {
     String errorMessage = "";
     
     if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length) {
-    	errorMessage += "The number of images/subtitles/content are different in First Page (Image)) <br>";
+    	errorMessage += "The number of images/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
     }
     if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length) {
-    	errorMessage += "The number of images/subtitles/content are different in Second Page (Image)) <br>";
+    	errorMessage += "The number of images/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
     }
-    if (!"".equals(errorMessage)) { %>
-		<p> The following errors occur: <br> <%= errorMessage %></p>  
+    if (!"".equals(errorMessage)) { 
+    	errorMessage += "Please right click on this message and edit the carousel component.";
+    	%>
+		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>  
 	<%	return;
 	}
     
@@ -162,6 +166,10 @@ public void addVideoNode(String videoPath, String videoName) {
 %>
 
 
+<script>
+//this value is used to adjust the speed of hte carousel on the first opening page.
+interval = <%= interval %>;
+</script>
 <div class="hero-feature">
     <div class="overlay"></div>
     <ul class="main-slider">
