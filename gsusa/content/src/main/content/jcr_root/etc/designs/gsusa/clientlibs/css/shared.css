@@ -5,6 +5,18 @@ div#rightContent div.advertisement a {
     display: inline-block;
 }
 
+/*grid-system*/
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+/*row*/
+.emptyrow {
+    height: 20px;
+}
+
 /*contacts-list*/
 #contactsList h2 {
   font-size: 1.2em;
@@ -15,7 +27,6 @@ div#rightContent div.advertisement a {
 #contactsList tr:first-child {
   /*background-color: #00ae58;*/
 }
-
 table, tr:first-child {
   border-collapse: collapse;
   /*border: 1px solid black;*/
@@ -95,4 +106,63 @@ div.wrapper .row:nth-child(2) {
   margin-top: -5px;
 }
 
-  
+/*form group*/
+#form .title {
+  padding: 4px 0px 7px 0px;
+  font-size: 15px;
+  color: gray;
+}
+.white-arrow-down {
+  background: url('/etc/designs/girlscouts/images/white-down-arrow.png') no-repeat;
+  width: 20px;
+  height: 20px;
+  background-position: center bottom;
+}
+.white-arrow-up {
+  background: url('/etc/designs/girlscouts/images/white-up-arrow.png') no-repeat;
+  width: 20px;
+  height: 20px;
+  background-position: center bottom;
+}
+form#contact-us textarea {
+  width: 100%;
+}
+.forms-documents-search label {
+  font-size: 0.8em;
+}
+.forms-documents-search #title {
+  padding-bottom: 10px;
+  font-size: 0.9em;
+}
+.forms-documents-search input.searchField {
+  text-indent: 8px;
+}
+form .form_captcha_refresh {
+  color: white;
+  padding-top: 5px;
+  float: none;
+}
+.form_captcha_refresh .form_button {
+  background-color: #00a850;
+  border: 0 none;
+  font-size: 0.8em;
+  padding: 5px;
+  text-transform: uppercase;
+}
+
+.form_captcha_refresh .form_button:hover, .form_captcha_refresh .form_button:focus {
+  background-color: #008000;
+  box-shadow: none;
+  cursor: pointer;
+}
+form .form_captcha_img {
+  padding: 0px 5px 5px 5px;
+}
+form .form_captcha_input {
+  height: 40px;
+
+}
+/*styles for updates list pages */
+.update-list .more-link:after {
+  content:">";
+}
