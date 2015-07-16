@@ -2,7 +2,6 @@ $('.email-signin').submit(function (event) {
   var me = event.target;
 	var emailAddress = $(me).find("[name='email']").val();
 	var corphomeValue = $(me).find("[name='CORPHOME']").val();
-
 	$.post('/includes/ajax_sendinfo_home.asp',{
 		email: emailAddress,
 		CORPHOME: corphomeValue
@@ -14,10 +13,8 @@ $('.email-signin').submit(function (event) {
 			// show thank you
 			$(me).find("[name='email']").val('');
 			$('.email-signin').hide();
-			$('.email-output-message').html("<p>Thank you! We look forward to staying connected</p>");
+			$('.email-output-message').css('display','block').html("<p>Thank you! We look forward to staying connected</p>");
 		}
 	});
-
 	return false;
-
 });
