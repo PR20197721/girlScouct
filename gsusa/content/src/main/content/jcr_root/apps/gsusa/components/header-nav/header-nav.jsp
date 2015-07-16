@@ -8,7 +8,8 @@
     List<String> mediumLabels = new ArrayList<String>();
     List<String> smallLabels = new ArrayList<String>();
     List<String> links = new ArrayList<String>();
-    
+    String action = currentSite.get("globalLanding",String.class);
+
     if (navs != null) {
 %>
         <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
@@ -41,12 +42,12 @@
         </section>
     </nav>
 
+
 <!-- OFF CANVAS MENU BAR -->
     <nav class="tab-bar hide-for-medium-up">
         <section>
-            <form action="/content/gsusa/en/site-search.html" method="get" class="search-form">
-            
-                <input type="search" name="q" placeholder="Search" />
+           <form action="<%= action %>.html" method="get" class="search-form">
+                <input type="text" name="q" placeholder="Search" />
                 <span class="icon-search-magnifying-glass"></span>
             </form>
         </section>
