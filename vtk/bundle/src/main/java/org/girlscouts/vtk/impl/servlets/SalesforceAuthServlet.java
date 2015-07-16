@@ -1,17 +1,29 @@
 package org.girlscouts.vtk.impl.servlets;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.rmi.ServerException;
 import java.security.cert.CertificateException;
+import java.util.Calendar;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Map;
 
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+import javax.jcr.ValueFactory;
+import javax.jcr.ValueFormatException;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.codec.binary.Base64;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -21,6 +33,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
@@ -391,8 +404,40 @@ SalesforceDAO dao = salesforceDAOFactory.getInstance();
 //ApiConfig config = new ApiConfig();
 //config.setAccessToken(token);
 
+/*
+Resource certif = resourceResolver.resolve("/apps/system/config/org.girlscouts.security.certificate.confg/jcr:content");///etc/key/alex/mycert.jks/jcr:content");///apps/system/config/mycert.jks/jcr:content");
+InputStream is = null;
+try {
+	System.out.println("##MZMZ certif" + Boolean.toString(certif == null));
+	Node certNode = certif.adaptTo(Node.class);
+	System.out.println("##MZMZ certNode" + Boolean.toString(certNode == null));
+	javax.jcr.Property certProp = certNode.getProperty("jcr:data");
+	System.out.println("##MZMZ certProp" + Boolean.toString(certProp == null));
+	is = certProp.getBinary().getStream();
+	System.out.println("##MZMZ is" + Boolean.toString(is == null));
+} catch (ValueFormatException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+} catch (PathNotFoundException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+} catch (RepositoryException e1) {
+	// TODO Auto-generated catch block
+	e1.printStackTrace();
+}
+*/
+
+
+
+
+
+//System.err.println("test ttt: "+ (configManager.getConfig("gsCertificate")==null));
+byte[] data = Base64.decodeBase64(configManager.getConfig("gsCertificate"));
+//System.err.println("test ttt1: "+ (data==null) );
+ByteArrayInputStream is = new ByteArrayInputStream(data);
+
 // ApiConfig ac= new SalesforceDAO(null,null).getToken( request.getParameter("SAMLResponse"), token, userId, certificateS );
-ApiConfig config= new org.girlscouts.vtk.sso.OAuthJWTHandler_v1().doIt(token.substring( token.indexOf("@")+1)); 
+ApiConfig config= new org.girlscouts.vtk.sso.OAuthJWTHandler_v1().doIt(is, token.substring( token.indexOf("@")+1), clientId); 
 System.err.println("tata setting config: "+ config.getAccessToken());
 
 

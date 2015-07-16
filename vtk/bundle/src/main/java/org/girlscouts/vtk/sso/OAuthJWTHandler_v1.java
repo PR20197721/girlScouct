@@ -32,7 +32,7 @@ public class OAuthJWTHandler_v1 {
 	
 	 @SuppressWarnings("deprecation")
 	public static void main(String[] args) {}
-public ApiConfig doIt(String email){
+public ApiConfig doIt(java.io.InputStream is, String email, String access_token){
 	//Security.addProvider(new com.sun.crypto.provider.SunJCE());
 	ApiConfig config=null;
 	 
@@ -47,10 +47,10 @@ public ApiConfig doIt(String email){
 		      //Separate with a period
 		      token.append(".");
 		      
-
+System.err.println("access_token "+ access_token);
 		      //Create the JWT Claims Object
 		      String[] claimArray = new String[4];
-		      claimArray[0] = "3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH";
+		      claimArray[0] = access_token;//"3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH";
 		      claimArray[1] = email; //"ana.pope@gsfuture.org.gsuat";
 		      claimArray[2] = "https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
@@ -63,9 +63,13 @@ public ApiConfig doIt(String email){
 
 		      //Load the private key from a keystore
 		      KeyStore keystore = KeyStore.getInstance("JKS");
-		      keystore.load(new FileInputStream("/Users/akobovich/Desktop/mycert.jks"), "icruise123".toCharArray());
+
+		      //GOOD keystore.load(new FileInputStream("/Users/akobovich/Desktop/mycert.jks"), "icruise123".toCharArray());
+		      keystore.load(is, "icruise123".toCharArray());
+			    
+		       
 		      PrivateKey privateKey = (PrivateKey) keystore.getKey("mycert", "icruise123".toCharArray());
-		    System.err.println("tata: " + (privateKey==null));  
+		      //System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
 		      Signature signature = Signature.getInstance("SHA256withRSA");
 		      signature.initSign(privateKey);
@@ -99,8 +103,8 @@ public ApiConfig doIt(String email){
 		      System.out.println("Jarray is "+jobj);
 		      System.out.println("set is "+jobj.keySet());
 		   
-		     String accessToken = (String)jobj.get("access_token");
-		     System.out.println("Access token is "+accessToken);
+		      String accessToken = (String)jobj.get("access_token");
+		      System.out.println("Access token is "+accessToken);
 		      System.out.println("successful....");		
 		      
 		      

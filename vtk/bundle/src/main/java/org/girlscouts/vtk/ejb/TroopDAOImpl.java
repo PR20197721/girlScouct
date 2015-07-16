@@ -1,6 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,6 +17,8 @@ import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.ValueFactory;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -28,6 +33,7 @@ import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
+
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
@@ -83,6 +89,30 @@ public class TroopDAOImpl implements TroopDAO {
 		Troop troop = null;
 		try {
 			mySession = sessionFactory.getSession();
+			
+			
+			/*
+			
+			File file = new File("/Users/akobovich/Desktop/mycert.jks");
+			FileInputStream is = new FileInputStream(file);
+			String mimeType = "application/octet-stream";
+			Node node = mySession.getNode("/vtk");
+			ValueFactory valueFactory = mySession.getValueFactory();
+			javax.jcr.Binary contentValue = valueFactory.createBinary(is);
+			Node fileNode = node.addNode("alex", "nt:file");
+			fileNode.addMixin("mix:referenceable");
+			Node resNode = fileNode.addNode("jcr:content", "nt:resource");
+			resNode.setProperty("jcr:mimeType", mimeType);
+			resNode.setProperty("jcr:data", contentValue);
+			Calendar lastModified = Calendar.getInstance();
+			lastModified.setTimeInMillis(lastModified.getTimeInMillis());
+			resNode.setProperty("jcr:lastModified", lastModified);
+			mySession.save();
+
+			*/
+			
+			
+			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);

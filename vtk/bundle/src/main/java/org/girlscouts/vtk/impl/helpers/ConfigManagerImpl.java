@@ -31,7 +31,7 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "ssoInstanceUrl",  label = "x", description = "x"),
 		@Property(name = "ssoWebServiceUrl",  label = "x", description = "x"),
 		@Property(name = "ssoIssuer",  label = "x", description = "x"),
-		
+		@Property(name = "gsCertificate",  label = "x", description = "x"),
 		
 		@Property(name = "defaultBranch", label = "Default Branch", description = "Default branch if council mapping not found. e.g. girlscouts-usa") })
 
