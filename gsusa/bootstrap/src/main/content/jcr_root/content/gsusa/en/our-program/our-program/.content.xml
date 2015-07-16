@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="About Our Program"
         jcr:uuid="0595e220-fcf1-4f67-ae01-f136a25f8eb1"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:05:28.747-04:00"
             cq:lastRolledoutBy="admin"

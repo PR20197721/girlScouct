@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="What Brownies Do"
         jcr:uuid="d468d3fc-b25e-4d3b-833f-c9b3a7c77376"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:06:09.721-04:00"
             cq:lastRolledoutBy="admin"

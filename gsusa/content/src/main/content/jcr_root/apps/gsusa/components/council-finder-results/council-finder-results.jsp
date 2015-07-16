@@ -1,10 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 
 <%
-if(slingRequest.getParameter("zip") == null && slingRequest.getParameter("state") == null && slingRequest.getParameter("council-code") == null){
-	%> Sorry, no results found <%
-}
-else{
+if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state") != null || slingRequest.getParameter("council-code") != null){
 	%>
 	<div id="results-area"></div>
 	<script>
@@ -26,9 +23,27 @@ else{
 					if(json.councils[i].tollFreePhone != undefined && json.councils[i].tollFreePhone != "") {
 						result += "<p>" + json.councils[i].tollFreePhone + " - Local Toll Free Phone</p>";
 					}
-					result += "<p>Website: <a href=\"" + json.councils[i].website + "\">" + json.councils[i].website + "</a></p>";
-					result += "<p>Facebook: <a href=\"" + json.councils[i].facebook + "\">" + json.councils[i].facebook + "</a></p>";
-					result += "<p>Twitter: <a href=\"" + json.councils[i].twitter + "\">" + json.councils[i].twitter + "</a></p></section>";
+					var siteURL = json.councils[i].website;
+					var shortSite = siteURL;
+					var fbURL = json.councils[i].facebook;
+					var shortFB = fbURL;
+					var twitterURL = json.councils[i].twitter;
+					var shortTwitter = twitterURL;
+					var q = siteURL.indexOf('?');
+					if(q != -1){
+						shortSite = siteURL.substring(0,q);
+					}
+					q = fbURL.indexOf('?');
+					if(q != -1){
+						shortFB = fbURL.substring(0,q);
+					}
+					q = twitterURL.indexOf('?');
+					if(q != -1){
+						shortTwitter = twitterURL.substring(0,q);
+					}
+					result += "<p>Website: <a href=\"" + siteURL + "\">" + shortSite + "</a></p>";
+					result += "<p>Facebook: <a href=\"" + fbURL + "\">" + shortFB + "</a></p>";
+					result += "<p>Twitter: <a href=\"" + twitterURL + "\">" + shortTwitter + "</a></p></section>";
 					result += "<a class=\"button small radius\" href=\"" + json.councils[i].joinUrl + "\">Join</a>";
 					result += "<a class=\"button small radius\" href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>";
 					result += "<a class=\"button small radius\" href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>";

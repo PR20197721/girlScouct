@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Journeys"
         jcr:uuid="97e8d3c8-ce85-46ae-93f4-b8ede56dbff8"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:09:21.832-04:00"
             cq:lastRolledoutBy="admin"

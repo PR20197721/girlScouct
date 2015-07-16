@@ -24,7 +24,7 @@
                     </chkbox>
                     <outerBtnName
                         jcr:primaryType="cq:Widget"
-                        defaultValue="Volunteer Now"
+                        defaultValue="Join"
                         fieldLabel="Call To Action Name"
                         itemId="obn"
                         name="./callToActionName"

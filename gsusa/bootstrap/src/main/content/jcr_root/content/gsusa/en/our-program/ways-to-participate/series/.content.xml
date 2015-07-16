@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Series "
         jcr:uuid="f30c2e91-d960-4ffc-a89f-134b71e5bfb4"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:07:23.601-04:00"
             cq:lastRolledoutBy="admin"

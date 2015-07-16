@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="What Juniors Do"
         jcr:uuid="7951df20-e2f0-4baa-828d-6703d0f1f034"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:06:09.778-04:00"
             cq:lastRolledoutBy="admin"

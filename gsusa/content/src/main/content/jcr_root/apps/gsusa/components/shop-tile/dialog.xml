@@ -94,6 +94,7 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Shop Button Link"
                         name="./shopLink"
+                        linkPattern="\{0\}.html"
                         xtype="pathfield"/>
                     <button-text
                     	jcr:primaryType="cq:Widget"

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-07-07T16:03:49.892-04:00"
+        cq:lastModifiedBy="admin"
+        cq:scaffolding="/etc/scaffolding/gsusa/our-story"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Art2"
+        jcr:uuid="65c67d46-b627-40ca-aa95-54271e8f82af"
+        description="People really like blowing glitter at me, apparently.">
+        <image
+            jcr:lastModified="{Date}2015-07-07T15:56:38.760-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/image"
+            fileReference="/content/dam/girlscouts-gsusa/images/misc/glitter2.jpg"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

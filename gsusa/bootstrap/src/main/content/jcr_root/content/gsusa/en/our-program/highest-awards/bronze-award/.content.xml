@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Bronze"
         jcr:uuid="1cf958dd-f201-4bcc-a99e-2d8d4dd0fc79"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:10:23.601-04:00"
             cq:lastRolledoutBy="admin"

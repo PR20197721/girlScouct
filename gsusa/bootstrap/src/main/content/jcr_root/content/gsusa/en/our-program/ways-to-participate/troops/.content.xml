@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Troops"
         jcr:uuid="d7a7821e-a89d-4e57-af46-f764f2b20c1d"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:07:23.651-04:00"
             cq:lastRolledoutBy="admin"

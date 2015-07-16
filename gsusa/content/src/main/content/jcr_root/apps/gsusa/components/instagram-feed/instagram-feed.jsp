@@ -3,6 +3,7 @@
 
 <%
     int count = properties.get("count",20);
+	String pinID = properties.get("pin-id","");
 
 	URL url;
 	HttpURLConnection conn;
@@ -35,30 +36,48 @@
 		<div class="wrapper clearfix">
 		    <div class="social-block">
 		        <span class="icon-social-instagram"></span>
-			<div class="instagram-feed-image-head-area"></div>
-		        <ul class="instagram-feed-image-area">
-			</ul>
+		        <div class="block-area">
+					<div class="instagram-feed-image-head-area"></div>
+			        <ul class="instagram-feed-image-area"></ul>
+			      </div>
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>
 
 
 	    <script>
-            var feedHeadArea = $(".instagram-feed-image-head-area");
+        var feedHeadArea = $(".instagram-feed-image-head-area");
 	    var feedArea = $(".instagram-feed-image-area");
-
+	    
+	    var posts = [];
+	    
 	    var count = <%= count %>;
 	    var toParse = <%= result %>;
-
+	    var pinID = "<%= pinID %>";
+	    
+	    //console.log(toParse);
 	    if(toParse.data != undefined){
+		    var postIDPattern = /\/p\/([^\/]*)(\/)/gmi;
+		    for(var i=0; i < toParse.data.length; i++){
+		    	var postID = "";
+		  		if (toParse.data[i].link && toParse.data[i].link.match(postIDPattern)) {
+		  			postID = toParse.data[i].link.match(postIDPattern)[0].replace("/p/","").replace("/","");
+		  			if(postID == pinID){
+		  				posts.unshift(toParse.data[i]);
+		  			}
+		  			else{
+		  				posts.push(toParse.data[i]);
+		  			}
+		        }
+		    }
+	    
 	    	var output = "";
-		feedHeadArea.append('<a href="' + toParse.data[0].link + '" target="_blank"><img src="' + toParse.data[0].images.standard_resolution.url + '" /></a>');
-	    	for(var i=1; i < toParse.data.length; i++){
-	    		output = '<li><a href="' + toParse.data[i].link + '" target="_blank"><img src="' + toParse.data[i].images.standard_resolution.url + '" /></a></li>';
+			feedHeadArea.append('<a href="' + posts[0].link + '" target="_blank"><img src="' + posts[0].images.standard_resolution.url + '" /></a>');
+	    	for(var i=1; i < posts.length; i++){
+	    		output = '<li><a href="' + posts[i].link + '" target="_blank"><img src="' + posts[i].images.standard_resolution.url + '" /></a></li>';
 	    		feedArea.append(output);
 	    	}
 	    }
-	    //console.log(toParse);
 
 	    </script>
 

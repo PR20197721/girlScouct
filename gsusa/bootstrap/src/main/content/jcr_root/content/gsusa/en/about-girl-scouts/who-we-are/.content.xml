@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Who We Are"
         jcr:uuid="dea403f5-0df3-40ce-a45a-43870271c065"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:00:35.061-04:00"
             cq:lastRolledoutBy="admin"

@@ -12,7 +12,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Badges"
         jcr:uuid="a74bb606-1c2d-421c-85bd-b254627f7cf6"
-        sling:resourceType="girlscouts/components/three-column-page">
+        sling:resourceType="gsusa/components/three-column-page">
         <content
             cq:lastRolledout="{Date}2015-07-08T19:08:47.656-04:00"
             cq:lastRolledoutBy="admin"

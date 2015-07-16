@@ -14,17 +14,19 @@
         <div class="wrapper clearfix">
     		<div class="social-block">
                 <span class="icon-social-twitter-tweet-bird"></span>
-    			<a class="twitter-timeline" data-link-color="#00ae58"
-    				href="https://twitter.com/<%= username %>"
-      				data-chrome="noheader nofooter noborders transparent"
-      				data-widget-id="<%= widgetID %>"
-                    data-aria-polite="assertive"
-    			<%if(tweetLimit != -1) {//Previously used to give option of unlimited tweets %>
-    				data-tweet-limit="<%=tweetLimit%>"
-                <% } %>
-                    width="100%" height="460px">
-    				Tweets by @<%= username %>
-    			</a>
+                <div class="block-area">
+        			<a class="twitter-timeline" data-link-color="#00ae58"
+        				href="https://twitter.com/<%= username %>"
+          				data-chrome="noheader nofooter noborders transparent"
+          				data-widget-id="<%= widgetID %>"
+                        data-aria-polite="assertive"
+        			<%if(tweetLimit != -1) {//Previously used to give option of unlimited tweets %>
+        				data-tweet-limit="<%=tweetLimit%>"
+                    <% } %>
+                        width="100%" height="460px">
+        				Tweets by @<%= username %>
+        			</a>
+                </div>
     		</div>
             <span class="scroll-more"></span>
         </div>

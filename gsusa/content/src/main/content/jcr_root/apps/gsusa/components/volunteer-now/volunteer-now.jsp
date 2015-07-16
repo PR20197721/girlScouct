@@ -12,12 +12,12 @@
 
 	if (!bg.equals("")) {%>
 		<div class="standalone-volunteer">
-		    <img src="<%= bg %>" class="bg-image" />
+			<div class="bg-image"><cq:include path="bg" resourceType="girlscouts/components/image"/></div>		    
 		    <div class="wrapper">
 		        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
-		        <form class="formVolunteer hide">
+		        <form class="formVol hide">
 		            <label><%= title %></label>
-		            <input type="text" name="ZipVolunteer" maxlength="5">
+		            <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
 		            <input type="hidden" name="source" value="<%= source %>">
 		        	<input class="button" type="submit" value="<%= searchBtnName %>">
 		        </form>
@@ -25,10 +25,10 @@
 		</div> <%
 	} else { //bg is null, doing this mainly for css %>
 		<div class="standalone-volunteer form-no-image">
-		    <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
-		    <form class="formVolunteer hide">
+		    <a href="#" title="Volunteer Now" class="button arrow"><%= callToActionName %></a>
+		    <form class="formVol hide">
 		        <label><%= title %></label>
-		        <input type="text" name="ZipVolunteer" maxlength="5">
+		        <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
 		        <input type="hidden" name="source" value="<%= source %>">
 		        <input class="button" type="submit" value="<%= searchBtnName %>">
 		    </form>

@@ -10,40 +10,41 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<message
-                		jcr:primaryType="cq:Widget"
-                		fieldDescription="Enter the breaking news message. If left blank, breaking news will be hidden"
-                		fieldLabel="News Message"
-                		name="./message"
-                		xtype="textarea"/>
+                    <message
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter the breaking news message. If left blank, breaking news will be hidden"
+                        fieldLabel="News Message"
+                        name="./message"
+                        xtype="textarea"/>
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                         fieldLabel="URL"
                         name="./url"
-                        xtype="textfield"/>
+                        linkPattern="\{0\}.html"
+                        xtype="pathfield"/>
                 </items>
             </properties>
             <image
-        		cropParameter="./thumbnail/imageCrop"
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thumbnail/imageCrop"
                 ddGroups="media"
                 fileNameParameter="./thumbnail/fileName"
                 fileReferenceParameter="./thumbnail/fileReference"
-                jcr:primaryType="cq:Widget"
                 mapParameter="./thumbnail/imageMap"
                 name="./file"
                 requestSuffix="/thumbnail.img.png"
                 rotateParameter="./thumbnail/imageRotate"
-		        title="Image"
-		        xtype="html5smartimage">
-		        <items jcr:primaryType="cq:WidgetCollection">
-		        	<resource-type
-                    	jcr:primaryType="cq:Widget"
-                    	xtype="hidden"
-                    	name="./thumbnail/sling:resourceType"
-                    	value="foundation/components/image"/>
-		        </items>
-		    </image>
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
         </items>
     </items>
 </jcr:root>

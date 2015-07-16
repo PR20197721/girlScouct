@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/gsusa"
-        cq:lastModified="{Date}2015-07-09T17:55:23.755-04:00"
+        cq:lastModified="{Date}2015-07-10T12:40:55.905-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2015-07-09T14:56:48.188-04:00"
         cq:lastReplicatedBy="admin"
@@ -59,26 +59,52 @@
                 sling:resourceType="gsusa/components/featured-stories"
                 number="{Long}6">
                 <story_0
-                    jcr:lastModified="{Date}2015-07-09T14:43:53.572-04:00"
+                    jcr:lastModified="{Date}2015-07-10T10:10:25.567-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
                     bgcolor="AB218E"
-                    buttonText="SEE ALL GIRL STORIES"
+                    buttonText="SEE ALL OUR STORIES"
                     description="Be the role model she'll always remember."
                     text="&lt;p>Introduce girls to experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide, and mentor, helping them develop skills and confidence that will last long after the meeting is over.&lt;/p>&#xa;&lt;h3>Be the role model she'll always remember.&lt;/h3>&#xa;"
                     textIsRich="true"
                     theme="video"
-                    title="GIRL STORIES">
+                    title="OUR STORIES">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T14:43:53.572-04:00"
+                        jcr:lastModified="{Date}2015-07-10T10:10:25.567-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/girlscouts-gsusa/temp/girl-climbing.png"/>
+                    <video-carousel
+                        jcr:lastModified="{Date}2015-07-10T10:22:07.156-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="gsusa/components/video-carousel"
+                        vid-path1="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        vid-path2="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        vid-path3="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        vid-path4="/content/dam/girlscouts-gsusa/temp/aa.mp4">
+                        <vid1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
+                        <vid2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
+                        <vid3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
+                        <vid4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
+                    </video-carousel>
                 </story_0>
                 <story_1
-                    jcr:lastModified="{Date}2015-07-09T14:46:29.361-04:00"
+                    jcr:lastModified="{Date}2015-07-10T11:27:32.672-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
@@ -91,14 +117,14 @@
                     theme="colorless"
                     title="DONATE">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T14:46:29.361-04:00"
+                        jcr:lastModified="{Date}2015-07-10T11:27:32.672-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
-                        fileReference="/content/dam/geometrixx/travel/plane_2.jpg"/>
+                        fileReference="/content/dam/girlscouts-gsusa/images/misc/glitter3.jpeg"/>
                 </story_1>
                 <story_2
-                    jcr:lastModified="{Date}2015-07-09T14:47:53.853-04:00"
+                    jcr:lastModified="{Date}2015-07-10T11:27:54.385-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
@@ -111,14 +137,40 @@
                     theme="video"
                     title="VOLUNTEER">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T14:47:53.853-04:00"
+                        jcr:lastModified="{Date}2015-07-10T11:27:54.385-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
-                        fileReference="/content/dam/geometrixx/travel/plane_3.jpg"/>
+                        fileReference="/content/dam/girlscouts-gsusa/images/misc/lake3.jpeg"/>
+                    <video-carousel
+                        jcr:lastModified="{Date}2015-07-10T10:39:28.984-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="gsusa/components/video-carousel"
+                        vid-path1="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        vid-path2="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        vid-path3="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        vid-path4="/content/dam/girlscouts-gsusa/temp/aa.mp4">
+                        <vid1
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
+                        <vid2
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset=""/>
+                        <vid3
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
+                        <vid4
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="gsusa/components/video"
+                            asset=""/>
+                    </video-carousel>
                 </story_2>
                 <story_3
-                    jcr:lastModified="{Date}2015-07-09T14:49:06.208-04:00"
+                    jcr:lastModified="{Date}2015-07-10T11:36:09.598-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
@@ -131,14 +183,14 @@
                     theme="colorless"
                     title="ALUMNAE">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T14:49:06.208-04:00"
+                        jcr:lastModified="{Date}2015-07-10T11:36:09.598-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
-                        fileReference="/content/dam/geometrixx/travel/meeting_notes.jpg"/>
+                        fileReference="/content/dam/girlscouts-gsusa/images/misc/glitter1.jpg"/>
                 </story_3>
                 <story_4
-                    jcr:lastModified="{Date}2015-07-09T15:19:37.933-04:00"
+                    jcr:lastModified="{Date}2015-07-10T11:37:49.438-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
@@ -149,11 +201,11 @@
                     theme="shop"
                     title="SHOP">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T15:19:37.933-04:00"
+                        jcr:lastModified="{Date}2015-07-10T11:37:49.438-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
-                        fileReference="/content/dam/geometrixx/travel/train_station_woman.jpg"/>
+                        fileReference="/content/dam/girlscouts-gsusa/images/misc/lake1.jpg"/>
                     <shop-tile
                         jcr:lastModified="{Date}2015-07-09T15:23:13.654-04:00"
                         jcr:lastModifiedBy="admin"
@@ -167,7 +219,7 @@
                         title="Gifts for Girl Scout Dads"/>
                 </story_4>
                 <story_5
-                    jcr:lastModified="{Date}2015-07-09T14:51:26.200-04:00"
+                    jcr:lastModified="{Date}2015-07-10T11:38:08.216-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="gsusa/components/featured-story"
@@ -178,11 +230,11 @@
                     theme="social"
                     title="SOCIAL">
                     <bg
-                        jcr:lastModified="{Date}2015-07-09T14:51:26.200-04:00"
+                        jcr:lastModified="{Date}2015-07-10T11:38:08.216-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/image"
-                        fileReference="/content/dam/geometrixx/travel/train_platform_1.jpg"/>
+                        fileReference="/content/dam/girlscouts-gsusa/images/misc/lake2.jpg"/>
                     <social-feed jcr:primaryType="nt:unstructured">
                         <twitter
                             jcr:lastModified="{Date}2015-07-09T14:52:23.436-04:00"
@@ -194,27 +246,66 @@
                     </social-feed>
                 </story_5>
             </featured-stories>
+            <carousel
+                jcr:lastModified="{Date}2015-07-10T01:55:15.704-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/carousel"
+                button="Explore Girl Scouts"
+                content="Experiences the new girl scout website by joining us. Our new website has some of the new technologies deployed on our servers, including Adobe CQ5, MySql Database and jQuery!"
+                content2="[Learn how to launch\, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure.,Every girl deserves a chance to see the world.,Girl Scouts developed a new approach called pathways to ensure that girls and adults have flexible ways to participate in Girl Scouting. ,The Girl Scout camping experience allows girls to live together in simple outdoor settings\, to learn how to make their own decisions\, and to do fun activities with other girls their own age.]"
+                content3="[Learn how to launch\, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.,Girl Scout troops and groups travel from across the United States year-round to visit the Juliette Gordon Low Birthplace—a Girl Scout national center in Savannah\, Georgia and the birthplace of Juliette Gordon Low\, founder of Girl Scouts of the USA. Built in 1821\, the house has been elegantly restored to reflect the 1880s and is located in the heart of the Savannah Historic District.]"
+                content50="scout is cool"
+                content51="scout is also cool"
+                content52="Scout may be cool"
+                content53="else"
+                content6="Come Join Us! We are fun, educational and much more."
+                imagePath="[/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png]"
+                imagePath2="[/content/dam/girlscouts-gsusa/images/homepage-heroes/1.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/2.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/3.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/4.png]"
+                imagePath3="[/content/dam/girlscouts-gsusa/images/homepage-heroes/7.png,/content/dam/girlscouts-gsusa/images/homepage-heroes/5.png]"
+                imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png"
+                imagepath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png"
+                subtitle2="[Water Sports,Travel,Pathways,Camping]"
+                subtitle3="[Go Go Ninja Go!,Go Go Ninja]"
+                subtitle50="Girl"
+                subtitle51="Boy"
+                subtitle52="Alien"
+                subtitle53="what"
+                title="New Webpage"
+                title2="Secone Page title"
+                title3="We like to get outdoors"
+                title4="This is cool"
+                title5="This is a test"
+                title6="Don't Wait"
+                videoLink50="https://vimeo.com/6271487"
+                videoLink51="https://www.youtube.com/watch?v=T9V45IhnMRU"
+                videoLink52="https://www.youtube.com/watch?v=LbuuTeGGwnY"
+                videoLink53="https://www.youtube.com/watch?v=v489sYYjtHI"
+                videoType50="link"
+                videoType51="link"
+                videoType52="link"
+                videoType53="link"/>
         </content>
     </jcr:content>
-    <about-girl-scouts/>
-    <our-program/>
-    <girls/>
-    <adults/>
-    <shop/>
-    <cookies/>
-    <contact-us/>
-    <visit-us/>
-    <careers/>
-    <bog/>
-    <press-room/>
-    <faq/>
-    <investors/>
-    <subscribe-to-our-newsletter/>
-    <help/>
-    <follow-us/>
-    <trademark-statement/>
     <_x0034_04/>
-    <scholarships/>
-    <site-search/>
+    <about-girl-scouts/>
+    <adults/>
+    <bog/>
+    <careers/>
+    <contact-us/>
+    <cookies/>
     <demo/>
+    <faq/>
+    <follow-us/>
+    <girls/>
+    <help/>
+    <investors/>
+    <our-program/>
+    <press-room/>
+    <scholarships/>
+    <shop/>
+    <site-search/>
+    <subscribe-to-our-newsletter/>
+    <trademark-statement/>
+    <visit-us/>
 </jcr:root>

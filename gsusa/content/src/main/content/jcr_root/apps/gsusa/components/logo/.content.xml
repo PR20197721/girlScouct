@@ -3,4 +3,4 @@
     jcr:description="GSUSA sitewide logo"
     jcr:primaryType="cq:Component"
     jcr:title="logo"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>

@@ -8,6 +8,7 @@
 	String icon = properties.get("icon", "icon-photo-camera");
 	String theme = properties.get("theme", "classic");
 	String btnText = properties.get("buttonText", "");
+	String btnLink = properties.get("buttonLink", "#");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -44,7 +45,7 @@
 </div>
 
 <% if(theme.equals("classic")){ %>
-<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
@@ -62,24 +63,26 @@
 </section>
 
 <% }else if(theme.equals("colorless")) { %>
-<section class="story colorless" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story colorless<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
         <div class="header">
+            <span class="icon-cross"></span>
+        </div>
+        <div class="contents">
             <div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-		<div class="text">
-                <cq:text property="text" escapeXml="true"
-        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-		</div>
-		<div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
+                <div class="text">
+                    <cq:text property="text" escapeXml="true"
+                    placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+                </div>
+                <a href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
             </div>
-            <span class="icon-cross"></span>
         </div>
     </div>
 </section>
 <% } else if(theme.equals("shop")){ %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
@@ -94,7 +97,7 @@
     </div>
 </section>
 <% } else if(theme.equals("social")){ %>
-<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
             <div class="left-wrapper">
@@ -109,28 +112,34 @@
     </div>
 </section>
 <% } else if(theme.equals("video")){ %>
-<section class="story video" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
+<section class="story video<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
         <div class="header">
-            <div class="left-wrapper">
+            <div class="left-wrapper hide-for-small">
                 <span class="<%= icon %>"></span>
                 <h3><%= title %></h3>
-
             </div>
             <span class="icon-cross"></span>
         </div>
         <div class="contents clearfix">
-            <div class="left-float">
-                <cq:text property="text" escapeXml="true"
-            placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-                <div class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></div>
-            </div>
             <div class="right-float">
                 <div class="video">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/GaMylwohL14" frameborder="0" allowfullscreen></iframe>
-                	<cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
+                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/GaMylwohL14" frameborder="0" allowfullscreen></iframe>
+                    <cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
                 </div>
             </div>
+            <div class="left-float mobile-header">
+                 <div class="show-for-small">
+                    <span class="<%= icon %>"></span>
+                    <h3><%= title %></h3>
+                </div>
+                <cq:text property="text" escapeXml="true"
+            placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+                <div class="mobile-centered">
+                    <a href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
+                </div>
+            </div>
+
         </div>
     </div>
 </section>

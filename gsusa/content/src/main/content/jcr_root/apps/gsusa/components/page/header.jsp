@@ -1,11 +1,12 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- header -->
 <%
-    // All pages share the same header from the site root.
+    // All pages share the same header from the site root, except Join and Volunteer!
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
     String logoPath = headerPath + "/logo";
     String headerNavPath = headerPath + "/header-nav";
-    String headerJoinPath = headerPath + "/join";
+    String eyebrowNavPath = headerPath + "/eyebrow-nav";
+    String headerSearchPath = headerPath + "/search";
 %>
 <div class="top-header row">
     <section class="logo-section">
@@ -14,13 +15,15 @@
         </a>
     </section>
     <section class="utility show-for-medium-up">
-    	<div>
-	        <cq:include path="<%=headerNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
-	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
-	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
+    	<div class="clearfix">
+	        <cq:include path="<%=eyebrowNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
+            <div class="join-buttons">
+    	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
+    	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
+            </div>
         </div>
-        <div>
-    	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+        <div class="clearfix">
+    	    <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
         </div>
     </section>
 </div>

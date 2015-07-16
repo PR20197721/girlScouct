@@ -15,7 +15,7 @@
         String style = "";
         try {
             bg = currentNode.getNode(id + "/bg").getProperty("fileReference").getString();
-            style = "style=\"background: url(" + bg+ ") no-repeat transparent 0 50% / cover\"";
+            style = "style=\"background: url(" + bg+ ") no-repeat transparent center center / cover\"";
         } catch (Exception e) {}
 %>
         <li <%=style%>>
