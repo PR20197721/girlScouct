@@ -279,3 +279,7 @@ public void addVideoNode(String videoPath, String videoName) {
     </div>
     <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
 </div>
+
+<%
+	request.removeAttribute("source7");
+%>
