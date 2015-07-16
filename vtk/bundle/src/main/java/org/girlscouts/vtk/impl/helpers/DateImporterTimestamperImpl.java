@@ -88,11 +88,10 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 	 * } } return session; }
 	 */
 	public Date getTimestamp() {
-		//if (timestamp == null) {
-			//loadFromJcr();
-		//}
-		//return timestamp;
-	    return new Date();
+		if (timestamp == null) {
+			loadFromJcr();
+		}
+		return timestamp;
 	}
 
 	public void setTimestamp() {
