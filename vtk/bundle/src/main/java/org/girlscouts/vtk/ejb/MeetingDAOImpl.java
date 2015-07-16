@@ -678,7 +678,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return getLocalAssets(meetingName, AssetComponentType.AID);
 	}
 	
-	private static final String ASSET_PATHS_PROP = "assetpaths";
+	private static final String AID_PATHS_PROP = "aidPaths";
+	private static final String RESOURCE_PATHS_PROP = "resourcePaths";
 	private List<Asset> getLocalAssets(String meetingName, AssetComponentType type) {
 	    List<Asset> assets = new ArrayList<Asset>();
 	    
@@ -687,10 +688,16 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 		    session = sessionFactory.getSession();
 
-		    // First, respect the "assetpaths" field in the meeting. Search assets there. This field has multiple values.
+		    // First, respect the "aidPaths" or "resourcePaths" field in the meeting. This field has multiple values.
     		Node meetingNode = session.getNode(meetingPath);
-    		if (meetingNode.hasProperty(ASSET_PATHS_PROP)) {
-    		    Value[] assetPaths =  meetingNode.getProperty(ASSET_PATHS_PROP).getValues();
+    		String pathProp;
+    		switch (type) {
+    		case AID: pathProp = AID_PATHS_PROP; break;
+    		case RESOURCE: pathProp = RESOURCE_PATHS_PROP; break;
+    		default: pathProp = AID_PATHS_PROP;
+    		}
+    		if (meetingNode.hasProperty(pathProp)) {
+    		    Value[] assetPaths =  meetingNode.getProperty(pathProp).getValues();
     		    for (int i = 0; i < assetPaths.length; i++) {
     		        String assetPath = assetPaths[i].getString();
     		        log.debug("Asset Path = " + assetPath);
@@ -699,13 +706,14 @@ public class MeetingDAOImpl implements MeetingDAO {
     		}
     		
     		// Then, generate an "expected" path, check if there is overrides
+    		// e.g. /content/dam/girlscouts-vtk2014/local/aid/B14B01
     		String typeString;
     		switch (type) {
     		case AID: typeString = "aid"; break;
     		case RESOURCE: typeString = "resource"; break;
     		default: typeString = "aid";
     		}
-    		String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetingName/meetings/" + meetingName;
+    		String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetings/" + meetingName;
     		if (session.nodeExists(rootPath)) {
     		    assets.addAll(getAssetsFromPath(rootPath, type, session));
     		}
