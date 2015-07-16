@@ -12,5 +12,6 @@ foundation.min.js
 slick.min.js
 all.js
 council-finder.js
+shared.js
 
 app.js

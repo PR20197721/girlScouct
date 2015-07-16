@@ -1,0 +1,33 @@
+/*The Following CSS is Shared with Councils */
+/*accordion*/
+.accordion.section dt {
+  background:#f6f6f6;
+  padding:0;
+  position: relative;
+}
+.accordion.section dt h6 {
+  background:none;
+  padding: 0;
+  margin-left: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #000;
+  display: inline;
+  cursor: pointer;
+}
+.accordion.section dt h6:before {
+  border-style: solid;
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  border-color: #000 transparent transparent;
+  margin-left: 5px;
+  border-width: 5px;
+  margin-top: -2px;
+}
+.accordion.section dt h6.on:before {
+  border-color: transparent transparent transparent #000;
+  margin-top: -5px;
+}
