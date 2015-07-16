@@ -31,3 +31,8 @@
   border-color: transparent transparent transparent #000;
   margin-top: -5px;
 }
+
+/*advertisement*/
+div#rightContent div.advertisement a {
+    display: inline-block;
+  }
