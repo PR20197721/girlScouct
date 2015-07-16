@@ -9,13 +9,6 @@ footer {
   .inline-list {
     margin-bottom: 0;
   }
-  .copyright {
-    @media #{$medium-up} {
-      @include grid-column (10);
-    }
-    width: 100%;
-    float:none;
-  }
   //footer navigation list.
   section:first-child {
     margin-bottom: rem-calc(30);
@@ -26,10 +19,10 @@ footer {
           margin-right: rem-calc(20);
         }
       }
-      @media #{$large-up} {
-        @include grid-column (18);
-      }
-      @media #{$medium-only} {
+      // @media #{$large-up} {
+      //   @include grid-column (18);
+      // }
+      @media #{$medium-up} {
         @include grid-column (16);
       }
       @media #{$small-only} {
@@ -38,21 +31,23 @@ footer {
       }
     }
   }
-  .email-signin,
-  .email-output-message {
-    @media #{$large-up} {
-      @include grid-column(6, $float:right);
+  .copyright {
+    @media #{$medium-up} {
+      @include grid-column (10);
     }
-    @media #{$medium-only} {
-      @include grid-column(8, $float:right);
-    }
+    width: 100%;
+    float:none;
   }
   .social-links {
+    @media #{$medium-up} {
+      @include grid-column (14);
+      float: right;
+    }
     ul {
-      text-align: center;
       @media #{$medium-up} {
-        float: right;
+        text-align: right;
       }
+      text-align: center;
       li {
         float: none;
         display: inline-block;
@@ -73,20 +68,39 @@ footer {
       color: $white;
     }
   }
-  label {
-    display: inline;
-    color: #C1EAD4;
-    float: left;
-    margin-right: rem-calc(5);
+  .email-signin,
+  .email-output-message {
+    // @media #{$large-up} {
+    //   @include grid-column(6, $float:right);
+    // }
+    @media #{$medium-up} {
+      @include grid-column(8, $float:right);
+      text-align: right;
+    }
   }
-  .email-signin {
+  .email-output-message {
+    text-align: left;
+    display:none;
+    p {margin:0;}
+  }
+  .email-signin,
+  .email-output-message {
     @media #{$small-only} {
       background: #009447;
       padding: rem-calc(15 10);
       margin-bottom: rem-calc(20);
     }
+    label {
+      display: inline;
+      color: #C1EAD4;
+      margin-right: rem-calc(5);
+    }
     input {
       width: 58.695652%;
+      display: inline;
+      @media #{$medium-up} {
+        float:right;
+      }
       height: auto;
       padding: rem-calc(1  5  0 5);
       font-size: rem-calc(12);
