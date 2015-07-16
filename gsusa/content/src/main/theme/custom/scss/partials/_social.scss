@@ -65,11 +65,14 @@
 }
 //inner carousel fb component
 .facebook-feed {
-  max-height: rem-calc(420);
+  max-height: rem-calc(410);
   overflow: hidden;
+  @media #{$medium-only} {
+    max-height:  rem-calc(370);
+  }
   .facebook-feed-image-area {
     float:left;
-    width: rem-calc(521);
+    width: 59.090909%;
     img {
       // max-height: rem-calc(420);
       // width: rem-calc(530);
@@ -77,7 +80,7 @@
     }
   }
   .facebook-embed-area {
-    width: rem-calc(359);
+    width: 40.909091%;
     float: left;
   }
 }
