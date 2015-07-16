@@ -1134,7 +1134,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -1242,7 +1242,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/achievement";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();

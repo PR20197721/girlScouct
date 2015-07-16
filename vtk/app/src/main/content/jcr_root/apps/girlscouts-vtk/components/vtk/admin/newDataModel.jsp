@@ -33,16 +33,16 @@ javax.jcr.Session jcr_session = (javax.jcr.Session)resourceResolver.adaptTo(java
 
 String councilId= request.getParameter("cid"); //"597";//"388";
 
-Node n_troop_total = jcr_session.getNode("/vtk/"+councilId);
+Node n_troop_total = jcr_session.getNode(VtkUtil.getYearPlanBase(user, troop)+councilId);
 long troop_total= n_troop_total.getNodes().getSize();
 
-String sql1= "select * from nt:unstructured where jcr:path like '/vtk/"+councilId+"/%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode' and jcr:lastModified is null";
+String sql1= "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+councilId+"/%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode' and jcr:lastModified is null";
 javax.jcr.query.QueryManager qm1 = jcr_session.getWorkspace().getQueryManager();
 javax.jcr.query.Query q1 = qm1.createQuery(sql1, javax.jcr.query.Query.SQL);
 javax.jcr.query.QueryResult result1 = q1.execute();
 long total_yp_no_lastModified = result1.getRows().getSize();
 
-String sql= "select * from nt:unstructured where jcr:path like '/vtk/"+councilId+"/%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode'";
+String sql= "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+councilId+"/%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode'";
 javax.jcr.query.QueryManager qm = jcr_session.getWorkspace().getQueryManager();
 javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 javax.jcr.query.QueryResult result = q.execute();	

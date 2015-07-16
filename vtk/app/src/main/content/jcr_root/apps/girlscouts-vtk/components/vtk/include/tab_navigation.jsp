@@ -18,8 +18,9 @@ if (configManager != null) {
 */
 String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 
+out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
 
-  if (troops != null && troops.size() > 1) {
+if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
     cookie.setMaxAge(-1);
     response.addCookie(cookie);

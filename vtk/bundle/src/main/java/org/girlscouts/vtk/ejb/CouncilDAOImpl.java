@@ -34,6 +34,8 @@ import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.CouncilInfo;
+import org.girlscouts.vtk.utils.ModifyNodePermissions;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +53,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
+	@Reference
+	private ModifyNodePermissions permiss;
+	
 	@Activate
 	void activate() {
 	}
@@ -84,7 +89,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			council = (Council) ocm.getObject("/vtk/" + councilId);
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -125,7 +130,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			council = new Council("/vtk/" + councilId);
+			
+			String vtkBase = VtkUtil.getYearPlanBase(user, null);
+			if (!session.itemExists(vtkBase)) {
+				//create vtk base
+				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
+				permiss.modifyNodePermissions(vtkBase, "vtk");
+			}
+			
+			
+			//council = new Council("/vtk/" + councilId);
+			council = new Council(vtkBase + councilId);
+		
 			ocm.insert(council);
 			ocm.save();
 		} catch (Exception e) {
@@ -151,8 +167,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			throw new IllegalAccessException();
 
 		Council council = findCouncil(user, councilId);
-		if (council == null)
+		
+		if (council == null){
+System.err.println("Creating new council: "+ councilId);			
 			council = createCouncil(user, councilId);
+		}
 		return council;
 	}
 
@@ -219,11 +238,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = "/vtk/" + councilCode + "/councilInfo";
+			String path = VtkUtil.getYearPlanBase(null, null) + councilCode + "/councilInfo";
 			if (session.itemExists(path)) {
 				cinfo = (CouncilInfo) ocm.getObject(path);
 				if (cinfo == null)
-					log.error("OCM failed to retrieve /vtk/" + councilCode
+					log.error("OCM failed to retrieve "+ VtkUtil.getYearPlanBase(null, null) + councilCode
 							+ "/councilInfo !!!");
 				if (cinfo.getMilestones() == null) {
 					List<Milestone> milestones = getAllMilestones(councilCode);
@@ -232,9 +251,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 					ocm.save();
 				}
 			} else {
-				if (!session.itemExists("/vtk/" + councilCode)) {
+				if (!session.itemExists(VtkUtil.getYearPlanBase(null, null) + councilCode)) {
 					// create council, need user permission
-					log.error("/vtk/" + councilCode + "does NOT exist!!!");
+					log.error(VtkUtil.getYearPlanBase(null, null) + councilCode + "does NOT exist!!!");
 				}
 				cinfo = new CouncilInfo(path);
 				List<Milestone> milestones = getAllMilestones(councilCode);

@@ -49,6 +49,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,6 +121,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by plan path
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			String yearPlanPath) throws IllegalAccessException {
+		
+		
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -141,6 +144,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			filter.setScope(yearPlanPath);
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
+			
+			System.err.println("tatag 44: "+ meetings.get(0).getRefId() +" : "+ yearPlanPath);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1052,7 +1057,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				regionSql += " and LOWER(region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1466,7 +1471,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Troop.class);
-			council = (Council) ocm.getObject("/vtk/" + councilId);
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1589,7 +1594,7 @@ System.err.println("tata start searchA1.. ");
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+ VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1731,7 +1736,7 @@ System.err.println("tata start searchA1.. ");
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
-			Node vtk = session.getNode("/vtk");
+			Node vtk = session.getNode(VtkUtil.getYearPlanBase(null, null));
 			NodeIterator vtks = vtk.getNodes();
 			while (vtks.hasNext()) {
 				Node _vtk = (Node) vtks.next();
