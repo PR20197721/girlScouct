@@ -82,6 +82,7 @@ div.carousel {
 .hero-feature {
   position: relative;
   margin-bottom: rem-calc(35);
+  min-height: rem-calc(510);
   .overlay {
     display: none;
     position: absolute;
@@ -308,7 +309,7 @@ div.carousel {
 }
 
 .video-wrapper {
-  height: 310px;
+  height: rem-calc(265);
   overflow: hidden;
   p {
     color: $black;
@@ -316,13 +317,13 @@ div.carousel {
   .video {
     float: left;
     height: 100%;
-    width: 37.21429rem;
+    width: 59.090909%;
   }
   .video > img.slide-thumb {
     display: none;
   }
   .video-article {
-    width: 25.64286rem;
+    width: 40.909091%;
     float: left;
     background-color: white;
     padding: rem-calc(20 25);
