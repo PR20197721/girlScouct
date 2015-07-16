@@ -954,7 +954,7 @@ public class MeetingUtil {
 				// query aids cachables
 				java.util.List __aidTags = yearPlanUtil.getAids(user,
 						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists aids
 				_aidTags.addAll(__aidTags);
@@ -962,7 +962,7 @@ public class MeetingUtil {
 				// query resources cachables
 				java.util.List __resources = yearPlanUtil.getResources(user,
 						meetingInfo.getResources(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists resources
 				_aidTags.addAll(__resources);

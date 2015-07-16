@@ -54,6 +54,8 @@ mapFullText.put("group.2_fulltext", escapedQuery);
 mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
 mapFullText.put("group.3_fulltext", escapedQuery);
 mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
+mapFullText.put("group.4_fulltext", escapedQuery);
+mapFullText.put("group.4_fulltext.relPath", "jcr:content/metadata/@dc:title");
 
 PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 Map masterMap  = new HashMap();

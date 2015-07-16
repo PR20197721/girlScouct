@@ -19,10 +19,10 @@
 	printProperty(info, "Aid Tags", "aidTags");
 	printProperty(info, "Resources", "resources");
 	printProperty(info, "Overview", "meetingInfo/overview/str");
-	printProperty(info, "Detailed SortItem Plan", "meetingInfo/overview/str");
+	printProperty(info, "Detailed Activity Plan", "meetingInfo/overview/str");
 	printProperty(info, "Materials", "meetingInfo/materials/str");
-	printProperty(info, "Email Invite", "meetingInfo/overview/str");
-	printProperty(info, "Email Summary", "meetingInfo/overview/str");
+	printProperty(info, "Email Invite", "meetingInfo/email invite/str");
+	printProperty(info, "Email Summary", "meetingInfo/email summary/str");
 	
 	List<SortItem> activities = new ArrayList<SortItem>();
 	NodeIterator iter = currentNode.getNode("activities").getNodes();

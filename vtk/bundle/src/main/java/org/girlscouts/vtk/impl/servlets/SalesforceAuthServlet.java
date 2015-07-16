@@ -178,13 +178,17 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
-				if (councilId == null || councilId.trim().equals(""))
-					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
-							.getCouncilInClient(request));
-				else
+				if (councilId == null || councilId.trim().equals("")) {
+				    String refererCouncil = VtkUtil.getCouncilInClient(request);
+				    if (refererCouncil != null && !refererCouncil.isEmpty()) {
+				        redirectUrl = "/content/" + refererCouncil + "/";
+				        redirectUrl = resourceResolver.map(redirectUrl);
+				    }
+				} else {
 					redirectUrl = councilMapper.getCouncilUrl(councilId);
+				}
 			} catch (Exception e) {
-			    String refererCouncil = (String)session.getAttribute("refererCouncil");
+				String refererCouncil = VtkUtil.getCouncilInClient(request);
 			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
 			        redirectUrl = "/content/" + refererCouncil + "/";
 			        redirectUrl = resourceResolver.map(redirectUrl);

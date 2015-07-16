@@ -5,6 +5,18 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
+<div id="vtkTabNav"></div>
+<div id="panelWrapper" class="row content meeting-detail finances">
+<div id="vtkNav"></div>
+<% if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
+	%>
+	 <span class="error">You have no permissions to view this page</span> 
+	 </div> <!-- end panelWrapper -->
+	 <script>loadNav('financesadmin')</script>
+	<%
+	return;
+}%>
+
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
@@ -21,7 +33,7 @@
 	pageContext.setAttribute("activeSubTab", "editFinances");
 	boolean showVtkNav = true;
 
-	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());
+	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());
 
 	List<String> incomeFields = financeConfig.getIncomeFields();
 	List<String> expenseFields = financeConfig.getExpenseFields();
@@ -39,9 +51,7 @@
 	boolean hasAdminPermissions = true;
 	String financeFieldTag = "";
 %>
- <div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content meeting-detail finances">
-<div id="vtkNav"></div>
+
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
 			
@@ -144,4 +154,4 @@
 
 //-->
 </script>
-<script>loadNav('finances')</script>
+<script>loadNav('financesadmin')</script>

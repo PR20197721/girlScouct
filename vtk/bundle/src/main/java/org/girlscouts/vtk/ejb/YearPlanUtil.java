@@ -96,9 +96,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getAids(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String path) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName, path));
 		container.addAll(meetingDAO.getAidTag(user, tags, meetingName));
 
 		return container;
@@ -204,9 +204,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getResources(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String meetingPath) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getResource_local(user, tags, meetingName, meetingPath));
 		container
 				.addAll(meetingDAO.getResource_global(user, tags, meetingName));
 		return container;
@@ -269,6 +269,7 @@ public class YearPlanUtil {
 			String lvl, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
 			throws IllegalAccessException {
+System.err.println("tata tpUtil");		
 		return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate,
 				endDate, region);
 	}
@@ -310,7 +311,7 @@ public class YearPlanUtil {
 
 	public void search(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
+System.err.println("tata search...");
 		try {
 			java.util.Date startDate = null, endDate = null;
 			if (request.getParameter("startDate") != null

@@ -134,6 +134,7 @@ if(hasAdminPermissions){
 			</div>
 			<div class="row">
 			  <div class="small-24 large-12 columns"></div>
+		 	  
 		 	  <div class="small-24 large-12 columns"><input type="button" name="" value="Save" id="updateFinances" onclick="checkFinances()"/>
 		 	 
 		 	  </div>
