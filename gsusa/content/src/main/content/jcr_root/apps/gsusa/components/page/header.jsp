@@ -1,12 +1,12 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- header -->
 <%
-    // All pages share the same header from the site root.
+    // All pages share the same header from the site root, except Join and Volunteer!
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
     String logoPath = headerPath + "/logo";
     String headerNavPath = headerPath + "/header-nav";
     String eyebrowNavPath = headerPath + "/eyebrow-nav";
-    String headerJoinPath = headerPath + "/join";
+    String headerSearchPath = headerPath + "/search";
 %>
 <div class="top-header row">
     <section class="logo-section">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="clearfix">
-    	    <cq:include path="<%= headerPath + "/search" %>" resourceType="gsusa/components/search-box" />
+    	    <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
         </div>
     </section>
 </div>
