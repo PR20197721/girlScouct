@@ -105,7 +105,12 @@
                 hasChild = true;
             }
             
-            String title = page.getTitle();
+            String title = "";//page.getTitle();
+            if (page.getNavigationTitle() != null && !"".equals(page.getNavigationTitle())) {
+            	title = page.getNavigationTitle();
+            } else {
+            	title = page.getTitle();
+           	}
             if (title != null && !title.isEmpty()) {
                 String path = page.getPath();
                 boolean isActive = (currentPath + "/").startsWith(path + "/");
@@ -119,7 +124,7 @@
                     sb.append("<li>");
                 }
                 sb.append("<a href=\"" + page.getPath() + ".html\">");
-                sb.append(page.getTitle());
+                sb.append(title);
                 sb.append("</a>");
                 
                 if (isActive) {
