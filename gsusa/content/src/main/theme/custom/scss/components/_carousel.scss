@@ -19,6 +19,10 @@ div.carousel {
   @media #{$medium-up} {
     margin-bottom: rem-calc(35);
   }
+  .error {
+    color: red;
+  }
+  
   margin-top: 0;
   .slick-slider {
     margin: 0;
