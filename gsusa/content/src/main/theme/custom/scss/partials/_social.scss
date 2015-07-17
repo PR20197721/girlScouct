@@ -67,6 +67,7 @@
 .facebook-feed {
   max-height: rem-calc(410);
   overflow: hidden;
+  background-color: $white;
   @media #{$medium-only} {
     max-height:  rem-calc(370);
   }
@@ -82,6 +83,11 @@
   .facebook-embed-area {
     width: 40.909091%;
     float: left;
+    padding:rem-calc(10);
+    ul {
+      list-style: none;
+      margin: 0;
+    }
   }
 }
 .instagram-feed-image-head-area {

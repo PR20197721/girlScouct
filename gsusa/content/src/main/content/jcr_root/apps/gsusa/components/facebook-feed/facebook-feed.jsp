@@ -13,7 +13,7 @@
     <div class="facebook-embed-area"></div>
 
     <script>
-    
+
     var blogFeedArea = $(".facebook-embed-area");
     var imageArea = $(".facebook-feed-image-area");
 
