@@ -22,7 +22,7 @@ div.carousel {
   .error {
     color: red;
   }
-  
+
   margin-top: 0;
   .slick-slider {
     margin: 0;
@@ -86,7 +86,9 @@ div.carousel {
 .hero-feature {
   position: relative;
   margin-bottom: rem-calc(35);
-  min-height: rem-calc(550);
+  @media #{$medium-only} {
+    min-height: rem-calc(550);
+  }
   .overlay {
     display: none;
     position: absolute;
