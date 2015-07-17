@@ -100,7 +100,7 @@
         searchSlider.button.click();
       }
     });
-    
+
     //if the input is not shown display on clicking the looking glass.
     searchSlider.button.click(function (event) {
       event.stopPropagation();
@@ -312,11 +312,10 @@
   }
 
   //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
-
   $('.main-slider').slick({
     dots: false,
     infinite: true,
-    speed: (typeof interval !== 'undefined') ? interval: 1000,
+    speed: (typeof interval !== 'undefined') ? interval : 1000,
     fade: true,
     autoplay: true,
     arrows: false,
@@ -347,7 +346,7 @@
         //   instead of a settings object
         // ]
       });
-      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
+      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4, .story .video-carousel .slide-4').slick({
         dots: true,
         fade: true,
         dotsClass: 'slick-dots',
@@ -362,6 +361,17 @@
         fade: true,
         cssEase: 'linear',
         arrows: false,
+      });
+
+      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
+        dots: true,
+        fade: true,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: false,
+        customPaging: function (slick, index) {
+          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
+        },
       });
 
       $('.main-slider').slick('slickPause');
