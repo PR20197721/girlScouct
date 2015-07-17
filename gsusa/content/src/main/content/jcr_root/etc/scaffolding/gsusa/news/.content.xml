@@ -4,9 +4,9 @@
     <jcr:content
         cq:lastModified="{Date}2009-04-01T12:27:34.647+02:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/girlscouts-prototype/en/our-council/news"
-        cq:targetTemplate="/apps/girlscouts/templates/news-page"
-        jcr:description="Girl Scouts News Scaffolding"
+        cq:targetPath="/content/gsusa/en/press-room/news-releases"
+        cq:targetTemplate="/apps/gsusa/templates/news-page"
+        jcr:description="GSUSA News Scaffolding"
         jcr:primaryType="cq:PageContent"
         jcr:title="News"
         sling:resourceType="girlscouts/wcm/components/news-scaffolding">
