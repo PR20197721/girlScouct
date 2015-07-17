@@ -361,7 +361,9 @@ try {
 	 samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
 //tmp patch http https load balancer
 	 samlResponse.setDestinationUrl(request.getRequestURL().toString().replace("http://my-stage", "https://my-stage") );
-	  if (samlResponse.isValid()) {
+	 //System.err.println("tata url: "+request.getRequestURL().toString()); 
+	 
+	 if (samlResponse.isValid()) {
 	
 		 token =samlResponse.getNameId(); //samlResponse.getToken(request.getParameter("SAMLResponse"));
 		 userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));//samlResponse.getUserId();
