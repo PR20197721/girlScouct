@@ -168,6 +168,9 @@
               @include grid-column(14, $offset:1);
               float: right;
             }
+            .slick-slide {
+              margin-bottom: 0 !important;
+            }
             .slick-dots {
               margin: 0;
             }
