@@ -101,12 +101,6 @@
                     	fieldLabel="Button Text"
                     	name="./buttonText"
                     	xtype="textfield"/>
-                </items>
-            </properties>
-            <images
-                jcr:primaryType="cq:Panel"
-                title="Images">
-                <items jcr:primaryType="cq:WidgetCollection">
                     <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
@@ -118,7 +112,7 @@
                             xtype="shoplink"/>
                     </multi>
                 </items>
-            </images>
+            </properties>
         </items>
     </items>
 </jcr:root>
