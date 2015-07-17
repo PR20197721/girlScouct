@@ -103,7 +103,11 @@
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
 %>
 <div id="panelWrapper" class="row meeting-detail content">
-	<p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">Oops! It looks like your role doesn't have access to the Volunteer Toolkit. It's currently reserved for Troop Leaders of Daisy, Brownie, and Junior Troops. If this is a mistake or you have additional questions, please click on Contact Us at the top of the page.</p>
+    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
+        <br/><br/>Stay tuned! 
+
+    </p>
 </div>
 <%
 		return;
