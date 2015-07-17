@@ -51,9 +51,18 @@ System.err.println("access_token "+ access_token);
 		      //Create the JWT Claims Object
 		      String[] claimArray = new String[4];
 		      claimArray[0] = access_token;//"3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH";
+
 		      claimArray[1] = email; //"ana.pope@gsfuture.org.gsuat";
 		      claimArray[2] = "https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
+		      
+System.err.println("testTata now: "+ System.currentTimeMillis() );	
+System.err.println("testTata sending: "+ ( ( System.currentTimeMillis()/1000 ) + 300) );
+java.util.Calendar alex = java.util.Calendar.getInstance();
+alex.add(java.util.Calendar.MINUTE, 30);
+System.err.println( "testTata 30m: "+ alex.getTimeInMillis() );
+claimArray[3] =alex.getTimeInMillis()+"";
+
 		      MessageFormat claims;
 		      claims = new MessageFormat(claimTemplate);
 		      String payload = claims.format(claimArray);
