@@ -3,15 +3,12 @@
 <%
     // All pages share the same footer from the site root.
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
+    String keepInTouchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/keepInTouch";
 %>
 <section class="clearfix">
-    <form class="email-signin" action="#">
-    	<input name="CORPHOME" type="hidden" value="Yes" />
-        <label>Keep in touch</label>
-        <input type="email" name="email" placeholder="Email address" />
-    </form>
-    <div class="email-output-message">
-    </div>
+	
+	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
+    
     <ul class="inline-list">
         <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
         <li><a href="#" title="Visit Us">Visit Us</a></li>
@@ -40,3 +37,38 @@
     </div>
 </section>
 <!-- END of footer -->
+
+
+
+
+
+<!-- header -->
+<%
+    // All pages share the same header from the site root, except Join and Volunteer!
+    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+    String logoPath = headerPath + "/logo";
+    String headerNavPath = headerPath + "/header-nav";
+    String eyebrowNavPath = headerPath + "/eyebrow-nav";
+    String headerSearchPath = headerPath + "/search";
+%>
+<div class="top-header row">
+    <section class="logo-section">
+        <a href="/content/gsusa/en.html" title="girscouts.com home">
+            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+        </a>
+    </section>
+    <section class="utility show-for-medium-up">
+    	<div class="clearfix">
+	        <cq:include path="<%=eyebrowNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
+            <div class="join-buttons">
+    	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
+    	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
+            </div>
+        </div>
+        <div class="clearfix">
+    	    <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
+        </div>
+    </section>
+</div>
+<cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
+<!--/header -->
