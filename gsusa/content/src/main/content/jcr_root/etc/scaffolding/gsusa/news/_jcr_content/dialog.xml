@@ -184,7 +184,7 @@
                 <text
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Text"
-                    name="./jcr:content/middle/par/text/text"
+                    name="./jcr:content/text"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
