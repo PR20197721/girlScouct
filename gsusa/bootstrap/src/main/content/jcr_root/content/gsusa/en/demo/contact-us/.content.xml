@@ -11,7 +11,7 @@
         jcr:uuid="24e46684-7c34-4725-9fed-77fb9203647b"
         sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">
-            <main jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -24,7 +24,7 @@
                         sling:resourceType="foundation/components/form/start"
                         action="/content/usergenerated/gsusa/en/contact-us/cq-gen1435073923834/"
                         actionType="foundation/components/form/actions/store"
-                        formid="_content_gsusa_en_contact-us_jcr_content_content_main_par_start"
+                        formid="_content_gsusa_en_contact-us_jcr_content_content_middle_par_start"
                         redirect="/content/gsusa/en/demo/contact-us/thank-you"/>
                     <text
                         jcr:created="{Date}2015-06-23T11:40:09.920-04:00"
@@ -128,7 +128,7 @@
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/form/end"/>
                 </par>
-            </main>
+            </middle>
         </content>
     </jcr:content>
     <thank-you/>

@@ -12,11 +12,6 @@
         jcr:uuid="bcba3151-d9a5-4e64-92e3-5da909c1a9fc"
         sling:resourceType="gsusa/components/page">
         <content jcr:primaryType="nt:unstructured">
-            <right jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys"/>
-            </right>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search

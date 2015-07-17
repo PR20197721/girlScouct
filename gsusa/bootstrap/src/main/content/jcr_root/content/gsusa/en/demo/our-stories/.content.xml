@@ -12,7 +12,7 @@
         jcr:uuid="9eb01df2-4810-4162-8262-8308cd399757"
         sling:resourceType="gsusa/components/page">
         <content jcr:primaryType="nt:unstructured">
-            <main jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -34,7 +34,7 @@
                         path="/content/gsusa/en/demo/our-stories/sprint-4"
                         source="dir"/>
                 </par>
-            </main>
+            </middle>
         </content>
     </jcr:content>
     <demo/>

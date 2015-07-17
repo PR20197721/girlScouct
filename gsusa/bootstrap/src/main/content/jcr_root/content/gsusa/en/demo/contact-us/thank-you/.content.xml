@@ -20,7 +20,7 @@
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys"/>
             </right>
-            <main jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
@@ -34,7 +34,7 @@
                         text="&lt;h2>Thank you!&lt;/h2>&#xa;&lt;p>We're glad you got in touch.&lt;/p>&#xa;&lt;p>Your questions, comments, and input are important to us.&lt;/p>&#xa;&lt;p>Please give us 24-48 hours to review your correspondence. We’ll get back to you as soon as possible. We promise!&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;&lt;p>Girl Scouts of the USA&lt;/p>&#xa;"
                         textIsRich="true"/>
                 </par>
-            </main>
+            </middle>
         </content>
         <header jcr:primaryType="nt:unstructured">
             <search
