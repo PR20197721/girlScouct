@@ -18,12 +18,12 @@
             <right jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys"/>
+                    sling:resourceType="girlscouts/components/styled-parsys"/>
             </right>
             <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
+                    sling:resourceType="girlscouts/components/styled-parsys">
                     <text
                         jcr:created="{Date}2015-06-26T09:49:04.784-04:00"
                         jcr:createdBy="admin"

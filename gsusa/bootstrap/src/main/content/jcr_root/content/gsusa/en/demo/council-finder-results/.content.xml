@@ -12,7 +12,7 @@
             <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
+                    sling:resourceType="girlscouts/components/styled-parsys">
                     <council_finder_resul
                         jcr:created="{Date}2015-07-13T14:07:12.121-04:00"
                         jcr:createdBy="admin"
