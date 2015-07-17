@@ -286,13 +286,14 @@
               "bottom" : "auto",
               "top" : $(document).scrollTop()
             });
-            var test = target.find('.contents').height();
-            console.log(test);
             $(".featured-stories").css('position', 'static');
-            target.find('.contents').css({
-              'max-height': ($(window).height() - 100) + 'px',
-              'overflow' : 'scroll'
-            });
+            if ($(window).height() < target.find('.contents').height()) {
+              target.find('.contents').css({
+                'max-height': ($(window).height() - 100) + 'px',
+                'overflow' : 'scroll'
+              });
+            }
+
             $("body").css('overflow', 'hidden');
           }
           return true;
