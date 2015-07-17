@@ -3,6 +3,7 @@
 <%@page session="false" %>
 <%
 String mainMetaName = "";
+String tagName = properties.get("tagName", "div");
 String text = properties.get("text", "");
 if (text.isEmpty()) {
 	String metaPropName = properties.get("metaProperty", "");
@@ -21,4 +22,4 @@ if (text.isEmpty()) {
 
 String placeholder = "&lt; Placeholder for matadata <i>" + mainMetaName + "</i> &gt;";
 %>
-<cq:text value="<%= text %>" tagClass="<%= mainMetaName %>" escapeXml="true" placeholder="<%= placeholder %>"/>
+<cq:text value="<%= text %>" tagClass="<%= mainMetaName %>" tagName="<%= tagName %>" escapeXml="true" placeholder="<%= placeholder %>"/>
