@@ -876,10 +876,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				troop = troopUtil.getTroop(user,
 						"" + prefTroop.getCouncilCode(),
 						prefTroop.getTroopId());
-System.err.println((meetingUtil==null) );
-System.err.println(user==null);
-System.err.println(troop==null);
-System.err.println(troop.getYearPlan() );
+
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop.getYearPlan(), true, true);
 					
