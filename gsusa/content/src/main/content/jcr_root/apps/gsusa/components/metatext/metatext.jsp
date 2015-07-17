@@ -10,7 +10,7 @@ if (text.isEmpty()) {
 	if (!metaPropName.isEmpty()) {
 	    ValueMap pageProps = resourceResolver.resolve(currentPage.getPath() + "/jcr:content").adaptTo(ValueMap.class);
 	    String[] names = metaPropName.split(",");
-	    mainMetaName = names[0];
+	    mainMetaName = camelToDash(names[0]);
 	    for (int i = 0; i < names.length; i++) {
 	        text = pageProps.get(names[i], "");
 	        if (!text.isEmpty()) {
@@ -23,3 +23,18 @@ if (text.isEmpty()) {
 String placeholder = "&lt; Placeholder for matadata <i>" + mainMetaName + "</i> &gt;";
 %>
 <cq:text value="<%= text %>" tagClass="<%= mainMetaName %>" tagName="<%= tagName %>" escapeXml="true" placeholder="<%= placeholder %>"/>
+
+<%!
+String camelToDash(String input) {
+    StringBuilder builder = new StringBuilder();
+    for (int i = 0; i < input.length(); i++) {
+        char c = input.charAt(i);
+        if (Character.isUpperCase(c)) {
+            builder.append("-" + Character.toLowerCase(c));
+        } else {
+            builder.append(c);
+        }
+    }
+    return builder.toString();
+}
+%>
