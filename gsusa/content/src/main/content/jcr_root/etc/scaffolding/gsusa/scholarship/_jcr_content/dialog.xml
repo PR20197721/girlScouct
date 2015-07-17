@@ -150,6 +150,16 @@
                    		fieldLabel="Contact Email"
                    		name="./jcr:content/contactEmail"
                    		xtype="textfield"/>
+                   	<primaryType
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:primaryType"
+                   		value="cq:Page"
+                   		xtype="hidden"/>
+                   	<res
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/sling:resourceType"
+                   		value="gsusa/components/data-page"
+                   		xtype="hidden"/>
                 </items>
             </tab1>
         </items>
