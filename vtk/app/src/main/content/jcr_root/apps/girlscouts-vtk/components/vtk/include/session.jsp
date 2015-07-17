@@ -27,7 +27,7 @@
 	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE, SHOW_ADMIN_FEATURE, SHOW_PERMISSION_FEATURE};
 
 %>
-<%
+<% 
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -41,7 +41,7 @@
 	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
 	
-	vtkUtil.caca();
+	
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);

@@ -5,6 +5,7 @@
 <%@include file="session.jsp"%>
 <%
 String activeTab=request.getParameter("activeTab");
+if(true){out.println("tata: "+ (meetingUtil==null)); return;}
 PlanView planView= meetingUtil.planView(user, troop, request);
 %>
 <div class="hide-for-print crumbs clearfix hide-for-small">

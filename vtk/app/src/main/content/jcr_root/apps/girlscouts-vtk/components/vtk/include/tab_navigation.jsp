@@ -4,13 +4,10 @@
 <cq:defineObjects />
 <%@include file="session.jsp"%>
 <%
+out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
+if(true)return;
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
-%>
-
- 
-<%
-out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
 
 if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
