@@ -93,9 +93,14 @@
     width: 40.909091%;
     float: left;
     padding:rem-calc(10);
+    overflow: hidden;
+    height: 29.28571rem;
+    & * {color: #333;}
     ul {
       list-style: none;
       margin: 0;
+      overflow: scroll;
+      height: 100%;
     }
   }
 }
