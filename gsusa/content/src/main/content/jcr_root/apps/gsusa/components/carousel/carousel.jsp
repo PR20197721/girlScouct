@@ -183,7 +183,7 @@ interval = <%= interval %>;
 <%
 	for (int i = 0 ; i < imagePathArray.length; i++) {
 %>
-		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.png" class="slide-thumb"/></li>
+		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.png" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
 <%
 	}
 %>
@@ -210,7 +210,7 @@ interval = <%= interval %>;
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= content2[i] %></p>
 							</div>
-							<img src="<%= imagePath2[i] %>" alt="" class="slide-thumb"/>
+							<img src="<%= imagePath2[i] %>" alt="<%= imageAlt2[i] %>"class="slide-thumb"/>
 						</li>
 <%
 	}
@@ -228,7 +228,7 @@ interval = <%= interval %>;
 								<h4><%= subtitle3[i] %></h4>
 								<p><%= content3[i] %></p>
 							</div>
-							<img src="<%= imagePath3[i] %>" alt="" class="slide-thumb"/>
+							<img src="<%= imagePath3[i] %>" alt="<%= imageAlt3[i] %>" class="slide-thumb"/>
 						</li>
 <%
 	}
@@ -302,7 +302,7 @@ interval = <%= interval %>;
 				</form>
 			</section>
 		</div>
-		<img src="<%= imagePath6 %>" alt="" class="main-image" />
+		<img src="<%= imagePath6 %>" alt="<%= imageAlt6 %>" class="main-image" />
 	</div>
 	<cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
 </div>
