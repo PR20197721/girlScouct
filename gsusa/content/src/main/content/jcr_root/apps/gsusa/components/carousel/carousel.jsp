@@ -52,17 +52,21 @@ public void addVideoNode(String videoPath, String videoName) {
 	String title = properties.get("title", "Introduce girls to");
 	String[] imagePathArray = properties.get("imagePath", emptyArray);
     Integer interval = properties.get("interval", 1000);
+    String[] imageAlt = properties.get("imageAlt", emptyArray);
 
 
 	String[] content2 = properties.get("content2", emptyArray);
 	String[] imagePath2 = properties.get("imagePath2", emptyArray);
 	String[] subtitle2 = properties.get("subtitle2", emptyArray);
 	String title2 = properties.get("title2", "");
+    String[] imageAlt2 = properties.get("imageAlt2", emptyArray);
 
 	String[] content3 = properties.get("content3", emptyArray);
 	String[] imagePath3 = properties.get("imagePath3", emptyArray);
 	String[] subtitle3 = properties.get("subtitle3", emptyArray);
 	String title3 = properties.get("title3", "");
+    String[] imageAlt3 = properties.get("imageAlt3", emptyArray);
+
 
 	String title4 = properties.get("title4", "");
 
@@ -82,6 +86,7 @@ public void addVideoNode(String videoPath, String videoName) {
 	String title6 = properties.get("title6", "");
 	String content6 = properties.get("content6", "");
 	String imagePath6 = properties.get("imagePath6", "");
+    String imageAlt6 = properties.get("imageAlt6", "");
 	String closingSource6 = properties.get("closingSource6", "homepage");
 
 	String source7 = properties.get("source7", "homepage");
@@ -92,11 +97,14 @@ public void addVideoNode(String videoPath, String videoName) {
 	//validation
 	String errorMessage = "";
 
-	if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length) {
-    	errorMessage += "The number of images/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
+    if (imagePathArray.length != imageAlt.length) {
+    	errorMessage += "The number of images and \"image alts\" need to be the same in the \"Opening Page\" tab <br>";
+    }
+    if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length || subtitle2.length != imageAlt2.length) {
+    	errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
 	}
-	if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length) {
-    	errorMessage += "The number of images/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
+    if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length || subtitle3.length != imageAlt3.length) {
+    	errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
 	}
 	if (!"".equals(errorMessage)) {
     	errorMessage += "Please right click on this message and edit the carousel component.";
@@ -175,7 +183,7 @@ interval = <%= interval %>;
 <%
 	for (int i = 0 ; i < imagePathArray.length; i++) {
 %>
-		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.png"/></li>
+		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.png" class="slide-thumb"/></li>
 <%
 	}
 %>
