@@ -18,6 +18,7 @@ if (rootPath.isEmpty()) {
     NodeIterator yearIter = rootNode.getNodes();
     while (yearIter.hasNext()) {
         Node year = yearIter.nextNode();
+        if (!year.getPrimaryNodeType().isNodeType("cq:Page")) continue;
 %>
         <p class="news-year"><%= year.getName() %> News Releases</p>
         <ul>
@@ -25,7 +26,8 @@ if (rootPath.isEmpty()) {
         NodeIterator newsIter = year.getNodes();
         while (newsIter.hasNext()) {
             Node news = newsIter.nextNode();
-            ValueMap newsProps = resourceResolver.resolve(news.getPath()).adaptTo(ValueMap.class);
+            if (!news.getPrimaryNodeType().isNodeType("cq:Page")) continue;
+            ValueMap newsProps = resourceResolver.resolve(news.getPath() + "/jcr:content").adaptTo(ValueMap.class);
             String title = newsProps.get("articleTitle", "");
             if (title.isEmpty()) {
                 title = newsProps.get("jcr:title", "");
@@ -34,7 +36,7 @@ if (rootPath.isEmpty()) {
             String link = news.getPath() + ".html";
 
             DateFormat format = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
-            Date date = properties.get("date", Date.class);
+            Date date = newsProps.get("date", Date.class);
             String dateStr = "";
             try {
             	dateStr = format.format(date);
