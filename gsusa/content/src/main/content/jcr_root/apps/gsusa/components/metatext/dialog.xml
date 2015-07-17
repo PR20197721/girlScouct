@@ -14,6 +14,7 @@
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <meta-property
+                        allowBlank="{Boolean}false"
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Metadata Property Name"
                         fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
@@ -23,6 +24,11 @@
                         fieldLabel="Tag Name"
                         fieldDescription="Default to 'p' tag. Override the surrounding HTML tag here. e.g. h1"
                         name="./tagName"/>
+                    <dateFormat
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Date Format"
+                        fieldDescription="The display format of dates. e.g. MMMM dd, yyyy. Leave this field blank of this is not a date property."
+                        name="./dateFormat"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Override Text"
