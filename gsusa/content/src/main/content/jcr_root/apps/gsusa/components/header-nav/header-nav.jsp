@@ -14,9 +14,9 @@
     request.setAttribute("fromHeaderNav", "true");
     if (navs != null) {
 %>
-        <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
-            <section class="top-bar-section">
-                <ul>
+    <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
+        <section class="top-bar-section">
+            <ul>
 <% 
 	    for (int i = 0; i < navs.length; i++) {
 		    String[] split = navs[i].split("\\|\\|\\|");
@@ -27,10 +27,10 @@
 
             Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
                     
-           if (linkPage != null && !link.contains(".html")) {
-               link += ".html";
-           }
-           if (!label.isEmpty()) {
+            if (linkPage != null && !link.contains(".html")) {
+                link += ".html";
+            }
+            if (!label.isEmpty()) {
 %>
                <li>
                    <a class="show-for-large-up" href="<%= link %>" title="<%= label %>"><%= label %></a>

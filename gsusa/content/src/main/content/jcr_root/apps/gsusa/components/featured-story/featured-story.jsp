@@ -124,7 +124,6 @@
         <div class="contents clearfix">
             <div class="right-float">
                 <div class="video">
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/GaMylwohL14" frameborder="0" allowfullscreen></iframe>
                     <cq:include path="video-carousel" resourceType="gsusa/components/video-carousel" />
                 </div>
             </div>

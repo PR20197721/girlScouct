@@ -17,10 +17,10 @@
             jcr:primaryType="nt:unstructured"
             imageRotate="0"/>
         <content jcr:primaryType="nt:unstructured">
-            <main jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
+                    sling:resourceType="girlscouts/components/styled-parsys">
                     <iframe
                         jcr:created="{Date}2015-06-29T16:37:34.859-04:00"
                         jcr:createdBy="admin"
@@ -33,7 +33,7 @@
                         src="http://www.recruitingcenter.net/clients/girlscouts/publicjobs"
                         width="765px"/>
                 </par>
-            </main>
+            </middle>
         </content>
     </jcr:content>
 </jcr:root>

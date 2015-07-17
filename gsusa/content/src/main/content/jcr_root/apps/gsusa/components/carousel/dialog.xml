@@ -41,6 +41,28 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath>
+                    <imageAlt
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt>
+                    <interval
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="1000"
+                        fieldLabel="Speed for switching images"
+                        fieldDescription="Set this value between 5 and 5000"
+                        name="./interval"
+                        value="1000"
+                        minValue="5"
+                        maxValue="5000"
+                        allowDecimals="false"
+                        allowBlank="false"
+                        xtype="numberfield"/>
                 </items>
             </tab1>
             <tab2
@@ -65,6 +87,16 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath2>
+                    <imageAlt2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt2"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt2>
                     <subtitle2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Subtitle"
@@ -109,6 +141,16 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath3>
+                    <imageAlt3
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt3"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt3>
                     <subtitle3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Subtitle"
@@ -213,6 +255,7 @@
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 name="./videoPath50"
                                 xtype="pathfield"/>
                         </items>
@@ -271,6 +314,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 2"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath51"
                                 name="./videoPath51"
                                 xtype="pathfield"/>
@@ -330,6 +374,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 3"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath52"
                                 name="./videoPath52"
                                 xtype="pathfield"/>
@@ -389,6 +434,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 4"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath53"
                                 name="./videoPath53"
                                 xtype="pathfield"/>
@@ -419,6 +465,13 @@
                         name="./imagePath6"
                         rootPath="/content/dam/girlscouts-gsusa"
                         xtype="pathfield"/>
+                    <imageAlt6
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="lorem ipsum"
+                        value="lorem ipsum"
+                        fieldLabel="imageAlt6"
+                        name="./imageAlt6"
+                        xtype="textfield"/>
                     <closingSource
                         jcr:primaryType="cq:Widget"
                         value="homepage"
