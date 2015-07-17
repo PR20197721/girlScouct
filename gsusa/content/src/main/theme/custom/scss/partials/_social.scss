@@ -18,6 +18,9 @@
   @media #{$medium-up} {
     @include grid-column(8);
   }
+  @media #{$small-only} {
+    margin-bottom: rem-calc(35);
+  }
   .wrapper {
     background-color: $white;
     position: relative;
@@ -31,6 +34,15 @@
       margin-left: -97px;
       cursor: pointer;
     }
+    .centered {
+      text-align: center;
+    }
+  }
+}
+.twitter-timeline,
+.fb-page #u_0_0 > div {
+  @media #{$small-only} {
+    width: 100% !important;
   }
 }
 .blog-feed {
@@ -67,6 +79,7 @@
 .facebook-feed {
   max-height: rem-calc(410);
   overflow: hidden;
+  background-color: $white;
   @media #{$medium-only} {
     max-height:  rem-calc(370);
   }
@@ -82,6 +95,16 @@
   .facebook-embed-area {
     width: 40.909091%;
     float: left;
+    padding:rem-calc(10);
+    overflow: hidden;
+    height: 29.28571rem;
+    & * {color: #333;}
+    ul {
+      list-style: none;
+      margin: 0;
+      overflow: scroll;
+      height: 100%;
+    }
   }
 }
 .instagram-feed-image-head-area {

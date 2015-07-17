@@ -320,12 +320,12 @@ div.carousel {
   p {
     color: $black;
   }
-  .video {
+  .video-embed {
     float: left;
     height: 100%;
     width: 59.090909%;
   }
-  .video > img.slide-thumb {
+  .video-embed > img.slide-thumb {
     display: none;
   }
   .video-article {

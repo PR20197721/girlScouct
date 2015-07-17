@@ -40,7 +40,7 @@ public  String readUrlFile(String urlString) throws Exception {
         int read;
         char[] chars = new char[1024];
         while ((read = reader.read(chars)) != -1)
-            buffer.append(chars, 0, read); 
+            buffer.append(chars, 0, read);
         return buffer.toString();
     } finally {
         if (reader != null)
@@ -48,7 +48,7 @@ public  String readUrlFile(String urlString) throws Exception {
     }
 }
 public void addVideoNode(String videoPath, String videoName) {
-	
+
 }
 %>
 <%
@@ -88,11 +88,11 @@ for (int i = 0 ; i < 4; i++ ){
 	} else if ("path".equals(videoType5[i])) {
 		String videoPath = properties.get("videoPath5" + i, "");
 		videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
-		
+
 		//add video node
 		if (currentNode != null) {
 	        SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
-	        Session session = repository.loginAdministrative(null); 
+	        Session session = repository.loginAdministrative(null);
 
 	        Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
 	        if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
@@ -120,7 +120,7 @@ for (int i = 0 ; i < 4; i++) {
     if ("link".equals(videoType5[i])) {%>
         <li>
             <div class="video-wrapper">
-                <div class="video">
+                <div class="video-embed">
                 <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
                 <%= embeded[i] %>
                 </div>
@@ -135,7 +135,7 @@ for (int i = 0 ; i < 4; i++) {
                 </div>
             </div>
         </li> <%
-	} else { 
+	} else {
 		//none
 	}
 }
