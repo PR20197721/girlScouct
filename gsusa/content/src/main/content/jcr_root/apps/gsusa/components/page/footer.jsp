@@ -5,35 +5,23 @@
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
     String keepInTouchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/keepInTouch";
     String footerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footerNav";
+    String footerSharePath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footerShare";
 %>
 <section class="clearfix">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
 	<cq:include path="<%= footerNavPath %>" resourceType="gsusa/components/footer-nav" />
-    
-    <!-- <ul class="inline-list">
-        <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
-        <li><a href="#" title="Visit Us">Visit Us</a></li>
-        <li><a href="#" title="Careers">Careers</a></li>
-        <li><a href="#" title="Blog">Blog</a></li>
-        <li><a href="#" title="Press Room">Press Room</a></li>
-        <li><a href="#" title="FAQ">FAQ</a></li>
-        <li><a href="#" title="Investors">Investors</a></li>
-        <li><a href="#" title="Subscribe to Our Newsletter">Subscribe to Our Newsletter</a></li>
-        <li><a href="#" title="Help">Help</a></li>
-        <li><a href="#" title="Follow Us">Follow Us</a></li>
-        <li><a href="#" title="Trademark Statement">Trademark Statement</a></li>
-    </ul> -->
 </section>
 <section class="clearfix">
     <span class="copyright">&#64;2015 Girl Scouts of America</span>
     <div class="social-links clearfix">
         <div class="small-centered columns small-13 large-14 large-uncentered medium-uncentered medium-14">
-            <ul class="inline-list">
+            <cq:include path="<%= footerSharePath %>" resourceType="gsusa/components/footer-share" />
+            <!-- <ul class="inline-list">
                 <li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png"></a></li>
                 <li><a href="https://twitter.com/gsgc"><img src="/etc/designs/girlscouts-usa-green/images/twitter_30_white.png"></a></li>
                 <li><a href="https://www.flickr.com/photos/gsgc/"><img src="/etc/designs/girlscouts-usa-green/images/flickr_30_white.png"></a></li>
                 <li><a href="http://www.youtube.com/user/gsgcouncil?feature=watch"><img src="/etc/designs/girlscouts-usa-green/images/youtube_30_white.png"></a></li>
-            </ul>
+            </ul> -->
         </div>
     </div>
 </section>
