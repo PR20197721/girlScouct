@@ -5,7 +5,7 @@
   p {
     margin: 0;
   }
-  li {
+  > li {
     width: 100%;
     margin-bottom: 1%;
     margin-right: 0;
@@ -167,6 +167,11 @@
             @media #{$medium-up} {
               @include grid-column(14, $offset:1);
               float: right;
+            }
+            .featured-video-slider {
+              .slick-track {
+                max-height: rem-calc(320);
+              }
             }
             .slick-slide {
               margin-bottom: 0 !important;

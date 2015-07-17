@@ -121,38 +121,36 @@ for (int i = 0 ; i < 4; i++ ){
 	}
 }
 %>
-<div class="inner-sliders">
-<ul class="inner">
-<li>
-<ul class="slide-4">
+<div class="feature-video-slider">
+    <div class="slide-5">
+    <%
+    	for (int i = 0 ; i < 4; i++) {
+    		if ("link".equals(videoType5[i])) {
+    %>
+			<div>
+				<div class="video-wrapper">
+					<div class="video-embed">
+							<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+							<%= embeded[i] %>
+					</div>
+				</div>
+			</div>
 <%
-	for (int i = 0 ; i < 4; i++) {
-		if ("link".equals(videoType5[i])) {
-%>
-						<li>
-							<div class="video-wrapper">
-								<div class="video-embed">
-										<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-										<%= embeded[i] %>
-								</div>
-							</div>
-						</li>
-<%
-		} else if ("path".equals(videoType5[i])) {
-%>
-						<li>
-							<div class="video-wrapper">
-								<div class="video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
-								</div>
-							</div>
-						</li>
-<%
-		} else {
-//none
-		}
-	}
-%>
-</ul>
-</li></ul></div>
+    		} else if ("path".equals(videoType5[i])) {
+    %>
+			<div>
+				<div class="video-wrapper">
+					<div class="video-embed">
+						<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+						<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
+					</div>
+				</div>
+			</div>
+    <%
+    		} else {
+    //none
+    		}
+    	}
+    %>
+    </div>
+</div>
