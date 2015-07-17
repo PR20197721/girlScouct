@@ -294,6 +294,29 @@
                 videoType52="link"
                 videoType53="link"/>
         </content>
+        <footer jcr:primaryType="nt:unstructured">
+            <footerNav
+                jcr:lastModified="{Date}2015-07-17T14:55:22.214-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/footer-nav"
+                navs="[Visit Us|||||||||Visit Us|||Visit Us,Careers|||/content/gsusa/en/careers||||||care|||car,Blog|||#||||||Blog|||Blog,Press Room|||#||||||Press Room|||Press Room,FAQ|||#||||||FAQ|||FAQ,Investors|||#||||||Investors|||Investors,Subscribe to Our Newsletter|||#||||||Subscribe|||Subscribe,Help|||#||||||Help|||Help,Follow Us|||#||||||Follow Us|||Follow Us,Trademark Statement|||#||||||Trademark Statement|||Trademark Statement]"/>
+            <footerShare
+                jcr:lastModified="{Date}2015-07-17T16:18:23.755-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/footer-share"
+                hideFacebook="on"
+                hideFlickr="on"
+                hideTwitter="on"
+                hideYoutube="on"/>
+            <keepInTouch
+                jcr:lastModified="{Date}2015-07-17T14:56:28.984-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="gsusa/components/keep-in-touch"
+                label="Keep in touchhh"/>
+        </footer>
     </jcr:content>
     <_x0034_04/>
     <about-girl-scouts/>
