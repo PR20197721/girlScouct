@@ -39,7 +39,8 @@
 		        <div class="block-area">
 					<div class="instagram-feed-image-head-area"></div>
 			        <ul class="instagram-feed-image-area"></ul>
-			      </div>
+			    </div>
+			    <a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a>
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>
@@ -48,13 +49,13 @@
 	    <script>
         var feedHeadArea = $(".instagram-feed-image-head-area");
 	    var feedArea = $(".instagram-feed-image-area");
-	    
+
 	    var posts = [];
-	    
+
 	    var count = <%= count %>;
 	    var toParse = <%= result %>;
 	    var pinID = "<%= pinID %>";
-	    
+
 	    //console.log(toParse);
 	    if(toParse.data != undefined){
 		    var postIDPattern = /\/p\/([^\/]*)(\/)/gmi;
@@ -70,7 +71,7 @@
 		  			}
 		        }
 		    }
-	    
+
 	    	var output = "";
 			feedHeadArea.append('<a href="' + posts[0].link + '" target="_blank"><img src="' + posts[0].images.standard_resolution.url + '" /></a>');
 	    	for(var i=1; i < posts.length; i++){

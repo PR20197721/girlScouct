@@ -26,6 +26,7 @@
                         width="100%" height="460px">
         				Tweets by @<%= username %>
         			</a>
+                    <a href="https://twitter.com/girlscouts" title="see more on twitter">See more</a>
                 </div>
     		</div>
             <span class="scroll-more"></span>
