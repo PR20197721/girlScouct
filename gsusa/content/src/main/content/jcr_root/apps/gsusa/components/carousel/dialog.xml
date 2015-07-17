@@ -41,6 +41,16 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath>
+                    <imageAlt
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt>
                     <interval
                         jcr:primaryType="cq:Widget"
                         defaultValue="1000"
@@ -77,6 +87,16 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath2>
+                    <imageAlt2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt2"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt2>
                     <subtitle2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Subtitle"
@@ -121,6 +141,16 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"/>
                     </imagePath3>
+                    <imageAlt3
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image Alts"
+                        name="./imageAlt3"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            limit="{Long}4"
+                            xtype="textfield"/>
+                    </imageAlt3>
                     <subtitle3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Subtitle"
@@ -431,6 +461,13 @@
                         name="./imagePath6"
                         rootPath="/content/dam/girlscouts-gsusa"
                         xtype="pathfield"/>
+                    <imageAlt6
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="lorem ipsum"
+                        value="lorem ipsum"
+                        fieldLabel="imageAlt6"
+                        name="./imageAlt6"
+                        xtype="textfield"/>
                     <closingSource
                         jcr:primaryType="cq:Widget"
                         value="homepage"
