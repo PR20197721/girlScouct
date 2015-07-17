@@ -1,11 +1,21 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-	boolean hideFacebook = properties.get("hideFacebook", false);
-	boolean hideTwitter = properties.get("hideTwitter", false);
-	boolean hideFlickr = properties.get("hideFlickr", false);
-	boolean hideYoutube = properties.get("hideYoutube", false);
+	Boolean hideFacebook = properties.get("hideFacebook", false);
+	Boolean hideTwitter = properties.get("hideTwitter", false);
+	Boolean hideFlickr = properties.get("hideFlickr", false);
+	Boolean hideYoutube = properties.get("hideYoutube", false);
+
 	
+%>
+<%
+//TODO: refactor
+//If all buttons are hidden
+if (WCMMode.fromRequest(request) == WCMMode.EDIT && hideFacebook && hideTwitter && hideFlickr && hideYoutube) {
+%>
+	<li>Please click to edit the footer share component</li>
+<% 
+}
 %>
 
 <ul class="inline-list">

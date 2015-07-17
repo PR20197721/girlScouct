@@ -3,9 +3,9 @@
 <%
     // All pages share the same footer from the site root.
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
-    String keepInTouchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/keepInTouch";
-    String footerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footerNav";
-    String footerSharePath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footerShare";
+    String keepInTouchPath = footerPath + "/keepInTouch";
+    String footerNavPath = footerPath + "/footerNav";
+    String footerSharePath = footerPath + "/footerShare";
 %>
 <section class="clearfix">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />

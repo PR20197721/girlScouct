@@ -17,25 +17,33 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Hide Facebook?"
                         name="./hideFacebook"
-                        xtype="checkbox">
+                        defaultValue="{Boolean}false"
+                        type="checkbox"
+                        xtype="selection">
                     </facebook>
                     <twitter
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Hide Twitter?"
                         name="./hideTwitter"
-                        xtype="checkbox">
+                        defaultValue="{Boolean}false"
+                        type="checkbox"
+                        xtype="selection">
                     </twitter>
                     <flickr
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Hide Flickr?"
                         name="./hideFlickr"
-                        xtype="checkbox">
+                        defaultValue="{Boolean}false"
+                        type="checkbox"
+                        xtype="selection">
                     </flickr>
                     <youtube
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Hide Youtube?"
                         name="./hideYoutube"
-                        xtype="checkbox">
+                        defaultValue="{Boolean}false"
+                        type="checkbox"
+                        xtype="selection">
                     </youtube>
                 </items>
             </first>
