@@ -2,13 +2,23 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
+String mainMetaName = "";
 String text = properties.get("text", "");
 if (text.isEmpty()) {
-    String metaPropName = properties.get("metaproperty", "");
-    if (!metaPropName.isEmpty()) {
-        ValueMap pageProps = resourceResolver.resolve(currentPage.getPath() + "/jcr:content").adaptTo(ValueMap.class);
-        text = pageProps.get(metaPropName, "");
-    }
+	String metaPropName = properties.get("metaProperty", "");
+	if (!metaPropName.isEmpty()) {
+	    ValueMap pageProps = resourceResolver.resolve(currentPage.getPath() + "/jcr:content").adaptTo(ValueMap.class);
+	    String[] names = metaPropName.split(",");
+	    mainMetaName = names[0];
+	    for (int i = 0; i < names.length; i++) {
+	        text = pageProps.get(names[i], "");
+	        if (!text.isEmpty()) {
+	            break;
+	        }
+	    }
+	}
 }
+
+String placeholder = "&lt; Placeholder for matadata <i>" + mainMetaName + "</i> &gt;";
 %>
-<cq:text value="<%= text %>" escapeXml="true" placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+<cq:text value="<%= text %>" tagClass="<%= mainMetaName %>" escapeXml="true" placeholder="<%= placeholder %>"/>

@@ -16,8 +16,8 @@
                     <meta-property
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Metadata Property Name"
-                        fieldDescription="The metadata property to be displayed"
-                        name="./metaproperty"/>
+                        fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
+                        name="./metaProperty"/>
                     <text
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Override Text"
