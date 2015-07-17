@@ -316,7 +316,7 @@
   $('.main-slider').slick({
     dots: false,
     infinite: true,
-    speed: interval,
+    speed: (typeof interval !== 'undefined') ? interval: 1000,
     fade: true,
     autoplay: true,
     arrows: false,
