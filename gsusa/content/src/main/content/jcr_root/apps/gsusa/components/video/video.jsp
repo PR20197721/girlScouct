@@ -36,6 +36,8 @@
 
         // allow either just a width or a height to be set (letting the browser handle it)
         // but give a default if nothing is set
+        
+        //nps customization, making it 100%
         if (width == null && height == null) {
             width = "100%";
             height = "100%";

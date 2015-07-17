@@ -268,7 +268,7 @@ interval = <%= interval %>;
 						<li>
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
-								<div class="video">
+								<div class="video video-embed">
 									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
 									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
 								</div>
