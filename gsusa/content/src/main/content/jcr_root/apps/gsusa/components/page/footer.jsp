@@ -4,10 +4,13 @@
     // All pages share the same footer from the site root.
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
     String keepInTouchPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/keepInTouch";
+    String footerNavPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footerNav";
 %>
 <section class="clearfix">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
-    <ul class="inline-list">
+	<cq:include path="<%= footerNavPath %>" resourceType="gsusa/components/footer-nav" />
+    
+    <!-- <ul class="inline-list">
         <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
         <li><a href="#" title="Visit Us">Visit Us</a></li>
         <li><a href="#" title="Careers">Careers</a></li>
@@ -19,7 +22,7 @@
         <li><a href="#" title="Help">Help</a></li>
         <li><a href="#" title="Follow Us">Follow Us</a></li>
         <li><a href="#" title="Trademark Statement">Trademark Statement</a></li>
-    </ul>
+    </ul> -->
 </section>
 <section class="clearfix">
     <span class="copyright">&#64;2015 Girl Scouts of America</span>
