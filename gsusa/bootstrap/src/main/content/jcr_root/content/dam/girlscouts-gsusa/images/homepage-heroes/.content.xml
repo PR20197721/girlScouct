@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="sling:OrderedFolder">
     <jcr:content
-        cq:lastReplicated="{Date}2015-07-10T11:25:29.453-04:00"
-        cq:lastReplicatedBy="dlubin"
-        cq:lastReplicationAction="Activate"
-        jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="nt:unstructured"
         jcr:title="Homepage Heroes">
         <folderThumbnail/>
     </jcr:content>
-    <_x0031_.png/>
-    <_x0032_.png/>
-    <_x0033_.png/>
-    <_x0034_.png/>
-    <_x0035_.png/>
-    <_x0036_.png/>
-    <_x0037_.png/>
-    <home3.png/>
-    <home2.png/>
-    <home4.png/>
-    <_x0038_.png/>
-    <home1.png/>
+    <_x0031_.jpeg/>
+    <_x0032_.jpeg/>
+    <_x0033_.jpeg/>
+    <_x0036_.jpeg/>
+    <_x0035_.jpeg/>
+    <_x0034_.jpeg/>
+    <_x0037_.jpeg/>
+    <_x0038_.jpeg/>
+    <brownie-horses.jpeg/>
+    <glass-pane.jpeg/>
+    <home1.jpeg/>
+    <home2.jpeg/>
+    <home4.jpeg/>
+    <home3.jpeg/>
 </jcr:root>

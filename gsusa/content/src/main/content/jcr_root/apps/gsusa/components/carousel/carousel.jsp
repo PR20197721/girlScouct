@@ -183,7 +183,7 @@ interval = <%= interval %>;
 <%
 	for (int i = 0 ; i < imagePathArray.length; i++) {
 %>
-		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.png" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
+		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.jpeg" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
 <%
 	}
 %>

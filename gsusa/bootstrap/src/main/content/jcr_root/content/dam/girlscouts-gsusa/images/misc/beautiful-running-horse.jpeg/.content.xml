@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2015-07-17T16:58:16.233-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:Bitsperpixel="24"
+            dam:Comments="CREATOR: gd-jpeg v1.0 (using IJG JPEG v62), quality = 80&#xa;&#xa;"
+            dam:extracted="{Date}2015-07-07T15:51:34.000-04:00"
+            dam:Fileformat="JPEG"
+            dam:MIMEtype="image/jpeg"
+            dam:Numberofimages="1"
+            dam:Numberoftextualcomments="1"
+            dam:Physicalheightindpi="-1"
+            dam:Physicalheightininches="-1.0"
+            dam:Physicalwidthindpi="-1"
+            dam:Physicalwidthininches="-1.0"
+            dam:Progressive="no"
+            dam:sha1="450b1d65fac8c748d586f911d61fc076ed32d69b"
+            dam:size="104629"
+            dc:format="image/jpeg"
+            dc:modified="{Date}2015-07-09T11:56:19.000-04:00"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            tiff:ImageLength="{Long}681"
+            tiff:ImageWidth="{Long}1024"/>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>
