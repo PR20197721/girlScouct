@@ -363,17 +363,6 @@
         arrows: false,
       });
 
-      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
-        dots: true,
-        fade: true,
-        dotsClass: 'slick-dots',
-        cssEase: 'linear',
-        arrows: false,
-        customPaging: function (slick, index) {
-          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
-        },
-      });
-
       $('.main-slider').slick('slickPause');
       // $('.main-slider').slickPause();
       console.log('main carousel paused');
