@@ -40,7 +40,7 @@
 					<div class="instagram-feed-image-head-area"></div>
 			        <ul class="instagram-feed-image-area"></ul>
 			    </div>
-			    <a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a>
+			    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>
