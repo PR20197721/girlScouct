@@ -346,7 +346,17 @@
         //   instead of a settings object
         // ]
       });
-      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4, .story .video-carousel .slide-4').slick({
+      $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
+        dots: true,
+        fade: true,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: false,
+        customPaging: function (slick, index) {
+          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
+        },
+      });
+      $('.story .slide-4').slick({
         dots: true,
         fade: true,
         dotsClass: 'slick-dots',
