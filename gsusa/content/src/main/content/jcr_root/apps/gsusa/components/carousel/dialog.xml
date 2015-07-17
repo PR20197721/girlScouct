@@ -255,6 +255,7 @@
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 name="./videoPath50"
                                 xtype="pathfield"/>
                         </items>
@@ -313,6 +314,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 2"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath51"
                                 name="./videoPath51"
                                 xtype="pathfield"/>
@@ -372,6 +374,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 3"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath52"
                                 name="./videoPath52"
                                 xtype="pathfield"/>
@@ -431,6 +434,7 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 4"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath53"
                                 name="./videoPath53"
                                 xtype="pathfield"/>
