@@ -1,0 +1,16 @@
+/* COUNCIL-SPECIFIC STYLING FOR WESTERN OKLAHOMA */
+#header a.link-login {
+  border: solid 5px;
+  content: "";
+  border-color: transparent transparent transparent #00AE58;
+  border-width: 0;
+  margin: 4px 0 0 10px;
+}
+
+#header a.link-login {
+  color: #00AE5B;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0 0 0 10px;
+  position: relative;
+}

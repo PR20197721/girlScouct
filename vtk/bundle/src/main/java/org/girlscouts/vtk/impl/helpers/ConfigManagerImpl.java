@@ -49,6 +49,11 @@ public class ConfigManagerImpl implements ConfigManager {
 		Dictionary configs = context.getProperties();
 		return (String) configs.get(key);
 	}
+	
+	public String[] getCouncilMapping() {
+		Dictionary configs = context.getProperties();
+		return (String[]) configs.get("councilMapping");
+	}
 
 	@Modified
 	private void updateConfig(ComponentContext context) {

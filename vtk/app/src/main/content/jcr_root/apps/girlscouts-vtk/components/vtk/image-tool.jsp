@@ -87,12 +87,12 @@ var displayCurrent = function(){
     imageTool.appendChild(currentDisplay);
     imageTool.appendChild(clearBoth);
     
-    <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
+    <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
     	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"Upload a new Photo\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
 	<%} %>
 }
 
-<%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
+<%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
 	var removeCurrent = function(){
 		$('#current-display').remove();
 		$('#clear-both').remove();
@@ -553,6 +553,7 @@ var displayCurrent = function(){
 				$('#upload-tool').remove();
 		
 		        upload();
+		        vtkTrackerPushAction('ModifyTroopImage');
 	    	}
 	    };
 	    
