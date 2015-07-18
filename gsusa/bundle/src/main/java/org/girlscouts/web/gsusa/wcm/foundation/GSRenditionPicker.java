@@ -18,11 +18,8 @@ public class GSRenditionPicker implements RenditionPicker {
     public Rendition getRendition(Asset asset) {
         List<Rendition> renditions = asset.getRenditions();
         for (String targetRendition : targetRenditions) {
-            System.out.println("Test target rendition " +targetRendition);
             for (Rendition rendition: renditions) {
-                System.out.println("Test src rendition " +rendition.getName());
                 if (Text.getName(rendition.getPath()).startsWith(targetRendition)) {
-                    System.out.println("Chose rendition " +targetRendition);
                     return rendition;
                 }
             }

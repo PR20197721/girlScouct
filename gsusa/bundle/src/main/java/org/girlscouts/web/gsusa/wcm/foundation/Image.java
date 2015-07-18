@@ -18,10 +18,8 @@ public class Image extends com.day.cq.wcm.foundation.Image {
     }
     
     protected Resource getReferencedResource(String path) {
-        System.out.println("MZMZ my own image");
         String resourcePath = getResource().getPath();
         String CONTENT_MATCH = "jcr:content/content/";
-        String imageBase = resourcePath.substring(0, resourcePath.indexOf(CONTENT_MATCH) + CONTENT_MATCH.length());
         String imageStem = resourcePath.substring(resourcePath.indexOf(CONTENT_MATCH) + CONTENT_MATCH.length());
         String imageVar = imageStem.substring(0, imageStem.indexOf("/"));
         ResourceResolver rr = getResourceResolver();
@@ -46,7 +44,6 @@ public class Image extends com.day.cq.wcm.foundation.Image {
         }
         
         String[] targetRenditions = new String[]{"cq5dam.resized.web-" + imageVar, "cq5dam.web.1280.1280"};
-        System.out.println("In Koo wants this: " + "cq5dam.resized.web-" + imageVar);
 
         Resource res = rr.getResource(path);
         if (res != null) {
@@ -55,7 +52,6 @@ public class Image extends com.day.cq.wcm.foundation.Image {
                 res = null != rendition ? (Resource)rendition.adaptTo(Resource.class) : null;
             }
         }
-        System.out.println("res path = " + res.getPath());
         return res;
     }
 }
