@@ -49,4 +49,33 @@
 }
 .our-story-video-popup {
   padding: 0;
+  .top-bar {
+    background-color: #00AE58;
+    height: rem-calc(85);
+  }
+  p {
+    text-align: left;
+    max-width: 70%;
+    margin: rem-calc(15) auto 0;
+    line-height: 2.5;
+  }
+  p:first-of-type {
+    text-align: left;
+    font-size: rem-calc(25);
+  	font-weight: 500;
+  }
+  img:first-child {
+      display: inline;
+      padding: 0;
+      margin-left: rem-calc(10);
+      margin-top: rem-calc(10);
+  }
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: rem-calc(30);
+    max-width:100%;
+    height: auto;
+  }
 }

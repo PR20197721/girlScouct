@@ -140,13 +140,47 @@ public  String readUrlFile(String urlString) throws Exception {
 	                if (imageRes != null && !imageRes.getResourceType().equals("sling:nonexisting")) {
 	                    ValueMap imageVm = (ValueMap) imageRes.adaptTo(ValueMap.class);
 	                    String description = vm.get("description", "");
+	                    String modalId2 = "modalImage-" + Integer.toString((int)(Math.random() * 10000) + 1000);
 	                    
 	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
 	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
+	                        <div id="<%= modalId2 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+							  <nav class="top-bar" data-topbar role="navigation">
+								  <ul class="title-area">
+								    <li class="name">
+								      <img src="/content/dam/girlscouts-gsusa/images/logo/logo.png" alt="gsusa home"/>
+								    </li>
+								    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
+								  </ul>
+								
+								  <section class="top-bar-section">
+								    <!-- Right Nav Section -->
+								   <!--  <ul class="right">
+								      <li class="active"><span class="icon-cross"></span></li>
+								    </ul> -->
+								  </section>
+								</nav>
+							  <img src="<%= imagePath %>" alt="<%= description %>"/>
+							  <p>Hed - dek</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+			                </div>
 	                        <li>
 	                          <div>
 	                            <img src="<%= imagePath %>" alt="<%= description %>"/>
-	                              <p><a href="#" title="story title"><%= description %></a></p>
+	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
 	                          </div>
 	                        </li><%
 	                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link

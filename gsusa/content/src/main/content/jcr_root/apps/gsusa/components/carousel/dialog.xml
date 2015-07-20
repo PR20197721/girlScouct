@@ -53,15 +53,15 @@
                     </imageAlt>
                     <interval
                         jcr:primaryType="cq:Widget"
+                        allowBlank="false"
+                        allowDecimals="false"
                         defaultValue="1000"
-                        fieldLabel="Speed for switching images"
                         fieldDescription="Set this value between 5 and 5000"
+                        fieldLabel="Speed for switching images"
+                        maxValue="5000"
+                        minValue="5"
                         name="./interval"
                         value="1000"
-                        minValue="5"
-                        maxValue="5000"
-                        allowDecimals="false"
-                        allowBlank="false"
                         xtype="numberfield"/>
                 </items>
             </tab1>
@@ -255,8 +255,8 @@
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
-                                rootPath="/content/dam/girlscouts-gsusa"
                                 name="./videoPath50"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items0>
@@ -314,9 +314,9 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 2"
-                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath51"
                                 name="./videoPath51"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items1>
@@ -374,9 +374,9 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 3"
-                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath52"
                                 name="./videoPath52"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items2>
@@ -434,9 +434,9 @@
                                 jcr:primaryType="cq:Widget"
                                 editable="{Boolean}false"
                                 fieldLabel="Video Path 4"
-                                rootPath="/content/dam/girlscouts-gsusa"
                                 itemId="videoPath53"
                                 name="./videoPath53"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items3>
@@ -468,17 +468,17 @@
                     <imageAlt6
                         jcr:primaryType="cq:Widget"
                         defaultValue="lorem ipsum"
-                        value="lorem ipsum"
                         fieldLabel="imageAlt6"
                         name="./imageAlt6"
+                        value="lorem ipsum"
                         xtype="textfield"/>
                     <closingSource
                         jcr:primaryType="cq:Widget"
-                        value="homepage"
                         defaultValue="homepage"
+                        fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./closingSource6"
-                        fieldDescription="This field is used for tracking in Google Analytics."
+                        value="homepage"
                         xtype="textfield"/>
                 </items>
             </tab6>
@@ -488,11 +488,11 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <Source
                         jcr:primaryType="cq:Widget"
-                        value="homepage"
                         defaultValue="homepage"
+                        fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./source7"
-                        fieldDescription="This field is used for tracking in Google Analytics."
+                        value="homepage"
                         xtype="textfield"/>
                 </items>
             </tab7>
