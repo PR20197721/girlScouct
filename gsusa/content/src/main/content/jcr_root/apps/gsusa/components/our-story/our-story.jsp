@@ -44,9 +44,12 @@ public  String readUrlFile(String urlString) throws Exception {
         while ((read = reader.read(chars)) != -1)
             buffer.append(chars, 0, read); 
         return buffer.toString();
-    } finally {
-        if (reader != null)
+    } catch (java.net.UnknownHostException uhe) {
+		return "";
+	} finally {
+        if (reader != null) {
             reader.close();
+        }
     }
 }
 %>
@@ -130,70 +133,70 @@ public  String readUrlFile(String urlString) throws Exception {
                 <%
                 
             } else {
-            
-            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
-                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
-                Resource imageRes = resourceResolver.resolve(storyPath + "/jcr:content/image");
-                
-                if (imageRes != null && !imageRes.getResourceType().equals("sling:nonexisting")) {
-                    ValueMap imageVm = (ValueMap) imageRes.adaptTo(ValueMap.class);
-                    String description = vm.get("description", "");
-                    
-                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
-                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
-                        <li>
-                          <div>
-                            <img src="<%= imagePath %>" alt="<%= description %>"/>
-                              <p><a href="#" title="story title"><%= description %></a></p>
-                          </div>
-                        </li><%
-                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link
-                        if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
-                            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
-                            String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";%>
-                            <span class="icon-play"></span>
-                            <li>
-                              <div>
-                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        } else if ((vm.get("jcr:videoLink", "").indexOf("vimeo")) != -1) { //vimeo
-                            String vimeoId = extractVimeoId(vm.get("jcr:videoLink", ""));
-                            String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-                            JSONArray json = new JSONArray(jsonOutput);
-                            String imagePath = "";
-                            if (!json.isNull(0)) {
-                                imagePath = json.getJSONObject(0).getString("thumbnail_large");
-                            }%>
-                            <span class="icon-play"></span>
-                            <li>
-                              <div>
-                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        } else {%>
-                            <li>
-                              <div>
-                                  <p>We do not support this video link</p>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        }
-                      } else if (!"".equals(vm.get("jcr:videoPath", ""))) { //it has an video
-                    } else {
-                        //something is wrong: it has no image, video, or video path%>
-                        <li>
-                          <div>
-                              <p>This our story does not have an image, a video link or a video path</p>
-                            <p><a href="#" title="story title"><%= description %></a></p>
-                          </div>
-                        </li><%
-                    }
-                   }
-            }
-        }
+	            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
+	                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
+	                Resource imageRes = resourceResolver.resolve(storyPath + "/jcr:content/image");
+	                
+	                if (imageRes != null && !imageRes.getResourceType().equals("sling:nonexisting")) {
+	                    ValueMap imageVm = (ValueMap) imageRes.adaptTo(ValueMap.class);
+	                    String description = vm.get("description", "");
+	                    
+	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
+	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
+	                        <li>
+	                          <div>
+	                            <img src="<%= imagePath %>" alt="<%= description %>"/>
+	                              <p><a href="#" title="story title"><%= description %></a></p>
+	                          </div>
+	                        </li><%
+	                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link
+	                        if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
+		                            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
+		                            String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";%>
+		                            <span class="icon-play"></span>
+		                            <li>
+		                              <div>
+		                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+		                                <p><a href="#" title="story title"><%= description %></a></p>
+		                              </div>
+		                            </li><%
+		                    } else if ((vm.get("jcr:videoLink", "").indexOf("vimeo")) != -1) { //vimeo
+		                          String vimeoId = extractVimeoId(vm.get("jcr:videoLink", ""));
+		                          String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+		                          JSONArray json = new JSONArray(jsonOutput);
+		                          String imagePath = "";
+		                          if (!json.isNull(0)) {
+		                              imagePath = json.getJSONObject(0).getString("thumbnail_large");
+		                          }%>
+		                          <span class="icon-play"></span>
+		                          <li>
+		                            <div>
+		                              <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+		                              <p><a href="#" title="story title"><%= description %></a></p>
+		                            </div>
+		                          </li><%
+		                    } else {%>
+		                            <li>
+		                              <div>
+		                                  <p>We do not support this video link</p>
+		                                <p><a href="#" title="story title"><%= description %></a></p>
+		                              </div>
+		                            </li><%
+		                        }
+	                    } else if (!"".equals(vm.get("jcr:videoPath", ""))) { //it has an video
+	                    
+	                    } else {
+	                        //something is wrong: it has no image, video, or video path%>
+	                        <li>
+	                          <div>
+	                              <p>This our story does not have an image, a video link or a video path</p>
+	                            <p><a href="#" title="story title"><%= description %></a></p>
+	                          </div>
+	                        </li><%
+	                    }
+	                }
+	            }
+	        }
         }%>
         </ul></div><%
         return;
