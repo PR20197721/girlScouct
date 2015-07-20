@@ -3,6 +3,6 @@
     cq:mappingComponent="video"
     jcr:primaryType="cq:Component"
     jcr:title="Video"
-    sling:resourceSuperType="foundation/components/parbase"
+    sling:resourceSuperType="gsusa/components/parbase"
     allowedParents="[*/parsys]"
     componentGroup="GSUSA"/>

@@ -3,6 +3,6 @@
     jcr:description="This component allows you to add a rendition of an image.  It will detect the parent data type and display corresponding rendition."
     jcr:primaryType="cq:Component"
     jcr:title="Simple Image Component"
-    sling:resourceSuperType="foundation/components/parbase"
+    sling:resourceSuperType="gsusa/components/parbase"
     allowedParents="[*/*parsys]"
     componentGroup="GSUSA"/>
