@@ -52,6 +52,14 @@
   .top-bar {
     background-color: #00AE58;
     height: rem-calc(85);
+    .top-bar-section {
+      .right {
+        .icon-cross {
+          font-size: rem-calc(40);
+          color: $white;
+        }
+      }
+    }
   }
   p {
     text-align: left;

@@ -155,9 +155,9 @@ public  String readUrlFile(String urlString) throws Exception {
 								
 								  <section class="top-bar-section">
 								    <!-- Right Nav Section -->
-								   <!--  <ul class="right">
-								      <li class="active"><span class="icon-cross"></span></li>
-								    </ul> -->
+								    <ul class="right">
+								      <li><span class="icon-cross"></span></li>
+								    </ul>
 								  </section>
 								</nav>
 							  <img src="<%= imagePath %>" alt="<%= description %>"/>
@@ -182,7 +182,12 @@ public  String readUrlFile(String urlString) throws Exception {
 	                            <img src="<%= imagePath %>" alt="<%= description %>"/>
 	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
 	                          </div>
-	                        </li><%
+	                        </li>
+	                        <script>
+	                          $("#<%= modalId2 %>").on("click", function (e) {
+                              	$("#<%= modalId2 %>").foundation('reveal', 'close');
+							  });
+	                        </script><%
 	                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link
 	                        if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
 		                            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
