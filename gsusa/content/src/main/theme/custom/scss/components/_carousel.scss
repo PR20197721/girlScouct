@@ -277,6 +277,29 @@ div.carousel {
         }
       }
     }
+    .video-wrapper {
+      height: rem-calc(300);
+      overflow: hidden;
+      p {
+        color: $black;
+      }
+      .video-embed {
+        float: left;
+        height: 100%;
+        width: 59.090909%;
+      }
+      .video-embed > img.slide-thumb {
+        display: none;
+      }
+      .video-article {
+        width: 40.909091%;
+        float: left;
+        background-color: white;
+        padding: rem-calc(20 25);
+        overflow-y: auto;
+        height: 100%;
+      }
+    }
   }
 }
 .shop-tile {
@@ -314,26 +337,3 @@ div.carousel {
   }
 }
 
-.video-wrapper {
-  height: rem-calc(300);
-  overflow: hidden;
-  p {
-    color: $black;
-  }
-  .video-embed {
-    float: left;
-    height: 100%;
-    width: 59.090909%;
-  }
-  .video-embed > img.slide-thumb {
-    display: none;
-  }
-  .video-article {
-    width: 40.909091%;
-    float: left;
-    background-color: white;
-    padding: rem-calc(20 25);
-    overflow-y: auto;
-    height: 100%;
-  }
-}
