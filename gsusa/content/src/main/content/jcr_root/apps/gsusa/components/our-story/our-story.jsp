@@ -183,8 +183,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		                              </div>
 		                            </li><%
 		                        }
-	                    } else if (!"".equals(vm.get("jcr:videoPath", ""))) { //it has an video
-	                    
 	                    } else {
 	                        //something is wrong: it has no image, video, or video path%>
 	                        <li>
