@@ -4,7 +4,7 @@
     <ads/>
     <jcr:content
         cq:designPath="/etc/designs/gsusa"
-        cq:lastModified="{Date}2015-07-17T17:20:56.927-04:00"
+        cq:lastModified="{Date}2015-07-10T12:40:55.905-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2015-07-09T14:56:48.188-04:00"
         cq:lastReplicatedBy="admin"
@@ -78,19 +78,21 @@
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/girlscouts-gsusa/temp/girl-climbing.png"/>
                     <video-carousel
-                        jcr:lastModified="{Date}2015-07-10T10:22:07.156-04:00"
+                        jcr:lastModified="{Date}2015-07-17T16:58:37.390-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/video-carousel"
-                        vid-path1="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
-                        vid-path2="/content/dam/girlscouts-gsusa/temp/aa.mp4"
-                        vid-path3="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
-                        vid-path4="/content/dam/girlscouts-gsusa/temp/aa.mp4">
+                        videoLink50="https://vimeo.com/129565826"
+                        videoLink51="https://www.youtube.com/watch?v=SvKmSNxFHyQ"
+                        videoLink52="https://www.youtube.com/watch?v=SvKmSNxFHyQ"
+                        videoPath51="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        videoPath52="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        videoPath53="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        videoType50="link"
+                        videoType51="path"
+                        videoType52="link"
+                        videoType53="path">
                         <vid1
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="gsusa/components/video"
-                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
-                        <vid2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="gsusa/components/video"
                             asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
@@ -98,10 +100,6 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="gsusa/components/video"
                             asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
-                        <vid4
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="gsusa/components/video"
-                            asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
                     </video-carousel>
                 </story_0>
                 <story_1
@@ -144,18 +142,26 @@
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/girlscouts-gsusa/images/misc/lake3.jpeg"/>
                     <video-carousel
-                        jcr:lastModified="{Date}2015-07-10T10:39:28.984-04:00"
+                        jcr:lastModified="{Date}2015-07-17T15:55:06.475-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/video-carousel"
                         vid-path1="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
                         vid-path2="/content/dam/girlscouts-gsusa/temp/aa.mp4"
                         vid-path3="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
-                        vid-path4="/content/dam/girlscouts-gsusa/temp/aa.mp4">
+                        vid-path4="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        videoLink50="https://www.youtube.com/watch?v=xe1LrMqURuw"
+                        videoLink52="https://vimeo.com/129565826"
+                        videoPath51="/content/dam/girlscouts-gsusa/temp/aa.mp4"
+                        videoPath53="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"
+                        videoType50="link"
+                        videoType51="path"
+                        videoType52="link"
+                        videoType53="path">
                         <vid1
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="gsusa/components/video"
-                            asset="/content/dam/girlscouts-gsusa/temp/IMG_0050.MOV"/>
+                            asset="/content/dam/girlscouts-gsusa/temp/aa.mp4"/>
                         <vid2
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="gsusa/components/video"
@@ -208,7 +214,7 @@
                         sling:resourceType="foundation/components/image"
                         fileReference="/content/dam/girlscouts-gsusa/images/misc/lake1.jpg"/>
                     <shop-tile
-                        jcr:lastModified="{Date}2015-07-09T15:23:13.654-04:00"
+                        jcr:lastModified="{Date}2015-07-17T15:29:32.293-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/shop-tile"
@@ -262,16 +268,15 @@
                 content52="Scout may be cool"
                 content53="else"
                 content6="Come Join Us! We are fun, educational and much more."
-                imageAlt="[a,b,c]"
-                imageAlt2="[aa,bb,cc,dd]"
-                imageAlt3="[aa,bb]"
-                imageAlt6="lorem ipsum"
+                imageAlt="[imageAlt1,ImageAlt2,ImageAlt3]"
+                imageAlt2="[imageAlt1,ImageAlt2,ImageAlt3,ImageAlt4]"
+                imageAlt3="[imageAlt1,ImageAlt2]"
                 imagePath="[/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.jpeg]"
                 imagePath2="[/content/dam/girlscouts-gsusa/images/homepage-heroes/1.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/2.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/3.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/4.jpeg]"
                 imagePath3="[/content/dam/girlscouts-gsusa/images/homepage-heroes/7.jpeg,/content/dam/girlscouts-gsusa/images/homepage-heroes/8.jpeg]"
-                imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.jpeg"
-                imagepath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home4.png"
-                interval="1000"
+                imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png"
+
+                imagePath6="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png"
                 source7="homepage"
                 subtitle2="[Water Sports,Travel,Pathways,Camping]"
                 subtitle3="[Go Go Ninja Go!,Go Go Ninja]"
@@ -339,4 +344,5 @@
     <subscribe-to-our-newsletter/>
     <trademark-statement/>
     <visit-us/>
+    <ads/>
 </jcr:root>
