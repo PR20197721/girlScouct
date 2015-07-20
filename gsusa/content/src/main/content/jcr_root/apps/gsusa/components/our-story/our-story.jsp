@@ -123,7 +123,6 @@ public  String readUrlFile(String urlString) throws Exception {
                   <div id="<%= modalId %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <cq:include path="<%= videoCompPath %>" resourceType="gsusa/components/video" />
                   </div>
-                              
                   <li>
                     <div>
                       <img src="<%= imagePath %>" alt="<%= description %>"/>
@@ -131,7 +130,51 @@ public  String readUrlFile(String urlString) throws Exception {
                     </div>
                   </li>
                 <%
-                
+            } else if (resProp.get("type", "").equals("external-video")) {
+            	if (resProp.get("externalVideo", "").indexOf("youtube") != -1) {
+	                String description = resProp.get("description", "");
+	                String ytId = extractYTId(resProp.get("externalVideo", ""));
+                    String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
+                    String modalId3 = "modalVideo-" + Integer.toString((int)(Math.random() * 10000) + 1000);%>
+                    <div id="<%= modalId3 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    	<iframe align="middle" width="560" height="315" src="https://www.youtube.com/embed/<%= ytId %>" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	} else if (resProp.get("externalVideo", "").indexOf("vimeo") != -1) {
+            		String description = resProp.get("description", "");
+                	String vimeoId = extractVimeoId(resProp.get("externalVideo", ""));
+                    String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+                    String modalId4 = "modalVimeo-" + Integer.toString((int)(Math.random() * 10000) + 1000);
+                    JSONArray json = new JSONArray(jsonOutput);
+                    String imagePath = "";
+                    if (!json.isNull(0)) {
+                        imagePath = json.getJSONObject(0).getString("thumbnail_large");
+                    }%>
+                    <div id="<%= modalId4 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    	<iframe src="https://player.vimeo.com/video/<%=vimeoId %>?badge=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	} else {
+            		//not supported
+            		String description = resProp.get("description", "");
+                	//something is wrong: this video is not supported%>
+                    <li>
+                      <div>
+                          <p>This story does not have a supported video.</p>
+                        <p><a href="#" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	}
             } else {
 	            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
 	                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
@@ -164,18 +207,6 @@ public  String readUrlFile(String urlString) throws Exception {
 							  <p>Hed - dek</p>
 							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
 							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
 			                </div>
 	                        <li>
 	                          <div>
@@ -188,45 +219,11 @@ public  String readUrlFile(String urlString) throws Exception {
                               	$("#<%= modalId2 %>").foundation('reveal', 'close');
 							  });
 	                        </script><%
-	                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link
-	                        if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
-		                            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
-		                            String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";%>
-		                            <span class="icon-play"></span>
-		                            <li>
-		                              <div>
-		                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-		                                <p><a href="#" title="story title"><%= description %></a></p>
-		                              </div>
-		                            </li><%
-		                    } else if ((vm.get("jcr:videoLink", "").indexOf("vimeo")) != -1) { //vimeo
-		                          String vimeoId = extractVimeoId(vm.get("jcr:videoLink", ""));
-		                          String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-		                          JSONArray json = new JSONArray(jsonOutput);
-		                          String imagePath = "";
-		                          if (!json.isNull(0)) {
-		                              imagePath = json.getJSONObject(0).getString("thumbnail_large");
-		                          }%>
-		                          <span class="icon-play"></span>
-		                          <li>
-		                            <div>
-		                              <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-		                              <p><a href="#" title="story title"><%= description %></a></p>
-		                            </div>
-		                          </li><%
-		                    } else {%>
-		                            <li>
-		                              <div>
-		                                  <p>We do not support this video link</p>
-		                                <p><a href="#" title="story title"><%= description %></a></p>
-		                              </div>
-		                            </li><%
-		                        }
 	                    } else {
 	                        //something is wrong: it has no image, video, or video path%>
 	                        <li>
 	                          <div>
-	                              <p>This our story does not have an image, a video link or a video path</p>
+	                              <p>This story does not have an image, a video link or a video path</p>
 	                            <p><a href="#" title="story title"><%= description %></a></p>
 	                          </div>
 	                        </li><%
