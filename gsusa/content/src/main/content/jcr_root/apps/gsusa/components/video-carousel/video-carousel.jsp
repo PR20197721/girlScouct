@@ -8,61 +8,64 @@
                 com.day.cq.wcm.api.components.IncludeOptions,
                 org.apache.sling.jcr.api.SlingRepository" %>
 
-<li>
-<ul class="slide-4">
 <%!
 public String extractYTId(String ytUrl) {
-    String vId = null;
-    Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
-    Matcher matcher = pattern.matcher(ytUrl);
-    if (matcher.matches()){
-        vId = matcher.group(1);
-    }
-    return vId;
+	String vId = null;
+	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Matcher matcher = pattern.matcher(ytUrl);
+	if (matcher.matches()){
+		vId = matcher.group(1);
+	}
+	return vId;
 }
 
 public String extractVimeoId(String vimeoUrl) {
-    String vId = null;
-    Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
-    Matcher matcher = pattern.matcher(vimeoUrl);
-    if (matcher.matches()){
-        vId = matcher.group(1);
-    }
-    return vId;
+	String vId = null;
+	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
+	Matcher matcher = pattern.matcher(vimeoUrl);
+	if (matcher.matches()){
+		vId = matcher.group(1);
+	}
+	return vId;
 }
 
+
 public  String readUrlFile(String urlString) throws Exception {
-    BufferedReader reader = null;
-    try {
-        URL url = new URL(urlString);
-        reader = new BufferedReader(new InputStreamReader(url.openStream()));
-        StringBuffer buffer = new StringBuffer();
-        int read;
-        char[] chars = new char[1024];
-        while ((read = reader.read(chars)) != -1)
-            buffer.append(chars, 0, read);
-        return buffer.toString();
-    } finally {
-        if (reader != null)
-            reader.close();
-    }
+	BufferedReader reader = null;
+	try {
+		URL url = new URL(urlString);
+		reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		StringBuffer buffer = new StringBuffer();
+		int read;
+		char[] chars = new char[1024];
+		while ((read = reader.read(chars)) != -1)
+			buffer.append(chars, 0, read);
+		return buffer.toString();
+	} catch (java.net.UnknownHostException uhe) {
+		return "";
+	} finally {
+		if (reader != null) {
+			reader.close();
+		}
+	}
 }
 public void addVideoNode(String videoPath, String videoName) {
 
-}
-%>
-<%
-String videoType50 = properties.get("videoType50", "");
-String videoType51 = properties.get("videoType51", "");
-String videoType52 = properties.get("videoType52", "");
-String videoType53 = properties.get("videoType53", "");
-String[] videoType5 = {videoType50, videoType51, videoType52, videoType53};
-String[] videoThumbNail = new String[4];
-String[] videoId = new String[4];
-String[] embeded = new String[4];
-String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
-String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
-String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
+    }
+    %>
+    <%
+    String videoType50 = properties.get("videoType50", "");
+    String videoType51 = properties.get("videoType51", "");
+    String videoType52 = properties.get("videoType52", "");
+    String videoType53 = properties.get("videoType53", "");
+    String[] videoType5 = {videoType50, videoType51, videoType52, videoType53};
+    String[] videoThumbNail = new String[4];
+    String[] videoId = new String[4];
+    String[] embeded = new String[4];
+    String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
+    String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
+    String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
+
 
 //now get all the variables
 for (int i = 0 ; i < 4; i++ ){
@@ -72,16 +75,18 @@ for (int i = 0 ; i < 4; i++ ){
 			String ytId = extractYTId(link);
 			videoId[i] = ytId;
 			videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
-			embeded[i] = "<iframe width=\"420\" height=\"315\" src=\"https://www.youtube.com/embed/" + ytId + "\" frameborder=\"0\" allowfullscreen></iframe>";
+			embeded[i] = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "\" frameborder=\"0\" allowfullscreen></iframe>";
 		} else if (link.indexOf("vimeo") != -1) {
 			String vimeoId = extractVimeoId(link);
 			videoId[i] = vimeoId;
 			String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-            JSONArray json = new JSONArray(jsonOutput);
-            if (!json.isNull(0)) {
-    			videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
-    		}
-            embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"500\" height=\"281\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href=\"https://vimeo.com/"+ vimeoId +"\">Spheres</a> from <a href=\"https://vimeo.com/regishervagault\">Regis Hervagault</a> on <a href=\"https://vimeo.com\">Vimeo</a>.</p>";
+			if (!"".equals(jsonOutput)) {
+				JSONArray json = new JSONArray(jsonOutput);
+				if (!json.isNull(0)) {
+					videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+				}
+			}
+			embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 		} else {
 			videoThumbNail[i] = "not supported";
 		}
@@ -91,23 +96,23 @@ for (int i = 0 ; i < 4; i++ ){
 
 		//add video node
 		if (currentNode != null) {
-	        SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
-	        Session session = repository.loginAdministrative(null);
+			SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
+			Session session = repository.loginAdministrative(null);
 
-	        Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
-	        if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-	        	vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
-	            vid.setProperty("asset", videoPath);
-	            vid.setProperty("sling:resourceType", "gsusa/components/video");
-	        } else {
-	        	vid = session.getNode(resource.getPath() + "/" + vidNames[i]);
-	        	vid.setProperty("asset", videoPath);
-	            vid.setProperty("sling:resourceType", "gsusa/components/video");
-	        }
+			Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
+			if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+				vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
+				vid.setProperty("asset", videoPath);
+				vid.setProperty("sling:resourceType", "gsusa/components/video");
+			} else {
+				vid = session.getNode(resource.getPath() + "/" + vidNames[i]);
+				vid.setProperty("asset", videoPath);
+				vid.setProperty("sling:resourceType", "gsusa/components/video");
+			}
 
-	        session.save();
-	        session.logout();
-	    }
+			session.save();
+			session.logout();
+		}
 		//done adding video.
 		embeded[i] = "";
 	} else {
@@ -115,31 +120,37 @@ for (int i = 0 ; i < 4; i++ ){
 
 	}
 }
-
-for (int i = 0 ; i < 4; i++) {
-    if ("link".equals(videoType5[i])) {%>
-        <li>
-            <div class="video-wrapper">
-                <div class="video-embed">
-                <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-                <%= embeded[i] %>
-                </div>
-            </div>
-        </li>
-<%	} else if ("path".equals(videoType5[i])) { %>
-    	<li>
-            <div class="video-wrapper">
-                <div class="video">
-                <img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-                <cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
-                </div>
-            </div>
-        </li> <%
-	} else {
-		//none
-	}
-}
 %>
-
-</ul>
-</li>
+<div class="feature-video-slider">
+    <div class="slide-5">
+    <%
+    	for (int i = 0 ; i < 4; i++) {
+    		if ("link".equals(videoType5[i])) {
+    %>
+			<div>
+				<div class="video-wrapper">
+					<div class="video-embed">
+							<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+							<%= embeded[i] %>
+					</div>
+				</div>
+			</div>
+<%
+    		} else if ("path".equals(videoType5[i])) {
+    %>
+			<div>
+				<div class="video-wrapper">
+					<div class="video-embed">
+						<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+						<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
+					</div>
+				</div>
+			</div>
+    <%
+    		} else {
+    //none
+    		}
+    	}
+    %>
+    </div>
+</div>

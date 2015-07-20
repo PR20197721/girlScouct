@@ -100,7 +100,7 @@
         searchSlider.button.click();
       }
     });
-    
+
     //if the input is not shown display on clicking the looking glass.
     searchSlider.button.click(function (event) {
       event.stopPropagation();
@@ -286,13 +286,14 @@
               "bottom" : "auto",
               "top" : $(document).scrollTop()
             });
-            var test = target.find('.contents').height();
-            console.log(test);
             $(".featured-stories").css('position', 'static');
-            target.find('.contents').css({
-              'max-height': ($(window).height() - 100) + 'px',
-              'overflow' : 'scroll'
-            });
+            if ($(window).height() < target.find('.contents').height()) {
+              target.find('.contents').css({
+                'max-height': ($(window).height() - 100) + 'px',
+                'overflow' : 'scroll'
+              });
+            }
+
             $("body").css('overflow', 'hidden');
           }
           return true;
@@ -312,11 +313,10 @@
   }
 
   //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
-
   $('.main-slider').slick({
     dots: false,
     infinite: true,
-    speed: (typeof interval !== 'undefined') ? interval: 1000,
+    speed: (typeof interval !== 'undefined') ? interval : 1000,
     fade: true,
     autoplay: true,
     arrows: false,
@@ -357,12 +357,14 @@
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
         },
       });
+
       $('.inner-sliders .slide-3').slick({
         dots: false,
         fade: true,
         cssEase: 'linear',
         arrows: false,
       });
+
 
       $('.main-slider').slick('slickPause');
       // $('.main-slider').slickPause();
@@ -380,7 +382,16 @@
       }
     });
   }
-
+  $('.feature-video-slider .slide-5').slick({
+    dots: true,
+    fade: true,
+    dotsClass: 'slick-dots',
+    cssEase: 'linear',
+    arrows: false,
+    customPaging: function (slick, index) {
+      return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
+    },
+  });
   function scroll_feeds() {
     $('.scroll-more').bind("click", function () {
       // var target = $(e.target);

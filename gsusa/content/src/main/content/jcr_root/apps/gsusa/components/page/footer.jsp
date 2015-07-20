@@ -14,7 +14,7 @@
 <section class="clearfix">
     <span class="copyright">&#64;2015 Girl Scouts of America</span>
     <div class="social-links clearfix">
-        <div class="small-centered columns small-13 large-14 large-uncentered medium-uncentered medium-14">
+        <div>
             <cq:include path="<%= footerSharePath %>" resourceType="gsusa/components/footer-share" />
             <!-- <ul class="inline-list">
                 <li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png"></a></li>
