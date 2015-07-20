@@ -63,6 +63,17 @@
                             xtype="label"/>
                     </items>
                 </metadata>
+                <gsusa
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts USA">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <global-srch-landing-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Global Search Landing Page"
+                            name="./globalLanding"
+                            xtype="dynamicPathField"/>
+                    </items>
+                </gsusa>
             </items>
         </tabs>
     </items>
