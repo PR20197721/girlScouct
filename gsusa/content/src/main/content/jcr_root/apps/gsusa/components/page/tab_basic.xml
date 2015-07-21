@@ -23,9 +23,15 @@
                 <tags
                     jcr:primaryType="cq:Widget"
                     cls="cq-propsdialog-tags"
-                    fieldLabel="Tags/Keywords"
+                    fieldLabel="Tags"
                     name="./cq:tags"
                     xtype="tags"/>
+                <keywords
+                	jcr:primaryType="cq:Widget"
+                	fieldLabel="Keywords"
+                	fieldDescription="Enter the keywords exactly as they would appear in the HTML tag (each keyword separated by comma, no spaces)"
+                	name="./keywords"
+                	xtype="textfield"/>
                 <hideinnav
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Hide in Navigation"

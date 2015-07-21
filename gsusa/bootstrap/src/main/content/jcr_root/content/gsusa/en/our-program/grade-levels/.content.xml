@@ -63,7 +63,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/daisy.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-daisies-do.html"/>
@@ -76,7 +76,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/brownie.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-brownies-do.html"/>
@@ -89,7 +89,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/junior.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-juniors-do.html"/>
@@ -102,7 +102,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/cadette.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-cadettes-do.html"/>
@@ -115,7 +115,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/senior.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-seniors-and-ambassadors-do.html"/>
@@ -128,7 +128,7 @@
                             jcr:lastModifiedBy="ctruett"
                             jcr:mixinTypes="[cq:LiveRelationship]"
                             jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/image"
+                            sling:resourceType="gsusa/components/image"
                             fileReference="/content/dam/grade_levels/ambassador.jpg"
                             imageRotate="0"
                             linkURL="/content/gsusa/en/about-girl-scouts/our-program/grade-levels/what-seniors-and-ambassadors-do.html"/>

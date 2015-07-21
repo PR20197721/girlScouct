@@ -21,6 +21,24 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-foundation</artifactId>
+            <version>5.6.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-commons</artifactId>
+            <version>5.6.4</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.day.cq.dam</groupId>
+            <artifactId>cq-dam-api</artifactId>
+            <version>5.6.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
         </dependency>
@@ -60,6 +78,34 @@
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.jcr.api</artifactId>
         </dependency>
+<dependency>
+        <groupId>com.day.cq.dam</groupId>
+        <artifactId>cq-dam-api</artifactId>
+</dependency>
+<dependency>
+        <groupId>com.day.commons</groupId>
+        <artifactId>day-commons-gfx</artifactId>
+</dependency>
+<dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+</dependency>
+<dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.commons.mime</artifactId>
+</dependency>
+<dependency>
+        <groupId>com.day.cq.workflow</groupId>
+        <artifactId>cq-workflow-api</artifactId>
+</dependency>
+<dependency>
+        <groupId>com.day.cq.dam</groupId>
+        <artifactId>cq-dam-commons</artifactId>
+</dependency>
+<dependency>
+        <groupId>com.adobe.granite.sling</groupId>
+        <artifactId>org.apache.sling.jcr.resource</artifactId>
+</dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -86,6 +132,22 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.web.gsusa-bundle</Bundle-SymbolicName>
+			<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+			<Import-Package>
+				!org.apache.myfaces.*,
+				!org.apache.tools.ant,
+				!org.apache.tools.ant.types,
+				!org.objectweb.asm,
+				!org.objectweb.asm.attrs,
+				!org.objectweb.asm.util,
+				!org.codehaus.aspectwerkz.hook,
+				!com.google.inject.internal.asm.util,
+				!net.sf.ehcache,
+				!net.spy.memcached,
+				*
+			</Import-Package>
+			<!-- Recursively embed dependency jars -->
+			<Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>
