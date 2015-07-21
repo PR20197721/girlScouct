@@ -178,7 +178,6 @@ public class SalesforceDAO {
 		} catch (Exception e) {
 			log.error("Error decoding the code. Left it as is.");
 		}
-System.err.println("*************** "+OAuthUrl);
 		HttpClient httpclient = new HttpClient();
 		String tokenUrl = OAuthUrl + "/services/oauth2/token";
 		PostMethod post = new PostMethod(tokenUrl);
@@ -189,9 +188,7 @@ System.err.println("*************** "+OAuthUrl);
 		post.addParameter("redirect_uri", callbackUrl);
 		log.debug(post.getRequestCharSet());
 		log.debug(post.getRequestEntity().toString());
-
 		try {
-
 			log.debug("________________doAuth_________start_____________________________");
 			log.debug("code " + code);
 			log.debug("grant_type: authorization_code");
@@ -465,24 +462,21 @@ System.err.println("*************** "+OAuthUrl);
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 		
-System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
-				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);	
+//System.err.println("tatat:"+ apiConfig.getWebServicesUrl()+ "/services/apexrest/activeUserTroopData?userId=" + contactId);	
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
 			method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
-	System.err.println("tatat "+ apiConfig.getWebServicesUrl()
-			+ "/services/apexrest/activeUserTroopData?userId="
-			+ contactId);		
+//	System.err.println("tatat "+ apiConfig.getWebServicesUrl()+ "/services/apexrest/activeUserTroopData?userId="+ contactId);		
 			method.setHeader("Authorization", "OAuth " +getToken(apiConfig));
 	
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			
-			System.err.println("Status code: "+ statusCode);	
+		////	System.err.println("Status code: "+ statusCode);	
 			
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
@@ -596,24 +590,16 @@ System.err.println("tatat:"+ apiConfig.getWebServicesUrl()
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
 		User user= new User();
 		CloseableHttpClient connection = null;
-//System.err.println("tata new user");		
-		
-	//-	getToken();
-		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-//System.err.println("tatata url : "+apiConfig.getWebServicesUrl()+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());		
-System.err.println("tatata user SSO token: "+apiConfig.getAccessToken() );		
-		//method.setHeader("Authorization", "OAuth 00DZ000000Mia06!AQ4AQOZNCmp9zZQCSTU_11g4OgJkjxQcZg8fybfqwzmQwrEeXpAMs73FbknGLBSDuIgRNxuk1fdgrVjpjPEVIIYxqaZvh30u");// + getToken(apiConfig) );
-method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());//getToken(apiConfig) );
-//System.err.println("tatata sso token: "+ getToken(apiConfig));		
+		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());//getToken(apiConfig) );
 		try {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
-				//-throw new IllegalAccessException();
+				throw new IllegalAccessException();
 			}
 			HttpEntity entity = null;
 			String rsp = null;
@@ -627,8 +613,7 @@ method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());//getTo
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"records\":" + rsp + "}";
-System.err.println("tatata: resp; "+ rsp);			
+			rsp = "{\"records\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
@@ -709,8 +694,7 @@ System.err.println("tatata: resp; "+ rsp);
 	
 	public ApiConfig getToken(String ASSERTION, String token, String userId, String certificateS) {
 		
-System.err.println("******Getting token****");
-System.err.println("Assertion: "+ new String(new Base64().decode(ASSERTION)));
+
 
 /*
 //Security Checks
