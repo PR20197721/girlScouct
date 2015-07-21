@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%@page import="com.day.cq.wcm.api.WCMMode,
     java.util.ArrayList,
@@ -44,9 +45,12 @@ public  String readUrlFile(String urlString) throws Exception {
         while ((read = reader.read(chars)) != -1)
             buffer.append(chars, 0, read); 
         return buffer.toString();
-    } finally {
-        if (reader != null)
+    } catch (java.net.UnknownHostException uhe) {
+		return "";
+	} finally {
+        if (reader != null) {
             reader.close();
+        }
     }
 }
 %>
@@ -117,10 +121,9 @@ public  String readUrlFile(String urlString) throws Exception {
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>
-                  <div id="<%= modalId %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <div id="<%= modalId %>" class="reveal-modal our-story-cqhosted-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <cq:include path="<%= videoCompPath %>" resourceType="gsusa/components/video" />
                   </div>
-                              
                   <li>
                     <div>
                       <img src="<%= imagePath %>" alt="<%= description %>"/>
@@ -128,72 +131,135 @@ public  String readUrlFile(String urlString) throws Exception {
                     </div>
                   </li>
                 <%
-                
-            } else {
-            
-            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
-                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
-                Resource imageRes = resourceResolver.resolve(storyPath + "/jcr:content/image");
-                
-                if (imageRes != null && !imageRes.getResourceType().equals("sling:nonexisting")) {
-                    ValueMap imageVm = (ValueMap) imageRes.adaptTo(ValueMap.class);
-                    String description = vm.get("description", "");
-                    
-                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
-                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
-                        <li>
-                          <div>
-                            <img src="<%= imagePath %>" alt="<%= description %>"/>
-                              <p><a href="#" title="story title"><%= description %></a></p>
-                          </div>
-                        </li><%
-                    } else if (!"".equals(vm.get("jcr:videoLink", ""))) { //it has an video link
-                        if ((vm.get("jcr:videoLink", "").indexOf("youtube")) != -1) { //youtube video
-                            String ytId = extractYTId(vm.get("jcr:videoLink", ""));
-                            String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";%>
-                            <span class="icon-play"></span>
-                            <li>
-                              <div>
-                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        } else if ((vm.get("jcr:videoLink", "").indexOf("vimeo")) != -1) { //vimeo
-                            String vimeoId = extractVimeoId(vm.get("jcr:videoLink", ""));
-                            String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-                            JSONArray json = new JSONArray(jsonOutput);
-                            String imagePath = "";
-                            if (!json.isNull(0)) {
-                                imagePath = json.getJSONObject(0).getString("thumbnail_large");
-                            }%>
-                            <span class="icon-play"></span>
-                            <li>
-                              <div>
-                                <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        } else {%>
-                            <li>
-                              <div>
-                                  <p>We do not support this video link</p>
-                                <p><a href="#" title="story title"><%= description %></a></p>
-                              </div>
-                            </li><%
-                        }
-                      } else if (!"".equals(vm.get("jcr:videoPath", ""))) { //it has an video
-                    } else {
-                        //something is wrong: it has no image, video, or video path%>
-                        <li>
-                          <div>
-                              <p>This our story does not have an image, a video link or a video path</p>
-                            <p><a href="#" title="story title"><%= description %></a></p>
-                          </div>
-                        </li><%
-                    }
-                   }
+            } else if (resProp.get("type", "").equals("external-video")) {
+            	if (resProp.get("externalVideo", "").indexOf("youtube") != -1) {
+	                String description = resProp.get("description", "");
+	                String ytId = extractYTId(resProp.get("externalVideo", ""));
+                    String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
+                    String modalId3 = "modalVideo-" + Integer.toString((int)(Math.random() * 10000) + 1000);%>
+                    <div id="<%= modalId3 %>" class="reveal-modal large our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    	<iframe align="middle" width="100%" height="auto" overflow="scroll" src="https://www.youtube.com/embed/<%= ytId %>" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	} else if (resProp.get("externalVideo", "").indexOf("vimeo") != -1) {
+            		String description = resProp.get("description", "");
+                	String vimeoId = extractVimeoId(resProp.get("externalVideo", ""));
+                    String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+                    String modalId4 = "modalVimeo-" + Integer.toString((int)(Math.random() * 10000) + 1000);
+                    JSONArray json = new JSONArray(jsonOutput);
+                    String imagePath = "";
+                    if (!json.isNull(0)) {
+                        imagePath = json.getJSONObject(0).getString("thumbnail_large");
+                    }%>
+                    <div id="<%= modalId4 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    	<iframe src="https://player.vimeo.com/video/<%=vimeoId %>?badge=0" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                    </div>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	} else {
+            		//not supported
+            		String description = resProp.get("description", "");
+                	//something is wrong: this video is not supported%>
+                    <li>
+                      <div>
+                          <p>This story does not have a supported video.</p>
+                        <p><a href="#" title="story title"><%= description %></a></p>
+                      </div>
+                    </li><%
+            	}
+            } else if (resProp.get("type", "").equals("article")) {
+	            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
+	                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
+	                Resource imageRes = resourceResolver.resolve(storyPath + "/jcr:content/image");
+	                
+	                if (imageRes != null && !imageRes.getResourceType().equals("sling:nonexisting")) {
+	                    ValueMap imageVm = (ValueMap) imageRes.adaptTo(ValueMap.class);
+	                    String description = vm.get("description", "");
+	                    String modalId2 = "modalImage-" + Integer.toString((int)(Math.random() * 10000) + 1000);
+	                    
+	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
+	                        String articlePath = vm.get("link", "");
+	                        ValueMap am = resourceResolver.resolve(vm.get("link", "") + "/jcr:content").adaptTo(ValueMap.class);
+	                        String title = am.get("articleTitle", "");
+	                        if (title.isEmpty()) {
+	                            title = am.get("jcr:title", "");
+	                        }
+	                        String text = am.get("text", "");
+	                        
+	                        String imagePath = storyPath + "/jcr:content/image.img.png";
+	                        String articleImagePath = vm.get("link", "") + "/jcr:content/image";
+	                        ValueMap articleImageVm = resourceResolver.resolve(articleImagePath).adaptTo(ValueMap.class);
+	                        if (articleImageVm != null && !articleImageVm.get("fileReference", "").isEmpty()) {
+	                            articleImagePath = articleImagePath + ".img.png"; 
+	                        } else {
+	                            articleImagePath = imagePath;
+	                        }
+	                    %>
+	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-article-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+							  <nav class="top-bar" data-topbar role="navigation">
+								  <ul class="title-area">
+								    <li class="name">
+								      <img src="/content/dam/girlscouts-gsusa/images/logo/logo.png" alt="gsusa home"/>
+								    </li>
+								  </ul>
+								
+								  <section class="top-bar-section">
+								    <ul class="right">
+								      <li><span class="icon-cross"></span></li>
+								    </ul>
+								  </section>
+								</nav>
+							  <img src="<%= articleImagePath %>" alt="<%= description %>"/>
+							  <p><%= title %></p>
+							  <%= text %>
+			                </div>
+	                        <li>
+	                          <div>
+	                            <img src="<%= imagePath %>" alt="<%= description %>"/>
+	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
+	                          </div>
+	                        </li>
+	                        <script>
+	                          $("#<%= modalId2 %>").on("click", function (e) {
+                              	$("#<%= modalId2 %>").foundation('reveal', 'close');
+							  });
+	                        </script><%
+	                    } else {
+	                        //something is wrong: it has no image, video, or video path%>
+	                        <li>
+	                          <div>
+	                              <p>This story does not have an image, a video link or a video path</p>
+	                            <p><a href="#" title="story title"><%= description %></a></p>
+	                          </div>
+	                        </li><%
+	                    }
+	                }
+	            }
+            } else if (resProp.get("type", "").equals("link")) {
+	            ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
+	            String description = vm.get("description", "");
+	            String imagePath = storyPath + "/jcr:content/image.img.png";
+
+	            String link = vm.get("link", "");
+	            link = genLink(resourceResolver, link);
+				%>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="<%= link %>"><%= description %></a></p>
+                      </div>
+                    </li>
+                <%
             }
-        }
         }%>
         </ul></div><%
         return;
