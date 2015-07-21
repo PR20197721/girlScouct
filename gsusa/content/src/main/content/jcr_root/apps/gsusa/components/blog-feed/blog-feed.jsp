@@ -5,6 +5,7 @@
     int count = properties.get("count",20);
 	String id = properties.get("id","7441709438919444345");
 	String key = properties.get("key", "AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0");
+	String pinID = properties.get("pin-id","");
 
 	String url = "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key;
 	%>
@@ -13,7 +14,7 @@
     <div class="blog-embed-area"></div>
 
     <script>
-
+    
     var blogFeedArea = $(".blog-embed-area");
     var imageArea = $(".blog-feed-image-area");
 
@@ -22,29 +23,49 @@
     var key = "<%= key %>";
     var ip = "<%=slingRequest.getHeader("x-forwarded-for") %>";
     var comma = ip.indexOf(",");
+    var pinID = "<%= pinID %>";
     ip = ip.substring(0, comma);
+    if(ip == ""){
+    	if("<%= request.getRemoteAddr() %>" != ""){
+    		ip = "<%= request.getRemoteAddr() %>";
+    	}
+    }
+    var comma = ip.indexOf(",");
+    if(comma != -1){
+    	ip = ip.substring(0, comma);
+    }
+    
+    /*
+    To test run the following on the page console:
+    $.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key=AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0&maxResults=1",function(data){
+      console.log(data);
+    });
 
-/*
-To test run the following on the page console:
-$.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key=AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0&maxResults=1",function(data){
-  console.log(data);
-});
+    */
 
-*/
-    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(published,title,url,content)&userIp=" + ip,function(data){
+    $.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(published,title,url,content,id)&userIp=" + ip,function(data){
     	var output = "";
     	output += "<ul>";
 	var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 	var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-	var contentData = data.items[0].content;
 	var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
+	var posts = [];
+	for (var i=0; i<data.items.length; i++){
+		if(pinID != "" && data.items[i].id == pinID){
+			posts.unshift(data.items[i]);
+		}	
+		else{
+			posts.push(data.items[i]);
+		}
+	}
+	var contentData = posts[0].content;
 	var imageTag = "";
 	if (contentData && contentData.match(imageUrlPattern)) {
 		imageTag = contentData.match(imageUrlPattern)[0] + " />";
           }
 	imageArea.html(imageTag);
-    	for (var i=0; i<data.items.length; i++){
-	  contentData = data.items[i].content;
+	for(var k=0; k<posts.length; k++){
+	  contentData = posts[k].content;
 	  imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
   	  imageTag = "";
 	  if (contentData && contentData.match(imageUrlPattern)) {
@@ -53,12 +74,12 @@ $.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key
 	  var tmpDiv = document.createElement("div");
 	  tmpDiv.innerHTML = contentData;
 	  var shortDescription = (tmpDiv.textContent || tmpDiv.innerText || "").trim();
-	  var dateline = new Date(data.items[i].published);
+	  var dateline = new Date(posts[k].published);
 	  var DESCRIPTION_LENGTH = 200;
 	  if (shortDescription.length > DESCRIPTION_LENGTH) {
 	    shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
 	  }
-    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + data.items[i].url + '" target="_blank" class="title">' + data.items[i].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + data.items[i].url + '" target="_blank" class="title"> continue reading ></a></p></li>';
+    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + posts[k].url + '" target="_blank" class="title">' + posts[k].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank" class="title">continue reading ></a></p></li>';
     	}
     	output += "</ul>";
     	blogFeedArea.html(output);
@@ -76,4 +97,4 @@ $.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key
     	}
     }*/
 
-    </script>
+</script>
