@@ -116,16 +116,6 @@
                         <Bundle-SymbolicName>org.girlscouts.web.gsusa-bundle</Bundle-SymbolicName>
 			<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 			<Import-Package>
-				!org.apache.myfaces.*,
-				!org.apache.tools.ant,
-				!org.apache.tools.ant.types,
-				!org.objectweb.asm,
-				!org.objectweb.asm.attrs,
-				!org.objectweb.asm.util,
-				!org.codehaus.aspectwerkz.hook,
-				!com.google.inject.internal.asm.util,
-				!net.sf.ehcache,
-				!net.spy.memcached,
 				*
 			</Import-Package>
 			<!-- Recursively embed dependency jars -->
