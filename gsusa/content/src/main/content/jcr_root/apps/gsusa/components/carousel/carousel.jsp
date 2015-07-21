@@ -239,7 +239,7 @@ interval = <%= interval %>;
 					<ul class="slide-3">
 						<li>
 							<h3><%= title4 %></h3>
-							<cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
+							<cq:include path="content/blog-feed" resourceType="gsusa/components/blog-feed" />
 						</li>
 					</ul>
 				</li>
