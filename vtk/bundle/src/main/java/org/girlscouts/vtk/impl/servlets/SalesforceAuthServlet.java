@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		ConfigListener {
 	private static final long serialVersionUID = 8152897311719564370L;
-
 	private static final Logger log = LoggerFactory
 			.getLogger(SalesforceAuthServlet.class);
 	private static final String ACTION = "action";
