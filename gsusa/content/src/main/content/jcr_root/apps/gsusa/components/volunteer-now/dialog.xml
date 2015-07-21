@@ -50,7 +50,7 @@
                         jcr:primaryType="cq:Widget"
                         ignoreData="{Boolean}true"
                         name="./bg/sling:resourceType"
-                        value="girlscouts/components/image"
+                        value="gsusa/components/image"
                         xtype="hidden"/>
                 </items>
             </background-image>

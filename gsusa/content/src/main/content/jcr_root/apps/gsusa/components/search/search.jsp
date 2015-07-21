@@ -73,7 +73,7 @@ List<Hit> hits = result.getHits();
 %>
 
 <form action="${currentPage.path}.html" id="searchForm" class="row">
-    <input type="text" name="q" value="${escapedQueryForAttr}" class="searchField" />
+    <input type="text" name="q" value="${escapedQueryForAttr}" pattern=".{3,}" required title="3 characters minimum" class="searchField" />
     <input type="submit" value="search" class="button" />
 </form>
 

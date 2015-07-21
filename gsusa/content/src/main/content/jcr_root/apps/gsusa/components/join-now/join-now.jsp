@@ -12,7 +12,7 @@
 	if (!bg.equals("")) {%>
 
 	<div class="standalone-volunteer">
-	    <div class="bg-image"><cq:include path="bg" resourceType="girlscouts/components/image"/></div>
+	    <div class="bg-image"><cq:include path="bg" resourceType="gsusa/components/image"/></div>
 	    <div class="wrapper">
 	        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
 	        <form class="formJoin hide">
