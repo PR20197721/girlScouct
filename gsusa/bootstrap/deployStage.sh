@@ -17,8 +17,8 @@ for server in ${SERVER_LIST[@]}; do
 	else
 		if [ $server -eq '54.86.13.38:4502' ]; then
 			echo "Disabling Author Dam Update Asset and  Dam MetaData Writeback workflows"
-			curl -u admin:4U5Hsq5Q_I "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
-			curl -u admin:4U5Hsq5Q_I "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
+			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
+			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
 		fi
 
 		echo "Deploying to http://$server"
@@ -26,8 +26,8 @@ for server in ${SERVER_LIST[@]}; do
 
 		if [ $server -eq '54.86.13.38:4502' ]; then
 			echo "Re-enabling Author Dam Update Asset and  Dam MetaData Writeback workflows"
-			curl -u admin:4U5Hsq5Q_I "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
-			curl -u admin:4U5Hsq5Q_I "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
+			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
+			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
 		fi
 	fi
 done
