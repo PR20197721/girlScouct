@@ -8,7 +8,13 @@
 	String title = properties.get("title","");
 	String linkTitle = properties.get("pathfield","");
 	String featureIcon = properties.get("./featureiconimage/fileReference", "");
-	
+  if (!linkTitle.isEmpty()){
+	    //fix: add ".html"suffix to cq:page
+      Resource res = resourceResolver.getResource(linkTitle);
+      if(res!=null && res.adaptTo(Page.class)!=null){
+    	  linkTitle += ".html";
+      }
+	  }
 %>
 
 <%if ((title.isEmpty()) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
