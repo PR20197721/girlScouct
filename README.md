@@ -29,17 +29,16 @@ Basic intro to CQ/AEM
     admin/admin
     author/author
 
-## Pushing and pulling code btwn CQ and your file system
+## Pushing and pulling code between CQ and your file system
 
 #### New projects: Adobe developer tools for Eclipse
 1. in Eclipse: Help > Install new software > add 
     http://eclipse.adobe.com/aem/dev-tools/
 2. install everything you find there
-3. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502
-    also change auto-publish-time="4"
-4. restart Eclipse
-5. in Eclipse: Window > Show View > Other > AEM
-6. at bottom left in the Servers tab setup a new AEM Server
+3. restart Eclipse
+4. in Eclipse: Window > Show View > Other > AEM
+5. at bottom left in the Servers tab setup a new AEM Server
+6. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502 also change auto-publish-time="4" and the debugPort to 45022 ro the port specified in the start.sh startup script.
 7. right click the server and choose Add and Remove... then add your resources to be auto synched
 8. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
 9. Make sure the server at bottom left is running (otherwise right click > start)
@@ -50,6 +49,15 @@ In case you need to pull code the other way, say if you maybe made a new compone
 2. right click the corresponding folder in Eclipse (AEM view) and select Import from server... 
     your server must of course be started for it to work (both the CQ server as well as the Eclipse AEM server at bottom left)
 
+#### Troubleshooting Tips (Optional)
+1. Install JD Eclipse Realign by adding http://mchr3k-eclipse.appspot.com/ in Help > Install New Software.  Add Java Decompiler Eclipse Plug-in items. 
+2. Restart Eclipse then go to preferences > Java > Decompiler > JD-Eclipse Realign and check Display line numbers. 
+3. Create a folder called CQ and place the runtime CQ jar into a folder called src.
+4. Expand jar file.
+5. Enter expanded folder and further expand static/app/cq-quickstart-5.6.1-standalone.jar
+6. Create new project called CQ in Eclipse and point to the the CQ folder.
+7. You will now be able to enter any jar file and view the source of the classes with properly aligned line numbers.
+8. Go to any open AEM project and open properties.  Set this CQ project as a project reference under Project References.
 
 #### Legacy projects: pushing code into CQ 
 1. the basic maven project structure was auto-generated like this:
