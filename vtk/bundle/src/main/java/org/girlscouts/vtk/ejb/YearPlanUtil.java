@@ -96,9 +96,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getAids(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String path) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName, path));
 		container.addAll(meetingDAO.getAidTag(user, tags, meetingName));
 
 		return container;
@@ -204,9 +204,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getResources(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String meetingPath) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getResource_local(user, tags, meetingName, meetingPath));
 		container
 				.addAll(meetingDAO.getResource_global(user, tags, meetingName));
 		return container;

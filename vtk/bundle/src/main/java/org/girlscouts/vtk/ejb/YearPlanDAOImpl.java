@@ -23,6 +23,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,8 +54,9 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			java.util.Calendar today = java.util.Calendar.getInstance();
-			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
-					+ user.getCurrentYear() + "/" + ageLevel + "/");
+			//filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"+ user.getCurrentYear() + "/" + ageLevel + "/");
+			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"+ VtkUtil.getCurrentGSYear() + "/" + ageLevel + "/");
+			
 			Query query = queryManager.createQuery(filter);
 			yearPlans = (List<YearPlan>) ocm.getObjects(query);
 

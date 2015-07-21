@@ -468,8 +468,7 @@ public class SalesforceDAO {
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
-System.err.println("tata: troop **OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
-		+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+//System.err.println("tata: troop **OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 
 		CloseableHttpClient connection = null;
 		HttpGet method = null;

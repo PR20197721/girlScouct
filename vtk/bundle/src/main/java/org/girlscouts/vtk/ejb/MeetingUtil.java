@@ -954,7 +954,7 @@ public class MeetingUtil {
 				// query aids cachables
 				java.util.List __aidTags = yearPlanUtil.getAids(user,
 						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists aids
 				_aidTags.addAll(__aidTags);
@@ -962,7 +962,7 @@ public class MeetingUtil {
 				// query resources cachables
 				java.util.List __resources = yearPlanUtil.getResources(user,
 						meetingInfo.getResources(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists resources
 				_aidTags.addAll(__resources);
@@ -1134,7 +1134,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -1242,7 +1242,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/achievement";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();

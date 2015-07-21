@@ -139,7 +139,7 @@ public java.util.List<String[]> rptVtkDataFromDb( org.girlscouts.vtk.ejb.Session
 
           
            String sql = "";
-           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
+           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '"+ VtkUtil.getYearPlanBase(user, troop) +"%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
 
            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
