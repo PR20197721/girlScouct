@@ -33,7 +33,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
     <!--for the mobile viewport.-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <% if(!properties.get("keywords","").equals("")){ %>
+    <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(properties.get("keywords", "")) %>" <%=xs%>>
+    <% }else{ %>
     <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
+    <% } %>
     <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>

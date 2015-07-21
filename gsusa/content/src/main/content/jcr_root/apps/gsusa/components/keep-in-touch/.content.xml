@@ -3,6 +3,6 @@
     jcr:description="Keep In Touch component"
     jcr:primaryType="cq:Component"
     jcr:title="Keep In Touch"
-    sling:resourceSuperType="foundation/components/parbase"
+    sling:resourceSuperType="gsusa/components/parbase"
     allowedParents="[*/parsys]"
     componentGroup=".hidden"/>
