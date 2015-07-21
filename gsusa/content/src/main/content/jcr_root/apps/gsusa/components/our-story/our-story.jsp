@@ -218,7 +218,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								    </ul>
 								  </section>
 								</nav>
-							  <img src="<%= imagePath %>" alt="<%= description %>"/>
+							  <img src="<%= articleImagePath %>" alt="<%= description %>"/>
 							  <p><%= title %></p>
 							  <%= text %>
 			                </div>
