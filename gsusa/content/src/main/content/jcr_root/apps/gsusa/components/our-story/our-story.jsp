@@ -195,7 +195,15 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        }
 	                        String text = am.get("text", "");
 	                        
-	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
+	                        String imagePath = storyPath + "/jcr:content/image.img.png";
+	                        String articleImagePath = vm.get("link", "") + "/jcr:content/image";
+	                        ValueMap articleImageVm = resourceResolver.resolve(articleImagePath).adaptTo(ValueMap.class);
+	                        if (articleImageVm != null && !articleImageVm.get("fileReference", "").isEmpty()) {
+	                            articleImagePath = articleImagePath + ".img.png"; 
+	                        } else {
+	                            articleImagePath = imagePath;
+	                        }
+	                    %>
 	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-article-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 							  <nav class="top-bar" data-topbar role="navigation">
 								  <ul class="title-area">
