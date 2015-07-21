@@ -175,7 +175,7 @@ public  String readUrlFile(String urlString) throws Exception {
                       </div>
                     </li><%
             	}
-            } else {
+            } else if (resProp.get("type", "").equals("article")) {
 	            if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
 	                ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
 	                Resource imageRes = resourceResolver.resolve(storyPath + "/jcr:content/image");
@@ -228,7 +228,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	                    }
 	                }
 	            }
-	        }
+            } else if (resProp.get("type", "").equals("link")) {
+
+            }
         }%>
         </ul></div><%
         return;
