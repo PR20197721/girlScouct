@@ -45,7 +45,7 @@ public class Image extends com.day.cq.wcm.foundation.Image {
             }
         }
         
-        String[] targetRenditions = new String[]{"cq5dam.resized.web-" + imageVar, DEFAULT_RENDITION};
+        String[] targetRenditions = new String[]{"cq5dam.npd." + imageVar, DEFAULT_RENDITION};
 
         Resource res = rr.getResource(path);
         if (res != null) {
