@@ -120,7 +120,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>
-                  <div id="<%= modalId %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <div id="<%= modalId %>" class="reveal-modal our-story-general-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <cq:include path="<%= videoCompPath %>" resourceType="gsusa/components/video" />
                   </div>
                   <li>
@@ -136,8 +136,8 @@ public  String readUrlFile(String urlString) throws Exception {
 	                String ytId = extractYTId(resProp.get("externalVideo", ""));
                     String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
                     String modalId3 = "modalVideo-" + Integer.toString((int)(Math.random() * 10000) + 1000);%>
-                    <div id="<%= modalId3 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                    	<iframe align="middle" width="560" height="315" src="https://www.youtube.com/embed/<%= ytId %>" frameborder="0" allowfullscreen></iframe>
+                    <div id="<%= modalId3 %>" class="reveal-modal large our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                    	<iframe align="middle" width="100%" height="auto" overflow="scroll" src="https://www.youtube.com/embed/<%= ytId %>" frameborder="0" allowfullscreen></iframe>
                     </div>
                     <li>
                       <div>
@@ -187,17 +187,15 @@ public  String readUrlFile(String urlString) throws Exception {
 	                    
 	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
 	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
-	                        <div id="<%= modalId2 %>" class="reveal-modal our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-general-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 							  <nav class="top-bar" data-topbar role="navigation">
 								  <ul class="title-area">
 								    <li class="name">
 								      <img src="/content/dam/girlscouts-gsusa/images/logo/logo.png" alt="gsusa home"/>
 								    </li>
-								    <li class="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
 								  </ul>
 								
 								  <section class="top-bar-section">
-								    <!-- Right Nav Section -->
 								    <ul class="right">
 								      <li><span class="icon-cross"></span></li>
 								    </ul>
