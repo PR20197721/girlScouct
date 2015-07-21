@@ -120,7 +120,7 @@ public  String readUrlFile(String urlString) throws Exception {
                 String description = resProp.get("description", "");
                 String modalId = "modal-" + Integer.toString((int)(Math.random() * 900) + 100);
                 %>
-                  <div id="<%= modalId %>" class="reveal-modal our-story-general-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <div id="<%= modalId %>" class="reveal-modal our-story-cqhosted-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     <cq:include path="<%= videoCompPath %>" resourceType="gsusa/components/video" />
                   </div>
                   <li>
@@ -187,7 +187,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	                    
 	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
 	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
-	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-general-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-article-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 							  <nav class="top-bar" data-topbar role="navigation">
 								  <ul class="title-area">
 								    <li class="name">
