@@ -5,7 +5,7 @@
 <cq:defineObjects />
 <%@include file="session.jsp"%>
 <%
-out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
+//out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
 
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
@@ -21,7 +21,6 @@ if (configManager != null) {
 */
 String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 
-out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
 
 if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
