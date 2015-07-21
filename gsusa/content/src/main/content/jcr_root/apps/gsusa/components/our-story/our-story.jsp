@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%@page import="com.day.cq.wcm.api.WCMMode,
     java.util.ArrayList,
@@ -236,7 +237,20 @@ public  String readUrlFile(String urlString) throws Exception {
 	                }
 	            }
             } else if (resProp.get("type", "").equals("link")) {
+	            ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
+	            String description = vm.get("description", "");
+	            String imagePath = storyPath + "/jcr:content/image.img.png";
 
+	            String link = vm.get("link", "");
+	            link = genLink(resourceResolver, link);
+				%>
+                    <li>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                        <p><a href="<%= link %>"><%= description %></a></p>
+                      </div>
+                    </li>
+                <%
             }
         }%>
         </ul></div><%
