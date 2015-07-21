@@ -13,7 +13,7 @@
   }
 }
 .twitter-feed,
-.blog-feed,
+.facebook-feed,
 .instagram-feed {
   @media #{$medium-up} {
     @include grid-column(8);
@@ -45,7 +45,7 @@
     width: 100% !important;
   }
 }
-.blog-feed {
+.facebook-feed {
   .align-center {
     text-align: center;
     img {
@@ -76,14 +76,14 @@
   }
 }
 //inner carousel fb component
-.facebook-feed {
+.blog-feed {
   max-height: rem-calc(410);
   overflow: hidden;
   background-color: $white;
   @media #{$medium-only} {
     max-height:  rem-calc(370);
   }
-  .facebook-feed-image-area {
+  .blog-feed-image-area {
     float:left;
     width: 59.090909%;
     img {
@@ -92,7 +92,7 @@
       width: 100%;
     }
   }
-  .facebook-embed-area {
+  .blog-embed-area {
     width: 40.909091%;
     float: left;
     padding:rem-calc(10);
