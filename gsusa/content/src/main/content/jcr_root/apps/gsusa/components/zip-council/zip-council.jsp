@@ -30,7 +30,7 @@
             <section>
                 <form action="" method="post" id="findCouncilByZip" onsubmit="return handleFindCouncilByZip(this.zipcode.value)">
                 <span>FIND YOUR LOCAL COUNCIL</span>
-                <input type="text" pattern="[0-9]*" name="zipcode" placeholder="enter ZIP code" />
+                <input type="text" pattern="[0-9]*" name="zipcode" placeholder="Enter ZIP code" />
                 <button class="button btn" type="submit" form="findCouncilByZip">GO</button>
                 </form>
             </section>
