@@ -5,13 +5,13 @@
         cq:lastReplicated="{Date}2015-07-10T11:25:20.146-04:00"
         cq:lastReplicatedBy="dlubin"
         cq:lastReplicationAction="Activate"
-        jcr:lastModified="{Date}2015-07-13T09:55:31.846-04:00"
+        jcr:lastModified="{Date}2015-07-21T17:08:40.047-04:00"
         jcr:lastModifiedBy="dlubin"
         jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="{Long}8"
-            dam:extracted="{Date}2015-07-13T09:55:30.414-04:00"
+            dam:extracted="{Date}2015-07-21T17:08:39.897-04:00"
             dam:Fileformat="GIF"
             dam:MIMEtype="image/gif"
             dam:Numberofimages="{Long}1"

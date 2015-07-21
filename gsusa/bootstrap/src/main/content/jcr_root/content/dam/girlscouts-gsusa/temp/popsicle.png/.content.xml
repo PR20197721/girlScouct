@@ -10,7 +10,7 @@
         cq:lastReplicationAction="Activate"
         cq:name="popsicle.png"
         cq:parentPath="/content/dam/girlscouts-gsusa/temp"
-        jcr:lastModified="{Date}2015-07-13T09:55:23.557-04:00"
+        jcr:lastModified="{Date}2015-07-21T17:07:56.776-04:00"
         jcr:lastModifiedBy="admin"
         jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
