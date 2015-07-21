@@ -186,6 +186,14 @@ public  String readUrlFile(String urlString) throws Exception {
 	                    String modalId2 = "modalImage-" + Integer.toString((int)(Math.random() * 10000) + 1000);
 	                    
 	                    if (!"".equals(imageVm.get("fileReference", ""))) { //it has an image
+	                        String articlePath = vm.get("link", "");
+	                        ValueMap am = resourceResolver.resolve(vm.get("link", "") + "/jcr:content").adaptTo(ValueMap.class);
+	                        String title = am.get("articleTitle", "");
+	                        if (title.isEmpty()) {
+	                            title = am.get("jcr:title", "");
+	                        }
+	                        String text = am.get("text", "");
+	                        
 	                        String imagePath = storyPath + "/jcr:content/image.img.png";%>
 	                        <div id="<%= modalId2 %>" class="reveal-modal large our-story-article-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 							  <nav class="top-bar" data-topbar role="navigation">
@@ -202,9 +210,8 @@ public  String readUrlFile(String urlString) throws Exception {
 								  </section>
 								</nav>
 							  <img src="<%= imagePath %>" alt="<%= description %>"/>
-							  <p>Hed - dek</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet .. Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
-							  <p>Lorem ipsum dolor sit amet ..Lorem ipsum dolor sit amet ..</p>
+							  <p><%= title %></p>
+							  <%= text %>
 			                </div>
 	                        <li>
 	                          <div>
