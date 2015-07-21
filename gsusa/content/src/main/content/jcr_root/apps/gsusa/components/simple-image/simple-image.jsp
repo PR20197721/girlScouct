@@ -16,7 +16,7 @@
 		}
 	}
 
-	String rendition = displayRendition(resourceResolver, resource.getPath(), "cq5dam.resized.web-" + imageVar + ".png");
+	String rendition = displayRendition(resourceResolver, resource.getPath(), "cq5dam.npd." + imageVar + ".jpeg");
 	if (rendition.indexOf("original") != -1) {
 		rendition = displayRendition(resourceResolver, resource.getPath(), "cq5dam.web.1280.1280.jpeg");
 	}
