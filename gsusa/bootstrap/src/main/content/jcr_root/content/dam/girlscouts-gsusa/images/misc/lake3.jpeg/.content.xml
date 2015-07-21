@@ -7,7 +7,7 @@
     <jcr:content
         cq:name="lake3.jpeg"
         cq:parentPath="/content/dam/girlscouts-gsusa/images/misc"
-        jcr:lastModified="{Date}2015-07-10T10:33:31.920-04:00"
+        jcr:lastModified="{Date}2015-07-21T11:32:21.291-04:00"
         jcr:lastModifiedBy="admin"
         jcr:primaryType="dam:AssetContent">
         <metadata
@@ -26,7 +26,7 @@
             dam:size="8293"
             dc:format="image/jpeg"
             dc:modified="{Date}2015-07-09T11:56:15.000-04:00"
-            jcr:lastModified="{Date}2015-07-10T10:33:31.920-04:00"
+            jcr:lastModified="{Date}2015-07-21T11:32:08.705-04:00"
             jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"

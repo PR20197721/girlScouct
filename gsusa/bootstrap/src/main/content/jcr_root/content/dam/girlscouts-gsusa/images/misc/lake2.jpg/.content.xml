@@ -7,12 +7,12 @@
     <jcr:content
         cq:name="lake2.jpg"
         cq:parentPath="/content/dam/girlscouts-gsusa/images/misc"
-        jcr:lastModified="{Date}2015-07-10T10:33:33.699-04:00"
+        jcr:lastModified="{Date}2015-07-21T11:32:21.889-04:00"
         jcr:lastModifiedBy="admin"
         jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="24"
-            dam:ColorSpace="{Long}1"
+            dam:ColorSpace="1"
             dam:DateTime="{Date}2008-07-24T17:11:55.000-04:00"
             dam:DateTimeDigitized="{Date}2008-07-24T17:11:55.000-04:00"
             dam:ExifOffset="194"
@@ -57,7 +57,7 @@
             exif:SceneType="{Long}1"
             exif:Sharpness="{Long}0"
             exif:WhiteBalance="{Long}0"
-            jcr:lastModified="{Date}2015-07-10T10:33:30.202-04:00"
+            jcr:lastModified="{Date}2015-07-21T11:32:10.042-04:00"
             jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"

@@ -18,7 +18,21 @@ for server in ${SERVER_LIST[@]}; do
 		if [ $? -ne 0 ]; then
 			echo "Server $server:$port is down. Skipping..."
 		else
+                        if [ $port -eq 4502 ]; then
+				echo "Disabling Author Dam Update Asset and  Dam MetaData Writeback workflows"
+				curl -u admin:admin "http://$server:$port/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
+                                curl -u admin:admin "http://$server:$port/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
+			fi
+
+			# Deploy Package
 			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-bootstrap/$VERSION/gsusa-bootstrap-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+
+			# Enable image renditions workflow
+			if [ $port -eq 4502 ]; then
+                                echo "Re-enabling Author Dam Update Asset and  Dam MetaData Writeback workflows"
+                                curl -u admin:admin "http://$server:$port/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
+                                curl -u admin:admin "http://$server:$port/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=enable'
+			fi
 		fi
 	done
 done

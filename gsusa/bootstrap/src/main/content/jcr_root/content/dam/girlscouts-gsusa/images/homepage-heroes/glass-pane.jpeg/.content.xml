@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="dam:Asset">
+<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}true"
+    jcr:mixinTypes="[mix:versionable]"
+    jcr:primaryType="dam:Asset"
+    jcr:uuid="267660fa-f90a-4d87-9688-e7cd2224d9ba">
     <jcr:content
-        jcr:lastModified="{Date}2015-07-17T17:09:20.195-04:00"
+        cq:name="glass-pane.jpeg"
+        cq:parentPath="/content/dam/girlscouts-gsusa/images/homepage-heroes"
+        jcr:lastModified="{Date}2015-07-21T11:32:16.797-04:00"
         jcr:lastModifiedBy="admin"
         jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="{Long}24"
-            dam:extracted="{Date}2015-07-17T17:09:14.550-04:00"
+            dam:extracted="{Date}2015-07-21T11:32:07.882-04:00"
             dam:Fileformat="JPEG"
             dam:MIMEtype="image/jpeg"
             dam:Numberofimages="{Long}1"
@@ -20,6 +25,9 @@
             dam:sha1="f6dc123895fc14c073d0eb29a8873771610edc10"
             dam:size="{Long}424785"
             dc:format="image/jpeg"
+            dc:modified="{Date}2015-07-21T11:32:16.797-04:00"
+            jcr:lastModified="{Date}2015-07-21T11:32:16.796-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             tiff:ImageLength="{Long}573"
@@ -33,7 +41,7 @@
                 stRef:instanceID="xmp.iid:DA2C66F624EB11E5BDB7CA575284FEF5"
                 newRendition="{Boolean}true"/>
         </metadata>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>

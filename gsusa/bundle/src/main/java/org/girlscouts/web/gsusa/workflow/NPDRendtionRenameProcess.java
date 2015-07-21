@@ -65,8 +65,12 @@ public class NPDRendtionRenameProcess implements WorkflowProcess {
                     String targetShortRendition = renditionsMap.get(srcShortRendition);
 
                     if (targetShortRendition != null) {
-                        String targetRendition = "cq5dam.npd." + targetShortRendition + "." + extension;
-                        session.move(srcNode.getPath(), srcNode.getParent().getPath() + "/" + targetRendition);
+                        String targetRendition = srcNode.getParent().getPath() + "/" + "cq5dam.npd." + targetShortRendition + "." + extension;
+			if (session.nodeExists(targetRendition)) {
+				session.removeItem(targetRendition);
+			}
+			log.info("Creating rendition " + targetRendition);
+			session.move(srcNode.getPath(), targetRendition);
                     }
                 } else {
                     continue;
@@ -74,11 +78,9 @@ public class NPDRendtionRenameProcess implements WorkflowProcess {
             }
             session.save();
         } catch (PathNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+		log.error("Unable to find path " + originalPath);
         } catch (RepositoryException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+		e.printStackTrace();
         }
     }
 }
