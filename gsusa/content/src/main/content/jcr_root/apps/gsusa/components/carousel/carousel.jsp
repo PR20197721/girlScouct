@@ -239,7 +239,7 @@ interval = <%= interval %>;
 					<ul class="slide-3">
 						<li>
 							<h3><%= title4 %></h3>
-							<cq:include path="content/blog-feed" resourceType="gsusa/components/blog-feed" />
+							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
 						</li>
 					</ul>
 				</li>
@@ -304,7 +304,7 @@ interval = <%= interval %>;
 		</div>
 		<img src="<%= imagePath6 %>" alt="<%= imageAlt6 %>" class="main-image" />
 	</div>
-	<cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
+	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>
 <%
 	request.removeAttribute("source7");
