@@ -713,4 +713,144 @@ System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 		}
 		return apiConfig.getAccessToken();
 	}
+	
+	
+	
+
+public java.util.List<Contact> getTroopLeaderInfo(ApiConfig apiConfig, String sfTroopId) {
+
+CloseableHttpClient connection = null;
+
+java.util.List<Contact> contacts = new java.util.ArrayList();
+
+HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+
++"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+
+
+System.err.println("tata req: "+apiConfig.getWebServicesUrl()
+
++"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+
+method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+try {
+
+connection = connectionFactory.getConnection();
+
+CloseableHttpResponse resp = connection.execute(method);
+
+int statusCode = resp.getStatusLine().getStatusCode();
+
+if (statusCode != HttpStatus.SC_OK) {
+
+System.err.println("Method failed: " + resp.getStatusLine());
+
 }
+
+System.err.println("Method tata: " + resp.getStatusLine());
+
+HttpEntity entity = null;
+
+String rsp = null;
+
+try {
+
+entity = resp.getEntity();
+
+entity.getContent();
+
+rsp = EntityUtils.toString(entity);
+
+EntityUtils.consume(entity);
+
+method.releaseConnection();
+
+method = null;
+
+} finally {
+
+resp.close();
+
+}
+
+rsp = "{\"records\":" + rsp + "}";
+
+log.debug(">>>>> " + rsp);
+
+System.err.println("tata: "+ rsp);
+
+try {
+
+JSONObject response = new JSONObject(rsp);
+
+log.debug("<<<<<Apex contacts reponse: " + response);
+
+JSONArray results = response.getJSONArray("records");
+
+System.err.println("tata1: "+ response);
+
+for (int i = 0; i < results.length(); i++) {
+
+log.debug("_____ " + results.get(i));
+
+Contact contact = new Contact();
+
+try {
+
+System.err.println("tata: "+i);
+
+contact.setFirstName(results.getJSONObject(i).getJSONObject("Contact").getString("FirstName"));
+
+contact.setLastName(results.getJSONObject(i).getJSONObject("Contact").getString("LastName"));
+
+} catch (Exception e) {
+
+e.printStackTrace();
+
+}
+
+contacts.add(contact);
+
+}
+
+} catch (JSONException e) {
+
+e.printStackTrace();
+
+}
+
+} catch (HttpException e) {
+
+System.err.println("Fatal protocol violation: " + e.getMessage());
+
+e.printStackTrace();
+
+} catch (IOException e) {
+
+System.err.println("Fatal transport error: " + e.getMessage());
+
+e.printStackTrace();
+
+} catch (Exception eG) {
+
+System.err.println("Fatal transport error: " + eG.getMessage());
+
+eG.printStackTrace();
+
+} finally {
+
+if (method != null)
+
+method.releaseConnection();
+
+}
+
+return contacts;
+
+}
+
+}
+
+
+

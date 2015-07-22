@@ -75,6 +75,7 @@ public class CouncilRpt {
 				+ " where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)
 				+ sfCouncil
 				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+		
 		java.util.List<String> activities = getActivityRpt(sfCouncil);
 		javax.jcr.query.QueryResult result = null;
 		try {
