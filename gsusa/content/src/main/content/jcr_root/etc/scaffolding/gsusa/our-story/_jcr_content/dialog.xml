@@ -76,7 +76,7 @@
                             <resType
                                 jcr:primaryType="cq:Widget"
                                 name="./jcr:content/image/sling:resourceType"
-                                value="foundation/components/image"
+                                value="gsusa/components/image"
                                 xtype="hidden"/>
                         </items>
                     </image>
