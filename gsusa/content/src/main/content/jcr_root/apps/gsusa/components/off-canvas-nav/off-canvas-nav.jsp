@@ -49,7 +49,7 @@
     }
 
     StringBuilder sb = new StringBuilder();
-    sb.append("<nav class=\"right-off-canvas-menu\">");
+    sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
     buildTopMenu(headerNavs, currentPage.getPath(), resourceResolver, sb, found);
     buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1);
     sb.append("</nav>");
@@ -63,14 +63,14 @@
         for (String[] nav : navs) {
             if (count == found) {
                 if (currentPath.equals(nav[1])) {
-                	sb.append("<li class=\"active current\">");
+                	sb.append("<li class=\"active current\" tabindex=\"-1\">");
                 } else {
-                	sb.append("<li class=\"active\">");
+                	sb.append("<li class=\"active\" tabindex=\"-1\">");
                 }
             } else {
-                sb.append("<li>");
+                sb.append("<li tabindex=\"-1\">");
             }
-            sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\">" + nav[0] + "</a>");
+            sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
             if (count == found) {
                 Page rootPage = rr.resolve(nav[1]).adaptTo(Page.class);
                 buildMenu(rootPage, currentPath, sb);
