@@ -1,20 +1,16 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 
 
 <!-- apps/girlscouts/components/feature-shortstory/main.jsp -->
 <%
 	String designPath = currentDesign.getPath();
 	String title = properties.get("title","");
-	String linkTitle = properties.get("pathfield","");
+	//use genlink to get href of cq:page
+	String linkTitle = genLink(resourceResolver, properties.get("pathfield",""));
 	String featureIcon = properties.get("./featureiconimage/fileReference", "");
-  if (!linkTitle.isEmpty()){
-	    //fix: add ".html"suffix to cq:page
-      Resource res = resourceResolver.getResource(linkTitle);
-      if(res!=null && res.adaptTo(Page.class)!=null){
-    	  linkTitle += ".html";
-      }
-	  }
+
 %>
 
 <%if ((title.isEmpty()) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
