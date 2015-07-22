@@ -6,7 +6,7 @@
 <%@include file="session.jsp"%>
 <%
 //out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
-
+//out.println(troop.getTroop().getPermissionTokens());
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
 

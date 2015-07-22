@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		ConfigListener {
 	private static final long serialVersionUID = 8152897311719564370L;
-
 	private static final Logger log = LoggerFactory
 			.getLogger(SalesforceAuthServlet.class);
 	private static final String ACTION = "action";
@@ -79,7 +78,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			SlingHttpServletResponse response) {
 		String action = request.getParameter(ACTION);
 		if (action == null) {
-			salesforceCallback(request, response);
+			try {
+				salesforceCallback(request, response);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (action.equals(SIGNIN)) {
 			signIn(request, response);
 		} else if (action.equals(SIGNOUT)) {
@@ -216,7 +220,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
+			SlingHttpServletResponse response) throws IllegalAccessException {
 		HttpSession session = request.getSession();
 
 		ApiConfig apiConfig = null;
