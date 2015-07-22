@@ -24,27 +24,38 @@
     }
   }
   li {
-    div {
+    > div {
       @include clearfix;
       background: #e3e3e3;
       padding-top: rem-calc(8);
       // max-height: rem-calc(270);
       padding-bottom: rem-calc(20);
+      padding-left: rem-calc(10);
+      padding-right: rem-calc(10);
       // height: 100%;
       text-align: left;
+      overflow: hidden;
       @media #{$small-up} {
         text-align: center;
       }
-      img {
-        padding: 0 rem-calc(10);
-        height: 200px;
-      }
-      p {
-        text-align: center;
-        max-width: 90%;
-        margin: rem-calc(15) auto 0;
-        line-height: 1.4;
-      }
+      div {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        display: inline-block;
+        //border: 1px solid green;
+	    img {
+	      //max-height: 50%;
+	      height: 200px;
+	      max-width: none;
+	    }
+	    p {
+	      text-align: center;
+	      max-width: 90%;
+	      margin: rem-calc(15) auto 0;
+	      line-height: 1.4;
+	    }
+	  }
     }
   }
 }
