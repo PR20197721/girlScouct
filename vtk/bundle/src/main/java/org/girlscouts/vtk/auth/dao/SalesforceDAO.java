@@ -74,6 +74,7 @@ public class SalesforceDAO {
 			}
 			rsp = "{\"records\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);
+System.err.println(">>>>> " + rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -186,7 +187,7 @@ public class SalesforceDAO {
 			log.debug(config.getInstanceUrl() + "/services/data/v20.0/query");
 			log.debug("___________________getUser________end___________________________");
 			httpclient.executeMethod(get);
-			log.debug(get.getStatusCode() + " : "
+System.err.println(get.getStatusCode() + " : "
 					+ get.getResponseBodyAsString());
 			if (get.getStatusCode() == HttpStatus.SC_OK) {
 				try {
@@ -604,7 +605,7 @@ public class SalesforceDAO {
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-//System.err.println("tata: troopresp <<<<<Apex resp: " + response);
+System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -636,36 +637,48 @@ public class SalesforceDAO {
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
 					
-					  try { 
-						  if (contactId.equals("005Z0000002J5CYIA0")) {
-					  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
-					  troop.setCouncilCode(603); 
-					  // TO BE REMOVED : only 4 // test
-					  if(troop.getTroopId().equals("701Z0000000gvSKIAY")) {
-					  troop.setTroopId("701G0000000uQzTIAU");
-					  troop.setTroopName("Troop 603104");
-					  troop.setGradeLevel("2-Brownie"); } } 
-						  } catch (Exception
-					  nn) { nn.printStackTrace(); }
-					 
+		//************************* TEST ROLLS ********************			  
+					try { 
+						  if (contactId.equals("005G00000078awJIAQ")) {//alice.atl@gsfuture.org.gsuat 
+							  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
+					       } 
+						 } catch (Exception nn) { nn.printStackTrace(); }
+					
+					
+					try { 
+						  if (contactId.equals("005G0000006oEkOIAU")) {//ana.pope@gsfuture.org.gsuat 
+							  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("CouncilAdmin"); 
+					       } 
+						 } catch (Exception nn) { nn.printStackTrace(); }
+	    //************************* END TEST ROLLS ********************				 
+					
+					  
+					  
+					  
 					switch (rollType) {
 					case PA:
 						troop.setPermissionTokens(Permission
 								.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
 						log.debug("REGISTER ROLL PA= parent");
+	System.err.println("TATA USER PARENT");					
 						break;
 					case DP:
 						troop.setPermissionTokens(Permission
 								.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 						log.debug("REGISTER ROLL DP");
+	System.err.println("TATA USER LEADER");					
 						break;
 					case CouncilAdmin:
-						troop.setPermissionTokens(Permission
-								.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+						/*
+						//troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 						troop.getPermissionTokens()
 								.addAll(Permission
-										.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+										.getPermissionTokens(Permission.GROUP_MEMBER_COUNCIL_PERMISSIONS));
+										*/
+						troop.setPermissionTokens(Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_COUNCIL_PERMISSIONS));
 						log.debug("Council Admin");
+	System.err.println("TATA USER CouncilAdmin");					
 						break;
 					default:
 						log.debug("REGISTER ROLL DEFAULT");
