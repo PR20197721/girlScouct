@@ -9,6 +9,7 @@ if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
 } else {
 %>
 	<p>Welcome to the Permanent Redirect listing page.</p>
+	<p>This page is hidden on publish and preview modes.</p>
 	<p>Click <a href="/etc/scaffolding/gsusa/permanent-redirect.html">here</a> to create a permanent redirect.</p>
 	<p>Current redirects:</p>
 	<table>
@@ -20,14 +21,16 @@ if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
 		ValueMap props = resourceResolver.resolve(redirectPage.getPath() + "/jcr:content").adaptTo(ValueMap.class);
 		
 		String scaffoldingLink = redirectPage.getPath() + ".scaffolding.html";
-		String src = props.get("sling:vanityPath", "").replaceAll("^\\/content\\/gsusa", "http://www.girlscouts.org");
-		String dst = props.get("redirectTarget", "");
+		String src = props.get("sling:vanityPath", "");
+		String srcLink = src + ".html";
+		String srcDisplay = src.replaceAll("^\\/content\\/gsusa", "http://www.girlscouts.org");
+		String dst = props.get("redirectTarget", "") + ".html";
 %>
 		<tr>
 			<td><a href="<%= scaffoldingLink %>">EDIT</a></td>
-			<td><%= src %></td>
+			<td><a href="<%= srcLink %>"><%= srcDisplay %></a></td>
 			<td> => </td>
-			<td><%= dst %></td>
+			<td><a href="<%= dst %>"><%= dst %></a></td>
 		</tr>
 <% 
 	}
