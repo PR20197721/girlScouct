@@ -231,6 +231,7 @@
       e.preventDefault();
       $(this).fadeOut(500, function () {
         $(this).siblings('section').fadeIn('slow');
+		$(this).siblings('section').find("input[name='zipcode']").focus();
       });
     });
   }
