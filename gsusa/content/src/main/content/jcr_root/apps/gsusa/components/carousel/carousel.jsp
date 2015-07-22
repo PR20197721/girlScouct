@@ -131,7 +131,7 @@ public  String readUrlFile(String urlString) throws Exception {
 						videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
 					}
 				}
-				embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href=\"https://vimeo.com/"+ vimeoId +"\">Spheres</a> from <a href=\"https://vimeo.com/regishervagault\">Regis Hervagault</a> on <a href=\"https://vimeo.com\">Vimeo</a>.</p>";
+				embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 			} else {
 				videoThumbNail[i] = "not supported";
 			}
@@ -191,7 +191,7 @@ interval = <%= interval %>;
 			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
 			<h2><%= title %></h2>
 			<p><%= content %></p>
-			<a href="#" class="button explore"><%= btnName %></a>
+			<a href="#" class="button explore" tabindex="51"><%= btnName %></a>
 		</section>
 	</div>
 	<div class="position">

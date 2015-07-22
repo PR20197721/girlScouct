@@ -12,7 +12,7 @@
     <form class="formHeaderVolunteer">
 	   <input type="text" name="ZipVolunteer" maxlength="5" placeholder="ZIP code">
         <input type="hidden" name="source" value="<%= source %>">
-	    <span class="button"><%= callToActionName %></span>
+	    <span class="button" tabindex="30"><%= callToActionName %></span>
     </form>
 	<%} else if (WCMMode.fromRequest(request) == WCMMode.EDIT) {%>
 		Click to edit the Volunteer component in the eyebrow

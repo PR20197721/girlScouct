@@ -6,7 +6,7 @@
 <form class="email-signin" action="#">
     <input name="CORPHOME" type="hidden" value="Yes" />
     <label><%= label %></label>
-    <input type="email" name="email" placeholder="Email address" />
+    <input type="email" name="email" placeholder="Email address" tabindex="165" />
 </form>
 <div class="email-output-message">
 </div>

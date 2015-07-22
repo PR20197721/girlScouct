@@ -12,6 +12,7 @@
 		    String link = split.length >= 2 ? split[1] : "";
 		    String mediumLabel = split.length >= 4 ? split[3] : label;
 		    mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
+		    int footerTabindex = 150 + i ;
 
             Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
                     
@@ -19,7 +20,7 @@
                 link += ".html";
             }
             if (!label.isEmpty()) {%>
-				<li><a href="<%= link %>" title="<%= label %>"><%= label %></a></li>
+				<li><a href="<%= link %>" title="<%= label %>" tabindex=<%=footerTabindex%>><%= label %></a></li>
 <%			}
         } 
 %>

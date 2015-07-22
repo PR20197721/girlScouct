@@ -9,6 +9,7 @@
 	String theme = properties.get("theme", "classic");
 	String btnText = properties.get("buttonText", "");
 	String btnLink = properties.get("buttonLink", "#");
+	int featureIndex = 60 + (Integer) request.getAttribute("index");
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -38,7 +39,7 @@
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolorClassic %>">
     <span class="<%= icon %>"></span>
-    <div class="contents">
+    <div class="contents" tabindex="<%= featureIndex %>">
         <h3><%= title %></h3>
         <p class="dek"><%=description%></p>
     </div>
