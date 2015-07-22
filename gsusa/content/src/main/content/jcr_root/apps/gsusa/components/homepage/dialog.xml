@@ -44,6 +44,10 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Facebook ID"
                             name="./facebookId"/>
+                        <addthis-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="AddThis ID"
+                            name="./addThisId"/>
                     </items>
                 </gsusa>
             </items>
