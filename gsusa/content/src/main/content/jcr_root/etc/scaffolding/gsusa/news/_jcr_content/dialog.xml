@@ -329,8 +329,8 @@
                 <resourceType
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
-                    name="./jcr:content/middle/par/text/sling:resourceType"
-                    value="girlscouts/components/textimage"
+                    name="./jcr:content/sling:resourceType"
+                    value="gsusa/components/textimage"
                     xtype="hidden"/>
                 <external-url
                     jcr:primaryType="cq:Widget"
@@ -345,16 +345,16 @@
                 <image
                     jcr:primaryType="cq:Widget"
                     border="true"
-                    cropParameter="./jcr:content/middle/par/text/image/imageCrop"
+                    cropParameter="./jcr:content/image/imageCrop"
                     ddGroups="[media]"
-                    fileNameParameter="./jcr:content/middle/par/text/image/fileName"
-                    fileReferenceParameter="./jcr:content/middle/par/text/image/fileReference"
+                    fileNameParameter="./jcr:content/image/fileName"
+                    fileReferenceParameter="./jcr:content/image/fileReference"
                     height="400"
                     hideLabel="false"
-                    mapParameter="./jcr:content/middle/par/text/image/imageMap"
-                    name="./jcr:content/middle/par/text/image/file"
-                    requestSuffix="/jcr:content/middle/par/text/image.img.png"
-                    rotateParameter="./jcr:content/middle/par/text/image/imageRotate"
+                    mapParameter="./jcr:content/image/imageMap"
+                    name="./jcr:content/image/file"
+                    requestSuffix="/jcr:content/image.img.png"
+                    rotateParameter="./jcr:content/image/imageRotate"
                     sizeLimit="100"
                     xtype="html5smartimage"/>
             </items>
@@ -366,29 +366,29 @@
                 <title
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Title"
-                    name="./jcr:content/middle/par/text/image/jcr:title"
+                    name="./jcr:content/image/jcr:title"
                     xtype="textfield"/>
                 <alt
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(leave empty to use the title defined above)"
                     fieldLabel="Alt Text"
-                    name="./jcr:content/middle/par/text/image/alt"
+                    name="./jcr:content/image/alt"
                     xtype="textfield"/>
                 <description
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
-                    name="./jcr:content/middle/par/text/image/jcr:description"
+                    name="./jcr:content/image/jcr:description"
                     xtype="textarea"/>
                 <size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Size"
-                    heightParameter="./jcr:content/middle/par/text/image/height"
-                    widthParameter="./jcr:content/middle/par/text/image/width"
+                    heightParameter="./jcr:content/image/height"
+                    widthParameter="./jcr:content/image/width"
                     xtype="sizefield"/>
                 <resType
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
-                    name="./jcr:content/middle/par/text/image/sling:resourceType"
+                    name="./jcr:content/image/sling:resourceType"
                     value="foundation/components/image"
                     xtype="hidden"/>
             </items>

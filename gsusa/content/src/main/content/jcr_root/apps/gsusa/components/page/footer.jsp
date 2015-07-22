@@ -6,13 +6,14 @@
     String keepInTouchPath = footerPath + "/keepInTouch";
     String footerNavPath = footerPath + "/footerNav";
     String footerSharePath = footerPath + "/footerShare";
+    String copyrightPath = footerPath + "/copyright";
 %>
 <section class="clearfix">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
 	<cq:include path="<%= footerNavPath %>" resourceType="gsusa/components/footer-nav" />
 </section>
 <section class="clearfix">
-    <span class="copyright">&#64;2015 Girl Scouts of America</span>
+    <cq:include path="<%= copyrightPath %>" resourceType="girlscouts/components/text" />
     <div class="social-links clearfix">
         <div>
             <cq:include path="<%= footerSharePath %>" resourceType="gsusa/components/footer-share" />

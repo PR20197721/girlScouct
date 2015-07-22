@@ -41,9 +41,7 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 	}
 }
-public void addVideoNode(String videoPath, String videoName) {
 
-}
 %>
 <%
 	String[] emptyArray = new String[1];

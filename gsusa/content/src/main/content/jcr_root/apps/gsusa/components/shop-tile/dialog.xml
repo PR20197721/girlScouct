@@ -95,6 +95,7 @@
                         fieldLabel="Shop Button Link"
                         name="./shopLink"
                         linkPattern="\{0\}.html"
+                        rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
                     <button-text
                     	jcr:primaryType="cq:Widget"

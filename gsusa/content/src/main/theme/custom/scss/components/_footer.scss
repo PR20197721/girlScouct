@@ -37,6 +37,10 @@ footer {
     }
     width: 100%;
     float:none;
+
+    p {
+      margin-bottom: 0;
+    }
   }
   .social-links {
     @media #{$medium-up} {
