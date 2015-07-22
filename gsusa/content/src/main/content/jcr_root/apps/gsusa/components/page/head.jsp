@@ -38,7 +38,11 @@
     <% }else{ %>
     <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
     <% } %>
+    <% if (!properties.get("description", "").equals("")) { %>
+    <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("description", "")) %>"<%=xs%>>
+    <% } else { %>
     <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+    <% } %>
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
     <cq:include script="stats.jsp"/>

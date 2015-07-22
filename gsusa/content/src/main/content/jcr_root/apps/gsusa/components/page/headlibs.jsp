@@ -23,7 +23,15 @@
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4e44375e77f1bc80"></script>
+<%
+	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath()).adaptTo(ValueMap.class);
+	String addThisId = siteProps.get("addThisId", "");
+	if (!addThisId.isEmpty()) {
+%>
+		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=<%= addThisId %>"></script>
+<%
+	}
+%>
 
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />
