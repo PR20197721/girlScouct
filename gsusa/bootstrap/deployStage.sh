@@ -20,6 +20,7 @@ for server in ${SERVER_LIST[@]}; do
 			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl/com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
 			curl -u "admin:4U5Hsq5Q_I" "http://$server/system/console/components/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener/com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener" -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Cache-Control: no-cache' --data 'action=disable'
 		fi
+		echo ""
 		echo "Deploying to http://$server"
 		curl -u "admin:4U5Hsq5Q_I" -F file=@"$HOME/.m2/repository/org/girlscouts/web/gsusa-bootstrap/$VERSION/gsusa-bootstrap-$VERSION.zip" -F name="gsusa-bootstrap" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
 
