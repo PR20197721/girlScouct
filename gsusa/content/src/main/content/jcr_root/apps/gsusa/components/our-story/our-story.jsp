@@ -230,8 +230,10 @@ public  String readUrlFile(String urlString) throws Exception {
 			                </div>
 	                        <li>
 	                          <div>
-	                            <img src="<%= imagePath %>" alt="<%= description %>"/>
+	                            <div>
+	                              <img src="<%= imagePath %>" alt="<%= description %>"/>
 	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
+	                            </div>
 	                          </div>
 	                        </li>
 	                        <script>
@@ -243,8 +245,10 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        //something is wrong: it has no image, video, or video path%>
 	                        <li>
 	                          <div>
+	                            <div>
 	                              <p>This story does not have an image, a video link or a video path</p>
-	                            <p><a href="#" title="story title"><%= description %></a></p>
+	                              <p><a href="#" title="story title"><%= description %></a></p>
+	                            </div>
 	                          </div>
 	                        </li><%
 	                    }
@@ -260,8 +264,10 @@ public  String readUrlFile(String urlString) throws Exception {
 				%>
                     <li>
                       <div>
-                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                        <p><a href="<%= link %>"><%= description %></a></p>
+                        <div>
+                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                          <p><a href="<%= link %>"><%= description %></a></p>
+                        </div>
                       </div>
                     </li>
                 <%
