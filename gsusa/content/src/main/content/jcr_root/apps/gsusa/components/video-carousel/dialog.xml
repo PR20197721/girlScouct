@@ -57,6 +57,7 @@
                                 fieldLabel="Video Path 1"
                                 itemId="videoPath50"
                                 name="./videoPath50"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items0>
@@ -104,6 +105,7 @@
                                 fieldLabel="Video Path 2"
                                 itemId="videoPath51"
                                 name="./videoPath51"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items1>
@@ -151,6 +153,7 @@
                                 fieldLabel="Video Path 3"
                                 itemId="videoPath52"
                                 name="./videoPath52"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items2>
@@ -198,6 +201,7 @@
                                 fieldLabel="Video Path 4"
                                 itemId="videoPath53"
                                 name="./videoPath53"
+                                rootPath="/content/dam/girlscouts-gsusa"
                                 xtype="pathfield"/>
                         </items>
                     </items3>

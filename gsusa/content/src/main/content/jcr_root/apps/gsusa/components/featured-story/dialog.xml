@@ -160,6 +160,7 @@
                     	fieldDescription="For applicable themes, please enter the url the button will link to"
                     	name="./buttonLink"
                     	linkPattern="\{0\}.html"
+                    	rootPath="/content/gsusa/en"
                     	xtype="pathfield" />
                 </items>
             </tab1>
