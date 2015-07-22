@@ -9,7 +9,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Permanent Redirects"
         jcr:uuid="ba571f46-1b83-4841-aeda-c7f19bbc6098"
-        sling:resourceType="gsusa/components/redirect-listing">
+        sling:resourceType="gsusa/components/redirect-listing"
+        hideInNav="{Boolean}true">
         <content jcr:primaryType="nt:unstructured">
             <right jcr:primaryType="nt:unstructured">
                 <par
