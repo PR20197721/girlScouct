@@ -112,11 +112,84 @@
                         fieldLabel="Content"
                         name="./content2"
                         xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
+                           <fieldConfig
+	                        jcr:primaryType="cq:Widget"
+	                        height="100"
+	                        limit="{Long}4"
+	                        xtype="richtext">
+	                        <listeners
+					            jcr:primaryType="nt:unstructured"
+					            destroy="function() {this.el.dom={};}"/>
+	                        <rtePlugins jcr:primaryType="nt:unstructured">
+	                            <links jcr:primaryType="nt:unstructured">
+	                                <linkDialogConfig
+	                                    jcr:primaryType="nt:unstructured"
+	                                    height="{Long}316">
+	                                    <linkAttributes jcr:primaryType="cq:WidgetCollection">
+	                                        <linkAdvanced
+	                                            jcr:primaryType="cq:Widget"
+	                                            collapsed="{Boolean}true"
+	                                            collapsible="{Boolean}true"
+	                                            inputValue="advanced"
+	                                            name="./linkdialog/cq:adhocLinkTrackingTab"
+	                                            title="Link tracking"
+	                                            xtype="dialogfieldset">
+	                                            <items jcr:primaryType="cq:WidgetCollection">
+	                                                <enable
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="enabletracking"
+	                                                    fieldDescription="override analytics framework settings"
+	                                                    fieldLabel="Custom link tracking"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+	                                                    xtype="checkbox">
+	                                                    <listeners
+	                                                        jcr:primaryType="nt:unstructured"
+	                                                        check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+	                                                </enable>
+	                                                <events
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="adhocevents"
+	                                                    fieldDescription="e.g.: event2, event7"
+	                                                    fieldLabel="Include SiteCatalyst events"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEvents"
+	                                                    xtype="textfield"/>
+	                                                <evars
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="adhocevars"
+	                                                    fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+	                                                    fieldLabel="Include SiteCatalyst variables"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEvars"
+	                                                    xtype="textfield"/>
+	                                            </items>
+	                                        </linkAdvanced>
+	                                    </linkAttributes>
+	                                </linkDialogConfig>
+	                            </links>
+	                            <justify
+		                            jcr:primaryType="nt:unstructured"
+		                            features="*"/>
+		                        <paraformat
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*">
+	                            <formats jcr:primaryType="cq:WidgetCollection">
+	                                <p
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Paragraph"
+	                                    tag="p"/>
+	                            </formats>
+	                        </paraformat>
+	                        <spellcheck
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        </rtePlugins>
+	                    </fieldConfig>
                     </content2>
+                    <isRichTextFlag
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./textIsRich"
+                        value="true"
+                        xtype="hidden"/>
                 </items>
             </tab2>
             <tab3
@@ -167,10 +240,83 @@
                         name="./content3"
                         xtype="multifield">
                         <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
+	                        jcr:primaryType="cq:Widget"
+	                        height="100"
+	                        limit="{Long}4"
+	                        xtype="richtext">
+	                        <listeners
+					            jcr:primaryType="nt:unstructured"
+					            destroy="function() {this.el.dom={};}"/>
+	                        <rtePlugins jcr:primaryType="nt:unstructured">
+	                            <links jcr:primaryType="nt:unstructured">
+	                                <linkDialogConfig
+	                                    jcr:primaryType="nt:unstructured"
+	                                    height="{Long}316">
+	                                    <linkAttributes jcr:primaryType="cq:WidgetCollection">
+	                                        <linkAdvanced
+	                                            jcr:primaryType="cq:Widget"
+	                                            collapsed="{Boolean}true"
+	                                            collapsible="{Boolean}true"
+	                                            inputValue="advanced"
+	                                            name="./linkdialog/cq:adhocLinkTrackingTab"
+	                                            title="Link tracking"
+	                                            xtype="dialogfieldset">
+	                                            <items jcr:primaryType="cq:WidgetCollection">
+	                                                <enable
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="enabletracking"
+	                                                    fieldDescription="override analytics framework settings"
+	                                                    fieldLabel="Custom link tracking"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+	                                                    xtype="checkbox">
+	                                                    <listeners
+	                                                        jcr:primaryType="nt:unstructured"
+	                                                        check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+	                                                </enable>
+	                                                <events
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="adhocevents"
+	                                                    fieldDescription="e.g.: event2, event7"
+	                                                    fieldLabel="Include SiteCatalyst events"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEvents"
+	                                                    xtype="textfield"/>
+	                                                <evars
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    attribute="adhocevars"
+	                                                    fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+	                                                    fieldLabel="Include SiteCatalyst variables"
+	                                                    name="./linkdialog/cq:adhocLinkTrackingEvars"
+	                                                    xtype="textfield"/>
+	                                            </items>
+	                                        </linkAdvanced>
+	                                    </linkAttributes>
+	                                </linkDialogConfig>
+	                            </links>
+	                            <justify
+		                            jcr:primaryType="nt:unstructured"
+		                            features="*"/>
+		                        <paraformat
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*">
+	                            <formats jcr:primaryType="cq:WidgetCollection">
+	                                <p
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Paragraph"
+	                                    tag="p"/>
+	                            </formats>
+	                        </paraformat>
+	                        <spellcheck
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        </rtePlugins>
+	                    </fieldConfig>
                     </content3>
+                    <isRichTextFlag
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./textIsRich"
+                        value="true"
+                        xtype="hidden"/>
                 </items>
             </tab3>
             <tab4
