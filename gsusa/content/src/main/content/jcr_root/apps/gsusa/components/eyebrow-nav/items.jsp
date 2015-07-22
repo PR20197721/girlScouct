@@ -13,12 +13,13 @@
             String[] split = navs[i].split("\\|\\|\\|");
             String label = split.length >= 1 ? split[0] : "";
             String link = split.length >= 2 ? split[1] : "";
+            Integer eyebrowTabIndex = 10 + i;
             
             Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
             if (linkPage != null && !link.contains(".html")) {
                 link += ".html";
             }
-            %><li><a href="<%= link %>" title="<%= label %>"><%= label %></a></li><%
+            %><li><a href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
         }
     }
 %>

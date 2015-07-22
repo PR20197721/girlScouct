@@ -13,7 +13,7 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	action = currentSite.get(searchAction,String.class);
 %>
 	<form action="<%=action%>.html" method="get" class="search-form">
-		<input type="text" name="q" placeholder="<%=placeholderText %>" pattern=".{3,}" required title="3 characters minimum" /> <%
+		<input type="text" name="q" placeholder="<%=placeholderText %>" tabindex="35" pattern=".{3,}" required title="3 characters minimum" /> <%
 		//this if case is for the search box in mobile/tablet view
 		if ("true".equals((String)request.getAttribute("fromHeaderNav"))) { %>
 			<span class="icon-search-magnifying-glass"></span>
