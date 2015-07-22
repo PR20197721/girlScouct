@@ -126,8 +126,10 @@ public  String readUrlFile(String urlString) throws Exception {
                   </div>
                   <li>
                     <div>
-                      <img src="<%= imagePath %>" alt="<%= description %>"/>
-                      <p><a href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
+                      <div>
+                        <img src="<%= imagePath %>" alt="<%= description %>"/>
+                        <p><a href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
+                      </div>
                     </div>
                   </li>
                 <%
@@ -142,8 +144,10 @@ public  String readUrlFile(String urlString) throws Exception {
                     </div>
                     <li>
                       <div>
-                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                        <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                        <div>
+                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
+                          <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                        </div>
                       </div>
                     </li><%
             	} else if (resProp.get("externalVideo", "").indexOf("vimeo") != -1) {
@@ -161,8 +165,10 @@ public  String readUrlFile(String urlString) throws Exception {
                     </div>
                     <li>
                       <div>
-                        <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
-                        <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                        <div>
+                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
+                          <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                        </div>
                       </div>
                     </li><%
             	} else {
