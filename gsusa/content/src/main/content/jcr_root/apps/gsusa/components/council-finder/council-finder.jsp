@@ -24,7 +24,10 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				<form class="zipSearch" action="<%= path %>" method="get" />
 					<h6>By Zip Code</h6>
 					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
-					<section><input type="text" name="zip" /></section>
+					<section>
+						<input type="text" name="zip" placeholder="Enter ZIP code" />
+						<input type="submit" value="Go" class="button tiny" />
+					</section>
 				</form>
 			</li>
 		<% } %>
@@ -55,14 +58,14 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				var json = JSON.parse(data);
 				var codeSearch = $(".councilCodeSearch");
 				var appendStr = "<h6>By Council Name:</h6>"+
-						"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
+						"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
 						"<section><select name=\"council-code\"><option value=\"N/A\">Select a Council:</option>";
 				for(var i=0; i < json.councils.length; i++) {
 					var option = "<option ";
 					if(request == json.councils[i].councilCode){
 						option = "<option selected=\"selected\" ";
 					}
-					appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode + 
+					appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode +
 							"\">" + json.councils[i].councilShortName + "</option>";
 				}
 				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
