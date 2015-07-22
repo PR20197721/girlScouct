@@ -67,7 +67,9 @@
                     }
                 }
 
-                response.sendRedirect(redirectPath);
+                response.setStatus(301);
+                response.setHeader("Location", redirectPath);
+                response.setHeader("Connection", "close");
             }
         } else {
             response.sendError(HttpServletResponse.SC_NOT_FOUND);
