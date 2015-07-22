@@ -30,7 +30,7 @@
 %>
 	<div class="join">
 		<div class="wrapper">
-			<a href="#" title="join">Join now</a>
+			<a href="#" title="join" tabindex="55">Join now</a>
 			<section>
 				<form action="" method="post" id="findCouncilByZip" onsubmit="return handleFindCouncilByZip(this.zipcode.value, this.source.value)">
 					<span>FIND YOUR LOCAL COUNCIL</span>

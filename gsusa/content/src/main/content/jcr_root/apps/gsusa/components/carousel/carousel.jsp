@@ -191,7 +191,7 @@ interval = <%= interval %>;
 			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
 			<h2><%= title %></h2>
 			<p><%= content %></p>
-			<a href="#" class="button explore"><%= btnName %></a>
+			<a href="#" class="button explore" tabindex="51"><%= btnName %></a>
 		</section>
 	</div>
 	<div class="position">

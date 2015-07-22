@@ -13,6 +13,8 @@
         String id = "story_" + Integer.toString(i);
         String bg = "";
         String style = "";
+        
+        request.setAttribute("index", i);
         try {
             bg = currentNode.getNode(id + "/bg").getProperty("fileReference").getString();
             style = "style=\"background: url(" + bg+ ") no-repeat transparent center center / cover\"";
@@ -23,5 +25,6 @@
         </li>
 <%
     }
+	request.removeAttribute("index");
 %>
 </ul>

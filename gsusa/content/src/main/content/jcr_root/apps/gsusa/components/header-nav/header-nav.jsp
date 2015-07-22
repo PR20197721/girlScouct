@@ -23,6 +23,8 @@
 		    String label = split.length >= 1 ? split[0] : "";
 		    String link = split.length >= 2 ? split[1] : "";
 		    String mediumLabel = split.length >= 4 ? split[3] : label;
+		    int headerNavTabindex = 40 + i;
+		    
 		    mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
             Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
@@ -33,8 +35,8 @@
             if (!label.isEmpty()) {
 %>
                <li>
-                   <a class="show-for-large-up" href="<%= link %>" title="<%= label %>"><%= label %></a>
-                   <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>"><%= mediumLabel %></a>
+                   <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
+                   <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
               </li>
 <%
             }

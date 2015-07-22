@@ -20,15 +20,15 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && hideFacebook && hideTwitter 
 
 <ul class="inline-list">
 	<% if (!hideFacebook)  {%>
-    	<li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png"></a></li><%
+    	<li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png" tabindex="170"></a></li><%
    	}%>
     <% if (!hideTwitter)  {%>
-    	<li><a href="https://twitter.com/gsgc"><img src="/etc/designs/girlscouts-usa-green/images/twitter_30_white.png"></a></li><%
+    	<li><a href="https://twitter.com/gsgc"><img src="/etc/designs/girlscouts-usa-green/images/twitter_30_white.png" tabindex="171"></a></li><%
     }%>
     <% if (!hideFlickr)  {%>
-    	<li><a href="https://www.flickr.com/photos/gsgc/"><img src="/etc/designs/girlscouts-usa-green/images/flickr_30_white.png"></a></li><% 
+    	<li><a href="https://www.flickr.com/photos/gsgc/"><img src="/etc/designs/girlscouts-usa-green/images/flickr_30_white.png" tabindex="172"></a></li><% 
    	}%>
     <% if (!hideYoutube)  {%>
-    	<li><a href="http://www.youtube.com/user/gsgcouncil?feature=watch"><img src="/etc/designs/girlscouts-usa-green/images/youtube_30_white.png"></a></li><%
+    	<li><a href="http://www.youtube.com/user/gsgcouncil?feature=watch"><img src="/etc/designs/girlscouts-usa-green/images/youtube_30_white.png" tabindex="173"></a></li><%
     }%>
 </ul>
