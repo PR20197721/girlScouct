@@ -56,7 +56,7 @@ public class PermissionConstants {
 
 	public static final int GROUP_ADMIN = 1;
 	public static final String GROUP_ADMIN_DISPLAY = "Admin";
-	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] { };
+	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] {PERMISSION_VIEW_FINANCE_ID,  PERMISSION_VIEW_REPORT_ID,PERMISSION_EDIT_FINANCE_ID,  PERMISSION_EDIT_FINANCE_FORM_ID};
 
 	public static final int GROUP_GUEST = 2;
 	public static final String GROUP_GUEST_DISPLAY = "Guest";

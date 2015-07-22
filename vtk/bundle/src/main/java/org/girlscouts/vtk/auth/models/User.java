@@ -7,6 +7,15 @@ public class User implements Serializable {
 	private String name, email, phone, mobilePhone, assistantPhone, homePhone,
 			contactId, sfUserId,
 			firstName, lastName;
+	private boolean isAdmin;
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
 
 	public String getFirstName() {
 		return firstName;
