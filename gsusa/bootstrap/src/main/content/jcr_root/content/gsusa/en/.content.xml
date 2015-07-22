@@ -19,6 +19,8 @@
         jcr:uuid="2a71edd5-bfb2-4eaf-9225-f1b90b55737b"
         sling:resourceType="gsusa/components/homepage"
         globalLanding="/content/gsusa/en/site-search"
+        facebookId="1604075353204563"
+        addThisId="ra-4e44375e77f1bc80"
         seoTitle="Girl Scouts | Official Web Site">
         <header jcr:primaryType="nt:unstructured">
             <eyebrow-nav
