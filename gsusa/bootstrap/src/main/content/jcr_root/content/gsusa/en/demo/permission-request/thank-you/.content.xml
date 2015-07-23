@@ -2,30 +2,28 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-06-26T09:49:46.390-04:00"
-        cq:lastModifiedBy="admin"
-        cq:template="/apps/girlscouts/templates/page"
+        cq:lastModified="{Date}2015-07-23T14:38:48.457-04:00"
+        cq:lastModifiedBy="dlubin"
+        cq:lastReplicated="{Date}2015-07-23T14:39:25.191-04:00"
+        cq:lastReplicatedBy="dlubin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/gsusa/templates/gsusa-two-column-page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Thank You"
         jcr:uuid="aaf57e26-0e30-4e5a-b234-c1ae9c5a725d"
-        sling:resourceType="gsusa/components/page">
+        sling:resourceType="gsusa/components/two-column-page">
         <content jcr:primaryType="nt:unstructured">
-            <right jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/styled-parsys"/>
-            </right>
             <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="girlscouts/components/styled-parsys">
                     <text
-                        jcr:created="{Date}2015-06-26T09:49:04.784-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-06-26T09:49:46.382-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:created="{Date}2015-07-23T14:38:27.099-04:00"
+                        jcr:createdBy="dlubin"
+                        jcr:lastModified="{Date}2015-07-23T14:38:48.455-04:00"
+                        jcr:lastModifiedBy="dlubin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="girlscouts/components/text"
                         text="&lt;h3>Thank you! We'll be in touch shortly!&lt;/h3>&#xa;"
@@ -33,13 +31,5 @@
                 </par>
             </middle>
         </content>
-        <header jcr:primaryType="nt:unstructured">
-            <search
-                jcr:lastModified="{Date}2015-06-24T18:10:21.143-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="gsusa/components/search-box"
-                searchAction="globalLanding"/>
-        </header>
     </jcr:content>
 </jcr:root>
