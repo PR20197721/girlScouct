@@ -63,6 +63,21 @@
     });
   }
 
+  function headercomptrigger(item, event) {
+    event.stopPropagation();
+    item.input.stop().animate({
+      width: 'toggle',
+    }, 500, function () {
+      if (item.input.is(':visible')) {
+        item.input.focus();
+        item.button.addClass('on');
+      } else {
+        item.button.removeClass('on');
+      }
+    });
+    event.preventDefault();
+  }
+
   function slide_search_bar() {
     var searchSlider = {
       form: $(".tab-bar .search-form"),
@@ -157,28 +172,14 @@
     headerjoin.button.click(function (event) {
       headercomptrigger(headerjoin);
     });
-    headerjoin.button.keyup(function(event){
-      if(event.keyCode == 13){
+    headerjoin.button.keyup(function (event) {
+      if (event.keyCode === 13) {
         headercomptrigger(headerjoin);
       }
     });
-    
-    function headercomptrigger(item) {
-      event.stopPropagation();
-      item.input.stop().animate({
-        width: 'toggle',
-      }, 500, function () {
-        if (item.input.is(':visible')) {
-          item.input.focus();
-          item.button.addClass('on');
-        } else {
-          item.button.removeClass('on');
-        }
-      });
-      event.preventDefault();
-      
-    }
-    
+
+
+
     searchvolunteer.button.click(function (event) {
       event.stopPropagation();
       searchvolunteer.input.stop().animate({
@@ -197,8 +198,8 @@
     headervolunteer.button.click(function (event) {
       headercomptrigger(headervolunteer);
     });
-    headervolunteer.button.keyup(function(event){
-      if(event.keyCode == 13){
+    headervolunteer.button.keyup(function (event) {
+      if (event.keyCode === 13) {
         headercomptrigger(headervolunteer);
       }
     });
@@ -234,7 +235,7 @@
       e.preventDefault();
       $(this).fadeOut(500, function () {
         $(this).siblings('section').fadeIn('slow');
-		$(this).siblings('section').find("input[name='zipcode']").focus();
+        $(this).siblings('section').find("input[name='zipcode']").focus();
       });
     });
   }
@@ -507,7 +508,7 @@
   join_now();
   scroll_feeds();
   //show_final();
-  
+
   $(window).load(function () {
     equilize_our_stories();
   });
