@@ -1,9 +1,14 @@
 .council-finder {
   .block-grid {
+    list-style: none;
+    margin-left: 0;
     @media #{$medium-up} {
       @include block-grid(3);
     }
     li {
+      @media #{$small-only} {
+        margin-bottom: rem-calc(20);
+    }
       form {
         border: solid 1px #ccc;
       }
@@ -20,9 +25,12 @@
     section {
       width: 95%;
       margin: 0 auto rem-calc(10);
-      select {
+      select,
+      input[type="text"] {
         margin: 0;
         width: 78%;
+        float: left;
+        margin: rem-calc(0 4 0 0);
         @media #{$small-only} {
           width: 93%;
         }

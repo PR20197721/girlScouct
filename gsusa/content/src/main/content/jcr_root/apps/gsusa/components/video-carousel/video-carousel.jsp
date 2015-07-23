@@ -6,7 +6,8 @@
 				org.apache.sling.commons.json.*,
 				org.apache.sling.api.request.RequestDispatcherOptions,
                 com.day.cq.wcm.api.components.IncludeOptions,
-                org.apache.sling.jcr.api.SlingRepository" %>
+                org.apache.sling.jcr.api.SlingRepository,
+                com.day.cq.wcm.api.WCMMode" %>
 
 <%!
 public String extractYTId(String ytUrl) {
@@ -119,6 +120,10 @@ for (int i = 0 ; i < 4; i++ ){
 		//videoType5[i] equals "none". Do nothing
 
 	}
+}
+
+if(videoThumbNail[0] == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
+	%> It looks like you're missing content here. Please edit this component. <%
 }
 %>
 <div class="feature-video-slider">
