@@ -11,10 +11,10 @@
 
 	if (!isHidden) {%>
     <form class="formHeaderJoin">
-	   <input type="text" name="ZipJoin" maxlength="5" placeholder="ZIP code">
+	   <input type="text" name="ZipJoin" maxlength="5" placeholder="ZIP code" >
 	   <input type="hidden" name="source" value="<%= source %>">
 <!-- 	  <input class="button" type="submit" value="<%= searchBtnName %>"> -->
-        <span class="button"><%= callToActionName %></span>
+        <span class="button" tabindex="25"><%= callToActionName %></span>
     </form>
 <!--     <a href="#" title="Join"><%= callToActionName %>></a> -->
 

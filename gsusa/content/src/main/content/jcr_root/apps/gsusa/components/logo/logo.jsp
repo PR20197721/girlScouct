@@ -6,4 +6,4 @@
     } catch (Exception e) {}
 
 %>
-<img src="<%= imgPath %>" alt="gsusa home" />
+<img src="<%= imgPath %>" alt="Girl Scouts U.S.A. Home" aria-label="Girl Scouts U.S.A. Home"/>

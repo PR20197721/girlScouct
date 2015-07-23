@@ -155,20 +155,30 @@
       });
     });
     headerjoin.button.click(function (event) {
+      headercomptrigger(headerjoin);
+    });
+    headerjoin.button.keyup(function(event){
+      if(event.keyCode == 13){
+        headercomptrigger(headerjoin);
+      }
+    });
+    
+    function headercomptrigger(item) {
       event.stopPropagation();
-      headerjoin.input.stop().animate({
+      item.input.stop().animate({
         width: 'toggle',
       }, 500, function () {
-        if (headerjoin.input.is(':visible')) {
-          headerjoin.input.focus();
-          headerjoin.button.addClass('on');
+        if (item.input.is(':visible')) {
+          item.input.focus();
+          item.button.addClass('on');
         } else {
-          // searchSlider.button.focus();
-          headerjoin.button.removeClass('on');
+          item.button.removeClass('on');
         }
       });
-    });
-
+      event.preventDefault();
+      
+    }
+    
     searchvolunteer.button.click(function (event) {
       event.stopPropagation();
       searchvolunteer.input.stop().animate({
@@ -185,19 +195,12 @@
       event.preventDefault();
     });
     headervolunteer.button.click(function (event) {
-      event.stopPropagation();
-      headervolunteer.input.stop().animate({
-        width: 'toggle',
-      }, 500, function () {
-        if (headervolunteer.input.is(':visible')) {
-          headervolunteer.input.focus();
-          headervolunteer.button.addClass('on');
-        } else {
-          // searchSlider.button.focus();
-          headervolunteer.button.removeClass('on');
-        }
-      });
-      event.preventDefault();
+      headercomptrigger(headervolunteer);
+    });
+    headervolunteer.button.keyup(function(event){
+      if(event.keyCode == 13){
+        headercomptrigger(headervolunteer);
+      }
     });
 
     searchSlider.form.submit(function () {
@@ -231,6 +234,7 @@
       e.preventDefault();
       $(this).fadeOut(500, function () {
         $(this).siblings('section').fadeIn('slow');
+		$(this).siblings('section').find("input[name='zipcode']").focus();
       });
     });
   }
@@ -412,7 +416,6 @@
     });
   }
 
-//???
   function equilize_our_stories() {
     var blocks = $('.our-stories-block li div');
     var maxHeight = Math.max.apply(Math, blocks.map(function () {
