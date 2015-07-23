@@ -86,6 +86,8 @@ div.carousel {
 .hero-feature {
   position: relative;
   margin-bottom: rem-calc(35);
+  max-height: rem-calc(560);
+  overflow:hidden;
   @media #{$medium-only} {
     min-height: rem-calc(550);
   }
@@ -290,6 +292,10 @@ div.carousel {
       }
       .video-embed > img.slide-thumb {
         display: none;
+      }
+      .video-embed > img.slide-thumb.news-pic{
+      	display: block;
+      	height: 100%;
       }
       .video-article {
         width: 40.909091%;

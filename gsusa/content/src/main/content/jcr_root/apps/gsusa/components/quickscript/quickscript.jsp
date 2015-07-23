@@ -60,19 +60,26 @@
 		sess.save();
 		return ret.toString();
 	}
+%>
+<%
+	StringBuffer resultString = new StringBuffer("<p>------DO NO USE THIS COMPONENT UNLESS YOU KNOW WHAT IT IS------</p>");
 
-
-	String resultString = "DO NO USE THIS COMPONENT UNLESS YOU KNOW WHAT IT IS";
 // Never check into git uncommented or these script will execute when the Quickscript component is dragged from the sidekick
-//	resultString = deleteAllNPDRenditions(resourceResolver, "resized.web");
-//	resultString = generateNPDRenditions(resourceResolver);
-	
+//	resultString.append(deleteAllNPDRenditions(resourceResolver,"cq5dam.web.120.80"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.web.240.240"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.web.400.400"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.web.520.520"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.npd"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "resized.web"));
+//	resultString.append(generateNPDRenditions (resourceResolver));
+
 %>
 	<hr>
+	<H1>QUICKSCRIPT</H1>
 <%
 	try {
 %>
-	<%= resultString %>
+	<%= resultString.toString() %>
 <%
 	} catch (Exception e) {
 %>
@@ -81,4 +88,3 @@
 	}
 %>
 	<hr>
-</div>

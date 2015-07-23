@@ -23,7 +23,7 @@
     var key = "<%= key %>";
     var ip = "<%=slingRequest.getHeader("x-forwarded-for") %>";
     var comma = ip.indexOf(",");
-    var pinID = "<%= pinID %>";
+    var blogPinID = "<%= pinID %>";
     ip = ip.substring(0, comma);
     if(ip == ""){
     	if("<%= request.getRemoteAddr() %>" != ""){
@@ -51,8 +51,9 @@
 	var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
 	var posts = [];
 	for (var i=0; i<data.items.length; i++){
-		if(pinID != "" && data.items[i].id == pinID){
+		if(blogPinID != "" && data.items[i].id == blogPinID){
 			posts.unshift(data.items[i]);
+			//console.log("Found Blog Pin");
 		}	
 		else{
 			posts.push(data.items[i]);
