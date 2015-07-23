@@ -9,7 +9,9 @@
     String copyrightPath = footerPath + "/copyright";
 %>
 <section class="clearfix">
+  <div class="float-right">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
+  </div>
 	<cq:include path="<%= footerNavPath %>" resourceType="gsusa/components/footer-nav" />
 </section>
 <section class="clearfix">

@@ -12,19 +12,19 @@ footer {
   //footer navigation list.
   section:first-child {
     margin-bottom: rem-calc(30);
-    .inline-list {
-      li {
-        margin-left: 0;
-        @media #{$medium-up} {
-          margin-right: rem-calc(20);
+     .inline-list {
+        li {
+          margin-left: 0;
+          @media #{$medium-up} {
+            margin-right: rem-calc(20);
         }
       }
       // @media #{$large-up} {
       //   @include grid-column (18);
       // }
-      @media #{$medium-up} {
-        @include grid-column (16);
-      }
+//      @media #{$medium-up} {
+//        @include grid-column (16);
+//      }
       @media #{$small-only} {
         @include block-grid(2);
         padding: rem-calc(0 10);
@@ -72,12 +72,18 @@ footer {
       color: $white;
     }
   }
-  .email-signin,
-  .email-output-message {
-    // @media #{$large-up} {
-    //   @include grid-column(6, $float:right);
-    // }
-    @media #{$medium-up} {
+//  .email-signin,
+//  .email-output-message {
+//    // @media #{$large-up} {
+//    //   @include grid-column(6, $float:right);
+//    // }
+//    @media #{$medium-up} {
+//      @include grid-column(8, $float:right);
+//      text-align: right;
+//    }
+//  }
+  .float-right {
+  	@media #{$medium-up} {
       @include grid-column(8, $float:right);
       text-align: right;
     }
