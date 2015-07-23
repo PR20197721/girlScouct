@@ -9,7 +9,7 @@
         cq:template="/libs/wcm/scaffolding/templates/scaffolding"
         jcr:description="Use this scaffolding to create 301 Permanent Redirects"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Scholarship"
+        jcr:title="Permanent Redirect"
         sling:resourceType="wcm/scaffolding/components/scaffolding">
         <dialog/>
     </jcr:content>
