@@ -65,6 +65,7 @@
 		  			postID = toParse.data[i].link.match(postIDPattern)[0].replace("/p/","").replace("/","");
 		  			if(postID == pinID){
 		  				posts.unshift(toParse.data[i]);
+		  				console.log("Found Instagram Pin");
 		  			}
 		  			else{
 		  				posts.push(toParse.data[i]);

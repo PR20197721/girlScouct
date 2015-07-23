@@ -7,7 +7,7 @@
         cq:template="/apps/gsusa/templates/gsusa-three-column-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="About Girl Scouts"
-        sling:resourceType="gsusa/components/three-column-page"/>
+        sling:resourceType="girlscouts/components/placeholder-page"/>
     <who-we-are/>
     <our-history/>
     <our-leadership/>

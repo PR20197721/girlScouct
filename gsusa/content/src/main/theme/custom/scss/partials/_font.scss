@@ -1,0 +1,21 @@
+.noPadding {
+  padding: 0;
+}
+
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.textimage.nopadding div.text p {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+div.textimage.nowrap div.text p {
+  overflow: hidden;
+}
+
+.textimage.nowrap div.image img {
+  display: inline-block;
+}
