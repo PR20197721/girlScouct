@@ -17,6 +17,8 @@
 .instagram-feed {
   @media #{$medium-up} {
     @include grid-column(8);
+    padding-left: 0;
+    padding-right: rem-calc(2);
   }
   @media #{$small-only} {
     margin-bottom: rem-calc(35);
