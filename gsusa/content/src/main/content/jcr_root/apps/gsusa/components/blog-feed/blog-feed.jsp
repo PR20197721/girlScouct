@@ -53,7 +53,7 @@
 	for (var i=0; i<data.items.length; i++){
 		if(blogPinID != "" && data.items[i].id == blogPinID){
 			posts.unshift(data.items[i]);
-			console.log("Found Blog Pin");
+			//console.log("Found Blog Pin");
 		}	
 		else{
 			posts.push(data.items[i]);
