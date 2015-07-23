@@ -56,6 +56,8 @@
 	String eventsLink = properties.get("urltolink", "") + ".html";
 	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
 	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
+	//filtered by start or end date of the events. by cwu
+	String filterProp = properties.get("filter", "start");
 	Date startDate = null;
 	String href = "";
 	String title = "";
@@ -82,24 +84,27 @@
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
 
-                                            //Check for featured events excluded by date added by Igor Kaplunov
+                      //Check for featured events excluded by date 
+                     if (propNode.hasProperty(filterProp)){
+											cale.setTime(fromFormat.parse(propNode.getProperty(fiterProp).getString()));
+                     }else {
+                    	 cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+                     }
+										Date eventStartDate = cale.getTime();
 
-											cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-											Date eventStartDate = cale.getTime();
+                      if(eventStartDate.after(currentDate)){
 
-                                            if(eventStartDate.after(currentDate)){
+                          title = propNode.getProperty("../jcr:title").getString();
 
-                                                title = propNode.getProperty("../jcr:title").getString();
-    
-                                                request.setAttribute("propNode", propNode);
-                                                request.setAttribute("node", node);
-                                                request.setAttribute("href", href);
-                                                request.setAttribute("title", title);
-                                                %>
-                                                    <cq:include script="event-render.jsp" />
-                                                <%
-                                                    eventsRendered++;
-                                            }
+                          request.setAttribute("propNode", propNode);
+                          request.setAttribute("node", node);
+                          request.setAttribute("href", href);
+                          request.setAttribute("title", title);
+                          %>
+                              <cq:include script="event-render.jsp" />
+                          <%
+                              eventsRendered++;
+                      }
 										}
 									} catch (Exception e) {}
 								}
@@ -127,19 +132,15 @@
 									try {
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
-											if (daysofevents > 0) {
-												if (propNode.hasProperty("start"))
-													cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-													fromdate = cale.getTime();
-											} else {
-												if (propNode.hasProperty("end")) {
-													cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-													fromdate = cale.getTime();
-												} else if (propNode.hasProperty("start")) {
-													cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-													fromdate = cale.getTime();
-												}
+
+											if (propNode.hasProperty(filterProp)) {
+												cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
+												fromdate = cale.getTime();
+											} else if (propNode.hasProperty("start")) {
+												cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+												fromdate = cale.getTime();
 											}
+
 											title = propNode.getProperty("../jcr:title").getString();
 											try {
 												String eventDt = formatter.format(fromdate);
