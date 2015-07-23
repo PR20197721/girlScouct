@@ -326,7 +326,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/text"
-                text="&lt;p>@2015 Girl Scouts of America&lt;/p>&#xa;"
+                text="@2015 Girl Scouts of America"
                 textIsRich="true"/>
         </footer>
     </jcr:content>
