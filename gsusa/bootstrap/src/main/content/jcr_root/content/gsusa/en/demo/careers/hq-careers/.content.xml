@@ -28,7 +28,7 @@
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="gsusa/components/iframe"
-                        height="600px"
+                        height="3400px"
                         scrolling="Auto"
                         src="http://www.recruitingcenter.net/clients/girlscouts/publicjobs"
                         width="765px"/>
