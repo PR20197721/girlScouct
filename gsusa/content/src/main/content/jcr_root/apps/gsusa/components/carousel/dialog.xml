@@ -338,7 +338,7 @@
             </tab4>
             <tab5
                 jcr:primaryType="cq:Panel"
-                title="Fourth Page (Video)">
+                title="Fourth Page (News)">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <title5
                         jcr:primaryType="cq:Widget"

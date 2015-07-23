@@ -161,9 +161,8 @@ public  String readUrlFile(String urlString) throws Exception {
 			//done adding video.
 			embeded[i] = "";
 		} else if("photo".equals(videoType5[i])){
-			String photoPath = properties.get("videoPath5" + i, "");
-			videoThumbNail[i] = photoPath + "/jcr:content/renditions/cq5dam.thumbnail.210.100.png";
-
+			String photoPath = properties.get("newsPic5" + i, "");
+			videoThumbNail[i] = photoPath;
 			//done adding video.
 			embeded[i] = "";
 		} else {
@@ -257,8 +256,7 @@ interval = <%= interval %>;
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/image" />
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb news-pic"/>
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
