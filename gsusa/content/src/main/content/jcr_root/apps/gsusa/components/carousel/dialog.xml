@@ -331,11 +331,31 @@
                         fieldLabel="Title"
                         name="./title4"
                         xtype="textfield"/>
-                    <imagePath3
+                    <blog-id
+						jcr:primaryType="cq:Widget"
+						fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
+						fieldLabel="Blog ID"
+						name="./blog-feed/id"
+						xtype="textfield"/>
+					<api-key
+						jcr:primaryType="cq:Widget"
+						fieldDescription="(Optional) If you are using an alternative blog, enter its API Key here"
+						fieldLabel="API Key"
+						name="./blog-feed/key"
+						xtype="textfield"/>
+                    <count
                         jcr:primaryType="cq:Widget"
-                        defaultValue="Please change the social page in the edit menu on the page itself"
-                        value="Please change the social page in the edit menu on the page itself"
-                        xtype="displayfield"/>
+                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
+                        fieldLabel="Count"
+                        minValue="1"
+                        name="./blog-feed/count"
+                        xtype="numberfield"/>
+                    <pin-id
+                    	jcr:primaryType="cq:Widget"
+                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
+                    	fieldLabel="Pin ID"
+                    	name="./blog-feed/pin-id"
+                    	xtype="textfield"/>
                 </items>
             </tab4>
             <tab5
