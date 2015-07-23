@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="9cb518f3-480c-4da3-963c-4e7f7d39bf92"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$10,000 award (distributed in $2,500 increments each year for up to four years and are applied to room-and-board charges)"
         awardName1="The Scout Award"
         awardReq1="Has earned the Girl Scout Gold Award."

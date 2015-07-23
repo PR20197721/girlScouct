@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="57d9543f-5af9-4bef-b1c3-22531b7fbcb3"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000 (renewable)"
         awardContent2="$4000 - $7500 (renewable)"
         awardName1="Girl Scout Gold Award Scholarship"

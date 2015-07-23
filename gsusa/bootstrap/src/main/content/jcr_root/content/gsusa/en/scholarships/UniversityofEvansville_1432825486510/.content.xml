@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="5e85e18f-d3ee-4899-a561-cf937ada15dd"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$2,000 (renewable)"
         awardName1="Scouting Scholarship "
         awardReq1="Candidates must have earned the Gold Award (and all required documentation)"

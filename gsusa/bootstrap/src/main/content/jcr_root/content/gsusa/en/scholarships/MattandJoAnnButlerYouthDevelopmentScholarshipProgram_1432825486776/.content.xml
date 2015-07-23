@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="9642dc34-e60f-4c53-a19b-3d7a00b98e38"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$2,000"
         awardName1="Matt and JoAnn Butler Youth Development Scholarship "
         awardReq1="Current member of Girl Scouts â Dakota Horizons (Northwest and Northeast Districts and Northwestern Minnesota only)&#xa;Be a graduating high school senior&#xa;Provide high school transcript&#xa;Submission of SAT and/or ACT score                                                              "

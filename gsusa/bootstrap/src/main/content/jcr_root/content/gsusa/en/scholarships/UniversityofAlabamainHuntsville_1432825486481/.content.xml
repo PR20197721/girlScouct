@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="d0de5974-b153-443a-a076-df5f4cd6ed6e"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$500"
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;At least a 3.0 high school GPA &#xa;At least a 25 ACT composite score or 1130 SAT combined score"

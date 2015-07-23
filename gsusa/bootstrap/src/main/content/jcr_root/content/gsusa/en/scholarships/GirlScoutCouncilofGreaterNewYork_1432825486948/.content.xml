@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="cea7fcaf-1950-43bc-9aa5-a6f7dcb3513f"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000"
         awardContent2="Varies (renewable)"
         awardContent3="$2,000"

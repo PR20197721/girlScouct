@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="9b9d704a-9837-434d-89e4-1bb9f5030462"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies"
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Must be a Girl Scout from North-Central Alabama Council"

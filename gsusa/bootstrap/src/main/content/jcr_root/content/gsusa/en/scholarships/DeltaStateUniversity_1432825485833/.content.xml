@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="1e17cad3-ce7b-42fa-9884-0d1ec7c79a6a"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$150 (renewable)"
         awardName1="Leadership Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Enrolled at Delta State for freshman year"

@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="89220d44-aed6-4832-899b-22cc758cdd0e"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardName1="Gold Award Scholarship"
         awardName2="Graduating Senior Scholarship"
         awardName3="Shuylkill County Scholarship"
