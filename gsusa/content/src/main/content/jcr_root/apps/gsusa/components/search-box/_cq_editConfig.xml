@@ -3,7 +3,5 @@
 	cq:actions="[text:Search Box,-,edit]"
     cq:disableTargeting="{Boolean}true"
     cq:dialogMode="floating"
-    height="{Long}500"
-    weight="{Long}500"
     cq:noDecoration="{Boolean}true"
     jcr:primaryType="cq:EditConfig"/>
