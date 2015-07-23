@@ -293,6 +293,10 @@ div.carousel {
       .video-embed > img.slide-thumb {
         display: none;
       }
+      .video-embed > img.slide-thumb.news-pic{
+      	display: block;
+      	height: 100%;
+      }
       .video-article {
         width: 40.909091%;
         float: left;

@@ -160,6 +160,11 @@ public  String readUrlFile(String urlString) throws Exception {
 			}
 			//done adding video.
 			embeded[i] = "";
+		} else if("photo".equals(videoType5[i])){
+			String photoPath = properties.get("newsPic5" + i, "");
+			videoThumbNail[i] = photoPath;
+			//done adding video.
+			embeded[i] = "";
 		} else {
 			//videoType5[i] equals "none". Do nothing
 
@@ -245,7 +250,22 @@ interval = <%= interval %>;
 					<ul class="slide-4">
 <%
 	for (int i = 0 ; i < 4; i++) {
-		if ("link".equals(videoType5[i])) {
+		if("photo".equals(videoType5[i])){
+%>
+						<li>
+							<h3><%= title5 %></h3>
+							<div class="video-wrapper">
+								<div class="video video-embed">
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb news-pic"/>
+								</div>
+								<div class="video-article">
+									<h4><%= subtitle5[i] %></h4>
+									<p><%= content5[i]%></p>
+								</div>
+							</div>
+						</li>
+<%
+		}else if ("link".equals(videoType5[i])) {
 %>
 						<li>
 							<h3><%= title5 %></h3>
