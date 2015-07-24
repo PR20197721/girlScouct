@@ -2,9 +2,9 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-23T14:35:32.621-04:00"
+        cq:lastModified="{Date}2015-07-24T09:08:29.982-04:00"
         cq:lastModifiedBy="dlubin"
-        cq:lastReplicated="{Date}2015-07-23T14:36:48.244-04:00"
+        cq:lastReplicated="{Date}2015-07-24T09:08:46.858-04:00"
         cq:lastReplicatedBy="dlubin"
         cq:lastReplicationAction="Activate"
         cq:template="/apps/gsusa/templates/gsusa-two-column-page"
@@ -13,7 +13,9 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Thank You"
         jcr:uuid="ec6f17b5-7b42-480d-9577-4c4e08139f67"
-        sling:resourceType="gsusa/components/two-column-page">
+        sling:resourceType="gsusa/components/two-column-page"
+        articleTitle="Thank You"
+        hideInNav="true">
         <content jcr:primaryType="nt:unstructured">
             <middle jcr:primaryType="nt:unstructured">
                 <par
@@ -31,5 +33,10 @@
                 </par>
             </middle>
         </content>
+        <image
+            jcr:lastModified="{Date}2015-07-24T09:08:29.978-04:00"
+            jcr:lastModifiedBy="dlubin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
     </jcr:content>
 </jcr:root>
