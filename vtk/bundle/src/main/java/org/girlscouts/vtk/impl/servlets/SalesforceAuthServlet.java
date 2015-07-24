@@ -100,16 +100,22 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
+System.err.println("test1");		
 		String action = request.getParameter(ACTION);
 		if (action == null) {
+System.err.println("test2");				
 			;//salesforceCallback(request, response);
 		} else if (action.equals(SIGNIN)) {
+System.err.println("test3");	
 			signIn(request, response);
 		} else if (action.equals(SIGNOUT)) {
+System.err.println("test4");				
 			signOut(request, response);
 		} else {
+System.err.println("test5");				
 			log.error("Unsupported action: " + action);
 		}
+System.err.println("test6");		
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -168,7 +174,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
-System.err.println("TATA login....");
+
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {
@@ -181,18 +187,6 @@ System.err.println("TATA login....");
 					.getAttribute(ApiConfig.class.getName());
 		} catch (Exception e) {
 		}
-
-		/*
-		 * String redirectUrl; if (config == null || config.getId() == null) {
-		 * 
-		 * 
-		 * redirectUrl = OAuthUrl +
-		 * "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
-		 * + clientId + "&redirect_uri=" + callbackUrl + "&state=" +
-		 * refererCouncil;
-		 * 
-		 * } else { redirectUrl = targetUrl; } redirect(response, redirectUrl);
-		 */
 
 		AppSettings appSettings = new AppSettings();
 		// appSettings.setAssertionConsumerServiceUrl("http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html");
@@ -309,6 +303,9 @@ System.err.println("TATA login....");
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
+		
+		System.err.println("tata POST***********"+ request.getParameter("RelayState"));		
+		
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
@@ -396,7 +393,11 @@ System.err.println("TATA login....");
 		}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
-		redirect(response, targetUrl);
+		
+		if( request.getParameter("RelayState")!=null ){
+			redirect(response, request.getParameter("RelayState"));
+		}else
+			redirect(response, targetUrl);
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,

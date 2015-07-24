@@ -25,7 +25,7 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "targetUrl", label = "Target URL", description = "Redirect to this URL if authentication succeeds. Usually it is VTK homepage."),
 		@Property(name = "communityUrl", label = "Community URL", description = "URL to SalesForce Community Page for the button on the landing page."),
 		@Property(name = "councilMapping", cardinality = Integer.MAX_VALUE, label = "Council Branch Mapping", description = "Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway"),
-		
+		@Property(name = "baseUrl",  label = "x", description = "x"),
 		@Property(name = "idpSsoTargetUrl",  label = "x", description = "x"),
 		@Property(name = "ssoCertificate",  label = "x", description = "x"),
 		@Property(name = "ssoInstanceUrl",  label = "x", description = "x"),
