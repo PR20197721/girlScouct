@@ -122,95 +122,95 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 								site = "http://" + site;
 							}
 							record.append("<h5>\n<a href=\"" + site
-									+ "\" target=\"_blank\">\n" + n.getProperty("sponsor").getString()
-									+ "\n</a>\n</h5>\n");
+									+ "\" target=\"_blank\">" + n.getProperty("sponsor").getString()
+									+ "</a>\n</h5>");
 						}
 	
 						else if(n.hasProperty("sponsor")){
-							record.append("<p>\n<strong>" + n.getProperty("sponsor").getString()
-									+ "</strong>\n</p>\n");
+							record.append("<p><strong>" + n.getProperty("sponsor").getString()
+									+ "</strong></p>");
 						}
 	
 						else if(n.hasProperty("website")){
-							record.append("<p>\n<a href=\"" + n.getProperty("website").getString()
-									+ "\" target=\"_blank\">\n<strong>" + n.getProperty("website").getString()
-									+ "</strong>\n</a>\n</p>\n");
+							record.append("<p><a href=\"" + n.getProperty("website").getString()
+									+ "\" target=\"_blank\"><strong>" + n.getProperty("website").getString()
+									+ "</strong></a>\n</p>");
 						}
 	
 						if(n.hasProperty("city")){
 							if(n.hasProperty("state")){
-								record.append("<p>" + n.getProperty("city").getString() + ", " + n.getProperty("state").getString() + "\n</p>\n");
+								record.append("<p>" + n.getProperty("city").getString() + ", " + n.getProperty("state").getString() + "</p>");
 							}
 							else{
-								record.append("<p>" + n.getProperty("city").getString() + "\n</p>\n");
+								record.append("<p>" + n.getProperty("city").getString() + "</p>");
 							}
 						}
 	
 						else if(n.hasProperty("state")){
-							record.append("<p>" + n.getProperty("state").getString() + "\n</p>\n");
+							record.append("<p>" + n.getProperty("state").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName1")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName1").getString() + "</em>\n\n</p>\n");
+							record.append("<p><strong>"
+									+ n.getProperty("awardName1").getString() + "</strong></p>");
 						}
 	
 						if(n.hasProperty("awardContent1")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent1").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent1").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq1")){
-							record.append("<p class=\"title\"><strong>\nRequirements:\n</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardReq1").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq1").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName2")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName2").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName2").getString() + "</strong></p>\n");
 						}
 	
 						if(n.hasProperty("awardContent2")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent2").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent2").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq2")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq2").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>Requirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq2").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName3")){
-							record.append("<p class=\"title\">\n\n<em>"
-									+ n.getProperty("awardName3").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName3").getString() + "</strong></p>\n");
 						}
 	
 						if(n.hasProperty("awardContent3")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent3").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent3").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq3")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq3").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq3").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName4")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName4").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName4").getString() + "</strong></p>");
 						}
 	
 						if(n.hasProperty("awardContent4")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent4").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent4").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq4")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq4").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq4").getString() + "</p>");
 						}
 	
-						record.append("<p class=\"title\"><strong>\nFor more information:</strong>\n</p>\n");
+						record.append("<p class=\"title\"><strong>For more information:</strong></p>");
 	
 						if(n.hasProperty("contact")){
 							//Sometimes people use a URL here, sometimes they use a name
