@@ -4,6 +4,10 @@ footer {
   @media #{$small-only} {
     padding: 0;
   }
+  @media #{$medium-up} {
+    padding-left: rem-calc(15);
+    padding-right: rem-calc(15);
+  }
   padding: rem-calc(40) 0;
   @include grid-row();
   .inline-list {

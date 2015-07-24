@@ -97,6 +97,14 @@
         margin-top: rem-calc(10);
       }
       &.no-padding {
+        .bg-wrapper {
+          margin-left: 0;
+          margin-right: 0;
+          padding-left: 0;
+          padding-right: 0;
+          width: 100%;
+          float: none;
+        }
         .contents {
           @include grid-column(24, $center:true, $collapse:true);
           margin-left: 0;

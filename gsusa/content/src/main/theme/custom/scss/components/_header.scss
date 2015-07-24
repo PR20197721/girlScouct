@@ -17,6 +17,7 @@
   }
   .logo-section {
     @include grid-column(6);
+    padding-left: rem-calc(12);
     @media #{$small-only} {
       margin: 0 auto;
       float: none;
@@ -32,8 +33,9 @@
     padding-left: 0.35714rem;
     padding-right: 0.35714rem;
     width: 77%;
-    float: left;
+    float: right;
     .inline-list {
+      float: right;
       li:first-child {
         margin-left: 0;
       }
