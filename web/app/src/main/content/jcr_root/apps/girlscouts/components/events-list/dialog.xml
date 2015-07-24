@@ -54,11 +54,11 @@
                         xtype="pathfield"/>
                     <filter
                         jcr:primaryType="cq:Widget"
-                        defaultValue="start"
+                        defaultValue="end"
                         fieldDescription="Choose to filter the events by starting or ending date."
                         fieldLabel="Filtered By"
                         name="./filter"
-                        value="start"
+                        value="end"
                         xtype="selection">
                         <options jcr:primaryType="cq:WidgetCollection">
                             <start
