@@ -1025,7 +1025,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 				Session __session = sessionFactory.getSession();
 
-				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"
+				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
 						+ troop.getTroop().getCouncilCode()
 						+ "/"
 						+ troop.getTroop().getTroopId()
@@ -1128,7 +1128,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				}
 
                 //creates folder path if it doesn't exist yet
-                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String path = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();

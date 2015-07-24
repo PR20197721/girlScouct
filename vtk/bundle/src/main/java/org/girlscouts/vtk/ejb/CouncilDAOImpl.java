@@ -136,7 +136,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				//create vtk base
 				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
 				permiss.modifyNodePermissions(vtkBase, "vtk");
-				permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data/", "vtk");
+				permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/", "vtk");
 			}
 			
 			
