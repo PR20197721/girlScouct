@@ -133,4 +133,4 @@
     </div><!--/mainRight-->
   <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div><!--/content-->
-<script>window.parent.setLoggedIn();</script>
+<script>if(self!=top){console.log("im frame..."); window.parent.setLoggedIn();}</script>
