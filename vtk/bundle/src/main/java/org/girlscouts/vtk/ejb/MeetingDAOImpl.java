@@ -183,7 +183,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
-				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
+				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
 				if(globalMeetingInfo!=null)
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
 			}
