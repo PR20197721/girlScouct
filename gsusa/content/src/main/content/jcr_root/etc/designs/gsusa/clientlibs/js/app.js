@@ -341,6 +341,7 @@
 
   function explore_button() {
     $(".hero-text .button.explore").on("click", function () {
+<<<<<<< Updated upstream
      $('.inner-sliders .inner').slick({
        dots: false,
        infinite: false,
@@ -351,6 +352,30 @@
        arrows: true,
      });
       $('.inner-sliders .slide-1, .inner-sliders .slide-2, .inner-sliders .slide-4').slick({
+=======
+      $('.inner-sliders .inner').slick({
+        dots: false,
+        infinite: false,
+        speed: 500,
+        fade: false,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: true,
+        // responsive: [
+        //   {
+        //     breakpoint: 640,
+        //     settings: "unslick"
+        //   },
+        //   {
+        //     breakpoint: 480,
+        //     settings: "unslick"
+        //   }
+        //   You can unslick at a given breakpoint now by adding:
+        //   settings: "unslick"
+        //   instead of a settings object
+        // ]
+      });
+      $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
         dots: true,
         fade: true,
         dotsClass: 'slick-dots',
@@ -358,6 +383,17 @@
         arrows: false,
         customPaging: function (slick, index) {
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
+        },
+      });
+      
+      $('.inner-sliders .slide-4').slick({
+        dots: true,
+        fade: true,
+        dotsClass: 'slick-dots',
+        cssEase: 'linear',
+        arrows: false,
+        customPaging: function (slick, index) {
+          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + "<p>" + $("#hiddenThumbnail" + index).text(); + "</p>";
         },
       });
       $('.inner-sliders .slide-3').slick({

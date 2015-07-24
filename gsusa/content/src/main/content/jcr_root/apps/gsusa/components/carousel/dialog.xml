@@ -487,6 +487,11 @@
 				       itemId="videoLink50"
 				       name="./videoLink50"
 				       xtype="textfield"/>
+				   <thumbnailTitle50
+				       jcr:primaryType="cq:Widget"
+				       fieldLabel="Thumbnail Title"
+				       name="./thumbnailTitle50"
+				       xtype="textfield"/>
 				   <videoPath50
 				       jcr:primaryType="cq:Widget"
 				       editable="{Boolean}false"
@@ -617,6 +622,11 @@
 				       fieldLabel="Video Link 2"
 				       itemId="videoLink51"
 				       name="./videoLink51"
+				       xtype="textfield"/>
+				   <thumbnailTitle51
+				       jcr:primaryType="cq:Widget"
+				       fieldLabel="Thumbnail Title 2"
+				       name="./thumbnailTitle51"
 				       xtype="textfield"/>
 				   <videoPath51
 				       jcr:primaryType="cq:Widget"
@@ -749,6 +759,11 @@
 				       itemId="videoLink52"
 				       name="./videoLink52"
 				       xtype="textfield"/>
+				   <thumbnailTitle52
+				       jcr:primaryType="cq:Widget"
+				       fieldLabel="Thumbnail Title"
+				       name="./thumbnailTitle52"
+				       xtype="textfield"/>
 				   <videoPath52
 				       jcr:primaryType="cq:Widget"
 				       editable="{Boolean}false"
@@ -879,6 +894,11 @@
 				       fieldLabel="Video Link 4"
 				       itemId="videoLink53"
 				       name="./videoLink53"
+				       xtype="textfield"/>
+				   <thumbnailTitle53
+				       jcr:primaryType="cq:Widget"
+				       fieldLabel="Thumbnail Title"
+				       name="./thumbnailTitle53"
 				       xtype="textfield"/>
 				   <videoPath53
 				       jcr:primaryType="cq:Widget"
