@@ -18,9 +18,10 @@ public class GSRenditionPicker implements RenditionPicker {
     public Rendition getRendition(Asset asset) {
         List<Rendition> renditions = asset.getRenditions();
         for (String targetRendition : targetRenditions) {
-            for (Rendition rendition: renditions) {
-                if (Text.getName(rendition.getPath()).startsWith(targetRendition)) {
-                    return rendition;
+        	for (Rendition rendition: renditions) {
+        		System.out.println("Loop rendition " + rendition.getName());
+                if (rendition.getName().indexOf("@2x") == -1 && Text.getName(rendition.getPath()).startsWith(targetRendition)) {
+					return rendition;
                 }
             }
         }

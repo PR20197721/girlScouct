@@ -30,6 +30,7 @@ import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.commons.AbstractImageServlet;
 //import com.day.cq.wcm.foundation.Image;
 import org.girlscouts.web.gsusa.wcm.foundation.Image;
+import org.girlscouts.web.gsusa.wcm.foundation.RetinaImage;
 import com.day.image.Layer;
 
 /**
@@ -59,8 +60,18 @@ public class img_GET extends AbstractImageServlet {
                               SlingHttpServletResponse resp,
                               ImageContext c, Layer layer)
             throws IOException, RepositoryException {
+        boolean isRetina = false;
+        if (req.getRequestURI().indexOf("@2x.") != -1) {
+            isRetina = true;
+        }
 
-        Image image = new Image(c.resource);
+        com.day.cq.wcm.foundation.Image image = null;
+        if (isRetina) {
+            image = new RetinaImage(c.resource);
+        } else {
+            image = new Image(c.resource);
+        }
+
         if (!image.hasContent()) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
