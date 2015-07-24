@@ -19,3 +19,7 @@ div.textimage.nowrap div.text p {
 .textimage.nowrap div.image img {
   display: inline-block;
 }
+
+.text.parbase.section p {
+  font-size: rem-calc(16);
+}
