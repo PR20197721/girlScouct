@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="ef224edc-9e0c-40b7-90fc-ab4baf349f30"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Covers full tuition, mandatory fees, and room and board. An additional annual award of $3000 is given for study abroad, short-term courses, summer internship tuition, or research support."
         awardName1="The Gilbert and Marcia Kotzen Scholars Program"
         awardReq1="A competitive merit award that recognizes the best and brightest students interested in a transformative education at Simmons College. Thanks to a dedicated donor who cares deeply about advancing girls leadership one of these scholarships must be awarded to a Girl Scouts&#xa;Must be applying as a freshman for the fall semester&#xa;SAT score of 1850 or higher, or equivalent standardized test scores&#xa;3.3 or higher grade point average&#xa;Must have undertaken the recommended college preparatory curriculum&#xa;Must have enrolled in an advanced level math course beyond Algebra II during, or prior to, their senior year of high school&#xa;Must  have taken honors, advanced placement (AP) and international baccalaureate (IB) courses, as available in their high school systems"

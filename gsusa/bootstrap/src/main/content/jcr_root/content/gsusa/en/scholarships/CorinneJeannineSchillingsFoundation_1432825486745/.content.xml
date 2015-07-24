@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="efa846ca-0cb5-4abe-969e-871c39a7bf08"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,500 (renewable for a total of $6,000)"
         awardContent2="$1,000"
         awardName1="Corinne Jeannine Schillings Foundation Academic Scholarship"

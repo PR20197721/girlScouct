@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="28fa2bd3-b5fb-4de1-9ed0-53db900bb2d4"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000 (renewable for a total of $4,000)"
         awardName1="Venturing and Scouting Leadership Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Incoming freshman at Abilene Christian University"

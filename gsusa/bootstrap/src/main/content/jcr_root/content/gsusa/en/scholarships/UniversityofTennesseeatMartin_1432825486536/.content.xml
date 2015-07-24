@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="bda903f2-014d-4097-b8f7-c0064303f315"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$800 (renewable)"
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;At least a 3.0 GPA in high school &#xa;At least a 21 ACT composite score&#xa;Must live in university housing"

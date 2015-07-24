@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="ab193f4b-c230-4383-a3cf-46b9f42a4e5b"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,500 (renewable for a total of $6,000)"
         awardName1="Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all required documentation)&#xa;Minimum cumulative GPA of 2.5"

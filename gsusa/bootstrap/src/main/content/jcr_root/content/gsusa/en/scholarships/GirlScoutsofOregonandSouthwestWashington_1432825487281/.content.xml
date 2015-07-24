@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="93bc84a1-d66a-4adc-8f6f-7efab0b245d5"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies"
         awardName1="Arlene Johns Memorial Gold Award Scholarship"
         awardName2="Luella &amp; George Shaver Family Scholarship "

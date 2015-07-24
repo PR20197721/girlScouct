@@ -10,9 +10,10 @@
     padding-bottom: rem-calc(10);
     background: $primary-color;
     color: $white;
-    .search-form {
-      float: right;
-    }
+//putting it outside for cq author mode
+//    .search-form {
+//      float: right;
+//    }
   }
   .logo-section {
     @include grid-column(6);
@@ -23,6 +24,9 @@
   }
   .utility {
     @include grid-column(18);
+    .float-right {
+      float: right;
+    }
   }
   .eyebrow-nav {
     padding-left: 0.35714rem;

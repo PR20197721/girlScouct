@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="55f74548-7236-4bca-82b2-8cae0b110afa"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000"
         awardName1="Founders Scholarship"
         awardReq1="Registered Girl Scouts of Central Texas Graduating Senior Girl Scout members only&#xa;Active participation in Girl Scouting&#xa;Demonstrated academic achievements&#xa;Attendance at a college, university, trade or technical school"

@@ -22,7 +22,7 @@
     	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
             </div>
         </div>
-        <div class="clearfix">
+        <div class="clearfix float-right">   
     	    <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
         </div>
     </section>

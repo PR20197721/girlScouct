@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="bbf3338b-251f-4321-a509-10c51e334ada"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$9,000 (renewable)"
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient  (and all requested documentation)&#xa;Possess a minimum SAT score of 1000 (combined Critical Reading and Math) or an ACT score of 21 (Composite) and a high school GPA of 3.0. "

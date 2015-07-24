@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="287af084-cd0a-4fdd-9b3d-76f2fc51742f"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$250"
         awardContent2="$1,000"
         awardName1="Al' Shondra Harris Girl Scout College Book Scholarship "

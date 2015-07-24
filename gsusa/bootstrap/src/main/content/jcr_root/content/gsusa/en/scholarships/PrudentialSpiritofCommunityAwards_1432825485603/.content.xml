@@ -8,7 +8,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="nt:unstructured"
         jcr:uuid="0b43b6de-57e6-4f30-a95f-cf3dcc67e536"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="102 state Honorees receive $1,000, engraved silver medallion and all expense trip with parent/guardian to Washington DC for national recognition events. Ten national Honorees receive $5,000, engraved gold medallion, crystal trophies."
         awardName1="Prudential Spirit of Community Awards"
         awardReq1="Girl Scout in middle or high school&#xa;Conducted a volunteer service activity &#xa;Application certified by local Girl Scout council"
