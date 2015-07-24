@@ -1,7 +1,7 @@
 Girl Scouts USA
 ========
 
-Only for the first time:
+Only for the first time or if someone adds some import to an scss file or if you see any css error.
 Install bower: http://bower.io/
 cd content/src/main/theme
 bower install

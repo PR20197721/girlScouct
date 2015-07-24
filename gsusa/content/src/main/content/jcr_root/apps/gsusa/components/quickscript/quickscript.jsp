@@ -71,6 +71,10 @@
 //	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.web.520.520"));
 //	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.npd"));
 //	resultString.append(deleteAllNPDRenditions(resourceResolver, "resized.web"));
+
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.npd.top@2x.jpeg"));
+//	resultString.append(deleteAllNPDRenditions(resourceResolver, "cq5dam.npd.top.jpeg"));
+
 //	resultString.append(generateNPDRenditions (resourceResolver));
 
 %>

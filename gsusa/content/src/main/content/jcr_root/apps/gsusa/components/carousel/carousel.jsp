@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.util.regex.*, java.net.*, org.apache.sling.commons.json.*, org.apache.sling.api.request.RequestDispatcherOptions, com.day.cq.wcm.api.components.IncludeOptions, org.apache.sling.jcr.api.SlingRepository" %>
 <%@page session="false" %>
 <%!
@@ -49,21 +50,21 @@ public  String readUrlFile(String urlString) throws Exception {
 	String btnName = properties.get("button", "Explore Girl Scouts");
 	String title = properties.get("title", "Introduce girls to");
 	String[] imagePathArray = properties.get("imagePath", emptyArray);
-    Integer interval = properties.get("interval", 1000);
-    String[] imageAlt = properties.get("imageAlt", emptyArray);
+	Integer interval = properties.get("interval", 1000);
+	String[] imageAlt = properties.get("imageAlt", emptyArray);
 
 
 	String[] content2 = properties.get("content2", emptyArray);
 	String[] imagePath2 = properties.get("imagePath2", emptyArray);
 	String[] subtitle2 = properties.get("subtitle2", emptyArray);
 	String title2 = properties.get("title2", "");
-    String[] imageAlt2 = properties.get("imageAlt2", emptyArray);
+	String[] imageAlt2 = properties.get("imageAlt2", emptyArray);
 
 	String[] content3 = properties.get("content3", emptyArray);
 	String[] imagePath3 = properties.get("imagePath3", emptyArray);
 	String[] subtitle3 = properties.get("subtitle3", emptyArray);
 	String title3 = properties.get("title3", "");
-    String[] imageAlt3 = properties.get("imageAlt3", emptyArray);
+	String[] imageAlt3 = properties.get("imageAlt3", emptyArray);
 
 
 	String title4 = properties.get("title4", "");
@@ -95,17 +96,17 @@ public  String readUrlFile(String urlString) throws Exception {
 	//validation
 	String errorMessage = "";
 
-    if (imagePathArray.length != imageAlt.length) {
-    	errorMessage += "The number of images and \"image alts\" need to be the same in the \"Opening Page\" tab <br>";
-    }
-    if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length || subtitle2.length != imageAlt2.length) {
-    	errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
+	if (imagePathArray.length != imageAlt.length) {
+		errorMessage += "The number of images and \"image alts\" need to be the same in the \"Opening Page\" tab <br>";
 	}
-    if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length || subtitle3.length != imageAlt3.length) {
-    	errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
+	if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length || subtitle2.length != imageAlt2.length) {
+		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
+	}
+	if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length || subtitle3.length != imageAlt3.length) {
+		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
 	}
 	if (!"".equals(errorMessage)) {
-    	errorMessage += "Please right click on this message and edit the carousel component.";
+		errorMessage += "Please right click on this message and edit the carousel component.";
 %>
 		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>  
 <%
@@ -178,8 +179,8 @@ public  String readUrlFile(String urlString) throws Exception {
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);
 
-//this value is used to adjust the speed of hte carousel on the first opening page.
-interval = <%= interval %>;
+	//this value is used to adjust the speed of hte carousel on the first opening page.
+	interval = <%= interval %>;
 </script>
 <div class="hero-feature">
 	<div class="overlay"></div>
@@ -187,7 +188,7 @@ interval = <%= interval %>;
 <%
 	for (int i = 0 ; i < imagePathArray.length; i++) {
 %>
-		<li><img src="<%=imagePathArray[i] %>/jcr:content/renditions/cq5dam.web.1280.1280.jpeg" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
+		<li><img src="<%= getImageRenditionSrc(resourceResolver, imagePathArray[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
 <%
 	}
 %>
@@ -214,7 +215,7 @@ interval = <%= interval %>;
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= content2[i] %></p>
 							</div>
-							<img src="<%= imagePath2[i] %>" alt="<%= imageAlt2[i] %>"class="slide-thumb"/>
+							<img src=""<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb"/>
 						</li>
 <%
 	}
@@ -232,7 +233,7 @@ interval = <%= interval %>;
 								<h4><%= subtitle3[i] %></h4>
 								<p><%= content3[i] %></p>
 							</div>
-							<img src="<%= imagePath3[i] %>" alt="<%= imageAlt3[i] %>" class="slide-thumb"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb"/>
 						</li>
 <%
 	}
@@ -328,7 +329,7 @@ interval = <%= interval %>;
 				</form>
 			</section>
 		</div>
-		<img src="<%= imagePath6 %>" alt="<%= imageAlt6 %>" class="main-image" />
+		<img src="<%= getImageRenditionSrc(resourceResolver, imagePath6, "cq5dam.npd.top.")%>" alt="<%= imageAlt6 %>" class="main-image" />
 	</div>
 	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>
