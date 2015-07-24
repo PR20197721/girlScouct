@@ -7,6 +7,11 @@
 String activeTab=request.getParameter("activeTab");
 PlanView planView= meetingUtil.planView(user, troop, request);
 %>
+
+<script>resetIsLoggedIn();</script>
+<iframe style="display:none;" id="myframe" src="https://gsuat-gsmembers.cs17.force.com/members/idp/login?app=0spg000000000Fu"/>
+        
+     
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">

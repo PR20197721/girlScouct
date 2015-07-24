@@ -102,7 +102,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			SlingHttpServletResponse response) {
 		String action = request.getParameter(ACTION);
 		if (action == null) {
-			salesforceCallback(request, response);
+			;//salesforceCallback(request, response);
 		} else if (action.equals(SIGNIN)) {
 			signIn(request, response);
 		} else if (action.equals(SIGNOUT)) {
@@ -168,7 +168,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
-
+System.err.println("TATA login....");
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {

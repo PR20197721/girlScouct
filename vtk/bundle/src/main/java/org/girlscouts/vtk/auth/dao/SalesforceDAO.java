@@ -894,4 +894,47 @@ System.err.println("tata: token "+post.getResponseBodyAsString());
 		}
 		return null;
 	}
+	
+	
+	public boolean isValid(ApiConfig apiConfig) {
+		if( apiConfig==null ) return false;
+System.err.println("checking isValid...");		
+		CloseableHttpClient connection = null;
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());//getToken(apiConfig) );
+		try {
+			connection = connectionFactory.getConnection();
+			CloseableHttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+System.err.println("tata statusCode: "+ statusCode);		
+			if (statusCode == HttpStatus.SC_OK) {
+				
+			
+			
+			
+			HttpEntity entity = null;
+			String rsp = null;
+			try {
+				entity = resp.getEntity();
+				entity.getContent();
+				rsp = EntityUtils.toString(entity);
+				EntityUtils.consume(entity);
+				method.releaseConnection();
+				method = null;
+			} finally {
+				resp.close();
+			}
+			rsp = "{\"records\":" + rsp + "}";		
+System.err.println(">>tata>>> " + rsp);
+return true;
+			}
+			
+		}catch(Exception e){e.printStackTrace();}
+		return false;
+	}
+	
+	
+	
+
 }

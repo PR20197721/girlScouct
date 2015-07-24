@@ -3,7 +3,9 @@
                 com.day.cq.wcm.api.components.IncludeOptions" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
+    
 <%
+
         HttpSession session = request.getSession(true);
 
 	CouncilMapper mapper = sling.getService(CouncilMapper.class);
@@ -38,6 +40,7 @@
    	}
 %>
 	<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
+		
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">
 				<%

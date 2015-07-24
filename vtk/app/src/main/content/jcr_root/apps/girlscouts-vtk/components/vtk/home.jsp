@@ -133,3 +133,4 @@
     </div><!--/mainRight-->
   <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div><!--/content-->
+<script>window.parent.setLoggedIn();</script>

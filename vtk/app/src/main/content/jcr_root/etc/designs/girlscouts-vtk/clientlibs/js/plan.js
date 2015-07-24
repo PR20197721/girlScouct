@@ -916,7 +916,9 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
-
+	
+		setTimeout(function(){checkIsLoggedIn();}, 5000);
+		     
 	}
 
 
@@ -965,3 +967,14 @@ function councilRpt(troopId, cid){
       return "";
   }
 
+  var isLoggedIn = false;
+  function resetIsLoggedIn(){
+	  console.log("reset logged in to false...");
+	  isLoggedIn=false;
+  }
+  
+  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; checkIsLoggedIn()}
+  function 	checkIsLoggedIn(){  
+	  console.log("checking isLoggedin..."+ isLoggedIn);
+	  if( !isLoggedIn ){alert("Not logged in"); window.location="http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";} 
+  }
