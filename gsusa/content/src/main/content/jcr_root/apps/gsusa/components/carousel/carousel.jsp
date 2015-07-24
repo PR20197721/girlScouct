@@ -120,7 +120,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				String ytId = extractYTId(link);
 				videoId[i] = ytId;
 				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
-				embeded[i] = "<iframe width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "\" frameborder=\"0\" allowfullscreen></iframe>";
+				embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1\" frameborder=\"0\" allowfullscreen></iframe>";
 			} else if (link.indexOf("vimeo") != -1) {
 				String vimeoId = extractVimeoId(link);
 				videoId[i] = vimeoId;
@@ -131,7 +131,7 @@ public  String readUrlFile(String urlString) throws Exception {
 						videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
 					}
 				}
-				embeded[i] = "<iframe src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+				embeded[i] = "<iframe id=\"vimeoPlayer" + i +"\" src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 			} else {
 				videoThumbNail[i] = "not supported";
 			}
@@ -171,11 +171,12 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 	}
 %>
-<script>
-		var isRetina = (
-			window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
-		);
 
+<script src="https://f.vimeocdn.com/js/froogaloop2.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	var isRetina = (
+		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
+	);
 
 //this value is used to adjust the speed of hte carousel on the first opening page.
 interval = <%= interval %>;
