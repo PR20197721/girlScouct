@@ -429,7 +429,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan/brownie/");
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/brownie/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 
@@ -1312,7 +1312,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan/"
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/"
 					+ gradeLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
