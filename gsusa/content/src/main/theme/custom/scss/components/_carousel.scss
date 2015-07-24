@@ -58,12 +58,32 @@ div.carousel {
         text-align: center;
         bottom: 0;
         width: 100%;
-        background-color: green;
       }
       &.slick-active {
         img {
           opacity: .7;
         }
+      }
+    }
+    //hard coding the color for now
+    li:nth-child(1) {
+      p {
+        background-color: green;
+      }
+    }
+    li:nth-child(2) {
+      p {
+        background-color: orange;
+      }
+    }
+    li:nth-child(3) {
+      p {
+        background-color: blue;
+      }
+    }
+    li:nth-child(4) {
+      p {
+        background-color: brown;
       }
     }
   }
