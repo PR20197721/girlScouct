@@ -215,7 +215,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= content2[i] %></p>
 							</div>
-							<img src=""<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb"/>
 						</li>
 <%
 	}

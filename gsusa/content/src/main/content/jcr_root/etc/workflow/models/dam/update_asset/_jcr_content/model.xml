@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1437616973051"
+        cq:lastModified="{Long}1437777032327"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -125,7 +125,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1920:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:1920:1920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node11>
         <node12
@@ -136,7 +136,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:960:480,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:960:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node12>
         <node13
@@ -234,7 +234,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
-                PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.480:top,1920.960:top@2x"
+                PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.960:top,1920.1920:top@2x"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node21>
         <node22

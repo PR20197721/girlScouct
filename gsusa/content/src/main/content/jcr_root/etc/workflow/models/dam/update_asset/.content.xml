@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-22T22:02:50.211-04:00"
+        cq:lastModified="{Date}2015-07-24T18:30:28.278-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -126,7 +126,7 @@
                         jcr:created="{Date}2015-07-20T20:49:37.440-04:00"
                         jcr:createdBy="admin"
                         jcr:description="Creates the &quot;top@2x&quot; retina rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:00:28.105-04:00"
+                        jcr:lastModified="{Date}2015-07-24T18:29:52.128-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Top Retina Rendition"
@@ -134,14 +134,14 @@
                         <metaData
                             jcr:primaryType="nt:unstructured"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:1920:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
+                            PROCESS_ARGS="dimension:1920:1920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process_1>
                     <process_0
                         jcr:created="{Date}2015-07-20T19:44:07.689-04:00"
                         jcr:createdBy="admin"
                         jcr:description="Creates the Web &quot;top&quot; rendition."
-                        jcr:lastModified="{Date}2015-07-22T22:00:38.064-04:00"
+                        jcr:lastModified="{Date}2015-07-24T18:30:02.309-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Web Top Rendition"
@@ -149,7 +149,7 @@
                         <metaData
                             jcr:primaryType="nt:unstructured"
                             PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                            PROCESS_ARGS="dimension:960:480,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
+                            PROCESS_ARGS="dimension:960:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process_0>
                     <process_5
@@ -275,7 +275,7 @@
                     <process
                         jcr:created="{Date}2015-07-20T19:38:43.372-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-07-20T21:01:35.684-04:00"
+                        jcr:lastModified="{Date}2015-07-24T18:30:28.277-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Rendition Renaming"
@@ -283,7 +283,7 @@
                         <metaData
                             jcr:primaryType="nt:unstructured"
                             PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
-                            PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.480:top,1920.960:top@2x"
+                            PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.960:top,1920.1920:top@2x"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>
                 </_x0031_>
