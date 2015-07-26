@@ -33,5 +33,6 @@
          <a class="exit-off-canvas"></a>
       </div>
     </div>
+    <script type="text/javascript" src="/etc/designs/gsusa/clientlibs/js/retina.js"></script>
 </body>
 <!-- END of body -->
