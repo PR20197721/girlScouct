@@ -8,6 +8,9 @@
     Iterator<Page> iter = rootPage.listChildren();
 
     String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
+    while (currentPage.isHideInNav()) {
+    	currentPage = currentPage.getParent();
+    }
     buildMenu(rootPage, currentPage.getPath(), sb);
     String rootPageDispTitle = "" ;
     
