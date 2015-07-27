@@ -268,8 +268,7 @@ public class YearPlanUtil {
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String lvl, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
-			throws IllegalAccessException {
-System.err.println("tata tpUtil");		
+			throws IllegalAccessException {	
 		return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate,
 				endDate, region);
 	}

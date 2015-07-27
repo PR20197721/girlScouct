@@ -1596,9 +1596,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
-			throws IllegalAccessException, IllegalStateException {
-		
-System.err.println("tata start searchA1.. ");		
+			throws IllegalAccessException, IllegalStateException {		
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
@@ -1678,8 +1676,7 @@ System.err.println("tata start searchA1.. ");
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.JCR_SQL2);
-	System.err.println("tata sql: "+ sql);		
+					javax.jcr.query.Query.JCR_SQL2);		
 			int i = 0;
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
