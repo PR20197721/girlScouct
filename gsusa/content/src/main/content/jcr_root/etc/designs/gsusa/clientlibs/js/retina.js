@@ -52,7 +52,7 @@
                 image = images[i];
                 if (!!!image.getAttributeNode('data-no-retina')) {
                     // inkoo added: only if src cq5dam.npd
-                    if (image.src.indexOf("cq5dam.npd") > -1) {
+                    if (image.src.indexOf("cq5dam.npd") > -1 || image.getAttribute('data-at2x')) {
 	                    retinaImages.push(new RetinaImage(image));
                     }
                 }
