@@ -410,7 +410,6 @@
   }//END OF EXPLOER CLICK FUNCTION
 
 
-  function show_final() {
     $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
       var item_length =  $('.inner-sliders .inner > .slick-list > .slick-track > li').length -1;
       if (item_length === index) {
@@ -431,7 +430,6 @@
       }
     });
 
-  }//END OF EXPLOER CLICK FUNCTION
 
   $('.feature-video-slider .slide-5').slick({
     dots: true,
