@@ -231,19 +231,19 @@
 								u.toURI();
 								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
 							} catch(Exception e){
-								try{
-									URL u = new URL("http://" + n.getProperty("contact").getString());
-									u.toURI();
-									record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
-								} catch(Exception f){
-									Pattern p = Pattern.compile("\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\b.");
-									Matcher m = p.matcher(n.getProperty("contact").getString());
-									if(m.matches()){
-										record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact") + "</a>");
-									}
-									else{
+								Pattern p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+								Matcher m = p.matcher(n.getProperty("contact").getString().toUpperCase());
+								if(m.matches()){
+									record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br>");
+								}
+								else{
+									try{
+										URL u = new URL("http://" + n.getProperty("contact").getString());
+										u.toURI();
+										record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
+									} catch(Exception f){
 										record.append(n.getProperty("contact").getString() + "<br/>");
-									}
+									}	
 								}
 							}
 						}
