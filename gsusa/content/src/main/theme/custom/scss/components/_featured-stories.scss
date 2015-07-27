@@ -178,15 +178,19 @@
             }
             .feature-video-slider {
               .video-embed  {
-                height: rem-calc(320);
+                max-height: rem-calc(317);
+                height: 100%;
                 overflow: hidden;
+                iframe {
+                  height: rem-calc(317);
+                }
                 img.slide-thumb {
                   display: none;
                   visibility: hidden;
                 }
               }
               .slick-slide {
-                margin-bottom: 0 !important;
+                // margin-bottom: 0 !important;
               }
               .slick-dots {
                 margin: 2% 0 0 0;
