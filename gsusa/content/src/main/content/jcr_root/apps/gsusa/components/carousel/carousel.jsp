@@ -81,6 +81,11 @@ public  String readUrlFile(String urlString) throws Exception {
 	String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
 	String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
 	String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
+	String[] vidThumbnailTitle5 = {properties.get("thumbnailTitle50", ""),
+			properties.get("thumbnailTitle51", ""),
+			properties.get("thumbnailTitle52", ""),
+			properties.get("thumbnailTitle53", "")
+	};
 
 	String title6 = properties.get("title6", "");
 	String content6 = properties.get("content6", "");
@@ -181,8 +186,13 @@ public  String readUrlFile(String urlString) throws Exception {
 
 	//this value is used to adjust the speed of hte carousel on the first opening page.
 	interval = <%= interval %>;
+
 </script>
 <div class="hero-feature">
+	<div id="hiddenThumbnail0" style=display:none><%=vidThumbnailTitle5[0]%></div>
+	<div id="hiddenThumbnail1" style=display:none><%=vidThumbnailTitle5[1]%></div>
+	<div id="hiddenThumbnail2" style=display:none><%=vidThumbnailTitle5[2]%></div>
+	<div id="hiddenThumbnail3" style=display:none><%=vidThumbnailTitle5[3]%></div>
 	<div class="overlay"></div>
 	<ul class="main-slider">
 <%
