@@ -10,7 +10,7 @@
 	} else if(!path.equals("")) {
 		path = path + "/";
 %>
-<script>
+<script type="text/javascript">
 function openPDF() {
 	var program = document.curriculumForm.program.value;
 	var grade = document.curriculumForm.grade.value;

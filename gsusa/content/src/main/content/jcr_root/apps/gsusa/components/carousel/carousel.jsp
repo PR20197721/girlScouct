@@ -174,7 +174,7 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 
 <script src="https://f.vimeocdn.com/js/froogaloop2.min.js" type="text/javascript" charset="utf-8"></script>
-<script>
+<script type="text/javascript">
 	var isRetina = (
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);

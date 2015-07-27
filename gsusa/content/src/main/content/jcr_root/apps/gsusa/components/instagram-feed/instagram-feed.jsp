@@ -44,9 +44,7 @@
 		    </div>
 		    <span class="scroll-more"></span>
 		</div>
-
-
-	    <script>
+	    <script type="text/javascript">
         var feedHeadArea = $(".instagram-feed-image-head-area");
 	    var feedArea = $(".instagram-feed-image-area");
 

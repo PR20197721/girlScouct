@@ -4,7 +4,7 @@
 if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state") != null || slingRequest.getParameter("council-code") != null){
 	%>
 	<div id="results-area"></div>
-	<script>
+	<script type="text/javascript">
 		var res = $("#results-area");
 		var display = function(data){
 			var json = JSON.parse(data);
@@ -60,7 +60,7 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 	if(zip != null){
 		String url = "/councilfinder/ajax_results.asp?zip=" + zip;
 		%>
-		<script>
+		<script type="text/javascript">
 		$.get("<%= url %>",display);
 		</script>
 		<%
@@ -68,7 +68,7 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 	if(state != null){
 		String url = "/councilfinder/ajax_results.asp?state=" + state.toUpperCase();
 		%>
-		<script>
+		<script type="text/javascript">
 		$.get("<%= url %>",display);
 		</script>
 		<%
@@ -76,7 +76,7 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 	if(code != null){
 		String url = "/councilfinder/ajax_results.asp?code=" + code;
 		%>
-		<script>
+		<script type="text/javascript">
 		$.get("<%= url %>",display);
 		</script>
 		<%

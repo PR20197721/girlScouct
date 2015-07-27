@@ -155,7 +155,7 @@
 	// Get ready to hide parsys.
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
-		<script>
+		<script type="text/javascript">
 			CQ.WCM.on("editablesready", function(){
 				var toggle = new gsusa.functions.ToggleParsys("<%= resource.getPath() %>/par");
 				gsusa.functions.ToggleParsysAll.refs.push(toggle);

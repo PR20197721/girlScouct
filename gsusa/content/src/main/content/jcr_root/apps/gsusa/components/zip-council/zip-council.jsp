@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<script>
+<script type="text/javascript">
 	// http://www.girlscouts.org/includes/join/join_ajax_GetCouncilInfo.asp?actiontype=homepage&source=homepage-outdoor&zipcode=10001
 	// 161,INSERTED,http://www.girlscoutsnyc.org?utm_medium=homepage-outdoor&utm_source=homepage&utm_campaign=GSRecruitmentCampaign
 	function handleFindCouncilByZip(zipCode, source) {

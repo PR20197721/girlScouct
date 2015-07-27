@@ -86,7 +86,7 @@
             String id = "cq-video-flash-alternate-" + currentTime;
             
 %><cq:includeClientLib js="cq.swfobject" />
-    <script> 
+    <script type="text/javascript"> 
         var e = document.getElementById("<%= id %>");
         if (e) e.style.display = "block"; 
         

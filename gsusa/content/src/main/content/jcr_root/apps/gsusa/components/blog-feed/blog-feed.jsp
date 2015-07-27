@@ -13,7 +13,7 @@
 	<div class="blog-feed-image-area"></div>
     <div class="blog-embed-area"></div>
 
-    <script>
+    <script type="text/javascript">
     
     var blogFeedArea = $(".blog-embed-area");
     var imageArea = $(".blog-feed-image-area");

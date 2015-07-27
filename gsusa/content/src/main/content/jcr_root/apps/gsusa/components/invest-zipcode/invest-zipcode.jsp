@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 
-	<script>
+	<script type="text/javascript">
 		var completeAndRedirectInvest = function(data){
 			<% if(WCMMode.fromRequest(request) != WCMMode.EDIT){ %>
 			var toPost = $('.invest-zip').serialize();

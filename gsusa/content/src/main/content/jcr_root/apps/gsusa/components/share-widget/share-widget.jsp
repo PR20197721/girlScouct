@@ -60,7 +60,7 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
     <a class="facebook-icon" onclick="postToFeed(); return false;" />
  
     <script src='http://connect.facebook.net/en_US/all.js'></script>
-    <script> 
+    <script type="text/javascript"> 
       FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
  
       function postToFeed() {

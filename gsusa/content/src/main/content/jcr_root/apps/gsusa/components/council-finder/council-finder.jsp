@@ -47,7 +47,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				<form class="councilCodeSearch" action="<%= path %>" method="get">
 				</form>
 			</li>
-			<script>
+			<script type="text/javascript">
 			$.get("/councilfinder/ajax_results.asp?short=yes", function(data){
 				var request = "";
 		  		<%

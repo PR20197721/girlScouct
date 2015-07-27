@@ -22,7 +22,7 @@
 %><cq:includeClientLib categories="cq.shared"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
-<script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
+<script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
 <%
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath()).adaptTo(ValueMap.class);
 	String addThisId = siteProps.get("addThisId", "");

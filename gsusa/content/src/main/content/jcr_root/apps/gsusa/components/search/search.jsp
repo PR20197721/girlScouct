@@ -107,7 +107,7 @@ List<Hit> hits = result.getHits();
     </ul>
 <% } %>
 
-<script>
+<script type="text/javascript">
 jQuery('#searchForm').bind('submit', function(event){
 	if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === ''){
 		event.preventDefault();

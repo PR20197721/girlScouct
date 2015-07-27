@@ -236,7 +236,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	                            </div>
 	                          </div>
 	                        </li>
-	                        <script>
+	                        <script type="text/javascript">
 	                          $("#<%= modalId2 %>").on("click", function (e) {
                               	$("#<%= modalId2 %>").foundation('reveal', 'close');
 							  });
