@@ -37,7 +37,6 @@
                         xtype="textfield"/>
                     <state
                         jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
                         fieldLabel="State"
                         name="./jcr:content/state"
                         xtype="textfield"/>

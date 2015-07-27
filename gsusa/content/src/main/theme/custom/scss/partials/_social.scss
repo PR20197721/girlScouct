@@ -28,13 +28,14 @@
     position: relative;
     padding-bottom: rem-calc(45);
     .scroll-more {
-      @include css-triangle(97px, #e8e8e8, top);
-      border-top-width: rem-calc(31);
+      @include css-triangle(57px, #e8e8e8, top);
+      border-top-width: rem-calc(20);
       border-bottom-width: rem-calc(1);
       position: absolute;
       left: 50%;
-      margin-left: -97px;
+      margin-left: -57px;
       cursor: pointer;
+      bottom: rem-calc(10);
     }
     .centered {
       text-align: center;
