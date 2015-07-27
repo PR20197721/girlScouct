@@ -92,7 +92,8 @@
   display: none;
 }
 .join-buttons {
-  float: left;
+  float: right;
+  padding-right: rem-calc(10);
 }
 .header-volunteer-now,
 .header-join-now {

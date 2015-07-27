@@ -32,10 +32,11 @@
   .eyebrow-nav {
     padding-left: 0.35714rem;
     padding-right: 0.35714rem;
-    width: 77%;
-    float: right;
     .inline-list {
       float: right;
+      li {
+	margin-left: 1.0rem;
+      }
       li:first-child {
         margin-left: 0;
       }
