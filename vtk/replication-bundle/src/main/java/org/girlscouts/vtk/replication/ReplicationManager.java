@@ -19,6 +19,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,9 @@ public class ReplicationManager {
      
     @Reference
     private Replicator replicator;
+    
+    @Reference
+    private VtkUtil vtkUtil;
 
     private Session session;
     private ObservationManager manager;
@@ -62,17 +66,25 @@ public class ReplicationManager {
         
         // Login repository
         session = repository.loginAdministrative(null);
+        
+        // Generate paths to monitor
+        String year = Integer.toString(vtkUtil.getCurrentGSYear());
+        List<String> monitorPaths = new ArrayList<String>();
+        for (String path : MONITOR_PATHS) {
+            path += year;
+            monitorPaths.add(path);
+        }
 
         // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
                 .equals("true")) {
             manager = session.getWorkspace().getObservationManager();
             
-            for (int i = 0; i < MONITOR_PATHS.length; i++) {
+            for (String path : monitorPaths) {
                 EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator);
                 listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
-                        MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);
+                        path, true, null, Constants.PRIMARY_TYPES, true);
             }
         } else {
             log.error("Listeners not added.");
