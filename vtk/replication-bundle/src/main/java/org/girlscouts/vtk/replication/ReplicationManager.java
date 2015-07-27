@@ -49,6 +49,9 @@ public class ReplicationManager {
     @Reference
     private Replicator replicator;
     
+    // TODO: should I leave this?
+    // All methods called here are static, but keeping this reference might help
+    // make VTKUtil initialize before this component. 
     @Reference
     private VtkUtil vtkUtil;
 
@@ -68,12 +71,12 @@ public class ReplicationManager {
         session = repository.loginAdministrative(null);
         
         // Generate paths to monitor
-        String year = Integer.toString(vtkUtil.getCurrentGSYear());
+        String year = Integer.toString(VtkUtil.getCurrentGSYear());
         List<String> monitorPaths = new ArrayList<String>();
-        for (String path : MONITOR_PATHS) {
-            path += year;
-            monitorPaths.add(path);
-        }
+        // Add /vtk(year)
+        monitorPaths.add(VtkUtil.getYearPlanBase(null, null));
+        // Add /content/dam/girlscouts-vtk/troop-data(year)
+        monitorPaths.add(Constants.DAM_PATH + year);
 
         // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
