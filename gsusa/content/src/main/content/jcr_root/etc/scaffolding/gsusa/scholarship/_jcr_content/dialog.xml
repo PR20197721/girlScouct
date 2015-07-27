@@ -18,6 +18,38 @@
                         fieldLabel="Title"
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
+                    <type
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+                    	fieldLabel="Scholarship Type"
+                    	name="./sType"
+                    	type="select"
+                    	value="All"
+                    	defaultValue="All"
+                    	xtype="selection">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                    		<all
+                    			jcr:primaryType="nt:unstructured"
+                    			text="All"
+                    			value="All"/>
+                    		<awards
+                    			jcr:primaryType="nt:unstructured"
+                    			text="Awards"
+                    			value="Awards"/>
+                    		<college
+                    			jcr:primaryType="nt:unstructured"
+                    			text="College/University"
+                    			value="College/University"/>
+                    		<foundations
+                    			jcr:primaryType="nt:unstructured"
+                    			text="Foundations/Private"
+                    			value="Foundations/Private"/>
+                    		<council
+                    			jcr:primaryType="nt:unstructured"
+                    			text="GS Council"
+                    			value="GS Council"/>
+                    	</options>
+                    </type>
                     <sponsor
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -153,6 +185,11 @@
                    		jcr:primaryType="cq:Widget"
                    		name="./jcr:content/sling:resourceType"
                    		value="gsusa/components/data-page"
+                   		xtype="hidden"/>
+                   	<hide
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/hideInNav"
+                   		value="true"
                    		xtype="hidden"/>
                 </items>
             </tab1>
