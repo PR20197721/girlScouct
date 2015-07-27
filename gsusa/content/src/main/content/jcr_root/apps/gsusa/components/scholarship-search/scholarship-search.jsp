@@ -212,62 +212,63 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 	
 						record.append("<p class=\"title\"><strong>For more information:</strong></p>");
 	
+						record.append("<p>");
 						if(n.hasProperty("contact")){
 							//Sometimes people use a URL here, sometimes they use a name
 							//Check for URLs
 							try{
 								URL u = new URL(n.getProperty("contact").getString());
 								u.toURI();
-								record.append("<p>\n<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a>\n</p>\n");
+								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
 							} catch(MalformedURLException e){
-								record.append("<p>\n" + n.getProperty("contact").getString() + "\n</p>\n");
+								record.append(n.getProperty("contact").getString() + "<br/>");
 							}
 						}
 	
 						if(n.hasProperty("contactTitle")){
-							record.append("<p>\n" + n.getProperty("contactTitle").getString() + "</p>\n");
+							record.append(n.getProperty("contactTitle").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactAddr1")){
-							record.append("<p>\n" + n.getProperty("contactAddr1").getString() + "</p>\n");
+							record.append(n.getProperty("contactAddr1").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactAddr2")){
-							record.append("<p>\n" + n.getProperty("contactAddr2").getString() + "</p>\n");
+							record.append(n.getProperty("contactAddr2").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactCity")){
 							if(n.hasProperty("contactState") && n.hasProperty("contactZip")){
-								record.append("<p>" + n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "<br/>");
 							}
 							else if (n.hasProperty("contactState")){
-								record.append("<p>" + n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + "<br/>");
 							}
 							else{
-								record.append("<p>" + n.getProperty("contactCity").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + "<br/>");
 							}
 						}
 	
 						else if(n.hasProperty("contactState")){
 							if(n.hasProperty("contactZip")){
-								record.append("<p>" + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "<br/>");
 							}
-							record.append("<p>" + n.getProperty("contactState").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactState").getString() + "<br/>");
 						}
 	
 						else if(n.hasProperty("contactZip")){
-							record.append("<p>" + n.getProperty("contactZip").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactZip").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactPhone")){
-							record.append("<p>" + n.getProperty("contactPhone").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactPhone").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactEmail")){
-							record.append("<p>\n<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString() + "</a>\n</p>\n");
+							record.append("<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString());
 						}
 	
-						record.append("</li>");
+						record.append("</p></li>");
 						sb.append(record.toString());
 					}
 				}
