@@ -22,7 +22,6 @@
 <nav class="left-nav">
   <ul>
     <li class="active<%= rootPageCurrent %>">
-      <a href="<%= rootPage.getPath() %>" title="<%= rootPageDispTitle%>"><%= rootPageDispTitle %></a>
       <%= sb.toString() %>
     </li>
   </ul>
