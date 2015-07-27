@@ -258,14 +258,14 @@ public  String readUrlFile(String urlString) throws Exception {
 	            ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
 	            String description = vm.get("description", "");
 	            String imagePath = storyPath + "/jcr:content/image.img.png";
-
+						
 	            String link = vm.get("link", "");
 	            link = genLink(resourceResolver, link);
 				%>
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px width=200px/>
+                          <img src="<%= imagePath %>" alt="<%= description %>"/>
                           <p><a href="<%= link %>"><%= description %></a></p>
                         </div>
                       </div>
