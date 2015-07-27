@@ -74,7 +74,8 @@ public class ReplicationManager {
         String year = Integer.toString(VtkUtil.getCurrentGSYear());
         List<String> monitorPaths = new ArrayList<String>();
         // Add /vtk(year)
-        monitorPaths.add(VtkUtil.getYearPlanBase(null, null));
+        String yearPlanBase = VtkUtil.getYearPlanBase(null, null);
+        monitorPaths.add(yearPlanBase);
         // Add /content/dam/girlscouts-vtk/troop-data(year)
         monitorPaths.add(Constants.DAM_PATH + year);
 
@@ -84,7 +85,7 @@ public class ReplicationManager {
             manager = session.getWorkspace().getObservationManager();
             
             for (String path : monitorPaths) {
-                EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator);
+                EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator, yearPlanBase);
                 listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
                         path, true, null, Constants.PRIMARY_TYPES, true);
