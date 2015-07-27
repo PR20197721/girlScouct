@@ -489,7 +489,7 @@
 				       xtype="textfield"/>
 				   <thumbnailTitle50
 				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title"
+				       fieldLabel="Thumbnail Title 1"
 				       name="./thumbnailTitle50"
 				       xtype="textfield"/>
 				   <videoPath50
@@ -761,7 +761,7 @@
 				       xtype="textfield"/>
 				   <thumbnailTitle52
 				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title"
+				       fieldLabel="Thumbnail Title 3"
 				       name="./thumbnailTitle52"
 				       xtype="textfield"/>
 				   <videoPath52
@@ -897,7 +897,7 @@
 				       xtype="textfield"/>
 				   <thumbnailTitle53
 				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title"
+				       fieldLabel="Thumbnail Title 4"
 				       name="./thumbnailTitle53"
 				       xtype="textfield"/>
 				   <videoPath53
