@@ -2,11 +2,14 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-08T19:17:50.139-04:00"
+        cq:lastModified="{Date}2015-07-27T16:45:19.474-04:00"
         cq:lastModifiedBy="admin"
-        cq:template="/apps/gsusa/templates/gsusa-three-column-page"
+        cq:template="/apps/gsusa/templates/gsusa-one-column-page"
         jcr:primaryType="cq:PageContent"
-        jcr:title="News Releases"
-        sling:resourceType="gsusa/components/three-column-page"/>
-    <_x0032_015/>
+        jcr:title="Our Stories"
+        sling:resourceType="gsusa/components/page"/>
+    <demo_story_2/>
+    <demo_story_1/>
+    <video/>
+    <demo_story_3/>
 </jcr:root>
