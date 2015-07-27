@@ -202,10 +202,10 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        String text = am.get("text", "");
 	                        
 	                        String imagePath = storyPath + "/jcr:content/image.img.png";
-	                        String articleImagePath = vm.get("link", "") + "/jcr:content/image";
-	                        ValueMap articleImageVm = resourceResolver.resolve(articleImagePath).adaptTo(ValueMap.class);
+	                        String articleImagePath = "";
+	                        ValueMap articleImageVm = resourceResolver.resolve(vm.get("link", "") + "/jcr:content/image").adaptTo(ValueMap.class);
 	                        if (articleImageVm != null && !articleImageVm.get("fileReference", "").isEmpty()) {
-	                            articleImagePath = articleImagePath + ".img.png"; 
+	                            articleImagePath = articleImageVm.get("fileReference", "") + "/_jcr_content/renditions/cq5dam.npd.hero.jpeg"; 
 	                        } else {
 	                            articleImagePath = imagePath;
 	                        }
@@ -214,7 +214,7 @@ public  String readUrlFile(String urlString) throws Exception {
 							  <nav class="top-bar" data-topbar role="navigation">
 								  <ul class="title-area">
 								    <li class="name">
-								      <img src="/content/dam/girlscouts-gsusa/images/logo/logo.png" alt="gsusa home"/>
+								      <img src="/content/dam/girlscouts-gsusa/images/logo/logo.png" data-at2x="/content/dam/girlscouts-gsusa/images/logo/logo@2x.png" alt="gsusa home"/>
 								    </li>
 								  </ul>
 								
