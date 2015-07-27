@@ -114,7 +114,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Session session = null;
 		Council council = null;
 		try {
-			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class);
@@ -128,10 +127,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
 			
 			String vtkBase = VtkUtil.getYearPlanBase(user, null);
+			session = sessionFactory.getSession();
 			if (!session.itemExists(vtkBase)) {
 				//create vtk base
 				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
@@ -143,8 +141,14 @@ public class CouncilDAOImpl implements CouncilDAO {
 			//council = new Council("/vtk/" + councilId);
 			council = new Council(vtkBase + councilId);
 		
-			ocm.insert(council);
-			ocm.save();
+			if (!session.itemExists(vtkBase + councilId)) {
+				ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+						mapper);
+				ocm.insert(council);
+				ocm.save();
+			} else {
+				log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: "+  councilId); 
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
