@@ -38,7 +38,7 @@
                         hidden="true"
                         itemId="pathField"
                         name="./path"
-                        rootPath="/content/gsusa/en/demo/our-stories"
+                        rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
                     <storyPath
                         jcr:primaryType="cq:Widget"
@@ -48,7 +48,7 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="cq:Widget"
-                            rootPath="/content/gsusa/en/our-stories"
+                            rootPath="/content/gsusa/en"
                             xtype="pathfield"/>
                     </storyPath>
                 </items>
