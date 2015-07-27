@@ -1,7 +1,17 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@page import="java.util.TreeMap, java.util.ArrayList, java.util.SortedSet, java.util.TreeSet,
-java.lang.StringBuilder, java.net.URLDecoder, java.net.URLEncoder, java.net.URL,
-java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" %>
+<%@page import="java.util.TreeMap, 
+				java.util.ArrayList, 
+				java.util.SortedSet, 
+				java.util.TreeSet,
+				java.lang.StringBuilder, 
+				java.net.URLDecoder, 
+				java.net.URLEncoder, 
+				java.net.URL,
+				java.net.MalformedURLException, 
+				com.day.cq.wcm.api.WCMMode, 
+				java.util.Iterator,
+				java.util.regex.Pattern,
+				java.util.regex.Matcher" %>
 
 <%
 	String path = properties.get("path","");
@@ -220,8 +230,21 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 								URL u = new URL(n.getProperty("contact").getString());
 								u.toURI();
 								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
-							} catch(MalformedURLException e){
-								record.append(n.getProperty("contact").getString() + "<br/>");
+							} catch(Exception e){
+								try{
+									URL u = new URL("http://" + n.getProperty("contact").getString());
+									u.toURI();
+									record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
+								} catch(Exception f){
+									Pattern p = Pattern.compile("\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\b.");
+									Matcher m = p.matcher(n.getProperty("contact").getString());
+									if(m.matches()){
+										record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact") + "</a>");
+									}
+									else{
+										record.append(n.getProperty("contact").getString() + "<br/>");
+									}
+								}
 							}
 						}
 	
@@ -265,7 +288,7 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 						}
 	
 						if(n.hasProperty("contactEmail")){
-							record.append("<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString());
+							record.append("<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString() + "</a>");
 						}
 	
 						record.append("</p></li>");
