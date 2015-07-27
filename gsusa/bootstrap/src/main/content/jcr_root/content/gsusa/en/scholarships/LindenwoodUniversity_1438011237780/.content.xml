@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="LindenwoodUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$12,400 plus an additional $2,400 Work &amp; Learn Award (renewable for four years for a total of $59,200)"
         awardContent2="$6,000 plus an additional $2,400 Work &amp; Learn Award (renewable for a total of $33,600)                                 "
         awardContent3="$5,500 plus an additional $2,400 Work &amp; Learn Award (renewable for four years for a total of $31,600)    "

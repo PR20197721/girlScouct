@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="CaseWesternReserveUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000 (renewable)"
         awardName1="Arlene Bartlow Endowment Fund"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Accepted for undergraduate study in the College of Arts and Sciences or Case School of Engineering"

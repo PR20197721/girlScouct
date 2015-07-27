@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="WhittierCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies (renewable)"
         awardName1="Barbara Ondrasik Groce Scholarship"
         awardReq1="At least a 3.0 high school GPA&#xa;Need-based &#xa;Girl Scout Gold Award (and all required documentation) preferred, but must be an active member of Girl Scouts"

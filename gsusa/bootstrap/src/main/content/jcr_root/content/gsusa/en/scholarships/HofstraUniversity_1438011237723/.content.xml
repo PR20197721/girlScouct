@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="HofstraUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies (renewable) "
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation) &#xa;Freshman class applicants must be in the top 10 percent of their high school class and have at least 1070 SAT combined score or 23 ACT composite score"

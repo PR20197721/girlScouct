@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="DoaneCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="One-half of Doane's annual tuition, fees, room and board (renewable)"
         awardName1="Zenon C.R. Hansen Leadership Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Participate in the Hansen Leadership Program&#xa;Maintain 3.0 GPA at Doane"

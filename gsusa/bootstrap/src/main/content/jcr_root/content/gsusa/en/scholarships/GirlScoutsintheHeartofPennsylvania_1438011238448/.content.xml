@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="GirlScoutsintheHeartofPennsylvania"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardName1="Gold Award Scholarship"
         awardName2="Graduating Senior Scholarship"
         awardName3="Shuylkill County Scholarship"

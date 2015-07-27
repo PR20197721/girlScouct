@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="AbileneChristianUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$1,000 (renewable for a total of $4,000)"
         awardName1="Venturing and Scouting Leadership Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Incoming freshman at Abilene Christian University"

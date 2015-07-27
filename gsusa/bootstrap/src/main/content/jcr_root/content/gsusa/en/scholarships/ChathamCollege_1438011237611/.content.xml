@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="ChathamCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$6,000 (renewable)"
         awardContent2="$2,000 (renewable)"
         awardName1="Girl Scout Gold Award Scholarship"

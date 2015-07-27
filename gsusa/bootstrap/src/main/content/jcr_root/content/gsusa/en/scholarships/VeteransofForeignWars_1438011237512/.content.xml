@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="VeteransofForeignWars"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Selected recipients are eligible to receive one of three scholarship amounts:&#xa;$5,000 1st place scholarship&#xa;$3,000 2nd place scholarship&#xa;$1,000 3rd place scholarship"
         awardName1="Scout of the Year"
         awardReq1="Registered, active Girl Scouts members who have received the Girl Scout Gold Award&#xa;At least 15 years of age&#xa;Demonstrated practical citizenship in school, Girl Scouting and the community&#xa;Enrolled in high school at the time of selection."

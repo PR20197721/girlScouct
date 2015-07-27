@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="GirlScoutsofGreaterAtlanta"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Amounts range from $1,000-$7500(non-renewable) per scholarship with 7-15 awards annually."
         awardName1="Girl Scouts of Greater Atlanta Gold Award Scholarships"
         awardReq1="Be a registered Girl Scout with Girl Scouts of Greater Atlanta who has earned the Girl Scout Gold Award&#xa;Be a high school twelfth grader intending to enter a qualified institution of learning after graduation&#xa;Complete the appropriate application "

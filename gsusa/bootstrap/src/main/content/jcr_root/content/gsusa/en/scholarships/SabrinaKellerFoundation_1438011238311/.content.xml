@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="SabrinaKellerFoundation"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$500"
         awardName1="Sabrina Keller Scholarship"
         awardReq1="Girl Scout in San Diego County&#xa;Have earned Girl Scout Award&#xa;Currently a senior in high school or freshman enrolled in accredited higher education facility&#xa;Further details on application"

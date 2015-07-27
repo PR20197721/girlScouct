@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="JacksonvilleStateUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies"
         awardName1="Girl Scout Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Must be a Girl Scout from North-Central Alabama Council"

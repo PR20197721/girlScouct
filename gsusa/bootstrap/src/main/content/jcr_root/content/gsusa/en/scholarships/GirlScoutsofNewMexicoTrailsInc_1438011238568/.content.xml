@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="GirlScoutsofNewMexicoTrailsInc"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardName1="Gold Award Scholarship"
         awardReq1="Recipients of any Girl Scout highest award - Golden Eagle of Merit, Golden Eaglet, Curved Bar, First Class, or Gold Award. &#xa;For applicants who are currently completing their Gold Award, all final paperwork must be on file in the Albuquerque Service Center prior to submission of application for scholarship. &#xa;The scholarship is open to any recipient pursuing higher education, at any point in life. You do not need to be a graduating high school senior. &#xa;All applicants must show evidence of enrollment/acceptance into an institute of higher learning &#xa;Applicant must be/have been active in extracurricular activities or community activities. &#xa;Have demonstrated commitment to living by the Girl Scout promise and law. &#xa;Be able to document recent leadership roles, involvement in community service, and a diversity of activities in her personal life. "
         city="Albuquerque"

@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="AlcoaChuckMcLaneScholarship"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$10,000"
         awardName1="Alcoa Chuck McLane Scholarship Award"
         awardReq1="Earned Gold Award for a Science, Technology, Engineering or Math (STEM) related project&#xa;Plans to pursue a career in STEM&#xa;Graduating Seniors&#xa;See additional requirements on application&#xa;"

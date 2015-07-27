@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="ReedCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Based on financial need"
         awardName1="Opal Weimer Tice Scholarship"
         awardReq1="Student must qualify for both need-based aid and a Reed grant to receive a scholarship"

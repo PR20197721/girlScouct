@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="GirlScoutsofWestCentralFlorida"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$500"
         awardName1="Ann Hesler and Marion Stephenson Scholarship"
         awardReq1="Girl Scout Involvement&#xa;Girl Scout Gold Award recipient (and all requested documentation)&#xa;Academic Achievement of at least 3.0 average GPA and school activities&#xa;Community Service Projects&#xa;500 word essay describing how girl scouts has helped them discover, connect and take action in their lives&#xa;Plans to attend an accredited institution of higher education"

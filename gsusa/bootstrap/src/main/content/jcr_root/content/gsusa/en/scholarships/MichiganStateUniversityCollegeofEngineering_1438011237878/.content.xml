@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="MichiganStateUniversityCollegeofEngineering"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies "
         awardName1="Robert and James Bollens Scholarship"
         awardReq1="Recipients shall be selected on the basis of financial need, middle class academic level (high school), and active participation in Girl Scouting."

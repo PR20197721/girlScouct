@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="TempleUniversityAmblerCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$2,000 (renewable)"
         awardName1="The Lou Henry Hoover Girl Scout Scholarship"
         awardReq1="Must have been in Girl Scouting at least 5 years (including verification from Girl Scout council or Service Unit)&#xa;Currently enrolled in the School for Environmental Design at Temple University Ambler and studies horticulture or landscape architecture design"

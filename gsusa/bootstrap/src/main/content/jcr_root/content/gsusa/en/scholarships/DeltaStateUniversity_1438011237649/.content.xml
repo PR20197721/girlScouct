@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="DeltaStateUniversity"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$150 (renewable)"
         awardName1="Leadership Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all requested documentation)&#xa;Enrolled at Delta State for freshman year"

@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="McDanielCollege"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="$2,000 (renewable) "
         awardName1="Gold Award Scholarship"
         awardReq1="Girl Scout Gold Award recipient (and all required documentation)"

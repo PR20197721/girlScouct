@@ -6,7 +6,7 @@
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         jcr:title="GirlScoutsofOregonandSouthwestWashington"
-        sling:resourceType="gsusa/components/scholarship-page"
+        sling:resourceType="gsusa/components/data-page"
         awardContent1="Varies"
         awardName1="Arlene Johns Memorial Gold Award Scholarship"
         awardName2="Luella &amp; George Shaver Family Scholarship "
