@@ -4,10 +4,12 @@
     right: 3%;
     background: none;
     z-index: 2;
-    // @media #{$medium-only} {
-    //   top: 0;
-    //   @include grid-column(12);
-    // }
+    h2 {
+      margin-top: rem-calc(28);
+    }
+    p {
+      margin-bottom: rem-calc(50);
+    }
     form {
       input[type="text"] {
         display: none;
