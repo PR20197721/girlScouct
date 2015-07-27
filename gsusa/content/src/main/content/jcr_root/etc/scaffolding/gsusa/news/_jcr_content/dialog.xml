@@ -330,7 +330,7 @@
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
                     name="./jcr:content/sling:resourceType"
-                    value="gsusa/components/textimage"
+                    value="gsusa/components/two-column-page"
                     xtype="hidden"/>
                 <external-url
                     jcr:primaryType="cq:Widget"
