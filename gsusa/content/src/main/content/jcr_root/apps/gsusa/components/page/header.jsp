@@ -16,11 +16,11 @@
     </section>
     <section class="utility show-for-medium-up">
     	<div style="" class="clearfix">
-            <cq:include path="<%=eyebrowNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
             <div style="" class="join-buttons">
     	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
     	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
             </div>
+            <cq:include path="<%=eyebrowNavPath %>" resourceType="gsusa/components/eyebrow-nav" />
 	</div>
         <div class="clearfix float-right">   
     	    <cq:include path="<%= headerSearchPath %>" resourceType="gsusa/components/search-box" />
