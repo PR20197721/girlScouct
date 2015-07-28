@@ -226,24 +226,29 @@
 						if(n.hasProperty("contact")){
 							//Sometimes people use a URL here, sometimes they use a name
 							//Check for URLs
-							try{
-								URL u = new URL(n.getProperty("contact").getString());
-								u.toURI();
+							Pattern p = Pattern.compile("(http(s)?://)([\\w-]+\\.)+[\\w-]+(/[\\w- ;,./?%&=]*)?");
+							Matcher m = p.matcher(n.getProperty("contact").getString());
+							if(m.matches()){
+								System.out.println("1: " + n.getProperty("contact").getString());
 								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
-							} catch(Exception e){
-								Pattern p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
-								Matcher m = p.matcher(n.getProperty("contact").getString().toUpperCase());
+							}else{
+								String temp = "http://" + n.getProperty("contact").getString();
+								System.out.println("TEMP: " + temp);
+								m = p.matcher(temp);
 								if(m.matches()){
-									record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br>");
-								}
-								else{
-									try{
-										URL u = new URL("http://" + n.getProperty("contact").getString());
-										u.toURI();
-										record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
-									} catch(Exception f){
+									System.out.println("2: " + "http://" + n.getProperty("contact").getString());
+									record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
+								} else{
+									p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+									m = p.matcher(n.getProperty("contact").getString());
+									if(m.matches()){
+										System.out.println("3: " + n.getProperty("contact").getString());
+										record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br>");
+									}
+									else{
+										System.out.println("4: " + n.getProperty("contact").getString());
 										record.append(n.getProperty("contact").getString() + "<br/>");
-									}	
+									}
 								}
 							}
 						}
