@@ -205,7 +205,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	</ul>
 	<div class="hero-text first">
 		<section>
-			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
+			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" data-at2x="/etc/designs/gsusa/clientlibs/images/white_trefoil@2x.png" />
 			<h2><%= title %></h2>
 			<p><%= content %></p>
 			<a href="#" class="button explore" tabindex="51"><%= btnName %></a>
