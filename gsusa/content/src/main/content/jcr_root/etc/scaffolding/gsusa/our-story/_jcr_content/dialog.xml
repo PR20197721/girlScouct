@@ -33,7 +33,7 @@
                         <options jcr:primaryType="cq:WidgetCollection">
                             <option0
                                 jcr:primaryType="nt:unstructured"
-                                text="Article"
+                                text="News Article"
                                 value="article"/>
                             <option1
                                 jcr:primaryType="nt:unstructured"
@@ -50,11 +50,12 @@
                         </options>
                         <listeners
                             jcr:primaryType="nt:unstructured"
-                            selectionchanged="function(field, value) {&#xa;&#x9;var imageField = $($('input[name=&quot;./jcr:content/image/fileName&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var videoField = $($('input[name=&quot;./jcr:content/video/asset&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var externalVideoField = $($('input[name=&quot;./jcr:content/externalVideo&quot;]').parents('.x-form-item')[0]);&#xa;&#x9;var linkField = $($('input[name=&quot;./jcr:content/link&quot;]').parents('.x-form-item')[0]);&#xa;&#xa;&#x9;linkField.hide();&#xa;&#x9;imageField.hide();&#xa;&#x9;videoField.hide();&#xa;&#x9;externalVideoField.hide();&#xa;&#x9;&#xa;&#x9;if (value === 'article') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;&#x9;linkField.show();&#xa;&#x9;} else if (value === 'video') {&#xa;&#x9;&#x9;videoField.show();&#xa;&#x9;} else if (value === 'external-video') {&#xa;&#x9;&#x9;externalVideoField.show();&#xa;&#x9;} else if (value === 'link') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;&#x9;linkField.show();&#xa;&#x9;}&#xa;}"/>
+                            selectionchanged="function(field, value) {&#xa;&#x9;var panel = field.findParentByType(&quot;panel&quot;); &#xa;&#xa;           var imageField = panel.getComponent(&quot;image&quot;); &#xa;&#x9;var videoField = panel.getComponent(&quot;video&quot;); &#xa;&#x9;var externalVideoField = panel.getComponent(&quot;externalvideo&quot;);&#xa;&#x9;var linkField = panel.getComponent(&quot;link&quot;); &#xa;&#xa;&#x9;linkField.hide();&#xa;           linkField.allowBlank = true;&#xa;&#x9;imageField.hide();&#xa;&#x9;imageField.allowBlank = true;&#xa;&#x9;videoField.hide();&#xa;&#x9;videoField.allowBlank = true;&#xa;&#x9;externalVideoField.hide();&#xa;&#x9;externalVideoField.allowBlank = true;&#xa;&#x9;&#xa;&#x9;if (value === 'article') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;&#x9;imageField.allowBlank = false;&#xa;&#x9;&#x9;linkField.show();&#xa;&#x9;&#x9;linkField.allowBlank = false;&#xa;&#x9;} else if (value === 'video') {&#xa;&#x9;&#x9;videoField.show();&#xa;&#x9;&#x9;videoField.allowBlank = false;&#xa;&#x9;} else if (value === 'external-video') {&#xa;&#x9;&#x9;externalVideoField.show();&#xa;&#x9;&#x9;externalVideoField.allowBlank = false;&#xa;&#x9;} else if (value === 'link') {&#xa;&#x9;&#x9;imageField.show();&#xa;&#x9;&#x9;imageField.allowBlank = false;&#xa;&#x9;&#x9;linkField.show();&#xa;&#x9;&#x9;linkField.allowBlank = false;&#xa;&#x9;}&#xa;}"/>
                     </type>
                     <link
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Link"
+                        itemId="link"
                         name="./jcr:content/link"
                         xtype="pathfield"/>
                     <image
@@ -66,6 +67,7 @@
                         fileReferenceParameter="./jcr:content/image/fileReference"
                         height="400"
                         hideLabel="false"
+                        itemId="image"
                         mapParameter="./jcr:content/image/imageMap"
                         name="./jcr:content/image/file"
                         requestSuffix="/jcr:content/image.img.png"
@@ -84,11 +86,13 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
                         fieldLabel="Video Link"
+                        itemId="externalvideo"
                         name="./jcr:content/externalVideo"/>
                     <video
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
                         fieldLabel="Video Path"
+                        itemId="video"
                         name="./jcr:content/video/asset"
                         rootPath="/content/dam/girlscouts-gsusa/"
                         xtype="pathfield">
@@ -135,6 +139,12 @@
                         heightParameter="./jcr:content/image/height"
                         widthParameter="./jcr:content/image/width"
                         xtype="sizefield"/>
+                    <resourceType
+	                    jcr:primaryType="cq:Widget"
+	                    ignoreData="{Boolean}true"
+	                    name="./jcr:content/sling:resourceType"
+	                    value="gsusa/components/data-page"
+	                    xtype="hidden"/>
                 </items>
             </advanced>
         </items>
