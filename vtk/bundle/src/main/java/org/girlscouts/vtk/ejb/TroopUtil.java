@@ -26,6 +26,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -139,7 +140,7 @@ public class TroopUtil {
 	}
 
 	public Troop createTroop(User user, String councilId, String troopId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		Troop troop = null;
 		Council council = councilDAO.getOrCreateCouncil(user, councilId);
@@ -376,7 +377,7 @@ System.err.println("tatag 33:  "+ plan.getMeetingEvents().get(0).getRefId());
 	}
 
 	public void reLogin(User user, Troop troop, String troopId,
-			HttpSession session) throws IllegalAccessException {
+			HttpSession session) throws IllegalAccessException, VtkException {
 
 		if (troopId == null || troopId.trim().equals("")) {
 			log.error("loginAs invalid.abort");

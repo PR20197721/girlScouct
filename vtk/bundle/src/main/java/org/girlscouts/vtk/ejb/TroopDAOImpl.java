@@ -900,9 +900,13 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
+				
+				
 					JcrUtils.getOrCreateByPath(troop.getPath()
 						+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
-					mySession.save();
+					
+					
+					
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
@@ -1313,8 +1317,10 @@ public class TroopDAOImpl implements TroopDAO {
 		boolean isUpdated = false;
 		try {
 			mySession = sessionFactory.getSession();
-			mySession.removeItem(troop.getPath() + "/yearPlan/meetingEvents");
-			mySession.save();
+			if( mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
+				mySession.removeItem(troop.getPath() + "/yearPlan/meetingEvents");
+				mySession.save();
+			}
 			isUpdated = true;
 
 		} catch (Exception e) {

@@ -201,10 +201,19 @@
 		
 		
 		if (troop == null) {
+			
+		  try{
 			troop = troopUtil.createTroop(user, 
 					"" + prefTroop.getCouncilCode(),
 					prefTroop.getTroopId());
-		}
+		  }catch(org.girlscouts.vtk.utils.VtkException e){
+			  %><span class="error"><%=e.getMessage() %></span><%
+			           
+			  e.printStackTrace();
+			  return;
+			  }
+		  }
+		
 		
 		
 		

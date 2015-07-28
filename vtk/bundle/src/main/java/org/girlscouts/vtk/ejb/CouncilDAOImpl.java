@@ -35,6 +35,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.CouncilInfo;
 import org.girlscouts.vtk.utils.ModifyNodePermissions;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +62,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council findCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 		Council council = null;
 		Session session = null;
 		try {
@@ -90,7 +91,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
-
+	
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -105,7 +109,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council createCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
@@ -164,17 +168,16 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council getOrCreateCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+System.err.println("tata1");
 		Council council = findCouncil(user, councilId);
-		
-		if (council == null){
-System.err.println("Creating new council: "+ councilId);			
+System.err.println("tata2");		
+		if (council == null){			
 			council = createCouncil(user, councilId);
 		}
 		return council;
