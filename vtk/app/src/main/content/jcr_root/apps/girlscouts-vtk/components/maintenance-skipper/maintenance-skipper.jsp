@@ -3,9 +3,8 @@
 <%
     final String SKIP_COOKIE = "vtk-skip-maintenance";
     String param = request.getParameter("skip");
-    if (param != null && param.equals("true")) {
-        Cookie cookie = new Cookie(SKIP_COOKIE, "true");
-        cookie.setPath("/");
-        response.addCookie(cookie);
-    }
+    Cookie cookie = new Cookie(SKIP_COOKIE);
+    cookie.setValue(param != null && param.equals("true") ? "true" : "false");
+    cookie.setPath("/content/girlscouts-vtk");
+    response.addCookie(cookie);
 %>
