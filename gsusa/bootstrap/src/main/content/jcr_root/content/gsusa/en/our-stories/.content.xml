@@ -8,8 +8,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Our Stories"
         sling:resourceType="gsusa/components/page"/>
-    <demo_story_2/>
     <demo_story_1/>
-    <video/>
+    <demo_story_2/>
     <demo_story_3/>
+    <demo_story_4/>
 </jcr:root>
