@@ -7,19 +7,23 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
+import org.apache.sling.api.SlingHttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component
+@Component(enabled = false)
 @Service
-@Properties({ @Property(name = "sling.filter.scope", value = "REQUEST"),
-        @Property(name = "service.ranking", intValue = -1000) })
+@Properties({ 
+    @Property(name = "sling.filter.scope", value = "REQUEST"),
+    @Property(name = "service.ranking", intValue = -1000) 
+})
 /**
  * 
  * @author mike
@@ -38,14 +42,24 @@ public class MaintenanceFilter implements javax.servlet.Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain filterChain) throws IOException, ServletException {
-        process(request, response);
-        filterChain.doFilter(request, response);
-    }
-
-    private void process(ServletRequest request, ServletResponse response)
-            throws IOException, ServletException {
-        SlingHttpServletRequest req = (SlingHttpServletRequest) request;
-
+        SlingHttpServletRequest req = (SlingHttpServletRequest)request;
+        Cookie[] cookies = req.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("vtk-skip-maintenance") &&
+                        cookie.getValue().equals("true")) {
+                    filterChain.doFilter(request, response);
+                    return;
+                }
+            }
+        }
+        
+        if (req.getRequestURI().startsWith("/content/girlscouts-vtk")) {
+            SlingHttpServletResponse res = (SlingHttpServletResponse) response;
+            res.sendRedirect("/content/vtk-maintenance.html");
+        } else {
+            filterChain.doFilter(request, response);
+        }
     }
 
     public void init(FilterConfig config) throws ServletException {
