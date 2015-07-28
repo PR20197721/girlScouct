@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
@@ -55,7 +56,7 @@ public class YearPlanUtil {
 	private UserUtil userUtil;
 
 	public void createActivity(User user, Troop troop, Activity activity)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException, IllegalStateException {
 		activity.setDbUpdate(true);
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
@@ -63,7 +64,7 @@ public class YearPlanUtil {
 	}
 
 	public void checkCanceledActivity(User user, Troop troop)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop == null || troop.getYearPlan() == null
 				|| troop.getYearPlan().getActivities() == null
 				|| troop.getYearPlan().getActivities().size() == 0)
@@ -287,7 +288,7 @@ public class YearPlanUtil {
 
 	public void createCustActivity(User user, Troop troop,
 			java.util.List<org.girlscouts.vtk.models.Activity> activities,
-			String activityId) throws IllegalAccessException {
+			String activityId) throws IllegalAccessException, VtkException {
 		for (int i = 0; i < activities.size(); i++) {
 			if (activities.get(i).getUid().equals(activityId)) {
 				createActivity(user, troop, activities.get(i));

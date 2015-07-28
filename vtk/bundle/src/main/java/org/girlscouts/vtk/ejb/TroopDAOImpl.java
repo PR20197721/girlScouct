@@ -27,6 +27,7 @@ import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
@@ -48,6 +49,7 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,12 +70,15 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private ModifiedChecker modifiedChecker;
 
+	@Reference
+	private CouncilDAO councilDAO;
+	
 	@Activate
 	void activate() {
 	}
 
 	public Troop getTroop(User user, String councilId, String troopId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
@@ -109,7 +114,10 @@ public class TroopDAOImpl implements TroopDAO {
 			
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());
-
+		
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -752,7 +760,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
-			java.lang.IllegalAccessException {
+			java.lang.IllegalAccessException, VtkException {
 
 		modifyTroop(user, troop);
 
@@ -1106,8 +1114,7 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public boolean modifyTroop(User user, Troop troop)
-			throws java.lang.IllegalAccessException,
-			java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (!troop.isDbUpdate())
 			return true;
 		Session mySession = null;
@@ -1156,11 +1163,16 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 
 			if (ocm.objectExists(troop.getPath())) {
-		
+				System.err.println("tata troop update: "+ troop.getPath());
 				ocm.update(troop);
 			} else {
 				
 				
+Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); //0729815
+if( council==null ){
+	throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
+	
+}
 
 				JcrUtils.getOrCreateByPath("/"+troop.getCouncilPath()+"/troops", "nt:unstructured",
 						mySession);
@@ -1178,10 +1190,8 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setCurrentTroop(user.getSid());// 10/23/14
 
 				// modif
-				try {
-
-					modifiedChecker.setModified(user.getSid(), troop
-							.getYearPlan().getPath());
+				try{
+					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
 				} catch (Exception em) {
 					em.printStackTrace();
 				}
@@ -1192,7 +1202,8 @@ public class TroopDAOImpl implements TroopDAO {
 
 				isUpdated = true;
 				troop.setRefresh(true);
-
+			
+				
 			} catch (Exception e) {
 
 				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
@@ -1201,6 +1212,8 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setRefresh(true);
 			}
 			
+		} catch (VtkException ex) {
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 			
 		} catch (Exception e) {
 			e.printStackTrace();

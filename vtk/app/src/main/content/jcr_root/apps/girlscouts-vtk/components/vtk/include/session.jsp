@@ -102,15 +102,16 @@
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
-        <br/><br/>Stay tuned! 
-
-    </p>
-</div>
-<%
+			%>
+			<div id="panelWrapper" class="row meeting-detail content">
+			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+			        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
+			        <br/><br/>Stay tuned! 
+			
+			    </p>
+			</div>
+			
+			<%
 		return;
 	}
 
@@ -193,7 +194,16 @@
 		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
 		   
 		   
-		   
+		} catch (org.girlscouts.vtk.utils.VtkException ec ){
+			%>
+            <div id="panelWrapper" class="row meeting-detail content">
+              <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                 <%=ec.getMessage() %> 
+                 <br/>Please notify Girlscouts VTK support
+              </p>
+          </div>
+            <%
+            return;
 		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
@@ -207,7 +217,15 @@
 					"" + prefTroop.getCouncilCode(),
 					prefTroop.getTroopId());
 		  }catch(org.girlscouts.vtk.utils.VtkException e){
-			  %><span class="error"><%=e.getMessage() %></span><%
+			  %>
+			  
+			  <div id="panelWrapper" class="row meeting-detail content">
+			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+			       <%=e.getMessage() %> 
+			       <br/>Please notify Girlscouts VTK support
+			    </p>
+			</div>
+<%
 			           
 			  e.printStackTrace();
 			  return;
