@@ -86,17 +86,8 @@
   @media #{$medium-only} {
     max-height:  rem-calc(370);
   }
-  .blog-feed-image-area {
-    float:left;
-    width: 59.090909%;
-    img {
-      // max-height: rem-calc(420);
-      // width: rem-calc(530);
-      width: 100%;
-    }
-  }
   .blog-embed-area {
-    width: 40.909091%;
+    width: 100%;
     float: left;
     padding:rem-calc(10);
     overflow: hidden;

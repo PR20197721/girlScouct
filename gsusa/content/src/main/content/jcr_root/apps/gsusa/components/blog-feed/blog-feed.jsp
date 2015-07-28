@@ -10,13 +10,11 @@
 	String url = "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key;
 	%>
 
-	<div class="blog-feed-image-area"></div>
     <div class="blog-embed-area"></div>
 
     <script type="text/javascript">
     
     var blogFeedArea = $(".blog-embed-area");
-    var imageArea = $(".blog-feed-image-area");
 
     var count = <%= count %>;
     var id = "<%= id %>";
@@ -64,7 +62,6 @@
 	if (contentData && contentData.match(imageUrlPattern)) {
 		imageTag = contentData.match(imageUrlPattern)[0] + " />";
           }
-	imageArea.html(imageTag);
 	for(var k=0; k<posts.length; k++){
 	  contentData = posts[k].content;
 	  imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
