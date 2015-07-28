@@ -51,6 +51,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
@@ -163,7 +164,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -187,6 +188,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				if(globalMeetingInfo!=null)
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
 			}
+			
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -218,7 +218,7 @@ public class YearPlanUtil {
 	}
 
 	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		Meeting meeting = meetingDAO.getMeeting(user, path);
 		return meeting;

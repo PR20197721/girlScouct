@@ -112,13 +112,13 @@ public class MeetingUtil {
 	}
 
 	public java.util.Map getYearPlanSched(User user, YearPlan plan,
-			boolean meetingPlanSpecialSort) throws IllegalAccessException {
+			boolean meetingPlanSpecialSort) throws IllegalAccessException, VtkException {
 		return getYearPlanSched(user, plan, meetingPlanSpecialSort, false);
 	}
 
 	public java.util.Map getYearPlanSched(User user, YearPlan plan,
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (plan.getSchedule() != null || plan.getActivities() == null
 				|| plan.getActivities().size() <= 0) {
@@ -992,7 +992,7 @@ public class MeetingUtil {
 
 	public PlanView planView1(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		PlanView planView = new PlanView();
 		HttpSession session = request.getSession();
@@ -1050,7 +1050,7 @@ public class MeetingUtil {
 	}
 
 	public java.util.List<MeetingE> getMeetingToCancel(User user, Troop troop)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		java.util.List<MeetingE> meetings = new java.util.ArrayList();
 		java.util.Date today = new java.util.Date();
