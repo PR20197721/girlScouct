@@ -231,8 +231,7 @@
 							if(m.matches()){
 								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
 							}else{
-								String temp = "http://" + n.getProperty("contact").getString();
-								m = p.matcher(temp);
+								m = p.matcher("http://" + n.getProperty("contact").getString());
 								if(m.matches()){
 									record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
 								} else{
