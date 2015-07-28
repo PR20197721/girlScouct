@@ -900,10 +900,9 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
-
-				JcrUtils.getOrCreateByPath(troop.getPath()
-						+ "/yearPlan/meetingEvents", "nt:unstructured",
-						mySession);
+					JcrUtils.getOrCreateByPath(troop.getPath()
+						+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+					mySession.save();
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
