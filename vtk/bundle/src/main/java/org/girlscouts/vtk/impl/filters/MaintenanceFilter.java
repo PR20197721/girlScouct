@@ -48,6 +48,7 @@ public class MaintenanceFilter implements javax.servlet.Filter {
         SlingHttpServletRequest req = (SlingHttpServletRequest)request;
         if (!enabled) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         Cookie[] cookies = req.getCookies();
