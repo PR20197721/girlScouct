@@ -86,12 +86,29 @@
   @media #{$medium-only} {
     max-height:  rem-calc(370);
   }
+  a,p {
+  	font-size: 24px;
+  	margin-bottom:0px;
+  	line-height: rem-calc(35);
+  }
+  li {
+  	margin-bottom: rem-calc(50);
+  }
+  img {
+  	margin-left:auto;
+  	margin-right:auto;
+  }
+  .dateline{
+  	font-size:20px;
+  }
   .blog-embed-area {
     width: 100%;
     float: left;
     padding:rem-calc(10);
     overflow: hidden;
     height: 29.28571rem;
+    margin-left:15%;
+  	max-width:70%;
     & * {color: #333;}
     ul {
       list-style: none;

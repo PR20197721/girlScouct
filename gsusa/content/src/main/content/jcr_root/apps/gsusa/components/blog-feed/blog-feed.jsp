@@ -9,8 +9,10 @@
 
 	String url = "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key;
 	%>
-
-    <div class="blog-embed-area"></div>
+	<div class="align-center">
+        <img src="http://wwwl.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
+        <div class="blog-embed-area"></div>
+    </div>
 
     <script type="text/javascript">
     
@@ -77,7 +79,7 @@
 	  if (shortDescription.length > DESCRIPTION_LENGTH) {
 	    shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
 	  }
-    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + posts[k].url + '" target="_blank" class="title">' + posts[k].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank" class="title">continue reading ></a></p></li>';
+    		output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
     	}
     	output += "</ul>";
     	blogFeedArea.html(output);
