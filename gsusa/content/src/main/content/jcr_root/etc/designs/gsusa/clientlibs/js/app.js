@@ -167,6 +167,7 @@
         } else {
           // searchSlider.button.focus();
           searchjoin.button.removeClass('on');
+          
         }
       });
     });
@@ -492,6 +493,12 @@
     event.preventDefault();
     var this_form = $(this).siblings("form");
     this_form.removeClass('hide');
+    if (this_form.find('input[name="ZipJoin"]').length > 0) {
+    	this_form.find('input[name="ZipJoin"]').focus();
+    } 
+    if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
+    	this_form.find('input[name="ZipVolunteer"]').focus();
+    }  
   });
 
   var ImageMap = function (map, img) {
