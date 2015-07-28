@@ -17,7 +17,7 @@
     <section class="utility show-for-medium-up">
     	<div style="" class="clearfix">
             <div style="" class="join-buttons">
-		&nsbp;
+		&nbsp;
     	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>
     	        <cq:include path="header/volunteer" resourceType="gsusa/components/header-volunteer-now"/>
             </div>
