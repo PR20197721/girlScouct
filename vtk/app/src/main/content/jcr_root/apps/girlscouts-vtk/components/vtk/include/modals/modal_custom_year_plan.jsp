@@ -64,6 +64,7 @@ request.setAttribute("meetings", meetings);
         cache: false
     }).done(function( html ) {
   	  //$('#modal_popup').foundation('reveal', 'close');
+  	  vtkTrackerPushAction('CreateCustomYearPlan');
   	  location.reload();
     });
   }

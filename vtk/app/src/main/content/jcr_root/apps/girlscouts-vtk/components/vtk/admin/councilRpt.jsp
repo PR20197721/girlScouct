@@ -54,7 +54,7 @@ cTrans.put("564", "Eastern Oklahoma");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
 		
-		String sql="select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
+		String sql="select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
 		
 		
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();

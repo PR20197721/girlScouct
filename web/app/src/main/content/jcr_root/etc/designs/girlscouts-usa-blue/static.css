@@ -1,0 +1,208 @@
+/***********************************/
+/************* GLOBAL **************/
+/***********************************/
+
+body {
+    background-color: #666666;
+}
+h1 {
+    color: #000000;
+}
+.error {
+    color: red;
+}
+a {
+    color: #396;
+}
+a:hover {
+	color: green;
+}
+@media only screen and (min-width: 40.063em) {
+    body {
+		min-width:870px;
+	}
+}
+a.menu {
+    color: #eeeeee;
+    font-size: 17px;
+    font-weight: bold;
+}
+a:hover.menu {
+    color: #f93;
+}
+a.menuHighlight {
+    color: #ff9933;
+}
+a:hover.menuHighlight {
+    color: #fc3;
+}
+
+/***********************************/
+/********* PAGE STRUCTURE **********/
+/***********************************/
+
+/* HEADER */
+#header {
+	padding: 15px 0px 10px 0px;
+    background-color: #0000FF;
+    color: #FFFFFF;
+}
+#header span {
+    color: #ff9933;
+    font-size: 18px;
+    font-weight: bold;
+}
+#header a {
+	color: #222;
+}
+#header a:hover {
+    color: yellow;
+}
+#header a.signout {
+    font-size: 14px;
+    color: #fff;
+}
+#header a:hover.signout {
+    color: #c00;
+}
+#header nav.logoSmall {
+    min-width:330px;
+}
+#header nav.logoSmall a {
+	float:right;
+}
+#header .toplinks{
+    padding:0px;
+}
+#header ul {
+    float: right;
+}
+#header ul li {
+    font-size: 14px;
+}
+#header .message {
+    text-align: right;
+}
+#header .logoSmall {
+    margin: 0px 0px 10px 0px;
+}
+.searchField {
+    background: url('images/magnifyer-small.png') no-repeat 0px 10px; 
+    background-position: right; 
+}
+
+/* HEADER BAR */
+#headerBar {
+    background-color: #009447;
+}
+#headerBar>div{
+    padding: 3px 0px 3px 10px;
+}
+
+#headerBar ul.inline-list {
+    margin: 0px;
+    padding: 0px;
+}
+#headerBar li {
+    margin: 0px;
+    padding: 0px 8px;
+}
+#headerBar li:hover {
+    background-color:#063;
+}
+
+
+/* FOOTER */
+#footer {
+    background-color: #009447;
+    padding: 15px 0px;
+}
+#footer a {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0px 10px 0px 0px;
+}
+
+
+/* MAIN */
+#main {
+    background-color:#ffffff;
+    color: #000000;
+}
+#main .mainLeft {
+    padding: 0px;
+}
+#main .mainRight {
+    padding: 5px;
+}
+
+/* LEFT CONTENT */
+#leftContent {
+
+}
+
+/* MAIN CONTENT */
+#mainContent {
+    text-align: left;
+}
+
+/* RIGHT CONTENT */
+#rightContent {
+    padding-right: 5px;
+    text-align: center;
+}
+
+/***********************************/
+/*********** COMPONENTS ***********/
+/***********************************/
+/* HERO */
+#heroBanner {
+    padding: 0px;
+}
+#homeBlockGrid {
+    background-color: #fff;
+}
+#homeBlockGrid li{
+    padding: 0px;
+}
+
+/* BREADCRUMBS */
+.breadcrumbs {
+    background-color: #fff;
+    border: 0px;
+}
+
+/* SIDE NAV */
+#main .side-nav *{
+    color: #333333;
+    margin: 0px;
+}
+#main ul {
+    list-style: none;
+}
+#main .side-nav li{
+    padding: 5px 0px 5px 15px;
+}
+#main .side-nav li.divider {
+    margin: 0px;
+    padding: 0px;
+    background: none; 
+}
+#main .side-nav .active>a {
+    font-weight: bold;
+}
+#main .side-nav>li>a{
+    font-weight: bold;
+}
+#main .side-nav>li>li a{
+    font-weight: normal;
+}
+#main .side-nav>li {
+    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+    background-color:#e7e7e7;
+}
+#main .side-nav>li.active {
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    background-color:#f4f4f4;
+}
+

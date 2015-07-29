@@ -35,6 +35,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,13 +112,13 @@ public class MeetingUtil {
 	}
 
 	public java.util.Map getYearPlanSched(User user, YearPlan plan,
-			boolean meetingPlanSpecialSort) throws IllegalAccessException {
+			boolean meetingPlanSpecialSort) throws IllegalAccessException, VtkException {
 		return getYearPlanSched(user, plan, meetingPlanSpecialSort, false);
 	}
 
 	public java.util.Map getYearPlanSched(User user, YearPlan plan,
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (plan.getSchedule() != null || plan.getActivities() == null
 				|| plan.getActivities().size() <= 0) {
@@ -309,7 +310,7 @@ public class MeetingUtil {
 	}
 
 	public void changeMeetingPositions(User user, Troop troop,
-			String newPositions) throws IllegalAccessException {
+			String newPositions) throws IllegalAccessException, VtkException {
 
 		for (Integer i : troop.getTroop().getPermissionTokens()) {
 			System.out.println("Permissions of trooop " + i);
@@ -345,7 +346,7 @@ public class MeetingUtil {
 
 	public void createCustomAgenda(User user, Troop troop, String name,
 			String meetingPath, int duration, long _startTime, String txt)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -412,7 +413,7 @@ public class MeetingUtil {
 	}
 
 	public void swapMeetings(User user, Troop troop, String fromPath,
-			String toPath) throws java.lang.IllegalAccessException {
+			String toPath) throws java.lang.IllegalAccessException, VtkException {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -444,7 +445,7 @@ public class MeetingUtil {
 	}
 
 	public void rearrangeActivity(User user, Troop troop, String meetingPath,
-			String _newPoss) throws java.lang.IllegalAccessException {
+			String _newPoss) throws java.lang.IllegalAccessException, VtkException {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -504,7 +505,7 @@ public class MeetingUtil {
 	}
 
 	public void addMeetings(User user, Troop troop, String newMeetingPath)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -553,7 +554,7 @@ public class MeetingUtil {
 	}
 
 	public void rmAgenda(User user, Troop troop, String agendaPathToRm,
-			String fromMeetingPath) throws java.lang.IllegalAccessException {
+			String fromMeetingPath) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_REMOVE_MEETING_ID))
@@ -597,7 +598,7 @@ public class MeetingUtil {
 
 	public void editAgendaDuration(User user, Troop troop, int duration,
 			String activityPath, String meetingPath)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -635,7 +636,7 @@ public class MeetingUtil {
 	}
 
 	public void reverAgenda(User user, Troop troop, String meetingPath)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -678,7 +679,7 @@ public class MeetingUtil {
 
 	public void addAids(User user, Troop troop, String aidId, String meetingId,
 			String assetName, String docType)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -748,7 +749,7 @@ public class MeetingUtil {
 
 	public void addResource(User user, Troop troop, String aidId,
 			String meetingId, String assetName, String docType)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -812,7 +813,7 @@ public class MeetingUtil {
 	}
 
 	public void rmAsset(User user, Troop troop, String aidId, String meetingId)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_REMOVE_MEETING_ID))
@@ -917,7 +918,7 @@ public class MeetingUtil {
 			else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
 				meetingCount = troop.getYearPlan().getMeetingCanceled()
 						.indexOf(_comp) + 1;
-			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());
+			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());	
 			meeting.setMeetingInfo(meetingInfo);
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
 			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
@@ -954,7 +955,7 @@ public class MeetingUtil {
 				// query aids cachables
 				java.util.List __aidTags = yearPlanUtil.getAids(user,
 						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists aids
 				_aidTags.addAll(__aidTags);
@@ -962,7 +963,7 @@ public class MeetingUtil {
 				// query resources cachables
 				java.util.List __resources = yearPlanUtil.getResources(user,
 						meetingInfo.getResources(), meetingInfo.getId(),
-						meeting.getUid());
+						meeting.getUid(), meetingInfo.getPath());
 
 				// merge lists resources
 				_aidTags.addAll(__resources);
@@ -991,7 +992,7 @@ public class MeetingUtil {
 
 	public PlanView planView1(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		PlanView planView = new PlanView();
 		HttpSession session = request.getSession();
@@ -1049,7 +1050,7 @@ public class MeetingUtil {
 	}
 
 	public java.util.List<MeetingE> getMeetingToCancel(User user, Troop troop)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		java.util.List<MeetingE> meetings = new java.util.ArrayList();
 		java.util.Date today = new java.util.Date();
@@ -1073,7 +1074,7 @@ public class MeetingUtil {
 	}
 
 	public boolean rmSchedDate(User user, Troop troop, long dateToRm)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 		boolean isRemoved = false;
 		String dates = troop.getYearPlan().getSchedule().getDates();
 		dates = "," + dates + ",";
@@ -1134,7 +1135,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/attendance";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -1242,7 +1243,7 @@ public class MeetingUtil {
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 				troop.getSfTroopId());
-		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
+		String path = VtkUtil.getYearPlanBase(user, troop) + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
 				+ "/achievement";
 		java.util.List<String> Attendances = new java.util.ArrayList<String>();
@@ -1358,7 +1359,7 @@ public class MeetingUtil {
 
 	public void createMeetingCanceled(User user, Troop troop,
 			String meetingRefId, long meetingDate)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		MeetingCanceled meeting = new MeetingCanceled();
 		meeting.setDate(new java.util.Date(meetingDate));
@@ -1375,7 +1376,7 @@ public class MeetingUtil {
 	}
 
 	public void createCustomYearPlan(User user, Troop troop, String mids)
-			throws IllegalAccessException, VtkYearPlanChangeException {
+			throws IllegalAccessException, VtkYearPlanChangeException, VtkException {
 		troopUtil.selectYearPlan(user, troop, "", "Custom Year Plan");
 		StringTokenizer t = new StringTokenizer(mids, ",");
 		while (t.hasMoreElements())

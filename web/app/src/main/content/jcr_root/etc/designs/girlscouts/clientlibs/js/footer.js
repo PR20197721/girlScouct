@@ -54,27 +54,32 @@
       modal.css('margin-left','');
     }
   }
-  $(document).ready(function(){
-   resizeWindow();
-   addClassGrid();
-   attendance_popup_width();
-  })
-  $(window).load(function(){
-    var currentMainHeight = $('.inner-wrap').height();
-    //get the height of the window
-    var windowHeight = $(window).height();
-    var targetMainHeight = (windowHeight-currentMainHeight);
-    if(targetMainHeight != 0) {
-     //resizeWindow();
-    }
-    attendance_popup_width();
-  })
-  $(window).resize(function() {
-   //first remove the padding added after reload.
-    $('.vtk-body #main .row.content').css('padding-bottom','');
-    $('#main.content').css('padding-bottom','');
-    $(".modal-attendance").parent().css('margin-left','');
+  function vtk_accordion() {
+    $('.accordion dt > :first-child').on('click', function() {
+      var target = $(this).parent().data('target');
+      var toggle = $(this);
+      $('#' + target).slideToggle('slow');
+      $(toggle).toggleClass('on');
+      if(window[ target ] != null){
+    	  window[ target ].toggle();
+      }
+        return false;
+    });
+  }
+$(document).ready(function(){
+ resizeWindow();
+ addClassGrid();
+ vtk_accordion();
+ attendance_popup_width();
+})
+$(window).load(function(){
+  var currentMainHeight = $('.inner-wrap').height();
+  //get the height of the window
+  var windowHeight = $(window).height();
+  var targetMainHeight = (windowHeight-currentMainHeight);
+  if(targetMainHeight != 0) {
     resizeWindow();
     addClassGrid();
     attendance_popup_width();
-  });
+  }
+});

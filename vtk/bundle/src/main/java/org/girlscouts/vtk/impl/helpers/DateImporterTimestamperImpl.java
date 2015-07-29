@@ -14,6 +14,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.helpers.DataImportTimestamper;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 @Component
 @Service
 public class DateImporterTimestamperImpl implements DataImportTimestamper {
-	private static final String TIMESTAMP_PATH = "/vtk/last-import-timestamp";
+	private static final String TIMESTAMP_PATH = "/"+VtkUtil.getYearPlanBase(null, null)+"/last-import-timestamp";
 	private static final String TIMESTAMP_PROP = "timstamp";
 
 	private static final Logger log = LoggerFactory

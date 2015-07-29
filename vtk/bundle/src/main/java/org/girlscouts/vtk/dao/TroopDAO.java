@@ -9,11 +9,12 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.utils.VtkException;
 
 public interface TroopDAO {
 
 	public Troop getTroop(User user, String councilId, String troopId)
-			throws IllegalAccessException;
+			throws IllegalAccessException, VtkException;
 
 	public Troop getTroop_byPath(User user, String troopPath)
 			throws IllegalAccessException;
@@ -22,7 +23,7 @@ public interface TroopDAO {
 			throws IllegalAccessException;
 
 	public boolean updateTroop(User user, Troop troop)
-			throws IllegalAccessException;
+			throws IllegalAccessException, VtkException;
 
 	public void rmTroop(Troop troop) throws IllegalAccessException;
 

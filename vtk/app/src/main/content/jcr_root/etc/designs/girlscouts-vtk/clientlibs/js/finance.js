@@ -87,9 +87,10 @@ function saveFinanceAdmin(){
 		},
 		success: function(result) {
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
-
+	vtkTrackerPushAction('ModifyFinanceForm');
 	return false;
 }
 
@@ -140,9 +141,12 @@ function saveFinances(){
 			a:Date.now()
 		},
 		success: function(result) {
+			
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
+	vtkTrackerPushAction('ModifyFinanceData');
 	return false;
 }
 	
@@ -231,6 +235,14 @@ function expensesAtMinimum(){
 	
 function deleteIncomeRow(counter){ 
 	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+	
+	 if (!confirm("Warning: Are you sure you want to remove this category? Doing so will remove all data association with this category")) {
+		 return false;
+	 }
+	
 	if(incomeAtMinimum()){
 		return false;
 	}
@@ -240,10 +252,15 @@ function deleteIncomeRow(counter){
 	button.parentNode.removeChild(button);
 	
 	saveFinanceAdmin();
+	
 	return false;
 }
 
 function deleteExpenseRow(counter){ 
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
 	
 	if(expensesAtMinimum()){
 		return false;
@@ -257,10 +274,12 @@ function deleteExpenseRow(counter){
 }
 
 function addExpenseField(){
+	vtkTrackerPushAction('EditFinancialForm');
 	return addFinanceRow("expense-list", "expenseCount", "expenseButton", "expenseField", "deleteExpenseRow");
 }
 
 function addIncomeField(){
+	vtkTrackerPushAction('EditFinancialForm');
 	return addFinanceRow("income-list", "incomeCount", "incomeButton", "incomeField", "deleteIncomeRow");
 }
 

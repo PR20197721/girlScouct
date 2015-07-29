@@ -26,6 +26,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +57,7 @@ public class TroopUtil {
 	private YearPlanUtil yearPlanUtil;
 
 	public Troop getTroop(User user, String councilId, String troopId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		Troop troop = null;
 		troop = troopDAO.getTroop(user, councilId, troopId);
@@ -139,14 +140,15 @@ public class TroopUtil {
 	}
 
 	public Troop createTroop(User user, String councilId, String troopId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		Troop troop = null;
 		Council council = councilDAO.getOrCreateCouncil(user, councilId);
 		if (council == null)
 			return null;
 		troop = new Troop(troopId);
-		troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
+		//troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
+		troop.setPath( VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/" + troopId);
 		return troop;
 
 	}
@@ -158,7 +160,7 @@ public class TroopUtil {
 
 	public void addAsset(User user, Troop troop, String meetingUid, Asset asset)
 			throws java.lang.IllegalAccessException,
-			java.lang.IllegalStateException {
+			java.lang.IllegalStateException, VtkException {
 
 		// permission to update
 		if (troop != null
@@ -182,7 +184,7 @@ public class TroopUtil {
 
 	public void selectYearPlan_vtk1(User user, Troop troop,
 			String yearPlanPath, String planName)
-			throws java.lang.IllegalAccessException, VtkYearPlanChangeException {
+			throws java.lang.IllegalAccessException, VtkYearPlanChangeException, VtkException {
 
 		// permission to update
 		if (troop != null
@@ -334,7 +336,7 @@ public class TroopUtil {
 
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
-			java.lang.IllegalAccessException {
+			java.lang.IllegalAccessException, VtkException {
 		return troopDAO.updateTroop(user, troop);
 
 	}
@@ -356,12 +358,16 @@ public class TroopUtil {
 			if (yearPlanPath == null || yearPlanPath.equals(""))
 				return new YearPlan();
 			plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
+			
+System.err.println("tatag addYearPlan: "+ yearPlanPath);			
 			plan.setRefId(yearPlanPath);
 			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
 							: (yearPlanPath + "/meetings/")));
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
+			
+System.err.println("tatag 33:  "+ plan.getMeetingEvents().get(0).getRefId());			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -371,7 +377,7 @@ public class TroopUtil {
 	}
 
 	public void reLogin(User user, Troop troop, String troopId,
-			HttpSession session) throws IllegalAccessException {
+			HttpSession session) throws IllegalAccessException, VtkException {
 
 		if (troopId == null || troopId.trim().equals("")) {
 			log.error("loginAs invalid.abort");
@@ -413,7 +419,7 @@ public class TroopUtil {
 
 	public String bindAssetToYPC(User user, Troop troop, String bindAssetToYPC,
 			String _ypcId, String _assetDesc, String _assetTitle)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		String vtkErr = "";
 		String assetId = bindAssetToYPC;
@@ -472,7 +478,7 @@ public class TroopUtil {
 
 	public String editCustActivity(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request)
-			throws IllegalAccessException, ParseException {
+			throws IllegalAccessException, ParseException, VtkException {
 		
 		
 		if (troop != null
@@ -523,7 +529,7 @@ public class TroopUtil {
 	}
 
 	public void impersonate(User user, Troop nothing, String councilCode,
-			String troopId, HttpSession session) throws IllegalAccessException {
+			String troopId, HttpSession session) throws IllegalAccessException, VtkException {
 
 		Troop new_troop = getTroop(user, councilCode + "", troopId);
 		new_troop.setTroop(nothing.getTroop());
@@ -613,6 +619,11 @@ public class TroopUtil {
 			troop.setErrCode("112");
 			return null;
 		}
+		
+		
+		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
+			System.err.println("tatag: "+ newYearPlan.getMeetingEvents().get(i).getRefId());
+		
 		YearPlan oldPlan = troop.getYearPlan();
 		// SORT Meetings - new
 		newYearPlan.setMeetingEvents(VtkUtil.sortMeetingsById(newYearPlan
@@ -656,7 +667,7 @@ public class TroopUtil {
 
 	public void selectYearPlan(User user, Troop troop, String yearPlanPath,
 			String planName) throws java.lang.IllegalAccessException,
-			VtkYearPlanChangeException {
+			VtkYearPlanChangeException, VtkException {
 		// permission to update
 		if (troop != null
 				&& !userUtil.hasPermission(troop,

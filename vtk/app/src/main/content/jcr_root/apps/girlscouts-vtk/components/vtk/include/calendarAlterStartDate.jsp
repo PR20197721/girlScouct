@@ -68,8 +68,11 @@
       <li>
         <input type="checkbox" id="chk_4" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/><label for="chk_4"><p><span class="date">11/26/2015</span><span>Thanksgiving</span></p></label>
       </li>
+<li>
+        <input type="checkbox" id="chk_51" name="exclDt" value="12/24/2015" <%=("".equals(exlDates) || exlDates.contains("12/24/2015")) ? "CHECKED" : ""  %>/><label for="chk_51"><p><span class="date">12/24/2015</span><span>Christmas Eve</span></p></label>
+      </li>
       <li>
-        <input type="checkbox" id="chk_5" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/><label for="chk_5"><p><span class="date">12/25/2015</span><span>Christmas</span></p></label>
+        <input type="checkbox" id="chk_5" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/><label for="chk_5"><p><span class="date">12/25/2015</span><span>Christmas Day</span></p></label>
       </li>
       <li>
         <input type="checkbox" id="chk_6" name="exclDt" value="01/01/2016" <%=("".equals(exlDates) || exlDates.contains("01/01/2016")) ? "CHECKED" : ""  %>/><label for="chk_6"><p><span class="date">01/01/2016</span><span>New Years</span></p></label>

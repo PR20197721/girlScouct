@@ -15,6 +15,7 @@ import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkException;
 
 
 public interface MeetingDAO {
@@ -26,7 +27,7 @@ public interface MeetingDAO {
 			String yearPlanId) throws IllegalAccessException;
 
 	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException;
+			throws IllegalAccessException, VtkException;
 
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			String yearPlanPath) throws IllegalAccessException;
@@ -82,13 +83,13 @@ public interface MeetingDAO {
 			throws IllegalAccessException;
 
 	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName) throws IllegalAccessException;
+			String meetingName, String meetingPath) throws IllegalAccessException;
 
 	public List<Asset> getAidTag(User user, String tags, String meetingName)
 			throws IllegalAccessException;
 
 	public List<Asset> getResource_local(User user, String tags,
-			String meetingName) throws IllegalAccessException;
+			String meetingName, String meetingPath) throws IllegalAccessException;
 
 	public List<Asset> getResource_global(User user, String tags,
 			String meetingName) throws IllegalAccessException;

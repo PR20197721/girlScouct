@@ -12,4 +12,5 @@
     <filter root="/etc/map.publish.stage/vtk-data"/>
     <filter root="/etc/map.publish.uat/vtk-data"/>
     <filter root="/etc/map.publish.production/vtk-data"/>
+    <filter root="/content/vtk-maintenance"/>
 </workspaceFilter>
