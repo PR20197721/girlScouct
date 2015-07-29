@@ -15,6 +15,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -111,7 +112,7 @@ public class CalendarUtil {
 
 	public boolean updateSched(User user, Troop troop, String meetingPath,
 			String time, String date, String ap, String isCancelledMeeting,
-			long currDate) throws java.lang.IllegalAccessException {
+			long currDate) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -152,7 +153,7 @@ public class CalendarUtil {
 	}
 
 	public void resetCal(User user, Troop troop)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		troop.getYearPlan().setSchedule(null);
 		troopUtil.updateTroop(user, troop);
 	}
@@ -270,7 +271,7 @@ public class CalendarUtil {
 
 	public void createSched(User user, Troop troop, String freq,
 			org.joda.time.DateTime newStartDate, String exclDate,
-			long oldFromDate) throws java.lang.IllegalAccessException {
+			long oldFromDate) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))

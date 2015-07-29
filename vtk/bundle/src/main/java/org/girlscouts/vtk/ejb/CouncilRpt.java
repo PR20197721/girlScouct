@@ -12,6 +12,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.models.CouncilRptBean;
+import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = CouncilRpt.class)
@@ -71,9 +72,10 @@ public class CouncilRpt {
 		java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
 		String sql = "select  name, altered, refId,jcr:path,excerpt(.) "
 				+ " from nt:base "
-				+ " where jcr:path like '/vtk/"
+				+ " where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)
 				+ sfCouncil
 				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
+		
 		java.util.List<String> activities = getActivityRpt(sfCouncil);
 		javax.jcr.query.QueryResult result = null;
 		try {
@@ -196,7 +198,7 @@ public class CouncilRpt {
 		java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
 		javax.jcr.Session s = null;
 		String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) "
-				+ " where (isdescendantnode (parent, ['/vtk/"
+				+ " where (isdescendantnode (parent, ['"+ VtkUtil.getYearPlanBase(null, null)
 				+ councilId
 				+ "/troops/']))  and "
 				+ " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"

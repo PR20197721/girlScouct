@@ -5,7 +5,33 @@ import java.io.Serializable;
 public class User implements Serializable {
 
 	private String name, email, phone, mobilePhone, assistantPhone, homePhone,
-			contactId, sfUserId;
+			contactId, sfUserId,
+			firstName, lastName;
+	private boolean isAdmin;
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public String getContactId() {
 		return contactId;

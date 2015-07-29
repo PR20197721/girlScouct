@@ -42,7 +42,6 @@ import org.slf4j.LoggerFactory;
 public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		ConfigListener {
 	private static final long serialVersionUID = 8152897311719564370L;
-
 	private static final Logger log = LoggerFactory
 			.getLogger(SalesforceAuthServlet.class);
 	private static final String ACTION = "action";
@@ -79,7 +78,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			SlingHttpServletResponse response) {
 		String action = request.getParameter(ACTION);
 		if (action == null) {
-			salesforceCallback(request, response);
+			try {
+				salesforceCallback(request, response);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		} else if (action.equals(SIGNIN)) {
 			signIn(request, response);
 		} else if (action.equals(SIGNOUT)) {
@@ -216,7 +220,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
+			SlingHttpServletResponse response) throws IllegalAccessException {
 		HttpSession session = request.getSession();
 
 		ApiConfig apiConfig = null;
@@ -252,10 +256,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 					.getPermissionTokens());
 
 			// load config
+			/*
 			vtkUser.setCurrentYear(getCurrentYear(
 					request.getResourceResolver(), vtkUser.getApiConfig()
 							.getTroops().get(0).getCouncilCode()));
-		
+		*/
+			vtkUser.setCurrentYear( VtkUtil.getCurrentGSYear() +"");
+			
+			
 		// Set cookie troopDataPath 
 		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
 		Cookie cookie = new Cookie("troopDataToken", troopDataPath);
@@ -349,7 +357,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return isSucc;
 	}
-
+/* use VTKUTIL.getCurrentYear
 	private String getCurrentYear(ResourceResolver resourceResolver,
 			int councilId) {
 		String elem = null;
@@ -380,7 +388,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return elem;
 	}
-
+*/
 	public void setCouncilInClient(
 			org.apache.sling.api.SlingHttpServletResponse response,
 			String councilCode) {

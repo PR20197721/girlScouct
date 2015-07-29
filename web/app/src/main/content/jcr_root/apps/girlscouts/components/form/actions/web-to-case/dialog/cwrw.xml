@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    defaultValue="cw"
+    fieldLabel="cw / rw"
+    name="./cwrw"
+    type="select"
+    value="cw"
+    xtype="selection">
+    <options jcr:primaryType="cq:WidgetCollection">
+        <cw
+            jcr:primaryType="nt:unstructured"
+            text="cw (customer care web to case)"
+            value="cw"/>
+        <rw
+            jcr:primaryType="nt:unstructured"
+            text="rw (registration web to case)"
+            value="rw"/>
+    </options>
+</jcr:root>

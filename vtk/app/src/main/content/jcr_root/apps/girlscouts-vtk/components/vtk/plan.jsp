@@ -12,6 +12,12 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 
+<%
+//final org.girlscouts.vtk.utils.ModifyNodePermissions modPerm = sling.getService(org.girlscouts.vtk.utils.ModifyNodePermissions.class);
+//modPerm.modifyNodePermissions("/vtk2018", "vtk");
+%>
+
+
 
 <div id="vtkTabNav"></div>
 
@@ -134,6 +140,7 @@
                              keys.map( function (comment ,i ) {
 
                               if( obj[comment].type == 'MEETINGCANCELED' ){
+                            	  
                                      return (
 
 
@@ -158,6 +165,8 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
+                            	 console.log("**** "+comment);
+                            	 console.log(obj[comment]);
                                         return (
 
 
@@ -325,6 +334,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             data: '',
             dataType: 'html',
         }).done(function( html ) {
+        	vtkTrackerPushAction('MoveMeetings');
         	console.info('Before calling callback');
         	if (callback) {
         		console.info('Calling callback');
