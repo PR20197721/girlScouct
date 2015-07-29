@@ -765,7 +765,7 @@ public class TroopDAOImpl implements TroopDAO {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException, VtkException {
-
+//troop.setErrCode("112");
 		modifyTroop(user, troop);
 
 
