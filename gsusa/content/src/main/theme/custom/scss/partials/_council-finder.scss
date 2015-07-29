@@ -1,3 +1,11 @@
+.council-map {
+  img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
 .council-finder {
   .block-grid {
     list-style: none;
@@ -32,7 +40,8 @@
         float: left;
         margin: rem-calc(0 4 0 0);
         @media #{$small-only} {
-          width: 93%;
+          min-width: 30%;
+          //width: 93%;
         }
       }
       .button.tiny {
