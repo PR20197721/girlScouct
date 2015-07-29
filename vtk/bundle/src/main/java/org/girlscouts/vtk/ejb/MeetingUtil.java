@@ -918,7 +918,7 @@ public class MeetingUtil {
 			else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
 				meetingCount = troop.getYearPlan().getMeetingCanceled()
 						.indexOf(_comp) + 1;
-			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());
+			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());	
 			meeting.setMeetingInfo(meetingInfo);
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
 			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo

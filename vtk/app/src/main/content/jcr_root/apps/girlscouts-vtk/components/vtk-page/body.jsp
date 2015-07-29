@@ -109,4 +109,28 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 		  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script>
+		  
+		  
+		  <script>
+(function(i,s,o,g,r,a,m){
+    i['GoogleAnalyticsObject']=r;
+    i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
+    a=s.createElement(o),m=s.getElementsByTagName(o)[0];
+    a.async=1;
+    a.src=g;
+    m.parentNode.insertBefore(a,m)})
+    (window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
+</script>
+
+
+<% 
+
+String thisFooterScript = (String)request.getAttribute("footerScript") ;
+if (thisFooterScript!= null) {
+    out.println(thisFooterScript);
+}else{
+    out.println("");
+}
+%>
 	</body>
