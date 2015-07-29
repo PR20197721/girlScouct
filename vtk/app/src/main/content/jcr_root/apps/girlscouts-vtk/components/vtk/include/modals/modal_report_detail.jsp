@@ -3,7 +3,7 @@
 <cq:defineObjects/>
 <%@include file="../../include/session.jsp"%>
 <%
-String troopId= request.getParameter("tid"); //"701G0000000uQzTIAU";
+String troopId= request.getParameter("tid"); 
 String councilCode = request.getParameter("cid"); 
 
 Troop _troop = troopUtil.getTroop(user, councilCode, troopId);
@@ -21,7 +21,23 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
   </div>
   <div class="scroll">
     <div class="content">
-     <h4 id="troopName">[ Troop Leader Name goes here]</h4>
+     <h4 id="troopName">
+     
+     <%
+        
+        java.util.List<Contact> leaders = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getTroopLeaderInfo(user.getApiConfig(), troop.getTroop().getTroopId());
+        if( leaders!=null ){
+            for( int i=0;i<leaders.size();i++){
+                   Contact leader = leaders.get(i);
+                   if( leader==null ) continue;
+                   %>
+                      <br/><%=leader.getFirstName() %> <%=leader.getLastName() %>
+                   <% 
+            }
+        }
+        %>
+        
+     </h4>
      <h4 id="distinctGirl"> Girls Enrolled</h4>
      <div class="row bg">
         <div class="column large-12">

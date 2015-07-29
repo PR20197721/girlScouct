@@ -1,4 +1,10 @@
-<%@page	import="java.text.SimpleDateFormat, org.apache.commons.lang3.time.FastDateFormat, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil, org.apache.commons.lang3.time.FastDateFormat"%>
+<%@page	import="java.text.SimpleDateFormat,
+                org.apache.commons.lang3.time.FastDateFormat,
+                org.girlscouts.vtk.models.Troop,
+                org.girlscouts.vtk.auth.permission.*,
+                org.girlscouts.vtk.utils.VtkUtil,
+                org.apache.commons.lang3.time.FastDateFormat,
+                org.apache.sling.runmode.RunMode"%>
 <%!
 
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
@@ -17,17 +23,17 @@
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
 
-	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
-	String SHOW_FINANCE_FEATURE = "showFinance"; 
-	String SHOW_PARENT_FEATURE = "showParent";
-	String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
-	String SHOW_PERMISSION_FEATURE = "showPermission";
+	//String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	//String SHOW_FINANCE_FEATURE = "showFinance"; 
+	//String SHOW_PARENT_FEATURE = "showParent";
+	//String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE, SHOW_ADMIN_FEATURE, SHOW_PERMISSION_FEATURE};
+	String[] ENABLED_FEATURES = new String[] {};//SHOW_BETA_FEATURE};
 
 %>
-<%
+<% 
+
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -39,6 +45,9 @@
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
 	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
+	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
+	
+	
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
@@ -93,15 +102,15 @@
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
-%>
-<div id="panelWrapper" class="row meeting-detail content">
-    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
-        <br/><br/>Stay tuned! 
-
-    </p>
-</div>
-        <% 
+			%>
+			<div id="panelWrapper" class="row meeting-detail content">
+			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+			        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
+			        <br/><br/>Stay tuned! 
+			    </p>
+			</div>
+			
+			<%
 return;
 	}
 
@@ -114,6 +123,20 @@ return;
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
+	
+	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
+	     troop.getTroop().getPermissionTokens().add( new Integer(400) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(303) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(601) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(401) );
+	     troop.getTroop().getPermissionTokens().add( new Integer(402) );
+	} else if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("false")){
+		troop.getTroop().getPermissionTokens().remove( 400 );
+		troop.getTroop().getPermissionTokens().remove( 303 );
+		troop.getTroop().getPermissionTokens().remove( 601 );
+		troop.getTroop().getPermissionTokens().remove( 401 );
+		troop.getTroop().getPermissionTokens().remove( 402 );
+	}
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
@@ -170,7 +193,16 @@ return;
 		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
 		   
 		   
-		   
+		} catch (org.girlscouts.vtk.utils.VtkException ec ){
+			%>
+            <div id="panelWrapper" class="row meeting-detail content">
+              <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+                 <%=ec.getMessage() %> 
+                 <br/>Please notify Girlscouts VTK support
+              </p>
+          </div>
+            <%
+            return;
 		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
@@ -178,10 +210,27 @@ return;
 		
 		
 		if (troop == null) {
+			
+		  try{
 			troop = troopUtil.createTroop(user, 
 					"" + prefTroop.getCouncilCode(),
 					prefTroop.getTroopId());
-		}
+		  }catch(org.girlscouts.vtk.utils.VtkException e){
+			  %>
+			  
+			  <div id="panelWrapper" class="row meeting-detail content">
+			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+			       <%=e.getMessage() %> 
+			       <br/>Please notify Girlscouts VTK support
+			    </p>
+			</div>
+<%
+			           
+			  e.printStackTrace();
+			  return;
+			  }
+		  }
+		
 		
 		
 		
@@ -239,36 +288,22 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 <%
 		troop.setRefresh(true);
 	}
-//	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
-	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_PERMISSION_FEATURE)) {
-%>
-<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
-	<div class="small-18 medium-18 large-18 columns">
-		<select name="chngPermis">
-			<option value="<%=PermissionConstants.GROUP_LEADER%>">
-				Leader-
-				<%=PermissionConstants.GROUP_LEADER%></option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_2G%>">GROUP_MEMBER_2G_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_1G%>">GROUP_MEMBER_1G_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_NO_TROOP%>">GROUP_MEMBER_NO_TROOP_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_MEMBER_TROOP%>">GROUP_MEMBER_TROOP_PERMISSIONS</option>
-			<option value="<%=PermissionConstants.GROUP_GUEST%>">GROUP_GUEST_PERMISSIONS</option>
-		</select>
-	</div>
-	<div class="small-6 medium-6 large-6 columns">
-		<input type="submit" value="Change my permission" class="button" />
-	</div>
-</form>
-<%
-	}
+
 if( false ){//troop!=null && troop.getYearPlan()!=null){
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);
 }
 
-/*
-    String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('sessionjsp');</script>";
+RunMode runModeService = sling.getService(RunMode.class);
+String apps[] = new String[1];
+apps[0]="prod";
+if( runModeService.isActive(apps) ){ 
+    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
-*/
+}else{
+	String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
+    request.setAttribute("footerScript", footerScript);
+}
+
 
 %>

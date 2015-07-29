@@ -15,6 +15,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -111,7 +112,7 @@ public class CalendarUtil {
 
 	public boolean updateSched(User user, Troop troop, String meetingPath,
 			String time, String date, String ap, String isCancelledMeeting,
-			long currDate) throws java.lang.IllegalAccessException {
+			long currDate) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -152,7 +153,7 @@ public class CalendarUtil {
 	}
 
 	public void resetCal(User user, Troop troop)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		troop.getYearPlan().setSchedule(null);
 		troopUtil.updateTroop(user, troop);
 	}
@@ -270,7 +271,7 @@ public class CalendarUtil {
 
 	public void createSched(User user, Troop troop, String freq,
 			org.joda.time.DateTime newStartDate, String exclDate,
-			long oldFromDate) throws java.lang.IllegalAccessException {
+			long oldFromDate) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -384,57 +385,37 @@ public class CalendarUtil {
 		}
 	}
 	
+	
 	public boolean isEventPastGSYear(User user, Troop troop){
-
 		if( troop.getYearPlan()==null || troop.getYearPlan().getSchedule()==null ) return true;
-
 		boolean isPast=false;
-
 		Cal cal = troop.getYearPlan().getSchedule();
-
-
+		
 		java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(cal.getDates());
-
-
+		
 		//sort here -sched 
-
 		Collections.sort(sched);
-
-
+		
 		String freq=  troop.getYearPlan().getCalFreq();
-
 		long lastDate = sched.get(sched.size()-1).getTime();
-
 		java.util.List<String> exclDates = VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() );
-
 		long nextDate= getNextDate( exclDates, lastDate,  freq, false );
-
 		java.util.Calendar nextDateCal =  java.util.Calendar.getInstance();
-
 		nextDateCal.setTimeInMillis(sched.get(0).getTime());
-
-
+		
 		java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
-
 		cutOffDate.setTime( sched.get(0));
-
 		if( nextDateCal.get(java.util.Calendar.MONTH) > 6 )
-
-		cutOffDate.add(java.util.Calendar.YEAR, 1);
-
+			cutOffDate.add(java.util.Calendar.YEAR, 1);
 		cutOffDate.set(java.util.Calendar.MONTH, java.util.Calendar.JULY);
-
 		cutOffDate.set(java.util.Calendar.DATE, 31);
-
-
-
+		
+		
 		if( nextDate<= cutOffDate.getTime().getTime() )
-
-		return true;
-
-
+			return true;
+		
 		return isPast;
-
-
-		}
+		
+	}
+	
 }

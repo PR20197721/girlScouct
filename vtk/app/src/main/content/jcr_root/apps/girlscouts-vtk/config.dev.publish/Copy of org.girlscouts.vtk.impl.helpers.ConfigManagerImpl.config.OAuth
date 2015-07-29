@@ -1,0 +1,10 @@
+clientId="3MVG9ahGHqp.k2_yeQBSRKEBsGKwi_TIwToZDaVY6RREWcUeCKibwlrW1k5gkVA3jfiAdajx9zHj1hP6cnMN6"
+defaultBranch="gateway"
+clientSecret="3944945217021734461"
+OAuthUrl="https://gsuat-gsmembers.cs17.force.com/members"
+helloUrl="https://girlscouts-dev2.adobecqms.net/content/girlscouts-vtk/controllers/hello.hello.js"
+councilMapping=["313::gateway","597::gsnetx","388::girlscoutcsa","367::girlscoutsnccp","465::gssem","320::gswcf","234::gsneo","661::gssn","664::girlscoutsosw","240::gswo","465::gssem","607::girlscoutsaz","536::kansasgirlscouts","563::gswestok","564::gseok","512::girlscoutsofcolorado","591::gssjc","131::gscsnj","636::gsnorcal","212::gskentucky","623::sdgirlscouts","263::gswpa","467::gsbadgerland","116::gscwm","622::girlscoutsoc","660::girlscoutsnv","514::girlscoutstoday","524::girlscoutsiowa","430::girlscoutsgcnwi"]
+targetUrl="https://girlscouts-dev2.adobecqms.net/content/girlscouts-vtk/en/vtk.home.html"
+callbackUrl="https://girlscouts-dev2.adobecqms.net/content/girlscouts-vtk/controllers/auth.sfauth.html"
+communityUrl="https://gsuat-gsmembers.cs17.force.com/members"
+gsNewYear="0801"

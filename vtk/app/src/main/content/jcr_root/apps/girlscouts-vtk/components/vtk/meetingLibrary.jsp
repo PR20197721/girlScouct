@@ -81,7 +81,8 @@
   <script>
   function cngMeeting(mPath){
   	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
-        <%
+  		vtkTrackerPushAction('<%=meetingPath ==null ? "AddMeeting" : "ReplaceMeeting" %>');
+  		<%
         	if( request.getParameter("xx") ==null ){
         %>
       		document.location="/content/girlscouts-vtk/en/vtk.plan.html";
