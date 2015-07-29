@@ -140,6 +140,7 @@
                              keys.map( function (comment ,i ) {
 
                               if( obj[comment].type == 'MEETINGCANCELED' ){
+                            	  
                                      return (
 
 
@@ -164,6 +165,8 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
+                            	 console.log("**** "+comment);
+                            	 console.log(obj[comment]);
                                         return (
 
 
