@@ -107,12 +107,11 @@
 			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
 			        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
 			        <br/><br/>Stay tuned! 
-			
 			    </p>
 			</div>
 			
 			<%
-		return;
+return;
 	}
 
 	

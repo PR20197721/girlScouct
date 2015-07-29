@@ -880,7 +880,7 @@ td.fc-header-left {
   position:relative;
 }
 #header a.link-login:after {
-  border: solid 5px;
+  border: solid 0px;
   content: "";
   border-color: transparent transparent transparent #fff;
   position: absolute;
