@@ -77,7 +77,9 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 		String url = "/councilfinder/ajax_results.asp?code=" + code;
 		%>
 		<script type="text/javascript">
-		$.get("<%= url %>",display);
+		$(document).ready(function() {
+			$.get("<%= url %>",display);
+		});
 		</script>
 		<%
 	}

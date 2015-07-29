@@ -15,22 +15,24 @@ else{
 		var completeAndRedirectInvest = function(data){
 			<% if(WCMMode.fromRequest(request) != WCMMode.EDIT){ %>
 			var toPost = $('.invest-zip').serialize();
-			$.ajax({
-				method: "POST",
-				url: '/invest/ajax_CouncilFinder.asp',
-				data: toPost,
-				async: false,
-				success: function(resp){
-					if(resp == null || resp == ""){
-						alert("The council you have searched for does not exist");
+			$(document).ready(function() {
+				$.ajax({
+					method: "POST",
+					url: '/invest/ajax_CouncilFinder.asp',
+					data: toPost,
+					async: false,
+					success: function(resp){
+						if(resp == null || resp == ""){
+							alert("The council you have searched for does not exist");
+						}
+						else{
+							//console.log(resp);
+							var url = resp.split(',',3);
+							//console.log(url[2]);
+							window.open(url[2],'_blank');
+						}
 					}
-					else{
-						//console.log(resp);
-						var url = resp.split(',',3);
-						//console.log(url[2]);
-						window.open(url[2],'_blank');
-					}
-				}
+				});
 			});
 			<% }else{ %>
 			alert("This tool can only be used on a live page");

@@ -48,35 +48,37 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				</form>
 			</li>
 			<script type="text/javascript">
-			$.get("/councilfinder/ajax_results.asp?short=yes", function(data){
-				var request = "";
-		  		<%
-		  		if(slingRequest.getParameter("council-code") != null){
-		  			%> request = <%= slingRequest.getParameter("council-code") %> <%
-		  		}
-		  		%>
-				var json = JSON.parse(data);
-				var codeSearch = $(".councilCodeSearch");
-				var appendStr = "<h6>By Council Name:</h6>"+
-						"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
-						"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
-				for(var i=0; i < json.councils.length; i++) {
-					var option = "<option ";
-					if(request == json.councils[i].councilCode){
-						option = "<option selected=\"selected\" ";
+			$(document).ready(function() {
+				$.get("/councilfinder/ajax_results.asp?short=yes", function(data){
+					var request = "";
+					<%
+					if(slingRequest.getParameter("council-code") != null){
+						%> request = <%= slingRequest.getParameter("council-code") %> <%
 					}
-					appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode +
-							"\">" + json.councils[i].councilShortName + "</option>";
-				}
-				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
-				codeSearch.append(appendStr);
-			}).fail(function() {
-				var codeSearch = $(".councilCodeSearch");
-				var appendStr = "<h6>By Council Name:</h6>"+
-				"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
-				"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
-				appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
-				codeSearch.append(appendStr);
+					%>
+					var json = JSON.parse(data);
+					var codeSearch = $(".councilCodeSearch");
+					var appendStr = "<h6>By Council Name:</h6>"+
+							"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
+							"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
+					for(var i=0; i < json.councils.length; i++) {
+						var option = "<option ";
+						if(request == json.councils[i].councilCode){
+							option = "<option selected=\"selected\" ";
+						}
+						appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode +
+								"\">" + json.councils[i].councilShortName + "</option>";
+					}
+					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
+					codeSearch.append(appendStr);
+				}).fail(function() {
+					var codeSearch = $(".councilCodeSearch");
+					var appendStr = "<h6>By Council Name:</h6>"+
+					"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
+					"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
+					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
+					codeSearch.append(appendStr);
+				});
 			});
 			</script>
 		<% } %>

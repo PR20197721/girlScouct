@@ -59,9 +59,24 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
     %>
     <a class="facebook-icon" onclick="postToFeed(); return false;" />
  
-    <script src='http://connect.facebook.net/en_US/all.js'></script>
     <script type="text/javascript"> 
-      FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
+
+	$(document).ready(function() {
+		var scriptTag = document.createElement("script");
+		scriptTag.type = "text/javascript"
+		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.async = true;
+		document.getElementsByTagName(“head”)[0].appendChild(scriptTag);
+
+		scriptTag.onload=initFB;
+		scriptTag.onreadystatechange = function () {                
+                  alert("yo");
+		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
+		}
+	});
+	function initFB() {
+		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
+	}
  
       function postToFeed() {
  
