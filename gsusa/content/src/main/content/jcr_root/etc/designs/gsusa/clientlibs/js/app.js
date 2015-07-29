@@ -48,6 +48,7 @@
           $('.position').css('z-index', '-1');
           $('.join').removeClass('change');
           $('.main-slider').slick('slickPlay');
+          pauseAllCarouselVideos();
         });
       }
       if (target.closest('.final-comp').length === 0
@@ -485,6 +486,20 @@
     }
   }
 
+  function pauseAllCarouselVideos() {
+    for (i=0; i < 4; i ++) {
+	  if (document.getElementById("vimeoPlayer" + i)) {
+		$f(document.getElementById("vimeoPlayer" + i)).api('pause');
+	  }
+	  if (document.getElementById("youtubePlayer" + i )) {
+		document.getElementById("youtubePlayer" + i ).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+	  }
+	  if ($(document.getElementsByClassName("vid" + i)).find("video").length > 0) {
+		$(document.getElementsByClassName("vid" + i)).find("video")[0].pause();
+	  }
+	}
+  }
+ 
   $(window).resize(function () {
     small_screens();
   });
@@ -527,6 +542,10 @@
     };
     window.onresize = this.resize;
   }
+
+  $('.slide-4').on('afterChange', function(event, slick, currentSlide){
+    pauseAllCarouselVideos();
+  });
 
   if (document.getElementById('council-map') && document.getElementById('council-map-img')){
     var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
