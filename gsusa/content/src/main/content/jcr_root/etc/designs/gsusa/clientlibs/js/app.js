@@ -168,7 +168,7 @@
         } else {
           // searchSlider.button.focus();
           searchjoin.button.removeClass('on');
-          
+
         }
       });
     });
@@ -377,7 +377,7 @@
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML');
         },
       });
-      
+
       $('.inner-sliders .slide-4').slick({
         dots: true,
         fade: true,
@@ -474,7 +474,7 @@
   }
 
   function small_screens() {
-    if ($(window).width() < 768) {
+    if ($(window).width() < 769) {
       $('.overlay').hide();
       $(".hero-text .button").hide();
       // $('.inner-sliders').css({
@@ -499,7 +499,7 @@
 	  }
 	}
   }
- 
+
   $(window).resize(function () {
     small_screens();
   });
@@ -510,10 +510,10 @@
     this_form.removeClass('hide');
     if (this_form.find('input[name="ZipJoin"]').length > 0) {
     	this_form.find('input[name="ZipJoin"]').focus();
-    } 
+    }
     if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
     	this_form.find('input[name="ZipVolunteer"]').focus();
-    }  
+    }
   });
 
   var ImageMap = function (map, img) {
