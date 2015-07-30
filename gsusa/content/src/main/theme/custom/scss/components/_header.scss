@@ -21,6 +21,8 @@
     @media #{$small-only} {
       margin: 0 auto;
       float: none;
+      width: 100%;
+      text-align: center;
     }
   }
   .utility {
