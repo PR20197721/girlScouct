@@ -16,6 +16,10 @@
 	String btnText = properties.get("buttonText", "");
 	String btnLink = properties.get("buttonLink", "#");
 	int featureIndex = 60 + (Integer) request.getAttribute("index");
+	String text = properties.get("text", "");
+	if(text.length() > 350){
+		text = text.substring(0,350) + "...";
+	}
 
 	String description = properties.get("description", "");
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT && description.isEmpty()) {
@@ -59,7 +63,7 @@
 			<div class="left-wrapper">
 				<span class="<%= icon %>"></span>
 				<h3><%= title %></h3>
-				<cq:text property="text" escapeXml="true" placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+				<%= text %>
 			</div>
 			<span class="icon-cross"></span>
 		</div>
@@ -80,7 +84,7 @@
 				<span class="<%= icon %>"></span>
 				<h3><%= title %></h3>
 				<div class="text">
-					<cq:text property="text" escapeXml="true" placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+					<%= text %>
 				</div>
 				<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
 			</div>
