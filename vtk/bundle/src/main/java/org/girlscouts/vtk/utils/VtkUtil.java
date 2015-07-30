@@ -279,7 +279,6 @@ public static int getCurrentGSYear(){
 		return now.get(java.util.Calendar.YEAR) -1;	
 }
 
-
 /*GS Year starts Aug 1 */
 public static int getCurrentGSMonth(){
 	String _gsNewYear = gsNewYear;
@@ -293,7 +292,8 @@ public static int getCurrentGSDate(){
 	return  Integer.parseInt( _gsNewYear.substring(2) );
 }
 
-
-
+public static String getNewGSYearDateString() {
+    return gsNewYear;
+}
 
 }//end class
