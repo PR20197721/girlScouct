@@ -430,8 +430,14 @@ function viewProposedSched( calStartDt, calAP, z, calTime, _level, orgDt){
 			//console.log( $.trim(result) );
 			//proposedSchedConfirm($.trim(result));
 
-			 toRet= confirm("One or more of the meetings fall outside of the troop year. Changing meeting frequency will result in "+ $.trim(result)+" schedule meetings. Are you sure you would like to continue");
+			if( $.trim(result)<=0)
+	 		{alert('All of the scheduled meetings fall outside of the current troop year.  Please change the meeting date and/or frequency and try again.');return;}
+			
+//			 toRet= confirm("One or more of the meetings fall outside of the troop year. Changing meeting frequency will result in "+ $.trim(result)+" schedule meetings. Are you sure you would like to continue");
+			 toRet= confirm("This meeting selection will result in "+ $.trim(result)+" scheduled meetings. Are you sure you would like to continue?");
 			 //console.log(toRet);
+			 	
+			 
 				if( toRet ){
 					buildSchedContr(calStartDt, calAP, z, calTime, _level, orgDt);
 				}
