@@ -8,7 +8,6 @@
     List<String> mediumLabels = new ArrayList<String>();
     List<String> smallLabels = new ArrayList<String>();
     List<String> links = new ArrayList<String>();
-    Page cPage = currentPage;
     
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
@@ -40,8 +39,12 @@
             }
 
             if (!label.isEmpty()) {
+            	if (activeClass.equals("")) { %>
+                    <li>
+            	<% } else {%>
+                    <li class="<%=activeClass%>">
+            	<%}
 %>
-               <li class="<%=activeClass%>">
                    <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
                    <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
               </li>
