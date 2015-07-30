@@ -1,6 +1,9 @@
-div.featured-stories {
-  @include grid-column(24);
-}
+//The following 3 lines will be removed temporarily because if these lines are added, 
+//anything added to the homepage parsys will be overlayed with the feature stories. 
+
+//div.featured-stories {
+//  @include grid-column(24);
+//}
 .featured-stories {
   margin: 0;
   position: relative;
