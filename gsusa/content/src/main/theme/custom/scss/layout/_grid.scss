@@ -1,3 +1,6 @@
+.row {
+  background: $white;
+}
 .right-col,
 .left-col {
     @include grid-column(24);

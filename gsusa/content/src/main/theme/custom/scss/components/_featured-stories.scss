@@ -1,3 +1,6 @@
+div.featured-stories {
+  @include grid-column(24);
+}
 .featured-stories {
   margin: 0;
   position: relative;
