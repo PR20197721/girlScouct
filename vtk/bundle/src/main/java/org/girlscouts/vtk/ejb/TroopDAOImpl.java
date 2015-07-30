@@ -947,8 +947,8 @@ public class TroopDAOImpl implements TroopDAO {
 				
 				//if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
 				if(  mySession.itemExists(troop.getPath() + "/yearPlan") ){
-				  //JcrUtils.getOrCreateByPath(troop.getPath()+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
-					ocm.insert( new JcrNode(troop.getPath() + "/yearPlan/meetingEvents") );
+				  JcrUtils.getOrCreateByPath(troop.getPath()+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+					//ocm.insert( new JcrNode(troop.getPath() + "/yearPlan/meetingEvents") );
 					
 					/*
 					Node root = mySession.getRootNode(); 
