@@ -108,6 +108,12 @@
                     	itemId="quotee"
                     	fieldLabel="Quotee (who said the quote)"
                     	xtype="textfield"/>
+                    <icons
+                    	jcr:primaryType="cq:Widget"
+                    	name="./icons"
+                    	fieldLabel="Display Social Icons"
+                    	xtype="selection"
+                    	type="checkbox"/>
                     <style
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Style"
