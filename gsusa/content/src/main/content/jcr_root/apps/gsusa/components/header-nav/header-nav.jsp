@@ -24,6 +24,7 @@
 		    String link = split.length >= 2 ? split[1] : "";
 		    String mediumLabel = split.length >= 4 ? split[3] : label;
 		    int headerNavTabindex = 40 + i;
+		    String activeClass = "";
 		    
 		    mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
@@ -32,9 +33,18 @@
             if (linkPage != null && !link.contains(".html")) {
                 link += ".html";
             }
+            
+            if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
+            	activeClass = "active";
+            }
+
             if (!label.isEmpty()) {
+            	if (activeClass.equals("")) { %>
+                    <li>
+            	<% } else {%>
+                    <li class="<%=activeClass%>">
+            	<%}
 %>
-               <li>
                    <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
                    <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
               </li>
