@@ -744,7 +744,10 @@ public class TroopDAOImpl implements TroopDAO {
 			throws RepositoryException {
 		Node rootNode = session.getRootNode();
 		String[] pathElements = path.split("/");
-		Node currentNode = rootNode.getNode("vtk");
+		
+		String vtkBase = VtkUtil.getYearPlanBase(null, null);
+		vtkBase= vtkBase.replaceAll("/","");	
+		Node currentNode = rootNode.getNode(vtkBase);//"vtk");
 		for (int i = 1; i < pathElements.length; i++) {
 			if (!pathElements[i].equals("")) {
 				if (currentNode.hasNode(pathElements[i])) {
