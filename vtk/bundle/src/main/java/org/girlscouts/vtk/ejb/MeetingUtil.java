@@ -1400,4 +1400,13 @@ public class MeetingUtil {
 		}
 	}
 
+	public MeetingE getMeetingE( User user, Troop troop, String meetingEpath) throws IllegalAccessException, VtkException{
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+
+
+		return meetingDAO.getMeetingE(user, meetingEpath);
+	}
 }// edn class

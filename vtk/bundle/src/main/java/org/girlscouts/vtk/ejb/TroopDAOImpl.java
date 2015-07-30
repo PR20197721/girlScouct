@@ -876,16 +876,17 @@ public class TroopDAOImpl implements TroopDAO {
 				}
 				
 				//check meeting
-				if( meetingDAO.getMeeting(user, asset.getPath().substring(0,
-						asset.getPath().lastIndexOf("/") ) ) ==null){
+				if( meetingDAO.getMeetingE(user, asset.getPath().substring(0,
+						asset.getPath().lastIndexOf("/") ).replace("/assets", "") ) ==null){
 					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
 				}
 				
 				
-				if( !mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/"))))
+				if( !mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))){
 				   JcrUtils.getOrCreateByPath(
 						asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),
 						"nt:unstructured", mySession);
+				}
 				
 
 			}
@@ -911,8 +912,7 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public boolean modifyMeeting(User user, Troop troop, MeetingE meeting)
-			throws java.lang.IllegalAccessException,
-			java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException {
 
 		if (!meeting.isDbUpdate())
 			return true;
@@ -944,10 +944,20 @@ public class TroopDAOImpl implements TroopDAO {
 					throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
 				}
 				
-				if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents"))
-				  JcrUtils.getOrCreateByPath(troop.getPath()
-						+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+				//if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
+				if(  mySession.itemExists(troop.getPath() + "/yearPlan") ){
+				  //JcrUtils.getOrCreateByPath(troop.getPath()+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+					ocm.insert( new JcrNode(troop.getPath() + "/yearPlan/meetingEvents") );
 					
+					/*
+					Node root = mySession.getRootNode(); 
+					Node node = root.getNode(troop.getPath() + "/yearPlan/meetingEvents"); 
+					if( node==null )
+						throw new VtkException("Found no parent node "+troop.getPath() + "/yearPlan/meetingEvents  while creating Meeting");
+					Node newNode = node.addNode("meetingEvents");
+					mySession.save();
+					*/
+				}
 										
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
@@ -957,6 +967,7 @@ public class TroopDAOImpl implements TroopDAO {
 			else
 				ocm.update(meeting);
 			ocm.save();
+			
 			isUpdated = true;
 		} catch (Exception e) {
 			e.printStackTrace();

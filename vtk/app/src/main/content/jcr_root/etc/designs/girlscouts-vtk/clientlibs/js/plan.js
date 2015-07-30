@@ -836,9 +836,11 @@ function councilRpt(troopId, cid){
 	}
 
 	function vtkTrackerPushAction(vAction){
+		$( document ).ready(function() {
 			ga('vtkTracker.send', 'pageview', {
 				dimension4: vAction
 				});
+		});
 	  
 		
 	}

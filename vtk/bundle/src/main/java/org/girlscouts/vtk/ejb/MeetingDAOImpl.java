@@ -180,16 +180,22 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
+System.err.println("ttt1 "+ path);			
 			meeting = (Meeting) ocm.getObject(path);
-			
+			System.err.println("ttt12 "+ path);			
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
+				System.err.println("ttt3");
 				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
-				if(globalMeetingInfo!=null)
+				System.err.println("ttt4");	
+				if(globalMeetingInfo!=null){
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
+					System.err.println("ttt5");
+				}
 			}
 			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
 			
@@ -1679,7 +1685,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += sqlTags;
 			sql += sqlCat;
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
+					.getQueryManager();		
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);		
 			int i = 0;
@@ -2113,4 +2119,46 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return false;
 	}
 
+	public MeetingE getMeetingE(User user, String path)
+			throws IllegalAccessException, VtkException {
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+		
+		MeetingE meetingE = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Meeting.class);
+			classes.add(Activity.class);
+			classes.add(MeetingE.class);
+			classes.add(Achievement.class);
+			classes.add(Asset.class);
+			classes.add(Attendance.class);
+			classes.add(JcrCollectionHoldString.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			
+			meetingE = (MeetingE) ocm.getObject(path);
+			
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return meetingE;
+	}
 }// edn class
