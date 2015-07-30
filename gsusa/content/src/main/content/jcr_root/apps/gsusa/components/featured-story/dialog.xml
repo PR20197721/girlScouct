@@ -72,7 +72,7 @@
                     </theme>
                     <text
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Content for applicable tiles"
+                        fieldLabel="Content for applicable tiles (limit 350 chars)"
                         name="./text"
                         xtype="richtext">
                         <rtePlugins jcr:primaryType="nt:unstructured">

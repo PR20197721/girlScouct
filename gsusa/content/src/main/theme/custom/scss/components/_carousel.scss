@@ -198,11 +198,11 @@ div.carousel {
       position: absolute;
     }
     background-color: rgba(235,232,231, .8);
-    padding: rem-calc(30 0 24 0);
+    padding: 3% 0 2% 0;
     text-align: center;
     bottom: 0;
     width: 100%;
-    height: rem-calc(90);
+   // height: rem-calc(90);
     &.change {
       z-index: 200;
       height : rem-calc(60);
@@ -252,11 +252,6 @@ div.carousel {
       }
       button {
         margin: 0;
-      }
-      form {
-        @media #{$small-only} {
-          margin-top: -15px;
-        }
       }
     }
   }
