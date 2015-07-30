@@ -32,9 +32,16 @@
             if (linkPage != null && !link.contains(".html")) {
                 link += ".html";
             }
+		    String activeClass = "";
+		    //either the link page is a direct match
+		    //or the current page is a child of the link page
+            if (currentPage.getPath().equals(linkPage.getPath()) || linkPage.hasChild(currentPage.getName())) {
+            	activeClass = "active";
+            }
+
             if (!label.isEmpty()) {
 %>
-               <li>
+               <li class="<%=activeClass%>">
                    <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
                    <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
               </li>
