@@ -25,7 +25,7 @@
 		    String link = split.length >= 2 ? split[1] : "";
 		    String mediumLabel = split.length >= 4 ? split[3] : label;
 		    int headerNavTabindex = 40 + i;
-		    cPage = currentPage;
+		    String activeClass = "";
 		    
 		    mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
@@ -34,18 +34,10 @@
             if (linkPage != null && !link.contains(".html")) {
                 link += ".html";
             }
-		    String activeClass = "";
-		    while (!linkPage.hasChild(cPage.getName())) {
-		    	cPage = cPage.getParent();
-		    	if (cPage == null) {
-		    		break;
-		    	} 
-		    }
-		    if (cPage != null) {
-	            if (cPage.getPath().equals(linkPage.getPath()) || linkPage.hasChild(cPage.getName())) {
-	            	activeClass = "active";
-	            }
-		    }
+            
+            if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
+            	activeClass = "active";
+            }
 
             if (!label.isEmpty()) {
 %>
