@@ -82,12 +82,13 @@
     input[type="text"] {
       width: rem-calc(140);
       float: left;
-      //height: rem-calc(33);
+      height: rem-calc(37);
 
     }
     input[type="submit"] {
       padding: rem-calc(8 5 7 5);
       margin-bottom: 0;
+      height: rem-calc(37);
     }
   }
 }
