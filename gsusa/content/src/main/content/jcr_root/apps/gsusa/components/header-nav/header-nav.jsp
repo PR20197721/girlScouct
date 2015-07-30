@@ -8,6 +8,7 @@
     List<String> mediumLabels = new ArrayList<String>();
     List<String> smallLabels = new ArrayList<String>();
     List<String> links = new ArrayList<String>();
+    Page cPage = currentPage;
     
     String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
@@ -24,6 +25,7 @@
 		    String link = split.length >= 2 ? split[1] : "";
 		    String mediumLabel = split.length >= 4 ? split[3] : label;
 		    int headerNavTabindex = 40 + i;
+		    cPage = currentPage;
 		    
 		    mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
@@ -33,11 +35,17 @@
                 link += ".html";
             }
 		    String activeClass = "";
-		    //either the link page is a direct match
-		    //or the current page is a child of the link page
-            if (currentPage.getPath().equals(linkPage.getPath()) || linkPage.hasChild(currentPage.getName())) {
-            	activeClass = "active";
-            }
+		    while (!linkPage.hasChild(cPage.getName())) {
+		    	cPage = cPage.getParent();
+		    	if (cPage == null) {
+		    		break;
+		    	} 
+		    }
+		    if (cPage != null) {
+	            if (cPage.getPath().equals(linkPage.getPath()) || linkPage.hasChild(cPage.getName())) {
+	            	activeClass = "active";
+	            }
+		    }
 
             if (!label.isEmpty()) {
 %>
