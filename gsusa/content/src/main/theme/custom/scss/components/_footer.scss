@@ -60,6 +60,7 @@ footer {
       li {
         float: none;
         display: inline-block;
+        margin-left: rem-calc(10);
         &:first-child {
           margin-left: 0;
         }

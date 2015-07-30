@@ -75,11 +75,11 @@
 				tmpDiv.innerHTML = contentData;
 				var shortDescription = (tmpDiv.textContent || tmpDiv.innerText || "").trim();
 				var dateline = new Date(posts[k].published);
-				var DESCRIPTION_LENGTH = 200;
+				var DESCRIPTION_LENGTH = 500;
 				if (shortDescription.length > DESCRIPTION_LENGTH) {
 					shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
 				}
-				output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p>' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
+				output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a class="title" href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p class="short-desc">' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
 			}
 			output += "</ul>";
 			blogFeedArea.html(output);

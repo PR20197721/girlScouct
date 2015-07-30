@@ -3,10 +3,10 @@
     if( troopId ==null || troopId.trim().equals("") ) { %>
       <span class="error">Warning: no troop is specified.</span>
     <% return; }
-     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
+     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
 
      boolean isImgExists= false;
-     Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png");
+     Resource res = resourceResolver.resolve("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png");
      if (res != null && !res.getResourceType().equals("sling:nonexisting")){
          isImgExists=true;
      }

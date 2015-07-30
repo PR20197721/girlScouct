@@ -56,6 +56,8 @@
 	String eventsLink = properties.get("urltolink", "") + ".html";
 	String featureTitle = properties.get("featuretitle","UPCOMING EVENTS");
 	int daysofevents = Integer.parseInt(properties.get("daysofevents","0"));
+	//filtered by start or end date of the events. by cwu
+	String filterProp = properties.get("filter", "end");
 	Date startDate = null;
 	String href = "";
 	String title = "";
@@ -82,24 +84,27 @@
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
 
-                                            //Check for featured events excluded by date added by Igor Kaplunov
+                      //Check for featured events excluded by date 
+                     if (propNode.hasProperty(filterProp)){
+							cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
+                     }else {
+                    	 cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+                     }
+										Date eventStartDate = cale.getTime();
 
-											cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-											Date eventStartDate = cale.getTime();
+                      if(eventStartDate.after(currentDate)){
 
-                                            if(eventStartDate.after(currentDate)){
+                          title = propNode.getProperty("../jcr:title").getString();
 
-                                                title = propNode.getProperty("../jcr:title").getString();
-    
-                                                request.setAttribute("propNode", propNode);
-                                                request.setAttribute("node", node);
-                                                request.setAttribute("href", href);
-                                                request.setAttribute("title", title);
-                                                %>
-                                                    <cq:include script="event-render.jsp" />
-                                                <%
-                                                    eventsRendered++;
-                                            }
+                          request.setAttribute("propNode", propNode);
+                          request.setAttribute("node", node);
+                          request.setAttribute("href", href);
+                          request.setAttribute("title", title);
+                          %>
+                              <cq:include script="event-render.jsp" />
+                          <%
+                              eventsRendered++;
+                      }
 										}
 									} catch (Exception e) {}
 								}
@@ -108,38 +113,31 @@
 
 						%>
 						<%
-							//Here we need to handle 2 thing if the daysofevents is not provided we
-							// need to look for the event who ending date is great then TODAYS date, if end date is there, else start >= todays date.
-							// if daysofevents is provided then we have to look for the start date such that start >= today.
+                            // need to look for the event starting/ending date is great then TODAYS date, if end date is not there, else start >= todays date.
 							int count = 0;
 							if (eventcounts > 0) {
-
-								for (String result : results) {
-									Node node = resourceResolver.getResource(result).adaptTo(Node.class);
-									Date fromdate = null;
-									if (daysofevents > 0) {
+                                if (daysofevents > 0) {
 										Calendar cal1 = Calendar.getInstance();
 										cal1.add(Calendar.DATE, daysofevents);
 										//changing today variable from the current date to the future date
 										// based on the users selection.
 										today = formatter.parse(formatter.format(cal1.getTime()));
-									}
+                                }
+								for (String result : results) {
+									Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+									Date fromdate = null;
 									try {
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
-											if (daysofevents > 0) {
-												if (propNode.hasProperty("start"))
-													cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-													fromdate = cale.getTime();
-											} else {
-												if (propNode.hasProperty("end")) {
-													cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-													fromdate = cale.getTime();
-												} else if (propNode.hasProperty("start")) {
-													cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-													fromdate = cale.getTime();
-												}
+
+											if (propNode.hasProperty(filterProp)) {
+												cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
+												fromdate = cale.getTime();
+											} else if (propNode.hasProperty("start")) {
+												cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+												fromdate = cale.getTime();
 											}
+
 											title = propNode.getProperty("../jcr:title").getString();
 											try {
 												String eventDt = formatter.format(fromdate);

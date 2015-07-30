@@ -319,7 +319,7 @@ React.createElement(ActivityPlan),
         		
         		
         		/*communication*/
-        <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
+         <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
 
 ,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
 
@@ -471,7 +471,7 @@ React.createElement(ActivityPlan),
         render: function() {
     
     		if( this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
-    					&& helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_VIEW_ATTENDANCE_ID%>')!=-1){
+    					&& helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_ATTENDANCE_ID%>')!=-1){
     			
     			var isArch = (this.props.data.type == '<%=YearPlanComponentType.MEETING%>') ? this.props.data.meetingInfo.isAchievement : "false" ;
     			var mName=this.props.data.meetingInfo.name;
@@ -801,6 +801,7 @@ React.createElement(ActivityPlan),
     dataType: 'html', 
     success: function (data) { 
     	//location.reload();
+    	vtkTrackerPushAction('MoveAgendas');
     },
     error: function (data) { 
     }
@@ -904,6 +905,8 @@ React.createElement(ActivityPlan),
   }
   
   loadNav('planView');
+  vtkTrackerPushAction('ViewMeetingDetail');
+  
       </script>
   </div>
 </div>

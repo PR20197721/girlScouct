@@ -12,7 +12,7 @@
   padding: 0;
 }
 
-div.textimage.nowrap div.text p {
+div.textimage.nowrap div.text {
   overflow: hidden;
 }
 
@@ -21,5 +21,5 @@ div.textimage.nowrap div.text p {
 }
 
 .text.parbase.section p {
-  font-size: rem-calc(16);
+  font-size: 1rem;
 }

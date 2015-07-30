@@ -10,7 +10,7 @@
 <div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
-if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
+  if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");

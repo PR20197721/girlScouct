@@ -276,20 +276,20 @@
 				out.println(yearPlanUtil.isYearPlanAltered(user, troop));
 				return;
 			case GetFinances:
-				financeUtil.getFinances(troop, Integer.parseInt(request
+				financeUtil.getFinances(user, troop, Integer.parseInt(request
 						.getParameter("finance_qtr")), user
 						.getCurrentYear());
 				return;
 			case UpdateFinances:
-				financeUtil.updateFinances(troop,
+				financeUtil.updateFinances(user, troop,
 						user.getCurrentYear(),
 						request.getParameterMap());
-				financeUtil.sendFinanceDataEmail(troop,
+				financeUtil.sendFinanceDataEmail(user, troop,
 						Integer.parseInt(request.getParameter("qtr")),
 						user.getCurrentYear());
 				return;
 			case UpdateFinanceAdmin:
-				financeUtil.updateFinanceConfiguration(troop,
+				financeUtil.updateFinanceConfiguration(user, troop,
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
@@ -807,8 +807,8 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
 					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ATTENDANCE_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ATTENDANCE_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
 					helper.setPermissions(permissions);
 					
 					
@@ -1025,7 +1025,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 				Session __session = sessionFactory.getSession();
 
-				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"
+				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
 						+ troop.getTroop().getCouncilCode()
 						+ "/"
 						+ troop.getTroop().getTroopId()
@@ -1128,7 +1128,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				}
 
                 //creates folder path if it doesn't exist yet
-                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String path = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();

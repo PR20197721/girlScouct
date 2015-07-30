@@ -52,6 +52,25 @@
                         fieldLabel="Url"
                         name="./urltolink"
                         xtype="pathfield"/>
+                    <filter
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="end"
+                        fieldDescription="Choose to filter the events by starting or ending date."
+                        fieldLabel="Filtered By"
+                        name="./filter"
+                        value="end"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <start
+                                jcr:primaryType="nt:unstructured"
+                                text="Starting Date: displays events that start after current date"
+                                value="start"/>
+                            <end
+                                jcr:primaryType="nt:unstructured"
+                                text="Ending Date: displays events that end after current date"
+                                value="end"/>
+                        </options>
+                    </filter>
                 </items>
             </tab1>
             <image
@@ -73,7 +92,7 @@
                     <days-of-events
                         jcr:primaryType="cq:Widget"
                         defaultValue="0"
-                        fieldDescription="(Number of days out events to be displays from current date.)"
+                        fieldDescription="(Number of days out events to be displayed from current date.)"
                         fieldLabel="Days out events from today"
                         imageLabel="Image"
                         name="./daysofevents"

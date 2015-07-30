@@ -220,7 +220,7 @@
 										</td>
 								   		<td><a class="previewItem" href="<%=la.getRefId() %>" target="_blank"><%= la.getTitle() %></a> </td>
 								   		<td width="40">
-								   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+								   			<% if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
 								   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
 								   			<%} %>
 								   			</td>
@@ -249,7 +249,7 @@
 							</td>
 					   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 					   		<td width="40">
-					   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+					   			<% if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
 					   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
 					   			<%} %>
 					   			</td>

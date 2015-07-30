@@ -491,6 +491,7 @@
 				       jcr:primaryType="cq:Widget"
 				       fieldLabel="Thumbnail Title 1"
 				       name="./thumbnailTitle50"
+				       maxLength="25"
 				       xtype="textfield"/>
 				   <videoPath50
 				       jcr:primaryType="cq:Widget"
@@ -627,6 +628,7 @@
 				       jcr:primaryType="cq:Widget"
 				       fieldLabel="Thumbnail Title 2"
 				       name="./thumbnailTitle51"
+				       maxLength="25"
 				       xtype="textfield"/>
 				   <videoPath51
 				       jcr:primaryType="cq:Widget"
@@ -763,6 +765,7 @@
 				       jcr:primaryType="cq:Widget"
 				       fieldLabel="Thumbnail Title 3"
 				       name="./thumbnailTitle52"
+				       maxLength="25"
 				       xtype="textfield"/>
 				   <videoPath52
 				       jcr:primaryType="cq:Widget"
@@ -899,6 +902,7 @@
 				       jcr:primaryType="cq:Widget"
 				       fieldLabel="Thumbnail Title 4"
 				       name="./thumbnailTitle53"
+				       maxLength="25"
 				       xtype="textfield"/>
 				   <videoPath53
 				       jcr:primaryType="cq:Widget"
