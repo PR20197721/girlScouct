@@ -13,6 +13,7 @@
 	com.day.cq.wcm.api.components.IncludeOptions,
 	java.util.Calendar,
 	java.util.Date,
+	java.util.regex.*,
 	java.text.DateFormat" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
@@ -29,14 +30,14 @@ public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String
 		if (!fileReference.isEmpty()) {
 			asset = rr.resolve(fileReference).adaptTo(Asset.class);
 		} else {
-		    asset = imgResource.adaptTo(Asset.class);
+			asset = imgResource.adaptTo(Asset.class);
 		}
 
 		boolean isOriginal = false;
 		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
 		if (rendition == null) {
-		    isOriginal = true;
-		    rendition = asset.getOriginal();
+			isOriginal = true;
+			rendition = asset.getOriginal();
 		}
 		
 		returnImage.append(rendition.getPath());
@@ -44,6 +45,39 @@ public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String
 		log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
 		return "";
 	}
-        return returnImage.toString();
+	return returnImage.toString();
+}
+
+public static final Pattern DIACRITICS_AND_FRIENDS = Pattern.compile("[\\p{InCombiningDiacriticalMarks}\\p{IsLm}\\p{IsSk}]+");
+public String linkifyString (String string) {
+	return linkifyString (string, -1);
+}
+public String linkifyString (String string, int maxChars) {
+	// This method takes in a string and turns it something that can be used in a link
+	// e.g. linkifyString("Every Good Boy Does Fine.") --> "every-good-boy-does-fine"
+	// e.g. linkifyString("What! Who's going to fix all the bugs?", 25) --> "what-whos-going-to-fix"
+	try {
+		Pattern pattern = Pattern.compile("[^0-9a-z_]", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(DIACRITICS_AND_FRIENDS.matcher(java.text.Normalizer.normalize(org.apache.commons.lang3.StringEscapeUtils.unescapeHtml4(string.toLowerCase().trim()), java.text.Normalizer.Form.NFD)).replaceAll(""));
+		StringBuffer returnStr = new StringBuffer();
+		if (matcher.find()) {
+			String[] segments = matcher.replaceAll("-").split("-");
+			for (String segment: segments) {
+				if (maxChars >0) {
+					if (returnStr.length() > maxChars) {
+						return returnStr.toString();	
+					}
+				}
+				if (returnStr.length() > 0) {
+					returnStr.append('-'); 
+				}
+				returnStr.append(segment);
+			}
+			return returnStr.toString();
+		}
+	} catch (Exception e) {
+		// if this throws exception, return original string and die quietly
+	}
+	return string.toLowerCase().trim();
 }
 %>

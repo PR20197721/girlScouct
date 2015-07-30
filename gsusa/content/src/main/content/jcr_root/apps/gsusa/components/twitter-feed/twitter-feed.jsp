@@ -11,7 +11,7 @@
         int height = properties.get("height",460);
         int tweetLimit = properties.get("tweetLimit",20);
 		%>
-        <div class="wrapper clearfix">
+        <div  id="tag_social_feed_twitter" class="wrapper clearfix">
     		<div class="social-block">
                 <span class="icon-social-twitter-tweet-bird"></span>
                 <div class="block-area">

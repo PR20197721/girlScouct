@@ -79,7 +79,8 @@
 				if (shortDescription.length > DESCRIPTION_LENGTH) {
 					shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
 				}
-				output += '<li><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a class="title" href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p class="short-desc">' + shortDescription + '</p><p><a href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
+				var blogtext = posts[k].title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
+				output += '<li id="tag_blog_item_' + k + '"><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a id="tag_blog_title_' + blogtext + '" class="title" href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p class="short-desc">' + shortDescription + '</p><p><a id="tag_blog_continue_' + blogtext + '" href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
 			}
 			output += "</ul>";
 			blogFeedArea.html(output);

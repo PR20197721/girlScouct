@@ -20,7 +20,7 @@
             style = "style=\"background: url(" + bg+ ") no-repeat transparent center center / cover\"";
         } catch (Exception e) {}
 %>
-        <li <%=style%>>
+        <li <%=style%> id="tag_tile_featured_story_<%= i %>">
             <cq:include path="<%= id %>" resourceType="gsusa/components/featured-story" />
         </li>
 <%

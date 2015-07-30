@@ -1,5 +1,6 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     final String[] navs = properties.get("navs", String[].class);
 	if (navs != null) {
@@ -20,7 +21,7 @@
                 link += ".html";
             }
             if (!label.isEmpty()) {%>
-				<li><a href="<%= link %>" title="<%= label %>" tabindex=<%=footerTabindex%>><%= label %></a></li>
+				<li id="tag_footer_<%= linkifyString(label, 25)%>"><a href="<%= link %>" title="<%= label %>" tabindex=<%=footerTabindex%>><%= label %></a></li>
 <%			}
         } 
 %>

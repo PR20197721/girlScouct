@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 <%String fbPage = properties.get("fbPage","GirlScoutsUSA");%>
-		<div class="wrapper clearfix">
+		<div id="tag_social_feed_facebook" class="wrapper clearfix">
 			<div class="social-block">
 				<span class="icon-social-facebook"></span>
 				<div class="facebook-feed-area block-area">

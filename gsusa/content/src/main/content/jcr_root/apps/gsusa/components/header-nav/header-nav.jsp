@@ -1,7 +1,6 @@
-<%@page import="java.util.*,
-                com.day.cq.wcm.api.WCMMode" %>
+<%@page import="java.util.*, com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     final String[] navs = properties.get("navs", String[].class);
     List<String> labels = new ArrayList<String>();
@@ -34,7 +33,7 @@
             }
             if (!label.isEmpty()) {
 %>
-               <li>
+               <li id="tag_topnav_<%= linkifyString(label, 25)%>">
                    <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
                    <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
               </li>

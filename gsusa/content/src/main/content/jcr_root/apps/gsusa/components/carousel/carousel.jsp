@@ -198,7 +198,7 @@ public  String readUrlFile(String urlString) throws Exception {
 <%
 	for (int i = 0 ; i < imagePathArray.length; i++) {
 %>
-		<li><img src="<%= getImageRenditionSrc(resourceResolver, imagePathArray[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt[i] %>" class="slide-thumb"/></li>
+		<li id="tag_explore_main_<%=i%>"><img src="<%= getImageRenditionSrc(resourceResolver, imagePathArray[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/></li>
 <%
 	}
 %>
@@ -208,7 +208,7 @@ public  String readUrlFile(String urlString) throws Exception {
 			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" data-at2x="/etc/designs/gsusa/clientlibs/images/white_trefoil@2x.png" />
 			<h2><%= title %></h2>
 			<p><%= content %></p>
-			<a href="#" class="button explore" tabindex="51"><%= btnName %></a>
+			<a id="tag_explore_<%= linkifyString(btnName, 25)%>" href="#" class="button explore" tabindex="51"><%= btnName %></a>
 		</section>
 	</div>
 	<div class="position">
@@ -219,13 +219,13 @@ public  String readUrlFile(String urlString) throws Exception {
 <%
 	for (int i = 0 ; i < imagePath2.length; i++) {
 %>
-						<li>
+						<li id="tag_explore_slide1_<%=i%>">
 							<h3><%= title2 %></h3>
 							<div class="text white">
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= content2[i] %></p>
 							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
 						</li>
 <%
 	}
@@ -237,13 +237,13 @@ public  String readUrlFile(String urlString) throws Exception {
 <%
 	for (int i = 0 ; i < imagePath3.length; i++) {
 %>
-						<li>
+						<li id="tag_explore_slide2_<%=i%>">
 							<h3><%= title3 %></h3>
 							<div class="text white">
 								<h4><%= subtitle3[i] %></h4>
 								<p><%= content3[i] %></p>
 							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
 						</li>
 <%
 	}
@@ -252,7 +252,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				</li>
 				<li>
 					<ul class="slide-3">
-						<li>
+						<li id="tag_explore_slide3">
 							<h3><%= title4 %></h3>
 							<div class="blog-feed">
 							<%
@@ -269,44 +269,42 @@ public  String readUrlFile(String urlString) throws Exception {
 					<ul class="slide-4">
 <%
 	for (int i = 0 ; i < 4; i++) {
+%>
+                                                <li id="tag_explore_slide4_<%=i%>">
+<%
 		if("photo".equals(videoType5[i])){
 %>
-						<li>
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb news-pic"/>
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
 									<p><%= content5[i]%></p>
 								</div>
 							</div>
-						</li>
 <%
 		}else if ("link".equals(videoType5[i])) {
 %>
-						<li>
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
-		                                <div class="video-embed">
-										<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-										<%= embeded[i] %>
+								<div class="video-embed">
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
+									<%= embeded[i] %>
 								</div>
 								<div class="video-article">
-										<h4><%= subtitle5[i] %></h4>
-										<p><%= content5[i]%></p>
+									<h4><%= subtitle5[i] %></h4>
+									<p><%= content5[i]%></p>
 								</div>
 							</div>
-						</li>
 <%
 		} else if ("path".equals(videoType5[i])) {
 %>
-						<li>
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
 									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
 								</div>
 								<div class="video-article">
@@ -314,11 +312,13 @@ public  String readUrlFile(String urlString) throws Exception {
 									<p><%= content5[i]%></p>
 								</div>
 							</div>
-						</li>
 <%
 		} else {
 //none
 		}
+%>
+						</li>
+<%
 	}
 %>
 					</ul>
@@ -332,7 +332,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon"/>
 				<h2><%= title6%></h2>
 				<p><%= content6 %></p>
-				<form action="#" name="join-now" class="formJoin join-now-form clearfix">
+				<form id="tag_explore_final" action="#" name="join-now" class="formJoin join-now-form clearfix">
 					<input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter ZIP code">
 					<input type="hidden" name="source" value="<%= closingSource6 %>">
 					<a href="#nogo" class="button join-now">Join Now</a>

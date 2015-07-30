@@ -19,13 +19,13 @@ if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                 boolean isNewWindow = Boolean.valueOf(split.length >=3 ? split[2] : "false");
                 StringBuilder sb = new StringBuilder();
         if(!path.equals("")){
-         	sb.append("<div><a class=\"slider-link\" href=\"" + link + "\"");
+         	sb.append("<div><a id=\"tag_shop_slider_link_\"" + i + " class=\"slider-link\" href=\"" + link + "\"");
 	         if(isNewWindow){
 	        	sb.append(" target=\"_blank\"");
 	         }
 	         sb.append("/>");
          }
-         sb.append("<img src=\"" + path + "\" alt=\"\"/>");
+         sb.append("<img id=\"tag_shop_slider_img_\"" + i + " src=\"" + path + "\" alt=\"\"/>");
          if(!path.equals("")){
         	 sb.append("</a></div>");
          }
@@ -39,7 +39,7 @@ if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 <h3><%= title %></h3>
 <cq:text property="text" escapeXml="true"
         placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
-<a href="<%=shopNowLink%>" class="button"><%= buttonText %></a>
+<a id="tag_shop_tile_shopnow" href="<%=shopNowLink%>" class="button"><%= buttonText %></a>
 </div>
 
 <% } %>

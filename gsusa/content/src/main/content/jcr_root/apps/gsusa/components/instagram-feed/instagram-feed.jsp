@@ -33,7 +33,7 @@
 	 }
 	if(result != ""){
 		%>
-		<div class="wrapper clearfix">
+		<div id="tag_social_feed_instagram" class="wrapper clearfix">
 		    <div class="social-block">
 		        <span class="icon-social-instagram"></span>
 		        <div class="block-area">
