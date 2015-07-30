@@ -135,16 +135,16 @@ public class MeetingUtil {
 					}
 				plan.setMeetingEvents(meetingEs);
 
-	System.err.println("alex cancelled meeting: "+plan.getMeetingCanceled().size() );			
+				
 				// load meetingCanceled
 				if (plan.getMeetingCanceled() != null)
 					for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
-	System.err.println("alex cancelled meeting : "+i );					
+					
 						MeetingCanceled meetingCanceled = plan
 								.getMeetingCanceled().get(i);
 						Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 								meetingCanceled.getRefId());
-	System.err.println("alex canceleld chk: "+ (meetingInfo==null) );					
+						
 						meetingCanceled.setMeetingInfo(meetingInfo);
 					}
 
@@ -182,7 +182,7 @@ public class MeetingUtil {
 				
 				Meeting meetingInfoCan = yearPlanUtil.getMeeting(user,
 						meetingCanceled.getRefId());
-System.err.println("alex dddd canceleld chk: "+ (meetingInfoCan==null) );					
+					
 				meetingCanceled.setMeetingInfo(meetingInfoCan);
 				
 				container.put(date, meetingCanceled);
