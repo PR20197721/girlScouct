@@ -932,11 +932,9 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
-				
 				//check council
 				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
 					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-					
 				}	
 				
 				//check troop
@@ -962,13 +960,21 @@ public class TroopDAOImpl implements TroopDAO {
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
-			if (!ocm.objectExists(meeting.getPath()))
+			if (!ocm.objectExists(meeting.getPath())) {
 				ocm.insert(meeting);
-			else
+			} else  {
 				ocm.update(meeting);
+			}
 			ocm.save();
 			
 			isUpdated = true;
+		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
+//			org.apache.jackrabbit.ocm.exception.ObjectContentManagerException: Cannot persist current session changes.; nested exception is javax.jcr.InvalidItemStateException: Unable to update a stale item: item.save()
+//			javax.jcr.InvalidItemStateException
+			// skip here because we are getting concurrent modification of the same node (most likely) 
+			// when vtk is calling ajax to this method twice. 
+			// need to fix the ajax call.
+			log.error(">>>> Skipping stale update for " + meeting.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

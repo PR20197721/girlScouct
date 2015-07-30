@@ -88,14 +88,10 @@
                         <!--[if gt IE 8]><!-->
 
                         <nav class="hide-for-small logoLarge logoLargePadding">
-                            <a href="http://template.girlscouts.org/en.html">
-                                <img src="/content/dam/logos/GSUSA_servicemark.png" alt="Home" id="logoImg" />
-                            </a>
+                                <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png" alt="Home" id="logoImg" />
                         </nav>
                         <nav class="show-for-small logoSmall">
-                            <a href="http://template.girlscouts.org/en.html">
-                                <img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" alt="Home" width="38" height="38" />
-                            </a>
+                                <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png" alt="Home" width="38" height="38" />
                         </nav>
 
                         <!--<![endif]-->
@@ -556,7 +552,7 @@
                     <!--[if gt IE 8]><!-->
 
                     <nav class="show-for-small mobileFooterLogo">
-                        <img src="/content/dam/logos/GSUSA_servicemark.png" alt="Home" width="188" height="73" />
+                        <img src="http://template.girlscouts.org/content/dam/girlscouts-shared/images/logo/medium/GSUSA_servicemark.png" alt="Home" width="188" height="73" />
                     </nav>
 
                     <!--<![endif]-->
