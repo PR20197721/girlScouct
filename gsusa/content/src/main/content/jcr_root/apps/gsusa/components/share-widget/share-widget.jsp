@@ -66,11 +66,10 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
 		scriptTag.type = "text/javascript"
 		scriptTag.src="http://connect.facebook.net/en_US/all.js";
 		scriptTag.async = true;
-		document.getElementsByTagName(“head”)[0].appendChild(scriptTag);
+		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
 		scriptTag.onload=initFB;
 		scriptTag.onreadystatechange = function () {                
-                  alert("yo");
 		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
 		}
 	});
