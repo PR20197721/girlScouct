@@ -74,7 +74,6 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Content for applicable tiles (limit 350 chars)"
                         name="./text"
-                        maxLength="500"
                         xtype="richtext">
                         <rtePlugins jcr:primaryType="nt:unstructured">
                             <links jcr:primaryType="nt:unstructured">
