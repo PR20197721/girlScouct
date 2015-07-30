@@ -113,7 +113,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	if (!"".equals(errorMessage)) {
 		errorMessage += "Please right click on this message and edit the carousel component.";
 %>
-		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>  
+		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>
 <%
 		return;
 	}
@@ -255,9 +255,9 @@ public  String readUrlFile(String urlString) throws Exception {
 						<li>
 							<h3><%= title4 %></h3>
 							<div class="blog-feed">
-							<% 
+							<%
 							//Removes editing for this component, because its configuration is handled in carousel's dialog
-							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); 
+							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
 							%>
 							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
 							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
@@ -333,9 +333,9 @@ public  String readUrlFile(String urlString) throws Exception {
 				<h2><%= title6%></h2>
 				<p><%= content6 %></p>
 				<form action="#" name="join-now" class="formJoin join-now-form clearfix">
-					<input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter Zip code">
+					<input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter ZIP code">
 					<input type="hidden" name="source" value="<%= closingSource6 %>">
-					<a href="#" class="button join-now">Join Now</a>
+					<a href="#nogo" class="button join-now">Join Now</a>
 				</form>
 			</section>
 		</div>
