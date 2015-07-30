@@ -138,7 +138,7 @@
                         sling:resourceSuperType="foundation/components/form/defaults/field"
                         sling:resourceType="foundation/components/form/dropdown"
                         name="State"
-                        optionsLoadPath="/content/dam/girlscouts-shared/dropdown_data/state_list_value/stateList"/>
+                        optionsLoadPath="/etc/designs/gsusa/dropdown_data/state_list_value/stateList"/>
                     <text_4
                         jcr:created="{Date}2015-06-23T11:42:50.233-04:00"
                         jcr:createdBy="admin"
@@ -159,7 +159,7 @@
                         sling:resourceSuperType="foundation/components/form/defaults/field"
                         sling:resourceType="foundation/components/form/dropdown"
                         name="State"
-                        optionsLoadPath="/content/dam/girlscouts-shared/dropdown_data/country_list_value/countryList"/>
+                        optionsLoadPath="/etc/designs/gsusa/dropdown_data/country_list_value/countryList"/>
                     <text_3
                         jcr:created="{Date}2015-06-23T11:42:18.349-04:00"
                         jcr:createdBy="admin"
