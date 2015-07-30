@@ -40,6 +40,9 @@ footer {
     @media #{$medium-up} {
       @include grid-column (10);
     }
+    @media #{$small-only}  {
+      text-align: center;
+    }
     width: 100%;
     float:none;
 
