@@ -12,7 +12,10 @@ blockquote {
   p {
     position: relative;
     padding: rem-calc(0 25);
+    word-wrap:break-word;
+    max-width:100%;
     margin: 0;
+    color:#ffffff;
     &:before,
     &:after {
       font-size: rem-calc(48);
@@ -21,15 +24,20 @@ blockquote {
       font-style: italic;
       width: 100%;
     }
-    &:before {
+  }
+  &.quotes{
+    p:first-child:before {
       content: open-quote;
       top: rem-calc(9);
       left: 0;
     }
-    &:after {
+    p:nth-last-child(3):after {
       content: close-quote;
       bottom: 0;
     }
+  }
+  p.quotee {
+  	text-align:right;
   }
   &.bg-color {
     .white {
