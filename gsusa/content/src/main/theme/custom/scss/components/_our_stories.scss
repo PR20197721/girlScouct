@@ -1,13 +1,26 @@
-.our-stories-block {
-  @media (min-width: 1026px) and (max-width: 99999999px) {
+.our-stories-block.cols-1 {
+   @include block-grid(1);
+}
+.our-stories-block.cols-2 {
+   @media (min-width: 441px) and (max-width: 99999999px) {
+    @include block-grid(2);
+   }
+   @media (min-width: 0) and (max-width: 440px) and (orientation: portrait) {
+     @include block-grid(1);
+   }
+}
+.our-stories-block.cols-3 {
+   @media (min-width: 1026px) and (max-width: 99999999px) {
     @include block-grid(3, $gs-block-grid-default-spacing);
-  }
+   }
    @media (min-width: 441px) and (max-width: 1025px) {
     @include block-grid(2);
    }
    @media (min-width: 0) and (max-width: 440px) and (orientation: portrait) {
      @include block-grid(1);
    }
+}
+.our-stories-block {
    .left-col &,
    .right-col & {
      @media #{$medium-up} {
