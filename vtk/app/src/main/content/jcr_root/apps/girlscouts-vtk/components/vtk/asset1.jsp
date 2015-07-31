@@ -37,6 +37,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 
 function rmAid(aidId, meetingId, assetName, assetDesc){
       
+	
       $.ajax({
             cache: false,
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
