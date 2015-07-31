@@ -7,8 +7,11 @@
 
 <%
 // Get the URL
-String canonicalUrl = resourceResolver.map(currentPage.getPath());
-String url = properties.get("url", canonicalUrl);
+String url = properties.get("url", currentPage.getPath());
+url = resourceResolver.map(currentPage.getPath());
+if (!url.contains(".html")) {
+    url += ".html";
+}
 
 // Get the title
 String title = properties.get("title","");
@@ -78,7 +81,7 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
 	}
  
       function postToFeed() {
- 
+
         // calling the API ...
         var obj = {
           method: 'feed',
