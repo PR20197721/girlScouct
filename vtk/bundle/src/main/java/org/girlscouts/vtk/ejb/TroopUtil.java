@@ -359,7 +359,7 @@ public class TroopUtil {
 				return new YearPlan();
 			plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
 			
-System.err.println("tatag addYearPlan: "+ yearPlanPath);			
+		
 			plan.setRefId(yearPlanPath);
 			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
@@ -367,7 +367,7 @@ System.err.println("tatag addYearPlan: "+ yearPlanPath);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
 			
-System.err.println("tatag 33:  "+ plan.getMeetingEvents().get(0).getRefId());			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -621,8 +621,7 @@ System.err.println("tatag 33:  "+ plan.getMeetingEvents().get(0).getRefId());
 		}
 		
 		
-		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
-			System.err.println("tatag: "+ newYearPlan.getMeetingEvents().get(i).getRefId());
+		
 		
 		YearPlan oldPlan = troop.getYearPlan();
 		// SORT Meetings - new
