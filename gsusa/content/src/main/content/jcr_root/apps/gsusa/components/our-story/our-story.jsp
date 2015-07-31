@@ -57,6 +57,7 @@ public  String readUrlFile(String urlString) throws Exception {
 
 <%@page session="false"%><%
     String path = properties.get("path", "");
+    String colsNum = properties.get("colNum", "3");
     String[] storyPathArray = properties.get("storypath", String[].class);
     String selected = properties.get("source", "");
     ArrayList<String> validStoryPath = new ArrayList<String>();
