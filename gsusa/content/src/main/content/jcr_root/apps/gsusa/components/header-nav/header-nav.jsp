@@ -28,13 +28,14 @@
 			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
-					
-			if (linkPage != null && !link.contains(".html")) {
-				link += ".html";
-			}
-			
-			if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
-				activeClass = "active";
+			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {		
+				if (linkPage != null && !link.contains(".html")) {
+					link += ".html";
+				}
+				
+				if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
+					activeClass = "active";
+				}
 			}
 
 			if (!label.isEmpty()) {
