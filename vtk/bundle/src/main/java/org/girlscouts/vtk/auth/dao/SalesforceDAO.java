@@ -523,19 +523,7 @@ System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
 					
-		//************************* TEST ROLLS ********************			  
-					user.setAdmin(true);
-					
-					try { 
-						  if (contactId.equals("005G00000078awJIAQ")) {//alice.atl@gsfuture.org.gsuat 
-							  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
-					       } 
-						 } catch (Exception nn) { nn.printStackTrace(); }
-					
-					
-					
-						 
-	    //************************* END TEST ROLLS ********************				 
+					 
 					
 					  troop.setPermissionTokens(Permission
 							.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
