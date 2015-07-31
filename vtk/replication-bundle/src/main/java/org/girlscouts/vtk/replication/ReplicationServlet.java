@@ -10,6 +10,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.jcr.Session;
 import javax.servlet.Servlet;
@@ -45,6 +47,8 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     private static final String NO_INSTALL = "noinstall";
     private static final String PN_TIMELINE = "timeline";
     private static final String PN_SINK = "sink";
+    
+    private static final Pattern TROOP_PATTERN = Pattern.compile("(/vtk[0-9]*/[0-9]+/troops/[^/]+/)");
     
     private Session session;
 
@@ -91,7 +95,13 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
             
             // Notify the modifiedChecker that this node has been modified externally.
             // sessionId == null because it is from another server.
-            modifiedChecker.setModified(null, path);
+            modifiedChecker.setModified("X", path);
+            
+            Matcher matcher = TROOP_PATTERN.matcher(path);
+            if (matcher.find()) {
+                String yearPlanPath = matcher.group(1) + "yearPlan";
+                modifiedChecker.setModified("X", yearPlanPath);
+            }
 
             long start = System.currentTimeMillis();
             if ("true".equals(request.getParameter("sink"))) {
