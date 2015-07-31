@@ -11,6 +11,15 @@
                 jcr:primaryType="cq:Panel"
                 title="Story path">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <ColNum
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number Of Columns"
+                        fieldSubLabel="Please enter a number between 1-3"
+                        name="./colNum"
+                        allowDecimals="{Boolean}false"
+                        maxValue="3"
+                        minValue="1"
+                        xtype="numberfield"/>
                     <radiogp
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Select a source"
