@@ -38,7 +38,7 @@ public class ReplicationReceiverImpl
   implements VTKReplicationReceiver
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
-  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk/[0-9]+/troops/([^/]+)");
+  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
 
   @Property(longValue=1048576L)
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
