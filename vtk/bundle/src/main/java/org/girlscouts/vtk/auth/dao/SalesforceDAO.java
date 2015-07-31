@@ -491,7 +491,6 @@ System.err.println("<<<<<Apex contacts reponse: " + response);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -514,12 +513,11 @@ System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
+					
 					}catch(Exception e){e.printStackTrace();/* troop.setRole("DP");*/}
 					
 					
 					
-					log.debug("User Roll: "
-							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
 					
