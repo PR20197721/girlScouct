@@ -112,4 +112,7 @@ public interface MeetingDAO {
 	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
 			throws IllegalAccessException, IllegalStateException;
 	
+	public MeetingE getMeetingE(User user, String path)
+			throws IllegalAccessException, VtkException ;
+	
 }

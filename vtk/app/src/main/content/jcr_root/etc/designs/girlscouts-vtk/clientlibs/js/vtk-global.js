@@ -23,6 +23,7 @@ var $ = jQuery.noConflict();
 	// 	$('.reveal-modal').css('height' , window_h + 'px');
 	// 	$('.scroll').css('max-height' , popup_h +' px');
 	// }
+/* In Koo removed this because it is duplicated in /etc/designs/girlscouts/clientlibs/js/footer.js
   function vtk_accordion() {
 	if ($(".accordion").length > 0) {
 	    $('.accordion dt > :first-child').on('click', function(e) {
@@ -35,6 +36,7 @@ var $ = jQuery.noConflict();
 		});
 	  }
   }
+*/
 
 	function modal_height_on_open() {
 	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
@@ -131,9 +133,7 @@ var $ = jQuery.noConflict();
 	  	     },
 	  	 	}
 	  	 });
-	  	 //select_tabs();
 	  	 modal_height_on_open();
-	  	 vtk_accordion();
 	  	 validate_image();
 	  	 // resizeWindow();
 	  	 if($('.tabs dd').length == 6) {

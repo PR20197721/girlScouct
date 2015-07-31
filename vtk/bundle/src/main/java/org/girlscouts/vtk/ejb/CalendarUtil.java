@@ -177,6 +177,7 @@ public class CalendarUtil {
 			troop.setErrCode("112");
 			throw new java.lang.IllegalAccessException();
 		}
+		
 		// org Dates
 		String dates = "";
 		if (troop.getYearPlan().getSchedule() == null) {
@@ -364,31 +365,51 @@ public class CalendarUtil {
 	}
 
 	public long getMaxYearPlanDate(long startYearPlanDate) {
+		
+		
 		java.util.Calendar _startYearPlanDate = java.util.Calendar
 				.getInstance();
 		_startYearPlanDate.setTimeInMillis(startYearPlanDate);
 		// get sep1 of this year
 		java.util.Calendar sepThisYear = java.util.Calendar.getInstance();
-		sepThisYear.set(java.util.Calendar.DAY_OF_MONTH, 1);
-		sepThisYear.set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
+		sepThisYear.set(java.util.Calendar.DAY_OF_MONTH, VtkUtil.getCurrentGSDate()); //1);
+		sepThisYear.set(java.util.Calendar.MONTH,  VtkUtil.getCurrentGSMonth()-1); //java.util.Calendar.AUGUST);		
 		sepThisYear.set(java.util.Calendar.YEAR,
 				_startYearPlanDate.get(java.util.Calendar.YEAR));
+	
+   // System.err.println("tataxxx: "+ sepThisYear.getTime() );		
 		// if sep1 of this year is after startYearPlanDate, use this year
 		if ((!VtkUtil.isSameDate(sepThisYear.getTime(),
 				_startYearPlanDate.getTime()))
 				&& sepThisYear.getTimeInMillis() > _startYearPlanDate
-						.getTimeInMillis())
+						.getTimeInMillis()){
+	//System.err.println("tataxxx 1 : "+ sepThisYear.getTime());		
 			return sepThisYear.getTimeInMillis();
-		else {
-			sepThisYear.add(java.util.Calendar.YEAR, 1);
+		}else {
+		
+java.util.Calendar now=	java.util.Calendar.getInstance();
+int maxYear = 	now.get(java.util.Calendar.YEAR);
+//System.err.println("tataxx: "+  now.get(java.util.Calendar.MONTH ) +">"+ VtkUtil.getCurrentGSMonth());
+if( (now.get(java.util.Calendar.MONTH ) >= VtkUtil.getCurrentGSMonth() -1) && 
+	(now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate() )	
+		) 
+	maxYear+=1;
+			sepThisYear.set(java.util.Calendar.YEAR, maxYear);
+			//sepThisYear.add(java.util.Calendar.YEAR, 1);
+			
+	System.err.println("tataxxx +1 : "+ sepThisYear.getTime());			
 			return sepThisYear.getTimeInMillis();
 		}
+		
 	}
 	
 	
 	public boolean isEventPastGSYear(User user, Troop troop){
-		if( troop.getYearPlan()==null || troop.getYearPlan().getSchedule()==null ) return true;
+		
+		if( troop.getYearPlan()==null || troop.getYearPlan().getSchedule()==null || troop.getYearPlan().getSchedule().equals("") ) return true;
+		
 		boolean isPast=false;
+		try{
 		Cal cal = troop.getYearPlan().getSchedule();
 		
 		java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(cal.getDates());
@@ -405,15 +426,24 @@ public class CalendarUtil {
 		
 		java.util.Calendar cutOffDate= java.util.Calendar.getInstance();
 		cutOffDate.setTime( sched.get(0));
+		
+		
+		int currentGSDate = VtkUtil.getCurrentGSDate();
+		int currentGSMonth = VtkUtil.getCurrentGSMonth();
+		if( nextDateCal.get(java.util.Calendar.MONTH) > currentGSMonth-1 )
+			cutOffDate.add(java.util.Calendar.YEAR, 1);
+		cutOffDate.set(java.util.Calendar.MONTH, currentGSMonth-1);
+		cutOffDate.set(java.util.Calendar.DATE, currentGSDate);
+		/*
 		if( nextDateCal.get(java.util.Calendar.MONTH) > 6 )
 			cutOffDate.add(java.util.Calendar.YEAR, 1);
 		cutOffDate.set(java.util.Calendar.MONTH, java.util.Calendar.JULY);
 		cutOffDate.set(java.util.Calendar.DATE, 31);
-		
+		*/
 		
 		if( nextDate<= cutOffDate.getTime().getTime() )
 			return true;
-		
+		}catch(Exception e){e.printStackTrace();}
 		return isPast;
 		
 	}

@@ -70,7 +70,7 @@ if (troops != null && troops.size() > 1) {
                  (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
                     <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
            <%}else{ %>
-                    <a href="#" onclick="alert('There is not Year Plan set up at this time.')">My Troop</a>
+                    <a href="#" onclick="alert('There is no year plan set up at this time. Please wait until a troop leader creates a year plan before accessing this tab.')">My Troop</a>
            <%} %>
           </dd>
         <%} %>

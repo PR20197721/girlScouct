@@ -267,7 +267,6 @@ public static String getYearPlanBase(User user, Troop troop){
 /*GS Year starts Aug 1 */
 public static int getCurrentGSYear(){
 	String _gsNewYear = gsNewYear;
-System.err.println("testGSY: "+ gsNewYear);	
 	//-if( _gsNewYear==null )	_gsNewYear= "0801";
 	
 	int month = Integer.parseInt( _gsNewYear.substring(0, 2) );
@@ -278,6 +277,23 @@ System.err.println("testGSY: "+ gsNewYear);
 		return now.get(java.util.Calendar.YEAR) ;
 	else
 		return now.get(java.util.Calendar.YEAR) -1;	
+}
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSMonth(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(0, 2) );
+}
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSDate(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(2) );
+}
+
+public static String getNewGSYearDateString() {
+    return gsNewYear;
 }
 
 }//end class

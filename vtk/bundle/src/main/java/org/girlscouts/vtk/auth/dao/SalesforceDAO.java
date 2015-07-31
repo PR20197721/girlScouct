@@ -330,6 +330,9 @@ System.err.println(">>>>> " + rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
+				
+System.err.println("<<<<<Apex contacts reponse: " + response);
+				
 				JSONArray results = response.getJSONArray("records");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
