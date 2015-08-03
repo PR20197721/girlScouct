@@ -184,10 +184,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
-
-				if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
-					$('select').css('background-image', 'none');
-					placeholder_IE9();
+				if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)) {
+					if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+						$('select').css('background-image', 'none');
+						placeholder_IE9();
+					}
 				}
 			},
 			close: function() {

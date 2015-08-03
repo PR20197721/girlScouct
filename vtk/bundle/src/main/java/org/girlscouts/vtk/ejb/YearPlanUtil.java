@@ -311,7 +311,6 @@ public class YearPlanUtil {
 
 	public void search(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-System.err.println("tata search...");
 		try {
 			java.util.Date startDate = null, endDate = null;
 			if (request.getParameter("startDate") != null

@@ -46,8 +46,7 @@
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
 	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
-	
-	
+	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
@@ -122,6 +121,23 @@ return;
 
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
+	
+	//NO PARENTS ALLOWED!!!!!
+	boolean  allowParentAccess= Boolean.parseBoolean(configManager.getConfig("allowParentAccess"));
+	if( !allowParentAccess && troop!=null && troop.getTroop()!=null && troop.getTroop().getRole()!=null && troop.getTroop().getRole().toUpperCase().trim().equals("PA" ))
+	{
+		   %>
+		<div id="panelWrapper" class="row meeting-detail content">
+        <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
+            The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
+            <br/><br/>Stay tuned! 
+        </p>
+        </div>
+		<%
+        return;
+	}
+	
+	
 	
 	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){

@@ -27,6 +27,9 @@
   }
   .utility {
     @include grid-column(18);
+    * {
+      font-size: rem-calc(14);
+    }
     .float-right {
       float: right;
     }
@@ -37,7 +40,8 @@
     .inline-list {
       float: right;
       li {
-	margin-left: 1.0rem;
+        margin-left: 1.0rem;
+        font-size: rem-calc(14);
       }
       li:first-child {
         margin-left: 0;

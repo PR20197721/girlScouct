@@ -165,8 +165,7 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
-                            	 console.log("**** "+comment);
-                            	 console.log(obj[comment]);
+                            	 
                                         return (
 
 

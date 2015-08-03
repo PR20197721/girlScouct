@@ -75,8 +75,7 @@ public class SalesforceDAO {
 				resp.close();
 			}
 			rsp = "{\"records\":" + rsp + "}";		
-			log.debug(">>>>> " + rsp);
-System.err.println(">>>>> " + rsp);		
+			log.debug(">>>>> " + rsp);	
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -331,7 +330,7 @@ System.err.println(">>>>> " + rsp);
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
 				
-System.err.println("<<<<<Apex contacts reponse: " + response);
+
 				
 				JSONArray results = response.getJSONArray("records");
 				for (int i = 0; i < results.length(); i++) {
@@ -470,7 +469,6 @@ System.err.println("<<<<<Apex contacts reponse: " + response);
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
-//System.err.println("tata: troop **OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
@@ -491,7 +489,7 @@ System.err.println("<<<<<Apex contacts reponse: " + response);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("tata: troopresp <<<<<Apex resp: " + response);
+System.err.println("<<tata<<<Apex resp: " + response);		
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -514,28 +512,15 @@ System.err.println("tata: troopresp <<<<<Apex resp: " + response);
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
+					
 					}catch(Exception e){e.printStackTrace();/* troop.setRole("DP");*/}
 					
 					
 					
-					log.debug("User Roll: "
-							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
 					
-		//************************* TEST ROLLS ********************			  
-					user.setAdmin(true);
-					
-					try { 
-						  if (contactId.equals("005G00000078awJIAQ")) {//alice.atl@gsfuture.org.gsuat 
-							  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
-					       } 
-						 } catch (Exception nn) { nn.printStackTrace(); }
-					
-					
-					
-						 
-	    //************************* END TEST ROLLS ********************				 
+					 
 					
 					  troop.setPermissionTokens(Permission
 							.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
@@ -609,9 +594,7 @@ HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 +"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
 
 
-System.err.println("tata req: "+apiConfig.getWebServicesUrl()
 
-+"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
 
 method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -629,7 +612,7 @@ System.err.println("Method failed: " + resp.getStatusLine());
 
 }
 
-System.err.println("Method tata: " + resp.getStatusLine());
+
 
 HttpEntity entity = null;
 
@@ -659,7 +642,7 @@ rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
 
-System.err.println("tata: "+ rsp);
+
 
 try {
 
@@ -669,7 +652,7 @@ log.debug("<<<<<Apex contacts reponse: " + response);
 
 JSONArray results = response.getJSONArray("records");
 
-System.err.println("tata1: "+ response);
+
 
 for (int i = 0; i < results.length(); i++) {
 
@@ -679,7 +662,7 @@ Contact contact = new Contact();
 
 try {
 
-System.err.println("tata: "+i);
+
 
 contact.setFirstName(results.getJSONObject(i).getJSONObject("Contact").getString("FirstName"));
 

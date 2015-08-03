@@ -128,8 +128,8 @@ public  String readUrlFile(String urlString) throws Exception {
                   <li>
                     <div>
                       <div>
-                        <img src="<%= imagePath %>" alt="<%= description %>"/>
-                        <p><a href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
+                        <a href="#" data-reveal-id="<%= modalId %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+                        <p><a class="arrow" href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
                       </div>
                     </div>
                   </li>
@@ -138,7 +138,7 @@ public  String readUrlFile(String urlString) throws Exception {
             	if (resProp.get("externalVideo", "").indexOf("youtube") != -1) {
 	                String description = resProp.get("description", "");
 	                String ytId = extractYTId(resProp.get("externalVideo", ""));
-                    String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
+                    String imagePath = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
                     String modalId3 = "modalVideo-" + Integer.toString((int)(Math.random() * 10000) + 1000);%>
                     <div id="<%= modalId3 %>" class="reveal-modal large our-story-video-popup" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                     	<iframe align="middle" width="100%" height="auto" overflow="scroll" src="https://www.youtube.com/embed/<%= ytId %>" frameborder="0" allowfullscreen></iframe>
@@ -146,8 +146,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
-                          <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                          <a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>" height=200px /></a>
+                          <p><a class="arrow" href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
                         </div>
                       </div>
                     </li><%
@@ -167,8 +167,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
-                          <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                          <a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>" height=200px /></a>
+                          <p><a class="arrow" href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
                         </div>
                       </div>
                     </li><%
@@ -232,8 +232,8 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        <li>
 	                          <div>
 	                            <div>
-	                              <img src="<%= imagePath %>" alt="<%= description %>"/>
-	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
+	                              <a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+	                              <p><a class="arrow" href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
 	                            </div>
 	                          </div>
 	                        </li>
@@ -266,8 +266,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>"/>
-                          <p><a href="<%= link %>"><%= description %></a></p>
+                          <a href="<%= link %>"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+                          <p><a class="arrow" href="<%= link %>"><%= description %></a></p>
                         </div>
                       </div>
                     </li>

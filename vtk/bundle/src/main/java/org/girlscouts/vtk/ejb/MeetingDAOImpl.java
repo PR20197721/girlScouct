@@ -149,7 +149,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
 			
-			System.err.println("tatag 44: "+ meetings.get(0).getRefId() +" : "+ yearPlanPath);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -179,18 +179,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-System.err.println("ttt1 "+ path);			
-			meeting = (Meeting) ocm.getObject(path);
-			System.err.println("ttt12 "+ path);			
+					mapper);			
+			meeting = (Meeting) ocm.getObject(path);		
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
-				System.err.println("ttt3");
+				
 				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
-				System.err.println("ttt4");	
+					
 				if(globalMeetingInfo!=null){
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
-					System.err.println("ttt5");
+					meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
+					
 				}
 			}
 			
@@ -1328,8 +1327,7 @@ System.err.println("ttt1 "+ path);
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 			
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata: "+ meetings.get(i).getPosition() +" : "+meetings.get(i).getPath());
+		
 			Comparator<Meeting> comp = new BeanComparator("position");
 			if( meetings!=null)
 				Collections.sort(meetings, comp);
@@ -2033,7 +2031,6 @@ System.err.println("ttt1 "+ path);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-
 			attendance = (Achievement) ocm.getObject(mid);
 
 		} catch (Exception e) {
