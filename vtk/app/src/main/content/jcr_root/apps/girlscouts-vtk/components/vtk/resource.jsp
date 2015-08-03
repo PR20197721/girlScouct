@@ -138,10 +138,16 @@
 								    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 								    while (iter.hasNext()) {
 								    	Resource meetingResource = iter.next();
+						System.err.println("tata chkkk: "+ meetingResource.getPath());	
+						String categoryParam = (String)request.getParameter("category");
+		                Page categoryPage = manager.getPage(categoryParam);
+						if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {		    	
+							
+						
 								        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
-								        
 								        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId());
 								    	minorCount+= lresources.size();
+						}
 								    }
 							    }catch(Exception e){}
 							    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
@@ -185,6 +191,7 @@
 
 			<%-- display aids --%>
 			<%
+			
 				String categoryParam = (String)request.getParameter("category");
 				Page categoryPage = manager.getPage(categoryParam);
 
