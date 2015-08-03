@@ -207,8 +207,7 @@
 						    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 						    while (iter.hasNext()) {
 						        Resource meetingResource = iter.next();
-						        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
-						        
+						        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());						        
 						        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId()); 
 						        for(int i=0;i<lresources.size();i++){
 								    org.girlscouts.vtk.models.Asset la = lresources.get(i);
