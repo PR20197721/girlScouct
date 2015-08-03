@@ -27,7 +27,7 @@
        @include block-grid(1);
      }
    }
-  a {
+  a.arrow {
     color: $black;
     &:after {
       content: ">";
