@@ -40,7 +40,52 @@ Basic intro to CQ/AEM
 5. at bottom left in the Servers tab setup a new AEM Server
 6. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502 also change auto-publish-time="4" and the debugPort to 45022 ro the port specified in the start.sh startup script.
 7. right click the server and choose Add and Remove... then add your resources to be auto synched
-8. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
+8a. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
+8b. if you already have an existing project, import that project as an existing maven project. Java bundle project will automatically be registered into Eclipse AEM module.  However, content projects will not be registered as there is a bug in AEM's module.  To fix, after importing the content folder, open the .settings eclipse subfolder and add the following as org.eclipse.wst.common.project.facet.core.xml :
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <installed facet="sling.content" version="1.0"/>
+</faceted-project>
+
+Next, you will have to modify the eclipse .project file entries for buildSpec and natures.  For example:
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>gsusa-content</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.validation.validationbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+	</natures>
+</projectDescription>
+
+Once you make these edits, you will have to remove the content subproject and re-add it.
+
+
 9. Make sure the server at bottom left is running (otherwise right click > start)
 
 Now any changes you make in Eclipse are automatically reflected in AEM.  This is a one-way flow: any changes made directly in AEM will be overwritten
