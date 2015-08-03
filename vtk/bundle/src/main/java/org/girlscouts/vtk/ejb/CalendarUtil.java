@@ -389,7 +389,7 @@ public class CalendarUtil {
 		
 java.util.Calendar now=	java.util.Calendar.getInstance();
 int maxYear = 	now.get(java.util.Calendar.YEAR);
-if( (now.get(java.util.Calendar.MONTH ) >= VtkUtil.getCurrentGSMonth() -1) ||
+if( (now.get(java.util.Calendar.MONTH ) > VtkUtil.getCurrentGSMonth() -1) ||
 		( (now.get(java.util.Calendar.MONTH ) == VtkUtil.getCurrentGSMonth() -1) && (now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate()) )	
 			) 
 	maxYear+=1;
