@@ -842,8 +842,9 @@ public class MeetingUtil {
 				java.util.List<Asset> assets = meeting.getAssets();
 				for (int y = 0; y < assets.size(); y++) {
 					if (assets.get(y).getRefId().equals(aidId)) {
-						assets.remove(y);
+						
 						troopDAO.removeAsset(user, troop, assets.get(y));
+						assets.remove(y);
 					}
 				}
 				return;
