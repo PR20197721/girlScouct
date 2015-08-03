@@ -292,6 +292,9 @@ div.carousel {
           padding: rem-calc(5 5 0 5);
           background-color: rgba(0,0,0, .5);
           text-shadow: 0 0 2px #000;
+          p {
+            font-size: rem-calc(14);
+          }
           &.white {
             color: $white;
             h4 {

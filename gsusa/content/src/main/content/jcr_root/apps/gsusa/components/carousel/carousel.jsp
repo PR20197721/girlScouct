@@ -216,9 +216,9 @@ public  String readUrlFile(String urlString) throws Exception {
 			<ul class="inner">
 				<li>
 					<ul class="slide-1">
-<%
-	for (int i = 0 ; i < imagePath2.length; i++) {
-%>
+					<%
+						for (int i = 0 ; i < imagePath2.length; i++) {
+					%>
 						<li id="tag_explore_slide1_<%=i%>">
 							<h3><%= title2 %></h3>
 							<div class="text white">
