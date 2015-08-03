@@ -28,5 +28,8 @@
         </div>
     </div>
 </section>
+<section class="clearfix show-for-small-only footer-logo">
+    <img srs="/etc/designs/gsusa/clientlibs/images/footer_logo.png" alt="footer logo" />
+</section>
 <!-- END of footer -->
 
