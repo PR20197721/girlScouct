@@ -44,6 +44,7 @@ public class VtkUtil  implements ConfigListener{
 	public void updateConfig(Dictionary configs) {
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
+		
 	}
 	
 
@@ -301,6 +302,7 @@ public static String getNewGSYearDateString() {
 }
 
 public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop){
+
 	String[] mappings = vtkHolidays;
 	Map<Long, String> councilMap = new HashMap<Long, String>();
 	if (mappings != null) {
