@@ -141,7 +141,7 @@
 						System.err.println("tata chkkk: "+ meetingResource.getPath());	
 						String categoryParam = (String)request.getParameter("category");
 		                Page categoryPage = manager.getPage(categoryParam);
-						if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {		    	
+						if (false){//categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {		    	
 							
 						
 								        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
