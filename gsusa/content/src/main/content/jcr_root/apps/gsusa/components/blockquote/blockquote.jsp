@@ -22,7 +22,7 @@
 <% } %>
     <%= text %>
     <% if(isQuote && hasQuotee && !quotee.equals("")){ %>
-    <p class="quotee white">--<%= quotee %></p>
+    <p class="quotee white">&#8212; <%= quotee %></p>
     <% } else { %>
     <p class="quotee white"></p>
     <% } if(icons) { %>
