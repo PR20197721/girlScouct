@@ -1,9 +1,10 @@
-//The following 3 lines will be removed temporarily because if these lines are added, 
-//anything added to the homepage parsys will be overlayed with the feature stories. 
+//The following 3 lines will be removed temporarily because if these lines are added,
+//anything added to the homepage parsys will be overlayed with the feature stories.
 
-//div.featured-stories {
-//  @include grid-column(24);
-//}
+div.featured-stories {
+ @include grid-column(24);
+ float: none;
+}
 .featured-stories {
   margin: 0;
   position: relative;
@@ -225,7 +226,7 @@
       }
       &.shown {
         opacity: 1;
-        z-index: 2;
+        z-index: 5;
         visibility: visible;
         transition-delay: 0s;
       }
