@@ -149,7 +149,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
 			
-			System.err.println("tatag 44: "+ meetings.get(0).getRefId() +" : "+ yearPlanPath);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -179,17 +179,22 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			meeting = (Meeting) ocm.getObject(path);
-			
+					mapper);			
+			meeting = (Meeting) ocm.getObject(path);		
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
+				
 				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
-				if(globalMeetingInfo!=null)
+					
+				if(globalMeetingInfo!=null){
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
+					meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
+					
+				}
 			}
 			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
 			
@@ -1322,8 +1327,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 			
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata: "+ meetings.get(i).getPosition() +" : "+meetings.get(i).getPath());
+		
 			Comparator<Meeting> comp = new BeanComparator("position");
 			if( meetings!=null)
 				Collections.sort(meetings, comp);
@@ -1679,7 +1683,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += sqlTags;
 			sql += sqlCat;
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
+					.getQueryManager();		
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);		
 			int i = 0;
@@ -2027,7 +2031,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-
 			attendance = (Achievement) ocm.getObject(mid);
 
 		} catch (Exception e) {
@@ -2113,4 +2116,46 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return false;
 	}
 
+	public MeetingE getMeetingE(User user, String path)
+			throws IllegalAccessException, VtkException {
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+		
+		MeetingE meetingE = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Meeting.class);
+			classes.add(Activity.class);
+			classes.add(MeetingE.class);
+			classes.add(Achievement.class);
+			classes.add(Asset.class);
+			classes.add(Attendance.class);
+			classes.add(JcrCollectionHoldString.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			
+			meetingE = (MeetingE) ocm.getObject(path);
+			
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return meetingE;
+	}
 }// edn class

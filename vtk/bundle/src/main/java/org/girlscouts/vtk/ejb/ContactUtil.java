@@ -37,12 +37,9 @@ public class ContactUtil {
 	
 	public java.util.Map<Contact, java.util.List<ContactExtras>> getContactsExtras(User user, Troop troop, java.util.List <Contact> contacts){
 		java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = new java.util.TreeMap<Contact, java.util.List<ContactExtras>>();
-	System.err.println("tatat: " + (contacts==null) );	
+		
 		for( Contact contact: contacts){
-System.err.println("tatat 1: "+ (contact==null) +" : "+ contact.getId() );		
-System.err.println("tata2: "+ (girlAttendAchievement( user,  troop,  contact) ==null));
-System.err.println("tatat3: "+ (contactsExtras==null) );
-System.err.println("tatat4: "+ (contactsExtras.size()) );
+
 			contactsExtras.put(contact, girlAttendAchievement( user,  troop,  contact));
 		}
 		return contactsExtras;

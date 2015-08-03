@@ -305,10 +305,10 @@ public class TroopDAOImpl implements TroopDAO {
 						"/");
 				int i = 0;
 				
-	System.err.println("tata path: "+ troop.getPath() );			
+				
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
-	System.err.println("tata elem: "+node);				
+			
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
 						if (i == 2) {
@@ -724,8 +724,7 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = expenses[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
-			System.err.println("Field Name: " + fieldName + " Field Value: "
-					+ fieldValue);
+			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
 		}
 
@@ -734,8 +733,7 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = income[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
-			System.err.println("Field Name: " + fieldName + " Field Value: "
-					+ fieldValue);
+			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
 		}
 	}
@@ -744,15 +742,17 @@ public class TroopDAOImpl implements TroopDAO {
 			throws RepositoryException {
 		Node rootNode = session.getRootNode();
 		String[] pathElements = path.split("/");
-		Node currentNode = rootNode.getNode("vtk");
+		
+		String vtkBase = VtkUtil.getYearPlanBase(null, null);
+		vtkBase= vtkBase.replaceAll("/","");	
+		Node currentNode = rootNode.getNode(vtkBase);//"vtk");
 		for (int i = 1; i < pathElements.length; i++) {
 			if (!pathElements[i].equals("")) {
 				if (currentNode.hasNode(pathElements[i])) {
 					currentNode = currentNode.getNode(pathElements[i]);
 
 				} else {
-					System.err.println("#####Trying to add node: "
-							+ pathElements[i]);
+					//System.err.println("#####Trying to add node: "+ pathElements[i]);
 					currentNode = currentNode.addNode(pathElements[i],
 							"nt:unstructured");
 
@@ -876,16 +876,17 @@ public class TroopDAOImpl implements TroopDAO {
 				}
 				
 				//check meeting
-				if( meetingDAO.getMeeting(user, asset.getPath().substring(0,
-						asset.getPath().lastIndexOf("/") ) ) ==null){
+				if( meetingDAO.getMeetingE(user, asset.getPath().substring(0,
+						asset.getPath().lastIndexOf("/") ).replace("/assets", "") ) ==null){
 					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
 				}
 				
 				
-				if( !mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/"))))
+				if( !mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))){
 				   JcrUtils.getOrCreateByPath(
 						asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),
 						"nt:unstructured", mySession);
+				}
 				
 
 			}
@@ -911,8 +912,7 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public boolean modifyMeeting(User user, Troop troop, MeetingE meeting)
-			throws java.lang.IllegalAccessException,
-			java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException {
 
 		if (!meeting.isDbUpdate())
 			return true;
@@ -932,11 +932,9 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
-				
 				//check council
 				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
 					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-					
 				}	
 				
 				//check troop
@@ -944,20 +942,39 @@ public class TroopDAOImpl implements TroopDAO {
 					throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
 				}
 				
-				if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents"))
-				  JcrUtils.getOrCreateByPath(troop.getPath()
-						+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+				//if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
+				if(  mySession.itemExists(troop.getPath() + "/yearPlan") ){
+				  JcrUtils.getOrCreateByPath(troop.getPath()+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
+					//ocm.insert( new JcrNode(troop.getPath() + "/yearPlan/meetingEvents") );
 					
+					/*
+					Node root = mySession.getRootNode(); 
+					Node node = root.getNode(troop.getPath() + "/yearPlan/meetingEvents"); 
+					if( node==null )
+						throw new VtkException("Found no parent node "+troop.getPath() + "/yearPlan/meetingEvents  while creating Meeting");
+					Node newNode = node.addNode("meetingEvents");
+					mySession.save();
+					*/
+				}
 										
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
-			if (!ocm.objectExists(meeting.getPath()))
+			if (!ocm.objectExists(meeting.getPath())) {
 				ocm.insert(meeting);
-			else
+			} else  {
 				ocm.update(meeting);
+			}
 			ocm.save();
+			
 			isUpdated = true;
+		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
+//			org.apache.jackrabbit.ocm.exception.ObjectContentManagerException: Cannot persist current session changes.; nested exception is javax.jcr.InvalidItemStateException: Unable to update a stale item: item.save()
+//			javax.jcr.InvalidItemStateException
+			// skip here because we are getting concurrent modification of the same node (most likely) 
+			// when vtk is calling ajax to this method twice. 
+			// need to fix the ajax call.
+			log.error(">>>> Skipping stale update for " + meeting.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1242,7 +1259,7 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 
 			if (ocm.objectExists(troop.getPath())) {
-				System.err.println("tata troop update: "+ troop.getPath());
+				
 				ocm.update(troop);
 			} else {
 				

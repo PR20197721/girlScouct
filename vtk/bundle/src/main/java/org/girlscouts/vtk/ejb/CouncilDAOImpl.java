@@ -1,10 +1,16 @@
 package org.girlscouts.vtk.ejb;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
 import javax.jcr.Session;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -13,8 +19,8 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
@@ -24,16 +30,15 @@ import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.CouncilInfo;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
-import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
-import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.CouncilInfo;
 import org.girlscouts.vtk.utils.ModifyNodePermissions;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
@@ -174,9 +179,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-System.err.println("tata1");
+
 		Council council = findCouncil(user, councilId);
-System.err.println("tata2");		
+	
 		if (council == null){			
 			council = createCouncil(user, councilId);
 		}
@@ -346,6 +351,42 @@ System.err.println("tata2");
 				filter.setScope(councilPath + "/en/milestones//");
 				Query query = queryManager.createQuery(filter);
 				milestones = (List<Milestone>) ocm.getObjects(query);
+
+				String newGSYearDateString = "";
+				try {
+    				newGSYearDateString = VtkUtil.getNewGSYearDateString();
+    				DateFormat format = new SimpleDateFormat("MMdd");
+    				// TODO: use joda time
+    				Date newGSYearDate = format.parse(newGSYearDateString);
+    				newGSYearDate.setYear(new Date().getYear());
+
+    				Date startDate, endDate;
+    				if (new Date().compareTo(newGSYearDate) >= 0) {
+    				    // New troop year has started for this calendar year.
+    				    // Current school year is this year to next year.
+    				    startDate = newGSYearDate;
+    				    endDate = new Date(newGSYearDate.getTime());
+    				    endDate.setYear(new Date().getYear() + 1);
+    				} else {
+    				    // New troop year has NOT started for this calendar year.
+    				    // Current school year is last year to this year.
+    				    endDate = newGSYearDate;
+    				    startDate = new Date(newGSYearDate.getTime());
+    				    startDate.setYear(new Date().getYear() - 1);
+    				}
+
+    				List<Milestone> filteredMilestones = new ArrayList<Milestone>();
+				    for (Milestone milestone : milestones) {
+				        if (milestone.getDate().before(endDate) && milestone.getDate().compareTo(startDate) >= 0) {
+				            filteredMilestones.add(milestone);
+				        }
+				    }
+				    milestones = filteredMilestones;
+				} catch (ParseException pe) {
+				    log.warn("ParseException MMdd for new year " + newGSYearDateString + "\n" +
+				            "No milestones have been filtered.");
+				}
+				
 				sortMilestonesByDate(milestones);
 			} else {
 				log.error(councilPath + "/en/milestones does NOT exist!");

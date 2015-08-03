@@ -169,7 +169,6 @@ public class FinanceUtil {
 			email.setFrom("NOREPLY@girlscouts.org");
 			email.setTo(emailRecipients);
 			email.setSubject("Troop financial Report \""+troop.getTroop().getTroopName()+"\" - "+user.getApiConfig().getUser().getFirstName() +" : "+ user.getApiConfig().getUser().getLastName());
-System.err.println("tata subj: "+"Troop financial report \""+troop.getTroop().getTroopName()+"\" - "+user.getApiConfig().getUser().getFirstName() +" "+ user.getApiConfig().getUser().getLastName());			
 			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
 			if(messageGateway == null){
 				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");

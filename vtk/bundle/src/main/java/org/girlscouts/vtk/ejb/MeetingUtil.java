@@ -135,13 +135,16 @@ public class MeetingUtil {
 					}
 				plan.setMeetingEvents(meetingEs);
 
+				
 				// load meetingCanceled
 				if (plan.getMeetingCanceled() != null)
 					for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+					
 						MeetingCanceled meetingCanceled = plan
 								.getMeetingCanceled().get(i);
 						Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 								meetingCanceled.getRefId());
+						
 						meetingCanceled.setMeetingInfo(meetingInfo);
 					}
 
@@ -174,7 +177,14 @@ public class MeetingUtil {
 
 			switch (_comp.getType()) {
 			case MEETINGCANCELED:
+				
 				MeetingCanceled meetingCanceled = (MeetingCanceled) _comp;
+				
+				Meeting meetingInfoCan = yearPlanUtil.getMeeting(user,
+						meetingCanceled.getRefId());
+					
+				meetingCanceled.setMeetingInfo(meetingInfoCan);
+				
 				container.put(date, meetingCanceled);
 				break;
 			case MEETING:
@@ -1400,4 +1410,13 @@ public class MeetingUtil {
 		}
 	}
 
+	public MeetingE getMeetingE( User user, Troop troop, String meetingEpath) throws IllegalAccessException, VtkException{
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+
+
+		return meetingDAO.getMeetingE(user, meetingEpath);
+	}
 }// edn class
