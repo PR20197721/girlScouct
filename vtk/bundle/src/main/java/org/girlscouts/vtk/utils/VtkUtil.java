@@ -9,6 +9,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -37,10 +39,11 @@ public class VtkUtil  implements ConfigListener{
 	ConfigManager configManager;
 	
 	private static String gsNewYear;
-
+	private static String vtkHolidays[];
 	@SuppressWarnings("rawtypes")
 	public void updateConfig(Dictionary configs) {
 		gsNewYear = (String) configs.get("gsNewYear");
+		vtkHolidays= (String[]) configs.get("vtkHolidays");
 	}
 	
 
@@ -66,6 +69,7 @@ public class VtkUtil  implements ConfigListener{
 	public static final SimpleDateFormat FORMAT_FULL = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
 	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat FORMAT_YYYYMMdd = new SimpleDateFormat("yyyyMMdd");
 
 	public static boolean isLocation(java.util.List<Location> locations,
 			String locationName) {
@@ -294,6 +298,26 @@ public static int getCurrentGSDate(){
 
 public static String getNewGSYearDateString() {
     return gsNewYear;
+}
+
+public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop){
+	String[] mappings = vtkHolidays;
+	Map<Long, String> councilMap = new HashMap<Long, String>();
+	if (mappings != null) {
+		for (int i = 0; i < mappings.length; i++) {
+			String[] configRecord = mappings[i].split("::");
+			if (configRecord.length >= 2) {
+				try{
+					councilMap.put( Long.valueOf( FORMAT_YYYYMMdd.parse( configRecord[0] ).getTime() ), configRecord[1]);
+				}catch(Exception e){e.printStackTrace();}
+			} else {
+				System.err.println("Malformatted vtkHoliday mapping record: "
+						+ mappings[i]);
+			}
+		}
+	}
+	return councilMap;
+	
 }
 
 }//end class
