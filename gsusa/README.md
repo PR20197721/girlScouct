@@ -66,7 +66,7 @@ SAME AS ABOVE except Organization Unit Name: gsweb
 # Create Self Signed SSL Certificate
 > openssl x509 -req -days 3650 -in /etc/pki/tls/certs/apachereq.csr -signkey /etc/pki/tls/private/apachekey.pem -out /etc/pki/tls/certs/apache.crt
 
-# Update Apache config /etc/http/conf.d/ssl.conf
+# Update Apache config /etc/httpd/conf.d/ssl.conf
 SSLCertificateFile /etc/pki/tls/certs/apache.crt
 SSLCertificateKeyFile /etc/pki/tls/private/apachekey.pem
 
