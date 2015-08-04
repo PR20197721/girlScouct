@@ -91,6 +91,23 @@
 
 			<%
 			final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
+            try{
+	            String levelMeetingsRootPath = getMeetingsRootPath(troop);
+	            Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+	            Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+	            long pageMinorCount = 0;
+	            while (iter.hasNext()) {
+	                Resource meetingResource = iter.next();
+					String categoryParam = (String)request.getParameter("category");
+					Page categoryPage = manager.getPage(categoryParam);
+						if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {            
+			                Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
+			                java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId());
+			                pageMinorCount+= lresources.size();
+			                }
+				    }
+		    }catch(Exception e){}
+        
 			try {
 				final String RESOURCES_PATH = "resources";
 				String councilId = null;
@@ -132,24 +149,7 @@
 							    String link = "?category=" + currentMinor.getPath();
 							    String title = currentMinor.getTitle();
 							    long minorCount = 0;
-								    try{
-								    String levelMeetingsRootPath = getMeetingsRootPath(troop);
-								    Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
-								    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
-								    while (iter.hasNext()) {
-								    	Resource meetingResource = iter.next();
-						System.err.println("tata chkkk: "+ meetingResource.getPath());	
-						String categoryParam = (String)request.getParameter("category");
-		                Page categoryPage = manager.getPage(categoryParam);
-						if (false){//categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {		    	
-							
-						
-								        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
-								        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId());
-								    	minorCount+= lresources.size();
-						}
-								    }
-							    }catch(Exception e){}
+							    minorCount = pageMinorCount;
 							    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 							        minorCount += countAidAssets(
 							                GLOBAL_MEETING_AID_PATH,
@@ -338,7 +338,7 @@
 	    }
 	    
 	    // TODO: Move this to a constant? Or we need a DAO to get all meetings of a certain level.
-	    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan";
+	    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear();
 	    String levelMeetingsRootPath = MEETING_ROOT + "/" + level;    
 	    
 	    return levelMeetingsRootPath;
