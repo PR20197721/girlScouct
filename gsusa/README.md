@@ -61,12 +61,13 @@ SAME AS ABOVE except Organization Unit Name: gsweb
 > openssl ca -in /etc/pki/tls/certs/apachereq.csr -out /etc/pki/tls/certs/apachecert.pem
 # if you get an error for a missing index.txt file, use touch /etc/pki/CA/index.txt 
 # if you get another error for a missing serial file, create a file called /etc/pki/CA/serial containing 01 and a linebreak
+# if you get an error for TXT_DB error number 2, remove entries inside  /etc/pki/CA/index.txt
 
 
 # Create Self Signed SSL Certificate
 > openssl x509 -req -days 3650 -in /etc/pki/tls/certs/apachereq.csr -signkey /etc/pki/tls/private/apachekey.pem -out /etc/pki/tls/certs/apache.crt
 
-# Update Apache config /etc/http/conf.d/ssl.conf
+# Update Apache config /etc/httpd/conf.d/ssl.conf
 SSLCertificateFile /etc/pki/tls/certs/apache.crt
 SSLCertificateKeyFile /etc/pki/tls/private/apachekey.pem
 
