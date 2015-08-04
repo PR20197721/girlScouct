@@ -34,8 +34,8 @@
 	if(result != ""){
 		%>
 		<div id="tag_social_feed_instagram" class="wrapper clearfix">
+			<span class="icon-social-instagram"></span>
 		    <div class="social-block">
-		        <span class="icon-social-instagram"></span>
 		        <div class="block-area">
 					<div class="instagram-feed-image-head-area"></div>
 			        <ul class="instagram-feed-image-area"></ul>
