@@ -6,7 +6,31 @@ $('.formJoin, .formHeaderJoin').submit(function (event) {
     me = event.target;
 	zipValue = $(me).find("[name='ZipJoin']").val();
 	source = $(me).find("[name='source']").val();
-
+	
+	
+	// spin variables - start
+	opts = {
+	  lines: 11, // The number of lines to draw
+	  length: 15, // The length of each line
+	  width: 10, // The line thickness
+	  radius: 30, // The radius of the inner circle
+	  corners: 1, // Corner roundness (0..1)
+	  rotate: 0, // The rotation offset
+	  direction: 1, // 1: clockwise, -1: counterclockwise
+	  color: '#000', // #rgb or #rrggbb
+	  speed: 0.6, // Rounds per second
+	  trail: 60, // Afterglow percentage
+	  shadow: false, // Whether to render a shadow
+	  hwaccel: false, // Whether to use hardware acceleration
+	  className: 'spinner', // The CSS class to assign to the spinner
+	  zIndex: 2e9, // The z-index (defaults to 2000000000)
+	  top: 'auto', // Top position relative to parent in px
+	  left: 'auto' // Left position relative to parent in px
+	};
+	spinner = null;
+	spinner_div = $('#spinner').get(0);
+	spinner = new Spinner(opts).spin(spinner_div);
+	
     $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
         zipcode: zipValue,
         source: source,
@@ -20,7 +44,7 @@ $('.formJoin, .formHeaderJoin').submit(function (event) {
         //no need to check since it is not critical
         if (txt.search(/INSERTED/i) == -1) {
             alert('Sorry, there is no local council serving zipcode '+ zipValue);
-            //spinner.stop(spinner_div);
+            spinner.stop(spinner_div);
         }
 
         //see if we can still parse and process url
