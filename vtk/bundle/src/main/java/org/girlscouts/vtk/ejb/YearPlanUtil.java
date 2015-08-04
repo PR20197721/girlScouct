@@ -334,4 +334,10 @@ public class YearPlanUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public int getAllResourcesCount(User user, String path) 
+			throws IllegalAccessException {
+		return meetingDAO.getAllResourcesCount(user, path);
+	}
 }// edn class
