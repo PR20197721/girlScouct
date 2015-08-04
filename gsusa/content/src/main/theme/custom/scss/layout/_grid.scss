@@ -17,24 +17,25 @@
   }
 }
 .three-cols {
+  @include grid-column(24);
+  .right-wrapper {
+    @include grid-column(19, $collapse:true);
+  }
   .middle-col {
     @include grid-column(24);
     @media #{$medium-up} {
-      @include grid-column(13);
+      @include grid-column(17);
     }
   }
   .right-col {
     @include grid-column(24);
     @media #{$medium-up} {
-      @include grid-column(6);
+      @include grid-column(7);
     }
   }
 }
 .hero-section {
-  @include grid-column(24);
-  @media #{$medium-up} {
-    @include grid-column(19);
-  }
+  @include grid-column(24, $collapse:true);
 }
 .one-cols {
   .middle-col {
