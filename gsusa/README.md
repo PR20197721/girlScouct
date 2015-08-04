@@ -14,7 +14,9 @@ SSL
 ======
 The dispatchers will require mod_ssl and SSL certificates.  By default, they are not installed since all SSL is handled by the loadbalancer.  However, GSUSA requires the creation of SSL proxy connections to third party sites and the SSL configuration is required. 
 
-
+In /etc/httpd/conf/httpd.conf, uncomment the following lines:
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
 
 # Install mod_ssl
 > yum install mod_ssl
