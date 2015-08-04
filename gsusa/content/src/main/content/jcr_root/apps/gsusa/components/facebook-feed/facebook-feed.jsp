@@ -2,13 +2,13 @@
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 <%String fbPage = properties.get("fbPage","GirlScoutsUSA");%>
 		<div id="tag_social_feed_facebook" class="wrapper clearfix">
+		    <span class="icon-social-facebook"></span>
 			<div class="social-block">
-				<span class="icon-social-facebook"></span>
 				<div class="facebook-feed-area block-area">
 					<div class="fb-page"
 						data-href="https://www.facebook.com/<%= fbPage %>"
 						data-small-header="false"
-						data-width="900px"
+						data-width="1000px"
 						data-hide-cover="false"
 						data-show-facepile="true"
 						data-height="20000px"
