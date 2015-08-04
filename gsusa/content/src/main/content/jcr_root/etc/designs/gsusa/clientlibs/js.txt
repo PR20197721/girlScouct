@@ -8,7 +8,6 @@ email.js
 join.js
 gaq.js
 utils.js
-jquery.min.js
 foundation.min.js
 slick.min.js
 all.js
