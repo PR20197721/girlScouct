@@ -141,17 +141,17 @@ return;
 	
 	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
-	     troop.getTroop().getPermissionTokens().add( new Integer(400) );
-	     troop.getTroop().getPermissionTokens().add( new Integer(303) );
-	     troop.getTroop().getPermissionTokens().add( new Integer(601) );
-	     troop.getTroop().getPermissionTokens().add( new Integer(401) );
-	     troop.getTroop().getPermissionTokens().add( new Integer(402) );
+	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
+	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
 	} else if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("false")){
-		troop.getTroop().getPermissionTokens().remove( 400 );
-		troop.getTroop().getPermissionTokens().remove( 303 );
-		troop.getTroop().getPermissionTokens().remove( 601 );
-		troop.getTroop().getPermissionTokens().remove( 401 );
-		troop.getTroop().getPermissionTokens().remove( 402 );
+        troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
+        troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
+        troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
+        troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
+        troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
 	}
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
