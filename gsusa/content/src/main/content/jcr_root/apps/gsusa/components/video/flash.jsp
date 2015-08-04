@@ -87,37 +87,39 @@
             
 %><cq:includeClientLib js="cq.swfobject" />
     <script type="text/javascript"> 
-        var e = document.getElementById("<%= id %>");
-        if (e) e.style.display = "block"; 
-        
-        var flashVersion = window.CQ_swfobject ? CQ_swfobject.getFlashPlayerVersion() : -1;
-        if (flashVersion.major >= 10){
-           CQ_swfobject.embedSWF("<%= strobeSWF %>", "<%= id %>", "<%= width %>", "<%= height %>", "10", "", false,
-                                  {flashvars: "<%= strobeFlashvars %>&javascriptCallbackFunction=strobeTrackingCallback<%= currentTime %>", 
-                                      allowFullScreen: "true", wmode: "<%= wmode %>"}<%= clsObj %>);
-        } else if (flashVersion.major >= 7) {
-            CQ_swfobject.embedSWF("<%= flvSWF %>", "<%= id %>", "<%= width %>", "<%= height %>", "7", "", false,
-                                  {flashvars: "<%= flvFlashvars %>", allowFullScreen: "true"}<%= clsObj %>);
-        }
+	$(window).load(function() {
+		var e = document.getElementById("<%= id %>");
+		if (e) e.style.display = "block"; 
+		
+		var flashVersion = window.CQ_swfobject ? CQ_swfobject.getFlashPlayerVersion() : -1;
+		if (flashVersion.major >= 10){
+		   CQ_swfobject.embedSWF("<%= strobeSWF %>", "<%= id %>", "<%= width %>", "<%= height %>", "10", "", false,
+					  {flashvars: "<%= strobeFlashvars %>&javascriptCallbackFunction=strobeTrackingCallback<%= currentTime %>", 
+					      allowFullScreen: "true", wmode: "<%= wmode %>"}<%= clsObj %>);
+		} else if (flashVersion.major >= 7) {
+		    CQ_swfobject.embedSWF("<%= flvSWF %>", "<%= id %>", "<%= width %>", "<%= height %>", "7", "", false,
+					  {flashvars: "<%= flvFlashvars %>", allowFullScreen: "true"}<%= clsObj %>);
+		}
 
-        if (!trackingClipData || typeof trackingClipData != "object") {
-            var trackingClipData = new Object();
-        }
-        trackingClipData["<%= id %>"] = new Object();
-        trackingClipData["<%= id %>"].duration   = -1;
-        trackingClipData["<%= id %>"].playhead   = 0;
-        trackingClipData["<%= id %>"].source     = "<%= asset.getMetadataValue("dc:title")!= "" ? asset.getMetadataValue("dc:title") : asset.getName() %>";  
-        trackingClipData["<%= id %>"].sourceFile = "<%= asset.getName() %>";
-        trackingClipData["<%= id %>"].sourcePath = "<%= asset.getPath() %>";
-        
-        //video open flag
-        var videoOpen = false;
+		if (!trackingClipData || typeof trackingClipData != "object") {
+		    var trackingClipData = new Object();
+		}
+		trackingClipData["<%= id %>"] = new Object();
+		trackingClipData["<%= id %>"].duration   = -1;
+		trackingClipData["<%= id %>"].playhead   = 0;
+		trackingClipData["<%= id %>"].source     = "<%= asset.getMetadataValue("dc:title")!= "" ? asset.getMetadataValue("dc:title") : asset.getName() %>";  
+		trackingClipData["<%= id %>"].sourceFile = "<%= asset.getName() %>";
+		trackingClipData["<%= id %>"].sourcePath = "<%= asset.getPath() %>";
+		
+		//video open flag
+		var videoOpen = false;
 
-        //send play event later to update the playhead on scrub events
-        var delay = 1000;
-    
-        //clickstream cloud data to be send based on context mapping
-        var CQ_data = new Object();
+		//send play event later to update the playhead on scrub events
+		var delay = 1000;
+	    
+		//clickstream cloud data to be send based on context mapping
+		var CQ_data = new Object();
+	});
 
         function open<%= currentTime %>(){
             videoOpen = true; 
