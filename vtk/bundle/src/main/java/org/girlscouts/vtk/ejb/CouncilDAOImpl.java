@@ -179,9 +179,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-System.err.println("tata1");
+
 		Council council = findCouncil(user, councilId);
-System.err.println("tata2");		
+	
 		if (council == null){			
 			council = createCouncil(user, councilId);
 		}

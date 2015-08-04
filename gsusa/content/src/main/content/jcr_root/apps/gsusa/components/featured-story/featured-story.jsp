@@ -142,8 +142,9 @@
 					<span class="<%= icon %>"></span>
 					<h3><%= title %></h3>
 				</div>
-				<cq:text property="text" escapeXml="true"
-			placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+				<div class="text">
+					<%= text %>
+				</div>
 				<div class="mobile-centered">
 					<a id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
 				</div>
