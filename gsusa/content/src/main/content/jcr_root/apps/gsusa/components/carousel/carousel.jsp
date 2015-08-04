@@ -177,9 +177,10 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 	}
 %>
-
-<script src="https://f.vimeocdn.com/js/froogaloop2.min.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
+	$(window).load(function() {
+		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+	});
 	var isRetina = (
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);
@@ -216,14 +217,18 @@ public  String readUrlFile(String urlString) throws Exception {
 			<ul class="inner">
 				<li>
 					<ul class="slide-1">
-					<%
-						for (int i = 0 ; i < imagePath2.length; i++) {
-					%>
+<%
+	for (int i = 0 ; i < imagePath2.length; i++) {
+		String displayContent = "";
+		if (content2[i] != null) {
+			displayContent = content2[i].trim();
+		}
+%>
 						<li id="tag_explore_slide1_<%=i%>">
 							<h3><%= title2 %></h3>
 							<div class="text white">
 								<h4><%= subtitle2[i] %></h4>
-								<p><%= content2[i] %></p>
+								<p><%= displayContent %></p>
 							</div>
 							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
 						</li>
@@ -236,12 +241,16 @@ public  String readUrlFile(String urlString) throws Exception {
 					<ul class="slide-2">
 <%
 	for (int i = 0 ; i < imagePath3.length; i++) {
+                String displayContent = "";
+                if (content3[i] != null) {
+                        displayContent = content3[i].trim();
+                }
 %>
 						<li id="tag_explore_slide2_<%=i%>">
 							<h3><%= title3 %></h3>
 							<div class="text white">
 								<h4><%= subtitle3[i] %></h4>
-								<p><%= content3[i] %></p>
+								<p><%= displayContent %></p>
 							</div>
 							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
 						</li>
@@ -269,6 +278,10 @@ public  String readUrlFile(String urlString) throws Exception {
 					<ul class="slide-4">
 <%
 	for (int i = 0 ; i < 4; i++) {
+                String displayContent = "";
+                if (content5[i] != null) {      
+                        displayContent = content5[i].trim();
+                }
 %>
                                                 <li id="tag_explore_slide4_<%=i%>">
 <%
@@ -281,7 +294,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
-									<p><%= content5[i]%></p>
+									<p><%= displayContent %></p>
 								</div>
 							</div>
 <%
@@ -295,7 +308,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
-									<p><%= content5[i]%></p>
+									<p><%= displayContent %></p>
 								</div>
 							</div>
 <%
@@ -309,7 +322,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
-									<p><%= content5[i]%></p>
+									<p><%= displayContent %></p>
 								</div>
 							</div>
 <%
