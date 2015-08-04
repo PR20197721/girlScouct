@@ -10,7 +10,7 @@
 	if (!isHidden) {
 %>
 	<form class="formHeaderJoin" id="tag_header_join">
-		<input type="text" name="ZipJoin" maxlength="5" placeholder="ZIP code" >
+		<input type="text" name="ZipJoin" maxlength="5" placeholder="ZIP Code" >
 		<input type="hidden" name="source" value="<%= source %>">
 		<span class="button" tabindex="25"><%= callToActionName %></span>
 	</form>

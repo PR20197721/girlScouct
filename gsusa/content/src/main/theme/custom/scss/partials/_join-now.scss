@@ -1,4 +1,7 @@
 
+.cq-placeholder-header_47volunteer {
+  display: none;
+}
 .standalone-volunteer,
 .standalone-join {
   position: relative;
@@ -68,9 +71,6 @@
     }
   }
 }
-.cq-placeholder-header_47volunteer {
-  display: none;
-}
 .join-buttons {
   float: right;
   padding-left: rem-calc(80);
@@ -105,7 +105,7 @@
     position: absolute;
     right: 100%;
     float: left;
-    width: 150%;
+    width: 180%;
     height: 100%;
     border: none;
   }

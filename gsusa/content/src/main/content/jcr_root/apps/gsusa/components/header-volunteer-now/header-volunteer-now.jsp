@@ -10,7 +10,7 @@
 	if (!isHidden) {
 %>
 	<form class="formHeaderVolunteer" id="tag_header_volunteer">
-		<input type="text" name="ZipVolunteer" maxlength="5" placeholder="ZIP code">
+		<input type="text" name="ZipVolunteer" maxlength="5" placeholder="ZIP Code">
 		<input type="hidden" name="source" value="<%= source %>">
 		<span class="button" tabindex="30"><%= callToActionName %></span>
 	</form>

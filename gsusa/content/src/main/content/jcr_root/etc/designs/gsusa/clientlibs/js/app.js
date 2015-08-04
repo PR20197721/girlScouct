@@ -11,7 +11,6 @@
     var footer_height = $("footer").outerHeight();
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
-
     $(".main-content").css({
       "min-height" : total_height
     });
@@ -20,14 +19,14 @@
   function pauseAllCarouselVideos() {
     var i;
     for (i = 0; i < 4; i++) {
-      if ($("#vimeoPlayer" + i)) {
-        $f($("#vimeoPlayer" + i)).api('pause');
+      if (document.getElementById("vimeoPlayer" + i)) {
+        $f(document.getElementById("vimeoPlayer" + i)).api('pause');
       }
-      if ($("#youtubePlayer" + i)) {
-        $("#youtubePlayer" + i).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      if (document.getElementById("youtubePlayer" + i)) {
+        document.getElementById("youtubePlayer" + i).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
       }
-      if ($(".vid" + i).find("video").length > 0) {
-        $($(".vid" + i)).find("video")[0].pause();
+      if ($(document.getElementsByClassName("vid" + i)).find("video").length > 0) {
+        $(document.getElementsByClassName("vid" + i)).find("video")[0].pause();
       }
     }
   }
@@ -396,8 +395,6 @@
         arrows: false,
       });
       $('.main-slider').slick('slickPause');
-      // $('.main-slider').slickPause();
-      console.log('main carousel paused');
 
       if ($(window).width() > 640) {
         $('.overlay').fadeIn();

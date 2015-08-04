@@ -34,7 +34,7 @@
 			<section>
 				<form action="" method="post" id="findCouncilByZip" onsubmit="return handleFindCouncilByZip(this.zipcode.value, this.source.value)">
 					<span>FIND YOUR LOCAL COUNCIL</span>
-					<input type="text" pattern="[0-9]*" name="zipcode" placeholder="Enter ZIP code" />
+					<input type="text" pattern="[0-9]*" name="zipcode" placeholder="Enter ZIP Code" />
 					<input type="hidden" name="source" value="<%= source7 %>">
 					<button id="tag_explore-join-go" class="button btn" type="submit" form="findCouncilByZip">GO</button>
 				</form>
