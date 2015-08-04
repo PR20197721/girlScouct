@@ -20,14 +20,14 @@
   function pauseAllCarouselVideos() {
     var i;
     for (i = 0; i < 4; i++) {
-      if (document.getElementById("vimeoPlayer" + i)) {
-        $f(document.getElementById("vimeoPlayer" + i)).api('pause');
+      if ($("#vimeoPlayer" + i)) {
+        $f($("#vimeoPlayer" + i)).api('pause');
       }
-      if (document.getElementById("youtubePlayer" + i)) {
-        document.getElementById("youtubePlayer" + i).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+      if ($("#youtubePlayer" + i)) {
+        $("#youtubePlayer" + i).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
       }
-      if ($(document.getElementsByClassName("vid" + i)).find("video").length > 0) {
-        $(document.getElementsByClassName("vid" + i)).find("video")[0].pause();
+      if ($(".vid" + i).find("video").length > 0) {
+        $($(".vid" + i)).find("video")[0].pause();
       }
     }
   }
@@ -71,7 +71,6 @@
         $(".final-comp").hide();
         $('.hero-text.first').show();
         $('.zip-council > .join').show();
-    //    $('.inner-sliders .inner').slick('unslick');
       }
       if (target.closest('.standalone-volunteer').length === 0
           && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
@@ -305,6 +304,10 @@
             gsusa.functions.ToggleParsysAll.toggleAll(true);
           } catch (ignore) {}
           if ($(window).width() <= 768) {
+            // $("#overflow_hidden, html").css({
+            //   'overflow-y': 'hidden',
+            //   'position': 'relative'
+            // });
             target.css({
               "bottom" : "auto",
               "top" : $(document).scrollTop()
@@ -316,7 +319,6 @@
                 'overflow' : 'scroll'
               });
             }
-            $("body").css('overflow', 'hidden');
           }
           return true;
         });
@@ -457,8 +459,8 @@
       var scroll_dir;
       var scroll_area = $(this).siblings('.social-block');
 
-      var feed_height = scroll_area.scrollTop() + scroll_area.outerHeight();
-      var inner_height = scroll_area.parent('.wrapper').find('.block-area').height();
+      // var feed_height = scroll_area.scrollTop() + scroll_area.outerHeight();
+      // var inner_height = scroll_area.parent('.wrapper').find('.block-area').height();
 
       // if (feed_height >= inner_height) {
       //   scroll_area.animate({
@@ -466,7 +468,7 @@
       //   }, 500);
       //   return false;
       // }
-      if($(this).hasClass('down')) {
+      if ($(this).hasClass('down')) {
         scroll_dir = "+=";
       } else {
         scroll_dir = "-=";

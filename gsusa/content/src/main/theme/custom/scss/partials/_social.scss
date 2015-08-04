@@ -1,16 +1,9 @@
-//twitter-feed
+
 .social-block {
   max-height: rem-calc(410);
   overflow: hidden;
-  height: rem-calc(410);
+  height: rem-calc(360);
   margin: rem-calc(7);
-  [class^="icon-"],
-  [class*=" icon-"]{
-    font-size: 50px;
-    display: block;
-    color: #797979;
-    text-align: center;
-  }
 }
 .twitter-feed,
 .facebook-feed,
@@ -27,6 +20,13 @@
     background-color: $white;
     position: relative;
     padding-bottom: rem-calc(45);
+    [class^="icon-"],
+    [class*=" icon-"]{
+      font-size: 50px;
+      display: block;
+      color: #797979;
+      text-align: center;
+    }
     .scroll-more {
       @include css-triangle(57px, #e8e8e8, top);
       border-top-width: rem-calc(20);
@@ -53,29 +53,9 @@
     width: 100% !important;
   }
 }
-// .facebook-feed-area {
-//   min-width: 320px;
-//   max-width: 768px;
-//   width: 100%;
-// }
-// .twitter-timeline,
-// .fb-page #u_0_0 > div {
-//   @media #{$small-only} {
-//     width: 100% !important;
-//   }
-// }
-// .facebook-feed-area, .facebook-feed-area span, .facebook-feed-area .fb_iframe_widget span iframe {
-//   @media (min-width : 415px) and (max-width : 768px)  {
-//     min-width: 420px !important;
-//     max-width: 768px !important;
-//     width: 100%;
-//   }
-// }
-// .fb-page > span {
-//   @media (min-width : 415px) and (max-width : 768px)  {
-//     width: 100% !important;
-//   }
-// }
+.facebook-feed-area {
+  text-align: center;
+}
 .facebook-feed {
   .align-center {
     text-align: center;

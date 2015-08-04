@@ -12,8 +12,8 @@
         int tweetLimit = properties.get("tweetLimit",20);
 		%>
         <div  id="tag_social_feed_twitter" class="wrapper clearfix">
+            <span class="icon-social-twitter-tweet-bird"></span>
     		<div class="social-block">
-                <span class="icon-social-twitter-tweet-bird"></span>
                 <div class="block-area">
         			<a class="twitter-timeline" data-link-color="#00ae58"
         				href="https://twitter.com/<%= username %>"
