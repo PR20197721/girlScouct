@@ -24,6 +24,7 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     hiddenField: null,
     labelField: null,
 	pathField: null,
+	checkBoxField : null,
 
     constructor: function(config) {
         config = config || { };
@@ -44,6 +45,17 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             name: this.name
         });
         this.add(this.hiddenField);
+
+		this.checkBoxField = new CQ.Ext.form.Checkbox({
+			listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+		});
+        this.add(new CQ.Ext.form.Label({text: "Open in new window"}));
+		this.add(this.checkBoxField);
 
         this.add(new CQ.Ext.form.Label({text: "Label"}));
         this.labelField = new CQ.Ext.form.TextField({
@@ -78,6 +90,11 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
         this.hiddenField.setValue(value);
+        if (parts.length > 2) {
+        	this.checkBoxField.setValue((parts[2] === "true"));
+        } else {
+        	this.checkBoxField.setValue(false);
+        }
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -87,8 +104,9 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 
     // overriding CQ.form.CompositeField#getRawValue
     getRawValue: function() {
-        return this.labelField.getValue() + "|||" 
-        	+ this.pathField.getValue();
+        return this.labelField.getValue() + "|||"
+        	+ this.pathField.getValue() + "|||" 
+        	+ this.checkBoxField.getValue();
     },
 
     // private

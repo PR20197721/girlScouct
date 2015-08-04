@@ -13,6 +13,8 @@
 			String[] split = navs[i].split("\\|\\|\\|");
 			String label = split.length >= 1 ? split[0] : "";
 			String link = split.length >= 2 ? split[1] : "";
+			String target = "";
+			boolean openInNewWindow = split.length >= 3 ? Boolean.parseBoolean(split[2]) : false;
 			Integer eyebrowTabIndex = 10 + i;
 			String cssId = "eyebrow";
 
@@ -20,7 +22,10 @@
 			if (linkPage != null && !link.contains(".html")) {
 				link += ".html";
 			}
-			%><li><a id="tag_eyebrow_<%= linkifyString(label, 25)%>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
+			if (openInNewWindow) {
+				target = "target=\"_blank\"";
+			}
+			%><li><a <%= target %>id="tag_eyebrow_<%= linkifyString(label, 25)%>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
 		}
 	}
 %>
