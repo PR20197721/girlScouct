@@ -332,7 +332,7 @@
 	    }
 	    
 	    // TODO: Move this to a constant? Or we need a DAO to get all meetings of a certain level.
-	    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan";
+	    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear();
 	    String levelMeetingsRootPath = MEETING_ROOT + "/" + level;    
 	    
 	    return levelMeetingsRootPath;
