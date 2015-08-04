@@ -29,7 +29,8 @@
                     <p class="centered"><a href="https://twitter.com/girlscouts" title="see more on twitter">See more</a></p>
                 </div>
     		</div>
-            <span class="scroll-more"></span>
+            <span class="scroll-more down"></span>
+            <span class="scroll-more up"></span>
         </div>
 		<%
 	}
