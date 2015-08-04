@@ -727,7 +727,7 @@
 					java.util.List<MeetingE> meetings = new java.util.ArrayList();
 					meetings.add(_meeting);
 					troop.getYearPlan().setMeetingEvents(meetings);
-	System.err.println("tata: "+  _meeting.getUid() +" : "+ planView.getYearPlanComponent().getUid())	;			
+			
 //?if( ! _meeting.getUid().equals(  request.getParameter("reactjs") )){ _meeting=null;continue;}
 
 

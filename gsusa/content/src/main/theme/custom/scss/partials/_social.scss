@@ -1,16 +1,9 @@
-//twitter-feed
+
 .social-block {
   max-height: rem-calc(410);
   overflow: hidden;
-  height: rem-calc(410);
+  height: rem-calc(360);
   margin: rem-calc(7);
-  [class^="icon-"],
-  [class*=" icon-"]{
-    font-size: 50px;
-    display: block;
-    color: #797979;
-    text-align: center;
-  }
 }
 .twitter-feed,
 .facebook-feed,
@@ -27,26 +20,41 @@
     background-color: $white;
     position: relative;
     padding-bottom: rem-calc(45);
+    [class^="icon-"],
+    [class*=" icon-"]{
+      font-size: 50px;
+      display: block;
+      color: #797979;
+      text-align: center;
+    }
     .scroll-more {
       @include css-triangle(57px, #e8e8e8, top);
       border-top-width: rem-calc(20);
       border-bottom-width: rem-calc(1);
       position: absolute;
-      left: 50%;
+      left: 20%;
       margin-left: -57px;
       cursor: pointer;
       bottom: rem-calc(10);
+      &.up {
+        left: 80%;
+        border-color: transparent transparent #e8e8e8;
+        border-bottom-width: 1.25rem;
+        border-top-width: 0.0625rem;
+      }
     }
     .centered {
       text-align: center;
     }
   }
 }
-.twitter-timeline,
-.fb-page #u_0_0 > div {
+.twitter-timeline {
   @media #{$small-only} {
     width: 100% !important;
   }
+}
+.facebook-feed-area {
+  text-align: center;
 }
 .facebook-feed {
   .align-center {

@@ -2,9 +2,12 @@
   padding: 0;
 }
 
-.grid-system.nopadding li, .grid-system.nopadding div.image {
-  margin-bottom: 0;
-  padding: 0;
+.grid-system.nopadding {
+  li,
+  div.image {
+    margin-bottom: 0;
+    padding: 0;
+  }
 }
 
 .textimage.nopadding div.text p {

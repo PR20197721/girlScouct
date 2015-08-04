@@ -16,6 +16,9 @@
     </section>
     <section class="utility show-for-medium-up">
     	<div style="" class="clearfix">
+    	<p>
+          <div id='spinner' class='spinner'></div>  
+        </p>
             <div style="" class="join-buttons">
 		&nbsp;
     	        <cq:include path="header/join" resourceType="gsusa/components/header-join-now"/>

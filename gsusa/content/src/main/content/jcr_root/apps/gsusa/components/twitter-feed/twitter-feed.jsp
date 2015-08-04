@@ -12,8 +12,8 @@
         int tweetLimit = properties.get("tweetLimit",20);
 		%>
         <div  id="tag_social_feed_twitter" class="wrapper clearfix">
+            <span class="icon-social-twitter-tweet-bird"></span>
     		<div class="social-block">
-                <span class="icon-social-twitter-tweet-bird"></span>
                 <div class="block-area">
         			<a class="twitter-timeline" data-link-color="#00ae58"
         				href="https://twitter.com/<%= username %>"
@@ -29,7 +29,8 @@
                     <p class="centered"><a href="https://twitter.com/girlscouts" title="see more on twitter">See more</a></p>
                 </div>
     		</div>
-            <span class="scroll-more"></span>
+            <span class="scroll-more down"></span>
+            <span class="scroll-more up"></span>
         </div>
 		<%
 	}

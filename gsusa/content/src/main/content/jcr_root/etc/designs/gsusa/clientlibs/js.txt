@@ -13,5 +13,6 @@ slick.min.js
 all.js
 council-finder.js
 retina.js
+spin.js
 
 app.js

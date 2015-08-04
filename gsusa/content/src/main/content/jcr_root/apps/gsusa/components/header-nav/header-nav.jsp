@@ -22,19 +22,29 @@
 			String label = split.length >= 1 ? split[0] : "";
 			String link = split.length >= 2 ? split[1] : "";
 			String mediumLabel = split.length >= 4 ? split[3] : label;
+			boolean openInNewWindow = false;
+			String target = "";
 			int headerNavTabindex = 40 + i;
 			String activeClass = "";
 			
 			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
-
-			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
-					
-			if (linkPage != null && !link.contains(".html")) {
-				link += ".html";
+			
+			//We are hardcoding openInNewWindow for the last entry
+			//TODO: Please make it customizable, like the eyebrow-nav components
+			if (i == navs.length - 1) {
+				openInNewWindow = true;
+				target = "target=\"_blank\"";
 			}
 			
-			if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
-				activeClass = "active";
+			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
+			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {		
+				if (linkPage != null && !link.contains(".html")) {
+					link += ".html";
+				}
+				
+				if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
+					activeClass = "active";
+				}
 			}
 
 			if (!label.isEmpty()) {
@@ -44,8 +54,8 @@
 					<li id="tag_topnav_<%= linkifyString(label, 25)%>" class="<%=activeClass%>">
 				<%}
 %>
-				   <a class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
-				   <a class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+				   <a <%= target %> class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
+				   <a <%= target %> class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 			  </li>
 <%
 			}

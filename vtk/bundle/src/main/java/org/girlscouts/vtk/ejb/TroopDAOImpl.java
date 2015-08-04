@@ -305,10 +305,10 @@ public class TroopDAOImpl implements TroopDAO {
 						"/");
 				int i = 0;
 				
-	System.err.println("tata path: "+ troop.getPath() );			
+				
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
-	System.err.println("tata elem: "+node);				
+			
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
 						if (i == 2) {
@@ -724,8 +724,7 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = expenses[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
-			System.err.println("Field Name: " + fieldName + " Field Value: "
-					+ fieldValue);
+			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
 		}
 
@@ -734,8 +733,7 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = income[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
-			System.err.println("Field Name: " + fieldName + " Field Value: "
-					+ fieldValue);
+			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
 		}
 	}
@@ -754,8 +752,7 @@ public class TroopDAOImpl implements TroopDAO {
 					currentNode = currentNode.getNode(pathElements[i]);
 
 				} else {
-					System.err.println("#####Trying to add node: "
-							+ pathElements[i]);
+					//System.err.println("#####Trying to add node: "+ pathElements[i]);
 					currentNode = currentNode.addNode(pathElements[i],
 							"nt:unstructured");
 
@@ -1262,7 +1259,7 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 
 			if (ocm.objectExists(troop.getPath())) {
-				System.err.println("tata troop update: "+ troop.getPath());
+				
 				ocm.update(troop);
 			} else {
 				

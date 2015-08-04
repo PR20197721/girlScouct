@@ -68,18 +68,20 @@
 //left column navigation
 .left-nav {
   margin-top: rem-calc(10);
-  width:80%;
+  margin-left: -0.3125rem;
+  width: 80%;
+  * {
+    font-size: rem-calc(14);
+  }
   ul {
     list-style: none;
     margin: 0;
     padding: 0;
     li {
-      // height: rem-calc(36);
       a {
         color: #333 !important;
-        line-height: 1.2;
+        line-height: 1.5;
         display: block;
-        margin-bottom: rem-calc(15);
         padding: rem-calc(8 0 8 20);
       }
       &.active.current {

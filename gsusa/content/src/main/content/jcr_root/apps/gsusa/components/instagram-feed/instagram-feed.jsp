@@ -34,15 +34,16 @@
 	if(result != ""){
 		%>
 		<div id="tag_social_feed_instagram" class="wrapper clearfix">
+			<span class="icon-social-instagram"></span>
 		    <div class="social-block">
-		        <span class="icon-social-instagram"></span>
 		        <div class="block-area">
 					<div class="instagram-feed-image-head-area"></div>
 			        <ul class="instagram-feed-image-area"></ul>
 			    </div>
 			    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
 		    </div>
-		    <span class="scroll-more"></span>
+		    <span class="scroll-more down"></span>
+		    <span class="scroll-more up"></span>
 		</div>
 	    <script type="text/javascript">
         var feedHeadArea = $(".instagram-feed-image-head-area");

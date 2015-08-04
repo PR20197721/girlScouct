@@ -128,8 +128,8 @@ public  String readUrlFile(String urlString) throws Exception {
                   <li>
                     <div>
                       <div>
-                        <img src="<%= imagePath %>" alt="<%= description %>"/>
-                        <p><a href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
+                        <a href="#" data-reveal-id="<%= modalId %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+                        <p><a class="arrow" href="#" data-reveal-id="<%= modalId %>" title="story title"><%= description %></a></p>
                       </div>
                     </div>
                   </li>
@@ -146,8 +146,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
-                          <p><a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
+                          <a href="#" data-reveal-id="<%= modalId3 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>" height=200px /></a>
+                          <p><a class="arrow" href="#" data-reveal-id="<%= modalId3 %>" title="story title"><%= description %></a></p>
                         </div>
                       </div>
                     </li><%
@@ -167,8 +167,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>" height=200px />
-                          <p><a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
+                          <a href="#" data-reveal-id="<%= modalId4 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>" height=200px /></a>
+                          <p><a class="arrow" href="#" data-reveal-id="<%= modalId4 %>" title="story title"><%= description %></a></p>
                         </div>
                       </div>
                     </li><%
@@ -232,8 +232,8 @@ public  String readUrlFile(String urlString) throws Exception {
 	                        <li>
 	                          <div>
 	                            <div>
-	                              <img src="<%= imagePath %>" alt="<%= description %>"/>
-	                              <p><a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
+	                              <a href="#" data-reveal-id="<%= modalId2 %>" title="story title"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+	                              <p><a class="arrow" href="#" data-reveal-id="<%= modalId2 %>" title="story title"><%= description %></a></p>
 	                            </div>
 	                          </div>
 	                        </li>
@@ -266,8 +266,8 @@ public  String readUrlFile(String urlString) throws Exception {
                     <li>
                       <div>
                         <div>
-                          <img src="<%= imagePath %>" alt="<%= description %>"/>
-                          <p><a href="<%= link %>"><%= description %></a></p>
+                          <a href="<%= link %>"><img src="<%= imagePath %>" alt="<%= description %>"/></a>
+                          <p><a class="arrow" href="<%= link %>"><%= description %></a></p>
                         </div>
                       </div>
                     </li>

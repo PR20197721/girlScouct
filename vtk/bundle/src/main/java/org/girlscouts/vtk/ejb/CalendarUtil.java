@@ -377,27 +377,26 @@ public class CalendarUtil {
 		sepThisYear.set(java.util.Calendar.YEAR,
 				_startYearPlanDate.get(java.util.Calendar.YEAR));
 	
-   // System.err.println("tataxxx: "+ sepThisYear.getTime() );		
+  	
 		// if sep1 of this year is after startYearPlanDate, use this year
 		if ((!VtkUtil.isSameDate(sepThisYear.getTime(),
 				_startYearPlanDate.getTime()))
 				&& sepThisYear.getTimeInMillis() > _startYearPlanDate
 						.getTimeInMillis()){
-	//System.err.println("tataxxx 1 : "+ sepThisYear.getTime());		
+		
 			return sepThisYear.getTimeInMillis();
 		}else {
 		
 java.util.Calendar now=	java.util.Calendar.getInstance();
 int maxYear = 	now.get(java.util.Calendar.YEAR);
-//System.err.println("tataxx: "+  now.get(java.util.Calendar.MONTH ) +">"+ VtkUtil.getCurrentGSMonth());
-if( (now.get(java.util.Calendar.MONTH ) >= VtkUtil.getCurrentGSMonth() -1) && 
-	(now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate() )	
-		) 
+if( (now.get(java.util.Calendar.MONTH ) > VtkUtil.getCurrentGSMonth() -1) ||
+		( (now.get(java.util.Calendar.MONTH ) == VtkUtil.getCurrentGSMonth() -1) && (now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate()) )	
+			) 
 	maxYear+=1;
 			sepThisYear.set(java.util.Calendar.YEAR, maxYear);
 			//sepThisYear.add(java.util.Calendar.YEAR, 1);
 			
-	System.err.println("tataxxx +1 : "+ sepThisYear.getTime());			
+				
 			return sepThisYear.getTimeInMillis();
 		}
 		

@@ -2,16 +2,15 @@
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 <%String fbPage = properties.get("fbPage","GirlScoutsUSA");%>
 		<div id="tag_social_feed_facebook" class="wrapper clearfix">
+		    <span class="icon-social-facebook"></span>
 			<div class="social-block">
-				<span class="icon-social-facebook"></span>
 				<div class="facebook-feed-area block-area">
-					<div class="fb-page" 
-						data-href="https://www.facebook.com/<%= fbPage %>" 
-						data-small-header="false" 
-						data-adapt-container-width="true" 
-						data-width="359px" 
-						data-hide-cover="false" 
-						data-show-facepile="true" 
+					<div class="fb-page"
+						data-href="https://www.facebook.com/<%= fbPage %>"
+						data-small-header="false"
+						data-width="1000px"
+						data-hide-cover="false"
+						data-show-facepile="true"
 						data-height="20000px"
 						data-show-posts="true">
 						<div class="fb-xfbml-parse-ignore">
@@ -23,6 +22,7 @@
 				</div>
 				<p class="centered"><a href="https://www.facebook.com/GirlScoutsUSA" title="see more on facebook">See more</a></p>
 			</div>
-			<span class="scroll-more"></span>
+			<span class="scroll-more down"></span>
+			<span class="scroll-more up"></span>
 		</div>
 		<!-- Facebook logic is mostly gone since it doesn't have an image area anymore -->
