@@ -12,12 +12,12 @@
 
 	if (!bg.equals("")) {%>
 		<div class="standalone-volunteer">
-			<div class="bg-image"><cq:include path="bg" resourceType="gsusa/components/image"/></div>		    
+			<div class="bg-image"><cq:include path="bg" resourceType="gsusa/components/image"/></div>
 		    <div class="wrapper">
 		        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
 		        <form class="formVol hide">
 		            <label><%= title %></label>
-		            <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
+		            <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP Code">
 		            <input type="hidden" name="source" value="<%= source %>">
 		        	<input class="button" type="submit" value="<%= searchBtnName %>">
 		        </form>
@@ -28,7 +28,7 @@
 		    <a href="#" title="Volunteer Now" class="button arrow"><%= callToActionName %></a>
 		    <form class="formVol hide">
 		        <label><%= title %></label>
-		        <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP code">
+		        <input type="text" name="ZipVolunteer" maxlength="5" placeholder="Enter ZIP Code">
 		        <input type="hidden" name="source" value="<%= source %>">
 		        <input class="button" type="submit" value="<%= searchBtnName %>">
 		    </form>

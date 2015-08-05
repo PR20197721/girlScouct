@@ -2,8 +2,7 @@
   display: none;
   .hero-text {
     right: 3%;
-    background: none;
-    z-index: 2;
+    left: auto;
     h2 {
       margin-top: rem-calc(28);
     }
@@ -42,9 +41,6 @@
         margin-top: rem-calc(-10);
       }
     }
-    // section {
-    //   width: 100%;
-    // }
   }
   .main-image {
     position: absolute;

@@ -25,7 +25,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 					<h6>By Zip Code</h6>
 					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
 					<section>
-						<input required type="text" name="zip" placeholder="Enter ZIP code" />
+						<input required type="text" name="zip" placeholder="Enter ZIP Code" />
 						<input type="submit" value="Go" class="button tiny" />
 					</section>
 				</form>
@@ -74,7 +74,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				}).fail(function() {
 					var codeSearch = $(".councilCodeSearch");
 					var appendStr = "<h6>By Council Name:</h6>"+
-					"<p>Find a Girl Scout<br/> Council by Council Name</p>" + 
+					"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
 					"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
 					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
 					codeSearch.append(appendStr);

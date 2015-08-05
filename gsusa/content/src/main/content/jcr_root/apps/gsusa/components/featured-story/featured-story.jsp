@@ -29,7 +29,7 @@
 
 	String bgcolorClassic = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 			+ hexToDec(bgcolor.substring(2, 4)) + ','
-			+ hexToDec(bgcolor.substring(4, 6)) + ", .8)";
+			+ hexToDec(bgcolor.substring(4, 6)) + ", .9)";
 
 	String bgcolorCL = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ','
 			+ hexToDec(bgcolor.substring(2, 4)) + ','
