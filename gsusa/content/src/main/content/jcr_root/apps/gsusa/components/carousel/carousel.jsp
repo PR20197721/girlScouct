@@ -178,10 +178,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	}
 %>
 <script type="text/javascript">
-//we cannot asynchronously load this script, otherwise, depending on the time, vimeo player may break
-//	$(window).load(function() {
+	$(document).ready(function() {
 		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
-//	});
+	});
 	var isRetina = (
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);
