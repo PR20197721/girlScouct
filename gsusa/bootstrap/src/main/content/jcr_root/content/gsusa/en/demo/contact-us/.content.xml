@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-07-29T15:43:11.053-04:00"
+        cq:lastModified="{Date}2015-08-04T17:59:20.222-04:00"
         cq:lastModifiedBy="admin"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
@@ -128,27 +128,6 @@
                         constraintType="foundation/components/form/constraints/name"
                         name="city"
                         required="true"/>
-                    <dropdown
-                        jcr:created="{Date}2015-07-29T14:33:43.737-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-07-29T14:58:33.339-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        jcr:title="State"
-                        sling:resourceSuperType="foundation/components/form/defaults/field"
-                        sling:resourceType="foundation/components/form/dropdown"
-                        name="State"
-                        optionsLoadPath="/etc/designs/gsusa/dropdown_data/state_list_value/stateList"/>
-                    <text_4
-                        jcr:created="{Date}2015-06-23T11:42:50.233-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-07-29T15:43:11.050-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        jcr:title="Zip Code"
-                        sling:resourceSuperType="foundation/components/form/defaults/field"
-                        sling:resourceType="foundation/components/form/text"
-                        name="zip"/>
                     <dropdown_0
                         jcr:created="{Date}2015-07-29T15:40:37.106-04:00"
                         jcr:createdBy="admin"
@@ -160,6 +139,29 @@
                         sling:resourceType="foundation/components/form/dropdown"
                         name="Country"
                         optionsLoadPath="/etc/designs/gsusa/dropdown_data/country_list_value/countryList"/>
+                    <dropdown
+                        jcr:created="{Date}2015-07-29T14:33:43.737-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2015-08-04T17:59:10.217-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="State"
+                        sling:resourceSuperType="foundation/components/form/defaults/field"
+                        sling:resourceType="foundation/components/form/dropdown"
+                        name="State"
+                        optionsLoadPath="/etc/designs/gsusa/dropdown_data/state_list_value/stateList"
+                        showHideExpression="((Country == &quot;US&quot;))"/>
+                    <text_4
+                        jcr:created="{Date}2015-06-23T11:42:50.233-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2015-08-04T17:59:20.220-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Zip Code"
+                        sling:resourceSuperType="foundation/components/form/defaults/field"
+                        sling:resourceType="foundation/components/form/text"
+                        name="zip"
+                        showHideExpression="((Country == &quot;US&quot;))"/>
                     <text_3
                         jcr:created="{Date}2015-06-23T11:42:18.349-04:00"
                         jcr:createdBy="admin"
