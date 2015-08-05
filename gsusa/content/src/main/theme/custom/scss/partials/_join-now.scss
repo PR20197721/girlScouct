@@ -5,7 +5,7 @@
 .standalone-volunteer,
 .standalone-join {
   position: relative;
-  min-height: rem-calc(270);
+  // min-height: rem-calc(270);
   margin-bottom: rem-calc(20);
   .middle-col & {
     width: rem-calc(225);
@@ -15,7 +15,7 @@
     margin:0;
   }
   &.form-no-image {
-    min-height: 100%;
+    // min-height: 100%;
   }
   .wrapper {
     position: absolute;
