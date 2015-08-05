@@ -56,3 +56,24 @@ form {
     }
   }
 }
+
+//for CQ built-in form
+//checkbox line-height
+//check permission-request-form and contact-us form to see effect
+form {
+  .checkbox.section {
+    .form_row {
+      //border-style: solid;
+      //border-color: #0000ff;
+      line-height: 2;
+      .form_rightcol {
+        //border-style: solid;
+        //border-color: #00ff00;
+        line-height: 2;
+        input[type="checkbox"] {
+          margin: 0 0 0.5rem 0;
+        }
+      }
+    }
+  }
+}
