@@ -77,17 +77,18 @@
       }
     });
   }
-
+ //header join now volunteer forms.
   function headercomptrigger(item, event) {
     event.stopPropagation();
     item.input.stop().animate({
-      width: 'toggle',
+      width : 'toggle',
     }, 500, function () {
       if (item.input.is(':visible')) {
         item.input.focus();
         item.button.addClass('on');
       } else {
         item.button.removeClass('on');
+        item.input.hide();
       }
     });
     event.preventDefault();
@@ -106,27 +107,28 @@
       input: $(".hero-text .join-now-form .join-text"),
       button: $(".hero-text .button.join-now")
     };
-    // var searchjoin = {
-    //   form : $('.formJoin'),
-    //   input: $('.formJoin input[type="text"]'),
-    //   button: $('.formJoin .button'),
-    // };
-    // var searchvolunteer = {
-    //   form : $('.formVolunteer'),
-    //   input: $('.formVolunteer input[type="text"]'),
-    //   button: $('.formVolunteer .button'),
-    // };
     var headerjoin = {
       form : $('.formHeaderJoin'),
       input: $('.formHeaderJoin input[type="text"]'),
       button: $('.formHeaderJoin .button'),
     };
-
     var headervolunteer = {
       form : $('.formHeaderVolunteer'),
       input: $('.formHeaderVolunteer input[type="text"]'),
       button: $('.formHeaderVolunteer .button'),
     };
+    //stand-alone volunteer and join now buttons.
+    var searchjoin = {
+      form : $('.formJoin'),
+      input: $('.formJoin input[type="text"]'),
+      button: $('.formJoin .button'),
+    };
+    var searchvolunteer = {
+      form : $('.formVolunteer'),
+      input: $('.formVolunteer input[type="text"]'),
+      button: $('.formVolunteer .button'),
+    };
+
     //on ESC keypress close the input
     searchSlider.input.keyup(function (e) {
       if (e.which === 27) {
@@ -149,6 +151,7 @@
         }
       });
     });
+
     //Join button on the final comp.
     joinNow.button.click(function (event) {
       event.stopPropagation();
@@ -174,31 +177,20 @@
       });
     });
 
-    // searchjoin.button.click(function (event) {
-    //   event.stopPropagation();
-    //   searchjoin.input.stop().animate({
-    //     width: 'toggle',
-    //   }, 500, function () {
-    //     if (searchjoin.input.is(':visible')) {
-    //       searchjoin.input.focus();
-    //       searchjoin.button.addClass('on');
-    //     } else {
-    //       // searchSlider.button.focus();
-    //       searchjoin.button.removeClass('on');
-
-    //     }
-    //   });
-    // });
-
     headerjoin.button.click(function (event) {
+      headervolunteer.input.hide();
+      headervolunteer.button.removeClass('on');
       headercomptrigger(headerjoin, event);
     });
+
     headerjoin.button.keyup(function (event) {
       if (event.keyCode === 13) {
         headercomptrigger(headerjoin, event);
       }
     });
     headervolunteer.button.click(function (event) {
+      headerjoin.input.hide();
+      headerjoin.button.removeClass('on');
       headercomptrigger(headervolunteer, event);
     });
     headervolunteer.button.keyup(function (event) {
@@ -214,6 +206,31 @@
         return false;
       }
     });
+    headerjoin.form.submit(function () {
+      if (headerjoin.input.val() !== "") {
+        headerjoin.form.submit();
+        headerjoin.input.val('');
+      } else {
+        return false;
+      }
+    });
+
+
+    // searchjoin.button.click(function (event) {
+    //   event.stopPropagation();
+    //   searchjoin.input.stop().animate({
+    //     width: 'toggle',
+    //   }, 500, function () {
+    //     if (searchjoin.input.is(':visible')) {
+    //       searchjoin.input.focus();
+    //       searchjoin.button.addClass('on');
+    //     } else {
+    //       // searchSlider.button.focus();
+    //       searchjoin.button.removeClass('on');
+
+    //     }
+    //   });
+    // });
 
     // searchvolunteer.button.click(function (event) {
     //   event.stopPropagation();
@@ -231,14 +248,14 @@
     //   event.preventDefault();
     // });
 
-    // searchvolunteer.form.submit(function () {
-    //   if (searchvolunteer.input.val() !== "") {
-    //     searchvolunteer.form.submit();
-    //     searchvolunteer.input.val('');
-    //   } else {
-    //     return false;
-    //   }
-    // });
+    searchvolunteer.form.submit(function () {
+      if (searchvolunteer.input.val() !== "") {
+        searchvolunteer.form.submit();
+        searchvolunteer.input.val('');
+      } else {
+        return false;
+      }
+    });
     searchSlider.form.submit(function () {
       if (searchSlider.input.val() !== "") {
         searchSlider.form.submit();
@@ -248,7 +265,18 @@
       }
     });
   }
-
+  //join now and volunteer form for standalone
+  $('.button.arrow').on("click", function (event) {
+    event.preventDefault();
+    var this_form = $(this).siblings("form");
+    this_form.removeClass('hide');
+    if (this_form.find('input[name="ZipJoin"]').length > 0) {
+      this_form.find('input[name="ZipJoin"]').focus();
+    }
+    if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
+      this_form.find('input[name="ZipVolunteer"]').focus();
+    }
+  });
   //home page join now link will open the email form.
   function join_now() {
     $('.join a').on('click', function (e) {
@@ -501,18 +529,6 @@
 
   $(window).resize(function () {
     small_screens();
-  });
-  //join now and volunteer show form
-  $('.button.arrow').on("click", function (event) {
-    event.preventDefault();
-    var this_form = $(this).siblings("form");
-    this_form.removeClass('hide');
-    if (this_form.find('input[name="ZipJoin"]').length > 0) {
-      this_form.find('input[name="ZipJoin"]').focus();
-    }
-    if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
-      this_form.find('input[name="ZipVolunteer"]').focus();
-    }
   });
 
   var ImageMap = function (map, img) {

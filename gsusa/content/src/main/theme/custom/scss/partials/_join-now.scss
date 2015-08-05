@@ -112,6 +112,9 @@
 }
 .header-volunteer-now {
   margin-left: rem-calc(5);
+  form input[type="text"] {
+    width: 100%;
+  }
 }
 
 .spinner {
