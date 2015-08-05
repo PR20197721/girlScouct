@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-08-04T16:07:33.881-04:00"
+        cq:lastModified="{Date}2015-08-05T13:51:58.912-04:00"
         cq:lastModifiedBy="admin"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
@@ -18,7 +18,7 @@
                     <start
                         jcr:created="{Date}2015-06-23T11:38:43.732-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-06-26T09:50:46.242-04:00"
+                        jcr:lastModified="{Date}2015-08-05T12:05:21.468-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="foundation/components/form/start"
@@ -160,7 +160,7 @@
                     <dropdown
                         jcr:created="{Date}2015-07-30T16:00:27.087-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-08-04T16:07:26.710-04:00"
+                        jcr:lastModified="{Date}2015-08-05T13:51:58.904-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="State"
@@ -168,7 +168,7 @@
                         sling:resourceType="foundation/components/form/dropdown"
                         name="State"
                         optionsLoadPath="/etc/designs/gsusa/dropdown_data/state_list_value/stateList"
-                        showHideExpression="((Country == &quot;US&quot;))"/>
+                        required="true"/>
                     <text_13
                         jcr:created="{Date}2015-06-23T12:07:17.003-04:00"
                         jcr:createdBy="admin"
