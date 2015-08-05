@@ -198,7 +198,7 @@
         headercomptrigger(headervolunteer, event);
       }
     });
-    headervolunteer.form.submit(function () {
+   /* headervolunteer.form.submit(function () {
       if (headervolunteer.input.val() !== "") {
         headervolunteer.form.submit();
         headervolunteer.input.val('');
@@ -207,13 +207,15 @@
       }
     });
     headerjoin.form.submit(function () {
+      console.info("hell");
+      console.info(headerjoin.input.val());
       if (headerjoin.input.val() !== "") {
         headerjoin.form.submit();
         headerjoin.input.val('');
       } else {
         return false;
       }
-    });
+    });*/
 
 
     // searchjoin.button.click(function (event) {
