@@ -338,10 +338,9 @@
             gsusa.functions.ToggleParsysAll.toggleAll(true);
           } catch (ignore) {}
           if ($(window).width() <= 768) {
-            // $("#overflow_hidden, html").css({
-            //   'overflow-y': 'hidden',
-            //   'position': 'relative'
-            // });
+            $("body").css({
+              'overflow': 'hidden'
+            });
             target.css({
               "bottom" : "auto",
               "top" : $(document).scrollTop()
