@@ -164,7 +164,7 @@
           joinNow.button.addClass('hide');
           joinNow.form.submit(function () {
             if (joinNow.input.val() !== "") {
-              joinNow.form.submit();
+              //joinNow.form.submit();
               joinNow.input.val('');
             } else {
               return false;
@@ -198,25 +198,6 @@
         headercomptrigger(headervolunteer, event);
       }
     });
-   /* headervolunteer.form.submit(function () {
-      if (headervolunteer.input.val() !== "") {
-        headervolunteer.form.submit();
-        headervolunteer.input.val('');
-      } else {
-        return false;
-      }
-    });
-    headerjoin.form.submit(function () {
-      console.info("hell");
-      console.info(headerjoin.input.val());
-      if (headerjoin.input.val() !== "") {
-        headerjoin.form.submit();
-        headerjoin.input.val('');
-      } else {
-        return false;
-      }
-    });*/
-
 
     // searchjoin.button.click(function (event) {
     //   event.stopPropagation();
