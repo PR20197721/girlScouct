@@ -66,6 +66,7 @@ public void addVideoNode(String videoPath, String videoName) {
     String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
     String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
     String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
+    int count = 0;
 
 
 //now get all the variables
@@ -130,6 +131,7 @@ if(videoThumbNail[0] == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
     <div class="slide-5">
     <%
     	for (int i = 0 ; i < 4; i++) {
+    		count++;
     		if ("link".equals(videoType5[i])) {
     %>
 			<div>
@@ -153,9 +155,14 @@ if(videoThumbNail[0] == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
 			</div>
     <%
     		} else {
-    //none
+    			count--;
     		}
     	}
     %>
     </div>
 </div>
+<% if(count == 1 && WCMMode.fromRequest(request) == WCMMode.EDIT){ %>
+<div>
+Right-click here to edit
+</div>
+<% } %>
