@@ -32,7 +32,7 @@ blockquote {
       top: rem-calc(9);
       left: 0;
     }
-    p:nth-last-child(3):after {
+    p:last-child:after {
       content: close-quote;
       bottom: 0;
     }
@@ -40,11 +40,6 @@ blockquote {
   p.quotee {
   	text-align:right;
   }
-  &.bg-color {
-    .white {
-      color: $white;
-      & * {color: $white};
-    }
   &.fuchsia {
     background: $fuchsia;
     border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
@@ -69,8 +64,10 @@ blockquote {
     background: $lightgreen;
     border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
   }
-  }
   &.bg-image {
+    p {
+      color: $black;
+    }
     &:before,
     &:after {
       content: "";
@@ -81,9 +78,6 @@ blockquote {
     &:before {
       margin-bottom: rem-calc(20);
     }
-  }
-  .black {
-    color: $black;
   }
   .social-icons {
     float: right;
