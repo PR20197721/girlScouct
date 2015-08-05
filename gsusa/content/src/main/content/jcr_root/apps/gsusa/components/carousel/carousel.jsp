@@ -217,65 +217,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		<div class="inner-sliders">
 			<ul class="inner">
 				<li>
-					<ul class="slide-1">
-<%
-	for (int i = 0 ; i < imagePath2.length; i++) {
-		String displayContent = "";
-		if (content2[i] != null) {
-			displayContent = content2[i].trim();
-		}
-%>
-						<li id="tag_explore_slide1_<%=i%>">
-							<h3><%= title2 %></h3>
-							<div class="text white">
-								<h4><%= subtitle2[i] %></h4>
-								<p><%= displayContent %></p>
-							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
-						</li>
-<%
-	}
-%>
-					</ul>
-				</li>
-				<li>
-					<ul class="slide-2">
-<%
-	for (int i = 0 ; i < imagePath3.length; i++) {
-                String displayContent = "";
-                if (content3[i] != null) {
-                        displayContent = content3[i].trim();
-                }
-%>
-						<li id="tag_explore_slide2_<%=i%>">
-							<h3><%= title3 %></h3>
-							<div class="text white">
-								<h4><%= subtitle3[i] %></h4>
-								<p><%= displayContent %></p>
-							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
-						</li>
-<%
-	}
-%>
-					</ul>
-				</li>
-				<li>
-					<ul class="slide-3">
-						<li id="tag_explore_slide3">
-							<h3><%= title4 %></h3>
-							<div class="blog-feed">
-							<%
-							//Removes editing for this component, because its configuration is handled in carousel's dialog
-							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
-							%>
-							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
-							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
-							</div>
-						</li>
-					</ul>
-				</li>
-				<li>
 					<ul class="slide-4">
 <%
 	for (int i = 0 ; i < 4; i++) {
@@ -336,7 +277,66 @@ public  String readUrlFile(String urlString) throws Exception {
 	}
 %>
 					</ul>
+				</li>				<li>
+					<ul class="slide-2">
+<%
+	for (int i = 0 ; i < imagePath3.length; i++) {
+                String displayContent = "";
+                if (content3[i] != null) {
+                        displayContent = content3[i].trim();
+                }
+%>
+						<li id="tag_explore_slide2_<%=i%>">
+							<h3><%= title3 %></h3>
+							<div class="text white">
+								<h4><%= subtitle3[i] %></h4>
+								<p><%= displayContent %></p>
+							</div>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
+						</li>
+<%
+	}
+%>
+					</ul>
 				</li>
+				<li>
+					<ul class="slide-3">
+						<li id="tag_explore_slide3">
+							<h3><%= title4 %></h3>
+							<div class="blog-feed">
+							<%
+							//Removes editing for this component, because its configuration is handled in carousel's dialog
+							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+							%>
+							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
+							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
+							</div>
+						</li>
+					</ul>
+				</li>
+                <li>
+					<ul class="slide-1">
+<%
+	for (int i = 0 ; i < imagePath2.length; i++) {
+		String displayContent = "";
+		if (content2[i] != null) {
+			displayContent = content2[i].trim();
+		}
+%>
+						<li id="tag_explore_slide1_<%=i%>">
+							<h3><%= title2 %></h3>
+							<div class="text white">
+								<h4><%= subtitle2[i] %></h4>
+								<p><%= displayContent %></p>
+							</div>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
+						</li>
+<%
+	}
+%>
+					</ul>
+				</li>
+
 			</ul>
 		</div>
 	</div>
