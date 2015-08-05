@@ -32,8 +32,10 @@
   }
 
   function document_close_all() {
+	//Detect ipad
+    var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
     //when clicking outside of the form it will close the input.
-    $(document).click(function (event) {
+    $(document).on(touchOrClick, function (event) {
       event.stopPropagation();
       var target = $(event.target);
 
