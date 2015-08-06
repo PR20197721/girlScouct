@@ -44,7 +44,7 @@ div.featured-stories {
       color: #333;
       left: 0;
       opacity: 0;
-      visibility: hidden;
+      display: none;
       transition: visibility 0s linear 0.5s,opacity 0.5s linear;
       @media #{$medium-up} {
         max-height: rem-calc(570);
@@ -227,7 +227,7 @@ div.featured-stories {
       &.shown {
         opacity: 1;
         z-index: 5;
-        visibility: visible;
+	display: block;
         transition-delay: 0s;
       }
     }

@@ -36,10 +36,9 @@
 			+ hexToDec(bgcolor.substring(4, 6)) + ", 0)";
 
 	String bg = "";
-	try {
-		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
-		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
-	} catch (Exception e) {}
+        try {
+                bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+        } catch (Exception e) {}
 
 	String noPadding = "";
 	if (properties.get("noPadding", "false").equals("true")) {
@@ -56,7 +55,12 @@
 	</div>
 </div>
 
-<% if(theme.equals("classic")){ %>
+<%
+if(theme.equals("classic")){ 
+	try {
+		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
+	} catch (Exception e) {}
+%>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
 		<div class="header">
@@ -73,7 +77,12 @@
 	</div>
 </section>
 
-<% }else if(theme.equals("colorless")) { %>
+<%
+} else if(theme.equals("colorless")) { 
+        try {
+                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
+        } catch (Exception e) {}
+%>
 <section class="story colorless<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
 		<div class="header">
@@ -91,7 +100,12 @@
 		</div>
 	</div>
 </section>
-<% } else if(theme.equals("shop")){ %>
+<%
+} else if(theme.equals("shop")){
+        try {
+                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+        } catch (Exception e) {}
+%>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
 		<div class="header">
@@ -106,7 +120,12 @@
 		</div>
 	</div>
 </section>
-<% } else if(theme.equals("social")){ %>
+<%
+} else if(theme.equals("social")){
+        try {
+                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+        } catch (Exception e) {}
+%>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div  id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
 		<div class="header">
@@ -121,7 +140,12 @@
 		</div>
 	</div>
 </section>
-<% } else if(theme.equals("video")){ %>
+<%
+} else if(theme.equals("video")){
+        try {
+                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.middle.");
+        } catch (Exception e) {}
+%>
 <section class="story video<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div  id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorClassic %>">
 		<div class="header">
