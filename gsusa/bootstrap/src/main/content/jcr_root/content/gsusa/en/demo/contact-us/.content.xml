@@ -2,8 +2,11 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2015-08-05T14:14:18.823-04:00"
-        cq:lastModifiedBy="admin"
+        cq:lastModified="{Date}2015-08-06T14:29:07.353-04:00"
+        cq:lastModifiedBy="kli"
+        cq:lastReplicated="{Date}2015-08-06T14:29:13.348-04:00"
+        cq:lastReplicatedBy="kli"
+        cq:lastReplicationAction="Activate"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
@@ -142,24 +145,25 @@
                     <dropdown
                         jcr:created="{Date}2015-07-29T14:33:43.737-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-08-05T14:14:18.814-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:lastModified="{Date}2015-08-06T14:01:24.112-04:00"
+                        jcr:lastModifiedBy="kli"
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="State"
+                        jcr:title="State (US Only)"
                         sling:resourceSuperType="foundation/components/form/defaults/field"
                         sling:resourceType="foundation/components/form/dropdown"
                         name="State"
                         optionsLoadPath="/etc/designs/gsusa/dropdown_data/state_list_value/stateList"
-                        required="true"/>
+                        showHideExpression="((Country == &quot;US&quot;))"/>
                     <text_4
                         jcr:created="{Date}2015-06-23T11:42:50.233-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-08-04T17:59:20.220-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:lastModified="{Date}2015-08-06T14:01:30.204-04:00"
+                        jcr:lastModifiedBy="kli"
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="Zip Code"
+                        jcr:title="Zip Code (US Only)"
                         sling:resourceSuperType="foundation/components/form/defaults/field"
                         sling:resourceType="foundation/components/form/text"
+                        constraintType="gsusa/components/customFormConstraint/zipcode"
                         name="zip"
                         showHideExpression="((Country == &quot;US&quot;))"/>
                     <text_3
@@ -201,12 +205,14 @@
                     <text_5
                         jcr:created="{Date}2015-06-23T11:44:52.806-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2015-06-23T11:45:21.130-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:lastModified="{Date}2015-08-06T14:29:07.347-04:00"
+                        jcr:lastModifiedBy="kli"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Comments"
                         sling:resourceSuperType="foundation/components/form/defaults/field"
                         sling:resourceType="foundation/components/form/text"
+                        constraintMessage="The maximum characters of this field is 1500."
+                        constraintType="gsusa/components/customFormConstraint/maxlength1500"
                         name="comments"
                         rows="4"/>
                     <submit
