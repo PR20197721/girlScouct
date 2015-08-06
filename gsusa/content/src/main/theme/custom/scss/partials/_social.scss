@@ -31,6 +31,7 @@
       @include css-triangle(57px, #e8e8e8, top);
       border-top-width: rem-calc(20);
       border-bottom-width: rem-calc(1);
+      border-style: solid;
       position: absolute;
       left: 20%;
       margin-left: -57px;
