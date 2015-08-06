@@ -16,7 +16,7 @@ $(document).ready(function() {
             if (stateVal == undefined || stateVal == null || stateVal == 'N/A') {
                 stateField.val('');
             }
-            if (zipVal == undefined || zipVal == null || zipVal == 'N/A') {
+            if (zipVal == undefined || zipVal == null || zipVal == '00000') {
             	zipField.val('');
             }
         } else {
