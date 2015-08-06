@@ -192,3 +192,12 @@ if(theme.equals("classic")){
 <%
 	}
 %>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$(window).on("load resize",function(e){
+			if ($( document ).width() < 768) {
+				$(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+			}
+		});
+	});
+</script>
