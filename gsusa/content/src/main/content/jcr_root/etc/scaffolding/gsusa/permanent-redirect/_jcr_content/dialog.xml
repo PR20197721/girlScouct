@@ -31,6 +31,16 @@
                         fieldLabel="Target"
                         name="./jcr:content/redirectTarget"
                         xtype="pathfield"/>
+                    <res
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/sling:resourceType"
+                   		value="gsusa/components/redirect"
+                   		xtype="hidden"/>
+                   	<hide
+                   		jcr:primaryType="cq:Widget"
+                   		name="./jcr:content/hideInNav"
+                   		value="true"
+                   		xtype="hidden"/>
                 </items>
             </tab1>
         </items>
