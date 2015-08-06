@@ -29,9 +29,9 @@
 			
 			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
 			
-			//We are hardcoding openInNewWindow for the last entry
+			//We are hardcoding openInNewWindow for "For Cookies", "Shop" and Cookies"
 			//TODO: Please make it customizable, like the eyebrow-nav components
-			if (i == navs.length - 1) {
+			if (i == 2 || i == 3 || i == 5) {
 				openInNewWindow = true;
 				target = "target=\"_blank\"";
 			}
