@@ -18,4 +18,5 @@
     <filter root="/etc/map.publish.stage/slick-fonts"/>
     <filter root="/etc/map.publish.uat/slick-fonts"/>
     <filter root="/etc/map.publish.prod/slick-fonts"/>
+    <filter root="/etc/map.publish.prod.preview/slick-fonts"/>
 </workspaceFilter>
