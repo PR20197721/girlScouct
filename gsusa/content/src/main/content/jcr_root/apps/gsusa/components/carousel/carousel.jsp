@@ -231,7 +231,7 @@ public  String readUrlFile(String urlString) throws Exception {
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video video-embed">
-                                                                        <img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
+                                  <img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
@@ -244,7 +244,7 @@ public  String readUrlFile(String urlString) throws Exception {
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video-embed">
-									<img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
+									<img src="<%= videoThumbNail[i] %>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
 									<%= embeded[i] %>
 								</div>
 								<div class="video-article">
