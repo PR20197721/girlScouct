@@ -59,7 +59,7 @@ function vtk_accordion() {
       var toggle = $(this);
       $('#' + target).slideToggle('slow');
       $(toggle).toggleClass('on');
-      if(window[ target ] != null){
+      if(window[ target ] != null && window[ target ].toggle != null){
     	  window[ target ].toggle();
       }
         return false;

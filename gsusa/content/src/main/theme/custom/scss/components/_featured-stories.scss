@@ -1,6 +1,3 @@
-//The following 3 lines will be removed temporarily because if these lines are added,
-//anything added to the homepage parsys will be overlayed with the feature stories.
-
 div.featured-stories {
  @include grid-column(24);
  float: none;
@@ -36,16 +33,19 @@ div.featured-stories {
       }
     }
     .story {
-      // display: none;
       width: 100%;
       position: absolute;
       top: 0;
-      z-index: -1;
+      // z-index: -1;
       color: #333;
       left: 0;
-      opacity: 0;
-      display: none;
-      transition: visibility 0s linear 0.5s,opacity 0.5s linear;
+      // opacity: 0;
+     display: none;
+      // transition: display 0s linear 0.5s,opacity 0.5s linear;
+      // transition: all 1s ease-out; /* future, future, please come sooner! */
+      // -webkit-transition: all 1s ease-out;
+      // -moz-transition: all 1s ease-out;
+      // -o-transition: all 1s ease-out;
       @media #{$medium-up} {
         max-height: rem-calc(570);
       }
@@ -196,9 +196,6 @@ div.featured-stories {
                   visibility: hidden;
                 }
               }
-              .slick-slide {
-                // margin-bottom: 0 !important;
-              }
               .slick-dots {
                 margin: 2% 0 0 0;
                 position: static;
@@ -224,12 +221,12 @@ div.featured-stories {
           }
         }
       }
-      &.shown {
-        opacity: 1;
-        z-index: 5;
-	display: block;
-        transition-delay: 0s;
-      }
+      // &.shown {
+      //   opacity: 1;
+      //   z-index: 5;
+      //   display: block;
+      //   transition-delay: 0s;
+      // }
     }
     &:only-child {
       max-width: 100%;

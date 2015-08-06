@@ -62,6 +62,7 @@ $('.formVol, .formHeaderVolunteer').submit(function (event) {
         if(found) {
             //register zipcode entered to google analytics
             //var curZipcode = $(me).find("[name='ZipVolunteer']").val();
+            spinner.stop(spinner_div);
             _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue]);
         
             submit_facebook_conversion_pixel("volunteer/"+"homepage");
@@ -70,6 +71,7 @@ $('.formVol, .formHeaderVolunteer').submit(function (event) {
         } else {
             // invalidate the zipcode field manually
             $(me).find("[name='ZipVolunteer']").val('Invalid');
+            spinner.stop(spinner_div);
             // .valid() should work but somehow with edge animation, it doesn't work.. so instead, using .select()
             $(me).find("[name='ZipVolunteer']").select();		
         }
