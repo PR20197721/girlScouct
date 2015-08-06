@@ -6,27 +6,32 @@ $('.form_error').prev().hide();
 $(document).ready(function() {
     var countryField = $('select[name="Country"]');
     var stateField = $('select[name="State"]');
-    var star = $(stateField.parent().parent().find('.form_leftcolmark')[0]);
+    var zipField = $('select[name="zip"]');
 
-    function adjustStateField() {
+    function adjustField() {
         var stateVal = stateField.val();
+        var zipVal = zipField.val();
         if (countryField.val() == 'US') {
         	stateField.children().first().attr('value', '');
             if (stateVal == undefined || stateVal == null || stateVal == 'N/A') {
                 stateField.val('');
             }
-            star.show();
+            if (zipVal == undefield || zipVal == null || zipVal == 'N/A') {
+            	zipField.val('');
+            }
         } else {
         	stateField.children().first().attr('value', 'N/A');
             if (stateVal == undefined || stateVal == null || stateVal == '') {
-                stateField.val('N/A');
+                stateField.val('00000');
             }
-            star.hide();
+            if (zipVal == undefield || zipVal == null || zipVal == '') {
+            	zipField.val('');
+            }
         }
     }
 
     countryField.on('change', function(){
-    	adjustStateField();
+    	adjustField();
     });
-    adjustStateField();
+    adjustField();
 });
