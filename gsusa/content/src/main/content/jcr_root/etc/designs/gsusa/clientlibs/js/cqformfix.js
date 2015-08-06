@@ -16,7 +16,7 @@ $(document).ready(function() {
             if (stateVal == undefined || stateVal == null || stateVal == 'N/A') {
                 stateField.val('');
             }
-            if (zipVal == undefield || zipVal == null || zipVal == 'N/A') {
+            if (zipVal == undefined || zipVal == null || zipVal == 'N/A') {
             	zipField.val('');
             }
         } else {
@@ -24,7 +24,7 @@ $(document).ready(function() {
             if (stateVal == undefined || stateVal == null || stateVal == '') {
                 stateField.val('00000');
             }
-            if (zipVal == undefield || zipVal == null || zipVal == '') {
+            if (zipVal == undefined || zipVal == null || zipVal == '') {
             	zipField.val('');
             }
         }
