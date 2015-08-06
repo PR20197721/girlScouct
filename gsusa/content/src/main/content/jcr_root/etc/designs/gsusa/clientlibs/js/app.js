@@ -402,7 +402,11 @@
         cssEase: 'linear',
         arrows: false,
         customPaging: function (slick, index) {
-          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + "<p>" + $("#hiddenThumbnail" + index).text(); + "</p>";
+          var thumbnailText = $("#hiddenThumbnail" + index).text(); 
+          if (thumbnailText.trim() !== "") {
+		thumbnailText = "<p>" + thumbnailText + "</p>";
+          }
+          return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + thumbnailText;
         },
       });
       $('.inner-sliders .slide-3').slick({
