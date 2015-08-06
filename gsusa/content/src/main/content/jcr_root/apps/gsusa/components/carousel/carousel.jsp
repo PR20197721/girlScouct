@@ -231,7 +231,7 @@ public  String readUrlFile(String urlString) throws Exception {
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
+                                                                        <img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
 								</div>
 								<div class="video-article">
 									<h4><%= subtitle5[i] %></h4>
@@ -244,7 +244,7 @@ public  String readUrlFile(String urlString) throws Exception {
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
 								<div class="video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
+									<img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
 									<%= embeded[i] %>
 								</div>
 								<div class="video-article">
@@ -291,7 +291,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								<h4><%= subtitle3[i] %></h4>
 								<p><%= displayContent %></p>
 							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
 						</li>
 <%
 	}
@@ -328,7 +328,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= displayContent %></p>
 							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
 						</li>
 <%
 	}
@@ -352,7 +352,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				</form>
 			</section>
 		</div>
-		<img src="<%= getImageRenditionSrc(resourceResolver, imagePath6, "cq5dam.npd.top.")%>" alt="<%= imageAlt6 %>" class="main-image" />
+		<img src="<%= getImageRenditionSrc(resourceResolver, imagePath6, "cq5dam.npd.hero.")%>" alt="<%= imageAlt6 %>" class="main-image" />
 	</div>
 	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>

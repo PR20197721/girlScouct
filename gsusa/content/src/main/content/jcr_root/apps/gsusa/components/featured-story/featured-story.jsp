@@ -38,7 +38,7 @@
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
-		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
+		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
 	} catch (Exception e) {}
 
 	String noPadding = "";
