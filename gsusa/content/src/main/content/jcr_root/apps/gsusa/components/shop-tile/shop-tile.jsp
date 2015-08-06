@@ -7,6 +7,10 @@ String[] imgs = properties.get("imgs", String[].class);
 String shopNowLink = properties.get("shopLink", "#");
 String title = properties.get("title", "");
 String buttonText = properties.get("buttonText", "");
+String text = properties.get("text", "");
+if(text.length() > 200){
+	text = text.substring(0,200) + "...";
+}
 if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
 <p> Please select at least one image to display</p>
@@ -37,8 +41,7 @@ if (imgs == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 </div>
 <div class="rich-text">
 <h3><%= title %></h3>
-<cq:text property="text" escapeXml="true"
-        placeholder="<%= Placeholder.getDefaultPlaceholder(slingRequest, component, null)%>"/>
+<%= text %>
 <a id="tag_shop_tile_shopnow" href="<%=shopNowLink%>" class="button"><%= buttonText %></a>
 </div>
 
