@@ -12,4 +12,10 @@
     <filter root="/etc/dam/video/hq"/>
     <filter root="/etc/scaffolding/gsusa"/>
     <filter root="/etc/designs/gsusa/jcr:content/page/video"/>
+    <filter root="/etc/map.author/slick-fonts"/>
+    <filter root="/etc/map.publish/slick-fonts"/>
+    <filter root="/etc/map.publish.dev/slick-fonts"/>
+    <filter root="/etc/map.publish.stage/slick-fonts"/>
+    <filter root="/etc/map.publish.uat/slick-fonts"/>
+    <filter root="/etc/map.publish.prod/slick-fonts"/>
 </workspaceFilter>
