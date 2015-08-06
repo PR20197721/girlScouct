@@ -32,13 +32,12 @@ div.carousel {
     }
   }
   .slick-dots {
-    bottom: rem-calc(-150);
+    bottom: rem-calc(-20);
     margin-left: 0;
     position: relative;
-    bottom: rem-calc(-10);
     text-align: left;
     li {
-      height: rem-calc(100);
+      height: rem-calc(80);
       width: 23.943662%;
       margin: 0 .7%;
       &:first-child {
