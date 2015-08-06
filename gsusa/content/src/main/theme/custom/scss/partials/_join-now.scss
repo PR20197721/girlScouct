@@ -5,17 +5,15 @@
 .standalone-volunteer,
 .standalone-join {
   position: relative;
-  // min-height: rem-calc(270);
+  max-width: rem-calc(210);
+  width: 100%;
   margin-bottom: rem-calc(20);
-  .middle-col & {
-    width: rem-calc(225);
-  }
+  // .middle-col & {
+  //   width: rem-calc(210);
+  // }
   //MAIN.CSS overwrite
   div.image {
     margin:0;
-  }
-  &.form-no-image {
-    // min-height: 100%;
   }
   .wrapper {
     position: absolute;
@@ -47,9 +45,6 @@
     input[type="submit"] {
       padding: rem-calc(8 5 7 5);
       margin-bottom: 0;
-    }
-    &:not(.form-no-image) {
-
     }
   }
   .button.arrow {

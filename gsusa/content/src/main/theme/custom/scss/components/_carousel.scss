@@ -40,6 +40,8 @@ div.carousel {
       height: 100%;
       width: 23.943662%;
       margin: 0 .7%;
+      display: block;
+      float: left;
       &:first-child {
         margin-left: 0;
       }
@@ -53,15 +55,28 @@ div.carousel {
       }
       p {
         position: absolute;
-        margin: 0 auto;
-        text-align: center;
         bottom: 0;
         width: 100%;
+        font-size: rem-calc(11);
+        color: #333;
+        padding: rem-calc(2 5);
       }
       &.slick-active {
         img {
           opacity: .7;
         }
+      }
+      &:first-child p {
+        background: #b7c93c;
+      }
+      &:nth-of-type(2) p {
+        background: #f9a42c;
+      }
+      &:nth-of-type(3) p {
+        background: #00b0ec;
+      }
+      &:last-child p {
+        background: #009e4f;
       }
     }
   }

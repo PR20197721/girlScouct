@@ -165,7 +165,7 @@
       event.stopPropagation();
       event.preventDefault();
       joinNow.input.stop().animate({
-        width: 'toggle',
+        height: 'toggle',
       }, 500, function () {
         if (joinNow.input.is(':visible')) {
           joinNow.input.focus();
