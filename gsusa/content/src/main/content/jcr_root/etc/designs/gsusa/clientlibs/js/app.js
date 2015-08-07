@@ -342,7 +342,11 @@
                 'overflow' : 'scroll'
               });
             }
+            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
           }
+          // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
+          $(".slick-list .slick-track").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+          $(".slick-slide.slick-active").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
           return true;
         });
         //closing the section by clicking on the cross
