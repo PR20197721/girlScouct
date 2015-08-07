@@ -40,12 +40,16 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 //if(true)return;
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
+	
+		 
+    
+	%> 
+	<%@include file='myTroopImg.jsp' %>
+	
+	
 
-%>
- 
-<%@include file='myTroopImg.jsp' %>
-
-<% if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
+<% if( false) {
+	//!hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){ %>
   <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
@@ -79,12 +83,14 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 				  </div>
         <%}
  }
+
+if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){
         %>
 
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-       <% if(!hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){%>
+       <% if(!hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){%>
             <a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
        <% }%>
       </dt>
@@ -95,7 +101,8 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
       </dd>
     </dl>
   </div>
-    <% } %>
+  
+    <% } } %>
 
 
 

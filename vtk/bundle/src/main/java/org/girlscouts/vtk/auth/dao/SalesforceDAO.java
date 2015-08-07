@@ -3,6 +3,8 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+import java.util.Set;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -46,60 +48,60 @@ public class SalesforceDAO {
 		this.connectionFactory = connectionFactory;
 	}
 
-	public User getUser(ApiConfig config) {
-		User user = new User();
-		HttpClient httpclient = new HttpClient();
-		GetMethod get = new GetMethod(config.getInstanceUrl()
-				+ "/services/data/v20.0/query");
-		get.setRequestHeader("Authorization",
-				"OAuth " + config.getAccessToken());
-		NameValuePair[] params = new NameValuePair[1];
-		params[0] = new NameValuePair(
-				"q",
-				"SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='"
-						+ config.getUserId() + "' limit 1");
-		get.setQueryString(params);
+	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
+		User user= new User();
+		CloseableHttpClient connection = null;
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
-
-			log.debug("________________getUser_________start_____________________________");
-			log.debug(get.getRequestCharSet());
-			Header headers[] = get.getRequestHeaders();
-			for (Header h : headers) {
-				log.debug("Headers: " + h.getName() + " : " + h.getValue());
+			connection = connectionFactory.getConnection();
+			CloseableHttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+			if (statusCode != HttpStatus.SC_OK) {
+				System.err.println("Method failed: " + resp.getStatusLine());
+				throw new IllegalAccessException();
 			}
-			log.debug(":::> " + get.getQueryString());
-			log.debug(config.getInstanceUrl() + "/services/data/v20.0/query");
-			log.debug("___________________getUser________end___________________________");
-			httpclient.executeMethod(get);
-			log.debug(get.getStatusCode() + " : "
-					+ get.getResponseBodyAsString());
-			if (get.getStatusCode() == HttpStatus.SC_OK) {
-				try {
-					JSONObject response = new JSONObject(
-							new JSONTokener(new InputStreamReader(
-									get.getResponseBodyAsStream())));
-					log.debug("Query response: " + response.toString(2));
-					JSONArray results = response.getJSONArray("records");
-
-					// Always use the last record
-					int current = results.length() - 1;
+			HttpEntity entity = null;
+			String rsp = null;
+			try {
+				entity = resp.getEntity();
+				entity.getContent();
+				rsp = EntityUtils.toString(entity);
+				EntityUtils.consume(entity);
+				method.releaseConnection();
+				method = null;
+			} finally {
+				resp.close();
+			}
+			rsp = "{\"records\":" + rsp + "}";		
+			log.debug(">>>>> " + rsp);	
+			try {
+				JSONObject response = new JSONObject(rsp);
+				log.debug("<<<<<Apex user reponse: " + response);
+				JSONArray results = response.getJSONArray("records");
+				for (int i = 0; i < results.length(); i++) {
+					log.debug("_____ " + results.get(i));
+					//int current = results.length() - 1;
 					try {
 						try {
-							user.setName(results.getJSONObject(current)
+							user.setName(results.getJSONObject(i)
 									.getString("FirstName"));
+							
+							user.setFirstName(user.getName());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 
 						try {
-							user.setEmail(results.getJSONObject(current)
+							user.setEmail(results.getJSONObject(i)
 									.getString("Email"));
 						} catch (Exception e) {
 							System.err
 									.println("SAlesforceDAO.getUser: no email");
 						}
 						try {
-							user.setPhone(results.getJSONObject(current)
+							user.setPhone(results.getJSONObject(i)
 									.getString("Phone"));
 						} catch (Exception e) {
 							System.err
@@ -107,62 +109,71 @@ public class SalesforceDAO {
 						}
 
 						try {
-							user.setContactId(results.getJSONObject(current)
+							user.setContactId(results.getJSONObject(i)
 									.getString("ContactId"));
-							user.setSfUserId(results.getJSONObject(current)
+							user.setSfUserId(results.getJSONObject(i)
 									.getString("Id"));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 
 						try {
-							String email = results.getJSONObject(current)
-									.getString("Email");
+							user.setEmail( results.getJSONObject(i)
+									.getString("Email"));
 
-							if (email != null
-									&& email.trim()
-											.toLowerCase()
-											.equals("alex_yakobovich@northps.com")) {
-								log.debug("CHECK MASTER 4: USER2: "
-										+ config.getAccessToken() + " : "
-										+ get.getStatusCode() + " : "
-										+ get.getResponseBodyAsString());
-								UserGlobConfig ubConf = troopDAO
-										.getUserGlobConfig();
-								ubConf.setMasterSalesForceRefreshToken(config
-										.getRefreshToken());
-								ubConf.setMasterSalesForceToken(config
-										.getAccessToken());
-								troopDAO.updateUserGlobConfig();
-							}
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						
+						try {
+							user.setLastName( results.getJSONObject(i)
+									.getString("LastName") );
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
+						
+						try {
+							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
+									.getBoolean("VTK_Admin__c") );
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						
 
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					java.util.List<Troop> troops = troopInfo(config,
+					java.util.List<Troop> troops = troopInfo(user, apiConfig,
 							user.getSfUserId());
-					config.setTroops(troops);
+					apiConfig.setTroops(troops);
 
 					return user;
-				} catch (JSONException e) {
-					log.error("JSON Parse exception: " + e.toString());
+					
 				}
-			} else {
-				log.error("Return status not OK: " + get.getStatusCode() + " "
-						+ get.getResponseBodyAsString());
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		} catch (Exception e) {
-			log.error("Error executing HTTP GET when getting the user: "
-					+ e.toString());
+		} catch (HttpException e) {
+			System.err.println("Fatal protocol violation: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Fatal transport error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception eG) {
+			System.err.println("Fatal transport error: " + eG.getMessage());
+			eG.printStackTrace();
 		} finally {
-			get.releaseConnection();
+			if (method != null)
+				method.releaseConnection();
 		}
-		return null;
+		return user;
 	}
-
+	
+	
+	
 	public ApiConfig doAuth(String code) {
 		try {
 			code = URLDecoder.decode(code, "UTF-8");
@@ -318,6 +329,9 @@ public class SalesforceDAO {
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
+				
+
+				
 				JSONArray results = response.getJSONArray("records");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
@@ -451,10 +465,11 @@ public class SalesforceDAO {
 		return contacts;
 	}
 
-	public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId) {
+	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig, String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
@@ -474,6 +489,7 @@ public class SalesforceDAO {
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
+System.err.println("<<tata<<<Apex resp: " + response);		
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -496,52 +512,46 @@ public class SalesforceDAO {
 					try{
 						troop.setRole(results.getJSONObject(i).getString(
 							"Job_Code__c"));
+					
 					}catch(Exception e){e.printStackTrace();/* troop.setRole("DP");*/}
 					
 					
 					
-					log.debug("User Roll: "
-							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
 					
-					  try { 
-						  if (contactId.equals("005Z0000002J5CYIA0")) {
-					  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
-					  troop.setCouncilCode(603); 
-					  // TO BE REMOVED : only 4 // test
-					  if(troop.getTroopId().equals("701Z0000000gvSKIAY")) {
-					  troop.setTroopId("701G0000000uQzTIAU");
-					  troop.setTroopName("Troop 603104");
-					  troop.setGradeLevel("2-Brownie"); } } 
-						  } catch (Exception
-					  nn) { nn.printStackTrace(); }
 					 
-					switch (rollType) {
-					case PA:
-						troop.setPermissionTokens(Permission
+					
+					  troop.setPermissionTokens(Permission
+							.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+					  
+					  
+					  if( rollType.getRollType().equals("PA")){
+						  troop.getPermissionTokens().addAll(Permission
 								.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
-						log.debug("REGISTER ROLL PA= parent");
-						break;
-					case DP:
-						troop.setPermissionTokens(Permission
+					
+					  }
+					  
+					  if( rollType.getRollType().equals("DP")){
+						  troop.getPermissionTokens().addAll(Permission
 								.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
-						log.debug("REGISTER ROLL DP");
-						break;
-					case CouncilAdmin:
-						troop.setPermissionTokens(Permission
-								.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
-						troop.getPermissionTokens()
-								.addAll(Permission
-										.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
-						log.debug("Council Admin");
-						break;
-					default:
-						log.debug("REGISTER ROLL DEFAULT");
-						troop.setPermissionTokens(Permission
-								.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
-						break;
-					}
+					  }
+					  
+					  
+					  if( rollType.getRollType().equals("CouncilAdmin")){ 
+						
+						  troop.getPermissionTokens().addAll(Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_COUNCIL_PERMISSIONS));
+					
+					  }
+						
+					  
+					  if( user.isAdmin() ){
+						troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+				 	  }
+					
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -569,4 +579,142 @@ public class SalesforceDAO {
 		}
 		return apiConfig.getAccessToken();
 	}
+	
+	
+	
+
+public java.util.List<Contact> getTroopLeaderInfo(ApiConfig apiConfig, String sfTroopId) {
+
+CloseableHttpClient connection = null;
+
+java.util.List<Contact> contacts = new java.util.ArrayList();
+
+HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+
++"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+
+
+
+
+method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+try {
+
+connection = connectionFactory.getConnection();
+
+CloseableHttpResponse resp = connection.execute(method);
+
+int statusCode = resp.getStatusLine().getStatusCode();
+
+if (statusCode != HttpStatus.SC_OK) {
+
+System.err.println("Method failed: " + resp.getStatusLine());
+
 }
+
+
+
+HttpEntity entity = null;
+
+String rsp = null;
+
+try {
+
+entity = resp.getEntity();
+
+entity.getContent();
+
+rsp = EntityUtils.toString(entity);
+
+EntityUtils.consume(entity);
+
+method.releaseConnection();
+
+method = null;
+
+} finally {
+
+resp.close();
+
+}
+
+rsp = "{\"records\":" + rsp + "}";
+
+log.debug(">>>>> " + rsp);
+
+
+
+try {
+
+JSONObject response = new JSONObject(rsp);
+
+log.debug("<<<<<Apex contacts reponse: " + response);
+
+JSONArray results = response.getJSONArray("records");
+
+
+
+for (int i = 0; i < results.length(); i++) {
+
+log.debug("_____ " + results.get(i));
+
+Contact contact = new Contact();
+
+try {
+
+
+
+contact.setFirstName(results.getJSONObject(i).getJSONObject("Contact").getString("FirstName"));
+
+contact.setLastName(results.getJSONObject(i).getJSONObject("Contact").getString("LastName"));
+
+} catch (Exception e) {
+
+e.printStackTrace();
+
+}
+
+contacts.add(contact);
+
+}
+
+} catch (JSONException e) {
+
+e.printStackTrace();
+
+}
+
+} catch (HttpException e) {
+
+System.err.println("Fatal protocol violation: " + e.getMessage());
+
+e.printStackTrace();
+
+} catch (IOException e) {
+
+System.err.println("Fatal transport error: " + e.getMessage());
+
+e.printStackTrace();
+
+} catch (Exception eG) {
+
+System.err.println("Fatal transport error: " + eG.getMessage());
+
+eG.printStackTrace();
+
+} finally {
+
+if (method != null)
+
+method.releaseConnection();
+
+}
+
+return contacts;
+
+}
+
+}
+
+
+

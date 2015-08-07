@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
@@ -55,7 +56,7 @@ public class YearPlanUtil {
 	private UserUtil userUtil;
 
 	public void createActivity(User user, Troop troop, Activity activity)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException, IllegalStateException {
 		activity.setDbUpdate(true);
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
@@ -63,7 +64,7 @@ public class YearPlanUtil {
 	}
 
 	public void checkCanceledActivity(User user, Troop troop)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop == null || troop.getYearPlan() == null
 				|| troop.getYearPlan().getActivities() == null
 				|| troop.getYearPlan().getActivities().size() == 0)
@@ -96,9 +97,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getAids(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String path) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName, path));
 		container.addAll(meetingDAO.getAidTag(user, tags, meetingName));
 
 		return container;
@@ -204,9 +205,9 @@ public class YearPlanUtil {
 	}
 
 	public java.util.List<Asset> getResources(User user, String tags,
-			String meetingName, String uids) throws IllegalAccessException {
+			String meetingName, String uids, String meetingPath) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getResource_local(user, tags, meetingName, meetingPath));
 		container
 				.addAll(meetingDAO.getResource_global(user, tags, meetingName));
 		return container;
@@ -217,7 +218,7 @@ public class YearPlanUtil {
 	}
 
 	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		Meeting meeting = meetingDAO.getMeeting(user, path);
 		return meeting;
@@ -268,7 +269,7 @@ public class YearPlanUtil {
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String lvl, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
-			throws IllegalAccessException {
+			throws IllegalAccessException {	
 		return meetingDAO.searchA1(user, troop, lvl, cat, keywrd, startDate,
 				endDate, region);
 	}
@@ -287,7 +288,7 @@ public class YearPlanUtil {
 
 	public void createCustActivity(User user, Troop troop,
 			java.util.List<org.girlscouts.vtk.models.Activity> activities,
-			String activityId) throws IllegalAccessException {
+			String activityId) throws IllegalAccessException, VtkException {
 		for (int i = 0; i < activities.size(); i++) {
 			if (activities.get(i).getUid().equals(activityId)) {
 				createActivity(user, troop, activities.get(i));
@@ -310,7 +311,6 @@ public class YearPlanUtil {
 
 	public void search(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) {
-
 		try {
 			java.util.Date startDate = null, endDate = null;
 			if (request.getParameter("startDate") != null

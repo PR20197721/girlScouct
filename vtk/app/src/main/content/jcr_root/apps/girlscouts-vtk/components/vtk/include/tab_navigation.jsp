@@ -1,38 +1,55 @@
 <%@ page
-  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="org.girlscouts.vtk.helpers.ConfigManager,
+                org.girlscouts.vtk.helpers.CouncilMapper,java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="session.jsp"%>
 <%
+//out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
+//out.println(troop.getTroop().getPermissionTokens());
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
-%>
 
 
-<%
-  if (troops != null && troops.size() > 1) {
+/*
+//Get URL for community page
+ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
+String communityUrl = "";
+if (configManager != null) {
+    communityUrl = configManager.getConfig("communityUrl");
+}
+*/
+String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
+
+
+if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
     cookie.setMaxAge(-1);
     response.addCookie(cookie);
 %>
 
 <div id="troop" class="row hide-for-print">
-  <div class="columns large-7 medium-9 right">
-    <select id="reloginid" onchange="relogin()">
-      <%
-        for (int i = 0; i < troops.size(); i++) {
-      %>
-      <option value="<%=troops.get(i).getTroopId()%>"
-        <%=troop.getTroop().getTroopId()
-              .equals(troops.get(i).getTroopId()) ? "SELECTED"
-              : ""%>><%=troops.get(i).getTroopName()%>
-        :
-        <%=troops.get(i).getGradeLevel()%></option>
-      <%
-        }
-      %>
-    </select>
-  </div>
+	  
+	  <div class="columns large-7 medium-9 right">
+	    <select id="reloginid" onchange="relogin()">
+	      <%
+	        for (int i = 0; i < troops.size(); i++) {
+	      %>
+	      <option value="<%=troops.get(i).getTroopId()%>"
+	        <%=troop.getTroop().getTroopId()
+	              .equals(troops.get(i).getTroopId()) ? "SELECTED"
+	              : ""%>><%=troops.get(i).getTroopName()%>
+	        :
+	        <%=troops.get(i).getGradeLevel()%></option>
+	      <%
+	        }
+	      %>
+	    </select>
+	  </div>
+	  <div class="columns large-4 medium-4">
+	  
+       <a href="<%=communityUrl%>">Member Profile</a>
+      </div>
 </div>
 <%
   }
@@ -53,7 +70,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
                  (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
                     <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
            <%}else{ %>
-                    <a href="#" onclick="alert('There is not Year Plan set up at this time.')">My Troop</a>
+                    <a href="#" onclick="alert('There is no year plan set up at this time. Please wait until a troop leader creates a year plan before accessing this tab.')">My Troop</a>
            <%} %>
           </dd>
         <%} %>
@@ -77,13 +94,14 @@ PlanView planView = meetingUtil.planView(user, troop, request);
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-      	<% if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
-          <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
+        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
+      	  <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
           </dd>
-        <% }  %>
-          <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
+          <% }  %>
+       
+       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+          <dd <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
         <% }  %>
@@ -106,7 +124,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
           
           
           	<ul class="dropdown">
-          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ) { %>
+          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
           		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           		<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           	<% } %>
@@ -125,6 +143,12 @@ PlanView planView = meetingUtil.planView(user, troop, request);
             </ul>
           </li>
           <%}%>
+          
+          
+          
+           
+          
+          
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
           <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
             <ul class="dropdown">
@@ -171,10 +195,43 @@ PlanView planView = meetingUtil.planView(user, troop, request);
           <%  } %>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
-        <% if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
-          <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
-	       <% } %>
-          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a></li>
+	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
+	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
+		     <% } %>
+         
+         
+          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
+		         <ul>
+		          <% if("finances".equals(activeTab)) {
+		                
+		                     if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+		                            <li>
+		                       
+		                             <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
+		                       
+		                            </li>
+		            <%
+		                    }
+		                }else if("financesadmin".equals(activeTab)){
+		                	
+		                	 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+                             <li>
+                        
+                              <a title="enter finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
+                        
+                             </li>
+                            <%
+		                	 }
+                     }
+		                	
+		                	
+		                
+		            %>
+		            
+		            
+		            
+		            </ul>
+          </li>
          <% } %>
           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>

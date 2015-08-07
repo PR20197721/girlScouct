@@ -82,7 +82,7 @@ public void sendRpt(String code, java.util.List <String[]> rptResultsToPost) {
       // tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-61431888-1/customDataSources/LRL3ltweTK6tX5dDJY3Jrw/uploads";
     
     
-    tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-61431888-1/customDataSources/4muCUenURUeHi3nwC1dL2Q/uploads";
+    tokenUrl ="https://www.googleapis.com/upload/analytics/v3/management/accounts/61431888/webproperties/UA-2646810-36/customDataSources/4muCUenURUeHi3nwC1dL2Q/uploads";
     
     
     org.apache.commons.httpclient.methods.PostMethod post = new org.apache.commons.httpclient.methods.PostMethod(tokenUrl);
@@ -139,7 +139,7 @@ public java.util.List<String[]> rptVtkDataFromDb( org.girlscouts.vtk.ejb.Session
 
           
            String sql = "";
-           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
+           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '"+ VtkUtil.getYearPlanBase(user, troop) +"%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
 
            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);

@@ -2,13 +2,12 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 import java.util.Calendar;
-
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
-
+import org.girlscouts.vtk.utils.VtkUtil;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Troop implements Serializable {
 
@@ -213,10 +212,12 @@ public class Troop implements Serializable {
 	}
 
 	public String getTroopPath() {
-		return "vtk/" + this.getSfCouncil() + "/troops/" + this.getId();
+		//return "vtk/" + this.getSfCouncil() + "/troops/" + this.getId();
+		return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil() + "/troops/" + this.getId();
 	}
 
 	public String getCouncilPath() {
-		return "vtk/" + this.getSfCouncil();
+		//return "vtk/" + this.getSfCouncil();
+		return VtkUtil.getYearPlanBase(null, null).substring(1) + this.getSfCouncil();
 	}
 }

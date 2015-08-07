@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <favicon.ico/>
+    <jcr:content
+        cq:doctype="html_5"
+        cq:lastModified="{Date}2015-02-05T17:04:38.386-05:00"
+        cq:lastModifiedBy="dlubin"
+        cq:lastReplicated="{Date}2015-05-05T14:27:41.781-04:00"
+        cq:lastReplicatedBy="dlubin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/libs/wcm/core/templates/designpage"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts of San Jacinto"
+        jcr:uuid="5a2830ee-a78f-4b3b-a7a3-5c63c55f74d4"
+        sling:resourceType="/apps/girlscouts/wcm/components/designer"
+        councilStyle="/etc/designs/girlscouts-gssjc/gssjc.css"
+        headerFontStyle="/etc/designs/girlscouts/css/headerfont/black.css"
+        headerStyle="/etc/designs/girlscouts/css/header/white.css"
+        navStyle="/etc/designs/girlscouts/css/nav/grey.css">
+        <homepage jcr:primaryType="nt:unstructured">
+            <styled-subpar
+                jcr:lastModified="{Date}2014-04-27T22:38:05.265-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/styled-subparsys"
+                components="[group:Girl Scouts]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </styled-subpar>
+        </homepage>
+        <three-column-page jcr:primaryType="nt:unstructured">
+            <par
+                jcr:lastModified="{Date}2014-04-27T23:11:13.077-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"
+                components="[group:Girl Scouts,group:Girl Scouts Form]">
+                <section jcr:primaryType="nt:unstructured"/>
+            </par>
+            <advertisement
+                jcr:lastModified="{Date}2014-05-05T15:22:58.623-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/advertisement"
+                adCount="10"/>
+        </three-column-page>
+    </jcr:content>
+    <gssjc.css/>
+</jcr:root>

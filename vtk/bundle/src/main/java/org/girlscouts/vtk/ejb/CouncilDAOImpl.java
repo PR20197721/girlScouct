@@ -1,10 +1,16 @@
 package org.girlscouts.vtk.ejb;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+
 import javax.jcr.Session;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -13,8 +19,8 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
@@ -24,15 +30,18 @@ import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.CouncilInfo;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
-import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.CouncilInfo;
+import org.girlscouts.vtk.utils.ModifyNodePermissions;
+import org.girlscouts.vtk.utils.VtkException;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,12 +59,15 @@ public class CouncilDAOImpl implements CouncilDAO {
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
+	@Reference
+	private ModifyNodePermissions permiss;
+	
 	@Activate
 	void activate() {
 	}
 
 	public Council findCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 		Council council = null;
 		Session session = null;
 		try {
@@ -83,8 +95,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			council = (Council) ocm.getObject("/vtk/" + councilId);
-
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
+	
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -99,7 +114,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council createCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
@@ -108,7 +123,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Session session = null;
 		Council council = null;
 		try {
-			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class);
@@ -122,11 +136,28 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			council = new Council("/vtk/" + councilId);
-			ocm.insert(council);
-			ocm.save();
+			
+			String vtkBase = VtkUtil.getYearPlanBase(user, null);
+			session = sessionFactory.getSession();
+			if (!session.itemExists(vtkBase)) {
+				//create vtk base
+				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
+				permiss.modifyNodePermissions(vtkBase, "vtk");
+				permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/", "vtk");
+			}
+			
+			
+			//council = new Council("/vtk/" + councilId);
+			council = new Council(vtkBase + councilId);
+		
+			if (!session.itemExists(vtkBase + councilId)) {
+				ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+						mapper);
+				ocm.insert(council);
+				ocm.save();
+			} else {
+				log.debug(">>>>>>>>>>> INFO : CouncilDAOImpl.createCouncil skipped because council already exists: "+  councilId); 
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -142,7 +173,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council getOrCreateCouncil(User user, String councilId)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
@@ -150,8 +181,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 			throw new IllegalAccessException();
 
 		Council council = findCouncil(user, councilId);
-		if (council == null)
+	
+		if (council == null){			
 			council = createCouncil(user, councilId);
+		}
 		return council;
 	}
 
@@ -218,11 +251,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = "/vtk/" + councilCode + "/councilInfo";
+			String path = VtkUtil.getYearPlanBase(null, null) + councilCode + "/councilInfo";
 			if (session.itemExists(path)) {
 				cinfo = (CouncilInfo) ocm.getObject(path);
 				if (cinfo == null)
-					log.error("OCM failed to retrieve /vtk/" + councilCode
+					log.error("OCM failed to retrieve "+ VtkUtil.getYearPlanBase(null, null) + councilCode
 							+ "/councilInfo !!!");
 				if (cinfo.getMilestones() == null) {
 					List<Milestone> milestones = getAllMilestones(councilCode);
@@ -231,9 +264,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 					ocm.save();
 				}
 			} else {
-				if (!session.itemExists("/vtk/" + councilCode)) {
+				if (!session.itemExists(VtkUtil.getYearPlanBase(null, null) + councilCode)) {
 					// create council, need user permission
-					log.error("/vtk/" + councilCode + "does NOT exist!!!");
+					log.error(VtkUtil.getYearPlanBase(null, null) + councilCode + "does NOT exist!!!");
 				}
 				cinfo = new CouncilInfo(path);
 				List<Milestone> milestones = getAllMilestones(councilCode);
@@ -318,6 +351,42 @@ public class CouncilDAOImpl implements CouncilDAO {
 				filter.setScope(councilPath + "/en/milestones//");
 				Query query = queryManager.createQuery(filter);
 				milestones = (List<Milestone>) ocm.getObjects(query);
+
+				String newGSYearDateString = "";
+				try {
+    				newGSYearDateString = VtkUtil.getNewGSYearDateString();
+    				DateFormat format = new SimpleDateFormat("MMdd");
+    				// TODO: use joda time
+    				Date newGSYearDate = format.parse(newGSYearDateString);
+    				newGSYearDate.setYear(new Date().getYear());
+
+    				Date startDate, endDate;
+    				if (new Date().compareTo(newGSYearDate) >= 0) {
+    				    // New troop year has started for this calendar year.
+    				    // Current school year is this year to next year.
+    				    startDate = newGSYearDate;
+    				    endDate = new Date(newGSYearDate.getTime());
+    				    endDate.setYear(new Date().getYear() + 1);
+    				} else {
+    				    // New troop year has NOT started for this calendar year.
+    				    // Current school year is last year to this year.
+    				    endDate = newGSYearDate;
+    				    startDate = new Date(newGSYearDate.getTime());
+    				    startDate.setYear(new Date().getYear() - 1);
+    				}
+
+    				List<Milestone> filteredMilestones = new ArrayList<Milestone>();
+				    for (Milestone milestone : milestones) {
+				        if (milestone.getDate().before(endDate) && milestone.getDate().compareTo(startDate) >= 0) {
+				            filteredMilestones.add(milestone);
+				        }
+				    }
+				    milestones = filteredMilestones;
+				} catch (ParseException pe) {
+				    log.warn("ParseException MMdd for new year " + newGSYearDateString + "\n" +
+				            "No milestones have been filtered.");
+				}
+				
 				sortMilestonesByDate(milestones);
 			} else {
 				log.error(councilPath + "/en/milestones does NOT exist!");

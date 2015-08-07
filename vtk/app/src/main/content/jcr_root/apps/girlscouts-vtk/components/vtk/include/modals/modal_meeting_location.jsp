@@ -40,7 +40,7 @@
               </div>
             </section>
             <section className="clearfix">
-              <p>Do not schedule the meeting the week of:</p>
+              <p>******Do not schedule the meeting the week of:</p>
               <input id="checkbox1" type="checkbox" /><label for="checkbox1"><p><span className="date">12/12/14</span><span>Thanksgiving</span></p></label>
               <input id="checkbox2" type="checkbox" /><label for="checkbox2"><p><span className="date">12/12/14</span><span>Another Holiday</span></p></label>
               <input id="checkbox3" type="checkbox" /><label for="checkbox3"><p><span className="date">12/12/14</span><span>Holiday Name</span></p></label>

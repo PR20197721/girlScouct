@@ -8,18 +8,49 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Dictionary;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
-public class VtkUtil {
+@Component(metatype = true, immediate = true)
+@Service(value = VtkUtil.class)
+public class VtkUtil  implements ConfigListener{
+	
+	@Reference
+	ConfigManager configManager;
+	
+	private static String gsNewYear;
+
+	@SuppressWarnings("rawtypes")
+	public void updateConfig(Dictionary configs) {
+		gsNewYear = (String) configs.get("gsNewYear");
+	}
+	
+
+	@Activate
+	public void init() {
+		configManager.register(this);
+	}
+	
+	//public void initMe(){configManager.register(this);}
+	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
 	public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
@@ -202,14 +233,67 @@ public static String getCouncilInClient(HttpServletRequest request){
 	if (cookies != null) {
 		 for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("vtk_referer_council")) {
-				
 						return cookies[i].getValue();
-					
-
 			}
-
 		}
 	}
 	return null;
 }
+
+public static String getYearPlanBase(User user, Troop troop){
+
+	/*
+	String ypBase= "/vtk";
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
+		ypBase += now.get(java.util.Calendar.YEAR) +1;
+	else
+		ypBase += now.get(java.util.Calendar.YEAR);
+	
+	return ypBase+"/";
+	*/
+	
+	int currentGSYear= getCurrentGSYear();
+	if( currentGSYear==2014)
+		return "/vtk/";
+	else
+		return "/vtk"+ currentGSYear +"/";
+	
+	
 }
+
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSYear(){
+	String _gsNewYear = gsNewYear;
+	//-if( _gsNewYear==null )	_gsNewYear= "0801";
+	
+	int month = Integer.parseInt( _gsNewYear.substring(0, 2) );
+	int date=  Integer.parseInt( _gsNewYear.substring(2) );
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	//if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
+	if( now.get(java.util.Calendar.MONTH ) >= (month-1)) //after Aug 1 -> NEXT YEAR		
+		return now.get(java.util.Calendar.YEAR) ;
+	else
+		return now.get(java.util.Calendar.YEAR) -1;	
+}
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSMonth(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(0, 2) );
+}
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSDate(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(2) );
+}
+
+public static String getNewGSYearDateString() {
+    return gsNewYear;
+}
+
+}//end class

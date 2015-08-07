@@ -12,6 +12,12 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 
+<%
+//final org.girlscouts.vtk.utils.ModifyNodePermissions modPerm = sling.getService(org.girlscouts.vtk.utils.ModifyNodePermissions.class);
+//modPerm.modifyNodePermissions("/vtk2018", "vtk");
+%>
+
+
 
 <div id="vtkTabNav"></div>
 
@@ -134,9 +140,10 @@
                              keys.map( function (comment ,i ) {
 
                               if( obj[comment].type == 'MEETINGCANCELED' ){
+                            	  
                                      return (
 
-
+                                    		
              React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled'},
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
@@ -158,9 +165,10 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
+                            	 
                                         return (
 
-
+ 
         		React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
         			    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
@@ -325,6 +333,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             data: '',
             dataType: 'html',
         }).done(function( html ) {
+        	vtkTrackerPushAction('MoveMeetings');
         	console.info('Before calling callback');
         	if (callback) {
         		console.info('Calling callback');
