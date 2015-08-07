@@ -8,10 +8,10 @@
 					<div class="fb-page"
 						data-href="https://www.facebook.com/<%= fbPage %>"
 						data-small-header="false"
-						data-width="1000px"
+						data-width="100%"
 						data-hide-cover="false"
 						data-show-facepile="true"
-						data-height="20000px"
+						data-height="100%"
 						data-show-posts="true">
 						<div class="fb-xfbml-parse-ignore">
 							<blockquote cite="https://www.facebook.com/<%= fbPage %>">

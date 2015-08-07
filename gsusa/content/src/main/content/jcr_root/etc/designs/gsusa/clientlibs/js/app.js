@@ -67,7 +67,7 @@
         }, 100, function () {
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
-          $('.join').removeClass('change');
+          $('.zip-council').removeClass('change');
           $('.main-slider').slick('slickPlay');
           pauseAllCarouselVideos();
         });
@@ -75,8 +75,10 @@
       if (target.closest('.final-comp').length === 0
           && target.closest(".final-comp").css('display') !== 'none') {
         $(".final-comp").fadeOut('slow');
-        $('.hero-text.first').fadeIn('slow');
-        $('.zip-council > .join').fadeIn('slow');
+        $('.hero-text.first').show();
+        $('.zip-council').fadeIn('slow');
+        $('.main-slider').css('opacity', '');
+        $("#tag_explore_final input[type=\"text\"]").hide();
       }
       if (target.closest('.standalone-volunteer').length === 0
           && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
@@ -270,7 +272,7 @@
   });
   //home page join now link will open the email form.
   function join_now() {
-    $('.join a').on('click', function (e) {
+    $('.zip-council > .join a').on('click', function (e) {
       e.preventDefault();
       $(this).fadeOut(500, function () {
         $(this).siblings('section').fadeIn('slow');
@@ -407,7 +409,7 @@
         customPaging: function (slick, index) {
           var thumbnailText = $("#hiddenThumbnail" + index).text();
           if (thumbnailText.trim() !== "") {
-		thumbnailText = "<p>" + thumbnailText + "</p>";
+		        thumbnailText = "<p>" + thumbnailText + "</p>";
           }
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + thumbnailText;
         },
@@ -426,8 +428,8 @@
           $(".position").animate({
             'opacity': 1
           }, 1000);
-          $(".position").css('z-index', '100');
-          $('.join').addClass('change');
+          $(".position").css('z-index', '1000');
+          $('.zip-council').addClass('change');
         }
       }
     });
@@ -450,11 +452,11 @@
           }, 100, function () {
             $('.hero-feature .overlay').fadeOut();
             $('.position').css('z-index', '-1');
-            $('.join').removeClass('change');
+            $('.zip-council').removeClass('change').hide();
+            $('.main-slider').css('opacity', '-1');
             $('.hero-text.first').hide();
           });
           $('.final-comp').show();
-          $('.zip-council > .join').hide();
           $('.inner-sliders .inner').slick('unslick');
         }
       });
