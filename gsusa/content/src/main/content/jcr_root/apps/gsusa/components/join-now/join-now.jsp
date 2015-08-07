@@ -3,7 +3,7 @@
     String callToActionName = properties.get("callToActionName", "Join Now");
     String searchBtnName = properties.get("searchBtnName", "Go");
     String title = properties.get("title", "Find Your Local Council");
-    String source = properties.get("source", "homepage");
+    String source = properties.get("source", "not_set");
 
 	String bg = "";
 	try {
@@ -17,7 +17,7 @@
 	        <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
 	        <form class="formJoin hide">
 	            <label><%= title %></label>
-	            <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter ZIP Code">
+	            <input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 	            <input type="hidden" name="source" value="<%= source %>">
 	        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
 	        </form>
@@ -28,7 +28,7 @@
 	    <a href="#" title="Join Now" class="button arrow"><%= callToActionName %></a>
 	    <form class="formJoin hide">
 	        <label><%= title %></label>
-	        <input type="text" name="ZipJoin" maxlength="5" placeholder="Enter ZIP Code">
+	        <input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 	        <input type="hidden" name="source" value="<%= source %>">
 	        <input class="button" type="submit" value="<%= searchBtnName %>">
 	    </form>
