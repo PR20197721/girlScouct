@@ -48,6 +48,21 @@ cTrans.put("536", "Kansas Heartland");
 cTrans.put("563", "Western Oklahoma");
 cTrans.put("564", "Eastern Oklahoma");
 
+cTrans.put("591", "San Jacinto");
+cTrans.put("636", "Northern CA");
+cTrans.put("512", "Colorado");
+cTrans.put("313", "Gateway");
+cTrans.put("212", "Kentucky Wilderness Road");
+cTrans.put("623", "San Diego");
+cTrans.put("131", "Central & Southern NJ");
+cTrans.put("263", "Western PA");
+cTrans.put("467", "Wisconsin Badgerland");
+cTrans.put("116", "Central & Western Mass");
+cTrans.put("622", "Orange County");
+cTrans.put("660", "Southern Nevada");
+cTrans.put("514", "Eastern IA & Western IL");
+cTrans.put("524", "Greater Iowa");
+cTrans.put("430", "Greater Chicago and NW  Indiana");
 
 
 
