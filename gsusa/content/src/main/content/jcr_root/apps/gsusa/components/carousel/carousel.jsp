@@ -298,21 +298,6 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 					</ul>
 				</li>
-				<li>
-					<ul class="slide-3">
-						<li id="tag_explore_slide3">
-							<h3><%= title4 %></h3>
-							<div class="blog-feed">
-							<%
-							//Removes editing for this component, because its configuration is handled in carousel's dialog
-							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
-							%>
-							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
-							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
-							</div>
-						</li>
-					</ul>
-				</li>
                 <li>
 					<ul class="slide-1">
 <%
@@ -335,7 +320,21 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 					</ul>
 				</li>
-
+				<li>
+					<ul class="slide-3">
+						<li id="tag_explore_slide3">
+							<h3><%= title4 %></h3>
+							<div class="blog-feed">
+							<%
+							//Removes editing for this component, because its configuration is handled in carousel's dialog
+							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+							%>
+							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
+							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
+							</div>
+						</li>
+					</ul>
+				</li>
 			</ul>
 		</div>
 	</div>
