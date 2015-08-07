@@ -459,6 +459,10 @@ System.err.println("<<<<<Apex contacts reponse: " + response +" access_token: "+
 	}
 
 	public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId)throws IllegalAccessException {
+		
+getActiveHouseholdGirlTroop( apiConfig,  contactId);//test only 
+		
+		
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
@@ -689,6 +693,8 @@ System.err.println("<<<<<Apex contacts reponse: " + response +" access_token: "+
 			if (method != null)
 				method.releaseConnection();
 		}
+		
+				
 		return user;
 	}
 
@@ -937,5 +943,102 @@ return true;
 	
 	
 	
+	public void getActiveHouseholdGirlTroop(ApiConfig apiConfig, String userId) throws IllegalAccessException{
+		
+		CloseableHttpClient connection = null;
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+				+ "/services/apexrest/activeHouseholdGirlTroop?userId="+ apiConfig.getUserId());
+		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));//apiConfig.getAccessToken());
+		try {
+			connection = connectionFactory.getConnection();
+			CloseableHttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+			if (statusCode != HttpStatus.SC_OK) {
+				System.err.println("Method failed: " + resp.getStatusLine());
+				throw new IllegalAccessException();
+			}
+			HttpEntity entity = null;
+			String rsp = null;
+			try {
+				entity = resp.getEntity();
+				entity.getContent();
+				rsp = EntityUtils.toString(entity);
+				EntityUtils.consume(entity);
+				method.releaseConnection();
+				method = null;
+			} finally {
+				resp.close();
+			}
+			rsp = "{\"records\":" + rsp + "}";		
+			log.debug(">>>>> " + rsp);
+			try {
+				JSONObject response = new JSONObject(rsp);
+				log.debug("<<<<<Apex user reponse: " + response);
+	System.err.println("tata APIIII: <<<<<Apex user reponse: " + response);			
+				JSONArray results = response.getJSONArray("records");
+				for (int i = 0; i < results.length(); i++) {
+					log.debug("_____ " + results.get(i));
+
+					try {
+						try {
+							results.getJSONObject(i)
+									.getString("Id");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							results.getJSONObject(i)
+									.getString("Name");
+						} catch (Exception e) {
+							
+						}
+						try {
+							results.getJSONObject(i)
+									.getString("Program_Grade_Level__c");
+						} catch (Exception e) {
+							
+						}
+
+						try {
+							results.getJSONObject(i)
+									.getString("Council_Code__c");
+						} catch (Exception e) {e.printStackTrace();}
+							
+						try{
+							results.getJSONObject(i)
+									.getString("Account__c");
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					
+
+					
+					
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (HttpException e) {
+			System.err.println("Fatal protocol violation: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Fatal transport error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception eG) {
+			System.err.println("Fatal transport error: " + eG.getMessage());
+			eG.printStackTrace();
+		} finally {
+			if (method != null)
+				method.releaseConnection();
+		}
+		
+	}
 
 }
