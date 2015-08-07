@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-06-08T11:23:03.874-04:00"
+        cq:lastModified="{Date}2015-08-07T11:36:03.353-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -212,6 +212,20 @@
                     PROCESS="com.day.cq.dam.core.process.ApplyMetadataTemplateProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_1>
+            <process_6
+                jcr:created="{Date}2015-08-07T10:31:45.051-04:00"
+                jcr:createdBy="admin"
+                jcr:description="remove jct:title ending with &quot;.docx&quot;"
+                jcr:lastModified="{Date}2015-08-07T11:09:09.930-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Metadata altering"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-jcrtitle.ecma"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_6>
         </flow>
         <model/>
     </jcr:content>

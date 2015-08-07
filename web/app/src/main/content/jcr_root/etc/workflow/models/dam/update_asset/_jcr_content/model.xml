@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1402163524676"
+        cq:lastModified="{Long}1438961821922"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -87,23 +87,23 @@
         <node7
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node7>
-        <node8
-            jcr:primaryType="cq:WorkflowNode"
-            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
             title="Web enabled rendition 520x520"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
                 PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node7>
+        <node8
+            jcr:primaryType="cq:WorkflowNode"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled rendition 1280x1280"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node8>
         <node9
@@ -192,10 +192,20 @@
         </node15>
         <node16
             jcr:primaryType="cq:WorkflowNode"
+            description="remove jct:title ending with &quot;.docx&quot;"
+            title="Metadata altering"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-jcrtitle.ecma"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node16>
+        <node17
+            jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node16>
+        </node17>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -306,8 +316,15 @@
         <node15_x0023_node16
             jcr:primaryType="cq:WorkflowTransition"
             from="node15"
+            rule=""
             to="node16">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node15_x0023_node16>
+        <node16_x0023_node17
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node16"
+            to="node17">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node16_x0023_node17>
     </transitions>
 </jcr:root>
