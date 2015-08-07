@@ -138,6 +138,13 @@ return;
 	}
 	
 	
+	//disable REPORT &  finances
+	try{
+		if( user.getApiConfig().getUser().isAdmin() && troop!=null && troop.getTroop()!=null && troop.getTroop().getPermissionTokens()!=null){		
+			troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_REPORT_ID);
+			troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_FINANCE_ID);
+		}
+	}catch(Exception e){e.printStackTrace();}
 	
 	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
