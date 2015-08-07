@@ -370,6 +370,18 @@
   }
 
   //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
+// inkoo added slide alternate view for carousel for ie9 and under because it breaks
+if($.browser.msie && parseFloat($.browser.version)<10){
+  $('.main-slider').slick({
+    dots: false,
+    infinite: true,
+    speed: (typeof interval !== 'undefined') ? interval : 1000,
+    fade: false,
+    autoplay: true,
+    arrows: false,
+    cssEase: 'linear',
+  });
+} else {
   $('.main-slider').slick({
     dots: false,
     infinite: true,
@@ -379,6 +391,8 @@
     arrows: false,
     cssEase: 'linear',
   });
+}
+
   function explore_button() {
     $(".hero-text .button.explore").on("click", function () {
       $('.inner-sliders .inner').slick({
