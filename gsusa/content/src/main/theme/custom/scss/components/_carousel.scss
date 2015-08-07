@@ -119,7 +119,7 @@ div.carousel {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.8);
-    z-index: 2;
+    z-index: 902;
     @media #{$small-only} {
       display: none !important;
     }
@@ -130,11 +130,11 @@ div.carousel {
       top: 7%;
       position: absolute;
       text-align: center;
-      z-index: 1;
+      z-index: 901;
       // bottom: rem-calc(100);
     }
     @media #{$small-only} {
-      display: none;
+      display: none !important;
     }
     section {
       padding: rem-calc(15 0);
@@ -175,7 +175,7 @@ div.carousel {
       }
     }
   }
-  .join {
+  .zip-council {
     @media #{$medium-up} {
       position: absolute;
     }
@@ -184,9 +184,12 @@ div.carousel {
     text-align: center;
     bottom: 0;
     width: 100%;
+    z-index: 1001;
    // height: rem-calc(90);
+   > .join > .wrapper {
+    @media #{$medium-up} {height: 37px;}
+   }
     &.change {
-      z-index: 200;
       height : rem-calc(60);
       padding : rem-calc(14 0);
       opacity : 1;
@@ -198,7 +201,7 @@ div.carousel {
       text-transform: uppercase;
       position: relative;
       display: inline-block;
-      line-height: 1;
+      line-height: 1.2;
       width: rem-calc(200);
       // @include single-transition(opacity, .25s, ease-in-out);
       &:after {
