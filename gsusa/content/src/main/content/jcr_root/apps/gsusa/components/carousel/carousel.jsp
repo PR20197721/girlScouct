@@ -91,9 +91,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	String content6 = properties.get("content6", "");
 	String imagePath6 = properties.get("imagePath6", "");
     String imageAlt6 = properties.get("imageAlt6", "");
-	String closingSource6 = properties.get("closingSource6", "homepage");
+	String closingSource6 = properties.get("closingSource6", "not_set");
 
-	String source7 = properties.get("source7", "homepage");
+	String source7 = properties.get("source7", "not_set");
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
@@ -346,7 +346,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				<h2><%= title6%></h2>
 				<p><%= content6 %></p>
 				<form id="tag_explore_final" action="#" name="join-now" class="formJoin join-now-form clearfix">
-					<input type="text" name="ZipJoin" maxlength="5" class="join-text hide" placeholder="Enter ZIP Code">
+					<input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" class="join-text hide" placeholder="Enter ZIP Code">
 					<input type="hidden" name="source" value="<%= closingSource6 %>">
 					<a href="#nogo" class="button join-now">Join Now</a>
 				</form>

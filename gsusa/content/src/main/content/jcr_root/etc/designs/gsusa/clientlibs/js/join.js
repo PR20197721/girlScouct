@@ -1,4 +1,4 @@
-$('.formJoin, .formHeaderJoin').submit(function (event) {
+$('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
     strGACampaign = getParameterByName("utm_campaign");
     strGAMedium = getParameterByName("utm_medium");
     strGASource = getParameterByName("utm_source");  
