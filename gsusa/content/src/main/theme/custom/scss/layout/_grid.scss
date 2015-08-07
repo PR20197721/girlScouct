@@ -17,9 +17,12 @@
   }
 }
 .three-cols {
-  @include grid-column(24);
+  @include grid-column(24, $collapse:true);
   .right-wrapper {
     @include grid-column(19, $collapse:true);
+    @media #{$small-only} {
+      @include grid-column(24);
+    }
   }
   .middle-col {
     @include grid-column(24);

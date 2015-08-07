@@ -339,7 +339,7 @@
             if ($(window).height() < target.find('.contents').height()) {
               target.find('.contents').css({
                 'max-height': ($(window).height() - 100) + 'px',
-                'overflow' : 'scroll'
+                'overflow-y' : 'scroll'
               });
             }
             fixColorlessWrapper();
@@ -405,7 +405,7 @@
         cssEase: 'linear',
         arrows: false,
         customPaging: function (slick, index) {
-          var thumbnailText = $("#hiddenThumbnail" + index).text(); 
+          var thumbnailText = $("#hiddenThumbnail" + index).text();
           if (thumbnailText.trim() !== "") {
 		thumbnailText = "<p>" + thumbnailText + "</p>";
           }
