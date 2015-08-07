@@ -37,7 +37,7 @@
 
 	String bg = "";
         try {
-                bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+            bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
         } catch (Exception e) {}
 
 	String noPadding = "";
@@ -56,7 +56,7 @@
 </div>
 
 <%
-if(theme.equals("classic")){ 
+if(theme.equals("classic")){
 	try {
 		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
 	} catch (Exception e) {}
@@ -78,7 +78,7 @@ if(theme.equals("classic")){
 </section>
 
 <%
-} else if(theme.equals("colorless")) { 
+} else if(theme.equals("colorless")) {
         try {
                 bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
         } catch (Exception e) {}
