@@ -1,7 +1,6 @@
 .noPadding {
   padding: 0;
 }
-
 .grid-system.nopadding {
   li,
   div.image {
@@ -9,16 +8,20 @@
     padding: 0;
   }
 }
-
 .textimage.nopadding div.text p {
   margin-bottom: 0;
   padding: 0;
 }
-
-div.textimage.nowrap div.text {
-  overflow: hidden;
-}
-
-.textimage.nowrap div.image img {
-  display: inline-block;
+.textimage {
+  &.nowrap {
+    div.text {
+      overflow: hidden;
+    }
+    div.image {
+      @media #{$small-only} {
+        width: 100%;
+        float: none;
+      }
+    }
+  }
 }
