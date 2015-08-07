@@ -756,43 +756,6 @@
                         xtype="hidden"/>
                 </items>
             </tab3>
-            <tab4
-                jcr:primaryType="cq:Panel"
-                title="Third Page (Social)">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <title4
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="What do girl scouts do? Stuff like this:"
-                        fieldLabel="Title"
-                        name="./title4"
-                        xtype="textfield"/>
-                    <blog-id
-						jcr:primaryType="cq:Widget"
-						fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
-						fieldLabel="Blog ID"
-						name="./blog-feed/id"
-						xtype="textfield"/>
-					<api-key
-						jcr:primaryType="cq:Widget"
-						fieldDescription="(Optional) If you are using an alternative blog, enter its API Key here"
-						fieldLabel="API Key"
-						name="./blog-feed/key"
-						xtype="textfield"/>
-                    <count
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
-                        fieldLabel="Count"
-                        minValue="1"
-                        name="./blog-feed/count"
-                        xtype="numberfield"/>
-                    <pin-id
-                    	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Pin ID"
-                    	name="./blog-feed/pin-id"
-                    	xtype="textfield"/>
-                </items>
-            </tab4>
             <tab2
                 jcr:primaryType="cq:Panel"
                 title="Fourth Page (Image)">
@@ -920,6 +883,43 @@
                         xtype="hidden"/>
                 </items>
             </tab2>
+            <tab4
+                jcr:primaryType="cq:Panel"
+                title="Third Page (Social)">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title4
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="What do girl scouts do? Stuff like this:"
+                        fieldLabel="Title"
+                        name="./title4"
+                        xtype="textfield"/>
+                    <blog-id
+						jcr:primaryType="cq:Widget"
+						fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
+						fieldLabel="Blog ID"
+						name="./blog-feed/id"
+						xtype="textfield"/>
+					<api-key
+						jcr:primaryType="cq:Widget"
+						fieldDescription="(Optional) If you are using an alternative blog, enter its API Key here"
+						fieldLabel="API Key"
+						name="./blog-feed/key"
+						xtype="textfield"/>
+                    <count
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
+                        fieldLabel="Count"
+                        minValue="1"
+                        name="./blog-feed/count"
+                        xtype="numberfield"/>
+                    <pin-id
+                    	jcr:primaryType="cq:Widget"
+                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
+                    	fieldLabel="Pin ID"
+                    	name="./blog-feed/pin-id"
+                    	xtype="textfield"/>
+                </items>
+            </tab4>
             <tab6
                 jcr:primaryType="cq:Panel"
                 title="Closing Page">
@@ -952,11 +952,11 @@
                         xtype="textfield"/>
                     <closingSource
                         jcr:primaryType="cq:Widget"
-                        defaultValue="homepage"
+                        defaultValue="not_set"
                         fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./closingSource6"
-                        value="homepage"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab6>
@@ -966,11 +966,11 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <Source
                         jcr:primaryType="cq:Widget"
-                        defaultValue="homepage"
+                        defaultValue="not_set"
                         fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./source7"
-                        value="homepage"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab7>

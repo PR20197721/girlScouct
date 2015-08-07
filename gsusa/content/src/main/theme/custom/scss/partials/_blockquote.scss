@@ -32,7 +32,7 @@ blockquote {
       top: rem-calc(9);
       left: 0;
     }
-    p:last-child:after {
+    p:nth-last-child(3):after {
       content: close-quote;
       bottom: 0;
     }

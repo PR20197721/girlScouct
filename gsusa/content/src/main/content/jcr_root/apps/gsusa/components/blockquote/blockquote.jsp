@@ -29,5 +29,8 @@
             </ul>
         </section>
     <% } else { %>
+    	<section>
+	    <ul></ul>
+	    </section>
     <% } %>
 </blockquote>

@@ -60,9 +60,10 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <source
                         jcr:primaryType="cq:Widget"
-                        defaultValue="homepage"
+                        defaultValue="not_set"
                         fieldLabel="Source"
                         name="./source"
+                        value="not_set"
                         maxLength="25"
                         maxLengthText="The source cannot be longer than 25 characters"
                         xtype="textfield"/>
