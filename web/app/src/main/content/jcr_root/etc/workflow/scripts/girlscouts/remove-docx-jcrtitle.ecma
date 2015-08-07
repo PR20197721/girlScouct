@@ -1,0 +1,27 @@
+log.info("executing script now...");
+log.info("Payload: " + workItem.getWorkflowData().getPayload());
+var workflowData = workItem.getWorkflowData();
+
+if (workflowData.getPayloadType() == "JCR_PATH") {
+    var path = workflowData.getPayload().toString(); 
+    var session = workflowSession.getSession();
+    var original = session.getNode(path);
+    var contentPath = original.getParent().getParent().getPath();
+    var jcrcontent = session.getNode(contentPath);
+
+    if(jcrcontent !=null ){
+      var metadata = jcrcontent.getNode("metadata");
+      if(metadata.hasProperty("jcr:title")){
+        if(metadata.getProperty("jcr:title").getString().endsWith(".docx")){
+          log.info("deleting... "+ contentPath+"/metadata/jcr:title);
+          metadata.getProperty("jcr:title").remove();
+          metadata.save();
+        }else{
+          log.info(metadata.getProperty("jcr:title").getString()+ "not ending with .docx");
+        }
+      }else{
+        log.info("no jcr:title found in metadata");
+      }
+
+    }
+}
