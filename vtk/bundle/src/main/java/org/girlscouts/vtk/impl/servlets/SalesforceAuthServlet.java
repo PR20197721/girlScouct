@@ -469,12 +469,16 @@ System.err.println("test6");
 	// aPI logout
 	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
 			throws Exception {
+System.err.println("tatalogout: "+ apiConfig.getAccessToken())	;	
 		DataOutputStream wr = null;
 		boolean isSucc = false;
 		URL obj = null;
 		HttpsURLConnection con = null;
 		try {
-			String url = "https://test.salesforce.com/services/oauth2/revoke"; // DYNAMIC
+			//String url = apiConfig.getWebServicesUrl()+"/services/oauth2/revoke"; // DYNAMIC
+			String url= apiConfig.getInstanceUrl()+"/services/oauth2/revoke";
+System.err.println("tata url token revoke: "+url);	
+	
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
 			con.setRequestMethod("POST");
@@ -487,6 +491,7 @@ System.err.println("test6");
 			wr.flush();
 			wr.close();
 			int responseCode = con.getResponseCode();
+	System.err.println("tatalogout resp code: "+ responseCode)	;	
 			if (responseCode == 200)
 				isSucc = true;
 		} catch (Exception e) {
