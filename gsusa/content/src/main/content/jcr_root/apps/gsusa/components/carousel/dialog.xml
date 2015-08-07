@@ -952,11 +952,11 @@
                         xtype="textfield"/>
                     <closingSource
                         jcr:primaryType="cq:Widget"
-                        defaultValue="homepage"
+                        defaultValue="not_set"
                         fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./closingSource6"
-                        value="homepage"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab6>
@@ -966,11 +966,11 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <Source
                         jcr:primaryType="cq:Widget"
-                        defaultValue="homepage"
+                        defaultValue="not_set"
                         fieldDescription="This field is used for tracking in Google Analytics."
                         fieldLabel="Source"
                         name="./source7"
-                        value="homepage"
+                        value="not_set"
                         xtype="textfield"/>
                 </items>
             </tab7>
