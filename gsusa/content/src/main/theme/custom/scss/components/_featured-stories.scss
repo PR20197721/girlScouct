@@ -55,7 +55,8 @@ div.featured-stories {
         @include grid-column(24);
       }
       .header {
-        @include grid-row();
+        // @include grid-row();
+        @include grid-column(22, $center:true, $collapse:true);
         padding-top: rem-calc(10);
         * {
           color: $white;
@@ -66,15 +67,16 @@ div.featured-stories {
         }
         .icon-cross {
           @media #{$medium-up} {
-            @include grid-column(1, $float:right);
+            @include grid-column(2, $float:right, $collapse:true);
           }
-          @include grid-column(2, $float:right);
+          @include grid-column(2, $float:right, $collapse:true);
           font-size: rem-calc(40);
           cursor: pointer;
+          text-align: right;
         }
         .left-wrapper {
           @media #{$medium-up} {
-            @include grid-column(22, $offset:1, $collapse: true);
+            @include grid-column(22, $collapse: true);
           }
           @include grid-column(22);
           [class*=" icon-"],
