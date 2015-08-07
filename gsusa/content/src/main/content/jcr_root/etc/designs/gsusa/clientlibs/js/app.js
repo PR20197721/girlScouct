@@ -342,11 +342,10 @@
                 'overflow' : 'scroll'
               });
             }
-            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+            fixColorlessWrapper();
           }
-          // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
-          $(".slick-list .slick-track").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
-          $(".slick-slide.slick-active").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+	  fixSlickListTrack();
+	  fixSlickSlideActive();
           return true;
         });
         //closing the section by clicking on the cross
@@ -559,3 +558,42 @@
   });
 
 }(jQuery));
+
+
+
+
+function fixColorlessWrapper() {
+	// inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
+	var colorlessWrappers = $(".story.colorless .bg-wrapper");
+	for (var i = 0; i < colorlessWrappers.length; i++) {
+		var thisWrapperStyle = $(colorlessWrappers[i]).attr("style");
+		if(thisWrapperStyle) {
+			$(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
+		}
+	}
+	//            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+}
+
+function fixSlickListTrack() {
+	// inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
+	// don't use each function in jquery because ie doesn't support it
+	//          $(".slick-list .slick-track").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+	//          $(".slick-slide.slick-active").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+
+	var slickListTrack = $(".slick-list .slick-track");
+	for (var i = 0; i < slickListTrack.length; i++) {
+		var thisWrapperStyle = $(slickListTrack[i]).attr("style");
+		if(thisWrapperStyle) {
+			$(slickListTrack[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
+		}
+	}
+}
+function fixSlickSlideActive() {
+	var slickSlideActive = $(".slick-slide.slick-active");
+	for (var i = 0; i < slickSlideActive.length; i++) {
+		var thisWrapperStyle = $(slickSlideActive[i]).attr("style");
+		if(thisWrapperStyle) {
+			$(slickSlideActive[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
+		}
+	}
+}
