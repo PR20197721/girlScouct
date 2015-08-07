@@ -5,7 +5,7 @@
 	String searchBtnName = properties.get("searchBtnName", "Go");
 	String title = properties.get("title", "Find Your Local Council");
 	Boolean isHidden = properties.get("isVolunteerHidden", false);
-	String source = properties.get("source", "homepage");
+	String source = properties.get("source", "not_set");
 
 	if (!isHidden) {
 %>
