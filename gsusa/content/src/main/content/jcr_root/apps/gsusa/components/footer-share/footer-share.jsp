@@ -24,7 +24,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && hideFacebook && hideTwitter 
 		<li><a id="tag_social-icon_twitter" target="_blank" href="https://twitter.com/girlscouts"><img src="/etc/designs/gsusa/images/twitter_30_white.png" tabindex="171"></a></li><%
 	}%>
 	<% if (!hideYoutube)  {%>
-		<li><a id="tag_social-icon_youtube" target="_blank" href="https://www.youtube.com/user/girlscoutvideos"><img src="/etc/designs/gsusa/images/youtube.png" tabindex="172"></i></a></li><%
+		<li><a id="tag_social-icon_youtube" target="_blank" href="https://www.youtube.com/user/girlscoutvideos"><img src="/etc/designs/gsusa/images/youtube.png" tabindex="172"></a></li><%
 	}%>
 		<li><a id="tag_social-icon_pinterest" target="_blank" href="http://pinterest.com/gsusa"><img src="/etc/designs/gsusa/images/pinterest_30_white.png" tabindex="173"></a></li>
 		<li><a id="tag_social-icon_blog" target="_blank" href="http://blog.girlscouts.org"><img src="/etc/designs/gsusa/images/blogger.png" tabindex="174"></a></li>
