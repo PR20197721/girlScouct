@@ -63,7 +63,7 @@
       if (target.closest('.hero-feature').length === 0
           && target.closest(".hero-feature").css('display') !== 'none') {
         $('.position').animate({
-          'opacity': 0,
+          'opacity': 0
         }, 100, function () {
           $('.hero-feature .overlay').fadeOut();
           $('.position').css('z-index', '-1');
