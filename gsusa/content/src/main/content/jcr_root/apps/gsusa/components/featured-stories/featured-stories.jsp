@@ -1,4 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+
 <%
     int numberOfStories;
     try {
@@ -17,6 +19,7 @@
         request.setAttribute("index", i);
         try {
             bg = currentNode.getNode(id + "/bg").getProperty("fileReference").getString();
+            bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.middle.");
             style = "style=\"background: url(" + bg+ ") no-repeat transparent center center / cover\"";
         } catch (Exception e) {}
 %>

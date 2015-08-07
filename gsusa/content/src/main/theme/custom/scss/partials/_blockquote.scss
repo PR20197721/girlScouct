@@ -65,8 +65,9 @@ blockquote {
     border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
   }
   &.bg-image {
+    color: $black;
     p {
-      color: $black;
+    	color: $black;
     }
     &:before,
     &:after {

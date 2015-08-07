@@ -17,9 +17,6 @@
 <blockquote class="<%= style %>">
 <% } %>
     <%= text %>
-    Quote: <%=isQuote%>
-    hasQuotee: <%=hasQuotee%>
-    Quote: <%=(!quotee.equals(""))%>
     <% if(isQuote && hasQuotee && !quotee.equals("")){ %>
     <p class="quotee">&#8212; <%= quotee %></p>
     <% } else { %>
