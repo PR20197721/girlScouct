@@ -131,9 +131,10 @@ public class VtkUtil  implements ConfigListener{
 	
 	public static final int getMeetingEndTime( Meeting meeting ){
 		int total =0;
-		for(int i=0; i< meeting.getActivities().size(); i++){
-			total += meeting.getActivities().get(i).getDuration();
-		}
+		if(meeting.getActivities()!=null)
+			for(int i=0; i< meeting.getActivities().size(); i++){
+				total += meeting.getActivities().get(i).getDuration();
+			}
 		
 		
 		return total;
