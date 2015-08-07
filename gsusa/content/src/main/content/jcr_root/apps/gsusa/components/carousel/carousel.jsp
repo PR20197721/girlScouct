@@ -91,9 +91,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	String content6 = properties.get("content6", "");
 	String imagePath6 = properties.get("imagePath6", "");
     String imageAlt6 = properties.get("imageAlt6", "");
-	String closingSource6 = properties.get("closingSource6", "homepage");
+	String closingSource6 = properties.get("closingSource6", "not_set");
 
-	String source7 = properties.get("source7", "homepage");
+	String source7 = properties.get("source7", "not_set");
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
