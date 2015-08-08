@@ -396,3 +396,9 @@
   margin-right: 0.3125rem;
 }
 
+.slick-next,.slick-next:hover {
+  background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") 0 0 no-repeat transparent;
+}
+.slick-prev,.slick-prev:hover {
+  background: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png") 0 0 no-repeat transparent;
+}
