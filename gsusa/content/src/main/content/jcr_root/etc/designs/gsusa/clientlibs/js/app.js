@@ -16,11 +16,16 @@
     });
   }
 
+	var isIE11 = false;
+	if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
+		isIE11 = true;
+	}
+
   function pauseAllCarouselVideos() {
     var i;
     for (i = 0; i < 4; i++) {
       if (document.getElementById("vimeoPlayer" + i)) {
-        $f(document.getElementById("vimeoPlayer" + i)).api('pause');
+        $(document.getElementById("vimeoPlayer" + i)).api('pause');
       }
       if (document.getElementById("youtubePlayer" + i)) {
         document.getElementById("youtubePlayer" + i).contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
@@ -32,7 +37,7 @@
   }
 
   function document_close_all() {
-	  //Detect ipad
+    //Detect ipad
     var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
     //when clicking outside of the form it will close the input.
     $(document).on(touchOrClick, function (event) {
@@ -70,6 +75,14 @@
           $('.zip-council').removeClass('change');
           $('.main-slider').slick('slickPlay');
           pauseAllCarouselVideos();
+		// release opacity for mike's fix
+		if (isIE11 && lastAfterSlick) {
+			for (var x in lastAfterSlick) {
+				for (var i = 0; i < lastAfterSlick.length; i++) {
+					$(lastAfterSlick[i]).css('opacity', '1');
+				}
+			}
+		}
         });
       }
       if (target.closest('.final-comp').length === 0
@@ -393,6 +406,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   });
 }
 
+  var lastAfterSlick = null;
   function explore_button() {
     $(".hero-text .button.explore").on("click", function () {
       $('.inner-sliders .inner').slick({
@@ -405,23 +419,27 @@ if($.browser.msie && parseFloat($.browser.version)<10){
         arrows: true,
       });
 
-      $('.inner-sliders .inner').on('beforeChange', function(event, slick, index){
-    	  var slides = slick.$slides;
-    	  for (var i = 0; i < slides.length; i++) {
-    	      $(slides[i]).css('opacity', '1');
-    	  }
-      });
+	// mike's fix for ie11 Windows 8
+	if (isIE11) {
+	      $('.inner-sliders .inner').on('beforeChange', function(event, slick, index){
+		  var slides = slick.$slides;
+		  for (var i = 0; i < slides.length; i++) {
+		      $(slides[i]).css('opacity', '1');
+		  }
+	      });
 
-      $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
-    	  var slides = slick.$slides;
-    	  for (var i = 0; i < slides.length; i++) {
-    		  if (i !== index) {
-    			  $(slides[i]).css('opacity', '0');
-    		  } else {
-    			  $(slides[i]).css('opacity', '1');
-    		  }
-    	  }
-      });
+	      $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+		  var slides = slick.$slides;
+		  lastAfterSlick = slides;
+		  for (var i = 0; i < slides.length; i++) {
+			  if (i !== index) {
+				  $(slides[i]).css('opacity', '0');
+			  } else {
+				  $(slides[i]).css('opacity', '1');
+			  }
+		  }
+	      });
+	}
       
       $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
         dots: true,
@@ -629,6 +647,20 @@ function fixSlickSlideActive() {
 		var thisWrapperStyle = $(slickSlideActive[i]).attr("style");
 		if(thisWrapperStyle) {
 			$(slickSlideActive[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
+		}
+	}
+}
+
+// useful utility printer of object properties
+function printObjectProperties(objectToInspect) {
+	for (var key in objectToInspect) {
+		if (objectToInspect.hasOwnProperty(key)) {
+			var obj = objectToInspect[key];
+			for (var prop in obj) {
+				if(obj.hasOwnProperty(prop)){
+					console.log(prop + " = " + obj[prop]);
+				}
+			}
 		}
 	}
 }
