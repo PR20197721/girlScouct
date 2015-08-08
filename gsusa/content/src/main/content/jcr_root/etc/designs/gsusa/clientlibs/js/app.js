@@ -404,6 +404,25 @@ if($.browser.msie && parseFloat($.browser.version)<10){
         cssEase: 'linear',
         arrows: true,
       });
+
+      $('.inner-sliders .inner').on('beforeChange', function(event, slick, index){
+    	  var slides = slick.$slides;
+    	  for (var i = 0; i < slides.length; i++) {
+    	      $(slides[i]).css('opacity', '1');
+    	  }
+      });
+
+      $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+    	  var slides = slick.$slides;
+    	  for (var i = 0; i < slides.length; i++) {
+    		  if (i !== index) {
+    			  $(slides[i]).css('opacity', '0');
+    		  } else {
+    			  $(slides[i]).css('opacity', '1');
+    		  }
+    	  }
+      });
+      
       $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
         dots: true,
         fade: true,
