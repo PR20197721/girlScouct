@@ -22,6 +22,20 @@
 %><cq:includeClientLib categories="cq.shared"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
+
+<!-- Begin: Include Girl Scout clientlibs -->
+<!-- Artifact Browser -->
+<!--[if lt IE 10]>
+	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app0.css">
+	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app1.css">
+	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app2.css">
+	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app3.css">
+<![endif]-->
+<!-- Modern Browser -->
+<!--[if gt IE 9]><!-->
+	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app.css">
+<!--<![endif]-->
+
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
 <%
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
