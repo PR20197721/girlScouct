@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Our Story"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Story path">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <ColNum
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number Of Columns"
+                        fieldSubLabel="Please enter a number between 1-3"
+                        name="./colNum"
+                        allowDecimals="{Boolean}false"
+                        maxValue="3"
+                        minValue="1"
+                        xtype="numberfield"/>
+                    <radiogp
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Select a source"
+                        name="./source"
+                        type="radiogroup"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Directory"
+                                value="dir"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="Individual stories manually"
+                                value="manual"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;pathField&quot;); &#xa;&#x9;var storyPathField = panel.getComponent(&quot;storyPathField&quot;);&#xa;&#xa;    if (val === 'dir') {&#xa;       pathField.show();&#xa;&#x9;   storyPathField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;   storyPathField.show();&#xa;   }&#xa;}"/>
+                    </radiogp>
+                    <path
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Directory Path"
+                        fieldSubLabel="Please choose a directory"
+                        hidden="true"
+                        itemId="pathField"
+                        name="./path"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <storyPath
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Our Stories Path"
+                        itemId="storyPathField"
+                        name="./storypath"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="cq:Widget"
+                            rootPath="/content/gsusa/en"
+                            xtype="pathfield"/>
+                    </storyPath>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>
