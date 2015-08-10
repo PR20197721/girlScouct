@@ -29,24 +29,43 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 					var shortFB = fbURL;
 					var twitterURL = json.councils[i].twitter;
 					var shortTwitter = twitterURL;
-					var q = siteURL.indexOf('?');
-					if(q != -1){
-						shortSite = siteURL.substring(0,q);
+					var q;
+					if(siteURL != undefined){
+						q = siteURL.indexOf('?');
+						if(q != -1){
+							shortSite = siteURL.substring(0,q);
+						}
 					}
-					q = fbURL.indexOf('?');
-					if(q != -1){
-						shortFB = fbURL.substring(0,q);
+					if(fbURL != undefined){
+						q = fbURL.indexOf('?');
+						if(q != -1){
+							shortFB = fbURL.substring(0,q);
+						}
 					}
-					q = twitterURL.indexOf('?');
-					if(q != -1){
-						shortTwitter = twitterURL.substring(0,q);
+					if(twitterURL != undefined){
+						q = twitterURL.indexOf('?');
+						if(q != -1){
+							shortTwitter = twitterURL.substring(0,q);
+						}
 					}
-					result += "<p>Website: <a href=\"" + siteURL + "\">" + shortSite + "</a></p>";
-					result += "<p>Facebook: <a href=\"" + fbURL + "\">" + shortFB + "</a></p>";
-					result += "<p>Twitter: <a href=\"" + twitterURL + "\">" + shortTwitter + "</a></p></section>";
-					result += "<a class=\"button small radius\" href=\"" + json.councils[i].joinUrl + "\">Join</a>";
-					result += "<a class=\"button small radius\" href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>";
-					result += "<a class=\"button small radius\" href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>";
+					if(siteURL != undefined){
+						result += "<p>Website: <a href=\"" + siteURL + "\">" + shortSite + "</a></p>";
+					}
+					if(fbURL != undefined){
+						result += "<p>Facebook: <a href=\"" + fbURL + "\">" + shortFB + "</a></p>";
+					}
+					if(shortTwitter != undefined){
+						result += "<p>Twitter: <a href=\"" + twitterURL + "\">" + shortTwitter + "</a></p></section>";
+					}
+					if(json.councils[i].joinUrl != undefined){
+						result += "<a class=\"button small radius\" href=\"" + json.councils[i].joinUrl + "\">Join</a>";
+					}
+					if(json.councils[i].volunteerUrl != undefined){
+						result += "<a class=\"button small radius\" href=\"" + json.councils[i].volunteerUrl + "\">Volunteer</a>";
+					}
+					if(json.councils[i].onlineRegistrationUrl){
+						result += "<a class=\"button small radius\" href=\"" + json.councils[i].onlineRegistrationUrl + "\">Online Registration</a></li>";
+					}
 				}
 				result += "</ul>";
 				res.html(result);
