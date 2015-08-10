@@ -54,8 +54,13 @@
 					<li id="tag_topnav_<%= linkifyString(label, 25)%>" class="<%=activeClass%>">
 				<%}
 %>
-				   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
-				   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+                 <% if (link.indexOf("http:") != -1 || link.indexOf("https:") != -1) { %>
+                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
+                   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+                 <% } else { %>
+                   <a <%= target %> class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
+                   <a <%= target %> class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+                 <% } %>
 			  </li>
 <%
 			}
