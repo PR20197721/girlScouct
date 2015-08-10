@@ -70,7 +70,11 @@
             } else {
                 sb.append("<li tabindex=\"-1\">");
             }
-            sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
+            if (nav[1].indexOf("http:") != -1 || nav[1].indexOf("https:") != -1) {
+                sb.append("<a x-cq-linkchecker=\"skip\" href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
+            } else {
+                sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
+            }
             if (count == found) {
                 Page rootPage = rr.resolve(nav[1]).adaptTo(Page.class);
                 buildMenu(rootPage, currentPath, sb);
