@@ -49,7 +49,7 @@
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolorClassic %>">
 	<span class="<%= icon %>"></span>
-	<div class="contents" tabindex="<%= featureIndex %>">
+	<div class="contents clearfix" tabindex="<%= featureIndex %>">
 		<h3><%= title %></h3>
 		<p class="dek"><%=description%></p>
 	</div>
@@ -88,7 +88,7 @@ if(theme.equals("classic")){
 		<div class="header clearfix">
 			<span class="icon-cross"></span>
 		</div>
-		<div class="contents">
+		<div class="contents clearfix">
 			<div class="left-wrapper" style="background-color: <%= bgcolorClassic %>">
 				<span class="<%= icon %>"></span>
 				<h3><%= title %></h3>
