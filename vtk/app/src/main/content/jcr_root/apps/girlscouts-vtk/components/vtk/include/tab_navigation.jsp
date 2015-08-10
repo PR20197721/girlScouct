@@ -18,8 +18,12 @@ PlanView planView = meetingUtil.planView(user, troop, request);
 
 <div id="troop" class="row hide-for-print">
   <div class="columns large-7 medium-9 right">
-   <a href="/content/girlscouts-vtk/en/vtk.home.html">Member profile</a>
-   <a href="<%=configManager.getConfig("baseUrl")+configManager.getConfig("communityUrl")%>">Home</a>
+   <a href="/content/girlscouts-vtk/en/vtk.home.html">Member profile</a> 
+   <hr/>
+   <a href="<%=configManager.getConfig("communityUrl")%>">Member Profile</a> ||
+   <a href="<%=configManager.getConfig("baseUrl")+ councilMapper.getCouncilUrl(troop.getSfCouncil())%>en.html">Home</a> ||
+   <a href="/content/girlscouts-vtk/en/vtk.html">V Toolkit </a>
+   
     <select id="reloginid" onchange="relogin()">
       <%
         for (int i = 0; i < troops.size(); i++) {

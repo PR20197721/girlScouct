@@ -43,7 +43,7 @@
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-	
+	org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
 	User user=null;
 	
 	HttpSession session = request.getSession();
