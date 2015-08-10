@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configure Search Path">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <site-search
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="(Select area to perform a search)"
+                        fieldLabel="Search Paths"
+                        name="./searchAction"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <global-site-target
+                                jcr:primaryType="nt:unstructured"
+                                text="Global Search Landing Page"
+                                value="globalLanding"/>
+                        </options>
+                    </site-search>
+                    <placeholder-text
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(PlaceHolder Text)"
+                        fieldLabel="Placeholder Text"
+                        name="./placeholder-text"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Design ">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <css-styles
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Provide the css design)"
+                        fieldLabel="Css Styles"
+                        name="./additionalCss"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>

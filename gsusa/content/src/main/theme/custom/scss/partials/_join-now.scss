@@ -1,0 +1,120 @@
+
+.cq-placeholder-header_47volunteer {
+  display: none;
+}
+.standalone-volunteer,
+.standalone-join {
+  position: relative;
+  max-width: rem-calc(210);
+  width: 100%;
+  margin-bottom: rem-calc(20);
+  // .middle-col & {
+  //   width: rem-calc(210);
+  // }
+  //MAIN.CSS overwrite
+  div.image {
+    margin:0;
+  }
+  .wrapper {
+    position: absolute;
+    bottom: rem-calc(10);
+    width: rem-calc(198);
+    left: 50%;
+    margin-left: rem-calc(-99);
+  }
+  form {
+    position: absolute;
+    bottom: 0;
+    background: $white;
+    width: 100%;
+    z-index: 3;
+    padding-bottom: rem-calc(10);
+    padding-left: rem-calc(6);
+    label {
+      color: $primary-color;
+      text-transform: uppercase;
+      margin-bottom: rem-calc(20);
+      font-size: rem-calc(13);
+    }
+    input[type="text"] {
+      width: rem-calc(140);
+      float: left;
+     // height: rem-calc(33);
+
+    }
+    input[type="submit"] {
+      padding: rem-calc(8 5 7 5);
+      margin-bottom: 0;
+    }
+  }
+  .button.arrow {
+    white-space: nowrap;
+    padding-left: rem-calc(10);
+    z-index: 2;
+    margin: 0;
+    width: 100%;
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
+}
+.join-buttons {
+  float: right;
+  padding-left: rem-calc(80);
+}
+.header-volunteer-now,
+.header-join-now {
+  float:left;
+  position: relative;
+  .button {
+    background-color: #fece24;
+    color: $black;
+    font-size: rem-calc(13);
+    padding: rem-calc(3 9);
+    font-weight: 600;
+    text-transform: capitalize;
+    margin-bottom: 0;
+    line-height: 1.4;
+    &.on:before {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent #fece24 transparent transparent;
+      border-width: rem-calc(12);
+      top: rem-calc(10);
+      left: rem-calc(-24);
+      margin-top: rem-calc(-10);
+    }
+  }
+  form input[type="text"] {
+    display: none;
+    position: absolute;
+    right: 100%;
+    float: left;
+    width: 180%;
+    height: 100%;
+    border: none;
+  }
+}
+.header-volunteer-now {
+  margin-left: rem-calc(5);
+  form input[type="text"] {
+    width: 100%;
+  }
+}
+
+.spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 10;
+}
