@@ -54,8 +54,8 @@
 					<li id="tag_topnav_<%= linkifyString(label, 25)%>" class="<%=activeClass%>">
 				<%}
 %>
-				   <a <%= target %> class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
-				   <a <%= target %> class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
+				   <a <%= target %> x-cq-linkchecker="skip" class="show-for-large-up" href="<%= link %>" title="<%= label %>" tabindex="<%= headerNavTabindex %>"><%= label %></a>
+				   <a <%= target %> x-cq-linkchecker="skip" class="show-for-medium-only" href="<%= link %>" title="<%= mediumLabel %>" tabindex="<%= headerNavTabindex %>" ><%= mediumLabel %></a>
 			  </li>
 <%
 			}
