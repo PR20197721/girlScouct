@@ -42,6 +42,7 @@
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
+	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 	
 	User user=null;
 	

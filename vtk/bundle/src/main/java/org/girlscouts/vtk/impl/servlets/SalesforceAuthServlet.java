@@ -295,7 +295,7 @@ System.err.println("test6");
 		redirectUrl = resourceResolver.map(redirectUrl);
 		redirectUrl = configManager.getConfig("communityUrl")
 				+ "/VTKLogout?redirectSource="
-				+ java.net.URLEncoder.encode(redirectUrl);
+				+ java.net.URLEncoder.encode(configManager.getConfig("baseUrl")+redirectUrl);
 		redirect(response, redirectUrl);
 	}
 
