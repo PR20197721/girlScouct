@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1438961821922"
+        cq:lastModified="{Long}1439317571578"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -192,20 +192,10 @@
         </node15>
         <node16
             jcr:primaryType="cq:WorkflowNode"
-            description="remove jct:title ending with &quot;.docx&quot;"
-            title="Metadata altering"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-jcrtitle.ecma"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node16>
-        <node17
-            jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node17>
+        </node16>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -316,15 +306,8 @@
         <node15_x0023_node16
             jcr:primaryType="cq:WorkflowTransition"
             from="node15"
-            rule=""
             to="node16">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node15_x0023_node16>
-        <node16_x0023_node17
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node16"
-            to="node17">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node16_x0023_node17>
     </transitions>
 </jcr:root>
