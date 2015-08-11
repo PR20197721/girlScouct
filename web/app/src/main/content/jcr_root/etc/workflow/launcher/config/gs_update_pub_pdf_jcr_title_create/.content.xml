@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:WorkflowLauncher"
+    condition="jcr:content/jcr:mimeType==application/pdf"
+    description="Girl Scouts remove jct:title ending with &quot;.docx&quot; for pdf files"
+    enabled="{Boolean}true"
+    eventType="{Long}1"
+    glob="/content/dam(/.*/)renditions/original"
+    nodetype="nt:file"
+    runModes="publish"
+    workflow="/etc/workflow/models/dam/dam_empty_jcr_title/jcr:content/model"/>
