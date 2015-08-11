@@ -4,4 +4,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Eyebrow Navigation"
     sling:resourceSuperType="girlscouts/components/navigation-bar"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>

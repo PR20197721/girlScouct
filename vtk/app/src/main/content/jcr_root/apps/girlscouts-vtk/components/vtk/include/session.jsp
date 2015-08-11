@@ -138,13 +138,7 @@ return;
 	}
 	
 	
-	//disable REPORT &  finances
-	try{
-		if( user.getApiConfig().getUser().isAdmin() && troop!=null && troop.getTroop()!=null && troop.getTroop().getPermissionTokens()!=null){		
-			troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_REPORT_ID);
-			troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_FINANCE_ID);
-		}
-	}catch(Exception e){e.printStackTrace();}
+	
 	
 	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
@@ -153,12 +147,24 @@ return;
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+	     session.setAttribute("showGamma", "true");
 	} else if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("false")){
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+        session.setAttribute("showGamma", null);
+	}else if( session.getAttribute("showGamma")==null ){
+		
+		//disable REPORT &  finances
+	    try{
+	        if( user.getApiConfig().getUser().isAdmin() && troop!=null && troop.getTroop()!=null && troop.getTroop().getPermissionTokens()!=null){      
+	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_REPORT_ID);
+	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_FINANCE_ID);
+	        }
+	    }catch(Exception e){e.printStackTrace();}
+		
 	}
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.

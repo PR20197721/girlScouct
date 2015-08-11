@@ -51,7 +51,6 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_sp_right_hero"/>
-    <filter root="/etc/workflow/models/dam/update_asset"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
