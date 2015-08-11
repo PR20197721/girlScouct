@@ -44,6 +44,7 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.ejb.TroopUtil;
+import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
@@ -96,7 +97,10 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	private ResourceResolver resourceResolver;
-
+	
+	@Reference
+	private UserUtil userUtil;
+	
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
@@ -216,9 +220,19 @@ System.err.println("test6");
 
 	private void signOut(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
+		
+		
+		
+		if(true){
+			redirect(response, configManager.getConfig("communityUrl")
+					+ "/VTKLogout?redirectSource=" + configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html");
+			  return;
+		}
+		
+		
+		
 		boolean isLogoutApi = false, isLogoutWeb = false;
 		HttpSession session = request.getSession();
-
 		try {
 			troopUtil.logout(((org.girlscouts.vtk.models.User) session
 					.getAttribute(org.girlscouts.vtk.models.User.class
@@ -236,12 +250,12 @@ System.err.println("test6");
 		String redirectUrl = null;
 		if (apiConfig != null) {
 			try {
-				isLogoutApi = logoutApi(apiConfig, false);
+				isLogoutApi = userUtil.logoutApi(apiConfig, false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-				logoutApi(apiConfig, true);
+				userUtil.logoutApi(apiConfig, true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -294,8 +308,8 @@ System.err.println("test6");
 		// baseUrl: config in CRXED /etc/map.publish.dev/http/alex.gsnetx.org.80
 		redirectUrl = resourceResolver.map(redirectUrl);
 		redirectUrl = configManager.getConfig("communityUrl")
-				+ "/VTKLogout?redirectSource="
-				+ java.net.URLEncoder.encode(configManager.getConfig("baseUrl")+redirectUrl);
+				+ "/VTKLogout?redirectSource=" + configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/en/vtk.logout.html";
+				//+ java.net.URLEncoder.encode(configManager.getConfig("baseUrl")+redirectUrl);
 		redirect(response, redirectUrl);
 	}
 
@@ -466,7 +480,7 @@ System.err.println("test6");
 		}
 	}
 
-	// aPI logout
+	/*// aPI logout
 	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
 			throws Exception {
 System.err.println("tatalogout: "+ apiConfig.getAccessToken())	;	
@@ -507,7 +521,7 @@ System.err.println("tata url token revoke: "+url);
 		}
 		return isSucc;
 	}
-
+*/
 	// web salesforce logout
 	public boolean logoutWeb(ApiConfig apiConfig) throws Exception {
 		DataOutputStream wr = null;
