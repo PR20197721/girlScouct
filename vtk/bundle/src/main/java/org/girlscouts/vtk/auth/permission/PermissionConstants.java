@@ -39,11 +39,19 @@ public class PermissionConstants {
 
 	public static final int PERMISSION_VIEW_REPORT_ID=601;
 	public static final int PERMISSION_VIEW_MILESTONE_ID=611;
+<<<<<<< HEAD
 	public static final int PERMISSION_EDIT_ATTENDANCE_ID=621;
 	public static final int PERMISSION_SEND_EMAIL_MT_ID=631;	
 	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;	
 	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=651; //in meeting meterials
 
+=======
+	public static final int PERMISSION_VIEW_ATTENDANCE_ID=621;
+	public static final int PERMISSION_SEND_EMAIL_ID=631;	
+	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=641; //in meeting meterials
+	
+	public static final int PERMISSION_EDIT_MILESTONE_ID=701;
+>>>>>>> milestones-permission
 	public static final int GROUP_ROOT = 0;
 	public static final String GROUP_ROOT_DISPLAY = "ROOT";
 	public static final int[] ROOT_PERMISSIONS;
@@ -69,6 +77,7 @@ public class PermissionConstants {
 			PERMISSION_ADD_ACTIVITY_ID, PERMISSION_EDIT_ACTIVITY_ID,
 			PERMISSION_RM_ACTIVITY_ID,
 			PERMISSION_EDIT_MEETING_ID,
+			PERMISSION_VIEW_MILESTONE_ID,
 			PERMISSION_ADD_MEETING_ID, PERMISSION_CREATE_MEETING_ID,
 			PERMISSION_REMOVE_MEETING_ID,PERMISSION_SEND_EMAIL_MT_ID,
 			PERMISSION_SEND_EMAIL_ACT_ID,PERMISSION_VIEW_ACTIVITY_PLAN_ID,
@@ -98,6 +107,8 @@ public class PermissionConstants {
 	
 	public static final int GROUP_MEMBER_COUNCIL = 16;
 	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
+
 	//public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll(new int[] {});
-	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll( GROUP_LEADER_PERMISSIONS, new int[] { PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, PERMISSION_EDIT_FINANCE_ID, PERMISSION_VIEW_REPORT_ID, PERMISSION_VIEW_MILESTONE_ID, PERMISSION_EDIT_FINANCE_FORM_ID });
+	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll( GROUP_LEADER_PERMISSIONS, new int[] { PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, PERMISSION_EDIT_FINANCE_ID, PERMISSION_VIEW_REPORT_ID, PERMISSION_EDIT_MILESTONE_ID, PERMISSION_EDIT_FINANCE_FORM_ID });
+
 }
