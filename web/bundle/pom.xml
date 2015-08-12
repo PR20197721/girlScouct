@@ -211,6 +211,12 @@
 	<version>5.12.2</version>
 	<scope>provided</scope>
 </dependency>
+    <dependency>
+      <groupId>com.adobe.granite.bundles</groupId>
+      <artifactId>json</artifactId>
+      <version>20090211_1</version>
+      <scope>provided</scope>
+</dependency>
         <!-- END STATS -->
         <dependency>
             <groupId>com.day.cq.wcm</groupId>
