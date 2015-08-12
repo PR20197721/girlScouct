@@ -224,8 +224,12 @@ System.err.println("test6");
 		
 		
 		if(true){
+			boolean isVtkLogin=false;
+			if( request.getParameter("isVtkLogin")!=null && request.getParameter("isVtkLogin").equals("true"))
+				isVtkLogin=true;
+			
 			redirect(response, configManager.getConfig("communityUrl")
-					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"));
+					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin? "&isVtkLogin=true": "" )));
 			  return;
 		}
 		

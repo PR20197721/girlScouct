@@ -30,7 +30,17 @@
     if( session!=null) {
     	session.invalidate();
     } 
+ 
+    if( request.getParameter("isVtkLogin")!=null && request.getParameter("isVtkLogin").equals("true")){
     
-    String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html";
-    response.sendRedirect(councilHomeUrl);
+    	response.sendRedirect(configManager.getConfig("targetUrl"));
+    }else if( request.getParameter("isCommunityLogin")!=null && request.getParameter("isCommunityLogin").equals("true")){
+            
+            response.sendRedirect(configManager.getConfig("communityUrl"));
+    }else{
+        String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html";
+        response.sendRedirect(councilHomeUrl);
+    
+    	
+    }
 %>

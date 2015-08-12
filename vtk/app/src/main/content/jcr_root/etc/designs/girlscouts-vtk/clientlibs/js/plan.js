@@ -978,10 +978,10 @@ function councilRpt(troopId, cid){
 	  if( document.getElementById("myframe")==null){return;}
 	  console.log("checking isLoggedin..."+ isLoggedIn);
 	  if( !isLoggedIn ){
-		  alert("Not logged in"); 
+		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
 		  //girlscouts.components.login.signOut();
-		 window.parent.location="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";
-	  
+	      window.parent.location="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+		  
 		 
 	  } 
   }
