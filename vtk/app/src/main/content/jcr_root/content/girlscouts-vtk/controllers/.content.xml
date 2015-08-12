@@ -13,4 +13,7 @@
     <vtk
         jcr:primaryType="nt:unstructured"
         sling:resourceType="girlscouts-vtk/components/vtk"/>
+     <logout
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="girlscouts-vtk/components/vtk-logout"/>
 </jcr:root>

@@ -979,7 +979,9 @@ function councilRpt(troopId, cid){
 	  console.log("checking isLoggedin..."+ isLoggedIn);
 	  if( !isLoggedIn ){
 		  alert("Not logged in"); 
-		  girlscouts.components.login.signOut();
-		  //window.location="http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";
+		  //girlscouts.components.login.signOut();
+		 window.parent.location="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";
+	  
+		 
 	  } 
   }

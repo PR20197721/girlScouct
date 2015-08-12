@@ -8,21 +8,28 @@
     org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
 
     HttpSession session = request.getSession();
-    User user = ((org.girlscouts.vtk.models.User) session
-        .getAttribute(org.girlscouts.vtk.models.User.class.getName()));
-    Troop troop = (Troop) session.getValue("VTK_troop");
-    
     String councilId= request.getParameter("cid");
-    if( councilId==null && troop!=null )       
+    User user = null;
+    Troop troop = null;
+    if (session != null) {
+    	user = ((org.girlscouts.vtk.models.User) session.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+        troop = (Troop) session.getValue("VTK_troop");
+    }
+    
+    if( troop!=null ) {
+    	// council lookup
         councilId= troop.getSfCouncil();
+    }
 
     //revoke auth token
-    if( user!=null)
-            userUtil.logoutApi( user.getApiConfig(), false);
+    if( user!=null) {
+        userUtil.logoutApi( user.getApiConfig(), false);
+    }
     
     //invalidate session
-    if( session!=null)
+    if( session!=null) {
     	session.invalidate();
+    } 
     
     String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html";
     response.sendRedirect(councilHomeUrl);

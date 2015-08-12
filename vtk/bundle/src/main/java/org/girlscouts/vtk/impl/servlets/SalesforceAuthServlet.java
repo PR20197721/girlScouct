@@ -225,7 +225,7 @@ System.err.println("test6");
 		
 		if(true){
 			redirect(response, configManager.getConfig("communityUrl")
-					+ "/VTKLogout?redirectSource=" + configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html");
+					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"));
 			  return;
 		}
 		
