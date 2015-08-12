@@ -1,7 +1,7 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<!--  %@include file="include/session.jsp"% -->
 <% 
     String activeTab = "reports";
 %>
@@ -10,14 +10,14 @@
 <div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
-  if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  if(true){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
 	ageGroups.add("junior");
 
-	String cid = troop.getSfCouncil();
+	String cid = "603";//troop.getSfCouncil();
 	if ( request.getParameter("cid") != null) {
 		cid =  (String)request.getParameter("cid");
 	}
