@@ -566,6 +566,18 @@ System.err.println("<<tata<<<Apex resp: " + response);
 				eConn.printStackTrace();
 			}
 		}
+		
+		
+		if( user.isAdmin() && (troops==null || troops.size()<=0) )
+		{
+			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
+            user_troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));	 
+            user_troop.setTroopId("none");
+            user_troop.setCouncilCode(603);
+            user_troop.setTroopName("vtk_virtual_troop");
+            //user.setPermissions(user_troop.getPermissionTokens());
+            troops.add(user_troop);
+		}
 		return troops;
 	}
 
