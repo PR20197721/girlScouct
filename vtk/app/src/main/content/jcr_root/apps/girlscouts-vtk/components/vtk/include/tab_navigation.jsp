@@ -94,6 +94,15 @@ if (troops != null && troops.size() > 1) {
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
+        
+        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MILESTONE_ID) ){ %>
+               
+       <dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
+            <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
+          </dd>
+      
+        <% } %>
+        
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
       	  <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
@@ -194,6 +203,12 @@ if (troops != null && troops.size() > 1) {
           </li>
           <%  } %>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
+       
+             <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MILESTONE_ID) ){ %>
+                <li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
+             <% } %>
+       
+       
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
 	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
 	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
