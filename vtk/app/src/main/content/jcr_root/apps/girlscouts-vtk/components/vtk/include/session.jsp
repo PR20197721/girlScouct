@@ -96,9 +96,10 @@
 		return;
 	}
 	
-	if(apiConfig.getTroops() == null
+	//if(!apiConfig.getUser().isAdmin() && (apiConfig.getTroops() == null
+	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) {
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
 			%>
