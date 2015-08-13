@@ -10,6 +10,61 @@ if (!Date.now) {
 	  };
 	}
 
+function retrieveEvents(path){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "update" },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        	var navList = "";
+        	for(var i=0; i < json.output.length; i++){
+        		navList = navList + "<li><a href=\"" + json.output[i].href + "\">" + json.output[i].name + "</li>";
+        	}
+        	$("#event-cart-nav-list").html(navList);
+        }
+	})
+	.fail(function(msg){
+		console.log("Event Cart update failed");
+	});
+}
+
+function createCart(path){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "create" },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        }
+	})
+	.fail(function(msg){
+		console.log("Event Cart creation failed");
+	});
+}
+
+function addToCart(path, eventPath){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "add" },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        	var navList = "";
+        	for(var i=0; i < json.output.length; i++){
+        		navList = navList + "<li><a href=\"" + json.output[i].href + "\">" + json.output[i].name + "</li>";
+        	}
+        	$("#event-cart-nav-list").html(navList);
+        }
+	})
+	.fail(function(msg){
+		console.log("Add to Cart failed");
+	});
+}
+
 function toggleParsys(s)
 {
     var componentPath = s;

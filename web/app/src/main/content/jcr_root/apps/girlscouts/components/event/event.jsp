@@ -236,7 +236,8 @@
 </div>
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink"> 
-    	 	<a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
+    	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
+    	 	<a class="button" onclick="addToCart('/content/girlscouts-shared/event-cart.html', '<%= currentPage.getPath() %>'); return false;">ADD EVENT TO MyEvents</a>
     	</div>   
      <%} %>
 <div class="row">
