@@ -12,6 +12,7 @@ planView.js
 resources.js
 jquery.jscroll.min.js
 moment.min.js
+moment-timezone.js
 JSXTransformer-0.12.1.js
 jquery.validate.js
 jquery-print.js
