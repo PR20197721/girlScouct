@@ -145,7 +145,7 @@
  					    String link = "?category=" + currentMinor.getPath();
  					    String title = currentMinor.getTitle();
  					   if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
- 					   
+ 						  minorCount=0;
  						    try{
  							    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
  								while (iter.hasNext()) {
@@ -153,7 +153,8 @@
  								    	
  								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
  								        meetingId= meetingId.replace("/","");
- 								       minorCount+= yearPlanUtil.getAllResourcesCount(user,LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
+ 								        minorCount+= yearPlanUtil.getAllResourcesCount(user,LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
+ 								
  								}
  						    }catch(Exception e){}
  					    
@@ -210,7 +211,7 @@
 
 
 		<%-- display aids --%>
-		<%
+		<%		
 			String categoryParam = (String)request.getParameter("category");
 				Page categoryPage = manager.getPage(categoryParam);
 
@@ -232,6 +233,7 @@
 							        for(int i=0;i<lresources.size();i++){
 									    org.girlscouts.vtk.models.Asset la = lresources.get(i);
 										String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
+
 			%>
 			<tr>
 
@@ -260,7 +262,7 @@
 			<%
 				}
 								}
-						    } catch (Exception e) {}
+						    } catch (Exception e) {e.printStackTrace();}
 						  
 						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
 						    for(int i=0;i<gresources.size();i++){
@@ -292,6 +294,7 @@
 
 			</tr>
 			<%
+			
 				}
 			%>
 		</table>
