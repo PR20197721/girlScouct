@@ -27,7 +27,7 @@ function openPDF() {
 	})
 		.done(function( msg ) {
 			var json = JSON.parse(msg);
-	   		console.log( json );
+	   		//console.log( json );
 	   		if(json.key == "found"){
 	   			window.open(filePath);
 	   		}

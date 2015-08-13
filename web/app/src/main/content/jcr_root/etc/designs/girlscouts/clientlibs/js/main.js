@@ -16,11 +16,10 @@ function retrieveEvents(path){
    		url: path,
         data: { action: "update" },
         success: function(data){
-        	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
         	var navList = "";
-        	for(var i=0; i < json.output.length; i++){
-        		navList = navList + "<li><a href=\"" + json.output[i].href + "\">" + json.output[i].name + "</li>";
+        	for(var i=0; i < json.data.length; i++){
+        		navList = navList + "<li><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
         	}
         	$("#event-cart-nav-list").html(navList);
         }
@@ -54,8 +53,8 @@ function addToCart(path, eventPath){
         	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
         	var navList = "";
-        	for(var i=0; i < json.output.length; i++){
-        		navList = navList + "<li><a href=\"" + json.output[i].href + "\">" + json.output[i].name + "</li>";
+        	for(var i=0; i < json.data.length; i++){
+        		navList = navList + "<li><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
         	}
         	$("#event-cart-nav-list").html(navList);
         }
