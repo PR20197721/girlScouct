@@ -20,7 +20,7 @@ function openPDF() {
 	state + "_" + grade + "_" + program + ".pdf");
 
 	$.ajax({
-		method: "POST",
+		type: "POST",
    		url: "<%= currentNode.getPath() + ".html" %>",
    		async: false,
         data: { path: filePath },
