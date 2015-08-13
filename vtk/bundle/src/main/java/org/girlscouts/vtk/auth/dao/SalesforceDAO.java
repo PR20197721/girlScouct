@@ -504,6 +504,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
+troop.setGradeLevel("9-cadette");					
 					troop.setTroopId(results.getJSONObject(i).getString(
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
