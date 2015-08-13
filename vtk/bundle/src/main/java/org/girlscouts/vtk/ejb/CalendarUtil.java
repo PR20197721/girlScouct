@@ -184,10 +184,11 @@ public class CalendarUtil {
 			java.util.Calendar cal = java.util.Calendar.getInstance();
 			cal.setTime(new java.util.Date("1/1/1977"));
 			oldFromDate = cal.getTimeInMillis();
-			for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
-				dates = dates + (cal.getTimeInMillis()) + ",";
-				cal.add(java.util.Calendar.DATE, 1);
-			}
+			if(troop.getYearPlan().getMeetingEvents()!=null)
+				for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
+					dates = dates + (cal.getTimeInMillis()) + ",";
+					cal.add(java.util.Calendar.DATE, 1);
+				}
 		} else
 			dates = troop.getYearPlan().getSchedule().getDates();
 		if (!dates.startsWith(","))
