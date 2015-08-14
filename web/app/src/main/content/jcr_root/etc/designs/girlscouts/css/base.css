@@ -1394,3 +1394,12 @@ padding: 40px 0px 40px 0;
 	max-width: 170px;
 }
 
+.delete-event {
+	color: #00ae58;
+}
+
+.delete-event:hover {
+	cursor: pointer;
+	cursort: hand;
+}
+

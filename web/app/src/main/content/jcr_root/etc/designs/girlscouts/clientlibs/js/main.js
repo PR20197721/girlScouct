@@ -16,31 +16,20 @@ function retrieveEvents(path){
    		url: path,
         data: { action: "update" },
         success: function(data){
+        	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
-        	var navList = "";
-        	for(var i=0; i < json.data.length; i++){
-        		navList = navList + "<li><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
+        	if(json.data != undefined && json.data.length > 0){
+	        	var navList = "<dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class = \"on\">My Events</h6></dt><dd class=\"event-cart-navigation\"><ul id=\"event-cart-nav-list\">";
+	        	for(var i=0; i < json.data.length; i++){
+	        		navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"console.log(\'Delete Clicked\'); return false\"; /><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
+	        	}
+	        	navList = navList + "</ul></dd></dl><div class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">Register</div>";
+	        	$("#event-cart").html(navList);
         	}
-        	$("#event-cart-nav-list").html(navList);
         }
 	})
 	.fail(function(msg){
 		console.log("Event Cart update failed");
-	});
-}
-
-function createCart(path){
-	$.ajax({
-		type: "POST",
-   		url: path,
-        data: { action: "create" },
-        success: function(data){
-        	var json = JSON.parse(data);
-        	console.log("Response: " + json.output);
-        }
-	})
-	.fail(function(msg){
-		console.log("Event Cart creation failed");
 	});
 }
 
@@ -52,11 +41,15 @@ function addToCart(path, eventPath){
         success: function(data){
         	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
-        	var navList = "";
-        	for(var i=0; i < json.data.length; i++){
-        		navList = navList + "<li><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
+        	console.log(json);
+        	if(json.data != undefined && json.data.length > 0){
+	        	var navList = "<dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class = \"on\">My Events</h6></dt><dd class=\"event-cart-navigation\"><ul id=\"event-cart-nav-list\">";
+	        	for(var i=0; i < json.data.length; i++){
+	        		navList = navList + "<li><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
+	        	}
+	        	navList = navList + "</ul></dd></dl><div class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">Register</div>";
+	        	$("#event-cart").html(navList);
         	}
-        	$("#event-cart-nav-list").html(navList);
         }
 	})
 	.fail(function(msg){
