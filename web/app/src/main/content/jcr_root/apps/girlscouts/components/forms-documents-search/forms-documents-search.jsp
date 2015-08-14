@@ -12,7 +12,10 @@ if(path.isEmpty()){
 
 String formDocumentContentPath = properties.get("./form-document-path","");
 if(formDocumentContentPath.isEmpty()){
-	formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
+	//formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
+	//change default content path to current page.
+	formDocumentContentPath = currentPage.getPath();
+
 }
 
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
