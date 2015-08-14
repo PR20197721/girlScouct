@@ -7,7 +7,8 @@
 --%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-<%@page import="java.util.Date" %>
+<%@page import="java.util.Date,
+				com.day.cq.wcm.api.WCMMode" %>
 <%
 	String[] children = properties.get("children", String[].class);
 	if(children == null){
@@ -29,6 +30,9 @@
             	<%
             }
             %></dl>
+            <%
+            if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+            %>
         <script>
         	CQ.WCM.on("editablesready", function(){
         	<%
@@ -41,5 +45,6 @@
 			%>
         	});
         	</script><%
+            }
 	}
 %>

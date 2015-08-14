@@ -386,6 +386,7 @@
 		String levelMeetingsRootPath = MEETING_ROOT + "/" + level;
 
 		return levelMeetingsRootPath;
+
 	}
 
 	private String displayMeetingOverviews(User user, Troop troop,
