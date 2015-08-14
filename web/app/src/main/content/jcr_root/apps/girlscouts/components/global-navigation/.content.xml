@@ -3,4 +3,4 @@
     jcr:description="Global Navigation on top of a page"
     jcr:primaryType="cq:Component"
     jcr:title="Global Navigation"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>

@@ -3,4 +3,4 @@
     jcr:description="Login and show user's nick name"
     jcr:primaryType="cq:Component"
     jcr:title="Login"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>
