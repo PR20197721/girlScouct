@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <properties
+                    jcr:primaryType="cq:Panel"
+                    title="Properties">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <url
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="If left blank, the current page will be used. You can use an anchor at the end if you like, e.g. http://girlscouts.org#news."
+                            fieldLabel="URL"
+                            name="./url"
+                            xtype="textfield"/>
+                        <title
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="If left blank, the page title will be used."
+                            fieldLabel="Title"
+                            name="./title"
+                            xtype="textfield"/>
+                        <hideFacebook
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Hide Facebook"
+                            name="./hideFacebook"
+                            type="checkbox"
+                            xtype="selection"/>
+                        <facebook-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="If blank, Facebook may pull data from page or page metadata."
+                            fieldLabel="Facebook Message"
+                            name="./facebookText"
+                            xtype="textarea"/>
+                        <hideTwitter
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Hide Twitter"
+                            name="./hideTwitter"
+                            type="checkbox"
+                            xtype="selection"/>
+                        <twitter-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Max 140 characters. If blank, Twitter may pull data from page or page metadata."
+                            fieldLabel="Twitter Message"
+                            hidden="{Boolean}true"
+                            maxLength="140"
+                            maxLengthText="Message can not be longer than 140 characters"
+                            name="./twitterMessage"
+                            xtype="textarea"/>
+                        <hidePinterest
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Hide Pinterest"
+                            name="./hidePinterest"
+                            type="checkbox"
+                            xtype="selection"/>
+                        <pinterest-text
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="If blank, Pinterest may pull data from page or page metadata."
+                            fieldLabel="Pinterest Message"
+                            hidden="{Boolean}true"
+                            name="./pinterestText"
+                            xtype="textarea"/>
+                    </items>
+                </properties>
+                <image
+                    jcr:primaryType="cq:Widget"
+                    allowUpload="{Boolean}false"
+                    ddGroups="[media]"
+                    fileNameParameter="./image/fileName"
+                    fileReferenceParameter="./image/fileReference"
+                    name="./image/file"
+                    requestSuffix="/image.img.png"
+                    title="Image"
+                    uploadTextReference="Drop an image. If left blank, the article image will be used."
+                    xtype="html5smartimage">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <resType
+                            jcr:primaryType="cq:Widget"
+                            ignoreData="{Boolean}true"
+                            name="./image/sling:resourceType"
+                            value="foundation/components/image"
+                            xtype="hidden"/>
+                    </items>
+                </image>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>
