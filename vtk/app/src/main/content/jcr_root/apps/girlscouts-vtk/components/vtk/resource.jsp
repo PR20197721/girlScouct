@@ -374,7 +374,8 @@
 	}
 
 	private String getMeetingsRootPath(Troop troop) {
-		String level = troop.getTroop().getGradeLevel().toLowerCase();
+		if( troop==null || troop.getTroop()==null || troop.getTroop().getGradeLevel()==null) return "";
+        String level = troop.getTroop().getGradeLevel().toLowerCase();
 		// The field in SF is 1-Brownie, we need brownie
 		if (level.contains("-")) {
 			level = level.split("-")[1];
