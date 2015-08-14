@@ -39,7 +39,9 @@
       <script type="text/javascript">
 
 
-
+//c.w GSVTK-773 fix time difference for councils at other time zones
+//timezone data stored in clientlibs/moment-timezone.js
+moment.tz.setDefault("US/Eastern");
 
 
  var isActivNew;
