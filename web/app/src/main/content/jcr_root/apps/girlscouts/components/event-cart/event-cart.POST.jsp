@@ -9,12 +9,34 @@ org.apache.sling.commons.json.JSONArray" %>
 public class Tuple<X,Y>{
 	public X x;
 	public Y y;
+	public Tuple(X x, Y y){
+		this.x = x;
+		this.y = y;
+	}
 	public X getX(){
 		return x;
 	}
 	public Y getY(){
 		return y;
 	}
+	public void setX(X a){
+		x = a;
+	}
+	public void setY(Y b){
+		y = b;
+	}
+}
+
+public void update(TidyJSONWriter writer, List<Tuple<String,String>> pathsAndNames, String successMsg, HttpSession session, HttpServletRequest request){
+	writer.setTidy("true".equals(request.getParameter("tidy")));
+	writer.object().key("data").array();
+	pathsAndNames = (ArrayList<Tuple<String,String>>)session.getAttribute("event-cart");
+	for(Tuple<String,String> t : pathsAndNames){
+		writer.value(writer.object().key("href").value(t.getX()).key("name").value(t.getY()).endObject());
+	}
+	writer.endArray();
+	writer.key("output").value(successMsg);
+	writer.endObject();
 }
 %>
 
@@ -36,20 +58,21 @@ if(action.equals("create")){
 		writer.endObject();
 	}
 } else if(action.equals("update")){
-	writer.setTidy("true".equals(request.getParameter("tidy")));
-	writer.object().key("data").array();
-	pathsAndNames = (ArrayList<Tuple<String,String>>)session.getAttribute("event-cart");
-	for(Tuple<String,String> t : pathsAndNames){
-		writer.value(writer.object().key("href").value(t.getX()).key("name").value(t.getY()).endObject());
-	}
-	writer.endArray();
-	writer.key("output").value("Backend Update Successful");
-	writer.endObject();
+	update(writer, pathsAndNames, "Backend Update Successful", session, request);
 } else if(action.equals("add")){
-	//TODO
-	writer.setTidy("true".equals(request.getParameter("tidy")));
-	writer.object();
-	writer.key("output").value("Backend Add Successful");
-	writer.endObject();
+	String path = request.getParameter("eventPath");
+	if(path == null || path.equals("")){
+		output = "Backend Add Failed. Invalid Path";
+		writer.setTidy("true".equals(request.getParameter("tidy")));
+		writer.object();
+		writer.key("output").value(output);
+		writer.endObject();
+	} else{
+		Node n = resourceResolver.resolve(path).adaptTo(Node.class);
+		String name = n.getProperty("jcr:content/jcr:title").getString();
+		Tuple<String,String> newEvent = new Tuple<String,String> (name, path);
+		pathsAndNames.add(newEvent);
+		update(writer, pathsAndNames, "Backend Add to Cart Successful", session, request);
+	}
 }
 %>

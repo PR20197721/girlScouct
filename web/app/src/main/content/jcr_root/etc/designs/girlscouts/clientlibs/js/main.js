@@ -48,7 +48,7 @@ function addToCart(path, eventPath){
 	$.ajax({
 		type: "POST",
    		url: path,
-        data: { action: "add" },
+        data: { action: "add", eventPath: eventPath },
         success: function(data){
         	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
