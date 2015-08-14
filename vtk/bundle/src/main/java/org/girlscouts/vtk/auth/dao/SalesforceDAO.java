@@ -138,7 +138,7 @@ public class SalesforceDAO {
 						try {
 							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
 									.getBoolean("VTK_Admin__c") );
-							user.setAdminCouncilId(results.getJSONObject(i)
+							user.setAdminCouncilId(results.getJSONObject(i).getJSONObject("Contact").getJSONObject("Owner")
 									.getInt("Council_Code__c") );
 
 						} catch (Exception e) {
@@ -578,7 +578,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
             user_troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));	 
             user_troop.setTroopId("none");
-            user_troop.setCouncilCode(603);//apiConfig.getUser().getAdminCouncilId());
+            user_troop.setCouncilCode(user.getAdminCouncilId());
             user_troop.setTroopName("vtk_virtual_troop");
             //user.setPermissions(user_troop.getPermissionTokens());
             troops.add(user_troop);
