@@ -526,7 +526,7 @@
 			String councilId = request.getParameter("cid");
 
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 			for (int i = 0; i < milestones.size(); i++) {
 
 				Milestone m = milestones.get(i);
@@ -567,14 +567,21 @@
 				}
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones, councilId);
+
+			try{
+				yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
+
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 
 			String councilId = request.getParameter("cid");
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 
 			Milestone m = new Milestone();
 			m.setBlurb(request.getParameter("blurb"));
@@ -884,7 +891,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				try {
 					if (troop.getYearPlan() != null) {
 						troop.getYearPlan() .setMilestones(
-							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+							yearPlanUtil.getCouncilMilestones(user,"" + troop.getSfCouncil()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

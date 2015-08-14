@@ -9,6 +9,7 @@
     <filter root="/etc/map.publish.dev"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
+    <filter root="/etc/replication-checker"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
     <filter root="/etc/designs/girlscouts-usa"/>
@@ -51,7 +52,6 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_sp_right_hero"/>
-    <filter root="/etc/workflow/models/dam/update_asset"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
