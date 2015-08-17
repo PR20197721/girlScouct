@@ -19,12 +19,12 @@ function retrieveEvents(path){
         	var json = JSON.parse(data);
         	console.log("Response: " + json.output);
         	if(json.data != undefined && json.data.length > 0){
-	        	var navList = "<dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class = \"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
+	        	var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
 	        	for(var i=0; i < json.data.length; i++){
 	        		navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"console.log(\'Delete Clicked\'); return false\"; /><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
 	        	}
-	        	navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl>";
-	        	$("#event-cart").html(navList);
+	        	navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl></div>";
+	        	$("#appended-event-cart").html(navList);
         	}
         }
 	})
@@ -43,13 +43,14 @@ function addToCart(path, eventPath){
         	console.log("Response: " + json.output);
         	console.log(json);
         	if(json.data != undefined && json.data.length > 0){
-	        	var navList = "<dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class = \"on\">My Events</h6></dt><dd class=\"event-cart-navigation\"><ul id=\"event-cart-nav-list\">";
-	        	for(var i=0; i < json.data.length; i++){
-	        		navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"console.log(\'Delete Clicked\'); return false\"; /><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
-	        	}
-	        	navList = navList + "</ul></dd></dl><div class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">Register</div>";
-	        	$("#event-cart").html(navList);
+	        	var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
+                for(var i=0; i < json.data.length; i++){
+                    navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"console.log(\'Delete Clicked\'); return false\"; /><a href=\"" + json.data[i].href + "\">" + json.data[i].name + "</li>";
+                }
+                navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl></div>";
+                $("#appended-event-cart").html(navList);
         	}
+            vtk_accordion();
         }
 	})
 	.fail(function(msg){
