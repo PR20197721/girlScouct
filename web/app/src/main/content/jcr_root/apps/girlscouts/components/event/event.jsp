@@ -22,11 +22,11 @@
 <!-- apps/girlscouts/components/components/event/event.jsp -->
 <%
 	String currentPath = currentPage.getPath() + ".html";
-   
+
     // Defining a hashMap for the Program Level - Level and Categories -> Category
     Map<String,String> map = new HashMap<String,String>();
     map.put("Program Level", "Level");
-    map.put("Categories", "Category");	
+    map.put("Categories", "Category");
     //String locale =  currentSite.get("locale", "America/Chicago");
 	//TimeZone tZone = TimeZone.getTimeZone(locale);
 
@@ -38,9 +38,9 @@
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	//timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
-	//Date startDate = properties.get("start", Date.class); 
+	//Date startDate = properties.get("start", Date.class);
 
-	Calendar startDateCl = properties.get("start", Calendar.class); 
+	Calendar startDateCl = properties.get("start", Calendar.class);
 
 	String edtTime = properties.get("start", "");
     Date basedOnTimeZone = dateFormat1.parse(edtTime);
@@ -50,28 +50,28 @@
 
 	String startDateStr = dateFormat.format(cale.getTime());
 	String startTimeStr = timeFormat.format(cale.getTime());
-	
-	
+
+
 	//Calendar Date and Month
-	
+
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(cale.getTime());
     int month = calendar.get(Calendar.MONTH)+1;
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
-    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
-   
+    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear;
+
     String time = startTimeStr;
-    
+
     String endDateSt = properties.get("end", "");
 	String timeZoneLabel = properties.get("timezone", "");
 	String register = properties.get("register", String.class);
-	
+
 	//Start Time : startTimeStr var called time
-	
+
 	//String dateStr = startDateStr + ", " +startTimeStr;
     String formatedStartDateStr= startDateStr + ", " +startTimeStr;
-	
+
     String formatedEndDateStr="";
     Date endDate=null;
 	if (endDateSt != null && !endDateSt.isEmpty()) {
@@ -86,18 +86,18 @@
 		String endTimeStr = timeFormat.format(endDate);
 		if (!sameDay) {
 			formatedEndDateStr =  endDateStr +", " + endTimeStr;
-		    
+
 		}else{
 			formatedEndDateStr =  endTimeStr;
-			
+
 		}
-	       
+
 	}
 	if(!timeZoneLabel.isEmpty()){
 		formatedEndDateStr += " " + timeZoneLabel;
 	}
-	
-	
+
+
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	if(currentNode.getParent().hasProperty("cq:tags")){
 		ValueMap jcrProps = resourceResolver.getResource(currentNode.getParent().getPath()).adaptTo(ValueMap.class);
@@ -105,9 +105,9 @@
 	    TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
 	    for(String str:cqTags)
 	    {
-	    	
+
 	    	Tag tag  = tagManager.resolve(str);
-	    	
+
 			try {
 	    		if(tags.containsKey(tag.getParent().getTitle())){
 	    			tags.get(tag.getParent().getTitle()).add(tag.getTitle());
@@ -124,17 +124,17 @@
     // content
     String title = currentPage.getTitle();
     String details = properties.get("details", " ");
-   
-   // address 
+
+   // address
    String address = properties.get("address", "");
    address = address.replaceAll("[\\n\\r]", " ");
 
     //Region
     String region = properties.get("region", "");
-    
+
     //Location Label
     String locationLabel = properties.get("locationLabel","");
-    
+
 %>
 
 <!-- TODO: fix the h2 color in CSS -->
@@ -142,29 +142,29 @@
    <div class="small-24 large-24 medium-24 columns">
       &nbsp;
    </div>
-   
+
    <div class="small-24 large-24 medium-24 columns">
         <h2  itemprop="name"><%= title %></h2>
    </div>
-   
+
    <div class="small-24 large-24 medium-24 columns">
       <div id="calendar" style="padding-bottom:10px;">
         <a href="<%=calendarUrl%>">View event on calendar</a>
-      </div>  
+      </div>
    </div>
 
 </div>
-<%  
+<%
 	try {
 	    String imgPath = resource.getPath() + "/image";
 	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-	   
+
 	    if( imgNode.hasProperty("fileReference")){
 	%>   <div>
-			<p>	
+			<p>
 			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
 			</p>
-		</div>	
+		</div>
 <%
 		    }
 	} catch (Exception e) {}
@@ -179,10 +179,10 @@
                         <div class="small-16 medium-16 large-16 columns">
            <b>
            <%try{%>
-                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span>
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
                             - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
-                        <%     
+                        <%
                         }
                      }catch(Exception eDateStr){eDateStr.printStackTrace();}
                     %>
@@ -209,15 +209,15 @@
                		<div class="small-8 medium-8 large-8 columns">
  						<b> <%=map.get(categoryTitle)%>: </b>
                		</div>
-          	    <% 
+          	    <%
                		  Iterator<String> tagValue = tags.get(categoryTitle).iterator();
             	%>
                     <div class="small-16 medium-16 large-16 columns">
 				<%
 						while(tagValue.hasNext()){
-           		 %> 
+           		 %>
 	            	<b> <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %> </b>
-                 
+
           		<% }%>
                   </div>
                   <% }} %>
@@ -235,24 +235,24 @@
         </div>
 </div>
      <%if(register!=null && !register.isEmpty()){%>
-        <div class="eventDetailsRegisterLink"> 
+        <div class="eventDetailsRegisterLink">
     	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
     	 	<a class="button" onclick="addToCart('/content/girlscouts-shared/event-cart.html', '<%= currentPage.getPath() %>'); return false;">ADD EVENT TO MyEvents</a>
-    	</div>   
+    	</div>
      <%} %>
 <div class="row">
    <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
-</div>  
-   
+</div>
+
 <div class="row">
   <div class="small-24 large-24 medium-24 columns" itemprop="description">
    <%=details %>
   </div>
-</div>      
+</div>
 <div class="row">
    <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
 </div>
-  
+
 <script>
 function showMap(address){
 	window.open('/en/map.html?address='+address);
