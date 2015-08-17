@@ -48,8 +48,9 @@ public class ContactUtil {
    public java.util.List<ContactExtras> girlAttendAchievement(User user, Troop troop, Contact contact){
 	
 	   if( contact==null ) return null;
-	   java.util.List<ContactExtras> extras = new java.util.ArrayList<ContactExtras>();	   
-	   for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){   
+	   java.util.List<ContactExtras> extras = new java.util.ArrayList<ContactExtras>();
+	   if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null )
+	     for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){   
 		    MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 		    ContactExtras extra = new ContactExtras();
 		    Attendance attendance = meeting.getAttendance();
