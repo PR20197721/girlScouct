@@ -135,8 +135,13 @@ if (troops != null && troops.size() > 1) {
           <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
             <ul class="dropdown">
             <% if("plan".equals(activeTab)  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
-              <li><a onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
-              <li><a onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add Meeting</a></li>
+             
+                <% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
+                            !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+                  
+			              <li><a onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
+			              <li><a onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)">Add Meeting</a></li>
+               <%} %>
               <li><a onclick="newActivity()">Add Activity</a></li>
               <li><a onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a></li>
             <% } %>
