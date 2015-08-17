@@ -86,5 +86,19 @@ if(action.equals("update")){
 		session.setAttribute("event-cart",pathsAndNames);
 		update(writer, pathsAndNames, "Backend Add to Cart Successful", session, request);
 	}
+} else if(action.equals("delete")){
+	String href = request.getParameter("href");
+	Event e = new Event(href, "");
+	if(pathsAndNames.contains(e)){
+		if(pathsAndNames.remove(e)){
+			session.setAttribute("event-cart",pathsAndNames);
+			output = "Event Succesfully Removed from Cart";
+		} else{
+			output = "Event Deletion Error During Session Update";
+		}
+	} else{
+		output = "Event Deletion Error - Event " + href + " not Found";
+	}
+	update(writer, pathsAndNames, output, session, request);
 }
 %>
