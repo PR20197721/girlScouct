@@ -19,10 +19,9 @@ public interface CouncilDAO {
 	public void updateCouncil(User user, Council council)
 			throws IllegalAccessException;
 	
-	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
-	
-	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String councilCode);
-
-	public java.util.List<Milestone> getAllMilestones(String councilCode);
+	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode)
+			throws IllegalAccessException;	
+	public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String councilCode)
+			throws IllegalAccessException;
 
 }

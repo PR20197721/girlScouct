@@ -16,33 +16,76 @@ Basic intro to CQ/AEM
 
 
 ## Your first application
-1. run the start.sh script to start the author server (first time takes a few minutes)
-    look inside that script, it's really just a one liner:
-    java -jar -Xmx1500M -XX:MaxPermSize=512M -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=4508 cq-author-p4502.jar
+1. Create a folder for AEM projects and set the environment variable AEM_HOME (e.g. AEM_HOME=/usr/local/aem).  This folder will contain all of your aem instance binaries and their respective repository.  As a convention name project folder accordingly: PROJECT_NAME-AEM_TYPE (e.g. girlscouts-author or girlscouts-publish).  You will need to place three items in this folder to get started:
+	- license.properties (with applicable license information)
+	- aem jar file named according to aem instance type and port (e.g. cq56-author-4502.jar)
+	- startup.sh with java startup parameters for the aem jar file (e.g. java -Xmx1536m -XX:MaxPermSize=384M -Xdebug -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=45022 -verbose:gc -XX:+PrintGCDetails -DauthEnabled=false -jar cq56-author-4502.jar -v -nofork -ll 3)
 
-   notice how the name of the jar itself determines the port it runs on (here it is port 4502):
+2. run the start.sh script to start the author server (first time takes a few minutes)
 
-2. browse localhost:4502
+3. browse localhost:4502
 
-3. log in with one of the default user/passwords:
+4. log in with one of the default user/passwords:
     admin/admin
     author/author
 
-
-
-## Pushing and pulling code btwn CQ and your file system
+## Pushing and pulling code between CQ and your file system
 
 #### New projects: Adobe developer tools for Eclipse
 1. in Eclipse: Help > Install new software > add 
     http://eclipse.adobe.com/aem/dev-tools/
 2. install everything you find there
-3. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502
-    also change auto-publish-time="4"
-4. restart Eclipse
-5. in Eclipse: Window > Show View > Other > AEM
-6. at bottom left in the Servers tab setup a new AEM Server
+3. restart Eclipse
+4. in Eclipse: Window > Show View > Other > AEM
+5. at bottom left in the Servers tab setup a new AEM Server
+6. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502 also change auto-publish-time="4" and the debugPort to 45022 ro the port specified in the start.sh startup script.
 7. right click the server and choose Add and Remove... then add your resources to be auto synched
-8. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
+8a. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
+8b. if you already have an existing project, import that project as an existing maven project. Java bundle project will automatically be registered into Eclipse AEM module.  However, content projects will not be registered as there is a bug in AEM's module.  To fix, after importing the content folder, open the .settings eclipse subfolder and add the following as org.eclipse.wst.common.project.facet.core.xml :
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <installed facet="sling.content" version="1.0"/>
+</faceted-project>
+
+Next, you will have to modify the eclipse .project file entries for buildSpec and natures.  For example:
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>gsusa-content</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.wst.common.project.facet.core.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.wst.validation.validationbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+	</natures>
+</projectDescription>
+
+Once you make these edits, you will have to remove the content subproject and re-add it.
+
+
 9. Make sure the server at bottom left is running (otherwise right click > start)
 
 Now any changes you make in Eclipse are automatically reflected in AEM.  This is a one-way flow: any changes made directly in AEM will be overwritten
@@ -51,6 +94,15 @@ In case you need to pull code the other way, say if you maybe made a new compone
 2. right click the corresponding folder in Eclipse (AEM view) and select Import from server... 
     your server must of course be started for it to work (both the CQ server as well as the Eclipse AEM server at bottom left)
 
+#### Troubleshooting Tips (Optional)
+1. Install JD Eclipse Realign by adding http://mchr3k-eclipse.appspot.com/ in Help > Install New Software.  Add Java Decompiler Eclipse Plug-in items. 
+2. Restart Eclipse then go to preferences > Java > Decompiler > JD-Eclipse Realign and check Display line numbers. 
+3. Create a folder called CQ and place the runtime CQ jar into a folder called src.
+4. Expand jar file.
+5. Enter expanded folder and further expand static/app/cq-quickstart-5.6.1-standalone.jar
+6. Create new project called CQ in Eclipse and point to the the CQ folder.
+7. You will now be able to enter any jar file and view the source of the classes with properly aligned line numbers.
+8. Go to any open AEM project and open properties.  Set this CQ project as a project reference under Project References.
 
 #### Legacy projects: pushing code into CQ 
 1. the basic maven project structure was auto-generated like this:
@@ -212,3 +264,6 @@ Sling Resource Resolver config
 ## Online help
 http://docs.adobe.com/docs/en/aem/6-0/develop/dev-tools/ht-projects-maven.html
 
+
+## Dispatcher Download
+https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher.html

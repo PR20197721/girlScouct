@@ -3,4 +3,4 @@
     jcr:description="Site logo"
     jcr:primaryType="cq:Component"
     jcr:title="Logo"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>
