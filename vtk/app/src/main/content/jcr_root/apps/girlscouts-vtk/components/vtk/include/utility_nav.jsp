@@ -15,7 +15,9 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           <!-- if on YP page this menu shows -->
             <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
-            		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
+            		<%if(planView.getMeetingCount()>0){ %>
+            	       	<li><a href="#" onclick="newLocCal()" title="Meeting Dates and Location">Specify Dates and Locations</a></li>
+            	    <%} %>
             		<li><a href="#" onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)" title="Add Meeting">Add Meeting</a></li>
             		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }

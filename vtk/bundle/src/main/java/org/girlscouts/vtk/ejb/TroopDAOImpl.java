@@ -1240,7 +1240,8 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			Comparator<MeetingE> comp = new BeanComparator("id");
-			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+			if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null)
+				Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
 			// permission to update
 			if (troop != null
