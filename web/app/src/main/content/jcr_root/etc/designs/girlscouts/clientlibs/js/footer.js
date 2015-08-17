@@ -55,7 +55,8 @@
     }
   }
   function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function() {
+    $('.accordion dt > :first-child').on('click', function(e) {
+      e.stopPropagation();
       var target = $(this).parent().data('target');
       var toggle = $(this);
       $('#' + target).slideToggle('slow');
