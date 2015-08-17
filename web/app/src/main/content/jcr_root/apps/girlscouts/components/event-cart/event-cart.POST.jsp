@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@ page import="java.util.Set,
-java.util.HashSet,
+java.util.Comparator,
+java.util.TreeSet,
 com.day.cq.commons.TidyJSONWriter,
 org.apache.sling.commons.json.JSONObject,
 org.apache.sling.commons.json.JSONArray" %>
@@ -35,13 +36,13 @@ public class Event{
 	    if (!x.equals(other.x))
 	        return false;
 	    return true;
-	}     
+	} 
 }
 
 public void update(TidyJSONWriter writer, Set<Event> pathsAndNames, String successMsg, HttpSession session, HttpServletRequest request) throws Exception{
 	if(pathsAndNames != null){
 		writer.object().key("data").array();
-		pathsAndNames = (HashSet<Event>)session.getAttribute("event-cart");
+		pathsAndNames = (TreeSet<Event>)session.getAttribute("event-cart");
 		for(Event event : pathsAndNames){
 			JSONObject jo = new JSONObject();
 			jo.put("href",event.getX());
@@ -57,11 +58,18 @@ public void update(TidyJSONWriter writer, Set<Event> pathsAndNames, String succe
 		writer.endObject();
 	}
 }
+
+class EventComparator implements Comparator<Event>{
+
+	public int compare(Event e1, Event e2){
+		return e1.getX().compareTo(e2.getX());
+	}
+}
 %>
 
 <%
 HttpSession session = request.getSession();
-Set<Event> pathsAndNames = (HashSet<Event>)session.getAttribute("event-cart");
+Set<Event> pathsAndNames = (TreeSet<Event>)session.getAttribute("event-cart");
 final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
 writer.setTidy("true".equals(request.getParameter("tidy")));
 String output = "Backend Create Successful";
@@ -80,7 +88,7 @@ if(action.equals("update")){
 		String name = n.getProperty("jcr:content/jcr:title").getString();
 		Event newEvent = new Event(path, name);
 		if(pathsAndNames == null){
-			pathsAndNames = new HashSet<Event>();
+			pathsAndNames = new TreeSet<Event>(new EventComparator());
 		}
 		pathsAndNames.add(newEvent);
 		session.setAttribute("event-cart",pathsAndNames);
@@ -88,16 +96,14 @@ if(action.equals("update")){
 	}
 } else if(action.equals("delete")){
 	String href = request.getParameter("href");
-	Event e = new Event(href, "");
-	if(pathsAndNames.contains(e)){
-		if(pathsAndNames.remove(e)){
+	output = "Event Deletion Error - Event " + href + " not Found";
+	for(Event e : pathsAndNames){
+		if(e.getX().equals(href)){
+			pathsAndNames.remove(e);
 			session.setAttribute("event-cart",pathsAndNames);
 			output = "Event Succesfully Removed from Cart";
-		} else{
-			output = "Event Deletion Error During Session Update";
+			break;
 		}
-	} else{
-		output = "Event Deletion Error - Event " + href + " not Found";
 	}
 	update(writer, pathsAndNames, output, session, request);
 }
