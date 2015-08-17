@@ -25,6 +25,7 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 					}
 					var siteURL = json.councils[i].website;
 					var shortSite = siteURL;
+					var email = json.councils[i].email;
 					var fbURL = json.councils[i].facebook;
 					var shortFB = fbURL;
 					var twitterURL = json.councils[i].twitter;
@@ -47,6 +48,9 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 						if(q != -1){
 							shortTwitter = twitterURL.substring(0,q);
 						}
+					}
+					if(email != undefined){
+						result += "<p>Email: <a href=\"" + email + "\">" + email + "</a></p>";
 					}
 					if(siteURL != undefined){
 						result += "<p>Website: <a href=\"" + siteURL + "\">" + shortSite + "</a></p>";

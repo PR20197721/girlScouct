@@ -94,6 +94,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                                 String stringValue = property.getString();
                                 stringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
                                 if (stringValue != null) {
+                                	log.info("updated property: "+targetPath+"/"+propertyName);
                                     targetNode.setProperty(property.getName(), stringValue);
                                 } 
                             }
@@ -116,6 +117,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                                     }
                                 }
                                 if (replacedFlag) {
+                                	log.info("updated property: "+targetPath+"/"+propertyName);
                                     targetNode.setProperty(property.getName(), stringValues);
                                 }
                             }
