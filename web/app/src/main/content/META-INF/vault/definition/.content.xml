@@ -348,5 +348,10 @@
             mode="replace" 
 	    root="/etc/workflow/launcher/config/gs_form_reverse_replication_upload"
             rules="[]"/> 
+       	  <f66
+       	  	jcr:primaryType="nt:unstructured"
+       	  	mode="replace"
+       	  	root="/content/girlscouts-shared"
+       	  	rules="[]"/>
     </filter>
 </jcr:root>
