@@ -8,16 +8,19 @@
           targetMainHeight = (windowHeight-currentMainHeight);
       //if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
       //must have class content
+      console.log(currentMainHeight);
+      console.log(windowHeight);
+      console.log(targetMainHeight);
       $('.vtk-body #main .row.content').css('padding-bottom','');
       $('#main.content').css('padding-bottom','');
       if(targetMainHeight > 0) {
         $('.vtk-body #main .row.content').first().css('padding-bottom',targetMainHeight + "px");
         $('#main.content').css('padding-bottom',targetMainHeight + "px");
       }
-      else {
-       $('.vtk-body #main .row.content').css('padding-bottom','');
-       $('#main.content').css('padding-bottom','');
-      }
+      // else {
+      //  $('.vtk-body #main .row.content').css('padding-bottom','');
+      //  $('#main.content').css('padding-bottom','');
+      // }
   };
 //need to add class for small screens only on the footer links.
   function addClassGrid() {
@@ -72,6 +75,9 @@ $(document).ready(function(){
  addClassGrid();
  vtk_accordion();
  attendance_popup_width();
+ // $(window).resize(function () {
+ //     resizeWindow();//run on every window resize
+ // });
 })
 $(window).load(function(){
   var currentMainHeight = $('.inner-wrap').height();
