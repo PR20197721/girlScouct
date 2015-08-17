@@ -95,7 +95,7 @@ if (troops != null && troops.size() > 1) {
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
         
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MILESTONE_ID) ){ %>
+        <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
                
        <dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
@@ -204,7 +204,7 @@ if (troops != null && troops.size() > 1) {
           <%  } %>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
        
-             <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MILESTONE_ID) ){ %>
+             <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
                 <li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
              <% } %>
        
