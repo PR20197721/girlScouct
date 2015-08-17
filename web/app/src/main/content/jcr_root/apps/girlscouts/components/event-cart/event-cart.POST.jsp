@@ -43,7 +43,10 @@ public void update(TidyJSONWriter writer, Set<Event> pathsAndNames, String succe
 		writer.object().key("data").array();
 		pathsAndNames = (HashSet<Event>)session.getAttribute("event-cart");
 		for(Event event : pathsAndNames){
-			writer.value(writer.object().key("href").value(event.getX()).key("name").value(event.getY()).endObject());
+			JSONObject jo = new JSONObject();
+			jo.put("href",event.getX());
+			jo.put("name",event.getY());
+			writer.value(jo);
 		}
 		writer.endArray();
 		writer.key("output").value(successMsg);
