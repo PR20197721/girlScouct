@@ -265,13 +265,13 @@ a:hover.menuHighlight {
   background-color: #009447;
   margin-top: 20px;
 }
-#headerBar>div {
+#headerBar > div {
   /*padding: 3px 10px 0px 10px;*/
 }
 #headerBar ul.inline-list {
   margin: 0 auto;
 }
-#headerBar li {
+#headerBar > li {
   margin: 0 20px 0 0;
   padding: 0;
 }
