@@ -10,14 +10,22 @@
 <div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
-  if(true){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  HttpSession session = request.getSession();
+  User user = ((org.girlscouts.vtk.models.User) session
+          .getAttribute(org.girlscouts.vtk.models.User.class
+                  .getName()));
+  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+  if(user.getApiConfig().getUser().getAdminCouncilId()>0){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
 	ageGroups.add("junior");
 
-	String cid = "603";//troop.getSfCouncil();
+	ageGroups.add("cadette");
+	ageGroups.add("senior");
+	ageGroups.add("ambassador");
+	
 	if ( request.getParameter("cid") != null) {
 		cid =  (String)request.getParameter("cid");
 	}

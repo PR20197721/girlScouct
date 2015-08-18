@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.jcr.Node;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.felix.scr.annotations.Activate;
@@ -103,12 +106,30 @@ public class CouncilRpt {
 					libPath = r.getValue("refId").getString();
 				} catch (Exception e) {
 				}
+				
+				if( libPath==null || libPath.equals("") ){
+					try{
+						Node troop = r.getNode().getParent();
+						libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
+					}catch(Exception e){e.printStackTrace();}
+					
+				}
+				
 				if (libPath.contains("brownie"))
 					ageGroup = "brownie";
 				else if (libPath.contains("daisy"))
 					ageGroup = "daisy";
 				else if (libPath.contains("junior"))
 					ageGroup = "junior";
+				
+				else if (libPath.contains("senior"))
+					ageGroup = "senior";
+				else if (libPath.contains("cadette"))
+					ageGroup = "cadette";
+				else if (libPath.contains("ambassador"))
+					ageGroup = "ambassador";
+				
+				
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);
