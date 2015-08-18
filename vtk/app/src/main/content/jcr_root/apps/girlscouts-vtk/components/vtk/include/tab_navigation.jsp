@@ -163,7 +163,16 @@ if (troops != null && troops.size() > 1) {
           
           
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
-          <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+          <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> 
+         
+         <%if(troop.getYearPlan()!=null &&
+                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
+                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+                     <a href='#' onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting Plan</a>
+           <%}else{ %>
+                     <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <%} %>
+           
             <ul class="dropdown">
             <% if("planView".equals(activeTab)) {
                switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {

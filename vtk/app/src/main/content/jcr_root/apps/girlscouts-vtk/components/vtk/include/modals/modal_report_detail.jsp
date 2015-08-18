@@ -25,7 +25,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
      
      <%
         
-        java.util.List<Contact> leaders = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getTroopLeaderInfo(user.getApiConfig(), troop.getTroop().getTroopId());
+        java.util.List<Contact> leaders = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getTroopLeaderInfo(user.getApiConfig(), troopId); //troop.getTroop().getTroopId());
         if( leaders!=null ){
             for( int i=0;i<leaders.size();i++){
                    Contact leader = leaders.get(i);

@@ -610,7 +610,7 @@ java.util.List<Contact> contacts = new java.util.ArrayList();
 HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 
 +"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-
+System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
 
 
 
@@ -659,7 +659,7 @@ resp.close();
 rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
-
+System.err.println(">>>DP tata info>> " + rsp);
 
 
 try {
