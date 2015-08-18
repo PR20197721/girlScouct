@@ -6,8 +6,14 @@
 String troopId= request.getParameter("tid"); 
 String councilCode = request.getParameter("cid"); 
 
-Troop _troop = troopUtil.getTroop(user, councilCode, troopId);
-java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(user,
+User impersonateRoot =(User) VtkUtil.deepClone(user);
+impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_YEARPLAN_ID);
+impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_MILESTONE_ID);
+impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_ACTIVITY_PLAN_ID);
+impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_MEETING_ID);
+
+Troop _troop = troopUtil.getTroop(impersonateRoot, councilCode, troopId);
+java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,
 		_troop.getYearPlan(), true, true);
 Set distinctGirl = new HashSet();
 int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
