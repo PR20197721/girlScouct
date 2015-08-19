@@ -72,7 +72,7 @@
     	 String holidayTitle = holidays.get(holidayDate);   	 
       %>  
       <li>
-      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
       </li>
      <%} %>
      
