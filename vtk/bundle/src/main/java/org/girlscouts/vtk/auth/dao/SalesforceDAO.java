@@ -74,7 +74,7 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			//-rsp = "{\"users\":" + rsp + "}";		
+			rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
 	System.err.println("tata user: "+ rsp);		
 			try {
