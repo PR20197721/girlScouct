@@ -72,18 +72,20 @@
     	 String holidayTitle = holidays.get(holidayDate);   	 
       %>  
       <li>
-      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
       </li>
      <%} %>
      
      
     
-       <%for(int i=10;i<split_exclDates.length;i++){ 
+       <%for(int i=0;i<split_exclDates.length;i++){ 
+    	   holidayCount++;
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
+            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
          </li>
       <%} %>
+      
     </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>

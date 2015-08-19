@@ -9,13 +9,15 @@
 	
 <%
 String activeTab = "milestones";
+boolean showVtkNav = true;
 
 int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 %>
-<%@include file="include/admin_tab_navigation.jsp"%>
 
+<div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content milestones meeting-detail">
+<div id="vtkNav"></div>
 	<div class="columns small-20 small-centered">
 		<p>Edit milestones, add dates, create new milestones, and set to
 			show in plans.</p>
@@ -140,5 +142,5 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
  	};
  
 
-	
+ 	loadNav('milestones');
 </script>

@@ -55,10 +55,11 @@ public class PermissionConstants {
 			ROOT_PERMISSIONS[i] = i;
 		}
 	}
-
+	//council admin
 	public static final int GROUP_ADMIN = 1;
 	public static final String GROUP_ADMIN_DISPLAY = "Admin";
-	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] {PERMISSION_VIEW_FINANCE_ID,  PERMISSION_VIEW_REPORT_ID,PERMISSION_EDIT_FINANCE_ID,  PERMISSION_EDIT_FINANCE_FORM_ID};
+	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] {  PERMISSION_VIEW_REPORT_ID,  PERMISSION_EDIT_FINANCE_FORM_ID, PERMISSION_EDIT_MILESTONE_ID
+		};
 
 	public static final int GROUP_GUEST = 2;
 	public static final String GROUP_GUEST_DISPLAY = "Guest";
@@ -76,9 +77,9 @@ public class PermissionConstants {
 			PERMISSION_REMOVE_MEETING_ID,PERMISSION_SEND_EMAIL_MT_ID,
 			PERMISSION_SEND_EMAIL_ACT_ID,PERMISSION_VIEW_ACTIVITY_PLAN_ID,
 			PERMISSION_EDIT_ATTENDANCE_ID,
-			PERMISSION_REMOVE_MEETING_ID,PERMISSION_EDIT_TROOP_IMG_ID
-			
-//			,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID
+			PERMISSION_REMOVE_MEETING_ID,PERMISSION_EDIT_TROOP_IMG_ID,
+			PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID
+			//,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID
 	};
 
 	public static final int GROUP_MEMBER_2G = 12;
@@ -98,7 +99,7 @@ public class PermissionConstants {
 	public static final int GROUP_MEMBER_TROOP = 15;
 	public static final String GROUP_MEMBER_TROOP_DISPLAY = "Member with troop Associations";
 	public static final int[] GROUP_MEMBER_TROOP_PERMISSIONS = new int[] { };
-	
+	//no longer using this group for council admins
 	public static final int GROUP_MEMBER_COUNCIL = 16;
 	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
 

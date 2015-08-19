@@ -38,7 +38,7 @@ public class Permission extends PermissionConstants {
 	/*** FINANCE ***/
 	public static final Permission finance_view = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
 	public static final Permission finance_edit = new Permission(PERMISSION_EDIT_FINANCE_ID, finance_view);
-	public static final Permission finance_edit_frm = new Permission(PERMISSION_EDIT_FINANCE_FORM_ID, finance_view);
+	public static final Permission finance_edit_frm = new Permission(PERMISSION_EDIT_FINANCE_FORM_ID, login);//finance_view);
 	
 	
 	/*** REPORT ***/
