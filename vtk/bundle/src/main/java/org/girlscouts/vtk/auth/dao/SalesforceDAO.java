@@ -74,13 +74,13 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"records\":" + rsp + "}";		
+			//-rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
 	System.err.println("tata user: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
-				JSONArray results = response.getJSONArray("records");
+				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					//int current = results.length() - 1;

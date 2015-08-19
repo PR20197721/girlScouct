@@ -107,10 +107,12 @@ public class CouncilRpt {
 				} catch (Exception e) {
 				}
 				
+				String troopName="";
 				if( libPath==null || libPath.equals("") ){
 					try{
 						Node troop = r.getNode().getParent();
 						libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
+						troopName = troop.getProperty("sfTroopName").getString();
 					}catch(Exception e){e.printStackTrace();}
 					
 				}
@@ -136,6 +138,7 @@ public class CouncilRpt {
 				crb.setLibPath(libPath);
 				crb.setAgeGroup(ageGroup);
 				crb.setYearPlanPath(path);
+				crb.setTroopName(troopName);
 				try {
 					crb.setTroopId(path.split("/")[4]);
 				} catch (Exception e) {
