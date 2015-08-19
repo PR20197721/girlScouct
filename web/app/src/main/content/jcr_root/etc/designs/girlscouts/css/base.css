@@ -1207,6 +1207,7 @@ ul.searchResultsList article p {
   display: inline-block;
   margin-top: 20px;
   width: 100%;
+  margin-bottom: 7px;
 }
 #event-cart .register-all:hover {
   background-color: #008640;
