@@ -112,7 +112,13 @@ if (troops != null && troops.size() > 1) {
           <dd <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
-        <% }  %>
+
+          <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %> 
+            <dd <%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>> <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a> 
+            </dd>
+         <% } %>
+          
+      
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
@@ -222,12 +228,13 @@ if (troops != null && troops.size() > 1) {
              <% } %>
        
        
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
+
 	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
 	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
 		     <% } %>
-         
-         
+       
+       
+          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>         
           <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
 		         <ul>
 		          <% if("finances".equals(activeTab)) {
@@ -260,7 +267,12 @@ if (troops != null && troops.size() > 1) {
 		            
 		            </ul>
           </li>
+         <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %> 
+            <li <%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>> <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a> </li>
          <% } %>
+         
+         
+         
           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>
       </div>

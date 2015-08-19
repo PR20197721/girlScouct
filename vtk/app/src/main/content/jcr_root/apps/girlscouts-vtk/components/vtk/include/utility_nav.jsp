@@ -76,7 +76,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
 			            <% } else if("financesadmin".equals(activeTab)){ %>
                              <a title="Finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
                         
-			            <% } else { %>
+			            <% } else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
 			                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
 			            <% } %>
 			            	</li>
