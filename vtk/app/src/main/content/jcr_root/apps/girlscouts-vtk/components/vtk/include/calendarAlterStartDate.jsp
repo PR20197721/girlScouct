@@ -49,11 +49,12 @@
     <p>Do not schedule the meeting the week of:</p>
       <%
       String exlDates = troop.getYearPlan().getCalExclWeeksOf();
-      exlDates= exlDates==null ? "" : exlDates;
+      exlDates= exlDates==null ? "" : exlDates.trim();
+    
+     
       //UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
       String[] split_exclDates = exlDates.split(",");
-      
-     java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
+      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
     
       %>
       
@@ -65,6 +66,8 @@
      <%
      java.util.Iterator itr= holidays.keySet().iterator();
      int holidayCount=0;
+     
+    if( exlDates.equals("") ){ //pull from default config
      while(itr.hasNext()){
     	 holidayCount++;
     	 Long holidayDate= (Long)itr.next();
@@ -74,17 +77,26 @@
       <li>
       <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
       </li>
-     <%} %>
+     <%}
+     }else{ //pull from db %>
      
      
     
-       <%for(int i=0;i<split_exclDates.length;i++){ 
+       <%for(int i=0;i<split_exclDates.length;i++){
+    	  try{
     	   holidayCount++;
+    	   String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(split_exclDates[i]));
+           String holidayTitle = holidays.get(new java.util.Date(holidayDateFmt).getTime()) ;
+    	   
+    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
+            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
          </li>
-      <%} %>
+      <%}catch(Exception e){e.printStackTrace();}
+       }
+     }//end else
+       %>
       
     </ul>
   </section>
