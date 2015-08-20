@@ -12,6 +12,17 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     <div class="row">
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
+          
+          
+          
+           <%
+                if ("reports".equals(activeTab) ) { %>                   
+                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
+                <% }
+             %>
+             
+             
+             
           <!-- if on YP page this menu shows -->
             <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>

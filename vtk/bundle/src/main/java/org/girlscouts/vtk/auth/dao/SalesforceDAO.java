@@ -52,9 +52,12 @@ public class SalesforceDAO {
 		User user= new User();
 		CloseableHttpClient connection = null;
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
-				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-				//+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
-				
+				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
+		
+System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
+		
+System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
@@ -78,7 +81,7 @@ public class SalesforceDAO {
 			}
 			rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
-	System.err.println("tata user: "+ rsp);		
+	System.err.println("for SANJAY user: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);

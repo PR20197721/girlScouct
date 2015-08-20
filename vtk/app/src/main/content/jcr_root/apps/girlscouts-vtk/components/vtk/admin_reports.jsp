@@ -36,6 +36,7 @@
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
 	    Map<String, String> yearPlanNames = councilRpt.getDistinctPlanNamesPath(brownies);
+	   
 	    count++;
   %>
     <div class="row">
