@@ -105,10 +105,14 @@
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
-			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-			       The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, Junior, Cadette, Senior and Ambassador troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
-			        <br/><br/>Stay tuned! 
+			<div class="columns large-20 large-centered">
+			    <p>
+			       The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+			        </p>
+			        <p>
+			        Stay tuned! 
 			    </p>
+			    </div>
 			</div>
 			
 			<%
