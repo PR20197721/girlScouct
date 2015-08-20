@@ -125,8 +125,8 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		} else{
 			%> 
 			<div class="columns large-20 large-centered">
-				Oh no! Finance Reporting Fields haven't been activated yet. We're working on it. Please check back soon.
-			     <br/>
+				<p>Oh no! The Finance tab haven't been activated yet. We're working on it--please check back soon.
+				 </p>
 			</div>
 			<% 
 		}
