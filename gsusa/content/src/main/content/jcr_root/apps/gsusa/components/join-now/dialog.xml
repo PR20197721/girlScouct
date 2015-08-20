@@ -55,6 +55,13 @@
                 jcr:primaryType="cq:Panel"
                 title="Advanced Settings">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<max-width
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Max Width (in px)"
+                		fieldDescription="Default is 210px"
+                		name="./maxWidth"
+                		minValue="{Long}0"
+                		xtype="numberfield"/>
                     <source
                         jcr:primaryType="cq:Widget"
                         defaultValue="not_set"
