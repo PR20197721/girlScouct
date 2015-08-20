@@ -50,7 +50,7 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 						}
 					}
 					if(email != undefined){
-						result += "<p>Email: <a href=\"" + email + "\">" + email + "</a></p>";
+						result += "<p>Email: <a href=\"mailto:" + email + "\">" + email + "</a></p>";
 					}
 					if(siteURL != undefined){
 						result += "<p>Website: <a href=\"" + siteURL + "\">" + shortSite + "</a></p>";
