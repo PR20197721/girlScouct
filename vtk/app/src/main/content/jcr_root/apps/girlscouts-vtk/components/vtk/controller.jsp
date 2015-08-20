@@ -1244,8 +1244,23 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 	            <label for="r_0"></label>
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
-	            <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
+	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	            
+	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+                           (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+                        Customize Your Troop Year   
+                 <%}else{ %>
+                       Create Your Own Year Plan
+                 <%} %>
+	            </a>
+	            <p>
+		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+		                Select this option to create activities or add council activities to your calendar.
+		            <%}else{ %>
+	    	            Choose this option to create your own year plan using meetings from  our meeting library     
+		           <%} %>
+	            </p>
 	        </div>
 	      </div><!--/row-->
 	      
