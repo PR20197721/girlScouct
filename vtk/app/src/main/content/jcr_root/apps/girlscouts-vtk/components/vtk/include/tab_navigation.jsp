@@ -21,39 +21,53 @@ if (configManager != null) {
 */
 String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 
-
+/*
 if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
     cookie.setMaxAge(-1);
     response.addCookie(cookie);
+*/
 %>
 
-<div id="troop" class="row hide-for-print">
-	  
-	  <div class="columns large-7 medium-9 right">
-	    <select id="reloginid" onchange="relogin()">
-	      <%
-	        for (int i = 0; i < troops.size(); i++) {
-	      %>
-	      <option value="<%=troops.get(i).getTroopId()%>"
-	        <%=troop.getTroop().getTroopId()
-	              .equals(troops.get(i).getTroopId()) ? "SELECTED"
-	              : ""%>><%=troops.get(i).getTroopName()%>
-	        :
-	        <%=troops.get(i).getGradeLevel()%></option>
-	      <%
-	        }
-	      %>
-	    </select>
-	  </div>
-	  <div class="columns large-4 medium-4">
-	  
-       <a href="<%=communityUrl%>">Member Profile</a>
-      </div>
-</div>
+		<div id="troop" class="row hide-for-print">
+			  
+			  <div class="columns large-7 medium-9 right">
+			  
+			  
+			 <%  
+			  if (troops != null && troops.size() > 1) {
+			    Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
+			    cookie.setMaxAge(-1);
+			    response.addCookie(cookie);
+              %>
+			    <select id="reloginid" onchange="relogin()">
+			      <%
+			        for (int i = 0; i < troops.size(); i++) {
+			      %>
+			      <option value="<%=troops.get(i).getTroopId()%>"
+			        <%=troop.getTroop().getTroopId()
+			              .equals(troops.get(i).getTroopId()) ? "SELECTED"
+			              : ""%>><%=troops.get(i).getTroopName()%>
+			        :
+			        <%=troops.get(i).getGradeLevel()%></option>
+			      <%
+			        }
+			      %>
+			     </select>
+			   <%} %>
+			    
+			  </div>
+			  <div class="columns large-4 medium-4">
+			  
+		       <a href="<%=communityUrl%>">Member Profile</a>
+		      </div>
+		</div>
 <%
-  }
+/*  }*/
 %>
+
+
+
 <div class="hide-for-print tab-wrapper row">
   <%
     //if (troop.getYearPlan() != null) {
