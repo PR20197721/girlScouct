@@ -22,8 +22,10 @@
     <script>
     $('#modal_upload_image').bind('opened',function(){
         uploadInit();
-        $('.vtk-body').css("overflow", "hidden");
-        // $('#modal_upload_image').css("top", "0px");
+        //$('.vtk-body').css("overflow", "hidden");
+         $('.vtk-body').css("overflow", "auto");
+         $('#modal_upload_image').css("top", "0px");
+         $("html, body").animate({ scrollTop: 0 }, "slow");
     });
     $('#modal_upload_image').bind('closed',function(){
         cancel();
