@@ -299,7 +299,6 @@ public  String readUrlFile(String urlString) throws Exception {
 							<div class="text white">
 								<h4><%= subtitle3[i] %></h4>
 								<p><%= displayContent %></p>
-								<button type="button" class="button">Find events hear you</button>
 							</div>
 							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
 						</li>
@@ -322,7 +321,6 @@ public  String readUrlFile(String urlString) throws Exception {
 							<div class="text white">
 								<h4><%= subtitle2[i] %></h4>
 								<p><%= displayContent %></p>
-								<button type="button" class="button">Find events hear you</button>
 							</div>
 							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
 						</li>

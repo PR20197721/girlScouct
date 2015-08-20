@@ -294,21 +294,18 @@ div.carousel {
             margin-bottom: rem-calc(20);
           }
           a {
-            color: #F9CD00;
-          }
-          .button {
             background-color: #FFFFFF;
             color: #00ae58;
             font-size: 0.875rem;
             text-transform: none;
-            padding-right: rem-calc(5);
+            padding: rem-calc(5) rem-calc(10);
             width: rem-calc(179);
-            padding-left: rem-calc(5);
             margin-bottom: 0;
             position: absolute;
             bottom: rem-calc(10);
             left: 50%;
             margin-left: rem-calc(-89.5);
+        	text-align: center;
           }
         }
       }
