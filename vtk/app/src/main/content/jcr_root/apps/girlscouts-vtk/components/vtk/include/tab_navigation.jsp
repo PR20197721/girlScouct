@@ -113,15 +113,16 @@ if (troops != null && troops.size() > 1) {
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
 
-          <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %> 
+        <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %> 
             <dd <%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>> <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a> 
             </dd>
          <% } %>
           
-      
+      <!--  
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
+        -->
       </dl>
       <div class="dropdown hide-for-print hide-for-large-up">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
@@ -272,8 +273,9 @@ if (troops != null && troops.size() > 1) {
          <% } %>
          
          
-         
+         <!-- 
           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
+        -->
         </ul>
       </div>
       <%

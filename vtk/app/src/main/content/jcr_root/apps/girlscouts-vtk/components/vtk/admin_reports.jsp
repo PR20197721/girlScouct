@@ -14,7 +14,9 @@
   User user = ((org.girlscouts.vtk.models.User) session
           .getAttribute(org.girlscouts.vtk.models.User.class
                   .getName()));
+  
   String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+ 
   if(user.getApiConfig().getUser().getAdminCouncilId()>0){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();

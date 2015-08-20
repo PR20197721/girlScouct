@@ -53,6 +53,8 @@ public class SalesforceDAO {
 		CloseableHttpClient connection = null;
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+				//+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
+				
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();

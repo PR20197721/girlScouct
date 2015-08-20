@@ -899,14 +899,11 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
 
-				for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++){
-						if (troop.getYearPlan().getMilestones().get(i)
-								.getDate() != null)
-							sched.put(troop.getYearPlan()
-									.getMilestones().get(i).getDate(),
-									troop.getYearPlan().getMilestones()
-											.get(i));
+				for (int i = 0; i < troop.getYearPlan().getMilestones().size(); i++){
+						if (troop.getYearPlan().getMilestones().get(i).getDate() != null && 
+								troop.getYearPlan().getMilestones().get(i).getShow())
+									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
+											troop.getYearPlan().getMilestones().get(i));
 				}
 
 				//edn milestone
