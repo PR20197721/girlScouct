@@ -2,6 +2,9 @@
 .cq-placeholder-header_47volunteer {
   display: none;
 }
+.join-volunteer {
+  margin-top: rem-calc(40);
+}
 .standalone-volunteer,
 .standalone-join {
   position: relative;
@@ -111,10 +114,65 @@
     width: 100%;
   }
 }
-
 .spinner {
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 10;
+}
+.footer-volunteer,
+.footer-join {
+  position: relative;
+  width: 100%;
+  margin-bottom: rem-calc(20);
+  form {
+    position: absolute;
+    bottom: 0;
+    background-color:#00AE58;
+    width: 100%;
+    z-index: 3;
+    margin-left:auto;
+    margin-right:auto;
+    input[type="text"] {
+      width: 80%;
+      float: left;
+      margin: rem-calc(5);
+      padding-left: rem-calc(10);
+      font-size: rem-calc(20);
+    }
+    input[type="submit"] {
+      padding: rem-calc(8 5 7 5);
+      margin: rem-calc(5 0);
+    }
+    span.after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
+  .button.arrow {
+    white-space: nowrap;
+    padding-left: rem-calc(10);
+    z-index: 2;
+    margin: 0;
+    width: 100%;
+    padding: rem-calc(13 0);
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
 }

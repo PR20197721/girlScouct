@@ -29,6 +29,7 @@ public class NodeListener implements EventListener {
     private VTKDataCacheInvalidator cacheInvalidator;
     private String yearPlanBase;
     private Pattern troopPattern;
+    private Pattern councilInfoPattern;
     
     public NodeListener(Session session, Replicator replicator, 
             TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
@@ -51,12 +52,16 @@ public class NodeListener implements EventListener {
         // /vtk/603/troops/701G0000000uQzTIAU => 701G0000000uQzTIAU
         // yearPlanBase = /vtk2015/
         troopPattern = Pattern.compile(yearPlanBase + "[0-9]+/troops/([^/]+)");
+        
+        councilInfoPattern = Pattern.compile(yearPlanBase + "[0-9]+/councilInfo/.*");
     }
 
     
     public void onEvent(EventIterator iter) {
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
+        String affectedCouncilInfo = null;
+
         for (NodeEvent event : events) {
             try {
             
@@ -83,6 +88,14 @@ public class NodeListener implements EventListener {
                         log.debug("Affected Troop found: " + affectedTroop);
                     }
                 }
+                
+                // Get the affected council info
+                if (affectedCouncilInfo == null) {
+                    Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
+                    if (councilInfoMatcher.matches()) {
+                        affectedCouncilInfo = path;
+                    }
+                }
             } catch (ReplicationException e) {
                 log.error("Replication Exception. Event not handled.");
             }
@@ -92,6 +105,17 @@ public class NodeListener implements EventListener {
         if (affectedTroop != null) {
             String troopPath = troopHashGenerator.getPath(affectedTroop);
             cacheInvalidator.addPath(troopPath);
+        }
+        
+        // Now troops are not separated by councils when caching:
+        // e.g. /vtk-data/fd8d83hdhf
+        // So, when a council info (for example milestone) is changed, 
+        // the entire /vtk-data cache is invalidated.
+        // TODO: separate troops into councils
+        // e.g. /vtk-data/603/fd8d83hdhf
+        if (affectedCouncilInfo != null) {
+            // BASE = /vtk-data
+            cacheInvalidator.addPath(troopHashGenerator.getBase());
         }
     }
 }
