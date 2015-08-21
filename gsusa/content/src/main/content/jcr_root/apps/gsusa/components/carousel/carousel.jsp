@@ -126,7 +126,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				String ytId = extractYTId(link);
 				videoId[i] = ytId;
 				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-				
+
 				String browser = request.getHeader("User-Agent");
 				System.out.println(browser);
 				if (browser.indexOf("MSIE") != -1) {
@@ -134,7 +134,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				} else {
 					embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
 				}
-				
+
 				//embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
 			} else if (link.indexOf("vimeo") != -1) {
 				String vimeoId = extractVimeoId(link);
@@ -229,7 +229,7 @@ public  String readUrlFile(String urlString) throws Exception {
 <%
 	for (int i = 0 ; i < 4; i++) {
                 String displayContent = "";
-                if (content5[i] != null) {      
+                if (content5[i] != null) {
                         displayContent = content5[i].trim();
                 }
 %>
@@ -248,7 +248,7 @@ public  String readUrlFile(String urlString) throws Exception {
 								</div>
 							</div>
 <%
-		}else if ("link".equals(videoType5[i])) {
+		} else if ("link".equals(videoType5[i])) {
 %>
 							<h3><%= title5 %></h3>
 							<div class="video-wrapper">
@@ -286,7 +286,7 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 					</ul>
 				</li>				<li>
-					<ul class="slide-2">
+				<ul class="slide-2">
 <%
 	for (int i = 0 ; i < imagePath3.length; i++) {
                 String displayContent = "";

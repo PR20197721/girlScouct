@@ -184,10 +184,11 @@ public class CalendarUtil {
 			java.util.Calendar cal = java.util.Calendar.getInstance();
 			cal.setTime(new java.util.Date("1/1/1977"));
 			oldFromDate = cal.getTimeInMillis();
-			for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
-				dates = dates + (cal.getTimeInMillis()) + ",";
-				cal.add(java.util.Calendar.DATE, 1);
-			}
+			if(troop.getYearPlan().getMeetingEvents()!=null)
+				for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
+					dates = dates + (cal.getTimeInMillis()) + ",";
+					cal.add(java.util.Calendar.DATE, 1);
+				}
 		} else
 			dates = troop.getYearPlan().getSchedule().getDates();
 		if (!dates.startsWith(","))
@@ -382,20 +383,25 @@ public class CalendarUtil {
 		if ((!VtkUtil.isSameDate(sepThisYear.getTime(),
 				_startYearPlanDate.getTime()))
 				&& sepThisYear.getTimeInMillis() > _startYearPlanDate
-						.getTimeInMillis()){
-		
+						.getTimeInMillis()){		
 			return sepThisYear.getTimeInMillis();
 		}else {
 		
 java.util.Calendar now=	java.util.Calendar.getInstance();
 int maxYear = 	now.get(java.util.Calendar.YEAR);
+/*
+if( (now.get(java.util.Calendar.MONTH ) >= VtkUtil.getCurrentGSMonth() -1) ||
+	( (now.get(java.util.Calendar.MONTH ) == VtkUtil.getCurrentGSMonth() -1) && (now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate()) )	
+		) 
+*/
 if( (now.get(java.util.Calendar.MONTH ) > VtkUtil.getCurrentGSMonth() -1) ||
 		( (now.get(java.util.Calendar.MONTH ) == VtkUtil.getCurrentGSMonth() -1) && (now.get(java.util.Calendar.DATE ) >= VtkUtil.getCurrentGSDate()) )	
 			) 
+
 	maxYear+=1;
 			sepThisYear.set(java.util.Calendar.YEAR, maxYear);
 			//sepThisYear.add(java.util.Calendar.YEAR, 1);
-			
+	
 				
 			return sepThisYear.getTimeInMillis();
 		}

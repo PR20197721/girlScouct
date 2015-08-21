@@ -1,7 +1,7 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<!--  %@include file="include/session.jsp"% -->
 <% 
     String activeTab = "reports";
 %>
@@ -10,14 +10,22 @@
 <div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
-  if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  HttpSession session = request.getSession();
+  User user = ((org.girlscouts.vtk.models.User) session
+          .getAttribute(org.girlscouts.vtk.models.User.class
+                  .getName()));
+  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+  if(user.getApiConfig().getUser().getAdminCouncilId()>0){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
 	ageGroups.add("junior");
 
-	String cid = troop.getSfCouncil();
+	ageGroups.add("cadette");
+	ageGroups.add("senior");
+	ageGroups.add("ambassador");
+	
 	if ( request.getParameter("cid") != null) {
 		cid =  (String)request.getParameter("cid");
 	}
@@ -67,7 +75,7 @@
                         <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                           <div class="clearfix">
                             <span class="column large-4 text-center large-push-9">
-                              <a title="Troop 245" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>"><span id="<%=crb.getTroopId()%>"><%=crb.getTroopId() %></span></span></a>
+                              <a title="<%=crb.getTroopId() %>" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>"><span id="<%=crb.getTroopId()%>"><%=(crb.getTroopName()!=null && !crb.getTroopName().equals("")) ? crb.getTroopName() : crb.getTroopId() %></span></span></a>
                             </span>
                             <p class="<%=crb.isAltered() ? "check " : "" %> column large-4 text-center large-push-9"></p>
                             <p class="<%=crb.isActivity() ? "check " : "" %> column large-4 text-center"></p>

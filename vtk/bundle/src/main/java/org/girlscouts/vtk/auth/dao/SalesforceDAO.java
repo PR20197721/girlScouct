@@ -74,12 +74,13 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"records\":" + rsp + "}";		
+			//-rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
+	System.err.println("tata user: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
-				JSONArray results = response.getJSONArray("records");
+				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					//int current = results.length() - 1;
@@ -137,10 +138,14 @@ public class SalesforceDAO {
 						try {
 							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
 									.getBoolean("VTK_Admin__c") );
+							user.setAdminCouncilId(results.getJSONObject(i).getJSONObject("Contact").getJSONObject("Owner")
+									.getInt("Council_Code__c") );
 
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						
+						
 						
 
 					} catch (Exception e) {
@@ -504,6 +509,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
+//troop.setGradeLevel("9-cadette");					
 					troop.setTroopId(results.getJSONObject(i).getString(
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
@@ -566,6 +572,18 @@ System.err.println("<<tata<<<Apex resp: " + response);
 				eConn.printStackTrace();
 			}
 		}
+		
+		
+		if( user.isAdmin() && (troops==null || troops.size()<=0) )
+		{
+			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
+            user_troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));	 
+            user_troop.setTroopId("none");
+            user_troop.setCouncilCode(user.getAdminCouncilId());
+            user_troop.setTroopName("vtk_virtual_troop");
+            //user.setPermissions(user_troop.getPermissionTokens());
+            troops.add(user_troop);
+		}
 		return troops;
 	}
 
@@ -592,7 +610,7 @@ java.util.List<Contact> contacts = new java.util.ArrayList();
 HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 
 +"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-
+System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
 
 
 
@@ -641,7 +659,7 @@ resp.close();
 rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
-
+System.err.println(">>>DP tata info>> " + rsp);
 
 
 try {

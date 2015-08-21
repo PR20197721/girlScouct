@@ -20,14 +20,14 @@ function openPDF() {
 	state + "_" + grade + "_" + program + ".pdf");
 
 	$.ajax({
-		method: "POST",
+		type: "POST",
    		url: "<%= currentNode.getPath() + ".html" %>",
    		async: false,
         data: { path: filePath },
 	})
 		.done(function( msg ) {
 			var json = JSON.parse(msg);
-	   		console.log( json );
+	   		//console.log( json );
 	   		if(json.key == "found"){
 	   			window.open(filePath);
 	   		}
