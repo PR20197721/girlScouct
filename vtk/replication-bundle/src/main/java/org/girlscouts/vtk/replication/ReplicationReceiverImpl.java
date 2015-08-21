@@ -39,6 +39,7 @@ public class ReplicationReceiverImpl
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
   private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
+  private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/councilInfo/.*");
 
   @Property(longValue=1048576L)
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
@@ -92,6 +93,11 @@ public class ReplicationReceiverImpl
           String troopPath = troopHashGenerator.getPath(affectedTroop);
           log.debug("Invalidate troop: " + troopPath);
           invalidator.addPath(troopPath);
+      }
+      
+      // Invalidate the entire /vtk-data cache if council info changed.
+      if (COUNCILINFO_PATTERN.matcher(path).matches()) {
+          invalidator.addPath(troopHashGenerator.getBase());
       }
       
       DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);

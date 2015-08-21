@@ -69,4 +69,8 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
         return getPath(troop.getTroopId());
     }
     
+    public String getBase() {
+        return BASE;
+    }
+    
 }
