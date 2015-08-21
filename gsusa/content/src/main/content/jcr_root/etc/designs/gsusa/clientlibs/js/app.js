@@ -12,7 +12,10 @@
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
     $(".main-content").css({
-      "min-height" : total_height
+    	  "min-height" : total_height
+    });
+    $(".join-volunteer").css({
+    	"min-height" : "initial"
     });
   }
 
@@ -93,10 +96,14 @@
         $('.main-slider').css('opacity', '');
         $("#tag_explore_final input[type=\"text\"]").hide();
       }
-      if (target.closest('.standalone-volunteer').length === 0
+      if ((target.closest('.standalone-volunteer').length === 0 && target.closest('.footer-volunteer').length ===0)
           && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
-        $('.button.arrow').siblings('form').addClass('hide');
+        $('.vol.button.arrow').siblings('form').addClass('hide');
       }
+      if ((target.closest('.standalone-join').length === 0 && target.closest('.footer-join').length ===0)
+              && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
+            $('.join.button.arrow').siblings('form').addClass('hide');
+          }
     });
   }
 
