@@ -1,0 +1,68 @@
+/*
+pdf files created by "Acrobat PDFMaker 15 for Word" will have auto generated jcr:title and dc:title ending with ".docx"
+This script will remove the jcr:title property and keep only the none "docx" value of dc:title.
+*/
+log.info("executing script now...");
+log.info("Payload: " + workItem.getWorkflowData().getPayload());
+var workflowData = workItem.getWorkflowData();
+
+if (workflowData.getPayloadType() == "JCR_PATH") {
+    var path = workflowData.getPayload().toString(); 
+    var session = workflowSession.getSession();
+    var original = session.getNode(path);
+    var contentPath = original.getParent().getParent().getPath();
+    var jcrcontent = session.getNode(contentPath);
+
+    if(jcrcontent !=null ){
+       var metadata = jcrcontent.getNode("metadata");
+       if(metadata.hasProperty("dc:format") && metadata.getProperty("dc:format").getString().equals("application/pdf")){
+          if(metadata.hasProperty("jcr:title")){
+            var jcrtitle=metadata.getProperty("jcr:title").getString();
+            if(jcrtitle.endsWith(".docx")){
+              log.info("Removing... "+ contentPath+"/metadata/jcr:title");
+              metadata.getProperty("jcr:title").remove();
+              metadata.save();
+            }else{
+              log.info(metadata.getProperty("jcr:title").getString()+ "not ending with .docx");
+            }
+          }else{
+            log.info("no jcr:title found in metadata");
+          }
+          if(metadata.hasProperty("dc:title")){
+              if(metadata.getProperty("dc:title").isMultiple()){
+                  var values =  metadata.getProperty("dc:title").getValues();
+                  var a = [];
+                  for(var i=0,j=0; i< values.length ; i++){
+          			var dctitle = values[i].getString();
+                    //only keep the value not ending with docx
+                    if(!dctitle.endsWith(".docx")){
+                        a[j]=dctitle;
+                        j++;
+                    }
+                  }
+                  log.info("Changing... "+ contentPath+"/metadata/dc:title");
+                  metadata.getProperty("dc:title").remove();
+                  metadata.setProperty("dc:title", a.toString());
+                  metadata.save();
+
+              }else{
+              	var dctitle = metadata.getProperty("dc:title").getString();
+        		if(dctitle.endsWith(".docx")){
+                    log.info("Changing... "+ contentPath+"/metadata/dc:title");
+                    //delete ".docx" if dc:title is single value
+                    metadata.setProperty("dc:title",dctitle.replace("\.docx",""));
+                    metadata.save();
+                }else{
+                  log.info(dctitle+ "not ending with .docx");
+              	}
+              }
+
+          }else{
+            log.info("no dc:title found in metadata");
+          }
+       }else{
+          log.info("not pdf file, skipped");
+       }
+
+    }
+}

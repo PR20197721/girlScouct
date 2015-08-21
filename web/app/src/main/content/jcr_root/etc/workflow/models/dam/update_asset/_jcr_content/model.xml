@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1439493895532"
+        cq:lastModified="{Long}1440192238946"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -192,12 +192,12 @@
         </node15>
         <node16
             jcr:primaryType="cq:WorkflowNode"
-            description="remove jct:title ending with &quot;.docx&quot;"
-            title="metadata jcr:title update"
+            description="remove jct:title and dc:title ending with &quot;.docx&quot; for pdf files"
+            title="metadata title update"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-jcrtitle.ecma"
+                PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-title.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node16>
         <node17
