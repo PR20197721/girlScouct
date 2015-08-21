@@ -29,7 +29,6 @@ import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
@@ -114,25 +113,39 @@ public class ReplicationReceiverImpl
         }
     
         new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
-    
+        
         // Girl Scouts customization: do not send notifications.
         //Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
         //this.eventAdmin.postEvent(replicationEvent);
       } catch (Exception e) {
           // Catch all exceptions here to prevent vtk replication queue from blocking.
           // Then log this path to a special log node
+          log.error("VTK receiver exception. Trying to save a log node into /var/vtk-replication/log. Original message: " + e.getMessage());
           String dateString = (new SimpleDateFormat("yyyy/MM/dd")).format(Calendar.getInstance().getTime());
           try {
-              Node dateNode = JcrUtil.createPath("/vtk-replication/log/" + dateString, "sling:folder", session);
-              String nodeName = Calendar.getInstance().getTime().toString() + "-" + Float.toString(100 + new Random().nextFloat() * 900);
-              Node logNode = dateNode.addNode(nodeName);
+              String logPath = "/var/vtk-replication/log/" + dateString;
+              // create log node and intermediate nodes
+              Node dateNode = session.getNode("/");
+              String[] pathSegments = logPath.split("/");
+              for (int i = 1; i < pathSegments.length; i++) {
+                  String name = pathSegments[i];
+                  if (!dateNode.hasNode(name)) {
+                      dateNode = dateNode.addNode(name, "nt:unstructured");
+                  } else {
+                      dateNode = dateNode.getNode(name);
+                  }
+              }
+              
+              String nodeName = Long.toString(Calendar.getInstance().getTime().getTime()) + "-" +
+                      Integer.toString((int)(100 + (new Random().nextFloat() * 900)));
+              Node logNode = dateNode.addNode(nodeName, "nt:unstructured");
+              logNode.setProperty("errorType", e.getClass().getName());
               logNode.setProperty("timestamp", Calendar.getInstance());
               logNode.setProperty("path", action.getPath());
               logNode.setProperty("msg", e.getMessage());
               session.save();
           } catch (RepositoryException e1) {
-              // TODO Auto-generated catch block
-              e1.printStackTrace();
+              log.error("Even there is error trying to save the error log node. " + e1.getMessage());
           }
       }
   }
