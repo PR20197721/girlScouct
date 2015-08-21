@@ -3,8 +3,11 @@ package org.girlscouts.vtk.replication;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +29,7 @@ import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
@@ -76,44 +80,61 @@ public class ReplicationReceiverImpl
   }
 
   public void receive(Session session, ReplicationAction action, InputStream in, long size, Writer writer, boolean install, boolean binaryLess)
-    throws ReplicationException, IOException
   {
-    Node receivedNode = null;
-    if (action.getType() == ReplicationActionType.ACTIVATE)
-    {
-      // Invalidate cache if it is troop data
-      String path = action.getPath();
-      Matcher troopMatcher = TROOP_PATTERN.matcher(path);
-      String affectedTroop = null;
-      while (troopMatcher.find()) {
-          affectedTroop = troopMatcher.group(1);
-          log.debug("Affected Troop found: " + affectedTroop);
+      try{
+        Node receivedNode = null;
+        if (action.getType() == ReplicationActionType.ACTIVATE)
+        {
+          // Invalidate cache if it is troop data
+          String path = action.getPath();
+          Matcher troopMatcher = TROOP_PATTERN.matcher(path);
+          String affectedTroop = null;
+          while (troopMatcher.find()) {
+              affectedTroop = troopMatcher.group(1);
+              log.debug("Affected Troop found: " + affectedTroop);
+          }
+          if (affectedTroop != null) {
+              String troopPath = troopHashGenerator.getPath(affectedTroop);
+              log.debug("Invalidate troop: " + troopPath);
+              invalidator.addPath(troopPath);
+          }
+          
+          // Invalidate the entire /vtk-data cache if council info changed.
+          if (COUNCILINFO_PATTERN.matcher(path).matches()) {
+              invalidator.addPath(troopHashGenerator.getBase());
+          }
+          
+          DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
+          receivedNode = importResult.getCreatedNode();
+    
+          List failedPaths = importResult.getFailedPaths();
+          if ((failedPaths != null) && (failedPaths.size() > 0)) {
+            writeFailedPaths(failedPaths, writer);
+          }
+        }
+    
+        new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
+    
+        // Girl Scouts customization: do not send notifications.
+        //Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
+        //this.eventAdmin.postEvent(replicationEvent);
+      } catch (Exception e) {
+          // Catch all exceptions here to prevent vtk replication queue from blocking.
+          // Then log this path to a special log node
+          String dateString = (new SimpleDateFormat("yyyy/MM/dd")).format(Calendar.getInstance().getTime());
+          try {
+              Node dateNode = JcrUtil.createPath("/vtk-replication/log/" + dateString, "sling:folder", session);
+              String nodeName = Calendar.getInstance().getTime().toString() + "-" + Float.toString(100 + new Random().nextFloat() * 900);
+              Node logNode = dateNode.addNode(nodeName);
+              logNode.setProperty("timestamp", Calendar.getInstance());
+              logNode.setProperty("path", action.getPath());
+              logNode.setProperty("msg", e.getMessage());
+              session.save();
+          } catch (RepositoryException e1) {
+              // TODO Auto-generated catch block
+              e1.printStackTrace();
+          }
       }
-      if (affectedTroop != null) {
-          String troopPath = troopHashGenerator.getPath(affectedTroop);
-          log.debug("Invalidate troop: " + troopPath);
-          invalidator.addPath(troopPath);
-      }
-      
-      // Invalidate the entire /vtk-data cache if council info changed.
-      if (COUNCILINFO_PATTERN.matcher(path).matches()) {
-          invalidator.addPath(troopHashGenerator.getBase());
-      }
-      
-      DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
-      receivedNode = importResult.getCreatedNode();
-
-      List failedPaths = importResult.getFailedPaths();
-      if ((failedPaths != null) && (failedPaths.size() > 0)) {
-        writeFailedPaths(failedPaths, writer);
-      }
-    }
-
-    new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
-
-    // Girl Scouts customization: do not send notifications.
-    //Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
-    //this.eventAdmin.postEvent(replicationEvent);
   }
 
   private void writeFailedPaths(List<String> failedPaths, Writer writer) throws IOException {
