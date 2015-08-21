@@ -20,9 +20,7 @@
               </div>
               <div class="main-content row">
                 <cq:include script="content.jsp"/>
-              </div>
-              <div class="main-content row join-volunteer">
-             	<cq:include script="join-volunteer.jsp"/>
+                <cq:include script="join-volunteer.jsp"/>
               </div>
               <footer>
                 <cq:include script="footer.jsp"/>
