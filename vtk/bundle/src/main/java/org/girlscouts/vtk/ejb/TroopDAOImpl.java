@@ -1094,18 +1094,22 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public boolean modifyTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException, VtkException {
-		if (!troop.isDbUpdate())
+		if (!troop.isDbUpdate()) {
 			return true;
+		}
 		Session mySession = null;
 		boolean isUpdated = false;
 		try {
-
 			if (troop == null || troop.getYearPlan() == null) {
 				return true;
 			}
-			troop.setErrCode("111");
+			Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); //0729815
+			if( council==null ){
+				throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
+			}
 
 			mySession = sessionFactory.getSession();
+			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -1132,59 +1136,35 @@ public class TroopDAOImpl implements TroopDAO {
 							Permission.PERMISSION_VIEW_YEARPLAN_ID))
 				throw new IllegalAccessException();
 
-			// lock
-			if (troop != null && troop.getLastModified() != null) {
-
-				if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-
-					troop.setErrCode("112");
-					throw new IllegalAccessException();
-				}
+		
+			if( !mySession.itemExists("/"+troop.getCouncilPath()+"/troops")) {
+				JcrUtils.getOrCreateByPath("/"+troop.getCouncilPath()+"/troops", "nt:unstructured", mySession);
 			}
 
-			if (ocm.objectExists(troop.getPath())) {
-				
-				ocm.update(troop);
-			} else {
-				
-				
-Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); //0729815
-if( council==null ){
-	throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-	
-}
+			troop.setLastModified(java.util.Calendar.getInstance());
+			troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the last user who modified this troop data
 
-			if( !mySession.itemExists("/"+troop.getCouncilPath()+"/troops"))
-				JcrUtils.getOrCreateByPath("/"+troop.getCouncilPath()+"/troops", "nt:unstructured",
-						mySession);
+			
+			if (!ocm.objectExists(troop.getPath())) {
 				ocm.insert(troop);
-				
-	
-	
+			} else {
+				ocm.update(troop);
 			}
+			ocm.save(); 
 
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
 				troop.setErrCode(null);
-				troop.setLastModified(java.util.Calendar.getInstance());
-				troop.setCurrentTroop(user.getSid());// 10/23/14
-
-				// modif
+				
 				try{
 					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
 				} catch (Exception em) {
 					em.printStackTrace();
 				}
-
-				ocm.update(troop);
-
-				ocm.save();
-
-				isUpdated = true;
-				troop.setRefresh(true);
-			
 				
+				isUpdated = true;
+				troop.setRefresh(true);				
 			} catch (Exception e) {
 
 				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
