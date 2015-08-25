@@ -272,6 +272,12 @@ public static String getYearPlanBase(User user, Troop troop){
 	
 }
 
+/* TODO: this is used by ReplicationManager. By using this method instead of the static one,
+ * ReplicationManager waits VtkUtil to start first.
+ */
+public String _getYearPlanBase(User user, Troop troop) {
+    return VtkUtil.getYearPlanBase(user, troop);
+}
 
 
 /*GS Year starts Aug 1 */
@@ -287,6 +293,13 @@ public static int getCurrentGSYear(){
 		return now.get(java.util.Calendar.YEAR) ;
 	else
 		return now.get(java.util.Calendar.YEAR) -1;	
+}
+
+/* TODO: this is used by ReplicationManager. By using this method instead of the static one,
+ * ReplicationManager waits VtkUtil to start first.
+ */
+public int _getCurrentGSYear() {
+    return VtkUtil.getCurrentGSDate();
 }
 
 /*GS Year starts Aug 1 */

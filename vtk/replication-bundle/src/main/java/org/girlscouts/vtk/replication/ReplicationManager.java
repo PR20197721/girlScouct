@@ -71,10 +71,10 @@ public class ReplicationManager {
         session = repository.loginAdministrative(null);
         
         // Generate paths to monitor
-        String year = Integer.toString(VtkUtil.getCurrentGSYear());
+        String year = Integer.toString(vtkUtil._getCurrentGSYear());
         List<String> monitorPaths = new ArrayList<String>();
         // Add /vtk(year)
-        String yearPlanBase = VtkUtil.getYearPlanBase(null, null);
+        String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
         monitorPaths.add(yearPlanBase);
         // Add /content/dam/girlscouts-vtk/troop-data(year)
         monitorPaths.add(Constants.DAM_PATH + year);
