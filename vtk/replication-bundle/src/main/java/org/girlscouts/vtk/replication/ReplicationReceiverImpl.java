@@ -41,7 +41,7 @@ public class ReplicationReceiverImpl
   implements VTKReplicationReceiver
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
-  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
+  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)/yearPlan$");
   private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/councilInfo/.*");
 
   @Property(longValue=1048576L)
