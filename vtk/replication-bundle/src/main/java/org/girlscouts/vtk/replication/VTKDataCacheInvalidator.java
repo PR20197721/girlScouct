@@ -92,6 +92,14 @@ public class VTKDataCacheInvalidator {
         }
     }
     
+    public void addPath(String path, boolean immediate) {
+        if (immediate) {
+            new CacheInvalidationJob(path).execute(null);
+        } else {
+            addPath(path);
+        }
+    }
+    
     public void invalidateCache(Collection<String> paths) {
     }
 }
