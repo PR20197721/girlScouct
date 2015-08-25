@@ -52,6 +52,10 @@ moment.tz.setDefault("US/Eastern");
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
     	 if (isFirst) {
+    		 if (this.pollIntervalID !== null) {
+    		 	clearTimeout(this.pollIntervalID);
+    		 }
+             this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
              $.ajax({
                  url: this.props.url + '&isFirst=1',
                  dataType: 'json',
@@ -74,12 +78,14 @@ moment.tz.setDefault("US/Eastern");
         getInitialState: function() {
           return {data: []};
         },
+
+        pollIntervalID: null,
         componentDidMount: function() {
 
         	loadNav('plan');
 
           this.loadCommentsFromServer();
-          setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+          this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
         },
         checkLocalUpdate: function(){

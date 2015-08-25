@@ -84,6 +84,15 @@ public class ReplicationReceiverImpl
         Node receivedNode = null;
         if (action.getType() == ReplicationActionType.ACTIVATE)
         {
+          
+          DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
+          receivedNode = importResult.getCreatedNode();
+    
+          List failedPaths = importResult.getFailedPaths();
+          if ((failedPaths != null) && (failedPaths.size() > 0)) {
+            writeFailedPaths(failedPaths, writer);
+          }
+
           // Invalidate cache if it is troop data
           String path = action.getPath();
           Matcher troopMatcher = TROOP_PATTERN.matcher(path);
@@ -101,14 +110,6 @@ public class ReplicationReceiverImpl
           // Invalidate the entire /vtk-data cache if council info changed.
           if (COUNCILINFO_PATTERN.matcher(path).matches()) {
               invalidator.addPath(troopHashGenerator.getBase());
-          }
-          
-          DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
-          receivedNode = importResult.getCreatedNode();
-    
-          List failedPaths = importResult.getFailedPaths();
-          if ((failedPaths != null) && (failedPaths.size() > 0)) {
-            writeFailedPaths(failedPaths, writer);
           }
         }
     
