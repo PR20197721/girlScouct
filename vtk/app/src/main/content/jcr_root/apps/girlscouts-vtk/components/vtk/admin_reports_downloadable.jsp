@@ -32,11 +32,11 @@
                   while( itr.hasNext()){
                       String yearPlanPath = (String)itr.next();
                       String yearPlanName= yearPlanNames.get(yearPlanPath);
-                      java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+                      java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
                       int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                       int countActivity= councilRpt.countActivity(yearPlanNameBeans);
                       y++;
- %>"<%=ageGroup %>", "<%=yearPlanName %>","<%=(yearPlanNameBeans.size()- countAltered) %>","<%=countAltered %>","<%=countActivity %>",<%         
+ %>"<%=ageGroup %>", "XXX<%=yearPlanName.replaceAll(",","") %>","<%=yearPlanNameBeans.size() %>","<%=countAltered %>","<%=countActivity %>",<%         
                  }//edn for
     }
     }

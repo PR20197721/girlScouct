@@ -336,6 +336,7 @@ System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );
 			}
 			rsp = "{\"records\":" + rsp + "}";
 			log.debug(">>>>> " + rsp);
+System.err.println("tatarsp: "+ rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);

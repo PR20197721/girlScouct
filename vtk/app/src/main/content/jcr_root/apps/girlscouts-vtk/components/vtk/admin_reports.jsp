@@ -58,17 +58,22 @@
                   while( itr.hasNext()){
                 	  
                 	  String yearPlanPath = (String)itr.next();
+  	  
                 	  String yearPlanName= yearPlanNames.get(yearPlanPath);
-                	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
-                	  int countAltered = councilRpt.countAltered(yearPlanNameBeans);
+ //out.println(yearPlanPath +" : "+ yearPlanName);                 	  
+                	 // java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+                	 java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
+                     
+                	 int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                 	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
+                	 
                 	  y++;
                     %>
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
                       <dt data-target="panel<%=count %>_<%=y %>b" class="clearfix">
                         <span class="name column large-9" onclick="councilRpt('<%=yearPlanPath %>', '<%=cid%>')"><%=yearPlanName %></span>
-                        <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
+                        <span class="column large-4 text-center"><%=yearPlanNameBeans.size() %></span>
                         <span class="column large-4 text-center"><%=countAltered %></span>
                         <span class="column large-4 text-center"><%=countActivity %></span>
                       </dt>

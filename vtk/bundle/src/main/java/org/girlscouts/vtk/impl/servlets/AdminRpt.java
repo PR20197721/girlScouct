@@ -78,11 +78,11 @@ public class AdminRpt extends SlingSafeMethodsServlet {
 	                          while( itr.hasNext()){
 	                              String yearPlanPath = (String)itr.next();
 	                              String yearPlanName= yearPlanNames.get(yearPlanPath);
-	                              java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+	                              java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
 	                              int countAltered = councilRpt.countAltered(yearPlanNameBeans);
 	                              int countActivity= councilRpt.countActivity(yearPlanNameBeans);
 	                              y++;
-	                              outputResult+="\n\""+ageGroup+"\", \""+yearPlanName +"\",\""+(yearPlanNameBeans.size()- countAltered) +"\",\""+countAltered+"\",\""+countActivity +"\",";         
+	                              outputResult+="\n\""+ageGroup+"\", \""+yearPlanName.replaceAll(",","") +"\",\""+yearPlanNameBeans.size() +"\",\""+countAltered+"\",\""+countActivity +"\",";         
 	                         }//edn for
 	            }
 	            }
