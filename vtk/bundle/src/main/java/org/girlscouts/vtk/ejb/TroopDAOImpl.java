@@ -1144,7 +1144,7 @@ public class TroopDAOImpl implements TroopDAO {
 			troop.setLastModified(java.util.Calendar.getInstance());
 			troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the last user who modified this troop data
 
-			
+
 			if (!ocm.objectExists(troop.getPath())) {
 				ocm.insert(troop);
 			} else {

@@ -59,12 +59,14 @@ moment.tz.setDefault("US/Eastern");
                  success: function(data) {
                 	 console.info('data coming back');
                      this.setState({data:data});
+                     this.isReordering = false;
                  }.bind(this),
              });
     	 } else {
 	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
 	    		// Skip if is 304.
-	    		if (req.status == 200) {
+	    		// Skip if is reordering.
+	    		if (req.status == 200 && !this.isReordering) {
 		            this.setState({data:data});
 	    		}
 
@@ -74,13 +76,28 @@ moment.tz.setDefault("US/Eastern");
         getInitialState: function() {
           return {data: []};
         },
+
+        pollIntervalID: null,
+        isReordering: false,
         componentDidMount: function() {
 
         	loadNav('plan');
 
-          this.loadCommentsFromServer();
-          setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+          // Need to skip dispatcher cache for the first time load.
+          this.loadCommentsFromServer(true);
+          this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
+        },
+        delayReload: function() {
+        	// Set a flag to indicating reordering in progress.
+            this.isReordering = true;
+
+        	// Extend 10 seconds for the next poll.
+        	if (this.pollIntervalID != null) {
+    			clearTimeout(this.pollIntervalID);
+        	}
+        	
+            this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         },
         checkLocalUpdate: function(){
             if( (isActivNew == 1) || (isActivNew == 2) )
@@ -112,7 +129,13 @@ moment.tz.setDefault("US/Eastern");
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
+        	// Reordering 
         	var parent = this.props.parentComponent;
+
+        	// Delay reload
+        	parent.delayReload();
+
+            // Go ahead to reorder
         	parent.setState({data: {}});
         	parent.loadCommentsFromServer(true);
         },

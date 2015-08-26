@@ -1,0 +1,7 @@
+Sibling remover
+
+To remove sibling troop nodes. e.g. samplehashvalue[3]
+To use: do a dry run first: http://localhost:4503/content/girlscouts-vtk/controllers/sibling-remover.html?dryRun=true
+Then, do the real cleanup: http://localhost:4503/content/girlscouts-vtk/controllers/sibling-remover.html?dryRun=false
+
+Remove this package after use because it leverages admin account and could be dangerous.
