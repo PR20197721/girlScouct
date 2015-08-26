@@ -12,7 +12,7 @@
 	} catch (Exception e) {}
 	if (!bg.equals("")) {%>
 
-	<div class="standalone-join" style="max-width:<%= maxWidth + "px"%>;">
+	<div class="standalone-join join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
 	    <div class="bg-image">
 	    <% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 	    <cq:include path="bg" resourceType="gsusa/components/image"/></div>
@@ -28,7 +28,7 @@
 	    </div>
 	</div> <%
 	} else { %>
-		<div class="standalone-join form-no-image">
+		<div class="standalone-join form-no-image join-volunteer-block">
 	    <a href="#" title="Join Now" class="join button arrow"><%= callToActionName %></a>
 	    <form class="formJoin hide">
 	        <label><%= title %></label>
