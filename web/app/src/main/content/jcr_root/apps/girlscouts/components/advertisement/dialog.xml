@@ -19,7 +19,7 @@
                     <customize
                         jcr:primaryType="cq:Widget"
                         checkboxBoolTypeHint="{Boolean}true"
-                        fieldDescription="Check the box to see advanced options.（All ads displayed if not checked)"
+                        fieldDescription="Check the box to enable advanced selection.（All ads displayed if not checked)"
                         fieldLabel="Custom Mode"
                         name="./customized"
                         type="checkbox"
@@ -31,8 +31,8 @@
                     </customize>
                     <pages
                         jcr:primaryType="cq:Widget"
-                        blankText="lala"
                         collapsible="{Boolean}true"
+                        disabled="{Boolean}true"
                         fieldDescription="Check the Ads to be placed in the right column"
                         fieldLabel="Ads Selection"
                         header="true"

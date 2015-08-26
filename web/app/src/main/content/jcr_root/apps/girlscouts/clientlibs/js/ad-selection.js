@@ -6,9 +6,9 @@ girlscouts.functions.toggleField = function(field) {
     	// Get value of selected option in our select box
     	var customized = field.getValue();
         if (customized == "true"){
-            pages.show();        
+            pages.enable();        
         } else {
-            pages.hide();
+            pages.disable();
         }
     }
 
