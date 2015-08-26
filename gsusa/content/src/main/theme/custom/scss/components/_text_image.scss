@@ -17,11 +17,11 @@
     div.text {
       overflow: hidden;
     }
-    div.image {
-      @media #{$small-only} {
-        width: 100%;
-        float: none;
-      }
-    }
+    // div.image {
+    //   @media #{$small-only} {
+    //     width: 100%;
+    //     float: none;
+    //   }
+    // }
   }
 }

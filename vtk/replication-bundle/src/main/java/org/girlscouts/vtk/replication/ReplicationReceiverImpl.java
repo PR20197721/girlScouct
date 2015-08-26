@@ -145,7 +145,7 @@ public class ReplicationReceiverImpl
               logNode.setProperty("path", action.getPath());
               logNode.setProperty("msg", e.getMessage());
               session.save();
-          } catch (RepositoryException e1) {
+          } catch (Exception e1) {
               log.error("Even there is error trying to save the error log node. " + e1.getMessage());
           }
       }

@@ -104,7 +104,7 @@ public class NodeListener implements EventListener {
         // Found affected troop. Invalidate VTK data cache on dispatcher.
         if (affectedTroop != null) {
             String troopPath = troopHashGenerator.getPath(affectedTroop);
-            cacheInvalidator.addPath(troopPath);
+            cacheInvalidator.addPath(troopPath, true);
         }
         
         // Now troops are not separated by councils when caching:

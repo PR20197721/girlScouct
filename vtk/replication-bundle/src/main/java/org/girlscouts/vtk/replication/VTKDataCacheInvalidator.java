@@ -27,7 +27,7 @@ public class VTKDataCacheInvalidator {
     private static final Logger log = LoggerFactory.getLogger(VTKReplicationReceiver.class);
     
     // Interval for the next invalidation, in milliseconds.
-    private static final int INTERVAL = 3000;
+    private static final int INTERVAL = 6000;
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
 
@@ -89,6 +89,14 @@ public class VTKDataCacheInvalidator {
             scheduler.fireJobAt(null, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
         } catch (Exception e) {
             log.error("VTKDataCacheInvalidator: Cannot add path: " + path);
+        }
+    }
+    
+    public void addPath(String path, boolean immediate) {
+        if (immediate) {
+            new CacheInvalidationJob(path).execute(null);
+        } else {
+            addPath(path);
         }
     }
     
