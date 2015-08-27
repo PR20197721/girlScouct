@@ -38,7 +38,7 @@ public class Permission extends PermissionConstants {
 	/*** FINANCE ***/
 	public static final Permission finance_view = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
 	public static final Permission finance_edit = new Permission(PERMISSION_EDIT_FINANCE_ID, finance_view);
-	public static final Permission finance_edit_frm = new Permission(PERMISSION_EDIT_FINANCE_FORM_ID, finance_view);
+	public static final Permission finance_edit_frm = new Permission(PERMISSION_EDIT_FINANCE_FORM_ID, login);//finance_view);
 	
 	
 	/*** REPORT ***/
@@ -46,7 +46,8 @@ public class Permission extends PermissionConstants {
 
 	/*** MILESTONES ***/
 	public static final Permission milestons_view = new Permission(PERMISSION_VIEW_MILESTONE_ID, login);
-	
+	public static final Permission milestons_edit = new Permission(PERMISSION_EDIT_MILESTONE_ID, milestons_view);
+
 	/*** ATTENDANCE ***/
 	public static final Permission attendance_view = new Permission(PERMISSION_EDIT_ATTENDANCE_ID, meeting_view);
 	

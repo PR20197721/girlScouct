@@ -55,7 +55,9 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutManager;
 import com.day.cq.wcm.msm.api.RolloutConfig;
 import com.day.cq.wcm.msm.api.RolloutConfigManager;
 
@@ -71,8 +73,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 	
 	@Reference
-    private LiveRelationshipManager relationManager;
+    private LiveRelationshipManager relationshipManager;
 
+	@Reference
+	private RolloutManager rolloutMgr;
 	/**
 	 * Creates the layout of the site (national pages)
 	 * 
@@ -778,7 +782,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
 		ArrayList<Page> copyPages = new ArrayList<Page>();
 		final String templateLangPath = templatePath + "/" + languagePath;
-		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
+//		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
 		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
 		
 		try {			
@@ -796,8 +800,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
 						copyPages.add(copyPage);
 						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);
+						LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
 						cancelInheritance(rr, councilPath + "/" + languagePath);
+						//GSWP-77 c.w.
+						rollout(rr,copyPage);
+						
 					}
 				}
 			}
@@ -813,7 +820,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		}
 		return copyPages;
 	}
-	//cancel the Inheritance for certain components (with mixin type cq:LiveSyncCancelled from national template page)
+	/**
+	 * cancel the Inheritance for certain components
+	 *  (nodes with mixin type "cq:LiveSyncCancelled" under national template page)
+	 */
 	private void cancelInheritance(ResourceResolver rr, String councilPath){
 		try {
 			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '"
@@ -821,12 +831,27 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.debug("SQL " + sql);
 			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2);it.hasNext();){
 				Resource target = it.next();
-                relationManager.endRelationship(target,true);
+                relationshipManager.endRelationship(target,true);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	/**Do an initial rollout on the newly created livecopy
+	 *  to trigger the gsreferenceupdate action
+	 * @throws WCMException 
+	 */
+	private void rollout(ResourceResolver rr, Page targetPage) throws WCMException {
+		Iterator<Page> childIter = targetPage.listChildren(null,true);
+		while(childIter.hasNext()){
+			Page child = childIter.next();
+			LiveRelationship relationship = relationshipManager.getLiveRelationship(child.adaptTo(Resource.class), false);
+			if(relationship!=null){
+				rolloutMgr.rollout(rr, relationship, false);
+			}
+		}
+		
 	}
 	/**
 	 * Creates the Salesforce Web to Case page with it's form and properties

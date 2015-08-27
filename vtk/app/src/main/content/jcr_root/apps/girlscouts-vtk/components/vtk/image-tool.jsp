@@ -628,9 +628,9 @@ var dataURL = image_target.src;
 	    	}
 		}
 	
+	    $(".scroll").css("max-height","100%");
 	    $(window).resize(function() {
-	        $('#cropping-tool').css("max-width", $('#modal_upload_image').innerWidth());
-	        $('#cropping-tool').css("max-height", $('#resize-image').height())
+	        $('#cropping-tool').css("max-width", $('#upload-crop-area').innerWidth());
 	    });
 	
 	    image_target.onload = function(){

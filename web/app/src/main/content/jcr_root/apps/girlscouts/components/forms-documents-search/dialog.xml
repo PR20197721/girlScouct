@@ -8,16 +8,18 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <srch-location
                 jcr:primaryType="cq:Widget"
-                title="Title"
+                title="Search Path"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <srch-location
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Search Location"
+                        fieldDescription="The path where the forms will reside in DAM. (default: &quot;/content/dam/girlscouts-shared/en/documents&quot; if empty)"
+                        fieldLabel="Search Location in DAM"
                         name="./srchLocation"
                         xtype="pathfield"/>
                     <form-document-path
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="The root path of form pages in content.(default: current page, if empty)"                        
                         fieldLabel="Form &amp; Document Content Location"
                         name="./form-document-path"
                         xtype="pathfield"/>

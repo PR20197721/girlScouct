@@ -345,7 +345,7 @@ function buildSched(){
 
 
 	if( isNaN(dt) ){
-		alert("Invalid date/time");
+		alert("Invalid date/time. Valid date format MM/dd/yyyy  Valid time format HH:mm");
 		return;
 	}
 

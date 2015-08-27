@@ -12,11 +12,25 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     <div class="row">
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
+          
+          
+          
+           <%
+                if ("reports".equals(activeTab) ) { %>                   
+                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
+                <% }
+             %>
+             
+             
+             
           <!-- if on YP page this menu shows -->
             <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
-            		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
-            		<li><a href="#" onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)" title="Add Meeting">Add Meeting</a></li>
+            		<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
+            				!troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
+            	       	<li><a href="#" onclick="newLocCal()" title="Meeting Dates and Location">Specify Dates and Locations</a></li>            	   
+            		    <li><a href="#" onclick="doMeetingLib(<%=calendarUtil.isEventPastGSYear(user, troop)%>)" title="Add Meeting">Add Meeting</a></li>
+            		<% } %>
             		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }
              %>
@@ -73,7 +87,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
 			            <% } else if("financesadmin".equals(activeTab)){ %>
                              <a title="Finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
                         
-			            <% } else { %>
+			            <% } else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
 			                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
 			            <% } %>
 			            	</li>

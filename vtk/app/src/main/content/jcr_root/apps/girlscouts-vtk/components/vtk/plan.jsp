@@ -39,7 +39,9 @@
       <script type="text/javascript">
 
 
-
+//c.w GSVTK-773 fix time difference for councils at other time zones
+//timezone data stored in clientlibs/moment-timezone.js
+moment.tz.setDefault("US/Eastern");
 
 
  var isActivNew;
@@ -57,12 +59,14 @@
                  success: function(data) {
                 	 console.info('data coming back');
                      this.setState({data:data});
+                     this.isReordering = false;
                  }.bind(this),
              });
     	 } else {
 	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
 	    		// Skip if is 304.
-	    		if (req.status == 200) {
+	    		// Skip if is reordering.
+	    		if (req.status == 200 && !this.isReordering) {
 		            this.setState({data:data});
 	    		}
 
@@ -72,13 +76,28 @@
         getInitialState: function() {
           return {data: []};
         },
+
+        pollIntervalID: null,
+        isReordering: false,
         componentDidMount: function() {
 
         	loadNav('plan');
 
-          this.loadCommentsFromServer();
-          setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+          // Need to skip dispatcher cache for the first time load.
+          this.loadCommentsFromServer(true);
+          this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
+        },
+        delayReload: function() {
+        	// Set a flag to indicating reordering in progress.
+            this.isReordering = true;
+
+        	// Extend 10 seconds for the next poll.
+        	if (this.pollIntervalID != null) {
+    			clearTimeout(this.pollIntervalID);
+        	}
+        	
+            this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         },
         checkLocalUpdate: function(){
             if( (isActivNew == 1) || (isActivNew == 2) )
@@ -110,7 +129,13 @@
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
+        	// Reordering 
         	var parent = this.props.parentComponent;
+
+        	// Delay reload
+        	parent.delayReload();
+
+            // Go ahead to reorder
         	parent.setState({data: {}});
         	parent.loadCommentsFromServer(true);
         },
@@ -167,8 +192,6 @@
                              }else if( obj[comment].type == 'MEETING' ){
                             	 
                                         return (
-
- 
         		React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
         			    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),

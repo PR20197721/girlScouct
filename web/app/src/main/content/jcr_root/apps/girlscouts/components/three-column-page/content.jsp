@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
-<div id="main" class="row">
+<div id="main" class="row content">
 		<!--PAGE STRUCTURE: LEFT CONTENT START-->
 		<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 			<div id="leftContent">

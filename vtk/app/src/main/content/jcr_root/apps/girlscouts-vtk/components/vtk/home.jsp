@@ -104,9 +104,22 @@
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                   <li>
-                    <% if (!isHideSignIn) { %>
+                    <% if (!isHideSignIn) { 
+                    
+                    
+                    
+                    	
+                    	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
+                    	
+                    	if( apiConfig!=null && apiConfig.getUser().isAdmin() ){
+                    	    vtkLanding="/content/girlscouts-vtk/en/vtk.resource.html";   
+                    	}
+                    
+                    	
+                    %>
                     <!-- Begin of VTK icon -->
-                    <a href="/content/girlscouts-vtk/en/vtk.html"><img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
+                    <a href="<%=vtkLanding%>">
+                    <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
                     <p>If you&rsquo;re a Daisy, Brownie, or Junior troop leader, go here for access to an action-packed year of activities. You&rsquo;ll find everything you need for a fun-filled year all in one place&mdash;including meeting-by-meeting breakdowns of what to do, resources, meeting aids, and more!</p>
                     <% } %>
                   </li>

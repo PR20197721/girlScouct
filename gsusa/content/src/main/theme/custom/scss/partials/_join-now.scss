@@ -2,15 +2,22 @@
 .cq-placeholder-header_47volunteer {
   display: none;
 }
+.join-volunteer {
+  margin-top: rem-calc(40);
+}
+.right-col .parbase.volunteer-now.section, .right-col .join-now.parbase.section {
+  @media only screen and (max-width: 48em) {
+    float: left;
+    width: 50%;
+    padding-right: 5px;
+  }
+}
 .standalone-volunteer,
 .standalone-join {
   position: relative;
   max-width: rem-calc(210);
   width: 100%;
   margin-bottom: rem-calc(20);
-  // .middle-col & {
-  //   width: rem-calc(210);
-  // }
   //MAIN.CSS overwrite
   div.image {
     margin:0;
@@ -18,9 +25,11 @@
   .wrapper {
     position: absolute;
     bottom: rem-calc(10);
-    width: rem-calc(198);
-    left: 50%;
-    margin-left: rem-calc(-99);
+    // max-width: rem-calc(198);
+    width: 100%;
+    padding: 0 5px;
+    // left: 50%;
+    // margin-left: rem-calc(-99);
   }
   form {
     position: absolute;
@@ -111,10 +120,65 @@
     width: 100%;
   }
 }
-
 .spinner {
   position: fixed;
   top: 50%;
   left: 50%;
   z-index: 10;
+}
+.footer-volunteer,
+.footer-join {
+  @include grid-column(24);
+  margin-bottom: rem-calc(20);
+  position: relative;
+  form {
+    position: absolute;
+    bottom: 0;
+    background-color:#00AE58;
+    width: 97.621%;
+    z-index: 3;
+    margin-left:auto;
+    margin-right:auto;
+    input[type="text"] {
+      width: 80%;
+      float: left;
+      margin: rem-calc(5);
+      padding-left: rem-calc(10);
+      font-size: rem-calc(20);
+    }
+    input[type="submit"] {
+      padding: rem-calc(8 5 7 5);
+      margin: rem-calc(5 0);
+    }
+    span.after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
+  .button.arrow {
+    white-space: nowrap;
+    padding-left: rem-calc(10);
+    z-index: 2;
+    margin: 0;
+    width: 100%;
+    padding: rem-calc(13 0);
+    &:after {
+      content: "";
+      position: absolute;
+      display: block;
+      border-style: solid;
+      border-color: transparent transparent transparent $white;
+      border-width: 0.71429rem;
+      top: 50%;
+      right: 0;
+      margin-top: -0.71429rem;
+    }
+  }
 }

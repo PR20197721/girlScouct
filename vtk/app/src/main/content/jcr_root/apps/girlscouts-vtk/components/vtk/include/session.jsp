@@ -96,17 +96,23 @@
 		return;
 	}
 	
-	if(apiConfig.getTroops() == null
+	//if(!apiConfig.getUser().isAdmin() && (apiConfig.getTroops() == null
+			
+	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) {
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
 		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
-			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-			        The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
-			        <br/><br/>Stay tuned! 
+			<div class="columns large-20 large-centered">
+			    <p>
+			       The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+			        </p>
+			        <p>
+			        Stay tuned! 
 			    </p>
+			    </div>
 			</div>
 			
 			<%
@@ -128,14 +134,19 @@ return;
 	{
 		   %>
 		<div id="panelWrapper" class="row meeting-detail content">
-        <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
-            The Volunteer Toolkit is a digital planning tool currently available for Daisy, Brownie, and Junior troop leaders only. Future releases will give access to parents and volunteers of all levels and roles. If you have questions, click on Contact Us at the top of the page. 
-            <br/><br/>Stay tuned! 
-        </p>
+               <div class="columns large-20 large-centered">
+                <p>
+                   The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+                    </p>
+                    <p>
+                    Stay tuned! 
+                </p>
+                </div>
         </div>
 		<%
         return;
 	}
+	
 	
 	
 	
@@ -146,12 +157,24 @@ return;
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+	     session.setAttribute("showGamma", "true");
 	} else if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("false")){
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_VIEW_REPORT_ID);
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
+        session.setAttribute("showGamma", null);
+	}else if( false) {// session.getAttribute("showGamma")==null ){
+		
+		//disable REPORT &  finances
+	    try{
+	        if( user.getApiConfig().getUser().isAdmin() && troop!=null && troop.getTroop()!=null && troop.getTroop().getPermissionTokens()!=null){      
+	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_REPORT_ID);
+	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_FINANCE_ID);
+	        }
+	    }catch(Exception e){e.printStackTrace();}
+		
 	}
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
@@ -202,8 +225,10 @@ return;
 	 
 	
 		try{
-				
-		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))
+			   ;
+		   else
+				   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 
 		   //load troop contacts
 		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
@@ -225,7 +250,7 @@ return;
 		}
 		
 		
-		if (troop == null) {
+		if (troop == null ) {
 			
 		  try{
 			troop = troopUtil.createTroop(user, 

@@ -115,4 +115,9 @@ public interface MeetingDAO {
 	public MeetingE getMeetingE(User user, String path)
 			throws IllegalAccessException, VtkException ;
 	
+	public int getAllResourcesCount(User user, String path)
+			throws IllegalAccessException ;
+		
+	
+	
 }

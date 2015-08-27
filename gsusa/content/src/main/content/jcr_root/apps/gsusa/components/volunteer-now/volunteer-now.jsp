@@ -4,6 +4,7 @@
     String searchBtnName = properties.get("searchBtnName", "Go");
     String title = properties.get("title", "Find Your Local Council");
     String source = properties.get("source", "not_set");
+    int maxWidth = properties.get("maxWidth", 210);
 
     String bg = "";
 	try {
@@ -11,10 +12,13 @@
 	} catch (Exception e) {}
 
 	if (!bg.equals("")) {%>
-		<div class="standalone-volunteer">
-			<div class="bg-image"><cq:include path="bg" resourceType="gsusa/components/image"/></div>
+		<div class="standalone-volunteer join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
+			<div class="bg-image">
+			<% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
+			<cq:include path="bg" resourceType="gsusa/components/image"/></div>
+			<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 		    <div class="wrapper">
-		        <a href="#" title="Volunteer" class="button arrow"><%= callToActionName %></a>
+		        <a href="#" title="Volunteer" class="vol button arrow"><%= callToActionName %></a>
 		        <form class="formVol hide">
 		            <label><%= title %></label>
 		            <input type="text" name="ZipVolunteer" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
@@ -24,8 +28,8 @@
 		    </div>
 		</div> <%
 	} else { //bg is null, doing this mainly for css %>
-		<div class="standalone-volunteer form-no-image">
-		    <a href="#" title="Volunteer Now" class="button arrow"><%= callToActionName %></a>
+		<div class="standalone-volunteer form-no-image  join-volunteer-block">
+		    <a href="#" title="Volunteer Now" class="vol button arrow"><%= callToActionName %></a>
 		    <form class="formVol hide">
 		        <label><%= title %></label>
 		        <input type="text" name="ZipVolunteer" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">

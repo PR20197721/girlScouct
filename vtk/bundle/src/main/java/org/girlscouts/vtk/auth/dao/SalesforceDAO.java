@@ -52,7 +52,12 @@ public class SalesforceDAO {
 		User user= new User();
 		CloseableHttpClient connection = null;
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
-				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
+		
+System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
+		
+System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
@@ -74,12 +79,13 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"records\":" + rsp + "}";		
+			rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
+	System.err.println("for SANJAY user: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
-				JSONArray results = response.getJSONArray("records");
+				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					//int current = results.length() - 1;
@@ -137,10 +143,14 @@ public class SalesforceDAO {
 						try {
 							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
 									.getBoolean("VTK_Admin__c") );
+							user.setAdminCouncilId(results.getJSONObject(i).getJSONObject("Contact").getJSONObject("Owner")
+									.getInt("Council_Code__c") );
 
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
+						
+						
 						
 
 					} catch (Exception e) {
@@ -326,6 +336,7 @@ public class SalesforceDAO {
 			}
 			rsp = "{\"records\":" + rsp + "}";
 			log.debug(">>>>> " + rsp);
+System.err.println("tatarsp: "+ rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
@@ -468,6 +479,7 @@ public class SalesforceDAO {
 	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig, String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
+						//+ "/services/apexrest/activeUserTroopDataV1.1?userId=" + contactId);
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 
 		CloseableHttpClient connection = null;
@@ -504,6 +516,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
+//troop.setGradeLevel("9-cadette");					
 					troop.setTroopId(results.getJSONObject(i).getString(
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
@@ -566,6 +579,18 @@ System.err.println("<<tata<<<Apex resp: " + response);
 				eConn.printStackTrace();
 			}
 		}
+		
+		
+		if( user.isAdmin() && (troops==null || troops.size()<=0) )
+		{
+			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
+            user_troop.setPermissionTokens(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));	 
+            user_troop.setTroopId("none");
+            user_troop.setCouncilCode(user.getAdminCouncilId());
+            user_troop.setTroopName("vtk_virtual_troop");
+            //user.setPermissions(user_troop.getPermissionTokens());
+            troops.add(user_troop);
+		}
 		return troops;
 	}
 
@@ -592,7 +617,7 @@ java.util.List<Contact> contacts = new java.util.ArrayList();
 HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 
 +"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-
+System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
 
 
 
@@ -641,7 +666,7 @@ resp.close();
 rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
-
+System.err.println(">>>DP tata info>> " + rsp);
 
 
 try {

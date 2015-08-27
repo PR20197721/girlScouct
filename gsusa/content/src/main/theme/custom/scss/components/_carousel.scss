@@ -104,7 +104,6 @@ div.carousel {
     }
   }
 }
-
 .hero-feature {
   position: relative;
   margin-bottom: rem-calc(35);
@@ -227,6 +226,10 @@ div.carousel {
         font-size: rem-calc(20);
         font-weight: 500;
         margin-right: rem-calc(5);
+        @media only screen and (max-width: 48em) {
+          display: block;
+          margin:0;
+        }
       }
       input[type="text"] {
         display: inline;
@@ -234,9 +237,16 @@ div.carousel {
         padding-left: rem-calc(5);
         font-size: rem-calc(20);
         vertical-align: top;
+        @media only screen and (max-width: 48em) {
+          width: 49%;
+        }
       }
       button {
         margin: 0;
+        @media only screen and (max-width: 48em) {
+          padding-left: rem-calc(20);
+          padding-right: rem-calc(20);
+        }
       }
     }
   }
@@ -270,13 +280,14 @@ div.carousel {
         }
         .text {
           position: absolute;
-          width: rem-calc(185);
-          margin-left: rem-calc(20);
+          width: rem-calc(219);
+          margin-left: rem-calc(11);
           color: #000;
           margin-top: rem-calc(10);
-          padding: rem-calc(5 5 0 5);
+          padding: rem-calc(5 20 0 20);
           background-color: rgba(0,0,0, .5);
           // text-shadow: 0 0 2px #000;
+          height: 77.991%;
           p {
             font-size: rem-calc(14);
             line-height: 1.3;
@@ -290,9 +301,21 @@ div.carousel {
           h4 {
             font-size: rem-calc(14);
             text-transform: uppercase;
+            margin-bottom: rem-calc(20);
           }
           a {
-            color: #F9CD00;
+            background-color: #FFFFFF;
+            color: #00ae58;
+            font-size: 0.875rem;
+            text-transform: none;
+            padding: rem-calc(5) rem-calc(10);
+            width: rem-calc(179);
+            margin-bottom: 0;
+            position: absolute;
+            bottom: rem-calc(10);
+            left: 50%;
+            margin-left: rem-calc(-89.5);
+        	text-align: center;
           }
         }
       }
@@ -326,6 +349,7 @@ div.carousel {
     }
   }
 }
+//shop tile carousel
 .shop-tile {
   .shop-slider {
     margin-bottom: rem-calc(20);

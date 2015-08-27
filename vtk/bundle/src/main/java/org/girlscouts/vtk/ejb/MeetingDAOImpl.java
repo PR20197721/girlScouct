@@ -1366,7 +1366,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
-			QueryResult result = q.execute();
+			QueryResult result = q.execute();		
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Asset search = new Asset();
@@ -2157,5 +2157,44 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 		}
 		return meetingE;
+	}
+	
+	
+	
+	public int getAllResourcesCount(User user, String _path)
+			throws IllegalAccessException {
+
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_LOGIN_ID))
+			throw new IllegalAccessException();
+		int count=0;
+		List<Asset> matched = new ArrayList<Asset>();
+		Session session = null;
+		try {
+			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
+					+ " from [nt:unstructured] as parent where "
+					+ " (isdescendantnode (parent, ["
+					+ _path
+					+ "])) and [cq:tags] is not null";
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			QueryResult result = q.execute();
+			count= (int)result.getRows().getSize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
+		}
+		return count;
 	}
 }// edn class

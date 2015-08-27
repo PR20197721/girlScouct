@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+
+import javax.jcr.Node;
+
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
 import org.apache.felix.scr.annotations.Activate;
@@ -31,7 +34,7 @@ public class CouncilRpt {
 		java.util.List<String> activities = new java.util.ArrayList<String>();
 		String sql1 = "select jcr:path "
 				+ " from nt:base "
-				+ " where jcr:path like '/vtk/"
+				+ " where jcr:path like '/vtk"+VtkUtil.getCurrentGSYear()+"/"
 				+ sfCouncil
 				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.Activity'";
 		try {
@@ -103,23 +106,45 @@ public class CouncilRpt {
 					libPath = r.getValue("refId").getString();
 				} catch (Exception e) {
 				}
+				
+				String troopName="";
+				if( libPath==null || libPath.equals("") ){
+					try{
+						Node troop = r.getNode().getParent();
+						libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
+						troopName = troop.getProperty("sfTroopName").getString();
+					}catch(Exception e){e.printStackTrace();}
+					
+				}
+				
 				if (libPath.contains("brownie"))
 					ageGroup = "brownie";
 				else if (libPath.contains("daisy"))
 					ageGroup = "daisy";
 				else if (libPath.contains("junior"))
 					ageGroup = "junior";
+				
+				else if (libPath.contains("senior"))
+					ageGroup = "senior";
+				else if (libPath.contains("cadette"))
+					ageGroup = "cadette";
+				else if (libPath.contains("ambassador"))
+					ageGroup = "ambassador";
+				
+				
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);
 				crb.setLibPath(libPath);
 				crb.setAgeGroup(ageGroup);
 				crb.setYearPlanPath(path);
+				crb.setTroopName(troopName);
 				try {
 					crb.setTroopId(path.split("/")[4]);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+				
 				if (activities.contains(path))
 					crb.setActivity(true);
 				container.add(crb);
@@ -216,7 +241,7 @@ public class CouncilRpt {
 				javax.jcr.query.Row r = it.nextRow();
 				String troopId = r.getValue("parent.sfTroopId").getString();
 				String troopName = r.getValue("parent.sfTroopName").getString();
-				container.put(troopId, troopName);
+				container.put(troopId, troopName);	
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -238,6 +263,55 @@ public class CouncilRpt {
 		for (CouncilRptBean bean : results) {
 			container.put(bean.getLibPath(), bean.getYearPlanName());
 		}
+		
+		if( true) return container;
+		
+		//get latest year plan names from lib
+		javax.jcr.Session s = null;
+		try{
+			s = sessionFactory.getSession();
+			java.util.Iterator itr = container.keySet().iterator();
+			while( itr.hasNext() ){
+				try{
+					String path = (String) itr.next();
+					if( path ==null || path.trim().equals("") || !path.contains("/")) continue;
+					Node libYear= s.getNode(path);
+					if( libYear!=null){
+						String yearPlanName=  libYear.getProperty("name").getString();
+						if( yearPlanName!=null && !yearPlanName.trim().equals("")){
+							container.put(path, yearPlanName);
+						}
+							
+					}
+					
+				}catch(Exception e){e.printStackTrace();}
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			try {
+				if (s != null)
+					sessionFactory.closeSession(s);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 		return container;
+	}
+	
+	
+	public java.util.List<CouncilRptBean> getCollection_byYearPlanPath(
+			java.util.List<CouncilRptBean> results, final String yearPlanPath) {
+
+		Collection<CouncilRptBean> container = CollectionUtils.select(results,
+				new Predicate<CouncilRptBean>() {
+					public boolean evaluate(CouncilRptBean o) {
+//System.err.println("tataTest11: "+ o.getLibPath() +" : "+ yearPlanPath);						
+						return o.getLibPath().equals(yearPlanPath);
+					}
+				});
+		return (java.util.List<CouncilRptBean>) container;
 	}
 }

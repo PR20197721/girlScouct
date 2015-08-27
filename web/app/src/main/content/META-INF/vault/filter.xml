@@ -9,6 +9,7 @@
     <filter root="/etc/map.publish.dev"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
+    <filter root="/etc/replication-checker"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
     <filter root="/etc/designs/girlscouts-usa"/>
@@ -65,4 +66,5 @@
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
+    <filter root="/content/girlscouts-shared"/>
 </workspaceFilter>

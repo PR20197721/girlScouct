@@ -8,6 +8,15 @@ public class User implements Serializable {
 			contactId, sfUserId,
 			firstName, lastName;
 	private boolean isAdmin;
+	private int adminCouncilId;
+
+	public int getAdminCouncilId() {
+		return adminCouncilId;
+	}
+
+	public void setAdminCouncilId(int adminCouncilId) {
+		this.adminCouncilId = adminCouncilId;
+	}
 
 	public boolean isAdmin() {
 		return isAdmin;

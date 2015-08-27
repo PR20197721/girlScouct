@@ -526,7 +526,7 @@
 			String councilId = request.getParameter("cid");
 
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 			for (int i = 0; i < milestones.size(); i++) {
 
 				Milestone m = milestones.get(i);
@@ -567,14 +567,19 @@
 				}
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones, councilId);
+			try{
+				yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 
 			String councilId = request.getParameter("cid");
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 
 			Milestone m = new Milestone();
 			m.setBlurb(request.getParameter("blurb"));
@@ -884,7 +889,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				try {
 					if (troop.getYearPlan() != null) {
 						troop.getYearPlan() .setMilestones(
-							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+							yearPlanUtil.getCouncilMilestones(user,"" + troop.getSfCouncil()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -894,14 +899,11 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
 
-				for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++){
-						if (troop.getYearPlan().getMilestones().get(i)
-								.getDate() != null)
-							sched.put(troop.getYearPlan()
-									.getMilestones().get(i).getDate(),
-									troop.getYearPlan().getMilestones()
-											.get(i));
+				for (int i = 0; i < troop.getYearPlan().getMilestones().size(); i++){
+						if (troop.getYearPlan().getMilestones().get(i).getDate() != null && 
+								troop.getYearPlan().getMilestones().get(i).getShow())
+									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
+											troop.getYearPlan().getMilestones().get(i));
 				}
 
 				//edn milestone
@@ -1242,8 +1244,23 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 	            <label for="r_0"></label>
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
-	            <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
+	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	            
+	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+                           (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+                        Customize Your Troop Year   
+                 <%}else{ %>
+                       Create Your Own Year Plan
+                 <%} %>
+	            </a>
+	            <p>
+		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+		                Select this option to create activities or add council activities to your calendar.
+		            <%}else{ %>
+	    	            Choose this option to create your own year plan using meetings from  our meeting library     
+		           <%} %>
+	            </p>
 	        </div>
 	      </div><!--/row-->
 	      
