@@ -78,10 +78,10 @@ girlscouts.functions.getOptions=function(adsPath){
         var childPages = CQ.shared.HTTP.eval(url);
         if(childPages){
             // loop through the child pages and create the list of ad pages
-            for(var name in childPages){
+            for(var name in childPages){//child node name
                 if(childPages[name]['jcr:content'] && childPages[name]['jcr:content']['sling:resourceType'].indexOf('girlscouts/components/ad-page')>=0 ){
                     var ad = {};
-                    ad['text'] = childPages[name]['jcr:content']['jcr:title'];
+                    ad['text'] = childPages[name]['jcr:content']['jcr:title']?childPages[name]['jcr:content']['jcr:title']:name;
                     ad['value'] = adsPath + '/' + name;
                     ads.push(ad);
                 }
