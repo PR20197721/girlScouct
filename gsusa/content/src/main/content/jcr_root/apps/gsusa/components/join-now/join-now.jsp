@@ -14,6 +14,7 @@
 
 	<div class="standalone-join join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
 	    <div class="bg-image">
+
 	    <% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 	    <cq:include path="bg" resourceType="gsusa/components/image"/></div>
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
