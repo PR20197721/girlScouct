@@ -1,5 +1,31 @@
-girlscouts.functions.toggleField = function(field) {
+girlscouts.functions.reset=function(field, newPath){
+    var dialog = field.findParentByType('dialog');
+    var customized = dialog.getField('./customized');
+    var pages = dialog.getField('./pages');
+    //if path value is changed
+    if(field.getValue()!=field.startValue){
+        //if customized, pop up a comfirm dialog
+		if(customized && customized.getValue()=="true"){
+			var r = confirm("You will lose custom settings if you change the ad path.");
+    		if (r == true) { //"ok" clicked
+                customized.reset();
+                pages.reset();
+                pages.setOptions(girlscouts.functions.getOptions(newPath));
+                girlscouts.functions.getTitle(dialog);
+            } else { //"cancel" clicked
+                //return to the old value
+                field.setValue(field.startValue);
+            }
+        }else{ //if not customized, reset the pages, update the options
+ 			pages.reset();
+            pages.setOptions(girlscouts.functions.getOptions(newPath));
+            girlscouts.functions.getTitle(dialog);
+        }
+    }
+    return ;
+};
 
+girlscouts.functions.toggleField = function(field) {
 	// Get the advanced page selection field 
     var pages = field.nextSibling();
     if(pages){
@@ -13,8 +39,8 @@ girlscouts.functions.toggleField = function(field) {
     }
 
 };
-girlscouts.functions.getTitle=function(dialog) { 
 
+girlscouts.functions.getTitle=function(dialog) { 
   var selection = dialog.getField('./pages'); 
   var pathfield = dialog.getField('./path');
 
@@ -29,36 +55,43 @@ girlscouts.functions.getTitle=function(dialog) {
               selection.setTitle("Path not configured.");
       	}
       }
-      
   } 
   return true;
 };
-girlscouts.functions.AdOptions=function() {
-        var ads = [];
-    	var currentPath = CQ.shared.HTTP.getPath();
-    	var adData = CQ.shared.HTTP.eval(CQ.shared.HTTP.noCaching(currentPath+'/jcr:content/content/right/advertisement.json'));
+
+//optionsProvider 
+girlscouts.functions.AdOptions=function(path) {
+    	var adData = CQ.shared.HTTP.eval(CQ.shared.HTTP.noCaching(path+'.json'));
 		var adsPath = adData ? CQ.Util.formatData(adData)['path'] : null;
-    	if(!adsPath){
-        	adsPath=girlscouts.functions.getAdsPath();
-        }
-        if(adsPath){
-            // get the URL to retrieve the ad-pages
-			var url = CQ.shared.HTTP.noCaching(adsPath+".2.json");//two-level deep
-            var childPages = CQ.shared.HTTP.eval(url);
-            if(childPages){
-                // loop through the child pages and create the list of ad pages
-                for(var name in childPages){
-                    if(childPages[name]['jcr:content'] && childPages[name]['jcr:content']['sling:resourceType']=='girlscouts/components/ad-page' ){
-                        var ad = {};
-                        ad['text'] = childPages[name]['jcr:content']['jcr:title'];
-                        ad['value'] = adsPath + '/' + name;
-                        ads.push(ad);
-                    }
+        return girlscouts.functions.getOptions(adsPath);
+};
+
+//get options from the adsPath
+girlscouts.functions.getOptions=function(adsPath){
+    var ads = [];
+	if(!adsPath){
+        adsPath=girlscouts.functions.getAdsPath();
+    }
+    if(adsPath){
+        // get the URL to retrieve the ad-pages
+        var url = CQ.shared.HTTP.noCaching(adsPath+".2.json");//two-level deep
+        var childPages = CQ.shared.HTTP.eval(url);
+        if(childPages){
+            // loop through the child pages and create the list of ad pages
+            for(var name in childPages){
+                if(childPages[name]['jcr:content'] && childPages[name]['jcr:content']['sling:resourceType'].indexOf('girlscouts/components/ad-page')>=0 ){
+                    var ad = {};
+                    ad['text'] = childPages[name]['jcr:content']['jcr:title'];
+                    ad['value'] = adsPath + '/' + name;
+                    ads.push(ad);
                 }
             }
         }
-        return ads;
-};
+    }
+    return ads;
+
+}
+
 //get council's adspath configuration
 girlscouts.functions.getAdsPath=function (){
 	var PARENT_LEVEL = 3;	

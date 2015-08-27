@@ -7,7 +7,6 @@ com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
-
 <%
 final int DEFAULT_AD_COUNT = 2;
 final String AD_ATTR = "apps.girlscouts.components.advertisement.currentAd";
@@ -19,8 +18,17 @@ if (!tempAdCount.isEmpty()) {
         adCount = Integer.parseInt(tempAdCount);
     } catch (NumberFormatException e) {}
 }
-
-//render ad start
+%>
+<%!public boolean isAd(Page currentAd){//return true if page is ad page
+    if(currentAd==null) { return false; }
+	if(currentAd.getProperties().get("sling:resourceType")!=null
+       && currentAd.getProperties().get("sling:resourceType","").indexOf("girlscouts/components/ad-page")>=0){
+        return true;
+    }
+    return false;
+}
+%>
+<%
 boolean customized = properties.get("customized", false);
 String[] adPages = properties.get("pages", String[].class);
 
@@ -29,28 +37,30 @@ if(customized){
     	for(String itemUrl : adPages){
             if(adCount > 0){
                 try{
-                Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
-                request.setAttribute(AD_ATTR, currentAd);
-                %>
-                <div class="hide-for-small">
-                <cq:include script="display-ad.jsp"/>
-                </div>
-                <div class="show-for-small">
-                <div class="small-12 columns">
-                <% request.setAttribute(AD_ATTR, currentAd); %>
-                <cq:include script="display-ad.jsp"/>
-                </div>
-                </div>
-				<%
-                }catch(Exception e){ e.printStackTrace();}
-                adCount--;
+                	Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
+                    if(isAd(currentAd)) {
+						request.setAttribute(AD_ATTR, currentAd);
+        				%>
+                        <div class="hide-for-small">
+                        <cq:include script="display-ad.jsp"/>
+                        </div>
+                        <div class="show-for-small">
+                        <div class="small-12 columns">
+                        <% request.setAttribute(AD_ATTR, currentAd); %>
+                        <cq:include script="display-ad.jsp"/>
+                        </div>
+                        </div>
+                        <% 
+                        adCount--;
+                    }
+              	}catch(Exception e){ e.printStackTrace();}
             }else{ break;}
         }
 	}
 }
+
 //by default show all start
 else{
-
     String rootPath = properties.get("path", "");
     if (rootPath.isEmpty()) {
         rootPath = currentSite.get("adsPath", "");
@@ -67,23 +77,22 @@ else{
             Iterator<Page> iter = adRoot.listChildren();
             int renderCount = 0;
             while(iter.hasNext() && adCount > 0) {
-                adCount--;
                 Page currentAd = iter.next();
-                request.setAttribute(AD_ATTR, currentAd);
-                %>
-                <div class="hide-for-small">
-                <cq:include script="display-ad.jsp"/>
-                </div>
-                <div class="show-for-small">
-                <div class="small-12 columns">
-                <% request.setAttribute(AD_ATTR, currentAd); %>
-                <cq:include script="display-ad.jsp"/>
-                </div>
-                </div>
-                <%
-            renderCount ++;
+                if(isAd(currentAd)) {
+                    request.setAttribute(AD_ATTR, currentAd);
+                    %>
+                    <div class="hide-for-small">
+                    <cq:include script="display-ad.jsp"/>
+                    </div>
+                    <div class="show-for-small">
+                    <div class="small-12 columns">
+                    <% request.setAttribute(AD_ATTR, currentAd); %>
+                    <cq:include script="display-ad.jsp"/>
+                    </div>
+                    </div>
+                    <% adCount--; renderCount++;
+                }
             }
-    
             if(renderCount == 0 && WCMMode.fromRequest(request) == WCMMode.EDIT){
                 %><h2>No Ads Available To Render</h2> <%
             }
@@ -93,4 +102,5 @@ else{
 	}
 }//show all end
 %>
+
 
