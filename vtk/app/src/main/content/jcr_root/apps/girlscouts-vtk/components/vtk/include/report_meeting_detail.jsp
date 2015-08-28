@@ -43,7 +43,7 @@
       
       
           <tr>
-            <td><%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, date) %></td>
+            <td><%= (date==null || date.before(new java.util.Date("1/1/2000"))) ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, date) %></td>
             <td><%=meeting.getMeetingInfo()==null ? "" : meeting.getMeetingInfo().getName() %></td>
             <td><%=attendanceCurrent == 0 ? "" : attendanceCurrent %></td>
             <td><p class="<%= (achievementCurrent > 0) ? "check" : "" %>"></p></td>
