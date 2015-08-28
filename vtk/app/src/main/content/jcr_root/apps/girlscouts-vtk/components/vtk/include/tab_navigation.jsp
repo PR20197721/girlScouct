@@ -244,8 +244,13 @@ if (troops != null && troops.size() > 1) {
        
        
 
-	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
-	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
+	        <%  if( user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0){ %>
+	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>>
+	               <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+	               <ul>
+	                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
+	               </ul>
+	             </li>
 		     <% } %>
        
        

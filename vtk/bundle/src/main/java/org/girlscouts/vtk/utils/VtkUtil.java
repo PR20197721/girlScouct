@@ -359,4 +359,13 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
    }
  }
 
+ 
+ 
+ public static boolean hasPermission(Troop troop, int permissionId) {
+		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
+		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
+			return true;
+		}
+		return false;
+	}
 }//end class
