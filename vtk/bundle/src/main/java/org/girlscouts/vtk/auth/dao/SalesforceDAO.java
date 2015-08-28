@@ -487,7 +487,7 @@ System.err.println("tatarsp: "+ rsp);
 					+ "/services/apexrest/activeUserTroopDataV1.1?userId="+ contactId; //no filters
 			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
 			
-System.err.println("tata troopInfo: "+url );	
+//System.err.println("tata troopInfo: "+url );	
 			
 			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
