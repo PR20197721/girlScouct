@@ -487,14 +487,17 @@ function rmCustActivity(x){
 }
 
 function createNewCustActivity(){
+	
+	
+	
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
-	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field"); return false;}
+	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field");  return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
 
 	var aDate = new Date(newCustActivity_date);
 
 	if( !Date.parse(aDate) ||  aDate < new Date() )
-		{alert( "Invalid start date. Date must be after todays date." ); return false;}
+		{alert( "Invalid start date. Date must be after todays date." );   return false;}
 
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
@@ -505,16 +508,20 @@ function createNewCustActivity(){
 
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
 	if( $.trim(newCustActivityLocName) =='' || $.trim(newCustActivityLocName) =='Location Name')
-		{alert("Please fill 'Location Name' field"); return false;}
+		{alert("Please fill 'Location Name' field");   return false;}
 
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
 	if( $.trim(newCustActivityLocAddr) =='' || $.trim(newCustActivityLocAddr) =='Location Address')
-	{alert("Please fill 'Location Address' field"); return false;}
+	{alert("Please fill 'Location Address' field");  return false;}
 
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
-
+	
+	if( document.getElementById("newCustActivity") ){
+		document.getElementById("newCustActivity").disabled = true;	
+	}
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
