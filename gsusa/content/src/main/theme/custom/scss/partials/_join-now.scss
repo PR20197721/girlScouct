@@ -5,15 +5,19 @@
 .join-volunteer {
   margin-top: rem-calc(40);
 }
+.right-col .parbase.volunteer-now.section, .right-col .join-now.parbase.section {
+  @media only screen and (max-width: 48em) {
+    float: left;
+    width: 50%;
+    padding-right: 5px;
+  }
+}
 .standalone-volunteer,
 .standalone-join {
   position: relative;
   max-width: rem-calc(210);
   width: 100%;
   margin-bottom: rem-calc(20);
-  // .middle-col & {
-  //   width: rem-calc(210);
-  // }
   //MAIN.CSS overwrite
   div.image {
     margin:0;
@@ -21,9 +25,11 @@
   .wrapper {
     position: absolute;
     bottom: rem-calc(10);
-    width: rem-calc(198);
-    left: 50%;
-    margin-left: rem-calc(-99);
+    // max-width: rem-calc(198);
+    width: 100%;
+    padding: 0 5px;
+    // left: 50%;
+    // margin-left: rem-calc(-99);
   }
   form {
     position: absolute;

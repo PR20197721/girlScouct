@@ -104,7 +104,6 @@ div.carousel {
     }
   }
 }
-
 .hero-feature {
   position: relative;
   margin-bottom: rem-calc(35);
@@ -227,6 +226,10 @@ div.carousel {
         font-size: rem-calc(20);
         font-weight: 500;
         margin-right: rem-calc(5);
+        @media only screen and (max-width: 48em) {
+          display: block;
+          margin:0;
+        }
       }
       input[type="text"] {
         display: inline;
@@ -234,9 +237,16 @@ div.carousel {
         padding-left: rem-calc(5);
         font-size: rem-calc(20);
         vertical-align: top;
+        @media only screen and (max-width: 48em) {
+          width: 49%;
+        }
       }
       button {
         margin: 0;
+        @media only screen and (max-width: 48em) {
+          padding-left: rem-calc(20);
+          padding-right: rem-calc(20);
+        }
       }
     }
   }
@@ -339,6 +349,7 @@ div.carousel {
     }
   }
 }
+//shop tile carousel
 .shop-tile {
   .shop-slider {
     margin-bottom: rem-calc(20);

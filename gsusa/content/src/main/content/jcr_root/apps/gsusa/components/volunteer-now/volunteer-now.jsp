@@ -12,8 +12,9 @@
 	} catch (Exception e) {}
 
 	if (!bg.equals("")) {%>
-		<div class="standalone-volunteer" style="max-width:<%= maxWidth + "px"%>;">
+		<div class="standalone-volunteer join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
 			<div class="bg-image">
+
 			<% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 			<cq:include path="bg" resourceType="gsusa/components/image"/></div>
 			<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
@@ -28,7 +29,7 @@
 		    </div>
 		</div> <%
 	} else { //bg is null, doing this mainly for css %>
-		<div class="standalone-volunteer form-no-image">
+		<div class="standalone-volunteer form-no-image  join-volunteer-block">
 		    <a href="#" title="Volunteer Now" class="vol button arrow"><%= callToActionName %></a>
 		    <form class="formVol hide">
 		        <label><%= title %></label>

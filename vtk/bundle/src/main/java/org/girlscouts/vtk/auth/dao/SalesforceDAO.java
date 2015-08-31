@@ -55,9 +55,9 @@ public class SalesforceDAO {
 				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
 				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
 		
-System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
+//System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
 		
-System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
+//System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
@@ -478,16 +478,18 @@ System.err.println("tatarsp: "+ rsp);
 
 	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig, String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
-		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
-						+ "/services/apexrest/activeUserTroopDataV1.1?userId=" + contactId);
-				//+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
+
 
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
-			method = new HttpGet(apiConfig.getWebServicesUrl()
-					+ "/services/apexrest/activeUserTroopData?userId="
-					+ contactId);
+			String url = apiConfig.getWebServicesUrl()
+					+ "/services/apexrest/activeUserTroopDataV1.1?userId="+ contactId; //no filters
+			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
+			
+//System.err.println("tata troopInfo: "+url );	
+			
+			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
