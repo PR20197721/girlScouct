@@ -320,8 +320,16 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		CloseableHttpClient connection = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+		
+		String vtkApiContactUri=apiConfig.getVtkApiContactUri();
+		String url=apiConfig.getWebServicesUrl() + vtkApiContactUri + "?troopId=" + sfTroopId ;
+		
+System.err.println("tata contact api : "+ url );		
+		HttpGet method = new HttpGet( url );
+				/*
+				apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+				*/
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 			connection = connectionFactory.getConnection();
@@ -625,10 +633,11 @@ CloseableHttpClient connection = null;
 
 java.util.List<Contact> contacts = new java.util.ArrayList();
 
-HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+String vtkApiTroopLeadersUri = apiConfig.getVtkApiTroopLeadersUri();
+String url =apiConfig.getWebServicesUrl() +vtkApiTroopLeadersUri + "?Troop_ID="+sfTroopId;
 
-+"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+HttpGet method = new HttpGet( url ); //apiConfig.getWebServicesUrl() + "/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+System.err.println("tata dp info : "+ url);
 
 
 

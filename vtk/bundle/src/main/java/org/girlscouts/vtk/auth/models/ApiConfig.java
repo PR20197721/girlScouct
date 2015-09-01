@@ -20,8 +20,26 @@ public class ApiConfig implements Serializable {
 	private long lastTimeTokenRefreshed;
 	
 	//from jcr config -APIs
-	private String vtkApiTroopUri, vtkApiUserUri;
+	private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
 	
+	
+	
+	public String getVtkApiTroopLeadersUri() {
+		return vtkApiTroopLeadersUri;
+	}
+
+	public void setVtkApiTroopLeadersUri(String vtkApiTroopLeadersUri) {
+		this.vtkApiTroopLeadersUri = vtkApiTroopLeadersUri;
+	}
+
+	public String getVtkApiContactUri() {
+		return vtkApiContactUri;
+	}
+
+	public void setVtkApiContactUri(String vtkApiContactUri) {
+		this.vtkApiContactUri = vtkApiContactUri;
+	}
+
 	public String getVtkApiUserUri() {
 		return vtkApiUserUri;
 	}
