@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -9,14 +10,32 @@ com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResu
 java.util.Map,java.util.HashMap,java.util.List, java.util.regex.*, java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
+<%!public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
+	Map mapFullText = new HashMap();
+	mapFullText.put("path",path);
+	mapFullText.put("fulltext", escapedQuery);
+	mapFullText.put("fulltext.relPath", "jcr:content");
+	mapFullText.put("type","nt:hierarchyNode" );
+	mapFullText.put("boolproperty","jcr:content/hideInNav");
+	mapFullText.put("boolproperty.value","false");
+	mapFullText.put("p.limit","-1");
+	mapFullText.put("orderby","type");
+	PredicateGroup pg=PredicateGroup.create(mapFullText);
+	Query query = queryBuilder.createQuery(pg,session);
+	query.setExcerpt(true);
+	return query.getResult().getHits();	
+}
+
+%>
 <%
 final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
-
+Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
 String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
+List<Hit> hits = new ArrayList<Hit>();
 if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
@@ -26,10 +45,6 @@ final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
 pageContext.setAttribute("escapedQuery", escapedQuery);
 pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
-
-Map mapPath = new HashMap();
-mapPath.put("group.p.or","true");
-mapPath.put("group.1_path", searchIn);
 
 String theseDamDocuments = properties.get("docusrchpath","");
 if(theseDamDocuments.equals("")){
@@ -42,40 +57,15 @@ if(theseDamDocuments.equals("")){
 	}
 }
 long startTime = System.nanoTime();
-mapPath.put("group.2_path", theseDamDocuments); 
-mapPath.put("group.4_path", documentLocation);
-PredicateGroup predicatePath =PredicateGroup.create(mapPath);
-Map mapFullText = new HashMap();
 
-mapFullText.put("group.p.or","true");
-mapFullText.put("group.1_fulltext", escapedQuery);
-mapFullText.put("group.1_fulltext.relPath", "jcr:content");
-mapFullText.put("group.2_fulltext", escapedQuery);
-mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
-mapFullText.put("group.3_fulltext", escapedQuery);
-mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
-mapFullText.put("group.4_fulltext", escapedQuery);
-mapFullText.put("group.4_fulltext.relPath", "jcr:content/@cq:name");
-mapFullText.put("group.5_fulltext", escapedQuery);
-mapFullText.put("group.5_fulltext.relPath", "jcr:content/metadata/@dc:title");
-mapFullText.put("group.6_fulltext", escapedQuery);
-mapFullText.put("group.6_fulltext.relPath", "jcr:content/metadata/@pdf:title");
 
-PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-Map masterMap  = new HashMap();
-masterMap.put("type","nt:hierarchyNode" );
-masterMap.put("boolproperty","jcr:content/hideInNav");
-masterMap.put("boolproperty.value","false");
-masterMap.put("p.limit","-1");
-masterMap.put("orderby","type");
-PredicateGroup master = PredicateGroup.create(masterMap);
-master.add(predicatePath);
-master.add(predicateFullText);
-Query query = queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
-query.setExcerpt(true);
+hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,escapedQuery));
+hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
 
-SearchResult result = query.getResult();
-List<Hit> hits = result.getHits();
+
+
+//List<Hit> hits = result.getHits();
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
