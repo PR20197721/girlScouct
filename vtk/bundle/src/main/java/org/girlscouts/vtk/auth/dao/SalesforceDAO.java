@@ -55,9 +55,17 @@ public class SalesforceDAO {
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
 		User user= new User();
 		CloseableHttpClient connection = null;
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+		
+		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
+		String url = apiConfig.getWebServicesUrl() +vtlApiUserUri+ "?USER_ID="+ apiConfig.getUserId();
+		
+		System.err.println( "tata userSFApi: "+ url );
+		HttpGet method = new HttpGet( url );
+				/*
+				  apiConfig.getWebServicesUrl()
 				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
+				//-+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId()); 
+				  */
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
@@ -483,12 +491,12 @@ System.err.println("tatarsp: "+ rsp);
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
-			String url = apiConfig.getWebServicesUrl()
-					
-					+ "/services/apexrest/activeUserTroopDataV1.2?userId="+ contactId; //no filters
+			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
+			String url = apiConfig.getWebServicesUrl() +vtkApiTroopUri +"?userId="+ contactId;
+				//	+ "/services/apexrest/activeUserTroopDataV1.2?userId="+ contactId; //no filters
 			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
 			
-//System.err.println("tata troopInfo: "+url );	
+System.err.println("tata troopInfo: "+url );	
 			
 			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
