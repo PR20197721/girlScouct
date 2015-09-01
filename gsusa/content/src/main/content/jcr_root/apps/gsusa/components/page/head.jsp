@@ -30,6 +30,7 @@
         favIcon = null;
     }
 %><head>
+    <script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
     <!--for the mobile viewport.-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
