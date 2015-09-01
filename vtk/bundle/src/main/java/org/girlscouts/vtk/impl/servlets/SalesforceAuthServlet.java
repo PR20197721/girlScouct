@@ -244,6 +244,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
+		
+		
+		//set config items here
+		config.setVtkApiTroopUri( config.get);
+		config.setVtkApiUserUri();
+		
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = dao.getUser(config);
 		session.setAttribute(User.class.getName(), user);

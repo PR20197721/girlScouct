@@ -44,11 +44,11 @@ public class VtkUtil  implements ConfigListener{
 	
 	private static String gsNewYear;
 	private static String vtkHolidays[];
+	
 	@SuppressWarnings("rawtypes")
 	public void updateConfig(Dictionary configs) {
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
-		
 	}
 	
 

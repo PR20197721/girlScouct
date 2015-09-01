@@ -1480,8 +1480,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			map.put("path", "/content/dam/girlscouts-vtk/global/resource");
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
+			
+			
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
+			
 			query.setStart(0);
 			query.setHitsPerPage(100);
 			SearchResult result = query.getResult();
