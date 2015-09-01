@@ -9,7 +9,8 @@ com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResu
 java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
-<%!public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
+<%!
+public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
   Map mapFullText = new HashMap();
   mapFullText.put("path",path);
   mapFullText.put("fulltext", escapedQuery);
