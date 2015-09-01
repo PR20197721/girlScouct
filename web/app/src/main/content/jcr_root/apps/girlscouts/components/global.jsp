@@ -37,7 +37,7 @@ public void setHtmlTag(String tag, HttpServletRequest request) {
 
 public String genLink(ResourceResolver rr, String link) {
     // This is a Page resource but yet not end with ".html": append ".html"
-    if (rr.resolve(link).getResourceType().equals("cq:Page") && !link.contains(".html")) {
+    if (!link.contains(".html") && rr.resolve(link).getResourceType().equals("cq:Page")  ) {
         return link + ".html";
     // Well, do nothing
     } else {

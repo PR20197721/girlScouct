@@ -20,7 +20,16 @@
 	    councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
    		branch = mapper.getCouncilBranch(councilId);
 	} catch (Exception e) {
-	    String refererCouncil = (String)session.getAttribute("refererCouncil");
+	    Cookie[] cookies = request.getCookies();
+	    String refererCouncil = null;
+	    if (cookies != null) {
+	    	for (Cookie cookie : cookies) {
+	    	    if (cookie.getName().equals("vtk_referer_council")) {
+	    	        refererCouncil = cookie.getValue();
+	    	    }
+	    	}
+	    }
+
 	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
 	        branch = "/content/" + refererCouncil;
 	    } else {
@@ -40,6 +49,17 @@
    	}
 %>
 	<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PV9D8H"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PV9D8H');</script>
+<!-- End Google Tag Manager -->
+
 		
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">
@@ -92,4 +112,28 @@
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 		  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-global.js"></script>
+		  
+		  
+		  <script>
+(function(i,s,o,g,r,a,m){
+    i['GoogleAnalyticsObject']=r;
+    i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
+    a=s.createElement(o),m=s.getElementsByTagName(o)[0];
+    a.async=1;
+    a.src=g;
+    m.parentNode.insertBefore(a,m)})
+    (window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-2646810-36', 'auto', {'name': 'vtkTracker'});
+</script>
+
+
+<% 
+
+String thisFooterScript = (String)request.getAttribute("footerScript") ;
+if (thisFooterScript!= null) {
+    out.println(thisFooterScript);
+}else{
+    out.println("");
+}
+%>
 	</body>

@@ -1,7 +1,7 @@
 <% 
 if (isImgExists){
  %>
-   <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+   <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <%}else{%>
    
    <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
@@ -50,7 +50,7 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
 
 var displayCurrent = function(){
 	
@@ -87,12 +87,12 @@ var displayCurrent = function(){
     imageTool.appendChild(currentDisplay);
     imageTool.appendChild(clearBoth);
     
-    <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
+    <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
     	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"Upload a new Photo\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
 	<%} %>
 }
 
-<%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
+<%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
 	var removeCurrent = function(){
 		$('#current-display').remove();
 		$('#clear-both').remove();
@@ -553,6 +553,7 @@ var displayCurrent = function(){
 				$('#upload-tool').remove();
 		
 		        upload();
+		        vtkTrackerPushAction('ModifyTroopImage');
 	    	}
 	    };
 	    
@@ -627,9 +628,9 @@ var dataURL = image_target.src;
 	    	}
 		}
 	
+	    $(".scroll").css("max-height","100%");
 	    $(window).resize(function() {
-	        $('#cropping-tool').css("max-width", $('#modal_upload_image').innerWidth());
-	        $('#cropping-tool').css("max-height", $('#resize-image').height())
+	        $('#cropping-tool').css("max-width", $('#upload-crop-area').innerWidth());
 	    });
 	
 	    image_target.onload = function(){

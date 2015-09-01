@@ -20,6 +20,8 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import java.rmi.ServerException;
 import org.apache.commons.net.util.Base64;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.vtk.utils.VtkUtil;
+
 import com.day.cq.commons.jcr.JcrUtil;
 
 @Component(label = "vtk upload assets", description = "vtk upload assets", metatype = true, immediate = true)
@@ -92,7 +94,7 @@ public class Asset extends SlingAllMethodsServlet {
 							name = name + ".png";
 
 						} else if (request.getParameter("upldTroopPic") != null) {
-							loc = "/content/dam/girlscouts-vtk/troop-data/"
+							loc = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
 									+ request.getParameter("councilId") + "/"
 									+ request.getParameter("troopId")
 									+ "/imgLib";

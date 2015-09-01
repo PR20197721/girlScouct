@@ -69,7 +69,6 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		ConfigListener {
 	// extends SlingSafeMethodsServlet
 	private static final long serialVersionUID = 8152897311719564370L;
-
 	private static final Logger log = LoggerFactory
 			.getLogger(SalesforceAuthServlet.class);
 	private static final String ACTION = "action";
@@ -81,6 +80,10 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private String clientId;
 	private String callbackUrl;
 	private String targetUrl;
+	private String vtkApiTroopUri;
+	private String vtkApiUserUri;
+	private String vtkApiContactUri;
+	private String vtkApiTroopLeadersUri;
 
 	@Reference
 	private ConfigManager configManager;
@@ -107,8 +110,16 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 System.err.println("test1");		
 		String action = request.getParameter(ACTION);
 		if (action == null) {
-System.err.println("test2");				
+			
 			;//salesforceCallback(request, response);
+/*
+			try {
+				salesforceCallback(request, response);
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+*/
 		} else if (action.equals(SIGNIN)) {
 System.err.println("test3");	
 			signIn(request, response);
@@ -128,6 +139,11 @@ System.err.println("test6");
 		clientId = (String) configs.get("clientId");
 		callbackUrl = (String) configs.get("callbackUrl");
 		targetUrl = (String) configs.get("targetUrl");
+		vtkApiTroopUri= (String) configs.get("vtkApiTroopUri");
+		vtkApiUserUri= (String) configs.get("vtkApiUserUri");
+		vtkApiContactUri= (String) configs.get("vtkApiContactUri"); 
+		vtkApiTroopLeadersUri= (String) configs.get("vtkApiTroopLeadersUri");
+		
 	}
 
 	@Activate
@@ -272,6 +288,7 @@ System.err.println("test6");
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
 				if (councilId == null || councilId.trim().equals("")) {
+
 					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
 							.getCouncilInClient(request));
 
@@ -288,6 +305,22 @@ System.err.println("test6");
 					redirectUrl = "/content/" + refererCouncil + "/";
 					redirectUrl = resourceResolver.map(redirectUrl);
 				}
+/*
+				    String refererCouncil = VtkUtil.getCouncilInClient(request);
+				    if (refererCouncil != null && !refererCouncil.isEmpty()) {
+				        redirectUrl = "/content/" + refererCouncil + "/";
+				        redirectUrl = resourceResolver.map(redirectUrl);
+				    }
+				} else {
+					redirectUrl = councilMapper.getCouncilUrl(councilId);
+				}
+			} catch (Exception e) {
+				String refererCouncil = VtkUtil.getCouncilInClient(request);
+			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
+			        redirectUrl = "/content/" + refererCouncil + "/";
+			        redirectUrl = resourceResolver.map(redirectUrl);
+			    }
+*/
 			}
 		}
 		if (redirectUrl == null) {
@@ -419,7 +452,7 @@ System.err.println("test6");
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
+			SlingHttpServletResponse response) throws IllegalAccessException {
 
 		HttpSession session = request.getSession();
 
@@ -444,6 +477,14 @@ System.err.println("test6");
 			setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
+		
+		
+		//set config items here
+		config.setVtkApiTroopUri( vtkApiTroopUri );
+		config.setVtkApiUserUri( vtkApiUserUri );
+		config.setVtkApiContactUri(vtkApiContactUri);
+		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
+		
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
 		try {
@@ -466,9 +507,20 @@ System.err.println("test6");
 					.getPermissionTokens());
 
 			// load config
+			/*
 			vtkUser.setCurrentYear(getCurrentYear(
 					request.getResourceResolver(), vtkUser.getApiConfig()
 							.getTroops().get(0).getCouncilCode()));
+
+		*/
+			
+			
+		// Set cookie troopDataPath 
+		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+		Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+
 		}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
@@ -570,7 +622,7 @@ System.err.println("tata url token revoke: "+url);
 		}
 		return isSucc;
 	}
-
+/* use VTKUTIL.getCurrentYear
 	private String getCurrentYear(ResourceResolver resourceResolver,
 			int councilId) {
 		String elem = null;
@@ -601,12 +653,13 @@ System.err.println("tata url token revoke: "+url);
 		}
 		return elem;
 	}
-
+*/
 	public void setCouncilInClient(
 			org.apache.sling.api.SlingHttpServletResponse response,
 			String councilCode) {
 		Cookie cookie = new Cookie("vtk_referer_council", councilCode);
 		cookie.setMaxAge(-1);
+		cookie.setPath("/");
 		response.addCookie(cookie);
 	}
 }

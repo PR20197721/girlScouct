@@ -3,3 +3,137 @@ $(document).foundation();
 var girlscouts = girlscouts || {};
 girlscouts.components = girlscouts.components || {};
 girlscouts.functions = girlscouts.functions || {};
+
+if (!Date.now) {
+	  Date.now = function now() {
+	    return new Date().getTime();
+	  };
+	}
+
+function retrieveEvents(path){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "update" },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        	if(json.data != undefined && json.data.length > 0){
+	        	var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
+	        	for(var i=0; i < json.data.length; i++){
+	        		navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + path + "', '" + json.data[i].href + "'); return false\"; /><a href=\"" + json.data[i].href + ".html\">" + json.data[i].name + "</li>";
+	        	}
+	        	navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl></div>";
+	        	$("#appended-event-cart").html(navList);
+        	}
+        	else {
+        		$("#appended-event-cart").html("");
+        	}
+        }
+	})
+	.fail(function(msg){
+		console.log("Event Cart update failed");
+	});
+}
+
+function deleteEvent(path, href){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "delete", href: href },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        	if(json.data != undefined && json.data.length > 0){
+	        	var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
+	        	for(var i=0; i < json.data.length; i++){
+	        		navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + path + "', '" + json.data[i].href + "'); return false\"; /><a href=\"" + json.data[i].href + ".html\">" + json.data[i].name + "</li>";
+	        	}
+	        	navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl></div>";
+	        	$("#appended-event-cart").html(navList);
+        	}
+        	else {
+        		$("#appended-event-cart").html("");
+        	}
+        }
+	})
+	.fail(function(msg){
+		console.log("Event Cart Deletion Failed");
+	});
+}
+
+function addToCart(path, eventPath){
+	$.ajax({
+		type: "POST",
+   		url: path,
+        data: { action: "add", eventPath: eventPath },
+        success: function(data){
+        	var json = JSON.parse(data);
+        	console.log("Response: " + json.output);
+        	console.log(json);
+        	if(json.data != undefined && json.data.length > 0){
+	        	var navList = "<div id=\"event-cart\"><dl class=\"accordion\" data-accordion><dt data-target=\"drop-down-cart\"><h6 class=\"on\">My Events</h6></dt><dd class=\"event-cart-navigation\" id=\"drop-down-cart\"><ul id=\"event-cart-nav-list\">";
+                for(var i=0; i < json.data.length; i++){
+                    navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + path + "', '" + json.data[i].href + "'); return false\"; /><a href=\"" + json.data[i].href + ".html\">" + json.data[i].name + "</li>";
+                }
+                navList = navList + "</ul><a class=\"button register-all\" onclick=\"console.log('Register All Clicked'); return false;\">REGISTER</a></dd></dl></div>";
+                $("#appended-event-cart").html(navList);
+        	}
+        	else {
+        		$("#appended-event-cart").html("");
+        	}
+            vtk_accordion();
+        }
+	})
+	.fail(function(msg){
+		console.log("Add to Cart failed");
+	});
+}
+
+function toggleParsys(s)
+{
+    var componentPath = s;
+
+    this.toggle = function()
+    {
+    	if (componentPath)
+        {
+    		var parsysComp = CQ.WCM.getEditable(componentPath);
+
+    		if(parsysComp.hidden == true){
+    			parsysComp.show();
+    		}
+    		else{
+    			parsysComp.hide();
+    		}
+        }
+    };
+
+    this.hideParsys = function()
+    {
+        if (componentPath)
+        {
+            var parsysComp = CQ.WCM.getEditable(componentPath);
+
+            if (parsysComp)
+            {
+                parsysComp.hide();
+            }
+        }
+    };
+
+    this.showParsys = function()
+    {
+        if (componentPath)
+        {
+            var parsysComp = CQ.WCM.getEditable(componentPath);
+
+            if (parsysComp)
+            {
+                parsysComp.show();
+            }
+        }
+    };
+
+    return this;
+};

@@ -276,20 +276,20 @@
 				out.println(yearPlanUtil.isYearPlanAltered(user, troop));
 				return;
 			case GetFinances:
-				financeUtil.getFinances(troop, Integer.parseInt(request
+				financeUtil.getFinances(user, troop, Integer.parseInt(request
 						.getParameter("finance_qtr")), user
 						.getCurrentYear());
 				return;
 			case UpdateFinances:
-				financeUtil.updateFinances(troop,
+				financeUtil.updateFinances(user, troop,
 						user.getCurrentYear(),
 						request.getParameterMap());
-				financeUtil.sendFinanceDataEmail(troop,
+				financeUtil.sendFinanceDataEmail(user, troop,
 						Integer.parseInt(request.getParameter("qtr")),
 						user.getCurrentYear());
 				return;
 			case UpdateFinanceAdmin:
-				financeUtil.updateFinanceConfiguration(troop,
+				financeUtil.updateFinanceConfiguration(user, troop,
 						user.getCurrentYear(),
 						request.getParameterMap());
 				return;
@@ -526,7 +526,7 @@
 			String councilId = request.getParameter("cid");
 
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 			for (int i = 0; i < milestones.size(); i++) {
 
 				Milestone m = milestones.get(i);
@@ -567,14 +567,19 @@
 				}
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones, councilId);
+			try{
+				yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 
 			String councilId = request.getParameter("cid");
 			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
+					.getCouncilMilestones(user,councilId);
 
 			Milestone m = new Milestone();
 			m.setBlurb(request.getParameter("blurb"));
@@ -727,7 +732,7 @@
 					java.util.List<MeetingE> meetings = new java.util.ArrayList();
 					meetings.add(_meeting);
 					troop.getYearPlan().setMeetingEvents(meetings);
-	System.err.println("tata: "+  _meeting.getUid() +" : "+ planView.getYearPlanComponent().getUid())	;			
+			
 //?if( ! _meeting.getUid().equals(  request.getParameter("reactjs") )){ _meeting=null;continue;}
 
 
@@ -807,8 +812,8 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
 					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ATTENDANCE_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ATTENDANCE_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
 					helper.setPermissions(permissions);
 					
 					
@@ -884,7 +889,7 @@ System.err.println("******* 2");
 				try {
 					if (troop.getYearPlan() != null) {
 						troop.getYearPlan() .setMilestones(
-							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+							yearPlanUtil.getCouncilMilestones(user,"" + troop.getSfCouncil()));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -894,14 +899,11 @@ System.err.println("******* 2");
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
 
-				for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++){
-						if (troop.getYearPlan().getMilestones().get(i)
-								.getDate() != null)
-							sched.put(troop.getYearPlan()
-									.getMilestones().get(i).getDate(),
-									troop.getYearPlan().getMilestones()
-											.get(i));
+				for (int i = 0; i < troop.getYearPlan().getMilestones().size(); i++){
+						if (troop.getYearPlan().getMilestones().get(i).getDate() != null && 
+								troop.getYearPlan().getMilestones().get(i).getShow())
+									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
+											troop.getYearPlan().getMilestones().get(i));
 				}
 
 				//edn milestone
@@ -1025,7 +1027,7 @@ System.err.println("******* 2");
 
 				Session __session = sessionFactory.getSession();
 
-				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"
+				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
 						+ troop.getTroop().getCouncilCode()
 						+ "/"
 						+ troop.getTroop().getTroopId()
@@ -1128,7 +1130,7 @@ System.err.println("******* 2");
 				}
 
                 //creates folder path if it doesn't exist yet
-                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String path = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();
@@ -1242,8 +1244,23 @@ System.err.println("******* 2");
 	            <label for="r_0"></label>
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
-	            <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
+	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	            
+	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+                           (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+                        Customize Your Troop Year   
+                 <%}else{ %>
+                       Create Your Own Year Plan
+                 <%} %>
+	            </a>
+	            <p>
+		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
+		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
+		                Select this option to create activities or add council activities to your calendar.
+		            <%}else{ %>
+	    	            Choose this option to create your own year plan using meetings from  our meeting library     
+		           <%} %>
+	            </p>
 	        </div>
 	      </div><!--/row-->
 	      

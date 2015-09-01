@@ -9,13 +9,15 @@
 	
 <%
 String activeTab = "milestones";
+boolean showVtkNav = true;
 
 int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 %>
-<%@include file="include/admin_tab_navigation.jsp"%>
 
+<div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content milestones meeting-detail">
+<div id="vtkNav"></div>
 	<div class="columns small-20 small-centered">
 		<p>Edit milestones, add dates, create new milestones, and set to
 			show in plans.</p>
@@ -28,7 +30,9 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 			<input type="hidden" id="cid" name="cid" value="<%=councilId%>" />
 			<% 
 				//If there are milestones show them in the input fields to view/edit
-    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
+    		try{
+    		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(user,councilId) ;
+
     		for(int i=0; i<milestones.size(); i++ ) { %>
 				<section class="row">
 						<div class="column large-1">
@@ -47,7 +51,10 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 							<input type="checkbox" id="ch_<%=i %>" name="show_ch[]"<%=milestones.get(i).getShow()!=null && milestones.get(i).getShow().booleanValue()? "checked" : "unchecked" %> /><label for="ch_<%=i %>"></label>
 						</div>
 				</section>
-				<%}%>
+				<%}
+			}catch(Exception e){
+    			e.printStackTrace();
+    		}%>
 				<section class="row">
 					<div class="column large-10">
 						<a onclick="newEntry()" class="add-btn" title="add-entry"><i class="icon-button-circle-plus"></i>Add a Milestone</a>
@@ -135,5 +142,5 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
  	};
  
 
-	
+ 	loadNav('milestones');
 </script>

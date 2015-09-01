@@ -49,8 +49,10 @@
 		<p>
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
+                <!--
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
 				<input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
+                -->
 				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>
@@ -64,8 +66,10 @@
 		<p>
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
+                <!--
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
 				<input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
+                -->
 				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>

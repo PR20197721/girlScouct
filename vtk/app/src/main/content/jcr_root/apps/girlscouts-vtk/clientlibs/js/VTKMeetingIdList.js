@@ -31,7 +31,7 @@
 	},
 	helper.updateOptions = function() {
 	    var http = CQ.shared.HTTP;
-	    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
+	    var base = '/content/girlscouts-vtk/meetings/myyearplan2015/';
 		var options = new Array();
 	    var levels = ['brownie', 'junior', 'daisy'];
 	

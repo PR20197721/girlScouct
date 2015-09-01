@@ -1,5 +1,9 @@
 package org.girlscouts.vtk.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
@@ -8,18 +12,53 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
-public class VtkUtil {
+@Component(metatype = true, immediate = true)
+@Service(value = VtkUtil.class)
+public class VtkUtil  implements ConfigListener{
+	
+	@Reference
+	ConfigManager configManager;
+	
+	private static String gsNewYear;
+	private static String vtkHolidays[];
+	
+	@SuppressWarnings("rawtypes")
+	public void updateConfig(Dictionary configs) {
+		gsNewYear = (String) configs.get("gsNewYear");
+		vtkHolidays= (String[]) configs.get("vtkHolidays");
+	}
+	
+
+	@Activate
+	public void init() {
+		configManager.register(this);
+	}
+	
+	//public void initMe(){configManager.register(this);}
+	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
 	public static final SimpleDateFormat FORMAT_MMddYYYY = new SimpleDateFormat("MM/dd/yyyy");
@@ -35,6 +74,7 @@ public class VtkUtil {
 	public static final SimpleDateFormat FORMAT_FULL = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
 	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat FORMAT_YYYYMMdd = new SimpleDateFormat("yyyyMMdd");
 
 	public static boolean isLocation(java.util.List<Location> locations,
 			String locationName) {
@@ -100,9 +140,10 @@ public class VtkUtil {
 	
 	public static final int getMeetingEndTime( Meeting meeting ){
 		int total =0;
-		for(int i=0; i< meeting.getActivities().size(); i++){
-			total += meeting.getActivities().get(i).getDuration();
-		}
+		if(meeting.getActivities()!=null)
+			for(int i=0; i< meeting.getActivities().size(); i++){
+				total += meeting.getActivities().get(i).getDuration();
+			}
 		
 		
 		return total;
@@ -202,17 +243,131 @@ public static String getCouncilInClient(HttpServletRequest request){
 	if (cookies != null) {
 		 for (int i = 0; i < cookies.length; i++) {
 			if (cookies[i].getName().equals("vtk_referer_council")) {
-				
 						return cookies[i].getValue();
-					
-
 			}
-
 		}
 	}
 	return null;
 }
 
 
+public static String getYearPlanBase(User user, Troop troop){
+
+	/*
+	String ypBase= "/vtk";
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
+		ypBase += now.get(java.util.Calendar.YEAR) +1;
+	else
+		ypBase += now.get(java.util.Calendar.YEAR);
+	
+	return ypBase+"/";
+	*/
+	
+	int currentGSYear= getCurrentGSYear();
+	if( currentGSYear==2014)
+		return "/vtk/";
+	else
+		return "/vtk"+ currentGSYear +"/";
+	
+	
+}
+
+/* TODO: this is used by ReplicationManager. By using this method instead of the static one,
+ * ReplicationManager waits VtkUtil to start first.
+ */
+public String _getYearPlanBase(User user, Troop troop) {
+    return VtkUtil.getYearPlanBase(user, troop);
 
 }
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSYear(){
+	String _gsNewYear = gsNewYear;
+	//-if( _gsNewYear==null )	_gsNewYear= "0801";
+	
+	int month = Integer.parseInt( _gsNewYear.substring(0, 2) );
+	int date=  Integer.parseInt( _gsNewYear.substring(2) );
+	java.util.Calendar now= java.util.Calendar.getInstance();
+	//if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
+	if( now.get(java.util.Calendar.MONTH ) >= (month-1)) //after Aug 1 -> NEXT YEAR		
+		return now.get(java.util.Calendar.YEAR) ;
+	else
+		return now.get(java.util.Calendar.YEAR) -1;	
+}
+
+/* TODO: this is used by ReplicationManager. By using this method instead of the static one,
+ * ReplicationManager waits VtkUtil to start first.
+ */
+public int _getCurrentGSYear() {
+    return VtkUtil.getCurrentGSDate();
+}
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSMonth(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(0, 2) );
+}
+
+
+/*GS Year starts Aug 1 */
+public static int getCurrentGSDate(){
+	String _gsNewYear = gsNewYear;
+	return  Integer.parseInt( _gsNewYear.substring(2) );
+}
+
+public static String getNewGSYearDateString() {
+    return gsNewYear;
+}
+
+public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop){
+
+	String[] mappings = vtkHolidays;
+	Map<Long, String> councilMap = new HashMap<Long, String>();
+	if (mappings != null) {
+		for (int i = 0; i < mappings.length; i++) {
+			String[] configRecord = mappings[i].split("::");
+			if (configRecord.length >= 2) {
+				try{
+					councilMap.put( Long.valueOf( FORMAT_YYYYMMdd.parse( configRecord[0] ).getTime() ), configRecord[1]);
+				}catch(Exception e){e.printStackTrace();}
+			} else {
+				System.err.println("Malformatted vtkHoliday mapping record: "
+						+ mappings[i]);
+			}
+		}
+	}
+	return councilMap;
+	
+}
+
+
+/**
+ * This method makes a "deep clone" of any Java object it is given.
+ */
+ public static Object deepClone(Object object) {
+   try {
+     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+     ObjectOutputStream oos = new ObjectOutputStream(baos);
+     oos.writeObject(object);
+     ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+     ObjectInputStream ois = new ObjectInputStream(bais);
+     return ois.readObject();
+   }
+   catch (Exception e) {
+     e.printStackTrace();
+     return null;
+   }
+ }
+
+ 
+ 
+ public static boolean hasPermission(Troop troop, int permissionId) {
+		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
+		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
+			return true;
+		}
+		return false;
+	}
+}//end class

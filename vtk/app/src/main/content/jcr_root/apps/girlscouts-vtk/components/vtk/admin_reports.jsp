@@ -1,7 +1,7 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<!--  %@include file="include/session.jsp"% -->
 <% 
     String activeTab = "reports";
 %>
@@ -10,14 +10,38 @@
 <div id="vtkNav"></div>
   <div class="column large-23 large-centered">       
   <% 
-if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
+  HttpSession session = request.getSession();
+  User user = ((org.girlscouts.vtk.models.User) session
+          .getAttribute(org.girlscouts.vtk.models.User.class
+                  .getName()));
+  
+  //security concern. 
+  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+ 
+  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+        
+		    %>  <div class="columns large-20 large-centered">
+		                <p>
+		                Sorry! You currently don't have permission to view this tab. For questions, click Contact Us at the top of the page.
+		                </p>
+		      </div>
+		      </div>
+		     </div> <!-- end panelWrapper -->
+		     <script>loadNav('reports')</script>
+		    <%
+		    return;
+		
+  }else{
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
 	ageGroups.add("junior");
 
-	String cid = troop.getSfCouncil();
+	ageGroups.add("cadette");
+	ageGroups.add("senior");
+	ageGroups.add("ambassador");
+	
 	if ( request.getParameter("cid") != null) {
 		cid =  (String)request.getParameter("cid");
 	}
@@ -26,6 +50,7 @@ if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeature
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
 	    Map<String, String> yearPlanNames = councilRpt.getDistinctPlanNamesPath(brownies);
+	   
 	    count++;
   %>
     <div class="row">
@@ -47,17 +72,22 @@ if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeature
                   while( itr.hasNext()){
                 	  
                 	  String yearPlanPath = (String)itr.next();
+  	  
                 	  String yearPlanName= yearPlanNames.get(yearPlanPath);
-                	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
-                	  int countAltered = councilRpt.countAltered(yearPlanNameBeans);
+ //out.println(yearPlanPath +" : "+ yearPlanName);                 	  
+                	 // java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+                	 java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
+                     
+                	 int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                 	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
+                	 
                 	  y++;
                     %>
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
                       <dt data-target="panel<%=count %>_<%=y %>b" class="clearfix">
                         <span class="name column large-9" onclick="councilRpt('<%=yearPlanPath %>', '<%=cid%>')"><%=yearPlanName %></span>
-                        <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
+                        <span class="column large-4 text-center"><%=yearPlanNameBeans.size() %></span>
                         <span class="column large-4 text-center"><%=countAltered %></span>
                         <span class="column large-4 text-center"><%=countActivity %></span>
                       </dt>
@@ -67,7 +97,7 @@ if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeature
                         <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                           <div class="clearfix">
                             <span class="column large-4 text-center large-push-9">
-                              <a title="Troop 245" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>"><span id="<%=crb.getTroopId()%>"><%=crb.getTroopId() %></span></span></a>
+                              <a title="<%=crb.getTroopId() %>" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=cid%>&tid=<%=crb.getTroopId()%>"><span id="<%=crb.getTroopId()%>"><%=(crb.getTroopName()!=null && !crb.getTroopName().equals("")) ? crb.getTroopName() : crb.getTroopId() %></span></span></a>
                             </span>
                             <p class="<%=crb.isAltered() ? "check " : "" %> column large-4 text-center large-push-9"></p>
                             <p class="<%=crb.isActivity() ? "check " : "" %> column large-4 text-center"></p>

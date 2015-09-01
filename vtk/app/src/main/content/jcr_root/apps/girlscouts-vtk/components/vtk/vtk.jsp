@@ -1,4 +1,2 @@
-
-
 <%@include file="plan.jsp" %>
 

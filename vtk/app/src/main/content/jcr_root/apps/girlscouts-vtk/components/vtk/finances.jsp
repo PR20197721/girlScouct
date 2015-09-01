@@ -19,13 +19,13 @@
     boolean showVtkNav = true;
     int qtr = 1;
     boolean isQuarterly = true;
-    FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());    
+    FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());    
 %>
 <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail">
 <div id="vtkNav"></div>
 <%
-	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_FINANCE_FEATURE)) {
+if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
 		if(financeConfig.isPersisted()){
 			try { 
@@ -40,7 +40,7 @@
 		        }catch(NumberFormatException nfe){
 							nfe.printStackTrace();
 		        }    
-		        Finance finance = financeUtil.getFinances(troop, qtr, user.getCurrentYear());
+		        Finance finance = financeUtil.getFinances(user, troop, qtr, user.getCurrentYear());
 		        List<String> expenseFields = financeConfig.getExpenseFields();
 		        List<String> incomeFields = financeConfig.getIncomeFields();
 		        
@@ -50,17 +50,19 @@
         
 			String financeFieldTag = "";
 			String save_btn = "";
-			if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
-	
+			 if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){
 				financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 			} else{
 				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
-			save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">SEND</a>";
+			    save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">SEND</a>";
+			    
+	            
 			}
 %>
 <%@include file="include/finances_navigator.jsp"%>
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
 	<form class="cmxform" id="financeForm"  onchange="enableSaveButton()">
+		<p id="error-message" class="error-message"></p>
 		<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
 		<div class="errorMsg error"></div>
 		<div class="row">
@@ -123,22 +125,12 @@
 		} else{
 			%> 
 			<div class="columns large-20 large-centered">
-				<h3>No Financial Configuration Data exists.</h3>
-				<h3>The Finance Administration Form must be filled out by the Troop Administrator.</h3> 
+				<p>Oh no! The Finance tab haven't been activated yet. We're working on it--please check back soon.
+				 </p>
 			</div>
 			<% 
 		}
-	} else {
-%>
-<div class="columns large-20 large-centered">
-	<h3>Coming in future releases:</h3> 
-	<ul>
-		<li>- Create and manage your troop's financial report</li>
-		<li>- Share with council personnel and with troop parents</li>
-	</ul>
-</div>
-<%
-	}
+	} 
 %>
 </div>
 <script>loadNav('finances');</script>

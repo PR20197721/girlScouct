@@ -2,10 +2,16 @@ package org.girlscouts.vtk.models;
 
 public class CouncilRptBean {
 
-	private String yearPlanName,libPath ,ageGroup, yearPlanPath, troopId; 
+	private String yearPlanName,libPath ,ageGroup, yearPlanPath, troopId, troopName; 
 	private boolean isAltered, isActivity;
 	
 	
+	public String getTroopName() {
+		return troopName;
+	}
+	public void setTroopName(String troopName) {
+		this.troopName = troopName;
+	}
 	public String getYearPlanName() {
 		return yearPlanName;
 	}

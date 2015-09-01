@@ -30,7 +30,7 @@ int yp_2plus_withTime=0;
 
 javax.jcr.Session jcr_session = (javax.jcr.Session)resourceResolver.adaptTo(javax.jcr.Session.class);
 
-String sql= "select * from nt:unstructured where jcr:path like '/vtk/%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode'";
+String sql= "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%/users/' and ocm_classname ='org.girlscouts.vtk.models.JcrNode'";
 javax.jcr.query.QueryManager qm = jcr_session.getWorkspace().getQueryManager();
 javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 javax.jcr.query.QueryResult result = q.execute();	
