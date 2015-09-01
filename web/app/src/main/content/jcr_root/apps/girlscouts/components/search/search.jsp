@@ -1,4 +1,3 @@
-<%@page import="java.util.ArrayList"%>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -7,10 +6,11 @@ java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List, java.util.regex.*, java.text.*" %>
+java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
-<%!public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
+<%!
+public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
 	Map mapFullText = new HashMap();
 	mapFullText.put("path",path);
 	mapFullText.put("fulltext", escapedQuery);
@@ -63,9 +63,6 @@ hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,escapedQuery));
 hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
 
-
-
-//List<Hit> hits = result.getHits();
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
