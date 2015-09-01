@@ -50,8 +50,8 @@ public class SelectiveClean
     		return;
     	} 
     	
+    	File tmpTargetDir = new File(tmpTarget);
     	try {
-	    	File tmpTargetDir = new File(tmpTarget);
 			if(tmpTargetDir.exists()) {
 		    	FileUtils.deleteDirectory(tmpTargetDir);
 			}
@@ -74,8 +74,16 @@ public class SelectiveClean
 	    	tmpTargetDir.renameTo(targetDir);
 	    	
 		} catch (IOException e) {
-			e.printStackTrace();
-			throw new MojoExecutionException("Sorry boss, I dun screwed up", e);
+			throw new MojoExecutionException("Sorry boss, I dun screwed up!", e);
+		} finally {
+			//cleanup
+			if(tmpTargetDir.exists()) {
+		    	try {
+					FileUtils.deleteDirectory(tmpTargetDir);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}			
 		}
     	    	
     }
