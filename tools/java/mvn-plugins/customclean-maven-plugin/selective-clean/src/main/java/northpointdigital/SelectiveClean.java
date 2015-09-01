@@ -65,6 +65,7 @@ public class SelectiveClean
 	           	    continue;
 	        	}
 	        	Path tmpPath = FileSystems.getDefault().getPath(tmpTarget, p);
+	        	tmpPath.toFile().getParentFile().mkdirs();
 	            Files.move(origPath, tmpPath);	        	
 	    	}
 	    	
