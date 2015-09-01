@@ -63,15 +63,6 @@
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>2.6.1</version>
                 <configuration>
-                  <filesets>
-                    <fileset>
-                      <directory>target</directory>
-                      <excludes>
-                        <exclude>rubygems</exclude>
-                        <exclude>test-classes</exclude>
-                      </excludes>
-                    </fileset>
-                  </filesets>
                     <skip>true</skip>
                 </configuration>
             </plugin>
