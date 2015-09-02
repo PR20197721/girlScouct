@@ -96,6 +96,7 @@ public class SalesforceDAO {
 			}
 			//-rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
+	System.err.println("Userv1.2 resp: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -778,7 +779,7 @@ return contacts;
 public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
 	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
 	java.util.List<Troop> troops_withOutAssociation = parseTroops( parentTroops );
-	java.util.List<Troop> merged_troops = mergeTroops( troops_withAssociation, troops_withOutAssociation );
+	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation, troops_withAssociation );
 	return merged_troops;
 }
 
@@ -791,25 +792,26 @@ public java.util.List<Troop> parseTroops( JSONArray results ){
 		Troop troop = new Troop();
 		try {
 			troop.setCouncilCode(results.getJSONObject(i)
-					.getJSONObject("Parent").getInt("Council_Code__c")); 
+					.getInt("Council_Code__c")); 
 			troop.setCouncilId(results.getJSONObject(i)
-					.getJSONObject("Parent").getString("Account__c"));
+					.getString("Account__c"));
 			troop.setGradeLevel(results.getJSONObject(i)
-					.getJSONObject("Parent")
+					
 					.getString("Program_Grade_Level__c"));
 					
 			troop.setTroopId(results.getJSONObject(i).getString(
-					"ParentId"));
+					"Id"));//	"ParentId"));
 			troop.setTroopName(results.getJSONObject(i)
-					.getJSONObject("Parent").getString("Name"));
-			
+					.getString("Name"));
+			/*
 			try{
 				
 				troop.setRole(results.getJSONObject(i).getString(
 					"Job_Code__c"));
 			
 			}catch(Exception e){troop.setRole("PA"); e.printStackTrace();}
-			
+			*/
+			troop.setRole("PA");
 			
 			
 			org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
