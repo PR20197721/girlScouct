@@ -101,7 +101,6 @@ public class SalesforceDAO {
 			}
 			rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
-	System.err.println("for SANJAY user: "+ rsp);		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -124,8 +123,7 @@ public class SalesforceDAO {
 							user.setEmail(results.getJSONObject(i)
 									.getString("Email"));
 						} catch (Exception e) {
-							System.err
-									.println("SAlesforceDAO.getUser: no email");
+							log.error("SalesforceDAO.getUser: no email");
 						}
 						try {
 							user.setPhone(results.getJSONObject(i)

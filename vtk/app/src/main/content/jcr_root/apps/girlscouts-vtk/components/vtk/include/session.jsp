@@ -22,10 +22,10 @@
 
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
-
+	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {};
+	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
 <% 
 
