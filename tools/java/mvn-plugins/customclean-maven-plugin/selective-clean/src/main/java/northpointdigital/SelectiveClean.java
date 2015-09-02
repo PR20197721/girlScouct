@@ -37,11 +37,6 @@ public class SelectiveClean
     {
    	    getLog().info( "SelectiveClean maven plugin activated" );
     	
-   	    if(preserveInTarget == null || preserveInTarget.length == 0) {
-       	    getLog().info( "SelectiveClean: no preserveInTarget values configured, so deleting entire target dir" );
-    		return;
-   	    }
-   	    
     	String tmpTarget = target + ".tmp";
     	    	
     	File targetDir = new File(target);
@@ -57,18 +52,22 @@ public class SelectiveClean
 			}
 			tmpTargetDir.mkdir();
     	    	
-	    	for(String p:preserveInTarget) {
-	       	    getLog().info( "SelectiveClean preserving " + p );
-	        	Path origPath = FileSystems.getDefault().getPath(target, p);
-	        	if(! Files.exists(origPath)) {
-	           	    getLog().info( "SelectiveClean: path not found, skipping " + origPath );
-	           	    continue;
-	        	}
-	        	Path tmpPath = FileSystems.getDefault().getPath(tmpTarget, p);
-	        	tmpPath.toFile().getParentFile().mkdirs();
-	            Files.move(origPath, tmpPath);	        	
-	    	}
-	    	
+	   	    if(preserveInTarget == null || preserveInTarget.length == 0) {
+	       	    getLog().info( "SelectiveClean: no preserveInTarget values configured, so deleting entire "+target+" dir" );
+	   	    } else {	   	    
+		    	for(String p:preserveInTarget) {
+		        	Path origPath = FileSystems.getDefault().getPath(target, p);
+		       	    getLog().info( "SelectiveClean preserving " + origPath );
+		        	if(! Files.exists(origPath)) {
+		           	    getLog().info( "SelectiveClean: path not found, skipping " + origPath );
+		           	    continue;
+		        	}
+		        	Path tmpPath = FileSystems.getDefault().getPath(tmpTarget, p);
+		        	tmpPath.toFile().getParentFile().mkdirs();
+		            Files.move(origPath, tmpPath);	        	
+		    	}
+	   	    }
+	   	    
 	    	//equivalent to rm -rf
 	    	FileUtils.deleteDirectory(targetDir);
 	    	tmpTargetDir.renameTo(targetDir);
