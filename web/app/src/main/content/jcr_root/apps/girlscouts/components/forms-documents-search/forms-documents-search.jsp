@@ -41,7 +41,7 @@ if (request.getParameterValues("tags") != null) {
 
 Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
 try{
-	formsDocuImpl.executeSearch(slingRequest, q, path, tags, formDocumentContentPath,facetsAndTags);
+	formsDocuImpl.executeSearch(resourceResolver, q, path, tags, formDocumentContentPath,facetsAndTags);
 }catch(Exception e){}
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
 String suffix = slingRequest.getRequestPathInfo().getSuffix();
