@@ -71,12 +71,7 @@ public class SalesforceDAO {
 		
 		System.err.println( "tata userSFApi: "+ url );
 		HttpGet method = new HttpGet( url );
-				/*
-				  apiConfig.getWebServicesUrl()
-				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-				//-+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId()); 
-				  */
-		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+		//-method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
 		try {
 			connection = connectionFactory.getConnection();
@@ -99,7 +94,7 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"users\":" + rsp + "}";		
+			//-rsp = "{\"users\":" + rsp + "}";		
 			log.debug(">>>>> " + rsp);	
 	System.err.println("for SANJAY user: "+ rsp);		
 			try {
@@ -108,7 +103,7 @@ public class SalesforceDAO {
 				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
-					//int current = results.length() - 1;
+					
 
 					try {
 						try {
@@ -177,8 +172,11 @@ public class SalesforceDAO {
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					java.util.List<Troop> troops = troopInfo(user, apiConfig,
-							user.getSfUserId());
+					
+					
+					JSONArray parentTroops = response.getJSONArray("camps");					
+					//-moved into getTroops_merged:parent + dp == java.util.List<Troop> troops = troopInfo(user, apiConfig, user.getSfUserId(), parentTroops);
+					java.util.List<Troop> troops = getTroops_merged(user, apiConfig, user.getSfUserId(), parentTroops);
 					apiConfig.setTroops(troops);
 
 					return user;
@@ -775,7 +773,97 @@ return contacts;
 
 }
 
+
+
+
+
+public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
+	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
+	java.util.List<Troop> troops_withOutAssociation = parseTroops( parentTroops );
+	java.util.List<Troop> merged_troops = mergeTroops( troops_withAssociation, troops_withOutAssociation );
+	return merged_troops;
 }
 
 
+public java.util.List<Troop> parseTroops( JSONArray results ){
+	
+	java.util.List<Troop> troops= new java.util.ArrayList<Troop>();
+	for (int i = 0; i < results.length(); i++) {
+		
+		Troop troop = new Troop();
+		try {
+			troop.setCouncilCode(results.getJSONObject(i)
+					.getJSONObject("Parent").getInt("Council_Code__c")); 
+			troop.setCouncilId(results.getJSONObject(i)
+					.getJSONObject("Parent").getString("Account__c"));
+			troop.setGradeLevel(results.getJSONObject(i)
+					.getJSONObject("Parent")
+					.getString("Program_Grade_Level__c"));
+					
+			troop.setTroopId(results.getJSONObject(i).getString(
+					"ParentId"));
+			troop.setTroopName(results.getJSONObject(i)
+					.getJSONObject("Parent").getString("Name"));
+			
+			try{
+				
+				troop.setRole(results.getJSONObject(i).getString(
+					"Job_Code__c"));
+			
+			}catch(Exception e){troop.setRole("PA"); e.printStackTrace();}
+			
+			
+			
+			org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
+					.valueOf(troop.getRole());
+			
+			 
+			
+			troop.setPermissionTokens(Permission
+					.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+			  
+			  
+			if( rollType.getRollType().equals("PA")){
+				  troop.getPermissionTokens().addAll(Permission
+						.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+			
+			  }
+			  
+			if( rollType.getRollType().equals("DP")){
+				  troop.getPermissionTokens().addAll(Permission
+						.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+			  }
+			  
+			troops.add(troop);
+		}catch(Exception e){e.printStackTrace();}
+		
+		}//end for
+		
+			 
+				
+		return troops;
+			
+	
+}
+
+
+public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.List<Troop> B ){
+	
+	if( A==null || A.size()<=0 ) return B;
+	if( B==null || B.size()<=0 ) return A;
+	for(int i=0;i<A.size();i++){
+		Troop troop = A.get(i);
+		for(int y=0;y<B.size();y++){
+			Troop _troop = B.get(y);
+			if( _troop.getTroopId().equals( troop.getTroopId())){
+				
+				//merge permission into troop A
+				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
+				
+			}
+		}
+	}
+	return A;
+}
+}//end class
 
