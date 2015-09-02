@@ -44,7 +44,7 @@
  
  public String getImgPath(Node nNode){
 	try{ 
-  		return(nNode.hasProperty("middle/par/text/image/fileReference") ? nNode.getProperty("middle/par/text/image/fileReference").getString() : "");
+  		return nNode.getPath()+"/middle/par/text/image";
 	}catch(Exception e){ return "";}
  }
  
