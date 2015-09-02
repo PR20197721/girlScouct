@@ -48,6 +48,7 @@ import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
 import org.girlscouts.vtk.sso.saml.AuthRequest;
@@ -100,6 +101,9 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	private ResourceResolver resourceResolver;
+
+	@Reference
+	private TroopHashGenerator troopHashGenerator;
 	
 	@Reference
 	private UserUtil userUtil;
@@ -416,7 +420,13 @@ System.err.println("test6");
 		config.setCallbackUrl(callbackUrl);
 		config.setClientId(clientId);
 		config.setOAuthUrl(OAuthUrl);
-
+		
+		//set config items here
+		config.setVtkApiTroopUri( vtkApiTroopUri );
+		config.setVtkApiUserUri( vtkApiUserUri );
+		config.setVtkApiContactUri(vtkApiContactUri);
+		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
+		
 		HttpSession session = request.getSession();
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
@@ -431,6 +441,10 @@ System.err.println("test6");
 		}
 		session.setAttribute(User.class.getName(), user);
 		config.setUser(user);
+		
+		
+		
+		
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {

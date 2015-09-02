@@ -37,7 +37,12 @@ import org.osgi.service.component.ComponentContext;
 
 		@Property(name = "defaultBranch", label = "Default Branch", description = "Default branch if council mapping not found. e.g. girlscouts-usa") ,
 @Property(name = "gsNewYear", label = "gsNewYear", description = "gsNewYear"),
+
 @Property(name = "vtkApiTroopUri", label = "vtkApiTroopUri", description = "vtkApiTroopUri"),
+@Property(name = "vtkApiUserUri", label = "vtkApiUserUri", description = "vtkApiUserUri"),
+@Property(name = "vtkApiContactUri", label = "vtkApiContactUri", description = "vtkApiContactUri"),
+@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
+
 @Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
 @Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
 
