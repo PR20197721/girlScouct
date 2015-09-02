@@ -517,11 +517,13 @@ function createNewCustActivity(){
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
+
 	
 	if( document.getElementById("newCustActivity") ){
 		document.getElementById("newCustActivity").disabled = true;	
 	}
 	
+
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
