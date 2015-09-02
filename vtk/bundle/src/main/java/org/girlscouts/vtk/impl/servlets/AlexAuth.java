@@ -83,7 +83,7 @@ public class AlexAuth implements javax.servlet.Filter{
 		
 		
 		
-
+/*
 		
 		HttpServletRequest request = (HttpServletRequest) arg0;
 		HttpServletResponse response = (HttpServletResponse) arg1;
@@ -117,6 +117,7 @@ System.err.println("tata filter: "+ request.getPathInfo()+	" : "+	request.getCon
 			//response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout");
 			return;
 		}
+		*/
 	}
 	
 	//@Activate
