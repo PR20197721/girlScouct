@@ -4,14 +4,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-<<<<<<< HEAD
+
 
 import org.apache.commons.codec.binary.Base64;
-=======
+
 import java.util.Dictionary;
 import java.util.Set;
 
->>>>>>> root
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;

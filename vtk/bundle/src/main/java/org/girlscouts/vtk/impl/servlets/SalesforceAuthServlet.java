@@ -437,11 +437,16 @@ System.err.println("test6");
 			// CHN to LOAD PERMISSION HERE
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
+			
 			// load config
+			vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
+			/*
 			vtkUser.setCurrentYear(getCurrentYear(
 					request.getResourceResolver(), vtkUser.getApiConfig()
 							.getTroops().get(0).getCouncilCode()));
-		}
+		
+			 */
+			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
 		
