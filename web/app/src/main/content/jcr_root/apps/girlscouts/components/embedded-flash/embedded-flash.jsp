@@ -17,6 +17,6 @@
         //     this.element.setHeight(this.element.getHeight() + iframe.getHeight());
         // }
         %><div><%= html %></div>
-        <script><%= javascript %></script>
+        <script><%= javascript %></script><%
     }
 %>
