@@ -48,7 +48,9 @@ import com.day.cq.tagging.TagManager;
 public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	@Reference
 	FacetBuilder facetBuilder;
-
+	@Reference
+	QueryBuilder queryBuilder;
+	
 	private long startTime, endTime;
 	
 	private static Logger log = LoggerFactory.getLogger(FormsDocumentsSearchImpl.class);
@@ -57,7 +59,6 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	private final String COUNCIL_SPE_PATH = "/etc/tags/";
 
 	private SlingHttpServletRequest slingRequest;
-	private QueryBuilder queryBuilder;
 
 	private Map<String, List<FacetsInfo>> facets;
 	private SearchResultsInfo searchResultsInfo;
@@ -66,49 +67,38 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 	public FormsDocumentsSearchImpl(){}
 
-	private Map<String, List<FacetsInfo>> loadFacets(String councilSpPath){
+	public Map<String, List<FacetsInfo>> loadFacets(SlingHttpServletRequest slingRequest,String councilName){
 		Map<String, List<FacetsInfo>> fts = null;
-		log.info("councilSpPath  [" +councilSpPath +"]");
-			fts = facetBuilder.getFacets(this.slingRequest, this.queryBuilder, councilSpPath);
+		if(councilName!=null && !councilName.isEmpty()  ){
+			String councilSpPath = COUNCIL_SPE_PATH+councilName;
+			log.info("councilSpPath  [" +councilSpPath +"]");
+			fts = facetBuilder.getFacets(slingRequest, queryBuilder, councilSpPath);
 			if(fts==null){
-				throw null;
+				log.error("Facets [" +councilSpPath +"] does not exists fall-back to default" );
+				fts = facetBuilder.getFacets(slingRequest, this.queryBuilder, FACETS_PATH);
 			}
+		}else{
+			log.error("coucilName empty." );
+		}
 		return fts;
 	}
 	
-	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] checkedTags,String councilSpecificPath, String formDocumentContentPath){
-		this.queryBuilder = queryBuilder;
+	public void executeSearch(SlingHttpServletRequest slingRequest,String q, String path,String[] checkedTags, String formDocumentContentPath, Map<String, List<FacetsInfo>> facets){
 		this.slingRequest = slingRequest;
-		
-		if(!councilSpecificPath.isEmpty() && councilSpecificPath!=null){
-			String councilSpPath=COUNCIL_SPE_PATH+councilSpecificPath;
-			try{
-				this.facets = loadFacets(councilSpPath);
-			}catch(Exception e){
-				log.error("Facets [" +COUNCIL_SPE_PATH +"] does not exists fall-back to default" );
-				this.facets = loadFacets(FACETS_PATH);
-			}
-		}
+
 		try{
-			documentsSearch(path,q,checkedTags,formDocumentContentPath);
+			documentsSearch(path,q,checkedTags,formDocumentContentPath,facets);
 		}catch(RepositoryException re){}
 
 	}
 
-	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
+	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath,Map<String, List<FacetsInfo>> facets) throws RepositoryException{
 
 		startTime = new Date().getTime();
 		System.out.println("Start Time: " + startTime);
 		
 		searchResultsInfo = new SearchResultsInfo();
-		
-//		Map<String,String> mapPath = new HashMap <String,String>();
-//		
-//		mapPath.put("group.p.or","true");
-//		mapPath.put("group.1_group.path", formDocumentContentPath);
-//		mapPath.put("group.2_group.path",path);
-		
-		
+				
 		List<Hit> searchTermHits = new ArrayList<Hit>();
 		searchTermHits.addAll(performContentSearch(getPredicateGroup(formDocumentContentPath, q, tags),q));
 		searchTermHits.addAll(performContentSearch(getPredicateGroup(path, q, tags),q));
@@ -145,7 +135,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		}
 		
 		this.searchResultsInfo.setResultsHits(sortedList);
-		this.searchResultsInfo = combineSearchTagsCounts();
+		this.searchResultsInfo = combineSearchTagsCounts(facets);
 		
 		endTime = new Date().getTime();
 		System.out.println("End Time: " + endTime);
@@ -153,13 +143,13 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		
 	}
 	
-	private SearchResultsInfo combineSearchTagsCounts() throws RepositoryException
+	private SearchResultsInfo combineSearchTagsCounts(Map<String, List<FacetsInfo>> facets) throws RepositoryException
 	{
 		
 		//Iterator <String> everyThingFacets=null;
 		List<FacetsInfo> facetsInfo = null;
 		try{
-			 facetsInfo = this.facets.get(FORM_DOC_CATEGORY);
+			 facetsInfo = facets.get(FORM_DOC_CATEGORY);
 		}catch(Exception e){
 			log.error("No Forms and Documents Tags Found in the /etc/tags/" +e.getMessage());
 		}

@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, com.day.cq.search.QueryBuilder,java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
+<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -15,11 +15,9 @@ if(formDocumentContentPath.isEmpty()){
 	//formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
 	//change default content path to current page.
 	formDocumentContentPath = currentPage.getPath();
-
 }
 
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
-QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
 String param ="";
 
@@ -40,10 +38,11 @@ if (request.getParameterValues("tags") != null) {
 	}
 	
 }
+
+Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
 try{
-	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, currentPage.getAbsoluteParent(1).getName(),formDocumentContentPath);
+	formsDocuImpl.executeSearch(slingRequest, q, path, tags, formDocumentContentPath,facetsAndTags);
 }catch(Exception e){}
-Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
 String suffix = slingRequest.getRequestPathInfo().getSuffix();
 if (suffix != null) {
@@ -86,7 +85,6 @@ String placeHolder = "Keyword Search";
 			<div id="title">Categories</div>
 			<ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
 <%
-
 
 List fdocs = facetsAndTags.get("forms_documents");
 // Here if we don't have forms_document page shouldn't blow-up
