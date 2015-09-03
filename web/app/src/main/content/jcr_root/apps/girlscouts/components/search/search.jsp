@@ -84,6 +84,8 @@ hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
 			String path = docHit.getURL();
 			int idx = path.lastIndexOf('.');
 			String extension = idx >= 0 ? path.substring(idx + 1) : "";
+			String description = docHit.getDescription();
+
 			%>
 			<br/>
 		<%
@@ -92,10 +94,15 @@ hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
 			<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
 		<%}%>
 			<a href="<%=path%>"><%=docHit.getTitle() %></a>
-			<div>
-				<%=docHit.getExcerpt()%>
-			</div>
-			<br/>
+		<%
+		if(description!=null &&  !description.isEmpty()) {
+		%>	
+			<div><%=description%></div>
+		<%
+		}else{
+		%><div><%=docHit.getExcerpt()%></div>	
+		<%} %> 	
+		<br/>
 		 <%}catch(Exception w){
 			 w.printStackTrace();
 		 }
