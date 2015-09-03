@@ -1,9 +1,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
 <%
-
-
-java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
+    java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
 	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
@@ -48,19 +46,17 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	
 	
 
-<% if( false) {
-	//!hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){ %>
-  <div class="column large-24 large-centered mytroop">
-
-    <dl class="accordion" data-accordion>
-      <dt data-target="panel2"><h3>Attendance</h3></dt>
-      <dd class="accordion-navigation">
-        <div class="content" id="panel2">
-           <%@include file='include/troop_child_attnds.jsp' %>
-        </div>
-      </dd>
-    </dl>
-  </div>
+<% if( !hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){ %>
+		  <div class="column large-24 large-centered mytroop">
+		    <dl class="accordion" data-accordion>
+		      <dt data-target="panel2"><h3>Attendance</h3></dt>
+		      <dd class="accordion-navigation">
+		        <div class="content" id="panel2">
+		           <%@include file='include/troop_child_attnds.jsp' %>
+		        </div>
+		      </dd>
+		    </dl>
+		  </div>
 
        <%
 
