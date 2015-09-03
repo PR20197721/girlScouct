@@ -22,10 +22,11 @@ public class PermissionConstants {
 
 	public static final int PERMISSION_VIEW_TROOP_ID = 300;
 	public static final int PERMISSION_EDIT_TROOP_ID = 301;
-	public static final int PERMISSION_EDIT_TROOP_IMG_ID = 302;
+	
 	
 	public static final int PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID=302;
 	public static final int PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID=303;
+	public static final int PERMISSION_EDIT_TROOP_IMG_ID = 304;
 	
 	public static final int PERMISSION_VIEW_FINANCE_ID = 400;
 	public static final int PERMISSION_EDIT_FINANCE_ID = 401;

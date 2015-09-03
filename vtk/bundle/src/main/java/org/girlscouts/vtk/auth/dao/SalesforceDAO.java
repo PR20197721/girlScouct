@@ -779,7 +779,7 @@ return contacts;
 public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
 	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
 	java.util.List<Troop> troops_withOutAssociation = parseTroops( parentTroops );
-	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation, troops_withAssociation );
+	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation,  troops_withAssociation );
 	return merged_troops;
 }
 

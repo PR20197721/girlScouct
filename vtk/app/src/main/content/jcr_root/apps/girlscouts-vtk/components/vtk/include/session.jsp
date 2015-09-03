@@ -28,6 +28,8 @@
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
 	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
+
+
 <% 
 
 	boolean isMultiUserFullBlock = true;
@@ -349,16 +351,4 @@ if( runModeService.isActive(apps) ){
 
 
 %>
-
-
-<%
-String name="fir'st last".replace(" ", "&nbsp");
-String nameEncoded= java.net.URLEncoder.encode(name);
-//String nameEncodedFmt = nameEncoded.replaceAll("+"," ");
-%>
- 
-****<a href="mailto:Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'edFoo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>">test1</a>
-*** <a href="mailto:Fr'ed%20Foo<foo@example.com>">ttttttttt</a>-----
-<a href="mailto:<%= URLEncoder.encode( new javax.mail.internet.InternetAddress("foo@example.com", "ca'ca test").toUnicodeString() )%>">test2</a>
-
 
