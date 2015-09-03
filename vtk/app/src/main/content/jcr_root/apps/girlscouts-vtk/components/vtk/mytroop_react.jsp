@@ -19,7 +19,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		try{
 			for(int i=0;i<contacts.size();i++)
 			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
-				emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;").replaceAll("'","")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
+				emailTo += java.net.URLEncoder.encode(contacts.get(i).getFirstName())  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
 			}
 			emailTo = emailTo.trim();
 			if( emailTo.endsWith(",") )  {
