@@ -352,8 +352,3 @@ if( runModeService.isActive(apps) ){
 
 
 %>
-<!--  
-****<a href="mailto:<%= java.net.URLEncoder.encode("\"fir'st l/ast\"<foo@example.com")%>">test1</a>
-
-<a href="mailto:<%= new javax.mail.internet.InternetAddress("foo@example.com")%>">test2</a>
--->
