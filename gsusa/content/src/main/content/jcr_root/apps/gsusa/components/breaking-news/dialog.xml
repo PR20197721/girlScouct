@@ -10,6 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<alert
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Alert"
+                		fieldDescription="(Optional) Enter a bold alert statement (e.g. BREAKING NEWS:)"
+                		name="./alert"
+                		xtype="textfield"/>
                     <message
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter the breaking news message. If left blank, breaking news will be hidden"

@@ -2,6 +2,7 @@
 <%
 	String message = properties.get("message","");
 	String url = properties.get("url","");
+	String alert = properties.get("alert","");
 
 	Resource thumbnail = resource.getChild("thumbnail");
 	String filePath = "";
@@ -23,7 +24,7 @@
 <% 
 		}
 %>
-				<strong>BREAKING NEWS:</strong> <span><%= message %></span>
+				<strong><%= alert %></strong> <span><%= message %></span>
 <%
 		if(!url.equals("")) {
 %>
