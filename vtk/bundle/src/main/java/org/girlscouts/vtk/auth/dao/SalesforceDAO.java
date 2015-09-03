@@ -71,7 +71,7 @@ public class SalesforceDAO {
 		
 		System.err.println( "tata userSFApi: "+ url );
 		HttpGet method = new HttpGet( url );
-		//-method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+		//method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
 		try {
 			connection = connectionFactory.getConnection();
