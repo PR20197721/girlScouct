@@ -77,6 +77,7 @@ Next, you will have to modify the eclipse .project file entries for buildSpec an
 		</buildCommand>
 	</buildSpec>
 	<natures>
+                <nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
