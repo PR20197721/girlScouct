@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page	import="java.text.SimpleDateFormat,
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.girlscouts.vtk.models.Troop,
@@ -348,5 +349,16 @@ if( runModeService.isActive(apps) ){
 
 
 %>
+
+
+<%
+String name="fir'st last".replace(" ", "&nbsp");
+String nameEncoded= java.net.URLEncoder.encode(name);
+//String nameEncodedFmt = nameEncoded.replaceAll("+"," ");
+%>
+ 
+****<a href="mailto:Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'edFoo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>,Fr'ed%20Foo<%= java.net.URLEncoder.encode("<foo@example.com>")%>">test1</a>
+*** <a href="mailto:Fr'ed%20Foo<foo@example.com>">ttttttttt</a>-----
+<a href="mailto:<%= URLEncoder.encode( new javax.mail.internet.InternetAddress("foo@example.com", "ca'ca test").toUnicodeString() )%>">test2</a>
 
 
