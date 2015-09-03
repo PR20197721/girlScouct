@@ -352,3 +352,4 @@ if( runModeService.isActive(apps) ){
 
 
 %>
+<a href="mailto:te'st%20test<%=java.net.URLEncoder.encode("<test@asdf.com>")%>,te'st%20test<%=java.net.URLEncoder.encode("<test@asdf.com>")%>,te'st%20test<%=java.net.URLEncoder.encode("<test@asdf.com>")%>">test</a>

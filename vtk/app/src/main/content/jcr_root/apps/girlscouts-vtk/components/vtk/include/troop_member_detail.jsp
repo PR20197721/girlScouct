@@ -7,7 +7,7 @@
       //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
       String _email = "";
       if(contact.getFirstName() != null && contact.getEmail() != null){
-          _email= java.net.URLEncoder.encode(contact.getFirstName()) + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+          _email= (contact.getFirstName()!=null ? contact.getFirstName().replace(" ","%20") : "" ) + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
       }
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
      
