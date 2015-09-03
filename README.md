@@ -41,7 +41,8 @@ Basic intro to CQ/AEM
 6. open [your eclipse workspace]/.metadata/.plugins/org.eclipse.wst.server.core/servers.xml and change the port from 8080 to 4502 also change auto-publish-time="4" and the debugPort to 45022 or the port specified in the start.sh startup script.
 7. right click the server and choose Add and Remove... then add your resources to be auto synched
 8a. now right click the project area and choose New > Project > AEM > AEM Sample Multi-Module Project
-8b. if you already have an existing project, import that project as an existing maven project. Java bundle project will automatically be registered into Eclipse AEM module.  However, content projects will not be registered as there is a bug in AEM's module.  To fix, after importing the content folder, open the .settings for each eclipse subfolder and add the following as org.eclipse.wst.common.project.facet.core.xml :
+8b. if you already have an existing project, import that project as an existing maven project. Java bundle project will automatically be registered into Eclipse AEM module.  However, content projects will not be registered as there is a bug in AEM's module.  To fix, after importing the content folder, open the .settings for each eclipse subfolder and add the following as org.eclipse.wst.common.project.facet.core.xml, being careful to correctly specify whether it's a "sling.bundle" or a "sling.content" as shown here:
+
 <?xml version="1.0" encoding="UTF-8"?>
 <faceted-project>
   <installed facet="sling.content" version="1.0"/>
