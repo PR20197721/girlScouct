@@ -19,7 +19,8 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		try{
 			for(int i=0;i<contacts.size();i++)
 			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
-				emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;").replaceAll("'","")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
+				//emailTo += (new java.net.URI((contacts.get(i).getFirstName() + "<" + contacts.get(i).getEmail() +">,")).getRawPath());
+				emailTo += contacts.get(i).getFirstName() + "<" + contacts.get(i).getEmail() +">,";
 			}
 			emailTo = emailTo.trim();
 			if( emailTo.endsWith(",") )  {
@@ -91,7 +92,7 @@ if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
       
-            <a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+            <a href="<%= emailTo %>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
     
       </dt>
       <dd class="accordion-navigation">

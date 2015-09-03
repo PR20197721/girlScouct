@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page	import="java.text.SimpleDateFormat,
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.girlscouts.vtk.models.Troop,
@@ -351,3 +352,8 @@ if( runModeService.isActive(apps) ){
 
 
 %>
+<!--  
+****<a href="mailto:<%= java.net.URLEncoder.encode("\"fir'st l/ast\"<foo@example.com")%>">test1</a>
+
+<a href="mailto:<%= new javax.mail.internet.InternetAddress("foo@example.com")%>">test2</a>
+-->
