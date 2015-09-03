@@ -25,9 +25,10 @@ public class DocumentCategory {
 			//return only documents
 			if(temp.getName().equals("metadata")){
 			ValueMap properties = temp.adaptTo(ValueMap.class);
-			String docTitle = properties.get("jcr:title",String.class);
-			if (docTitle==null || docTitle.isEmpty()) docTitle =  properties.get("dc:title",String.class);
-			
+			String docTitle = properties.get("dc:title",String.class);
+			if (docTitle==null || docTitle.isEmpty()) docTitle =  properties.get("pdf:Title",String.class);
+			if (docTitle==null || docTitle.isEmpty()) docTitle =  properties.get("jcr:title",String.class);
+
 			temp = temp.getParent().getParent();
 			String docPath = temp.getPath();
 			if (docTitle==null || docTitle.isEmpty()) docTitle = temp.getName();
