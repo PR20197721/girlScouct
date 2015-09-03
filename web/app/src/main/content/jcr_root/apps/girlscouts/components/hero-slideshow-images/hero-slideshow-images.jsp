@@ -71,9 +71,9 @@ else if(imageNode!=null){
 			<div>
 				<a href="<%=linkUrl%>">
 					<%if(spplacement!=null && spplacement.equalsIgnoreCase("right")){ %> 
-						<%= displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
+						<%= displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE,alt,null) %>
 					<%}else{%>
-						<%= displayRendition(resourceResolver, largePath, "cq5dam.web.960.420", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
+						<%= displayRendition(resourceResolver, largePath, "cq5dam.web.960.420", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE,alt,null) %>
 					<%}%>
 				 </a>
 			</div> 
@@ -89,7 +89,7 @@ else if(imageNode!=null){
          %>  
 			<div>    
 				<a href="<%=linkUrl%>"> 
-					<%= displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", "show-for-medium", BREAKPOINT_MAX_MEDIUM) %>
+					<%= displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", "show-for-medium", BREAKPOINT_MAX_MEDIUM,alt,null) %>
 				</a>  
 			</div> 
 	<%
@@ -107,7 +107,7 @@ else if(imageNode!=null){
 		%>  
 			 <div>
 				<a href="<%=linkUrl%>">  
-					<%= displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", "show-for-small", BREAKPOINT_MAX_SMALL) %>
+					<%= displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", "show-for-small", BREAKPOINT_MAX_SMALL,alt,null) %>
 				</a>
 			</div>  
 		<%  

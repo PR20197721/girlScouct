@@ -5,6 +5,9 @@
 	String fileReference = properties.get("./image/fileReference", "");
 	
 %>
-  <% if(fileReference != null && fileReference.length() > 0) { %>
-	 <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.400.400", null, 500) %>
+<% if(fileReference != null && fileReference.length() > 0) { 
+    String alt = properties.get("./alt", "");
+    String title = properties.get("./imgtitle", "");
+%>
+   <%= displayRendition(resourceResolver, fileReference, "cq5dam.web.400.400", null, 500,alt,title) %>
   <% } %>
