@@ -883,7 +883,7 @@ System.err.println("******* 2");
 						prefTroop.getTroopId());
 
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
-						.getYearPlanSched(user, troop.getYearPlan(), true, true);
+						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
 					
 				//start milestone
 				try {

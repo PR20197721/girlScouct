@@ -50,7 +50,7 @@
 	    try{
 	        sched = meetingUtil
 	                 .getYearPlanSched(user,
-	                         troop.getYearPlan(), true, true);
+	                         troop, troop.getYearPlan(), true, true);
 	    }catch(Exception e){e.printStackTrace();}
 	    BiMap sched_bm=   HashBiMap.create(sched);
 	    com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();

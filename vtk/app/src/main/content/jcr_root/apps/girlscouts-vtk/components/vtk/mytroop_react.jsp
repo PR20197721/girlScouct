@@ -31,7 +31,7 @@
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
 			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
-			sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, false);
+			sched = meetingUtil.getYearPlanSched(user, troop, troop.getYearPlan(), true, false);
 		}catch(Exception e){e.printStackTrace();}
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
