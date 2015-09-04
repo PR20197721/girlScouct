@@ -87,7 +87,7 @@ if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
       
-            <a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
     
       </dt>
       <dd class="accordion-navigation">
