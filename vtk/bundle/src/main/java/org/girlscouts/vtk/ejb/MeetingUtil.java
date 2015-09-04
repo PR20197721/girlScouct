@@ -112,12 +112,12 @@ public class MeetingUtil {
 		return _activity;
 	}
 
-	public java.util.Map getYearPlanSched(User user, YearPlan plan,
+	public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan,
 			boolean meetingPlanSpecialSort) throws IllegalAccessException, VtkException {
-		return getYearPlanSched(user, plan, meetingPlanSpecialSort, false);
+		return getYearPlanSched(user, troop, plan, meetingPlanSpecialSort, false);
 	}
 
-	public java.util.Map getYearPlanSched(User user, YearPlan plan,
+	public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan,
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
 
 			throws IllegalAccessException, VtkException {
@@ -160,7 +160,10 @@ if( plan==null ) return new java.util.TreeMap();
 		java.util.Map orgSched = getYearPlanSched(plan);
 		
 		java.util.Map container = null;
-		if( true ){
+		if( troop !=null && troop.getSfTroopAge()!=null && 
+				(troop.getSfTroopAge().toLowerCase().contains("cadette") || 
+						troop.getSfTroopAge().toLowerCase().contains("senior") ||
+						troop.getSfTroopAge().toLowerCase().contains("ambassador") )){
 			container= new TreeMap();
 		}else{			
 			container= new LinkedHashMap();
@@ -1022,7 +1025,7 @@ if( plan==null ) return new java.util.TreeMap();
 		if( troop.getYearPlan()!=null )
 
 			sched = getYearPlanSched(
-				user, troop.getYearPlan(), false, false);
+				user, troop, troop.getYearPlan(), false, false);
 
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");
@@ -1078,7 +1081,7 @@ if( plan==null ) return new java.util.TreeMap();
 		java.util.List<MeetingE> meetings = new java.util.ArrayList();
 		java.util.Date today = new java.util.Date();
 		java.util.Map<java.util.Date, YearPlanComponent> sched = getYearPlanSched(
-				user, troop.getYearPlan(), false, false);
+				user, troop, troop.getYearPlan(), false, false);
 		java.util.Iterator itr = sched.keySet().iterator();
 
 		while (itr.hasNext()) {
