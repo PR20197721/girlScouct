@@ -69,7 +69,7 @@
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
-                <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></a></dt>
+                <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></dt>
 			      <dd class="accordion-navigation">
 			        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
 			             <%@include file='include/troop_child_achievmts.jsp' %>
