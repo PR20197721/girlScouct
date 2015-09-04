@@ -19,7 +19,8 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		try{
 			for(int i=0;i<contacts.size();i++)
 			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
-				emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
+				//emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
+			emailTo += (contacts.get(i).getFirstName()!=null ? contacts.get(i).getFirstName().replace(" ","%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">")+",";
 			}
 			emailTo = emailTo.trim();
 			if( emailTo.endsWith(",") )  {
@@ -73,7 +74,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
-                <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></a></dt>
+                <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></dt>
 			      <dd class="accordion-navigation">
 			        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
 			             <%@include file='include/troop_child_achievmts.jsp' %>
@@ -91,7 +92,7 @@ if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
       
-            <a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
     
       </dt>
       <dd class="accordion-navigation">
