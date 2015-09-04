@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanComparator;
@@ -157,7 +158,14 @@ if( plan==null ) return new java.util.TreeMap();
 
 		// if no sched and activ -> activ on top
 		java.util.Map orgSched = getYearPlanSched(plan);
-		java.util.Map container = new LinkedHashMap();
+		
+		java.util.Map container = null;
+		if( true ){
+			container= new TreeMap();
+		}else{			
+			container= new LinkedHashMap();
+		}
+		
 		java.util.Iterator itr = orgSched.keySet().iterator();
 		while (itr.hasNext()) {
 			java.util.Date date = (java.util.Date) itr.next();
