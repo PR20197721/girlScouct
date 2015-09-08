@@ -57,9 +57,9 @@
         // $(".story").removeClass("shown");
         $(".story").fadeOut('slow');
         $("body").css('overflow', '');
-        $(".off-canvas-wrap").css({
-          'position': 'relative'
-        });
+        // $(".off-canvas-wrap").css({
+        //   'position': ''
+        // });
         $(".featured-stories").css('position', '');
       }
       if (target.closest('.join .wrapper').length === 0
@@ -310,7 +310,7 @@
     slidesToShow: 3,
     slidesToScroll: 1,
     responsive: [{
-      breakpoint: 640,
+      breakpoint: 768,
       settings: {
         slidesToShow: 1
       }
@@ -350,24 +350,25 @@
             gsusa.functions.ToggleParsysAll.toggleAll(true);
           } catch (ignore) {}
           if ($(window).width() <= 768) {
-            $(".off-canvas-wrap").css({
-              'position': 'fixed'
-            });
+            // $(".off-canvas-wrap").css({
+            //   'position': 'fixed'
+            // });
+            window.scrollTo(0,0);
             target.css({
               "bottom" : "auto",
               "top" : 0
             });
             $(".featured-stories").css('position', 'static');
-            if ($(window).height() < target.find('.contents').height()) {
-              target.find('.contents').css({
-                'max-height': ($(window).height() - 100) + 'px',
-                'overflow-y' : 'scroll'
-              });
-            }
+            // if ($(window).height() < target.find('.contents').height()) {
+            //   target.find('.contents').css({
+            //     'max-height': ($(window).height() - 100) + 'px',
+            //     'overflow-y' : 'scroll'
+            //   });
+            // }
             fixColorlessWrapper();
           }
-	  fixSlickListTrack();
-	  fixSlickSlideActive();
+      	  fixSlickListTrack();
+      	  fixSlickSlideActive();
           return true;
         });
         //closing the section by clicking on the cross
@@ -375,9 +376,9 @@
           target.removeClass("shown");
           target.fadeOut('slow');
           $("body").css('overflow', '');
-          $(".off-canvas-wrap").css({
-            'position': 'relative'
-          });
+          // $(".off-canvas-wrap").css({
+          //   'position': ''
+          // });
           $(".featured-stories").css('position', '');
           try {
             gsusa.functions.ToggleParsysAll.toggleAll(false);
@@ -447,7 +448,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
 		  }
 	      });
 	}
-      
+
       $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
         dots: true,
         fade: true,
@@ -612,6 +613,10 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   explore_button();
   join_now();
   scroll_feeds();
+
+  // $(window).on("orientationchange", function () {
+  //   alert("Privet!");
+  // });
 
   $(window).load(function () {
     equilize_our_stories();
