@@ -37,7 +37,6 @@
 <!--<![endif]-->
 
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
-<script src="/etc/designs/gsusa/clientlibs/js/mbox.js" type="text/javascript"></script>
 <%
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
 	String addThisId = siteProps.get("addThisId", "");
