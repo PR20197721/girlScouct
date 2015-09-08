@@ -15,9 +15,23 @@
           .getAttribute(org.girlscouts.vtk.models.User.class
                   .getName()));
   
+  //security concern. 
   String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
  
-  if(user.getApiConfig().getUser().getAdminCouncilId()>0){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+        
+		    %>  <div class="columns large-20 large-centered">
+		                <p>
+		                Sorry! You currently don't have permission to view this tab. For questions, click Contact Us at the top of the page.
+		                </p>
+		      </div>
+		      </div>
+		     </div> <!-- end panelWrapper -->
+		     <script>loadNav('reports')</script>
+		    <%
+		    return;
+		
+  }else{
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");

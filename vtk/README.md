@@ -28,3 +28,11 @@ The CRX host and port can be specified on the command line with:
 mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
 
 
+TROUBLESHOOTING
+===============
+On occassion, the replication between publish instance will fail on production.  This is a serious issue that can bring down the entire system.  Here is how to address the problem.  You will need to be online with Elham to access the replciation queue on both publish A and publish B.
+1. On the trouble publish instance (say Publish A), check the replication queue.  The problem item is always the first replication event on the list.  Copy the path.
+2. Go to Publish B and go to the path in the CRX Explorer view.
+3. Right click on the item and lock the item.
+4. Go back to Publish A and see if the queue is clearing. If not, then retry the replication item or delete it if all else fails.
+5. Observe the replciation queue decrease and repeat for any other nodes.

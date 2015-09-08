@@ -53,6 +53,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	private String clientId;
 	private String callbackUrl;
 	private String targetUrl;
+	private String vtkApiTroopUri;
+	private String vtkApiUserUri;
+	private String vtkApiContactUri;
+	private String vtkApiTroopLeadersUri;
 
 	@Reference
 	private ConfigManager configManager;
@@ -99,6 +103,11 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		clientId = (String) configs.get("clientId");
 		callbackUrl = (String) configs.get("callbackUrl");
 		targetUrl = (String) configs.get("targetUrl");
+		vtkApiTroopUri= (String) configs.get("vtkApiTroopUri");
+		vtkApiUserUri= (String) configs.get("vtkApiUserUri");
+		vtkApiContactUri= (String) configs.get("vtkApiContactUri"); 
+		vtkApiTroopLeadersUri= (String) configs.get("vtkApiTroopLeadersUri");
+		
 	}
 
 	@Activate
@@ -244,6 +253,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
+		
+		
+		//set config items here
+		config.setVtkApiTroopUri( vtkApiTroopUri );
+		config.setVtkApiUserUri( vtkApiUserUri );
+		config.setVtkApiContactUri(vtkApiContactUri);
+		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
+		
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = dao.getUser(config);
 		session.setAttribute(User.class.getName(), user);

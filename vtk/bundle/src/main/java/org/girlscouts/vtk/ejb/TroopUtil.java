@@ -720,9 +720,15 @@ public class TroopUtil {
 					troopDAO.removeActivity(user, troop, troop.getYearPlan()
 							.getActivities().get(i));
 		}
-
+		
+   if( yearPlanPath==null || yearPlanPath.trim().equals("")) //custom year plan //08262015
+	   troop.getYearPlan().setAltered("true");//08262015
+   else
 		troop.getYearPlan().setAltered("false");
+ 
+		//troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
+	troop.getYearPlan().setRefId(yearPlanPath);	//08262015
 		troop.getYearPlan().setDbUpdate(true);
 		troopDAO.removeMeetings(user, troop);
 		troopDAO.updateTroop(user, troop);

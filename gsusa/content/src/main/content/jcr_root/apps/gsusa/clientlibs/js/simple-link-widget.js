@@ -25,6 +25,7 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     labelField: null,
 	pathField: null,
 	checkBoxField : null,
+	classField: null,
 
     constructor: function(config) {
         config = config || { };
@@ -82,6 +83,17 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             } 
         });
         this.add(this.pathField);
+        
+        this.add(new CQ.Ext.form.Label({text: "CSS Class"}));
+        this.classField = new CQ.Ext.form.TextField({
+        	listeners: {
+        		change: {
+        			scope:this,
+        			fn:this.updateHidden
+        		}
+        	}
+        });
+        this.add(this.classField);
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -89,6 +101,7 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         var parts = value.split("|||");
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
+        this.classField.setValue(parts[3]);
         this.hiddenField.setValue(value);
         if (parts.length > 2) {
         	this.checkBoxField.setValue((parts[2] === "true"));
@@ -106,7 +119,8 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     getRawValue: function() {
         return this.labelField.getValue() + "|||"
         	+ this.pathField.getValue() + "|||" 
-        	+ this.checkBoxField.getValue();
+        	+ this.checkBoxField.getValue() + "|||"
+        	+ this.classField.getValue();
     },
 
     // private

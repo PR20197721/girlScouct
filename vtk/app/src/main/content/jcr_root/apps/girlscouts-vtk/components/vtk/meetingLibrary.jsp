@@ -103,6 +103,16 @@
       <table class="meetingSelect">
       	<tbody>
           <%
+          
+          //sort meetings by meeting name
+          if( meetings !=null ){
+	          Collections.sort(meetings, new Comparator<Meeting>() {
+	              public int compare(Meeting o1, Meeting o2) {
+	                  return o1.getName().compareTo(o2.getName());
+	              }
+	          });
+          } 
+         
           for(int i=0;i<meetings.size();i++){
           	Meeting meeting = meetings.get(i);
           %>

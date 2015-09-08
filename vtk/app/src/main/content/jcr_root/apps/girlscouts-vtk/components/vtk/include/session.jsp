@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page	import="java.text.SimpleDateFormat,
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.girlscouts.vtk.models.Troop,
@@ -47,6 +48,8 @@
 	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+	
+	
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
@@ -124,8 +127,9 @@ return;
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
 	user.setSid(session.getId());
-
-	String errMsg = null;
+   
+	
+    String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
 	//NO PARENTS ALLOWED!!!!!

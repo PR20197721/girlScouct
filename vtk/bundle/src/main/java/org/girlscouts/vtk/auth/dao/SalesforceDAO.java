@@ -3,6 +3,7 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+import java.util.Dictionary;
 import java.util.Set;
 
 import org.apache.commons.httpclient.Header;
@@ -12,6 +13,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,6 +26,7 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.ConnectionFactory;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
@@ -51,13 +55,17 @@ public class SalesforceDAO {
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
 		User user= new User();
 		CloseableHttpClient connection = null;
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+		
+		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
+		String url = apiConfig.getWebServicesUrl() +vtlApiUserUri+ "?USER_ID="+ apiConfig.getUserId();
+		
+		System.err.println( "tata userSFApi: "+ url );
+		HttpGet method = new HttpGet( url );
+				/*
+				  apiConfig.getWebServicesUrl()
 				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
-		
-//System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
-		
-//System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
+				//-+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId()); 
+				  */
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
@@ -312,8 +320,16 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		CloseableHttpClient connection = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+		
+		String vtkApiContactUri=apiConfig.getVtkApiContactUri();
+		String url=apiConfig.getWebServicesUrl() + vtkApiContactUri + "?troopId=" + sfTroopId ;
+		
+System.err.println("tata contact api : "+ url );		
+		HttpGet method = new HttpGet( url );
+				/*
+				apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+				*/
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 			connection = connectionFactory.getConnection();
@@ -478,16 +494,17 @@ System.err.println("tatarsp: "+ rsp);
 
 	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig, String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
-		
+
 
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
-			String url = apiConfig.getWebServicesUrl()
-					+ "/services/apexrest/activeUserTroopDataV1.1?userId="+ contactId; //no filters
+			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
+			String url = apiConfig.getWebServicesUrl() +vtkApiTroopUri +"?userId="+ contactId;
+				//	+ "/services/apexrest/activeUserTroopDataV1.2?userId="+ contactId; //no filters
 			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
 			
-//System.err.println("tata troopInfo: "+url );	
+System.err.println("tata troopInfo: "+url );	
 			
 			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
@@ -616,10 +633,11 @@ CloseableHttpClient connection = null;
 
 java.util.List<Contact> contacts = new java.util.ArrayList();
 
-HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+String vtkApiTroopLeadersUri = apiConfig.getVtkApiTroopLeadersUri();
+String url =apiConfig.getWebServicesUrl() +vtkApiTroopLeadersUri + "?Troop_ID="+sfTroopId;
 
-+"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+HttpGet method = new HttpGet( url ); //apiConfig.getWebServicesUrl() + "/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+System.err.println("tata dp info : "+ url);
 
 
 
