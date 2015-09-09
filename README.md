@@ -108,6 +108,12 @@ In case you need to pull code the other way, say if you maybe made a new compone
 7. You will now be able to enter any jar file and view the source of the classes with properly aligned line numbers.
 8. Go to any open AEM project and open properties.  Set this CQ project as a project reference under Project References.
 
+Alternatively, you can install the latest jd-eclipse plugin (https://github.com/java-decompiler/jd-eclipse.git) but you will need to compi
+le it via:
+        - cd $jd-eclipse-src-folder; chmod a+x gradlew; ./gradlew installSiteDist; ./gradlew downloadDependencies
+        - Help > Install New Software...; "Add..." to add an new repository; Enter "JD-Eclipse Update Site" and select the local site director y (e.g. $jd-eclipse-src-folder/build/install/jd-eclipse-site)
+	- Navigate to General -> Editors -> File Associations and use JD Class File Viewer as default editor for *.class and *.class without source
+
 #### Legacy projects: pushing code into CQ
 1. the basic maven project structure was auto-generated like this:
 
