@@ -456,7 +456,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 
 	}
-
+/*
 	public List<org.girlscouts.vtk.models.Search> getData(User user,
 			Troop troop, String _query) throws IllegalAccessException {
 
@@ -550,9 +550,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ex.printStackTrace();
 			}
 		}
+		System.err.println("testtt: "+ matched.size() );
 		return matched;
 	}
-
+*/
+	
+	
+	
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
 		List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
@@ -2196,5 +2200,210 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 		}
 		return count;
+	}
+	
+	
+	public List<org.girlscouts.vtk.models.Search> getData(User user,
+
+	Troop troop, String _query) throws IllegalAccessException {
+
+		java.util.List data = null, data1 = null, data2 = null, data3 = null;
+
+		try {
+			data1 = getDataItem(user, troop, _query, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			data2 = getDataItem(user, troop, _query,
+					"/content/dam/girlscouts-vtk/global/aid");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			data3 = getDataItem(user, troop, _query,
+					"/content/dam/girlscouts-vtk/global/resource");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		data = new java.util.ArrayList();
+
+		if (data1 != null)
+
+			data.addAll(data1);
+
+		if (data2 != null)
+
+			data.addAll(data2);
+
+		if (data3 != null)
+
+			data.addAll(data3);
+
+		return data;
+
+	}
+
+	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
+
+	Troop troop, String _query, String PATH) throws IllegalAccessException {
+
+		if (user != null
+
+		&& !userUtil.hasPermission(user.getPermissions(),
+
+		Permission.PERMISSION_LOGIN_ID))
+
+			throw new IllegalAccessException();
+
+		Session session = null;
+
+		List<org.girlscouts.vtk.models.Search> matched = null;
+
+		if (!userUtil.hasPermission(troop,
+
+		Permission.PERMISSION_VIEW_MEETING_ID))
+
+			throw new IllegalAccessException();
+
+		final String RESOURCES_PATH = "resources";
+
+		String councilId = null;
+
+		if (troop.getTroop() != null) {
+
+			councilId = Integer.toString(troop.getTroop().getCouncilCode());
+
+		}
+
+		String branch = councilMapper.getCouncilBranch(councilId);
+
+		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+
+		if (PATH == null)
+
+			PATH = resourceRootPath;
+
+		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+
+		try {
+
+			session = sessionFactory.getSession();
+
+			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
+			map.put("fulltext", _query);
+			map.put("group.1_path", PATH);// resourceRootPath);
+			map.put("p.offset", "0"); // same as query.setStart(0) below
+			com.day.cq.search.Query query = qBuilder.createQuery(
+
+			PredicateGroup.create(map), session);
+
+			query.setExcerpt(true);
+
+			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
+
+			SearchResult result = query.getResult();
+
+			for (Hit hit : result.getHits()) {
+
+				try {
+
+					String path = hit.getPath();
+
+					java.util.Map<String, String> exc = hit.getExcerpts();
+
+					java.util.Iterator itr = exc.keySet().iterator();
+
+					while (itr.hasNext()) {
+
+						String str = (String) itr.next();
+
+						String str1 = exc.get(str);
+
+					}
+
+					ValueMap vp = hit.getProperties();
+
+					itr = vp.keySet().iterator();
+
+					DocHit dh = new DocHit(hit);
+
+					org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+
+					search.setPath(dh.getURL());
+
+					search.setDesc(dh.getTitle());
+
+					search.setContent(dh.getExcerpt());
+
+					search.setSubTitle(dh.getDescription());
+
+					search.setAssetType(AssetComponentType.RESOURCE);
+
+					if (search.getPath().toLowerCase().contains("/aid/"))
+
+						search.setAssetType(AssetComponentType.AID);
+
+					if (unq.containsKey(search.getPath())) {
+
+						if (search.getContent() != null
+
+						&& !search.getContent().trim().equals("")) {
+
+							org.girlscouts.vtk.models.Search _search = unq
+
+							.get(search.getPath());
+
+							if (_search.getContent() == null
+
+							|| _search.getContent().trim().equals(""))
+
+								unq.put(search.getPath(), search);
+
+						}
+
+					} else
+
+						unq.put(search.getPath(), search);
+
+				} catch (RepositoryException e) {
+
+					e.printStackTrace();
+
+				}
+
+			}
+
+			java.util.Iterator itr = unq.keySet().iterator();
+
+			while (itr.hasNext())
+
+				matched.add(unq.get(itr.next()));
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (session != null)
+
+					sessionFactory.closeSession(session);
+
+			} catch (Exception ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+
+		return matched;
+
 	}
 }// edn class
