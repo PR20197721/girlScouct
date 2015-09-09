@@ -114,6 +114,8 @@ le it via:
         - Help > Install New Software...; "Add..." to add an new repository; Enter "JD-Eclipse Update Site" and select the local site director y (e.g. $jd-eclipse-src-folder/build/install/jd-eclipse-site)
 	- Navigate to General -> Editors -> File Associations and use JD Class File Viewer as default editor for *.class and *.class without source
 
+To test debugging, go to SlingHttpServletRequestImpl.class and add a breakpoint in the constructer.  Load your AEM website and this breakpoint should be tripped.
+
 #### Legacy projects: pushing code into CQ
 1. the basic maven project structure was auto-generated like this:
 
