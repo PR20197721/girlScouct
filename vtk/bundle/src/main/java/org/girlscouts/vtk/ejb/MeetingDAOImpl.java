@@ -2283,10 +2283,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
 
-		if (PATH == null)
-
+		if (PATH == null) {
 			PATH = resourceRootPath;
-
+		}
 		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 
 		try {
@@ -2295,8 +2294,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
-			map.put("group.1_path", PATH);// resourceRootPath);
-			map.put("p.offset", "0"); // same as query.setStart(0) below
+			map.put("path", PATH);// resourceRootPath);
 			com.day.cq.search.Query query = qBuilder.createQuery(
 
 			PredicateGroup.create(map), session);
@@ -2314,15 +2312,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 					String path = hit.getPath();
 
 					java.util.Map<String, String> exc = hit.getExcerpts();
-
 					java.util.Iterator itr = exc.keySet().iterator();
 
 					while (itr.hasNext()) {
-
 						String str = (String) itr.next();
-
 						String str1 = exc.get(str);
-
 					}
 
 					ValueMap vp = hit.getProperties();
