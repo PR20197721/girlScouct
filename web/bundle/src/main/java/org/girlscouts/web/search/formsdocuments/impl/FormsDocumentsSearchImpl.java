@@ -102,58 +102,17 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		
 		searchResultsInfo = new SearchResultsInfo();
 		
-		Map<String,String> mapPath = new HashMap <String,String>();
-		
-		mapPath.put("group.p.or","true");
-		mapPath.put("group.1_group.path", formDocumentContentPath);
-		mapPath.put("group.2_group.path",path);
-		
-		PredicateGroup predicatePath =PredicateGroup.create(mapPath);
-		
-		Map<String,String> mapContentDoc = new HashMap <String,String>();
-		mapContentDoc.put("group.p.or","true");
-		mapContentDoc.put("group.1_group.type", "cq:Page");
-		if((q!=null && !q.isEmpty()) || tags.length>0) {
-			mapContentDoc.put("group.2_group.type", "nt:hierarchyNode");
-		}else{
-			mapContentDoc.put("group.2_group.type", "dam:AssetContent");
-		}
-		PredicateGroup predicateDocs =PredicateGroup.create(mapContentDoc);
-		
-		Map<String,String> masterMap  = new HashMap<String,String>();
-		masterMap.put("p.limit", "-1");
+//		Map<String,String> mapPath = new HashMap <String,String>();
+//		
+//		mapPath.put("group.p.or","true");
+//		mapPath.put("group.1_group.path", formDocumentContentPath);
+//		mapPath.put("group.2_group.path",path);
 		
 		
-		PredicateGroup master = PredicateGroup.create(masterMap); 
-		master.add(predicatePath);
-		master.add(predicateDocs);
-		
-		if(q!=null && !q.isEmpty()) {
-			log.info("Search Query Term [" +q +"]");
-			Map<String,String> mapFullText = new HashMap<String,String>();
-			mapFullText.put("group.p.or","true" );
-			mapFullText.put("group.1_fulltext", q);
-			mapFullText.put("group.1_fulltext.relPath", "@jcr:content/jcr:title"); // search cq:tags
-			mapFullText.put("group.2_fulltext", q);
-			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title"); // search title
-			mapFullText.put("group.3_fulltext", q);
-			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description"); // search description
-			mapFullText.put("group.4_fulltext", q); //search everything, including file contents via PDFBox
-			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-			master.add(predicateFullText);
-			
-		}
-		if(tags.length > 0) {
-			Map<String,String> checkedTagMap = new HashMap<String,String>();
-			checkedTagMap = addToDefaultQuery(tags);
-			PredicateGroup predicateCheckedTags = PredicateGroup.create(checkedTagMap);
-			predicateCheckedTags.setAllRequired(false);
-			master.add(predicateCheckedTags);
-		}
-		
-		master.setAllRequired(true);
 		List<Hit> searchTermHits = new ArrayList<Hit>();
-		searchTermHits = performContentSearch(master,q);
+		searchTermHits.addAll(performContentSearch(getPredicateGroup(formDocumentContentPath, q, tags),q));
+		searchTermHits.addAll(performContentSearch(getPredicateGroup(path, q, tags),q));
+
 		//System.out.println("Length: " + searchTermHits.size());
 		
 		List<Hit> titleHits = new ArrayList<Hit>();
@@ -310,6 +269,52 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		return hits;
 	}
 
+	private PredicateGroup getPredicateGroup(String path, String query, String[] tags) throws RepositoryException{
+		
+		Map<String,String> mapContentDoc = new HashMap <String,String>();
+		mapContentDoc.put("group.p.or","true");
+		mapContentDoc.put("group.1_group.type", "cq:Page");
+		if((query!=null && !query.isEmpty()) || tags.length>0) {
+			mapContentDoc.put("group.2_group.type", "nt:hierarchyNode");
+		}else{
+			mapContentDoc.put("group.2_group.type", "dam:AssetContent");
+		}
+		PredicateGroup predicateDocs =PredicateGroup.create(mapContentDoc);
+		
+		Map<String,String> masterMap  = new HashMap<String,String>();
+		masterMap.put("p.limit", "-1");
+		masterMap.put("path", path);
+		
+		
+		PredicateGroup master = PredicateGroup.create(masterMap); 
+		master.add(predicateDocs);
+		
+		if(query!=null && !query.isEmpty()) {
+			log.info("Search Query Term [" +query +"]");
+			Map<String,String> mapFullText = new HashMap<String,String>();
+			mapFullText.put("group.p.or","true" );
+			mapFullText.put("group.1_fulltext", query);
+			mapFullText.put("group.1_fulltext.relPath", "@jcr:content/jcr:title"); // search cq:tags
+			mapFullText.put("group.2_fulltext", query);
+			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title"); // search title
+			mapFullText.put("group.3_fulltext", query);
+			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description"); // search description
+			mapFullText.put("group.4_fulltext", query); //search everything, including file contents via PDFBox
+			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+			master.add(predicateFullText);
+			
+		}
+		if(tags.length > 0) {
+			Map<String,String> checkedTagMap = new HashMap<String,String>();
+			checkedTagMap = addToDefaultQuery(tags);
+			PredicateGroup predicateCheckedTags = PredicateGroup.create(checkedTagMap);
+			predicateCheckedTags.setAllRequired(false);
+			master.add(predicateCheckedTags);
+		}
+		
+		master.setAllRequired(true);
+		return master;
+	}
 	
 }
 
