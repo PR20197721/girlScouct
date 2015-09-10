@@ -47,8 +47,8 @@
 			$(function() {
 				var cache = {};
 				$( "#resourceSearchField" ).autocomplete({
-					minLength: 3,
-					minChar: 3,
+					minLength: 4,
+					minChar: 4,
 					source: function( request, response ) {
 						var term = request.term;
 						$("#searchResults").html("");
