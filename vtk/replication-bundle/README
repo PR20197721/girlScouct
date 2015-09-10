@@ -1,0 +1,16 @@
+To Install:
+
+Build and deploy bundle to VTK publish instances. e.g.:
+mvn clean install
+curl -u admin:admin -F action=install -F bundlestartlevel=20 -F bundlefile=@"./target/girlscouts-vtk-replication-bundle-1.0-SNAPSHOT.jar" http://localhost:4505/system/console/bundles
+This will deploy a custom receiver on the publish instance.
+
+On the two VTK publish instances, use CRXDE to copy and rename an existing publish agent:
+/etc/replication/agents.author/publish --> /etc/replication/agents.publish/vtk-publish
+
+Go to the replication agent (e.g. http://localhost:4505/etc/replication/agents.publish/vtk-publish.html) and edit name and description.
+In the trasport tab, modify URI to point to a target VTK node custom receiver (e.g. http://localhost:4506/bin/vtk-receive?sling:authRequestLogin=1)
+Update credentials and save.
+Go to the Triggers tab and click "Ignore Default"  This will prevent normal replication behavior.
+Click Test Connection to validate.
+You will need to repeat these step on other publish VTK instance.
