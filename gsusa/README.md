@@ -1,6 +1,12 @@
 Girl Scouts USA
 ========
 
+This build is tested with mvn version 3.2.3.  Do not use 3.3, which currently does not work.
+
+It uses a custom plugin to retain jruby gems in the target during a mvn clean.  
+To restore clean to its normal behavior you can set <skip>true</skip> inside the maven-clean-plugin in content/pom.xml
+
+
 Only for the first time or if someone adds some import to an scss file or if you see any css error.
 Install bower: http://bower.io/
 cd content/src/main/theme

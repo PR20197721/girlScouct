@@ -359,6 +359,12 @@ div.carousel {
         display: block;
         img {
           min-height: rem-calc(310);
+          @media #{$medium-only} {
+            width: 100%;
+          }
+          @media #{$small-only} {
+            width: 100%;
+          }
         }
       }
       &.shadow-box {
