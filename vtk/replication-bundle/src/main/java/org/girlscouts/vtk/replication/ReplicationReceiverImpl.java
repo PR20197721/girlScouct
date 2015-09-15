@@ -1,68 +1,84 @@
 package org.girlscouts.vtk.replication;
 
+import com.day.cq.replication.ReplicationAction;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationEvent;
+import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.ReplicationReceiver;
+import com.day.cq.replication.impl.content.durbo.DurboImportConfigurationProvider;
+import com.day.cq.replication.impl.content.durbo.DurboImportResult;
+import com.day.cq.replication.impl.content.durbo.DurboImporter;
+import com.day.jcr.vault.fs.io.ImportOptions;
+import com.day.jcr.vault.packaging.JcrPackage;
+import com.day.jcr.vault.packaging.JcrPackageManager;
+import com.day.jcr.vault.packaging.Packaging;
+import com.day.jcr.vault.util.DefaultProgressListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import javax.jcr.Item;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.nodetype.NodeDefinition;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.commons.osgi.OsgiUtil;
-import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.replication.ReplicationAction;
-import com.day.cq.replication.ReplicationActionType;
-import com.day.cq.replication.ReplicationException;
-import com.day.cq.replication.impl.content.durbo.DurboImportResult;
-import com.day.cq.replication.impl.content.durbo.DurboImporter;
-
 @Component(metatype=true, immediate=true)
-@Service(VTKReplicationReceiver.class)
+@Service({ReplicationReceiver.class})
 public class ReplicationReceiverImpl
-  implements VTKReplicationReceiver
+  implements ReplicationReceiver
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
-  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
-  private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/councilInfo/.*");
 
-  @Property(longValue=1048576L)
+  @Property(longValue={1048576L})
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
   public static final int DEFAULT_SAVE_EVERY_HOW_MANY = 1000;
 
   @Reference
+  private Packaging pkgSvc;
+
+  @Reference
   private EventAdmin eventAdmin;
+
+  @Reference
+  private DurboImportConfigurationProvider durboImportConfigurationProvider;
   private long tmpfileThreshold;
   private DurboImporter durboImporter;
-  @Reference
-  private VTKDataCacheInvalidator invalidator;
-  @Reference
-  private TroopHashGenerator troopHashGenerator;
+
+  public ReplicationReceiverImpl() { this.pkgSvc = null; }
+
 
   @Activate
   protected void activate(Map<String, Object> props)
   {
-    this.durboImporter = new DurboImporter();
-    this.tmpfileThreshold = OsgiUtil.toLong(props.get("receiver.tmpfile.threshold"), 1048576L);
-    log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
+    update(props);
+  }
+
+  @Modified
+  protected void modified(Map<String, Object> props) {
+    update(props);
+  }
+
+  private void update(Map<String, Object> props) {
+    this.durboImporter = new DurboImporter(this.durboImportConfigurationProvider.getConfiguartion());
+    Object thresholdValue = props.get("receiver.tmpfile.threshold");
+    this.tmpfileThreshold = Long.valueOf(thresholdValue != null ? thresholdValue.toString() : "100000").longValue();
+    if (log.isInfoEnabled()) {
+      log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
+    }
     this.durboImporter.setTempFileThreshold(this.tmpfileThreshold);
   }
 
@@ -79,76 +95,24 @@ public class ReplicationReceiverImpl
   }
 
   public void receive(Session session, ReplicationAction action, InputStream in, long size, Writer writer, boolean install, boolean binaryLess)
+    throws ReplicationException, IOException
   {
-      try{
-        Node receivedNode = null;
-        if (action.getType() == ReplicationActionType.ACTIVATE)
-        {
-          
-          DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
-          receivedNode = importResult.getCreatedNode();
-    
-          List failedPaths = importResult.getFailedPaths();
-          if ((failedPaths != null) && (failedPaths.size() > 0)) {
-            writeFailedPaths(failedPaths, writer);
-          }
+    Node receivedNode = null;
+    if (action.getType() == ReplicationActionType.ACTIVATE)
+    {
+      DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
+      receivedNode = importResult.getCreatedNode();
 
-          // Invalidate cache if it is troop data
-          String path = action.getPath();
-          Matcher troopMatcher = TROOP_PATTERN.matcher(path);
-          String affectedTroop = null;
-          while (troopMatcher.find()) {
-              affectedTroop = troopMatcher.group(1);
-              log.debug("Affected Troop found: " + affectedTroop);
-          }
-          if (affectedTroop != null) {
-              String troopPath = troopHashGenerator.getPath(affectedTroop);
-              log.debug("Invalidate troop: " + troopPath);
-              invalidator.addPath(troopPath);
-          }
-          
-          // Invalidate the entire /vtk-data cache if council info changed.
-          if (COUNCILINFO_PATTERN.matcher(path).matches()) {
-              invalidator.addPath(troopHashGenerator.getBase());
-          }
-        }
-    
-        new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
-        
-        // Girl Scouts customization: do not send notifications.
-        //Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
-        //this.eventAdmin.postEvent(replicationEvent);
-      } catch (Exception e) {
-          // Catch all exceptions here to prevent vtk replication queue from blocking.
-          // Then log this path to a special log node
-          log.error("VTK receiver exception. Trying to save a log node into /var/vtk-replication/log. Original message: " + e.getMessage());
-          String dateString = (new SimpleDateFormat("yyyy/MM/dd")).format(Calendar.getInstance().getTime());
-          try {
-              String logPath = "/var/vtk-replication/log/" + dateString;
-              // create log node and intermediate nodes
-              Node dateNode = session.getNode("/");
-              String[] pathSegments = logPath.split("/");
-              for (int i = 1; i < pathSegments.length; i++) {
-                  String name = pathSegments[i];
-                  if (!dateNode.hasNode(name)) {
-                      dateNode = dateNode.addNode(name, "nt:unstructured");
-                  } else {
-                      dateNode = dateNode.getNode(name);
-                  }
-              }
-              
-              String nodeName = Long.toString(Calendar.getInstance().getTime().getTime()) + "-" +
-                      Integer.toString((int)(100 + (new Random().nextFloat() * 900)));
-              Node logNode = dateNode.addNode(nodeName, "nt:unstructured");
-              logNode.setProperty("errorType", e.getClass().getName());
-              logNode.setProperty("timestamp", Calendar.getInstance());
-              logNode.setProperty("path", action.getPath());
-              logNode.setProperty("msg", e.getMessage());
-              session.save();
-          } catch (Exception e1) {
-              log.error("Even there is error trying to save the error log node. " + e1.getMessage());
-          }
+      List failedPaths = importResult.getFailedPaths();
+      if ((failedPaths != null) && (failedPaths.size() > 0)) {
+        writeFailedPaths(failedPaths, writer);
       }
+    }
+
+    new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
+
+    Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
+    this.eventAdmin.postEvent(replicationEvent);
   }
 
   private void writeFailedPaths(List<String> failedPaths, Writer writer) throws IOException {
@@ -192,6 +156,17 @@ public class ReplicationReceiverImpl
     return deletedCount;
   }
 
+  protected void bindPkgSvc(Packaging paramPackaging)
+  {
+    this.pkgSvc = paramPackaging;
+  }
+
+  protected void unbindPkgSvc(Packaging paramPackaging)
+  {
+    if (this.pkgSvc == paramPackaging)
+      this.pkgSvc = null;
+  }
+
   protected void bindEventAdmin(EventAdmin paramEventAdmin)
   {
     this.eventAdmin = paramEventAdmin;
@@ -203,7 +178,18 @@ public class ReplicationReceiverImpl
       this.eventAdmin = null;
   }
 
-  private class ReceiveListener
+  protected void bindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
+  {
+    this.durboImportConfigurationProvider = paramDurboImportConfigurationProvider;
+  }
+
+  protected void unbindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
+  {
+    if (this.durboImportConfigurationProvider == paramDurboImportConfigurationProvider)
+      this.durboImportConfigurationProvider = null;
+  }
+
+  private final class ReceiveListener
   {
     private final Session session;
     private final ReplicationAction action;
@@ -254,7 +240,26 @@ public class ReplicationReceiverImpl
     private void onActivate(Node node)
       throws ReplicationException
     {
-        // Does nothing. No need for package unwrapping.
+      String path = null;
+      try {
+        path = node.getPath();
+      } catch (Exception e) {
+        ReplicationReceiverImpl.log.error("Error while retrieving path of node.", e);
+      }
+      try
+      {
+        if ((this.install) && (path != null) && (path.startsWith("/etc/packages/")) && (node.isNodeType("{http://www.jcp.org/jcr/nt/1.0}file")))
+        {
+          this.writer.write("Content package received at " + path + ". Starting import.\n");
+          JcrPackageManager packMgr = ReplicationReceiverImpl.this.pkgSvc.getPackageManager(node.getSession());
+          JcrPackage pack = packMgr.open(node);
+          ImportOptions opts = new ImportOptions();
+          opts.setListener(new DefaultProgressListener(new PrintWriter(this.writer)));
+          pack.extract(opts);
+        }
+      } catch (Exception e) {
+        ReplicationReceiverImpl.log.error("Error while unpacking package at " + path, e);
+      }
     }
 
     private void onDelete()
