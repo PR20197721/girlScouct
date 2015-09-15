@@ -19,6 +19,20 @@
     <packaging>bundle</packaging>
     <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
 
+    <repositories>
+        <repository>
+            <id>repo</id>
+            <releases>
+                <enabled>true</enabled>
+                <checksumPolicy>ignore</checksumPolicy>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <url>file://${project.basedir}/repo</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.day.commons.osgi.wrapper</groupId>
@@ -83,7 +97,7 @@
         <dependency>
             <groupId>com.adobe.granite</groupId>
             <artifactId>com.adobe.granite.replication.core</artifactId>
-            <version>5.12.2</version>
+            <version>5.15.26-CQ561-B0018</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
