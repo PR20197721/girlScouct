@@ -37,9 +37,19 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/* Girl Scouts Customization BEGIN */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.apache.felix.scr.annotations.Activate;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
+/* Girl Scouts Customization END*/
+
 @Component(metatype=false)
 @Service({Servlet.class})
-@Property(name="sling.servlet.paths", value={"/bin/receive"})
+/* Girl Scouts Customization BEGIN */
+/* @Property(name="sling.servlet.paths", value={"/bin/receive"}) */
+@Property(name="sling.servlet.paths", value={"/bin/vtk-receive"})
+/* Girl Scouts Customization END*/
 public class ReplicationServlet extends SlingAllMethodsServlet
 {
   private final Logger logger;
@@ -47,12 +57,30 @@ public class ReplicationServlet extends SlingAllMethodsServlet
   private static final String PN_TIMELINE = "timeline";
   private static final String PN_OUTBOX = "outbox";
   private static final String PN_SINK = "sink";
+  
 
   @Reference
   protected OutboxManager outboxManager;
 
+  /* Girl Scouts Customization BEGIN */
   @Reference
-  protected ReplicationReceiver receiver;
+  //protected ReplicationReceiver receiver;
+  protected VTKReplicationReceiver receiver;
+  private static final Pattern TROOP_PATTERN = Pattern.compile("(/vtk[0-9]*/[0-9]+/troops/[^/]+/)");
+  
+  private Session session;
+  
+  @Reference
+  protected ReplicationManager replicationManager;
+  
+  @Reference
+  protected ModifiedChecker modifiedChecker;
+  
+  @Activate
+  protected void activete() {
+      this.session = replicationManager.getSession();
+  }
+  /* Girl Scouts Customization END */
 
   public ReplicationServlet()
   {
@@ -76,6 +104,18 @@ public class ReplicationServlet extends SlingAllMethodsServlet
         throw new ReplicationException("No replication path.");
       }
       path = Text.unescape(path);
+      
+      /* Girl Scouts Customization BEGIN */
+      // Notify the modifiedChecker that this node has been modified externally.
+      // sessionId == null because it is from another server.
+      modifiedChecker.setModified("X", path);
+      
+      Matcher matcher = TROOP_PATTERN.matcher(path);
+      if (matcher.find()) {
+          String yearPlanPath = matcher.group(1) + "yearPlan";
+          modifiedChecker.setModified("X", yearPlanPath);
+      }
+      /* Girl Scouts Customization END */
 
       long start = System.currentTimeMillis();
       if ("true".equals(request.getParameter("sink"))) {
@@ -235,7 +275,10 @@ public class ReplicationServlet extends SlingAllMethodsServlet
       this.outboxManager = null;
   }
 
-  protected void bindReceiver(ReplicationReceiver paramReplicationReceiver)
+  /* Girl Scouts Customization BEGIN */
+  //protected void bindReceiver(ReplicationReceiver paramReplicationReceiver)
+  protected void bindReceiver(VTKReplicationReceiver paramReplicationReceiver)
+  /* Girl Scouts Customization END */
   {
     this.receiver = paramReplicationReceiver;
   }
