@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Ad Dialog"
+    width="{Long}800"
     xtype="dialog">
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        loadcontent="function(){girlscouts.functions.getTitle(this);}"/>
     <items
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
+                jcr:primaryType="cq:Widget"
+                title="Select Ads"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <customize
+                        jcr:primaryType="cq:Widget"
+                        checkboxBoolTypeHint="{Boolean}true"
+                        fieldDescription="Check the box to enable selection.（If not checked, all ads displayed by default)"
+                        fieldLabel="Custom Mode"
+                        name="./customized"
+                        type="checkbox"
+                        xtype="selection">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            loadcontent="function(field){girlscouts.functions.toggleField(field);}"
+                            selectionchanged="function(field){girlscouts.functions.toggleField(field);}"/>
+                    </customize>
+                    <pages
+                        jcr:primaryType="cq:Widget"
+                        collapsible="{Boolean}true"
+                        disabled="{Boolean}true"
+                        fieldDescription="Check the Ads to be placed on the right column"
+                        fieldLabel="Ads Selection"
+                        header="true"
+                        name="./pages"
+                        optionsProvider="girlscouts.functions.AdOptions"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </tab1>
+            <tab2
                 jcr:primaryType="cq:Panel"
                 title="Path">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <path
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="Path to ad pages. Leave it blank to use council-wide Ads Path configuration."
                         fieldLabel="Path to Ads"
                         name="./path"
-                        xtype="pathfield"/>
+                        xtype="pathfield">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            change="function(field,newValue,oldValue){girlscouts.functions.reset(field,newValue);}"
+                            dialogselect="function(field,path){girlscouts.functions.reset(field, path);}"/>
+                    </path>
                 </items>
-            </tab1>
+            </tab2>
         </items>
     </items>
 </jcr:root>
