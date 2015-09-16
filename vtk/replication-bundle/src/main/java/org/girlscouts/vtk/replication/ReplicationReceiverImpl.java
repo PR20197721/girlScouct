@@ -46,7 +46,7 @@ import org.girlscouts.vtk.helpers.TroopHashGenerator;
 /* Girl Scouts Customization END */
 
 @Component(metatype=true, immediate=true)
-@Service({VTKReplicationReceiver.class})
+@Service(VTKReplicationReceiver.class)
 public class ReplicationReceiverImpl
   implements VTKReplicationReceiver
 {
