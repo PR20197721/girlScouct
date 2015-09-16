@@ -32,7 +32,7 @@ public class OAuthJWTHandler_v1 {
 	
 	 @SuppressWarnings("deprecation")
 	public static void main(String[] args) {}
-public ApiConfig doIt(java.io.InputStream is, String email, String access_token){
+public ApiConfig doIt(java.io.InputStream is, String email, String access_token, String communityUrl ){
 	//Security.addProvider(new com.sun.crypto.provider.SunJCE());
 	ApiConfig config=null;
 	 
@@ -53,7 +53,7 @@ System.err.println("access_token "+ access_token);
 		      claimArray[0] = access_token;//"3MVG9ahGHqp.k2_yeQBSRKEBsGHrY.Gjxv0vUjeW_2Dy6AFNe_8TanHRxUQ7BZsForgy38OuJsInpyLsVtcEH";
 
 		      claimArray[1] = email; //"ana.pope@gsfuture.org.gsuat";
-		      claimArray[2] = "https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
+		      claimArray[2] = communityUrl; //"https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
 		      
 System.err.println("testTata now: "+ System.currentTimeMillis() );	
@@ -96,7 +96,7 @@ claimArray[3] =alex.getTimeInMillis()+"";
 		      HttpParams params = client.getParams();
 		      HttpClientParams.setCookiePolicy(params, CookiePolicy.RFC_2109);
 		      params.setParameter(HttpConnectionParams.CONNECTION_TIMEOUT, 30000);
-		      HttpPost oauthPost = new HttpPost("https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token"); // community user
+		      HttpPost oauthPost = new HttpPost(communityUrl+"/services/oauth2/token");//"https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token"); // community user
 		      List<BasicNameValuePair> parametersBody = new ArrayList<BasicNameValuePair>();
 		      parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));

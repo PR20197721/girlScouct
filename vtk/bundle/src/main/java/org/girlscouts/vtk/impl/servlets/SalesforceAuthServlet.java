@@ -411,7 +411,8 @@ System.err.println("test6");
 				.getConfig("gsCertificate"));
 		ByteArrayInputStream is = new ByteArrayInputStream(data);
 		ApiConfig config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
-				.doIt(is, token.substring(token.indexOf("@") + 1), clientId);
+				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
+						.getConfig("communityUrl"));
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
 		String refreshTokenStr = null;
