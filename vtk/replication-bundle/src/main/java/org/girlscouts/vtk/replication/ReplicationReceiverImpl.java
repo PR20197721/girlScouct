@@ -36,12 +36,31 @@ import org.osgi.service.event.EventAdmin;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/* Girl Scouts Customization BEGIN */
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Random;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
+/* Girl Scouts Customization END */
+
 @Component(metatype=true, immediate=true)
-@Service({ReplicationReceiver.class})
+@Service({VTKReplicationReceiver.class})
 public class ReplicationReceiverImpl
-  implements ReplicationReceiver
+  implements VTKReplicationReceiver
 {
   private static final Logger log = LoggerFactory.getLogger(ReplicationReceiverImpl.class);
+  
+  /* Girl Scouts Customization BEGIN */
+  private static final Pattern TROOP_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/troops/([^/]+)");
+  private static final Pattern COUNCILINFO_PATTERN = Pattern.compile("/vtk[0-9]*/[0-9]+/councilInfo/.*");
+  
+  @Reference
+  private VTKDataCacheInvalidator invalidator;
+  @Reference
+  private TroopHashGenerator troopHashGenerator;
+  /* Girl Scouts Customization END */
 
   @Property(longValue={1048576L})
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
@@ -97,19 +116,77 @@ public class ReplicationReceiverImpl
   public void receive(Session session, ReplicationAction action, InputStream in, long size, Writer writer, boolean install, boolean binaryLess)
     throws ReplicationException, IOException
   {
-    Node receivedNode = null;
-    if (action.getType() == ReplicationActionType.ACTIVATE)
-    {
-      DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
-      receivedNode = importResult.getCreatedNode();
-
-      List failedPaths = importResult.getFailedPaths();
-      if ((failedPaths != null) && (failedPaths.size() > 0)) {
-        writeFailedPaths(failedPaths, writer);
-      }
+    /* Girl Scouts Customization BEGIN */
+    // Invalidate cache if it is troop data
+    String path = action.getPath();
+    Matcher troopMatcher = TROOP_PATTERN.matcher(path);
+    String affectedTroop = null;
+    while (troopMatcher.find()) {
+      affectedTroop = troopMatcher.group(1);
+      log.debug("Affected Troop found: " + affectedTroop);
     }
+    if (affectedTroop != null) {
+      String troopPath = troopHashGenerator.getPath(affectedTroop);
+      log.debug("Invalidate troop: " + troopPath);
+      invalidator.addPath(troopPath);
+    }
+      
+    // Invalidate the entire /vtk-data cache if council info changed.
+    if (COUNCILINFO_PATTERN.matcher(path).matches()) {
+      invalidator.addPath(troopHashGenerator.getBase());
+    }
+    /* Girl Scouts Customization END */
 
-    new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
+    /* Girl Scouts Customization BEGIN */
+    try {
+    /* Girl Scouts Customization END */
+      Node receivedNode = null;
+      if (action.getType() == ReplicationActionType.ACTIVATE)
+      {
+        DurboImportResult importResult = this.durboImporter.createNode(session, action.getPath(), in, size, binaryLess);
+        receivedNode = importResult.getCreatedNode();
+
+        List failedPaths = importResult.getFailedPaths();
+        if ((failedPaths != null) && (failedPaths.size() > 0)) {
+          writeFailedPaths(failedPaths, writer);
+        }
+      }
+      new ReceiveListener(session, action, writer, install).onReceived(receivedNode);
+
+    /* Girl Scouts Customization BEGIN */
+    } catch (Exception e) {
+      // Catch all exceptions here to prevent vtk replication queue from blocking.
+      // Then log this path to a special log node
+      log.error("VTK receiver exception. Trying to save a log node into /var/vtk-replication/log. Original message: " + e.getMessage());
+      String dateString = (new SimpleDateFormat("yyyy/MM/dd")).format(Calendar.getInstance().getTime());
+      try {
+        String logPath = "/var/vtk-replication/log/" + dateString;
+        // create log node and intermediate nodes
+        Node dateNode = session.getNode("/");
+        String[] pathSegments = logPath.split("/");
+        for (int i = 1; i < pathSegments.length; i++) {
+          String name = pathSegments[i];
+          if (!dateNode.hasNode(name)) {
+            dateNode = dateNode.addNode(name, "nt:unstructured");
+          } else {
+            dateNode = dateNode.getNode(name);
+          }
+        }
+            
+        String nodeName = Long.toString(Calendar.getInstance().getTime().getTime()) + "-" +
+          Integer.toString((int)(100 + (new Random().nextFloat() * 900)));
+        Node logNode = dateNode.addNode(nodeName, "nt:unstructured");
+        logNode.setProperty("errorType", e.getClass().getName());
+        logNode.setProperty("timestamp", Calendar.getInstance());
+        logNode.setProperty("path", action.getPath());
+        logNode.setProperty("msg", e.getMessage());
+        session.save();
+      } catch (Exception e1) {
+        log.error("Even there is error trying to save the error log node. " + e1.getMessage());
+      }	
+    }
+    /* Girl Scouts Customization END */
+
 
     Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
     this.eventAdmin.postEvent(replicationEvent);
@@ -240,26 +317,30 @@ public class ReplicationReceiverImpl
     private void onActivate(Node node)
       throws ReplicationException
     {
-      String path = null;
-      try {
-        path = node.getPath();
-      } catch (Exception e) {
-        ReplicationReceiverImpl.log.error("Error while retrieving path of node.", e);
-      }
-      try
-      {
-        if ((this.install) && (path != null) && (path.startsWith("/etc/packages/")) && (node.isNodeType("{http://www.jcp.org/jcr/nt/1.0}file")))
-        {
-          this.writer.write("Content package received at " + path + ". Starting import.\n");
-          JcrPackageManager packMgr = ReplicationReceiverImpl.this.pkgSvc.getPackageManager(node.getSession());
-          JcrPackage pack = packMgr.open(node);
-          ImportOptions opts = new ImportOptions();
-          opts.setListener(new DefaultProgressListener(new PrintWriter(this.writer)));
-          pack.extract(opts);
-        }
-      } catch (Exception e) {
-        ReplicationReceiverImpl.log.error("Error while unpacking package at " + path, e);
-      }
+
+      /* Girl Scouts Customization BEGIN */
+      // Do nothing. No need for package unwrapping.
+//      String path = null;
+//      try {
+//        path = node.getPath();
+//      } catch (Exception e) {
+//        ReplicationReceiverImpl.log.error("Error while retrieving path of node.", e);
+//      }
+//      try
+//      {
+//        if ((this.install) && (path != null) && (path.startsWith("/etc/packages/")) && (node.isNodeType("{http://www.jcp.org/jcr/nt/1.0}file")))
+//        {
+//          this.writer.write("Content package received at " + path + ". Starting import.\n");
+//          JcrPackageManager packMgr = ReplicationReceiverImpl.this.pkgSvc.getPackageManager(node.getSession());
+//          JcrPackage pack = packMgr.open(node);
+//          ImportOptions opts = new ImportOptions();
+//          opts.setListener(new DefaultProgressListener(new PrintWriter(this.writer)));
+//          pack.extract(opts);
+//        }
+//      } catch (Exception e) {
+//        ReplicationReceiverImpl.log.error("Error while unpacking package at " + path, e);
+//      }
+      /* Girl Scouts Customization END */
     }
 
     private void onDelete()
