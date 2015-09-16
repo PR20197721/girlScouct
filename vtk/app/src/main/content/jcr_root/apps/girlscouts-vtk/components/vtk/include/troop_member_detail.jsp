@@ -13,7 +13,6 @@
     	   _email= (contact.getFirstName()!=null ? contact.getFirstName().replace(" ","%20") : "" ) + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
       }
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
-     //out.println(  user.getApiConfig().getUser().getContactId() +"   ** " +contact.getContactId() +": " +caregiver.getContactId() );
       if(!(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
               user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
     %>
