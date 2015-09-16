@@ -1,20 +1,25 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
 
-boolean isAutoLogin =false;
 
-HttpSession session = request.getSession();
-if( !isAutoLogin ){
-    
-	org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+
+    HttpSession session = request.getSession();
+    String myUrl = request.getRequestURL().toString();
+   System.err.println("***tata123******** "+ myUrl); 
+    if( myUrl!=null)
+    	myUrl= java.net.URLDecoder.decode( myUrl);
+if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
+    org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 	try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
-		session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
 	} catch (ClassCastException exc) { 
 		session.invalidate();
 		apiConfig=null; 
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
+System.err.println("tata123*** "+(apiConfig==null))	;
 	if( apiConfig==null ){
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
@@ -26,14 +31,8 @@ if( !isAutoLogin ){
 		response.sendRedirect(redirectTo);
 		return;
 	}
-	
-}else{
-	
-	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
-	//troopUtil.autoLogin(session);
-	
 }
-	
+
 	
 	
 

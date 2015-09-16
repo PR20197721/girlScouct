@@ -108,7 +108,8 @@ public class CouncilRpt {
 				}
 				
 				String troopName="";
-				if( libPath==null || libPath.equals("") ){
+				if( libPath==null || libPath.equals("") || 
+						(yearPlanName!=null && yearPlanName.trim().toLowerCase().equals("custom year plan")) ){
 					try{
 						Node troop = r.getNode().getParent();
 						libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
@@ -314,4 +315,13 @@ public class CouncilRpt {
 				});
 		return (java.util.List<CouncilRptBean>) container;
 	}
+	
+	public Map<String, String> getDistinctPlanByName(
+			java.util.List<CouncilRptBean> results) {
+		Map<String, String> container = new TreeMap<String, String>();
+		for (CouncilRptBean bean : results) {
+			container.put(bean.getYearPlanName(), bean.getLibPath());
+		}	
+	 return container;
+	}	
 }

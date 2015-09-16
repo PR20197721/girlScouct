@@ -38,12 +38,6 @@
 
       <script type="text/javascript">
 
-
-//c.w GSVTK-773 fix time difference for councils at other time zones
-//timezone data stored in clientlibs/moment-timezone.js
-moment.tz.setDefault("US/Eastern");
-
-
  var isActivNew;
       var isFirst=1;
       var meetingPassed=true;
@@ -81,7 +75,7 @@ moment.tz.setDefault("US/Eastern");
         isReordering: false,
         componentDidMount: function() {
 
-        	loadNav('plan');
+        	loadNav('plan'); 	
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);

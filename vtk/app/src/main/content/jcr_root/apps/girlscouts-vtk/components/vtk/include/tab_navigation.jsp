@@ -29,6 +29,7 @@ if (troops != null && troops.size() > 1) {
 */
 %>
 
+
 		<div id="troop" class="row hide-for-print">
 			  
 			  <div class="columns large-7 medium-9 right">
@@ -62,6 +63,7 @@ if (troops != null && troops.size() > 1) {
 		       <a href="<%=communityUrl%>">Member Profile</a>
 		      </div>
 		</div>
+
 <%
 /*  }*/
 %>

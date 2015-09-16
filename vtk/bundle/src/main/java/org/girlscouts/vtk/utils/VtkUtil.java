@@ -250,6 +250,7 @@ public static String getCouncilInClient(HttpServletRequest request){
 	return null;
 }
 
+
 public static String getYearPlanBase(User user, Troop troop){
 
 	/*
@@ -277,6 +278,7 @@ public static String getYearPlanBase(User user, Troop troop){
  */
 public String _getYearPlanBase(User user, Troop troop) {
     return VtkUtil.getYearPlanBase(user, troop);
+
 }
 
 

@@ -23,16 +23,13 @@
 
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
-
-	//String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
-	//String SHOW_FINANCE_FEATURE = "showFinance"; 
-	//String SHOW_PARENT_FEATURE = "showParent";
-	//String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
+	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {};//SHOW_BETA_FEATURE};
-
+	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
+
+
 <% 
 
 	boolean isMultiUserFullBlock = true;
@@ -53,7 +50,8 @@
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
-	
+	//final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+	org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
 	User user=null;
 	
 	HttpSession session = request.getSession();
@@ -351,4 +349,6 @@ if( runModeService.isActive(apps) ){
 }
 
 
+
 %>
+

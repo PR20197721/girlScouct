@@ -7,7 +7,7 @@ import java.util.Set;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class Finance implements Serializable {
 	
 	public static final String INCOME = "income";
