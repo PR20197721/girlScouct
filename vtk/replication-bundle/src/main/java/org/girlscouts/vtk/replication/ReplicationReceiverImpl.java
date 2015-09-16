@@ -233,16 +233,19 @@ public class ReplicationReceiverImpl
     return deletedCount;
   }
 
-  protected void bindPkgSvc(Packaging paramPackaging)
-  {
-    this.pkgSvc = paramPackaging;
-  }
 
-  protected void unbindPkgSvc(Packaging paramPackaging)
-  {
-    if (this.pkgSvc == paramPackaging)
-      this.pkgSvc = null;
-  }
+  /* Girl Scouts Customization BEGIN */
+//  protected void bindPkgSvc(Packaging paramPackaging)
+//  {
+//    this.pkgSvc = paramPackaging;
+//  }
+//
+//  protected void unbindPkgSvc(Packaging paramPackaging)
+//  {
+//    if (this.pkgSvc == paramPackaging)
+//      this.pkgSvc = null;
+//  }
+  /* Girl Scouts Customization END */
 
   protected void bindEventAdmin(EventAdmin paramEventAdmin)
   {
