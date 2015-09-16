@@ -103,26 +103,9 @@
 		  
 	   
 
-<<<<<<< HEAD
-  <div class="column large-24 large-centered mytroop">
-    <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-      
-            <a href="mailto:<%= emailTo %>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
-    
-      </dt>
-      <dd class="accordion-navigation">
-        <div class="content active" id="panel1">
-           <%@include file='include/troop_member_detail.jsp' %>
-        </div>
-      </dd>
-    </dl>
-  </div>
-  
-    <% } } %>
-=======
+
 <% } %>
->>>>>>> VTK_Parent_access
+
 
 
 
