@@ -462,12 +462,17 @@ System.err.println("tatarsp: "+ rsp);
 								.getString("LastName"));
 						}catch(Exception e){}
 						
-						
+						try{contactSub.setContactId(results.getJSONObject(i)
+								.getJSONObject("Account")
+								.getJSONObject("rC_Bios__Preferred_Contact__r")
+								.getString("Id"));
+						}catch(Exception e){}
+						/*
 						try{contactSub.setAccountId(results.getJSONObject(i)
 								.getJSONObject("Account").getString("Id"));
 						
 						}catch(Exception e){}
-						
+						*/
 						
 						contactSub.setType(1);// caregiver
 						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();

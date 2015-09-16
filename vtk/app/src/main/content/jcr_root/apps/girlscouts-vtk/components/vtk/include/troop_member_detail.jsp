@@ -1,6 +1,9 @@
 <div class="row">
   <div class="column large-20 large-centered">
-    <% for(int i=0; i<contacts.size(); i++) { 
+    <%
+   
+    if( contacts!=null)
+    	 for(int i=0; i<contacts.size(); i++) { 
       org.girlscouts.vtk.models.Contact contact = contacts.get(i);
       //java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
       java.util.List<ContactExtras> infos = contactsExtras.get(contact);
@@ -10,8 +13,13 @@
     	   _email= (contact.getFirstName()!=null ? contact.getFirstName().replace(" ","%20") : "" ) + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
       }
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
-     
+     //out.println(  user.getApiConfig().getUser().getContactId() +"   ** " +contact.getContactId() +": " +caregiver.getContactId() );
+      if(!(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
+              user.getApiConfig().getUser().getContactId().equals(caregiver.getContactId() ) ) ){ continue; }
     %>
+    
+   
+    
     <div class="row">
       <dl class="accordion-inner clearfix" data-accordion>
         <dt data-target="panel<%=i+1%>b" class="clearfix">
@@ -23,13 +31,15 @@
             </a>
           <% } %>
           <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
-        </dt>       
-        <%if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
-        		user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) ){ %>
+        </dt>  
+        
+        
                     <%@include file='troop_child_detail.jsp' %>
-        <%} %>
+        
       </dl>
     </div>
-  <%}%>
+  <%}
+
+  %>
   </div>
 </div>
