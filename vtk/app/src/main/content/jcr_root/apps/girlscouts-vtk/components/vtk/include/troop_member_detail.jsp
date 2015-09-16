@@ -26,7 +26,7 @@
         </dt>       
         <%if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||
         		user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) ){ %>
-          <%@include file='troop_child_detail.jsp' %>
+                    <%@include file='troop_child_detail.jsp' %>
         <%} %>
       </dl>
     </div>
