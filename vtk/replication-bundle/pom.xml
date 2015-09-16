@@ -98,6 +98,7 @@
             <groupId>com.adobe.granite</groupId>
             <artifactId>com.adobe.granite.replication.core</artifactId>
             <version>5.15.26-CQ561-B0018</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.day.cq</groupId>
