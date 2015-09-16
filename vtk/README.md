@@ -46,3 +46,19 @@ Another approach.  If Publish A has, say 80,000 items in replication queue and n
 6. Go to Publish B and delete the current year vtk folder and replace by installing the package you just created on Publish A.
 7. Turn on the replication agent on Publish B
 
+
+SALESFORCE
+==========
+VTK requires salesforce for authentication and SSO.  
+
+SF PROD: 
+login.salesforce.com
+gsvtk@girlscouts.org
+icruise12345
+
+
+SF UAT:
+test.salesforce.com
+alex_yakobovich@northps.com
+icruise123
+
