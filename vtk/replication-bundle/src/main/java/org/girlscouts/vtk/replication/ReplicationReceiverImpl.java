@@ -43,6 +43,7 @@ import java.util.Calendar;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import com.day.cq.replication.impl.content.durbo.DurboImportConfiguration;
 /* Girl Scouts Customization END */
 
 @Component(metatype=true, immediate=true)
@@ -72,8 +73,10 @@ public class ReplicationReceiverImpl
   @Reference
   private EventAdmin eventAdmin;
 
-  @Reference
-  private DurboImportConfigurationProvider durboImportConfigurationProvider;
+  /* Girl Scouts Customization BEGIN */
+//  @Reference
+//  private DurboImportConfigurationProvider durboImportConfigurationProvider;
+  /* Girl Scouts Customization END */
   private long tmpfileThreshold;
   private DurboImporter durboImporter;
 
@@ -83,23 +86,34 @@ public class ReplicationReceiverImpl
   @Activate
   protected void activate(Map<String, Object> props)
   {
-    update(props);
-  }
-
-  @Modified
-  protected void modified(Map<String, Object> props) {
-    update(props);
-  }
-
-  private void update(Map<String, Object> props) {
-    this.durboImporter = new DurboImporter(this.durboImportConfigurationProvider.getConfiguartion());
-    Object thresholdValue = props.get("receiver.tmpfile.threshold");
-    this.tmpfileThreshold = Long.valueOf(thresholdValue != null ? thresholdValue.toString() : "100000").longValue();
+    /* Girl Scouts Customization BEGIN */
+    //update(props);
+    DurboImportConfiguration conf = new DurboImportConfiguration(null, null, null, -1);
+    this.durboImporter = new DurboImporter(conf);
+    this.tmpfileThreshold = 100000L;
     if (log.isInfoEnabled()) {
-      log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
+	  log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
     }
     this.durboImporter.setTempFileThreshold(this.tmpfileThreshold);
+    /* Girl Scouts Customization END */
   }
+
+  /* Girl Scouts Customization BEGIN */
+//  @Modified
+//  protected void modified(Map<String, Object> props) {
+//     update(props);
+//  }
+//
+//  private void update(Map<String, Object> props) {
+//    this.durboImporter = new DurboImporter(this.durboImportConfigurationProvider.getConfiguartion());
+//    Object thresholdValue = props.get("receiver.tmpfile.threshold");
+//    this.tmpfileThreshold = Long.valueOf(thresholdValue != null ? thresholdValue.toString() : "100000").longValue();
+//    if (log.isInfoEnabled()) {
+//      log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
+//    }
+//    this.durboImporter.setTempFileThreshold(this.tmpfileThreshold);
+//  }
+  /* Girl Scouts Customization END */
 
   public void receive(Session session, ReplicationAction action, InputStream in, long size, Writer writer)
     throws ReplicationException, IOException
@@ -258,16 +272,18 @@ public class ReplicationReceiverImpl
       this.eventAdmin = null;
   }
 
-  protected void bindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
-  {
-    this.durboImportConfigurationProvider = paramDurboImportConfigurationProvider;
-  }
-
-  protected void unbindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
-  {
-    if (this.durboImportConfigurationProvider == paramDurboImportConfigurationProvider)
-      this.durboImportConfigurationProvider = null;
-  }
+  /* Girl Scouts Customization BEGIN */
+//  protected void bindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
+//  {
+//    this.durboImportConfigurationProvider = paramDurboImportConfigurationProvider;
+//  }
+//
+//  protected void unbindDurboImportConfigurationProvider(DurboImportConfigurationProvider paramDurboImportConfigurationProvider)
+//  {
+//    if (this.durboImportConfigurationProvider == paramDurboImportConfigurationProvider)
+//      this.durboImportConfigurationProvider = null;
+//  }
+  /* Girl Scouts Customization END */
 
   private final class ReceiveListener
   {
