@@ -7,7 +7,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class YearPlan implements Serializable {
 
 	public YearPlan() {
