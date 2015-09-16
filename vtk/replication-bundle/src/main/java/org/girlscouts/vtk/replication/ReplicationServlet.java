@@ -252,7 +252,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet
 
     public LimitInputStream(InputStream in, long limit)
     {
-      super();
+      super(in);
       this.available = limit;
     }
 
