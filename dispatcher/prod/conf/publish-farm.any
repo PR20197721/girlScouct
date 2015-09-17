@@ -163,7 +163,12 @@
           { 
           /glob "/content/dam/girlscouts-vtk/troop-data*" /type "deny"
           }
-
+# inkoo added caching troop photo
+        /0003
+          {
+          /glob "/content/dam/girlscouts-vtk/troop-data*/imgLib/*"
+          /type "allow"
+          }
         }
       # the invalidate section defines those pages which are 'invalidated' after
       # any activation. please note that, the activated page itself and all 
