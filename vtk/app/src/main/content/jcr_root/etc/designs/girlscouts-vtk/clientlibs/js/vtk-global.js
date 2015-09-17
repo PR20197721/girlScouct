@@ -190,7 +190,8 @@ var VTKDataWorker;
                 if (eTag) {
                 	this.eTag = eTag;
                 }
-                if (success) {
+                // Only call the callback if the status code is 200.
+                if (success && jqXHR.status == 200) {
                     success.apply(that, arguments);
                 }
             },
