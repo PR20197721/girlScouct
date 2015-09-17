@@ -376,8 +376,11 @@ System.err.println("test6");
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-			samlResponse.setDestinationUrl(request.getRequestURL().toString()
-					.replace("http://my", "https://my"));
+			String requestURL = request.getRequestURL().toString();
+			if (!requestURL.startsWith("http://my-local")) {
+				requestURL = requestURL.replace("http://my", "https://my");
+			}
+			samlResponse.setDestinationUrl(requestURL);
 					/*
 					.replace("http://my-uat", "https://my-uat")
 					.replace("http://my-stage", "https://my-stage") );
