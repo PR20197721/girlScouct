@@ -22,7 +22,7 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
 
     private static final String ROOT = "/vtk-data";
     private static final Logger log = LoggerFactory.getLogger(VTKDataServlet.class);
-    private static final Pattern PATH_PATTERN = Pattern.compile(ROOT + "/([^/]+)/([^/\\.]+)\\.(.*)");
+    private static final Pattern PATH_PATTERN = Pattern.compile(ROOT + "/([^/]+)/([^/\\.]+)\\..*");
 
     @Override
     protected void doGet(SlingHttpServletRequest request,
@@ -40,9 +40,6 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
         
         if (type != null && type.equals("year-plan")) {
             forwardYearPlan(request, response, id);
-        } else if (type != null && type.equals("meeting")) {
-        	String meetingId= matcher.group(3).split("\\.")[0];
-        	forwardMeeting(request, response, id, meetingId);
         }
     }
     
@@ -50,16 +47,6 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
             SlingHttpServletResponse response, String id) throws ServletException, IOException {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html");
         request.setAttribute("yearPlanSched", "X");
-        request.setAttribute("isFirst", "1");
-
-        dispatcher.forward(request, response);
-    }
-    
-    private void forwardMeeting(SlingHttpServletRequest request, 
-            SlingHttpServletResponse response, String id, String meetingId) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf");
-        request.setAttribute("reactjs", "asdf");
-        request.setAttribute("elem", meetingId);
         request.setAttribute("isFirst", "1");
 
         dispatcher.forward(request, response);
