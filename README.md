@@ -279,3 +279,18 @@ http://docs.adobe.com/docs/en/aem/6-0/develop/dev-tools/ht-projects-maven.html
 
 ## Dispatcher Download
 https://www.adobeaemcloud.com/content/companies/public/adobe/dispatcher/dispatcher.html
+
+## deploying to DEV environment
+git branch "root" is the latest n greatest, while "master" is what's in prod
+
+there are 3 sites: gsusa, vtk, and web
+
+To deploy vtk to DEV:
+
+cd vtk
+mvn clean install && ./deployDev.sh
+(if needed) flush the dispatcher cache:
+	ssh npUser@54.83.199.114
+	sudo ./flushCache
+
+see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-vtk/en/vtk.home.html
