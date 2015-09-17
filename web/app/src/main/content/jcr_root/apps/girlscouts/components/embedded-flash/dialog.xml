@@ -17,7 +17,7 @@
                         xtype="textarea"/>
                     <javascript
                     	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Javascript (Exclude the <script> tags)"
+                    	fieldLabel="Javascript (Exclude the script tags)"
                     	name="./javascript"
                     	xtype="textarea"/>
                 </items>
