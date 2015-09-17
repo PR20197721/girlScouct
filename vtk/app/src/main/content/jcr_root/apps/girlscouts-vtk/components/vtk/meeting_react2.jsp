@@ -41,6 +41,14 @@ pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
+String readonlyModeStr = hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+    hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+
+Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
+cookie.setPath("/");
+response.addCookie(cookie);
+
+String meetingDataUrl = "meeting." + request.getParameter("elem") + ".json";
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
@@ -589,35 +597,22 @@ React.createElement(ActivityPlan),
      loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
        
-       $.ajax({
-        url: this.props.url + 
-          (isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
-          (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-              this.setState({data:data.yearPlan});
-              
-              
-             
-	          if( isActivNew ==1 ){
-	              isActivNew=2;
-	          }else if( isActivNew ==2 ){
-	              isActivNew=0;
-	          }
-            }.bind(this),
-          error: function(xhr, status, err) {
-            
-          }.bind(this)
-        });
-        },
+        this.dataWorker.getData();
+      },
+
       getInitialState: function() {
         return {data: []};
       },
       componentDidMount: function() {
+        this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function() {
+        	this.setState({
+        		data: data.yearPlan
+        	})
+        });
+    	  
         this.loadCommentsFromServer(1);
         setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        setInterval( this.checkLocalUpdate, 1000);
+        //setInterval( this.checkLocalUpdate, 1000);
         
        
       },

@@ -155,22 +155,32 @@ var $ = jQuery.noConflict();
  * 
  * Fetch VTK data first and then call the callback
  * if the returned status code is not 304.
- * 
- * Parameters:
- * section: partition data, usually troop hash
- * path: the path within that partition
- * that: this pointer to the callback object
- * success: callback function
- * shouldSkipFirst: if the first call should not fetch from cache.
- *     Sometimes cache is not fast enough to reflect changes.
  */
 
 var VTKDataWorker;
 (function() {
 	var BASE_PATH = '/vtk-data';
+	
+    function _getTroopDataToken() {
+    	// Ref: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+    	// Get cookie: troopDataToken
+    	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return hash;
+    }
     
-    function _VTKDataWorker(section, path, that, success, shouldSkipFirst) {
-    	this.url = BASE_PATH + '/' + section + '/' + path;
+    function _checkShouldSkipFirst() {
+    	// Get cookie: troopDataToken
+    	var readonly = document.cookie.replace(/(?:(?:^|.*;\s*)VTKReadonlyMode\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return !readonly == 'true';
+    }
+    
+    function _VTKDataWorker(path, that, success) {
+    	this.path = path;
+    	this.that = that;
+    	this.success = success;
+    	
+    	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
+    	this.shouldSkipFirst = _checkShouldSkipFirst();
     	this.eTag = null;
     	this.isFirstTime = true;
     }
@@ -179,7 +189,9 @@ var VTKDataWorker;
 		var url = this.url;
 		if (this.isFirstTime) {
 			this.isFirstTime = false;
-			url += "?_=" + (new Date()).getTime();
+			if (this.shouldSkipFirst) {
+				url += "?_=" + (new Date()).getTime();
+			}
 		}
 		
         $.ajax({
@@ -191,8 +203,8 @@ var VTKDataWorker;
                 	this.eTag = eTag;
                 }
                 // Only call the callback if the status code is 200.
-                if (success && jqXHR.status == 200) {
-                    success.apply(that, arguments);
+                if (this.success && jqXHR.status == 200) {
+                    this.success.apply(this.that, arguments);
                 }
             },
             beforeSend: function(request) {
