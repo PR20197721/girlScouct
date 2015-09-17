@@ -169,13 +169,13 @@ var VTKDataWorker;
 (function() {
 	var BASE_PATH = '/vtk-data';
     
-    function VTKDataWorker(section, path, that, success, shouldSkipFirst) {
+    function _VTKDataWorker(section, path, that, success, shouldSkipFirst) {
     	this.url = BASE_PATH + '/' + section + '/' + path;
     	this.eTag = null;
     	this.isFirstTime = true;
     }
     	
-    VTKDataWorker.prototype.getData = function() {
+    _VTKDataWorker.prototype.getData = function() {
 		var url = this.url;
 		if (this.isFirstTime) {
 			this.isFirstTime = false;
