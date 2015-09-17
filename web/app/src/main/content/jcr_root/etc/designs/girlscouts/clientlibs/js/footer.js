@@ -61,10 +61,10 @@
       var toggle = $(this);
       $('#' + target).slideToggle('slow');
       $(toggle).toggleClass('on');
-      //I am not sure why this code is added
-      // if(window[ target ] != null){
-    	 //  window[ target ].toggle();
-      // }
+      //For Web Component. See main.js:toggleParsys
+       if(window[ target ] != null){
+    	   window[ target ].toggle();
+       }
         return false;
     });
   }
