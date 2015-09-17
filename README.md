@@ -287,8 +287,9 @@ there are 3 sites: gsusa, vtk, and web
 
 To deploy vtk to DEV:
 
-cd vtk
-mvn clean install && ./deployDev.sh
+cd web; mvn clean install
+cd vtk; mvn clean install
+./deployDev.sh
 (if needed) flush the dispatcher cache:
 	ssh npUser@54.83.199.114
 	sudo ./flushCache
