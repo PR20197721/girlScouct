@@ -92,7 +92,7 @@ public class Response {
 			if (nodes == null || nodes.getLength() == 0) {
 				throw new Exception("Can't find signature in Document.");
 			}
-	
+	/*
 			// Check destination
 			String destinationUrl = rootElement.getAttribute("Destination");
 			if (destinationUrl != null) {
@@ -100,7 +100,7 @@ public class Response {
 					throw new Exception("The response was received at " + currentUrl + " instead of " + destinationUrl);
 				}
 			}
-			
+			*/
 			// Check Audience 
 			NodeList nodeAudience = xmlDoc.getElementsByTagNameNS("*", "Audience");
 			String audienceUrl = nodeAudience.item(0).getChildNodes().item(0).getNodeValue();
