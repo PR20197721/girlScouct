@@ -211,7 +211,7 @@ var VTKDataWorker;
                 if (this.eTag != null) {
                     request.setRequestHeader('If-None-Match', this.eTag);
                 }
-            }
+            }.bind(this)
         });
     }
     
