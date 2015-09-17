@@ -38,7 +38,8 @@
             
             response.sendRedirect(configManager.getConfig("communityUrl"));
     }else{
-        String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html";
+        //String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html"; //baseUrl for local. no etc mapping
+        String councilHomeUrl =   councilMapper.getCouncilUrl(councilId) +"en.html";
         response.sendRedirect(councilHomeUrl);
     
     	
