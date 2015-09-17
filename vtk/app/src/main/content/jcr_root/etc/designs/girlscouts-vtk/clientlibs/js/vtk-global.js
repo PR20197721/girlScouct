@@ -206,7 +206,7 @@ var VTKDataWorker;
                 if (this.success && jqXHR.status == 200) {
                     this.success.apply(this.that, arguments);
                 }
-            },
+            }.bind(this),
             beforeSend: function(request) {
                 if (this.eTag != null) {
                     request.setRequestHeader('If-None-Match', this.eTag);

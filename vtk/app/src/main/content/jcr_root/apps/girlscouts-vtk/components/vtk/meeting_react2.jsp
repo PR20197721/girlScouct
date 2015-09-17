@@ -604,10 +604,10 @@ React.createElement(ActivityPlan),
         return {data: []};
       },
       componentDidMount: function() {
-        this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function() {
+        this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
         	this.setState({
         		data: data.yearPlan
-        	})
+        	});
         });
     	  
         this.loadCommentsFromServer(1);
@@ -812,7 +812,7 @@ React.createElement(ActivityPlan),
     		    elem = "";
     		    }
     		    %>
-    React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf"+ getElem(), pollInterval: 10000}),
+    React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf"+ getElem(), pollInterval: 5000}),
       document.getElementById('theMeeting')
     );
 
