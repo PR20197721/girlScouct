@@ -107,6 +107,7 @@ public class AuthRequest {
 	public String getSSOurl(String relayState) throws UnsupportedEncodingException, XMLStreamException, IOException{
 		
 		String ssourl = getSSOurl();
+System.err.println("SSO URL: "+ ssourl);		
 		if(relayState != null && !relayState.isEmpty()){
 			ssourl = ssourl + "&RelayState=" + relayState;
 		}
@@ -114,6 +115,7 @@ public class AuthRequest {
 	}
 	
 	public String getSSOurl() throws UnsupportedEncodingException, XMLStreamException, IOException{
+System.err.println("SSO alex: "+(accountSettings==null ) +" : "+ accountSettings.getIdp_sso_target_url() );		
 		String ssourl = accountSettings.getIdp_sso_target_url()+"&SAMLRequest=" + URLEncoder.encode(getRequest(base64),"UTF-8");
 		return ssourl;
 	}

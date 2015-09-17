@@ -66,7 +66,7 @@ claimArray[3] =alex.getTimeInMillis()+"";
 		      MessageFormat claims;
 		      claims = new MessageFormat(claimTemplate);
 		      String payload = claims.format(claimArray);
-		      //System.out.println("test11111: "+payload);
+		      System.out.println("test11111: "+payload);
 		      //Add the encoded claims object
 		      token.append(Base64.encodeBase64URLSafeString(payload.getBytes("UTF-8")));
 
@@ -78,7 +78,7 @@ claimArray[3] =alex.getTimeInMillis()+"";
 			    
 		       
 		      PrivateKey privateKey = (PrivateKey) keystore.getKey("mycert", "icruise123".toCharArray());
-		      //System.err.println("tata: " + (privateKey==null));  
+		      System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
 		      Signature signature = Signature.getInstance("SHA256withRSA");
 		      signature.initSign(privateKey);
