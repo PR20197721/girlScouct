@@ -171,7 +171,7 @@ var VTKDataWorker;
     function _checkShouldSkipFirst() {
     	// Get cookie: troopDataToken
     	var readonly = document.cookie.replace(/(?:(?:^|.*;\s*)VTKReadonlyMode\s*\=\s*([^;]*).*$)|^.*$/, "$1");
-    	return !readonly == 'true';
+    	return !(readonly == 'true');
     }
     
     function _VTKDataWorker(path, that, success) {
