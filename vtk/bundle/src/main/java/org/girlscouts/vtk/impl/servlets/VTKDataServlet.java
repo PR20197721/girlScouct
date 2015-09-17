@@ -30,18 +30,19 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
             IOException {
         String path = request.getRequestURI();
         log.debug("Request path = " + path);
-        String type = null, id = null;
+        String type = null, id = null, suffix = null;
         Matcher matcher = PATH_PATTERN.matcher(path);
         while (matcher.find()) {
             id = matcher.group(1);
             type = matcher.group(2);
+            suffix = matcher.group(3);
         }
         log.debug("type = " + type + ", id = " + id);
         
         if (type != null && type.equals("year-plan")) {
             forwardYearPlan(request, response, id);
         } else if (type != null && type.equals("meeting")) {
-        	String meetingId= matcher.group(3).split("\\.")[0];
+        	String meetingId= suffix.split("\\.")[0];
         	forwardMeeting(request, response, id, meetingId);
         }
     }
@@ -57,7 +58,7 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
     
     private void forwardMeeting(SlingHttpServletRequest request, 
             SlingHttpServletResponse response, String id, String meetingId) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/content/girlscouts-vtk/controllers/vtk.controller.html");
         request.setAttribute("reactjs", "asdf");
         request.setAttribute("elem", meetingId);
         request.setAttribute("isFirst", "1");
