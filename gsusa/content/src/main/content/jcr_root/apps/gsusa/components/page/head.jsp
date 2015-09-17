@@ -23,14 +23,22 @@
   ==============================================================================
 
 --%><%@include file="/libs/foundation/global.jsp" %><%
-%><%@ page import="com.day.cq.commons.Doctype" %><%
+%><%@ page import="com.day.cq.commons.Doctype,
+				   org.apache.sling.settings.SlingSettingsService,
+				   java.util.Set"%><%
+	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
+	Boolean isProd = set.contains("prod");
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
     }
 %><head>
-    <script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
+	<% if (isProd) { %>
+    	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96.js"></script>
+    <% } else { %>
+    	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
+    <% } %>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
     <!--for the mobile viewport.-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
