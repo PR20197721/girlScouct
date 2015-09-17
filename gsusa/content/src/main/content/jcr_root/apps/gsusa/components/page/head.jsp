@@ -84,8 +84,4 @@
 	});
 	</script>
 	<!-- END GA Tracking -->
-	<!-- Adobe Target -->
-	<!-- <script src="/etc/designs/gsusa/clientlibs/js/mbox.js" type="text/javascript"></script>
-	 -->
-	
 </head>
