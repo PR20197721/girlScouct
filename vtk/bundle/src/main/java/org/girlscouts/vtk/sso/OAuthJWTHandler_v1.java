@@ -56,11 +56,11 @@ System.err.println("access_token "+ access_token);
 		      claimArray[2] = communityUrl; //"https://gsuat-gsmembers.cs17.force.com/members";//http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html";	 // community user
 		      claimArray[3] = Long.toString( ( System.currentTimeMillis()/1000 ) + 300);
 		      
-System.err.println("testTata now: "+ System.currentTimeMillis() );	
-System.err.println("testTata sending: "+ ( ( System.currentTimeMillis()/1000 ) + 300) );
+//System.err.println("testTata now: "+ System.currentTimeMillis() );	
+//System.err.println("testTata sending: "+ ( ( System.currentTimeMillis()/1000 ) + 300) );
 java.util.Calendar alex = java.util.Calendar.getInstance();
 alex.add(java.util.Calendar.MINUTE, 30);
-System.err.println( "testTata 30m: "+ alex.getTimeInMillis() );
+//System.err.println( "testTata 30m: "+ alex.getTimeInMillis() );
 claimArray[3] =alex.getTimeInMillis()+"";
 
 		      MessageFormat claims;
@@ -78,7 +78,7 @@ claimArray[3] =alex.getTimeInMillis()+"";
 			    
 		       
 		      PrivateKey privateKey = (PrivateKey) keystore.getKey("mycert", "icruise123".toCharArray());
-		      //System.err.println("tata: " + (privateKey==null));  
+		      System.err.println("tata: " + (privateKey==null));  
 		      //Sign the JWT Header + "." + JWT Claims Object
 		      Signature signature = Signature.getInstance("SHA256withRSA");
 		      signature.initSign(privateKey);

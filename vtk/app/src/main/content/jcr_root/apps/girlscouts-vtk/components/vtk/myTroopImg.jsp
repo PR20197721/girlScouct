@@ -22,10 +22,8 @@
     <script>
     $('#modal_upload_image').bind('opened',function(){
         uploadInit();
-        //$('.vtk-body').css("overflow", "hidden");
-         $('.vtk-body').css("overflow", "auto");
-         $('#modal_upload_image').css("top", "0px");
-         $("html, body").animate({ scrollTop: 0 }, "slow");
+        $('.vtk-body').css("overflow", "hidden");
+        // $('#modal_upload_image').css("top", "0px");
     });
     $('#modal_upload_image').bind('closed',function(){
         cancel();
@@ -50,7 +48,7 @@
       $('#crop-buttons').remove();
       $('.clearfix.btn-wrap').remove();
       $('#modal_upload_image').foundation('reveal', 'close');
-      displayCurrent();
+      displayCurrent(true);
     };
     </script>
   </div>
