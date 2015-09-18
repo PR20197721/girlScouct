@@ -32,7 +32,7 @@ openssl base64 -in mycert.jks -out mycert.base64.jks
 After this, you need to add the keystore to each of the VTK platforms. e.g. on stage:
 /usr/local/src/git/girlscouts/vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/config.stage.publish/org.girlscouts.vtk.impl.helpers.ConfigManagerImpl.config
 gsCertificate="<contents of mycert.base64.jks>"
-You will need to remove white padding and linebreaks
+You will need to remove white padding and linebreaks. You should use a text editor like VI to do this or there may be some inconsitent effects like hidden linebreaks.
 
 Next got to the corresponding Salesforce Oauth page:
 https://test.salesforce.com alex_yakobovich@northps.com,icruise123
