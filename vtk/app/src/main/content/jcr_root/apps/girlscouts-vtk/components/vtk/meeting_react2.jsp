@@ -613,10 +613,10 @@ React.createElement(ActivityPlan),
         	this.setState({
         		data: data.yearPlan
         	});
-        });
-    	  
-        this.loadCommentsFromServer(1);
-        setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+        }, 10000);
+        this.dataWorker.start();
+        //this.loadCommentsFromServer(1);
+        //setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         //setInterval( this.checkLocalUpdate, 1000);
         
        

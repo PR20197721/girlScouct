@@ -174,10 +174,11 @@ var VTKDataWorker;
     	return !(readonly == 'true');
     }
     
-    function _VTKDataWorker(path, that, success) {
+    function _VTKDataWorker(path, that, success, interval) {
     	this.path = path;
     	this.that = that;
     	this.success = success;
+    	this.interval = interval;
     	
     	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
     	this.shouldSkipFirst = _checkShouldSkipFirst();
@@ -189,6 +190,10 @@ var VTKDataWorker;
 		var url = this.url;
 		if ((this.isFirstTime && this.shouldSkipFirst) || shouldSkip) {
 			url += "?_=" + (new Date()).getTime();
+		    if (shouldSkip) {
+		    	clearInterval(this.intervalId);
+		    	this.setInterval();
+		    }
 		}
 		if (this.isFirstTime) {
 			this.isFirstTime = false;
@@ -213,8 +218,17 @@ var VTKDataWorker;
                 }
             }.bind(this)
         });
-    }
+    };
     
+    _VTKDataWorker.prototype.setInterval = function() {
+    	this.intervalId = setInterval(this.getData.bind(this), this.interval);
+    }
+
+    _VTKDataWorker.prototype.start = function() {
+    	this.getData();
+    	this.setInterval();
+    };
+
     // Expose the function to global namespace
     VTKDataWorker = _VTKDataWorker;
 })();
