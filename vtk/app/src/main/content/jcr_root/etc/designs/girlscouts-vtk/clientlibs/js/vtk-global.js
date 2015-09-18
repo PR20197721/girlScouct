@@ -185,13 +185,13 @@ var VTKDataWorker;
     	this.isFirstTime = true;
     }
     	
-    _VTKDataWorker.prototype.getData = function() {
+    _VTKDataWorker.prototype.getData = function(shouldSkip) {
 		var url = this.url;
+		if ((this.isFirstTime && this.shouldSkipFirst) || shouldSkip) {
+			url += "?_=" + (new Date()).getTime();
+		}
 		if (this.isFirstTime) {
 			this.isFirstTime = false;
-			if (this.shouldSkipFirst) {
-				url += "?_=" + (new Date()).getTime();
-			}
 		}
 		
         $.ajax({
