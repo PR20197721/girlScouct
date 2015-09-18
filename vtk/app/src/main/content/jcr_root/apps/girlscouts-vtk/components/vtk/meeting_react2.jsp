@@ -105,6 +105,7 @@ String meetingDataUrl = "meeting." + request.getParameter("elem") + ".json";
           
           
           
+       var that = this;
        var commentNodes = this.props.data.map(function (comment ,i ) {
       
         
@@ -138,7 +139,7 @@ String meetingDataUrl = "meeting." + request.getParameter("elem") + ".json";
             React.createElement(YearPlan, {item: comment, key: i}, 
                    React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
-                   React.createElement(SortableList1, {data: comment.meetingInfo.activities})
+                   React.createElement(SortableList1, {data: comment.meetingInfo.activities, forceReload: that.props.forceReload})
             )
           );
 
@@ -599,6 +600,10 @@ React.createElement(ActivityPlan),
        
         this.dataWorker.getData();
       },
+      
+      forceReload: function() {
+    	  this.dataWorker.getData(true);
+      },
 
       getInitialState: function() {
         return {data: []};
@@ -642,7 +647,7 @@ React.createElement(ActivityPlan),
               locations= this.state.data.locations;
              
               return (
-                   React.createElement(MeetingList, {data: x, schedule: sched}) 
+                   React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
         	  helper= this.state.data.helper;
@@ -661,7 +666,7 @@ React.createElement(ActivityPlan),
                   locations= this.state.data.locations;
                   
                   return (
-                       React.createElement(MeetingList, {data: x, schedule: sched}) 
+                       React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
                   );
           }else{
               return React.createElement("div", null, "loading...");
@@ -676,7 +681,7 @@ React.createElement(ActivityPlan),
         },
       onReorder: function (order) {
           this.setState({data: null});
-          this.work
+          this.props.forceReload();
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
