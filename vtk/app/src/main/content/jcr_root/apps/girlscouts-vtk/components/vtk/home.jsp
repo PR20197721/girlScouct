@@ -10,13 +10,9 @@
  
 <%
     HttpSession session = request.getSession();
-
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
-
     try{
-
-    apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-
+         apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
 
     int councilIdInt = 0;
@@ -110,9 +106,10 @@
                     
                     	
                     	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
-                    	
-                    	if( apiConfig!=null && apiConfig.getUser().isAdmin() ){
-                    	    vtkLanding="/content/girlscouts-vtk/en/vtk.resource.html";   
+                    	String userRole = apiConfig.getTroops().get(0).getRole();
+                    	userRole= userRole ==null ? "" : userRole;
+                    	if( apiConfig!=null && !userRole.equals("DP")){// || apiConfig.getUser().isAdmin() )){
+                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
                     	}
                     
                     	

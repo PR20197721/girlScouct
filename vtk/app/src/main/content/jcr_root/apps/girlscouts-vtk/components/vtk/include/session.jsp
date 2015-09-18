@@ -134,11 +134,15 @@ return;
 	boolean  allowParentAccess= Boolean.parseBoolean(configManager.getConfig("allowParentAccess"));
 	if( !allowParentAccess && troop!=null && troop.getTroop()!=null && troop.getTroop().getRole()!=null && troop.getTroop().getRole().toUpperCase().trim().equals("PA" ))
 	{
-		   %>
+
+		%>
+		INKOO 2
 		<div id="panelWrapper" class="row meeting-detail content">
                <div class="columns large-20 large-centered">
                 <p>
-                  The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.  </p>
+                  The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+                  </p>
+                  
                     <p>
                     Stay tuned! 
                 </p>

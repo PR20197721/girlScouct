@@ -69,7 +69,7 @@ public class SalesforceDAO {
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() +vtlApiUserUri+ "?USER_ID="+ apiConfig.getUserId();
 		
-		System.err.println( "tata userSFApi: "+ url );
+		
 		HttpGet method = new HttpGet( url );
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -94,9 +94,9 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			//-rsp = "{\"users\":" + rsp + "}";		
+				
 			log.debug(">>>>> " + rsp);	
-	System.err.println("Userv1.2 resp: "+ rsp);		
+			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);

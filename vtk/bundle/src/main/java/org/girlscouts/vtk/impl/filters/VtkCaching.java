@@ -58,7 +58,7 @@ public class VtkCaching implements javax.servlet.Filter {
         SlingHttpServletResponse res = (SlingHttpServletResponse)response;
         
         String uri = req.getRequestURI();
-        if (uri.startsWith("/content/girlscouts-vtk/en/myvtk/") ) {
+        if (false){//uri.startsWith("/content/girlscouts-vtk/en/myvtk/") ) {
         	
 	         // The following URL are two r/w and read only versions of the same content for resource, year plan, meeting/activity
 	         // /content/girlscouts-vtk/en/[targetPage]
