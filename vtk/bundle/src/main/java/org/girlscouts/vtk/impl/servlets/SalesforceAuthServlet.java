@@ -377,7 +377,7 @@ System.err.println("test6");
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
 			samlResponse.setDestinationUrl(request.getRequestURL().toString()
-					.replace("http://my", "https://my"));
+					.replace("http://my", "https://my").replace("http://girlscouts-dev2","https://girlscouts-dev2") );
 					/*
 					.replace("http://my-uat", "https://my-uat")
 					.replace("http://my-stage", "https://my-stage") );
