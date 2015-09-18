@@ -183,20 +183,16 @@ var VTKDataWorker;
     	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
     	this.shouldSkipFirst = _checkShouldSkipFirst();
     	this.eTag = null;
-    	this.isFirstTime = true;
     }
     	
     _VTKDataWorker.prototype.getData = function(shouldSkip) {
 		var url = this.url;
-		if ((this.isFirstTime && this.shouldSkipFirst) || shouldSkip) {
+		if (shouldSkip) {
 			url += "?_=" + (new Date()).getTime();
-		    if (shouldSkip) {
+		    if (this.intervalId) {
 		    	clearInterval(this.intervalId);
 		    	this.setInterval();
 		    }
-		}
-		if (this.isFirstTime) {
-			this.isFirstTime = false;
 		}
 		
         $.ajax({
@@ -225,7 +221,7 @@ var VTKDataWorker;
     }
 
     _VTKDataWorker.prototype.start = function() {
-    	this.getData();
+    	this.getData(true);
     	this.setInterval();
     };
 
