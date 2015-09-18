@@ -60,7 +60,6 @@ if (troops != null && troops.size() > 1) {
 			  </div>
 			  <div class="columns large-4 medium-4">
 			  
-		       <a href="<%=communityUrl%>">Member Profile</a>
 		      </div>
 		</div>
 

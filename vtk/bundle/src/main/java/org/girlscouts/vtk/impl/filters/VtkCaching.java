@@ -4,7 +4,9 @@ package org.girlscouts.vtk.impl.filters;
 
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Dictionary;
+import java.util.StringTokenizer;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -23,6 +25,9 @@ import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,26 +62,57 @@ public class VtkCaching implements javax.servlet.Filter {
         	
 	         // The following URL are two r/w and read only versions of the same content for resource, year plan, meeting/activity
 	         // /content/girlscouts-vtk/en/[targetPage]
-	         // /content/girlscouts-vtk/en/myvtk/${councilCode}/[targetPage]
+	         // /content/girlscouts-vtk/en/myvtk/${councilCode}/${troopCode || '0'}/[targetPage]
 	        	
 	         HttpSession httpSession = req.getSession();
 	         if( httpSession==null ){
 	        	res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+	        	return;
 	         }
         
-	     	 User user = ((org.girlscouts.vtk.models.User) session
-	    			.getAttribute(org.girlscouts.vtk.models.User.class
-	    					.getName()));
-	    	 user.setSid(session.getId());
-	    	 Troop troop = (Troop) session.getValue("VTK_troop");
-        	
-	            
-	         res.sendRedirect("/content/girlscouts-vtk/en/vtk.resource.html");
+	     	 User user = VtkUtil.getUser(httpSession);
+	    	 Troop troop = VtkUtil.getTroop(httpSession);
+        	 if( user==null || troop==null ){
+        		 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+ 	        	 return;
+        	 }
+        	 
+        	 
+         	String str =uri.substring(uri.indexOf("/myvtk/")+7);
+        	StringTokenizer t = new StringTokenizer( str,"/");
+        	String cid= t.nextToken();
+        	String tid= t.nextToken();
+        	String landingUrl = t.nextToken();
+        	 if( !isValidUrl(user, troop, cid, tid) ){
+        		 res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+  	        	 return;
+        	 }
+        	 
+        	 /*
+     		 PrintWriter out = response.getWriter();
+	         out.println("User: "+ user.getApiConfig().getUser().getName() +" : "+ user.getApiConfig().getUser().getSfUserId() +" Troop: "+ troop.getSfTroopId());
+	         */
+	         res.sendRedirect("/content/girlscouts-vtk/en/"+ landingUrl);
         } else {
             filterChain.doFilter(request, response);
         }
     }
 
+    private boolean isValidUrl(User user, Troop troop, String cid, String tid) {
+    	/*
+    	String str =uri.substring(uri.indexOf("/myvtk/")+7);
+    	StringTokenizer t = new StringTokenizer( str,"/");
+    	String cid= t.nextToken();
+    	String tid= t.nextToken();
+    	*/
+    			
+    	if( cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) && 
+    			( tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()) ) ){
+    		return true;
+    	}
+    return false;	
+    }
+    
     public void init(FilterConfig config) throws ServletException {
     }
     
@@ -87,4 +123,7 @@ public class VtkCaching implements javax.servlet.Filter {
 		Dictionary configs = context.getProperties();
 	
 	}
+    
+    
+    
 }
