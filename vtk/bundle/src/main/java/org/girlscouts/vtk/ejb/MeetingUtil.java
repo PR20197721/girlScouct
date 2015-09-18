@@ -1036,9 +1036,12 @@ if( plan==null ) return new java.util.TreeMap();
 		long nextDate = 0, prevDate = 0;
 		java.util.Date searchDate = null;
 
-		if (request.getParameter("elem") != null) {
-			searchDate = new java.util.Date(Long.parseLong(request
-					.getParameter("elem")));
+		if (request.getParameter("elem") != null || request.getAttribute("elem") != null) {
+			String elem = request.getParameter("elem");
+			if (elem == null) {
+				elem = (String)request.getAttribute("elem");
+			}
+			searchDate = new java.util.Date(Long.parseLong(elem));
 		} else if (false) {// session.getValue("VTK_planView_memoPos") !=null ){
 			searchDate = new java.util.Date(
 					(Long) session.getValue("VTK_planView_memoPos"));
