@@ -610,7 +610,6 @@ React.createElement(ActivityPlan),
       },
       componentDidMount: function() {
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
-        	console.info('********* data.yearPlan = ' + data.yearPlan);
         	this.setState({
         		data: data.yearPlan
         	});
@@ -678,23 +677,21 @@ React.createElement(ActivityPlan),
     
      var SortableList1 = React.createClass({displayName: "SortableList1",
       getInitialState: function() {
-    	  console.info('*********** initlaState = ' + this.props.data);
           return {data: this.props.data};
         },
         
-      componentWillReceiveProps: function() {
-    	 this.setState({data: this.props.data});
+      componentWillReceiveProps: function(newProps) {
+    	 this.setState({data: newProps.data});
       },
 
       onReorder: function (order) {
           this.setState({data: null});
-          this.props.forceReload();
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
                            React.createElement("h6", null, "meeting agenda"), 
                 React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
-                           React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder}), 
+                           React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
                 React.createElement(AgendaItemAdd)
           ); 
@@ -703,7 +700,6 @@ React.createElement(ActivityPlan),
 
     var SortableListItems1 = React.createClass({displayName: "SortableListItems1",
       render: function() {
-    	  console.info('*** sortablelistrender this.props.data = ' + this.props.data);
         if( this.props.data!=null ){
           agendaSched=null;
           return (
@@ -768,9 +764,9 @@ React.createElement(ActivityPlan),
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            repositionActivity1(thisMeetingRefId , yy);
+            repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
             onReorder(order);
-          }
+          }.bind(this)
         });
       },
       componentWillUpdate: function() {
@@ -793,16 +789,16 @@ React.createElement(ActivityPlan),
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
-              repositionActivity1(thisMeetingRefId , yy);
+              repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
               onReorder(order);
-            }
+            }.bind(this)
         });
       }
     });
     
     
     
-      function repositionActivity1(meetingPath,newVals){
+      function repositionActivity1(meetingPath,newVals, callback){
     var x =$.ajax({
     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
     data: '', 
@@ -810,6 +806,7 @@ React.createElement(ActivityPlan),
     success: function (data) { 
     	//location.reload();
     	vtkTrackerPushAction('MoveAgendas');
+    	callback();
     },
     error: function (data) { 
     }
@@ -825,7 +822,7 @@ React.createElement(ActivityPlan),
     		    elem = "";
     		    }
     		    %>
-    React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf"+ getElem(), pollInterval: 5000}),
+    React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf"+ getElem(), pollInterval: 10000}),
       document.getElementById('theMeeting')
     );
 
