@@ -675,14 +675,14 @@ React.createElement(ActivityPlan),
           return {data: this.props.data};
         },
       onReorder: function (order) {
-          isActivNew=1;
-
+          this.setState({data: null});
+          this.work
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
                            React.createElement("h6", null, "meeting agenda"), 
                 React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
-                           React.createElement(SortableListItems1, {key: "{this.props.data}", data: this.props.data, onClick: this.alex, onReorder: this.onReorder}), 
+                           React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
                 React.createElement(AgendaItemAdd)
           ); 
