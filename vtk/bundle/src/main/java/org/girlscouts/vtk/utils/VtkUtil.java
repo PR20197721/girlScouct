@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
@@ -370,4 +371,38 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 		}
 		return false;
 	}
+ 
+ public static User getUser(HttpSession session){
+	 
+	    org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+		try {
+			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+			} else {
+			   return null;
+			}
+		} catch (ClassCastException cce) {
+			return null;
+		} 
+	 
+	return ((org.girlscouts.vtk.models.User) session
+ 			.getAttribute(org.girlscouts.vtk.models.User.class
+ 					.getName()));
+ }
+ 
+ public static Troop getTroop( HttpSession session){
+	 
+	 org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+		try {
+			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+			} else {
+			   return null;
+			}
+		} catch (ClassCastException cce) {
+			return null;
+		} 
+		
+	 return (Troop) session.getValue("VTK_troop");
+ }
 }//end class

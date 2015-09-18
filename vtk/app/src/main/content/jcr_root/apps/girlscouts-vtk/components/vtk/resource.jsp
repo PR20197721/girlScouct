@@ -93,7 +93,7 @@
 
 
 
-		<h1>Search For Resources</h1>
+		<h1>Search For Resources <%=new java.util.Date() %></h1>
 		<div class="ui-widget">
 			<input type="text" id="resourceSearchField" name="q"
 				placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="vtkSearchField" />
