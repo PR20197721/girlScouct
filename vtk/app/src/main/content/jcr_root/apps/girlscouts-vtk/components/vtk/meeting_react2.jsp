@@ -610,6 +610,7 @@ React.createElement(ActivityPlan),
       },
       componentDidMount: function() {
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
+        	console.info('********* data.yearPlan = ' + data.yearPlan);
         	this.setState({
         		data: data.yearPlan
         	});
@@ -677,8 +678,14 @@ React.createElement(ActivityPlan),
     
      var SortableList1 = React.createClass({displayName: "SortableList1",
       getInitialState: function() {
+    	  console.info('*********** initlaState = ' + this.props.data);
           return {data: this.props.data};
         },
+        
+      componentWillReceiveProps: function() {
+    	 this.setState({data: this.props.data});
+      },
+
       onReorder: function (order) {
           this.setState({data: null});
           this.props.forceReload();
@@ -696,6 +703,7 @@ React.createElement(ActivityPlan),
 
     var SortableListItems1 = React.createClass({displayName: "SortableListItems1",
       render: function() {
+    	  console.info('*** sortablelistrender this.props.data = ' + this.props.data);
         if( this.props.data!=null ){
           agendaSched=null;
           return (

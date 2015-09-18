@@ -186,6 +186,7 @@ var VTKDataWorker;
     }
     	
     _VTKDataWorker.prototype.getData = function(shouldSkip) {
+    	console.info('**** shouldSkip = ' + shouldSkip);
 		var url = this.url;
 		if ((this.isFirstTime && this.shouldSkipFirst) || shouldSkip) {
 			url += "?_=" + (new Date()).getTime();
@@ -198,12 +199,14 @@ var VTKDataWorker;
             url: url,
             dataType: 'json',
             success: function(data, textStatus, jqXHR){
+            	console.info('**** success');
                 var eTag = jqXHR.getResponseHeader("ETag");
                 if (eTag) {
                 	this.eTag = eTag;
                 }
                 // Only call the callback if the status code is 200.
                 if (this.success && jqXHR.status == 200) {
+                	console.info('*** callback');
                     this.success.apply(this.that, arguments);
                 }
             }.bind(this),
