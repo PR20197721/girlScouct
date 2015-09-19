@@ -108,10 +108,10 @@
                     	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
                     	String userRole = apiConfig.getTroops().get(0).getRole();
                     	userRole= userRole ==null ? "" : userRole;
-                    	if( apiConfig!=null && !userRole.equals("DP")){// || apiConfig.getUser().isAdmin() )){
-                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
+                    	if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + ".0/vtk.resource.html";   
                     	}
-                    
+                    System.err.println("tata home url: "+ vtkLanding);
                     	
                     %>
                     <!-- Begin of VTK icon -->

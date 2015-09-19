@@ -335,6 +335,14 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 		troop.setRefresh(true);
 	}
 
+
+//check valid cache url /myvtk/
+if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
+	response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+    return;
+}
+
+
 if( false ){//troop!=null && troop.getYearPlan()!=null){
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);

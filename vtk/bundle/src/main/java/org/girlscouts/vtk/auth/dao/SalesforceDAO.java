@@ -96,7 +96,7 @@ public class SalesforceDAO {
 			}
 				
 			log.debug(">>>>> " + rsp);	
-			
+System.err.println(url +" res: "+ rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -595,6 +595,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 						
 					  
 					  if( user.isAdmin() ){
+						  
 						troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 				 	  }
 					
@@ -783,17 +784,17 @@ return contacts;
 
 public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
 	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
-	java.util.List<Troop> troops_withOutAssociation = parseTroops( parentTroops );
+	java.util.List<Troop> troops_withOutAssociation = parseTroops( user, parentTroops );
 	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation,  troops_withAssociation );
 	return merged_troops;
 }
 
 
-public java.util.List<Troop> parseTroops( JSONArray results ){
+public java.util.List<Troop> parseTroops( User user, JSONArray results ){
 	
 	java.util.List<Troop> troops= new java.util.ArrayList<Troop>();
 	for (int i = 0; i < results.length(); i++) {
-		
+System.err.println("parsing parent troops: "+ results.length());		
 		Troop troop = new Troop();
 		try {
 			troop.setCouncilCode(results.getJSONObject(i)
@@ -839,6 +840,12 @@ public java.util.List<Troop> parseTroops( JSONArray results ){
 						.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 			  }
 			  
+			
+			if( user.isAdmin() ){
+				  
+				troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+		 	  }
+			
 			troops.add(troop);
 		}catch(Exception e){e.printStackTrace();}
 		
@@ -865,9 +872,13 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 				//merge permission into troop A
 				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
 				
+			}else{
+				A.add(_troop);
+				
 			}
 		}
 	}
+	
 	return A;
 }
 }//end class

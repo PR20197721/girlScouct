@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -404,5 +405,30 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 		} 
 		
 	 return (Troop) session.getValue("VTK_troop");
+ }
+ 
+ public static boolean isValidUrl(User user, Troop troop, String uri) {
+	 
+	if( uri.trim().indexOf("/myvtk/")==-1 ) return true;
+ 	if( user==null || troop==null || uri==null || uri.trim().equals("") )
+ 		return false;
+ 		
+ 	System.err.println("tata url check: "+ uri);
+ 	try{
+		String str =uri.substring(uri.indexOf("/myvtk/")+7);
+	 	StringTokenizer t = new StringTokenizer( str,"/");
+	 	String cid_tid= t.nextToken();
+	 	//String tid= t.nextToken();
+	 	
+	 	StringTokenizer tt= new StringTokenizer(cid_tid, ".");
+	 	String cid= tt.nextToken();
+	 	String tid= tt.nextToken();
+	 			
+	 	if( cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) && 
+	 			( tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()) ) ){
+	 		return true;
+	 	}
+ 	}catch(Exception e){e.printStackTrace();}
+ return false;	
  }
 }//end class
