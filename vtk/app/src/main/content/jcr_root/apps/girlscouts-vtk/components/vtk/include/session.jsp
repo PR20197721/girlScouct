@@ -97,13 +97,12 @@
 		return;
 	}
 	
-	//if(!apiConfig.getUser().isAdmin() && (apiConfig.getTroops() == null
 			
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
-		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
+		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
@@ -130,6 +129,13 @@ return;
     String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
+	/*
+	//check valid cache url /myvtk/
+	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
+	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+	    return;
+	}
+	*/
 	//NO PARENTS ALLOWED!!!!!
 	boolean  allowParentAccess= Boolean.parseBoolean(configManager.getConfig("allowParentAccess"));
 	if( !allowParentAccess && troop!=null && troop.getTroop()!=null && troop.getTroop().getRole()!=null && troop.getTroop().getRole().toUpperCase().trim().equals("PA" ))
@@ -235,9 +241,7 @@ return;
 		   else
 				   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 
-		   //load troop contacts
-		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
-		   
+		  
 		   
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 			%>
@@ -287,13 +291,7 @@ return;
 		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 
-		/*
-		if (troop != null && troop.getYearPlan() != null
-				&& troop.getYearPlan().getActivities() != null
-				&& troop.getYearPlan().getActivities().size() > 0) {
-			yearPlanUtil.checkCanceledActivity(user, troop);
-		}
-		*/
+		
 		session.setAttribute("VTK_troop", troop);
 	}
 
@@ -304,49 +302,17 @@ return;
 		session.setAttribute("USER_TROOP_LIST", troops);
 	}
 
-	if ((errMsg != null && errMsg.equals("111"))
-			|| (troop.getErrCode() != null && troop.getErrCode()
-					.equals("111"))) {
-%>
-<!--Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db -->
-<%
+	
+
+
+
+
+	//check valid cache url /myvtk/
+	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
+	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+	    return;
 	}
 
-	/*
-	if (isMultiUserFullBlock
-			&& troop != null
-			&& troop.getYearPlan() != null
-			&& !userUtil.isCurrentTroopId(troop,
-					troop.getCurrentTroop())) {
-%><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.111.1</div>
-<%
-		troop.setRefresh(true);
-		return;
-	}
-*/
-	if ((errMsg != null && errMsg.equals("112"))
-			|| (troop.getErrCode() != null && troop.getErrCode().equals("112"))
-	    	) {
-%>
-<div style="color: #fff; background-color: red;">
-One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.
-</div>
-<%
-		troop.setRefresh(true);
-	}
-
-
-//check valid cache url /myvtk/
-if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
-	response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
-    return;
-}
-
-
-if( false ){//troop!=null && troop.getYearPlan()!=null){
-	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
-	request.setAttribute("footerScript", footerScript);
-}
 
 RunMode runModeService = sling.getService(RunMode.class);
 String apps[] = new String[1];

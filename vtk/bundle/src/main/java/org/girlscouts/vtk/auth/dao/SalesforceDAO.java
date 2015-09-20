@@ -197,6 +197,7 @@ System.err.println(url +" res: "+ rsp);
 			if (method != null)
 				method.releaseConnection();
 		}
+
 		return user;
 	}
 	
@@ -840,12 +841,12 @@ System.err.println("parsing parent troops: "+ results.length());
 						.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 			  }
 			  
-			
+	
 			if( user.isAdmin() ){
 				  
 				troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 		 	  }
-			
+
 			troops.add(troop);
 		}catch(Exception e){e.printStackTrace();}
 		
@@ -861,8 +862,13 @@ System.err.println("parsing parent troops: "+ results.length());
 
 public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.List<Troop> B ){
 	
+
 	if( A==null || A.size()<=0 ) return B;
 	if( B==null || B.size()<=0 ) return A;
+System.err.println("start: "+ A.size() +" : "+B.size() );	
+	java.util.List <Troop>troopDiff= getTroopsNotInA( A, B);
+	A.addAll(troopDiff);
+System.err.println("start 1: "+ A.size() +" : "+B.size() );	
 	for(int i=0;i<A.size();i++){
 		Troop troop = A.get(i);
 		for(int y=0;y<B.size();y++){
@@ -872,14 +878,28 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 				//merge permission into troop A
 				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
 				
-			}else{
-				A.add(_troop);
-				
 			}
 		}
 	}
-	
+System.err.println("merged: "+ A.size() );
 	return A;
+}
+
+
+private java.util.List<Troop> getTroopsNotInA( java.util.List<Troop>A, java.util.List<Troop>B){
+	java.util.List <Troop>troopDiff= new java.util.ArrayList();
+	for(int i=0;i<B.size();i++){
+		Troop troop = B.get(i);
+		boolean isFound= false;
+		fA:for(int y=0;y<A.size();y++){
+			Troop _troop = A.get(y);
+			if( _troop.getTroopId().equals( troop.getTroopId())){isFound=true; break fA;}
+		}
+		if( !isFound){
+			troopDiff.add( troop );
+		}
+	}
+	return troopDiff;
 }
 }//end class
 
