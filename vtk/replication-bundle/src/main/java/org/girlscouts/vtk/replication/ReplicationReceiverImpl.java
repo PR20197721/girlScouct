@@ -67,8 +67,10 @@ public class ReplicationReceiverImpl
   public static final String OSGI_PROP_TMPFILE_THRESHOLD = "receiver.tmpfile.threshold";
   public static final int DEFAULT_SAVE_EVERY_HOW_MANY = 1000;
 
-  @Reference
-  private Packaging pkgSvc;
+  /* Girl Scouts Customization BEGIN */
+//  @Reference
+//  private Packaging pkgSvc;
+  /* Girl Scouts Customization END */
 
   @Reference
   private EventAdmin eventAdmin;
@@ -80,7 +82,11 @@ public class ReplicationReceiverImpl
   private long tmpfileThreshold;
   private DurboImporter durboImporter;
 
-  public ReplicationReceiverImpl() { this.pkgSvc = null; }
+  public ReplicationReceiverImpl() { 
+  /* Girl Scouts Customization BEGIN */
+	  //this.pkgSvc = null; 
+  /* Girl Scouts Customization END */
+  }
 
 
   @Activate
@@ -246,7 +252,6 @@ public class ReplicationReceiverImpl
 
     return deletedCount;
   }
-
 
   /* Girl Scouts Customization BEGIN */
 //  protected void bindPkgSvc(Packaging paramPackaging)

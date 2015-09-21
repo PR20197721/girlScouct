@@ -68,12 +68,12 @@ public class FinanceUtil {
 	}
 	
 	public FinanceConfiguration getFinanceConfig(User user, Troop troop, String currentYear) throws IllegalAccessException {
-		
+		/*
 System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) +" : "+
 		(!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID)) +" : "+
 		(( !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ||
 				!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))));
-
+*/
 		if (user != null &&
 			  !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
 							!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))
