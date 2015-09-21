@@ -221,7 +221,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-replication-bundle</Bundle-SymbolicName>
-                        <Private-Package>com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
+                        <Private-Package>com.day.cq.replication.impl,com.day.cq.replication.impl.queue,com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
                     </instructions>
                 </configuration>
