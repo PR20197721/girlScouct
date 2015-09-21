@@ -69,7 +69,7 @@ public class SalesforceDAO {
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() +vtlApiUserUri+ "?USER_ID="+ apiConfig.getUserId();
 		
-		System.err.println( "tata userSFApi: "+ url );
+		
 		HttpGet method = new HttpGet( url );
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -94,9 +94,9 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			//-rsp = "{\"users\":" + rsp + "}";		
+				
 			log.debug(">>>>> " + rsp);	
-	System.err.println("Userv1.2 resp: "+ rsp);		
+System.err.println(url +" res: "+ rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -197,6 +197,7 @@ public class SalesforceDAO {
 			if (method != null)
 				method.releaseConnection();
 		}
+
 		return user;
 	}
 	
@@ -595,6 +596,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 						
 					  
 					  if( user.isAdmin() ){
+						  
 						troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 				 	  }
 					
@@ -783,17 +785,17 @@ return contacts;
 
 public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
 	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
-	java.util.List<Troop> troops_withOutAssociation = parseTroops( parentTroops );
+	java.util.List<Troop> troops_withOutAssociation = parseTroops( user, parentTroops );
 	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation,  troops_withAssociation );
 	return merged_troops;
 }
 
 
-public java.util.List<Troop> parseTroops( JSONArray results ){
+public java.util.List<Troop> parseTroops( User user, JSONArray results ){
 	
 	java.util.List<Troop> troops= new java.util.ArrayList<Troop>();
 	for (int i = 0; i < results.length(); i++) {
-		
+System.err.println("parsing parent troops: "+ results.length());		
 		Troop troop = new Troop();
 		try {
 			troop.setCouncilCode(results.getJSONObject(i)
@@ -839,6 +841,12 @@ public java.util.List<Troop> parseTroops( JSONArray results ){
 						.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 			  }
 			  
+	
+			if( user.isAdmin() ){
+				  
+				troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+		 	  }
+
 			troops.add(troop);
 		}catch(Exception e){e.printStackTrace();}
 		
@@ -854,8 +862,13 @@ public java.util.List<Troop> parseTroops( JSONArray results ){
 
 public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.List<Troop> B ){
 	
+
 	if( A==null || A.size()<=0 ) return B;
 	if( B==null || B.size()<=0 ) return A;
+System.err.println("start: "+ A.size() +" : "+B.size() );	
+	java.util.List <Troop>troopDiff= getTroopsNotInA( A, B);
+	A.addAll(troopDiff);
+System.err.println("start 1: "+ A.size() +" : "+B.size() );	
 	for(int i=0;i<A.size();i++){
 		Troop troop = A.get(i);
 		for(int y=0;y<B.size();y++){
@@ -868,7 +881,25 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 			}
 		}
 	}
+System.err.println("merged: "+ A.size() );
 	return A;
+}
+
+
+private java.util.List<Troop> getTroopsNotInA( java.util.List<Troop>A, java.util.List<Troop>B){
+	java.util.List <Troop>troopDiff= new java.util.ArrayList();
+	for(int i=0;i<B.size();i++){
+		Troop troop = B.get(i);
+		boolean isFound= false;
+		fA:for(int y=0;y<A.size();y++){
+			Troop _troop = A.get(y);
+			if( _troop.getTroopId().equals( troop.getTroopId())){isFound=true; break fA;}
+		}
+		if( !isFound){
+			troopDiff.add( troop );
+		}
+	}
+	return troopDiff;
 }
 }//end class
 

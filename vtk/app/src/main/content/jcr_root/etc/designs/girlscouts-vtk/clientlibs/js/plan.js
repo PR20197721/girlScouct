@@ -1021,7 +1021,7 @@ function councilRpt(troopId, cid){
 	  if( !isLoggedIn ){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
 		  //girlscouts.components.login.signOut();
-	      window.parent.location="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
 		  
 		 
 	  } 

@@ -249,7 +249,7 @@ System.err.println("test6");
 				isVtkLogin=true;
 			
 			redirect(response, configManager.getConfig("communityUrl")
-					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin? "&isVtkLogin=true": "" )));
+					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin ? "?isVtkLogin=true": "" )));
 			  return;
 		}
 		
@@ -376,11 +376,8 @@ System.err.println("test6");
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-			String requestURL = request.getRequestURL().toString();
-			if (!requestURL.startsWith("http://my-local")) {
-				requestURL = requestURL.replace("http://my", "https://my");
-			}
-			samlResponse.setDestinationUrl(requestURL);
+			samlResponse.setDestinationUrl(request.getRequestURL().toString()
+					.replace("http://my", "https://my").replace("http://girlscouts-dev2","https://girlscouts-dev2") );
 					/*
 					.replace("http://my-uat", "https://my-uat")
 					.replace("http://my-stage", "https://my-stage") );
@@ -408,6 +405,7 @@ System.err.println("test6");
 
 			e.printStackTrace();
 		}
+if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
 		setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
@@ -471,8 +469,8 @@ System.err.println("test6");
 			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
-		
-		if( request.getParameter("RelayState")!=null ){
+	}//end oAuthtoken
+	if( request.getParameter("RelayState")!=null ){
 			redirect(response, request.getParameter("RelayState"));
 		}else
 			redirect(response, targetUrl);

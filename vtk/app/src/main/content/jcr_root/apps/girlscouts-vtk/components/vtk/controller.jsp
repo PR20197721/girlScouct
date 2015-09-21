@@ -685,11 +685,11 @@
 					request.getParameter("meetingUid"),
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
-		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
+		} else if (request.getParameter("reactjs") != null) {
 
 			boolean isFirst = false;
-			if ((request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1")) ||
-			    (request.getAttribute("isFirst") != null && request.getAttribute("isFirst").equals("1"))) {
+			if (request.getParameter("isFirst") != null
+					&& request.getParameter("isFirst").equals("1")) {
 				isFirst = true;
 			}
 
@@ -866,7 +866,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-System.err.println("******* 1");
+
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
 						.getTroops().get(0);
@@ -877,7 +877,7 @@ System.err.println("******* 1");
 						break;
 					}
 				}
-System.err.println("******* 2");
+
 				troop = troopUtil.getTroop(user,
 						"" + prefTroop.getCouncilCode(),
 						prefTroop.getTroopId());
@@ -1158,7 +1158,7 @@ System.err.println("******* 2");
 
 				__session.save();
 				
-				sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
+				//-sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
 
 			} catch (Exception e) {
 				e.printStackTrace();

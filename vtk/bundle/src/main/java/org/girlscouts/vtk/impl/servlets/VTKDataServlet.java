@@ -65,5 +65,4 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
 
         dispatcher.forward(request, response);
     }
-    
 }
