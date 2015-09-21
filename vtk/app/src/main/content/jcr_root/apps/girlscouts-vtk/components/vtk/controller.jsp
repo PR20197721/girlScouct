@@ -685,7 +685,7 @@
 					request.getParameter("meetingUid"),
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
-		} else if (request.getParameter("reactjs") != null) {
+		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
 
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
