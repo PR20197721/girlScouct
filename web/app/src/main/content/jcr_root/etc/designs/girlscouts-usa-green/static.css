@@ -123,7 +123,7 @@ padding-right: 0px;
 /*   .small-8.medium-12.large-8.columns.events-image {
 padding: 0;
 }*/
-  
+
   .small-16.medium-12.large-16.columns.events-data {
     padding: 0px 15px 0px 15px;
     margin-bottom: 15px;
@@ -145,7 +145,7 @@ padding: 0;
         margin-bottom: 15px;
     }*/
   /* TODO: apply font size change to link titles with or without links*/
-  
+
   .news-data > h3 a {
     margin: 0;
     font-size: 1rem;
@@ -186,11 +186,11 @@ padding: 0;
 @media only screen and (min-width: 60.063em) {
  .right-off-canvas-menu {
     visibility: hidden !important;
-    display: none !important; 
+    display: none !important;
   }
   .right-off-canvas-menu * {
     visibility: hidden !important;
-    display: none !important; 
+    display: none !important;
   }
 }
 a.menu {
@@ -273,19 +273,19 @@ a:hover.menuHighlight {
   background-color: #009447;
   margin-top: 20px;
 }
-#headerBar>div {
+#headerBar > div {
   /*padding: 3px 10px 0px 10px;*/
 }
 #headerBar ul.inline-list {
   margin: 0 auto;
 }
-#headerBar li {
+#headerBar .inline-list > li {
   margin: 0 20px 0 0;
   padding: 0;
 }
-#headerBar li:last-child {
+#headerBar .inline-list > li:last-child {
   padding-right: 0;
-  /*float: right;*/
+/*  float: right;*/
 }
 #headerBar li:hover {
   /* background-color:#063;*/
@@ -300,6 +300,9 @@ a:hover.menuHighlight {
   margin-top:6px;
 }
 /* dropdown styles. */
+#headerBar .inline-list {
+  overflow: visible;
+}
 #headerBar .inline-list .f-dropdown {
   margin-top: 0;
   box-shadow: 0px 2px 3px #666;
@@ -324,6 +327,9 @@ a:hover.menuHighlight {
 }
 #headerBar .inline-list li.on {
   background-color: #fff;
+  padding-right: 3.442%;
+  margin: 0;
+  position: relative;
 }
 #headerBar .inline-list li.on a {
   color: #333;
@@ -353,7 +359,7 @@ a:hover.menuHighlight {
   font-size: 0.875em;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
-  color:#C1EAD4; 
+  color:#C1EAD4;
 }
 #footer a:hover {
     color: #ffffff;
@@ -387,7 +393,7 @@ a:hover.menuHighlight {
 /*  color:white;*/
   font-size: 32px;
 }
-@media only screen and (max-width: 40em) { 
+@media only screen and (max-width: 40em) {
   #footer div.footer-navigation {
     background-color: #009447;
 /*    padding:10px 0 0 20px;*/
@@ -599,13 +605,13 @@ a:hover.menuHighlight {
 .home-section .content {
   padding: 0;
   border: 0;
-  /* keep this for homepage layout 
+  /* keep this for homepage layout
     border: 1px solid yellow;
 */
 }
 /*.home-section .columns {
       padding: 0 20px;
-    /*keep this for homepage layout 
+    /*keep this for homepage layout
     border: 1px solid orange;
 
 }*/
@@ -614,7 +620,7 @@ a:hover.menuHighlight {
 }*/
 /*.home-section .content .columns {
     /*  padding: 20px;*/
-/* keep this for homepage layout 
+/* keep this for homepage layout
     border: 1px solid green;
 }*/
 .home-section h2 {
@@ -722,7 +728,7 @@ input.form-btn, a.form-btn {
   font-size: 14px;
   letter-spacing: 1px;
   /*line-height: 34px;*/
-  
+
   height: 43px;
   margin: 0;
   padding: 9px 0;
@@ -880,7 +886,7 @@ td.fc-header-left {
     margin:0px;
     margin-bottom:15px;
     width:208px;
- 
+
 }*/
 /*#logoImg{
     padding:0px;
@@ -957,7 +963,7 @@ td.fc-header-left {
 }*/
 /*#leftContent li.active ul li.active{
     background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 9px;  
+    background-position:right 9px;
 }*/
 
 .hrStyle >hr {
@@ -1140,7 +1146,7 @@ div#contactsList {
 }
 div.wrapper .row:nth-child(2) {
   /* background-color: red; */
-  
+
   padding: 5px 0;
 }
 .categoriesList li {
@@ -1156,7 +1162,7 @@ div.wrapper .row:nth-child(2) {
   /*background-repeat: no-repeat;
     background-position: right center;
     */
-  
+
   width: 140px;
   height: 25px;
   color: gray;
@@ -1229,7 +1235,7 @@ form#contact-us textarea {
 .centered-table {
   display: table;
   /* Allow the centering to work */
-  
+
   margin: 0 auto;
 }
 .advancedSearch {
@@ -1352,7 +1358,7 @@ div#eventListWrapper {
 }
 .styled-select, .styled-select select {
   /*width: 129px;*/
-  
+
   width: 138px;
 }
 .styled-select {
@@ -1363,7 +1369,7 @@ div#eventListWrapper {
 }
 .styled-select select {
   /*width: 144px;*/
-  
+
   width: 152px
 }
 /*.home-section .content ul, .home-section .content li {
