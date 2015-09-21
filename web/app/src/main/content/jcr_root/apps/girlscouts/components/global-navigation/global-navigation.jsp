@@ -65,12 +65,12 @@ for (int i = 0; i < links.length; i++) {
         activeStatus = "active";
     }
         %>
-         
+
             <li class="<%= activeStatus %>">
                 <a class="show-for-large-up menu <%= clazz %>" href="<%= path %>"><%= label %></a>
                 <a class="show-for-medium-only menu <%= clazz %>" href="<%= path %>"><%= mLabel %></a>
             </li>
-        
+
         <%
         }
         %>
