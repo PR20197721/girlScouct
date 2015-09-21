@@ -35,7 +35,8 @@
 MIGRATING LOCKABLE...
 <%
 	if ("true".equals(request.getParameter("migrate"))) {
-		Session mySession = resourceResolver.adaptTo(Session.class);
+		org.apache.sling.jcr.api.SlingRepository repo = sling.getService(SlingRepository.class);
+		javax.jcr.Session mySession = repo.loginAdministrative(null);
 		Node vtkRootNode = mySession.getNode("/vtk2015");
 		int modifiedItems = removeLockable(mySession, vtkRootNode);
 		mySession.save();
