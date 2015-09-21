@@ -942,6 +942,10 @@ function councilRpt(troopId, cid){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
 	
+
+		setTimeout(function(){checkIsLoggedIn();}, 5000);
+		     
+
 		if(activeTab!=null && activeTab=='myTroop'){
 			vtkTrackerPushAction('ViewTroop');
 		}
@@ -954,6 +958,7 @@ function councilRpt(troopId, cid){
 			vtkTrackerPushAction('ViewFinances');
 		}
 		
+
 	}
 	
 
@@ -1003,3 +1008,21 @@ function councilRpt(troopId, cid){
       return "";
   }
 
+  var isLoggedIn = false;
+  function resetIsLoggedIn(){
+	  console.log("reset logged in to false...");
+	  isLoggedIn=false;
+  }
+  
+  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; checkIsLoggedIn()}
+  function 	checkIsLoggedIn(){  
+	  if( document.getElementById("myframe")==null){return;}
+	  console.log("checking isLoggedin..."+ isLoggedIn);
+	  if( !isLoggedIn ){
+		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
+		  //girlscouts.components.login.signOut();
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+		  
+		 
+	  } 
+  }

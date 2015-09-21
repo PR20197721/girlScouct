@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.beanutils.BeanComparator;
@@ -111,17 +112,19 @@ public class MeetingUtil {
 		return _activity;
 	}
 
-	public java.util.Map getYearPlanSched(User user, YearPlan plan,
+	public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan,
 			boolean meetingPlanSpecialSort) throws IllegalAccessException, VtkException {
-		return getYearPlanSched(user, plan, meetingPlanSpecialSort, false);
+		return getYearPlanSched(user, troop, plan, meetingPlanSpecialSort, false);
 	}
 
-	public java.util.Map getYearPlanSched(User user, YearPlan plan,
+	public java.util.Map getYearPlanSched(User user, Troop troop, YearPlan plan,
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
+
 			throws IllegalAccessException, VtkException {
 if( plan==null ) return new java.util.TreeMap();
 		if (plan.getSchedule() != null || plan.getActivities() == null
 				|| plan.getActivities().size() <= 0) {
+
 
 			// set meetingInfos if isLoadMeetingInfo
 			if (isLoadMeetingInfo) {
@@ -155,7 +158,17 @@ if( plan==null ) return new java.util.TreeMap();
 
 		// if no sched and activ -> activ on top
 		java.util.Map orgSched = getYearPlanSched(plan);
-		java.util.Map container = new LinkedHashMap();
+		
+		java.util.Map container = null;
+		if( troop !=null && troop.getSfTroopAge()!=null && 
+				(troop.getSfTroopAge().toLowerCase().contains("cadette") || 
+						troop.getSfTroopAge().toLowerCase().contains("senior") ||
+						troop.getSfTroopAge().toLowerCase().contains("ambassador") )){
+			container= new TreeMap();
+		}else{			
+			container= new LinkedHashMap();
+		}
+		
 		java.util.Iterator itr = orgSched.keySet().iterator();
 		while (itr.hasNext()) {
 			java.util.Date date = (java.util.Date) itr.next();
@@ -1010,8 +1023,10 @@ if( plan==null ) return new java.util.TreeMap();
 
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		if( troop.getYearPlan()!=null )
+
 			sched = getYearPlanSched(
-				user, troop.getYearPlan(), false, false);
+				user, troop, troop.getYearPlan(), false, false);
+
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");
 			return null;
@@ -1021,9 +1036,12 @@ if( plan==null ) return new java.util.TreeMap();
 		long nextDate = 0, prevDate = 0;
 		java.util.Date searchDate = null;
 
-		if (request.getParameter("elem") != null) {
-			searchDate = new java.util.Date(Long.parseLong(request
-					.getParameter("elem")));
+		if (request.getParameter("elem") != null || request.getAttribute("elem") != null) {
+			String elem = request.getParameter("elem");
+			if (elem == null) {
+				elem = (String)request.getAttribute("elem");
+			}
+			searchDate = new java.util.Date(Long.parseLong(elem));
 		} else if (false) {// session.getValue("VTK_planView_memoPos") !=null ){
 			searchDate = new java.util.Date(
 					(Long) session.getValue("VTK_planView_memoPos"));
@@ -1066,7 +1084,7 @@ if( plan==null ) return new java.util.TreeMap();
 		java.util.List<MeetingE> meetings = new java.util.ArrayList();
 		java.util.Date today = new java.util.Date();
 		java.util.Map<java.util.Date, YearPlanComponent> sched = getYearPlanSched(
-				user, troop.getYearPlan(), false, false);
+				user, troop, troop.getYearPlan(), false, false);
 		java.util.Iterator itr = sched.keySet().iterator();
 
 		while (itr.hasNext()) {

@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class SentEmail implements Serializable {
 	
 	@Field

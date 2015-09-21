@@ -883,7 +883,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						prefTroop.getTroopId());
 
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
-						.getYearPlanSched(user, troop.getYearPlan(), true, true);
+						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
 					
 				//start milestone
 				try {
@@ -1157,6 +1157,8 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                 jcrNode.setProperty("jcr:mimeType","image/png");
 
 				__session.save();
+				
+				//-sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
 
 			} catch (Exception e) {
 				e.printStackTrace();

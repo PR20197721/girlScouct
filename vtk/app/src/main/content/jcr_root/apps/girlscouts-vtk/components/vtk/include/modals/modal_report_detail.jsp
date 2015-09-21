@@ -13,7 +13,7 @@ impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_ACTIVI
 impersonateRoot.getPermissions().add( PermissionConstants.PERMISSION_VIEW_MEETING_ID);
 
 Troop _troop = troopUtil.getTroop(impersonateRoot, councilCode, troopId);
-java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,
+java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil.getYearPlanSched(impersonateRoot,troop,
 		_troop.getYearPlan(), true, true);
 Set distinctGirl = new HashSet();
 int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;

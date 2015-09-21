@@ -11,17 +11,7 @@
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-
-<%
-//final org.girlscouts.vtk.utils.ModifyNodePermissions modPerm = sling.getService(org.girlscouts.vtk.utils.ModifyNodePermissions.class);
-//modPerm.modifyNodePermissions("/vtk2018", "vtk");
-%>
-
-
-
 <div id="vtkTabNav"></div>
-
-
  <div id="panelWrapper" class="row meeting-detail content">
   <div id="vtkNav"></div>
   <%@include file="include/modals/modal_help.jsp"%>
@@ -37,12 +27,6 @@
 
 
       <script type="text/javascript">
-
-
-//c.w GSVTK-773 fix time difference for councils at other time zones
-//timezone data stored in clientlibs/moment-timezone.js
-moment.tz.setDefault("US/Eastern");
-
 
  var isActivNew;
       var isFirst=1;
@@ -81,7 +65,7 @@ moment.tz.setDefault("US/Eastern");
         isReordering: false,
         componentDidMount: function() {
 
-        	loadNav('plan');
+        	loadNav('plan'); 	
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);

@@ -409,8 +409,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (session != null)
+				if (session != null) {
 					sessionFactory.closeSession(session);
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}

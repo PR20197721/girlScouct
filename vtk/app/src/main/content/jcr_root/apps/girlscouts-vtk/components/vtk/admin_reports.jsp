@@ -49,8 +49,8 @@
 	int count=0;
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
-	    Map<String, String> yearPlanNames = councilRpt.getDistinctPlanNamesPath(brownies);
-	   
+	    Map<String, String> yearPlanNames = councilRpt.getDistinctPlanByName(brownies);
+	    
 	    count++;
   %>
     <div class="row">
@@ -71,12 +71,12 @@
                   java.util.Iterator itr = yearPlanNames.keySet().iterator();
                   while( itr.hasNext()){
                 	  
-                	  String yearPlanPath = (String)itr.next();
+                	  String yearPlanName = (String)itr.next();
   	  
-                	  String yearPlanName= yearPlanNames.get(yearPlanPath);
+                	  String yearPlanPath= yearPlanNames.get(yearPlanName); //yearPlanNames.get(yearPlanPath);
  //out.println(yearPlanPath +" : "+ yearPlanName);                 	  
-                	 // java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
-                	 java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
+                	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+                	// java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanPath( brownies, yearPlanPath );
                      
                 	 int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                 	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
