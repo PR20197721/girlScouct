@@ -54,13 +54,12 @@ public class Response {
 		Base64 base64 = new Base64();
 		byte[] decodedB = base64.decode(response);
 		String decodedS = new String(decodedB);
-//System.err.println("tatata: decode: "+ (base64.e));
-//decodedS= decodedS.replace("ogDP", "caca");		
+		
 
 
 	xmlDoc = Utils.loadXML(decodedS);
-	System.err.println("test RESP: "+decodedS);	
-		System.out.println("----xmlDoc [ "+xmlDoc.getDocumentElement()+" ]");
+
+		
 	}
 
 	
@@ -129,7 +128,7 @@ public class Response {
 	//					}
 						Node recipient = childs.item(c).getAttributes().getNamedItem("Recipient");					
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
-	System.err.println("test3:"+validSubjectConfirmation);
+
 							validSubjectConfirmation = false;
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
@@ -141,7 +140,7 @@ public class Response {
 							now.add(java.util.Calendar.MINUTE, -99);
 							
 							if(notOnOrAfterDate.before(now)){
-System.err.println("test2:"+validSubjectConfirmation);
+
 								validSubjectConfirmation = false;
 							}
 						}
@@ -150,7 +149,6 @@ System.err.println("test2:"+validSubjectConfirmation);
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
-	System.err.println("test1:"+validSubjectConfirmation);
 								validSubjectConfirmation = false;
 							}
 						}
@@ -168,11 +166,8 @@ System.err.println("test2:"+validSubjectConfirmation);
 	*/
 			X509Certificate cert = certificate.getX509Cert();		
 			DOMValidateContext ctx = new DOMValidateContext(cert.getPublicKey(), nodes.item(0));
-	System.err.println("testSign: "+ nodes.item(0));		
-	System.err.println("testPubKey: "+ cert.getPublicKey());
 			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");		
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-	System.err.println("testIsValid: "+xmlSignature.validate(ctx));
 			return xmlSignature.validate(ctx);
 		}catch (Error e) {
 			error.append(e.getMessage());

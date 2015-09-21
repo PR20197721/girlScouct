@@ -637,7 +637,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = expenses[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
 		}
 
@@ -646,7 +645,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = income[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
 		}
 	}
@@ -665,7 +663,6 @@ public class TroopDAOImpl implements TroopDAO {
 					currentNode = currentNode.getNode(pathElements[i]);
 
 				} else {
-					//System.err.println("#####Trying to add node: "+ pathElements[i]);
 					currentNode = currentNode.addNode(pathElements[i],
 							"nt:unstructured");
 

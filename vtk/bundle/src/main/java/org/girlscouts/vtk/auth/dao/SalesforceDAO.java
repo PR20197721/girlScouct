@@ -96,7 +96,7 @@ public class SalesforceDAO {
 			}
 				
 			log.debug(">>>>> " + rsp);	
-System.err.println(url +" res: "+ rsp);			
+			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -330,9 +330,7 @@ System.err.println(url +" res: "+ rsp);
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		
 		String vtkApiContactUri=apiConfig.getVtkApiContactUri();
-		String url=apiConfig.getWebServicesUrl() + vtkApiContactUri + "?troopId=" + sfTroopId ;
-		
-System.err.println("tata contact api : "+ url );		
+		String url=apiConfig.getWebServicesUrl() + vtkApiContactUri + "?troopId=" + sfTroopId ;		
 		HttpGet method = new HttpGet( url );
 				/*
 				apiConfig.getWebServicesUrl()
@@ -359,8 +357,7 @@ System.err.println("tata contact api : "+ url );
 				resp.close();
 			}
 			rsp = "{\"records\":" + rsp + "}";
-			log.debug(">>>>> " + rsp);
-System.err.println("tatarsp: "+ rsp);			
+			log.debug(">>>>> " + rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
@@ -513,19 +510,13 @@ System.err.println("tatarsp: "+ rsp);
 		try {
 			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
 			String url = apiConfig.getWebServicesUrl() +vtkApiTroopUri +"?userId="+ contactId;
-				//	+ "/services/apexrest/activeUserTroopDataV1.2?userId="+ contactId; //no filters
-			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
-			
-System.err.println("tata troopInfo: "+url );	
-			
+				
 			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
-			
-		////	System.err.println("Status code: "+ statusCode);	
+			int statusCode = resp.getStatusLine().getStatusCode();	
 			
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
@@ -537,7 +528,7 @@ System.err.println("tata troopInfo: "+url );
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("<<tata<<<Apex resp: " + response);		
+		
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -656,7 +647,7 @@ String vtkApiTroopLeadersUri = apiConfig.getVtkApiTroopLeadersUri();
 String url =apiConfig.getWebServicesUrl() +vtkApiTroopLeadersUri + "?Troop_ID="+sfTroopId;
 
 HttpGet method = new HttpGet( url ); //apiConfig.getWebServicesUrl() + "/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-System.err.println("tata dp info : "+ url);
+
 
 
 
@@ -706,7 +697,6 @@ resp.close();
 rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
-System.err.println(">>>DP tata info>> " + rsp);
 
 
 try {
@@ -795,7 +785,7 @@ public java.util.List<Troop> parseTroops( User user, JSONArray results ){
 	
 	java.util.List<Troop> troops= new java.util.ArrayList<Troop>();
 	for (int i = 0; i < results.length(); i++) {
-System.err.println("parsing parent troops: "+ results.length());		
+		
 		Troop troop = new Troop();
 		try {
 			troop.setCouncilCode(results.getJSONObject(i)
@@ -865,10 +855,10 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 
 	if( A==null || A.size()<=0 ) return B;
 	if( B==null || B.size()<=0 ) return A;
-System.err.println("start: "+ A.size() +" : "+B.size() );	
+
 	java.util.List <Troop>troopDiff= getTroopsNotInA( A, B);
 	A.addAll(troopDiff);
-System.err.println("start 1: "+ A.size() +" : "+B.size() );	
+	
 	for(int i=0;i<A.size();i++){
 		Troop troop = A.get(i);
 		for(int y=0;y<B.size();y++){
@@ -881,7 +871,7 @@ System.err.println("start 1: "+ A.size() +" : "+B.size() );
 			}
 		}
 	}
-System.err.println("merged: "+ A.size() );
+
 	return A;
 }
 

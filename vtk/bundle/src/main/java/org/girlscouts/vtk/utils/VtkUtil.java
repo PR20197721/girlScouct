@@ -413,7 +413,6 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  	if( user==null || troop==null || uri==null || uri.trim().equals("") )
  		return false;
  		
- 	System.err.println("tata url check: "+ uri);
  	try{
 		String str =uri.substring(uri.indexOf("/myvtk/")+7);
 	 	StringTokenizer t = new StringTokenizer( str,"/");
