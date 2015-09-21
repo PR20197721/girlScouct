@@ -405,6 +405,7 @@ System.err.println("test6");
 
 			e.printStackTrace();
 		}
+if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
 		setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
@@ -468,8 +469,8 @@ System.err.println("test6");
 			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
-		
-		if( request.getParameter("RelayState")!=null ){
+	}//end oAuthtoken
+	if( request.getParameter("RelayState")!=null ){
 			redirect(response, request.getParameter("RelayState"));
 		}else
 			redirect(response, targetUrl);

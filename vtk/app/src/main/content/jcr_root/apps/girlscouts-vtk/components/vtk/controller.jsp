@@ -866,7 +866,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-System.err.println("******* 1");
+
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
 						.getTroops().get(0);
@@ -877,7 +877,7 @@ System.err.println("******* 1");
 						break;
 					}
 				}
-System.err.println("******* 2");
+
 				troop = troopUtil.getTroop(user,
 						"" + prefTroop.getCouncilCode(),
 						prefTroop.getTroopId());

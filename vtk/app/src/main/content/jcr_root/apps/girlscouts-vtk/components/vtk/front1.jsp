@@ -11,7 +11,7 @@ try {
                    Node node = session.getNode(request.getParameter("path") );
                    node.setProperty("analyticsLastUpdated", new java.util.Date().getTime());
                    session.save();
-                   System.err.println("saved: "+request.getParameter("path"));
+                   
                    
 }catch(Exception e){e.printStackTrace();
 }finally{
