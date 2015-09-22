@@ -866,6 +866,11 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 			if( _troop.getTroopId().equals( troop.getTroopId())){
 				
 				//merge permission into troop A
+				try{
+  				  if( _troop.getRole().equals("DP") && troop.getRole().equals("PA"))
+					troop.setRole("DP");
+				}catch(Exception e){e.printStackTrace();}
+				
 				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
 				
 			}
