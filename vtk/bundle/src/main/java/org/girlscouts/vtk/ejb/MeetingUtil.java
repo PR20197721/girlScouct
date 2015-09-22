@@ -1036,8 +1036,9 @@ if( plan==null ) return new java.util.TreeMap();
 		long nextDate = 0, prevDate = 0;
 		java.util.Date searchDate = null;
 
-		if (request.getParameter("elem") != null || request.getAttribute("elem") != null ||
-		    !request.getParameter("elem").equals("first") || !request.getAttribute("elem").equals("first")) {
+		if ((request.getParameter("elem") != null && !request.getParameter("elem").equals("first")) || 
+		    (request.getAttribute("elem") != null && !request.getAttribute("elem").equals("first"))) {
+			
 			String elem = request.getParameter("elem");
 			if (elem == null) {
 				elem = (String)request.getAttribute("elem");
