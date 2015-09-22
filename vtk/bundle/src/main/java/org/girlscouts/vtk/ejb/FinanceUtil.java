@@ -42,8 +42,8 @@ public class FinanceUtil {
 	
 	public Finance getFinances(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException {
 		
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
 		
