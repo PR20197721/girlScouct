@@ -48,7 +48,11 @@ Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
 cookie.setPath("/");
 response.addCookie(cookie);
 
-String meetingDataUrl = "meeting." + request.getParameter("elem") + ".json";
+String elemParam = request.getParameter("elem");
+if (elemParam == null) {
+	elemParam = "first";
+}
+String meetingDataUrl = "meeting." + elemParam + ".json";
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
