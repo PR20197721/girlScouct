@@ -99,6 +99,12 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
  <ul class="side-nav" style="padding:0px"> 
  
 <% 
+// Replace currentPage
+Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+if (newCurrentPage != null) {
+	currentPage = newCurrentPage;
+}
+
 String slingResourceType = "girlscouts/components/placeholder-page";
 for (int i = 0; i < links.length; i++){
 	String[] values = links[i].split("\\|\\|\\|");
