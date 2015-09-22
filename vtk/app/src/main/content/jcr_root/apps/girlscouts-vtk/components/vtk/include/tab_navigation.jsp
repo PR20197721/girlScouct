@@ -15,7 +15,7 @@ if( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("PA"
 }
 String vtk_cache_uri = "";
 if( isParent ){
-	vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() +"."+ troop.getSfTroopId();
+	vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() ;
 }
 
 /*
