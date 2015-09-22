@@ -180,8 +180,14 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 		this.accountId = accountId;
 	}
 	
-	public int compareTo(Contact other)
-	  {
+	public int compareTo(Contact other) {
+		if (this.id == null && (other == null || other.id == null)) {
+			return 0;
+		} else if (other == null || other.id == null) {
+			return 1;
+		} else if (this.id == null) {
+			return -1;
+		} 
 	    return id.compareTo(other.id);
 	  }
 
