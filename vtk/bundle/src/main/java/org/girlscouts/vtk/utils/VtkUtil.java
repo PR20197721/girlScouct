@@ -407,7 +407,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 return (Troop) session.getValue("VTK_troop");
  }
  
- public static boolean isValidUrl(User user, Troop troop, String uri) {
+ public static boolean isValidUrl_withTroop(User user, Troop troop, String uri) {
 	 
 	if( uri.trim().indexOf("/myvtk/")==-1 ) return true;
  	if( user==null || troop==null || uri==null || uri.trim().equals("") )
@@ -416,6 +416,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  	try{
 		String str =uri.substring(uri.indexOf("/myvtk/")+7);
 	 	StringTokenizer t = new StringTokenizer( str,"/");
+	 	
 	 	String cid_tid= t.nextToken();
 	 	//String tid= t.nextToken();
 	 	
@@ -427,6 +428,28 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 			( tid.equals("0") || tid.trim().toLowerCase().equals(troop.getSfTroopId().trim().toLowerCase()) ) ){
 	 		return true;
 	 	}
+	 	
+ 	}catch(Exception e){e.printStackTrace();}
+ return false;	
+ }
+ 
+ public static boolean isValidUrl(User user, Troop troop, String uri) {
+	 
+	if( uri.trim().indexOf("/myvtk/")==-1 ) return true;
+ 	if( user==null || troop==null || uri==null || uri.trim().equals("") )
+ 		return false;
+ 		
+ 	try{
+		String str =uri.substring(uri.indexOf("/myvtk/")+7);
+	 	StringTokenizer t = new StringTokenizer( str,"/");
+	 	
+	 	String cid= t.nextToken();
+	 	
+	 			
+	 	if( cid.trim().toLowerCase().equals(troop.getSfCouncil().trim().toLowerCase()) ){
+	 		return true;
+	 	}
+	 	
  	}catch(Exception e){e.printStackTrace();}
  return false;	
  }
