@@ -108,7 +108,7 @@ if (troops != null && troops.size() > 1) {
         		    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
         		     <a href='#' onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting Plan</a>
            <%}else{ %>
-                     <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en"+vtk_cache_uri +"/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+                     <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
            <%} %>
         </dd>
         <%  } %>
