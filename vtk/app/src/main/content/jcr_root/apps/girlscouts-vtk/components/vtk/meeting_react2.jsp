@@ -41,6 +41,14 @@ pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
+String readonlyModeStr = hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+    hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+
+Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
+cookie.setPath("/");
+response.addCookie(cookie);
+
+String meetingDataUrl = "meeting." + request.getParameter("elem") + ".json";
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
@@ -97,6 +105,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           
           
           
+       var that = this;
        var commentNodes = this.props.data.map(function (comment ,i ) {
       
         
@@ -130,7 +139,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
             React.createElement(YearPlan, {item: comment, key: i}, 
                    React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
-                   React.createElement(SortableList1, {data: comment.meetingInfo.activities})
+                   React.createElement(SortableList1, {data: comment.meetingInfo.activities, forceReload: that.props.forceReload})
             )
           );
 
@@ -589,35 +598,26 @@ React.createElement(ActivityPlan),
      loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
        
-       $.ajax({
-        url: this.props.url + 
-          (isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
-          (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-              this.setState({data:data.yearPlan});
-              
-              
-             
-	          if( isActivNew ==1 ){
-	              isActivNew=2;
-	          }else if( isActivNew ==2 ){
-	              isActivNew=0;
-	          }
-            }.bind(this),
-          error: function(xhr, status, err) {
-            
-          }.bind(this)
-        });
-        },
+        this.dataWorker.getData();
+      },
+      
+      forceReload: function() {
+    	  this.dataWorker.getData(true);
+      },
+
       getInitialState: function() {
         return {data: []};
       },
       componentDidMount: function() {
-        this.loadCommentsFromServer(1);
-        setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        setInterval( this.checkLocalUpdate, 1000);
+        this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
+        	this.setState({
+        		data: data.yearPlan
+        	});
+        }, 10000);
+        this.dataWorker.start();
+        //this.loadCommentsFromServer(1);
+        //setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+        //setInterval( this.checkLocalUpdate, 1000);
         
        
       },
@@ -647,7 +647,7 @@ React.createElement(ActivityPlan),
               locations= this.state.data.locations;
              
               return (
-                   React.createElement(MeetingList, {data: x, schedule: sched}) 
+                   React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
         	  helper= this.state.data.helper;
@@ -666,7 +666,7 @@ React.createElement(ActivityPlan),
                   locations= this.state.data.locations;
                   
                   return (
-                       React.createElement(MeetingList, {data: x, schedule: sched}) 
+                       React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
                   );
           }else{
               return React.createElement("div", null, "loading...");
@@ -679,15 +679,19 @@ React.createElement(ActivityPlan),
       getInitialState: function() {
           return {data: this.props.data};
         },
-      onReorder: function (order) {
-          isActivNew=1;
+        
+      componentWillReceiveProps: function(newProps) {
+    	 this.setState({data: newProps.data});
+      },
 
+      onReorder: function (order) {
+          this.setState({data: null});
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
                            React.createElement("h6", null, "meeting agenda"), 
                 React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
-                           React.createElement(SortableListItems1, {key: "{this.props.data}", data: this.props.data, onClick: this.alex, onReorder: this.onReorder}), 
+                           React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
                 React.createElement(AgendaItemAdd)
           ); 
@@ -760,9 +764,9 @@ React.createElement(ActivityPlan),
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            repositionActivity1(thisMeetingRefId , yy);
+            repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
             onReorder(order);
-          }
+          }.bind(this)
         });
       },
       componentWillUpdate: function() {
@@ -785,16 +789,16 @@ React.createElement(ActivityPlan),
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
-              repositionActivity1(thisMeetingRefId , yy);
+              repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
               onReorder(order);
-            }
+            }.bind(this)
         });
       }
     });
     
     
     
-      function repositionActivity1(meetingPath,newVals){
+      function repositionActivity1(meetingPath,newVals, callback){
     var x =$.ajax({
     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
     data: '', 
@@ -802,6 +806,7 @@ React.createElement(ActivityPlan),
     success: function (data) { 
     	//location.reload();
     	vtkTrackerPushAction('MoveAgendas');
+    	callback();
     },
     error: function (data) { 
     }

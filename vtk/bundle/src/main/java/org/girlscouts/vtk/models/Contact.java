@@ -3,7 +3,7 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class Contact implements java.io.Serializable, Comparable<Contact> {
 
 	private static final long serialVersionUID = -9143046810103196285L;

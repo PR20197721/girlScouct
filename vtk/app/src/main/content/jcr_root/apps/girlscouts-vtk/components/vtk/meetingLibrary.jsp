@@ -50,7 +50,7 @@
 	    try{
 	        sched = meetingUtil
 	                 .getYearPlanSched(user,
-	                         troop.getYearPlan(), true, true);
+	                         troop, troop.getYearPlan(), true, true);
 	    }catch(Exception e){e.printStackTrace();}
 	    BiMap sched_bm=   HashBiMap.create(sched);
 	    com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
@@ -67,7 +67,7 @@
             myMeetingIds.add( meetingId );
             
             java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
-    // System.err.println("tatadddd: "+meetingDate +" : "+ meetingId + " : "+ myMeetings.size() + " : "+myMeetings.get(i).getRefId());       
+          
             if( meetingDate!=null && meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
           	  reAddMeetings.add(meetingId);
                 
