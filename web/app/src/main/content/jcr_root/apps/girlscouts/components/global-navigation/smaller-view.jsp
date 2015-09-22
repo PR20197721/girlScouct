@@ -5,6 +5,7 @@
 <div id="right-canvas-menu"> 
 	<ul class="side-nav" style="padding:0px"> 
 <%
+final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 String[] links = properties.get("links", String[].class);
 request.setAttribute("globalNavigation", links);
 for (int i = 0; i < links.length; i++) {
@@ -15,11 +16,26 @@ for (int i = 0; i < links.length; i++) {
         String clazz = values.length >= 3 ? " "+ values[2] : "";
         String mLabel = values.length >=4 ? " "+values[3] : "";
         String sLabel = values.length >=5 ? " "+values[4] : "";
+        if( path.toLowerCase().contains("vtk")){
+%>
+		<li>
+			<a class="<%= clazz %> homepage" href="<%= path %>"><%= mLabel %></a>
+		</li>
+		<li>
+			<a class="<%= clazz %> homepage" href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a>
+		</li>
+		<li>
+			<a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a>
+		</li>
+<%
+	} else {
+	
 %>
 		<li>
 			<a class="<%= clazz %> homepage" href="<%= path %>"><%= mLabel %></a>
 		</li>
 <%
+	 }
 }
 %>
 	</ul>

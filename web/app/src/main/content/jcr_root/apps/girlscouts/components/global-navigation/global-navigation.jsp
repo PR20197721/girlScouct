@@ -64,6 +64,21 @@ for (int i = 0; i < links.length; i++) {
     ) {
         activeStatus = "active";
     }
+	if( path.toLowerCase().contains("vtk")){
+		%>
+        <li>
+            <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-large-up menuHighlight" aria-expanded="false"><%= label %></a>
+            <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-medium-only menuHighlight" aria-expanded="false"><%= mLabel %></a>
+            <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-small-only menuHighlight" aria-expanded="false"><%= sLabel %></a>
+            <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
+              <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
+              <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
+              <li><a href="<%= path %>">Volunteer Toolkit</a></li>
+            </ul>
+        </li>
+    <%
+    }
+	else{
         %>
 
             <li class="<%= activeStatus %>">
@@ -73,19 +88,10 @@ for (int i = 0; i < links.length; i++) {
 
         <%
         }
-        %>
-        <li>
-            <a data-dropdown="drop1" aria-controls="drop1" class="menuHighlight" aria-expanded="false">MyGS</a>
-            <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
-              <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
-              <li><a href="<%=configManager.getConfig("communityUrl")%>">Member Profile</a></li>
-              <li><a href="/content/girlscouts-vtk/en/vtk.html">Volunteer Toolkit</a></li>
-            </ul>
-        </li>
-    </ul>
-<%
+	}
 }
 %>
+</ul>
 <script>
 
 $(document).foundation({
