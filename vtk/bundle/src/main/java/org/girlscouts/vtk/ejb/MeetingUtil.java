@@ -412,8 +412,8 @@ if( plan==null ) return new java.util.TreeMap();
 
 	public void rmCustomActivity(User user, Troop troop, String activityPath)
 			throws IllegalStateException, IllegalAccessException {
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_RM_ACTIVITY_ID))
 			throw new IllegalAccessException();
 
