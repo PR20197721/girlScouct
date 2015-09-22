@@ -22,10 +22,10 @@ for (int i = 0; i < links.length; i++) {
 			<a class="<%= clazz %> homepage" href="<%= path %>"><%= mLabel %></a>
 		</li>
 		<li>
-			<a class="<%= clazz %> homepage" href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a>
+			<a class="<%= clazz %> homepage" href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a>
 		</li>
 		<li>
-			<a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a>
+			<a href="<%= configManager.getConfig("communityUrl")%>">MEMBER PROFILE</a>
 		</li>
 <%
 	} else {
