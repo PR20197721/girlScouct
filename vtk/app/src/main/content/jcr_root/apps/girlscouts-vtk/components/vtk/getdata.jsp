@@ -15,10 +15,7 @@
 	}
 	
 	Iterator<org.girlscouts.vtk.models.Search> iterator = countries.iterator();
-	while(iterator.hasNext()) {
-		org.girlscouts.vtk.models.Search search = (org.girlscouts.vtk.models.Search) iterator.next();
-		session.setAttribute("search", countries);
-	}
+	session.setAttribute("search", countries);
 %>
 
 
