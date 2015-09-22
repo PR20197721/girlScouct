@@ -36,7 +36,7 @@ if (troops != null && troops.size() > 1) {
 */
 %>
 
-<%=troop.getTroop().getRole() %>
+
 		<div id="troop" class="row hide-for-print">
 			  
 			  <div class="columns large-7 medium-9 right">
