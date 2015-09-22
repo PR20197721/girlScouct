@@ -460,10 +460,12 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 				vtkUser);
 
 	    // Set cookie troopDataPath 
-	    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
-	    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
-	    cookie.setPath("/");
-	    response.addCookie(cookie);
+		if (config.getTroops() != null && !config.getTroops().isEmpty()) {
+		    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+		    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+		    cookie.setPath("/");
+		    response.addCookie(cookie);
+		}
 	}//end oAuthtoken
 
 
