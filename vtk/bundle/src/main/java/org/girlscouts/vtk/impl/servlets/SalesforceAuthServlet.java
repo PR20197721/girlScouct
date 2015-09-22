@@ -360,8 +360,13 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-			samlResponse.setDestinationUrl(request.getRequestURL().toString()
-					.replace("http://my", "https://my").replace("http://girlscouts-dev2","https://girlscouts-dev2") );
+			String requestURL = request.getRequestURL().toString();
+			if (!requestURL.startsWith("http://my-local")) {
+				requestURL = requestURL.replace("http://my", "https://my")
+						.replace("http://girlscouts-dev2","https://girlscouts-dev2");
+			}
+			
+			samlResponse.setDestinationUrl(requestURL);
 					/*
 					.replace("http://my-uat", "https://my-uat")
 					.replace("http://my-stage", "https://my-stage") );
@@ -453,7 +458,15 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
+
+	    // Set cookie troopDataPath 
+	    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+	    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+	    cookie.setPath("/");
+	    response.addCookie(cookie);
 	}//end oAuthtoken
+
+
 	if( request.getParameter("RelayState")!=null ){
 			redirect(response, request.getParameter("RelayState"));
 		}else

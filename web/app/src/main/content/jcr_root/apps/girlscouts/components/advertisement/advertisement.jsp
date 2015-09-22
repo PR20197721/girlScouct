@@ -8,41 +8,99 @@ com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <cq:defineObjects/>
 <%
-String rootPath = properties.get("path", "");
-if (rootPath.isEmpty()) {
-    rootPath = currentSite.get("adsPath", "");
+final int DEFAULT_AD_COUNT = 2;
+final String AD_ATTR = "apps.girlscouts.components.advertisement.currentAd";
+//Setting adCount
+String tempAdCount = currentDesign.getStyle("three-column-page/advertisement").get("adCount", "");
+int adCount = DEFAULT_AD_COUNT;
+if (!tempAdCount.isEmpty()) {
+    try {
+        adCount = Integer.parseInt(tempAdCount);
+    } catch (NumberFormatException e) {}
 }
-if (rootPath.isEmpty()) {
-    rootPath = currentPage.getAbsoluteParent(2).getPath() + "/ads";
+%>
+<%!public boolean isAd(Page currentAd){//return true if page is ad page
+    if(currentAd==null) { return false; }
+	if(currentAd.getProperties().get("sling:resourceType")!=null
+       && currentAd.getProperties().get("sling:resourceType","").indexOf("girlscouts/components/ad-page")>=0){
+        return true;
+    }
+    return false;
 }
 %>
 <%
-if (rootPath.isEmpty()) {
-    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>Advertisement: path not configured.<%
-    }
-    return;
-}
-//Setting adCount
-String tempAdCount = currentDesign.getStyle("three-column-page/advertisement").get("adCount", "");
-int adCount;
-if (tempAdCount.isEmpty()) {
-	int defaultAdCount = 2;
-    adCount = defaultAdCount;
-}
-else {
-    adCount = Integer.parseInt(tempAdCount);
+boolean customized = properties.get("customized", false);
+String[] adPages = properties.get("pages", String[].class);
+
+if(customized){
+	if (adPages!=null) {
+    	for(String itemUrl : adPages){
+            if(adCount > 0){
+                try{
+                	Page currentAd = resourceResolver.getResource(itemUrl).adaptTo(Page.class);
+                    if(isAd(currentAd)) {
+						request.setAttribute(AD_ATTR, currentAd);
+        				%>
+                        <div class="hide-for-small">
+                        <cq:include script="display-ad.jsp"/>
+                        </div>
+                        <div class="show-for-small">
+                        <div class="small-12 columns">
+                        <% request.setAttribute(AD_ATTR, currentAd); %>
+                        <cq:include script="display-ad.jsp"/>
+                        </div>
+                        </div>
+                        <% 
+                        adCount--;
+                    }
+              	}catch(Exception e){ e.printStackTrace();}
+            }else{ break;}
+        }
+	}
 }
 
-Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
-if (adRoot != null) {
-	// For now, there is only one strategy, FIFO, which is the default;
-	String loadPath = rootPath + "." + adCount + ".html";
-	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		loadPath = loadPath + "?wcmmode=disabled";
+//by default show all start
+else{
+    String rootPath = properties.get("path", "");
+    if (rootPath.isEmpty()) {
+        rootPath = currentSite.get("adsPath", "");
+    }
+    if (rootPath.isEmpty()) {
+        if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+            %>Advertisement: Path not configured.<%
+        }
+        return;
+    }
+    try{
+        Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
+        if (adRoot != null) {
+            Iterator<Page> iter = adRoot.listChildren();
+            int renderCount = 0;
+            while(iter.hasNext() && adCount > 0) {
+                Page currentAd = iter.next();
+                if(isAd(currentAd)) {
+                    request.setAttribute(AD_ATTR, currentAd);
+                    %>
+                    <div class="hide-for-small">
+                    <cq:include script="display-ad.jsp"/>
+                    </div>
+                    <div class="show-for-small">
+                    <div class="small-12 columns">
+                    <% request.setAttribute(AD_ATTR, currentAd); %>
+                    <cq:include script="display-ad.jsp"/>
+                    </div>
+                    </div>
+                    <% adCount--; renderCount++;
+                }
+            }
+            if(renderCount == 0 && WCMMode.fromRequest(request) == WCMMode.EDIT){
+                %><h2>No Ads Available To Render</h2> <%
+            }
+        } 
+    }catch(Exception e){
+    	e.printStackTrace();
 	}
-	%>
-	<script type="text/javascript">
-		$('.advertisement').load('<%= loadPath %>');
-	</script>
-<% } %>
+}//show all end
+%>
+
+
