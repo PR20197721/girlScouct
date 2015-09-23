@@ -327,6 +327,9 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
     var ViewMeeting = React.createClass({displayName: "ViewMeeting",
         render: function() {
           var date  = new Date(this.props.dateRaw).getTime();
+          if (date.toString() == 'NaN') {
+        	  date = new Date(this.props.date).getTime();
+          }
             var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
               React.createElement("a", {href: src}, this.props.name)
