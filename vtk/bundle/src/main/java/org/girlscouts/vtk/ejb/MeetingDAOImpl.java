@@ -553,9 +553,11 @@ Removing this because needs to use troop
 				ex.printStackTrace();
 			}
 		}
+		System.err.println("testtt: "+ matched.size() );
 		return matched;
 	}
 */
+
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
 		List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
@@ -2206,8 +2208,6 @@ System.out.println("############# " + path);
 	}
 	
 	
-	
-
 	public List<org.girlscouts.vtk.models.Search> getData(User user,
 
 	Troop troop, String _query) throws IllegalAccessException {

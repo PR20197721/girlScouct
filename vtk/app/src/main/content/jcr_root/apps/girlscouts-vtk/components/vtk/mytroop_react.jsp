@@ -17,7 +17,6 @@
 		try{
 			for(int i=0;i<contacts.size();i++)
 			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
-
 				emailTo += (contacts.get(i).getFirstName()!=null ? contacts.get(i).getFirstName().replace(" ","%20") : "") + java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">")+",";
 			}
 			emailTo = emailTo.trim();
@@ -94,8 +93,3 @@
 
 
 <% } %>
-
-
-
-
-
