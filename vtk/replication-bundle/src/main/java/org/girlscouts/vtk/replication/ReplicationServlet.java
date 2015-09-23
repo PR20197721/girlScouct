@@ -125,7 +125,10 @@ public class ReplicationServlet extends SlingAllMethodsServlet
         response.getWriter().print("ReplicationAction " + actionType + " ok.");
       }
       else {
-        Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
+        /* Girl Scouts Customization START */
+    	// Use this.session instead to prevent event avalanche
+        //Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
+        /* Girl Scouts Customization END */
         String noInstall = request.getParameter("noinstall");
         boolean install = true;
 
@@ -191,7 +194,11 @@ public class ReplicationServlet extends SlingAllMethodsServlet
           path = sb.toString();
         } else {
           ReplicationAction action = new ReplicationAction(actionType, path);
-          this.receiver.receive(session, action, is, request.getContentLength(), out, install, binaryLess);
+          /* Girl Scouts Customization START */
+          //this.receiver.receive(session, action, is, request.getContentLength(), out, install, binaryLess);
+          // Explicitly use this.session to prevent event avalanche.
+          this.receiver.receive(this.session, action, is, request.getContentLength(), out, install, binaryLess);
+          /* Girl Scouts Customization START */
         }
 
       }
