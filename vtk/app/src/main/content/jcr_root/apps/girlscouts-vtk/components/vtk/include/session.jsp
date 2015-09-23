@@ -220,14 +220,13 @@ return;
 		if (cookies != null) {
 			theCookie: for (int i = 0; i < cookies.length; i++) {
 				if (cookies[i].getName().equals("vtk_prefTroop")) {
-					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++)
-						if (apiConfig.getTroops().get(ii)
-								.getGradeLevel()
-								.equals(cookies[i].getValue())) {
+					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+						String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
+					    if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
 							prefTroop = apiConfig.getTroops().get(ii);
 							break theCookie;
 						}
-
+					}
 				}
 
 			}
