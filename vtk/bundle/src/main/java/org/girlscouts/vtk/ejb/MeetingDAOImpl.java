@@ -2151,7 +2151,6 @@ Removing this because needs to use troop
 			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
 			ec.printStackTrace();
-System.out.println("############# " + path);
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
 			

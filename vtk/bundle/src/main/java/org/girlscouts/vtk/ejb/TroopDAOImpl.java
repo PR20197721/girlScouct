@@ -804,10 +804,8 @@ Need to check troop permission.  This breaks parent-admins.
 
 			}
 			if (!ocm.objectExists(asset.getPath())) {
-System.out.println("#### inserting asset " + asset.getPath());
 				ocm.insert(asset);
 			} else {
-System.out.println("#### updating asset " + asset.getPath());
 				ocm.update(asset);
 			}
 			ocm.save();
@@ -1374,10 +1372,8 @@ System.out.println("#### updating asset " + asset.getPath());
 						+ "/meetingCanceled/" + meeting.getUid());
 			}
 			if (!ocm.objectExists(meeting.getPath())) {
-System.out.println("@@@@@@@ inserting meeting " + meeting.getPath());
 				ocm.insert(meeting);
 			} else {
-System.out.println("@@@@@@@ updating meeting " + meeting.getPath());
 				ocm.update(meeting);
 			}
 			ocm.save();

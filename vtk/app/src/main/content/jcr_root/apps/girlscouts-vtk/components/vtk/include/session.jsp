@@ -239,9 +239,7 @@ return;
 		try{
 		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none")) {
 			   ;
-System.out.println("########### is admin and no troop id");
 		   } else {
-System.out.println("########### troop : " + prefTroop.getTroopId());
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 		   }
 

@@ -96,10 +96,6 @@ public class SalesforceDAO {
 			}
 				
 			log.debug(">>>>> " + rsp);	
-System.out.println("#################################### getUser response ");
-System.out.println(url);
-System.out.println(rsp);
-System.out.println("####################################");
 			
 			try {
 				JSONObject response = new JSONObject(rsp);

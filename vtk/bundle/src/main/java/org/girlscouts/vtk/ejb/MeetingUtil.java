@@ -335,9 +335,6 @@ if( plan==null ) return new java.util.TreeMap();
 	public void changeMeetingPositions(User user, Troop troop,
 			String newPositions) throws IllegalAccessException, VtkException {
 
-		for (Integer i : troop.getTroop().getPermissionTokens()) {
-			System.out.println("Permissions of trooop " + i);
-		}
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_EDIT_MEETING_ID)) {
 			troop.setErrCode("112");
