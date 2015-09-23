@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.Calendar;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.util.Random;
 import org.girlscouts.vtk.helpers.TroopHashGenerator;
@@ -94,7 +95,7 @@ public class ReplicationReceiverImpl
   {
     /* Girl Scouts Customization BEGIN */
     //update(props);
-    DurboImportConfiguration conf = new DurboImportConfiguration(null, null, null, -1);
+    DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), -1);
     this.durboImporter = new DurboImporter(conf);
     this.tmpfileThreshold = 100000L;
     if (log.isInfoEnabled()) {
@@ -177,7 +178,7 @@ public class ReplicationReceiverImpl
     } catch (Exception e) {
       // Catch all exceptions here to prevent vtk replication queue from blocking.
       // Then log this path to a special log node
-      log.error("VTK receiver exception. Trying to save a log node into /var/vtk-replication/log. Original message: " + e.getMessage());
+      log.error("VTK receiver exception. Trying to save a log node into /var/vtk-replication/log. Original message: " + e.getMessage(), e);
       String dateString = (new SimpleDateFormat("yyyy/MM/dd")).format(Calendar.getInstance().getTime());
       try {
         String logPath = "/var/vtk-replication/log/" + dateString;
