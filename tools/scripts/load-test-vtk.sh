@@ -57,6 +57,9 @@ read -r -d '' GETURLS <<EOF
     ${server}/content/girlscouts-vtk/en/vtk.finances.html
     ${server}/content/girlscouts-vtk/en/vtk.details.html?elem=1455397200000
     ${server}/content/dam/girlscouts-vtk/local/aid/meetings/D14TC12/Back-in-the-Garden.pdf
+    ${server}/vtk-data/uQzUIAU_79fa9b57ff728bf66b0c7352d7c5e1eb/year-plan.json
+    ${server}/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf&isFirst=1&_=1443022399556
+    ${server}/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf&_=1443022399560
 EOF
 
 
