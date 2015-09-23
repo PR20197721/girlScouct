@@ -74,9 +74,9 @@ System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Pe
 		(( !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ||
 				!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))));
 */
-		if (user != null &&
-			  !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
-							!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))
+		if (troop != null &&
+			  !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
+							!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
 		
 		return troopDAO.getFinanceConfiguration(troop, currentYear);
