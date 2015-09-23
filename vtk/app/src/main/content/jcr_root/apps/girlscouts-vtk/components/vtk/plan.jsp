@@ -157,7 +157,7 @@
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                      React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw:comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                          React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                          React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
 
@@ -181,7 +181,7 @@
     			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
     			        React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
     			        React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
     			            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
     			            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
     			        ),
@@ -209,7 +209,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
     ),
     React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
       React.createElement("p", {className: "subtitle"},
-        React.createElement(ViewMeeting, {date: moment(comment), name: obj[comment].name})
+        React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment), name: obj[comment].name})
       ),
         React.createElement("p", {className: "category"},  obj[comment].content.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") ),
         React.createElement("p", {className: "blurb"}, obj[comment].locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,""))
@@ -326,7 +326,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
     var ViewMeeting = React.createClass({displayName: "ViewMeeting",
         render: function() {
-          var date  = new Date(this.props.date).getTime();
+          var date  = new Date(this.props.dateRaw).getTime();
             var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
               React.createElement("a", {href: src}, this.props.name)
