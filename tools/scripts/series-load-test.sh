@@ -1,5 +1,7 @@
-./load-test-vtk.sh -u 1 -c 'JSESSIONID=69a7e97b-4562-43ad-97f6-ff1330f97e17'
-./load-test-vtk.sh -u 2 -c 'JSESSIONID=69a7e97b-4562-43ad-97f6-ff1330f97e17'
-./load-test-vtk.sh -u 5 -c 'JSESSIONID=69a7e97b-4562-43ad-97f6-ff1330f97e17'
-./load-test-vtk.sh -u 10 -c 'JSESSIONID=69a7e97b-4562-43ad-97f6-ff1330f97e17'
-./load-test-vtk.sh -u 20 -c 'JSESSIONID=69a7e97b-4562-43ad-97f6-ff1330f97e17'
+COOKIES='JSESSIONID=b407f711-5037-4879-b9ef-0f99576cbaae'
+./load-test-vtk.sh -u 1 -c "$COOKIES"
+./load-test-vtk.sh -u 2 -c "$COOKIES"
+./load-test-vtk.sh -u 5 -c "$COOKIES"
+./load-test-vtk.sh -u 10 -c "$COOKIES"
+./load-test-vtk.sh -u 20 -c "$COOKIES"
+./load-test-vtk.sh -h 500 -u 50 -c "$COOKIES"
