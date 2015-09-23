@@ -490,8 +490,10 @@
 
 			ObjectMapper mapper = new ObjectMapper();
 
-			org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-					.getTroops().get(0);
+			org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+			if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+				prefTroop = apiConfig.getTroops().get(0);
+			}
 			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 				if (apiConfig.getTroops().get(ii).getTroopId()
 						.equals(troop.getSfTroopId())) {
@@ -707,9 +709,10 @@
 			}
 
 			if (isFirst || isCng) {
-
-				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-						.getTroops().get(0);
+                                org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+                                if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+                                        prefTroop = apiConfig.getTroops().get(0);
+                                }
 				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 					if (apiConfig.getTroops().get(ii).getTroopId()
 							.equals(troop.getSfTroopId())) {
@@ -718,25 +721,16 @@
 					}
 				}
 
-				troop = troopUtil.getTroop(user,
-						"" + prefTroop.getCouncilCode(),
-						prefTroop.getTroopId());
-				PlanView planView = meetingUtil.planView(user, troop,
-						request);
+				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+				PlanView planView = meetingUtil.planView(user, troop, request);
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 				//planView.getYearPlanComponent().getUid()
 				//for (int i = 0; i < meetings.size(); i++) {
-					
 					MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
 					java.util.List<MeetingE> meetings = new java.util.ArrayList();
 					meetings.add(_meeting);
 					troop.getYearPlan().setMeetingEvents(meetings);
-			
-//?if( ! _meeting.getUid().equals(  request.getParameter("reactjs") )){ _meeting=null;continue;}
-
-
-/*a&a*/
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
@@ -749,9 +743,6 @@ if( attendance !=null && attendance.getUsers()!=null ){
 if( achievement !=null && achievement.getUsers()!=null ){
     achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 }
-/*a&a end*/
-
-
 
 /* 6/15/15 pop mult loc
 if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
@@ -796,9 +787,6 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						}
 
 					}
-				//}
-
-				
 				if( troop!=null && troop.getYearPlan()!=null){
 					Helper helper = troop.getYearPlan().getHelper();
 					if( helper==null ) helper= new Helper();
@@ -806,23 +794,43 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					helper.setPrevDate(planView.getPrevDate());
 					helper.setCurrentDate(planView.getSearchDate().getTime());
 					java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID))
-						permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
-					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID))
-                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
+					if (troop != null && troop.getTroop() != null) {
+						if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
+							permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
+						}
+                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
+                                                }
+                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
+                                                }
+                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
+                                                }
+					}
+					if (user != null && user.getPermissions() != null) { 
+						if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
+						}
+                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID))
+;
+                                                }
+                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID))
+;
+                                                }
+                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID))
+;
+                                                }
+					}
 					helper.setPermissions(permissions);
-					
-					
 					helper.setAchievementCurrent(achievementCurrent);
 					helper.setAttendanceCurrent(attendanceCurrent);
 					helper.setAttendanceTotal(attendanceTotal);
 					troop.getYearPlan().setHelper(helper);
 				}
-				
 				troop.setTroop(prefTroop);
 				troop.setSfTroopId(troop.getTroop().getTroopId());
 				troop.setSfUserId(user.getApiConfig().getUserId());
@@ -868,8 +876,10 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 			}
 
 			if (isFirst || isCng) {
-				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-						.getTroops().get(0);
+				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+					prefTroop = apiConfig.getTroops().get(0);
+				}
 				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 					if (apiConfig.getTroops().get(ii).getTroopId()
 							.equals(troop.getSfTroopId())) {
@@ -963,9 +973,10 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 			}
 
 			if (isFirst || isCng) {
-
-				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-						.getTroops().get(0);
+                                org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+                                if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+                                        prefTroop = apiConfig.getTroops().get(0);
+                                }
 				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 					if (apiConfig.getTroops().get(ii).getTroopId()
 							.equals(troop.getSfTroopId())) {

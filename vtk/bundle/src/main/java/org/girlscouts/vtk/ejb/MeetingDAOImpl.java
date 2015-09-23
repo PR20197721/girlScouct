@@ -165,10 +165,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Meeting getMeeting(User user, String path)
 			throws IllegalAccessException, VtkException {
+/*
+Removing this because needs to use troop
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
+*/
 		Meeting meeting = null;
 		Session session = null;
 		try {
@@ -2146,6 +2149,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
 			ec.printStackTrace();
+System.out.println("############# " + path);
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
 			

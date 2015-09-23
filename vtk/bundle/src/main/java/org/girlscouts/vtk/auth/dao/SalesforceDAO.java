@@ -96,78 +96,61 @@ public class SalesforceDAO {
 			}
 				
 			log.debug(">>>>> " + rsp);	
+System.out.println("#################################### getUser response ");
+System.out.println(url);
+System.out.println(rsp);
+System.out.println("####################################");
 			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
 				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
-					log.debug("_____ " + results.get(i));
-					
-
+					org.json.JSONObject json = results.getJSONObject(i);
 					try {
+						user.setSfUserId(json.getString("Id"));
+                                                try {
+							user.setEmail(json.getString("Email"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have an Email");
+                                                }
 						try {
-							user.setName(results.getJSONObject(i)
-									.getString("FirstName"));
-							
+							user.setName(json.getString("FirstName"));
 							user.setFirstName(user.getName());
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (org.json.JSONException je) {
+							log.info("User " + user.getSfUserId() + " does not have a FirstName");
 						}
-
-						try {
-							user.setEmail(results.getJSONObject(i)
-									.getString("Email"));
-						} catch (Exception e) {
-							log.error("SalesforceDAO.getUser: no email");
+                                                try {
+                                                        user.setLastName( json.getString("LastName") );
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a LastName");
 						}
 						try {
-							user.setPhone(results.getJSONObject(i)
-									.getString("Phone"));
-						} catch (Exception e) {
-							System.err
-									.println("SAlesforceDAO.getUser: no phone");
-						}
-
+							user.setPhone(json.getString("Phone"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a Phone");
+                                                }
 						try {
-							user.setContactId(results.getJSONObject(i)
-									.getString("ContactId"));
-							user.setSfUserId(results.getJSONObject(i)
-									.getString("Id"));
-						} catch (Exception e) {
-							e.printStackTrace();
+							user.setContactId(json.getString("ContactId"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a ContactId");
 						}
-
 						try {
-							user.setEmail( results.getJSONObject(i)
-									.getString("Email"));
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						try {
-							user.setLastName( results.getJSONObject(i)
-									.getString("LastName") );
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						
-						try {
-							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
-									.getBoolean("VTK_Admin__c") );
-							user.setAdminCouncilId(results.getJSONObject(i).getJSONObject("Contact").getJSONObject("Owner")
-									.getInt("Council_Code__c") );
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						
-						
-
+							org.json.JSONObject contactJson = json.getJSONObject("Contact");
+							try {
+								user.setAdmin(contactJson.getBoolean("VTK_Admin__c") );
+							} catch (org.json.JSONException je) {
+								log.info("User " + user.getSfUserId() + " does not have a Contact VTK_Admin__c");
+							}
+							try{
+								user.setAdminCouncilId(contactJson.getJSONObject("Owner").getInt("Council_Code__c") );
+							} catch (org.json.JSONException je) {
+								log.info("User " + user.getSfUserId() + " does not have a Contact Owner");
+							}
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a Contact"
+);
+                                                }
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -774,9 +757,13 @@ return contacts;
 
 
 public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
+System.out.println("##### Finding troops to add to this user");
 	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
+System.out.println("##### troops_withAssociation " + troops_withAssociation.size());
 	java.util.List<Troop> troops_withOutAssociation = parseTroops( user, parentTroops );
-	java.util.List<Troop> merged_troops = mergeTroops(  troops_withOutAssociation,  troops_withAssociation );
+System.out.println("##### troops_withOutAssociation " + troops_withOutAssociation.size());
+	java.util.List<Troop> merged_troops = mergeTroops(  troops_withAssociation,  troops_withOutAssociation );
+System.out.println("##### merged_troops " + merged_troops.size());
 	return merged_troops;
 }
 
@@ -867,10 +854,10 @@ public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.Li
 				
 				//merge permission into troop A
 				try{
-  				  if( _troop.getRole().equals("DP") && troop.getRole().equals("PA"))
+  				  if( "DP".equals(_troop.getRole()) && "PA".equals(troop.getRole())) {
 					troop.setRole("DP");
+				  }
 				}catch(Exception e){e.printStackTrace();}
-				
 				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
 				
 			}

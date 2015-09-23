@@ -142,7 +142,6 @@ return;
 	{
 
 		%>
-		INKOO 2
 		<div id="panelWrapper" class="row meeting-detail content">
                <div class="columns large-20 large-centered">
                 <p>
@@ -206,7 +205,10 @@ return;
 				errMsg = troop.getErrCode();
 		
 	
-	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+	org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+	  if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+		  prefTroop = apiConfig.getTroops().get(0);
+	  }
 	  
 	  if( troop!=null){
 		  for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
@@ -235,10 +237,13 @@ return;
 	 
 	
 		try{
-		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))
+		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none")) {
 			   ;
-		   else
-				   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+System.out.println("########### is admin and no troop id");
+		   } else {
+System.out.println("########### troop : " + prefTroop.getTroopId());
+			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		   }
 
 		  
 		   
@@ -253,7 +258,8 @@ return;
             <%
             return;
 		}catch(IllegalAccessException ex){
-			%><span class="error">Sorry, you have no access to view year plan</span><%
+			ex.printStackTrace();
+			%><span class="error">Sorry, you have no access to view year plan.</span><%
 			return;
 		}
 		

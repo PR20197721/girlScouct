@@ -220,8 +220,7 @@ if (troops != null && troops.size() > 1) {
                   }		   
               	case MEETING:
                 	try { 
-                		
-                		
+				if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
                 		
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
                        if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
@@ -234,6 +233,7 @@ if (troops != null && troops.size() > 1) {
                         <li id="replaceMeetingSmall"></li>
                         <%
                         }
+			}
                     } catch (Exception te) {
                       te.printStackTrace();
                     }

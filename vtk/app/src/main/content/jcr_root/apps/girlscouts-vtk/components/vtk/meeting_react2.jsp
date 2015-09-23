@@ -693,9 +693,9 @@ React.createElement(ActivityPlan),
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
-                           React.createElement("h6", null, "meeting agenda"), 
-                React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
-                           React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}), 
+		React.createElement("h6", null, "meeting agenda"), 
+                React.createElement("p", null, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
+		React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
                 React.createElement(AgendaItemAdd)
           ); 
@@ -723,7 +723,7 @@ React.createElement(ActivityPlan),
     		            React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
     		          ), 
     		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
-    		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
+    		            React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
     		            ), 
     		            React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
     		              React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
