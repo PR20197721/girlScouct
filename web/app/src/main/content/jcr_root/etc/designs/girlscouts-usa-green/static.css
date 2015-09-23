@@ -328,7 +328,7 @@ a:hover.menuHighlight {
 }
 #headerBar .inline-list li.on {
   background-color: #fff;
-  padding-right: 3.442%;
+  padding-right: 0;
   margin: 0;
   position: relative;
 }
