@@ -1169,7 +1169,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 				__session.save();
 				
-				//-sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
+				sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
 
 			} catch (Exception e) {
 				e.printStackTrace();
