@@ -311,7 +311,7 @@ a:hover.menuHighlight {
   color: #fff;
 }
 #headerBar .inline-list a.menuHighlight {
-  padding:0 10px;
+  padding:0px;
 }
 #headerBar .inline-list li.on {
   background-color: #fff;
