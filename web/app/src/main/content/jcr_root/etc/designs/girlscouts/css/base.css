@@ -311,11 +311,11 @@ a:hover.menuHighlight {
   color: #fff;
 }
 #headerBar .inline-list a.menuHighlight {
-  padding:0px;
+  padding:0 10px;
+  margin: 0;
 }
 #headerBar .inline-list li.on {
   background-color: #fff;
-  padding-right: 0;
   margin: 0;
   position: relative;
 }
