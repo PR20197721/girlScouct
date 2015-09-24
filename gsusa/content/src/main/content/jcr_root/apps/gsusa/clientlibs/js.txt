@@ -3,5 +3,6 @@
 main.js
 dynamic-pathfield.js
 simple-link-widget.js
+shop-tile-widget.js
 toggleparsys.js
 icon-picker.js

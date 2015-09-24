@@ -6,7 +6,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class Milestone extends YearPlanComponent implements Serializable {
 
 	@Field(path = true)

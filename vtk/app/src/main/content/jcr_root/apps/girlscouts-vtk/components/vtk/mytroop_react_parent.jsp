@@ -32,10 +32,12 @@
 
         java.util.Map<java.util.Date, YearPlanComponent> sched = null;
         try{
-            sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
+            sched = meetingUtil.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
         }catch(Exception e){e.printStackTrace();}
 
-        BiMap sched_bm=   HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
+        BiMap sched_bm=   com.google.common.collect.HashBiMap().create();
+        if( sched!=null)
+        	HashBiMap.create(sched);
         com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 %>
 <%@include file="include/utility_nav.jsp"%>

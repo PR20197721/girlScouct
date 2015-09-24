@@ -1,111 +1,369 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page import="org.apache.sling.commons.json.*, java.io.*, java.util.regex.*, java.net.*, org.apache.sling.commons.json.*, org.apache.sling.api.request.RequestDispatcherOptions, com.day.cq.wcm.api.components.IncludeOptions, org.apache.sling.jcr.api.SlingRepository" %>
+<%@page session="false" %>
+<%!
+public String extractYTId(String ytUrl) {
+	String vId = null;
+	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
+	Matcher matcher = pattern.matcher(ytUrl);
+	if (matcher.matches()){
+		vId = matcher.group(1);
+	}
+	return vId;
+}
+
+public String extractVimeoId(String vimeoUrl) {
+	String vId = null;
+	Pattern pattern = Pattern.compile(".*(?:vimeo.com.*/)(\\d+)");
+	Matcher matcher = pattern.matcher(vimeoUrl);
+	if (matcher.matches()){
+		vId = matcher.group(1);
+	}
+	return vId;
+}
+
+public  String readUrlFile(String urlString) throws Exception {
+	BufferedReader reader = null;
+	try {
+		URL url = new URL(urlString);
+		reader = new BufferedReader(new InputStreamReader(url.openStream()));
+		StringBuffer buffer = new StringBuffer();
+		int read;
+		char[] chars = new char[1024];
+		while ((read = reader.read(chars)) != -1)
+			buffer.append(chars, 0, read);
+		return buffer.toString();
+	} catch (java.net.UnknownHostException uhe) {
+		return "";
+	} finally {
+		if (reader != null) {
+			reader.close();
+		}
+	}
+}
+
+%>
+<%
+	String[] emptyArray = new String[1];
+	String content = properties.get("content", "Join Now");
+	String btnName = properties.get("button", "Explore Girl Scouts");
+	String title = properties.get("title", "Introduce girls to");
+	String[] imagePathArray = properties.get("imagePath", emptyArray);
+	Integer interval = properties.get("interval", 1000);
+	String[] imageAlt = properties.get("imageAlt", emptyArray);
+
+
+	String[] content2 = properties.get("content2", emptyArray);
+	String[] imagePath2 = properties.get("imagePath2", emptyArray);
+	String[] subtitle2 = properties.get("subtitle2", emptyArray);
+	String title2 = properties.get("title2", "");
+	String[] imageAlt2 = properties.get("imageAlt2", emptyArray);
+
+	String[] content3 = properties.get("content3", emptyArray);
+	String[] imagePath3 = properties.get("imagePath3", emptyArray);
+	String[] subtitle3 = properties.get("subtitle3", emptyArray);
+	String title3 = properties.get("title3", "");
+	String[] imageAlt3 = properties.get("imageAlt3", emptyArray);
+
+
+	String title4 = properties.get("title4", "");
+
+	String title5 = properties.get("title5", "");
+	String videoType50 = properties.get("videoType50", "");
+	String videoType51 = properties.get("videoType51", "");
+	String videoType52 = properties.get("videoType52", "");
+	String videoType53 = properties.get("videoType53", "");
+	String[] videoType5 = {videoType50, videoType51, videoType52, videoType53};
+	String[] videoThumbNail = new String[4];
+	String[] videoId = new String[4];
+	String[] embeded = new String[4];
+	String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
+	String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
+	String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
+	String[] vidThumbnailTitle5 = {properties.get("thumbnailTitle50", ""),
+			properties.get("thumbnailTitle51", ""),
+			properties.get("thumbnailTitle52", ""),
+			properties.get("thumbnailTitle53", "")
+	};
+
+	String title6 = properties.get("title6", "");
+	String content6 = properties.get("content6", "");
+	String imagePath6 = properties.get("imagePath6", "");
+    String imageAlt6 = properties.get("imageAlt6", "");
+	String closingSource6 = properties.get("closingSource6", "not_set");
+
+	String source7 = properties.get("source7", "not_set");
+
+	//passing this to another jsp
+	request.setAttribute("source7", source7);
+
+	//validation
+	String errorMessage = "";
+
+	if (imagePathArray.length != imageAlt.length) {
+		errorMessage += "The number of images and \"image alts\" need to be the same in the \"Opening Page\" tab <br>";
+	}
+	if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length || subtitle2.length != imageAlt2.length) {
+		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
+	}
+	if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length || subtitle3.length != imageAlt3.length) {
+		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
+	}
+	if (!"".equals(errorMessage)) {
+		errorMessage += "Please right click on this message and edit the carousel component.";
+%>
+		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>
+<%
+		return;
+	}
+
+	//now get all the variables
+	for (int i = 0 ; i < 4; i++ ){
+		if ("link".equals(videoType5[i])) {
+			String link = properties.get("videoLink5" + i, "");
+			if (link.indexOf("youtube") != -1) {
+				String ytId = extractYTId(link);
+				videoId[i] = ytId;
+				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
+
+				String browser = request.getHeader("User-Agent");
+				System.out.println(browser);
+				if (browser.indexOf("MSIE") != -1) {
+					embeded[i] ="<object type=\"application/x-shockwave-flash\" data=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\"><param name=\"movie\" value=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" /></object>";
+				} else {
+					embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
+				}
+
+				//embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
+			} else if (link.indexOf("vimeo") != -1) {
+				String vimeoId = extractVimeoId(link);
+				videoId[i] = vimeoId;
+				String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+				if (!"".equals(jsonOutput)) {
+					JSONArray json = new JSONArray(jsonOutput);
+					if (!json.isNull(0)) {
+						videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+					}
+				}
+				embeded[i] = "<iframe id=\"vimeoPlayer" + i +"\" src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+			} else {
+				videoThumbNail[i] = "not supported";
+			}
+		} else if ("path".equals(videoType5[i])) {
+			String videoPath = properties.get("videoPath5" + i, "");
+			videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
+
+			//add video node
+			if (currentNode != null) {
+				SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
+				Session session = repository.loginAdministrative(null);
+
+				Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
+				if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+					vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
+					vid.setProperty("asset", videoPath);
+					vid.setProperty("sling:resourceType", "gsusa/components/video");
+				} else {
+					vid = session.getNode(resource.getPath() + "/" + vidNames[i]);
+					vid.setProperty("asset", videoPath);
+					vid.setProperty("sling:resourceType", "gsusa/components/video");
+				}
+
+				session.save();
+				session.logout();
+			}
+			//done adding video.
+			embeded[i] = "";
+		} else if("photo".equals(videoType5[i])){
+			String photoPath = properties.get("newsPic5" + i, "");
+			videoThumbNail[i] = photoPath;
+			//done adding video.
+			embeded[i] = "";
+		} else {
+			//videoType5[i] equals "none". Do nothing
+
+		}
+	}
+%>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+	});
+	var isRetina = (
+		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
+	);
+
+	//this value is used to adjust the speed of hte carousel on the first opening page.
+	interval = <%= interval %>;
+
+</script>
 <div class="hero-feature">
-    <div class="overlay"></div>
-    <ul class="main-slider">
-        <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home1.png" alt="" class="slide-thumb"/>
-        </li>
-        <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home2.png" alt="" class="slide-thumb"/>
-        </li>
-        <li>
-            <img src="/content/dam/girlscouts-gsusa/images/homepage-heroes/home3.png" alt="" class="slide-thumb"/>
-        </li>
-    </ul>
-    <div class="hero-text">
-        <section>
-            <img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" />
-            <h2>Introduce girls to</h2>
-            <p>experiences that show them they're capable of more than they ever imagined. You'll be their cheerleader, guide and mentor, helping them develop skills and confidence that will last long after the meeting is over. </p>
-            <a href="#" class="button">Explore Girlscouts</a>
-        </section>
-    </div>
-    <cq:include path="content/zip-council" resourceType="gsusa/components/zip-council" />
-    <div class="position">
-        <div class="inner-sliders">
-            <ul class="inner">
+	<div id="hiddenThumbnail0" style=display:none><%=vidThumbnailTitle5[0]%></div>
+	<div id="hiddenThumbnail1" style=display:none><%=vidThumbnailTitle5[1]%></div>
+	<div id="hiddenThumbnail2" style=display:none><%=vidThumbnailTitle5[2]%></div>
+	<div id="hiddenThumbnail3" style=display:none><%=vidThumbnailTitle5[3]%></div>
+	<div class="overlay"></div>
+	<ul class="main-slider">
+<%
+	for (int i = 0 ; i < imagePathArray.length; i++) {
+%>
+		<li id="tag_explore_main_<%=i%>"><img src="<%= getImageRenditionSrc(resourceResolver, imagePathArray[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/></li>
+<%
+	}
+%>
+	</ul>
+	<div class="hero-text first">
+		<section>
+			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" data-at2x="/etc/designs/gsusa/clientlibs/images/white_trefoil@2x.png" />
+			<h2><%= title %></h2>
+			<p><%= content %></p>
+			<a id="tag_explore_<%= linkifyString(btnName, 25)%>" href="#" class="button explore" tabindex="51"><%= btnName %></a>
+		</section>
+	</div>
+	<div class="position">
+		<div class="inner-sliders">
+			<ul class="inner">
+				<li>
+					<ul class="slide-4">
+<%
+	for (int i = 0 ; i < 4; i++) {
+                String displayContent = "";
+                if (content5[i] != null) {
+                        displayContent = content5[i].trim();
+                }
+%>
+                                                <li id="tag_explore_slide4_<%=i%>">
+<%
+		if("photo".equals(videoType5[i])){
+%>
+							<h3><%= title5 %></h3>
+							<div class="video-wrapper">
+								<div class="video video-embed">
+								  <img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
+								</div>
+								<div class="video-article">
+									<h4><%= subtitle5[i] %></h4>
+									<p><%= displayContent %></p>
+								</div>
+							</div>
+<%
+		} else if ("link".equals(videoType5[i])) {
+%>
+							<h3><%= title5 %></h3>
+							<div class="video-wrapper">
+								<div class="video-embed">
+									<img src="<%= videoThumbNail[i] %>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
+									<%= embeded[i] %>
+								</div>
+								<div class="video-article">
+									<h4><%= subtitle5[i] %></h4>
+									<p><%= displayContent %></p>
+								</div>
+							</div>
+<%
+		} else if ("path".equals(videoType5[i])) {
+%>
+							<h3><%= title5 %></h3>
+							<div class="video-wrapper">
+								<div class="video video-embed">
+									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
+									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
+								</div>
+								<div class="video-article">
+									<h4><%= subtitle5[i] %></h4>
+									<p><%= displayContent %></p>
+								</div>
+							</div>
+<%
+		} else {
+//none
+		}
+%>
+						</li>
+<%
+	}
+%>
+					</ul>
+				</li>				<li>
+				<ul class="slide-2">
+<%
+	for (int i = 0 ; i < imagePath3.length; i++) {
+                String displayContent = "";
+                if (content3[i] != null) {
+                        displayContent = content3[i].trim();
+                }
+%>
+						<li id="tag_explore_slide2_<%=i%>">
+							<h3><%= title3 %></h3>
+							<div class="text white">
+								<h4><%= subtitle3[i] %></h4>
+								<p><%= displayContent %></p>
+							</div>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
+						</li>
+<%
+	}
+%>
+					</ul>
+				</li>
                 <li>
-                    <ul class="slide-1">
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/1.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/2.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/3.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>What do girlscouts do? stuff like this:</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/4.png" alt="" class="slide-thumb"/>
-                        </li>
-                    </ul>
-                </li>
-                <li>
-                    <ul class="slide-2">
-                        <li>
-                            <h3>we like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/5.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/6.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/7.png" alt="" class="slide-thumb"/>
-                        </li>
-                        <li>
-                            <h3>We like to get outdoors</h3>
-                            <div class="text white">
-                                <h4>Splash, Paddle, and Sail</h4>
-                                <p>Learn how to launch, paddle a canoe and pilot a sailboat around the lake on an aquatic adventure. Spend a night tent camping out and cooking out. Ages 11 and up. All campers must pass a swim test and water safety training. Ages 10 and up.</p>
-                            </div>
-                            <img src="/etc/designs/gsusa/clientlibs/images/8.png" alt="" class="slide-thumb"/>
-                        </li>
-                    </ul>
-                    <li>
-                        <ul class="slide-3">
-                            <li>
-                                <h3>We like to socialize</h3>
-                                <cq:include path="content/facebook-feed" resourceType="gsusa/components/facebook-feed" />
-                            </li>
-                        </ul>
-                    </li>
-                </li>
-            </ul>
-        </div>
-    </div>
+					<ul class="slide-1">
+<%
+	for (int i = 0 ; i < imagePath2.length; i++) {
+		String displayContent = "";
+		if (content2[i] != null) {
+			displayContent = content2[i].trim();
+		}
+%>
+						<li id="tag_explore_slide1_<%=i%>">
+							<h3><%= title2 %></h3>
+							<div class="text white">
+								<h4><%= subtitle2[i] %></h4>
+								<p><%= displayContent %></p>
+							</div>
+							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
+						</li>
+<%
+	}
+%>
+					</ul>
+				</li>
+				<li>
+					<ul class="slide-3">
+						<li id="tag_explore_slide3">
+							<h3><%= title4 %></h3>
+							<div class="blog-feed">
+							<%
+							//Removes editing for this component, because its configuration is handled in carousel's dialog
+							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+							%>
+							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
+							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
+							</div>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="final-comp">
+		<div class="hero-text">
+			<section>
+				<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon"/>
+				<h2><%= title6%></h2>
+				<p><%= content6 %></p>
+				<form id="tag_explore_final" action="#" name="join-now" class="formJoin join-now-form clearfix">
+					<input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" class="join-text hide" placeholder="Enter ZIP Code">
+					<input type="hidden" name="source" value="<%= closingSource6 %>">
+					<a href="#nogo" class="button join-now">Join Now</a>
+				</form>
+			</section>
+		</div>
+		<img src="<%= getImageRenditionSrc(resourceResolver, imagePath6, "cq5dam.npd.hero.")%>" alt="<%= imageAlt6 %>" class="main-image" />
+	</div>
+	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>
+<%
+	request.removeAttribute("source7");
+%>

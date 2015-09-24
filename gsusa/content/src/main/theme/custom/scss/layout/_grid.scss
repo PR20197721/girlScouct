@@ -1,3 +1,6 @@
+.row {
+  background: $white;
+}
 .right-col,
 .left-col {
     @include grid-column(24);
@@ -9,28 +12,33 @@
   .middle-col {
     @include grid-column(24);
     @media #{$medium-up} {
-      @include grid-column(18);
+      @include grid-column(19);
     }
   }
 }
 .three-cols {
+  @include grid-column(24, $collapse:true);
+  .right-wrapper {
+    @include grid-column(19, $collapse:true);
+    @media #{$small-only} {
+      @include grid-column(24);
+    }
+  }
   .middle-col {
     @include grid-column(24);
     @media #{$medium-up} {
-      @include grid-column(13);
+      @include grid-column(17);
     }
   }
   .right-col {
     @include grid-column(24);
     @media #{$medium-up} {
-      @include grid-column(6);
+      @include grid-column(7);
     }
   }
 }
 .hero-section {
-  @media #{$medium-up} {
-    @include grid-column(19);
-  }
+  @include grid-column(24, $collapse:true);
 }
 .one-cols {
   .middle-col {

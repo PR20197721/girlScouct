@@ -8,8 +8,16 @@
     <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
     <!-- <filter root="/etc/replication/agents.publish/vtk-publish"/> -->
     <filter root="/etc/map.publish/vtk-data"/>
+    <filter root="/etc/map.publish/myvtk"/>
     <filter root="/etc/map.publish.dev/vtk-data"/>
+    <filter root="/etc/map.publish.dev/myvtk"/>
     <filter root="/etc/map.publish.stage/vtk-data"/>
+    <filter root="/etc/map.publish.stage/myvtk"/>
     <filter root="/etc/map.publish.uat/vtk-data"/>
-    <filter root="/etc/map.publish.production/vtk-data"/>
+    <filter root="/etc/map.publish.uat/myvtk"/>
+    <filter root="/etc/map.publish.prod/vtk-data"/>
+    <filter root="/etc/map.publish.prod/myvtk"/>
+    <filter root="/etc/map.publish.prod.preview/vtk-data"/>
+    <filter root="/etc/map.publish.prod.preview/myvtk"/>
+    <filter root="/content/vtk-maintenance"/>
 </workspaceFilter>

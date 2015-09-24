@@ -6,7 +6,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class CouncilInfo implements Serializable {
 
 	@Field(path = true)

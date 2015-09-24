@@ -3,4 +3,4 @@
     jcr:description="Gathers Facebook feed Data and presents it with Girl Scouts Styling"
     jcr:primaryType="cq:Component"
     jcr:title="Facebook Feed"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>

@@ -2,6 +2,7 @@ blockquote {
   border: none;
   position: relative;
   padding: 0;
+  color:#ffffff;
   .wrapper {
     padding: rem-calc(20 50 0);
   }
@@ -12,7 +13,10 @@ blockquote {
   p {
     position: relative;
     padding: rem-calc(0 25);
+    word-wrap:break-word;
+    max-width:100%;
     margin: 0;
+    color:#ffffff;
     &:before,
     &:after {
       font-size: rem-calc(48);
@@ -21,21 +25,21 @@ blockquote {
       font-style: italic;
       width: 100%;
     }
-    &:before {
+  }
+  &.quotes{
+    p:first-child:before {
       content: open-quote;
       top: rem-calc(9);
       left: 0;
     }
-    &:after {
+    p:nth-last-child(3):after {
       content: close-quote;
       bottom: 0;
     }
   }
-  &.bg-color {
-    .white {
-      color: $white;
-      & * {color: $white};
-    }
+  p.quotee {
+  	text-align:right;
+  }
   &.fuchsia {
     background: $fuchsia;
     border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
@@ -60,8 +64,11 @@ blockquote {
     background: $lightgreen;
     border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
   }
-  }
   &.bg-image {
+    color: $black;
+    p {
+    	color: $black;
+    }
     &:before,
     &:after {
       content: "";
@@ -72,9 +79,6 @@ blockquote {
     &:before {
       margin-bottom: rem-calc(20);
     }
-  }
-  .black {
-    color: $black;
   }
   .social-icons {
     float: right;

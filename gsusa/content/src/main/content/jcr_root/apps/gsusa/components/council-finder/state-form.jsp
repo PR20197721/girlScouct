@@ -1,6 +1,6 @@
 <section>
-	<select name="state">
-		<option value="N/A">Select a State:</option>
+	<select required name="state">
+		<option value="">Select a State:</option>
 		<option value="AL">Alabama</option>
 		<option value="AK">Alaska</option>
 		<option value="AZ">Arizona</option>

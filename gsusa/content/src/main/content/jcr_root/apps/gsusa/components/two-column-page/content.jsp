@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- content -->
 <div id="main" class="two-cols">
-    <cq:include path="content/top/par" resourceType="foundation/components/parsys" />
+    <cq:include path="content/top/par" resourceType="girlscouts/components/styled-parsys" />
     <div class="left-col">
         <cq:include script="left.jsp"/>
     </div>

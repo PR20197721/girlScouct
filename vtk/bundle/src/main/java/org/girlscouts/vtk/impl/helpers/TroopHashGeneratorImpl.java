@@ -31,6 +31,10 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
             }
 
             String hash = sb.toString();
+            // prepend last seven characters of troopId
+            int length = troopId.length();
+            String prepend = length >= 7 ? troopId.substring(length - 7) : troopId;
+            hash = prepend + "_" + hash;
             log.debug("Hash generated: " + hash);
             return hash;
         } catch (UnsupportedEncodingException e) {
@@ -63,6 +67,10 @@ public class TroopHashGeneratorImpl implements TroopHashGenerator {
 
     public String getPath(Troop troop) {
         return getPath(troop.getTroopId());
+    }
+    
+    public String getBase() {
+        return BASE;
     }
     
 }

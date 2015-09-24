@@ -16,6 +16,8 @@ function rmCustActivity12(x){
 			a:Date.now()
 		},
 		success: function(result) {
+			
+			vtkTrackerPushAction('RemoveCustomActivity');
 			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
@@ -59,7 +61,9 @@ function createCustAgendaItem1(mid, time, mPath){
 		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomAgenda&newCustAgendaName="+urlPath,
 		cache: false
 	}).done(function( html ) {
+		vtkTrackerPushAction('CreateCustomAgenda');
 		document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
+		
 	});
 }
 
@@ -87,6 +91,7 @@ function createCustAgendaItem2(mid, time, mPath){
 		//location.reload("true");
 		
 		window.location.reload(true);
+		vtkTrackerPushAction('CreateCustomAgenda');
 		$('#modal_popup').foundation('reveal', 'close');
 	});
 }
@@ -113,6 +118,7 @@ console.log(1);
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
 			//-location.reload();
+			vtkTrackerPushAction('ChangeAgenda');
 		},
 		error: function (data) { 
 		}
@@ -140,7 +146,7 @@ function rmAgenda(id, mid){
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			
+			vtkTrackerPushAction('RemoveAgenda');
 			location.reload();
 		},
 		error: function (data) { 
@@ -156,6 +162,7 @@ function durEditActiv(duration, activPath, meetingPath){
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
+			vtkTrackerPushAction('ChangeAgenda');
 			location.reload();
 		},
 		error: function (data) { 
@@ -172,6 +179,7 @@ function revertAgenda(mid) {
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
+			vtkTrackerPushAction('ChangeAgenda');
 			location.reload();
 		},
 		error: function (data) { 
@@ -272,7 +280,7 @@ function updateAttendAchvm(mid){
 		},
 		success: function(result) {
 			console.log("closing...");
-			
+			vtkTrackerPushAction('ChangeAttendance');
 			$('#modal_popup').foundation('reveal', 'close');
 			location.reload();
 		}

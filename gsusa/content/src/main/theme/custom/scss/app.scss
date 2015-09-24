@@ -37,7 +37,8 @@
   "foundation/components/top-bar",
   "foundation/components/type",
   "foundation/components/offcanvas",
-  "foundation/components/visibility";
+  "foundation/components/visibility",
+  "foundation/components/tables";
 
     // "foundation/components/flex-video",
     // "foundation/components/joyride",
@@ -48,17 +49,16 @@
     // "foundation/components/pricing-tables",
     // "foundation/components/progress-bars",
     // "foundation/components/switches",
-    // "foundation/components/tables";
 
 
 @import
+      //import google open sans fonts.
+      // url(http://fonts.googleapis.com/css?family=Open+Sans),
+
+      "font",
+
       //Import slick carousel
       "slick",
-      //import google open sans fonts.
-        url(http://fonts.googleapis.com/css?family=Open+Sans),
-
-      //Import global
-        "base/**/*",
 
       //Import layout
         "layout/**/*",

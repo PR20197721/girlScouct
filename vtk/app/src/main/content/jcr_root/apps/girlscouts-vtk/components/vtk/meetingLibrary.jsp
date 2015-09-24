@@ -50,7 +50,7 @@
 	    try{
 	        sched = meetingUtil
 	                 .getYearPlanSched(user,
-	                         troop.getYearPlan(), true, true);
+	                         troop, troop.getYearPlan(), true, true);
 	    }catch(Exception e){e.printStackTrace();}
 	    BiMap sched_bm=   HashBiMap.create(sched);
 	    com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
@@ -67,8 +67,8 @@
             myMeetingIds.add( meetingId );
             
             java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
-     System.err.println("tatadddd: "+meetingDate +" : "+ meetingId + " : "+ myMeetings.size() + " : "+myMeetings.get(i).getRefId());       
-            if( meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
+          
+            if( meetingDate!=null && meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
           	  reAddMeetings.add(meetingId);
                 
             }else{
@@ -81,7 +81,8 @@
   <script>
   function cngMeeting(mPath){
   	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
-        <%
+  		vtkTrackerPushAction('<%=meetingPath ==null ? "AddMeeting" : "ReplaceMeeting" %>');
+  		<%
         	if( request.getParameter("xx") ==null ){
         %>
       		document.location="/content/girlscouts-vtk/en/vtk.plan.html";
@@ -102,6 +103,16 @@
       <table class="meetingSelect">
       	<tbody>
           <%
+          
+          //sort meetings by meeting name
+          if( meetings !=null ){
+	          Collections.sort(meetings, new Comparator<Meeting>() {
+	              public int compare(Meeting o1, Meeting o2) {
+	                  return o1.getName().compareTo(o2.getName());
+	              }
+	          });
+          } 
+         
           for(int i=0;i<meetings.size();i++){
           	Meeting meeting = meetings.get(i);
           %>

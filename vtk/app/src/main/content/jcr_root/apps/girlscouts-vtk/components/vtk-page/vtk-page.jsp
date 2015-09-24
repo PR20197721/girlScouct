@@ -1,20 +1,25 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
 
-boolean isAutoLogin =false;
 
-HttpSession session = request.getSession();
-if( !isAutoLogin ){
+
+    HttpSession session = request.getSession();
+    String myUrl = request.getRequestURL().toString();
     
-	org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+    if( myUrl!=null)
+    	myUrl= java.net.URLDecoder.decode( myUrl);
+if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
+    org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 	try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
-		session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
 	} catch (ClassCastException exc) { 
 		session.invalidate();
 		apiConfig=null; 
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
+	
+
 	if( apiConfig==null ){
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
@@ -26,14 +31,8 @@ if( !isAutoLogin ){
 		response.sendRedirect(redirectTo);
 		return;
 	}
-	
-}else{
-	
-	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
-	//troopUtil.autoLogin(session);
-	
 }
-	
+
 	
 	
 
@@ -91,29 +90,5 @@ request.setAttribute("altSearchPath", referer);
 
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
-
-
-<script>
-(function(i,s,o,g,r,a,m){
-    i['GoogleAnalyticsObject']=r;
-    i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
-    a=s.createElement(o),m=s.getElementsByTagName(o)[0];
-    a.async=1;
-    a.src=g;
-    m.parentNode.insertBefore(a,m)})
-    (window,document,'script','//www.google-analytics.com/analytics.js','ga');
-ga('create', 'UA-64215500-1', 'auto', {'name': 'vtkTracker'});
-</script>
-
-
-<% 
-
-String thisFooterScript = (String)request.getAttribute("footerScript") ;
-if (thisFooterScript!= null) {
-    out.println(thisFooterScript);
-}else{
-    out.println("");
-}
-%>
 
 </html>

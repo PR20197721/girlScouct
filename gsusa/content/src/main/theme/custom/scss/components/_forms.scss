@@ -14,7 +14,8 @@ form {
 }
 .top-header {
   .search-form {
-    @include grid-column(6);
+//putting it outside for cq author mode
+//    @include grid-column(6);
     padding: 0;
     margin: 0;
     &:after {
@@ -52,6 +53,27 @@ form {
     label {
       font-weight: 600;
       margin-bottom: rem-calc(10);
+    }
+  }
+}
+
+//for CQ built-in form
+//checkbox line-height
+//check permission-request-form and contact-us form to see effect
+form {
+  .checkbox.section {
+    .form_row {
+      //border-style: solid;
+      //border-color: #0000ff;
+      line-height: 2;
+      .form_rightcol {
+        //border-style: solid;
+        //border-color: #00ff00;
+        line-height: 2;
+        input[type="checkbox"] {
+          margin: 0 0 0.5rem 0;
+        }
+      }
     }
   }
 }

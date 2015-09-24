@@ -2,12 +2,16 @@
 <jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="dam:Asset">
     <jcr:content
-        jcr:lastModified="{Date}2015-06-29T13:53:09.733-04:00"
+        cq:lastReplicated="{Date}2015-06-29T14:36:22.749-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        jcr:lastModified="{Date}2015-07-21T11:32:17.219-04:00"
         jcr:lastModifiedBy="admin"
+        jcr:mixinTypes="[cq:ReplicationStatus]"
         jcr:primaryType="dam:AssetContent">
         <metadata
             dam:Bitsperpixel="{Long}3"
-            dam:extracted="{Date}2015-06-29T13:53:08.655-04:00"
+            dam:extracted="{Date}2015-07-21T11:32:08.548-04:00"
             dam:Fileformat="GIF"
             dam:MIMEtype="image/gif"
             dam:Numberofimages="{Long}1"
@@ -20,11 +24,14 @@
             dam:sha1="236f3f2adfdfc72bea0bfb333ffb50db24a6cb3a"
             dam:size="{Long}9441"
             dc:format="image/gif"
+            dc:modified="{Date}2015-07-09T11:56:20.762-04:00"
+            jcr:lastModified="{Date}2015-07-21T11:32:17.219-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:mixinTypes="[cq:Taggable]"
             jcr:primaryType="nt:unstructured"
             tiff:ImageLength="{Long}320"
             tiff:ImageWidth="{Long}494"/>
-        <renditions/>
         <related jcr:primaryType="nt:unstructured"/>
+        <renditions/>
     </jcr:content>
 </jcr:root>

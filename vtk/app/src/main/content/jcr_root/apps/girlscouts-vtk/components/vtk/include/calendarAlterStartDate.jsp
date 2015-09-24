@@ -49,50 +49,55 @@
     <p>Do not schedule the meeting the week of:</p>
       <%
       String exlDates = troop.getYearPlan().getCalExclWeeksOf();
-      exlDates= exlDates==null ? "" : exlDates;
-      UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
+      exlDates= exlDates==null ? "" : exlDates.trim();
+    
+     
+      //UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
       String[] split_exclDates = exlDates.split(",");
-      
-      
+      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
+    
       %>
-    <ul class="small-block-grid-3">
-     <li>
-      <input type="checkbox" id="chk_1" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date">09/07/2015</span><span>Labor Day</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_2" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/><label for="chk_2"><p><span class="date">10/12/2015</span><span>Columbus Day</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_3" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/><label for="chk_3"><p><span class="date">11/11/2015</span><span>Veteran's Day</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_4" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/><label for="chk_4"><p><span class="date">11/26/2015</span><span>Thanksgiving</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_5" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/><label for="chk_5"><p><span class="date">12/25/2015</span><span>Christmas</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_6" name="exclDt" value="01/01/2016" <%=("".equals(exlDates) || exlDates.contains("01/01/2016")) ? "CHECKED" : ""  %>/><label for="chk_6"><p><span class="date">01/01/2016</span><span>New Years</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_7" name="exclDt" value="01/18/2016" <%=("".equals(exlDates) || exlDates.contains("01/18/2016")) ? "CHECKED" : ""  %>/><label for="chk_7"><p><span class="date">01/18/2016</span><span>Martin Luther King, Jr.</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_8" name="exclDt" value="02/15/2016" <%=("".equals(exlDates) || exlDates.contains("02/15/2016")) ? "CHECKED" : ""  %>/><label for="chk_8"><p><span class="date">02/15/2016</span><span>Washington's Birthday</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_9" name="exclDt" value="05/30/2016" <%=("".equals(exlDates) || exlDates.contains("02/30/2016")) ? "CHECKED" : ""  %>/><label for="chk_9"><p><span class="date">05/30/2016</span><span>Memorial Day</span></p></label>
-      </li>
-      <li>
-        <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
-      </li>
       
-       <%for(int i=10;i<split_exclDates.length;i++){ 
+      
+     
+    <ul class="small-block-grid-3">
+     
+     
+     <%
+     java.util.Iterator itr= holidays.keySet().iterator();
+     int holidayCount=0;
+     
+    if( exlDates.equals("") ){ //pull from default config
+     while(itr.hasNext()){
+    	 holidayCount++;
+    	 Long holidayDate= (Long)itr.next();
+    	 String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(holidayDate));
+    	 String holidayTitle = holidays.get(holidayDate);   	 
+      %>  
+      <li>
+      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+      </li>
+     <%}
+     }else{ //pull from db %>
+     
+     
+    
+       <%for(int i=0;i<split_exclDates.length;i++){
+    	  try{
+    	   holidayCount++;
+    	   String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(split_exclDates[i]));
+           String holidayTitle = holidays.get(new java.util.Date(holidayDateFmt).getTime()) ;
+    	   
+    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
+            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
          </li>
-      <%} %>
+      <%}catch(Exception e){e.printStackTrace();}
+       }
+     }//end else
+       %>
+      
     </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>

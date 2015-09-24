@@ -37,7 +37,7 @@ public void setHtmlTag(String tag, HttpServletRequest request) {
 
 public String genLink(ResourceResolver rr, String link) {
     // This is a Page resource but yet not end with ".html": append ".html"
-    if (rr.resolve(link).getResourceType().equals("cq:Page") && !link.contains(".html")) {
+    if (!link.contains(".html") && rr.resolve(link).getResourceType().equals("cq:Page")  ) {
         return link + ".html";
     // Well, do nothing
     } else {
@@ -49,7 +49,29 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 	return displayRendition(rr, imagePath, renditionStr, null, -1);
 }
 
+
 public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth) {
+  String title,alt;
+  try {
+    Resource imgResource = rr.resolve(imagePath);
+    ValueMap properties = imgResource.adaptTo(ValueMap.class);
+    title = properties.get("imgtitle", "");
+    if(title.isEmpty()){
+    title = properties.get("jcr:title", "");
+    }
+    
+    alt = properties.get("alt", "");
+    } catch (Exception e) {
+    log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+    return "";
+  }
+
+
+    return displayRendition(rr,imagePath,renditionStr,additionalCss,imageWidth,alt,title);
+}
+%>
+<%!
+public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth,String altString,String titleString) {
 	if (renditionStr == null) return null;
 	StringBuffer returnImage = new StringBuffer("<img ");
 	try {
@@ -61,6 +83,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		if (!fileReference.isEmpty()) {
 		    // fileRefence. Assuming this resource is an image component instance.
 			asset = rr.resolve(fileReference).adaptTo(Asset.class);
+
 		} else {
 		    // fileRefence empty. Assuming this resource is a DAM asset.
 		    asset = imgResource.adaptTo(Asset.class);
@@ -73,18 +96,14 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		    rendition = asset.getOriginal();
 		}
 		String src = "src=\"" + rendition.getPath() + "\" ";
-		
-		String alt = properties.get("alt", "");
-		if (!alt.isEmpty()) {
-		    alt = "alt=\"" + alt + "\" ";
-		} else {
-			alt=" alt=\"image description unavailable\" ";
+    if(altString==null || altString.isEmpty()){
+      altString="image description unavailable";
 		}
-		String title = properties.get("jcr:title", "");
-		if (!title.isEmpty()) {
-		    title= "title=\"" + title+ "\" ";
+    String alt = "alt=\"" + altString + "\" ";
+    String title = "";
+    if(titleString!=null && !titleString.isEmpty()){
+        title= "title=\"" + titleString + "\" ";
 		}
-
 		String width = "";
 		String height = "";
                 if (imageWidth > 0) {

@@ -52,7 +52,7 @@ if(hasAdminPermissions){
   	<div class="row">
 	  <div class="small-24 large-12 columns">Starting Balance:</div>
  	  <div class="small-24 large-12 columns"><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %>
- 	  <%System.err.println(String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance()))); %>
+ 	  
  	  </div>
 	</div>
 	<div class="row">
@@ -134,6 +134,7 @@ if(hasAdminPermissions){
 			</div>
 			<div class="row">
 			  <div class="small-24 large-12 columns"></div>
+		 	  
 		 	  <div class="small-24 large-12 columns"><input type="button" name="" value="Save" id="updateFinances" onclick="checkFinances()"/>
 		 	 
 		 	  </div>

@@ -10,24 +10,24 @@
 	} else if(!path.equals("")) {
 		path = path + "/";
 %>
-<script>
+<script type="text/javascript">
 function openPDF() {
 	var program = document.curriculumForm.program.value;
 	var grade = document.curriculumForm.grade.value;
 	var state = document.curriculumForm.state.value;
 
-	var filePath = escape("<%= path %>" + grade + "_" + program + "/" +
+	var filePath = encodeURI("<%= path %>" + grade + "_" + program + "/" +
 	state + "_" + grade + "_" + program + ".pdf");
 
 	$.ajax({
-		method: "POST",
+		type: "POST",
    		url: "<%= currentNode.getPath() + ".html" %>",
    		async: false,
         data: { path: filePath },
 	})
 		.done(function( msg ) {
 			var json = JSON.parse(msg);
-	   		console.log( json );
+	   		//console.log( json );
 	   		if(json.key == "found"){
 	   			window.open(filePath);
 	   		}

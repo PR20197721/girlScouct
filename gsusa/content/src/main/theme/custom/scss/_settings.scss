@@ -62,8 +62,8 @@
 // Since the typical default browser font-size is 16px, that makes the calculation for grid size.
 // If you want your base font-size to be different and not have it affect the grid breakpoints,
 // set $rem-base to $base-font-size and make sure $base-font-size is a px value.
-$base-font-size: 14px;
-$rem-base: $base-font-size;
+// $base-font-size: 14px;
+// $rem-base: $base-font-size;
 
 // The $base-font-size is 100% while $base-line-height is 150%
 // $base-line-height: 150%;
@@ -103,31 +103,31 @@ $white       : #FFFFFF;
 // $silver      : #EFEFEF;
 // $smoke       : #EEEEEE;
 // $gainsboro   : #DDDDDD;
-$iron        : #CCCCCC;
+$iron           : #CCCCCC;
 // $base        : #AAAAAA;
 // $aluminum    : #999999;
 // $jumbo       : #888888;
 // $monsoon     : #777777;
 // $steel       : #666666;
 // $charcoal    : #555555;
-$tuatara     : #444444;
-$oil         : #333333;
-$jet         : #222222;
-$black       : #000000;
-$gs-orange      : #E29618;
-$gs-light-orange: #F2C63F;
-$hp_button      : #ec008c;
-$bg_breaking_news: #e34c38;
+$tuatara          : #444444;
+$oil              : #333333;
+$jet              : #222222;
+$black            : #000000;
+$gs-orange        : #E29618;
+$gs-light-orange  : #F2C63F;
+$hp_button        : #ec008c;
+$bg_breaking_news : #e34c38;
 
-$lightorange : #FAA61A;
-$darkorange  : #F27536;
+$lightorange  : #FAA61A;
+$darkorange   : #F27536;
 $fuchsia      : #EC008C;
 $purple       : #AB218E;
 $cyan         : #00AAE5;
 $lightgreen   : #C4D82E;
 
 // We use these as default colors throughout
-$primary-color: #00AE58; //green
+$primary-color:   #00AE58; //green
 $secondary-color: #FAA61A; //orange
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
@@ -135,7 +135,7 @@ $secondary-color: #FAA61A; //orange
 // $info-color: #a0d3e8;
 
 // We use these to control various global styles
-// $body-bg: $white;
+$body-bg: #FFFFFF;
 // $body-font-color: $jet;
 $body-font-family: "Open Sans", Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
@@ -167,8 +167,8 @@ $medium-breakpoint: em-calc(1024);
 $large-breakpoint:  em-calc(1440);
 $xlarge-breakpoint: em-calc(1920);
 
-$small-range:   (0, 40em);
-$medium-range:  (40em  + em-calc(1), 64em);
+$small-range:   (0, 48em);
+$medium-range:  (48.06em  + em-calc(1), 64em);
 $large-range:   (64em + em-calc(1), 90em);
 $xlarge-range:  (90em  + em-calc(1), 120em);
 $xxlarge-range: (120em + em-calc(1), em-calc(99999999));

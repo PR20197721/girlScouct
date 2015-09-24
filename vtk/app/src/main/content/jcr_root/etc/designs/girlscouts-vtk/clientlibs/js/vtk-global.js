@@ -23,6 +23,7 @@ var $ = jQuery.noConflict();
 	// 	$('.reveal-modal').css('height' , window_h + 'px');
 	// 	$('.scroll').css('max-height' , popup_h +' px');
 	// }
+/* In Koo removed this because it is duplicated in /etc/designs/girlscouts/clientlibs/js/footer.js
   function vtk_accordion() {
 	if ($(".accordion").length > 0) {
 	    $('.accordion dt > :first-child').on('click', function(e) {
@@ -35,6 +36,7 @@ var $ = jQuery.noConflict();
 		});
 	  }
   }
+*/
 
 	function modal_height_on_open() {
 	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
@@ -131,9 +133,7 @@ var $ = jQuery.noConflict();
 	  	     },
 	  	 	}
 	  	 });
-	  	 //select_tabs();
 	  	 modal_height_on_open();
-	  	 vtk_accordion();
 	  	 validate_image();
 	  	 // resizeWindow();
 	  	 if($('.tabs dd').length == 6) {
@@ -149,3 +149,82 @@ var $ = jQuery.noConflict();
 	});
 
 })($);
+
+/**
+ * VTK Data Worker
+ * 
+ * Fetch VTK data first and then call the callback
+ * if the returned status code is not 304.
+ */
+
+var VTKDataWorker;
+(function() {
+	var BASE_PATH = '/vtk-data';
+	
+    function _getTroopDataToken() {
+    	// Ref: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+    	// Get cookie: troopDataToken
+    	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return hash;
+    }
+    
+    function _checkShouldSkipFirst() {
+    	// Get cookie: troopDataToken
+    	var readonly = document.cookie.replace(/(?:(?:^|.*;\s*)VTKReadonlyMode\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return !(readonly == 'true');
+    }
+    
+    function _VTKDataWorker(path, that, success, interval) {
+    	this.path = path;
+    	this.that = that;
+    	this.success = success;
+    	this.interval = interval;
+    	
+    	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
+    	this.shouldSkipFirst = _checkShouldSkipFirst();
+    	this.eTag = null;
+    }
+    	
+    _VTKDataWorker.prototype.getData = function(shouldSkip) {
+		var url = this.url;
+		if (shouldSkip) {
+			url += "?_=" + (new Date()).getTime();
+		    if (this.intervalId) {
+		    	clearInterval(this.intervalId);
+		    	this.setInterval();
+		    }
+		}
+		
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var eTag = jqXHR.getResponseHeader("ETag");
+                if (eTag) {
+                	this.eTag = eTag;
+                }
+                // Only call the callback if the status code is 200.
+                if (this.success && jqXHR.status == 200) {
+                    this.success.apply(this.that, arguments);
+                }
+            }.bind(this),
+            beforeSend: function(request) {
+                if (this.eTag != null) {
+                    request.setRequestHeader('If-None-Match', this.eTag);
+                }
+            }.bind(this)
+        });
+    };
+    
+    _VTKDataWorker.prototype.setInterval = function() {
+    	this.intervalId = setInterval(this.getData.bind(this), this.interval);
+    }
+
+    _VTKDataWorker.prototype.start = function() {
+    	this.getData(true);
+    	this.setInterval();
+    };
+
+    // Expose the function to global namespace
+    VTKDataWorker = _VTKDataWorker;
+})();

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
+
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
@@ -15,6 +16,7 @@ import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -49,9 +51,12 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkException;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
@@ -120,6 +125,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by plan path
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			String yearPlanPath) throws IllegalAccessException {
+		
+		
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -141,6 +148,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			filter.setScope(yearPlanPath);
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -155,11 +164,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
+/*
+Removing this because needs to use troop
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
+*/
 		Meeting meeting = null;
 		Session session = null;
 		try {
@@ -170,15 +182,24 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			meeting = (Meeting) ocm.getObject(path);
-			
+					mapper);			
+			meeting = (Meeting) ocm.getObject(path);		
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
-				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
-				if(globalMeetingInfo!=null)
+				
+				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
+					
+				if(globalMeetingInfo!=null){
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
+					meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
+					
+				}
 			}
+			
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -421,7 +442,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan/brownie/");
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/brownie/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 
@@ -438,7 +459,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 
 	}
-
+/*
 	public List<org.girlscouts.vtk.models.Search> getData(User user,
 			Troop troop, String _query) throws IllegalAccessException {
 
@@ -532,8 +553,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ex.printStackTrace();
 			}
 		}
+		System.err.println("testtt: "+ matched.size() );
 		return matched;
 	}
+*/
 
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
@@ -663,59 +686,67 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName) throws IllegalAccessException {
+			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		List<Asset> matched = new ArrayList<Asset>();
+		return getLocalAssets(meetingName, meetingPath, AssetComponentType.AID);
+	}
+	
+	private static final String AID_PATHS_PROP = "aidPaths";
+	private static final String RESOURCE_PATHS_PROP = "resourcePaths";
+	private List<Asset> getLocalAssets(String meetingName, String meetingPath, AssetComponentType type) {
+	    List<Asset> assets = new ArrayList<Asset>();
+	    
 		Session session = null;
 		try {
-			String sql = "select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"
-					+ meetingName + "/%' and jcr:mixinTypes='cq:Taggable'";
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
+		    session = sessionFactory.getSession();
 
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				Value excerpt = r.getValue("jcr:path");
-				String path = excerpt.getString();
-				if (path.contains("/jcr:content"))
-					path = path.substring(0, (path.indexOf("/jcr:content")));
-
-				Asset search = new Asset();
-				search.setRefId(path);
-				search.setType(AssetComponentType.AID);
-				search.setIsCachable(true);
-				try {
-					search.setDescription(r.getValue("dc:description")
-							.getString());
-				} catch (Exception e) {
-				}
-				try {
-					search.setTitle(r.getValue("dc:title").getString());
-				} catch (Exception e) {
-				}
-				matched.add(search);
-
-			}
+		    // First, respect the "aidPaths" or "resourcePaths" field in the meeting. This field has multiple values.
+    		Node meetingNode = session.getNode(meetingPath);
+    		String pathProp;
+    		switch (type) {
+    		case AID: pathProp = AID_PATHS_PROP; break;
+    		case RESOURCE: pathProp = RESOURCE_PATHS_PROP; break;
+    		default: pathProp = AID_PATHS_PROP;
+    		}
+    		if (meetingNode.hasProperty(pathProp)) {
+    		    Value[] assetPaths =  meetingNode.getProperty(pathProp).getValues();
+    		    for (int i = 0; i < assetPaths.length; i++) {
+    		        String assetPath = assetPaths[i].getString();
+    		        log.debug("Asset Path = " + assetPath);
+    		        assets.addAll(getAssetsFromPath(assetPath, type, session));
+    		    }
+    		}
+    		
+    		// Then, generate an "expected" path, check if there is overrides
+    		// e.g. /content/dam/girlscouts-vtk2014/local/aid/B14B01
+    		String typeString;
+    		switch (type) {
+    		case AID: typeString = "aid"; break;
+    		case RESOURCE: typeString = "resource"; break;
+    		default: typeString = "aid";
+    		}
+    		String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetings/" + meetingName;
+    		if (session.nodeExists(rootPath)) {
+    		    assets.addAll(getAssetsFromPath(rootPath, type, session));
+    		}
 		} catch (Exception e) {
-			e.printStackTrace();
+		    log.error("Error getting local assets for meeting: " + meetingName + ". Root cause was: " + e.getMessage());
 		} finally {
 			try {
-				if (session != null)
+				if (session != null) {
 					sessionFactory.closeSession(session);
+				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 		}
-		return matched;
+		
+		return assets;
 	}
 
 	private List<Asset> getAidTag_custasset(User user, String uid)
@@ -831,61 +862,63 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
+	private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type, Session session) {
+	    List<Asset> assets = new ArrayList<Asset>();
+	    try {
+	        if (!session.nodeExists(rootPath)) {
+	            return assets;
+	        }
+	        Node rootNode = session.getNode(rootPath);
+
+	        NodeIterator iter = rootNode.getNodes();
+	        while (iter.hasNext()) {
+	            Node node = null;
+	            try {
+    	            node = iter.nextNode();
+    	            if (!node.hasNode("jcr:content")) {
+    	                continue;
+    	            }
+    	            Node props = node.getNode("jcr:content/metadata");
+    
+    	            Asset asset = new Asset();
+    	            asset.setRefId(node.getPath());
+    	            asset.setIsCachable(true);
+    	            asset.setType(type);
+    
+    	            asset.setDescription(props.getProperty("dc:description").getString());
+    	            asset.setTitle(props.getProperty("dc:title").getString());
+    
+    	            assets.add(asset);
+	            } catch (Exception e) {
+	                if (node != null) {
+	                    log.warn("Cannot get asset " + node.getPath());
+	                }
+	                log.warn("Cannot get asset. rootPath = " + rootPath + ". Root cause was: " + e.getMessage());
+	            }
+	        }
+	    } catch (Exception e) {
+	        log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
+	    } 
+	    return assets;
+	}
+	
 	public List<Asset> getResource_local(User user, String tags,
-			String meetingName) throws IllegalAccessException {
+			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		List<Asset> matched = new ArrayList<Asset>();
-		Session session = null;
-		try {
-			String sql = "select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"
-					+ meetingName + "/%' and jcr:mixinTypes='cq:Taggable'";
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
-
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				Value excerpt = r.getValue("jcr:path");
-				String path = excerpt.getString();
-				if (path.contains("/jcr:content"))
-					path = path.substring(0, (path.indexOf("/jcr:content")));
-
-				Asset search = new Asset();
-				search.setRefId(path);
-				search.setIsCachable(true);
-				search.setType(AssetComponentType.RESOURCE);
-				try {
-					search.setDescription(r.getValue("dc:description")
-							.getString());
-				} catch (Exception e) {
-				}
-				try {
-					search.setTitle(r.getValue("dc:title").getString());
-				} catch (Exception e) {
-				}
-				matched.add(search);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return matched;
+		return getLocalAssets(meetingName, meetingPath, AssetComponentType.RESOURCE);
 	}
-
+	
+	private String getSchoolYearDamPath() {
+		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
+		String path = "/content/dam/girlscouts-vtk" + schoolYear;
+		return path;
+	}
+	
 	public SearchTag searchA(User user, String councilCode)
 			throws IllegalAccessException {
 
@@ -913,22 +946,33 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
+				
+				
 				if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/categories")) {
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
-
+					 	
 					categories.put(elem, null);
+					*/
+					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/program-level")) {
+					
 					String elem = r.getValue("jcr:title").getString();
+					/*
 					if (elem != null)
 						elem = elem.toLowerCase().replace("_", "")
 								.replace("/", "");
 					levels.put(elem, null);
+					*/
+					levels.put(r.getNode().getName(),elem);
 				}
+				
 			}
 
 			if ((categories == null || categories.size() == 0)
@@ -1080,7 +1124,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				regionSql += " and LOWER(region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1283,13 +1327,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan/"
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/"
 					+ gradeLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 			
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata: "+ meetings.get(i).getPosition() +" : "+meetings.get(i).getPath());
+		
 			Comparator<Meeting> comp = new BeanComparator("position");
 			if( meetings!=null)
 				Collections.sort(meetings, comp);
@@ -1328,7 +1371,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
-			QueryResult result = q.execute();
+			QueryResult result = q.execute();		
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Asset search = new Asset();
@@ -1442,8 +1485,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			map.put("path", "/content/dam/girlscouts-vtk/global/resource");
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
+			
+			
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
+			
 			query.setStart(0);
 			query.setHitsPerPage(100);
 			SearchResult result = query.getResult();
@@ -1494,7 +1540,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Troop.class);
-			council = (Council) ocm.getObject("/vtk/" + councilId);
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1567,7 +1613,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
-			throws IllegalAccessException, IllegalStateException {
+			throws IllegalAccessException, IllegalStateException {		
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
@@ -1601,8 +1647,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " contains(parent.[cq:tags], 'categories/"
-						+ t.nextToken() + "') ";
+				 sqlCat += " contains( parent.[cq:tags], 'categories/"+ t.nextToken() + "') ";
+				
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1615,7 +1661,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/2014/%";
+			String path = "/content/gateway/en/events/"+ VtkUtil.getCurrentGSYear()+"/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1645,9 +1691,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += sqlTags;
 			sql += sqlCat;
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
+					.getQueryManager();		
 			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.JCR_SQL2);
+					javax.jcr.query.Query.JCR_SQL2);		
 			int i = 0;
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
@@ -1756,7 +1802,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
-			Node vtk = session.getNode("/vtk");
+			Node vtk = session.getNode(VtkUtil.getYearPlanBase(null, null));
 			NodeIterator vtks = vtk.getNodes();
 			while (vtks.hasNext()) {
 				Node _vtk = (Node) vtks.next();
@@ -1993,7 +2039,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-
 			attendance = (Achievement) ocm.getObject(mid);
 
 		} catch (Exception e) {
@@ -2079,4 +2124,284 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return false;
 	}
 
+	public MeetingE getMeetingE(User user, String path)
+			throws IllegalAccessException, VtkException {
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_MEETING_ID))
+			throw new IllegalAccessException();
+		
+		MeetingE meetingE = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Meeting.class);
+			classes.add(Activity.class);
+			classes.add(MeetingE.class);
+			classes.add(Achievement.class);
+			classes.add(Asset.class);
+			classes.add(Attendance.class);
+			classes.add(JcrCollectionHoldString.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			
+			meetingE = (MeetingE) ocm.getObject(path);
+			
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+			ec.printStackTrace();
+			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
+		
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return meetingE;
+	}
+	
+	
+	
+	public int getAllResourcesCount(User user, String _path)
+			throws IllegalAccessException {
+
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_LOGIN_ID))
+			throw new IllegalAccessException();
+		int count=0;
+		List<Asset> matched = new ArrayList<Asset>();
+		Session session = null;
+		try {
+			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
+					+ " from [nt:unstructured] as parent where "
+					+ " (isdescendantnode (parent, ["
+					+ _path
+					+ "])) and [cq:tags] is not null";
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			QueryResult result = q.execute();
+			count= (int)result.getRows().getSize();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			
+		}
+		return count;
+	}
+	
+	
+	public List<org.girlscouts.vtk.models.Search> getData(User user,
+
+	Troop troop, String _query) throws IllegalAccessException {
+
+		java.util.List data = null, data1 = null, data2 = null, data3 = null;
+
+		try {
+			data1 = getDataItem(user, troop, _query, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			data2 = getDataItem(user, troop, _query,
+					"/content/dam/girlscouts-vtk/global/aid");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		try {
+			data3 = getDataItem(user, troop, _query,
+					"/content/dam/girlscouts-vtk/global/resource");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		data = new java.util.ArrayList();
+
+		if (data1 != null)
+
+			data.addAll(data1);
+
+		if (data2 != null)
+
+			data.addAll(data2);
+
+		if (data3 != null)
+
+			data.addAll(data3);
+
+		return data;
+
+	}
+
+	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
+
+	Troop troop, String _query, String PATH) throws IllegalAccessException {
+
+		if (user != null
+
+		&& !userUtil.hasPermission(user.getPermissions(),
+
+		Permission.PERMISSION_LOGIN_ID))
+
+			throw new IllegalAccessException();
+
+		Session session = null;
+
+		List<org.girlscouts.vtk.models.Search> matched = null;
+
+		if (!userUtil.hasPermission(troop,
+
+		Permission.PERMISSION_VIEW_MEETING_ID))
+
+			throw new IllegalAccessException();
+
+		final String RESOURCES_PATH = "resources";
+
+		String councilId = null;
+
+		if (troop.getTroop() != null) {
+
+			councilId = Integer.toString(troop.getTroop().getCouncilCode());
+
+		}
+
+		String branch = councilMapper.getCouncilBranch(councilId);
+
+		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+
+		if (PATH == null) {
+			PATH = resourceRootPath;
+		}
+		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+
+		try {
+
+			session = sessionFactory.getSession();
+
+			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
+			map.put("fulltext", _query);
+			map.put("path", PATH);// resourceRootPath);
+			com.day.cq.search.Query query = qBuilder.createQuery(
+
+			PredicateGroup.create(map), session);
+
+			query.setExcerpt(true);
+
+			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
+
+			SearchResult result = query.getResult();
+
+			for (Hit hit : result.getHits()) {
+
+				try {
+
+					String path = hit.getPath();
+
+					java.util.Map<String, String> exc = hit.getExcerpts();
+					java.util.Iterator itr = exc.keySet().iterator();
+
+					while (itr.hasNext()) {
+						String str = (String) itr.next();
+						String str1 = exc.get(str);
+					}
+
+					ValueMap vp = hit.getProperties();
+
+					itr = vp.keySet().iterator();
+
+					DocHit dh = new DocHit(hit);
+
+					org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+
+					search.setPath(dh.getURL());
+
+					search.setDesc(dh.getTitle());
+
+					search.setContent(dh.getExcerpt());
+
+					search.setSubTitle(dh.getDescription());
+
+					search.setAssetType(AssetComponentType.RESOURCE);
+
+					if (search.getPath().toLowerCase().contains("/aid/"))
+
+						search.setAssetType(AssetComponentType.AID);
+
+					if (unq.containsKey(search.getPath())) {
+
+						if (search.getContent() != null
+
+						&& !search.getContent().trim().equals("")) {
+
+							org.girlscouts.vtk.models.Search _search = unq
+
+							.get(search.getPath());
+
+							if (_search.getContent() == null
+
+							|| _search.getContent().trim().equals(""))
+
+								unq.put(search.getPath(), search);
+
+						}
+
+					} else
+
+						unq.put(search.getPath(), search);
+
+				} catch (RepositoryException e) {
+
+					e.printStackTrace();
+
+				}
+
+			}
+
+			java.util.Iterator itr = unq.keySet().iterator();
+
+			while (itr.hasNext())
+
+				matched.add(unq.get(itr.next()));
+
+		} catch (Exception e) {
+
+			e.printStackTrace();
+
+		} finally {
+
+			try {
+
+				if (session != null)
+
+					sessionFactory.closeSession(session);
+
+			} catch (Exception ex) {
+
+				ex.printStackTrace();
+
+			}
+
+		}
+
+		return matched;
+
+	}
 }// edn class

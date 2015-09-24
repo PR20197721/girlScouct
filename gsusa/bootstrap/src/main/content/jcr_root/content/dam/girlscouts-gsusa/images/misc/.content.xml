@@ -3,6 +3,24 @@
     jcr:primaryType="sling:OrderedFolder">
     <jcr:content
         jcr:primaryType="nt:unstructured"
-        jcr:title="Miscellaneous"/>
+        jcr:title="Miscellaneous">
+        <folderThumbnail/>
+    </jcr:content>
     <council-map.gif/>
+    <glitter1.jpg/>
+    <glitter2.jpg/>
+    <glitter3.jpeg/>
+    <lake1.jpg/>
+    <lake2.jpg/>
+    <lake3.jpeg/>
+    <pants1.jpeg/>
+    <pants2.jpeg/>
+    <shirt1.jpg/>
+    <shirt2.jpg/>
+    <ice-cream.jpeg/>
+    <rose-garden.jpeg/>
+    <trail.jpeg/>
+    <horse3.jpeg/>
+    <beautiful-running-horse.jpeg/>
+    <beautiful-horse.jpeg/>
 </jcr:root>

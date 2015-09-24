@@ -19,6 +19,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,12 @@ public class ReplicationManager {
      
     @Reference
     private Replicator replicator;
+    
+    // TODO: should I leave this?
+    // All methods called here are static, but keeping this reference might help
+    // make VTKUtil initialize before this component. 
+    @Reference
+    private VtkUtil vtkUtil;
 
     private Session session;
     private ObservationManager manager;
@@ -62,17 +69,26 @@ public class ReplicationManager {
         
         // Login repository
         session = repository.loginAdministrative(null);
+        
+        // Generate paths to monitor
+        String year = Integer.toString(vtkUtil._getCurrentGSYear());
+        List<String> monitorPaths = new ArrayList<String>();
+        // Add /vtk(year)
+        String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
+        monitorPaths.add(yearPlanBase);
+        // Add /content/dam/girlscouts-vtk/troop-data(year)
+        monitorPaths.add(Constants.DAM_PATH + year);
 
         // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
                 .equals("true")) {
             manager = session.getWorkspace().getObservationManager();
             
-            for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator);
+            for (String path : monitorPaths) {
+                EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator, yearPlanBase);
                 listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
-                        MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);
+                        path, true, null, Constants.PRIMARY_TYPES, true);
             }
         } else {
             log.error("Listeners not added.");

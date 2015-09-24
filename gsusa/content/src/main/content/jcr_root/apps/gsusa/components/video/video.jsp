@@ -17,7 +17,7 @@
 
 --%><%@ include file="/libs/foundation/global.jsp" %><%
 %><%@ page import="com.day.cq.dam.api.Asset,
-                   com.day.cq.wcm.api.WCMMode, 
+                   com.day.cq.wcm.api.WCMMode,
                    com.day.cq.wcm.api.components.DropTarget,
                    com.day.cq.wcm.foundation.Placeholder" %><%
 
@@ -33,12 +33,14 @@
        // allow both pixel & percentage values
         String width = properties.get("width", currentStyle.get("width", String.class));
         String height = properties.get("height", currentStyle.get("height", String.class));
-        
+
         // allow either just a width or a height to be set (letting the browser handle it)
         // but give a default if nothing is set
+        
+        //nps customization, making it 100%
         if (width == null && height == null) {
-            width = "480";
-            height = "320";
+            width = "100%";
+            height = "100%";
         }
         String wh = (width != null ? "width=\"" + width + "\"" : "") + " " + (height != null ? "height=\"" + height + "\"" : "");
         StringBuilder attributes = new StringBuilder();
@@ -61,7 +63,7 @@
             attributes.append(" preload=\"").append(preload).append("\"");
         }
         String id = "cq-video-html5-" + System.currentTimeMillis();
-%> 
+%>
 <cq:includeClientLib js="cq.video" />
 
 <%
@@ -110,28 +112,28 @@
         video.addEventListener("ended", ended, false);
         video.addEventListener("seeking", pause, false);
         video.addEventListener("seeked", play, false);
-         
+
         //store flag for mouse events in order to play only if the mouse is up
         video.addEventListener("mousedown", mouseDown, false);
         video.addEventListener("mouseup", mouseUp, false);
-        function mouseDown(){ 
+        function mouseDown(){
             isMouseUp=false;
-        } 
-        function mouseUp(){ 
+        }
+        function mouseUp(){
             isMouseUp = true;
         }
 
-        CQ_data = new Object();          
+        CQ_data = new Object();
         CQ_data["length"] = Math.floor(video.duration);
         CQ_data["playerType"] = "HTML5 video";
         CQ_data["source"] = mediaName;
         CQ_data["playhead"] = Math.floor(video.currentTime);
-        
+
         CQ_data["videoName"] = mediaName;
         CQ_data["videoFileName"] = mediaFile;
         CQ_data["videoFilePath"] = mediaPath;
 
-        CQ_Analytics.record({event: 'videoinitialize', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' });    
+        CQ_Analytics.record({event: 'videoinitialize', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' });
 
         storeVideoCurrentTime();
     }
@@ -141,7 +143,7 @@
             // open video call
             if (!videoOpen) {
                 open();
-                videoOpen = true; 
+                videoOpen = true;
             } else {
                 //send pause event before play for scrub events
                 pause();
@@ -153,42 +155,42 @@
 
     function playDelayed() {
         if (isMouseUp){
-            CQ_data = new Object(); 
+            CQ_data = new Object();
             CQ_data["playhead"] = Math.floor(video.currentTime-delay/1000);
             CQ_data["source"] = mediaName;
-            CQ_Analytics.record({event: 'videoplay', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' }); 
+            CQ_Analytics.record({event: 'videoplay', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' });
         }
     }
 
     function pause() {
-        CQ_data = new Object(); 
+        CQ_data = new Object();
         CQ_data["playhead"] = pauseTime;
         CQ_data["source"] = mediaName;
-        CQ_Analytics.record({event: 'videopause', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' }); 
+        CQ_Analytics.record({event: 'videopause', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' });
     }
 
     function ended() {
-        CQ_data = new Object(); 
+        CQ_data = new Object();
         CQ_data["playhead"] = Math.floor(video.currentTime);
         CQ_data["source"] = mediaName;
-        CQ_Analytics.record({event: 'videoend', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' }); 
+        CQ_Analytics.record({event: 'videoend', values: CQ_data, componentPath: '<%=resource.getResourceType()%>' });
         //reset temp variables
         videoOpen = false;
         pauseTime = 0;
     }
-    
+
     //store current time for one second that will be use for pause
     function storeVideoCurrentTime() {
         timer = window.setInterval(function() {
             if (video.ended != true) {
-                pauseTime = Math.floor(video.currentTime); 
-            } else { 
+                pauseTime = Math.floor(video.currentTime);
+            } else {
                 window.clearInterval(timer);
             }
         },1000);
     }
-    
-    
+
+
 })();
 </script>
 

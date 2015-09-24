@@ -56,14 +56,13 @@ request.setAttribute("meetings", meetings);
   }
   
   function createPlan() {
-    //console.log($( "#sortable2" ));
     var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
-    //alert( sortedIDs);
+    if ((document.getElementById("sortable2" )==null) ){sortedIDs="";}
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
         cache: false
     }).done(function( html ) {
-  	  //$('#modal_popup').foundation('reveal', 'close');
+  	  vtkTrackerPushAction('CreateCustomYearPlan');
   	  location.reload();
     });
   }
@@ -87,25 +86,27 @@ request.setAttribute("meetings", meetings);
   </div>
   <div class="scroll">
     <div class="content">
-    <p>Drag your selected meetings into your year plan.</p>
-      <div class="clearfix" data-equalizer="foo">
-        <div class="columns large-12 medium-12 small-24">
-          <p class="title">MEETINGS LIBRARY</p>
-    			<ul id="sortable1" class="connectedSortable" data-equalizer-watch="foo">
-    			
-    			  <c:forEach var="meeting" items="${meetings}">
-    			   <li class="ui-state-default" id="${meeting.path}"><p>${meeting.name}</p><p>${meeting.cat}</p></li>
-    			  </c:forEach>
-    			
-    			</ul> 
-        </div>
-        <div class="columns large-12 medium-12 small-24">
-          <p class="title">YOUR YEAR PLAN</p>
-    			<ul id="sortable2" class="connectedSortable" data-equalizer-watch="foo">
-    			
-    			</ul>
-        </div>
-      </div>
+    <%if(meetings!=null && meetings.size()>0){ %>
+	    <p>Drag your selected meetings into your year plan.</p>
+	      <div class="clearfix" data-equalizer="foo">
+	        <div class="columns large-12 medium-12 small-24">
+	          <p class="title">MEETINGS LIBRARY</p>
+	    			<ul id="sortable1" class="connectedSortable" data-equalizer-watch="foo">
+	    			
+	    			  <c:forEach var="meeting" items="${meetings}">
+	    			   <li class="ui-state-default" id="${meeting.path}"><p>${meeting.name}</p><p>${meeting.cat}</p></li>
+	    			  </c:forEach>
+	    			
+	    			</ul> 
+	        </div>
+	        <div class="columns large-12 medium-12 small-24">
+	          <p class="title">YOUR YEAR PLAN</p>
+	    			<ul id="sortable2" class="connectedSortable" data-equalizer-watch="foo">
+	    			
+	    			</ul>
+	        </div>
+	      </div>
+      <%} %>
       <div class="clearfix right btn-wrap">
         <input type="button" value="Cancel" class="btn button close" aria-label="Close"/> <!--  close modal -->
         <input type="button" value="Clear" onclick="clearCart()" class="btn button" />  <!-- clear cart -->

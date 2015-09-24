@@ -37,6 +37,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 
 function rmAid(aidId, meetingId, assetName, assetDesc){
       
+	
       $.ajax({
             cache: false,
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
@@ -107,12 +108,12 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
         <ul>
 <%
         java.util.Iterator itr= sched.keySet().iterator();
-        while( itr.hasNext() ){
+        list:while( itr.hasNext() ){
             java.util.Date dt= (java.util.Date) itr.next();
             YearPlanComponent _comp= sched.get(dt);
             String displayName ="";
             java.util.List<Asset> assets = null;
-            boolean isActivity = false;
+            boolean isActivity = false;     
             switch( _comp.getType()){
                 case ACTIVITY :
                     displayName=((Activity)_comp).getName();
@@ -124,6 +125,9 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                     displayName=meetingInfo.getName();
                     assets =  ((MeetingE) _comp).getAssets(); 
                     break;
+                case MEETINGCANCELED :
+                     continue list;
+                    
             }
             boolean meetingIsSelected = false;
             if( assets!=null ) {

@@ -1,0 +1,1 @@
+<%@include file="consume.jsp" %>

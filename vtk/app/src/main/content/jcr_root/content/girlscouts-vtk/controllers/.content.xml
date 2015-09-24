@@ -13,4 +13,9 @@
     <vtk
         jcr:primaryType="nt:unstructured"
         sling:resourceType="girlscouts-vtk/components/vtk"/>
+
+    <vtk-maintenance-skipper
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="girlscouts-vtk/components/maintenance-skipper"/>
+
 </jcr:root>

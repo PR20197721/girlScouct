@@ -5,7 +5,7 @@ import java.io.Serializable;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
+@Node
 public class JcrNode implements Serializable {
 
 	public JcrNode(String path) {

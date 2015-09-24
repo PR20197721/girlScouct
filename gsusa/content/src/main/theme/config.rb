@@ -11,7 +11,7 @@ css_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/css"
 sass_dir = "custom/scss"
 images_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/images"
 javascripts_dir = "custom/js"
-fonts_dir = "custom/fonts"
+fonts_dir = "bower_components/slick.js/slick/fonts"
 
 # sourcemap = false
 

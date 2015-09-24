@@ -87,9 +87,10 @@ function saveFinanceAdmin(){
 		},
 		success: function(result) {
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
-
+	vtkTrackerPushAction('ModifyFinanceForm');
 	return false;
 }
 
@@ -140,9 +141,12 @@ function saveFinances(){
 			a:Date.now()
 		},
 		success: function(result) {
+			
 			$("#saveFinanceFieldFormButton").addClass("disabled");
+			$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>Your changes saved.");
 		}
 	});
+	vtkTrackerPushAction('ModifyFinanceData');
 	return false;
 }
 	
@@ -231,6 +235,14 @@ function expensesAtMinimum(){
 	
 function deleteIncomeRow(counter){ 
 	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+	
+	 if (!confirm("Warning: Are you sure you want to remove this category? Doing so will remove all data association with this category")) {
+		 return false;
+	 }
+	
 	if(incomeAtMinimum()){
 		return false;
 	}
@@ -240,10 +252,15 @@ function deleteIncomeRow(counter){
 	button.parentNode.removeChild(button);
 	
 	saveFinanceAdmin();
+	
 	return false;
 }
 
 function deleteExpenseRow(counter){ 
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
 	
 	if(expensesAtMinimum()){
 		return false;
@@ -257,14 +274,32 @@ function deleteExpenseRow(counter){
 }
 
 function addExpenseField(){
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+	
+	if(isBlankField()){alert("Income and Expense Category Fields must contain text, they cannot be blank."); return false; }
+	
+	
+	vtkTrackerPushAction('EditFinancialForm');
 	return addFinanceRow("expense-list", "expenseCount", "expenseButton", "expenseField", "deleteExpenseRow");
 }
 
 function addIncomeField(){
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+	
+	if(isBlankField()){alert("Income and Expense Category Fields must contain text, they cannot be blank."); return false; }
+	
+	vtkTrackerPushAction('EditFinancialForm');
 	return addFinanceRow("income-list", "incomeCount", "incomeButton", "incomeField", "deleteIncomeRow");
 }
 
 function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
+	
+	
 	var fieldsList = document.getElementById(listId);
 	var countHolder = document.getElementById(countId);
 	var count = countHolder.value;
@@ -309,4 +344,20 @@ function enableSaveButton() {
 
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+function isBlankField(){
+	var incomeChildren = document.getElementById("income-list").children;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
+		if(   tempChild.value =='') {return true;}
+	}
+	
+	var expenseChildren = document.getElementById("expense-list").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+		if(  tempChild.value =='') {return true;}
+	}
+	
+	return false;
 }

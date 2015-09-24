@@ -1,5 +1,6 @@
 <%@page import="org.girlscouts.vtk.helpers.ConfigManager,
-                org.girlscouts.vtk.helpers.CouncilMapper" %>
+                org.girlscouts.vtk.helpers.CouncilMapper,
+                org.girlscouts.vtk.utils.VtkUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
  
  <!-- 
@@ -9,13 +10,9 @@
  
 <%
     HttpSession session = request.getSession();
-
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
-
     try{
-
-    apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-
+         apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
 
     int councilIdInt = 0;
@@ -28,7 +25,7 @@
     	councilId = Integer.toString(councilIdInt);
     	branch = mapper.getCouncilBranch(councilId);
     } catch (Exception e) {
-        String refererCouncil = (String)session.getAttribute("refererCouncil");
+        String refererCouncil = VtkUtil.getCouncilInClient(request);
         if (refererCouncil != null && !refererCouncil.isEmpty()) {
             branch = "/content/" + refererCouncil;
         } else {
@@ -103,9 +100,23 @@
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                   <li>
-                    <% if (!isHideSignIn) { %>
+                    <% if (!isHideSignIn) { 
+                    
+                    
+                    
+                    	
+                    	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
+                    	String userRole = apiConfig.getTroops().get(0).getRole();
+                    	userRole= userRole ==null ? "" : userRole;
+                    	if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
+                    	}
+                    
+                    	
+                    %>
                     <!-- Begin of VTK icon -->
-                    <a href="/content/girlscouts-vtk/en/vtk.html"><img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
+                    <a href="<%=vtkLanding%>">
+                    <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
                     <p>If you&rsquo;re a Daisy, Brownie, or Junior troop leader, go here for access to an action-packed year of activities. You&rsquo;ll find everything you need for a fun-filled year all in one place&mdash;including meeting-by-meeting breakdowns of what to do, resources, meeting aids, and more!</p>
                     <% } %>
                   </li>

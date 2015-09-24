@@ -1,7 +1,17 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@page import="java.util.TreeMap, java.util.ArrayList, java.util.SortedSet, java.util.TreeSet,
-java.lang.StringBuilder, java.net.URLDecoder, java.net.URLEncoder, java.net.URL,
-java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" %>
+<%@page import="java.util.TreeMap, 
+				java.util.ArrayList, 
+				java.util.SortedSet, 
+				java.util.TreeSet,
+				java.lang.StringBuilder, 
+				java.net.URLDecoder, 
+				java.net.URLEncoder, 
+				java.net.URL,
+				java.net.MalformedURLException, 
+				com.day.cq.wcm.api.WCMMode, 
+				java.util.Iterator,
+				java.util.regex.Pattern,
+				java.util.regex.Matcher" %>
 
 <%
 	String path = properties.get("path","");
@@ -122,152 +132,165 @@ java.net.MalformedURLException, com.day.cq.wcm.api.WCMMode, java.util.Iterator" 
 								site = "http://" + site;
 							}
 							record.append("<h5>\n<a href=\"" + site
-									+ "\" target=\"_blank\">\n" + n.getProperty("sponsor").getString()
-									+ "\n</a>\n</h5>\n");
+									+ "\" target=\"_blank\">" + n.getProperty("sponsor").getString()
+									+ "</a>\n</h5>");
 						}
 	
 						else if(n.hasProperty("sponsor")){
-							record.append("<p>\n<strong>" + n.getProperty("sponsor").getString()
-									+ "</strong>\n</p>\n");
+							record.append("<p><strong>" + n.getProperty("sponsor").getString()
+									+ "</strong></p>");
 						}
 	
 						else if(n.hasProperty("website")){
-							record.append("<p>\n<a href=\"" + n.getProperty("website").getString()
-									+ "\" target=\"_blank\">\n<strong>" + n.getProperty("website").getString()
-									+ "</strong>\n</a>\n</p>\n");
+							record.append("<p><a href=\"" + n.getProperty("website").getString()
+									+ "\" target=\"_blank\"><strong>" + n.getProperty("website").getString()
+									+ "</strong></a>\n</p>");
 						}
 	
 						if(n.hasProperty("city")){
 							if(n.hasProperty("state")){
-								record.append("<p>" + n.getProperty("city").getString() + ", " + n.getProperty("state").getString() + "\n</p>\n");
+								record.append("<p>" + n.getProperty("city").getString() + ", " + n.getProperty("state").getString() + "</p>");
 							}
 							else{
-								record.append("<p>" + n.getProperty("city").getString() + "\n</p>\n");
+								record.append("<p>" + n.getProperty("city").getString() + "</p>");
 							}
 						}
 	
 						else if(n.hasProperty("state")){
-							record.append("<p>" + n.getProperty("state").getString() + "\n</p>\n");
+							record.append("<p>" + n.getProperty("state").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName1")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName1").getString() + "</em>\n\n</p>\n");
+							record.append("<p><strong>"
+									+ n.getProperty("awardName1").getString() + "</strong></p>");
 						}
 	
 						if(n.hasProperty("awardContent1")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent1").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent1").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq1")){
-							record.append("<p class=\"title\"><strong>\nRequirements:\n</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardReq1").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq1").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName2")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName2").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName2").getString() + "</strong></p>\n");
 						}
 	
 						if(n.hasProperty("awardContent2")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent2").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent2").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq2")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq2").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>Requirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq2").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName3")){
-							record.append("<p class=\"title\">\n\n<em>"
-									+ n.getProperty("awardName3").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName3").getString() + "</strong></p>\n");
 						}
 	
 						if(n.hasProperty("awardContent3")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent3").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent3").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq3")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq3").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq3").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardName4")){
-							record.append("<p>\n\n<em>"
-									+ n.getProperty("awardName4").getString() + "</em>\n\n</p>\n");
+							record.append("<p>\n<strong>"
+									+ n.getProperty("awardName4").getString() + "</strong></p>");
 						}
 	
 						if(n.hasProperty("awardContent4")){
-							record.append("<p class=\"title\"><strong>\nAward:</strong></p>\n"
-									+ "<p>\n" + n.getProperty("awardContent4").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nAward:</strong></p>"
+									+ "<p>" + n.getProperty("awardContent4").getString() + "</p>");
 						}
 	
 						if(n.hasProperty("awardReq4")){
-							record.append("<p class=\"title\"><strong>\nRequirements:</strong>\n</p>\n"
-									+ "<p>\n" + n.getProperty("awardReq4").getString() + "\n</p>\n");
+							record.append("<p class=\"title\"><strong>\nRequirements:</strong></p>"
+									+ "<p>" + n.getProperty("awardReq4").getString() + "</p>");
 						}
 	
-						record.append("<p class=\"title\"><strong>\nFor more information:</strong>\n</p>\n");
+						record.append("<p class=\"title\"><strong>For more information:</strong></p>");
 	
+						record.append("<p>");
 						if(n.hasProperty("contact")){
 							//Sometimes people use a URL here, sometimes they use a name
 							//Check for URLs
-							try{
-								URL u = new URL(n.getProperty("contact").getString());
-								u.toURI();
-								record.append("<p>\n<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a>\n</p>\n");
-							} catch(MalformedURLException e){
-								record.append("<p>\n" + n.getProperty("contact").getString() + "\n</p>\n");
+							Pattern p = Pattern.compile("(http(s)?://)([\\w-]+\\.)+[\\w-]+(/[\\w- ;,./?%&=]*)?");
+							Matcher m = p.matcher(n.getProperty("contact").getString());
+							if(m.matches()){
+								record.append("<a href=\"" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br/>");
+							}else{
+								m = p.matcher("http://" + n.getProperty("contact").getString());
+								if(m.matches()){
+									record.append("<a href=\"http://" + n.getProperty("contact").getString() + "\">http://" + n.getProperty("contact").getString() + "</a><br/>");
+								} else{
+									p = Pattern.compile("[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}");
+									m = p.matcher(n.getProperty("contact").getString());
+									if(m.matches()){
+										record.append("<a href=\"mailto:" + n.getProperty("contact").getString() + "\">" + n.getProperty("contact").getString() + "</a><br>");
+									}
+									else{
+										record.append(n.getProperty("contact").getString() + "<br/>");
+									}
+								}
 							}
 						}
 	
 						if(n.hasProperty("contactTitle")){
-							record.append("<p>\n" + n.getProperty("contactTitle").getString() + "</p>\n");
+							record.append(n.getProperty("contactTitle").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactAddr1")){
-							record.append("<p>\n" + n.getProperty("contactAddr1").getString() + "</p>\n");
+							record.append(n.getProperty("contactAddr1").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactAddr2")){
-							record.append("<p>\n" + n.getProperty("contactAddr2").getString() + "</p>\n");
+							record.append(n.getProperty("contactAddr2").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactCity")){
 							if(n.hasProperty("contactState") && n.hasProperty("contactZip")){
-								record.append("<p>" + n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "<br/>");
 							}
 							else if (n.hasProperty("contactState")){
-								record.append("<p>" + n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + ", " + n.getProperty("contactState").getString() + "<br/>");
 							}
 							else{
-								record.append("<p>" + n.getProperty("contactCity").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactCity").getString() + "<br/>");
 							}
 						}
 	
 						else if(n.hasProperty("contactState")){
 							if(n.hasProperty("contactZip")){
-								record.append("<p>" + n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "\n</p>\n");
+								record.append(n.getProperty("contactState").getString() + " " + n.getProperty("contactZip").getString() + "<br/>");
 							}
-							record.append("<p>" + n.getProperty("contactState").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactState").getString() + "<br/>");
 						}
 	
 						else if(n.hasProperty("contactZip")){
-							record.append("<p>" + n.getProperty("contactZip").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactZip").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactPhone")){
-							record.append("<p>" + n.getProperty("contactPhone").getString() + "\n</p>\n");
+							record.append(n.getProperty("contactPhone").getString() + "<br/>");
 						}
 	
 						if(n.hasProperty("contactEmail")){
-							record.append("<p>\n<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString() + "</a>\n</p>\n");
+							record.append("<a href=\"mailto:" + n.getProperty("contactEmail").getString() + "\">" + n.getProperty("contactEmail").getString() + "</a>");
 						}
 	
-						record.append("</li>");
+						record.append("</p></li>");
 						sb.append(record.toString());
 					}
 				}

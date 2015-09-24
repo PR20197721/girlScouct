@@ -55,7 +55,9 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutManager;
 import com.day.cq.wcm.msm.api.RolloutConfig;
 import com.day.cq.wcm.msm.api.RolloutConfigManager;
 
@@ -71,8 +73,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 	
 	@Reference
-    private LiveRelationshipManager relationManager;
+    private LiveRelationshipManager relationshipManager;
 
+	@Reference
+	private RolloutManager rolloutMgr;
 	/**
 	 * Creates the layout of the site (national pages)
 	 * 
@@ -107,6 +111,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
+				pages.add(buildWebToCasePage(pageManager, session, languagePath, councilTitle));
 				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
@@ -777,7 +782,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
 		ArrayList<Page> copyPages = new ArrayList<Page>();
 		final String templateLangPath = templatePath + "/" + languagePath;
-		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
+//		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
 		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
 		
 		try {			
@@ -795,8 +800,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
 						copyPages.add(copyPage);
 						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);
+						LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
 						cancelInheritance(rr, councilPath + "/" + languagePath);
+						//GSWP-77 c.w.
+						rollout(rr,copyPage);
+						
 					}
 				}
 			}
@@ -812,7 +820,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		}
 		return copyPages;
 	}
-	//cancel the Inheritance for certain components (with mixin type cq:LiveSyncCancelled from national template page)
+	/**
+	 * cancel the Inheritance for certain components
+	 *  (nodes with mixin type "cq:LiveSyncCancelled" under national template page)
+	 */
 	private void cancelInheritance(ResourceResolver rr, String councilPath){
 		try {
 			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '"
@@ -820,11 +831,182 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.debug("SQL " + sql);
 			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2);it.hasNext();){
 				Resource target = it.next();
-                relationManager.endRelationship(target,true);
+                relationshipManager.endRelationship(target,true);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
+	}
+	/**Do an initial rollout on the newly created livecopy
+	 *  to trigger the gsreferenceupdate action
+	 * @throws WCMException 
+	 */
+	private void rollout(ResourceResolver rr, Page targetPage) throws WCMException {
+		Iterator<Page> childIter = targetPage.listChildren(null,true);
+		while(childIter.hasNext()){
+			Page child = childIter.next();
+			LiveRelationship relationship = relationshipManager.getLiveRelationship(child.adaptTo(Resource.class), false);
+			if(relationship!=null){
+				rolloutMgr.rollout(rr, relationship, false);
+			}
+		}
+		
+	}
+	/**
+	 * Creates the Salesforce Web to Case page with it's form and properties
+	 * @param  languagePath  path to the page's /en directory
+	 * @param  councilTitle  full name of the council
+	 * @return the newly created web to case page
+	 * @author cwu
+	 */
+	private Page buildWebToCasePage(PageManager manager, Session session, String languagePath, String councilTitle){
+		Page returnPage = null;
+		String path =languagePath + "/our-council";
+		try {
+			returnPage = manager.create(path, "web-to-case", "/apps/girlscouts/templates/three-column-page", "Submit a Case");
+			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
+			jcrNode.setProperty("sling:resourceType", "girlscouts/components/three-column-page");
+			jcrNode.setProperty("seoTitle", "Submit a Case | " + councilTitle);
+			jcrNode.setProperty("hideInNav", true);
+			
+			Node contentNode = jcrNode.addNode("content");
+			contentNode.setPrimaryType("nt:unstructured");
+			
+			Node middleNode = contentNode.addNode("middle");
+			middleNode.setPrimaryType("nt:unstructured");
+			
+			Node parNode = middleNode.addNode("par");
+			parNode.setPrimaryType("nt:unstructured");
+			parNode.setProperty("sling:resourceType", "foundation/components/parsys");
+			
+			Node formStartNode = parNode.addNode("web-to-case-form_start");
+			formStartNode.setProperty("actionType","girlscouts/components/form/actions/web-to-case");
+			formStartNode.setProperty("formid","web-to-case");
+			formStartNode.setProperty("cwrw","cw");
+			formStartNode.setProperty("formActionURL","https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
+			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
+			formStartNode.setProperty("redirect", languagePath);
+
+			
+			Node titleNode = parNode.addNode("title");
+			titleNode.setPrimaryType("nt:unstructured");
+			titleNode.setProperty("sling:resourceType", "girlscouts/components/title");
+			titleNode.setProperty("title","Submit a Case to Volunteer Systems");
+			
+			Node nameNode = parNode.addNode("text");
+			nameNode.setPrimaryType("nt:unstructured");
+			nameNode.setProperty("jcr:title", "Contact Name");
+			nameNode.setProperty("name", "name");
+			nameNode.setProperty("required", true);
+			nameNode.setProperty("requiredMessage", "Your name is required");
+			nameNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			nameNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			nameNode.setProperty("maxlength", 80);
+
+			
+			Node emailNode = parNode.addNode("text_0");
+			emailNode.setProperty("constraintType", "girlscouts/components/form/constraints/email-no-whitespace");
+			emailNode.setPrimaryType("nt:unstructured");
+			emailNode.setProperty("jcr:title", "Email");
+			emailNode.setProperty("name", "email");
+			emailNode.setProperty("required", true);
+			emailNode.setProperty("requiredMessage", "Your email address is required");
+			emailNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			emailNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node phoneNode = parNode.addNode("text_1");
+			phoneNode.setProperty("constraintType", "girlscouts/components/form/constraints/numeric-no-whitespace");
+			phoneNode.setProperty("jcr:description", "Please enter phone number in the following format: 5555555555");
+			phoneNode.setPrimaryType("nt:unstructured");
+			phoneNode.setProperty("jcr:title", "Phone");
+			phoneNode.setProperty("name", "phone");
+			phoneNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			phoneNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			phoneNode.setProperty("maxlength", 20);
+
+			Node methodNode = parNode.addNode("dropdown");
+			methodNode.setProperty("jcr:title","Preferred Method of Contact");
+			methodNode.setPrimaryType("nt:unstructured");
+			methodNode.setProperty("name","00NG000000DdNmM");
+			methodNode.setProperty("options",new String[]{"=--None--","Phone","E-mail","Either"});
+			methodNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			methodNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
+			
+			Node timeNode = parNode.addNode("text_2");
+			timeNode.setPrimaryType("nt:unstructured");
+			timeNode.setProperty("jcr:title", "Best Time To Call");
+			timeNode.setProperty("name", "00NG000000DdNmL");
+			timeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			timeNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			timeNode.setProperty("maxlength", 255);
+
+			
+			Node zipNode =  parNode.addNode("text_3");
+			zipNode.setProperty("constraintType", "girlscouts/components/form/constraints/numeric-no-whitespace");
+			zipNode.setProperty("constraintMessage", "Please enter your 5-digit zip code.");
+			zipNode.setPrimaryType("nt:unstructured");
+			zipNode.setProperty("jcr:title", "Zip Code");
+			zipNode.setProperty("name", "00NG000000DdNmN");
+			zipNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			zipNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			zipNode.setProperty("maxlength", 5);
+			
+			Node typeNode = parNode.addNode("dropdown_0");
+			typeNode.setPrimaryType("nt:unstructured");
+			typeNode.setProperty("jcr:title", "Type");
+			typeNode.setProperty("name","type");
+			typeNode.setProperty("required", true);
+			typeNode.setProperty("requiredMessage", "Please select a type.");
+			typeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			typeNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
+			typeNode.setProperty("options",
+					new String[]{"=--None--","Troop Support/Girl Program","Service Area Support",
+								"Product Sales","Registration/Reservations","Recruitment","Shop",
+								"Giving/Sponsorships","General","Other"});
+			
+			
+			Node subjectNode = parNode.addNode("text_4");
+			subjectNode.setPrimaryType("nt:unstructured");
+			subjectNode.setProperty("jcr:title", "Subject");
+			subjectNode.setProperty("name", "subject");
+			subjectNode.setProperty("required", true);
+			subjectNode.setProperty("requiredMessage", "A subject is required.");
+			subjectNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			subjectNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			subjectNode.setProperty("maxlength", 255);
+
+			
+			Node descriptionNode = parNode.addNode("text_5");
+			descriptionNode.setPrimaryType("nt:unstructured");
+			descriptionNode.setProperty("jcr:title", "Description");
+			descriptionNode.setProperty("name", "description");
+			descriptionNode.setProperty("rows", 3);
+			descriptionNode.setProperty("required", true);
+			descriptionNode.setProperty("requiredMessage", "Please add descriptions.");
+			descriptionNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			descriptionNode.setProperty("sling:resourceType", "girlscouts/components/form/text");
+			descriptionNode.setProperty("maxlength", 32000);
+			descriptionNode.setProperty("jcr:description", "Max length: 32000 characters.");
+
+
+			
+			Node submitNode = parNode.addNode("submit");
+			submitNode.setProperty("css", "form-btn");
+			submitNode.setPrimaryType("nt:unstructured");
+			submitNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			submitNode.setProperty("sling:resourceType", "foundation/components/form/submit");
+			
+			Node formEndNode = parNode.addNode("web-to-case-form_end");
+			formEndNode.setPrimaryType("nt:unstructured");
+			formEndNode.setProperty("sling:resourceType", "foundation/components/form/end");
+			
+		} catch (WCMException e) {
+			LOG.error("Cannot build contact us page: \n" +  e.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return returnPage;
 	}
 }

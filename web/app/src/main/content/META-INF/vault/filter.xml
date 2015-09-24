@@ -9,13 +9,11 @@
     <filter root="/etc/map.publish.dev"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
+    <filter root="/etc/replication-checker"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
-    <filter root="/etc/designs/girlscouts-gsnetx"/>
     <filter root="/etc/designs/girlscouts-usa"/>
     <filter root="/etc/designs/girlscouts-usa-blue"/>
-    <filter root="/etc/designs/girlscoutsnccp"/>
-    <filter root="/etc/designs/girlscouts-nccp"/>
     <filter root="/etc/designs/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-dxp"/>
@@ -47,6 +45,8 @@
     <filter root="/etc/workflow/launcher/config/gs_modify_flipbook_folder" />
     <filter root="/etc/workflow/launcher/config/gs_remove_flipbook_file" />
     <filter root="/etc/workflow/launcher/config/gs_remove_flipbook_folder" />
+    <filter root="/etc/workflow/launcher/config/gs_update_pdf_create_pub" />
+    <filter root="/etc/workflow/launcher/config/gs_update_pdf_mod_pub" />
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_logo"/>  
     <filter root="/etc/workflow/models/dam/gs_update_asset_medium_hero"/>   
@@ -54,7 +54,7 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_sp_right_hero"/>
-    <filter root="/etc/workflow/models/dam/update_asset"/>
+    <filter root="/etc/workflow/models/dam/dam_pdf_title"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
@@ -69,4 +69,5 @@
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
+    <filter root="/content/girlscouts-shared"/>
 </workspaceFilter>

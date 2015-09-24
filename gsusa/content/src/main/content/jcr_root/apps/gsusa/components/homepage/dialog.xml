@@ -9,7 +9,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <basic
                     jcr:primaryType="cq:Widget"
-                    path="/apps/girlscouts/components/page/tab_basic.infinity.json"
+                    path="/apps/gsusa/components/page/tab_basic.infinity.json"
                     xtype="cqinclude"/>
                 <advanced
                     jcr:primaryType="cq:Widget"
@@ -40,6 +40,14 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
+                        <facebook-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Facebook ID"
+                            name="./facebookId"/>
+                        <addthis-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="AddThis ID"
+                            name="./addThisId"/>
                     </items>
                 </gsusa>
             </items>

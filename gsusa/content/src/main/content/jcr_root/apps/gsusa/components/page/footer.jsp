@@ -3,35 +3,33 @@
 <%
     // All pages share the same footer from the site root.
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
+    String keepInTouchPath = footerPath + "/keepInTouch";
+    String footerNavPath = footerPath + "/footerNav";
+    String footerSharePath = footerPath + "/footerShare";
+    String copyrightPath = footerPath + "/copyright";
 %>
 <section class="clearfix">
-    <form class="email-signin" action="#">
-        <label>Keep in touch</label>
-        <input type="email" name="email" placeholder="Email address" />
-    </form>
-    <ul class="inline-list">
-        <li><a href="/content/gsusa/en/contact-us.html" title="Contact Us">Contact Us</a></li>
-        <li><a href="#" title="Visit Us">Visit Us</a></li>
-        <li><a href="#" title="Careers">Careers</a></li>
-        <li><a href="#" title="Blog">Blog</a></li>
-        <li><a href="#" title="Press Room">Press Room</a></li>
-        <li><a href="#" title="FAQ">FAQ</a></li>
-        <li><a href="#" title="Investors">Investors</a></li>
-        <li><a href="#" title="Subscribe to Our Newsletter">Subscribe to Our Newsletter</a></li>
-        <li><a href="#" title="Help">Help</a></li>
-        <li><a href="#" title="Follow Us">Follow Us</a></li>
-        <li><a href="#" title="Trademark Statement">Trademark Statement</a></li>
-    </ul>
+  <div class="float-right">
+	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
+  </div>
+	<cq:include path="<%= footerNavPath %>" resourceType="gsusa/components/footer-nav" />
 </section>
 <section class="clearfix">
-    <span class="copyright">&#64;2015 Girl Scouts of America</span>
-    <div class="social-links">
-        <ul class="inline-list">
-            <li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png"></a></li>
-            <li><a href="https://twitter.com/gsgc"><img src="/etc/designs/girlscouts-usa-green/images/twitter_30_white.png"></a></li>
-            <li><a href="https://www.flickr.com/photos/gsgc/"><img src="/etc/designs/girlscouts-usa-green/images/flickr_30_white.png"></a></li>
-            <li><a href="http://www.youtube.com/user/gsgcouncil?feature=watch"><img src="/etc/designs/girlscouts-usa-green/images/youtube_30_white.png"></a></li>
-        </ul>
+    <cq:include path="<%= copyrightPath %>" resourceType="girlscouts/components/text" />
+    <div class="social-links clearfix">
+        <div>
+            <cq:include path="<%= footerSharePath %>" resourceType="gsusa/components/footer-share" />
+            <!-- <ul class="inline-list">
+                <li><a href="https://www.facebook.com/gsgcfl"><img src="/etc/designs/girlscouts-usa-green/images/facebook_30_white.png"></a></li>
+                <li><a href="https://twitter.com/gsgc"><img src="/etc/designs/girlscouts-usa-green/images/twitter_30_white.png"></a></li>
+                <li><a href="https://www.flickr.com/photos/gsgc/"><img src="/etc/designs/girlscouts-usa-green/images/flickr_30_white.png"></a></li>
+                <li><a href="http://www.youtube.com/user/gsgcouncil?feature=watch"><img src="/etc/designs/girlscouts-usa-green/images/youtube_30_white.png"></a></li>
+            </ul> -->
+        </div>
     </div>
 </section>
+<section class="clearfix show-for-small-only footer-logo">
+    <img src="/etc/designs/gsusa/clientlibs/images/footer_logo.png" alt="footer logo" />
+</section>
 <!-- END of footer -->
+

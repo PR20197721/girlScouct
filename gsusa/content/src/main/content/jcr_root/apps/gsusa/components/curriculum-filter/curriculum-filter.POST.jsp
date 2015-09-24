@@ -2,7 +2,7 @@
 <%@ page import="com.day.cq.commons.TidyJSONWriter" %>
 
 <%
-String path = request.getParameter("path");
+String path = java.net.URLDecoder.decode(request.getParameter("path"),"UTF-8");
 
 final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
 String output = "found";

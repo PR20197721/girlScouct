@@ -14,6 +14,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.VtkException;
 
 @Component
 @Service(LocationUtil.class)
@@ -29,7 +30,7 @@ public class LocationUtil {
 	private MeetingDAO meetingDAO;
 
 	public void setLocationAllMeetings(User user, Troop troop,
-			String locationPath) throws java.lang.IllegalAccessException {
+			String locationPath) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -57,7 +58,7 @@ public class LocationUtil {
 	}
 
 	public void setLocation(User user, Troop troop, Location location)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -80,7 +81,7 @@ public class LocationUtil {
 	}
 
 	public void changeLocation(User user, Troop troop, String dates,
-			String locationRef) throws java.lang.IllegalAccessException {
+			String locationRef) throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -141,7 +142,7 @@ public class LocationUtil {
 	}
 
 	public void setLocationAllEmpty(User user, Troop troop, String locationName)
-			throws java.lang.IllegalAccessException {
+			throws java.lang.IllegalAccessException, VtkException {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
@@ -203,7 +204,7 @@ public class LocationUtil {
 	}
 
 	public void addLocation(User user, Troop troop, Location location)
-			throws IllegalAccessException {
+			throws IllegalAccessException, VtkException {
 
 		boolean isLoc = org.girlscouts.vtk.utils.VtkUtil.isLocation(troop
 				.getYearPlan().getLocations(), location.getName());
