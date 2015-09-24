@@ -466,7 +466,6 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		    response.addCookie(cookie);
 		}
 	}//end oAuthtoken
-System.out.println("FIXING 2");
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
 			redirect(response, request.getParameter("RelayState"));
 		}else if(request.getParameter("RelayState")!=null){
