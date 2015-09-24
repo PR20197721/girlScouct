@@ -2,7 +2,13 @@ package org.girlscouts.vtk.auth.dao;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+
+
+import org.apache.commons.codec.binary.Base64;
+
+import java.util.Dictionary;
 import java.util.Set;
 
 import org.apache.commons.httpclient.Header;
@@ -12,6 +18,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -23,15 +31,20 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.ConnectionFactory;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.sso.saml.OAuthRequest;
+import org.girlscouts.vtk.sso.saml.Utils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 // TODO: Need thread pool here
 public class SalesforceDAO {
@@ -48,17 +61,18 @@ public class SalesforceDAO {
 		this.connectionFactory = connectionFactory;
 	}
 
+
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException{
 		User user= new User();
 		CloseableHttpClient connection = null;
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
-				//+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
-				+ "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId());
 		
-//System.err.println("111 for SANJAY URL: "+(		apiConfig.getWebServicesUrl() + "/services/apexrest/getUserInfoV1.1?USER_ID="+ apiConfig.getUserId() ) );	
+		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
+		String url = apiConfig.getWebServicesUrl() +vtlApiUserUri+ "?USER_ID="+ apiConfig.getUserId();
 		
-//System.err.println("for SANJAY userId: "+ apiConfig.getUserId() );				
+		
+		HttpGet method = new HttpGet( url );
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
 		try {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
@@ -67,6 +81,7 @@ public class SalesforceDAO {
 				System.err.println("Method failed: " + resp.getStatusLine());
 				throw new IllegalAccessException();
 			}
+
 			HttpEntity entity = null;
 			String rsp = null;
 			try {
@@ -79,85 +94,67 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-			rsp = "{\"users\":" + rsp + "}";		
+				
 			log.debug(">>>>> " + rsp);	
-	System.err.println("for SANJAY user: "+ rsp);		
+			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
 				JSONArray results = response.getJSONArray("users");
 				for (int i = 0; i < results.length(); i++) {
-					log.debug("_____ " + results.get(i));
-					//int current = results.length() - 1;
+					org.json.JSONObject json = results.getJSONObject(i);
 					try {
+						user.setSfUserId(json.getString("Id"));
+                                                try {
+							user.setEmail(json.getString("Email"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have an Email");
+                                                }
 						try {
-							user.setName(results.getJSONObject(i)
-									.getString("FirstName"));
-							
+							user.setName(json.getString("FirstName"));
 							user.setFirstName(user.getName());
-						} catch (Exception e) {
-							e.printStackTrace();
+						} catch (org.json.JSONException je) {
+							log.info("User " + user.getSfUserId() + " does not have a FirstName");
 						}
-
-						try {
-							user.setEmail(results.getJSONObject(i)
-									.getString("Email"));
-						} catch (Exception e) {
-							System.err
-									.println("SAlesforceDAO.getUser: no email");
+                                                try {
+                                                        user.setLastName( json.getString("LastName") );
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a LastName");
 						}
 						try {
-							user.setPhone(results.getJSONObject(i)
-									.getString("Phone"));
-						} catch (Exception e) {
-							System.err
-									.println("SAlesforceDAO.getUser: no phone");
-						}
-
+							user.setPhone(json.getString("Phone"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a Phone");
+                                                }
 						try {
-							user.setContactId(results.getJSONObject(i)
-									.getString("ContactId"));
-							user.setSfUserId(results.getJSONObject(i)
-									.getString("Id"));
-						} catch (Exception e) {
-							e.printStackTrace();
+							user.setContactId(json.getString("ContactId"));
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a ContactId");
 						}
-
 						try {
-							user.setEmail( results.getJSONObject(i)
-									.getString("Email"));
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						try {
-							user.setLastName( results.getJSONObject(i)
-									.getString("LastName") );
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						
-						try {
-							user.setAdmin(results.getJSONObject(i).getJSONObject("Contact")
-									.getBoolean("VTK_Admin__c") );
-							user.setAdminCouncilId(results.getJSONObject(i).getJSONObject("Contact").getJSONObject("Owner")
-									.getInt("Council_Code__c") );
-
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-						
-						
-						
-
+							org.json.JSONObject contactJson = json.getJSONObject("Contact");
+							try {
+								user.setAdmin(contactJson.getBoolean("VTK_Admin__c") );
+							} catch (org.json.JSONException je) {
+								log.info("User " + user.getSfUserId() + " does not have a Contact VTK_Admin__c");
+							}
+							try{
+								user.setAdminCouncilId(contactJson.getJSONObject("Owner").getInt("Council_Code__c") );
+							} catch (org.json.JSONException je) {
+								log.info("User " + user.getSfUserId() + " does not have a Contact Owner");
+							}
+                                                } catch (org.json.JSONException je) {
+                                                        log.info("User " + user.getSfUserId() + " does not have a Contact"
+);
+                                                }
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
-					java.util.List<Troop> troops = troopInfo(user, apiConfig,
-							user.getSfUserId());
+					
+					
+					JSONArray parentTroops = response.getJSONArray("camps");					
+					//-moved into getTroops_merged:parent + dp == java.util.List<Troop> troops = troopInfo(user, apiConfig, user.getSfUserId(), parentTroops);
+					java.util.List<Troop> troops = getTroops_merged(user, apiConfig, user.getSfUserId(), parentTroops);
 					apiConfig.setTroops(troops);
 
 					return user;
@@ -179,6 +176,7 @@ public class SalesforceDAO {
 			if (method != null)
 				method.releaseConnection();
 		}
+
 		return user;
 	}
 	
@@ -190,7 +188,6 @@ public class SalesforceDAO {
 		} catch (Exception e) {
 			log.error("Error decoding the code. Left it as is.");
 		}
-
 		HttpClient httpclient = new HttpClient();
 		String tokenUrl = OAuthUrl + "/services/oauth2/token";
 		PostMethod post = new PostMethod(tokenUrl);
@@ -201,9 +198,7 @@ public class SalesforceDAO {
 		post.addParameter("redirect_uri", callbackUrl);
 		log.debug(post.getRequestCharSet());
 		log.debug(post.getRequestEntity().toString());
-
 		try {
-
 			log.debug("________________doAuth_________start_____________________________");
 			log.debug("code " + code);
 			log.debug("grant_type: authorization_code");
@@ -312,8 +307,14 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		CloseableHttpClient connection = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+		
+		String vtkApiContactUri=apiConfig.getVtkApiContactUri();
+		String url=apiConfig.getWebServicesUrl() + vtkApiContactUri + "?troopId=" + sfTroopId ;		
+		HttpGet method = new HttpGet( url );
+				/*
+				apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+				*/
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 			connection = connectionFactory.getConnection();
@@ -335,14 +336,11 @@ public class SalesforceDAO {
 				resp.close();
 			}
 			rsp = "{\"records\":" + rsp + "}";
-			log.debug(">>>>> " + rsp);
-System.err.println("tatarsp: "+ rsp);			
+			log.debug(">>>>> " + rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
-				
 
-				
 				JSONArray results = response.getJSONArray("records");
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
@@ -441,12 +439,17 @@ System.err.println("tatarsp: "+ rsp);
 								.getString("LastName"));
 						}catch(Exception e){}
 						
-						
+						try{contactSub.setContactId(results.getJSONObject(i)
+								.getJSONObject("Account")
+								.getJSONObject("rC_Bios__Preferred_Contact__r")
+								.getString("Id"));
+						}catch(Exception e){}
+						/*
 						try{contactSub.setAccountId(results.getJSONObject(i)
 								.getJSONObject("Account").getString("Id"));
 						
 						}catch(Exception e){}
-						
+						*/
 						
 						contactSub.setType(1);// caregiver
 						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
@@ -476,26 +479,27 @@ System.err.println("tatarsp: "+ rsp);
 		return contacts;
 	}
 
+
 	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig, String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
-		
+
 
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
-			String url = apiConfig.getWebServicesUrl()
-					+ "/services/apexrest/activeUserTroopDataV1.1?userId="+ contactId; //no filters
-			//+ "/services/apexrest/activeUserTroopData?userId="+ contactId); //with filter
-			
-//System.err.println("tata troopInfo: "+url );	
-			
+			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
+			String url = apiConfig.getWebServicesUrl() +vtkApiTroopUri +"?userId="+ contactId;
+				
 			method = new HttpGet(url); //no filters
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
+			int statusCode = resp.getStatusLine().getStatusCode();	
+			
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
+				throw new IllegalAccessException();
 			}
 			HttpEntity entity = resp.getEntity();
 			entity.getContent();
@@ -503,7 +507,7 @@ System.err.println("tatarsp: "+ rsp);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("<<tata<<<Apex resp: " + response);		
+		
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -562,6 +566,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 						
 					  
 					  if( user.isAdmin() ){
+						  
 						troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 				 	  }
 					
@@ -597,6 +602,7 @@ System.err.println("<<tata<<<Apex resp: " + response);
 	}
 
 	private String getToken(ApiConfig apiConfig) {
+		/*
 		java.util.Calendar validTokenTime = java.util.Calendar.getInstance();
 		validTokenTime.add(java.util.Calendar.MINUTE, -1);
 		if (validTokenTime.getTimeInMillis() > apiConfig
@@ -604,9 +610,9 @@ System.err.println("<<tata<<<Apex resp: " + response);
 			apiConfig = refreshToken(apiConfig);
 			log.info("Refreshing Salesforce token");
 		}
+		*/
 		return apiConfig.getAccessToken();
 	}
-	
 	
 	
 
@@ -616,10 +622,11 @@ CloseableHttpClient connection = null;
 
 java.util.List<Contact> contacts = new java.util.ArrayList();
 
-HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+String vtkApiTroopLeadersUri = apiConfig.getVtkApiTroopLeadersUri();
+String url =apiConfig.getWebServicesUrl() +vtkApiTroopLeadersUri + "?Troop_ID="+sfTroopId;
 
-+"/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
-System.err.println("tata dp info : /services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+HttpGet method = new HttpGet( url ); //apiConfig.getWebServicesUrl() + "/services/apexrest/getDPInfo?Troop_ID="+sfTroopId);
+
 
 
 
@@ -636,6 +643,7 @@ int statusCode = resp.getStatusLine().getStatusCode();
 if (statusCode != HttpStatus.SC_OK) {
 
 System.err.println("Method failed: " + resp.getStatusLine());
+
 
 }
 
@@ -668,7 +676,6 @@ resp.close();
 rsp = "{\"records\":" + rsp + "}";
 
 log.debug(">>>>> " + rsp);
-System.err.println(">>>DP tata info>> " + rsp);
 
 
 try {
@@ -741,7 +748,136 @@ return contacts;
 
 }
 
+
+
+
+
+public java.util.List<Troop> getTroops_merged(User user, ApiConfig apiConfig, String contactId,  JSONArray parentTroops){
+System.out.println("##### Finding troops to add to this user");
+	java.util.List<Troop> troops_withAssociation = troopInfo(user, apiConfig, user.getSfUserId());
+System.out.println("##### troops_withAssociation " + troops_withAssociation.size());
+	java.util.List<Troop> troops_withOutAssociation = parseTroops( user, parentTroops );
+System.out.println("##### troops_withOutAssociation " + troops_withOutAssociation.size());
+	java.util.List<Troop> merged_troops = mergeTroops(  troops_withAssociation,  troops_withOutAssociation );
+System.out.println("##### merged_troops " + merged_troops.size());
+	return merged_troops;
 }
 
 
+public java.util.List<Troop> parseTroops( User user, JSONArray results ){
+	
+	java.util.List<Troop> troops= new java.util.ArrayList<Troop>();
+	for (int i = 0; i < results.length(); i++) {
+		
+		Troop troop = new Troop();
+		try {
+			troop.setCouncilCode(results.getJSONObject(i)
+					.getInt("Council_Code__c")); 
+			troop.setCouncilId(results.getJSONObject(i)
+					.getString("Account__c"));
+			troop.setGradeLevel(results.getJSONObject(i)
+					
+					.getString("Program_Grade_Level__c"));
+					
+			troop.setTroopId(results.getJSONObject(i).getString(
+					"Id"));//	"ParentId"));
+			troop.setTroopName(results.getJSONObject(i)
+					.getString("Name"));
+			/*
+			try{
+				
+				troop.setRole(results.getJSONObject(i).getString(
+					"Job_Code__c"));
+			
+			}catch(Exception e){troop.setRole("PA"); e.printStackTrace();}
+			*/
+			troop.setRole("PA");
+			
+			
+			org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
+					.valueOf(troop.getRole());
+			
+			 
+			
+			troop.setPermissionTokens(Permission
+					.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+			  
+			  
+			if( rollType.getRollType().equals("PA")){
+				  troop.getPermissionTokens().addAll(Permission
+						.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+			
+			  }
+			  
+			if( rollType.getRollType().equals("DP")){
+				  troop.getPermissionTokens().addAll(Permission
+						.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+			  }
+			  
+	
+			if( user.isAdmin() ){
+				  
+				troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+		 	  }
+
+			troops.add(troop);
+		}catch(Exception e){e.printStackTrace();}
+		
+		}//end for
+		
+			 
+				
+		return troops;
+			
+	
+}
+
+
+public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.List<Troop> B ){
+	
+
+	if( A==null || A.size()<=0 ) return B;
+	if( B==null || B.size()<=0 ) return A;
+
+	java.util.List <Troop>troopDiff= getTroopsNotInA( A, B);
+	A.addAll(troopDiff);
+	
+	for(int i=0;i<A.size();i++){
+		Troop troop = A.get(i);
+		for(int y=0;y<B.size();y++){
+			Troop _troop = B.get(y);
+			if( _troop.getTroopId().equals( troop.getTroopId())){
+				
+				//merge permission into troop A
+				try{
+  				  if( "DP".equals(_troop.getRole()) && "PA".equals(troop.getRole())) {
+					troop.setRole("DP");
+				  }
+				}catch(Exception e){e.printStackTrace();}
+				troop.getPermissionTokens().addAll( _troop.getPermissionTokens() ) ;
+				
+			}
+		}
+	}
+
+	return A;
+}
+
+
+private java.util.List<Troop> getTroopsNotInA( java.util.List<Troop>A, java.util.List<Troop>B){
+	java.util.List <Troop>troopDiff= new java.util.ArrayList();
+	for(int i=0;i<B.size();i++){
+		Troop troop = B.get(i);
+		boolean isFound= false;
+		fA:for(int y=0;y<A.size();y++){
+			Troop _troop = A.get(y);
+			if( _troop.getTroopId().equals( troop.getTroopId())){isFound=true; break fA;}
+		}
+		if( !isFound){
+			troopDiff.add( troop );
+		}
+	}
+	return troopDiff;
+}
+}//end class
 

@@ -11,17 +11,7 @@
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-
-<%
-//final org.girlscouts.vtk.utils.ModifyNodePermissions modPerm = sling.getService(org.girlscouts.vtk.utils.ModifyNodePermissions.class);
-//modPerm.modifyNodePermissions("/vtk2018", "vtk");
-%>
-
-
-
 <div id="vtkTabNav"></div>
-
-
  <div id="panelWrapper" class="row meeting-detail content">
   <div id="vtkNav"></div>
   <%@include file="include/modals/modal_help.jsp"%>
@@ -37,12 +27,6 @@
 
 
       <script type="text/javascript">
-
-
-//c.w GSVTK-773 fix time difference for councils at other time zones
-//timezone data stored in clientlibs/moment-timezone.js
-moment.tz.setDefault("US/Eastern");
-
 
  var isActivNew;
       var isFirst=1;
@@ -81,7 +65,7 @@ moment.tz.setDefault("US/Eastern");
         isReordering: false,
         componentDidMount: function() {
 
-        	loadNav('plan');
+        	loadNav('plan'); 	
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -112,7 +96,7 @@ moment.tz.setDefault("US/Eastern");
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
             }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
-            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");    
+            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");    
            
             }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
             	yesPlan();
@@ -173,7 +157,7 @@ moment.tz.setDefault("US/Eastern");
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                      React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw:comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                          React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                          React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
 
@@ -197,7 +181,7 @@ moment.tz.setDefault("US/Eastern");
     			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
     			        React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
     			        React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
     			            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
     			            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
     			        ),
@@ -225,7 +209,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
     ),
     React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
       React.createElement("p", {className: "subtitle"},
-        React.createElement(ViewMeeting, {date: moment(comment), name: obj[comment].name})
+        React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment), name: obj[comment].name})
       ),
         React.createElement("p", {className: "category"},  obj[comment].content.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") ),
         React.createElement("p", {className: "blurb"}, obj[comment].locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,""))
@@ -342,7 +326,10 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
     var ViewMeeting = React.createClass({displayName: "ViewMeeting",
         render: function() {
-          var date  = new Date(this.props.date).getTime();
+          var date  = new Date(this.props.dateRaw).getTime();
+          if (date.toString() == 'NaN') {
+        	  date = new Date(this.props.date).getTime();
+          }
             var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
               React.createElement("a", {href: src}, this.props.name)

@@ -50,11 +50,14 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 				<% }else if( isExists ){ %>
 					<i class="activityDisabled">This Activity has already been selected</i>
 				<%}else{ %>
+				    <i class="activityDisabled" id="act_lib_msg_added_<%=activities.get(i).getUid()%>" style="display:none;">This Activity has already been selected</i>
 					<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
-						<a href="<%=activities.get(i).getRegisterUrl()%>" target="_blank" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>')">Select Activity and Register for event</a>
+						<a href="<%=activities.get(i).getRegisterUrl()%>"  target="_blank" class="reserved" onclick="this.style.display='none'; addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>');">Select Activity and Register for event</a>
+					   
 					<%}else{ %>
-						<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', null)">Select Activity</a>
+						<a href="#" class="reserved"  onclick="this.style.display='none'; addActiv3('<%=activities.get(i).getUid()%>', null);">Select Activity</a>
 					<%} %>
+					
 				<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 
@@ -62,6 +65,9 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 </ul>
 <script>
 function addActiv3(id, registerHrefToPop){
+	if(document.getElementById("act_lib_msg_added_"+ id)){
+		document.getElementById("act_lib_msg_added_"+ id).style.display='inline';
+	} 
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',

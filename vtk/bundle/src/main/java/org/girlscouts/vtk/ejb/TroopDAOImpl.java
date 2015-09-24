@@ -1,6 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -14,6 +17,8 @@ import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.ValueFactory;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -30,6 +35,7 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
@@ -84,15 +90,42 @@ public class TroopDAOImpl implements TroopDAO {
 	public Troop getTroop(User user, String councilId, String troopId)
 			throws IllegalAccessException, VtkException {
 
+/*
+Need to check troop permission.  This breaks parent-admins.
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
+*/
 
 		Session mySession = null;
 		Troop troop = null;
 		try {
 			mySession = sessionFactory.getSession();
+			
+			
+			/*
+			
+			File file = new File("/Users/akobovich/Desktop/mycert.jks");
+			FileInputStream is = new FileInputStream(file);
+			String mimeType = "application/octet-stream";
+			Node node = mySession.getNode("/vtk");
+			ValueFactory valueFactory = mySession.getValueFactory();
+			javax.jcr.Binary contentValue = valueFactory.createBinary(is);
+			Node fileNode = node.addNode("alex", "nt:file");
+			fileNode.addMixin("mix:referenceable");
+			Node resNode = fileNode.addNode("jcr:content", "nt:resource");
+			resNode.setProperty("jcr:mimeType", mimeType);
+			resNode.setProperty("jcr:data", contentValue);
+			Calendar lastModified = Calendar.getInstance();
+			lastModified.setTimeInMillis(lastModified.getTimeInMillis());
+			resNode.setProperty("jcr:lastModified", lastModified);
+			mySession.save();
+
+			*/
+			
+			
+			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -607,7 +640,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = expenses[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
 		}
 
@@ -616,7 +648,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = income[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
 		}
 	}
@@ -635,7 +666,6 @@ public class TroopDAOImpl implements TroopDAO {
 					currentNode = currentNode.getNode(pathElements[i]);
 
 				} else {
-					//System.err.println("#####Trying to add node: "+ pathElements[i]);
 					currentNode = currentNode.addNode(pathElements[i],
 							"nt:unstructured");
 
@@ -773,19 +803,20 @@ public class TroopDAOImpl implements TroopDAO {
 				
 
 			}
-			if (!ocm.objectExists(asset.getPath()))
+			if (!ocm.objectExists(asset.getPath())) {
 				ocm.insert(asset);
-			else
+			} else {
 				ocm.update(asset);
-
+			}
 			ocm.save();
 			isUpdated = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (mySession != null)
+				if (mySession != null) {
 					sessionFactory.closeSession(mySession);
+				}
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1340,10 +1371,11 @@ public class TroopDAOImpl implements TroopDAO {
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingCanceled/" + meeting.getUid());
 			}
-			if (!ocm.objectExists(meeting.getPath()))
+			if (!ocm.objectExists(meeting.getPath())) {
 				ocm.insert(meeting);
-			else
+			} else {
 				ocm.update(meeting);
+			}
 			ocm.save();
 			isUpdated = true;
 		} catch (Exception e) {

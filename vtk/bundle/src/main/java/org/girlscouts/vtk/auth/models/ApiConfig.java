@@ -19,6 +19,43 @@ public class ApiConfig implements Serializable {
 	private String callbackUrl, clientId, clientSecret, OAuthUrl;
 	private long lastTimeTokenRefreshed;
 	
+	//from jcr config -APIs
+	private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
+	
+	
+	
+	public String getVtkApiTroopLeadersUri() {
+		return vtkApiTroopLeadersUri;
+	}
+
+	public void setVtkApiTroopLeadersUri(String vtkApiTroopLeadersUri) {
+		this.vtkApiTroopLeadersUri = vtkApiTroopLeadersUri;
+	}
+
+	public String getVtkApiContactUri() {
+		return vtkApiContactUri;
+	}
+
+	public void setVtkApiContactUri(String vtkApiContactUri) {
+		this.vtkApiContactUri = vtkApiContactUri;
+	}
+
+	public String getVtkApiUserUri() {
+		return vtkApiUserUri;
+	}
+
+	public void setVtkApiUserUri(String vtkApiUserUri) {
+		this.vtkApiUserUri = vtkApiUserUri;
+	}
+
+	public String getVtkApiTroopUri() {
+		return vtkApiTroopUri;
+	}
+
+	public void setVtkApiTroopUri(String vtkApiTroopUri) {
+		this.vtkApiTroopUri = vtkApiTroopUri;
+	}
+
 	public java.util.List<Troop> getTroops() {
 		return troops;
 	}

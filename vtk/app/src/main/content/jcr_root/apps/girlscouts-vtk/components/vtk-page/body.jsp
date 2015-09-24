@@ -3,7 +3,9 @@
                 com.day.cq.wcm.api.components.IncludeOptions" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
+    
 <%
+
         HttpSession session = request.getSession(true);
 
 	CouncilMapper mapper = sling.getService(CouncilMapper.class);
@@ -57,6 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-PV9D8H');</script>
 <!-- End Google Tag Manager -->
+
 		
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">

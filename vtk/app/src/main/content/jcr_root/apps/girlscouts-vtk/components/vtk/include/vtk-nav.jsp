@@ -53,7 +53,7 @@
 				</dd>
 			<%	} %>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-					<a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
+					<a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
 				</dd>
 			
 			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>

@@ -165,10 +165,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Meeting getMeeting(User user, String path)
 			throws IllegalAccessException, VtkException {
+/*
+Removing this because needs to use troop
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
+*/
 		Meeting meeting = null;
 		Session session = null;
 		try {
@@ -554,9 +557,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 */
-	
-	
-	
+
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
 		List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
@@ -1484,8 +1485,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			map.put("path", "/content/dam/girlscouts-vtk/global/resource");
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
+			
+			
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
+			
 			query.setStart(0);
 			query.setHitsPerPage(100);
 			SearchResult result = query.getResult();

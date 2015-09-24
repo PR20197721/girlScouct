@@ -9,7 +9,14 @@
 //out.println(troop.getTroop().getPermissionTokens());
 String activeTab=request.getParameter("activeTab");
 PlanView planView = meetingUtil.planView(user, troop, request);
-
+boolean isParent= false;
+if( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("PA") ){
+	isParent=true;
+}
+String vtk_cache_uri = "";
+if( isParent ){
+	vtk_cache_uri = "/myvtk/" + troop.getSfCouncil() ;
+}
 
 /*
 //Get URL for community page
@@ -28,6 +35,7 @@ if (troops != null && troops.size() > 1) {
     response.addCookie(cookie);
 */
 %>
+
 
 		<div id="troop" class="row hide-for-print">
 			  
@@ -59,9 +67,9 @@ if (troops != null && troops.size() > 1) {
 			  </div>
 			  <div class="columns large-4 medium-4">
 			  
-		       <a href="<%=communityUrl%>">Member Profile</a>
 		      </div>
 		</div>
+
 <%
 /*  }*/
 %>
@@ -90,7 +98,7 @@ if (troops != null && troops.size() > 1) {
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
            
-           <a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
+           <a href="/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year Plan</a>
           </dd>
         <% } %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
@@ -105,7 +113,7 @@ if (troops != null && troops.size() > 1) {
         </dd>
         <%  } %>
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-          <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
+          <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
         </dd>
         
         <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
@@ -161,7 +169,7 @@ if (troops != null && troops.size() > 1) {
           </li>
           <%}%>
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
-          <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
+          <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year Plan</a>
             <ul class="dropdown">
             <% if("plan".equals(activeTab)  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
              
@@ -212,8 +220,7 @@ if (troops != null && troops.size() > 1) {
                   }		   
               	case MEETING:
                 	try { 
-                		
-                		
+				if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
                 		
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
                        if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
@@ -226,6 +233,7 @@ if (troops != null && troops.size() > 1) {
                         <li id="replaceMeetingSmall"></li>
                         <%
                         }
+			}
                     } catch (Exception te) {
                       te.printStackTrace();
                     }
@@ -236,7 +244,7 @@ if (troops != null && troops.size() > 1) {
             </ul>
           </li>
           <%  } %>
-          <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
+          <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
        
              <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
                 <li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
@@ -244,8 +252,13 @@ if (troops != null && troops.size() > 1) {
        
        
 
-	        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
-	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
+	        <%  if( user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0){ %>
+	            <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>>
+	               <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+	               <ul>
+	                    <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
+	               </ul>
+	             </li>
 		     <% } %>
        
        

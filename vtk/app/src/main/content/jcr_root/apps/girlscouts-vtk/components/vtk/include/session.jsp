@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page	import="java.text.SimpleDateFormat,
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.girlscouts.vtk.models.Troop,
@@ -22,16 +23,13 @@
 
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
-
-	//String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
-	//String SHOW_FINANCE_FEATURE = "showFinance"; 
-	//String SHOW_PARENT_FEATURE = "showParent";
-	//String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
+	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {};//SHOW_BETA_FEATURE};
-
+	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
+
+
 <% 
 
 	boolean isMultiUserFullBlock = true;
@@ -48,9 +46,12 @@
 	final VtkUtil vtkUtil = sling.getService(VtkUtil.class);
 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 	
+	
+	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
-	
+	//final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+	org.girlscouts.vtk.helpers.CouncilMapper councilMapper = sling.getService(org.girlscouts.vtk.helpers.CouncilMapper.class);
 	User user=null;
 	
 	HttpSession session = request.getSession();
@@ -96,19 +97,18 @@
 		return;
 	}
 	
-	//if(!apiConfig.getUser().isAdmin() && (apiConfig.getTroops() == null
 			
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
-		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
+		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
 			    <p>
-			       The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
-			        </p>
+			    The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+			     </p>
 			        <p>
 			        Stay tuned! 
 			    </p>
@@ -124,20 +124,30 @@ return;
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
 	user.setSid(session.getId());
-
-	String errMsg = null;
+   
+	
+    String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
+	/*
+	//check valid cache url /myvtk/
+	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
+	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+	    return;
+	}
+	*/
 	//NO PARENTS ALLOWED!!!!!
 	boolean  allowParentAccess= Boolean.parseBoolean(configManager.getConfig("allowParentAccess"));
 	if( !allowParentAccess && troop!=null && troop.getTroop()!=null && troop.getTroop().getRole()!=null && troop.getTroop().getRole().toUpperCase().trim().equals("PA" ))
 	{
-		   %>
+
+		%>
 		<div id="panelWrapper" class="row meeting-detail content">
                <div class="columns large-20 large-centered">
                 <p>
-                   The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
-                    </p>
+                  The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
+                  </p>
+                  
                     <p>
                     Stay tuned! 
                 </p>
@@ -195,7 +205,10 @@ return;
 				errMsg = troop.getErrCode();
 		
 	
-	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+	org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+	  if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+		  prefTroop = apiConfig.getTroops().get(0);
+	  }
 	  
 	  if( troop!=null){
 		  for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
@@ -209,14 +222,13 @@ return;
 		if (cookies != null) {
 			theCookie: for (int i = 0; i < cookies.length; i++) {
 				if (cookies[i].getName().equals("vtk_prefTroop")) {
-					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++)
-						if (apiConfig.getTroops().get(ii)
-								.getGradeLevel()
-								.equals(cookies[i].getValue())) {
+					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+						String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
+					    if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
 							prefTroop = apiConfig.getTroops().get(ii);
 							break theCookie;
 						}
-
+					}
 				}
 
 			}
@@ -225,14 +237,13 @@ return;
 	 
 	
 		try{
-		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))
+		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none")) {
 			   ;
-		   else
-				   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		   } else {
+			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		   }
 
-		   //load troop contacts
-		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
-		   
+		  
 		   
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 			%>
@@ -245,7 +256,8 @@ return;
             <%
             return;
 		}catch(IllegalAccessException ex){
-			%><span class="error">Sorry, you have no access to view year plan</span><%
+			ex.printStackTrace();
+			%><span class="error">Sorry, you have no access to view year plan.</span><%
 			return;
 		}
 		
@@ -282,13 +294,7 @@ return;
 		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 
-		/*
-		if (troop != null && troop.getYearPlan() != null
-				&& troop.getYearPlan().getActivities() != null
-				&& troop.getYearPlan().getActivities().size() > 0) {
-			yearPlanUtil.checkCanceledActivity(user, troop);
-		}
-		*/
+		
 		session.setAttribute("VTK_troop", troop);
 	}
 
@@ -299,41 +305,17 @@ return;
 		session.setAttribute("USER_TROOP_LIST", troops);
 	}
 
-	if ((errMsg != null && errMsg.equals("111"))
-			|| (troop.getErrCode() != null && troop.getErrCode()
-					.equals("111"))) {
-%>
-<!--Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db -->
-<%
+	
+
+
+
+
+	//check valid cache url /myvtk/
+	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
+	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
+	    return;
 	}
 
-	/*
-	if (isMultiUserFullBlock
-			&& troop != null
-			&& troop.getYearPlan() != null
-			&& !userUtil.isCurrentTroopId(troop,
-					troop.getCurrentTroop())) {
-%><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.111.1</div>
-<%
-		troop.setRefresh(true);
-		return;
-	}
-*/
-	if ((errMsg != null && errMsg.equals("112"))
-			|| (troop.getErrCode() != null && troop.getErrCode().equals("112"))
-	    	) {
-%>
-<div style="color: #fff; background-color: red;">
-One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.
-</div>
-<%
-		troop.setRefresh(true);
-	}
-
-if( false ){//troop!=null && troop.getYearPlan()!=null){
-	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
-	request.setAttribute("footerScript", footerScript);
-}
 
 RunMode runModeService = sling.getService(RunMode.class);
 String apps[] = new String[1];
@@ -347,4 +329,6 @@ if( runModeService.isActive(apps) ){
 }
 
 
+
 %>
+
