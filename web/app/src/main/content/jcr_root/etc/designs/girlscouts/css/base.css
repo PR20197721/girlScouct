@@ -278,6 +278,7 @@ a:hover.menuHighlight {
 #headerBar .inline-list > li:last-child {
   padding-right: 0;
 /*  float: right;*/
+  margin-right: 0;
 }
 #headerBar li:hover {
   /* background-color:#063;*/
