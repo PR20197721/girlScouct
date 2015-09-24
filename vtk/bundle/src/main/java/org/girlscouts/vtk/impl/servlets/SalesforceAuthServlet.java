@@ -215,7 +215,6 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 				.getConfig("idpSsoTargetUrl"));// "https://gsuat-gsmembers.cs11.force.com/members/idp/login?app=0spZ0000000004h");
 
 		AuthRequest authReq = new AuthRequest(appSettings, accSettings);
-
 		try {
 			String reqString = authReq.getSSOurl(refererCouncil);
 			response.sendRedirect(reqString);
@@ -395,7 +394,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			e.printStackTrace();
 		}
 if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
-		setCouncilInClient(response, request.getParameter("state"));
+//		setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
 				.getConfig("gsCertificate"));
@@ -467,12 +466,16 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		    response.addCookie(cookie);
 		}
 	}//end oAuthtoken
-
-
-	if( request.getParameter("RelayState")!=null ){
+System.out.println("FIXING 2");
+		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
 			redirect(response, request.getParameter("RelayState"));
-		}else
+		}else if(request.getParameter("RelayState")!=null){
+				setCouncilInClient(response, request.getParameter("RelayState"));
+				redirect(response, targetUrl);
+		}else {
 			redirect(response, targetUrl);
+		}
+
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
