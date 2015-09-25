@@ -22,7 +22,7 @@
     }
     
     if( councilId==null || councilId.trim().equals("")){
-    	councilId = getCouncilCookie();
+    	//-councilId = getCouncilCookie();
     }
 
     //revoke auth token
@@ -48,21 +48,4 @@
     
     	
     }
-%>
-
-<%!
-
-public String getCouncilCookie(){
-	String councilCode= null;
-	Cookie[] cookies = request.getCookies();
-	if (cookies != null) {
-	    theCookie: for (int i = 0; i < cookies.length; i++) {
-	        if (cookies[i].getName().equals("vtk_referer_council")) {
-	        	councilCode = cookies[i].getValue();
-	        }
-	
-	    }
-    }
-	return councilCode;
-}
 %>

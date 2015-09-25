@@ -808,23 +808,22 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                                                         permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
+					/*check with In Koo
 					if (user != null && user.getPermissions() != null) { 
-						if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
-						}
+												if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID)) {
+						                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
+												}
                                                 if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID))
-;
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
                                                 }
                                                 if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID))
-;
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
                                                 }
                                                 if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID))
-;
+                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
+					*/
 					helper.setPermissions(permissions);
 					helper.setAchievementCurrent(achievementCurrent);
 					helper.setAttendanceCurrent(attendanceCurrent);
@@ -1169,7 +1168,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 				__session.save();
 				
-				sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
+				//sling.getService(org.girlscouts.vtk.replication.VTKDataCacheInvalidator.class).addPath("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png", true);
 
 			} catch (Exception e) {
 				e.printStackTrace();
