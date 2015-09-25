@@ -153,7 +153,7 @@
  								    	
  								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
  								        meetingId= meetingId.replace("/","");
- 								        minorCount+= yearPlanUtil.getAllResourcesCount(user,LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
+ 								        minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
  								
  								}
  						    }catch(Exception e){}
@@ -230,7 +230,7 @@
 							        
 							        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
                                     meetingId= meetingId.replace("/","");
-							        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
+							        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
 							        for(int i=0;i<lresources.size();i++){
 									    org.girlscouts.vtk.models.Asset la = lresources.get(i);
 										String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
@@ -265,7 +265,7 @@
 								}
 						    } catch (Exception e) {e.printStackTrace();}
 						  
-						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
+						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, GLOBAL_MEETING_AID_PATH+"/"); 
 						    for(int i=0;i<gresources.size();i++){
 							org.girlscouts.vtk.models.Asset a = gresources.get(i);
 							String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
@@ -398,7 +398,7 @@
 			Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 			while (iter.hasNext()) {
 				Resource resource = iter.next();
-				Meeting meeting = yearPlanUtil.getMeeting(user,
+				Meeting meeting = yearPlanUtil.getMeeting(user,troop,
 						resource.getPath());
 				String path = meeting.getPath();
 				builder.append("<li>");

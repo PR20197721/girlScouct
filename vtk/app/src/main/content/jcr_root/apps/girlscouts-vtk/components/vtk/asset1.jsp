@@ -121,7 +121,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                     isActivity = true;
                     break;
                 case MEETING :
-                    Meeting meetingInfo =yearPlanUtil.getMeeting(user, ((MeetingE) _comp).getRefId() );
+                    Meeting meetingInfo =yearPlanUtil.getMeeting(user, troop, ((MeetingE) _comp).getRefId() );
                     displayName=meetingInfo.getName();
                     assets =  ((MeetingE) _comp).getAssets(); 
                     break;

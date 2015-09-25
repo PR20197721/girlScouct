@@ -27,7 +27,7 @@
 		   </td>
 		  <td><span><%=currentMeeting %></span></td>
 		  <td><span><%= VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE,  date ) %></span></td>
-		  <td><span><%= yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %>
+		  <td><span><%= yearPlanUtil.getMeeting( user, troop, meeting.getRefId() ).getName() %>
 				<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")) { %>
 					<span class="alert">(Cancelled)</span>
 				<% } %></span></td>

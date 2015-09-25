@@ -321,7 +321,7 @@ $('#newCustActivity1').click(function() {
     	if(!timeDiff()){ return false;}
     	editNewCustActivity('<%=activity.getUid()%>');
 		} else {
-			alert("Invalid.Fix it");
+			alert("Found errors. Please correct data and try again.");
 		}
 	});
 

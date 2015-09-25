@@ -21,7 +21,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 %>     
  
-<h5><strong><%=yearPlanUtil.getMeeting(user, meeting.getRefId() ).getName() %></strong></h5>
+<h5><strong><%=yearPlanUtil.getMeeting(user, troop, meeting.getRefId() ).getName() %></strong></h5>
 
 <div id="locMsg"></div>
 
