@@ -106,7 +106,10 @@
                     
                     	
                     	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
-                    	String userRole = apiConfig.getTroops().get(0).getRole();
+                    	String userRole = null;
+			if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
+				userRole = apiConfig.getTroops().get(0).getRole();
+			}
                     	userRole= userRole ==null ? "" : userRole;
                     	if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
                     	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
