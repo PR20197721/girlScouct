@@ -83,11 +83,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// by planId
-	public java.util.List<MeetingE> getAllEventMeetings(User user,
+	public java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop,
 			String yearPlanId) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
@@ -123,12 +123,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// by plan path
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,Troop troop,
 			String yearPlanPath) throws IllegalAccessException {
 		
 		
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
@@ -163,15 +163,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 	}
 
-	public Meeting getMeeting(User user, String path)
+	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-/*
-Removing this because needs to use troop
+
+
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-*/
+
 		Meeting meeting = null;
 		Session session = null;
 		try {
@@ -220,14 +220,16 @@ Removing this because needs to use troop
 			Troop troop, String yearPlanId) throws IllegalStateException,
 			IllegalAccessException {
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
+		/*
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
+		*/
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -268,15 +270,16 @@ Removing this because needs to use troop
 		try {
 
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_CREATE_MEETING_ID))
 				throw new IllegalAccessException();
-
+/*
 			if (user != null
 					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
+			*/
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -326,16 +329,16 @@ Removing this because needs to use troop
 		try {
 
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-
+/*
 			if (user != null
 					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
-
+*/
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -386,14 +389,14 @@ Removing this because needs to use troop
 			IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_ACTIVITY_ID))
 			throw new IllegalAccessException();
-
+/*
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			throw new IllegalStateException();
-		}
+		}*/
 
 		java.util.List<Activity> activities = meeting.getActivities();
 		activities.add(activity);
@@ -612,11 +615,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getAidTag(User user, String tags, String meetingName)
+	public List<Asset> getAidTag(User user, Troop troop, String tags, String meetingName)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -685,11 +688,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getAidTag_local(User user, String tags,
+	public List<Asset> getAidTag_local(User user,  Troop troop, String tags,
 			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission( troop ,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -749,11 +752,11 @@ Removing this because needs to use troop
 		return assets;
 	}
 
-	private List<Asset> getAidTag_custasset(User user, String uid)
+	private List<Asset> getAidTag_custasset(User user, Troop troop, String uid)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -790,11 +793,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getResource_global(User user, String tags,
+	public List<Asset> getResource_global(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -902,11 +905,11 @@ Removing this because needs to use troop
 	    return assets;
 	}
 	
-	public List<Asset> getResource_local(User user, String tags,
+	public List<Asset> getResource_local(User user, Troop troop, String tags,
 			String meetingName, String meetingPath) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -919,11 +922,11 @@ Removing this because needs to use troop
 		return path;
 	}
 	
-	public SearchTag searchA(User user, String councilCode)
+	public SearchTag searchA(User user, Troop troop, String councilCode)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -933,7 +936,7 @@ Removing this because needs to use troop
 		SearchTag tags = new SearchTag();
 		try {
 			session = sessionFactory.getSession();
-			java.util.Map<String, String> regionsMain = searchRegion(user,
+			java.util.Map<String, String> regionsMain = searchRegion(user,troop,
 					councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
@@ -978,7 +981,7 @@ Removing this because needs to use troop
 			if ((categories == null || categories.size() == 0)
 					&& (levels == null || levels.size() == 0)) {
 				try {
-					SearchTag defaultTags = getDefaultTags(user);
+					SearchTag defaultTags = getDefaultTags(user, troop);
 					if (regionsMain != null && regionsMain.size() > 0)
 						defaultTags.setRegion(regionsMain);
 					return defaultTags;
@@ -999,7 +1002,7 @@ Removing this because needs to use troop
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(user, councilStr));
+			tags.setRegion(searchRegion(user, troop, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1015,10 +1018,10 @@ Removing this because needs to use troop
 		return tags;
 	}
 
-	public SearchTag getDefaultTags(User user) throws IllegalAccessException {
+	public SearchTag getDefaultTags(User user, Troop troop) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1067,7 +1070,7 @@ Removing this because needs to use troop
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(user, councilStr));
+			tags.setRegion(searchRegion(user, troop, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1241,11 +1244,11 @@ Removing this because needs to use troop
 		return toRet;
 	}
 
-	public java.util.Map<String, String> searchRegion(User user,
+	public java.util.Map<String, String> searchRegion(User user, Troop troop,
 			String councilStr) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1306,11 +1309,11 @@ Removing this because needs to use troop
 		return container;
 	}
 
-	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel)
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop,  String gradeLevel)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
@@ -1350,11 +1353,11 @@ Removing this because needs to use troop
 
 	}
 
-	public List<Asset> getAllResources(User user, String _path)
+	public List<Asset> getAllResources(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1410,11 +1413,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public Asset getAsset(User user, String _path)
+	public Asset getAsset(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1524,11 +1527,12 @@ Removing this because needs to use troop
 
 	public Council getCouncil(User user, String councilId)
 			throws IllegalAccessException {
-
+//TODO 9.24.15
+		/*
 		if (!userUtil.hasPermission(user.getPermissions(),
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
+*/
 		Session session = null;
 		Council council = null;
 		try {
@@ -1617,15 +1621,15 @@ Removing this because needs to use troop
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
-		if (!userUtil.hasPermission(user.getPermissions(),
+		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
+/*
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 		}
-
+*/
 		try {
 			session = sessionFactory.getSession();
 			boolean isTag = false;
@@ -1915,16 +1919,16 @@ Removing this because needs to use troop
 		try {
 
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-
+/*
 			if (user != null
 					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
-
+*/
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -2124,10 +2128,10 @@ Removing this because needs to use troop
 		return false;
 	}
 
-	public MeetingE getMeetingE(User user, String path)
+	public MeetingE getMeetingE(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 		
@@ -2169,11 +2173,11 @@ Removing this because needs to use troop
 	
 	
 	
-	public int getAllResourcesCount(User user, String _path)
+	public int getAllResourcesCount(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 		int count=0;
@@ -2257,7 +2261,7 @@ Removing this because needs to use troop
 
 		if (user != null
 
-		&& !userUtil.hasPermission(user.getPermissions(),
+		&& !userUtil.hasPermission(troop,
 
 		Permission.PERMISSION_LOGIN_ID))
 
@@ -2266,13 +2270,10 @@ Removing this because needs to use troop
 		Session session = null;
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
-
-		if (!userUtil.hasPermission(troop,
-
-		Permission.PERMISSION_VIEW_MEETING_ID))
-
+/*
+		if (!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
+*/
 		final String RESOURCES_PATH = "resources";
 
 		String councilId = null;
@@ -2403,5 +2404,85 @@ Removing this because needs to use troop
 
 		return matched;
 
+	}
+
+	public List<Meeting> getAllMeetings(User user, String gradeLevel)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MeetingE> getAllEventMeetings(User user, String yearPlanId)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Meeting getMeeting(User user, String path)
+			throws IllegalAccessException, VtkException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<MeetingE> getAllEventMeetings_byPath(User user,
+			String yearPlanPath) throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SearchTag searchA(User user, String councilCode)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Asset> getAllResources(User user, String path)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Asset getAsset(User user, String _path)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Asset> getAidTag_local(User user, String tags,
+			String meetingName, String meetingPath)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Asset> getAidTag(User user, String tags, String meetingName)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Asset> getResource_local(User user, String tags,
+			String meetingName, String meetingPath)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Asset> getResource_global(User user, String tags,
+			String meetingName) throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public MeetingE getMeetingE(User user, String path)
+			throws IllegalAccessException, VtkException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public int getAllResourcesCount(User user, String path)
+			throws IllegalAccessException {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }// edn class

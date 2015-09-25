@@ -113,11 +113,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	}
 
-	public boolean isActivity(User user, String uuid)
+	public boolean isActivity(User user, Troop troop, String uuid)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
@@ -342,6 +342,12 @@ public class ActivityDAOImpl implements ActivityDAO {
 			}
 		}
 
+		return false;
+	}
+
+	public boolean isActivity(User user, String uuid)
+			throws IllegalStateException, IllegalAccessException {
+		// TODO Auto-generated method stub
 		return false;
 	}
 

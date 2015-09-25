@@ -173,12 +173,13 @@ Need to check troop permission.  This breaks parent-admins.
 			throws IllegalAccessException {
 		Session mySession = null;
 		Troop troop = null;
-
+//TODO 9.24.15
+		/*
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
+*/
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -1163,7 +1164,7 @@ Need to check troop permission.  This breaks parent-admins.
 
 			// permission to update
 			if (troop != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_VIEW_YEARPLAN_ID))
 				throw new IllegalAccessException();
 

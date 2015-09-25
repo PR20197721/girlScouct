@@ -145,7 +145,7 @@ public class LocationUtil {
 			throws java.lang.IllegalAccessException, VtkException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 

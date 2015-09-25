@@ -395,7 +395,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			e.printStackTrace();
 		}
 if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
-		setCouncilInClient(response, request.getParameter("state"));
+		//-setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
 				.getConfig("gsCertificate"));
@@ -443,9 +443,13 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			/*
 			// CHN to LOAD PERMISSION HERE
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
+			*/
+			
+			
 			
 			// load config
 			vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
@@ -469,10 +473,15 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 	}//end oAuthtoken
 
 
-	if( request.getParameter("RelayState")!=null ){
+		if( request.getParameter("RelayState")!=null && 
+				(request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)){
 			redirect(response, request.getParameter("RelayState"));
-		}else
+		}else if(request.getParameter("RelayState")!=null){
+			setCouncilInClient(response, request.getParameter("RelayState"));
 			redirect(response, targetUrl);
+		}else {
+			redirect(response, targetUrl);
+		}
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
@@ -526,10 +535,14 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			/*
 			// CHN to LOAD PERMISSION HERE
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
-
+*/
+			
+			
+			
 			// load config
 			/*
 			vtkUser.setCurrentYear(getCurrentYear(

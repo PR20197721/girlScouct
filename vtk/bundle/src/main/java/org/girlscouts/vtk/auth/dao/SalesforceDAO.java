@@ -96,7 +96,7 @@ public class SalesforceDAO {
 			}
 				
 			log.debug(">>>>> " + rsp);	
-			
+System.err.println("getUSER resp: "+ rsp );			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -507,7 +507,7 @@ public class SalesforceDAO {
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-		
+System.err.println("getTroop rsp: " + response);		
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				java.util.Iterator itr = results.getJSONObject(i)
@@ -835,9 +835,9 @@ public java.util.List<Troop> parseTroops( User user, JSONArray results ){
 
 public java.util.List<Troop>  mergeTroops( java.util.List<Troop> A, java.util.List<Troop> B ){
 	
-
-	if( A==null || A.size()<=0 ) return B;
-	if( B==null || B.size()<=0 ) return A;
+	if( (A==null && B==null) || (A.size()<=0 && B.size()<=0)) return new java.util.ArrayList();
+	if( (A==null || A.size()<=0)  && B!=null) return B;
+	if( (B==null || B.size()<=0)  && A!=null) return A;
 
 	java.util.List <Troop>troopDiff= getTroopsNotInA( A, B);
 	A.addAll(troopDiff);

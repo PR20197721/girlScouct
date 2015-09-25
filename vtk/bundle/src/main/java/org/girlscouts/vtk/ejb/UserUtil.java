@@ -24,9 +24,7 @@ public class UserUtil {
 	@Reference
 	private CouncilMapper councilMapper;
 
-	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
-			int permissionId) {
-
+	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int permissionId) {
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
@@ -35,7 +33,6 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-
 		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;

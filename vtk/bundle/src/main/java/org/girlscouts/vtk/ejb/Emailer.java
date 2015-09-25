@@ -7,6 +7,8 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
+
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 @Component
@@ -18,12 +20,12 @@ public class Emailer {
 	@Reference
 	private MessageGatewayService messageGatewayService;
 
-	public void send(User user, EmailMeetingReminder emr) throws IllegalAccessException {
+	public void send(User user, Troop troop, EmailMeetingReminder emr) throws IllegalAccessException {
 
 		if (user != null
-				&& !(userUtil.hasPermission(user.getPermissions(),
+				&& !(userUtil.hasPermission( troop,
 						Permission.PERMISSION_SEND_EMAIL_MT_ID) || 
-						userUtil.hasPermission(user.getPermissions(),
+						userUtil.hasPermission(troop,
 								Permission.PERMISSION_SEND_EMAIL_ACT_ID)))
 			throw new IllegalAccessException();
 		try {
