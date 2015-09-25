@@ -33,7 +33,7 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
+		if (troop==null || troop.getTroop()==null || troop.getTroop().getPermissionTokens()==null || !hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;
 	}

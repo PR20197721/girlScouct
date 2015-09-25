@@ -67,7 +67,7 @@ public class ContactUtil {
 		    if( extra.isAttended() || extra.isAchievement() ){
 		    	if( meeting.getMeetingInfo()==null ){
 		    		try{     			
-		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user,meeting.getRefId()) );
+		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user, troop, meeting.getRefId()) );
 		    		}catch(Exception e){e.printStackTrace();}
 		    	}
 		    	extra.setYearPlanComponent(meeting);

@@ -790,7 +790,7 @@ Need to check troop permission.  This breaks parent-admins.
 				}
 				
 				//check meeting
-				if( meetingDAO.getMeetingE(user, asset.getPath().substring(0,
+				if( meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0,
 						asset.getPath().lastIndexOf("/") ).replace("/assets", "") ) ==null){
 					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
 				}

@@ -361,7 +361,7 @@ public class TroopUtil {
 			
 		
 			plan.setRefId(yearPlanPath);
-			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
+			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,troop, 
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
 							: (yearPlanPath + "/meetings/")));
 			Comparator<MeetingE> comp = new BeanComparator("id");

@@ -96,11 +96,11 @@ public class YearPlanUtil {
 		return yearPlanDAO.getYearPlan(path);
 	}
 
-	public java.util.List<Asset> getAids(User user, String tags,
+	public java.util.List<Asset> getAids(User user, Troop troop, String tags,
 			String meetingName, String uids, String path) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName, path));
-		container.addAll(meetingDAO.getAidTag(user, tags, meetingName));
+		container.addAll(meetingDAO.getAidTag_local(user, troop,  tags, meetingName, path));
+		container.addAll(meetingDAO.getAidTag(user, troop, tags, meetingName));
 
 		return container;
 	}
@@ -140,7 +140,7 @@ public class YearPlanUtil {
 				break;
 
 			case MEETING:
-				Meeting meetingInfo = meetingDAO.getMeeting(user,
+				Meeting meetingInfo = meetingDAO.getMeeting(user, troop,
 						((MeetingE) _comp).getRefId());
 				desc = meetingInfo.getName();
 				location = getLocation(troop,
@@ -204,12 +204,12 @@ public class YearPlanUtil {
 		return fmtLocation;
 	}
 
-	public java.util.List<Asset> getResources(User user, String tags,
+	public java.util.List<Asset> getResources(User user, Troop troop,  String tags,
 			String meetingName, String uids, String meetingPath) throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, tags, meetingName, meetingPath));
+		container.addAll(meetingDAO.getResource_local(user, troop, tags, meetingName, meetingPath));
 		container
-				.addAll(meetingDAO.getResource_global(user, tags, meetingName));
+				.addAll(meetingDAO.getResource_global(user, troop, tags, meetingName));
 		return container;
 	}
 
@@ -220,10 +220,10 @@ public class YearPlanUtil {
 		return councilDAO.getCouncilMilestones(user, councilCode);
 	}
 
-	public Meeting getMeeting(User user, String path)
+	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
 
-		Meeting meeting = meetingDAO.getMeeting(user, path);
+		Meeting meeting = meetingDAO.getMeeting(user, troop, path);
 		return meeting;
 	}
 
@@ -232,20 +232,20 @@ public class YearPlanUtil {
 		return meetingDAO.getData(user, troop, query);
 	}
 
-	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel)
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop, String gradeLevel)
 			throws IllegalAccessException {
-		return meetingDAO.getAllMeetings(user, gradeLevel);
+		return meetingDAO.getAllMeetings(user, troop, gradeLevel);
 	}
 
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, Troop troop,
 			String yearPlanPath) throws IllegalAccessException {
-		return meetingDAO.getAllEventMeetings_byPath(user,
+		return meetingDAO.getAllEventMeetings_byPath(user,troop,
 				yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath + "/");
 	}
 
-	public SearchTag searchA(User user, String councilCode)
+	public SearchTag searchA(User user, Troop troop, String councilCode)
 			throws IllegalAccessException {
-		return meetingDAO.searchA(user, councilCode);
+		return meetingDAO.searchA(user, troop, councilCode);
 	}
 
 	public java.util.List<Asset> getGlobalResources(String resourceTags) {
@@ -278,9 +278,9 @@ public class YearPlanUtil {
 				endDate, region);
 	}
 
-	public List<Asset> getAllResources(User user, String path)
+	public List<Asset> getAllResources(User user, Troop troop, String path)
 			throws IllegalAccessException {
-		return meetingDAO.getAllResources(user, path);
+		return meetingDAO.getAllResources(user, troop, path);
 	}
 
 	public Meeting createCustomMeeting(User user, Troop troop,
@@ -340,8 +340,8 @@ public class YearPlanUtil {
 	}
 	
 	
-	public int getAllResourcesCount(User user, String path) 
+	public int getAllResourcesCount(User user, Troop troop, String path) 
 			throws IllegalAccessException {
-		return meetingDAO.getAllResourcesCount(user, path);
+		return meetingDAO.getAllResourcesCount(user, troop, path);
 	}
 }// edn class

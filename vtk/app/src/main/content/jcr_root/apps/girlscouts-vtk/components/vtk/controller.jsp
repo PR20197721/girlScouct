@@ -403,7 +403,7 @@
 
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
-			emailer.send(user, emr);
+			emailer.send(user, troop, emr);
 			try {
 				meetingUtil.saveEmail(user, troop, emr.getMeetingId());
 			} catch (Exception e) {
@@ -722,6 +722,12 @@
 				}
 
 				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+				troop.setTroop(prefTroop);
+                troop.setSfTroopId(troop.getTroop().getTroopId());
+                troop.setSfUserId(user.getApiConfig().getUserId());
+                troop.setSfTroopName(troop.getTroop().getTroopName());
+                troop.setSfTroopAge(troop.getTroop().getGradeLevel());
+                troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
@@ -830,6 +836,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					helper.setAttendanceTotal(attendanceTotal);
 					troop.getYearPlan().setHelper(helper);
 				}
+				/*
 				troop.setTroop(prefTroop);
 				troop.setSfTroopId(troop.getTroop().getTroopId());
 				troop.setSfUserId(user.getApiConfig().getUserId());
@@ -837,6 +844,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 				troop.setSfCouncil(troop.getTroop().getCouncilCode()
 						+ "");
+				*/
 				session.putValue("VTK_troop", troop);
 
 				ObjectMapper mapper = new ObjectMapper();
@@ -890,7 +898,16 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				troop = troopUtil.getTroop(user,
 						"" + prefTroop.getCouncilCode(),
 						prefTroop.getTroopId());
-
+				troop.setTroop(prefTroop);
+                troop.setSfTroopId(troop.getTroop().getTroopId());
+                troop.setSfUserId(user.getApiConfig().getUserId());
+                troop.setSfTroopName(troop.getTroop()
+                        .getTroopName());
+                troop.setSfTroopAge(troop.getTroop()
+                        .getGradeLevel());
+                troop.setSfCouncil(troop.getTroop()
+                        .getCouncilCode() + "");
+                    
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
 					
@@ -916,7 +933,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				}
 
 				//edn milestone
-
+/*
 				troop.setTroop(prefTroop);
 				troop.setSfTroopId(troop.getTroop().getTroopId());
 				troop.setSfUserId(user.getApiConfig().getUserId());
@@ -926,7 +943,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						.getGradeLevel());
 				troop.setSfCouncil(troop.getTroop()
 						.getCouncilCode() + "");
-					
+					*/
 							
 				session.putValue("VTK_troop", troop);
 
@@ -1013,7 +1030,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
                     
-                    if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_ACT_ID))
+                    if (troop != null && userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
                    
                     helper.setPermissions(permissions);

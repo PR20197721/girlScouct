@@ -187,7 +187,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
 				
-				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
+				Meeting globalMeetingInfo = getMeeting( user, troop, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
 					
 				if(globalMeetingInfo!=null){
 					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
@@ -294,7 +294,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			if (meeting == null)
-				meeting = getMeeting(user, meetingEvent.getRefId());
+				meeting = getMeeting(user, troop, meetingEvent.getRefId());
 			String newPath = troop.getPath() + "/lib/meetings/"
 					+ meeting.getId() + "_" + Math.random();
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
@@ -354,7 +354,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 
 			if (meeting == null)
-				meeting = getMeeting(user, meetingEvent.getRefId());
+				meeting = getMeeting(user, troop, meetingEvent.getRefId());
 
 			String newPath = meetingEvent.getRefId();
 
@@ -1525,7 +1525,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
-	public Council getCouncil(User user, String councilId)
+	public Council getCouncil(User user, Troop troop, String councilId)
 			throws IllegalAccessException {
 //TODO 9.24.15
 		/*
@@ -2406,83 +2406,4 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public List<Meeting> getAllMeetings(User user, String gradeLevel)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<MeetingE> getAllEventMeetings(User user, String yearPlanId)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Meeting getMeeting(User user, String path)
-			throws IllegalAccessException, VtkException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<MeetingE> getAllEventMeetings_byPath(User user,
-			String yearPlanPath) throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public SearchTag searchA(User user, String councilCode)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Asset> getAllResources(User user, String path)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Asset getAsset(User user, String _path)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName, String meetingPath)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Asset> getAidTag(User user, String tags, String meetingName)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Asset> getResource_local(User user, String tags,
-			String meetingName, String meetingPath)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<Asset> getResource_global(User user, String tags,
-			String meetingName) throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public MeetingE getMeetingE(User user, String path)
-			throws IllegalAccessException, VtkException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public int getAllResourcesCount(User user, String path)
-			throws IllegalAccessException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }// edn class

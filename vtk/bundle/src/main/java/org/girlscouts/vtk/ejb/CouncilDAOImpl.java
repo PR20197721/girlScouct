@@ -71,6 +71,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Council council = null;
 		Session session = null;
 		try {
+			
 /*
 			if (user != null
 					&& !userUtil.hasPermission(user.getPermissions(),
