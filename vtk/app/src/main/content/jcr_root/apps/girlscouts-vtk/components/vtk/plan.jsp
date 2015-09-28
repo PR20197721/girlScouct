@@ -201,9 +201,9 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
     React.createElement("div", {},
     React.createElement("div", {className: bgcolor(obj, comment, 0)},
         React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')),
-          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')),
-          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a'))
+          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "" : moment(comment).tz(comment, "America/New_York").format('MMM')),
+          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? "" : moment(comment).tz(comment, "America/New_York").format('DD')),
+          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('hh:mm a'))
         )
       )
     ),
@@ -223,7 +223,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
                                         return (
                                         React.createElement("li", {className: "row milestone"},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-    React.createElement("span", null,  moment(comment).get('year') < 1978 ? "" : moment(comment).format('MM/DD/YY'), " ", obj[comment].blurb)
+    React.createElement("span", null,  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", obj[comment].blurb)
   )
 )
 
@@ -400,9 +400,9 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         React.createElement("div", {className: bgcolor(obj, comment, 1)},
         React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
         React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')),
-          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')),
-          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a'))
+          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "meeting" : moment.tz(comment, "America/New_York").format('MMM')),
+          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
+          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('hh:mm a'))
         )
       )
            );

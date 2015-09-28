@@ -222,7 +222,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
          
                 sendEmails = x.sentEmails;
               return (
-            		  React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment(meetingStartDate).format('MMMM'), meetingModDAY: moment(meetingStartDate).format('DD'), meetingModHOUR: moment(meetingStartDate).format('h:mm a')})
+            		  React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment.tz(meetingStartDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(meetingStartDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(meetingStartDate,"America/New_York").format('h:mm a')})
                       
             		  );
         	}else{

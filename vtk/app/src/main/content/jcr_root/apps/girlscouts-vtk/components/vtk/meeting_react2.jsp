@@ -4,39 +4,7 @@
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = planView.getMeeting();
 
-/*
-Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
-int attendanceCurrent=0, attendanceTotal=0;
 
-if( attendance !=null && attendance.getUsers()!=null ){
-	attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
-	attendanceTotal= attendance.getTotal();
-}
-
-Achievement achievement = meetingUtil.getAchievement( user,  troop,  meeting.getPath()+"/achievement");
-int achievementCurrent=0;//, achievementTotal=0;
-
-if( achievement !=null && achievement.getUsers()!=null ){
-	achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
-	//achievementTotal= achievement.getTotal();
-}
-
-
-Location loc = null;
-if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
-	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-		if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-			loc = troop.getYearPlan().getLocations().get(k);
-		}
-	}
-}
-
-
-//pageContext.setAttribute("MEETING_achievement_TOTAL", achievementTotal);
-pageContext.setAttribute("MEETING_achievement_CURRENT", achievementCurrent);
-pageContext.setAttribute("MEETING_ATTENDANCE_TOTAL", attendanceTotal);
-pageContext.setAttribute("MEETING_ATTENDANCE_CURRENT", attendanceCurrent);
-*/
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
@@ -131,17 +99,19 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
         	  sentEmailsSubject = sentEmails[0].subject;
         	  sentEmails= sentEmails.length;
           }  
+        
+  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(helper.currentDate);
         	  
           }
-          
+  
           
      return (
             React.createElement(YearPlan, {item: comment, key: i}, 
-                   React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
+                   React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment.tz(thisMeetingDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(thisMeetingDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(thisMeetingDate,"America/New_York").format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
                    React.createElement(SortableList1, {data: comment.meetingInfo.activities, forceReload: that.props.forceReload})
             )
