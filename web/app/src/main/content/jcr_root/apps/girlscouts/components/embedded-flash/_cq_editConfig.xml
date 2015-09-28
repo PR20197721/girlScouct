@@ -3,8 +3,5 @@
     cq:actions="[text:Embedded Flash,-,edit,delete]"
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
-    jcr:primaryType="cq:EditConfig">
-    <cq:listeners
-        jcr:primaryType="cq:EditListenersConfig"
-        afteredit="REFRESH_PAGE"/>
-</jcr:root>
+    jcr:primaryType="cq:EditConfig"/>
+    
