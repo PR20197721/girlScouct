@@ -621,6 +621,15 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   $(window).load(function () {
     equilize_our_stories();
   });
+  // form on the Donate Tile.
+  $("#tag_tile_button_local").on('click', function (e){
+    e.preventDefault();
+    // $('.formDonate').addClass('hide');
+    // if($('.formDonate').is(':hidden')) {
+      $('.formDonate').toggleClass('hide');
+      $('.formDonate input[type="text"]').focus();
+    // }
+  })
 
 }(jQuery));
 

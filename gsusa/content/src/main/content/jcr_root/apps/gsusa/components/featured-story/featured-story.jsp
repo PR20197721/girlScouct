@@ -56,7 +56,7 @@
 </div>
 
 <%
-if(theme.equals("classic")){
+if(theme.equals("classic")) {
 	try {
 		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
 	} catch (Exception e) {}
@@ -95,7 +95,19 @@ if(theme.equals("classic")){
 				<div class="text">
 					<%= text %>
 				</div>
-				<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
+
+				<div class="button-wrap">
+					<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
+					<% if(linkifyString(title, 25).equals("donate")) { %>
+						<form class="formDonate clearfix hide">
+				            <label for="ZipDonate">Enter Zip Code: </label>
+				            <input type="text" name="ZipDonate" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+				            <input type="hidden" name="source" value="homepage">
+							<button type="submit" class="fa fa-play-circle"></button>
+						</form>
+						<a  id="tag_tile_button_local" class="button" style="background-color: <%= bgcolorClassic %>">Support Your Local Girl Scouts Council</a>
+					<%}%>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -103,7 +115,7 @@ if(theme.equals("classic")){
 <%
 } else if(theme.equals("shop")){
         try {
-                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+            bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
         } catch (Exception e) {}
 %>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
