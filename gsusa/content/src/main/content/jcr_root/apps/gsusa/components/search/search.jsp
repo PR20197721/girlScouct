@@ -123,7 +123,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
         <% } catch(Exception w) {}
     } %>
     </ul>
-    <ul>
+    <ul class="search-page">
     	<%if (currentPageNo != 0) {  %>
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
     	<%}  %>

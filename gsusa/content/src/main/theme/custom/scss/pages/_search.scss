@@ -26,4 +26,12 @@
       margin-right: rem-calc(5);
     }
   }
+
+  .search-page {
+    list-style: none;
+    text-align: center;
+    li {
+      display: inline-block;
+    }
+  }
 }
