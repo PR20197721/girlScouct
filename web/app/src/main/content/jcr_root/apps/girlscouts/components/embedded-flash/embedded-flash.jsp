@@ -2,21 +2,31 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-	String html = properties.get("html", "");
-	String javascript = properties.get("javascript","");
+String path = properties.get("path","");
+if((path.isEmpty() || !path.endsWith(".swf") )&& WCMMode.fromRequest(request) == WCMMode.EDIT){
+		%> Please select a .swf file  <%	
+}
 
-    if (html.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>##### Embedded Flash #####<%
-    } else {
-        // Mike Z. We need this extra div because of a CQ bug on iframe.
-        // It is trying to correct iframe height but in a wrong way.
-        // Widget.js 1449975 
-        // //in case of an iframe element height is not correct
-        // var iframe = this.element.first("iframe");
-        // if (iframe) {
-        //     this.element.setHeight(this.element.getHeight() + iframe.getHeight());
-        // }
-        %><div><%= html %></div>
-        <script><%= javascript %></script><%
-    }
+else{
+	String width = properties.get("width","100%");
+	String height = properties.get("height","100%");
+	String scale = properties.get("scale","default");
 %>
+
+<object id="flashcontent" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="<%= width %>" height="<%= height %>">
+    <param name="movie" value="<%= path %>"/>
+    <% if(!scale.equals("default")){ %>
+  	<param name="scale" value="<%= scale %>" />
+  	<% } %>
+    <!--[if !IE]>-->
+  <object type="application/x-shockwave-flash" data="<%= path %>" width="<%= width %>" height="<%= height %>">
+  <% if(!scale.equals("default")){ %>
+  <param name="scale" value="<%= scale %>" />
+  <% } %>
+  <!--<![endif]-->
+    <p>Please update your Flash Player</p>
+  <!--[if !IE]>-->
+  </object>
+  <!--<![endif]-->
+</object>
+<% } %>
