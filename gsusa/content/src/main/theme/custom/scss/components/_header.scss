@@ -6,8 +6,8 @@
     }
   }
   .top-header {
-    padding-top: rem-calc(10);
-    padding-bottom: rem-calc(10);
+    padding-top: rem-calc(22);		// giving more padding -pbae
+    padding-bottom: rem-calc(22);	// giving more padding -pbae
     background: $primary-color;
     color: $white;
 //putting it outside for cq author mode
@@ -17,7 +17,7 @@
   }
   .logo-section {
     @include grid-column(6);
-    padding-left: rem-calc(12);
+    padding-left: rem-calc(22);
     @media #{$small-only} {
       margin: 0 auto;
       float: none;
