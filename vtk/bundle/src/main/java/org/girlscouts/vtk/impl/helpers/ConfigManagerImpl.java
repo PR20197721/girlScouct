@@ -26,7 +26,7 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "communityUrl", label = "Community URL", description = "URL to SalesForce Community Page for the button on the landing page."),
 		@Property(name = "councilMapping", cardinality = Integer.MAX_VALUE, label = "Council Branch Mapping", description = "Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway"),
 
-		@Property(name = "baseUrl",  label = "x", description = "x"),
+		@Property(name = "baseUrl",  label = "x", description = "x"), // add label and description
 		@Property(name = "idpSsoTargetUrl",  label = "x", description = "x"),
 		@Property(name = "ssoCertificate",  label = "x", description = "x"),
 		@Property(name = "ssoInstanceUrl",  label = "x", description = "x"),
@@ -36,16 +36,16 @@ import org.osgi.service.component.ComponentContext;
 		
 
 		@Property(name = "defaultBranch", label = "Default Branch", description = "Default branch if council mapping not found. e.g. girlscouts-usa") ,
-@Property(name = "gsNewYear", label = "gsNewYear", description = "gsNewYear"),
-
-@Property(name = "vtkApiTroopUri", label = "vtkApiTroopUri", description = "vtkApiTroopUri"),
-@Property(name = "vtkApiUserUri", label = "vtkApiUserUri", description = "vtkApiUserUri"),
-@Property(name = "vtkApiContactUri", label = "vtkApiContactUri", description = "vtkApiContactUri"),
-@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
-
-@Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
-@Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
-
+		@Property(name = "gsNewYear", label = "gsNewYear", description = "gsNewYear"),
+		
+		@Property(name = "vtkApiTroopUri", label = "vtkApiTroopUri", description = "vtkApiTroopUri"),
+		@Property(name = "vtkApiUserUri", label = "vtkApiUserUri", description = "vtkApiUserUri"),
+		@Property(name = "vtkApiContactUri", label = "vtkApiContactUri", description = "vtkApiContactUri"),
+		@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
+		
+		@Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
+		@Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
+		
 
 
 public class ConfigManagerImpl implements ConfigManager {

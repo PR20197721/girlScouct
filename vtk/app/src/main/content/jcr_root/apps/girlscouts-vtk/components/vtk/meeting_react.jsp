@@ -5,7 +5,7 @@
 <!-- <cq:defineObjects /> -->
 
 <!--%@include file="include/session.jsp"%-->
- 
+ <!--  WHAT IS THIS FILE? -->
  <%
   //String activeTab = "planView";
    // boolean showVtkNav = true;

@@ -14,7 +14,7 @@ import org.girlscouts.vtk.models.User;
 
 @Component
 @Service(value = ContactUtil.class)
-public class ContactUtil {
+public class ContactUtil { // utils should probably be in a separate util folder
 
 	@Reference
 	ContactDAO contactDAO;
