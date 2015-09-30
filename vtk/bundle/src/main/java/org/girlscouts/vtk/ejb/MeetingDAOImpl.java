@@ -2128,7 +2128,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return false;
 	}
 
-	public MeetingE getMeetingE(User user, Troop troop, String path) // refactor naming to WebMeetingWrapper?
+	public MeetingE getMeetingE(User user, Troop troop, String path) 
 			throws IllegalAccessException, VtkException {
 		if (user != null
 				&& !userUtil.hasPermission(troop,
