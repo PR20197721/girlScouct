@@ -36,7 +36,7 @@
                         <resType
                             jcr:primaryType="cq:Widget"
                             name="./jcr:content/image/sling:resourceType"
-                            value="foundation/components/image"
+                            value="girlscouts/components/image"
                             xtype="hidden"/>
                     </items>
                 </image>
