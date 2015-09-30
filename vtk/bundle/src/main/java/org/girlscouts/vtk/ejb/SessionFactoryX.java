@@ -9,7 +9,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 
 @Component
-@Service(value = SessionFactoryX.class)
+@Service(value = SessionFactoryX.class) // why is this here?
 public class SessionFactoryX extends BasePoolableObjectFactory {
 
 	private SlingRepository repository;

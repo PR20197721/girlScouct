@@ -2128,7 +2128,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return false;
 	}
 
-	public MeetingE getMeetingE(User user, Troop troop, String path)
+	public MeetingE getMeetingE(User user, Troop troop, String path) // refactor naming to WebMeetingWrapper?
 			throws IllegalAccessException, VtkException {
 		if (user != null
 				&& !userUtil.hasPermission(troop,
@@ -2139,8 +2139,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Meeting.class);
+			List<Class> classes = new ArrayList<Class>(); // refactor - normalize class descriptor into central utility class
+			classes.add(Meeting.class); // eg ClassDescriptorUtils.getFullData(), ClassDescriptorUtils.getMeetingMinimal()
 			classes.add(Activity.class);
 			classes.add(MeetingE.class);
 			classes.add(Achievement.class);

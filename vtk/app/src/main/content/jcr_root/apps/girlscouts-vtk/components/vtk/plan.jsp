@@ -147,7 +147,6 @@
                 meetingPassed= true;
                 return (React.createElement("ul", {id: "sortable123"},
                              keys.map( function (comment ,i ) {
-
                               if( obj[comment].type == 'MEETINGCANCELED' ){
                             	  
                                      return (
@@ -195,14 +194,15 @@
 
                                         );
                                   }else if( obj[comment].type == 'ACTIVITY' ){
+
                                         return (
 React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].id},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     React.createElement("div", {},
     React.createElement("div", {className: bgcolor(obj, comment, 0)},
         React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "" : moment(comment).tz(comment, "America/New_York").format('MMM')),
-          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? "" : moment(comment).tz(comment, "America/New_York").format('DD')),
+          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MMM')),
+          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('DD')),
           React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('hh:mm a'))
         )
       )

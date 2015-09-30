@@ -19,7 +19,7 @@ import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = CouncilRpt.class)
-public class CouncilRpt {
+public class CouncilRpt { // why not CouncilReportDAO?
 
 	@Reference
 	private SessionFactory sessionFactory;
