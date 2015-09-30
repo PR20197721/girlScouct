@@ -19,6 +19,8 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
 <script>
+    var isTimeCng= false;
+    
 	$(function() {
 		$( "#newCustActivity_date" ).datepicker({minDate: 0});
 	  });
@@ -104,7 +106,12 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
 	    	//closeMe();
-	    	$('#modal_popup_activity').foundation('reveal', 'close');
+	    	if( isTimeCng ){
+	    		self.location="/content/girlscouts-vtk/en/vtk.html";
+	    	} else {
+	    	    $('#modal_popup_activity').foundation('reveal', 'close');
+	    	}
+	    	    	    	
 	    }
 	    else {
 	      alert("The form has one or more errors.  Please update the form and try again.");
@@ -153,6 +160,9 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 		}
 	
 	function closeMe(){ $('.ui-dialog-content').dialog('close'); }
+	function cngTimeFlag(){
+		isTimeCng= true;
+	}
 </script>
 
 <div> <!--   id="editCustActiv"  class="reveal-modal" data-reveal -->
@@ -171,17 +181,17 @@ Activity activity = (Activity)planView.getYearPlanComponent();
         <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName()%>" placeholder="Activity Name" />
       </div>
       <div class="small-24 large-3 medium-3 columns date">
-         <input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, activity.getDate())%>" placeholder="mm/dd/yyyy" class="date calendarField"/>
+         <input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, activity.getDate())%>" placeholder="mm/dd/yyyy" class="date calendarField" onchange="cngTimeFlag()"/>
       </div>
       <div class="large-1 columns medium-1 small-1 date">
         <label for="newCustActivity_date"><a class="icon-calendar"></a></label>
       </div>
       <div class="small-16 medium-2 large-2 columns">
-        <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getDate())%>" />
+        <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getDate())%>"  onchange="cngTimeFlag()"/>
       </div>
       <div class="small-8 medium-2 large-2 columns">
         
-      <select id="newCustActivity_startTime_AP" class="ampm">
+      <select id="newCustActivity_startTime_AP" class="ampm"  onchange="cngTimeFlag()">
         <option value="AM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>AM</option>
         <option value="PM" <%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>PM</option>
       </select>
