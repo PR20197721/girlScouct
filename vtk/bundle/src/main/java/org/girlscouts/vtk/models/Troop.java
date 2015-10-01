@@ -8,7 +8,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 import org.girlscouts.vtk.utils.VtkUtil;
-@Node
+@Node(jcrMixinTypes="mix:created, mix:lastModified")
 public class Troop implements Serializable {
 
 	public Troop() {
