@@ -90,8 +90,6 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		searchTermHits.addAll(performContentSearch(session, getPredicateGroup(formDocumentContentPath, q, tags),q));
 		searchTermHits.addAll(performContentSearch(session, getPredicateGroup(path, q, tags),q));
 
-		System.out.println("Length: " + searchTermHits.size());
-		
 		List<Hit> titleHits = new ArrayList<Hit>();
 		List<Hit> descriptionHits = new ArrayList<Hit>();
 		List<Hit> contentHits = new ArrayList<Hit>();

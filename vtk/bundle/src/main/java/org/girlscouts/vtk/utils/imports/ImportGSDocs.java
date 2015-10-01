@@ -54,7 +54,6 @@ public class ImportGSDocs {
 
 		try {
 
-			System.err.println("doClean " + fileName);
 			java.io.File file = new java.io.File(fileName);
 
 			if (file.delete()) {
@@ -273,7 +272,6 @@ public class ImportGSDocs {
 
 		}
 		// return meeting;
-		System.err.println("done");
 	}
 
 	// Meeting

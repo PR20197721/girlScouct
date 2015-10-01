@@ -90,10 +90,13 @@ public class TroopDAOImpl implements TroopDAO {
 	public Troop getTroop(User user, String councilId, String troopId)
 			throws IllegalAccessException, VtkException {
 
+/*
+Need to check troop permission.  This breaks parent-admins.
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
+*/
 
 		Session mySession = null;
 		Troop troop = null;
@@ -170,12 +173,13 @@ public class TroopDAOImpl implements TroopDAO {
 			throws IllegalAccessException {
 		Session mySession = null;
 		Troop troop = null;
-
+//TODO 9.24.15
+		/*
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
+*/
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -637,7 +641,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = expenses[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
 		}
 
@@ -646,7 +649,6 @@ public class TroopDAOImpl implements TroopDAO {
 			String fieldName = income[i].trim();
 			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
-			//System.err.println("Field Name: " + fieldName + " Field Value: "+ fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
 		}
 	}
@@ -665,7 +667,6 @@ public class TroopDAOImpl implements TroopDAO {
 					currentNode = currentNode.getNode(pathElements[i]);
 
 				} else {
-					//System.err.println("#####Trying to add node: "+ pathElements[i]);
 					currentNode = currentNode.addNode(pathElements[i],
 							"nt:unstructured");
 
@@ -789,7 +790,7 @@ public class TroopDAOImpl implements TroopDAO {
 				}
 				
 				//check meeting
-				if( meetingDAO.getMeetingE(user, asset.getPath().substring(0,
+				if( meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0,
 						asset.getPath().lastIndexOf("/") ).replace("/assets", "") ) ==null){
 					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
 				}
@@ -803,19 +804,20 @@ public class TroopDAOImpl implements TroopDAO {
 				
 
 			}
-			if (!ocm.objectExists(asset.getPath()))
+			if (!ocm.objectExists(asset.getPath())) {
 				ocm.insert(asset);
-			else
+			} else {
 				ocm.update(asset);
-
+			}
 			ocm.save();
 			isUpdated = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
-				if (mySession != null)
+				if (mySession != null) {
 					sessionFactory.closeSession(mySession);
+				}
 			} catch (Exception es) {
 				es.printStackTrace();
 			}
@@ -1162,7 +1164,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 			// permission to update
 			if (troop != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_VIEW_YEARPLAN_ID))
 				throw new IllegalAccessException();
 
@@ -1370,10 +1372,11 @@ public class TroopDAOImpl implements TroopDAO {
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingCanceled/" + meeting.getUid());
 			}
-			if (!ocm.objectExists(meeting.getPath()))
+			if (!ocm.objectExists(meeting.getPath())) {
 				ocm.insert(meeting);
-			else
+			} else {
 				ocm.update(meeting);
+			}
 			ocm.save();
 			isUpdated = true;
 		} catch (Exception e) {

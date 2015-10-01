@@ -132,7 +132,7 @@ if( plan==null ) return new java.util.TreeMap();
 				if (meetingEs != null)
 					for (int i = 0; i < meetingEs.size(); i++) {
 						MeetingE meetingE = meetingEs.get(i);
-						Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+						Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
 								meetingE.getRefId());
 						meetingE.setMeetingInfo(meetingInfo);
 					}
@@ -145,7 +145,7 @@ if( plan==null ) return new java.util.TreeMap();
 					
 						MeetingCanceled meetingCanceled = plan
 								.getMeetingCanceled().get(i);
-						Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+						Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop, 
 								meetingCanceled.getRefId());
 						
 						meetingCanceled.setMeetingInfo(meetingInfo);
@@ -193,7 +193,7 @@ if( plan==null ) return new java.util.TreeMap();
 				
 				MeetingCanceled meetingCanceled = (MeetingCanceled) _comp;
 				
-				Meeting meetingInfoCan = yearPlanUtil.getMeeting(user,
+				Meeting meetingInfoCan = yearPlanUtil.getMeeting(user,troop, 
 						meetingCanceled.getRefId());
 					
 				meetingCanceled.setMeetingInfo(meetingInfoCan);
@@ -204,7 +204,7 @@ if( plan==null ) return new java.util.TreeMap();
 
 				MeetingE meetingE = (MeetingE) _comp;
 				if (isLoadMeetingInfo) {
-					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+					Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop, 
 							meetingE.getRefId());
 
 					meetingE.setMeetingInfo(meetingInfo);
@@ -335,9 +335,6 @@ if( plan==null ) return new java.util.TreeMap();
 	public void changeMeetingPositions(User user, Troop troop,
 			String newPositions) throws IllegalAccessException, VtkException {
 
-		for (Integer i : troop.getTroop().getPermissionTokens()) {
-			System.out.println("Permissions of trooop " + i);
-		}
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_EDIT_MEETING_ID)) {
 			troop.setErrCode("112");
@@ -412,8 +409,8 @@ if( plan==null ) return new java.util.TreeMap();
 
 	public void rmCustomActivity(User user, Troop troop, String activityPath)
 			throws IllegalStateException, IllegalAccessException {
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_RM_ACTIVITY_ID))
 			throw new IllegalAccessException();
 
@@ -487,7 +484,7 @@ if( plan==null ) return new java.util.TreeMap();
 		while (t.hasMoreElements())
 			newPoss.add(Integer.parseInt(t.nextToken()));
 
-		Meeting meetingInfo = yearPlanUtil.getMeeting(user, meetingPath);
+		Meeting meetingInfo = yearPlanUtil.getMeeting(user, troop, meetingPath);
 		java.util.List<Activity> orgActivities = meetingInfo.getActivities();
 		orgActivities = sortActivity(orgActivities);
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
@@ -595,7 +592,7 @@ if( plan==null ) return new java.util.TreeMap();
 
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents()
 						.get(i);
-				Meeting meetingInfo = meetingDAO.getMeeting(user,
+				Meeting meetingInfo = meetingDAO.getMeeting(user, troop,
 						meeting.getRefId());
 				List<Activity> activities = meetingInfo.getActivities();
 				for (int y = 0; y < activities.size(); y++) {
@@ -640,7 +637,7 @@ if( plan==null ) return new java.util.TreeMap();
 
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents()
 						.get(i);
-				Meeting meetingInfo = meetingDAO.getMeeting(user,
+				Meeting meetingInfo = meetingDAO.getMeeting(user, troop,
 						meeting.getRefId());
 				List<Activity> activities = meetingInfo.getActivities();
 				for (int y = 0; y < activities.size(); y++) {
@@ -686,7 +683,7 @@ if( plan==null ) return new java.util.TreeMap();
 			e.printStackTrace();
 		}
 
-		java.util.List<Meeting> __meetings = meetingDAO.getAllMeetings(user,
+		java.util.List<Meeting> __meetings = meetingDAO.getAllMeetings(user, troop,
 				ageLevel);
 
 		for (int i = 0; i < __meetings.size(); i++) {
@@ -719,7 +716,7 @@ if( plan==null ) return new java.util.TreeMap();
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getUid().equals(meetingId)) {
 
-				Asset dbAsset = meetingDAO.getAsset(user, aidId + "/");
+				Asset dbAsset = meetingDAO.getAsset(user, troop, aidId + "/");
 
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
@@ -942,9 +939,12 @@ if( plan==null ) return new java.util.TreeMap();
 			else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
 				meetingCount = troop.getYearPlan().getMeetingCanceled()
 						.indexOf(_comp) + 1;
-			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());	
+			meetingInfo = yearPlanUtil.getMeeting(user, troop, meeting.getRefId());	
 			meeting.setMeetingInfo(meetingInfo);
-			java.util.List<Activity> _activities = meetingInfo.getActivities();
+			java.util.List<Activity> _activities = null;
+			if( meetingInfo.getActivities()!=null )
+				_activities = meetingInfo.getActivities();
+			
 			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
 					.getMeetingInfo();
 
@@ -977,7 +977,7 @@ if( plan==null ) return new java.util.TreeMap();
 					_aidTags.remove(aidToRm.get(i));
 
 				// query aids cachables
-				java.util.List __aidTags = yearPlanUtil.getAids(user,
+				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
 						meetingInfo.getAidTags(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
 
@@ -985,7 +985,7 @@ if( plan==null ) return new java.util.TreeMap();
 				_aidTags.addAll(__aidTags);
 
 				// query resources cachables
-				java.util.List __resources = yearPlanUtil.getResources(user,
+				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
 						meetingInfo.getResources(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
 
@@ -1036,9 +1036,14 @@ if( plan==null ) return new java.util.TreeMap();
 		long nextDate = 0, prevDate = 0;
 		java.util.Date searchDate = null;
 
-		if (request.getParameter("elem") != null) {
-			searchDate = new java.util.Date(Long.parseLong(request
-					.getParameter("elem")));
+		if ((request.getParameter("elem") != null && !request.getParameter("elem").equals("first")) || 
+		    (request.getAttribute("elem") != null && !request.getAttribute("elem").equals("first"))) {
+			
+			String elem = request.getParameter("elem");
+			if (elem == null) {
+				elem = (String)request.getAttribute("elem");
+			}
+			searchDate = new java.util.Date(Long.parseLong(elem));
 		} else if (false) {// session.getValue("VTK_planView_memoPos") !=null ){
 			searchDate = new java.util.Date(
 					(Long) session.getValue("VTK_planView_memoPos"));
@@ -1090,7 +1095,7 @@ if( plan==null ) return new java.util.TreeMap();
 			if (date.after(today)
 					&& ypc.getType() == YearPlanComponentType.MEETING) {
 				MeetingE MEETING = (MeetingE) ypc;
-				Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+				Meeting meetingInfo = yearPlanUtil.getMeeting(user, troop, 
 						MEETING.getRefId());
 				MEETING.setMeetingInfo(meetingInfo);
 				meetings.add(MEETING);
@@ -1433,6 +1438,6 @@ if( plan==null ) return new java.util.TreeMap();
 			throw new IllegalAccessException();
 
 
-		return meetingDAO.getMeetingE(user, meetingEpath);
+		return meetingDAO.getMeetingE(user, troop, meetingEpath);
 	}
 }// edn class

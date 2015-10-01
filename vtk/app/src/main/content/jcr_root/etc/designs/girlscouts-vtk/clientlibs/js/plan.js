@@ -518,12 +518,10 @@ function createNewCustActivity(){
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
 
-	
 	if( document.getElementById("newCustActivity") ){
 		document.getElementById("newCustActivity").disabled = true;	
 	}
 	
-
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
@@ -1021,7 +1019,7 @@ function councilRpt(troopId, cid){
 	  if( !isLoggedIn ){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
 		  //girlscouts.components.login.signOut();
-	      window.parent.location="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
 		  
 		 
 	  } 

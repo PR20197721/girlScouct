@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,java.lang.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 
@@ -20,6 +20,11 @@
     	// council lookup
         councilId= troop.getSfCouncil();
     }
+    
+    if( councilId==null || councilId.trim().equals("")){
+
+        councilId = getCouncilCookie(request);
+    }
 
     //revoke auth token
     if( user!=null) {
@@ -38,9 +43,33 @@
             
             response.sendRedirect(configManager.getConfig("communityUrl"));
     }else{
-        String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html";
+        //String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html"; //baseUrl for local. no etc mapping
+        String councilHomeUrl = "";
+        try {
+            Integer.parseInt(councilId);
+            councilHomeUrl = councilMapper.getCouncilUrl(councilId) +"en.html";
+        } catch (Exception e) {
+            councilHomeUrl = resourceResolver.map("/content/" + councilId + "/en.html");
+        }
         response.sendRedirect(councilHomeUrl);
     
     	
     }
+
+%>
+
+<%!
+public String getCouncilCookie(HttpServletRequest request) {
+    String councilCode = "";
+    Cookie[] cookies = request.getCookies();
+    if (cookies != null) {
+        for (int i = 0; i < cookies.length; i++) {
+            if (cookies[i].getName().equals("vtk_referer_council")) {
+                councilCode = cookies[i].getValue();
+            }
+        }
+    }
+    return councilCode;
+}
+
 %>

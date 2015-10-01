@@ -7,7 +7,7 @@ public class Permission extends PermissionConstants {
 	public static final Permission login = new Permission(PERMISSION_LOGIN_ID, null);
 	public static final Permission year_plan_view = new Permission( PERMISSION_VIEW_YEARPLAN_ID, login);
 	public static final Permission year_plan_edit = new Permission( PERMISSION_EDIT_YEARPLAN_ID, year_plan_view);
-        public static final Permission year_plan_add = new Permission( PERMISSION_ADD_YEARPLAN_ID, year_plan_edit);
+    public static final Permission year_plan_add = new Permission( PERMISSION_ADD_YEARPLAN_ID, year_plan_edit);
 	public static final Permission year_plan_rm = new Permission( PERMISSION_RM_YEARPLAN_ID, year_plan_edit);
 	
 	/***  YEAR_PLAN_MEETING ***/
@@ -18,12 +18,12 @@ public class Permission extends PermissionConstants {
 	/*** MEETING ***/
 	public static final Permission meeting_view = new Permission(PERMISSION_VIEW_MEETING_ID, year_plan_view);
 	public static final Permission meeting_edit = new Permission(PERMISSION_EDIT_MEETING_ID, meeting_view);
-        public static final Permission meeting_add = new Permission(PERMISSION_ADD_MEETING_ID, meeting_edit);
-        public static final Permission meeting_create = new Permission(PERMISSION_CREATE_MEETING_ID, meeting_edit);
-        public static final Permission meeting_remove = new Permission(PERMISSION_REMOVE_MEETING_ID, meeting_create);
+    public static final Permission meeting_add = new Permission(PERMISSION_ADD_MEETING_ID, meeting_edit);
+    public static final Permission meeting_create = new Permission(PERMISSION_CREATE_MEETING_ID, meeting_edit);
+    public static final Permission meeting_remove = new Permission(PERMISSION_REMOVE_MEETING_ID, meeting_create);
 
 	/*** ACTIVITY  ***/
-        public static final Permission activity_edit= new Permission(PERMISSION_EDIT_ACTIVITY_ID, year_plan_view);
+    public static final Permission activity_edit= new Permission(PERMISSION_EDIT_ACTIVITY_ID, year_plan_view);
 	public static final Permission activity_add= new Permission(PERMISSION_ADD_ACTIVITY_ID, year_plan_view);
 	public static final Permission activity_rm = new Permission(PERMISSION_RM_ACTIVITY_ID, activity_edit);
 	
@@ -118,8 +118,7 @@ public class Permission extends PermissionConstants {
 	public static Set<Integer> getPermissionTokens(int[] myPermissions) {
 		Set<Integer> myPermSet = new HashSet<Integer>();
 		for (int i : myPermissions) {
-			Permission thisPermission = GLOBAL_PERMISSION_MAP.get(Integer
-					.valueOf(i));
+			Permission thisPermission = GLOBAL_PERMISSION_MAP.get(Integer.valueOf(i));
 			if (thisPermission != null) {
 				for (int currentDepth = thisPermission.getDepth(); currentDepth > 0; currentDepth--) {
 					myPermSet.add(thisPermission.getId());
@@ -132,8 +131,6 @@ public class Permission extends PermissionConstants {
 	}
 
 	public static void main(String[] args) {
-
 		Set<Integer> myPermissionTokens = getPermissionTokens(GROUP_MEMBER_1G_PERMISSIONS);
-
 	}
 }

@@ -10,9 +10,10 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 @Node
 public class MeetingE extends YearPlanComponent implements Serializable {
+	// This class wraps the web meeting object to implement VTK meeting structure
 
 	public MeetingE() {
-		this.uid = "M" + new java.util.Date().getTime();
+		this.uid = "M" + new java.util.Date().getTime(); // better to be impossible than unlikely
 		super.setType(YearPlanComponentType.MEETING);
 	}
 

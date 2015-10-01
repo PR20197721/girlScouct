@@ -20,7 +20,7 @@
 
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop, ageLevel);
 	String find="";
 %>
   <div class="header clearfix">
@@ -67,7 +67,7 @@
             myMeetingIds.add( meetingId );
             
             java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
-    // System.err.println("tatadddd: "+meetingDate +" : "+ meetingId + " : "+ myMeetings.size() + " : "+myMeetings.get(i).getRefId());       
+          
             if( meetingDate!=null && meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
           	  reAddMeetings.add(meetingId);
                 

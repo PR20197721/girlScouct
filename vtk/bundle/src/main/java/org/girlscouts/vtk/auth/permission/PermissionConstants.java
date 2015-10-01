@@ -9,43 +9,32 @@ public class PermissionConstants {
 	public static final int PERMISSION_ADD_YEARPLAN_ID = 11;
 	public static final int PERMISSION_RM_YEARPLAN_ID = 12;
 	public static final int PERMISSION_EDIT_YEARPLAN_ID = 13;
-
-        public static final int PERMISSION_EDIT_ACTIVITY_ID = 120;
+	public static final int PERMISSION_EDIT_ACTIVITY_ID = 120;
 	public static final int PERMISSION_RM_ACTIVITY_ID = 130;
 	public static final int PERMISSION_ADD_ACTIVITY_ID=150;
-
 	public static final int PERMISSION_VIEW_MEETING_ID = 200;
 	public static final int PERMISSION_EDIT_MEETING_ID = 220;
 	public static final int PERMISSION_ADD_MEETING_ID = 240;
 	public static final int PERMISSION_CREATE_MEETING_ID = 270; // cust meeting
-        public static final int PERMISSION_REMOVE_MEETING_ID = 280; // cust meeting
-
+    public static final int PERMISSION_REMOVE_MEETING_ID = 280; // cust meeting
 	public static final int PERMISSION_VIEW_TROOP_ID = 300;
 	public static final int PERMISSION_EDIT_TROOP_ID = 301;
-	
-	
 	public static final int PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID=302;
 	public static final int PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID=303;
-	public static final int PERMISSION_EDIT_TROOP_IMG_ID = 304;
-	
+	public static final int PERMISSION_EDIT_TROOP_IMG_ID = 304;	
 	public static final int PERMISSION_VIEW_FINANCE_ID = 400;
 	public static final int PERMISSION_EDIT_FINANCE_ID = 401;
 	public static final int PERMISSION_EDIT_FINANCE_FORM_ID = 402;
-	
-        public static final int PERMISSION_EDIT_YEARPLAN_MEETING_ID = 510;
-        public static final int PERMISSION_ADD_YEARPLAN_MEETING_ID = 511;
-        public static final int PERMISSION_RM_YEARPLAN_MEETING_ID = 512;
-
+	public static final int PERMISSION_EDIT_YEARPLAN_MEETING_ID = 510;
+    public static final int PERMISSION_ADD_YEARPLAN_MEETING_ID = 511;
+    public static final int PERMISSION_RM_YEARPLAN_MEETING_ID = 512;
 	public static final int PERMISSION_TERMINATE_ID = 1000; // max int for
-
 	public static final int PERMISSION_VIEW_REPORT_ID=601;
 	public static final int PERMISSION_VIEW_MILESTONE_ID=611;
-
 	public static final int PERMISSION_EDIT_ATTENDANCE_ID=621;
 	public static final int PERMISSION_SEND_EMAIL_MT_ID=631;	
 	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;	
 	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=651; //in meeting meterials
-
 	public static final int PERMISSION_EDIT_MILESTONE_ID=701;
 	public static final int GROUP_ROOT = 0;
 	public static final String GROUP_ROOT_DISPLAY = "ROOT";
@@ -91,7 +80,8 @@ public class PermissionConstants {
 	public static final String GROUP_MEMBER_1G_DISPLAY = "Member with 1 girl";
 	public static final int[] GROUP_MEMBER_1G_PERMISSIONS = new int[] {
 		PERMISSION_VIEW_YEARPLAN_ID, PERMISSION_VIEW_MEETING_ID, PERMISSION_VIEW_TROOP_ID, 
-		PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID
+		PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID,
+		PERMISSION_VIEW_FINANCE_ID
 	};
 
 	public static final int GROUP_MEMBER_NO_TROOP = 14;
@@ -105,7 +95,6 @@ public class PermissionConstants {
 	public static final int GROUP_MEMBER_COUNCIL = 16;
 	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
 
-	//public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll(new int[] {});
 	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll( GROUP_LEADER_PERMISSIONS, new int[] { PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID, PERMISSION_EDIT_FINANCE_ID, PERMISSION_VIEW_REPORT_ID, PERMISSION_EDIT_MILESTONE_ID, PERMISSION_EDIT_FINANCE_FORM_ID });
 
 }

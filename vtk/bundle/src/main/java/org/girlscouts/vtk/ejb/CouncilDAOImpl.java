@@ -71,11 +71,13 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Council council = null;
 		Session session = null;
 		try {
-
+			
+/*
 			if (user != null
 					&& !userUtil.hasPermission(user.getPermissions(),
 							Permission.PERMISSION_LOGIN_ID))
 				throw new IllegalAccessException();
+				*/
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
@@ -115,11 +117,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public Council createCouncil(User user, String councilId)
 			throws IllegalAccessException, VtkException {
-
+/*
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
+			*/
 		Session session = null;
 		Council council = null;
 		try {
@@ -174,11 +177,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public Council getOrCreateCouncil(User user, String councilId)
 			throws IllegalAccessException, VtkException {
-
+/*
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
+			*/
 
 		Council council = findCouncil(user, councilId);
 	
@@ -190,10 +194,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public void updateCouncil(User user, Council council)
 			throws IllegalAccessException {
+		/*
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
+			*/
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -230,10 +236,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
 			throws IllegalAccessException{
+		/*
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_VIEW_MILESTONE_ID))
 			throw new IllegalAccessException();
+			*/
 		CouncilInfo list = getCouncilInfo(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
@@ -295,11 +303,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String cid)
 			throws IllegalAccessException{
-
+/*
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_EDIT_MILESTONE_ID))
 			throw new IllegalAccessException();
+			*/
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();

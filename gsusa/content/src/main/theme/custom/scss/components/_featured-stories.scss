@@ -136,10 +136,12 @@ div.featured-stories {
             display: block;
             margin-bottom: rem-calc(38);
             font-size: rem-calc(60);
+            margin-top: rem-calc(14);
           }
           .text {
             padding-left: rem-calc(20);
             text-align: left;
+            padding-right: rem-calc(20);
             .desc {
               margin-bottom: rem-calc(30);
               font-weight: 600;

@@ -19,7 +19,7 @@ import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = CouncilRpt.class)
-public class CouncilRpt {
+public class CouncilRpt { // why not CouncilReportDAO?
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -308,8 +308,7 @@ public class CouncilRpt {
 
 		Collection<CouncilRptBean> container = CollectionUtils.select(results,
 				new Predicate<CouncilRptBean>() {
-					public boolean evaluate(CouncilRptBean o) {
-//System.err.println("tataTest11: "+ o.getLibPath() +" : "+ yearPlanPath);						
+					public boolean evaluate(CouncilRptBean o) {					
 						return o.getLibPath().equals(yearPlanPath);
 					}
 				});

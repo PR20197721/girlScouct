@@ -361,7 +361,7 @@ public class TroopUtil {
 			
 		
 			plan.setRefId(yearPlanPath);
-			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
+			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,troop, 
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
 							: (yearPlanPath + "/meetings/")));
 			Comparator<MeetingE> comp = new BeanComparator("id");
@@ -553,12 +553,12 @@ public class TroopUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
+/*
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			return null;
 		}
-
+*/
 		YearPlan oldPlan = troop.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
 

@@ -14,6 +14,7 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
+
 <%
     String activeTab = "finances";
     boolean showVtkNav = true;
@@ -53,7 +54,7 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 			 if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){
 				financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 			} else{
-				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
+				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" class=\"financeInput\" value=\"&#36;%s\"/>";
 			    save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">SEND</a>";
 			    
 	            
@@ -134,3 +135,4 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 %>
 </div>
 <script>loadNav('finances');</script>
+

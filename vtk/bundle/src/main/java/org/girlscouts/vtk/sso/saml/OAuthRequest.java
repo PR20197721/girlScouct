@@ -129,7 +129,7 @@ String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
   "</saml:AuthnStatement>"+
 "</saml:Assertion>";
 
-System.err.println("*************************OAUTHREQUEST: "+xml);
+
               
 		result = encodeSAMLRequest(xml.getBytes());
 		return result;
@@ -187,7 +187,7 @@ post.addParameter("assertion",xml);
 			}
 
 			httpclient.executeMethod(post);
-			System.err.println("doAuth: " + post.getResponseBodyAsString());
+
 			if (post.getStatusCode() == HttpStatus.SC_OK) {
 				try {
 					JSONObject authResponse = new JSONObject(new JSONTokener(
@@ -211,16 +211,14 @@ post.addParameter("assertion",xml);
 
 public void x(String token){
 
-System.err.println("Token: "+ token);
-System.err.println("Coded: "+ encodeSAMLRequest(token.getBytes()));
-System.err.println("test: "+ encodeSAMLRequest("@appled.strudel@gmail.com".getBytes()));
+
 token="00DZ000000Mia06c0gsKMhJTdErLikqTUnNcUjPTczM0UvOzwUA";
             try{
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod( "https://gsuat-gsmembers.cs11.force.com/members/services/data/v20.0/query");
 		get.setRequestHeader("Authorization",
 				"OAuth " + token);
-System.err.println("Token: "+ token);
+
 		NameValuePair[] params = new NameValuePair[1];
 		params[0] = new NameValuePair(
 				"q",
@@ -229,7 +227,7 @@ System.err.println("Token: "+ token);
 		try {
 
 			httpclient.executeMethod(get);
-System.err.println("Status: "+ get.getStatusCode());
+
 			if (get.getStatusCode() == HttpStatus.SC_OK) {
 				try {
 

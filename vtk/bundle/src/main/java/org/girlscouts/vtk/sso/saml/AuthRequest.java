@@ -106,7 +106,7 @@ public class AuthRequest {
 	
 	public String getSSOurl(String relayState) throws UnsupportedEncodingException, XMLStreamException, IOException{
 		
-		String ssourl = getSSOurl();
+		String ssourl = getSSOurl();		
 		if(relayState != null && !relayState.isEmpty()){
 			ssourl = ssourl + "&RelayState=" + relayState;
 		}

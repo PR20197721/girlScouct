@@ -10,9 +10,7 @@
       //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
       String _email = "";
       if(contact.getFirstName() != null && contact.getEmail() != null){
-
     	   _email= (contact.getFirstName()!=null ? contact.getFirstName().replace(" ","%20") : "" ) + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
-
       }
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
       if(!(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) ||

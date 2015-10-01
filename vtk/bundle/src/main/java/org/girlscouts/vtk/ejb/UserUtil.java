@@ -24,9 +24,7 @@ public class UserUtil {
 	@Reference
 	private CouncilMapper councilMapper;
 
-	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
-			int permissionId) {
-
+	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int permissionId) {
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
@@ -35,8 +33,7 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-
-		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
+		if (troop==null || troop.getTroop()==null || troop.getTroop().getPermissionTokens()==null || !hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;
 	}
@@ -88,16 +85,14 @@ public class UserUtil {
 	// aPI logout
 		public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
 				throws Exception {
-	System.err.println("tatalogout: "+ apiConfig.getAccessToken())	;	
+
 			DataOutputStream wr = null;
 			boolean isSucc = false;
 			URL obj = null;
 			HttpsURLConnection con = null;
 			try {
-				//String url = apiConfig.getWebServicesUrl()+"/services/oauth2/revoke"; // DYNAMIC
+				
 				String url= apiConfig.getInstanceUrl()+"/services/oauth2/revoke";
-	System.err.println("tata url token revoke: "+url);	
-		
 				obj = new URL(url);
 				con = (HttpsURLConnection) obj.openConnection();
 				con.setRequestMethod("POST");
@@ -109,8 +104,7 @@ public class UserUtil {
 				wr.writeBytes(urlParameters);
 				wr.flush();
 				wr.close();
-				int responseCode = con.getResponseCode();
-		System.err.println("tatalogout resp code: "+ responseCode)	;	
+				int responseCode = con.getResponseCode();	
 				if (responseCode == 200)
 					isSucc = true;
 			} catch (Exception e) {

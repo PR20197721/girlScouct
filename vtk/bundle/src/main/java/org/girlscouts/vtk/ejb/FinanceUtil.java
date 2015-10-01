@@ -42,8 +42,8 @@ public class FinanceUtil {
 	
 	public Finance getFinances(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException {
 		
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
 		
@@ -53,7 +53,7 @@ public class FinanceUtil {
 	public void updateFinances(User user, Troop troop, String currentYear, java.util.Map<String, String[]> params) throws IllegalAccessException {
 		
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_FINANCE_ID))
 			throw new IllegalAccessException();
 		
@@ -68,15 +68,15 @@ public class FinanceUtil {
 	}
 	
 	public FinanceConfiguration getFinanceConfig(User user, Troop troop, String currentYear) throws IllegalAccessException {
-		
+		/*
 System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) +" : "+
 		(!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID)) +" : "+
 		(( !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ||
 				!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))));
-
-		if (user != null &&
-			  !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
-							!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))
+*/
+		if (troop != null &&
+			  !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
+							!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
 		
 		return troopDAO.getFinanceConfiguration(troop, currentYear);
@@ -85,8 +85,8 @@ System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Pe
 	public void updateFinanceConfiguration(User user, Troop troop, String currentYear, java.util.Map<java.lang.String, java.lang.String[]> params) throws IllegalAccessException {
 		
 		if (user != null &&
-				 !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
-						!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))
+				 !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
+						!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
 		
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
@@ -101,7 +101,7 @@ System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Pe
 	public void sendFinanceDataEmail(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException{
 		
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_FINANCE_ID))
 			throw new IllegalAccessException();
 		

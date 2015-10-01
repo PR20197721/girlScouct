@@ -111,30 +111,23 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
-System.err.println("test1");		
+	
 		String action = request.getParameter(ACTION);
 		if (action == null) {
 			
-			;//salesforceCallback(request, response);
-/*
-			try {
-				salesforceCallback(request, response);
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-*/
+			;
+
 		} else if (action.equals(SIGNIN)) {
-System.err.println("test3");	
+	
 			signIn(request, response);
 		} else if (action.equals(SIGNOUT)) {
-System.err.println("test4");				
+				
 			signOut(request, response);
 		} else {
-System.err.println("test5");				
+				
 			log.error("Unsupported action: " + action);
 		}
-System.err.println("test6");		
+		
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -222,15 +215,8 @@ System.err.println("test6");
 				.getConfig("idpSsoTargetUrl"));// "https://gsuat-gsmembers.cs11.force.com/members/idp/login?app=0spZ0000000004h");
 
 		AuthRequest authReq = new AuthRequest(appSettings, accSettings);
-
 		try {
-
-			System.err.println("xtest refereCoun: " + refererCouncil);
-			// String reqString = authReq.getSSOurl(relayState);
 			String reqString = authReq.getSSOurl(refererCouncil);
-			System.err.println("******** xtest: " + reqString);
-			System.err.println("CallbackUrl: " + callbackUrl);
-			// response.sendRedirect(callbackUrl);
 			response.sendRedirect(reqString);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,7 +235,7 @@ System.err.println("test6");
 				isVtkLogin=true;
 			
 			redirect(response, configManager.getConfig("communityUrl")
-					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin? "&isVtkLogin=true": "" )));
+					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin ? "?isVtkLogin=true": "" )));
 			  return;
 		}
 		
@@ -357,10 +343,7 @@ System.err.println("test6");
 	@Override
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
-			IOException {
-		
-		System.err.println("tata POST***********"+ request.getParameter("RelayState"));		
-		
+			IOException {	
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
@@ -376,8 +359,13 @@ System.err.println("test6");
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-			samlResponse.setDestinationUrl(request.getRequestURL().toString()
-					.replace("http://my", "https://my"));
+			String requestURL = request.getRequestURL().toString();
+			if (!requestURL.startsWith("http://my-local")) {
+				requestURL = requestURL.replace("http://my", "https://my")
+						.replace("http://girlscouts-dev2","https://girlscouts-dev2");
+			}
+			
+			samlResponse.setDestinationUrl(requestURL);
 					/*
 					.replace("http://my-uat", "https://my-uat")
 					.replace("http://my-stage", "https://my-stage") );
@@ -405,7 +393,8 @@ System.err.println("test6");
 
 			e.printStackTrace();
 		}
-		setCouncilInClient(response, request.getParameter("state"));
+if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
+
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
 				.getConfig("gsCertificate"));
@@ -453,9 +442,13 @@ System.err.println("test6");
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			/*
 			// CHN to LOAD PERMISSION HERE
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
+			*/
+			
+			
 			
 			// load config
 			vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
@@ -468,11 +461,30 @@ System.err.println("test6");
 			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
-		
-		if( request.getParameter("RelayState")!=null ){
-			redirect(response, request.getParameter("RelayState"));
-		}else
-			redirect(response, targetUrl);
+
+	    // Set cookie troopDataPath 
+		if (config.getTroops() != null && !config.getTroops().isEmpty()) {
+		    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+		    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+		    cookie.setPath("/");
+		    response.addCookie(cookie);
+		}
+	}//end oAuthtoken
+
+		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
+
+			    redirect(response, request.getParameter("RelayState"));
+		}else if(request.getParameter("RelayState")!=null){
+
+				setCouncilInClient(response, request.getParameter("RelayState"));
+				redirect(response, targetUrl);
+		}else {
+
+			    redirect(response, targetUrl);
+
+		}
+
+
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,
@@ -526,10 +538,14 @@ System.err.println("test6");
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			/*
 			// CHN to LOAD PERMISSION HERE
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
-
+*/
+			
+			
+			
 			// load config
 			/*
 			vtkUser.setCurrentYear(getCurrentYear(
@@ -560,48 +576,7 @@ System.err.println("test6");
 		}
 	}
 
-	/*// aPI logout
-	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
-			throws Exception {
-System.err.println("tatalogout: "+ apiConfig.getAccessToken())	;	
-		DataOutputStream wr = null;
-		boolean isSucc = false;
-		URL obj = null;
-		HttpsURLConnection con = null;
-		try {
-			//String url = apiConfig.getWebServicesUrl()+"/services/oauth2/revoke"; // DYNAMIC
-			String url= apiConfig.getInstanceUrl()+"/services/oauth2/revoke";
-System.err.println("tata url token revoke: "+url);	
 	
-			obj = new URL(url);
-			con = (HttpsURLConnection) obj.openConnection();
-			con.setRequestMethod("POST");
-			con.setRequestProperty("Content-Type",
-					"application/x-www-form-urlencoded");
-			String urlParameters = "token=" + apiConfig.getAccessToken();
-			con.setDoOutput(true);
-			wr = new DataOutputStream(con.getOutputStream());
-			wr.writeBytes(urlParameters);
-			wr.flush();
-			wr.close();
-			int responseCode = con.getResponseCode();
-	System.err.println("tatalogout resp code: "+ responseCode)	;	
-			if (responseCode == 200)
-				isSucc = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				wr = null;
-				obj = null;
-				con = null;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		return isSucc;
-	}
-*/
 	// web salesforce logout
 	public boolean logoutWeb(ApiConfig apiConfig) throws Exception {
 		DataOutputStream wr = null;
@@ -616,22 +591,13 @@ System.err.println("tata url token revoke: "+url);
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
-			/*
-			 * con.setRequestProperty("Content-Type",
-			 * "application/x-www-form-urlencoded"); String urlParameters =
-			 * "token=" + apiConfig.getAccessToken();
-			 */
 			con.setDoOutput(true);
 			wr = new DataOutputStream(con.getOutputStream());
-			// wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
 			int responseCode = con.getResponseCode();
-			System.err.println("testing logout respCode: " + responseCode);
 			if (responseCode == 200) {
 				isSucc = true;
-
-				System.err.println("testing logout succ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -646,38 +612,7 @@ System.err.println("tata url token revoke: "+url);
 		}
 		return isSucc;
 	}
-/* use VTKUTIL.getCurrentYear
-	private String getCurrentYear(ResourceResolver resourceResolver,
-			int councilId) {
-		String elem = null;
-		try {
-			String branch = councilMapper.getCouncilBranch(councilId + "");
-			branch += "/jcr:content";
-			ValueMap valueMap = (ValueMap) resourceResolver.resolve(branch)
-					.adaptTo(ValueMap.class);
-			elem = valueMap.get("currentYear", "");
-		} catch (Exception e) {
-			System.err.println("SalesforceAuthServlet: Current Year not set");
-			e.printStackTrace();
-		}
-		return (elem == null || elem.trim().equals("")) ? getCurrentYearDefault(resourceResolver)
-				: elem;
 
-	}
-
-	private String getCurrentYearDefault(ResourceResolver resourceResolver) {
-		String elem = null;
-		try {
-			String branch = "/content/gateway/jcr:content";
-			ValueMap valueMap = (ValueMap) resourceResolver.resolve(branch)
-					.adaptTo(ValueMap.class);
-			elem = valueMap.get("currentYear", "");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return elem;
-	}
-*/
 	public void setCouncilInClient(
 			org.apache.sling.api.SlingHttpServletResponse response,
 			String councilCode) {

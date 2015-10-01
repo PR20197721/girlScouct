@@ -16,7 +16,7 @@
 		existingAids.add(asset.getRefId());
 	}
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
-	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,MEETING_AID_PATH+"/"); 
+	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, MEETING_AID_PATH+"/"); 
 	%>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 

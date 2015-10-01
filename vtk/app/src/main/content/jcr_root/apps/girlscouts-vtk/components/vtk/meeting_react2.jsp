@@ -4,31 +4,28 @@
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = planView.getMeeting();
 
-/*
-Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
-int attendanceCurrent=0, attendanceTotal=0;
 
 if( attendance !=null && attendance.getUsers()!=null ){
-	attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
-	attendanceTotal= attendance.getTotal();
+    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+    attendanceTotal= attendance.getTotal();
 }
 
 Achievement achievement = meetingUtil.getAchievement( user,  troop,  meeting.getPath()+"/achievement");
 int achievementCurrent=0;//, achievementTotal=0;
 
 if( achievement !=null && achievement.getUsers()!=null ){
-	achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
-	//achievementTotal= achievement.getTotal();
+    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+    //achievementTotal= achievement.getTotal();
 }
 
 
 Location loc = null;
 if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
-	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-		if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-			loc = troop.getYearPlan().getLocations().get(k);
-		}
-	}
+    for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
+        if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+            loc = troop.getYearPlan().getLocations().get(k);
+        }
+    }
 }
 
 
@@ -41,6 +38,18 @@ pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
+String readonlyModeStr = hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+    hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+
+Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
+cookie.setPath("/");
+response.addCookie(cookie);
+
+String elemParam = request.getParameter("elem");
+if (elemParam == null) {
+    elemParam = "first";
+}
+String meetingDataUrl = "meeting." + elemParam + ".json";
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
@@ -89,7 +98,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         this.setState({ show: !this.state.show });
       },
       render: function() {
-    	  
+          
        var scheduleDates =null;
        if( this.props.schedule!=null){
               scheduleDates= this.props.schedule.dates;
@@ -97,6 +106,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           
           
           
+       var that = this;
        var commentNodes = this.props.data.map(function (comment ,i ) {
       
         
@@ -115,22 +125,24 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingType= comment.type;
           sentEmails=comment.sentEmails;
           if( sentEmails!=null){
-        	  sentEmailsSubject = sentEmails[0].subject;
-        	  sentEmails= sentEmails.length;
+              sentEmailsSubject = sentEmails[0].subject;
+              sentEmails= sentEmails.length;
           }  
+        
+  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           
           if( isNaN(thisMeetingDate) ){
-        	  thisMeetingDate = new Date(helper.currentDate);
-        	  
+              thisMeetingDate = new Date(helper.currentDate);
+              
           }
-          
+  
           
      return (
             React.createElement(YearPlan, {item: comment, key: i}, 
-                   React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
+                   React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment.tz(thisMeetingDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(thisMeetingDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(thisMeetingDate,"America/New_York").format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
-                   React.createElement(SortableList1, {data: comment.meetingInfo.activities})
+                   React.createElement(SortableList1, {data: comment.meetingInfo.activities, forceReload: that.props.forceReload})
             )
           );
 
@@ -199,7 +211,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
     
     var AddMeeting = React.createClass({displayName: "Add Meeting",
-        render: function() {         	
+        render: function() {            
         if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED'){
           return (
              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids")
@@ -223,13 +235,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     });
 
     var MeetingPlan = React.createClass({displayName: "MeetingPlan",
-    	
+        
       render: function() {
-    	 
+         
         return (
-        		React.createElement("div",{className: "section-wrapper"},
-        		/*nav include*/
-        		React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
+                React.createElement("div",{className: "section-wrapper"},
+                /*nav include*/
+                React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
 
             React.createElement("div", {className: "meeting-navigation row collapse"}, 
 
@@ -237,7 +249,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement("span", null, 
 
-            		React.createElement(NavDirectionPrev)
+                    React.createElement(NavDirectionPrev)
              
       )
 
@@ -247,8 +259,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement(MeetingName,{meetingTitle: this.props.meetingTitle}),
             React.createElement(MeetingDate,{meetingModMONTH:this.props.meetingModMONTH,
-            	meetingModDAY:this.props.meetingModDAY,
-            	meetingModHOUR:this.props.meetingModHOUR})
+                meetingModDAY:this.props.meetingModDAY,
+                meetingModHOUR:this.props.meetingModHOUR})
     ), 
 
           React.createElement("p", {className: "column"}, 
@@ -269,11 +281,11 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   )
 
 ),
-        		/*end nav include*/
-        		
-        		
-        		/**main info */
-        		
+                /*end nav include*/
+                
+                
+                /**main info */
+                
         React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered", id: "main-info"}, 
             React.createElement("div", {className: "row"}, 
             React.createElement("div", {className: "column large-17 medium-17 small-17"}, 
@@ -293,16 +305,16 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   )
 ),
 
-        		
-        		
-        		
-        		
-        		/*end main info*/
-        		
-        		
-        		
-        		/*planning*/
-        		React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+                
+                
+                
+                
+                /*end main info*/
+                
+                
+                
+                /*planning*/
+                React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
   React.createElement("h6", null, "planning materials"), 
   React.createElement("ul", null, 
    React.createElement("li", null, 
@@ -314,11 +326,11 @@ React.createElement(ActivityPlan),
   )
   )
 )
-        		/* end planning*/
-        		
-        		
-        		
-        		/*communication*/
+                /* end planning*/
+                
+                
+                
+                /*communication*/
          <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
 
 ,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
@@ -327,7 +339,7 @@ React.createElement(ActivityPlan),
 
   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},   
   
-		React.createElement(EmailMeetingReminder),  
+        React.createElement(EmailMeetingReminder),  
         
         
 
@@ -336,7 +348,7 @@ React.createElement(ActivityPlan),
 
   
   
-	)
+    )
 
 )
 <%} %>
@@ -351,12 +363,12 @@ React.createElement(ActivityPlan),
     
     
     var EmailMeetingReminder = React.createClass({displayName: "Meeting Reminder Email",
-        render: function() {       	        	
-		    		if(helper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>')!=-1 ) {		    		           
-		    			return (React.createElement(EmailMeetingReminderWithSched))		    		            
-		    		} else{   		    			 
-		    		   return (React.createElement(EmailMeetingReminderWithOutSched))  
-		    		}    		
+        render: function() {                    
+                    if(helper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>')!=-1 ) {                             
+                        return (React.createElement(EmailMeetingReminderWithSched))                             
+                    } else{                          
+                       return (React.createElement(EmailMeetingReminderWithOutSched))  
+                    }           
         }
     });    
     
@@ -365,21 +377,21 @@ React.createElement(ActivityPlan),
         render: function() {
         
                         if( helper.currentDate!=null && (helper.currentDate> new Date("1/1/1977").getTime()) && thisMeetingType!='MEETINGCANCELED' ) {
-                      	
+                        
                              return(
-                            		 React.createElement("li", null,                   		 
-                            				   React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
-                            		,  React.createElement(PrintSentEmails) )
-                            		
+                                     React.createElement("li", null,                         
+                                               React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
+                                    ,  React.createElement(PrintSentEmails) )
+                                    
                                )
                         } else if( thisMeetingType!='MEETINGCANCELED'){
-                        	
+                            
                               return (React.createElement("li", null,
                                 React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")                                
                                  ,React.createElement(PrintSentEmails))
                                  );
                         } else {
-                        	return (React.createElement("li", null));
+                            return (React.createElement("li", null));
                         }
                        
                          
@@ -389,16 +401,16 @@ React.createElement(ActivityPlan),
     
     var PrintSentEmails = React.createClass({displayName: "printEmailSent",
         render: function() {
-        	  if (sentEmails>0) {
+              if (sentEmails>0) {
                 return (
-                		React.createElement("li", null, 
+                        React.createElement("li", null, 
                          React.createElement("span",null, " (", sentEmails , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )
                         )
                  )
-                }else{ 	
+                }else{  
                     return (React.createElement("li"))
                 }
         }
@@ -407,26 +419,26 @@ React.createElement(ActivityPlan),
     var EmailMeetingReminderWithOutSched = React.createClass({displayName: "Meeting Reminder Email no shched",
         render: function() {
         
-        	if (sentEmails > 0) { 
-        		
+            if (sentEmails > 0) { 
+                
                return(
-            		   React.createElement("li", null, 
+                       React.createElement("li", null, 
                          React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
                           React.createElement("span",null, " (", sentEmails, " sent -",
-                        	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
+                            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
                           )
                        )  
                 )
-        	} else if( thisMeetingType!='MEETINGCANCELED'){
-                         	
-            	return (
+            } else if( thisMeetingType!='MEETINGCANCELED'){
+                            
+                return (
                    React.createElement("li", null, 
                          React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
                             React.createElement("span",null, "")
                    )
                )     
             }else{
-            	return React.createElement("li", null);
+                return React.createElement("li", null);
             }
         }
     });
@@ -437,7 +449,7 @@ React.createElement(ActivityPlan),
             if( thisMeetingType=='<%=YearPlanComponentType.MEETINGCANCELED%>'){
                  return  React.createElement("h3", null,  "MEETING (Canceled) : " ,this.props.id, this.props.meetingTitle)
             }else if(thisMeetingType=='<%=YearPlanComponentType.MEETING%>'){
-            	 return  React.createElement("h3", null,  "MEETING : " ,this.props.id, this.props.meetingTitle)
+                 return  React.createElement("h3", null,  "MEETING : " ,this.props.id, this.props.meetingTitle)
                  
             }else{return React.createElement("h3")}
         }
@@ -445,40 +457,40 @@ React.createElement(ActivityPlan),
     
     var MeetingLocation = React.createClass({displayName: "Location",
         render: function() {
-        	
-        	var meetingLocation= null;
-        	var loc= this.props.location;
- 	
+            
+            var meetingLocation= null;
+            var loc= this.props.location;
+    
             if( locations!=null &&  loc!=null &&  loc!='' ){
                 for(var i=0;i<locations.length;i++){
                     if( locations!=null && locations[i].path== loc)
                      meetingLocation = locations[i];
                 }
             }
-        	
-        	if( meetingLocation!=null){
-			   return React.createElement("p", null, 
-			            
-			                React.createElement("span", null, "Location: "+meetingLocation.name+"  - "),
-			                React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address="+meetingLocation.address, target: "_blank"}, meetingLocation.address+" ")
-			            
-			        )
-        	}else{return React.createElement("p")}
+            
+            if( meetingLocation!=null){
+               return React.createElement("p", null, 
+                        
+                            React.createElement("span", null, "Location: "+meetingLocation.name+"  - "),
+                            React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address="+meetingLocation.address, target: "_blank"}, meetingLocation.address+" ")
+                        
+                    )
+            }else{return React.createElement("p")}
         }
     });
     
     var AttendanceAchievement = React.createClass({displayName: "Attendance and Achievement",
         render: function() {
     
-    		if( this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
-    					&& helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_ATTENDANCE_ID%>')!=-1){
-    			
-    			var isArch = (this.props.data.type == '<%=YearPlanComponentType.MEETING%>') ? this.props.data.meetingInfo.isAchievement : "false" ;
-    			var mName=this.props.data.meetingInfo.name;
-    			
-    			var txt=""; 
-    				
-    			if( helper.attendanceTotal ==null || helper.attendanceTotal==''){ 
+            if( this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
+                        && helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_ATTENDANCE_ID%>')!=-1){
+                
+                var isArch = (this.props.data.type == '<%=YearPlanComponentType.MEETING%>') ? this.props.data.meetingInfo.isAchievement : "false" ;
+                var mName=this.props.data.meetingInfo.name;
+                
+                var txt=""; 
+                    
+                if( helper.attendanceTotal ==null || helper.attendanceTotal==''){ 
                        txt+= "0 present, 0 achievements" ;
                 }else{  
                 
@@ -494,48 +506,48 @@ React.createElement(ActivityPlan),
                           txt+= helper.achievementCurrent +" of " + helper.attendanceTotal + " achievement(s)";
                         }
                 }
-    	     return (
-		           React.createElement("li", null, 
-		            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
-		              React.createElement("li", null, "(",txt,")")
+             return (
+                   React.createElement("li", null, 
+                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
+                      React.createElement("li", null, "(",txt,")")
                   )
-		        );
+                );
           } else{
-    			return  React.createElement("span") ;
-    	  }
+                return  React.createElement("span") ;
+          }
         }
     });
     
     var ActivityPlan = React.createClass({displayName: "Activity Plan",
-    	 render: function() {
-    	    
-    	    	if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID%>')!=-1){
-				  return (  React.createElement("li", null, 
-				     React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+thisMeetingUid+"&isActivity=true"}, "Activity Plan")
-				    )
-			    );
+         render: function() {
+            
+                if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID%>')!=-1){
+                  return (  React.createElement("li", null, 
+                     React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+thisMeetingUid+"&isActivity=true"}, "Activity Plan")
+                    )
+                );
         
-    	 }else{
-    		 return React.createElement("li")
-    	 }
-    	 }
+         }else{
+             return React.createElement("li")
+         }
+         }
     });
     
     var MeetingDate = React.createClass({displayName: "Meeting Date",
         render: function() {
-        	if(thisMeetingDate!=null && thisMeetingDate.getTime() > new Date("1/1/1977").getTime() ){
+            if(thisMeetingDate!=null && thisMeetingDate.getTime() > new Date("1/1/1977").getTime() ){
                 return (
-        		         React.createElement("p", {className: "date"}, 
-        	
-        		              React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
-        		              React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
-        		              React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
-        		            
-        		      )
+                         React.createElement("p", {className: "date"}, 
+            
+                              React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
+                              React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
+                              React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
+                            
+                      )
           
                 );
         }else{
-        	return React.createElement("p" )
+            return React.createElement("p" )
         }
         }
       });
@@ -545,26 +557,26 @@ React.createElement(ActivityPlan),
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
         return (
-        		React.createElement("li", null, 
-        			    React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className:  "icon "+ this.props.extension}, this.props.title), 
-        			    React.createElement("p", {className: "info"}, this.props.description)
-        			  )
+                React.createElement("li", null, 
+                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className:  "icon "+ this.props.extension}, this.props.title), 
+                        React.createElement("p", {className: "info"}, this.props.description)
+                      )
         );
       }
     });
     
     var NavDirectionPrev = React.createClass({displayName: "Prev Date",
         render: function() {
-        	if(helper.prevDate!=0 && helper.prevDate!=null ){
-        	return (
-        		
+            if(helper.prevDate!=0 && helper.prevDate!=null ){
+            return (
+                
 
                   React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+helper.prevDate})
              
              )
-        	}else{
-        		return React.createElement("span");
-        	}
+            }else{
+                return React.createElement("span");
+            }
          
         }
       });
@@ -572,14 +584,14 @@ React.createElement(ActivityPlan),
     
     var NavDirectionNext = React.createClass({displayName: "NavDirectionNext",
         render: function() {
-        	if(nextMeetingDate!=0 && nextMeetingDate!=null ){
-        		return (  
-        			   React.createElement("a", { className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+nextMeetingDate})
-        		
-        			  );
-        	  }else{
-        		  return React.createElement("span", null, "");
-        	  }
+            if(nextMeetingDate!=0 && nextMeetingDate!=null ){
+                return (  
+                       React.createElement("a", { className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+nextMeetingDate})
+                
+                      );
+              }else{
+                  return React.createElement("span", null, "");
+              }
         }
       });
     
@@ -589,35 +601,26 @@ React.createElement(ActivityPlan),
      loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
        
-       $.ajax({
-        url: this.props.url + 
-          (isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
-          (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-          dataType: 'json',
-          cache: false,
-          success: function(data) {
-              this.setState({data:data.yearPlan});
-              
-              
-             
-	          if( isActivNew ==1 ){
-	              isActivNew=2;
-	          }else if( isActivNew ==2 ){
-	              isActivNew=0;
-	          }
-            }.bind(this),
-          error: function(xhr, status, err) {
-            
-          }.bind(this)
-        });
-        },
+        this.dataWorker.getData();
+      },
+      
+      forceReload: function() {
+          this.dataWorker.getData(true);
+      },
+
       getInitialState: function() {
         return {data: []};
       },
       componentDidMount: function() {
-        this.loadCommentsFromServer(1);
-        setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        setInterval( this.checkLocalUpdate, 1000);
+        this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
+            this.setState({
+                data: data.yearPlan
+            });
+        }, 10000);
+        this.dataWorker.start();
+        //this.loadCommentsFromServer(1);
+        //setInterval( this.loadCommentsFromServer, this.props.pollInterval);
+        //setInterval( this.checkLocalUpdate, 1000);
         
        
       },
@@ -626,36 +629,36 @@ React.createElement(ActivityPlan),
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-    	  
-    	
-    	  
+          
+        
+          
           var x;
           var sched;
           
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
             
-        	 
+             
               helper= this.state.data.helper;
                 
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
              
               
-        	  x =  this.state.data.meetingEvents;
+              x =  this.state.data.meetingEvents;
               sched = this.state.data.schedule;
               
               locations= this.state.data.locations;
              
               return (
-                   React.createElement(MeetingList, {data: x, schedule: sched}) 
+                   React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
-        	  helper= this.state.data.helper;
+              helper= this.state.data.helper;
               
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
                   
-        	  x =  this.state.data.meetingEvents;//meetingCanceled;
+              x =  this.state.data.meetingEvents;//meetingCanceled;
                   sched = this.state.data.schedule;
                   
                   /*
@@ -666,7 +669,7 @@ React.createElement(ActivityPlan),
                   locations= this.state.data.locations;
                   
                   return (
-                       React.createElement(MeetingList, {data: x, schedule: sched}) 
+                       React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload}) 
                   );
           }else{
               return React.createElement("div", null, "loading...");
@@ -679,15 +682,19 @@ React.createElement(ActivityPlan),
       getInitialState: function() {
           return {data: this.props.data};
         },
-      onReorder: function (order) {
-          isActivNew=1;
+        
+      componentWillReceiveProps: function(newProps) {
+         this.setState({data: newProps.data});
+      },
 
+      onReorder: function (order) {
+          this.setState({data: null});
       },
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
-                           React.createElement("h6", null, "meeting agenda"), 
-                React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
-                           React.createElement(SortableListItems1, {key: "{this.props.data}", data: this.props.data, onClick: this.alex, onReorder: this.onReorder}), 
+        React.createElement("h6", null, "meeting agenda"), 
+                React.createElement("p", null, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
+        React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
                 React.createElement(AgendaItemAdd)
           ); 
@@ -699,34 +706,34 @@ React.createElement(ActivityPlan),
         if( this.props.data!=null ){
           agendaSched=null;
           return (
-                		  
+                          
 
-    		   React.createElement("ul", null, 
-    		      this.props.data.map((function(item, i) {
-    		      return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber}, 
-    		        React.createElement("div", {className: "wrapper clearfix"},
+               React.createElement("ul", null, 
+                  this.props.data.map((function(item, i) {
+                  return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber}, 
+                    React.createElement("div", {className: "wrapper clearfix"},
 
 
 
                 React.createElement("img", {className: (moment(thisMeetingDate) < moment( new Date()) && (moment(thisMeetingDate).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
 
 
-    		          React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
-    		            React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
-    		          ), 
-    		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
-    		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
-    		            ), 
-    		            React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
-    		              React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
-    		            )
-    		          )
-    		        );
-    		                })) 
-    		            
-    		            
-    		  )
-    		  
+                      React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
+                        React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
+                      ), 
+                        React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
+                        React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
+                        ), 
+                        React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
+                          React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
+                        )
+                      )
+                    );
+                            })) 
+                        
+                        
+              )
+              
 
       );
         }else{
@@ -735,10 +742,10 @@ React.createElement(ActivityPlan),
       },
       componentDidMount: function() {
        try{  
-    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
-    		    replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf()); 
-    	   }
-    	   resizeWindow();
+           if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+                replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf()); 
+           }
+           resizeWindow();
        }catch(err){}
        
        if (Modernizr.touch) {
@@ -748,7 +755,7 @@ React.createElement(ActivityPlan),
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	items: "li:not(.ui-state-disabled)",
+            items: "li:not(.ui-state-disabled)",
             delay:150,
             distance: 5,
             opacity: 0.5 ,
@@ -760,9 +767,9 @@ React.createElement(ActivityPlan),
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            repositionActivity1(thisMeetingRefId , yy);
+            repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
             onReorder(order);
-          }
+          }.bind(this)
         });
       },
       componentWillUpdate: function() {
@@ -773,7 +780,7 @@ React.createElement(ActivityPlan),
 
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	items: "li:not(.ui-state-disabled)",
+            items: "li:not(.ui-state-disabled)",
             delay:150,
             distance: 5,
             opacity: 0.5 ,
@@ -785,23 +792,24 @@ React.createElement(ActivityPlan),
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
-              repositionActivity1(thisMeetingRefId , yy);
+              repositionActivity1(thisMeetingRefId , yy, this.props.forceReload);
               onReorder(order);
-            }
+            }.bind(this)
         });
       }
     });
     
     
     
-      function repositionActivity1(meetingPath,newVals){
+      function repositionActivity1(meetingPath,newVals, callback){
     var x =$.ajax({
     url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
     data: '', 
     dataType: 'html', 
     success: function (data) { 
-    	//location.reload();
-    	vtkTrackerPushAction('MoveAgendas');
+        //location.reload();
+        vtkTrackerPushAction('MoveAgendas');
+        callback();
     },
     error: function (data) { 
     }
@@ -809,14 +817,14 @@ React.createElement(ActivityPlan),
  } 
 
     React.render(
-    		 <%
-    		    String elem = request.getParameter("elem");
-    		    if (elem != null) {
-    		    elem = "&elem=" + elem;
-    		    } else {
-    		    elem = "";
-    		    }
-    		    %>
+             <%
+                String elem = request.getParameter("elem");
+                if (elem != null) {
+                elem = "&elem=" + elem;
+                } else {
+                elem = "";
+                }
+                %>
     React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf"+ getElem(), pollInterval: 10000}),
       document.getElementById('theMeeting')
     );
@@ -837,18 +845,18 @@ React.createElement(ActivityPlan),
    var AgendaItemAdd = React.createClass({displayName: "AgendaItemAdd",
        
        render: function() {
-    	   
-    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED'){
-	         return (
-	             
-	        		 React.createElement("strong", null, 
-	                         React.createElement("a", {"data-reveal-id": "modal_agenda", className: "add-btn"}, 
-	                           React.createElement("i", {className: "icon-button-circle-plus"}), " Add Agenda Item"))
-	                           
-	         );
-    	   }else{
-    		        return React.createElement("strong", null);
-    	   }
+           
+           if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED'){
+             return (
+                 
+                     React.createElement("strong", null, 
+                             React.createElement("a", {"data-reveal-id": "modal_agenda", className: "add-btn"}, 
+                               React.createElement("i", {className: "icon-button-circle-plus"}), " Add Agenda Item"))
+                               
+             );
+           }else{
+                    return React.createElement("strong", null);
+           }
        }
      });
 
@@ -890,18 +898,18 @@ React.createElement(ActivityPlan),
   }
 
   function getParameterByName(name) {
-	    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-	    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-	        results = regex.exec(location.search);
-	    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-	}
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
 
   function getElem(){
-	  var elem = getParameterByName('elem');
-	  if( elem!=null && elem!='')
-		  return "&elem="+elem;
-	  
-	  return "";
+      var elem = getParameterByName('elem');
+      if( elem!=null && elem!='')
+          return "&elem="+elem;
+      
+      return "";
   }
   
   loadNav('planView');

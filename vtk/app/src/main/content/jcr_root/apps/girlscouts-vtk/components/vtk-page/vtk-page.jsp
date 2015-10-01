@@ -4,7 +4,7 @@
 
     HttpSession session = request.getSession();
     String myUrl = request.getRequestURL().toString();
-   System.err.println("***tata123******** "+ myUrl); 
+    
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);
 if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
@@ -19,7 +19,7 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 		e.printStackTrace();
 	}
 	
-System.err.println("tata123*** "+(apiConfig==null))	;
+
 	if( apiConfig==null ){
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
