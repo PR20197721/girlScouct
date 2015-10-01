@@ -30,7 +30,6 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
 			.getLogger(DateImporterTimestamperImpl.class);
 
 	private Date timestamp;
-	// private Session session;
 
 	@Reference
 	private SessionFactory pool;
