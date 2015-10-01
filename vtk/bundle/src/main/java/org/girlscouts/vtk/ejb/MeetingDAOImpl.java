@@ -183,9 +183,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			meeting = (Meeting) ocm.getObject(path);
 
 			if (meeting != null && path != null
-					&& path.contains("/lib/meetings/")) { // cust meeting:
-															// overwrite
-															// meetingInfo
+					&& path.contains("/lib/meetings/")) {
 
 				Meeting globalMeetingInfo = getMeeting(
 						user,
@@ -233,11 +231,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throw new IllegalAccessException();
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
-		/*
-		 * if (!userUtil.hasPermission(troop,
-		 * Permission.PERMISSION_VIEW_MEETING_ID)) throw new
-		 * IllegalAccessException();
-		 */
+
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -454,70 +448,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 
 	}
-
-	/*
-	 * public List<org.girlscouts.vtk.models.Search> getData(User user, Troop
-	 * troop, String _query) throws IllegalAccessException {
-	 * 
-	 * if (user != null && !userUtil.hasPermission(user.getPermissions(),
-	 * Permission.PERMISSION_LOGIN_ID)) throw new IllegalAccessException();
-	 * 
-	 * Session session = null; List<org.girlscouts.vtk.models.Search> matched =
-	 * null; if (!userUtil.hasPermission(troop,
-	 * Permission.PERMISSION_VIEW_MEETING_ID)) throw new
-	 * IllegalAccessException();
-	 * 
-	 * final String RESOURCES_PATH = "resources"; String councilId = null; if
-	 * (troop.getTroop() != null) { councilId =
-	 * Integer.toString(troop.getTroop().getCouncilCode()); } String branch =
-	 * councilMapper.getCouncilBranch(councilId); String resourceRootPath =
-	 * branch + "/en/" + RESOURCES_PATH; matched = new
-	 * ArrayList<org.girlscouts.vtk.models.Search>(); try { session =
-	 * sessionFactory.getSession(); java.util.Map<String, String> map = new
-	 * java.util.HashMap<String, String>(); map.put("fulltext", _query);
-	 * map.put("group.3_path", "/content/dam/girlscouts-vtk/global/resource");
-	 * map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
-	 * map.put("group.1_path", resourceRootPath); map.put("group.p.or", "true");
-	 * // combine this group with OR map.put("p.offset", "0"); // same as
-	 * query.setStart(0) below map.put("p.limit", "2000"); // same as
-	 * query.setHitsPerPage(20) // below com.day.cq.search.Query query =
-	 * qBuilder.createQuery( PredicateGroup.create(map), session);
-	 * query.setExcerpt(true); java.util.Map<String,
-	 * org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
-	 * SearchResult result = query.getResult(); for (Hit hit : result.getHits())
-	 * { try { String path = hit.getPath(); java.util.Map<String, String> exc =
-	 * hit.getExcerpts(); java.util.Iterator itr = exc.keySet().iterator();
-	 * while (itr.hasNext()) { String str = (String) itr.next(); String str1 =
-	 * exc.get(str); }
-	 * 
-	 * ValueMap vp = hit.getProperties(); itr = vp.keySet().iterator(); DocHit
-	 * dh = new DocHit(hit); org.girlscouts.vtk.models.Search search = new
-	 * org.girlscouts.vtk.models.Search(); search.setPath(dh.getURL());
-	 * search.setDesc(dh.getTitle()); search.setContent(dh.getExcerpt());
-	 * search.setSubTitle(dh.getDescription());
-	 * search.setAssetType(AssetComponentType.RESOURCE); if
-	 * (search.getPath().toLowerCase().contains("/aid/"))
-	 * search.setAssetType(AssetComponentType.AID);
-	 * 
-	 * if (unq.containsKey(search.getPath())) { if (search.getContent() != null
-	 * && !search.getContent().trim().equals("")) {
-	 * org.girlscouts.vtk.models.Search _search = unq .get(search.getPath()); if
-	 * (_search.getContent() == null || _search.getContent().trim().equals(""))
-	 * unq.put(search.getPath(), search); } } else unq.put(search.getPath(),
-	 * search);
-	 * 
-	 * } catch (RepositoryException e) {
-	 * 
-	 * e.printStackTrace(); } }
-	 * 
-	 * java.util.Iterator itr = unq.keySet().iterator(); while (itr.hasNext())
-	 * matched.add(unq.get(itr.next()));
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } finally { try { if
-	 * (session != null) sessionFactory.closeSession(session); } catch
-	 * (Exception ex) { ex.printStackTrace(); } } System.err.println("testtt: "+
-	 * matched.size() ); return matched; }
-	 */
 
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
@@ -933,23 +863,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 				if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/categories")) {
-
 					String elem = r.getValue("jcr:title").getString();
-					/*
-					 * if (elem != null) elem = elem.toLowerCase().replace("_",
-					 * "") .replace("/", "");
-					 * 
-					 * categories.put(elem, null);
-					 */
 					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/program-level")) {
-
 					String elem = r.getValue("jcr:title").getString();
-					/*
-					 * if (elem != null) elem = elem.toLowerCase().replace("_",
-					 * "") .replace("/", ""); levels.put(elem, null);
-					 */
 					levels.put(r.getNode().getName(), elem);
 				}
 
@@ -1296,7 +1214,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
-		java.util.List<Meeting> meetings = null; // new java.util.ArrayList();
+		java.util.List<Meeting> meetings = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -1504,12 +1422,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Council getCouncil(User user, Troop troop, String councilId)
 			throws IllegalAccessException {
-		// TODO 9.24.15
-		/*
-		 * if (!userUtil.hasPermission(user.getPermissions(),
-		 * Permission.PERMISSION_VIEW_MEETING_ID)) throw new
-		 * IllegalAccessException();
-		 */
+		// TODO Permission.PERMISSION_VIEW_MEETING_ID
+
 		Session session = null;
 		Council council = null;
 		try {
@@ -1772,7 +1686,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
-	// doX
 	public void updateCustMeetingPlansRef(java.util.List<String> meetings,
 			String path) {
 		Session session = null;
@@ -1807,7 +1720,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	// doX
 	public java.util.List<String> getCustMeetings(String path) {
 		java.util.List<String> toRet = new java.util.ArrayList<String>();
 		Session session = null;
@@ -1914,7 +1826,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return attendance;
 	}
 
-	public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance) {
+	public boolean setAttendance(User user, Troop troop, String mid,
+			Attendance attendance) {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -1965,7 +1878,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return attendance;
 	}
 
-	public boolean setAchievement(User user, Troop troop, String mid, Achievement Achievement) {
+	public boolean setAchievement(User user, Troop troop, String mid,
+			Achievement Achievement) {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -2034,11 +1948,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>(); // refactor -
-															// normalize class
-															// descriptor into
-															// central utility
-															// class
+			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class); // eg
 										// ClassDescriptorUtils.getFullData(),
 										// ClassDescriptorUtils.getMeetingMinimal()
@@ -2109,7 +2019,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return count;
 	}
 
-	public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String _query) throws IllegalAccessException {
+	public List<org.girlscouts.vtk.models.Search> getData(User user,
+			Troop troop, String _query) throws IllegalAccessException {
 		java.util.List data = null, data1 = null, data2 = null, data3 = null;
 		try {
 			data1 = getDataItem(user, troop, _query, null);

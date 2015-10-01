@@ -19,7 +19,7 @@ import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = CouncilRpt.class)
-public class CouncilRpt { // why not CouncilReportDAO?
+public class CouncilRpt {
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -34,7 +34,9 @@ public class CouncilRpt { // why not CouncilReportDAO?
 		java.util.List<String> activities = new java.util.ArrayList<String>();
 		String sql1 = "select jcr:path "
 				+ " from nt:base "
-				+ " where jcr:path like '/vtk"+VtkUtil.getCurrentGSYear()+"/"
+				+ " where jcr:path like '/vtk"
+				+ VtkUtil.getCurrentGSYear()
+				+ "/"
 				+ sfCouncil
 				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.Activity'";
 		try {
@@ -75,10 +77,11 @@ public class CouncilRpt { // why not CouncilReportDAO?
 		java.util.List<org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
 		String sql = "select  name, altered, refId,jcr:path,excerpt(.) "
 				+ " from nt:base "
-				+ " where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)
+				+ " where jcr:path like '"
+				+ VtkUtil.getYearPlanBase(null, null)
 				+ sfCouncil
 				+ "/troops/%' and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
-		
+
 		java.util.List<String> activities = getActivityRpt(sfCouncil);
 		javax.jcr.query.QueryResult result = null;
 		try {
@@ -106,33 +109,38 @@ public class CouncilRpt { // why not CouncilReportDAO?
 					libPath = r.getValue("refId").getString();
 				} catch (Exception e) {
 				}
-				
-				String troopName="";
-				if( libPath==null || libPath.equals("") || 
-						(yearPlanName!=null && yearPlanName.trim().toLowerCase().equals("custom year plan")) ){
-					try{
+
+				String troopName = "";
+				if (libPath == null
+						|| libPath.equals("")
+						|| (yearPlanName != null && yearPlanName.trim()
+								.toLowerCase().equals("custom year plan"))) {
+					try {
 						Node troop = r.getNode().getParent();
-						libPath = troop.getProperty("sfTroopAge").getString().toLowerCase().substring(2);
-						troopName = troop.getProperty("sfTroopName").getString();
-					}catch(Exception e){e.printStackTrace();}
-					
+						libPath = troop.getProperty("sfTroopAge").getString()
+								.toLowerCase().substring(2);
+						troopName = troop.getProperty("sfTroopName")
+								.getString();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
 				}
-				
+
 				if (libPath.contains("brownie"))
 					ageGroup = "brownie";
 				else if (libPath.contains("daisy"))
 					ageGroup = "daisy";
 				else if (libPath.contains("junior"))
 					ageGroup = "junior";
-				
+
 				else if (libPath.contains("senior"))
 					ageGroup = "senior";
 				else if (libPath.contains("cadette"))
 					ageGroup = "cadette";
 				else if (libPath.contains("ambassador"))
 					ageGroup = "ambassador";
-				
-				
+
 				CouncilRptBean crb = new CouncilRptBean();
 				crb.setYearPlanName(yearPlanName);
 				crb.setAltered(isAltered);
@@ -145,7 +153,7 @@ public class CouncilRpt { // why not CouncilReportDAO?
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				
+
 				if (activities.contains(path))
 					crb.setActivity(true);
 				container.add(crb);
@@ -224,7 +232,8 @@ public class CouncilRpt { // why not CouncilReportDAO?
 		java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
 		javax.jcr.Session s = null;
 		String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) "
-				+ " where (isdescendantnode (parent, ['"+ VtkUtil.getYearPlanBase(null, null)
+				+ " where (isdescendantnode (parent, ['"
+				+ VtkUtil.getYearPlanBase(null, null)
 				+ councilId
 				+ "/troops/']))  and "
 				+ " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"
@@ -242,7 +251,7 @@ public class CouncilRpt { // why not CouncilReportDAO?
 				javax.jcr.query.Row r = it.nextRow();
 				String troopId = r.getValue("parent.sfTroopId").getString();
 				String troopName = r.getValue("parent.sfTroopName").getString();
-				container.put(troopId, troopName);	
+				container.put(troopId, troopName);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,30 +273,37 @@ public class CouncilRpt { // why not CouncilReportDAO?
 		for (CouncilRptBean bean : results) {
 			container.put(bean.getLibPath(), bean.getYearPlanName());
 		}
-		
-		if( true) return container;
-		
-		//get latest year plan names from lib
+
+		if (true)
+			return container;
+
+		// get latest year plan names from lib
 		javax.jcr.Session s = null;
-		try{
+		try {
 			s = sessionFactory.getSession();
 			java.util.Iterator itr = container.keySet().iterator();
-			while( itr.hasNext() ){
-				try{
+			while (itr.hasNext()) {
+				try {
 					String path = (String) itr.next();
-					if( path ==null || path.trim().equals("") || !path.contains("/")) continue;
-					Node libYear= s.getNode(path);
-					if( libYear!=null){
-						String yearPlanName=  libYear.getProperty("name").getString();
-						if( yearPlanName!=null && !yearPlanName.trim().equals("")){
+					if (path == null || path.trim().equals("")
+							|| !path.contains("/"))
+						continue;
+					Node libYear = s.getNode(path);
+					if (libYear != null) {
+						String yearPlanName = libYear.getProperty("name")
+								.getString();
+						if (yearPlanName != null
+								&& !yearPlanName.trim().equals("")) {
 							container.put(path, yearPlanName);
 						}
-							
+
 					}
-					
-				}catch(Exception e){e.printStackTrace();}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			try {
@@ -298,29 +314,28 @@ public class CouncilRpt { // why not CouncilReportDAO?
 				ex.printStackTrace();
 			}
 		}
-		
+
 		return container;
 	}
-	
-	
+
 	public java.util.List<CouncilRptBean> getCollection_byYearPlanPath(
 			java.util.List<CouncilRptBean> results, final String yearPlanPath) {
 
 		Collection<CouncilRptBean> container = CollectionUtils.select(results,
 				new Predicate<CouncilRptBean>() {
-					public boolean evaluate(CouncilRptBean o) {					
+					public boolean evaluate(CouncilRptBean o) {
 						return o.getLibPath().equals(yearPlanPath);
 					}
 				});
 		return (java.util.List<CouncilRptBean>) container;
 	}
-	
+
 	public Map<String, String> getDistinctPlanByName(
 			java.util.List<CouncilRptBean> results) {
 		Map<String, String> container = new TreeMap<String, String>();
 		for (CouncilRptBean bean : results) {
 			container.put(bean.getYearPlanName(), bean.getLibPath());
-		}	
-	 return container;
-	}	
+		}
+		return container;
+	}
 }

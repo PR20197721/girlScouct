@@ -1,22 +1,18 @@
 package org.girlscouts.vtk.ejb;
 
-
 public class EmailMeetingReminder {
 
-	private String to, from, cc, bcc, template, html, subj, 
-	emailToGirlParent, emailToSelf, emailToTroopVolunteer,
-	meetingId;
+	private String to, from, cc, bcc, template, html, subj, emailToGirlParent,
+			emailToSelf, emailToTroopVolunteer, meetingId;
 
-
-	public EmailMeetingReminder(String to, String from, String bcc, String subj,
-			String html) {
+	public EmailMeetingReminder(String to, String from, String bcc,
+			String subj, String html) {
 		this.to = to;
 		this.from = from;
 		this.bcc = bcc;
 		this.subj = subj;
 		this.html = html;
 	}
-
 
 	public String getMeetingId() {
 		return meetingId;
@@ -81,6 +77,7 @@ public class EmailMeetingReminder {
 	public void setTemplate(String template) {
 		this.template = template;
 	}
+
 	public String getEmailToGirlParent() {
 		return emailToGirlParent;
 	}
@@ -105,7 +102,6 @@ public class EmailMeetingReminder {
 	public void setEmailToTroopVolunteer(String emailToTroopVolunteer) {
 		this.emailToTroopVolunteer = emailToTroopVolunteer;
 	}
-
 
 	public void addTo(String to) {
 		if (to != null && !to.isEmpty()) {

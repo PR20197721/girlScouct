@@ -30,7 +30,8 @@ public class LocationUtil {
 	private MeetingDAO meetingDAO;
 
 	public void setLocationAllMeetings(User user, Troop troop,
-			String locationPath) throws java.lang.IllegalAccessException, VtkException {
+			String locationPath) throws java.lang.IllegalAccessException,
+			VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -44,12 +45,6 @@ public class LocationUtil {
 		}
 		troopUtil.updateTroop(user, troop);
 
-	}
-
-	public void setMeetingLocation(Troop user, MeetingE meeting,
-			String locationPath) {
-
-		// TODO
 	}
 
 	public void setLocation(User user, Troop troop, Location location)
@@ -71,7 +66,8 @@ public class LocationUtil {
 	}
 
 	public void changeLocation(User user, Troop troop, String dates,
-			String locationRef) throws java.lang.IllegalAccessException, VtkException {
+			String locationRef) throws java.lang.IllegalAccessException,
+			VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))

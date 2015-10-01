@@ -89,42 +89,13 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public Troop getTroop(User user, String councilId, String troopId)
 			throws IllegalAccessException, VtkException {
+			//TODO Permission.PERMISSION_VIEW_YEARPLAN_ID)
 
-/*
-Need to check troop permission.  This breaks parent-admins.
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_VIEW_YEARPLAN_ID))
-			throw new IllegalAccessException();
-*/
 
 		Session mySession = null;
 		Troop troop = null;
 		try {
 			mySession = sessionFactory.getSession();
-			
-			
-			/*
-			
-			File file = new File("/Users/akobovich/Desktop/mycert.jks");
-			FileInputStream is = new FileInputStream(file);
-			String mimeType = "application/octet-stream";
-			Node node = mySession.getNode("/vtk");
-			ValueFactory valueFactory = mySession.getValueFactory();
-			javax.jcr.Binary contentValue = valueFactory.createBinary(is);
-			Node fileNode = node.addNode("alex", "nt:file");
-			fileNode.addMixin("mix:referenceable");
-			Node resNode = fileNode.addNode("jcr:content", "nt:resource");
-			resNode.setProperty("jcr:mimeType", mimeType);
-			resNode.setProperty("jcr:data", contentValue);
-			Calendar lastModified = Calendar.getInstance();
-			lastModified.setTimeInMillis(lastModified.getTimeInMillis());
-			resNode.setProperty("jcr:lastModified", lastModified);
-			mySession.save();
-
-			*/
-			
-			
 			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);

@@ -121,7 +121,7 @@ public class MeetingUtil {
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
 
 			throws IllegalAccessException, VtkException {
-if( plan==null ) return new java.util.TreeMap();
+		if( plan==null ) return new java.util.TreeMap();
 		if (plan.getSchedule() != null || plan.getActivities() == null
 				|| plan.getActivities().size() <= 0) {
 
