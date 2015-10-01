@@ -79,24 +79,22 @@ public class TroopDAOImpl implements TroopDAO {
 
 	@Reference
 	private CouncilDAO councilDAO;
-	
+
 	@Reference
 	private MeetingDAO meetingDAO;
-	
+
 	@Activate
 	void activate() {
 	}
 
 	public Troop getTroop(User user, String councilId, String troopId)
 			throws IllegalAccessException, VtkException {
-			//TODO Permission.PERMISSION_VIEW_YEARPLAN_ID)
-
+		// TODO Permission.PERMISSION_VIEW_YEARPLAN_ID)
 
 		Session mySession = null;
 		Troop troop = null;
 		try {
 			mySession = sessionFactory.getSession();
-			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -115,17 +113,18 @@ public class TroopDAOImpl implements TroopDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
-
 			ocm.refresh(true);
-			//troop = (Troop) ocm.getObject("/vtk/" + councilId + "/troops/"+ troopId);
-			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/"+ troopId);
-			
+			troop = (Troop) ocm.getObject(VtkUtil.getYearPlanBase(user, troop)
+					+ councilId + "/troops/" + troopId);
+
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());
-		
-		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
-			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
-		
+
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
+			throw new VtkException(
+					"Could not complete intended action due to a server error. Code: "
+							+ new java.util.Date().getTime());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -144,13 +143,8 @@ public class TroopDAOImpl implements TroopDAO {
 			throws IllegalAccessException {
 		Session mySession = null;
 		Troop troop = null;
-//TODO 9.24.15
-		/*
-		if (user != null
-				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_VIEW_YEARPLAN_ID))
-			throw new IllegalAccessException();
-*/
+		// TODO Permission.PERMISSION_VIEW_YEARPLAN_ID
+
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -245,7 +239,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	}
 
-		public void rmTroop(Troop troop) throws IllegalAccessException {
+	public void rmTroop(Troop troop) throws IllegalAccessException {
 		Session mySession = null;
 		try {
 
@@ -312,8 +306,8 @@ public class TroopDAOImpl implements TroopDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(UserGlobConfig.class);
 
-			troopGlobConfig = (UserGlobConfig) ocm
-					.getObject("/"+VtkUtil.getYearPlanBase(null, null)+"/global-settings");
+			troopGlobConfig = (UserGlobConfig) ocm.getObject("/"
+					+ VtkUtil.getYearPlanBase(null, null) + "/global-settings");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -623,10 +617,10 @@ public class TroopDAOImpl implements TroopDAO {
 			throws RepositoryException {
 		Node rootNode = session.getRootNode();
 		String[] pathElements = path.split("/");
-		
+
 		String vtkBase = VtkUtil.getYearPlanBase(null, null);
-		vtkBase= vtkBase.replaceAll("/","");	
-		Node currentNode = rootNode.getNode(vtkBase);//"vtk");
+		vtkBase = vtkBase.replaceAll("/", "");
+		Node currentNode = rootNode.getNode(vtkBase);// "vtk");
 		for (int i = 1; i < pathElements.length; i++) {
 			if (!pathElements[i].equals("")) {
 				if (currentNode.hasNode(pathElements[i])) {
@@ -647,7 +641,6 @@ public class TroopDAOImpl implements TroopDAO {
 			java.lang.IllegalAccessException, VtkException {
 
 		modifyTroop(user, troop);
-
 
 		if (troop.getYearPlan().getPath() == null
 				|| !troop.getYearPlan().getPath().startsWith(troop.getPath()))
@@ -743,31 +736,38 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			if (!ocm.objectExists(asset.getPath())) {
-				
-				//check council
-				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
-					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-					
-				}	
-				
-				//check troop
-				if( getTroop( user,  troop.getSfCouncil(),  troop.getSfTroopId()) ==null){
-					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
+
+				// check council
+				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+					throw new VtkException(
+							"Found no council when creating troop# "
+									+ troop.getTroopPath());
+
 				}
-				
-				//check meeting
-				if( meetingDAO.getMeetingE(user, troop, asset.getPath().substring(0,
-						asset.getPath().lastIndexOf("/") ).replace("/assets", "") ) ==null){
-					throw new VtkException("Found no troop when creating asset# "+ troop.getTroopPath());
+
+				// check troop
+				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
+					throw new VtkException(
+							"Found no troop when creating asset# "
+									+ troop.getTroopPath());
 				}
-				
-				
-				if( !mySession.itemExists(asset.getPath().substring(0, asset.getPath().lastIndexOf("/")))){
-				   JcrUtils.getOrCreateByPath(
-						asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),
-						"nt:unstructured", mySession);
+
+				// check meeting
+				if (meetingDAO.getMeetingE(user, troop, asset.getPath()
+						.substring(0, asset.getPath().lastIndexOf("/"))
+						.replace("/assets", "")) == null) {
+					throw new VtkException(
+							"Found no troop when creating asset# "
+									+ troop.getTroopPath());
 				}
-				
+
+				if (!mySession.itemExists(asset.getPath().substring(0,
+						asset.getPath().lastIndexOf("/")))) {
+					JcrUtils.getOrCreateByPath(
+							asset.getPath().substring(0,
+									asset.getPath().lastIndexOf("/")),
+							"nt:unstructured", mySession);
+				}
 
 			}
 			if (!ocm.objectExists(asset.getPath())) {
@@ -813,47 +813,47 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
-				//check council
-				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
-					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-				}	
-				
-				//check troop
-				if( getTroop( user,  troop.getSfCouncil(),  troop.getSfTroopId()) ==null){
-					throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
+				// check council
+				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+					throw new VtkException(
+							"Found no council when creating troop# "
+									+ troop.getTroopPath());
 				}
-				
-				//if( !mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
-				if(  mySession.itemExists(troop.getPath() + "/yearPlan") ){
-				  JcrUtils.getOrCreateByPath(troop.getPath()+ "/yearPlan/meetingEvents", "nt:unstructured", mySession);
-					//ocm.insert( new JcrNode(troop.getPath() + "/yearPlan/meetingEvents") );
-					
-					/*
-					Node root = mySession.getRootNode(); 
-					Node node = root.getNode(troop.getPath() + "/yearPlan/meetingEvents"); 
-					if( node==null )
-						throw new VtkException("Found no parent node "+troop.getPath() + "/yearPlan/meetingEvents  while creating Meeting");
-					Node newNode = node.addNode("meetingEvents");
-					mySession.save();
-					*/
+
+				// check troop
+				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
+					throw new VtkException(
+							"Found no troop when creating sched# "
+									+ troop.getTroopPath());
 				}
-										
+
+				if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
+					JcrUtils.getOrCreateByPath(troop.getPath()
+							+ "/yearPlan/meetingEvents", "nt:unstructured",
+							mySession);
+
+				}
+
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
 			if (!ocm.objectExists(meeting.getPath())) {
 				ocm.insert(meeting);
-			} else  {
+			} else {
 				ocm.update(meeting);
 			}
 			ocm.save();
-			
+
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
-//			org.apache.jackrabbit.ocm.exception.ObjectContentManagerException: Cannot persist current session changes.; nested exception is javax.jcr.InvalidItemStateException: Unable to update a stale item: item.save()
-//			javax.jcr.InvalidItemStateException
-			// skip here because we are getting concurrent modification of the same node (most likely) 
-			// when vtk is calling ajax to this method twice. 
+			// org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:
+			// Cannot persist current session changes.; nested exception is
+			// javax.jcr.InvalidItemStateException: Unable to update a stale
+			// item: item.save()
+			// javax.jcr.InvalidItemStateException
+			// skip here because we are getting concurrent modification of the
+			// same node (most likely)
+			// when vtk is calling ajax to this method twice.
 			// need to fix the ajax call.
 			log.error(">>>> Skipping stale update for " + meeting.getPath());
 		} catch (Exception e) {
@@ -887,22 +887,27 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			if (activity.getPath() == null) {
-				
-				//check council
-				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
-					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-					
-				}	
-				
-				//check troop
-				if( getTroop( user,  troop.getSfCouncil(),  troop.getSfTroopId()) ==null){
-					throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
+
+				// check council
+				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+					throw new VtkException(
+							"Found no council when creating troop# "
+									+ troop.getTroopPath());
+
 				}
-				
-				if( !mySession.itemExists(troop.getYearPlan().getPath()+ "/activities"))
-				  JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath()
-						+ "/activities", "nt:unstructured", mySession);
-				
+
+				// check troop
+				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
+					throw new VtkException(
+							"Found no troop when creating sched# "
+									+ troop.getTroopPath());
+				}
+
+				if (!mySession.itemExists(troop.getYearPlan().getPath()
+						+ "/activities"))
+					JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath()
+							+ "/activities", "nt:unstructured", mySession);
+
 				activity.setPath(troop.getYearPlan().getPath() + "/activities/"
 						+ activity.getUid());
 			}
@@ -944,23 +949,28 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			if (!ocm.objectExists(location.getPath())) {
-				
-				//check council
-				if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
-					throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-					
-				}	
-				
-				//check troop
-				if( getTroop( user,  troop.getSfCouncil(),  troop.getSfTroopId()) ==null){
-					throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
+
+				// check council
+				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+					throw new VtkException(
+							"Found no council when creating troop# "
+									+ troop.getTroopPath());
+
 				}
-				
-				if( !mySession.itemExists(location.getPath().substring(0,location.getPath().lastIndexOf("/"))))
-				   JcrUtils.getOrCreateByPath(
-						location.getPath().substring(0,
-								location.getPath().lastIndexOf("/")),
-						"nt:unstructured", mySession);
+
+				// check troop
+				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
+					throw new VtkException(
+							"Found no troop when creating sched# "
+									+ troop.getTroopPath());
+				}
+
+				if (!mySession.itemExists(location.getPath().substring(0,
+						location.getPath().lastIndexOf("/"))))
+					JcrUtils.getOrCreateByPath(
+							location.getPath().substring(0,
+									location.getPath().lastIndexOf("/")),
+							"nt:unstructured", mySession);
 
 			}
 
@@ -1013,28 +1023,29 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.getYearPlan().setSchedule(null);
 			} else {
 				if (schedule.getPath() == null) {
-	
-					
-					//check council
-					//Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); //0729815
-					if( councilDAO.findCouncil(user, troop.getSfCouncil() )==null ){
-						throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
-						
-					}	
-					
-					//check troop
-					if( getTroop( user,  troop.getSfCouncil(),  troop.getSfTroopId()) ==null){
-						throw new VtkException("Found no troop when creating sched# "+ troop.getTroopPath());
+					if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
+						throw new VtkException(
+								"Found no council when creating troop# "
+										+ troop.getTroopPath());
 					}
-		
-					if( !mySession.itemExists(troop.getYearPlan().getPath()+ "/schedule"))
-					  JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath()
-							+ "/schedule", "nt:unstructured", mySession);
+
+					// check troop
+					if (getTroop(user, troop.getSfCouncil(),
+							troop.getSfTroopId()) == null) {
+						throw new VtkException(
+								"Found no troop when creating sched# "
+										+ troop.getTroopPath());
+					}
+
+					if (!mySession.itemExists(troop.getYearPlan().getPath()
+							+ "/schedule"))
+						JcrUtils.getOrCreateByPath(troop.getYearPlan()
+								.getPath() + "/schedule", "nt:unstructured",
+								mySession);
 					schedule.setPath(troop.getYearPlan().getPath()
 							+ "/schedule");
 				}
-				
-				
+
 				if (ocm.objectExists(schedule.getPath()))
 					ocm.update(schedule);
 				else
@@ -1073,7 +1084,7 @@ public class TroopDAOImpl implements TroopDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
-			
+
 			ocm.update(yearPlan);
 			ocm.save();
 			isUpdated = true;
@@ -1101,13 +1112,15 @@ public class TroopDAOImpl implements TroopDAO {
 			if (troop == null || troop.getYearPlan() == null) {
 				return true;
 			}
-			Council council = councilDAO.findCouncil(user, troop.getSfCouncil()); //0729815
-			if( council==null ){
-				throw new VtkException("Found no council when creating troop# "+ troop.getTroopPath());
+
+			Council council = councilDAO
+					.findCouncil(user, troop.getSfCouncil()); // 0729815
+			if (council == null) {
+				throw new VtkException("Found no council when creating troop# "
+						+ troop.getTroopPath());
 			}
 
 			mySession = sessionFactory.getSession();
-			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -1125,7 +1138,8 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			Comparator<MeetingE> comp = new BeanComparator("id");
-			if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null)
+			if (troop != null && troop.getYearPlan() != null
+					&& troop.getYearPlan().getMeetingEvents() != null)
 				Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
 			// permission to update
@@ -1134,35 +1148,37 @@ public class TroopDAOImpl implements TroopDAO {
 							Permission.PERMISSION_VIEW_YEARPLAN_ID))
 				throw new IllegalAccessException();
 
-		
-			if( !mySession.itemExists("/"+troop.getCouncilPath()+"/troops")) {
-				JcrUtils.getOrCreateByPath("/"+troop.getCouncilPath()+"/troops", "nt:unstructured", mySession);
+			if (!mySession.itemExists("/" + troop.getCouncilPath() + "/troops")) {
+				JcrUtils.getOrCreateByPath("/" + troop.getCouncilPath()
+						+ "/troops", "nt:unstructured", mySession);
 			}
 
 			troop.setLastModified(java.util.Calendar.getInstance());
-			troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the last user who modified this troop data
-
+			troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the
+													// last user who modified
+													// this troop data
 
 			if (!ocm.objectExists(troop.getPath())) {
 				ocm.insert(troop);
 			} else {
 				ocm.update(troop);
 			}
-			ocm.save(); 
+			ocm.save();
 
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
 				troop.setErrCode(null);
-				
-				try{
-					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
+
+				try {
+					modifiedChecker.setModified(user.getSid(), troop
+							.getYearPlan().getPath());
 				} catch (Exception em) {
 					em.printStackTrace();
 				}
-				
+
 				isUpdated = true;
-				troop.setRefresh(true);				
+				troop.setRefresh(true);
 			} catch (Exception e) {
 
 				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
@@ -1170,10 +1186,12 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);
 			}
-			
+
 		} catch (VtkException ex) {
-			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
-			
+			throw new VtkException(
+					"Could not complete intended action due to a server error. Code: "
+							+ new java.util.Date().getTime());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1289,8 +1307,10 @@ public class TroopDAOImpl implements TroopDAO {
 		boolean isUpdated = false;
 		try {
 			mySession = sessionFactory.getSession();
-			if( mySession.itemExists(troop.getPath() + "/yearPlan/meetingEvents")){
-				mySession.removeItem(troop.getPath() + "/yearPlan/meetingEvents");
+			if (mySession.itemExists(troop.getPath()
+					+ "/yearPlan/meetingEvents")) {
+				mySession.removeItem(troop.getPath()
+						+ "/yearPlan/meetingEvents");
 				mySession.save();
 			}
 			isUpdated = true;
@@ -1330,11 +1350,12 @@ public class TroopDAOImpl implements TroopDAO {
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingCanceled")) {
-				
-				if(!mySession.itemExists(troop.getPath()+ "/yearPlan/meetingCanceled"))
-				  JcrUtils.getOrCreateByPath(troop.getPath()
-						+ "/yearPlan/meetingCanceled", "nt:unstructured",
-						mySession);
+
+				if (!mySession.itemExists(troop.getPath()
+						+ "/yearPlan/meetingCanceled"))
+					JcrUtils.getOrCreateByPath(troop.getPath()
+							+ "/yearPlan/meetingCanceled", "nt:unstructured",
+							mySession);
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingCanceled/" + meeting.getUid());
 			}

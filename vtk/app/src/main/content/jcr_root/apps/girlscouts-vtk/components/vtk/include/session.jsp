@@ -144,7 +144,7 @@
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
         session.setAttribute("showGamma", null);
 	}
-	
+	/*
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
@@ -155,7 +155,7 @@
 	if(request.getParameter("reload")!=null){
 		troop.setRefresh(true);
 	}
-
+*/
     //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 	if (troop == null || troop.isRefresh() ) {
 		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {

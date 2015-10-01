@@ -486,42 +486,8 @@
 				}
 			}
 
-		} else if (request.getParameter("test") != null) {
-
-			ObjectMapper mapper = new ObjectMapper();
-
-			org.girlscouts.vtk.salesforce.Troop prefTroop = null;
-			if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-				prefTroop = apiConfig.getTroops().get(0);
-			}
-			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-				if (apiConfig.getTroops().get(ii).getTroopId()
-						.equals(troop.getSfTroopId())) {
-					prefTroop = apiConfig.getTroops().get(ii);
-					break;
-				}
-			}
-
-			if (userUtil.isCurrentTroopId_NoRefresh(troop,
-					user.getSid())) {
-				return;
-			} else {
-				;
-			}
-
-			troop = troopUtil.getTroop(user,
-					"" + prefTroop.getCouncilCode(),
-					prefTroop.getTroopId());
-			session.setAttribute("VTK_troop", troop);
-
-			//if alter = timestamp change
-			out.println(mapper.writeValueAsString(troop));
-
-		} else if (request.getParameter("test1") != null) {
-
-		} else if (request.getParameter("editMtLogo") != null) {
-
-			;
+		
+		
 
 		} else if (request.getParameter("updateCouncilMilestones") != null) {
 

@@ -147,8 +147,8 @@ public class TroopUtil {
 		if (council == null)
 			return null;
 		troop = new Troop(troopId);
-		//troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
-		troop.setPath( VtkUtil.getYearPlanBase(user, troop) + councilId + "/troops/" + troopId);
+		troop.setPath(VtkUtil.getYearPlanBase(user, troop) + councilId
+				+ "/troops/" + troopId);
 		return troop;
 
 	}
@@ -180,7 +180,8 @@ public class TroopUtil {
 
 	public void selectYearPlan_vtk1(User user, Troop troop,
 			String yearPlanPath, String planName)
-			throws java.lang.IllegalAccessException, VtkYearPlanChangeException, VtkException {
+			throws java.lang.IllegalAccessException,
+			VtkYearPlanChangeException, VtkException {
 
 		// permission to update
 		if (troop != null
@@ -349,16 +350,12 @@ public class TroopUtil {
 			if (yearPlanPath == null || yearPlanPath.equals(""))
 				return new YearPlan();
 			plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
-			
-		
 			plan.setRefId(yearPlanPath);
-			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,troop, 
-					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
+			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
+					troop, yearPlanPath.endsWith("/meetings/") ? yearPlanPath
 							: (yearPlanPath + "/meetings/")));
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
-			
-		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -470,14 +467,10 @@ public class TroopUtil {
 	public String editCustActivity(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request)
 			throws IllegalAccessException, ParseException, VtkException {
-		
-		
 		if (troop != null
-						&& !userUtil.hasPermission(troop,
-								Permission.PERMISSION_EDIT_ACTIVITY_ID))
-					throw new IllegalAccessException();
-
-		
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_ACTIVITY_ID))
+			throw new IllegalAccessException();
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		String vtkErr = "";
@@ -520,7 +513,8 @@ public class TroopUtil {
 	}
 
 	public void impersonate(User user, Troop nothing, String councilCode,
-			String troopId, HttpSession session) throws IllegalAccessException, VtkException {
+			String troopId, HttpSession session) throws IllegalAccessException,
+			VtkException {
 
 		Troop new_troop = getTroop(user, councilCode + "", troopId);
 		new_troop.setTroop(nothing.getTroop());
@@ -674,7 +668,6 @@ public class TroopUtil {
 		}
 
 		if (yearPlanPath != null && !yearPlanPath.equals("")) {
-
 			troop.getYearPlan().setMeetingEvents(
 					selectYearPlan_newMeetingPlan(user, troop, newYearPlan));
 		} else {
@@ -693,15 +686,14 @@ public class TroopUtil {
 					troopDAO.removeActivity(user, troop, troop.getYearPlan()
 							.getActivities().get(i));
 		}
-		
-   if( yearPlanPath==null || yearPlanPath.trim().equals("")) //custom year plan //08262015
-	   troop.getYearPlan().setAltered("true");//08262015
-   else
-		troop.getYearPlan().setAltered("false");
- 
-		//troop.getYearPlan().setAltered("false");
+
+		if (yearPlanPath == null || yearPlanPath.trim().equals("")) // custom
+																	// year plan
+			troop.getYearPlan().setAltered("true");
+		else
+			troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
-	troop.getYearPlan().setRefId(yearPlanPath);	//08262015
+		troop.getYearPlan().setRefId(yearPlanPath);
 		troop.getYearPlan().setDbUpdate(true);
 		troopDAO.removeMeetings(user, troop);
 		troopDAO.updateTroop(user, troop);
