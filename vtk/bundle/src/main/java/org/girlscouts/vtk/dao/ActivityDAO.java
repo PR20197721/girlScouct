@@ -10,7 +10,7 @@ public interface ActivityDAO {
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws IllegalStateException, IllegalAccessException;
 
-	public boolean isActivity(User user, String uuid)
+	public boolean isActivity(User user, Troop troop ,String uuid)
 			throws IllegalStateException, IllegalAccessException;
 
 	public Activity findActivity(User user, String path)

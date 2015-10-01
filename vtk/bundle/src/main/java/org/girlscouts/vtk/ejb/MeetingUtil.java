@@ -335,12 +335,6 @@ if( plan==null ) return new java.util.TreeMap();
 	public void changeMeetingPositions(User user, Troop troop,
 			String newPositions) throws IllegalAccessException, VtkException {
 
-		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_EDIT_MEETING_ID)) {
-			troop.setErrCode("112");
-			throw new IllegalAccessException();
-		}
-
 		java.util.List<Integer> newMeetingSetup = new java.util.ArrayList();
 		java.util.StringTokenizer t = new java.util.StringTokenizer(
 				newPositions, ",");
@@ -372,12 +366,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		java.util.Calendar startTime = Calendar.getInstance();
 		startTime.setTimeInMillis(_startTime);
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
@@ -413,12 +401,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_RM_ACTIVITY_ID))
 			throw new IllegalAccessException();
-
-		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
-
 		java.util.List<Activity> activities = troop.getYearPlan()
 				.getActivities();
 		for (int i = 0; i < activities.size(); i++) {
@@ -439,11 +421,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
@@ -471,12 +448,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-
-			throw new java.lang.IllegalAccessException();
-		}
 
 		// TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -531,11 +502,6 @@ if( plan==null ) return new java.util.TreeMap();
 						Permission.PERMISSION_CREATE_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
 
@@ -580,11 +546,6 @@ if( plan==null ) return new java.util.TreeMap();
 						Permission.PERMISSION_REMOVE_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
 
 			if (troop.getYearPlan().getMeetingEvents().get(i).getPath()
@@ -625,11 +586,6 @@ if( plan==null ) return new java.util.TreeMap();
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
 
 			if (troop.getYearPlan().getMeetingEvents().get(i).getPath()
@@ -661,11 +617,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		MeetingE meeting = null;
 		for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++)
@@ -704,11 +655,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
@@ -775,11 +721,6 @@ if( plan==null ) return new java.util.TreeMap();
 						Permission.PERMISSION_CREATE_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
@@ -838,11 +779,6 @@ if( plan==null ) return new java.util.TreeMap();
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_REMOVE_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();

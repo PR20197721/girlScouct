@@ -117,10 +117,7 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
+
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
@@ -173,10 +170,6 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 		
 		// org Dates
 		String dates = "";

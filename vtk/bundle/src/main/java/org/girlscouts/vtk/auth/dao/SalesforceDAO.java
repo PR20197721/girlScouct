@@ -94,7 +94,7 @@ public class SalesforceDAO {
 			}
 
 			log.debug(">>>>> " + rsp);
-			System.err.println("getUSER resp: " + rsp);
+System.err.println("getUSER resp: " + rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);

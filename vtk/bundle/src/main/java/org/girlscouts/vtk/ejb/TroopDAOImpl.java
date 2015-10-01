@@ -232,11 +232,6 @@ Need to check troop permission.  This breaks parent-admins.
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		Session mySession = null;
 		String fmtYearPlanPath = yearPlanPath;
 		YearPlan plan = null;

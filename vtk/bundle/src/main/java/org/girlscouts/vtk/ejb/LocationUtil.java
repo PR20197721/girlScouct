@@ -36,11 +36,6 @@ public class LocationUtil {
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		YearPlan plan = troop.getYearPlan();
 		List<MeetingE> meetings = plan.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
@@ -64,11 +59,6 @@ public class LocationUtil {
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-
 		YearPlan plan = troop.getYearPlan();
 		java.util.List<Location> locations = plan.getLocations();
 		if (locations == null) {
@@ -86,11 +76,6 @@ public class LocationUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		java.util.List<String> processedMeetings = new java.util.ArrayList();
 		java.util.List<Activity> activities = troop.getYearPlan()
@@ -148,11 +133,6 @@ public class LocationUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
 
 		YearPlan plan = troop.getYearPlan();
 

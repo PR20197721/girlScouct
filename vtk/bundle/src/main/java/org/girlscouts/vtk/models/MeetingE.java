@@ -8,7 +8,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node
+@Node(jcrMixinTypes="mix:created, mix:lastModified")
 public class MeetingE extends YearPlanComponent implements Serializable {
 	// This class wraps the web meeting object to implement VTK meeting structure
 

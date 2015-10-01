@@ -168,10 +168,6 @@ public class TroopUtil {
 						Permission.PERMISSION_EDIT_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++)
@@ -191,11 +187,6 @@ public class TroopUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			return;
-		}
 
 		YearPlan oldPlan = troop.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
@@ -548,17 +539,12 @@ public class TroopUtil {
 			VtkYearPlanChangeException {
 
 		Cal cal = new Cal();
-		// permission to update
+
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-/*
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			return null;
-		}
-*/
+
 		YearPlan oldPlan = troop.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
 
@@ -615,14 +601,6 @@ public class TroopUtil {
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			return null;
-		}
-		
-		
-		
-		
 		YearPlan oldPlan = troop.getYearPlan();
 		// SORT Meetings - new
 		newYearPlan.setMeetingEvents(VtkUtil.sortMeetingsById(newYearPlan
@@ -672,11 +650,6 @@ public class TroopUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			return;
-		}
 
 		YearPlan oldPlan = troop.getYearPlan();
 		String orgSchedDates = "";

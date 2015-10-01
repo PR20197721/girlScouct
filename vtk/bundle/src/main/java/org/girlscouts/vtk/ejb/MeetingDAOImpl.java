@@ -281,11 +281,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_CREATE_MEETING_ID))
 				throw new IllegalAccessException();
-			/*
-			 * if (user != null && !userUtil.isCurrentTroopId(troop,
-			 * user.getSid())) { troop.setErrCode("112"); throw new
-			 * IllegalStateException(); }
-			 */
+
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -338,11 +334,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-			/*
-			 * if (user != null && !userUtil.isCurrentTroopId(troop,
-			 * user.getSid())) { troop.setErrCode("112"); throw new
-			 * IllegalStateException(); }
-			 */
+
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -396,10 +388,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_ACTIVITY_ID))
 			throw new IllegalAccessException();
-		/*
-		 * if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid()))
-		 * { troop.setErrCode("112"); throw new IllegalStateException(); }
-		 */
 
 		java.util.List<Activity> activities = meeting.getActivities();
 		activities.add(activity);
@@ -1614,10 +1602,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-		/*
-		 * if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid()))
-		 * { troop.setErrCode("112"); throw new IllegalStateException(); }
-		 */
+
 		try {
 			session = sessionFactory.getSession();
 			boolean isTag = false;
@@ -2013,10 +1998,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalStateException();
-		}
+
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
