@@ -4,7 +4,7 @@
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = planView.getMeeting();
 
-
+/*
 if( attendance !=null && attendance.getUsers()!=null ){
     attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
     attendanceTotal= attendance.getTotal();
