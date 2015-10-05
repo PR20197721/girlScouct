@@ -19,7 +19,8 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
   mapFullText.put("boolproperty","jcr:content/hideInNav");
   mapFullText.put("boolproperty.value","false");
   mapFullText.put("p.limit","-1");
-  mapFullText.put("orderby","type");
+  mapFullText.put("orderby","@jcr:content/cq:lastModified");	// order by latest first (pbae)
+  mapFullText.put("orderby.sort", "desc"); 
   PredicateGroup pg=PredicateGroup.create(mapFullText);
   Query query = queryBuilder.createQuery(pg,session);
   query.setExcerpt(true);
@@ -95,6 +96,11 @@ hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
                 <% } %>
                 <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
                 <p><%=docHit.getExcerpt()%></p>
+                <% 
+                	// show last modified to confirm result sorting (pbae)
+                	// String lastModified = docHit.getProperties().get("cq:lastModified").toString();
+                	// out.println(lastModified); 
+                %>
             </li>
         <% } catch(Exception w) {}
     } %>
