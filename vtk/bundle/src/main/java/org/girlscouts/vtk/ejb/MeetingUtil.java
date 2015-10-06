@@ -88,6 +88,7 @@ public class MeetingUtil {
 				int newpos = newPoss.indexOf(i + 1);
 				meeting.setId(newpos);
 				meeting.setDbUpdate(true);
+				
 				newMeeting.set(newpos, meeting);
 
 			}

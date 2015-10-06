@@ -8,7 +8,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes="mix:created, mix:lastModified")
+@Node
 public class MeetingE extends YearPlanComponent implements Serializable {
 	// This class wraps the web meeting object to implement VTK meeting structure
 
@@ -39,7 +39,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	@Field
 	private String emlTemplate;
 
-	@Collection
+	@Collection 
 	java.util.List<Asset> assets;
 	
 	@Collection
@@ -49,8 +49,10 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	java.util.Date lastAssetUpdate;
 	
 	
-	@Bean( autoUpdate = false)  Attendance attendance;
-	@Bean( autoUpdate = false) Achievement achievement;
+	@Bean( autoUpdate = false)  
+	Attendance attendance;
+	@Bean( autoUpdate = false) 
+	Achievement achievement;
 	
     private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
@@ -201,6 +203,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setAchievement(Achievement achievement) {
 		this.achievement = achievement;
 	}
+	
 	
 	
 	

@@ -1,0 +1,19 @@
+<!DOCTYPE jackrabbit-ocm PUBLIC "-//The Apache Software Foundation//DTD
+Repository//EN"
+"http://jackrabbit.apache.org/dtd/jackrabbit-ocm-1.5.dtd">
+<jackrabbit-ocm>
+	<class-descriptor jcrSuperTypes="nt:base" 
+discriminator="true"
+		className="org.girlscouts.vtk.models.MeetingE" jcrType="nt:unstructured">
+		<field-descriptor fieldName="path" jcrName="path" path="true" jcrType="String"/>
+		<field-descriptor fieldName="id" jcrType="Long"/>
+		<field-descriptor fieldName="uid" jcrType="String" jcrName="id" id="true" />
+		
+		<field-descriptor fieldName="locationRef" jcrType="String" />
+		<field-descriptor fieldName="refId" jcrType="String"/>
+		<field-descriptor fieldName="cancelled" jcrType="String"  />
+		<field-descriptor fieldName="emlTemplate" jcrType="String" />
+		<field-descriptor fieldName="lastAssetUpdate" jcrType="Date"  />
+		
+	</class-descriptor>
+</jackrabbit-ocm>

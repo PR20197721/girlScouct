@@ -6,7 +6,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.AssetComponentType;
 
-@Node(jcrMixinTypes="mix:created, mix:lastModified, mix:referenceable")
+@Node
 public class Asset implements Serializable {
 
 	public Asset() {

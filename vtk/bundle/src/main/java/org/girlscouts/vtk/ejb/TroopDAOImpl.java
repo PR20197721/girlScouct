@@ -2,6 +2,9 @@ package org.girlscouts.vtk.ejb;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.AnnotatedElement;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -28,6 +31,8 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
+import org.apache.jackrabbit.ocm.mapper.impl.digester.DigesterMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
@@ -35,6 +40,7 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
@@ -46,8 +52,10 @@ import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.MeetingE1;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -639,7 +647,7 @@ public class TroopDAOImpl implements TroopDAO {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException, VtkException {
-
+System.err.println("tata updateTroop.....");
 		modifyTroop(user, troop);
 
 		if (troop.getYearPlan().getPath() == null
@@ -802,14 +810,30 @@ public class TroopDAOImpl implements TroopDAO {
 		boolean isUpdated = false;
 		try {
 			mySession = sessionFactory.getSession();
+			
+			
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class );
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
-					mapper);
-
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
+			
+			
+			
+			/*
+			String[] files = {
+				      "/Users/akobovich/allGit/girlscouts/vtk/alex.xml"
+				  };
+			//ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, files);
+			Mapper mapper=new DigesterMapperImpl(files);  
+			ObjectContentManager ocm=new ObjectContentManagerImpl(mySession,mapper);  
+			*/
+			
+			
+			
+			
+			
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
@@ -837,12 +861,72 @@ public class TroopDAOImpl implements TroopDAO {
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
+			
+			
+			
+			
+			/*
+			//meeting.getClass().getPackage().getName()
+			
+			System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[0].getName());
+			for(int y=0;y<meeting.getClass().getDeclaredFields().length;y++){
+				System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[y].getName());
+				if("assets".equals(meeting.getClass().getDeclaredFields()[y].getName())){
+					try{ 
+						
+						
+						System.err.println(" testerxx: "+meeting.getClass().getDeclaredFields()[y].getAnnotations()[0]);
+						org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection collection = (org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection)meeting.getClass().getDeclaredFields()[y].getAnnotations()[0];
+						System.err.println( collection.collectionConverter() );
+					}catch(Exception e){e.printStackTrace();}
+				}
+			}
+			*/
+			
+			
+			System.err.println("YESSSS........"+ (ocm==null) +" : "+ meeting.getPath() +" : "+ meeting.getId() +" : "+ meeting.getUid());
+			
+			
+		
+	
 			if (!ocm.objectExists(meeting.getPath())) {
+	System.err.println("inserting...");		
+	
+				classes = new ArrayList<Class>();
+				classes.add(MeetingE1.class );
+				classes.add(Asset.class);
+				classes.add(SentEmail.class);
+				mapper = new AnnotationMapperImpl(classes);
+				ocm = new ObjectContentManagerImpl(mySession,	mapper);
 				ocm.insert(meeting);
 			} else {
-				ocm.update(meeting);
+	System.err.println("Updating...");			
+				//-ocm.update(meeting);
+	
+	classes = new ArrayList<Class>();
+	classes.add(MeetingE1.class );
+	//classes.add(Asset.class);
+	//classes.add(SentEmail.class);
+	mapper = new AnnotationMapperImpl(classes);
+	ocm = new ObjectContentManagerImpl(mySession,	mapper);
+	
+	
+	MeetingE1 test= new MeetingE1();
+	test.setPath(meeting.getPath());
+	test.setUid(meeting.getUid() );
+	test.setId(meeting.getId());
+	ocm.update(test);
+	
+	
+	
+	
 			}
+	System.err.println("Saving...");		
 			ocm.save();
+System.err.println("Saved!");
+	
+
+
 
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
