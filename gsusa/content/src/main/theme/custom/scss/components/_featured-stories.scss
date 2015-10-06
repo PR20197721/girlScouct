@@ -103,7 +103,7 @@ div.featured-stories {
       }
       .contents {
         @include grid-column(22, $center:true, $collapse:true);
-        margin-top: rem-calc(10);
+        margin-top: rem-calc(13);
       }
       &.no-padding {
         .bg-wrapper {
@@ -121,6 +121,9 @@ div.featured-stories {
         }
       }
       &.colorless {
+        .header {
+          padding: 0;
+        }
         .left-wrapper {
           & * {color: $white;}
           text-align: center;
@@ -134,7 +137,6 @@ div.featured-stories {
           [class^="icon-"] {
             float: none;
             display: block;
-            margin-bottom: rem-calc(38);
             font-size: rem-calc(60);
             margin-top: rem-calc(14);
           }
@@ -164,7 +166,8 @@ div.featured-stories {
         .icon-cross {
           @media #{$medium-up} {
             position: absolute;
-            right: 0;
+            right: rem-calc(15);
+            top: rem-calc(15);
           }
         }
       }
