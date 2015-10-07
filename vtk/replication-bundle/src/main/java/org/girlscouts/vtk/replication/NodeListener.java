@@ -60,7 +60,7 @@ public class NodeListener implements EventListener {
     
     public void onEvent(EventIterator iter) {
     	
-    	
+    	/*
     	while( iter.hasNext()){
     		System.err.println("tataxx: :"+iter.next());
     	}
@@ -74,7 +74,7 @@ public class NodeListener implements EventListener {
 				e.printStackTrace();
 			}
     	}
-    	
+    	*/
     	
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
@@ -83,7 +83,7 @@ public class NodeListener implements EventListener {
         for (NodeEvent event : events) {
             try {
 
-            	
+   /*         	
 //-----------------------
  System.err.println("tatat: "+ event.getPath()+" : "+ event.getType() 	);  
  if (event.getType() == Constants.EVENT_UPDATE) 
@@ -91,7 +91,7 @@ public class NodeListener implements EventListener {
  if (event.getType() == Constants.EVENT_REMOVE)
 	 System.err.println("tatat EVENT_REMOVE");
 //-----------------------
- 
+ */
  
  
  
