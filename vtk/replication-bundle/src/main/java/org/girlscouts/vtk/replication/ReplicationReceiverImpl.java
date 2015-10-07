@@ -206,11 +206,11 @@ public class ReplicationReceiverImpl
         log.error("Even there is error trying to save the error log node. " + e1.getMessage());
       }	
     }
+
+    // Comment out so flush agent won't be triggerred for /vtk<year> since it is not cached.
+    //Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
+    //this.eventAdmin.postEvent(replicationEvent);
     /* Girl Scouts Customization END */
-
-
-    Event replicationEvent = new ReplicationEvent(action).toNonDistributableEvent();
-    this.eventAdmin.postEvent(replicationEvent);
   }
 
   private void writeFailedPaths(List<String> failedPaths, Writer writer) throws IOException {

@@ -126,6 +126,9 @@
   left: 50%;
   z-index: 10;
 }
+.show-for-small.inner-join-volunteer > div:nth-of-type(1) {
+  margin-top: rem-calc(20);
+}
 .footer-volunteer,
 .footer-join {
   @include grid-column(24);

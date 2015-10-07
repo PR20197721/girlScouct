@@ -19,7 +19,8 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
   mapFullText.put("boolproperty","jcr:content/hideInNav");
   mapFullText.put("boolproperty.value","false");
   mapFullText.put("p.limit","-1");
-  mapFullText.put("orderby","type");
+  mapFullText.put("orderby","@jcr:content/cq:lastModified");	// order by latest first (pbae)
+  mapFullText.put("orderby.sort", "desc"); 
   PredicateGroup pg=PredicateGroup.create(mapFullText);
   Query query = queryBuilder.createQuery(pg,session);
   query.setExcerpt(true);
@@ -52,10 +53,13 @@ if (null==searchIn){
   searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
+// pbae: adding ~ to enable stemming search
+final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "") + "~";
+final String escapedQueryPlain = xssAPI.encodeForHTML(q != null ? q : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
 pageContext.setAttribute("escapedQuery", escapedQuery);
+pageContext.setAttribute("escapedQueryPlain", escapedQueryPlain);
 pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
 
 String theseDamDocuments = properties.get("docusrchpath","");
@@ -99,7 +103,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     </fmt:message>
 <% } else { %>
     <p><strong>
-        <%= numberOfResults%> <%= properties.get("resultPagesText","results for")%> "${escapedQuery}"
+        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQueryPlain}"
     </strong></p>
     <ul class="search-row">
 <%
@@ -119,6 +123,11 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
                 <% } %>
                 <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
                 <p><%=docHit.getExcerpt()%></p>
+                <% 
+                	// show last modified to confirm result sorting (pbae)
+                	// String lastModified = docHit.getProperties().get("cq:lastModified").toString();
+                	// out.println(lastModified); 
+                %>
             </li>
         <% } catch(Exception w) {}
     } %>
