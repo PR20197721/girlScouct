@@ -1,0 +1,9 @@
+this is a load test written using the Gatling framework.  In addition to running tests, Gatling can also act as a recording proxy so you can easily record yourself as you browse to quickly make new tests.
+
+To learn more about Gatling:
+    http://gatling.io/docs/2.1.7/quickstart.html#quickstart
+
+to run the test:
+    mvn compile
+    mvn gatling:execute
+
