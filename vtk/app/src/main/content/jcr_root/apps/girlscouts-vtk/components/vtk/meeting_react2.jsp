@@ -187,6 +187,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
            this.setState({ show: !this.state.show });
          },
          render: function() {
+   if(this.props.data==null){return React.createElement("section");}     	 
            var commentNodes = this.props.data.map(function (comment ,i ) {
              var thisAssetExtension = "pdf";
              var thisAssetExtensionPattern=/.*\.(.+)$/;

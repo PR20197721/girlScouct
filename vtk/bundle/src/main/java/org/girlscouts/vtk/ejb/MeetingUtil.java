@@ -433,6 +433,9 @@ public class MeetingUtil {
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getPath().equals(fromPath)) {
 
+				if( meeting.getAssets()!=null)
+				  for(int y=0;y<meeting.getAssets().size();y++)
+					troopDAO.removeAsset(user, troop, meeting.getAssets().get(y));
 				meeting.setRefId(toPath);
 				meeting.setAssets(null);
 				meeting.setLastAssetUpdate(null); // auto load assets for new
@@ -908,10 +911,12 @@ System.err.println("tata meetingUtil planView START....");
 			
 			
 		if( isUpdateAssetInDb ) {
+			
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
 			if (meeting.getLastAssetUpdate() == null
 					|| meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+			
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
 
@@ -940,14 +945,11 @@ System.err.println("tata meetingUtil planView START....");
 
 				// merge lists resources
 				_aidTags.addAll(__resources);
-
-				meeting.setLastAssetUpdate(new java.util.Date());
-				meeting.setAssets(_aidTags);
-System.err.println("tata new Assets MeetingUtil.planView.....");	
-
 				
-System.err.println("tata updating DB from MeetingUtil.planView..........");					
-					troopUtil.updateTroop(user, troop);
+				meeting.setLastAssetUpdate(new java.util.Date());
+
+				meeting.setAssets(_aidTags);					
+				 troopUtil.updateTroop(user, troop);
 				
 			}
 		}
