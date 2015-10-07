@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
@@ -59,23 +58,7 @@ public class NodeListener implements EventListener {
 
     
     public void onEvent(EventIterator iter) {
-    	
-    	/*
-    	while( iter.hasNext()){
-    		System.err.println("tataxx: :"+iter.next());
-    	}
-    	
-    	
-    	while( iter.hasNext()){
-    		try {
-				System.err.println("tatayy: :"+iter.nextEvent().getPath() );
-			} catch (RepositoryException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    	*/
-    	
+
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         String affectedTroop = null;
         String affectedCouncilInfo = null;
@@ -83,27 +66,14 @@ public class NodeListener implements EventListener {
         for (NodeEvent event : events) {
             try {
 
-   /*         	
-//-----------------------
- System.err.println("tatat: "+ event.getPath()+" : "+ event.getType() 	);  
- if (event.getType() == Constants.EVENT_UPDATE) 
-	 System.err.println("tatat EVENT_UPDATE"); 
- if (event.getType() == Constants.EVENT_REMOVE)
-	 System.err.println("tatat EVENT_REMOVE");
-//-----------------------
- */
- 
- 
- 
                 String path = event.getPath();
                 if (path.endsWith("jcr:content")) {
                     continue;
                 }
               
                 int type = event.getType();
-               
-                
-                if (type == Constants.EVENT_UPDATE) {              	
+                if (type == Constants.EVENT_UPDATE) {
+                	
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, opts);
