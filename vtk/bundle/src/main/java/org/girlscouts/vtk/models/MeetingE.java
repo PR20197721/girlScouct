@@ -39,7 +39,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	@Field
 	private String emlTemplate;
 
-	@Collection 
+	@Collection ( autoUpdate = false) 
 	java.util.List<Asset> assets;
 	
 	@Collection

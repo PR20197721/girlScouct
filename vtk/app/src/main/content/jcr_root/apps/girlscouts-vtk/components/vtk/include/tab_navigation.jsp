@@ -8,6 +8,8 @@
 //out.println("***** "+ VtkUtil.getYearPlanBase(user, troop) );
 //out.println(troop.getTroop().getPermissionTokens());
 String activeTab=request.getParameter("activeTab");
+
+//PlanView planView = meetingUtil.planView(user, troop, request);
 PlanView planView = meetingUtil.planView(user, troop, request);
 boolean isParent= false;
 if( troop.getTroop().getRole() !=null &&  troop.getTroop().getRole().equals("PA") ){
@@ -204,7 +206,7 @@ if (troops != null && troops.size() > 1) {
            
             <ul class="dropdown">
             <% if("planView".equals(activeTab)) {
-               switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+               switch(planView.getYearPlanComponent().getType() ) {
                 case ACTIVITY:
                   Activity activity = (Activity)planView.getYearPlanComponent();
                   if( hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>

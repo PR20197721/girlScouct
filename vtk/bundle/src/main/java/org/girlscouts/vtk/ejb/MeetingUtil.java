@@ -75,7 +75,8 @@ public class MeetingUtil {
 	public java.util.List<MeetingE> updateMeetingPos(
 			java.util.List<MeetingE> orgMeetings,
 			java.util.List<Integer> newPoss) {
-
+		
+		
 		java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();// orgMeetings.size());
 		try {
 
@@ -83,9 +84,10 @@ public class MeetingUtil {
 				newMeeting.add(orgMeetings.get(i)); // TODO
 
 			for (int i = 0; i < orgMeetings.size(); i++) {
-
-				MeetingE meeting = orgMeetings.get(i);
 				int newpos = newPoss.indexOf(i + 1);
+				if(newpos==i) continue;
+				MeetingE meeting = orgMeetings.get(i);
+				
 				meeting.setId(newpos);
 				meeting.setDbUpdate(true);
 				
@@ -99,6 +101,7 @@ public class MeetingUtil {
 		}
 
 		return newMeeting;
+
 	}
 
 	public Activity getActivity(String activityId,
@@ -850,9 +853,15 @@ public class MeetingUtil {
 
 	}
 
+	
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) throws Exception {
-
+		return planView(user, troop, request, false);
+	}
+	
+	public PlanView planView(User user, Troop troop,
+			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {
+System.err.println("tata meetingUtil planView START....");	
 		PlanView planView = planView1(user, troop, request);
 		if (planView == null) {
 			return null;
@@ -896,6 +905,9 @@ public class MeetingUtil {
 				isCanceled = true;
 			}
 			_aidTags = meeting.getAssets();
+			
+			
+		if( isUpdateAssetInDb ) {
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
 			if (meeting.getLastAssetUpdate() == null
@@ -931,9 +943,14 @@ public class MeetingUtil {
 
 				meeting.setLastAssetUpdate(new java.util.Date());
 				meeting.setAssets(_aidTags);
-				troopUtil.updateTroop(user, troop);
+System.err.println("tata new Assets MeetingUtil.planView.....");	
 
+				
+System.err.println("tata updating DB from MeetingUtil.planView..........");					
+					troopUtil.updateTroop(user, troop);
+				
 			}
+		}
 			int meetingLength = 0;
 			for (Activity _agenda : _activities) {
 				meetingLength += _agenda.getDuration();
@@ -948,6 +965,7 @@ public class MeetingUtil {
 			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
 		planView.setAidTags(_aidTags);
+System.err.println("tata meetingUtil planView end....");		
 		return planView;
 	}
 

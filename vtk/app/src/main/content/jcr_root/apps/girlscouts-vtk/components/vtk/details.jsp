@@ -7,7 +7,7 @@
   String activeTab = "planView";
   boolean showVtkNav = true;
     
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
+	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request, true);
 	
 	if( planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED || planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETING ){
 		%><%@include file="meeting_react2.jsp"%><% 

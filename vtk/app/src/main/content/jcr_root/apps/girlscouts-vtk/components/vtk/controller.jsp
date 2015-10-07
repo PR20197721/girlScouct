@@ -840,10 +840,10 @@
                         .getGradeLevel());
                 troop.setSfCouncil(troop.getTroop()
                         .getCouncilCode() + "");
-                    
+        System.err.println("tata44");            
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
-					
+				  System.err.println("tata441"); 
 				//start milestone
 				try {
 					if (troop.getYearPlan() != null) {
@@ -853,7 +853,7 @@
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				  System.err.println("tata442"); 
 				if (troop.getYearPlan().getMilestones() == null)
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
@@ -864,6 +864,7 @@
 									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
 											troop.getYearPlan().getMilestones().get(i));
 				}
+				  System.err.println("tata443"); 
 
 				//edn milestone
 /*
@@ -879,7 +880,7 @@
 					*/
 							
 				session.putValue("VTK_troop", troop);
-
+					  System.err.println("tata444"); 
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
@@ -894,7 +895,7 @@
 						} catch (Exception e) {
 	}
 					}
-
+	  System.err.println("tata445"); 
 				ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
@@ -902,6 +903,7 @@
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
 				out.println("}");
+				  System.err.println("tata46"); 
 			}
 
 		} else if (request.getParameter("reactActivity") != null) {

@@ -892,34 +892,22 @@ System.err.println("tata updateTroop.....");
 			if (!ocm.objectExists(meeting.getPath())) {
 	System.err.println("inserting...");		
 	
-				classes = new ArrayList<Class>();
-				classes.add(MeetingE1.class );
-				classes.add(Asset.class);
-				classes.add(SentEmail.class);
-				mapper = new AnnotationMapperImpl(classes);
-				ocm = new ObjectContentManagerImpl(mySession,	mapper);
+				
 				ocm.insert(meeting);
 			} else {
 	System.err.println("Updating...");			
-				//-ocm.update(meeting);
-	
+/*
 	classes = new ArrayList<Class>();
 	classes.add(MeetingE1.class );
-	//classes.add(Asset.class);
-	//classes.add(SentEmail.class);
 	mapper = new AnnotationMapperImpl(classes);
 	ocm = new ObjectContentManagerImpl(mySession,	mapper);
 	
-	
-	MeetingE1 test= new MeetingE1();
-	test.setPath(meeting.getPath());
-	test.setUid(meeting.getUid() );
-	test.setId(meeting.getId());
-	ocm.update(test);
+    MeetingE1 asd= new MeetingE1(meeting);
+	ocm.update(asd);
 	
 	
-	
-	
+	*/
+	ocm.update(meeting);
 			}
 	System.err.println("Saving...");		
 			ocm.save();
@@ -1237,7 +1225,7 @@ System.err.println("Saved!");
 						+ "/troops", "nt:unstructured", mySession);
 			}
 
-			troop.setLastModified(java.util.Calendar.getInstance());
+			//troop.setLastModified(java.util.Calendar.getInstance());
 			troop.setCurrentTroop(user.getSid());// 10/23/14 Documenting the
 													// last user who modified
 													// this troop data
@@ -1250,7 +1238,7 @@ System.err.println("Saved!");
 			ocm.save();
 
 			String old_errCode = troop.getErrCode();
-			java.util.Calendar old_lastModified = troop.getLastModified();
+			//java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
 				troop.setErrCode(null);
 
@@ -1266,7 +1254,7 @@ System.err.println("Saved!");
 			} catch (Exception e) {
 
 				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
-				troop.setLastModified(old_lastModified);
+				//troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);
 			}
