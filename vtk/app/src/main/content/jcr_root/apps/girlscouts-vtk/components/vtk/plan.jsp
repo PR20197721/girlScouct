@@ -16,7 +16,7 @@
   <div id="vtkNav"></div>
   <%@include file="include/modals/modal_help.jsp"%>
 
-   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
+   <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
@@ -95,10 +95,10 @@
                return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
                 return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");    
            
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
                 yesPlan();
                 return React.createElement("h3",null);
             }else{
@@ -129,7 +129,7 @@
                       React.createElement("div", {className: "row"},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                               React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                              React.createElement("p", {className: "hide-for-print <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
+                              React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
                         React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
@@ -175,9 +175,9 @@
                              }else if( obj[comment].type == 'MEETING' ){
                                  
                                         return (
-                React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
+                React.createElement("li", {className:  <%if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-                        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+                        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
                             React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),

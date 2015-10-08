@@ -16,9 +16,9 @@
                   .getName()));
   
   //security concern. 
-  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";
  
-  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){
         
 		    %>  <div class="columns large-20 large-centered">
 		                <p>

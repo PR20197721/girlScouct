@@ -120,7 +120,7 @@
 	</div>
 	<div class="small-24 medium-6 large-5 columns linkButtonWrapper">
 		<%
-			if( hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) &&
+			if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) &&
 				activity.getDate().after( new java.util.Date()) ||
 				(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) 
 				){
@@ -135,7 +135,7 @@
 		
 
 		<%
-			if( activity.getIsEditable() && hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID) ){
+			if( activity.getIsEditable() && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID) ){
 		%>
 		<a href="#" class="button linkButton"
 			onclick="doEditActivity('editCustActiv')">edit activity</a>

@@ -87,7 +87,7 @@ if (troops != null && troops.size() > 1) {
       //  }
       %>
       <dl class="tabs show-for-large-up">
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
 
               <%if(true){//troop.getYearPlan()!=null && (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
@@ -97,13 +97,13 @@ if (troops != null && troops.size() > 1) {
            <%} %>
           </dd>
         <%} %>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
+        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
 
            <a href="/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year Plan</a>
           </dd>
         <% } %>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
+        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
         <dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
            <%if(troop.getYearPlan()!=null &&
         		 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
@@ -118,7 +118,7 @@ if (troops != null && troops.size() > 1) {
           <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
         </dd>
 
-        <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
+        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 
        <dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
@@ -126,18 +126,18 @@ if (troops != null && troops.size() > 1) {
 
         <% } %>
 
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
+        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
       	  <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
           </dd>
           <% }  %>
 
-       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+       <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
           <dd <%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
 
-        <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
+        <% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
             <dd <%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>> <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
             </dd>
          <% } %>
@@ -151,7 +151,7 @@ if (troops != null && troops.size() > 1) {
       <div class="dropdown hide-for-print hide-for-large-up">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
-          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+          <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
 
           <%if(troop.getYearPlan()!=null &&
@@ -163,17 +163,17 @@ if (troops != null && troops.size() > 1) {
 
 
           	<ul class="dropdown">
-          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
+          	<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
           		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           		<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           	<% } %>
             </ul>
           </li>
           <%}%>
-          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
+          <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year Plan</a>
             <ul class="dropdown">
-            <% if("plan".equals(activeTab)  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
+            <% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
                 <% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
                             !troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
@@ -193,7 +193,7 @@ if (troops != null && troops.size() > 1) {
 
 
 
-          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
+          <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
           <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'>
 
          <%if(troop.getYearPlan()!=null &&
@@ -209,7 +209,7 @@ if (troops != null && troops.size() > 1) {
                switch(planView.getYearPlanComponent().getType() ) {
                 case ACTIVITY:
                   Activity activity = (Activity)planView.getYearPlanComponent();
-                  if( hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
+                  if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
                   <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
@@ -217,7 +217,7 @@ if (troops != null && troops.size() > 1) {
                   <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
                   }
 
-                  if(hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
+                  if(VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
                         %><li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><%
                   }
               	case MEETING:
@@ -225,7 +225,7 @@ if (troops != null && troops.size() > 1) {
 				            if (planView != null && planView.getMeeting() != null && planView.getMeeting().getMeetingInfo() !=null && planView.getMeeting().getMeetingInfo().getPath() != null) {
 
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
-                       if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
+                       if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
                     	  if (meetingPath != null && meetingPath != ""  ) {
                           //Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
                           %>
@@ -244,7 +244,7 @@ if (troops != null && troops.size() > 1) {
           <%  } %>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
 
-             <% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
+             <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
                 <li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
              <% } %>
 
@@ -261,12 +261,12 @@ if (troops != null && troops.size() > 1) {
 		     <% } %>
 
 
-          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
+          <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
           <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
 		         <ul>
 		          <% if("finances".equals(activeTab)) {
 
-               if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+               if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
                   <li>
                    <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
                   </li>
@@ -274,7 +274,7 @@ if (troops != null && troops.size() > 1) {
 		            }
                 }else if("financesadmin".equals(activeTab)){
 
-              	 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+              	 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
                    <li>
 
                     <a title="enter finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
@@ -286,7 +286,7 @@ if (troops != null && troops.size() > 1) {
 		            %>
 		          </ul>
           </li>
-         <% }else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
+         <% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
             <li <%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>> <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a> </li>
          <% } %>
 

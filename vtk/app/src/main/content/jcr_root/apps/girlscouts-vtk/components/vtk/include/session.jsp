@@ -12,7 +12,7 @@
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
     
 	boolean isCachableContacts=false;
-	
+	/*
 	public boolean hasPermission(Troop troop, int permissionId) {
 		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
 		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
@@ -20,7 +20,7 @@
 		}
 		return false;
 	}
-
+*/
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
 	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";

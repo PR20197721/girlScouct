@@ -26,7 +26,7 @@
 <div id="panelWrapper" class="row content meeting-detail">
 <div id="vtkNav"></div>
 <%
-if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
+if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
 		if(financeConfig.isPersisted()){
 			try { 
@@ -51,7 +51,7 @@ if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
         
 			String financeFieldTag = "";
 			String save_btn = "";
-			 if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){
+			 if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID) ){
 				financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 			} else{
 				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" class=\"financeInput\" value=\"&#36;%s\"/>";

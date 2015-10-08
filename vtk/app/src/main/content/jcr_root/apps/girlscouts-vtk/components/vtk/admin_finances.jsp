@@ -8,7 +8,7 @@
 <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail finances">
 <div id="vtkNav"></div>
-<% if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
+<% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
 	%>
 	  <div class="columns large-20 large-centered">
                 <p>

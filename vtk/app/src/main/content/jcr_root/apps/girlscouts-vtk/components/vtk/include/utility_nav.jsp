@@ -31,7 +31,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
              
           <!-- if on YP page this menu shows -->
             <%
-           		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
+           		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
             		<% if(troop!=null && troop.getSfTroopAge()!=null && !troop.getSfTroopAge().toLowerCase().trim().contains("cadette") &&
             				!troop.getSfTroopAge().toLowerCase().trim().contains("ambassador") && !troop.getSfTroopAge().toLowerCase().trim().contains("senior")){ %>
             	       	<li><a href="#" onclick="newLocCal()" title="Meeting Dates and Location">Specify Dates and Locations</a></li>            	   
@@ -48,7 +48,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
               case ACTIVITY:
             	  pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
                 Activity activity = (Activity)planView.getYearPlanComponent();
-                if( hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
+                if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
                 <li>
                      <a data-reveal-id="modal_popup_activity" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit Activity</a>
                   </li>
@@ -58,7 +58,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
                 <li><a href="<%=activity.getRegisterUrl()%>"  target="_blank">Register for this event</a></li><%
                 } 
                 
-                if(hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
+                if( VtkUtil.hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
                     %><li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                 } 
                   break;
@@ -78,14 +78,14 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           }%> 
         
           <!-- if on a My Troop page-->
-          <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)  ) { %>
+          <% if( "myTroop".equals(activeTab) && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)  ) { %>
 	          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
 	          <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
             	  <!-- if finance page -->
             <% if("finances".equals(activeTab) || "financesadmin".equals(activeTab)) {
             	
-            		 if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
+            		 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
 			            	<li>
 			            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
 			            		<p>edit finance fields</p>
@@ -93,7 +93,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
 			            <% } else if("financesadmin".equals(activeTab)){ %>
                              <a title="Finance" href="/content/girlscouts-vtk/en/vtk.finances.html">enter finance</a>
                         
-			            <% } else if(hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
+			            <% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
 			                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
 			            <% } %>
 			            	</li>

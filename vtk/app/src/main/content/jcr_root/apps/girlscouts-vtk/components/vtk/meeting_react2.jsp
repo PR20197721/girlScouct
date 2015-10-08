@@ -38,8 +38,8 @@ pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
-String readonlyModeStr = hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
-    hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
+String readonlyModeStr = VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+    VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "false" : "true";
 
 Cookie cookie = new Cookie("VTKReadonlyMode", readonlyModeStr);
 cookie.setPath("/");
@@ -332,7 +332,7 @@ React.createElement(ActivityPlan),
                 
                 
                 /*communication*/
-         <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
+         <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
 
 ,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
 
@@ -716,7 +716,7 @@ React.createElement(ActivityPlan),
 
 
 
-                React.createElement("img", {className: (moment(thisMeetingDate) < moment( new Date()) && (moment(thisMeetingDate).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+                React.createElement("img", {className: (moment(thisMeetingDate) < moment( new Date()) && (moment(thisMeetingDate).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
 
 
                       React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 

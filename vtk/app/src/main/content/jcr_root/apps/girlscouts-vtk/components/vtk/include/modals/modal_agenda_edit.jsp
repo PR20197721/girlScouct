@@ -107,7 +107,7 @@
 			<div class="columns small-4">
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 					
-					<% if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
         
 					<option value="0" selected>Time Allotment</option>
 					<option value="5"
@@ -128,7 +128,7 @@
 				</select>
 				
 			</div>
-		<% if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 			<div class="columns small-20">
 				<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
 				<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>

@@ -752,16 +752,16 @@
 					helper.setCurrentDate(planView.getSearchDate().getTime());
 					java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
 					if (troop != null && troop.getTroop() != null) {
-						if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
+						if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
 							permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
 						}
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
                                                 }
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
                                                 }
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
@@ -965,7 +965,7 @@
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
                     
-                    if (troop != null && userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
+                    if (troop != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
                    
                     helper.setPermissions(permissions);
