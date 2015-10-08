@@ -5,7 +5,7 @@
 <%@include file="session.jsp"%>
 <%
 String activeTab=request.getParameter("activeTab");
-
+if( activeTab==null ){return;}
 //PlanView planView= meetingUtil.planView(user, troop, request);
 PlanView planView= meetingUtil.planView(user, troop, request);
 %>

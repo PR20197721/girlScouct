@@ -840,10 +840,10 @@
                         .getGradeLevel());
                 troop.setSfCouncil(troop.getTroop()
                         .getCouncilCode() + "");
-        System.err.println("tata44");            
+                  
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
-				  System.err.println("tata441"); 
+				  
 				//start milestone
 				try {
 					if (troop.getYearPlan() != null) {
@@ -853,7 +853,7 @@
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				  System.err.println("tata442"); 
+				  
 				if (troop.getYearPlan().getMilestones() == null)
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
@@ -864,23 +864,12 @@
 									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
 											troop.getYearPlan().getMilestones().get(i));
 				}
-				  System.err.println("tata443"); 
+				 
 
 				//edn milestone
-/*
-				troop.setTroop(prefTroop);
-				troop.setSfTroopId(troop.getTroop().getTroopId());
-				troop.setSfUserId(user.getApiConfig().getUserId());
-				troop.setSfTroopName(troop.getTroop()
-						.getTroopName());
-				troop.setSfTroopAge(troop.getTroop()
-						.getGradeLevel());
-				troop.setSfCouncil(troop.getTroop()
-						.getCouncilCode() + "");
-					*/
 							
 				session.putValue("VTK_troop", troop);
-					  System.err.println("tata444"); 
+					   
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
@@ -895,7 +884,7 @@
 						} catch (Exception e) {
 	}
 					}
-	  System.err.println("tata445"); 
+ 
 				ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
@@ -903,7 +892,7 @@
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
 				out.println("}");
-				  System.err.println("tata46"); 
+				   
 			}
 
 		} else if (request.getParameter("reactActivity") != null) {
@@ -915,7 +904,6 @@
 			}
 
 			boolean isCng = false;
-
 			if (!isFirst && troop.getYearPlan()!=null) {
 				ModifiedChecker modifiedChecker = sling
 						.getService(ModifiedChecker.class);
@@ -975,7 +963,6 @@
                     helper.setCurrentDate(planView.getSearchDate().getTime());
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
-               System.err.println("tatacontr: "+ (troop.getTroop()==null) +" : "+Permission.PERMISSION_SEND_EMAIL_ACT_ID);     
                     if (troop != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
                    
