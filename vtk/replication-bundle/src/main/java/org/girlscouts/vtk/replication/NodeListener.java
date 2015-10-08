@@ -42,6 +42,7 @@ public class NodeListener implements EventListener {
         opts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
         opts.setSuppressStatusUpdate(true);
         opts.setSuppressVersions(true);
+        opts.setSynchronous(true);
 
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
