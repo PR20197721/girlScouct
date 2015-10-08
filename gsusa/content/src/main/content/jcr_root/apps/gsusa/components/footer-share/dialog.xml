@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     warnIfModified="{Boolean}false"
-    width="{Long}1000"
+    height="{Long}550"
+    width="{Long}800"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -13,38 +14,16 @@
                 title="Footer Share Widget"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <facebook
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Hide Facebook?"
-                        name="./hideFacebook"
-                        defaultValue="{Boolean}false"
-                        type="checkbox"
-                        xtype="selection">
-                    </facebook>
-                    <twitter
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Hide Twitter?"
-                        name="./hideTwitter"
-                        defaultValue="{Boolean}false"
-                        type="checkbox"
-                        xtype="selection">
-                    </twitter>
-                    <flickr
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Hide Flickr?"
-                        name="./hideFlickr"
-                        defaultValue="{Boolean}false"
-                        type="checkbox"
-                        xtype="selection">
-                    </flickr>
-                    <youtube
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Hide Youtube?"
-                        name="./hideYoutube"
-                        defaultValue="{Boolean}false"
-                        type="checkbox"
-                        xtype="selection">
-                    </youtube>
+    	            <multi
+           	            jcr:primaryType="cq:Widget"
+               	        fieldLabel="Links"
+                        hideLabel="{Boolean}true"
+   	                    name="./socialIcons"
+       	                xtype="multifield">
+           	            <fieldConfig
+               	            jcr:primaryType="nt:unstructured"
+                   	        xtype="socialmediawidgetwithname"/>
+                    </multi>
                 </items>
             </first>
         </items>
