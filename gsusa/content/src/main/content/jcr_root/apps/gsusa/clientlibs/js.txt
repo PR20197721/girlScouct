@@ -6,3 +6,4 @@ simple-link-widget.js
 shop-tile-widget.js
 toggleparsys.js
 icon-picker.js
+social-media-widget-with-name.js
