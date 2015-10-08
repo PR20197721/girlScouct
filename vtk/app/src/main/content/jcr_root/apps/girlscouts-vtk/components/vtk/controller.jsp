@@ -954,7 +954,18 @@
 
 				YearPlan yearPlan = new YearPlan();
 				
-				
+				troop = troopUtil.getTroop(user,
+                        "" + prefTroop.getCouncilCode(),
+                        prefTroop.getTroopId());
+                troop.setTroop(prefTroop);
+                troop.setSfTroopId(troop.getTroop().getTroopId());
+                troop.setSfUserId(user.getApiConfig().getUserId());
+                troop.setSfTroopName(troop.getTroop()
+                        .getTroopName());
+                troop.setSfTroopAge(troop.getTroop()
+                        .getGradeLevel());
+                troop.setSfCouncil(troop.getTroop()
+                        .getCouncilCode() + "");
 			
 				if( troop!=null && troop.getYearPlan()!=null){
                     Helper helper = troop.getYearPlan().getHelper();
@@ -964,7 +975,7 @@
                     helper.setCurrentDate(planView.getSearchDate().getTime());
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
-                    
+               System.err.println("tatacontr: "+ (troop.getTroop()==null) +" : "+Permission.PERMISSION_SEND_EMAIL_ACT_ID);     
                     if (troop != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
                    
