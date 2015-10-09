@@ -22,9 +22,7 @@
     boolean isQuarterly = true;
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());    
 %>
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content meeting-detail">
-<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 <%
 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
@@ -133,6 +131,6 @@ if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		}
 	} 
 %>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>loadNav('finances');</script>
 

@@ -3,15 +3,8 @@
 String aid = planView.getYearPlanComponent().getUid();
 pageContext.setAttribute("DETAIL_TYPE", "activity");
 %>
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-
-
-
-<div id="vtkTabNav"></div>
-  
-<div id="panelWrapper" class="row content meeting-detail">
-  <div id="vtkNav"></div>
+  <%@include file="include/bodyTop.jsp" %>     
   <div id="modal_popup" class="reveal-modal" data-reveal></div>
   <%@include file="include/modals/modal_meeting_reminder.jsp" %>     
   <%@include file="include/modals/modal_view_sent_emails.jsp"%>         
@@ -311,7 +304,6 @@ Number.prototype.format = function(n, x) {
  loadNav('planView');
     </script>
   </div>
-
-</div>
+  <%@include file="include/bodyBottom.jsp" %>
 <div id="modal_popup_activity" class="reveal-modal" data-reveal></div>
 <!-- PAGE STOP activity_react2.jsp -->

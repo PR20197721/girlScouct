@@ -11,6 +11,6 @@
 <!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main">
-	<cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />
+    <cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />
 </div>
 

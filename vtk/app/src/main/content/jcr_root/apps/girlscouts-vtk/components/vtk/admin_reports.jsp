@@ -5,9 +5,7 @@
 <% 
     String activeTab = "reports";
 %>
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content reports meeting-detail">
-<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
   <div class="column large-23 large-centered">       
   <% 
   HttpSession session = request.getSession();
@@ -119,6 +117,6 @@
     
     <%}}%>
   </div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>loadNav('reports')</script>
 <div id="modal_report_detail"  class="reveal-modal" data-reveal></div>

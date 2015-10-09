@@ -33,14 +33,11 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
 %>
 
-<div id="vtkTabNav"></div>
-<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
+<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
-
-<div id="panelWrapper" class="row content">
-	<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 	<div class="columns large-20 large-centered">
 		<script>
 			var fixVerticalSizing = false;
@@ -325,7 +322,7 @@
 				}
 		%>
 	</div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');
 </script>

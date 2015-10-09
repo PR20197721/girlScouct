@@ -9,11 +9,9 @@ if( activeTab==null ){return;}
 //PlanView planView= meetingUtil.planView(user, troop, request);
 PlanView planView= meetingUtil.planView(user, troop, request);
 %>
-
-       
-     
-<div class="hide-for-print crumbs clearfix hide-for-small">
-  <div class="column small-24 medium-20 large-centered medium-centered large-20">
+<div id="vtkNav" class="row">
+<div class="hide-for-print crumbs clearfix show-for-large-up">
+  <div class="column small-24 large-centered large-20">
     <div class="row">
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
@@ -131,4 +129,4 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     <script>resetIsLoggedIn();</script>
     <iframe style="display:none;" id="myframe" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
 <%} %> 
-
+</div>

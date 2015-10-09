@@ -59,9 +59,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var thisMeetingPath = "";
     
 </script>
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content meeting-detail">
-<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 <%@include file="include/modals/modal_help.jsp"%>
 
 <%@include file="include/modals/modal_agenda.jsp"%>
@@ -918,5 +916,5 @@ React.createElement(ActivityPlan),
   
       </script>
   </div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <div id="modal_popup" class="reveal-modal" data-reveal></div>

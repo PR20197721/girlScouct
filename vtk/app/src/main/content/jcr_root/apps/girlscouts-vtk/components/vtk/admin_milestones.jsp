@@ -15,9 +15,7 @@ int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 %>
 
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content milestones meeting-detail">
-<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 	<div class="columns small-20 small-centered">
 		<p>Edit milestones, add dates, create new milestones, and set to
 			show in plans.</p>
@@ -69,7 +67,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 <!-- 	<div id="saved">
 		<p>Milestones saved.</p>
 	</div> -->
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 
 <script>
 	var n;

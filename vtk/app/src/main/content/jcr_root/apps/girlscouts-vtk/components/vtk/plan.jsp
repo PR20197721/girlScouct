@@ -11,21 +11,14 @@
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-<div id="vtkTabNav"></div>
- <div id="panelWrapper" class="row meeting-detail content">
-  <div id="vtkNav"></div>
+  <%@include file="include/bodyTop.jsp" %>     
   <%@include file="include/modals/modal_help.jsp"%>
-
    <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
   <div id="yearPlanMeetings">
     <div id="thePlan">
-
-
-
-
       <script type="text/javascript">
 
  var isActivNew;
@@ -427,8 +420,4 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
     </div>
   </div>
-</div><!--/panelWrapper-->
-
-
-
-
+<%@include file="include/bodyBottom.jsp" %>

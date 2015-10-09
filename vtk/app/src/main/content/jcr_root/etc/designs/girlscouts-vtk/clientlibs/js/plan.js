@@ -938,7 +938,7 @@ function councilRpt(troopId, cid){
 
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
-		loadUNav(activeTab);
+//		loadUNav(activeTab);
 	
 
 		setTimeout(function(){checkIsLoggedIn();}, 5000);
@@ -959,7 +959,7 @@ function councilRpt(troopId, cid){
 
 	}
 	
-
+/*
 
 	function loadUNav(activeTab){
 
@@ -972,7 +972,7 @@ function councilRpt(troopId, cid){
 	    })
 	}
 
-
+*/
 
 	function loadTabNav(activeTab){
 
@@ -980,7 +980,7 @@ function councilRpt(troopId, cid){
 	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
 	            cache: false
 	        }).done(function( html ) {
-	            var vtkNav = document.getElementById("vtkTabNav");
+	            var vtkNav = document.getElementById("fullNav");
 	            vtkNav.innerHTML =html;
 	            getRelogin();
 
