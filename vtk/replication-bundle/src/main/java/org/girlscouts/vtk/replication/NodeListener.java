@@ -13,22 +13,64 @@ import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.replication.Agent;
 import com.day.cq.replication.AgentIdFilter;
+import com.day.cq.replication.ReplicationAction;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.ReplicationListener;
 import com.day.cq.replication.ReplicationOptions;
+import com.day.cq.replication.ReplicationResult;
 import com.day.cq.replication.Replicator;
+import com.day.cq.replication.ReplicationLog.Level;
 
 public class NodeListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(NodeListener.class);
     private Session session;
     private Replicator replicator;
     private ReplicationOptions syncOpts;
+    private ReplicationOptions asyncOpts;
     private ReplicationOptions vtkDataOpts;
     private TroopHashGenerator troopHashGenerator;
     private VTKDataCacheInvalidator cacheInvalidator;
     private Pattern troopPattern;
     private Pattern councilInfoPattern;
+    
+    private class VTKReplicationListener implements ReplicationListener {
+
+        public void onStart(Agent agent, ReplicationAction action) {
+            // Do nothing
+        }
+
+        public void onMessage(Level level, String msg) {
+            // Do nothing
+        }
+
+        public void onEnd(Agent agent, ReplicationAction action, ReplicationResult result) {
+            if (result.isSuccess()) {
+                if (log.isDebugEnabled()) {
+                    log.debug("Replication succeeded type: " + action.getType().getName() + " path: " + action.getPath());
+                }
+            } else {
+                ReplicationActionType type = action.getType();
+                String path = action.getPath();
+                replicateAsync(type, path);
+            }
+        }
+
+        public void onError(Agent agent, ReplicationAction action, Exception exception) {
+            replicateAsync(action.getType(), action.getPath());
+        }
+        
+        private void replicateAsync(ReplicationActionType type, String path) {
+            try {
+                log.warn("Sync replication error. Trying to replicate asynchronously. type = " + type.getName() + " path = " + path);
+                replicator.replicate(session, type, path, asyncOpts);
+            } catch (ReplicationException re) {
+                log.error("Replication Exception even in async mode. Event not handled. type = " + type + " path = " + path);
+            }
+        }
+    }
     
     public NodeListener(Session session, Replicator replicator, 
             TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator, String yearPlanBase) {
@@ -41,7 +83,15 @@ public class NodeListener implements EventListener {
         syncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
         syncOpts.setSuppressStatusUpdate(true);
         syncOpts.setSuppressVersions(true);
-        syncOpts.setSynchronous(true);
+        syncOpts.setSynchronous(true); // SYNC
+        syncOpts.setListener(new VTKReplicationListener());
+
+        asyncOpts = new ReplicationOptions();
+        asyncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
+        asyncOpts.setSuppressStatusUpdate(true);
+        asyncOpts.setSuppressVersions(true);
+        asyncOpts.setSynchronous(false); // ASYNC
+        asyncOpts.setListener(new VTKReplicationListener());
 
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
@@ -75,9 +125,8 @@ public class NodeListener implements EventListener {
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, syncOpts);
                 } else {
-                    log.warn("Unknown replication type. Do nothing. type = " + type + " path = " + path);
+                    log.warn("Unknown replication type when trying to sync replicate. Do nothing. type = " + type + " path = " + path);
                 }
-                log.debug("Replication succeeded type: " + type + " path: " + path);
             } catch (ReplicationException re) {
                 log.error("Replication Exception. Event not handled. type = " + type + " path = " + path);
             }
