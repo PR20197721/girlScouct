@@ -23,7 +23,8 @@ public class NodeListener implements EventListener {
     private static final Logger log = LoggerFactory.getLogger(NodeListener.class);
     private Session session;
     private Replicator replicator;
-    private ReplicationOptions opts;
+    private ReplicationOptions syncOpts;
+    private ReplicationOptions asyncOpts;
     private ReplicationOptions vtkDataOpts;
     private TroopHashGenerator troopHashGenerator;
     private VTKDataCacheInvalidator cacheInvalidator;
@@ -38,11 +39,17 @@ public class NodeListener implements EventListener {
         this.troopHashGenerator = troopHashGenerator;
         this.cacheInvalidator = cacheInvalidator;
 
-        opts = new ReplicationOptions();
-        opts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
-        opts.setSuppressStatusUpdate(true);
-        opts.setSuppressVersions(true);
-        opts.setSynchronous(true);
+        syncOpts = new ReplicationOptions();
+        syncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
+        syncOpts.setSuppressStatusUpdate(true);
+        syncOpts.setSuppressVersions(true);
+        syncOpts.setSynchronous(true);
+
+        syncOpts = new ReplicationOptions();
+        syncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
+        syncOpts.setSuppressStatusUpdate(true);
+        syncOpts.setSuppressVersions(true);
+        syncOpts.setSynchronous(false);
 
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
@@ -65,41 +72,50 @@ public class NodeListener implements EventListener {
         String affectedCouncilInfo = null;
 
         for (NodeEvent event : events) {
-            try {
+            String path = event.getPath();
+            if (path.endsWith("jcr:content")) {
+                continue;
+            }
+            int type = event.getType();
 
-                String path = event.getPath();
-                if (path.endsWith("jcr:content")) {
-                    continue;
-                }
-              
-                int type = event.getType();
+            try {
                 if (type == Constants.EVENT_UPDATE) {
-                	
-                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, syncOpts);
                 } else if (type == Constants.EVENT_REMOVE){
-                    replicator.replicate(session, ReplicationActionType.DELETE, path, opts);
+                    replicator.replicate(session, ReplicationActionType.DELETE, path, syncOpts);
                 } else {
-                    log.error("Unknown replication type. Do nothing.");
+                    log.warn("Unknown replication type. Do nothing. type = " + type + " path = " + path);
                 }
+            } catch (ReplicationException sre) {
+            	// If synchronous replication does not work, for example, the target server is down,
+            	// Put the event into the replication queue instead so the node will be replicated asynchronously.
+            	log.warn("Exception while replicating node synchronously. Trying asynchronous replication. path = " + path);
+            	try {
+	                if (type == Constants.EVENT_UPDATE) {
+	                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, asyncOpts);
+	                } else if (type == Constants.EVENT_REMOVE){
+	                    replicator.replicate(session, ReplicationActionType.DELETE, path, asyncOpts);
+	                }
+            	} catch (ReplicationException are) {
+            	    log.error("Replication Exception still . Event not handled. path = " + path);
+            	}
+            }
                 
-                // Get the affected troop
-                if (affectedTroop == null) {
-                    Matcher troopMatcher = troopPattern.matcher(path);
-                    while (troopMatcher.find()) {
-                        affectedTroop = troopMatcher.group(1);
-                        log.debug("Affected Troop found: " + affectedTroop);
-                    }
+            // Get the affected troop
+            if (affectedTroop == null) {
+                Matcher troopMatcher = troopPattern.matcher(path);
+                while (troopMatcher.find()) {
+                    affectedTroop = troopMatcher.group(1);
+                    log.debug("Affected Troop found: " + affectedTroop);
                 }
-                
-                // Get the affected council info
-                if (affectedCouncilInfo == null) {
-                    Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
-                    if (councilInfoMatcher.matches()) {
-                        affectedCouncilInfo = path;
-                    }
+            }
+            
+            // Get the affected council info
+            if (affectedCouncilInfo == null) {
+                Matcher councilInfoMatcher = councilInfoPattern.matcher(path);
+                if (councilInfoMatcher.matches()) {
+                    affectedCouncilInfo = path;
                 }
-            } catch (ReplicationException e) {
-                log.error("Replication Exception. Event not handled.");
             }
         }
         
