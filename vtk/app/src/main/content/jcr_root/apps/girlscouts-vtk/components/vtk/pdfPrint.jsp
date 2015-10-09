@@ -12,7 +12,7 @@
 
 <%
 	response.setContentType("application/pdf");
-	Document document = new Document();
+	Document document = new Document(); 
 
 	String str = ".";
 	String act = request.getParameter("act");
@@ -28,7 +28,7 @@
 			meeting = meetings.get(i);
 			break;
 		}
-	Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+	Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
 			meeting.getRefId());
 	java.util.List<Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
