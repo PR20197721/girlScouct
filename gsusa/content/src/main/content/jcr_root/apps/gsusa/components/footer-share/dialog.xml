@@ -2,8 +2,8 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     warnIfModified="{Boolean}false"
-    height="{Long}550"
-    width="{Long}800"
+    height="{Long}530"
+    width="{Long}780"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"

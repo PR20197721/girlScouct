@@ -10,7 +10,7 @@
 %>
 <div class="top-header row">
     <section class="logo-section">
-        <a href="/content/gsusa/en.html" title="Girl Scouts U.S.A. Home"  tabindex="1">
+        <a href="/content/gsusa/en.html" tabindex="1">
             <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
         </a>
     </section>
