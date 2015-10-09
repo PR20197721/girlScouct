@@ -57,7 +57,6 @@
         pollIntervalID: null,
         isReordering: false,
         componentDidMount: function() {
-
             loadNav('plan');    
 
           // Need to skip dispatcher cache for the first time load.

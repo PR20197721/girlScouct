@@ -980,7 +980,7 @@ function councilRpt(troopId, cid){
 	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
 	            cache: false
 	        }).done(function( html ) {
-	            var vtkNav = document.getElementById("fullNav");
+	        	var vtkNav = document.getElementById("fullNav");
 	            vtkNav.innerHTML =html;
 	            getRelogin();
 

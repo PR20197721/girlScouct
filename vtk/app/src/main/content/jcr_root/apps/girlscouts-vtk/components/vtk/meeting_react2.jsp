@@ -59,9 +59,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var thisMeetingPath = "";
     
 </script>
-<%@include file="include/bodyTop.jsp" %>
+<%@include file="include/bodyTop.jsp"%>
 <%@include file="include/modals/modal_help.jsp"%>
-
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
