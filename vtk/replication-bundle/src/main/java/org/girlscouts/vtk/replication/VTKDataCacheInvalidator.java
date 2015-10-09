@@ -7,9 +7,11 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.scheduler.Job;
@@ -33,6 +35,7 @@ public class VTKDataCacheInvalidator {
     private static final String SCHEDULER_PATH_PREFIX = "VTK_PATH_";
 
     protected HttpClient httpClient;
+    protected MultiThreadedHttpConnectionManager connectionManager;
     protected String flushUri;
 
     @Reference
@@ -73,7 +76,8 @@ public class VTKDataCacheInvalidator {
     
     @Activate
     public void init() {
-        httpClient = new HttpClient();
+        connectionManager = new MultiThreadedHttpConnectionManager();
+        httpClient = new HttpClient(connectionManager);
         try {
             Session session = repository.loginAdministrative(null);
             flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
@@ -83,6 +87,11 @@ public class VTKDataCacheInvalidator {
             log.error("VTKDataCacheInvalidator: RepositoryException while initializing.");
             e.printStackTrace();
         } 
+    }
+    
+    @Deactivate
+    public void deactivate() {
+    	connectionManager.shutdown();
     }
     
     public void addPath(String path) {

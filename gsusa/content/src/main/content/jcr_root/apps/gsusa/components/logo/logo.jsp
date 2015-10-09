@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
+    String imgAlt = properties.get("imageAlt", "");
     String imgPath = "";
 	String retinaImgPath = null;
     try {
@@ -8,4 +9,4 @@
     } catch (Exception e) {}
 
 %>
-<img src="<%= imgPath %>" alt="Girl Scouts U.S.A. Home" aria-label="Girl Scouts U.S.A. Home"  data-at2x="<%=retinaImgPath%>" id="mainGSLogo"/>
+<img src="<%= imgPath %>" alt="<%=imgAlt%>" title="<%=imgAlt%>" aria-label="<%=imgAlt%>"  data-at2x="<%=retinaImgPath%>" id="mainGSLogo"/>

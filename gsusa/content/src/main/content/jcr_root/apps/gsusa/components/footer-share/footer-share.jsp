@@ -23,7 +23,7 @@
       String iconPath = settings[2];
       String iconClass = settings.length >= 4 ? " "+ settings[3] : "";
     %>
-    <li><a id="tag_social-icon_<%=name.toLowerCase()%>" target="_blank" href="<%= url %>" alt="<%=name%>"><img src="<%= iconPath %>"/></a></li>
+    <li><a id="tag_social-icon_<%=name.toLowerCase()%>" target="_blank" href="<%= url %>"><img alt="<%=name%>" title="<%=name%>" src="<%= iconPath %>"/></a></li>
     <% } 
     } %>
 </ul>
