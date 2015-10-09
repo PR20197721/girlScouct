@@ -66,7 +66,7 @@ public class VTKDataCacheInvalidator {
                     log.info("VTKDataCacheInvalidator: Successfully invalidate the cache: " + path);
                 }
             } catch (Exception e) {
-                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Do nothing.");
             } finally{
             	get.releaseConnection();
             }
