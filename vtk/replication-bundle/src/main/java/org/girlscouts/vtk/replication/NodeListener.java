@@ -24,11 +24,9 @@ public class NodeListener implements EventListener {
     private Session session;
     private Replicator replicator;
     private ReplicationOptions syncOpts;
-    private ReplicationOptions asyncOpts;
     private ReplicationOptions vtkDataOpts;
     private TroopHashGenerator troopHashGenerator;
     private VTKDataCacheInvalidator cacheInvalidator;
-    private String yearPlanBase;
     private Pattern troopPattern;
     private Pattern councilInfoPattern;
     
@@ -45,18 +43,11 @@ public class NodeListener implements EventListener {
         syncOpts.setSuppressVersions(true);
         syncOpts.setSynchronous(true);
 
-        syncOpts = new ReplicationOptions();
-        syncOpts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
-        syncOpts.setSuppressStatusUpdate(true);
-        syncOpts.setSuppressVersions(true);
-        syncOpts.setSynchronous(false);
-
         vtkDataOpts = new ReplicationOptions();
         vtkDataOpts.setFilter(new AgentIdFilter("flush"));
         vtkDataOpts.setSuppressStatusUpdate(true);
         vtkDataOpts.setSuppressVersions(true);
         
-        this.yearPlanBase = yearPlanBase;
         // /vtk/603/troops/701G0000000uQzTIAU => 701G0000000uQzTIAU
         // yearPlanBase = /vtk2015/
         troopPattern = Pattern.compile(yearPlanBase + "[0-9]+/troops/([^/]+)");
@@ -87,19 +78,8 @@ public class NodeListener implements EventListener {
                     log.warn("Unknown replication type. Do nothing. type = " + type + " path = " + path);
                 }
                 log.debug("Replication succeeded type: " + type + " path: " + path);
-            } catch (ReplicationException sre) {
-            	// If synchronous replication does not work, for example, the target server is down,
-            	// Put the event into the replication queue instead so the node will be replicated asynchronously.
-            	log.warn("Exception while replicating node synchronously. Trying asynchronous replication. type = " + type + " path = " + path);
-            	try {
-	                if (type == Constants.EVENT_UPDATE) {
-	                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, asyncOpts);
-	                } else if (type == Constants.EVENT_REMOVE){
-	                    replicator.replicate(session, ReplicationActionType.DELETE, path, asyncOpts);
-	                }
-            	} catch (ReplicationException are) {
-            	    log.error("Replication Exception still . Event not handled. type = " + type + " path = " + path);
-            	}
+            } catch (ReplicationException re) {
+                log.error("Replication Exception. Event not handled. type = " + type + " path = " + path);
             }
                 
             // Get the affected troop
