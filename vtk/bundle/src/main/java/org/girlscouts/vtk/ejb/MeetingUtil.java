@@ -864,7 +864,7 @@ public class MeetingUtil {
 	
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {
-System.err.println("tata meetingUtil planView START....");	
+System.err.println("tatattx meetingUtil planView START....");	
 		PlanView planView = planView1(user, troop, request);
 		if (planView == null) {
 			return null;
@@ -980,9 +980,7 @@ System.err.println("tata meetingUtil planView end....");
 
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		if( troop.getYearPlan()!=null )
-
-			sched = getYearPlanSched(
-				user, troop, troop.getYearPlan(), false, false);
+			sched = getYearPlanSched(user, troop, troop.getYearPlan(), false, false);
 
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");

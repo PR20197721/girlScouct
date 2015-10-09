@@ -86,10 +86,11 @@ public class NodeListener implements EventListener {
                 } else {
                     log.warn("Unknown replication type. Do nothing. type = " + type + " path = " + path);
                 }
+                log.debug("Replication succeeded type: " + type + " path: " + path);
             } catch (ReplicationException sre) {
             	// If synchronous replication does not work, for example, the target server is down,
             	// Put the event into the replication queue instead so the node will be replicated asynchronously.
-            	log.warn("Exception while replicating node synchronously. Trying asynchronous replication. path = " + path);
+            	log.warn("Exception while replicating node synchronously. Trying asynchronous replication. type = " + type + " path = " + path);
             	try {
 	                if (type == Constants.EVENT_UPDATE) {
 	                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, asyncOpts);
@@ -97,7 +98,7 @@ public class NodeListener implements EventListener {
 	                    replicator.replicate(session, ReplicationActionType.DELETE, path, asyncOpts);
 	                }
             	} catch (ReplicationException are) {
-            	    log.error("Replication Exception still . Event not handled. path = " + path);
+            	    log.error("Replication Exception still . Event not handled. type = " + type + " path = " + path);
             	}
             }
                 
