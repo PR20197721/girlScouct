@@ -124,7 +124,7 @@
 	user = ((org.girlscouts.vtk.models.User) session
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
-	//-user.setSid(session.getId());
+	user.setSid(session.getId());
 
     String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");

@@ -4,8 +4,10 @@ String aid = planView.getYearPlanComponent().getUid();
 pageContext.setAttribute("DETAIL_TYPE", "activity");
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-  <%@include file="include/bodyTop.jsp" %>     
+
+  <%@include file="include/bodyTop.jsp" %>  
   <div id="modal_popup" class="reveal-modal" data-reveal></div>
+   
   <%@include file="include/modals/modal_meeting_reminder.jsp" %>     
   <%@include file="include/modals/modal_view_sent_emails.jsp"%>         
   <div id="theActivity">
