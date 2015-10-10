@@ -31,7 +31,7 @@
      if( contact.getContacts()!=null )
       for(Contact contactSub: contact.getContacts()){ 
     
-	      if( !hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
+	      if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
 	         <li class="row">                           
 	          <p><strong>Secondary Info:</strong></p>
 	          <div class="row">

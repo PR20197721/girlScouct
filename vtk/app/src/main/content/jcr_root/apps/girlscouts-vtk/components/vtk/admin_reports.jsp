@@ -5,9 +5,7 @@
 <% 
     String activeTab = "reports";
 %>
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content reports meeting-detail">
-<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
   <div class="column large-23 large-centered">       
   <% 
   HttpSession session = request.getSession();
@@ -16,9 +14,9 @@
                   .getName()));
   
   //security concern. 
-  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";//"603";//troop.getSfCouncil();
+  String cid = user.getApiConfig().getUser().getAdminCouncilId() +"";
  
-  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){//hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ 
+  if( !(user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0)){
         
 		    %>  <div class="columns large-20 large-centered">
 		                <p>
@@ -119,6 +117,6 @@
     
     <%}}%>
   </div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>loadNav('reports')</script>
 <div id="modal_report_detail"  class="reveal-modal" data-reveal></div>

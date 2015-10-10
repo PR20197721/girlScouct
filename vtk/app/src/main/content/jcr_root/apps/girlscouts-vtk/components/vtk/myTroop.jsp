@@ -7,14 +7,13 @@
   String activeTab = "myTroop";
   boolean showVtkNav = true;
 %>
- <div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content">
-<%if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
+<%@include file="include/bodyTop.jsp" %>
+<%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
     <%@include file="mytroop_react.jsp"%>
   <%} else { %>
     <%@include file='myTroopImg.jsp' %>
     <%@include file="myTroopOff.jsp"%>
 <% } %>
 <script>loadNav('myTroop')</script>
-</div><!--panel-wrapper-->
+<%@include file="include/bodyBottom.jsp" %>
 

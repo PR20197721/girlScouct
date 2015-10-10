@@ -11,21 +11,14 @@
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-<div id="vtkTabNav"></div>
- <div id="panelWrapper" class="row meeting-detail content">
-  <div id="vtkNav"></div>
+  <%@include file="include/bodyTop.jsp" %>     
   <%@include file="include/modals/modal_help.jsp"%>
-
-   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
+   <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
   <div id="yearPlanMeetings">
     <div id="thePlan">
-
-
-
-
       <script type="text/javascript">
 
  var isActivNew;
@@ -35,27 +28,27 @@
 
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
-    	 if (isFirst) {
+         if (isFirst) {
              $.ajax({
                  url: this.props.url + '&isFirst=1',
                  dataType: 'json',
                  cache: false,
                  success: function(data) {
-                	 console.info('data coming back');
+                     console.info('data coming back');
                      this.setState({data:data});
                      this.isReordering = false;
                  }.bind(this),
              });
-    	 } else {
-	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
-	    		// Skip if is 304.
-	    		// Skip if is reordering.
-	    		if (req.status == 200 && !this.isReordering) {
-		            this.setState({data:data});
-	    		}
+         } else {
+             getDataIfModified("year-plan.json", this, function(data, textStatus, req){
+                // Skip if is 304.
+                // Skip if is reordering.
+                if (req.status == 200 && !this.isReordering) {
+                    this.setState({data:data});
+                }
 
-	    	 });
-    	 }
+             });
+         }
        },
         getInitialState: function() {
           return {data: []};
@@ -64,8 +57,7 @@
         pollIntervalID: null,
         isReordering: false,
         componentDidMount: function() {
-
-        	loadNav('plan'); 	
+            loadNav('plan');    
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -73,14 +65,14 @@
           setInterval( this.checkLocalUpdate, 100);
         },
         delayReload: function() {
-        	// Set a flag to indicating reordering in progress.
+            // Set a flag to indicating reordering in progress.
             this.isReordering = true;
 
-        	// Extend 10 seconds for the next poll.
-        	if (this.pollIntervalID != null) {
-    			clearTimeout(this.pollIntervalID);
-        	}
-        	
+            // Extend 10 seconds for the next poll.
+            if (this.pollIntervalID != null) {
+                clearTimeout(this.pollIntervalID);
+            }
+            
             this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         },
         checkLocalUpdate: function(){
@@ -95,15 +87,15 @@
                return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
-            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");    
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
+                return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");    
            
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
-            	yesPlan();
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
+                yesPlan();
                 return React.createElement("h3",null);
             }else{
-            	
-            	return React.createElement("h3",null);
+                
+                return React.createElement("h3",null);
             }
             
         }
@@ -113,15 +105,15 @@
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
-        	// Reordering 
-        	var parent = this.props.parentComponent;
+            // Reordering 
+            var parent = this.props.parentComponent;
 
-        	// Delay reload
-        	parent.delayReload();
+            // Delay reload
+            parent.delayReload();
 
             // Go ahead to reorder
-        	parent.setState({data: {}});
-        	parent.loadCommentsFromServer(true);
+            parent.setState({data: {}});
+            parent.loadCommentsFromServer(true);
         },
         render: function() {
           return (
@@ -129,7 +121,7 @@
                       React.createElement("div", {className: "row"},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                               React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                              React.createElement("p", {className: "hide-for-print <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
+                              React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
                         React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
@@ -147,12 +139,11 @@
                 meetingPassed= true;
                 return (React.createElement("ul", {id: "sortable123"},
                              keys.map( function (comment ,i ) {
-
                               if( obj[comment].type == 'MEETINGCANCELED' ){
-                            	  
+                                  
                                      return (
 
-                                    		
+                                            
              React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled'},
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
@@ -174,36 +165,37 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
-                            	 
+                                 
                                         return (
-        		React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
-        			    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-    			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
-    			        React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
-    			        React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
-    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
-    			            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
-    			            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
-    			        ),
-    			        React.createElement("div", {className: "large-2 medium-2 columns hide-for-small"},
-    			            React.createElement(MeetingImg, {mid: obj[comment].meetingInfo.id})
-    			        )
-        			    )
-        			)
+                React.createElement("li", {className:  <%if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
+                        React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
+                        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+                        React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
+                        React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
+                            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
+                            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
+                            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
+                        ),
+                        React.createElement("div", {className: "large-2 medium-2 columns hide-for-small"},
+                            React.createElement(MeetingImg, {mid: obj[comment].meetingInfo.id})
+                        )
+                        )
+                    )
 
 
 
                                         );
                                   }else if( obj[comment].type == 'ACTIVITY' ){
+
                                         return (
 React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].id},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
     React.createElement("div", {},
     React.createElement("div", {className: bgcolor(obj, comment, 0)},
         React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')),
-          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')),
-          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a'))
+          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('MMM')),
+          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('DD')),
+          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
         )
       )
     ),
@@ -223,7 +215,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
                                         return (
                                         React.createElement("li", {className: "row milestone"},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-    React.createElement("span", null,  moment(comment).get('year') < 1978 ? "" : moment(comment).format('MM/DD/YY'), " ", obj[comment].blurb)
+    React.createElement("span", null,  moment.tz(comment, "America/New_York").get('year') < 1978 ? "" : moment.tz(comment, "America/New_York").format('MM/DD/YY'), " ", obj[comment].blurb)
   )
 )
 
@@ -328,7 +320,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         render: function() {
           var date  = new Date(this.props.dateRaw).getTime();
           if (date.toString() == 'NaN') {
-        	  date = new Date(this.props.date).getTime();
+              date = new Date(this.props.date).getTime();
           }
             var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
@@ -343,12 +335,12 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             data: '',
             dataType: 'html',
         }).done(function( html ) {
-        	vtkTrackerPushAction('MoveMeetings');
-        	console.info('Before calling callback');
-        	if (callback) {
-        		console.info('Calling callback');
-        		callback(callbackArgs);
-        	}
+            vtkTrackerPushAction('MoveMeetings');
+            console.info('Before calling callback');
+            if (callback) {
+                console.info('Calling callback');
+                callback(callbackArgs);
+            }
         });
     }
 
@@ -359,7 +351,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         function bgcolor(obj, comment, objType){
 
-	if( obj[comment].cancelled =='true' ){
+    if( obj[comment].cancelled =='true' ){
 
             return "bg-square canceled";
 
@@ -400,9 +392,9 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         React.createElement("div", {className: bgcolor(obj, comment, 1)},
         React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
         React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')),
-          React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')),
-          React.createElement("p", {className: "hour"},  moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a'))
+          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment,"America/New_York").format('MMM')),
+          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
+          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
         )
       )
            );
@@ -427,8 +419,4 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
     </div>
   </div>
-</div><!--/panelWrapper-->
-
-
-
-
+<%@include file="include/bodyBottom.jsp" %>

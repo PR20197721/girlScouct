@@ -1,33 +1,29 @@
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
-<%@include file="/libs/foundation/global.jsp" %>
+<%@ page import="com.day.cq.wcm.api.WCMMode" %>
+<%@include file="/libs/foundation/global.jsp"%>
+
 <%
-	Boolean hideFacebook = properties.get("hideFacebook", false);
-	Boolean hideTwitter = properties.get("hideTwitter", false);
-	Boolean hideYoutube = properties.get("hideYoutube", false);
+  	String[] socialIcons = properties.get("socialIcons", String[].class);
+	
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT && socialIcons == null) {
 %>
-<%
-//TODO: refactor
-//TODOL everything is hardcoded. Some style is inline. It is just temporary until we have time to make everything dynamice and nice
-//If all buttons are hidden
-if (WCMMode.fromRequest(request) == WCMMode.EDIT && hideFacebook && hideTwitter && hideYoutube) {
-%>
-	<li>Please click to edit the footer share component</li>
+		<li>Please click to edit the footer share component</li>
 <% 
-}
+	}
 %>
 
 <ul class="inline-list">
-	<% if (!hideFacebook)  {%>
-		<li><a id="tag_social-icon_facebook" target="_blank" href="https://www.facebook.com/GirlScoutsUSA"><img src="/etc/designs/gsusa/images/facebook_30_white.png" tabindex="170"></a></li><%
-   	}%>
-	<% if (!hideTwitter)  {%>
-		<li><a id="tag_social-icon_twitter" target="_blank" href="https://twitter.com/girlscouts"><img src="/etc/designs/gsusa/images/twitter_30_white.png" tabindex="171"></a></li><%
-	}%>
-	<% if (!hideYoutube)  {%>
-		<li><a id="tag_social-icon_youtube" target="_blank" href="https://www.youtube.com/user/girlscoutvideos"><img src="/etc/designs/gsusa/images/youtube.png" tabindex="172"></a></li><%
-	}%>
-		<li><a id="tag_social-icon_pinterest" target="_blank" href="http://pinterest.com/gsusa"><img src="/etc/designs/gsusa/images/pinterest_30_white.png" tabindex="173"></a></li>
-		<li><a id="tag_social-icon_blog" target="_blank" href="http://blog.girlscouts.org"><img src="/etc/designs/gsusa/images/blogger.png" tabindex="174"></a></li>
-		<li><a id="tag_social-icon_linkedin" target="_blank" href="http://www.linkedin.com/company/girl-scouts-of-the-usa/"><img src="/etc/designs/gsusa/images/linkedin_32_white.png" tabindex="175"></a></li>
-		<li><a id="tag_social-icon_instagram" target="_blank" href="http://instagram.com/girlscouts"><img src="/etc/designs/gsusa/images/instagram_32_white.png" tabindex="176"></a></li>
+  <% if (socialIcons != null) { 
+    for (String settingStr : socialIcons) {
+      String[] settings = settingStr.split("\\|\\|\\|");
+      if (settings.length < 2) {
+          continue;
+      }
+      String name = settings[0];
+      String url = settings[1];
+      String iconPath = settings[2];
+      String iconClass = settings.length >= 4 ? " "+ settings[3] : "";
+    %>
+    <li><a id="tag_social-icon_<%=name.toLowerCase()%>" target="_blank" href="<%= url %>"><img alt="<%=name%>" title="<%=name%>" src="<%= iconPath %>"/></a></li>
+    <% } 
+    } %>
 </ul>

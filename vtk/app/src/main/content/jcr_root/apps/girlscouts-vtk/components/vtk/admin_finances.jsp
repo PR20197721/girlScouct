@@ -4,11 +4,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-
-<div id="vtkTabNav"></div>
-<div id="panelWrapper" class="row content meeting-detail finances">
-<div id="vtkNav"></div>
-<% if(!hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
+<%@include file="include/bodyTop.jsp" %>
+<% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
 	%>
 	  <div class="columns large-20 large-centered">
                 <p>
@@ -119,8 +116,7 @@
 			<input type="hidden" id="expenseCount" value="<%=expenseCounter %>"/>
 		</form>
 	</div>
-</div>
-
+<%@include file="include/bodyBottom.jsp" %>
 <script type="text/javascript"> 
 	$(document).ready( function(){
 		
