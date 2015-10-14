@@ -11,7 +11,7 @@
     var footer_height = $("footer").outerHeight();
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
-    $(".main-content").css({
+    $(".main-content, #main .vtk").css({
     	  "min-height" : total_height
     });
     $(".join-volunteer").css({
