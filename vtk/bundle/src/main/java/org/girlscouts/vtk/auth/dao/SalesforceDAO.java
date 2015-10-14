@@ -36,6 +36,7 @@ import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.girlscouts.vtk.sso.saml.OAuthRequest;
 import org.girlscouts.vtk.sso.saml.Utils;
+import org.girlscouts.vtk.utils.VtkException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -547,10 +548,12 @@ System.err.println("getUSER resp: " + rsp);
 
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
+			  try{
+				  
 				java.util.Iterator itr = results.getJSONObject(i)
 						.getJSONObject("Parent").keys();
 				Troop troop = new Troop();
-				try {
+				
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id
@@ -607,11 +610,13 @@ System.err.println("getUSER resp: " + rsp);
 										.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 					}
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				
 				troops.add(troop);
-			}
+			  }catch(Exception ex){
+				  System.err.println("Error int SalesForceDAO.troopInfo: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
+				  ex.printStackTrace();
+			  }
+			}//edn for
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -766,6 +771,8 @@ System.err.println("getUSER resp: " + rsp);
 
 	public java.util.List<Troop> getTroops_merged(User user,
 			ApiConfig apiConfig, String contactId, JSONArray parentTroops) {
+		
+		
 		java.util.List<Troop> troops_withAssociation = troopInfo(user,
 				apiConfig, user.getSfUserId());
 		java.util.List<Troop> troops_withOutAssociation = parseTroops(user,
@@ -779,13 +786,16 @@ System.err.println("getUSER resp: " + rsp);
 
 		java.util.List<Troop> troops = new java.util.ArrayList<Troop>();
 		for (int i = 0; i < results.length(); i++) {
-
+		
+		  try{
 			Troop troop = new Troop();
-			try {
+
+			
 				troop.setCouncilCode(results.getJSONObject(i).getInt(
 						"Council_Code__c"));
 				troop.setCouncilId(results.getJSONObject(i).getString(
 						"Account__c"));
+			
 				troop.setGradeLevel(results.getJSONObject(i)
 
 				.getString("Program_Grade_Level__c"));
@@ -821,10 +831,11 @@ System.err.println("getUSER resp: " + rsp);
 				}
 
 				troops.add(troop);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
+			
+		  }catch(Exception ex){
+			  System.err.println("Error int SalesForceDAO.parseTroops: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
+			  ex.printStackTrace();
+		  }
 		}// end for
 
 		return troops;
