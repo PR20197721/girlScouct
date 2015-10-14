@@ -4,8 +4,11 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+<%
+  String sectionClassDefinition = "finances";
+%>
 <%@include file="include/bodyTop.jsp" %>
-<% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){ 
+<% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){
 	%>
 	  <div class="columns large-20 large-centered">
                 <p>
@@ -38,9 +41,9 @@
 
 	List<String> incomeFields = financeConfig.getIncomeFields();
 	List<String> expenseFields = financeConfig.getExpenseFields();
-	
+
 	String period = financeConfig.getPeriod();
-	
+
 	String recipient = financeConfig.getRecipient();
 	if(recipient == null){
 		recipient = "";
@@ -71,7 +74,7 @@
 			 </section>
 			 <section class="column large-12 medium-12">
 				 <div id="incomeFields">
-				 	<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/> 
+				 	<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/>
 				 </div>
 			 </section>
 			</div>
@@ -117,34 +120,34 @@
 		</form>
 	</div>
 <%@include file="include/bodyBottom.jsp" %>
-<script type="text/javascript"> 
+<script type="text/javascript">
 	$(document).ready( function(){
-		
+
 		jQuery.validator.addClassRules("financeAdminField", {
 			required: true
 		});
-	
+
 		$("#financeAdminForm").validate({
-			rules: { 
+			rules: {
 				recipient: {
 					required: true,
 					email: true
-				} 
+				}
 			},
       		showErrors: function(errorMap, errorList) {
       			var errors = this.numberOfInvalids();
 				if (errors) {
 					$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
-					
+
 					$('#error-message')[0].scrollIntoView( true );
 				} else {
 					$(".error-message").html("");
 				}
 				this.defaultShowErrors();
       		}
-      		
+
 		});
-		
+
 	});
 </script>
 
