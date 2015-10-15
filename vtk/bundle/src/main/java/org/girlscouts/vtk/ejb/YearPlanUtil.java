@@ -347,4 +347,21 @@ System.err.println("tatattx YearPlanUtil.getMeeting..");
 			throws IllegalAccessException {
 		return meetingDAO.getAllResourcesCount(user, troop, path);
 	}
+	
+	
+	public int getAssetCount(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+				return meetingDAO.getAssetCount(user, troop, _path);
+		}
+	
+	
+	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+				return meetingDAO.getCountLocalMeetingAidsByLevel(user, troop, _path);
+		}
+	
+	public int getResourceData(User user, Troop troop, String _path)
+			throws IllegalAccessException {
+		return meetingDAO.getResourceData( user,  troop,  _path);
+	}
 }// edn class

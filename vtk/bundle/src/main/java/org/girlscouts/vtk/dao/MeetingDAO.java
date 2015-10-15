@@ -113,6 +113,11 @@ public interface MeetingDAO {
 	public int getAllResourcesCount(User user, Troop troop,String path)
 			throws IllegalAccessException ;
 		
+	public int getAssetCount(User user, Troop troop, String _path)
+			throws IllegalAccessException ;
+	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
+			throws IllegalAccessException;
 	
-	
+	public int getResourceData(User user, Troop troop, String _path)
+			throws IllegalAccessException ;
 }

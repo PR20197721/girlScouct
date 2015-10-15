@@ -129,6 +129,7 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setRetrieveTime(new java.util.Date());
 
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
+			ec.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());
@@ -1260,6 +1261,7 @@ System.err.println("Saved!");
 			}
 
 		} catch (VtkException ex) {
+			ex.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());

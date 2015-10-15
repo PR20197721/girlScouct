@@ -101,7 +101,7 @@ public ApiConfig doIt(java.io.InputStream is, String email, String access_token,
 		      
 		      
 		      HttpResponse response = client.execute(oauthPost);
-		      
+//System.err.println("resp dd: "+response);		      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));
@@ -109,7 +109,7 @@ public ApiConfig doIt(java.io.InputStream is, String email, String access_token,
 		   
 		      String accessToken = (String)jobj.get("access_token");
 		    	
-		      
+//System.err.println("accessToken: "+ accessToken +" : "+ jobj);		      
 		      
 		      
 		      

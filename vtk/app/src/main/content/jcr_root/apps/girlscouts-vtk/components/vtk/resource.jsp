@@ -31,6 +31,10 @@
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+    
+   int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
+    out.println(countLocalMeetingsAidsByLevel);
+
 %>
 
 
@@ -101,7 +105,7 @@
 		<h1>Browse Resources by Category</h1>
 
 		<%
-			final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
+			final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
 			try {
 				final String RESOURCES_PATH = "resources";
 				String councilId = null;
@@ -115,10 +119,11 @@
 
 				// TODO: language?
 				String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-				final Page rootPage = manager.getPage(resourceRootPath);
-				
-				Iterator<Page> majorIter = rootPage.listChildren();
+out.println( resourceRootPath);
+yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
 
+				final Page rootPage = manager.getPage(resourceRootPath);				
+				Iterator<Page> majorIter = rootPage.listChildren();
 				int majorCount = 0;
 				while (majorIter.hasNext()) {
 				    majorIter.next();
@@ -127,39 +132,42 @@
 				majorIter = rootPage.listChildren();
 		%>
 
-		<ul
-			class="small-block-grid-1 medium-block-grid-<%=majorCount%> large-block-grid-<%=majorCount%> browseResources">
+		<ul class="small-block-grid-1 medium-block-grid-<%=majorCount%> large-block-grid-<%=majorCount%> browseResources">
 			<%
 				while (majorIter.hasNext()) { 
-						    Page currentMajor = majorIter.next();
-						    long minorCount = 0;
-			    %><li><%					
-				%><div><%=currentMajor.getTitle()%></div> <%
+					Page currentMajor = majorIter.next();
+				    long minorCount = 0;
+			        %><li><%					
+				    %><div><%=currentMajor.getTitle()%></div> <%
 					Iterator<Page> minorIter = currentMajor.listChildren();
  					minorIter = currentMajor.listChildren();
  					while (minorIter.hasNext()) {
  					    Page currentMinor = minorIter.next();
  					    String link = "?category=" + currentMinor.getPath();
  					    String title = currentMinor.getTitle();
- 					   if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
- 						  minorCount=0;
+ 		 
+ 					    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+ 					    	
+ 					        
+ 					    	
+ 						    minorCount=0;
+ 						    
  						    try{
  							    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
  								while (iter.hasNext()) {
+ 									
  								    	Resource meetingResource = iter.next();
- 								    	
+ 	out.println("-"+meetingResource.getPath());							    	
  								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
  								        meetingId= meetingId.replace("/","");
- 								        minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
+ 	out.println("*"+LOCAL_MEETING_AID_PATH+"/"+meetingId);							        
+ 								       minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); 
  								
  								}
- 						    }catch(Exception e){}
+ 						    }catch(Exception e){} 	
  					    
- 					        minorCount += countAidAssets(
- 					                GLOBAL_MEETING_AID_PATH,
- 					                queryBuilder,
- 					                resourceResolver.adaptTo(Session.class)
- 					        );
+ 						    minorCount = countLocalMeetingsAidsByLevel;
+ 						    minorCount +=  yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
  					     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
  					        try {
  					            String rootPath = getMeetingsRootPath(troop);
@@ -180,7 +188,7 @@
  					     }				   
  			    %>             
                 <div>
-					<a href="<%=link%>"><%=title%> (<%=minorCount%>)</a>
+					<a href="<%=link%>"><%=title%> (<%=minorCount%>)  </a>
 				</div> 
 				<%
  	 }
@@ -358,18 +366,6 @@
 		builder.append("</li>");
 	}
 
-	private long countAidAssets(String path, QueryBuilder builder,
-			Session session) {
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("path", path);
-		map.put("type", "dam:Asset");
-		map.put("p.limit", "1");
-		PredicateGroup predicate = PredicateGroup.create(map);
-		Query query = builder.createQuery(predicate, session);
-
-		SearchResult result = query.getResult();
-		return result.getTotalMatches();
-	}
 
 	private String getMeetingsRootPath(Troop troop) {
 		if( troop==null || troop.getTroop()==null || troop.getTroop().getGradeLevel()==null) return "";

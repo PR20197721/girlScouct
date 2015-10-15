@@ -336,6 +336,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
+System.err.println("RESP: "+ samlResponse);			
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
 				requestURL = requestURL.replace("http://my", "https://my")

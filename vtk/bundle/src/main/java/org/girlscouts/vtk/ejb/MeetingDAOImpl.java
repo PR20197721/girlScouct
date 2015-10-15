@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.jcr.LoginException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
@@ -2204,4 +2205,200 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
+	
+	
+	public int getAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
+		int count = 0;
+		if(path == null || "".equals("")) {
+			return 0;
+		}
+		Session session = null;
+		try {
+			String sql = "select [jcr:path] "
+					+ " from [dam:Asset] as s   where "
+					+ " (isdescendantnode (s, ["
+					+ path
+					+ "]))";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			
+			QueryResult result = q.execute();
+			count = (int) result.getNodes().getSize();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
+	
+	/*
+	public int getXCount(User user, Troop troop) throws IllegalAccessException {
+		int count = 0;
+		
+		Session session = null;
+		try {
+			String sql = "SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(['/content/dam/girlscouts-vtk/local/aid/meetings/'])"; 
+
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			
+			QueryResult result = q.execute();
+			count = (int) result.getNodes().getSize();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
+	*/
+	
+	
+	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+		
+		int count = 0;
+		if( troop==null) return 0;
+		
+		String level = troop.getTroop().getGradeLevel().toLowerCase();
+		if (level.contains("-")) {
+			level = level.split("-")[1];
+		}
+		
+		Session session = null;
+		try {
+			_path= "/content/dam/girlscouts-vtk/local/aid/meetings/";
+			//String sql ="SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, ['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
+					//"SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
+			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
+					+ " from [nt:unstructured] as parent where "
+					+ " (isdescendantnode (parent, ["
+					+ _path
+					+ "])) and [cq:tags] is not null";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			
+			QueryResult result = q.execute();
+			NodeIterator itr = result.getNodes();
+			while(itr.hasNext()){
+				Node node = (Node)itr.next() ;
+		System.err.println(">>>> "+ node.getPath() +" : "+ "meetings/" + level.charAt(0) );		
+				if( node.getPath().toLowerCase().contains( ("meetings/" + level.charAt(0)).toLowerCase() ) ) 
+						count++;
+			}
+			//count = (int) result.getNodes().getSize();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
+	
+	
+	public int getResourceData(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+		
+		int count = 0;
+		
+		
+		
+		
+		Session session = null;
+		try {
+			
+			String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, ['"+ _path +"'])";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			
+			java.util.Map <String, java.util.List<String>>container = new java.util.TreeMap();
+			
+			QueryResult result = q.execute();
+			NodeIterator itr = result.getNodes();
+			while(itr.hasNext()){
+				Node node = (Node)itr.next() ;
+				String path = node.getPath();
+	System.err.println("\n\n\n\n >>"+ path);			
+				String pathUri = path.replace(_path, "");
+	System.err.println("............. "+ pathUri);
+				String[] nodes = pathUri.split("/");
+		if( nodes.length<=2 || nodes[2].equals("jcr:content") ) continue;		
+				java.util.List list =  container.get( nodes[1] + "|" + nodes[2]);
+				if( list ==null )
+					list= new java.util.ArrayList<String>();
+				
+				if( nodes.length > 3 && !nodes[3].equals("jcr:content"))
+					list.add( nodes[3] );
+				
+				container.put( nodes[1] + "|" + nodes[2], list); 
+			}
+			
+			
+			java.util.Iterator _itr = container.keySet().iterator();
+			while( _itr.hasNext() ){
+				String title=  (String) _itr.next();
+				java.util.List <String>links = container.get( title );
+				System.err.println("##############   " + title +" : "+ links +" : "+ links.size());
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
 }// edn class
