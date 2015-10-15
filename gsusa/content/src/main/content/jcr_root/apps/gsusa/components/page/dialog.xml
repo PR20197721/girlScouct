@@ -77,9 +77,13 @@
                             fieldDescription="Cookie pages have special headers, footers and third column."
                             fieldLabel="Is Cookie Page"
                             name="./isCookiePage"
-                            type="select"
+                            type="radio"
                             xtype="selection">
                             <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
                                 <true
                                     jcr:primaryType="nt:unstructured"
                                     text="True"
@@ -88,10 +92,6 @@
                                     jcr:primaryType="nt:unstructured"
                                     text="False"
                                     value="false"/>
-                                <derived
-                                    jcr:primaryType="nt:unstructured"
-                                    text="Derived"
-                                    value="derived"/>
                             </options>
                         </is-cookie-page>
                     </items>
