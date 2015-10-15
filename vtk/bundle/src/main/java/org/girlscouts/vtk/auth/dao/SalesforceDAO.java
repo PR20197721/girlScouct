@@ -30,6 +30,7 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.ConnectionFactory;
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -55,10 +56,12 @@ public class SalesforceDAO {
 	String callbackUrl;
 	private TroopDAO troopDAO;
 	private ConnectionFactory connectionFactory;
-
+	private java.util.List<VtkError> errors;
+	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
 		this.troopDAO = troopDAO;
 		this.connectionFactory = connectionFactory;
+		this.errors = new java.util.ArrayList<VtkError>();
 	}
 
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException {
@@ -166,7 +169,14 @@ System.err.println("getUSER resp: " + rsp);
 					java.util.List<Troop> troops = getTroops_merged(user,
 							apiConfig, user.getSfUserId(), parentTroops);
 					apiConfig.setTroops(troops);
-
+					
+					java.util.List<VtkError> _errors = apiConfig.getErrors();
+					if( errors!=null && errors.size()>0 ){
+						if( _errors!=null )
+							errors.addAll(_errors);
+						apiConfig.setErrors(errors);
+						
+					}
 					return user;
 
 				}
@@ -520,7 +530,6 @@ System.err.println("getUSER resp: " + rsp);
 	public java.util.List<Troop> troopInfo(User user, ApiConfig apiConfig,
 			String contactId) {
 		java.util.List<Troop> troops = new java.util.ArrayList();
-
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
@@ -545,15 +554,24 @@ System.err.println("getUSER resp: " + rsp);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-
+System.err.println("troop :"+ response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
+				String errorTroopId="-1";
+				String errorTroopName="X";
 			  try{
 				  
 				java.util.Iterator itr = results.getJSONObject(i)
 						.getJSONObject("Parent").keys();
 				Troop troop = new Troop();
-				
+	
+	
+					troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
+					errorTroopId= troop.getTroopId();
+
+					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
+					errorTroopName = troop.getTroopName();
+
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id
@@ -563,10 +581,7 @@ System.err.println("getUSER resp: " + rsp);
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
 
-					troop.setTroopId(results.getJSONObject(i).getString(
-							"ParentId"));
-					troop.setTroopName(results.getJSONObject(i)
-							.getJSONObject("Parent").getString("Name"));
+					
 
 					try {
 						troop.setRole(results.getJSONObject(i).getString(
@@ -613,8 +628,16 @@ System.err.println("getUSER resp: " + rsp);
 				
 				troops.add(troop);
 			  }catch(Exception ex){
-				  System.err.println("Error int SalesForceDAO.troopInfo: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
+				  log.error("Error int SalesForceDAO.troopInfo: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
 				  ex.printStackTrace();
+				  try{
+					  VtkError err= new VtkError();
+					  err.setName("Error parsing Girl Scouts Troop");
+					  err.setDescription("Error int SalesForceDAO.parseTroops- (leader): found error while parsing troop response json from Salesforce. Exception : " + ex.toString());
+					  err.setUserFormattedMsg("There appears to be an error in the configuration of one of your troops.  Please notify support with error code VTK-" + errorTroopName + ".  Meanwhile, the application should still function correctly.");
+					  err.setErrorCode("VTK-" + errorTroopId);
+					  errors.add(err);
+				  }catch(Exception e){e.printStackTrace();}
 			  }
 			}//edn for
 		} catch (Exception e) {
@@ -775,22 +798,26 @@ System.err.println("getUSER resp: " + rsp);
 		
 		java.util.List<Troop> troops_withAssociation = troopInfo(user,
 				apiConfig, user.getSfUserId());
-		java.util.List<Troop> troops_withOutAssociation = parseTroops(user,
+		java.util.List<Troop> troops_withOutAssociation = parseParentTroops(user,
 				parentTroops);
 		java.util.List<Troop> merged_troops = mergeTroops(
 				troops_withAssociation, troops_withOutAssociation);
 		return merged_troops;
 	}
 
-	public java.util.List<Troop> parseTroops(User user, JSONArray results) {
-
+	public java.util.List<Troop> parseParentTroops(User user, JSONArray results) {
+		
 		java.util.List<Troop> troops = new java.util.ArrayList<Troop>();
 		for (int i = 0; i < results.length(); i++) {
-		
+		  String errorTroopId = "-1";
+		  String errorTroopName = "X";
 		  try{
 			Troop troop = new Troop();
-
-			
+	
+			troop.setTroopId(results.getJSONObject(i).getString("Id"));
+			errorTroopId = troop.getTroopId();
+			troop.setTroopName(results.getJSONObject(i).getString("Name"));
+			errorTroopName= troop.getTroopName();
 				troop.setCouncilCode(results.getJSONObject(i).getInt(
 						"Council_Code__c"));
 				troop.setCouncilId(results.getJSONObject(i).getString(
@@ -800,7 +827,6 @@ System.err.println("getUSER resp: " + rsp);
 
 				.getString("Program_Grade_Level__c"));
 
-				troop.setTroopId(results.getJSONObject(i).getString("Id"));
 				troop.setTroopName(results.getJSONObject(i).getString("Name"));
 				troop.setRole("PA");
 
@@ -835,6 +861,14 @@ System.err.println("getUSER resp: " + rsp);
 		  }catch(Exception ex){
 			  System.err.println("Error int SalesForceDAO.parseTroops: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
 			  ex.printStackTrace();
+			  try{
+				  VtkError err= new VtkError();
+				  err.setName("Error parsing Girl Scouts Troop");
+				  err.setDescription("Error int SalesForceDAO.parseTroops- (parent): found error while parsing troop response json from Salesforce. Exception : " + ex.toString());
+				  err.setUserFormattedMsg("There appears to be an error in the configuration of one of your troops.  Please notify support with error code VTK-" + errorTroopName + ".  Meanwhile, the application should still function correctly.");
+				  err.setErrorCode("VTK-"+ errorTroopId);
+				  errors.add(err);
+			  }catch(Exception e){e.printStackTrace();}
 		  }
 		}// end for
 

@@ -2,6 +2,7 @@ package org.girlscouts.vtk.auth.models;
 
 import java.io.Serializable;
 
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.salesforce.Troop;
 
 public class ApiConfig implements Serializable {
@@ -22,6 +23,8 @@ public class ApiConfig implements Serializable {
 	//from jcr config -APIs
 	private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
 	
+	//error msg
+	java.util.List<VtkError> errors;
 	
 	
 	public String getVtkApiTroopLeadersUri() {
@@ -87,6 +90,8 @@ public class ApiConfig implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	
 
 	public String getAccessToken() {
 		return accessToken;
@@ -167,6 +172,14 @@ public class ApiConfig implements Serializable {
 
 	public void setLastTimeTokenRefreshed(long lastTimeTokenRefreshed) {
 		this.lastTimeTokenRefreshed = lastTimeTokenRefreshed;
+	}
+
+	public java.util.List<VtkError> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(java.util.List<VtkError> errors) {
+		this.errors = errors;
 	}
 	
 
