@@ -6,7 +6,7 @@
 	if (isCookiePage(currentPage)) {
 		// All cookie pages share the same right rail.
         String cookieRightPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/cookie-right";
-        %><cq:include path="cookieRightPath" resourceType="gsusa/components/cookie-right" /><%
+        %><cq:include path="cookieRightPath" resourceType="girlscouts/components/styled-parsys" /><%
 	} else {
 %>
         <div id="rightContent">

@@ -1,5 +1,4 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/gsusa/components/global.jsp" %>
 <!-- footer -->
 <%
     // All pages share the same footer from the site root.
@@ -8,11 +7,7 @@
     String footerNavPath = footerPath + "/footerNav";
     String footerSharePath = footerPath + "/footerShare";
     String copyrightPath = footerPath + "/copyright";
-    String cookieFooterPath = footerPath + "/cookieFooter";
 %>
-<% if (isCookiePage(currentPage)) { %>
-	<cq:include path="<%= cookieFooterPath %>" resourceType="gsusa/components/cookie-footer" />
-<% } %>
 <section class="clearfix">
   <div class="float-right">
 	<cq:include path="<%= keepInTouchPath %>" resourceType="gsusa/components/keep-in-touch" />
