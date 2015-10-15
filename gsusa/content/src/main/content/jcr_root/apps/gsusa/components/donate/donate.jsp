@@ -30,9 +30,9 @@
 		}
 	</script>
 
-<%    String title = properties.get("title", "Donate");
+<%  String title = properties.get("title", "Donate");
 	int maxWidth = properties.get("maxWidth", 210);
-	
+
 	String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
@@ -46,19 +46,19 @@
 	    <cq:include path="bg" resourceType="gsusa/components/image"/></div>
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 	    <div class="button-wrap">
-					<a class="button"><%= title %></a>
-						<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-				            <label for="zipcode">Enter Zip Code: </label>
-				            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
-							<button type="submit" class="button">GO</button>
-						</form>
-				</div>
+			<a class="button"><%= title %></a>
+				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
+		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
+		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+					<input type="submit" class="button">GO</button>
+				</form>
+		</div>
 	</div> <%
 	} else { %>
 		<div class="standalone-donate form-no-image donate-block">
 	    <a class="button"><%= title %></a>
 			<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-	            <label for="zipcode">Enter Zip Code: </label>
+	            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 	            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 				<button type="submit" class="button">GO</button>
 			</form>
