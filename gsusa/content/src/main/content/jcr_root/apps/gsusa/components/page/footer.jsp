@@ -32,4 +32,3 @@
     <img src="/etc/designs/gsusa/clientlibs/images/footer_logo.png" alt="footer logo" />
 </section>
 <!-- END of footer -->
-

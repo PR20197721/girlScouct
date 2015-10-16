@@ -22,6 +22,7 @@
                 <cq:include script="content.jsp"/>
                 <cq:include script="join-volunteer.jsp"/>
               </div>
+              <cq:include script="cookie-footer.jsp"/>
               <footer>
                 <cq:include script="footer.jsp"/>
               </footer>

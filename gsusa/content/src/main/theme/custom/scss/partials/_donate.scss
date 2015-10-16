@@ -1,0 +1,38 @@
+.standalone-donate {
+  position: relative;
+  margin-bottom: 1.25rem;
+  .button-wrap {
+    position: absolute;
+    bottom: 0.625rem;
+    width: 100%;
+    padding: 0 5px;
+    //toggle button
+    a.button {
+      white-space: nowrap;
+      padding-left: 0.625rem;
+      z-index: 2;
+      margin: 0;
+      width: 100%;
+      background: $white;
+      color: $primary-color;
+    }
+    //show hide form
+    form.formDonate {
+      position: absolute;
+      bottom: 0;
+      background: #FFFFFF;
+      width: 95%;
+      z-index: 3;
+      padding: rem-calc(5);
+      input[type="text"] {
+        width: 80%;
+        float: left;
+      }
+      button {
+        padding: 0.5rem 0.3125rem 0.4375rem 0.3125rem;
+        margin-bottom: 0;
+        float: right;
+      }
+    }
+  }
+}
