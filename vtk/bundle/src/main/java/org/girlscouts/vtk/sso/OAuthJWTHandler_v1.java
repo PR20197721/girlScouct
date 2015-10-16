@@ -97,11 +97,12 @@ public ApiConfig doIt(java.io.InputStream is, String email, String access_token,
 		      parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));
 		    
-		      oauthPost.setEntity(new UrlEncodedFormEntity(parametersBody, HTTP.UTF_8));		
-		      
-		      
+		      oauthPost.setEntity(new UrlEncodedFormEntity(parametersBody, HTTP.UTF_8));
+System.err.println("Token: "+ access_token +" : "+ email);		      
+System.err.println("OAuth req: "+ parametersBody);		      
+System.err.println("req: "+ oauthPost);		      
 		      HttpResponse response = client.execute(oauthPost);
-//System.err.println("resp dd: "+response);		      
+//System.err.println("resp dd: "+EntityUtils.toString(response.getEntity()));		      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));

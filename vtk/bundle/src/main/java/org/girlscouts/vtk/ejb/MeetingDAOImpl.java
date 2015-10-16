@@ -52,6 +52,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.girlscouts.web.search.DocHit;
@@ -2357,17 +2358,48 @@ public class MeetingDAOImpl implements MeetingDAO {
 					javax.jcr.query.Query.JCR_SQL2);
 			
 			java.util.Map <String, java.util.List<String>>container = new java.util.TreeMap();
+			java.util.Map <String, bean_resource>dictionary = new java.util.TreeMap<String, bean_resource>();
 			
 			QueryResult result = q.execute();
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				Node node = (Node)itr.next() ;
 				String path = node.getPath();
-	System.err.println("\n\n\n\n >>"+ path);			
+	System.err.println("\n\n\n\n >>"+ path +": "+ node.getProperty("jcr:title").getString());			
 				String pathUri = path.replace(_path, "");
 	System.err.println("............. "+ pathUri);
 				String[] nodes = pathUri.split("/");
-		if( nodes.length<=2 || nodes[2].equals("jcr:content") ) continue;		
+			
+			/*
+			if( nodes.length==3){
+				System.err.println(">>>******************>>  "+nodes[1] +" to "+ node.getProperty("jcr:title").getString() );
+				//dictionary.put( nodes[1], node.getProperty("jcr:title").getString() );
+				
+				bean_resource beanResource = new bean_resource();
+				beanResource.setPath(path.replace("/jcr:content", ""));
+				beanResource.setTitle(node.getProperty("jcr:title").getString() );
+				beanResource.setNodeUri( nodes[1] );
+				beanResource.setCategory( nodes[1]  );
+				dictionary.put( nodes[1], beanResource);
+				
+			}
+			*/
+			if( nodes.length==4){
+				System.err.println(">>>**********... . . . . . ********>>  "+nodes[2] +" to "+ node.getProperty("jcr:title").getString() );
+				//dictionary.put( nodes[2], node.getProperty("jcr:title").getString());
+				
+				bean_resource beanResource = new bean_resource();
+				beanResource.setPath(path.replace("/jcr:content", ""));
+				beanResource.setTitle( node.getProperty("jcr:title").getString() );
+				beanResource.setNodeUri( nodes[2] );
+				beanResource.setCategory( nodes[1] );
+				dictionary.put( nodes[1] + "|" + nodes[2], beanResource);
+				
+			}
+			
+			
+			    if( nodes.length<=2 || nodes[2].equals("jcr:content") ) continue;	
+			
 				java.util.List list =  container.get( nodes[1] + "|" + nodes[2]);
 				if( list ==null )
 					list= new java.util.ArrayList<String>();
@@ -2376,6 +2408,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					list.add( nodes[3] );
 				
 				container.put( nodes[1] + "|" + nodes[2], list); 
+				
 			}
 			
 			
@@ -2384,7 +2417,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 				String title=  (String) _itr.next();
 				java.util.List <String>links = container.get( title );
 				System.err.println("##############   " + title +" : "+ links +" : "+ links.size());
+				bean_resource  resource = dictionary.get( title );
+				System.err.println("##############   " + resource.getCategory() +" : "+ resource.getTitle() +" : "+ resource.getItemCount() + ": "+ links.size());
+				
 			}
+			
+			
+			
 			
 			
 		} catch (Exception e) {

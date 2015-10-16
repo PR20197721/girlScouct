@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.rmi.ServerException;
 import java.security.cert.CertificateException;
@@ -336,7 +337,8 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-System.err.println("RESP: "+ samlResponse);			
+System.err.println("RESP: "+ samlResponse);	
+System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
 				requestURL = requestURL.replace("http://my", "https://my")
@@ -368,7 +370,7 @@ System.err.println("RESP: "+ samlResponse);
 			e.printStackTrace();
 		}
 if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
-
+ try{
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
 				.getConfig("gsCertificate"));
@@ -432,6 +434,18 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		    cookie.setPath("/");
 		    response.addCookie(cookie);
 		}
+		
+ }catch(Exception e){
+	 e.printStackTrace();
+	 PrintWriter out = response.getWriter();
+	 out.println("ERROR getting OAUth token from Salesforce. ");
+	 out.println("<br/><a href=\""+configManager.getConfig("baseUrl")+"\">Home</a>");
+	 out.println("<br/><a href=\""+configManager.getConfig("communityUrl")+"\">Community</a>");
+	 out.close();
+	 //response.sendRedirect(configManager.getConfig("baseUrl"));
+	 return;
+ }
+ 
 	}//end oAuthtoken
 
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {

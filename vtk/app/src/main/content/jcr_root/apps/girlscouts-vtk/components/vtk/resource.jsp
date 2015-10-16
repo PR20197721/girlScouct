@@ -22,7 +22,6 @@
 	final String LOCAL_MEETING_AID_PATH = "/content/dam/girlscouts-vtk/local/aid/meetings";
 	final String TYPE_MEETING_AIDS = "meeting-aids";
 	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
-
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
 <%-- VTK tab --%>
@@ -31,8 +30,8 @@
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
-    
-   int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
+    String sectionClassDefinition ="";
+    int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
     out.println(countLocalMeetingsAidsByLevel);
 
 %>
