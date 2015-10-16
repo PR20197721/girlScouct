@@ -20,10 +20,19 @@
     boolean showVtkNav = true;
     int qtr = 1;
     boolean isQuarterly = true;
+    String sectionClassDefinition="";
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());    
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%
+if( troop!=null && troop.getYearPlan()==null ){
+	%>
+	YearPlan not setup. 
+	<%@include file="include/bodyBottom.jsp" %>
+	<script>loadNav('finances');</script>
+	<% 
+	return;
+}
 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
 		if(financeConfig.isPersisted()){
