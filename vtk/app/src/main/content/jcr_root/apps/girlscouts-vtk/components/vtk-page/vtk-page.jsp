@@ -28,9 +28,24 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 	        redirectTo = redirectTo + "&refererCouncil=" + refererCouncil;
 	    }
 
+	    System.out.println("Redirecting to " + redirectTo);
 		response.sendRedirect(redirectTo);
-		return;
+		return;		
+	} else if (apiConfig.isFail()) {
+		boolean thisIsHome = false;
+		for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
+			if ("home".equals(selectFragment)) {
+				thisIsHome = true;
+			}
+		}
+		if (!thisIsHome) {
+		    		// go to vtk.home.html w/ error message inside apiConfig.getErrorMessage()
+		}
+	} else {
+		   System.out.println("Unhandled ApiConfig State.");
 	}
+    System.out.println("ApiConfig not null and not failed.");
+
 }
 
 	

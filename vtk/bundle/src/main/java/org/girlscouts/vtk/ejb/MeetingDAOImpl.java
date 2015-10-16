@@ -2416,9 +2416,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			while( _itr.hasNext() ){
 				String title=  (String) _itr.next();
 				java.util.List <String>links = container.get( title );
-				System.err.println("##############   " + title +" : "+ links +" : "+ links.size());
+				//System.err.println("##############   " + title +" : "+ links +" : "+ links.size());
+				
 				bean_resource  resource = dictionary.get( title );
-				System.err.println("##############   " + resource.getCategory() +" : "+ resource.getTitle() +" : "+ resource.getItemCount() + ": "+ links.size());
+				resource.setItemCount(links.size());
+				System.err.println("##############   " + resource.getCategory() +" : "+ resource.getTitle() +" : "+ resource.getItemCount() );
 				
 			}
 			

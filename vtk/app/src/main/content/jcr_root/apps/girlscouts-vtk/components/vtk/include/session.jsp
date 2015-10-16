@@ -29,6 +29,7 @@
 	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
 
+<%@include file="sessionState.jsp"%>
 
 <% 
 

@@ -53,6 +53,7 @@ import org.girlscouts.vtk.helpers.TroopHashGenerator;
 import org.girlscouts.vtk.sso.AccountSettings;
 import org.girlscouts.vtk.sso.AppSettings;
 import org.girlscouts.vtk.sso.saml.AuthRequest;
+import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -369,15 +370,23 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 
 			e.printStackTrace();
 		}
-if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
- try{
+		ApiConfig config =null;
+		HttpSession session = request.getSession();
+
+		if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
+	
+	
+	try{
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		byte[] data = Base64.decodeBase64(configManager
 				.getConfig("gsCertificate"));
 		ByteArrayInputStream is = new ByteArrayInputStream(data);
-		ApiConfig config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
+		config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
 				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 						.getConfig("communityUrl"));
+
+//if(true)throw new VtkException("test123 exception");
+
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
 		String refreshTokenStr = null;
@@ -397,7 +406,6 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		config.setVtkApiContactUri(vtkApiContactUri);
 		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
 		
-		HttpSession session = request.getSession();
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
 		try {
@@ -437,6 +445,12 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		
  }catch(Exception e){
 	 e.printStackTrace();
+	 if( config==null )
+		 config = new ApiConfig();
+	 config.setFail(true);
+		session.setAttribute(ApiConfig.class.getName(), config);
+	 
+	 /*
 	 PrintWriter out = response.getWriter();
 	 out.println("ERROR getting OAUth token from Salesforce. ");
 	 out.println("<br/><a href=\""+configManager.getConfig("baseUrl")+"\">Home</a>");
@@ -444,19 +458,20 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 	 out.close();
 	 //response.sendRedirect(configManager.getConfig("baseUrl"));
 	 return;
+	 */
  }
  
 	}//end oAuthtoken
 
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
-
+System.err.println(13);
 			    redirect(response, request.getParameter("RelayState"));
 		}else if(request.getParameter("RelayState")!=null){
-
+System.err.println(12);
 				setCouncilInClient(response, request.getParameter("RelayState"));
 				redirect(response, targetUrl);
 		}else {
-
+System.err.println(1+":>>>>>>>>>>>>>>> "+ targetUrl);
 			    redirect(response, targetUrl);
 
 		}

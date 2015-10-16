@@ -11,48 +11,52 @@
 <%
     HttpSession session = request.getSession();
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
+    boolean isHideSignIn = false;
+    boolean isHideMember = false;
+    String communityUrl = "";
+    int councilIdInt = 0;
+    String councilId = "0";
     try{
          apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
+    if (apiConfig != null && !apiConfig.isFail()) {
 
-    int councilIdInt = 0;
-    String councilId = "0";
-    CouncilMapper mapper = sling.getService(CouncilMapper.class);
-
-    String branch = null;
-    try {
-    	councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
-    	councilId = Integer.toString(councilIdInt);
-    	branch = mapper.getCouncilBranch(councilId);
-    } catch (Exception e) {
-        String refererCouncil = VtkUtil.getCouncilInClient(request);
-        if (refererCouncil != null && !refererCouncil.isEmpty()) {
-            branch = "/content/" + refererCouncil;
-        } else {
-            branch = mapper.getCouncilBranch();
-        }
-    }
-
-    // language
-    branch += "/en/jcr:content";
-    System.out.println("##branch = " + branch);
-
-    ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
-    boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
-    boolean isHideMember = valueMap.get("hideMemberButton", "").equals("true");
-
-    // Get URL for community page
-    ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
-    String communityUrl = "";
-    if (configManager != null) {
-        communityUrl = configManager.getConfig("communityUrl");
+	    CouncilMapper mapper = sling.getService(CouncilMapper.class);
+	
+	    String branch = null;
+	    try {
+	        councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
+	        councilId = Integer.toString(councilIdInt);
+	        branch = mapper.getCouncilBranch(councilId);
+	    } catch (Exception e) {
+	        String refererCouncil = VtkUtil.getCouncilInClient(request);
+	        if (refererCouncil != null && !refererCouncil.isEmpty()) {
+	            branch = "/content/" + refererCouncil;
+	        } else {
+	            branch = mapper.getCouncilBranch();
+	        }
+	    }
+	
+	    // language
+	    branch += "/en/jcr:content";
+	    System.out.println("##branch = " + branch);
+	
+	    ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
+	    isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
+	    isHideMember = valueMap.get("hideMemberButton", "").equals("true");
+	
+	    // Get URL for community page
+	    ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
+	    if (configManager != null) {
+	        communityUrl = configManager.getConfig("communityUrl");
+	    }
     }
 %>
 
 <!--
 <% 
-	out.print(councilId); 
-	
+    out.print(councilId); 
+    
 %>
 -->
  
@@ -98,23 +102,23 @@
             <div class="par parsys">
       
       <%if( apiConfig.getErrors()!=null ){ %>  
-	      <div class="error">
-	               <ul>
-	               <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
-	                   <li>
-	                    <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
-	                    <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
+          <div class="error">
+                   <ul>
+                   <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
+                       <li>
+                        <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
+                        <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
 <!--  
 ---- description ----
 <%= apiConfig.getErrors().get(i).getDescription()%>
 ---- error code ----
 <%=apiConfig.getErrors().get(i).getErrorCode() %>
 -->
-	                   </li>
-	               <%} %>
-	               </ul>
-	      </div>    
-	  <%} %>    
+                       </li>
+                   <%} %>
+                   </ul>
+          </div>    
+      <%} %>    
               <div class="text parbase section"><h1>Welcome.</h1></div>
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -123,18 +127,19 @@
                     
                     
                     
-                    	
-                    	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
-                    	String userRole = null;
-			if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
-				userRole = apiConfig.getTroops().get(0).getRole();
-			}
-                    	userRole= userRole ==null ? "" : userRole;
-                    	if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
-                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
-                    	}
-                    
-                    	
+                        
+                        String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
+                        String userRole = null;
+                        if (!apiConfig.isFail()) {
+            if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
+                userRole = apiConfig.getTroops().get(0).getRole();
+            }
+                        userRole= userRole ==null ? "" : userRole;
+                        if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                            vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
+                        }
+                        }
+                        
                     %>
                     <!-- Begin of VTK icon -->
                     <a href="<%=vtkLanding%>">
