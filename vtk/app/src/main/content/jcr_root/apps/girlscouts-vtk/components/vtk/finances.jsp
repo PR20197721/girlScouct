@@ -27,7 +27,7 @@
 <%
 if( troop!=null && troop.getYearPlan()==null ){
 	%>
-	YearPlan not setup. 
+	Your Finance Tab cannot be accessed until you have created your Troop Year Plan. Please visit this section once that has been completed
 	<%@include file="include/bodyBottom.jsp" %>
 	<script>loadNav('finances');</script>
 	<% 
