@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 
@@ -360,7 +361,7 @@ System.err.println("tatattx YearPlanUtil.getMeeting..");
 				return meetingDAO.getCountLocalMeetingAidsByLevel(user, troop, _path);
 		}
 	
-	public int getResourceData(User user, Troop troop, String _path)
+	public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 		return meetingDAO.getResourceData( user,  troop,  _path);
 	}

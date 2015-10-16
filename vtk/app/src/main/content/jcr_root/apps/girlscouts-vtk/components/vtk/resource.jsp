@@ -32,7 +32,7 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
     int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
-    out.println(countLocalMeetingsAidsByLevel);
+   // out.println(countLocalMeetingsAidsByLevel);
 
 %>
 
@@ -103,9 +103,52 @@
 		<%-- categories --%>
 		<h1>Browse Resources by Category</h1>
 
+
+
+<%
+
+    final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
+    final String RESOURCES_PATH = "resources";
+    String councilId = null;
+    if (apiConfig != null) {
+        if (apiConfig.getTroops().size() > 0) {
+            councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+        }
+    }
+    CouncilMapper mapper = sling.getService(CouncilMapper.class);
+    String branch = mapper.getCouncilBranch(councilId);
+    String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+java.util.Collection<bean_resource> resources= yearPlanUtil.getResourceData(user, troop, resourceRootPath);
+java.util.List<String> categories = VtkUtil.countResourseCategories(resources);
+%>
+
+<ul class="small-block-grid-1 medium-block-grid-<%=categories.size()%> large-block-grid-<%=categories.size()%> browseResources">
+    <%
+    for(int i=0;i<categories.size();i++){ 
+        String category= categories.get(i);
+    %>
+	    <li>
+	         <div><%=category %></div>
+	         <%
+	         java.util.Iterator <bean_resource>itr = resources.iterator();
+	         while( itr.hasNext()){
+	        	  bean_resource bresource = itr.next();
+	        	  if( !bresource.getCategory().equals( category ) ) continue;
+	         %>
+		         <div>
+		            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>)  </a>
+		         </div> 
+		     <%} %>
+	    </li>
+    <%} %>
+</ul>
+
+
 		<%
-			final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
+if(false){
+			//final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
 			try {
+				/*
 				final String RESOURCES_PATH = "resources";
 				String councilId = null;
 				if (apiConfig != null) {
@@ -115,11 +158,11 @@
 				}
 				CouncilMapper mapper = sling.getService(CouncilMapper.class);
 				String branch = mapper.getCouncilBranch(councilId);
-
+*/
 				// TODO: language?
-				String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-out.println( resourceRootPath);
-yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
+				//String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+//out.println( resourceRootPath);
+//yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
 
 				final Page rootPage = manager.getPage(resourceRootPath);				
 				Iterator<Page> majorIter = rootPage.listChildren();
@@ -156,10 +199,10 @@ yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
  								while (iter.hasNext()) {
  									
  								    	Resource meetingResource = iter.next();
- 	out.println("-"+meetingResource.getPath());							    	
+ 							    	
  								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
  								        meetingId= meetingId.replace("/","");
- 	out.println("*"+LOCAL_MEETING_AID_PATH+"/"+meetingId);							        
+ 								        
  								       minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); 
  								
  								}
@@ -201,6 +244,7 @@ yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
 			} catch (Exception e) {
 				log.error("Cannot get VTK meeting aid categories: " + e.getMessage());
 			}
+}
 		%>
 
 

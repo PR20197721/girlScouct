@@ -36,6 +36,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.models.bean_resource;
 
 @Component(metatype = true, immediate = true)
 @Service(value = VtkUtil.class)
@@ -452,5 +453,17 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 	
  	}catch(Exception e){e.printStackTrace();}
  return false;	
+ }
+ 
+ public static java.util.List<String> countResourseCategories( java.util.Collection<bean_resource> resources ) {
+	 java.util.List<String> categories = new java.util.ArrayList<String>();
+	 java.util.Iterator <bean_resource>itr = resources.iterator();
+	 while( itr.hasNext() ){
+		
+		 String resource_category = itr.next().getCategory();
+		 if( !categories.contains(resource_category))
+			 categories.add(resource_category);
+	 }
+	 return categories;
  }
 }//end class

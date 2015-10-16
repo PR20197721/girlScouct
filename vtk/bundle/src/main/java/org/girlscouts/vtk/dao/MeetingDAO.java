@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.dao;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -15,6 +16,7 @@ import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 
 
@@ -118,6 +120,6 @@ public interface MeetingDAO {
 	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
 			throws IllegalAccessException;
 	
-	public int getResourceData(User user, Troop troop, String _path)
+	public Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException ;
 }
