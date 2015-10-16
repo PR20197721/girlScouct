@@ -50,7 +50,7 @@
 				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
-					<input type="submit" class="button">GO</button>
+					<input type="submit" class="button">GO</input>
 				</form>
 		</div>
 	</div> <%
