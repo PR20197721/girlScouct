@@ -102,46 +102,9 @@
           <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
           <div id="mainContent" class="welcome-page">
             <div class="par parsys">
+    
+              <%@include file="include/vtkError.jsp" %>
       
-      <%
-      if( session.getAttribute("fatalError")!=null ){
-    	  org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
-    	  if( err!=null ){
-    	  %>
-    	  <div class="error">
-          <ul>
-             <li>
-                        <b><%= err.getName()%> : </b>
-                        <%= err.getUserFormattedMsg()%>
-						<!--  
-						---- description ----
-						<%= err.getDescription()%>
-						---- error code ----
-						<%=err.getErrorCode() %>
-						-->
-             </li>
-          </ul>
-          </div>
-          <% 
-    	  }
-      }else if( apiConfig!=null && apiConfig.getErrors()!=null ){ %>  
-          <div class="error">
-                   <ul>
-                   <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
-                       <li>
-                        <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
-                        <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
-						<!--  
-						---- description ----
-						<%= apiConfig.getErrors().get(i).getDescription()%>
-						---- error code ----
-						<%=apiConfig.getErrors().get(i).getErrorCode() %>
-						-->
-                       </li>
-                   <%} %>
-                   </ul>
-          </div>    
-      <%} %>    
               <div class="text parbase section"><h1>Welcome.</h1></div>
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">

@@ -88,30 +88,11 @@
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 		    
 		    if( session.getAttribute("fatalError")!=null ){
-		          org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
-		          if( err!=null ){
-		          %>
-		          <div id="panelWrapper" class="row meeting-detail content">
-		          <div class="columns large-20 large-centered">
-                      
-		          <div class="error">
-		          <ul>
-		             <li>
-		                        <b><%= err.getName()%> : </b>
-		                        <%= err.getUserFormattedMsg()%>
-		                        <!--  
-		                        ---- description ----
-		                        <%= err.getDescription()%>
-		                        ---- error code ----
-		                        <%=err.getErrorCode() %>
-		                        -->
-		             </li>
-		          </ul>
-		          </div>
-		          </div>
-		          </div>
-		          <% 
-		          }
+		    	%><div id="panelWrapper" class="row meeting-detail content">
+                 <div class="columns large-20 large-centered">
+                	<%@include file="vtkError.jsp" %>
+		    	 </div>
+		    	</div><%
 		    }else{
 		    
 		    

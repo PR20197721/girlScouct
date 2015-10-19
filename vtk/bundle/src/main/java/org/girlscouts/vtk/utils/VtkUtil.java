@@ -27,7 +27,9 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
@@ -465,5 +467,35 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 			 categories.add(resource_category);
 	 }
 	 return categories;
+ }
+ 
+ public static java.util.List<VtkError> getVtkErrors(HttpServletRequest request){
+	 java.util.List<VtkError> errors=new java.util.ArrayList<VtkError> (); 
+	 HttpSession session = request.getSession();
+	 if( session.getAttribute("fatalError")!=null ){
+         org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
+         if( err!=null )
+        	 errors.add( err );
+	 }
+   
+	 ApiConfig apiConfig= getApiConfig(session);
+	 if( apiConfig!=null && apiConfig.getErrors()!=null )
+   		  errors.addAll(apiConfig.getErrors());
+   		  
+	 return errors;
+ }
+ 
+ public static ApiConfig getApiConfig( HttpSession session){
+	    org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+		try {
+			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+			} else {
+			   return null;
+			}
+		} catch (ClassCastException cce) {
+			return null;
+		} 
+	return apiConfig;
  }
 }//end class

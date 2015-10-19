@@ -225,10 +225,10 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signOut(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		
-System.err.println("tata....a");		
+		
 		
 		if(true){
-System.err.println("a1");				
+			
 			boolean isVtkLogin=false;
 			if( request.getParameter("isVtkLogin")!=null && request.getParameter("isVtkLogin").equals("true"))
 				isVtkLogin=true;
@@ -237,56 +237,56 @@ System.err.println("a1");
 					+ "/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/vtk.logout.html"+ (isVtkLogin ? "?isVtkLogin=true": "" )));
 			  return;
 		}
-System.err.println("b");			
+			
 		
 		
 		boolean isLogoutApi = false, isLogoutWeb = false;
 		HttpSession session = request.getSession();
 		try {
-System.err.println("c");		
+		
 			troopUtil.logout(((org.girlscouts.vtk.models.User) session
 					.getAttribute(org.girlscouts.vtk.models.User.class
 							.getName())),
 					(org.girlscouts.vtk.models.Troop) session
 							.getAttribute("VTK_troop"));
-System.err.println("d");	
+	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
 				.getName());
-System.err.println("e");	
+	
 		String redirectUrl = null;
 		if (apiConfig != null) {
 			try {
-System.err.println("f");	
+	
 				isLogoutApi = userUtil.logoutApi(apiConfig, false);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			try {
-System.err.println("g");	
+	
 				userUtil.logoutApi(apiConfig, true);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
-System.err.println("h");	
+	
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
 				if (councilId == null || councilId.trim().equals("")) {
-System.err.println("i");	
+	
 					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
 							.getCouncilInClient(request));
 
 				} else {
 					redirectUrl = councilMapper.getCouncilUrl(councilId);
-					System.err.println("j");	
+						
 				}
 			} catch (Exception e) {
-				System.err.println("k");	
+					
 				String refererCouncil = (String) session
 						.getAttribute("refererCouncil");
 
@@ -298,7 +298,7 @@ System.err.println("i");
 			}
 		}
 		if (redirectUrl == null) {
-			System.err.println("L");	
+				
 			redirectUrl = councilMapper.getCouncilUrl();
 
 		}
@@ -306,23 +306,23 @@ System.err.println("i");
 		// TODO: language?
 		redirectUrl += "en.html";
 		try {
-			System.err.println("M");	
+				
 			session.invalidate();
 		} catch (IllegalStateException e) {
 			// Catch request sent twice
 		}
-		System.err.println("n");	
+			
 		session = null;
 		apiConfig = null;
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-		System.err.println("o");	
+			
 		// baseUrl: config in CRXED /etc/map.publish.dev/http/alex.gsnetx.org.80
 		redirectUrl = resourceResolver.map(redirectUrl);
 		redirectUrl = configManager.getConfig("communityUrl")
 				+ "/VTKLogout?redirectSource=" + configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/en/vtk.logout.html";
-		System.err.println("p "+ redirectUrl);	
+		
 		redirect(response, redirectUrl);
 	}
 
