@@ -16,6 +16,7 @@
 <div id="errInfo"></div>
 
 <%
+    String sectionClassDefinition="";
     String activeTab = "finances";
     boolean showVtkNav = true;
     int qtr = 1;
