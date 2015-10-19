@@ -45,11 +45,13 @@
 	    isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
 	    isHideMember = valueMap.get("hideMemberButton", "").equals("true");
 	
-	    // Get URL for community page
-	    ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
-	    if (configManager != null) {
-	        communityUrl = configManager.getConfig("communityUrl");
-	    }
+	    
+    }
+    
+ // Get URL for community page
+    ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
+    if (configManager != null) {
+        communityUrl = configManager.getConfig("communityUrl");
     }
 %>
 
@@ -101,19 +103,40 @@
           <div id="mainContent" class="welcome-page">
             <div class="par parsys">
       
-      <%if( apiConfig.getErrors()!=null ){ %>  
+      <%
+      if( session.getAttribute("fatalError")!=null ){
+    	  org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
+    	  if( err!=null ){
+    	  %>
+    	  <div class="error">
+          <ul>
+             <li>
+                        <b><%= err.getName()%> : </b>
+                        <%= err.getUserFormattedMsg()%>
+						<!--  
+						---- description ----
+						<%= err.getDescription()%>
+						---- error code ----
+						<%=err.getErrorCode() %>
+						-->
+             </li>
+          </ul>
+          </div>
+          <% 
+    	  }
+      }else if( apiConfig!=null && apiConfig.getErrors()!=null ){ %>  
           <div class="error">
                    <ul>
                    <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
                        <li>
                         <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
                         <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
-<!--  
----- description ----
-<%= apiConfig.getErrors().get(i).getDescription()%>
----- error code ----
-<%=apiConfig.getErrors().get(i).getErrorCode() %>
--->
+						<!--  
+						---- description ----
+						<%= apiConfig.getErrors().get(i).getDescription()%>
+						---- error code ----
+						<%=apiConfig.getErrors().get(i).getErrorCode() %>
+						-->
                        </li>
                    <%} %>
                    </ul>
@@ -123,7 +146,7 @@
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
                   <li>
-                    <% if (!isHideSignIn) { 
+                    <% if (!isHideSignIn && apiConfig!=null) { 
                     
                     
                     

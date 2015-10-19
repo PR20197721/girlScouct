@@ -29,7 +29,7 @@
 	String[] ENABLED_FEATURES = new String[] {SHOW_VALID_SF_USER_FEATURE};
 %>
 
-<%@include file="sessionState.jsp"%>
+
 
 <% 
 
@@ -86,7 +86,45 @@
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			out.println("Your session has timed out.  Please refresh this page and login.");
+		    
+		    if( session.getAttribute("fatalError")!=null ){
+		          org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
+		          if( err!=null ){
+		          %>
+		          <div id="panelWrapper" class="row meeting-detail content">
+		          <div class="columns large-20 large-centered">
+                      
+		          <div class="error">
+		          <ul>
+		             <li>
+		                        <b><%= err.getName()%> : </b>
+		                        <%= err.getUserFormattedMsg()%>
+		                        <!--  
+		                        ---- description ----
+		                        <%= err.getDescription()%>
+		                        ---- error code ----
+		                        <%=err.getErrorCode() %>
+		                        -->
+		             </li>
+		          </ul>
+		          </div>
+		          </div>
+		          </div>
+		          <% 
+		          }
+		    }else{
+		    
+		    
+				    %>
+				    <div id="panelWrapper" class="row meeting-detail content">
+		             <div class="columns large-20 large-centered">
+		                <p>
+		                   Your session has timed out.  Please refresh this page and login.
+		                 </p>
+		             </div>
+		            </div>
+					<% 
+		    }
 			return;
 		}
 	} catch (ClassCastException cce) {

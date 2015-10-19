@@ -7,9 +7,15 @@
     
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);
-if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
+   
+    
+    System.err.println( "myurl : "+myUrl  +" : "+ session.getAttribute("fatalError"));
+if( (myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html"))  
+		&& session.getAttribute("fatalError")==null){
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
-	try{
+
+   System.err.println(1); 
+    try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
 		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
 	} catch (ClassCastException exc) { 
@@ -19,8 +25,9 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 		e.printStackTrace();
 	}
 	
-
+    System.err.println(2); 
 	if( apiConfig==null ){
+		System.err.println(3); 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
 	    String refererCouncil = request.getParameter("refererCouncil");
@@ -31,6 +38,7 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 	    System.out.println("Redirecting to " + redirectTo);
 		response.sendRedirect(redirectTo);
 		return;		
+		/*
 	} else if (apiConfig.isFail()) {
 		boolean thisIsHome = false;
 		for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
@@ -43,11 +51,12 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 		}
 	} else {
 		   System.out.println("Unhandled ApiConfig State.");
+	   */
 	}
-    System.out.println("ApiConfig not null and not failed.");
+   System.out.println("ApiConfig not null and not failed.");
 
 }
-
+System.err.println(4); 
 	
 	
 
