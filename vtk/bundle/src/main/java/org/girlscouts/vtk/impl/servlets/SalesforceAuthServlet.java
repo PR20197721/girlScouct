@@ -46,6 +46,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.ejb.TroopUtil;
 import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
@@ -385,7 +386,7 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 						.getConfig("communityUrl"));
 
-//if(true)throw new VtkException("test123 exception");
+if(true)throw new VtkException("test123 exception");
 
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
@@ -448,7 +449,17 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 	 if( config==null )
 		 config = new ApiConfig();
 	 config.setFail(true);
-		session.setAttribute(ApiConfig.class.getName(), config);
+	  
+	 java.util.List<VtkError> errors = new java.util.ArrayList<VtkError>();
+	 VtkError err= new VtkError();
+	 err.setName("Error logging in.");
+	 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e.toString());
+	 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-oAuth");
+	 err.setErrorCode("VTK-oAuth");
+	 errors.add(err);
+	 config.setErrors(errors);
+	 
+	 session.setAttribute(ApiConfig.class.getName(), config);
 	 
 	 /*
 	 PrintWriter out = response.getWriter();
