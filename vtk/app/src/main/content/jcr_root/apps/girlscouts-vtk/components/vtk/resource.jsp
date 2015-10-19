@@ -27,7 +27,7 @@
 %>
 <%-- VTK tab --%>
 <%
-    String sectionClassDefinition="";
+    
 	String activeTab = "resource";
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
