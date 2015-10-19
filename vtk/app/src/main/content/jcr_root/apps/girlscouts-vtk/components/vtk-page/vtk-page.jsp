@@ -10,8 +10,10 @@
    
     
     System.err.println( "myurl : "+myUrl  +" : "+ session.getAttribute("fatalError"));
-if( (myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html"))  
-		&& session.getAttribute("fatalError")==null){
+  if (myUrl.trim().contains("/en/vtk.home.html") && session.getAttribute("fatalError")!=null)
+    	;
+    
+  else if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html") ){
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 
    System.err.println(1); 

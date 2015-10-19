@@ -333,9 +333,11 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		ApiConfig config =null;
 		HttpSession session = request.getSession();
 		session.setAttribute("fatalError", null);
+	try{	
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
+//if(true)throw new VtkException("test123 SSO exception");
 		org.girlscouts.vtk.sso.saml.Response samlResponse = null;
 		try {
 			samlResponse = new org.girlscouts.vtk.sso.saml.Response(
@@ -344,6 +346,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
 		String token = null, userId = null;
 		try {
 			samlResponse
@@ -381,7 +384,7 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 			e.printStackTrace();
 		}
 		
-
+	
 		if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
 	
 	
@@ -394,7 +397,7 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 						.getConfig("communityUrl"));
 
-if(true)throw new VtkException("test123 exception");
+if(true)throw new VtkException("test fail OAuth exception");
 
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
@@ -508,7 +511,21 @@ System.err.println(1+":>>>>>>>>>>>>>>> "+ targetUrl);
 
 		}
 
-
+	}catch(Exception e){
+		 e.printStackTrace();
+		 
+		 VtkError err= new VtkError();
+		 err.setName("Error logging in.");
+		 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while SSO from Salesforce. Exception : " + e.toString());
+		 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-SSO");
+		 err.setErrorCode("VTK-SSO");
+		 
+		 session.setAttribute("fatalError", err);
+		 
+		 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
+		 return;
+		 
+	 }
 	}
 
 	private void salesforceCallback(SlingHttpServletRequest request,

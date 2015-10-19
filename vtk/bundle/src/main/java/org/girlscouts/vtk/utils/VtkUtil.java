@@ -471,17 +471,23 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  
  public static java.util.List<VtkError> getVtkErrors(HttpServletRequest request){
 	 java.util.List<VtkError> errors=new java.util.ArrayList<VtkError> (); 
-	 HttpSession session = request.getSession();
-	 if( session.getAttribute("fatalError")!=null ){
-         org.girlscouts.vtk.ejb.VtkError err = (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
-         if( err!=null )
-        	 errors.add( err );
-	 }
-   
-	 ApiConfig apiConfig= getApiConfig(session);
-	 if( apiConfig!=null && apiConfig.getErrors()!=null )
-   		  errors.addAll(apiConfig.getErrors());
-   		  
+	 try{
+		 HttpSession session = request.getSession();
+		 if( session.getAttribute("fatalError")!=null ){
+	         org.girlscouts.vtk.ejb.VtkError err = null;
+	         try{ 
+	        	 err= (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
+	         }catch(Exception e){
+	        	 e.printStackTrace();
+	         }
+	         if( err!=null )
+	        	 errors.add( err );
+		 }
+	   
+		 ApiConfig apiConfig= getApiConfig(session);
+		 if( apiConfig!=null && apiConfig.getErrors()!=null )
+	   		  errors.addAll(apiConfig.getErrors());
+	 }catch(Exception e){e.printStackTrace();}
 	 return errors;
  }
  

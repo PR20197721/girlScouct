@@ -6,6 +6,7 @@
 <%
   String activeTab = "myTroop";
   boolean showVtkNav = true;
+  String sectionClassDefinition="";
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
