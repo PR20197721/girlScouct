@@ -34,7 +34,7 @@
 	int maxWidth = properties.get("maxWidth", 210);
 	Boolean zip = (properties.get("zip", "Yes")).equals("Yes");
 	String href = properties.get("href", "");
-	
+
 	if(!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>****** If you do not use the zip code option, you must enter a URL *******<%
 	}else if(zip || !href.isEmpty()){
@@ -57,7 +57,7 @@
 				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
-					<input type="submit" class="button">GO</button>
+					<button type="submit" class="button">GO</button>
 				</form>
 				<% }else{ %>
 				<a class="button" href="<%= href %>"><%= title %></a>
