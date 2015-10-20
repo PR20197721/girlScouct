@@ -26,7 +26,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 @Component(label = "Girl Scouts Cookie Booth Finder", description = "Find nearby cookie booth", metatype = true, immediate = true)
-@Service
+@Service(BoothFinder.class)
 @Properties({
         @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API")
 })
