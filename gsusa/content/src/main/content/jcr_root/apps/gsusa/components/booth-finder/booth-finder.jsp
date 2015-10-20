@@ -49,14 +49,30 @@ public String getDefault(String param, String defaultValue, SlingHttpServletRequ
 
 <div>Booth Locations near you:</div>
 <div>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</div>
-<form action="#">
+<form>
 	<div>Radius:</div>
+	<input type="hidden" name="zip" value="<%=zip%>"></input>
 	<select name="radius">
 		<option value="50" <%= "50".equals(radius) ? "selected" : "" %>>50 miles</option>
 		<option value="20" <%= "20".equals(radius) ? "selected" : "" %>>20 miles</option>
 		<option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
 		<option value="5" <%= "5".equals(radius) ? "selected" : "" %>>5 miles</option>
 	</select>
+	<div>Date:</div>
+	<select name="date">
+		<option value="180" <%= "180".equals(date) ? "selected" : "" %>>6 months</option>
+		<option value="60" <%= "60".equals(date) ? "selected" : "" %>>2 months</option>
+		<option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
+		<option value="7" <%= "7".equals(date) ? "selected" : "" %>>1 week</option>
+	</select>
+	<div>Sort by:</div>
+	<select name="sortBy">
+		<option value="distance" <%= "distance".equals(date) ? "selected" : "" %>>distance</option>
+		<option value="date" <%= "date".equals(date) ? "selected" : "" %>>date</option>
+	</select>
+	<div>
+	    <input type="submit"></input>
+	</div>
 </form>
 <% for (BoothBasic booth : booths) { %>
 	<div>
