@@ -397,7 +397,7 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 						.getConfig("communityUrl"));
 
-if(true)throw new VtkException("test fail OAuth exception");
+//if(true)throw new VtkException("test fail OAuth exception");
 
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
