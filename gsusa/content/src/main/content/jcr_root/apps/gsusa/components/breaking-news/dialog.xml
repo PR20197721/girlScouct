@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
+    height="{Long}450"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -10,6 +11,28 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<newstype
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Show"
+                		fieldDescription="Choose one type of Breaking News"
+                		type="radiogroup"
+                		name="./newstype"
+                		xtype="selection">
+		                <options jcr:primaryType="cq:WidgetCollection">
+		                	<option1
+    		            		jcr:primaryType="cq:Widget"
+        	        			text="None"
+            	    			value="None"/>
+		                	<option2
+    		            		jcr:primaryType="cq:Widget"
+        	        			text="Text"
+            	    			value="Text"/>
+	            	    	<option3
+    	            			jcr:primaryType="cq:Widget"
+                				text="Image"
+	                			value="Image"/>
+		                </options>
+                	</newstype>
                 	<alert
                 		jcr:primaryType="cq:Widget"
                 		fieldLabel="Alert"
@@ -29,6 +52,12 @@
                         name="./url"
                         linkPattern="\{0\}.html"
                         xtype="pathfield"/>
+                    <bgcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter background color in HEX (e.g. e34c38)"
+                        fieldLabel="Background Color"
+                        name="./bgcolor"
+                        xtype="textfield"/>
                 </items>
             </properties>
             <image
