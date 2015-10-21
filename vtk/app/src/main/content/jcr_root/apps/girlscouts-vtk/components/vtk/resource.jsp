@@ -31,13 +31,10 @@
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
-   //out.println(levelMeetingsRootPath+" : "+ LOCAL_MEETING_AID_PATH); 
-   // int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, LOCAL_MEETING_AID_PATH);//levelMeetingsRootPath);
- 
-   // out.println(levelMeetingsRootPath+" : "+ LOCAL_MEETING_AID_PATH +" : "+countLocalMeetingsAidsByLevel ); 
-   
-   
-   int countLocalMeetingsAidsByLevel = yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"); 
+
+    int meetingAidCount = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
+    meetingAidCount += yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
+    //int countLocalMeetingsAidsByLevel = yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"); 
                                 
    String path = getMeetingsRootPath(troop);
     int meeting_overviews = 0;
@@ -145,7 +142,7 @@
 		        	  bean_resource bresource = itr.next();
 		        	  if( !bresource.getCategory().equals( category ) ) continue;
 		        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
-		        		  bresource.setItemCount(countLocalMeetingsAidsByLevel ) ;
+		        		  bresource.setItemCount(meetingAidCount ) ;
 		        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )
 		        		  bresource.setItemCount(meeting_overviews);
 		         %>
