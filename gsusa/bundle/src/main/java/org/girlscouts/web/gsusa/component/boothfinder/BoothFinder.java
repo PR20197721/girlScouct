@@ -55,21 +55,21 @@ public class BoothFinder {
     }
     
     public static class Council {
-    	public String code, name, abbrName, cityStateZip,
-    		url, cookieSaleStartDate, cookieSaleEndDate,
-    		preferredPath, path2Method, cookiePageUrl,
-    		cookieSaleContactEmail;
-    	
-    	@Override
-    	public String toString() {
-    		return "Council: code=" + code + ";name=" + name + ";abbrName=" + abbrName +
-    			   ";cityStateZip=" + cityStateZip + ";url=" + url +
-    			   ";cookieSaleStartDate=" + cookieSaleStartDate +
-    			   ";cookieSaleEndDate=" + cookieSaleEndDate +
-    			   ";preferredPath=" + preferredPath + ";path2Method=" + path2Method +
-    			   ";cookiePageUrl=" + cookiePageUrl + ";cookieSaleContactEmail=" + cookieSaleContactEmail;
-    				
-    	}
+        public String code, name, abbrName, cityStateZip,
+            url, cookieSaleStartDate, cookieSaleEndDate,
+            preferredPath, path2Method, cookiePageUrl,
+            cookieSaleContactEmail;
+        
+        @Override
+        public String toString() {
+            return "Council: code=" + code + ";name=" + name + ";abbrName=" + abbrName +
+                   ";cityStateZip=" + cityStateZip + ";url=" + url +
+                   ";cookieSaleStartDate=" + cookieSaleStartDate +
+                   ";cookieSaleEndDate=" + cookieSaleEndDate +
+                   ";preferredPath=" + preferredPath + ";path2Method=" + path2Method +
+                   ";cookiePageUrl=" + cookiePageUrl + ";cookieSaleContactEmail=" + cookieSaleContactEmail;
+                    
+        }
     }
     
     @Activate
@@ -86,10 +86,10 @@ public class BoothFinder {
         try {
             //List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
             //System.out.println(booths);
-        	Council council = finder.getCouncil("10018");
-        	System.out.println(council);
+            Council council = finder.getCouncil("10018");
+            System.out.println(council);
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         }
     }
     
@@ -107,19 +107,19 @@ public class BoothFinder {
             
             Council council = new Council();
             try {
-	            council.code = doc.getElementsByTagName("CouncilCode").item(0).getTextContent();
-	            council.name = doc.getElementsByTagName("CouncilName").item(0).getTextContent();
-	            council.abbrName = doc.getElementsByTagName("CouncilAbbrName").item(0).getTextContent();
-	            council.cityStateZip = doc.getElementsByTagName("CouncilCityStateZip").item(0).getTextContent();
-	            council.url = doc.getElementsByTagName("CouncilURL").item(0).getTextContent();
-	            council.cookieSaleStartDate = doc.getElementsByTagName("CookieSaleStartDate").item(0).getTextContent();
-	            council.cookieSaleEndDate = doc.getElementsByTagName("CookieSaleEndDate").item(0).getTextContent();
-	            council.preferredPath = doc.getElementsByTagName("PreferredPath").item(0).getTextContent();
-	            council.path2Method = doc.getElementsByTagName("Path2Method").item(0).getTextContent();
-	            council.cookiePageUrl = doc.getElementsByTagName("CookiePageURL").item(0).getTextContent();
-	            council.cookieSaleContactEmail = doc.getElementsByTagName("CookieSaleContact_Email").item(0).getTextContent();
+                council.code = doc.getElementsByTagName("CouncilCode").item(0).getTextContent();
+                council.name = doc.getElementsByTagName("CouncilName").item(0).getTextContent();
+                council.abbrName = doc.getElementsByTagName("CouncilAbbrName").item(0).getTextContent();
+                council.cityStateZip = doc.getElementsByTagName("CouncilCityStateZip").item(0).getTextContent();
+                council.url = doc.getElementsByTagName("CouncilURL").item(0).getTextContent();
+                council.cookieSaleStartDate = doc.getElementsByTagName("CookieSaleStartDate").item(0).getTextContent();
+                council.cookieSaleEndDate = doc.getElementsByTagName("CookieSaleEndDate").item(0).getTextContent();
+                council.preferredPath = doc.getElementsByTagName("PreferredPath").item(0).getTextContent();
+                council.path2Method = doc.getElementsByTagName("Path2Method").item(0).getTextContent();
+                council.cookiePageUrl = doc.getElementsByTagName("CookiePageURL").item(0).getTextContent();
+                council.cookieSaleContactEmail = doc.getElementsByTagName("CookieSaleContact_Email").item(0).getTextContent();
             } catch (NullPointerException ne) {
-            	log.error("Error while getting XML element. The response body was: " + get.getResponseBodyAsString());
+                log.error("Error while getting XML element. The response body was: " + get.getResponseBodyAsString());
             }
             return council;
         } catch (HttpException he) {

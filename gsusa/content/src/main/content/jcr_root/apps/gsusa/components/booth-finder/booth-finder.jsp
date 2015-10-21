@@ -11,27 +11,27 @@ String zip = getDefault("zip", "", slingRequest);
 if (zip == null || zip.isEmpty()) {
     %><cq:include script="zip-required.jsp" /><%
 } else {
-	// Initialize variables
-	String radius = getDefault("radius", "25", slingRequest);
-	String date = getDefault("date", "60", slingRequest);
-	String sortBy = getDefault("sortBy", "distance", slingRequest);
-	String pageParam = request.getParameter("page");
-	int pageNum;
-	try {
-		pageNum = Integer.parseInt(pageParam);
-	} catch (Exception e) {
-		pageNum = 0;
-	}
-	int numPerPage = properties.get("numPerPage", 50);
-	
-	BoothFinder boothFinder = sling.getService(BoothFinder.class);
-	List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
+    // Initialize variables
+    String radius = getDefault("radius", "25", slingRequest);
+    String date = getDefault("date", "60", slingRequest);
+    String sortBy = getDefault("sortBy", "distance", slingRequest);
+    String pageParam = request.getParameter("page");
+    int pageNum;
+    try {
+        pageNum = Integer.parseInt(pageParam);
+    } catch (Exception e) {
+        pageNum = 0;
+    }
+    int numPerPage = properties.get("numPerPage", 50);
+    
+    BoothFinder boothFinder = sling.getService(BoothFinder.class);
+    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
     Council council = boothFinder.getCouncil(zip);
     String preferredPath = council.preferredPath;
     
     request.setAttribute("gsusa_council_info", council);
     if (!booths.isEmpty()) {
-    	request.setAttribute("gsusa_cookie_booths", booths);
+        request.setAttribute("gsusa_cookie_booths", booths);
         request.setAttribute("gsusa_booth_list_zip", zip);
         request.setAttribute("gsusa_booth_list_radius", radius);
         request.setAttribute("gsusa_booth_list_date", date);
@@ -43,7 +43,7 @@ if (zip == null || zip.isEmpty()) {
     } else if ("Path2".equalsIgnoreCase(preferredPath)) {
         %><cq:include script="path2.jsp" /><%
     } else if ("Path3".equalsIgnoreCase(preferredPath)) {
-    	// Path3 is deprecated.
+        // Path3 is deprecated.
     } else if ("Path4".equalsIgnoreCase(preferredPath)) {
         %><cq:include script="path4.jsp" /><%
     } else if ("Path5".equals(preferredPath)) {
@@ -60,7 +60,7 @@ if (zip == null || zip.isEmpty()) {
 
 <%!
 public String getDefault(String param, String defaultValue, SlingHttpServletRequest req) {
-	String value = req.getParameter(param);
-	return value == null || value.trim().isEmpty() ? defaultValue : value;
+    String value = req.getParameter(param);
+    return value == null || value.trim().isEmpty() ? defaultValue : value;
 }
 %>
