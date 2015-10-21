@@ -6,7 +6,7 @@
 <%@page session="false" %>
 <%
 String zip = getDefault("zip", "", slingRequest);
-String radius = getDefault("radius", "20", slingRequest);
+String radius = getDefault("radius", "25", slingRequest);
 String date = getDefault("date", "60", slingRequest);
 String sortBy = getDefault("sortBy", "distance", slingRequest);
 String pageParam = request.getParameter("page");
