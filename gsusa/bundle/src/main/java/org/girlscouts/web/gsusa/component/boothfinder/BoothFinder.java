@@ -91,6 +91,8 @@ public class BoothFinder {
             throw new Exception(pce);
         } catch (SAXException se) {
             throw new Exception(se);
+        } finally {
+            get.releaseConnection();
         }
     }
     
@@ -106,7 +108,6 @@ public class BoothFinder {
                          "&d1=2013-10-1&d2=2014-4-30";
 
         GetMethod get = new GetMethod(apiPath);
-        System.out.println(apiPath);
         try  {
             int resStatus = httpClient.executeMethod(get);
             if (resStatus != 200) {
@@ -156,6 +157,8 @@ public class BoothFinder {
             throw new Exception(pce);
         } catch (SAXException se) {
             throw new Exception(se);
+        } finally {
+            get.releaseConnection();
         }
     }
 }
