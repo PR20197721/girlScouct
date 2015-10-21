@@ -4,7 +4,7 @@ public class bean_resource {
 
 	
 	private int itemCount;
-	private String path, title, nodeUri, category;
+	private String path, title, nodeUri, category, categoryDisplay;
 
 	
 	
@@ -47,6 +47,12 @@ public class bean_resource {
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+	public String getCategoryDisplay() {
+		return categoryDisplay;
+	}
+	public void setCategoryDisplay(String categoryDisplay) {
+		this.categoryDisplay = categoryDisplay;
 	}
 	
 	

@@ -462,7 +462,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 java.util.Iterator <bean_resource>itr = resources.iterator();
 	 while( itr.hasNext() ){
 		
-		 String resource_category = itr.next().getCategory();
+		 String resource_category = itr.next().getCategoryDisplay();
 		 if( !categories.contains(resource_category))
 			 categories.add(resource_category);
 	 }

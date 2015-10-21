@@ -140,7 +140,7 @@
 		         java.util.Iterator <bean_resource>itr = resources.iterator();
 		         while( itr.hasNext()){
 		        	  bean_resource bresource = itr.next();
-		        	  if( !bresource.getCategory().equals( category ) ) continue;
+		        	  if( !bresource.getCategoryDisplay().equals( category ) ) continue;
 		        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
 		        		  bresource.setItemCount(meetingAidCount ) ;
 		        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )

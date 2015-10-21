@@ -2355,6 +2355,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
 			
+			java.util.Map <String, String>categoryDictionary = new java.util.TreeMap<String, String>();
 			java.util.Map <String, java.util.List<String>>container = new java.util.TreeMap();
 			dictionary = new java.util.TreeMap<String, bean_resource>();
 			
@@ -2381,7 +2382,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			
 			
-			    if( nodes.length<=2 || nodes[2].equals("jcr:content") ) continue;	
+			    if( nodes.length<=2 || nodes[2].equals("jcr:content") ){
+			    	//System.err.println("tatatttt :" +  node.getProperty("jcr:title").getString());
+			    	categoryDictionary.put(nodes[1],node.getProperty("jcr:title").getString() );
+			    	continue;	
+			    }
 			
 				java.util.List list =  container.get( nodes[1] + "|" + nodes[2]);
 				if( list ==null )
@@ -2402,6 +2407,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				
 				bean_resource  resource = dictionary.get( title );
 				resource.setItemCount(links.size());
+				resource.setCategoryDisplay( categoryDictionary.get( resource.getCategory()) );
 				
 			}
 			
