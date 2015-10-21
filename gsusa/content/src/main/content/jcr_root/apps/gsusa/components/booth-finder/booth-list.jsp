@@ -1,7 +1,9 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
-                java.util.List" %>
+                java.util.List,
+                java.text.DateFormat,
+                java.text.SimpleDateFormat" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
@@ -11,6 +13,7 @@ String zip = (String)request.getAttribute("gsusa_booth_list_zip");
 String radius = (String)request.getAttribute("gsusa_booth_list_radius");
 String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
+int showContactBannerPer = properties.get("showContactBannerPer", 25); 
 
 String nearestDistance = "";
 if ("distance".equals(sortBy) && !booths.isEmpty()) {
@@ -64,16 +67,30 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 	    <input type="submit"></input>
 	</div>
 </form>
-<% for (BoothBasic booth : booths) { %>
+<% 
+int count = 0;
+boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
+for (BoothBasic booth : booths) {
+    DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
+    DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
+    String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
+%>
 	<div>
 		<div><%= booth.location %></div>
 		<div><%= booth.address1 %></div>
 		<div><%= booth.address2 %></div>
 	</div>	
 	<div>
-		<div></div>
+		<div><%= startDate %></div>
+		<div><%= booth.timeOpen %>-<%= booth.timeClose %></div>
 	</div>
 	<div>
 		<div><%= booth.distance %> Miles</div>
 	</div>
-<% } %>
+<% 
+	if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
+		%><cq:include script="contact-banner.jsp"/><%
+	}
+	count = (count + 1) % showContactBannerPer;
+} 
+%>
