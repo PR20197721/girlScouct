@@ -2210,7 +2210,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	
 	public int getAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
 		int count = 0;
-		if(path == null || "".equals("")) {
+		if(path == null || "".equals(path)) {
 			return 0;
 		}
 		Session session = null;
@@ -2424,4 +2424,40 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		return dictionary.values();
 	}
+	
+	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException {
+		
+		int count = 0;
+		if(path == null || "".equals(path)) {
+			return 0;
+		}
+		Session session = null;
+		try {
+			String sql = "select * from nt:base where jcr:path like '"+path+"%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			
+			QueryResult result = q.execute();
+			count = (int) result.getNodes().getSize();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
+	
 }// edn class

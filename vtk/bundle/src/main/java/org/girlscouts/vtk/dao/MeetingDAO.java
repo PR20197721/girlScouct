@@ -122,4 +122,5 @@ public interface MeetingDAO {
 	
 	public Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
 			throws IllegalAccessException ;
+	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException;
 }

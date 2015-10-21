@@ -32,7 +32,10 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
     int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
-   // out.println(countLocalMeetingsAidsByLevel);
+    String path = getMeetingsRootPath(troop);
+    int meeting_overviews = 0;
+    if( path!=null )
+    	meeting_overviews= yearPlanUtil.getMeetingCount(user, troop, path+"/");
 
 %>
 
@@ -134,9 +137,13 @@ java.util.List<String> categories = VtkUtil.countResourseCategories(resources);
 	         while( itr.hasNext()){
 	        	  bean_resource bresource = itr.next();
 	        	  if( !bresource.getCategory().equals( category ) ) continue;
+	        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
+	        		  bresource.setItemCount(countLocalMeetingsAidsByLevel ) ;
+	        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )
+	        		  bresource.setItemCount(meeting_overviews);
 	         %>
 		         <div>
-		            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>)  </a>
+		            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
 		         </div> 
 		     <%} %>
 	    </li>

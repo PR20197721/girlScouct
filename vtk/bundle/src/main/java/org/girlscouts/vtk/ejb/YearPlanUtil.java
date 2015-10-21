@@ -365,4 +365,8 @@ System.err.println("tatattx YearPlanUtil.getMeeting..");
 			throws IllegalAccessException {
 		return meetingDAO.getResourceData( user,  troop,  _path);
 	}
+	
+	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException{
+		return meetingDAO.getMeetingCount(user, troop, path);
+	}
 }// edn class
