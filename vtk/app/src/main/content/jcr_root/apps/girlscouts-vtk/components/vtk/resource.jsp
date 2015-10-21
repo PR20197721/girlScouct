@@ -32,10 +32,7 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
     int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
-    String path = getMeetingsRootPath(troop);
-    int meeting_overviews = 0;
-    if( path!=null )
-    	meeting_overviews= yearPlanUtil.getMeetingCount(user, troop, path+"/");
+    int meeting_overviews = yearPlanUtil.getMeetingCount(user, troop, LOCAL_MEETING_AID_PATH);
 
 %>
 
