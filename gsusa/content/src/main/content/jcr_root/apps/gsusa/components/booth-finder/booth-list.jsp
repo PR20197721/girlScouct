@@ -13,6 +13,8 @@ String zip = (String)request.getAttribute("gsusa_booth_list_zip");
 String radius = (String)request.getAttribute("gsusa_booth_list_radius");
 String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
+int pageNum = (Integer)request.getAttribute("gsusa_booth_list_pagenum");
+int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
 int showContactBannerPer = properties.get("showContactBannerPer", 25); 
 
 String nearestDistance = "";
@@ -70,7 +72,8 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 <% 
 int count = 0;
 boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
-for (BoothBasic booth : booths) {
+for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
+    BoothBasic booth = booths.get(i);
     DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
     String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
@@ -93,4 +96,16 @@ for (BoothBasic booth : booths) {
     }
     count = (count + 1) % showContactBannerPer;
 } 
+
+String baseLink = "?zip=" + zip + "&radius=" + radius + 
+                  "&date" + date + "&sortBy=" + sortBy + "&numPerPage=" + numPerPage;
+if (pageNum != 0) {
+    String prevLink = baseLink + "&page=" + Integer.toString(pageNum - 1);
+    %><a href="<%= prevLink %>">Prev</a><%
+}
+// If there are more booths, display next link.
+if (booths.size() > numPerPage) {
+    String nextLink = baseLink + "&page=" + Integer.toString(pageNum + 1);
+    %><a href="<%= nextLink %>">Next</a><%
+}
 %>

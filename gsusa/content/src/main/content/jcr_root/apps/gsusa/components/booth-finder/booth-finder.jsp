@@ -25,7 +25,8 @@ if (zip == null || zip.isEmpty()) {
     int numPerPage = properties.get("numPerPage", 50);
     
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
-    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
+    // Query one more booth to see if there are more.
+    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage + 1);
     Council council = boothFinder.getCouncil(zip);
     String preferredPath = council.preferredPath;
     
@@ -36,6 +37,8 @@ if (zip == null || zip.isEmpty()) {
         request.setAttribute("gsusa_booth_list_radius", radius);
         request.setAttribute("gsusa_booth_list_date", date);
         request.setAttribute("gsusa_booth_list_sortby", sortBy);
+        request.setAttribute("gsusa_booth_list_pagenum", pageNum);
+        request.setAttribute("gsusa_booth_list_numperpage", numPerPage);
         %><cq:include script="booth-list.jsp" /><%
         request.setAttribute("gsusa_cookie_booths", null);
     } else if ("Path1".equalsIgnoreCase(preferredPath)) {
@@ -54,6 +57,8 @@ if (zip == null || zip.isEmpty()) {
     request.setAttribute("gsusa_booth_list_radius", null);
     request.setAttribute("gsusa_booth_list_date", null);
     request.setAttribute("gsusa_booth_list_sortby", null);
+    request.setAttribute("gsusa_booth_list_pagenum", null);
+    request.setAttribute("gsusa_booth_list_numperpage", null);
 }
 
 %>
