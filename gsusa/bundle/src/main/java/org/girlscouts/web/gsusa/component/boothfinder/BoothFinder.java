@@ -82,12 +82,16 @@ public class BoothFinder {
         BoothFinder finder = new BoothFinder();
         finder.init();
         try {
-            List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
-            System.out.println(booths);
-        } catch (Exception e) {}
+            //List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
+            //System.out.println(booths);
+        	Council council = finder.getCouncil("10018");
+        	System.out.println(council);
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
     }
     
-    public String getPath(String zipCode) throws Exception {
+    public Council getCouncil(String zipCode) throws Exception {
         GetMethod get = new GetMethod(API_BASE + LOCAL_COUNCIL_COOKIE_SALE_STATUS_API + zipCode.trim());
 
         try {
@@ -99,8 +103,19 @@ public class BoothFinder {
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(get.getResponseBodyAsStream());
             
-            String path = doc.getElementsByTagName("PreferredPath").item(0).getTextContent();
-            return path;
+            Council council = new Council();
+            council.code = doc.getElementsByTagName("CouncilCode").item(0).getTextContent();
+            council.name = doc.getElementsByTagName("CouncilName").item(0).getTextContent();
+            council.abbrName = doc.getElementsByTagName("CouncilAbbrName").item(0).getTextContent();
+            council.cityStateZip = doc.getElementsByTagName("CouncilCityStateZip").item(0).getTextContent();
+            council.url = doc.getElementsByTagName("CouncilURL").item(0).getTextContent();
+            council.cookieSaleStartDate = doc.getElementsByTagName("CookieSaleStartDate").item(0).getTextContent();
+            council.cookieSaleEndDate = doc.getElementsByTagName("CookieSaleEndDate").item(0).getTextContent();
+            council.preferredPath = doc.getElementsByTagName("PreferredPath").item(0).getTextContent();
+            council.path2Method = doc.getElementsByTagName("Path2Method").item(0).getTextContent();
+            council.cookiePageUrl = doc.getElementsByTagName("CookiePageURL").item(0).getTextContent();
+            council.cookieSaleContactEmail = doc.getElementsByTagName("CookieSaleContact_Email").item(0).getTextContent();
+            return council;
         } catch (HttpException he) {
             throw new Exception(he);
         } catch (IOException ie) {
