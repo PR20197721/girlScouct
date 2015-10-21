@@ -52,6 +52,24 @@ public class BoothFinder {
         }
     }
     
+    public static class Council {
+    	public String code, name, abbrName, cityStateZip,
+    		url, cookieSaleStartDate, cookieSaleEndDate,
+    		preferredPath, path2Method, cookiePageUrl,
+    		cookieSaleContactEmail;
+    	
+    	@Override
+    	public String toString() {
+    		return "Council: code=" + code + ";name=" + name + ";abbrName=" + abbrName +
+    			   ";cityStateZip=" + cityStateZip + ";url=" + url +
+    			   ";cookieSaleStartDate=" + cookieSaleStartDate +
+    			   ";cookieSaleEndDate=" + cookieSaleEndDate +
+    			   ";preferredPath=" + preferredPath + ";path2Method=" + path2Method +
+    			   ";cookiePageUrl=" + cookiePageUrl + ";cookieSaleContactEmail=" + cookieSaleContactEmail;
+    				
+    	}
+    }
+    
     @Activate
     public void init() {
         connectionManager = new MultiThreadedHttpConnectionManager();
