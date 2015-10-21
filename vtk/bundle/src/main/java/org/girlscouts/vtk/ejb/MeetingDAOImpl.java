@@ -2294,7 +2294,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 		Session session = null;
 		try {
-			_path= "/content/dam/girlscouts-vtk/local/aid/meetings/";
+			//_path= "/content/dam/girlscouts-vtk/local/aid/meetings/";
 			//String sql ="SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, ['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
 					//"SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
 			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
