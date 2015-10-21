@@ -31,8 +31,14 @@
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
-    int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
-    int meeting_overviews = yearPlanUtil.getMeetingCount(user, troop, LOCAL_MEETING_AID_PATH);
+   out.println(levelMeetingsRootPath+" : "+ LOCAL_MEETING_AID_PATH); 
+    int countLocalMeetingsAidsByLevel = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, LOCAL_MEETING_AID_PATH);//levelMeetingsRootPath);
+ 
+    out.println(levelMeetingsRootPath+" : "+ LOCAL_MEETING_AID_PATH +" : "+countLocalMeetingsAidsByLevel ); 
+    String path = getMeetingsRootPath(troop);
+    int meeting_overviews = 0;
+    if( path!=null )
+    	meeting_overviews= yearPlanUtil.getMeetingCount(user, troop, path+"/");
 
 %>
 
