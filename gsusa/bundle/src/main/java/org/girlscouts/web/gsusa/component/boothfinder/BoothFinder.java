@@ -43,12 +43,14 @@ public class BoothFinder {
     private DocumentBuilderFactory dbFactory;
     
     public static class BoothBasic {
-        public String id, distance, location, address1, address2;
+        public String id, distance, location, address1, address2, dateStart, dateEnd, timeOpen, timeClose;
 
         @Override
         public String toString() {
             return "BoothBasic: id=" + id + ";distance=" + distance + ";location=" + location +
-                   ";address1 = " + address1 + ";address2=" + address2;
+                   ";address1=" + address1 + ";address2=" + address2 +
+                   ";dateStart=" + dateStart + ";dateEnd=" + dateEnd +
+                   ";timeOpen=" + timeOpen + ";timeClose=" + timeClose;
         }
     }
     
@@ -171,14 +173,22 @@ public class BoothFinder {
 
                         if ("id".equalsIgnoreCase(key)) {
                             booth.id = value;
-                        } else if ("distance".equalsIgnoreCase(key)) {
+                        } else if ("Distance".equalsIgnoreCase(key)) {
                             booth.distance = value;
-                        } else if ("location".equalsIgnoreCase(key)) {
+                        } else if ("Location".equalsIgnoreCase(key)) {
                             booth.location = value;
-                        } else if ("address1".equalsIgnoreCase(key)) {
+                        } else if ("Address1".equalsIgnoreCase(key)) {
                             booth.address1 = value;
-                        } else if ("address2".equalsIgnoreCase(key)) {
+                        } else if ("Address2".equalsIgnoreCase(key)) {
                             booth.address2 = value;
+                        } else if ("DateStart".equalsIgnoreCase(key)) {
+                            booth.dateStart = value;
+                        } else if ("DateEnd".equalsIgnoreCase(key)) {
+                            booth.dateEnd = value;
+                        } else if ("TimeOpen".equalsIgnoreCase(key)) {
+                            booth.timeOpen = value;
+                        } else if ("timeClose".equalsIgnoreCase(key)) {
+                            booth.timeClose = value;
                         }
                     }
                 }
