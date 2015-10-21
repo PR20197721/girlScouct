@@ -121,265 +121,41 @@
     CouncilMapper mapper = sling.getService(CouncilMapper.class);
     String branch = mapper.getCouncilBranch(councilId);
     String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-java.util.Collection<bean_resource> resources= yearPlanUtil.getResourceData(user, troop, resourceRootPath);
-java.util.List<String> categories = VtkUtil.countResourseCategories(resources);
-%>
-
-<ul class="small-block-grid-1 medium-block-grid-<%=categories.size()%> large-block-grid-<%=categories.size()%> browseResources">
-    <%
-    for(int i=0;i<categories.size();i++){ 
-        String category= categories.get(i);
-    %>
-	    <li>
-	         <div><%=category %></div>
-	         <%
-	         java.util.Iterator <bean_resource>itr = resources.iterator();
-	         while( itr.hasNext()){
-	        	  bean_resource bresource = itr.next();
-	        	  if( !bresource.getCategory().equals( category ) ) continue;
-	        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
-	        		  bresource.setItemCount(countLocalMeetingsAidsByLevel ) ;
-	        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )
-	        		  bresource.setItemCount(meeting_overviews);
-	         %>
-		         <div>
-		            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
-		         </div> 
-		     <%} %>
-	    </li>
-    <%} %>
-</ul>
-
-
-		<%
-if(false){
-			//final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
-			try {
-				/*
-				final String RESOURCES_PATH = "resources";
-				String councilId = null;
-				if (apiConfig != null) {
-				    if (apiConfig.getTroops().size() > 0) {
-				        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-				    }
-				}
-				CouncilMapper mapper = sling.getService(CouncilMapper.class);
-				String branch = mapper.getCouncilBranch(councilId);
-*/
-				// TODO: language?
-				//String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-//out.println( resourceRootPath);
-//yearPlanUtil.getResourceData( user,  troop,  resourceRootPath);
-
-				final Page rootPage = manager.getPage(resourceRootPath);				
-				Iterator<Page> majorIter = rootPage.listChildren();
-				int majorCount = 0;
-				while (majorIter.hasNext()) {
-				    majorIter.next();
-					majorCount++; 
-				}
-				majorIter = rootPage.listChildren();
-		%>
-
-		<ul class="small-block-grid-1 medium-block-grid-<%=majorCount%> large-block-grid-<%=majorCount%> browseResources">
-			<%
-				while (majorIter.hasNext()) { 
-					Page currentMajor = majorIter.next();
-				    long minorCount = 0;
-			        %><li><%					
-				    %><div><%=currentMajor.getTitle()%></div> <%
-					Iterator<Page> minorIter = currentMajor.listChildren();
- 					minorIter = currentMajor.listChildren();
- 					while (minorIter.hasNext()) {
- 					    Page currentMinor = minorIter.next();
- 					    String link = "?category=" + currentMinor.getPath();
- 					    String title = currentMinor.getTitle();
- 		 
- 					    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
- 					    	
- 					        
- 					    	
- 						    minorCount=0;
- 						    
- 						    try{
- 							    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
- 								while (iter.hasNext()) {
- 									
- 								    	Resource meetingResource = iter.next();
- 							    	
- 								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
- 								        meetingId= meetingId.replace("/","");
- 								        
- 								       minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); 
- 								
- 								}
- 						    }catch(Exception e){} 	
- 					    
- 						    minorCount = countLocalMeetingsAidsByLevel;
- 						    minorCount +=  yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
- 					     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
- 					        try {
- 					            String rootPath = getMeetingsRootPath(troop);
- 					            Resource rootRes = resourceResolver.resolve(rootPath);
- 					            Iterator<Resource> resIter = rootRes.listChildren();
- 					            int resCount = 0;
- 					            while (resIter.hasNext()) {
- 					                resCount++;
- 					                resIter.next();
- 					            }
- 					            minorCount = resCount;
- 					        } catch (Exception e) {
- 					        	e.printStackTrace();
- 					            minorCount = 0;
- 					        }
- 					     } else {	    	 
- 					    	minorCount = countAllChildren(currentMinor) - 1;
- 					     }				   
- 			    %>             
-                <div>
-					<a href="<%=link%>"><%=title%> (<%=minorCount%>)  </a>
-				</div> 
-				<%
- 	 }
- %>
-			</li>
-			<%
-				}
-			%>
-		</ul>
-		<%
-			} catch (Exception e) {
-				log.error("Cannot get VTK meeting aid categories: " + e.getMessage());
-			}
-}
-		%>
-
-
-
-
-
-
-
-
-
-
-
-
-		<%-- display aids --%>
-		<%		
-			String categoryParam = (String)request.getParameter("category");
-				Page categoryPage = manager.getPage(categoryParam);
-
-				if (categoryPage != null) {
-				    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
-		%><table width="90%" align="center" class="browseMeetingAids">
-			<tr>
-				<th colspan="3">Meeting Aids</th>
-			</tr>
-			<%
-				//LOCAL AIDS
-					    	try {
-							    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
-							    while (iter.hasNext()) {
-							        Resource meetingResource = iter.next();
-							        
-							        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
-                                    meetingId= meetingId.replace("/","");
-							        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
-							        for(int i=0;i<lresources.size();i++){
-									    org.girlscouts.vtk.models.Asset la = lresources.get(i);
-										String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
-
-			%>
-			<tr>
-
-				<td width="40">
-					<%
-						if (lAssetImage != null) {
-					%> <img src="<%=lAssetImage%>" width="40" height="40" border="0" />
-					<%
-						}
-					%>
-				</td>
-				<td><a class="previewItem" href="<%=la.getRefId()%>"
-					target="_blank"><%=la.getTitle()%></a></td>
-				<td width="40">
-					<%
-						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
-					%>
-					<input type="button" value="Add to Meeting"
-					onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )"
-					class="button linkButton" /> <%
- 	}
- %>
-				</td>
-
-			</tr>
-			<%
-				}
-								}
-						    } catch (Exception e) {e.printStackTrace();}
-						  
-						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, GLOBAL_MEETING_AID_PATH+"/"); 
-						    for(int i=0;i<gresources.size();i++){
-							org.girlscouts.vtk.models.Asset a = gresources.get(i);
-							String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
-			%>
-			<tr>
-
-				<td width="40">
-					<%
-						if (assetImage != null) {
-					%> <img src="<%=assetImage%>" width="40" height="40" border="0" />
-					<%
-						}
-					%>
-				</td>
-				<td><a class="previewItem" href="<%=a.getRefId()%>"
-					target="_blank"><%=a.getTitle()%></a></td>
-				<td width="40">
-					<%
-						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
-					%>
-					<input type="button" value="Add to Meeting"
-					onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )"
-					class="button linkButton" /> <%
- 	}
- %>
-				</td>
-
-			</tr>
-			<%
-			
-				}
-			%>
-		</table>
-		<%
-			} else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		%><%=displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil, levelMeetingsRoot)%>
-		<%
-			} else {
-		%><div><%=categoryPage.getTitle()%></div>
-		<%
-			
-		%><ul>
-			<%
-				StringBuilder builder = new StringBuilder();
-							Iterator<Page> resIter = categoryPage.listChildren();
-							while (resIter.hasNext()) {
-							    Page resPage = resIter.next();
-								displayAllChildren(resPage, builder, xssAPI);
-						    }
-			%><%=builder.toString()%>
-			<%
-				
-			%>
-		</ul>
-		<%
-			}
-				}
-		%>
-	</div>
+    java.util.Collection<bean_resource> resources= yearPlanUtil.getResourceData(user, troop, resourceRootPath);
+    java.util.List<String> categories = VtkUtil.countResourseCategories(resources);
+	%>
+	
+	<ul class="small-block-grid-1 medium-block-grid-<%=categories.size()%> large-block-grid-<%=categories.size()%> browseResources">
+	    <%
+	    for(int i=0;i<categories.size();i++){ 
+	        String category= categories.get(i);
+	    %>
+		    <li>
+		         <div><%=category %></div>
+		         <%
+		         java.util.Iterator <bean_resource>itr = resources.iterator();
+		         while( itr.hasNext()){
+		        	  bean_resource bresource = itr.next();
+		        	  if( !bresource.getCategory().equals( category ) ) continue;
+		        	  if( bresource.getTitle().equals("Meeting Aids") && bresource.getItemCount()==0)
+		        		  bresource.setItemCount(countLocalMeetingsAidsByLevel ) ;
+		        	  else if(bresource.getTitle().equals("Meeting Overviews") && bresource.getItemCount()==0 )
+		        		  bresource.setItemCount(meeting_overviews);
+		         %>
+			         <div>
+			            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
+			         </div> 
+			     <%} %>
+		    </li>
+	    <%} %>
+	</ul>
+	<%
+	String categoryParam = (String)request.getParameter("category");
+	if( categoryParam!=null && !categoryParam.trim().equals("")){
+	%>
+	   <%@include file="resource_display_aids.jsp" %>
+	<%} %>
+ </div>
 <%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');

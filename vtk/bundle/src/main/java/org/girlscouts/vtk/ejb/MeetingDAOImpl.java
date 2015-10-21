@@ -1276,8 +1276,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Asset search = new Asset();
-				search.setRefId(r.getPath()
-						.replace("/jcr:content/metadata", ""));
+				search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
 				search.setIsCachable(true);
 				search.setType(AssetComponentType.RESOURCE);
 				try {
