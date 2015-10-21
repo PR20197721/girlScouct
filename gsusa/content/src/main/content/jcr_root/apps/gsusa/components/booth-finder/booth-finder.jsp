@@ -53,17 +53,24 @@ public String getDefault(String param, String defaultValue, SlingHttpServletRequ
 	<div>Radius:</div>
 	<input type="hidden" name="zip" value="<%=zip%>"></input>
 	<select name="radius">
-		<option value="50" <%= "50".equals(radius) ? "selected" : "" %>>50 miles</option>
-		<option value="20" <%= "20".equals(radius) ? "selected" : "" %>>20 miles</option>
-		<option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
+		<option value="1" <%= "1".equals(radius) ? "selected" : "" %>>1 miles</option>
 		<option value="5" <%= "5".equals(radius) ? "selected" : "" %>>5 miles</option>
+		<option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
+		<option value="15" <%= "15".equals(radius) ? "selected" : "" %>>15 miles</option>
+		<option value="25" <%= "25".equals(radius) ? "selected" : "" %>>25 miles</option>
+		<option value="50" <%= "50".equals(radius) ? "selected" : "" %>>50 miles</option>
+		<option value="100" <%= "100".equals(radius) ? "selected" : "" %>>100 miles</option>
+		<option value="250" <%= "250".equals(radius) ? "selected" : "" %>>250 miles</option>
+		<option value="500" <%= "500".equals(radius) ? "selected" : "" %>>500 miles</option>
 	</select>
 	<div>Date:</div>
 	<select name="date">
-		<option value="180" <%= "180".equals(date) ? "selected" : "" %>>6 months</option>
-		<option value="60" <%= "60".equals(date) ? "selected" : "" %>>2 months</option>
-		<option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
 		<option value="7" <%= "7".equals(date) ? "selected" : "" %>>1 week</option>
+		<option value="14" <%= "14".equals(date) ? "selected" : "" %>>2 weeks</option>
+		<option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
+		<option value="60" <%= "60".equals(date) ? "selected" : "" %>>2 months</option>
+		<option value="90" <%= "90".equals(date) ? "selected" : "" %>>3 months</option>
+		<option value="all" <%= "all".equals(date) ? "selected" : "" %>>all</option>
 	</select>
 	<div>Sort by:</div>
 	<select name="sortBy">

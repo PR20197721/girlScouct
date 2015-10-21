@@ -103,7 +103,7 @@ public class BoothFinder {
                          "&t=" + sortBy.trim() + 
                          "&s=" + Integer.toString(pageNum * numPerPage + 1) +
                          "&m=" + Integer.toString(numPerPage) +
-                         //"&d=" + dateRange.trim();
+                         //("all".equalsIgnoreCase(dateRange) ? "&d=" + dateRange.trim() : "") +
                          // TODO: for test:
                          "&d1=2013-10-1&d2=2014-4-30";
 
