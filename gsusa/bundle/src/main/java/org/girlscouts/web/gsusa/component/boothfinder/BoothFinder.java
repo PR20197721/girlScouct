@@ -2,6 +2,7 @@ package org.girlscouts.web.gsusa.component.boothfinder;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -15,6 +16,7 @@ import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
@@ -41,6 +43,7 @@ public class BoothFinder {
     private HttpConnectionManager connectionManager;
     private HttpClient httpClient;
     private DocumentBuilderFactory dbFactory;
+    private String apiBasePath;
     
     public static class BoothBasic {
         public String id, distance, location, address1, address2, dateStart, dateEnd, timeOpen, timeClose;
@@ -79,6 +82,14 @@ public class BoothFinder {
         dbFactory = DocumentBuilderFactory.newInstance();
     }
     
+    @Modified
+    public void updateConfig(Dictionary dict) {
+    	apiBasePath = (String)dict.get("apiBasePath");
+    	if (null == apiBasePath || apiBasePath.isEmpty()) {
+    		apiBasePath = API_BASE;
+    	}
+    }
+    
     // TODO: test. Remote later
     public static void main(String[] args) {
         BoothFinder finder = new BoothFinder();
@@ -94,7 +105,7 @@ public class BoothFinder {
     }
     
     public Council getCouncil(String zipCode) throws Exception {
-        GetMethod get = new GetMethod(API_BASE + LOCAL_COUNCIL_COOKIE_SALE_STATUS_API + zipCode.trim());
+        GetMethod get = new GetMethod(apiBasePath + LOCAL_COUNCIL_COOKIE_SALE_STATUS_API + zipCode.trim());
 
         try {
             int resStatus = httpClient.executeMethod(get);
@@ -136,7 +147,7 @@ public class BoothFinder {
     }
     
     public List<BoothBasic> getBooths(String zipCode, String dateRange, String distance, String sortBy, int pageNum, int numPerPage) throws Exception {
-        String apiPath = API_BASE + FETCH_BOOTH_LIST_API + 
+        String apiPath = apiBasePath + FETCH_BOOTH_LIST_API + 
                          "z=" + zipCode.trim() + 
                          "&r=" + distance.trim() + 
                          "&t=" + sortBy.trim() + 
