@@ -14,6 +14,7 @@ import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpConnectionManagerParams;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Modified;
@@ -30,7 +31,9 @@ import org.xml.sax.SAXException;
 @Component(label = "Girl Scouts Cookie Booth Finder", description = "Find nearby cookie booth", metatype = true, immediate = true)
 @Service(BoothFinder.class)
 @Properties({
-        @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API")
+        @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API"),
+        @Property(name = "connectionTimeOut", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds."),
+        @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds."),
 })
 public class BoothFinder {
     // TODO: use configuration. Pay attention to the trailing slash. 
@@ -42,6 +45,7 @@ public class BoothFinder {
     
     private HttpConnectionManager connectionManager;
     private HttpClient httpClient;
+    private int connectionTimeout, socketTimeout, concurrentTimeout;
     private DocumentBuilderFactory dbFactory;
     private String apiBasePath;
     
@@ -77,8 +81,6 @@ public class BoothFinder {
     
     @Activate
     public void init() {
-        connectionManager = new MultiThreadedHttpConnectionManager();
-        httpClient = new HttpClient(connectionManager);
         dbFactory = DocumentBuilderFactory.newInstance();
     }
     
@@ -88,6 +90,16 @@ public class BoothFinder {
     	if (null == apiBasePath || apiBasePath.isEmpty()) {
     		apiBasePath = API_BASE;
     	}
+
+    	connectionTimeout = (Integer)dict.get("connectionTimeout");
+    	socketTimeout = (Integer)dict.get("socketTimeout");
+    	concurrentTimeout = (Integer)dict.get("concurrentTimeout");
+        connectionManager = new MultiThreadedHttpConnectionManager();
+        httpClient = new HttpClient(connectionManager);
+        HttpConnectionManagerParams params = new HttpConnectionManagerParams();
+        params.setConnectionTimeout(connectionTimeout);
+        params.setSoTimeout(socketTimeout);
+        connectionManager.setParams(params);
     }
     
     // TODO: test. Remote later
