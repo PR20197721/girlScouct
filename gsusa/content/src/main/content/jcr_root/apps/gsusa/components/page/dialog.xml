@@ -72,6 +72,28 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
+                        <is-cookie-page
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Cookie pages have special headers, footers and third column."
+                            fieldLabel="Is Cookie Page"
+                            name="./isCookiePage"
+                            type="radio"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-cookie-page>
                     </items>
                 </gsusa>
             </items>

@@ -56,7 +56,7 @@
 </div>
 
 <%
-if(theme.equals("classic")){
+if(theme.equals("classic")) {
 	try {
 		bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.hero.");
 	} catch (Exception e) {}
@@ -83,6 +83,36 @@ if(theme.equals("classic")){
                 bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.top.");
         } catch (Exception e) {}
 %>
+
+<script type="text/javascript">
+		var completeAndRedirectDonate = function(data){
+			<% if(WCMMode.fromRequest(request) != WCMMode.EDIT){ %>
+			var toPost = $('.formDonate').serialize();
+			$(document).ready(function() {
+				$.ajax({
+					method: "POST",
+					url: '/invest/ajax_CouncilFinder.asp',
+					data: toPost,
+					async: false,
+					success: function(resp){
+						if(resp == null || resp == ""){
+							alert("The council you have searched for does not exist");
+						}
+						else{
+							//console.log(resp);
+							var url = resp.split(',',3);
+							//console.log(url[2]);
+							window.open(url[2],'_blank');
+						}
+					}
+				});
+			});
+			<% }else{ %>
+			alert("This tool can only be used on a live page");
+			<% } %>
+		}
+	</script>
+
 <section class="story colorless<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">
 	<div id="tag_tile_<%= linkifyString(title, 25)%>" class="bg-wrapper" style="background-color: <%= bgcolorCL %>">
 		<div class="header clearfix">
@@ -95,7 +125,19 @@ if(theme.equals("classic")){
 				<div class="text">
 					<%= text %>
 				</div>
-				<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
+
+				<div class="button-wrap">
+					<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
+					<% if(linkifyString(title, 25).equals("donate")) { %>
+						<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
+				            <label for="zipcode">Enter Zip Code: </label>
+				            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+				            <input type="hidden" name="source" value="homepage">
+							<button type="submit" class="fa fa-play-circle"></button>
+						</form>
+						<a  id="tag_tile_button_local" class="button" style="background-color: <%= bgcolorClassic %>">Support Your Local Girl Scouts Council</a>
+					<%}%>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -103,7 +145,7 @@ if(theme.equals("classic")){
 <%
 } else if(theme.equals("shop")){
         try {
-                bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
+            bg = getImageRenditionSrc(resourceResolver, bg, "cq5dam.npd.right.");
         } catch (Exception e) {}
 %>
 <section class="story<%= noPadding %>" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent center center / cover">

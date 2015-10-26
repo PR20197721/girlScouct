@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <!-- header -->
 <%
     // All pages share the same header from the site root, except Join and Volunteer!
@@ -7,6 +8,7 @@
     String headerNavPath = headerPath + "/header-nav";
     String eyebrowNavPath = headerPath + "/eyebrow-nav";
     String headerSearchPath = headerPath + "/search";
+    String cookieHeaderPath = headerPath + "/cookie-header";
 %>
 <div class="top-header row">
     <section class="logo-section">
@@ -29,4 +31,7 @@
     </section>
 </div>
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
+<% if (isCookiePage(currentPage)) { %>
+	<cq:include path="<%= cookieHeaderPath %>" resourceType="gsusa/components/cookie-header" />
+<% } %>
 <!--/header -->
