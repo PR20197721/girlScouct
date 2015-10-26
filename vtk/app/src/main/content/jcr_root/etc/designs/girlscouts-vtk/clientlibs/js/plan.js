@@ -941,7 +941,7 @@ function councilRpt(troopId, cid){
 //		loadUNav(activeTab);
 	
 
-		setTimeout(function(){checkIsLoggedIn();}, 5000);
+		setTimeout(function(){checkIsLoggedIn();}, 10000);
 		     
 
 		if(activeTab!=null && activeTab=='myTroop'){
