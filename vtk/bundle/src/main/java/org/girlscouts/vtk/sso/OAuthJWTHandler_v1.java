@@ -98,9 +98,11 @@ public ApiConfig doIt(java.io.InputStream is, String email, String access_token,
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));
 		    
 		      oauthPost.setEntity(new UrlEncodedFormEntity(parametersBody, HTTP.UTF_8));
-			  log.debug("Token: "+ access_token +" : "+ email);		      
+			  /*
+			  log.debug("Token: "+ access_token +" : "+ email);		      			   
 			  log.debug("OAuth req: "+ parametersBody);		      
 			  log.debug("req: "+ oauthPost);		      
+			  */
 		      HttpResponse response = client.execute(oauthPost);	      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
