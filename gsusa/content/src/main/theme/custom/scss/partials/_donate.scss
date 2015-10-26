@@ -9,12 +9,14 @@
     //toggle button
     a.button {
       white-space: nowrap;
-      padding-left: 0.625rem;
       z-index: 2;
       margin: 0;
       width: 100%;
       background: $white;
       color: $primary-color;
+      &.hide {
+        display: none;
+      }
     }
     //show hide form
     form.formDonate {
