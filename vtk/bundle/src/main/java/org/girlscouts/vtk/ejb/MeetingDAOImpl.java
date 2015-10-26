@@ -2383,7 +2383,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			
 			
 			    if( nodes.length<=2 || nodes[2].equals("jcr:content") ){
-			    	//System.err.println("tatatttt :" +  node.getProperty("jcr:title").getString());
+			    	
 			    	categoryDictionary.put(nodes[1],node.getProperty("jcr:title").getString() );
 			    	continue;	
 			    }

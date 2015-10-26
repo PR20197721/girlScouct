@@ -648,7 +648,6 @@ public class TroopDAOImpl implements TroopDAO {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException, VtkException {
-System.err.println("tata updateTroop.....");
 		modifyTroop(user, troop);
 
 		if (troop.getYearPlan().getPath() == null
@@ -866,57 +865,17 @@ System.err.println("tata updateTroop.....");
 			
 			
 			
-			/*
-			//meeting.getClass().getPackage().getName()
-			
-			System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[0].getName());
-			for(int y=0;y<meeting.getClass().getDeclaredFields().length;y++){
-				System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[y].getName());
-				if("assets".equals(meeting.getClass().getDeclaredFields()[y].getName())){
-					try{ 
-						
-						
-						System.err.println(" testerxx: "+meeting.getClass().getDeclaredFields()[y].getAnnotations()[0]);
-						org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection collection = (org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection)meeting.getClass().getDeclaredFields()[y].getAnnotations()[0];
-						System.err.println( collection.collectionConverter() );
-					}catch(Exception e){e.printStackTrace();}
-				}
-			}
-			*/
 			
 			
-			System.err.println("YESSSS........"+ (ocm==null) +" : "+ meeting.getPath() +" : "+ meeting.getId() +" : "+ meeting.getUid());
 			
 			
-		
-	
 			if (!ocm.objectExists(meeting.getPath())) {
-	System.err.println("inserting...");		
-	
-				
 				ocm.insert(meeting);
 			} else {
-	System.err.println("Updating...");			
-/*
-	classes = new ArrayList<Class>();
-	classes.add(MeetingE1.class );
-	mapper = new AnnotationMapperImpl(classes);
-	ocm = new ObjectContentManagerImpl(mySession,	mapper);
-	
-    MeetingE1 asd= new MeetingE1(meeting);
-	ocm.update(asd);
-	
-	
-	*/
-	ocm.update(meeting);
+				ocm.update(meeting);
 			}
-	System.err.println("Saving...");		
+		
 			ocm.save();
-System.err.println("Saved!");
-	
-
-
-
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
 			// org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:

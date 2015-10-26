@@ -98,23 +98,16 @@ public ApiConfig doIt(java.io.InputStream is, String email, String access_token,
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));
 		    
 		      oauthPost.setEntity(new UrlEncodedFormEntity(parametersBody, HTTP.UTF_8));
-System.err.println("Token: "+ access_token +" : "+ email);		      
-System.err.println("OAuth req: "+ parametersBody);		      
-System.err.println("req: "+ oauthPost);		      
-		      HttpResponse response = client.execute(oauthPost);
-//System.err.println("resp dd: "+EntityUtils.toString(response.getEntity()));		      
+			  log.debug("Token: "+ access_token +" : "+ email);		      
+			  log.debug("OAuth req: "+ parametersBody);		      
+			  log.debug("req: "+ oauthPost);		      
+		      HttpResponse response = client.execute(oauthPost);	      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));
 		      
 		   
 		      String accessToken = (String)jobj.get("access_token");
-		    	
-//System.err.println("accessToken: "+ accessToken +" : "+ jobj);		      
-		      
-		      
-		      
-		      
 		        config = new ApiConfig();
 				config.setAccessToken((String)jobj.get("access_token"));
 				config.setInstanceUrl((String)jobj.get("instance_url"));

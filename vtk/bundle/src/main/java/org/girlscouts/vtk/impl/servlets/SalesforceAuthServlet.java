@@ -351,8 +351,8 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-System.err.println("RESP: "+ samlResponse);	
-System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
+log.debug("RESP SAML: "+ samlResponse);	
+log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
 				requestURL = requestURL.replace("http://my", "https://my")
@@ -499,14 +499,11 @@ System.err.println("RESP SAML: "+ request.getParameter("SAMLResponse"));
 	}//end oAuthtoken
 
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
-System.err.println(13);
 			    redirect(response, request.getParameter("RelayState"));
 		}else if(request.getParameter("RelayState")!=null){
-System.err.println(12);
 				setCouncilInClient(response, request.getParameter("RelayState"));
 				redirect(response, targetUrl);
 		}else {
-System.err.println(1+":>>>>>>>>>>>>>>> "+ targetUrl);
 			    redirect(response, targetUrl);
 
 		}

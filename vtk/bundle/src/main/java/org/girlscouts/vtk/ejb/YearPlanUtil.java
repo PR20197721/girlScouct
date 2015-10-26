@@ -227,7 +227,6 @@ public class YearPlanUtil {
 
 	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-System.err.println("tatattx YearPlanUtil.getMeeting..");
 		Meeting meeting = meetingDAO.getMeeting(user, troop, path);
 		return meeting;
 	}

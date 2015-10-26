@@ -863,8 +863,7 @@ public class MeetingUtil {
 	}
 	
 	public PlanView planView(User user, Troop troop,
-			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {
-System.err.println("tatattx meetingUtil planView START....");	
+			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {	
 		PlanView planView = planView1(user, troop, request);
 		if (planView == null) {
 			return null;
@@ -966,8 +965,7 @@ System.err.println("tatattx meetingUtil planView START....");
 		if (meeting != null)
 			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
-		planView.setAidTags(_aidTags);
-System.err.println("tata meetingUtil planView end....");		
+		planView.setAidTags(_aidTags);		
 		return planView;
 	}
 

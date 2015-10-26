@@ -98,7 +98,6 @@ public class SalesforceDAO {
 			}
 
 			log.debug(">>>>> " + rsp);
-System.err.println("getUSER resp: " + rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -554,7 +553,7 @@ System.err.println("getUSER resp: " + rsp);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("troop :"+ response);
+
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				String errorTroopId="-1";

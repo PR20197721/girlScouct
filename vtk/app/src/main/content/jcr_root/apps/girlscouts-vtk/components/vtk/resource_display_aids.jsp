@@ -13,16 +13,13 @@
                 //LOCAL AIDS
                             try {
                                 Iterator<Resource> iter = levelMeetingsRoot.listChildren();
-                                while (iter.hasNext()) {
-              System.err.println("*****");                  	
+                                while (iter.hasNext()) {                 	
                                     Resource meetingResource = iter.next();
                                     
                                     String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
                                     meetingId= meetingId.replace("/","");
-                                    java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
-        System.err.println("..."+  LOCAL_MEETING_AID_PATH+"/"+meetingId);                            
-                                    for(int i=0;i<lresources.size();i++){
-        System.err.println("------");         
+                                    java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId());                            
+                                    for(int i=0;i<lresources.size();i++){      
                                         org.girlscouts.vtk.models.Asset la = lresources.get(i);
                                         String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
 

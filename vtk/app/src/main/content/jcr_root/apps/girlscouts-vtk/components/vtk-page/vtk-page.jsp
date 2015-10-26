@@ -9,14 +9,14 @@
     	myUrl= java.net.URLDecoder.decode( myUrl);
    
     
-    System.err.println( "myurl : "+myUrl  +" : "+ session.getAttribute("fatalError"));
+   
   if (myUrl.trim().contains("/en/vtk.home.html") && session.getAttribute("fatalError")!=null)
     	;
     
   else if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html") ){
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 
-   System.err.println(1); 
+   
     try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
 		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
@@ -27,9 +27,9 @@
 		e.printStackTrace();
 	}
 	
-    System.err.println(2); 
+    
 	if( apiConfig==null ){
-		System.err.println(3); 
+	 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
 	    String refererCouncil = request.getParameter("refererCouncil");
@@ -37,7 +37,7 @@
 	        redirectTo = redirectTo + "&refererCouncil=" + refererCouncil;
 	    }
 
-	    System.out.println("Redirecting to " + redirectTo);
+	    
 		response.sendRedirect(redirectTo);
 		return;		
 		/*
@@ -58,7 +58,7 @@
    System.out.println("ApiConfig not null and not failed.");
 
 }
-System.err.println(4); 
+
 	
 	
 

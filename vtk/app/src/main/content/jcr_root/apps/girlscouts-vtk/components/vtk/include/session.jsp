@@ -212,7 +212,7 @@
 
 		try{
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
-System.err.println("tata session1");
+
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
@@ -234,7 +234,7 @@ System.err.println("tata session1");
 		
 	    if (troop == null ) {
 	        try{
-	        	System.err.println("tata session2"); 	
+	        	 	
 	        
 	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
             }catch(org.girlscouts.vtk.utils.VtkException e){
@@ -258,7 +258,7 @@ System.err.println("tata session1");
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 		session.setAttribute("VTK_troop", troop);
 	}
-	System.err.println("tata session3");
+	
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
 		troops = user.getApiConfig().getTroops();
@@ -280,5 +280,5 @@ System.err.println("tata session1");
 		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-	System.err.println("tata session4");
+	
 %>
