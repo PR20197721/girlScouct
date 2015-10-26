@@ -3,7 +3,9 @@ package org.girlscouts.web.gsusa.component.boothfinder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -45,7 +47,7 @@ public class BoothFinder {
     
     private HttpConnectionManager connectionManager;
     private HttpClient httpClient;
-    private int connectionTimeout, socketTimeout, concurrentTimeout;
+    private int connectionTimeout, socketTimeout;
     private DocumentBuilderFactory dbFactory;
     private String apiBasePath;
     
@@ -85,34 +87,48 @@ public class BoothFinder {
     }
     
     @Modified
-    public void updateConfig(Dictionary dict) {
+    public void updateConfig(@SuppressWarnings("rawtypes") Dictionary dict) {
     	apiBasePath = (String)dict.get("apiBasePath");
     	if (null == apiBasePath || apiBasePath.isEmpty()) {
+    		if (!apiBasePath.endsWith("/")) {
+    			apiBasePath += "/";
+    		}
     		apiBasePath = API_BASE;
     	}
 
     	connectionTimeout = (Integer)dict.get("connectionTimeout");
     	socketTimeout = (Integer)dict.get("socketTimeout");
-    	concurrentTimeout = (Integer)dict.get("concurrentTimeout");
         connectionManager = new MultiThreadedHttpConnectionManager();
         httpClient = new HttpClient(connectionManager);
         HttpConnectionManagerParams params = new HttpConnectionManagerParams();
         params.setConnectionTimeout(connectionTimeout);
         params.setSoTimeout(socketTimeout);
         connectionManager.setParams(params);
+        log.info("HttpConnctionManager start up. Connection Timeout = " + Integer.toString(connectionTimeout) +
+        		" Socket Timeout = " + Integer.toString(socketTimeout));
     }
     
     // TODO: test. Remote later
     public static void main(String[] args) {
         BoothFinder finder = new BoothFinder();
+        Dictionary dict = new Hashtable();
+        dict.put("connectionTimeout", 10000);
+        dict.put("socketTimeout", 10000);
+        dict.put("apiBasePath", "http://www.girlscoutcookies.org/");
+        
         finder.init();
-        try {
-            //List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
-            //System.out.println(booths);
-            Council council = finder.getCouncil("10018");
-            System.out.println(council);
-        } catch (Exception e) {
-            e.printStackTrace();
+        finder.updateConfig(dict);
+        Random rand = new Random();
+        for (int i = 0; i < 100; i++) {
+	        try {
+	            //List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
+	            //System.out.println(booths);
+	        	String randZip = Integer.toString(rand.nextInt(89999) + 10000);
+	            Council council = finder.getCouncil(randZip);
+	            System.out.println(council);
+	        } catch (Exception e) {
+	        	System.err.println(e.getMessage());
+	        }
         }
     }
     
