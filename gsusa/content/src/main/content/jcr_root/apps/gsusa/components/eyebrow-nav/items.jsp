@@ -15,6 +15,7 @@
 			String link = split.length >= 2 ? split[1] : "";
 			String target = "";
 			boolean openInNewWindow = split.length >= 3 ? Boolean.parseBoolean(split[2]) : false;
+			String cssClass = split.length >= 4 ? split[3] : "";
 			Integer eyebrowTabIndex = 10 + i;
 			String cssId = "eyebrow";
 
@@ -25,7 +26,7 @@
 			if (openInNewWindow) {
 				target = "target=\"_blank\"";
 			}
-			%><li><a <%= target %>id="tag_eyebrow_<%= linkifyString(label, 25)%>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
+			%><li><a <%= target %>id="tag_eyebrow_<%= linkifyString(label, 25)%>" class="<%= cssClass %>" href="<%= link %>" title="<%= label %>" tabindex="<%= eyebrowTabIndex++ %>"><%= label %></a></li><%
 		}
 	}
 %>

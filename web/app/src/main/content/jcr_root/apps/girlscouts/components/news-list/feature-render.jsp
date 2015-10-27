@@ -8,13 +8,13 @@ String newsTitle = (String)request.getAttribute("newsTitle");
 String newsDateStr = (String)request.getAttribute("newsDateStr");
 String newsDesc = (String)request.getAttribute("newsDesc");
 String external_url=(String)request.getAttribute("external_url");
-
+String rendition = displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80");
 %>
 <div class="row news-rows">
 		
   <div class="column medium-3 large-3 small-8 lists-image">
-  <% if(!imgPath.isEmpty()){ %>
-    <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+  <% if(!imgPath.isEmpty() && !rendition.isEmpty()){  %>
+    <%= rendition %>
   <%} else { %>
     <img src="/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/news_icon.jpg" alt="news icon"/>
   <% } %>

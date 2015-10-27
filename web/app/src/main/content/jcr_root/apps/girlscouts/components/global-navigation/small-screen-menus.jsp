@@ -3,6 +3,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <%
+final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
    String currPath = currentPage.getPath();  
    String[] links = properties.get("links", String[].class);
    request.setAttribute("globalNavigation", links);
@@ -98,6 +99,12 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
  <ul class="side-nav" style="padding:0px"> 
  
 <% 
+// Replace currentPage
+Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+if (newCurrentPage != null) {
+	currentPage = newCurrentPage;
+}
+
 String slingResourceType = "girlscouts/components/placeholder-page";
 for (int i = 0; i < links.length; i++){
 	String[] values = links[i].split("\\|\\|\\|");
@@ -189,13 +196,22 @@ for (int i = 0; i < links.length; i++){
 			}
 		// Else to handle rest of the menu items 
 		} else {
-%>
-			<div><li><a href="<%= path %>"><%= sLabel %></a></div>
+%>		<li>
+			<div><a href="<%= path %>"><%= sLabel %></a></div>
 <%
 		}
 	}
 %>  
 		</li> 
-<% } %>
+<% if( path.toLowerCase().contains("vtk")){
+%>
+		<li>
+			<div><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">HOME</a></div>
+		</li>
+		<li>
+			<div><a href="<%= configManager.getConfig("communityUrl")%>">MEMBER PROFILE</a></div>
+		</li>
+<% }
+}%>
 	</ul> 
 </div>

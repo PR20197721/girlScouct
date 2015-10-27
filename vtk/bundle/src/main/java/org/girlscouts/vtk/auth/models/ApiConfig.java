@@ -2,6 +2,7 @@ package org.girlscouts.vtk.auth.models;
 
 import java.io.Serializable;
 
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.salesforce.Troop;
 
 public class ApiConfig implements Serializable {
@@ -19,6 +20,45 @@ public class ApiConfig implements Serializable {
 	private String callbackUrl, clientId, clientSecret, OAuthUrl;
 	private long lastTimeTokenRefreshed;
 	
+	//from jcr config -APIs
+	private String vtkApiTroopUri, vtkApiUserUri, vtkApiContactUri, vtkApiTroopLeadersUri;
+	
+	//error msg
+	java.util.List<VtkError> errors;
+	
+	
+	public String getVtkApiTroopLeadersUri() {
+		return vtkApiTroopLeadersUri;
+	}
+
+	public void setVtkApiTroopLeadersUri(String vtkApiTroopLeadersUri) {
+		this.vtkApiTroopLeadersUri = vtkApiTroopLeadersUri;
+	}
+
+	public String getVtkApiContactUri() {
+		return vtkApiContactUri;
+	}
+
+	public void setVtkApiContactUri(String vtkApiContactUri) {
+		this.vtkApiContactUri = vtkApiContactUri;
+	}
+
+	public String getVtkApiUserUri() {
+		return vtkApiUserUri;
+	}
+
+	public void setVtkApiUserUri(String vtkApiUserUri) {
+		this.vtkApiUserUri = vtkApiUserUri;
+	}
+
+	public String getVtkApiTroopUri() {
+		return vtkApiTroopUri;
+	}
+
+	public void setVtkApiTroopUri(String vtkApiTroopUri) {
+		this.vtkApiTroopUri = vtkApiTroopUri;
+	}
+
 	public java.util.List<Troop> getTroops() {
 		return troops;
 	}
@@ -50,6 +90,8 @@ public class ApiConfig implements Serializable {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+	
 
 	public String getAccessToken() {
 		return accessToken;
@@ -130,6 +172,14 @@ public class ApiConfig implements Serializable {
 
 	public void setLastTimeTokenRefreshed(long lastTimeTokenRefreshed) {
 		this.lastTimeTokenRefreshed = lastTimeTokenRefreshed;
+	}
+
+	public java.util.List<VtkError> getErrors() {
+		return errors;
+	}
+
+	public void setErrors(java.util.List<VtkError> errors) {
+		this.errors = errors;
 	}
 	
 

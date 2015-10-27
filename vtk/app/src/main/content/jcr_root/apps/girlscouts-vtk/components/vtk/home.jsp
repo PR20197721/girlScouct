@@ -10,13 +10,9 @@
  
 <%
     HttpSession session = request.getSession();
-
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
-
     try{
-
-    apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-
+         apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
 
     int councilIdInt = 0;
@@ -100,6 +96,25 @@
           <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
           <div id="mainContent" class="welcome-page">
             <div class="par parsys">
+      
+      <%if( apiConfig.getErrors()!=null ){ %>  
+	      <div class="error">
+	               <ul>
+	               <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
+	                   <li>
+	                    <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
+	                    <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
+<!--  
+---- description ----
+<%= apiConfig.getErrors().get(i).getDescription()%>
+---- error code ----
+<%=apiConfig.getErrors().get(i).getErrorCode() %>
+-->
+	                   </li>
+	               <%} %>
+	               </ul>
+	      </div>    
+	  <%} %>    
               <div class="text parbase section"><h1>Welcome.</h1></div>
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
@@ -110,9 +125,13 @@
                     
                     	
                     	String vtkLanding = "/content/girlscouts-vtk/en/vtk.html";
-                    	
-                    	if( apiConfig!=null && apiConfig.getUser().isAdmin() ){
-                    	    vtkLanding="/content/girlscouts-vtk/en/vtk.resource.html";   
+                    	String userRole = null;
+			if ( apiConfig.getTroops() != null && apiConfig.getTroops().size() >0) {
+				userRole = apiConfig.getTroops().get(0).getRole();
+			}
+                    	userRole= userRole ==null ? "" : userRole;
+                    	if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                    	    vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
                     	}
                     
                     	

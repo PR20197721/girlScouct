@@ -45,6 +45,8 @@
     <filter root="/etc/workflow/launcher/config/gs_modify_flipbook_folder" />
     <filter root="/etc/workflow/launcher/config/gs_remove_flipbook_file" />
     <filter root="/etc/workflow/launcher/config/gs_remove_flipbook_folder" />
+    <filter root="/etc/workflow/launcher/config/gs_update_pdf_create_pub" />
+    <filter root="/etc/workflow/launcher/config/gs_update_pdf_mod_pub" />
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_logo"/>  
     <filter root="/etc/workflow/models/dam/gs_update_asset_medium_hero"/>   
@@ -52,6 +54,7 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_sp_right_hero"/>
+    <filter root="/etc/workflow/models/dam/dam_pdf_title"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>

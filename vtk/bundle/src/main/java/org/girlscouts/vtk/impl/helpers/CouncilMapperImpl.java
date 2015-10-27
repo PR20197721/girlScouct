@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
 	private static final Logger log = LoggerFactory
 			.getLogger(CouncilMapperImpl.class);
-	private static final String DEFAULT_BRANCH = "/content/girlscouts-usa";
+	public static final String DEFAULT_BRANCH = "/content/girlscouts-usa";
 	private String defaultBranch;
 	private Map<String, String> councilMap;
 	private ResourceResolver resourceResolver;

@@ -37,39 +37,37 @@
 			%>
 
 			<dl class="tabs">
-			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 					<dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
 						<a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
 					</dd>
 			<% } %>
-			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
+			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
 						<a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a>
 					</dd>
 			<% } %>
-			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
+			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
 				<dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
 					 <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.meeting_react2.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
 				</dd>
 			<%	} %>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-					<a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
+					<a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
 				</dd>
 			
-			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+			<% if( VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
 					<dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
 						<a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
 					</dd>
 				<% } 	%>
-			<!--<% // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %>-->
+			
 				<dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
 					<a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
 				</dd>
-			<!--<% // } 	%>-->
+			
 			</dl>
-			<%
-			//	if (troop.getYearPlan() != null) {
-			%>
+			
 		</div><!--/columns-->
 	</div><!--/row-->
 	<%

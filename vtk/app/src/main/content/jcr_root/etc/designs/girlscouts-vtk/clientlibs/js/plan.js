@@ -487,14 +487,17 @@ function rmCustActivity(x){
 }
 
 function createNewCustActivity(){
+	
+	
+	
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
-	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field"); return false;}
+	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field");  return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
 
 	var aDate = new Date(newCustActivity_date);
 
 	if( !Date.parse(aDate) ||  aDate < new Date() )
-		{alert( "Invalid start date. Date must be after todays date." ); return false;}
+		{alert( "Invalid start date. Date must be after todays date." );   return false;}
 
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
@@ -505,16 +508,20 @@ function createNewCustActivity(){
 
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
 	if( $.trim(newCustActivityLocName) =='' || $.trim(newCustActivityLocName) =='Location Name')
-		{alert("Please fill 'Location Name' field"); return false;}
+		{alert("Please fill 'Location Name' field");   return false;}
 
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
 	if( $.trim(newCustActivityLocAddr) =='' || $.trim(newCustActivityLocAddr) =='Location Address')
-	{alert("Please fill 'Location Address' field"); return false;}
+	{alert("Please fill 'Location Address' field");  return false;}
 
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
 
+	if( document.getElementById("newCustActivity") ){
+		document.getElementById("newCustActivity").disabled = true;	
+	}
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
@@ -931,8 +938,12 @@ function councilRpt(troopId, cid){
 
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
-		loadUNav(activeTab);
+//		loadUNav(activeTab);
 	
+
+		setTimeout(function(){checkIsLoggedIn();}, 10000);
+		     
+
 		if(activeTab!=null && activeTab=='myTroop'){
 			vtkTrackerPushAction('ViewTroop');
 		}
@@ -945,9 +956,10 @@ function councilRpt(troopId, cid){
 			vtkTrackerPushAction('ViewFinances');
 		}
 		
+
 	}
 	
-
+/*
 
 	function loadUNav(activeTab){
 
@@ -960,7 +972,7 @@ function councilRpt(troopId, cid){
 	    })
 	}
 
-
+*/
 
 	function loadTabNav(activeTab){
 
@@ -968,7 +980,7 @@ function councilRpt(troopId, cid){
 	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
 	            cache: false
 	        }).done(function( html ) {
-	            var vtkNav = document.getElementById("vtkTabNav");
+	        	var vtkNav = document.getElementById("fullNav");
 	            vtkNav.innerHTML =html;
 	            getRelogin();
 
@@ -994,3 +1006,21 @@ function councilRpt(troopId, cid){
       return "";
   }
 
+  var isLoggedIn = false;
+  function resetIsLoggedIn(){
+	  console.log("reset logged in to false...");
+	  isLoggedIn=false;
+  }
+  
+  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; checkIsLoggedIn()}
+  function 	checkIsLoggedIn(){  
+	  if( document.getElementById("myframe")==null){return;}
+	  console.log("checking isLoggedin..."+ isLoggedIn);
+	  if( !isLoggedIn ){
+		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
+		  //girlscouts.components.login.signOut();
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+		  
+		 
+	  } 
+  }

@@ -23,7 +23,7 @@ public class SalesforceDAOFactory implements ConfigListener {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
-	
+
 	private String clientId;
 	private String clientSecret;
 	private String OAuthUrl;
@@ -35,6 +35,7 @@ public class SalesforceDAOFactory implements ConfigListener {
 		clientSecret = (String) configs.get("clientSecret");
 		OAuthUrl = (String) configs.get("OAuthUrl");
 		callbackUrl = (String) configs.get("callbackUrl");
+
 	}
 
 	@Activate
@@ -48,6 +49,7 @@ public class SalesforceDAOFactory implements ConfigListener {
 		dao.clientSecret = clientSecret;
 		dao.OAuthUrl = OAuthUrl;
 		dao.callbackUrl = callbackUrl;
+
 		return dao;
 	}
 }

@@ -18,13 +18,13 @@
                         xtype="textarea"/>
                     <searchIn
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Default Search location /content/gsusa/en/)"
+                        fieldDescription="(Default Search location /content/&amp;lt;councilname&amp;gt;/en/)"
                         fieldLabel="Path to search content"
                         name="./searchIn"
                         xtype="pathfield"/>
                     <docsrchpath
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Default /content/dam/gsusa/documents)"
+                        fieldDescription="(Default /content/dam/girlscouts-&amp;lt;councilname&amp;gt;/documents)"
                         fieldLabel="Path to search documents"
                         name="./docusrchpath"
                         xtype="pathfield"/>

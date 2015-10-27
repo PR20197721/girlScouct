@@ -27,28 +27,27 @@
 %>
 <%-- VTK tab --%>
 <%
+    
 	String activeTab = "resource";
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+    String sectionClassDefinition = "resource";
 %>
 
-<div id="vtkTabNav"></div>
-<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
+<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
-
-<div id="panelWrapper" class="row content">
-	<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 	<div class="columns large-20 large-centered">
 		<script>
 			var fixVerticalSizing = false;
 			$(function() {
 				var cache = {};
 				$( "#resourceSearchField" ).autocomplete({
-					minLength: 3,
-					minChar: 3,
+					minLength: 4,
+					minChar: 4,
 					source: function( request, response ) {
 						var term = request.term;
 						$("#searchResults").html("");
@@ -153,7 +152,7 @@
  								    	
  								        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
  								        meetingId= meetingId.replace("/","");
- 								        minorCount+= yearPlanUtil.getAllResourcesCount(user,LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
+ 								        minorCount+= yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId); //lresources.size();
  								
  								}
  						    }catch(Exception e){}
@@ -227,10 +226,10 @@
 							    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 							    while (iter.hasNext()) {
 							        Resource meetingResource = iter.next();
-		System.err.println("tata level1: "+meetingResource.getPath());					        
+							        
 							        String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
                                     meetingId= meetingId.replace("/","");
-							        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
+							        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId()); 
 							        for(int i=0;i<lresources.size();i++){
 									    org.girlscouts.vtk.models.Asset la = lresources.get(i);
 										String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
@@ -250,7 +249,7 @@
 					target="_blank"><%=la.getTitle()%></a></td>
 				<td width="40">
 					<%
-						if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
+						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
 					%>
 					<input type="button" value="Add to Meeting"
 					onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )"
@@ -264,8 +263,8 @@
 				}
 								}
 						    } catch (Exception e) {e.printStackTrace();}
-System.err.println("tata level2: "+GLOBAL_MEETING_AID_PATH+"/");						  
-						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
+						  
+						   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, GLOBAL_MEETING_AID_PATH+"/"); 
 						    for(int i=0;i<gresources.size();i++){
 							org.girlscouts.vtk.models.Asset a = gresources.get(i);
 							String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
@@ -284,7 +283,7 @@ System.err.println("tata level2: "+GLOBAL_MEETING_AID_PATH+"/");
 					target="_blank"><%=a.getTitle()%></a></td>
 				<td width="40">
 					<%
-						if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
+						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
 					%>
 					<input type="button" value="Add to Meeting"
 					onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )"
@@ -325,7 +324,7 @@ System.err.println("tata level2: "+GLOBAL_MEETING_AID_PATH+"/");
 				}
 		%>
 	</div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');
 </script>
@@ -386,7 +385,7 @@ System.err.println("tata level2: "+GLOBAL_MEETING_AID_PATH+"/");
 		final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan"
 				+ VtkUtil.getCurrentGSYear();
 		String levelMeetingsRootPath = MEETING_ROOT + "/" + level;
-System.err.println("tata level:"+levelMeetingsRootPath);
+
 		return levelMeetingsRootPath;
 
 	}
@@ -398,7 +397,7 @@ System.err.println("tata level:"+levelMeetingsRootPath);
 			Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 			while (iter.hasNext()) {
 				Resource resource = iter.next();
-				Meeting meeting = yearPlanUtil.getMeeting(user,
+				Meeting meeting = yearPlanUtil.getMeeting(user,troop,
 						resource.getPath());
 				String path = meeting.getPath();
 				builder.append("<li>");

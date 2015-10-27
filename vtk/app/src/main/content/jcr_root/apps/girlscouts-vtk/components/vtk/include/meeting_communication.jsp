@@ -1,12 +1,12 @@
 
- <% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID) ){ %>
+ <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID) ){ %>
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
   <%-- Reminder Email --%>
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
 	     <li><%
-	     if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
+	     if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
   		    <%-- ACTIVITY VIEW--%>
 	     	<a href="#" data-reveal-id="modal-meeting-reminder" title="Activity Reminder Email" >Edit/Send Invitation/Reminder</a><%
 	     }else {%>
@@ -20,7 +20,7 @@
   		</li>
   <% }else{ %>
    		<li><%
-   		if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
+   		if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
 	   		<a href="#" 
 	   		<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
 	   			 data-reveal-id="modal-meeting-reminder" 
@@ -41,7 +41,7 @@
   		</li>
   		
  		 <%if(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING &&
-  			hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID )) {%>
+  			VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID )) {%>
   		<li>        
     		<a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>Record Attendance &amp; Achievements</a>
     	</li>

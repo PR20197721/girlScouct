@@ -28,3 +28,26 @@ The CRX host and port can be specified on the command line with:
 mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
 
 
+TROUBLESHOOTING
+===============
+On occassion, the replication between publish instance will fail on production.  This is a serious issue that can bring down the entire system.  Here is how to address the problem.  You will need to be online with Elham to access the replciation queue on both publish A and publish B.
+
+- Check the size of the replication queue and identify the server that has a long replication queue in the vtk-agent. Say this is server A. 
+- Go to the other server (server B) and restart it.
+
+
+SALESFORCE
+==========
+VTK requires salesforce for authentication and SSO.  
+
+SF PROD: 
+login.salesforce.com
+gsvtk@girlscouts.org
+icruise12345
+
+
+SF UAT:
+test.salesforce.com
+alex_yakobovich@northps.com
+icruise123
+

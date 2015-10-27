@@ -1,7 +1,7 @@
 <% 
 if (isImgExists){
  %>
-   <img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
+   <img id="current-picture" src="" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <%}else{%>
    
    <img id="current-picture" src="" style="display:none;margin-left: auto; margin-right: auto; width: 100%"/>
@@ -34,7 +34,7 @@ var picData;
 var aspectWeirdness = false; //applies to mobile safari, which has resizing issues
 var aspectRatio = 1;
 var resizeImageInstance;
-var successMsg = "Your image has been uploaded. ";
+var successMsg = "Your image has been uploaded. Please reload the page if you do not see the updated image.";
 
 var maxWidth = 960;
 var maxHeight = 340;
@@ -50,9 +50,9 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png" %>";
 
-var displayCurrent = function(){
+var displayCurrent = function(isUploaded){
 	
 	
     currentDisplay = document.createElement("div");
@@ -76,8 +76,12 @@ var displayCurrent = function(){
     	$('.icon-photo-camera').css("display","auto"); 
     	$('#current-picture').css("width", "100%");
     }
-    
-    currentPic.src = imgPath + Date.now();
+    if(isUploaded==true){
+    	currentPic.src = imgPath + "?pid=" + Date.now();
+    }
+    else{
+    	currentPic.src = imgPath;
+    }
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");
@@ -87,12 +91,12 @@ var displayCurrent = function(){
     imageTool.appendChild(currentDisplay);
     imageTool.appendChild(clearBoth);
     
-    <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
+    <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
     	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"Upload a new Photo\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
 	<%} %>
 }
 
-<%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
+<%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)){ %>
 	var removeCurrent = function(){
 		$('#current-display').remove();
 		$('#clear-both').remove();
@@ -628,9 +632,9 @@ var dataURL = image_target.src;
 	    	}
 		}
 	
-	    $(".scroll").css("max-height","100%");
 	    $(window).resize(function() {
-	        $('#cropping-tool').css("max-width", $('#upload-crop-area').innerWidth());
+	        $('#cropping-tool').css("max-width", $('#modal_upload_image').innerWidth());
+	        $('#cropping-tool').css("max-height", $('#resize-image').height())
 	    });
 	
 	    image_target.onload = function(){
@@ -655,13 +659,13 @@ var dataURL = image_target.src;
 	window.onload=function() {
 		
 		cancelButton.addEventListener('click',cancel, false);
-		if( <%=isImgExists%>){displayCurrent();}
+		if( <%=isImgExists%>){displayCurrent(false);}
 	}
 <%} else{
 	%>
 	
 	window.onload=function() {
-	if( <%=isImgExists%>){displayCurrent();}
+	if( <%=isImgExists%>){displayCurrent(false);}
 	}<%
 }%>
 

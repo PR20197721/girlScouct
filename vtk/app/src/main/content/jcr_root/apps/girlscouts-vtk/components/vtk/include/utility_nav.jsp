@@ -7,6 +7,9 @@
 String activeTab=request.getParameter("activeTab");
 PlanView planView= meetingUtil.planView(user, troop, request);
 %>
+
+       
+     
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
@@ -16,7 +19,8 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           
           
            <%
-                if ("reports".equals(activeTab) ) { %>                   
+                if ("reports".equals(activeTab) && 
+                		 user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0) { %>                   
                     <li><a href="/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv" title="download admin report">download</a></li>
                 <% }
              %>
@@ -73,8 +77,8 @@ PlanView planView= meetingUtil.planView(user, troop, request);
         
           <!-- if on a My Troop page-->
           <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID)  ) { %>
-          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
-          <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
+	          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
+	          <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
             	  <!-- if finance page -->
             <% if("finances".equals(activeTab) || "financesadmin".equals(activeTab)) {
@@ -105,8 +109,8 @@ PlanView planView= meetingUtil.planView(user, troop, request);
        
         <% if("plan".equals(activeTab)) {%>
           <li><a
-          	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request)!=null && meetingUtil.planView(user, troop, request).getSearchDate() != null 
-          		&& meetingUtil.planView(user, troop, request).getSearchDate().after( new java.util.Date("1/1/1977")) ){
+          	<% if(troop.getYearPlan() != null && planView !=null && planView.getSearchDate() != null 
+          		&& planView.getSearchDate().after( new java.util.Date("1/1/1977")) ){
   	         %> onclick="vtkTrackerPushAction('DownloadCalendar');self.location = '/content/girlscouts-vtk/en/cal.ics'"
   	        <%} else{
   	          	%> onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
@@ -119,4 +123,10 @@ PlanView planView= meetingUtil.planView(user, troop, request);
   </div>
 </div>
 
+<% if (true){//(SHOW_BETA || sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) && sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) { 
+
+%>
+    <script>resetIsLoggedIn();</script>
+    <iframe style="display:none;" id="myframe" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
+<%} %> 
 

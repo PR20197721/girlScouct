@@ -32,5 +32,6 @@
     </div>
   </div>
   <cq:includeClientLib js="apps.gsusa" />
+  <script type="text/javascript">_satellite.pageBottom();</script>
 </body>
 <!-- END of body -->

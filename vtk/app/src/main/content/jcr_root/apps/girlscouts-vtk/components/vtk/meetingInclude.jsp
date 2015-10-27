@@ -28,7 +28,7 @@
 	</div>
 </div>
 
-<ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "sortable123" : ""%>">
+<ul class="phones" id="<%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;

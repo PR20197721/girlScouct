@@ -1,5 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.DataOutputStream;
+import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -20,9 +24,7 @@ public class UserUtil {
 	@Reference
 	private CouncilMapper councilMapper;
 
-	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
-			int permissionId) {
-
+	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int permissionId) {
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
@@ -31,37 +33,8 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-
-		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
+		if (troop==null || troop.getTroop()==null || troop.getTroop().getPermissionTokens()==null || !hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
-		return true;
-	}
-
-	public boolean isCurrentTroopId(Troop troop, String sId) {
-
-		if (true)
-			return true;
-
-		java.util.Date lastUpdate = yearPlanDAO
-				.getLastModifByOthers(troop, sId);
-		if (lastUpdate != null && troop.getRetrieveTime() != null
-				&& troop.getRetrieveTime().before(lastUpdate)) {
-			troop.setRefresh(true);
-			return false;
-		}
-		return true;
-	}
-
-	public boolean isCurrentTroopId_NoRefresh(Troop troop, String sId) {
-
-		java.util.Date lastUpdate = yearPlanDAO
-				.getLastModifByOthers(troop, sId);
-		if (lastUpdate != null && troop.getRetrieveTime() != null
-				&& troop.getRetrieveTime().before(lastUpdate)) {
-
-			return false;
-		}
-
 		return true;
 	}
 
@@ -80,5 +53,44 @@ public class UserUtil {
 		}
 		return redirectUrl;
 	}
+	
+	// aPI logout
+		public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken)
+				throws Exception {
+
+			DataOutputStream wr = null;
+			boolean isSucc = false;
+			URL obj = null;
+			HttpsURLConnection con = null;
+			try {
+				
+				String url= apiConfig.getInstanceUrl()+"/services/oauth2/revoke";
+				obj = new URL(url);
+				con = (HttpsURLConnection) obj.openConnection();
+				con.setRequestMethod("POST");
+				con.setRequestProperty("Content-Type",
+						"application/x-www-form-urlencoded");
+				String urlParameters = "token=" + apiConfig.getAccessToken();
+				con.setDoOutput(true);
+				wr = new DataOutputStream(con.getOutputStream());
+				wr.writeBytes(urlParameters);
+				wr.flush();
+				wr.close();
+				int responseCode = con.getResponseCode();	
+				if (responseCode == 200)
+					isSucc = true;
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					wr = null;
+					obj = null;
+					con = null;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return isSucc;
+		}
 
 }

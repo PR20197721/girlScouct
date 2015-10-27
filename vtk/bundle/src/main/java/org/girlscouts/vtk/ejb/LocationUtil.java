@@ -30,16 +30,12 @@ public class LocationUtil {
 	private MeetingDAO meetingDAO;
 
 	public void setLocationAllMeetings(User user, Troop troop,
-			String locationPath) throws java.lang.IllegalAccessException, VtkException {
+			String locationPath) throws java.lang.IllegalAccessException,
+			VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		YearPlan plan = troop.getYearPlan();
 		List<MeetingE> meetings = plan.getMeetingEvents();
@@ -51,23 +47,12 @@ public class LocationUtil {
 
 	}
 
-	public void setMeetingLocation(Troop user, MeetingE meeting,
-			String locationPath) {
-
-		// TODO
-	}
-
 	public void setLocation(User user, Troop troop, Location location)
 			throws java.lang.IllegalAccessException, VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		YearPlan plan = troop.getYearPlan();
 		java.util.List<Location> locations = plan.getLocations();
@@ -81,16 +66,12 @@ public class LocationUtil {
 	}
 
 	public void changeLocation(User user, Troop troop, String dates,
-			String locationRef) throws java.lang.IllegalAccessException, VtkException {
+			String locationRef) throws java.lang.IllegalAccessException,
+			VtkException {
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
 
 		java.util.List<String> processedMeetings = new java.util.ArrayList();
 		java.util.List<Activity> activities = troop.getYearPlan()
@@ -145,14 +126,9 @@ public class LocationUtil {
 			throws java.lang.IllegalAccessException, VtkException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
 
 		YearPlan plan = troop.getYearPlan();
 
