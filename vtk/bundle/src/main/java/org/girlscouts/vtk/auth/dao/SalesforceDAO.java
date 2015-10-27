@@ -65,6 +65,7 @@ public class SalesforceDAO {
 	}
 
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException {
+		this.errors = new java.util.ArrayList<VtkError>();
 		User user = new User();
 		CloseableHttpClient connection = null;
 
@@ -322,6 +323,7 @@ public class SalesforceDAO {
 
 	public java.util.List<Contact> getContacts(ApiConfig apiConfig,
 			String sfTroopId) {
+		this.errors = new java.util.ArrayList<VtkError>();
 		CloseableHttpClient connection = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 
@@ -334,8 +336,24 @@ public class SalesforceDAO {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
+if(true){//			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
+				 try{
+					  VtkError err= new VtkError();
+					  err.setName("Found error(s) while getting Contacts ");
+					  err.setDescription("Error int SalesForceDAO.getContacts-: found error in response json from Salesforce. Exception sf response code: " +statusCode);
+					  err.setUserFormattedMsg("There appears to be an error in retrieving troop contacts.  Please notify support with error code VTK-" + sfTroopId + ".  Meanwhile, the application should still function correctly.");
+					  err.setErrorCode("VTK-"+ sfTroopId);
+					  errors.add(err);
+					  
+					  
+					  //java.util.List<VtkError> _errors = apiConfig.getErrors();
+					  if( errors!=null && errors.size()>0 ){
+							apiConfig.setErrors(errors);
+					  }
+					  
+				  }catch(Exception e){e.printStackTrace();}
+				return contacts;
 			}
 			HttpEntity entity = null;
 			String rsp = null;

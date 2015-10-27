@@ -1016,7 +1016,7 @@ function councilRpt(troopId, cid){
 	  isLoggedIn=true; 
   }
   function 	checkIsLoggedIn(){  
-	  console.log("checking " + loginCheckCount);
+	  
 	  if(document.getElementById("myframe") == null){
 		  console.log("Skipping because iframe not ready.")
 		  return;
