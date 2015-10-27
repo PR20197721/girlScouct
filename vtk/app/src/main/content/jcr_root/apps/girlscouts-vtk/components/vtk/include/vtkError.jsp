@@ -32,10 +32,13 @@ if( errors!=null ) {
  if( errorsToRmAfterShow.size() > 0 ){
 	 errors.removeAll(errorsToRmAfterShow);
  }
+ org.girlscouts.vtk.utils.VtkUtil.setVtkErrors(request, errors);
+ /*
  for(int i=0;i<errors.size();i++){ 
      org.girlscouts.vtk.ejb.VtkError err = errors.get(i);
      errors.remove(i);
- }
+ }*/
+ 
  %>
           </ul>
      </div>

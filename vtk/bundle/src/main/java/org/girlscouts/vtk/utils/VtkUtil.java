@@ -504,4 +504,15 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 		} 
 	return apiConfig;
  }
+ 
+ 
+ public static void setVtkErrors(HttpServletRequest request, java.util.List<VtkError> errors){
+	try{
+		 HttpSession session = request.getSession();
+		 ApiConfig apiConfig= getApiConfig(session);
+		 if( apiConfig!=null && apiConfig.getErrors()!=null && errors!=null )
+	   		  apiConfig.setErrors( errors );
+	 }catch(Exception e){e.printStackTrace();}
+	 
+ }
 }//end class
