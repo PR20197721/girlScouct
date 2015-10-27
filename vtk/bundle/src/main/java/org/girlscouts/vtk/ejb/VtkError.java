@@ -2,8 +2,13 @@ package org.girlscouts.vtk.ejb;
 
 public class VtkError {
 
+	public VtkError(){
+		this.singleView= true;
+	}
+	
 	private String name, errorCode, description, userFormattedMsg;
-
+    private boolean singleView;
+    
 	public String getName() {
 		return name;
 	}
@@ -35,4 +40,13 @@ public class VtkError {
 	public void setUserFormattedMsg(String userFormattedMsg) {
 		this.userFormattedMsg = userFormattedMsg;
 	}
+
+	public boolean isSingleView() {
+		return singleView;
+	}
+
+	public void setSingleView(boolean singleView) {
+		this.singleView = singleView;
+	}
+	
 }
