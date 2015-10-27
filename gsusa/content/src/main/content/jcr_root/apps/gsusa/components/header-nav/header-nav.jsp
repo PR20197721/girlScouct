@@ -7,7 +7,7 @@
 	List<String> mediumLabels = new ArrayList<String>();
 	List<String> smallLabels = new ArrayList<String>();
 	List<String> links = new ArrayList<String>();
-	
+
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
 	request.setAttribute("fromHeaderNav", "true");
@@ -16,7 +16,7 @@
 	<nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
 		<section class="top-bar-section">
 			<ul>
-<% 
+<%
 		for (int i = 0; i < navs.length; i++) {
 			String[] split = navs[i].split("\\|\\|\\|");
 			String label = split.length >= 1 ? split[0] : "";
@@ -26,22 +26,22 @@
 			String target = "";
 			int headerNavTabindex = 40 + i;
 			String activeClass = "";
-			
+
 			mediumLabel = mediumLabel.isEmpty() ? label : mediumLabel;
-			
+
 			//We are hardcoding openInNewWindow for "For Cookies", "Shop" and Cookies"
 			//TODO: Please make it customizable, like the eyebrow-nav components
-			if (i == 2 || i == 3 || i == 5) {
+			if (i == 2 || i == 3) {
 				openInNewWindow = true;
 				target = "target=\"_blank\"";
 			}
-			
+
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
-			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {		
+			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				if (linkPage != null && !link.contains(".html")) {
 					link += ".html";
 				}
-				
+
 				if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
 					activeClass = "active";
 				}
@@ -64,7 +64,7 @@
 			  </li>
 <%
 			}
-		} 
+		}
 %>
 			</ul>
 		</section>
