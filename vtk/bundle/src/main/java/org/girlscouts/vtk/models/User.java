@@ -7,10 +7,10 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 public class User implements Serializable {
 
 	private ApiConfig apiConfig;
-	private java.util.Set<Integer> permissions;
+	//private java.util.Set<Integer> permissions; ------pull from troop
 	private String sid;// my http sessionId
 	private String currentYear; // could be uniq id -> String
-
+/*
 	public java.util.Set<Integer> getPermissions() {
 		return permissions;
 	}
@@ -18,7 +18,7 @@ public class User implements Serializable {
 	public void setPermissions(java.util.Set<Integer> permissions) {
 		this.permissions = permissions;
 	}
-
+*/
 	public ApiConfig getApiConfig() {
 		return apiConfig;
 	}

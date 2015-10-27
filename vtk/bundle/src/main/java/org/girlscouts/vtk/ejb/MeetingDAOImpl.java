@@ -83,11 +83,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// by planId
-	public java.util.List<MeetingE> getAllEventMeetings(User user,
+	public java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop,
 			String yearPlanId) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
@@ -124,11 +124,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	// by plan path
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
-			String yearPlanPath) throws IllegalAccessException {
-		
-		
+			Troop troop, String yearPlanPath) throws IllegalAccessException {
+
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
@@ -148,8 +147,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			filter.setScope(yearPlanPath);
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -163,15 +161,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 	}
 
-	public Meeting getMeeting(User user, String path)
+	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-/*
-Removing this because needs to use troop
+
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-*/
+
 		Meeting meeting = null;
 		Session session = null;
 		try {
@@ -182,25 +179,34 @@ Removing this because needs to use troop
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);			
-			meeting = (Meeting) ocm.getObject(path);		
-			
-			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
-				
-				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear()+"/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
-					
-				if(globalMeetingInfo!=null){
-					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
-					meeting.setIsAchievement(globalMeetingInfo.getIsAchievement());
-					
+					mapper);
+			meeting = (Meeting) ocm.getObject(path);
+
+			if (meeting != null && path != null
+					&& path.contains("/lib/meetings/")) {
+
+				Meeting globalMeetingInfo = getMeeting(
+						user,
+						troop,
+						"/content/girlscouts-vtk/meetings/myyearplan"
+								+ VtkUtil.getCurrentGSYear() + "/"
+								+ meeting.getLevel().toLowerCase().trim() + "/"
+								+ meeting.getId());
+
+				if (globalMeetingInfo != null) {
+					meeting.setMeetingInfo(globalMeetingInfo.getMeetingInfo());
+					meeting.setIsAchievement(globalMeetingInfo
+							.getIsAchievement());
+
 				}
 			}
-			
-		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
 			ec.printStackTrace();
-			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
-		
-			
+			throw new VtkException(
+					"Could not complete intended action due to a server error. Code: "
+							+ new java.util.Date().getTime());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -220,14 +226,12 @@ Removing this because needs to use troop
 			Troop troop, String yearPlanId) throws IllegalStateException,
 			IllegalAccessException {
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
-		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_VIEW_MEETING_ID))
-			throw new IllegalAccessException();
+
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -268,15 +272,10 @@ Removing this because needs to use troop
 		try {
 
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_CREATE_MEETING_ID))
 				throw new IllegalAccessException();
 
-			if (user != null
-					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
-				troop.setErrCode("112");
-				throw new IllegalStateException();
-			}
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -291,7 +290,7 @@ Removing this because needs to use troop
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			if (meeting == null)
-				meeting = getMeeting(user, meetingEvent.getRefId());
+				meeting = getMeeting(user, troop, meetingEvent.getRefId());
 			String newPath = troop.getPath() + "/lib/meetings/"
 					+ meeting.getId() + "_" + Math.random();
 			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
@@ -326,15 +325,9 @@ Removing this because needs to use troop
 		try {
 
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-
-			if (user != null
-					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
-				troop.setErrCode("112");
-				throw new IllegalStateException();
-			}
 
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -351,7 +344,7 @@ Removing this because needs to use troop
 					mapper);
 
 			if (meeting == null)
-				meeting = getMeeting(user, meetingEvent.getRefId());
+				meeting = getMeeting(user, troop, meetingEvent.getRefId());
 
 			String newPath = meetingEvent.getRefId();
 
@@ -386,14 +379,9 @@ Removing this because needs to use troop
 			IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_ACTIVITY_ID))
 			throw new IllegalAccessException();
-
-		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
 
 		java.util.List<Activity> activities = meeting.getActivities();
 		activities.add(activity);
@@ -442,7 +430,8 @@ Removing this because needs to use troop
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/brownie/");
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"
+					+ VtkUtil.getCurrentGSYear() + "/brownie/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
 
@@ -459,104 +448,6 @@ Removing this because needs to use troop
 		return meetings;
 
 	}
-/*
-	public List<org.girlscouts.vtk.models.Search> getData(User user,
-			Troop troop, String _query) throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
-			throw new IllegalAccessException();
-
-		Session session = null;
-		List<org.girlscouts.vtk.models.Search> matched = null;
-		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_VIEW_MEETING_ID))
-			throw new IllegalAccessException();
-
-		final String RESOURCES_PATH = "resources";
-		String councilId = null;
-		if (troop.getTroop() != null) {
-			councilId = Integer.toString(troop.getTroop().getCouncilCode());
-		}
-		String branch = councilMapper.getCouncilBranch(councilId);
-		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-		try {
-			session = sessionFactory.getSession();
-			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
-			map.put("fulltext", _query);
-			map.put("group.3_path",
-					"/content/dam/girlscouts-vtk/global/resource");
-			map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
-			map.put("group.1_path", resourceRootPath);
-			map.put("group.p.or", "true"); // combine this group with OR
-			map.put("p.offset", "0"); // same as query.setStart(0) below
-			map.put("p.limit", "2000"); // same as query.setHitsPerPage(20)
-										// below
-			com.day.cq.search.Query query = qBuilder.createQuery(
-					PredicateGroup.create(map), session);
-			query.setExcerpt(true);
-			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
-			SearchResult result = query.getResult();
-			for (Hit hit : result.getHits()) {
-				try {
-					String path = hit.getPath();
-					java.util.Map<String, String> exc = hit.getExcerpts();
-					java.util.Iterator itr = exc.keySet().iterator();
-					while (itr.hasNext()) {
-						String str = (String) itr.next();
-						String str1 = exc.get(str);
-					}
-
-					ValueMap vp = hit.getProperties();
-					itr = vp.keySet().iterator();
-					DocHit dh = new DocHit(hit);
-					org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-					search.setPath(dh.getURL());
-					search.setDesc(dh.getTitle());
-					search.setContent(dh.getExcerpt());
-					search.setSubTitle(dh.getDescription());
-					search.setAssetType(AssetComponentType.RESOURCE);
-					if (search.getPath().toLowerCase().contains("/aid/"))
-						search.setAssetType(AssetComponentType.AID);
-
-					if (unq.containsKey(search.getPath())) {
-						if (search.getContent() != null
-								&& !search.getContent().trim().equals("")) {
-							org.girlscouts.vtk.models.Search _search = unq
-									.get(search.getPath());
-							if (_search.getContent() == null
-									|| _search.getContent().trim().equals(""))
-								unq.put(search.getPath(), search);
-						}
-					} else
-						unq.put(search.getPath(), search);
-
-				} catch (RepositoryException e) {
-
-					e.printStackTrace();
-				}
-			}
-
-			java.util.Iterator itr = unq.keySet().iterator();
-			while (itr.hasNext())
-				matched.add(unq.get(itr.next()));
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		System.err.println("testtt: "+ matched.size() );
-		return matched;
-	}
-*/
 
 	public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 
@@ -612,11 +503,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getAidTag(User user, String tags, String meetingName)
-			throws IllegalAccessException {
+	public List<Asset> getAidTag(User user, Troop troop, String tags,
+			String meetingName) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -685,57 +576,74 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getAidTag_local(User user, String tags,
-			String meetingName, String meetingPath) throws IllegalAccessException {
+	public List<Asset> getAidTag_local(User user, Troop troop, String tags,
+			String meetingName, String meetingPath)
+			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
 		return getLocalAssets(meetingName, meetingPath, AssetComponentType.AID);
 	}
-	
+
 	private static final String AID_PATHS_PROP = "aidPaths";
 	private static final String RESOURCE_PATHS_PROP = "resourcePaths";
-	private List<Asset> getLocalAssets(String meetingName, String meetingPath, AssetComponentType type) {
-	    List<Asset> assets = new ArrayList<Asset>();
-	    
+
+	private List<Asset> getLocalAssets(String meetingName, String meetingPath,
+			AssetComponentType type) {
+		List<Asset> assets = new ArrayList<Asset>();
+
 		Session session = null;
 		try {
-		    session = sessionFactory.getSession();
+			session = sessionFactory.getSession();
 
-		    // First, respect the "aidPaths" or "resourcePaths" field in the meeting. This field has multiple values.
-    		Node meetingNode = session.getNode(meetingPath);
-    		String pathProp;
-    		switch (type) {
-    		case AID: pathProp = AID_PATHS_PROP; break;
-    		case RESOURCE: pathProp = RESOURCE_PATHS_PROP; break;
-    		default: pathProp = AID_PATHS_PROP;
-    		}
-    		if (meetingNode.hasProperty(pathProp)) {
-    		    Value[] assetPaths =  meetingNode.getProperty(pathProp).getValues();
-    		    for (int i = 0; i < assetPaths.length; i++) {
-    		        String assetPath = assetPaths[i].getString();
-    		        log.debug("Asset Path = " + assetPath);
-    		        assets.addAll(getAssetsFromPath(assetPath, type, session));
-    		    }
-    		}
-    		
-    		// Then, generate an "expected" path, check if there is overrides
-    		// e.g. /content/dam/girlscouts-vtk2014/local/aid/B14B01
-    		String typeString;
-    		switch (type) {
-    		case AID: typeString = "aid"; break;
-    		case RESOURCE: typeString = "resource"; break;
-    		default: typeString = "aid";
-    		}
-    		String rootPath = getSchoolYearDamPath() + "/local/" + typeString + "/meetings/" + meetingName;
-    		if (session.nodeExists(rootPath)) {
-    		    assets.addAll(getAssetsFromPath(rootPath, type, session));
-    		}
+			// First, respect the "aidPaths" or "resourcePaths" field in the
+			// meeting. This field has multiple values.
+			Node meetingNode = session.getNode(meetingPath);
+			String pathProp;
+			switch (type) {
+			case AID:
+				pathProp = AID_PATHS_PROP;
+				break;
+			case RESOURCE:
+				pathProp = RESOURCE_PATHS_PROP;
+				break;
+			default:
+				pathProp = AID_PATHS_PROP;
+			}
+			if (meetingNode.hasProperty(pathProp)) {
+				Value[] assetPaths = meetingNode.getProperty(pathProp)
+						.getValues();
+				for (int i = 0; i < assetPaths.length; i++) {
+					String assetPath = assetPaths[i].getString();
+					log.debug("Asset Path = " + assetPath);
+					assets.addAll(getAssetsFromPath(assetPath, type, session));
+				}
+			}
+
+			// Then, generate an "expected" path, check if there is overrides
+			// e.g. /content/dam/girlscouts-vtk2014/local/aid/B14B01
+			String typeString;
+			switch (type) {
+			case AID:
+				typeString = "aid";
+				break;
+			case RESOURCE:
+				typeString = "resource";
+				break;
+			default:
+				typeString = "aid";
+			}
+			String rootPath = getSchoolYearDamPath() + "/local/" + typeString
+					+ "/meetings/" + meetingName;
+			if (session.nodeExists(rootPath)) {
+				assets.addAll(getAssetsFromPath(rootPath, type, session));
+			}
 		} catch (Exception e) {
-		    log.error("Error getting local assets for meeting: " + meetingName + ". Root cause was: " + e.getMessage());
+			log.error("Error getting local assets for meeting: " + meetingName
+					+ ". Root cause was: " + e.getMessage());
 		} finally {
 			try {
 				if (session != null) {
@@ -745,15 +653,15 @@ Removing this because needs to use troop
 				ex.printStackTrace();
 			}
 		}
-		
+
 		return assets;
 	}
 
-	private List<Asset> getAidTag_custasset(User user, String uid)
+	private List<Asset> getAidTag_custasset(User user, Troop troop, String uid)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -790,11 +698,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public List<Asset> getResource_global(User user, String tags,
+	public List<Asset> getResource_global(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -862,68 +770,74 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	private List<Asset> getAssetsFromPath(String rootPath, AssetComponentType type, Session session) {
-	    List<Asset> assets = new ArrayList<Asset>();
-	    try {
-	        if (!session.nodeExists(rootPath)) {
-	            return assets;
-	        }
-	        Node rootNode = session.getNode(rootPath);
+	private List<Asset> getAssetsFromPath(String rootPath,
+			AssetComponentType type, Session session) {
+		List<Asset> assets = new ArrayList<Asset>();
+		try {
+			if (!session.nodeExists(rootPath)) {
+				return assets;
+			}
+			Node rootNode = session.getNode(rootPath);
 
-	        NodeIterator iter = rootNode.getNodes();
-	        while (iter.hasNext()) {
-	            Node node = null;
-	            try {
-    	            node = iter.nextNode();
-    	            if (!node.hasNode("jcr:content")) {
-    	                continue;
-    	            }
-    	            Node props = node.getNode("jcr:content/metadata");
-    
-    	            Asset asset = new Asset();
-    	            asset.setRefId(node.getPath());
-    	            asset.setIsCachable(true);
-    	            asset.setType(type);
-    
-    	            asset.setDescription(props.getProperty("dc:description").getString());
-    	            asset.setTitle(props.getProperty("dc:title").getString());
-    
-    	            assets.add(asset);
-	            } catch (Exception e) {
-	                if (node != null) {
-	                    log.warn("Cannot get asset " + node.getPath());
-	                }
-	                log.warn("Cannot get asset. rootPath = " + rootPath + ". Root cause was: " + e.getMessage());
-	            }
-	        }
-	    } catch (Exception e) {
-	        log.error("Cannot get assets for meeting: " + rootPath + ". Root cause was: " + e.getMessage());
-	    } 
-	    return assets;
+			NodeIterator iter = rootNode.getNodes();
+			while (iter.hasNext()) {
+				Node node = null;
+				try {
+					node = iter.nextNode();
+					if (!node.hasNode("jcr:content")) {
+						continue;
+					}
+					Node props = node.getNode("jcr:content/metadata");
+
+					Asset asset = new Asset();
+					asset.setRefId(node.getPath());
+					asset.setIsCachable(true);
+					asset.setType(type);
+
+					asset.setDescription(props.getProperty("dc:description")
+							.getString());
+					asset.setTitle(props.getProperty("dc:title").getString());
+
+					assets.add(asset);
+				} catch (Exception e) {
+					if (node != null) {
+						log.warn("Cannot get asset " + node.getPath());
+					}
+					log.warn("Cannot get asset. rootPath = " + rootPath
+							+ ". Root cause was: " + e.getMessage());
+				}
+			}
+		} catch (Exception e) {
+			log.error("Cannot get assets for meeting: " + rootPath
+					+ ". Root cause was: " + e.getMessage());
+		}
+		return assets;
 	}
-	
-	public List<Asset> getResource_local(User user, String tags,
-			String meetingName, String meetingPath) throws IllegalAccessException {
+
+	public List<Asset> getResource_local(User user, Troop troop, String tags,
+			String meetingName, String meetingPath)
+			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
-		return getLocalAssets(meetingName, meetingPath, AssetComponentType.RESOURCE);
+		return getLocalAssets(meetingName, meetingPath,
+				AssetComponentType.RESOURCE);
 	}
-	
+
 	private String getSchoolYearDamPath() {
 		String schoolYear = Integer.toString(VtkUtil.getCurrentGSYear());
 		String path = "/content/dam/girlscouts-vtk" + schoolYear;
 		return path;
 	}
-	
-	public SearchTag searchA(User user, String councilCode)
+
+	public SearchTag searchA(User user, Troop troop, String councilCode)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -934,7 +848,7 @@ Removing this because needs to use troop
 		try {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> regionsMain = searchRegion(user,
-					councilStr);
+					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
 			String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"
@@ -946,39 +860,23 @@ Removing this because needs to use troop
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-				
-				
+
 				if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/categories")) {
-					
 					String elem = r.getValue("jcr:title").getString();
-					/*
-					if (elem != null)
-						elem = elem.toLowerCase().replace("_", "")
-								.replace("/", "");
-					 	
-					categories.put(elem, null);
-					*/
 					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + councilStr + "/program-level")) {
-					
 					String elem = r.getValue("jcr:title").getString();
-					/*
-					if (elem != null)
-						elem = elem.toLowerCase().replace("_", "")
-								.replace("/", "");
-					levels.put(elem, null);
-					*/
-					levels.put(r.getNode().getName(),elem);
+					levels.put(r.getNode().getName(), elem);
 				}
-				
+
 			}
 
 			if ((categories == null || categories.size() == 0)
 					&& (levels == null || levels.size() == 0)) {
 				try {
-					SearchTag defaultTags = getDefaultTags(user);
+					SearchTag defaultTags = getDefaultTags(user, troop);
 					if (regionsMain != null && regionsMain.size() > 0)
 						defaultTags.setRegion(regionsMain);
 					return defaultTags;
@@ -999,7 +897,7 @@ Removing this because needs to use troop
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(user, councilStr));
+			tags.setRegion(searchRegion(user, troop, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1015,10 +913,11 @@ Removing this because needs to use troop
 		return tags;
 	}
 
-	public SearchTag getDefaultTags(User user) throws IllegalAccessException {
+	public SearchTag getDefaultTags(User user, Troop troop)
+			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1067,7 +966,7 @@ Removing this because needs to use troop
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(user, councilStr));
+			tags.setRegion(searchRegion(user, troop, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1124,7 +1023,8 @@ Removing this because needs to use troop
 				regionSql += " and LOWER(region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/"+VtkUtil.getCurrentGSYear()+"/%";
+			String path = "/content/gateway/en/events/"
+					+ VtkUtil.getCurrentGSYear() + "/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1241,11 +1141,11 @@ Removing this because needs to use troop
 		return toRet;
 	}
 
-	public java.util.Map<String, String> searchRegion(User user,
+	public java.util.Map<String, String> searchRegion(User user, Troop troop,
 			String councilStr) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1306,15 +1206,15 @@ Removing this because needs to use troop
 		return container;
 	}
 
-	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel)
-			throws IllegalAccessException {
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop,
+			String gradeLevel) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
-		java.util.List<Meeting> meetings = null; // new java.util.ArrayList();
+		java.util.List<Meeting> meetings = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -1327,14 +1227,13 @@ Removing this because needs to use troop
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Meeting.class);
-			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+VtkUtil.getCurrentGSYear()+"/"
-					+ gradeLevel + "/");
+			filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"
+					+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<Meeting>) ocm.getObjects(query);
-			
-		
+
 			Comparator<Meeting> comp = new BeanComparator("position");
-			if( meetings!=null)
+			if (meetings != null)
 				Collections.sort(meetings, comp);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1350,11 +1249,11 @@ Removing this because needs to use troop
 
 	}
 
-	public List<Asset> getAllResources(User user, String _path)
+	public List<Asset> getAllResources(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1371,7 +1270,7 @@ Removing this because needs to use troop
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
-			QueryResult result = q.execute();		
+			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Asset search = new Asset();
@@ -1410,11 +1309,11 @@ Removing this because needs to use troop
 		return matched;
 	}
 
-	public Asset getAsset(User user, String _path)
+	public Asset getAsset(User user, Troop troop, String _path)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
 
@@ -1485,11 +1384,10 @@ Removing this because needs to use troop
 			map.put("path", "/content/dam/girlscouts-vtk/global/resource");
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
-			
-			
+
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
-			
+
 			query.setStart(0);
 			query.setHitsPerPage(100);
 			SearchResult result = query.getResult();
@@ -1522,12 +1420,9 @@ Removing this because needs to use troop
 		return toRet;
 	}
 
-	public Council getCouncil(User user, String councilId)
+	public Council getCouncil(User user, Troop troop, String councilId)
 			throws IllegalAccessException {
-
-		if (!userUtil.hasPermission(user.getPermissions(),
-				Permission.PERMISSION_VIEW_MEETING_ID))
-			throw new IllegalAccessException();
+		// TODO Permission.PERMISSION_VIEW_MEETING_ID
 
 		Session session = null;
 		Council council = null;
@@ -1540,7 +1435,8 @@ Removing this because needs to use troop
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Troop.class);
-			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
+			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user,
+					null) + councilId);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1613,18 +1509,13 @@ Removing this because needs to use troop
 	public java.util.List<Activity> searchA1(User user, Troop troop,
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
-			throws IllegalAccessException, IllegalStateException {		
+			throws IllegalAccessException, IllegalStateException {
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
-		if (!userUtil.hasPermission(user.getPermissions(),
+		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
-		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new IllegalStateException();
-		}
 
 		try {
 			session = sessionFactory.getSession();
@@ -1647,8 +1538,9 @@ Removing this because needs to use troop
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				 sqlCat += " contains( parent.[cq:tags], 'categories/"+ t.nextToken() + "') ";
-				
+				sqlCat += " contains( parent.[cq:tags], 'categories/"
+						+ t.nextToken() + "') ";
+
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1661,7 +1553,8 @@ Removing this because needs to use troop
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/"+ VtkUtil.getCurrentGSYear()+"/%";
+			String path = "/content/gateway/en/events/"
+					+ VtkUtil.getCurrentGSYear() + "/%";
 			if (!isTag)
 				path = path + "/data";
 			else
@@ -1691,9 +1584,9 @@ Removing this because needs to use troop
 			sql += sqlTags;
 			sql += sqlCat;
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();		
+					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.JCR_SQL2);		
+					javax.jcr.query.Query.JCR_SQL2);
 			int i = 0;
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
@@ -1793,46 +1686,6 @@ Removing this because needs to use troop
 		return toRet;
 	}
 
-	public void doX() {
-
-	}
-
-	public void doX_convertNodesToOCMCouncil() {
-
-		Session session = null;
-		try {
-			session = sessionFactory.getSession();
-			Node vtk = session.getNode(VtkUtil.getYearPlanBase(null, null));
-			NodeIterator vtks = vtk.getNodes();
-			while (vtks.hasNext()) {
-				Node _vtk = (Node) vtks.next();
-				if (_vtk.getPath().contains("/global-settings"))
-					continue;
-				if (_vtk.getPath().contains("/last-import-timestamp"))
-					continue;
-				if (_vtk.getPath().contains("/rep:policy"))
-					continue;
-
-				log.debug("VTK " + _vtk.getPath());
-				_vtk.setProperty("ocm_classname",
-						"org.girlscouts.vtk.models.Council");
-
-			}
-			session.save();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-
-	}
-
-	// doX
 	public void updateCustMeetingPlansRef(java.util.List<String> meetings,
 			String path) {
 		Session session = null;
@@ -1867,7 +1720,6 @@ Removing this because needs to use troop
 
 	}
 
-	// doX
 	public java.util.List<String> getCustMeetings(String path) {
 		java.util.List<String> toRet = new java.util.ArrayList<String>();
 		Session session = null;
@@ -1889,7 +1741,6 @@ Removing this because needs to use troop
 				toRet.add(excerpt.getString());
 				log.debug("Adding meeting: " + excerpt.getString());
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1903,28 +1754,15 @@ Removing this because needs to use troop
 		return toRet;
 	}
 
-	// rollback to user from troop . only for emergency
-	public void undoX() {
-
-	}
-
 	public String removeLocation(User user, Troop troop, String locationName)
 			throws IllegalAccessException, IllegalStateException {
 		Session session = null;
 		String locationToRmPath = null;
 		try {
-
 			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
+					&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_EDIT_MEETING_ID))
 				throw new IllegalAccessException();
-
-			if (user != null
-					&& !userUtil.isCurrentTroopId(troop, user.getSid())) {
-				troop.setErrCode("112");
-				throw new IllegalStateException();
-			}
-
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -1936,23 +1774,18 @@ Removing this because needs to use troop
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
 			classes.add(Asset.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			YearPlan plan = troop.getYearPlan();
 			List<Location> locations = plan.getLocations();
 			for (int i = 0; i < locations.size(); i++) {
 				Location location = locations.get(i);
 				if (location.getUid().equals(locationName)) {
-
 					ocm.remove(location);
 					ocm.save();
-
 					locationToRmPath = location.getPath();
 					locations.remove(location);
-
 					break;
 				}
 			}
@@ -1970,19 +1803,16 @@ Removing this because needs to use troop
 	}
 
 	public Attendance getAttendance(User user, Troop troop, String mid) {
-
 		Attendance attendance = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Attendance.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			attendance = (Attendance) ocm.getObject(mid);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1998,7 +1828,6 @@ Removing this because needs to use troop
 
 	public boolean setAttendance(User user, Troop troop, String mid,
 			Attendance attendance) {
-
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -2007,7 +1836,6 @@ Removing this because needs to use troop
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			if (!session.itemExists(attendance.getPath()))
 				ocm.insert(attendance);
 			ocm.update(attendance);
@@ -2022,25 +1850,21 @@ Removing this because needs to use troop
 				ex.printStackTrace();
 			}
 		}
-
 		return false;
 	}
 
 	public Achievement getAchievement(User user, Troop troop, String mid) {
-
 		Achievement attendance = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Achievement.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			attendance = (Achievement) ocm.getObject(mid);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2056,7 +1880,6 @@ Removing this because needs to use troop
 
 	public boolean setAchievement(User user, Troop troop, String mid,
 			Achievement Achievement) {
-
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -2065,7 +1888,6 @@ Removing this because needs to use troop
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			if (!session.itemExists(Achievement.getPath()))
 				ocm.insert(Achievement);
 			ocm.update(Achievement);
@@ -2080,23 +1902,17 @@ Removing this because needs to use troop
 				ex.printStackTrace();
 			}
 		}
-
 		return false;
 	}
 
 	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
 			throws IllegalAccessException, IllegalStateException {
-
 		Session session = null;
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalStateException();
-		}
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -2109,7 +1925,6 @@ Removing this because needs to use troop
 					mapper);
 			ocm.update(meeting);
 			ocm.save();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2120,23 +1935,23 @@ Removing this because needs to use troop
 				ex.printStackTrace();
 			}
 		}
-
 		return false;
 	}
 
-	public MeetingE getMeetingE(User user, String path)
+	public MeetingE getMeetingE(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-		
 		MeetingE meetingE = null;
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(Meeting.class);
+			classes.add(Meeting.class); // eg
+										// ClassDescriptorUtils.getFullData(),
+										// ClassDescriptorUtils.getMeetingMinimal()
 			classes.add(Activity.class);
 			classes.add(MeetingE.class);
 			classes.add(Achievement.class);
@@ -2146,14 +1961,15 @@ Removing this because needs to use troop
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			
+
 			meetingE = (MeetingE) ocm.getObject(path);
-			
-		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
+
+		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
 			ec.printStackTrace();
-			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
-		
-			
+			throw new VtkException(
+					"Could not complete intended action due to a server error. Code: "
+							+ new java.util.Date().getTime());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2166,17 +1982,14 @@ Removing this because needs to use troop
 		}
 		return meetingE;
 	}
-	
-	
-	
-	public int getAllResourcesCount(User user, String _path)
-			throws IllegalAccessException {
 
+	public int getAllResourcesCount(User user, Troop troop, String _path)
+			throws IllegalAccessException {
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-		int count=0;
+		int count = 0;
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -2191,7 +2004,7 @@ Removing this because needs to use troop
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.JCR_SQL2);
 			QueryResult result = q.execute();
-			count= (int)result.getRows().getSize();
+			count = (int) result.getRows().getSize();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -2201,18 +2014,14 @@ Removing this because needs to use troop
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
-			
+
 		}
 		return count;
 	}
-	
-	
+
 	public List<org.girlscouts.vtk.models.Search> getData(User user,
-
-	Troop troop, String _query) throws IllegalAccessException {
-
+			Troop troop, String _query) throws IllegalAccessException {
 		java.util.List data = null, data1 = null, data2 = null, data3 = null;
-
 		try {
 			data1 = getDataItem(user, troop, _query, null);
 		} catch (Exception e) {
@@ -2236,15 +2045,12 @@ Removing this because needs to use troop
 		data = new java.util.ArrayList();
 
 		if (data1 != null)
-
 			data.addAll(data1);
 
 		if (data2 != null)
-
 			data.addAll(data2);
 
 		if (data3 != null)
-
 			data.addAll(data3);
 
 		return data;
@@ -2257,7 +2063,7 @@ Removing this because needs to use troop
 
 		if (user != null
 
-		&& !userUtil.hasPermission(user.getPermissions(),
+		&& !userUtil.hasPermission(troop,
 
 		Permission.PERMISSION_LOGIN_ID))
 
@@ -2266,13 +2072,6 @@ Removing this because needs to use troop
 		Session session = null;
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
-
-		if (!userUtil.hasPermission(troop,
-
-		Permission.PERMISSION_VIEW_MEETING_ID))
-
-			throw new IllegalAccessException();
-
 		final String RESOURCES_PATH = "resources";
 
 		String councilId = null;
@@ -2298,7 +2097,7 @@ Removing this because needs to use troop
 
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
-			map.put("path", PATH);// resourceRootPath);
+			map.put("path", PATH);
 			com.day.cq.search.Query query = qBuilder.createQuery(
 
 			PredicateGroup.create(map), session);
@@ -2404,4 +2203,5 @@ Removing this because needs to use troop
 		return matched;
 
 	}
+
 }// edn class

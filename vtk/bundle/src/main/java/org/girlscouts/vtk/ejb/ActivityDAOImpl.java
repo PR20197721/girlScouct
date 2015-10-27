@@ -57,11 +57,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 							Permission.PERMISSION_ADD_ACTIVITY_ID))
 				throw new IllegalAccessException();
 
-			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-				troop.setErrCode("112");
-				throw new java.lang.IllegalAccessException();
-			}
-
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -113,11 +108,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	}
 
-	public boolean isActivity(User user, String uuid)
+	public boolean isActivity(User user, Troop troop, String uuid)
 			throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
@@ -154,11 +149,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 		javax.jcr.Node node = null;
 		Session session = null;
 		try {
-
 			session = sessionFactory.getSession();
-
 			node = session.getNodeByIdentifier(uuid);
-
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
 		} catch (Exception e) {
@@ -314,11 +306,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_ACTIVITY_ID))
 			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalStateException();
-		}
+		
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -344,5 +332,4 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		return false;
 	}
-
 }

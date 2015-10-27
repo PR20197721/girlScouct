@@ -22,7 +22,7 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
-		  if( !hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID ) ) {
+		  if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID ) ) {
 					%><span class="error">You have no permission to view meeting(s)</span><%
 					return;
 		  }

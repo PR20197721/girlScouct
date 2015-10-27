@@ -7,9 +7,11 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.scheduler.Job;
@@ -27,11 +29,13 @@ public class VTKDataCacheInvalidator {
     private static final Logger log = LoggerFactory.getLogger(VTKReplicationReceiver.class);
     
     // Interval for the next invalidation, in milliseconds.
-    private static final int INTERVAL = 6000;
+    private static final int INTERVAL = 4000;
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
+    private static final String SCHEDULER_PATH_PREFIX = "VTK_PATH_";
 
     protected HttpClient httpClient;
+    protected MultiThreadedHttpConnectionManager connectionManager;
     protected String flushUri;
 
     @Reference
@@ -48,7 +52,7 @@ public class VTKDataCacheInvalidator {
         }
         
         public void execute(JobContext context) {
-            log.info("VTKDataCacheInvalidator: ==================Invalidating cache: ");
+        	log.info("VTKDataCacheInvalidator: ================== Replication Invalidating cache: ");
             GetMethod get = new GetMethod(flushUri);
             log.debug("VTKDataCacheInvalidator: Path: " + path);
             get.setRequestHeader("CQ-Action", "Delete");
@@ -62,17 +66,18 @@ public class VTKDataCacheInvalidator {
                     log.info("VTKDataCacheInvalidator: Successfully invalidate the cache: " + path);
                 }
             } catch (Exception e) {
-                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                log.info("VTKDataCacheInvalidator: Cannot invalidate this path: " + path + ". Do nothing.");
             } finally{
             	get.releaseConnection();
             }
-            log.info("VTKDataCacheInvalidator: Invalidating cache done ==================");
+            log.info("VTKDataCacheInvalidator: Replication Invalidating cache done ==================");
         }
     }
     
     @Activate
     public void init() {
-        httpClient = new HttpClient();
+        connectionManager = new MultiThreadedHttpConnectionManager();
+        httpClient = new HttpClient(connectionManager);
         try {
             Session session = repository.loginAdministrative(null);
             flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
@@ -84,9 +89,14 @@ public class VTKDataCacheInvalidator {
         } 
     }
     
+    @Deactivate
+    public void deactivate() {
+    	connectionManager.shutdown();
+    }
+    
     public void addPath(String path) {
         try {
-            scheduler.fireJobAt(null, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
+        	scheduler.fireJobAt(SCHEDULER_PATH_PREFIX + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
         } catch (Exception e) {
             log.error("VTKDataCacheInvalidator: Cannot add path: " + path);
         }

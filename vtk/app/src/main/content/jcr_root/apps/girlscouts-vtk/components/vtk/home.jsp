@@ -96,6 +96,25 @@
           <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
           <div id="mainContent" class="welcome-page">
             <div class="par parsys">
+      
+      <%if( apiConfig.getErrors()!=null ){ %>  
+	      <div class="error">
+	               <ul>
+	               <%for(int i=0;i<apiConfig.getErrors().size();i++){ %>
+	                   <li>
+	                    <b><%= apiConfig.getErrors().get(i).getName()%> : </b>
+	                    <%= apiConfig.getErrors().get(i).getUserFormattedMsg()%>
+<!--  
+---- description ----
+<%= apiConfig.getErrors().get(i).getDescription()%>
+---- error code ----
+<%=apiConfig.getErrors().get(i).getErrorCode() %>
+-->
+	                   </li>
+	               <%} %>
+	               </ul>
+	      </div>    
+	  <%} %>    
               <div class="text parbase section"><h1>Welcome.</h1></div>
 
                 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">

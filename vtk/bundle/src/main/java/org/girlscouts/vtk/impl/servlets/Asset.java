@@ -94,7 +94,8 @@ public class Asset extends SlingAllMethodsServlet {
 							name = name + ".png";
 
 						} else if (request.getParameter("upldTroopPic") != null) {
-							loc = "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"
+							loc = "/content/dam/girlscouts-vtk/troop-data"
+									+ VtkUtil.getCurrentGSYear() + "/"
 									+ request.getParameter("councilId") + "/"
 									+ request.getParameter("troopId")
 									+ "/imgLib";

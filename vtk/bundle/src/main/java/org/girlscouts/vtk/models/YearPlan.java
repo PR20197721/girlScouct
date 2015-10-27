@@ -17,8 +17,10 @@ public class YearPlan implements Serializable {
 	@Field
 	private String name, desc, id, refId, altered, resources;
 	@Field(path = true) String path;
+	
 	@Collection(autoUpdate = false)
 	private java.util.List<MeetingE> meetingEvents;
+	
 	@Collection(autoUpdate = false)
 	private java.util.List<Activity> activities;
 	@Bean(autoUpdate = false)

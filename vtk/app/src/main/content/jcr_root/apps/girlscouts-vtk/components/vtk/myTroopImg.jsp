@@ -12,7 +12,7 @@
      }
      
     %>
-<div id="vtkNav"></div>
+
 
 
   <div class="hero-image">

@@ -34,8 +34,9 @@ public class Troop implements Serializable {
 	private org.girlscouts.vtk.salesforce.Troop troop;
 	@Field
 	private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
-	@Field(jcrName = "jcr:lastModified")
-	private Calendar lastModified;
+	
+	//@Field(jcrName = "jcr:lastModified")
+	//private Calendar lastModified;
 	@Field
 	private String currentTroop;
 	@Field
@@ -119,7 +120,7 @@ public class Troop implements Serializable {
 	public void setSendingEmail(EmailMeetingReminder sendingEmail) {
 		this.sendingEmail = sendingEmail;
 	}
-
+/*
 	public Calendar getLastModified() {
 		return lastModified;
 	}
@@ -129,7 +130,7 @@ public class Troop implements Serializable {
 		isDbUpdate = true;
 
 	}
-
+*/
 	public String getSfTroopName() {
 		return sfTroopName;
 	}

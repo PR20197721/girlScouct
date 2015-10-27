@@ -7,12 +7,12 @@
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.apache.sling.runmode.RunMode"%>
 <%!
-
+// put all static in util classes
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
     
 	boolean isCachableContacts=false;
-	
+	/*
 	public boolean hasPermission(Troop troop, int permissionId) {
 		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
 		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
@@ -20,7 +20,7 @@
 		}
 		return false;
 	}
-
+*/
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
 	String SHOW_VALID_SF_USER_FEATURE = "showValidSfUser";
@@ -33,6 +33,7 @@
 <% 
 
 	boolean isMultiUserFullBlock = true;
+// Why so heavy?  Do we need to load all services here or maybe on demand is better?
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
@@ -47,7 +48,7 @@
 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 	
 	
-	
+	// Why is this here if it say's not to use?
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 	//final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
@@ -116,7 +117,7 @@
 			</div>
 			
 			<%
-return;
+		    return;
 	}
 
 	
@@ -124,43 +125,10 @@ return;
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
 	user.setSid(session.getId());
-   
-	
+
     String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
-	
-	/*
-	//check valid cache url /myvtk/
-	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
-	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
-	    return;
-	}
-	*/
-	//NO PARENTS ALLOWED!!!!!
-	boolean  allowParentAccess= Boolean.parseBoolean(configManager.getConfig("allowParentAccess"));
-	if( !allowParentAccess && troop!=null && troop.getTroop()!=null && troop.getTroop().getRole()!=null && troop.getTroop().getRole().toUpperCase().trim().equals("PA" ))
-	{
 
-		%>
-		<div id="panelWrapper" class="row meeting-detail content">
-               <div class="columns large-20 large-centered">
-                <p>
-                  The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
-                  </p>
-                  
-                    <p>
-                    Stay tuned! 
-                </p>
-                </div>
-        </div>
-		<%
-        return;
-	}
-	
-	
-	
-	
-	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
@@ -175,85 +143,67 @@ return;
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_ID );
         troop.getTroop().getPermissionTokens().remove( PermissionConstants.PERMISSION_EDIT_FINANCE_FORM_ID);
         session.setAttribute("showGamma", null);
-	}else if( false) {// session.getAttribute("showGamma")==null ){
-		
-		//disable REPORT &  finances
-	    try{
-	        if( user.getApiConfig().getUser().isAdmin() && troop!=null && troop.getTroop()!=null && troop.getTroop().getPermissionTokens()!=null){      
-	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_REPORT_ID);
-	            troop.getTroop().getPermissionTokens().remove( Permission.PERMISSION_VIEW_FINANCE_ID);
-	        }
-	    }catch(Exception e){e.printStackTrace();}
-		
 	}
-	
+	/*
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
-	
 			troop.setRefresh(true);
 	}
 	session.removeAttribute( "isReloadedWindow"); //rm after pull
 	
-	if(request.getParameter("reload")!=null){troop.setRefresh(true);}
-
-	
-	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
-		if (troop == null || troop.isRefresh() ) {
-
-			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
-				errMsg = troop.getErrCode();
-		
-	
-	org.girlscouts.vtk.salesforce.Troop prefTroop = null;
-	  if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
+	if(request.getParameter("reload")!=null){
+		troop.setRefresh(true);
+	}
+*/
+    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
+	if (troop == null || troop.isRefresh() ) {
+		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
+			errMsg = troop.getErrCode();
+		}
+	    org.girlscouts.vtk.salesforce.Troop prefTroop = null;
+		if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 		  prefTroop = apiConfig.getTroops().get(0);
-	  }
+		}
 	  
-	  if( troop!=null){
-		  for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
-		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
-		 			prefTroop = apiConfig.getTroops().get(ii);
-		 			break;
-	  		}
-		  }
-	  }else{
-		Cookie[] cookies = request.getCookies();
-		if (cookies != null) {
-			theCookie: for (int i = 0; i < cookies.length; i++) {
-				if (cookies[i].getName().equals("vtk_prefTroop")) {
-					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-						String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
-					    if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
-							prefTroop = apiConfig.getTroops().get(ii);
-							break theCookie;
+		if( troop!=null){
+			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
+				if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
+					prefTroop = apiConfig.getTroops().get(ii);
+					break;
+				}
+			}
+	    }else{
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				theCookie: for (int i = 0; i < cookies.length; i++) {
+					if (cookies[i].getName().equals("vtk_prefTroop")) {
+						for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+							String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
+							if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
+								prefTroop = apiConfig.getTroops().get(ii);
+								break theCookie;
+							}
 						}
 					}
 				}
-
 			}
 		}
-	 }
-	 
-	
+
 		try{
-		   if( apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none")) {
-			   ;
-		   } else {
+		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
+System.err.println("tata session1");
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 		   }
-
-		  
-		   
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
-			%>
+%>
             <div id="panelWrapper" class="row meeting-detail content">
               <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
                  <%=ec.getMessage() %> 
                  <br/>Please notify Girlscouts VTK support
               </p>
           </div>
-            <%
+<%
             return;
 		}catch(IllegalAccessException ex){
 			ex.printStackTrace();
@@ -262,15 +212,13 @@ return;
 		}
 		
 		
-		if (troop == null ) {
-			
-		  try{
-			troop = troopUtil.createTroop(user, 
-					"" + prefTroop.getCouncilCode(),
-					prefTroop.getTroopId());
-		  }catch(org.girlscouts.vtk.utils.VtkException e){
-			  %>
-			  
+	    if (troop == null ) {
+	        try{
+	        	System.err.println("tata session2"); 	
+	        
+	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+            }catch(org.girlscouts.vtk.utils.VtkException e){
+%>
 			  <div id="panelWrapper" class="row meeting-detail content">
 			    <p class="errorNoTroop" style="padding:10px;color: #009447; font-size: 14px;">
 			       <%=e.getMessage() %> 
@@ -278,57 +226,39 @@ return;
 			    </p>
 			</div>
 <%
-			           
-			  e.printStackTrace();
-			  return;
-			  }
-		  }
-		
-		
-		
-		
+               e.printStackTrace();
+               return;
+            }
+        }
 		troop.setTroop(prefTroop);
 		troop.setSfTroopId(troop.getTroop().getTroopId());
 		troop.setSfUserId( user.getApiConfig().getUserId() ); //troop.getApiConfig().getUserId());
 		troop.setSfTroopName(troop.getTroop().getTroopName());
 		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
-
-		
 		session.setAttribute("VTK_troop", troop);
 	}
-
-	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session
-			.getAttribute("USER_TROOP_LIST");
+	System.err.println("tata session3");
+	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
 		troops = user.getApiConfig().getTroops();
 		session.setAttribute("USER_TROOP_LIST", troops);
 	}
-
-	
-
-
-
-
 	//check valid cache url /myvtk/
 	if( !VtkUtil.isValidUrl( user,  troop, request.getRequestURI() ) ) {
 	    response.setStatus(javax.servlet.http.HttpServletResponse.SC_FORBIDDEN);
 	    return;
 	}
 
-
-RunMode runModeService = sling.getService(RunMode.class);
-String apps[] = new String[1];
-apps[0]="prod";
-if( runModeService.isActive(apps) ){ 
-    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
-    request.setAttribute("footerScript", footerScript);
-}else{
-	String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
-    request.setAttribute("footerScript", footerScript);
-}
-
-
-
+	RunMode runModeService = sling.getService(RunMode.class);
+	String apps[] = new String[1]; // Why not just use a String dude
+	apps[0]="prod";
+	if( runModeService.isActive(apps) ){ 
+	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
+	    request.setAttribute("footerScript", footerScript);
+	}else{
+		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
+	    request.setAttribute("footerScript", footerScript);
+	}
+	System.err.println("tata session4");
 %>
-

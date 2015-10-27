@@ -33,112 +33,122 @@ public class FinanceUtil {
 
 	@Reference
 	TroopDAO troopDAO;
-	
+
 	@Reference
 	private MessageGatewayService messageGatewayService;
-	
+
 	@Reference
 	UserUtil userUtil;
-	
-	public Finance getFinances(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException {
-		
+
+	public Finance getFinances(User user, Troop troop, int qtr,
+			String currentYear) throws IllegalAccessException {
+
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
-		
+
 		return troopDAO.getFinances(troop, qtr, currentYear);
 	}
 
-	public void updateFinances(User user, Troop troop, String currentYear, java.util.Map<String, String[]> params) throws IllegalAccessException {
-		
+	public void updateFinances(User user, Troop troop, String currentYear,
+			java.util.Map<String, String[]> params)
+			throws IllegalAccessException {
+
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_FINANCE_ID))
 			throw new IllegalAccessException();
-		
+
 		Finance finance = new Finance();
 		Set<String> keySet = params.keySet();
-		for(String temp : keySet){
+		for (String temp : keySet) {
 			String[] tempArray = params.get(temp);
 		}
 		int quarter = Integer.parseInt(params.get("qtr")[0]);
 		troopDAO.setFinances(troop, quarter, currentYear, params);
 		// TODO NOTIFY Council here
 	}
-	
-	public FinanceConfiguration getFinanceConfig(User user, Troop troop, String currentYear) throws IllegalAccessException {
-		/*
-System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) +" : "+
-		(!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID)) +" : "+
-		(( !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ||
-				!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))));
-*/
-		if (troop != null &&
-			  !userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
-							!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID))
+
+	public FinanceConfiguration getFinanceConfig(User user, Troop troop,
+			String currentYear) throws IllegalAccessException {
+
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_FINANCE_FORM_ID)
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
-		
+
 		return troopDAO.getFinanceConfiguration(troop, currentYear);
 	}
 
-	public void updateFinanceConfiguration(User user, Troop troop, String currentYear, java.util.Map<java.lang.String, java.lang.String[]> params) throws IllegalAccessException {
-		
-		if (user != null &&
-				 !userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_FINANCE_FORM_ID) &&
-						!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_FINANCE_ID))
+	public void updateFinanceConfiguration(User user, Troop troop,
+			String currentYear,
+			java.util.Map<java.lang.String, java.lang.String[]> params)
+			throws IllegalAccessException {
+
+		if (user != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_FINANCE_FORM_ID)
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_VIEW_FINANCE_ID))
 			throw new IllegalAccessException();
-		
+
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		String expenses = params.get(Finance.EXPENSES)[0];
 		String income = params.get(Finance.INCOME)[0];
 		String period = params.get(Finance.PERIOD)[0];
 		String recipient = params.get(FinanceConfiguration.RECIPIENT)[0];
-		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period, recipient);
+		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses,
+				period, recipient);
 		// TODO NOTIFY Council here
 	}
-	
-	public void sendFinanceDataEmail(User user, Troop troop, int qtr, String currentYear) throws IllegalAccessException{
-		
+
+	public void sendFinanceDataEmail(User user, Troop troop, int qtr,
+			String currentYear) throws IllegalAccessException {
+
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_FINANCE_ID))
 			throw new IllegalAccessException();
-		
+
 		Finance finance = getFinances(user, troop, qtr, currentYear);
-		FinanceConfiguration financeConfig = getFinanceConfig( user, troop, currentYear);
-		
+		FinanceConfiguration financeConfig = getFinanceConfig(user, troop,
+				currentYear);
+
 		try {
-			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-			
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+					.getGateway(HtmlEmail.class);
+
 			StringWriter writer = new StringWriter();
 			Csv csvWriter = new Csv();
 			csvWriter.writeInit(writer);
-			
-			
-			
-			csvWriter.writeRow("Troop Name: ", troop.getSfTroopName(), "Troop Id: ", troop.getSfTroopId() );
-			
-			if(qtr != 0){
-				csvWriter.writeRow("Finaces for Year:", currentYear, "Quarter: ", Integer.toString(qtr));
-			}else{
+
+			csvWriter.writeRow("Troop Name: ", troop.getSfTroopName(),
+					"Troop Id: ", troop.getSfTroopId());
+
+			if (qtr != 0) {
+				csvWriter.writeRow("Finaces for Year:", currentYear,
+						"Quarter: ", Integer.toString(qtr));
+			} else {
 				csvWriter.writeRow("Finaces for Year:", currentYear);
 			}
-			
+
 			csvWriter.writeRow("Income", "", "Expenses", "");
-			
+
 			List<String> incomeFields = financeConfig.getIncomeFields();
 			List<String> expenseFields = financeConfig.getExpenseFields();
-			
+
 			NumberFormat formatter = NumberFormat.getCurrencyInstance();
 			double totalIncome = 0.0;
 			double totalExpenses = 0.0;
 			double balance = 0.0;
-			
-			for(int i = 0; i < incomeFields.size() || i < expenseFields.size(); i++){
+
+			for (int i = 0; i < incomeFields.size() || i < expenseFields.size(); i++) {
 				String incomeField = "";
 				String incomeValue = "";
-				if(i < incomeFields.size()){
+				if (i < incomeFields.size()) {
 					incomeField = incomeFields.get(i);
 					double moneyValue = finance.getIncomeByName(incomeField);
 					incomeValue = formatter.format(moneyValue);
@@ -146,45 +156,51 @@ System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Pe
 				}
 				String expenseField = "";
 				String expenseValue = "";
-				if(i < expenseFields.size()){
+				if (i < expenseFields.size()) {
 					expenseField = expenseFields.get(i);
 					double moneyValue = finance.getExpenseByName(expenseField);
 					expenseValue = formatter.format(moneyValue);
 					totalExpenses += moneyValue;
 				}
-				csvWriter.writeRow(incomeField, incomeValue, expenseField, expenseValue);
-				
+				csvWriter.writeRow(incomeField, incomeValue, expenseField,
+						expenseValue);
+
 			}
-			
+
 			balance = totalIncome - totalExpenses;
 			csvWriter.writeRow("", "", "", "");
-			csvWriter.writeRow("", "", "", "Total Income", formatter.format(totalIncome));
-			csvWriter.writeRow("", "", "", "Total Expenses", formatter.format(totalExpenses));
-			csvWriter.writeRow("", "", "", "Current Balance", formatter.format(balance));
-			
+			csvWriter.writeRow("", "", "", "Total Income",
+					formatter.format(totalIncome));
+			csvWriter.writeRow("", "", "", "Total Expenses",
+					formatter.format(totalExpenses));
+			csvWriter.writeRow("", "", "", "Current Balance",
+					formatter.format(balance));
+
 			csvWriter.close();
-			
+
 			writer.close();
 			String csvContents = writer.toString();
-			
+
 			String recipient = financeConfig.getRecipient();
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			emailRecipients.add(new InternetAddress(recipient));
 			email.setFrom("NOREPLY@girlscouts.org");
 			email.setTo(emailRecipients);
-			email.setSubject("Troop financial Report \""+troop.getTroop().getTroopName()+"\" - "+user.getApiConfig().getUser().getFirstName() +" : "+ user.getApiConfig().getUser().getLastName());
-			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
-			if(messageGateway == null){
+			email.setSubject("Troop financial Report \""
+					+ troop.getTroop().getTroopName() + "\" - "
+					+ user.getApiConfig().getUser().getFirstName() + " : "
+					+ user.getApiConfig().getUser().getLastName());
+			email.attach(new ByteArrayDataSource(csvContents.getBytes(),
+					"text/csv"), "finances.csv", "Finances Data");
+			if (messageGateway == null) {
 				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
-			}else{
-							
+			} else {
+
 				messageGateway.send(email);
-				
+
 			}
-			
-			
-					
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -197,5 +213,3 @@ System.err.println("tata.. "+ (!userUtil.hasPermission(user.getPermissions(), Pe
 		}
 	}
 }
-
-

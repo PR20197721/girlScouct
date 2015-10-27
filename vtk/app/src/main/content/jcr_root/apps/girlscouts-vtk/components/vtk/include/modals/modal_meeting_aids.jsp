@@ -16,7 +16,7 @@
 		existingAids.add(asset.getRefId());
 	}
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
-	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,MEETING_AID_PATH+"/"); 
+	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, MEETING_AID_PATH+"/"); 
 	%>
 <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 
@@ -40,7 +40,7 @@
 						</td>
 				 		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 				 		<td width="40">
-				 			<% if( !existingAids.contains(a.getRefId()) && hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+				 			<% if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
 				 				 <input type="button" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>','<%=a.getDocType()%>')" class="button linkButton"/>
 				 			<%} else {%>
 								<p class="button disabled" style="width:100%">Exists</p>

@@ -11,21 +11,17 @@
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-<div id="vtkTabNav"></div>
- <div id="panelWrapper" class="row meeting-detail content">
-  <div id="vtkNav"></div>
+<%
+  String sectionClassDefinition = "meeting-detail";
+%>
+  <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
-
-   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
+   <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
   <div id="yearPlanMeetings">
     <div id="thePlan">
-
-
-
-
       <script type="text/javascript">
 
  var isActivNew;
@@ -64,8 +60,7 @@
         pollIntervalID: null,
         isReordering: false,
         componentDidMount: function() {
-
-            loadNav('plan');    
+            loadNav('plan');
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -80,7 +75,7 @@
             if (this.pollIntervalID != null) {
                 clearTimeout(this.pollIntervalID);
             }
-            
+
             this.pollIntervalID = setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         },
         checkLocalUpdate: function(){
@@ -95,17 +90,17 @@
                return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
-                return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");    
-           
-            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" :  "false" %>  ){
+                return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");
+
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
                 yesPlan();
                 return React.createElement("h3",null);
             }else{
-                
+
                 return React.createElement("h3",null);
             }
-            
+
         }
       });
 
@@ -113,7 +108,7 @@
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
-            // Reordering 
+            // Reordering
             var parent = this.props.parentComponent;
 
             // Delay reload
@@ -129,7 +124,7 @@
                       React.createElement("div", {className: "row"},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                               React.createElement("h1", {className: "yearPlanTitle"}, this.props.yearPlanName),
-                              React.createElement("p", {className: "hide-for-print <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
+                              React.createElement("p", {className: "hide-for-print <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : "hide" %> "}, "Drag and drop to reorder meetings")
                           )
                       ),
                         React.createElement(MeetingComponent, {key: this.props.data, data: this.props.data, onReorder: this.onReorder})
@@ -147,12 +142,11 @@
                 meetingPassed= true;
                 return (React.createElement("ul", {id: "sortable123"},
                              keys.map( function (comment ,i ) {
-
                               if( obj[comment].type == 'MEETINGCANCELED' ){
-                                  
+
                                      return (
 
-                                            
+
              React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled'},
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
@@ -174,11 +168,11 @@
 
 
                              }else if( obj[comment].type == 'MEETING' ){
-                                 
+
                                         return (
-                React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
+                React.createElement("li", {className:  <%if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1},
                         React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
-                        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+                        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
                             React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
@@ -195,6 +189,7 @@
 
                                         );
                                   }else if( obj[comment].type == 'ACTIVITY' ){
+
                                         return (
 React.createElement("li", {draggable: false, className: "row meeting activity ui-state-default ui-state-disabled", key: obj[comment].id},
   React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
@@ -257,7 +252,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
-          
+
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
           delay:150,
@@ -277,7 +272,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         }
     }).disableSelection();
-          
+
       },
       componentWillUpdate: function() {
 
@@ -427,8 +422,4 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
     </div>
   </div>
-</div><!--/panelWrapper-->
-
-
-
-
+<%@include file="include/bodyBottom.jsp" %>

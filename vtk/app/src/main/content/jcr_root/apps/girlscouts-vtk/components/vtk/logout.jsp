@@ -22,6 +22,7 @@
     }
     
     if( councilId==null || councilId.trim().equals("")){
+
         councilId = getCouncilCookie(request);
     }
 
@@ -54,6 +55,7 @@
     
     	
     }
+
 %>
 
 <%!
@@ -69,4 +71,5 @@ public String getCouncilCookie(HttpServletRequest request) {
     }
     return councilCode;
 }
+
 %>

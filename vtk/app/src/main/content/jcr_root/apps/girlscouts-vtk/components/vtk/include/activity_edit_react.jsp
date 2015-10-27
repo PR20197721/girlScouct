@@ -123,7 +123,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
             if(!timeDiff()){ return false;}
             editNewCustActivity('<%=activity.getUid()%>');
             } else {
-                alert("Invalid.Fix it");
+                alert("There is a problem with the form entry. Please validate the data and try again.");
             }
         });
 
