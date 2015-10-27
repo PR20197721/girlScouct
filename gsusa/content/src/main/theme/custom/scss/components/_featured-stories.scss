@@ -1,6 +1,5 @@
 div.featured-stories {
- @include grid-column(24);
- float: none;
+ @include grid-column(24,  $float: none);
 }
 .featured-stories {
   margin: 0;

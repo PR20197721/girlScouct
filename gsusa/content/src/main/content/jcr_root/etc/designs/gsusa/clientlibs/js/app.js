@@ -104,9 +104,9 @@
               && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
             $('.join.button.arrow').siblings('form').addClass('hide');
           }
-      if (target.closest('.standalone-donate').length === 0 && target.closest('a.button').siblings('form').css('display') !== 'none') {
-            $('a.button').siblings('form').addClass('hide');
-            $('a.button').removeClass('hide');
+      if (target.closest('.standalone-donate').length === 0 && target.closest('a.button.form').siblings('form').css('display') !== 'none') {
+            $('a.button.form').siblings('form').addClass('hide');
+            $('a.button.form').removeClass('hide');
           }
     });
   }
@@ -626,7 +626,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
     equilize_our_stories();
   });
   // form on the Donate Tile.
-  $("#tag_tile_button_local, .standalone-donate a.button").on('click', function (e){
+  $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e){
     e.preventDefault();
     // $('.formDonate').addClass('hide');
     // if($('.formDonate').is(':hidden')) {
