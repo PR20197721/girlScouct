@@ -1027,3 +1027,16 @@ function councilRpt(troopId, cid){
 	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
 	  }
   }
+  
+  function displayErrMsg(errMsgPlaceHldr){
+
+	  $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.vtkError.html",
+	        cache: false
+	    }).done(function( html ) {
+	        var vtkErrMsgHld = document.getElementById(errMsgPlaceHldr);
+	        if( vtkErrMsgHld !=null ){
+	        	vtkErrMsgHld.innerHTML =html;
+	        }
+	    })
+  }

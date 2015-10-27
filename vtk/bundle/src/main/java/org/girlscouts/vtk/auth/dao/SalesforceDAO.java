@@ -336,7 +336,7 @@ public class SalesforceDAO {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
-if(true){//			if (statusCode != HttpStatus.SC_OK) {
+   		if(true){//    if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
 				 try{
 					  VtkError err= new VtkError();
@@ -346,8 +346,6 @@ if(true){//			if (statusCode != HttpStatus.SC_OK) {
 					  err.setErrorCode("VTK-"+ sfTroopId);
 					  errors.add(err);
 					  
-					  
-					  //java.util.List<VtkError> _errors = apiConfig.getErrors();
 					  if( errors!=null && errors.size()>0 ){
 							apiConfig.setErrors(errors);
 					  }
@@ -839,7 +837,7 @@ System.err.println("tata res: "+ response);
 						"Council_Code__c"));
 				troop.setCouncilId(results.getJSONObject(i).getString(
 						"Account__c"));
-			
+		
 				troop.setGradeLevel(results.getJSONObject(i)
 
 				.getString("Program_Grade_Level__c"));

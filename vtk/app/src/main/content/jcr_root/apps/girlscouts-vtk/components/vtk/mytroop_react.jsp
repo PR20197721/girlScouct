@@ -12,7 +12,8 @@
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
-
+		
+		
 		String emailTo=",";
 		try{
 			for(int i=0;i<contacts.size();i++)
@@ -42,7 +43,7 @@
 		 
     
 	%> 
-	 <%@include file="include/vtkError.jsp" %>
+	
 	<%@include file='myTroopImg.jsp' %>
 	
 	
