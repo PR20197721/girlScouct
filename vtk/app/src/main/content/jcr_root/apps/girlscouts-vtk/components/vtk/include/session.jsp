@@ -286,13 +286,18 @@
 	 long lastTimeCheckValidOAuthToken = apiConfig.getLastTimeTokenRefreshed();
 System.err.println("...................Checking token >> "+  lastTimeCheckValidOAuthToken +" : "+ (new java.util.Date().getTime() - lastTimeCheckValidOAuthToken));	 
 	 if( lastTimeCheckValidOAuthToken <=0 || ((java.util.Calendar.getInstance().getTimeInMillis()  - lastTimeCheckValidOAuthToken) > 20000) ){
-System.err.println("......................Checking token.....................");		
+System.err.println("......................Checking token.....................");
+
+apiConfig.setAccessToken("none");
+
 		 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
 		 if( !_isValidOAthToken )  {
+			 
+System.err.println("token not valid .....logging outt........");		 
 			 %><script>doVtkLogout();</script><% 
 			 return;
 		 }
-		 apiConfig.setLastTimeTokenRefreshed( java.util.Calendar.getInstance().getTimeInMillis()  );
+		
 	 }
 %>
 

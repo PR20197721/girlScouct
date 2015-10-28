@@ -969,7 +969,10 @@ System.err.println("tata res: "+ response);
 			if (statusCode == HttpStatus.SC_OK) {
 				isValidToken = true;
 System.err.println("OAUth token is valid!!!");				
+			}else{
+				apiConfig.setLastTimeTokenRefreshed( java.util.Calendar.getInstance().getTimeInMillis());
 			}
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		} finally {
