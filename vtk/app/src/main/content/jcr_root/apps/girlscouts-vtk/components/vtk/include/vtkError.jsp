@@ -16,41 +16,41 @@ for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
 
 
  java.util.List<org.girlscouts.vtk.ejb.VtkError> errorsToRmAfterShow = new java.util.ArrayList<org.girlscouts.vtk.ejb.VtkError>();
- for(int i=0;i<errors.size();i++){ 
+ for(int i=0;i<errors.size();i++){
 	 org.girlscouts.vtk.ejb.VtkError err = errors.get(i);
-	 
+
 	 if( !isHomePage && err.getTargets()!=null && err.getTargets().contains("home") )
 		   	 continue;
-	 
-	 
-	 
+
+
+
 	 if(!isHomePage && err.isSingleView() ){
 		 errorsToRmAfterShow.add(err);
 	 }
-	 
+
 %>
              <li>
-                        <b><%= err.getName()%> : </b>
-                        <%= err.getUserFormattedMsg()%>
-                        <!--  
-                        ---- description ----
-                        <%= err.getDescription()%>
-                        ---- error code ----
-                        <%=err.getErrorCode() %>
-                        ____ error time ----
-                        <%=err.getErrorTime()%>
-                        -->
+                <p><strong><%= err.getName()%></strong></p>
+                <p><%= err.getUserFormattedMsg()%></p>
+                <!--
+                ---- description ----
+                <p><%= err.getDescription()%></p>
+                ---- error code ----
+                <p><%=err.getErrorCode() %></p>
+                ---- error time ----
+                <p><%=err.getErrorTime()%></p>
+                -->
              </li>
  <% }
- 
- 
+
+
  //rm singleViews
  if( errorsToRmAfterShow.size() > 0 ){
 	 errors.removeAll(errorsToRmAfterShow);
  }
  org.girlscouts.vtk.utils.VtkUtil.setVtkErrors(request, errors);
- 
+
  %>
           </ul>
      </div>
- <%} %> 
+ <%} %>
