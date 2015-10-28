@@ -7,6 +7,7 @@ import org.girlscouts.vtk.salesforce.Troop;
 
 public class ApiConfig implements Serializable {
 
+	
 	/**
 	 * 
 	 */
@@ -25,7 +26,7 @@ public class ApiConfig implements Serializable {
 	
 	//error msg
 	java.util.List<VtkError> errors;
-	private boolean isFail;
+	private boolean isFail, accessTokenValid;
 	
 	
 	
@@ -110,6 +111,7 @@ public class ApiConfig implements Serializable {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 		this.lastTimeTokenRefreshed = new java.util.Date().getTime();
+		
 	}
 
 	public String getInstanceUrl() {
@@ -190,6 +192,14 @@ public class ApiConfig implements Serializable {
 
 	public void setErrors(java.util.List<VtkError> errors) {
 		this.errors = errors;
+	}
+
+	public boolean isAccessTokenValid() {
+		return accessTokenValid;
+	}
+
+	public void setAccessTokenValid(boolean accessTokenValid) {
+		this.accessTokenValid = accessTokenValid;
 	}
 	
 

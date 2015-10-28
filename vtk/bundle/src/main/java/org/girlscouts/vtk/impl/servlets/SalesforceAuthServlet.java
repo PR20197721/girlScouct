@@ -417,7 +417,7 @@ log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 		config.setVtkApiUserUri( vtkApiUserUri );
 		config.setVtkApiContactUri(vtkApiContactUri);
 		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
-		
+		config.setAccessTokenValid(true);
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
 		try {
