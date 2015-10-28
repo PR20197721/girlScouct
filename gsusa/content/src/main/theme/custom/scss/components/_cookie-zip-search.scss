@@ -1,0 +1,68 @@
+.cookie-header {
+  font-size: rem-calc(18);
+  margin-top: rem-calc(9);
+  .row {
+    color: $white;
+    margin-bottom: rem-calc(13);
+    padding: rem-calc(0 0 28);
+    .wrapper:before {
+      content: "";
+      background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
+      height: rem-calc(105);
+      width: rem-calc(235);
+      position: absolute;
+      z-index: 2;
+    }
+    .wrapper-inner {
+      background: #6e298d;
+      position: relative;
+      top: rem-calc(16);
+      z-index: 1;
+      padding: rem-calc(17 0);
+    }
+    form {
+      position: relative;
+      width: 50%;
+      left: 29.16667%;
+      label {
+        color: $white;
+        float: left;
+        line-height: 1.2;
+        font-size: rem-calc(16);
+        display: inline;
+        width: 50%;
+      }
+      input[type="text"] {
+        float: left;
+        width: 36%;
+        margin-left: rem-calc(5);
+        padding-right: rem-calc(10);
+      }
+      .link-arrow {
+        border: none;
+        background-color: $primary-color;
+        float: left;
+        line-height: rem-calc(37);
+        padding: 0 .9%;
+      }
+    }
+    .share {
+      @include grid-column(5, $float:right);
+      line-height: rem-calc(37);
+      i {
+        font-size: rem-calc(37);
+        float: right;
+        width: 22%;
+      }
+      a {
+        vertical-align: middle;
+        line-height: 1.2;
+        span {
+          display: inline-block;
+          float: left;
+          width: 73%;
+        }
+      }
+    }
+  }
+}
