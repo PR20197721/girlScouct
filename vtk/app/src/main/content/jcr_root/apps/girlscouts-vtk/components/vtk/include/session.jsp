@@ -282,6 +282,18 @@
 	    request.setAttribute("footerScript", footerScript);
 	}
 	
+	
+	 long lastTimeCheckValidOAuthToken = apiConfig.getLastTimeTokenRefreshed();
+System.err.println("...................Checking token >> "+  lastTimeCheckValidOAuthToken +" : "+ (new java.util.Date().getTime() - lastTimeCheckValidOAuthToken));	 
+	 if( lastTimeCheckValidOAuthToken <=0 || ((new java.util.Date().getTime() - lastTimeCheckValidOAuthToken) > 200000) ){
+System.err.println("......................Checking token.....................");		
+		 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
+		 if( !_isValidOAthToken )  {
+			 %><script>doVtkLogout();</script><% 
+			 return;
+		 }
+		 apiConfig.setLastTimeTokenRefreshed( new java.util.Date().getTime() );
+	 }
 %>
 
               

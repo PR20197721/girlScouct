@@ -4,11 +4,16 @@ public class VtkError {
 
 	public VtkError(){
 		this.singleView= true;
+		this.errorTime= new java.util.Date().getTime();
 	}
 	
 	private String name, errorCode, description, userFormattedMsg;
     private boolean singleView;
     private java.util.List<String> targets;
+    private long errorTime;
+    
+    
+    public long getErrorTime(){ return this.errorTime; }
     
 	public String getName() {
 		return name;

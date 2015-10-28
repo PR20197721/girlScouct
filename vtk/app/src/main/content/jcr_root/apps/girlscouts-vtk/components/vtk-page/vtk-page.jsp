@@ -7,16 +7,24 @@
     
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);
-   
     
-   
   if (myUrl.trim().contains("/en/vtk.home.html") && session.getAttribute("fatalError")!=null)
     	;
     
   else if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html") ){
-    org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
-
-   
+    
+	  org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+	    try{
+	        apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
+	            session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+	    } catch (ClassCastException exc) { 
+	        session.invalidate();
+	        apiConfig=null; 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+   /*
     try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
 		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
@@ -26,7 +34,7 @@
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	
+	*/
     
 	if( apiConfig==null ){
 	 

@@ -586,7 +586,7 @@ System.err.println("tata res: "+ response);
 
 					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
 					errorTroopName = troop.getTroopName();
-if(true)throw new VtkException("test");	
+//if(true)throw new VtkException("test");	
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id
@@ -947,6 +947,33 @@ if(true)throw new VtkException("test");
 			}
 		}
 		return troopDiff;
+	}
+	
+	
+	
+	public boolean isValidOAuthToken(ApiConfig apiConfig) throws IllegalAccessException {
+		CloseableHttpClient connection = null;
+		boolean isValidToken= false;
+		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
+		String url = apiConfig.getWebServicesUrl() + vtlApiUserUri
+				+ "?USER_ID=" + apiConfig.getUserId();
+
+		HttpGet method = new HttpGet(url);
+		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+		try {
+			connection = connectionFactory.getConnection();
+			CloseableHttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+			if (statusCode == HttpStatus.SC_OK) {
+				isValidToken = true;
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		} finally {
+			if (method != null)
+				method.releaseConnection();
+		}
+		return isValidToken;
 	}
 }// end class
 

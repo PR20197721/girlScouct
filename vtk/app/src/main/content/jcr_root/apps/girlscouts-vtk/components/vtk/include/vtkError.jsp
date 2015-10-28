@@ -24,7 +24,7 @@ for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
 	 
 	 
 	 
-	 if( err.isSingleView() ){
+	 if(!isHomePage && err.isSingleView() ){
 		 errorsToRmAfterShow.add(err);
 	 }
 	 
@@ -37,6 +37,8 @@ for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
                         <%= err.getDescription()%>
                         ---- error code ----
                         <%=err.getErrorCode() %>
+                        ____ error time ----
+                        <%=err.getErrorTime()%>
                         -->
              </li>
  <% }

@@ -1023,8 +1023,7 @@ function councilRpt(troopId, cid){
 	  }
 	  console.log("checking isLoggedin..."+ isLoggedIn);
 	  if( !isLoggedIn ){
-		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
-	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+		  doVtkLogout();
 	  }
   }
   
@@ -1039,4 +1038,11 @@ function councilRpt(troopId, cid){
 	        	vtkErrMsgHld.innerHTML =html;
 	        }
 	    })
+  }
+  
+  function doVtkLogout(){
+	  
+		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
+	  
   }
