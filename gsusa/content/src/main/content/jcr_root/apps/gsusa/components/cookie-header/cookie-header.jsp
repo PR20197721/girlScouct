@@ -12,7 +12,7 @@
       <form class="find-cookies" name="find-cookies">
         <label for="zip-code">Nemo enim ipsam volu quia voluptas sit.</label>
         <input type="text" placeholder="ZIP Code" class="zip-code" name="zip-code">
-        <input type="submit" class="link-arrow" value="GO >"/><!-- <span></span> -->
+        <input type="submit" class="link-arrow" value="Go >"/><!-- <span></span> -->
       </form>
       <div class="share">
         <a href="https://www.facebook.com/GirlScoutCookieProgram" title="cookies on facebook"><span>Follow&nbsp;cookies on Facebook</span> <i class="icon-social-facebook"></i></a>
