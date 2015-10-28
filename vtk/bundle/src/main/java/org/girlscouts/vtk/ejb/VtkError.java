@@ -8,6 +8,7 @@ public class VtkError {
 	
 	private String name, errorCode, description, userFormattedMsg;
     private boolean singleView;
+    private java.util.List<String> targets;
     
 	public String getName() {
 		return name;
@@ -48,5 +49,20 @@ public class VtkError {
 	public void setSingleView(boolean singleView) {
 		this.singleView = singleView;
 	}
+
+	public java.util.List<String> getTargets() {
+		return targets;
+	}
+
+	public void setTargets(java.util.List<String> targets) {
+		this.targets = targets;
+	}
+	
+	public void addTarget(String target){
+		if( targets==null)
+			targets=new java.util.ArrayList<String>();
+		targets.add( target );
+	}
+	
 	
 }

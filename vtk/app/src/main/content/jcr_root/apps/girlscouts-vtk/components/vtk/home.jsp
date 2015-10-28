@@ -1,13 +1,7 @@
 <%@page import="org.girlscouts.vtk.helpers.ConfigManager,
                 org.girlscouts.vtk.helpers.CouncilMapper,
                 org.girlscouts.vtk.utils.VtkUtil" %>
-<%@include file="/libs/foundation/global.jsp" %>
- 
- <!-- 
- <a href="/content/girlscouts-vtk/en/vtk.html">go to VTK</a>
- <a href="https://gsuat-gsmembers.cs11.force.com/members/">Community</a>
- -->
- 
+<%@include file="/libs/foundation/global.jsp" %> 
 <%
     HttpSession session = request.getSession();
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;

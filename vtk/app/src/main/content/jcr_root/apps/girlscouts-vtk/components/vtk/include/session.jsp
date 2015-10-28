@@ -127,6 +127,7 @@
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
+			    <%@include file="vtkError.jsp" %>
 			    <p>
 			    The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
 			     </p>

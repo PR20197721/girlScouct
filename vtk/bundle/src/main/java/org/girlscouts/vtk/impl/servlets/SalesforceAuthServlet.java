@@ -397,7 +397,7 @@ log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 						.getConfig("communityUrl"));
 
-//if(true)throw new VtkException("test fail OAuth exception");
+if(true)throw new VtkException("test fail OAuth exception");
 
 		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
@@ -459,11 +459,11 @@ log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 	 e.printStackTrace();
 	 
 	 VtkError err= new VtkError();
-	 err.setName("Error logging in.");
+	 err.setName("Error logging in");
 	 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e.toString());
 	 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-oAuth");
 	 err.setErrorCode("VTK-oAuth");
-	 
+	 err.addTarget("home");
 	 session.setAttribute("fatalError", err);
 	 //redirect(response, "/content/girlscouts-vtk/en/vtk.home.html");
 	 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
@@ -512,11 +512,11 @@ log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 		 e.printStackTrace();
 		 
 		 VtkError err= new VtkError();
-		 err.setName("Error logging in.");
+		 err.setName("Error logging in");
 		 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while SSO from Salesforce. Exception : " + e.toString());
 		 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-SSO");
 		 err.setErrorCode("VTK-SSO");
-		 
+		 err.addTarget("home");
 		 session.setAttribute("fatalError", err);
 		 
 		 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");

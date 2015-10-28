@@ -7,15 +7,29 @@ if( errors!=null ) {
     <div class="error">
           <ul>
 <%
+boolean isHomePage= false;
+for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
+    if ("home".equals(selectFragment)) {
+        isHomePage=true;
+    }
+}
+
+
  java.util.List<org.girlscouts.vtk.ejb.VtkError> errorsToRmAfterShow = new java.util.ArrayList<org.girlscouts.vtk.ejb.VtkError>();
  for(int i=0;i<errors.size();i++){ 
 	 org.girlscouts.vtk.ejb.VtkError err = errors.get(i);
+	 
+	 if( !isHomePage && err.getTargets()!=null && err.getTargets().contains("home") )
+		   	 continue;
+	 
+	 
+	 
 	 if( err.isSingleView() ){
 		 errorsToRmAfterShow.add(err);
 	 }
 	 
 %>
-             <li><%=errorsToRmAfterShow.size() %>
+             <li>
                         <b><%= err.getName()%> : </b>
                         <%= err.getUserFormattedMsg()%>
                         <!--  
@@ -33,11 +47,6 @@ if( errors!=null ) {
 	 errors.removeAll(errorsToRmAfterShow);
  }
  org.girlscouts.vtk.utils.VtkUtil.setVtkErrors(request, errors);
- /*
- for(int i=0;i<errors.size();i++){ 
-     org.girlscouts.vtk.ejb.VtkError err = errors.get(i);
-     errors.remove(i);
- }*/
  
  %>
           </ul>
