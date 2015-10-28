@@ -53,7 +53,7 @@
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 	    <div class="button-wrap">
 	    	<% if(zip){ %>
-			<a class="button"><%= title %></a>
+			<a class="button form"><%= title %></a>
 				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
@@ -67,7 +67,7 @@
 	} else { %>
 		<div class="standalone-donate form-no-image donate-block">
 		<% if(zip){ %>
-	    <a class="button"><%= title %></a>
+	    <a class="button form"><%= title %></a>
 			<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 	            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 	            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
