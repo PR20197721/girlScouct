@@ -84,7 +84,7 @@ public class SalesforceDAO {
 				System.err.println("Method failed: " + resp.getStatusLine());
 				throw new IllegalAccessException();
 			}
-
+			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );	
 			HttpEntity entity = null;
 			String rsp = null;
 			try {
@@ -336,7 +336,7 @@ public class SalesforceDAO {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
-   		if(true){//    if (statusCode != HttpStatus.SC_OK) {
+			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
 				 try{
 					  VtkError err= new VtkError();
@@ -353,6 +353,7 @@ public class SalesforceDAO {
 				  }catch(Exception e){e.printStackTrace();}
 				return contacts;
 			}
+			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
 			HttpEntity entity = null;
 			String rsp = null;
 			try {
@@ -563,6 +564,7 @@ System.err.println("tata res: "+ response);
 				System.err.println("Method failed: " + resp.getStatusLine());
 				throw new IllegalAccessException();
 			}
+			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
 			HttpEntity entity = resp.getEntity();
 			entity.getContent();
 			String rsp = EntityUtils.toString(entity);
@@ -586,7 +588,7 @@ System.err.println("tata res: "+ response);
 
 					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
 					errorTroopName = troop.getTroopName();
-if(true)throw new VtkException("test");	
+//if(true)throw new VtkException("test");	
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id
@@ -709,7 +711,7 @@ if(true)throw new VtkException("test");
 				System.err.println("Method failed: " + resp.getStatusLine());
 
 			}
-
+			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
 			HttpEntity entity = null;
 
 			String rsp = null;
@@ -966,6 +968,7 @@ if(true)throw new VtkException("test");
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) {
 				isValidToken = true;
+System.err.println("OAUth token is valid!!!");				
 			}
 		}catch(Exception e){
 			e.printStackTrace();
