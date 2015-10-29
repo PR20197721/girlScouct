@@ -3,39 +3,67 @@
   margin-top: rem-calc(9);
   .row {
     color: $white;
-    margin-bottom: rem-calc(13);
     padding: rem-calc(0 0 28);
-    .wrapper:before {
-      content: "";
-      background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
-      height: rem-calc(105);
-      width: rem-calc(235);
-      position: absolute;
-      z-index: 2;
+    .wrapper {
+      background: #6e298d;
+      margin-top: rem-calc(13);
     }
     .wrapper-inner {
-      background: #6e298d;
       position: relative;
-      top: rem-calc(16);
       z-index: 1;
-      padding: rem-calc(17 0);
+      padding: rem-calc(13 0);
+      @media #{$small-only} {
+        padding-left: 15%;
+        padding-right: 15%;
+      }
+      &:before {
+        @media #{$medium-up} {
+          content: "";
+          background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
+          height: rem-calc(105);
+          width: rem-calc(235);
+          position: absolute;
+          z-index: 2;
+          top: rem-calc(-13);
+        }
+        @media #{$small-only} {
+          content: "";
+          background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+          height: rem-calc(71);
+          width: rem-calc(71);
+          left: 50%;
+          position: relative;
+          margin-left: rem-calc(-36);
+          margin-bottom: rem-calc(20);
+          margin-top: rem-calc(20);
+        }
+      }
+    }
+    .share {
+      @media #{$small-only} {
+        text-align: center;
+        clear:both;
+      }
+      i {
+        font-size: rem-calc(37);
+      }
+      a {
+        vertical-align: middle;
+        line-height: 1.2;
+      }
     }
     form {
-      position: relative;
-      width: 50%;
-      left: 29.16667%;
       label {
         color: $white;
-        float: left;
-        line-height: 1.2;
         font-size: rem-calc(16);
-        display: inline;
-        width: 50%;
       }
       input[type="text"] {
         float: left;
-        width: 36%;
-        margin-left: rem-calc(5);
+        width: 74%;
+        font-style: italic;
+        @media #{$small-only} {
+          width: 84%;
+        }
         padding-left: rem-calc(10);
         height: rem-calc(47);
       }
@@ -46,22 +74,40 @@
         line-height: rem-calc(37);
         padding: 5px .9%;
       }
-    }
-    .share {
-      @include grid-column(5, $float:right);
-      line-height: rem-calc(37);
-      i {
-        font-size: rem-calc(37);
-        float: right;
-        width: 22%;
+      .form-wrapper {
+        margin: 5% 0;
       }
-      a {
-        vertical-align: middle;
-        line-height: 1.2;
-        span {
-          display: inline-block;
+      @media #{$medium-up} {
+        position: relative;
+        width: 50%;
+        left: 29.16667%;
+        .form-wrapper {
+          width: 50%;
           float: left;
-          width: 73%;
+          margin:0;
+        }
+        label {
+          float: left;
+          line-height: 1.2;
+          display: inline;
+          width: 50%;
+        }
+      }
+    }
+    @media #{$medium-up} {
+      .share {
+        @include grid-column(5, $float:right);
+        line-height: rem-calc(37);
+        i {
+          float: right;
+          width: 22%;
+        }
+        a {
+          span {
+            display: inline-block;
+            float: left;
+            width: 73%;
+          }
         }
       }
     }
