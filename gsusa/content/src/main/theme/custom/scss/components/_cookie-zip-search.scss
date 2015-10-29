@@ -40,6 +40,9 @@
       }
     }
     .share {
+      .middle-col & {
+        display: none;
+      }
       @media #{$small-only} {
         text-align: center;
         clear:both;
@@ -56,6 +59,9 @@
       label {
         color: $white;
         font-size: rem-calc(16);
+        .middle-col & {
+          width: 45%;
+        }
       }
       input[type="text"] {
         float: left;
@@ -66,6 +72,9 @@
         }
         padding-left: rem-calc(10);
         height: rem-calc(47);
+        .middle-col & {
+          width: 59%;
+        }
       }
       .link-arrow {
         border: none;
@@ -78,9 +87,8 @@
         margin: 5% 0;
       }
       @media #{$medium-up} {
-        position: relative;
         width: 50%;
-        left: 29.16667%;
+        margin-left: rem-calc(265);//width of the image + 30px
         .form-wrapper {
           width: 50%;
           float: left;
