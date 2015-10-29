@@ -25,7 +25,7 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
   Query query = queryBuilder.createQuery(pg,session);
   query.setExcerpt(true);
   return query.getResult().getHits(); 
-}
+} 
 
 %>
 <%
