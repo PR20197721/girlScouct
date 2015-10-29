@@ -281,7 +281,7 @@
 		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-	
+	/*
 	if( !apiConfig.isAccessTokenValid() ){
 		 %><script>doVtkLogout();</script><% 
 		 return;
@@ -299,6 +299,7 @@ System.err.println("token not valid .....logging outt........");
 		 }
 		
 	 }
+	 */
 %>
 
               

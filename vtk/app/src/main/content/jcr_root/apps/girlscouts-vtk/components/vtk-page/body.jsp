@@ -137,3 +137,25 @@ if (thisFooterScript!= null) {
 }
 %>
 	</body>
+	
+	
+	
+	<script>
+/*
+var uploadStarted = false;
+function OnUploadStart(){            
+    uploadStarted = true;
+}
+
+function testme(state,message){       
+
+    if(state == 1)
+     alert("Success: "+message);     
+    else
+      if(state == 0 && uploadStarted)
+         alert("Error:"+( message ? message : "unknow" ));
+ }  
+ */
+</script>
+ <iframe src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
+	

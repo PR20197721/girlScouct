@@ -959,13 +959,13 @@ System.err.println("tata res: "+ response);
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() + vtlApiUserUri
 				+ "?USER_ID=" + apiConfig.getUserId();
-
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 		try {
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
+			
 			if (statusCode == HttpStatus.SC_OK) {
 				isValidToken = true;
 				apiConfig.setLastTimeTokenRefreshed( java.util.Calendar.getInstance().getTimeInMillis());
@@ -982,5 +982,8 @@ System.err.println("OAUth token is valid!!!");
 		}
 		return isValidToken;
 	}
+	
+	
+	
 }// end class
 
