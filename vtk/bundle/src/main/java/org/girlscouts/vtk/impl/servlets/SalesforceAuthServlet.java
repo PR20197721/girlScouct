@@ -191,7 +191,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
-//System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
+System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {
@@ -351,8 +351,8 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		try {
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-log.debug("RESP SAML: "+ samlResponse);	
-log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
+System.err.println("RESP SAML: "+ samlResponse);	
+System.err.println("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
 				requestURL = requestURL.replace("http://my", "https://my")
