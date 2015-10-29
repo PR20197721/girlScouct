@@ -1045,3 +1045,25 @@ function councilRpt(troopId, cid){
 	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
 	  
   }
+  
+  function rmVtkErrMsg(errMsgId){
+	  var msgPlanceHldr = document.getElementById("_vtkErrMsgId_"+ errMsgId);
+	  if( msgPlanceHldr!=null ){
+		  msgPlanceHldr.style.display='none';
+	  }
+	  
+	  
+	    console.log(1);
+	    
+	    $.ajax({
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html,
+			type: 'POST',
+			data: {
+				  vtkErrMsgId:errMsgId,
+			        act:'RemoveVtkErrorMsg',
+			        a:Date.now()
+			}
+	    })
+	    
+	    console.log(2);
+  }

@@ -5,9 +5,10 @@ public class VtkError {
 	public VtkError(){
 		this.singleView= true;
 		this.errorTime= new java.util.Date().getTime();
+		this.id = new java.util.Date().getTime() +"_"+ Math.random();
 	}
 	
-	private String name, errorCode, description, userFormattedMsg;
+	private String name, errorCode, description, userFormattedMsg, id;
     private boolean singleView;
     private java.util.List<String> targets;
     private long errorTime;
@@ -67,6 +68,14 @@ public class VtkError {
 		if( targets==null)
 			targets=new java.util.ArrayList<String>();
 		targets.add( target );
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 	

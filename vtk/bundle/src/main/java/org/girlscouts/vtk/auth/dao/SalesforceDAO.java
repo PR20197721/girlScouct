@@ -588,7 +588,7 @@ System.err.println("tata res: "+ response);
 
 					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
 					errorTroopName = troop.getTroopName();
-//if(true)throw new VtkException("test");	
+if(true)throw new VtkException("test");	
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id

@@ -515,4 +515,24 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 }catch(Exception e){e.printStackTrace();}
 	 
  }
+ 
+ public static void rmVtkError(HttpServletRequest request, String vtkErrId){
+		try{
+System.err.println("tata 1");			
+			java.util.List<VtkError> errors =  getVtkErrors( request );
+			if( errors==null || errors.size()<=0 ) return;
+System.err.println("tata 2");				
+			for(int i=0;i<errors.size();i++){
+System.err.println("tata "+ i);				
+				VtkError  error = errors.get(i);
+System.err.println("tata 4: "+ errors.get(i));	
+				if( error!=null && error.getId()!=null && error.getId().equals(vtkErrId)){
+System.err.println("tata5: "+ i +" : "+ error.getId() );					
+					errors.remove(i);
+					return;
+				}
+			}
+		}catch(Exception e){e.printStackTrace();}
+		 
+	 }
 }//end class
