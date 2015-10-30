@@ -7,8 +7,6 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
-System.err.println("tata aaa");
-
 	String vtkErr = "";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
@@ -312,9 +310,8 @@ System.err.println("tata aaa");
 				meetingUtil.createCustomYearPlan(user, troop,
 						request.getParameter("mids"));
 				return;
-			case RemoveVtkErrorMsg:
-				String vtkErrMsgId= request.getParameter("vtkErrMsgId");
-System.err.println("tata gggg: "+ vtkErrMsgId);     
+			case RemoveVtkErrorMsg:				
+				String vtkErrMsgId= request.getParameter("vtkErrMsgId");    
 			    if( vtkErrMsgId!=null && !vtkErrMsgId.equals("")){
 			             VtkUtil.rmVtkError(request,vtkErrMsgId );
 			    }

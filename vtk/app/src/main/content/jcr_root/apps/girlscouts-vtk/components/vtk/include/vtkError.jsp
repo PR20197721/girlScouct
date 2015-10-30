@@ -7,30 +7,23 @@ if( errors!=null ) {
     <div class="error">
           <ul>
 <%
-boolean isHomePage= false;
-for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
+ boolean isHomePage= false;
+ for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
     if ("home".equals(selectFragment)) {
         isHomePage=true;
     }
-}
-
+ }
 
  java.util.List<org.girlscouts.vtk.ejb.VtkError> errorsToRmAfterShow = new java.util.ArrayList<org.girlscouts.vtk.ejb.VtkError>();
  for(int i=0;i<errors.size();i++){
 	 org.girlscouts.vtk.ejb.VtkError err = errors.get(i);
-
-	 if(err.getTargets()!=null) out.println("*** " +err.getTargets());
-	 
 	 if( !isHomePage && err.getTargets()!=null && err.getTargets().contains("home") )
 		   	 continue;
 	 if( isHomePage && (err.getTargets()==null || (err.getTargets()!=null && !err.getTargets().contains("home") ) ) )
          continue;
-
-
 	 if(!isHomePage && err.isSingleView() ){
 		 errorsToRmAfterShow.add(err);
 	 }
-
 %>
              <li id="_vtkErrMsgId_<%=err.getId()%>">
                 <p><strong><%= err.getName()%></strong></p>
@@ -45,16 +38,7 @@ for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
                 <p><%=err.getErrorTime()%></p>
                 -->
              </li>
- <% }
-
-/*
- //rm singleViews
- if( errorsToRmAfterShow.size() > 0 ){
-	 errors.removeAll(errorsToRmAfterShow);
- }
- org.girlscouts.vtk.utils.VtkUtil.setVtkErrors(request, errors);
-*/
- %>
+   <% } %>
           </ul>
      </div>
  <%} %>

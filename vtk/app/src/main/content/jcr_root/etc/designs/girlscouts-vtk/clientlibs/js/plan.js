@@ -1042,28 +1042,32 @@ function councilRpt(troopId, cid){
   
   function doVtkLogout(){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
-	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
-	  
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;  
   }
   
   function rmVtkErrMsg(errMsgId){
+	
+	    $.ajax({
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+			type: 'POST',
+			data: {
+				    vtkErrMsgId:errMsgId,
+			        act:'RemoveVtkErrorMsg',
+			        a:Date.now()
+			},
+	    
+		success: function(result) {
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	    } 
+	    }),
+	   
+	    rmVtkErrMsg_disableView( errMsgId );
+  }
+
+  function rmVtkErrMsg_disableView( errMsgId ){
 	  var msgPlanceHldr = document.getElementById("_vtkErrMsgId_"+ errMsgId);
 	  if( msgPlanceHldr!=null ){
 		  msgPlanceHldr.style.display='none';
 	  }
-	  
-	  
-	    console.log(1);
-	    
-	    $.ajax({
-			url: '/content/girlscouts-vtk/controllers/vtk.controller.html,
-			type: 'POST',
-			data: {
-				  vtkErrMsgId:errMsgId,
-			        act:'RemoveVtkErrorMsg',
-			        a:Date.now()
-			}
-	    })
-	    
-	    console.log(2);
   }

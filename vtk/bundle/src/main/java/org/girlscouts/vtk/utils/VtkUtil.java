@@ -529,6 +529,8 @@ System.err.println("tata 4: "+ errors.get(i));
 				if( error!=null && error.getId()!=null && error.getId().equals(vtkErrId)){
 System.err.println("tata5: "+ i +" : "+ error.getId() );					
 					errors.remove(i);
+					ApiConfig apiConfig= getApiConfig(request.getSession());
+					apiConfig.setErrors( errors );
 					return;
 				}
 			}
