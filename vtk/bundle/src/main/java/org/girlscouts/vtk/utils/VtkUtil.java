@@ -55,14 +55,11 @@ public class VtkUtil  implements ConfigListener{
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
 	}
-	
 
 	@Activate
 	public void init() {
 		configManager.register(this);
 	}
-	
-	//public void initMe(){configManager.register(this);}
 	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
@@ -197,7 +194,6 @@ public class VtkUtil  implements ConfigListener{
     	Comparator<MeetingE> comp = new BeanComparator("id");
 		Collections.sort(meetings, comp);
 		return meetings;
-    	
     }
     
   public static final java.util.List<MeetingE> setToDbUpdate( java.util.List<MeetingE> meetings){
@@ -517,24 +513,18 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  }
  
  public static void rmVtkError(HttpServletRequest request, String vtkErrId){
-		try{
-System.err.println("tata 1");			
+		try{			
 			java.util.List<VtkError> errors =  getVtkErrors( request );
-			if( errors==null || errors.size()<=0 ) return;
-System.err.println("tata 2");				
-			for(int i=0;i<errors.size();i++){
-System.err.println("tata "+ i);				
+			if( errors==null || errors.size()<=0 ) return;		
+			for(int i=0;i<errors.size();i++){	
 				VtkError  error = errors.get(i);
-System.err.println("tata 4: "+ errors.get(i));	
-				if( error!=null && error.getId()!=null && error.getId().equals(vtkErrId)){
-System.err.println("tata5: "+ i +" : "+ error.getId() );					
+				if( error!=null && error.getId()!=null && error.getId().equals(vtkErrId)){					
 					errors.remove(i);
 					ApiConfig apiConfig= getApiConfig(request.getSession());
 					apiConfig.setErrors( errors );
 					return;
 				}
 			}
-		}catch(Exception e){e.printStackTrace();}
-		 
+		}catch(Exception e){e.printStackTrace();}	 
 	 }
 }//end class
