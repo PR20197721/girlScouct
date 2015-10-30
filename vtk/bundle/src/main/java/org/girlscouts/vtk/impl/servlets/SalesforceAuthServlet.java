@@ -330,6 +330,7 @@ System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {	
+System.err.println("tata >>>>>>>>>>>>>");		
 		ApiConfig config =null;
 		HttpSession session = request.getSession();
 		session.setAttribute("fatalError", null);
@@ -349,10 +350,11 @@ System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
 
 		String token = null, userId = null;
 		try {
+System.err.println("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
 System.err.println("RESP SAML: "+ samlResponse);	
-System.err.println("RESP SAML param: "+ request.getParameter("SAMLResponse"));
+
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
 				requestURL = requestURL.replace("http://my", "https://my")
@@ -375,6 +377,7 @@ System.err.println("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			try {
+				e.printStackTrace();
 				response.setStatus(500);
 				return;
 			} catch (Exception exx) {
