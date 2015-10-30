@@ -16,6 +16,7 @@
 <div id="errInfo"></div>
 
 <%
+    String sectionClassDefinition="";
     String activeTab = "finances";
     boolean showVtkNav = true;
     int qtr = 1;
@@ -24,6 +25,16 @@
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%
+if( troop!=null && troop.getYearPlan()==null ){
+    %>
+    <p class="small-20 small-centered column">
+       Your Finance Tab cannot be accessed until you have created your Troop Year Plan. Please visit this section once that has been completed.
+    </p>
+    <%@include file="include/bodyBottom.jsp" %>
+    <script>loadNav('finances');</script>
+    <% 
+    return;
+}
 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
 		if(financeConfig.isPersisted()){

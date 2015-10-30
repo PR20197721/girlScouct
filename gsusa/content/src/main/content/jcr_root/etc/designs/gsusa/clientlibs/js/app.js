@@ -106,6 +106,7 @@
           }
       if (target.closest('.standalone-donate').length === 0 && target.closest('a.button').siblings('form').css('display') !== 'none') {
             $('a.button').siblings('form').addClass('hide');
+            $('a.button').removeClass('hide');
           }
     });
   }
@@ -630,6 +631,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
     // $('.formDonate').addClass('hide');
     // if($('.formDonate').is(':hidden')) {
       $('.formDonate').toggleClass('hide');
+      $(this).toggleClass('hide');
       $('.formDonate input[type="text"]').focus();
     // }
   })

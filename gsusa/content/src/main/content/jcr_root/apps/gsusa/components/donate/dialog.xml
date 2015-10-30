@@ -17,6 +17,39 @@
                         fieldLabel="Title"
                         name="./title"
                         xtype="textfield"/>
+                        <max-width
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Max Width (in px)"
+                		fieldDescription="Default is 210px"
+                		name="./maxWidth"
+                		minValue="{Long}0"
+                		xtype="numberfield"/>
+                    <zip
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Zip Code"
+                    	fieldDescription="Do you want users to be able to enter their zip code and go to their local council's donation page?"
+                    	name="./zip"
+                    	defaultValue="Yes"
+                    	value="No"
+                    	xtype="selection"
+                    	type="select">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Yes"
+                                    value="Yes"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="No"
+                                    value="No"/>
+                            </options>
+                    	</zip>
+                   	<href
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Hard-coded URL"
+                        name="./href"
+                        fieldDescription="This field is required if you choose not to use a zip code field. If you don't use a zip code field, please enter the destination of the button here."
+                        xtype="textfield"/>
                 </items>
             </tab1>
             <background-image
@@ -39,28 +72,6 @@
                         xtype="hidden"/>                    
                 </items>
             </background-image>
-            <tab2
-                jcr:primaryType="cq:Panel"
-                title="Advanced Settings">
-                <items jcr:primaryType="cq:WidgetCollection">
-                	<max-width
-                		jcr:primaryType="cq:Widget"
-                		fieldLabel="Max Width (in px)"
-                		fieldDescription="Default is 210px"
-                		name="./maxWidth"
-                		minValue="{Long}0"
-                		xtype="numberfield"/>
-                    <source
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="not_set"
-                        fieldLabel="Source"
-                        name="./source"
-                        value="not_set"
-                        maxLength="25"
-                        maxLengthText="The source cannot be longer than 25 characters"
-                        xtype="textfield"/>
-                </items>
-            </tab2>
         </items>
     </items>
 </jcr:root>

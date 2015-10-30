@@ -3,5 +3,5 @@
     jcr:description="A large image to be placed in the main page of a website. Can also be displayed in a slideshow format"
     jcr:primaryType="cq:Component"
     jcr:title="Hero Banner"
-    componentGroup=".hidden"
+    componentGroup="Girl Scouts"
     imageLabel="Image"/>
