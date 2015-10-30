@@ -40,7 +40,7 @@
       }
     }
     .share {
-      .middle-col & {
+      #main & {
         display: none;
       }
       @media #{$small-only} {
@@ -59,22 +59,13 @@
       label {
         color: $white;
         font-size: rem-calc(16);
-        .middle-col & {
-          width: 45%;
-        }
       }
       input[type="text"] {
         float: left;
-        width: 74%;
+        width: 100%;
         font-style: italic;
-        @media #{$small-only} {
-          width: 84%;
-        }
         padding-left: rem-calc(10);
         height: rem-calc(47);
-        .middle-col & {
-          width: 59%;
-        }
       }
       .link-arrow {
         border: none;
@@ -82,13 +73,25 @@
         float: left;
         line-height: rem-calc(37);
         padding: 5px .9%;
+        position: absolute;
+        right: 0;
       }
       .form-wrapper {
         margin: 5% 0;
+        position: relative;
       }
       @media #{$medium-up} {
         width: 50%;
         margin-left: rem-calc(265);//width of the image + 30px
+        .main-content & {
+          margin: 0;
+          float: right;
+          padding: 0 20px 0 0;
+          width: 67%;
+        }
+        .middle-col &  {
+          width: 50%;
+        }
         .form-wrapper {
           width: 50%;
           float: left;
