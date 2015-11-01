@@ -58,6 +58,7 @@ function vtk_accordion() {
        if($('.inner-wrap').hasClass('cookie-page')) {
         $('.cookie-page .accordion dd .content').slideUp('slow');
         $('.cookie-page .accordion dt > :first-child').removeClass('on');
+        $('.cookie-page .accordion dt').removeClass('on');
        }
       var target = $(this).parent().next().find('.content');
       var toggle = $(this);
@@ -65,9 +66,11 @@ function vtk_accordion() {
       if(target.is(':visible')) {
         toggle.removeClass('on');
         target.slideUp();
+        $(this).parent().removeClass('on');
       } else {
         toggle.addClass('on');
         target.slideDown();
+        $(this).parent().addClass('on');
       }
       return false;
     });
