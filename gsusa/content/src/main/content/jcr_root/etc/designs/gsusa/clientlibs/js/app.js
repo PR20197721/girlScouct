@@ -12,17 +12,17 @@
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
     $(".main-content, #main .vtk").css({
-    	  "min-height" : total_height
+      "min-height" : total_height
     });
     $(".join-volunteer").css({
-    	"min-height" : "initial"
+      "min-height" : "initial"
     });
   }
 
-	var isIE11 = false;
-	if (navigator.userAgent.indexOf("Trident\/7") != -1 && parseFloat($.browser.version) >= 11) {
-		isIE11 = true;
-	}
+  var isIE11 = false;
+  if (navigator.userAgent.indexOf("Trident\/7") !== -1 && parseFloat($.browser.version) >= 11) {
+    isIE11 = true;
+  }
 
   function pauseAllCarouselVideos() {
     var i;
@@ -78,14 +78,14 @@
           $('.zip-council').removeClass('change');
           $('.main-slider').slick('slickPlay');
           pauseAllCarouselVideos();
-		// release opacity for mike's fix
-		if (isIE11 && lastAfterSlick) {
-			for (var x in lastAfterSlick) {
-				for (var i = 0; i < lastAfterSlick.length; i++) {
-					$(lastAfterSlick[i]).css('opacity', '1');
-				}
-			}
-		}
+          // release opacity for mike's fix
+          if (isIE11 && lastAfterSlick) {
+            for (var x in lastAfterSlick) {
+              for (var i = 0; i < lastAfterSlick.length; i++) {
+                $(lastAfterSlick[i]).css('opacity', '1');
+              }
+            }
+          }
         });
       }
       if (target.closest('.final-comp').length === 0
@@ -371,8 +371,8 @@
             // }
             fixColorlessWrapper();
           }
-      	  fixSlickListTrack();
-      	  fixSlickSlideActive();
+          fixSlickListTrack();
+          fixSlickSlideActive();
           return true;
         });
         //closing the section by clicking on the cross
@@ -396,27 +396,27 @@
 
   //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
 // inkoo added slide alternate view for carousel for ie9 and under because it breaks
-if($.browser.msie && parseFloat($.browser.version)<10){
-  $('.main-slider').slick({
-    dots: false,
-    infinite: true,
-    speed: (typeof interval !== 'undefined') ? interval : 1000,
-    fade: false,
-    autoplay: true,
-    arrows: false,
-    cssEase: 'linear',
-  });
-} else {
-  $('.main-slider').slick({
-    dots: false,
-    infinite: true,
-    speed: (typeof interval !== 'undefined') ? interval : 1000,
-    fade: true,
-    autoplay: true,
-    arrows: false,
-    cssEase: 'linear',
-  });
-}
+  if($.browser.msie && parseFloat($.browser.version)<10){
+    $('.main-slider').slick({
+      dots: false,
+      infinite: true,
+      speed: (typeof interval !== 'undefined') ? interval : 1000,
+      fade: false,
+      autoplay: true,
+      arrows: false,
+      cssEase: 'linear',
+    });
+  } else {
+    $('.main-slider').slick({
+      dots: false,
+      infinite: true,
+      speed: (typeof interval !== 'undefined') ? interval : 1000,
+      fade: true,
+      autoplay: true,
+      arrows: false,
+      cssEase: 'linear',
+    });
+  }
 
   var lastAfterSlick = null;
   function explore_button() {
@@ -431,27 +431,27 @@ if($.browser.msie && parseFloat($.browser.version)<10){
         arrows: true,
       });
 
-	// mike's fix for ie11 Windows 8
-	if (isIE11) {
-	      $('.inner-sliders .inner').on('beforeChange', function(event, slick, index){
-		  var slides = slick.$slides;
-		  for (var i = 0; i < slides.length; i++) {
-		      $(slides[i]).css('opacity', '1');
-		  }
-	      });
+      // mike's fix for ie11 Windows 8
+      if (isIE11) {
+        $('.inner-sliders .inner').on('beforeChange', function(event, slick, index) {
+          var slides = slick.$slides;
+          for (var i = 0; i < slides.length; i++) {
+              $(slides[i]).css('opacity', '1');
+          }
+            });
 
-	      $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
-		  var slides = slick.$slides;
-		  lastAfterSlick = slides;
-		  for (var i = 0; i < slides.length; i++) {
-			  if (i !== index) {
-				  $(slides[i]).css('opacity', '0');
-			  } else {
-				  $(slides[i]).css('opacity', '1');
-			  }
-		  }
-	      });
-	}
+            $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+          var slides = slick.$slides;
+          lastAfterSlick = slides;
+          for (var i = 0; i < slides.length; i++) {
+            if (i !== index) {
+              $(slides[i]).css('opacity', '0');
+            } else {
+              $(slides[i]).css('opacity', '1');
+            }
+          }
+        });
+      }
 
       $('.inner-sliders .slide-1, .inner-sliders .slide-2').slick({
         dots: true,
@@ -472,7 +472,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
         customPaging: function (slick, index) {
           var thumbnailText = $("#hiddenThumbnail" + index).text();
           if (thumbnailText.trim() !== "") {
-		        thumbnailText = "<p>" + thumbnailText + "</p>";
+            thumbnailText = "<p>" + thumbnailText + "</p>";
           }
           return slick.$slides.eq(index).find('.slide-thumb').prop('outerHTML') + thumbnailText;
         },
@@ -618,6 +618,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   join_now();
   scroll_feeds();
 
+
   // $(window).on("orientationchange", function () {
   //   alert("Privet!");
   // });
@@ -636,57 +637,58 @@ if($.browser.msie && parseFloat($.browser.version)<10){
     // }
   })
 
+
 }(jQuery));
 
 
 
 
 function fixColorlessWrapper() {
-	// inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
-	var colorlessWrappers = $(".story.colorless .bg-wrapper");
-	for (var i = 0; i < colorlessWrappers.length; i++) {
-		var thisWrapperStyle = $(colorlessWrappers[i]).attr("style");
-		if(thisWrapperStyle) {
-			$(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
-		}
-	}
-	//            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+  // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
+  var colorlessWrappers = $(".story.colorless .bg-wrapper");
+  for (var i = 0; i < colorlessWrappers.length; i++) {
+    var thisWrapperStyle = $(colorlessWrappers[i]).attr("style");
+    if(thisWrapperStyle) {
+      $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
+    }
+  }
+  //            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
 }
 
 function fixSlickListTrack() {
-	// inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
-	// don't use each function in jquery because ie doesn't support it
-	//          $(".slick-list .slick-track").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
-	//          $(".slick-slide.slick-active").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+  // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
+  // don't use each function in jquery because ie doesn't support it
+  //          $(".slick-list .slick-track").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
+  //          $(".slick-slide.slick-active").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/width: ?0px;/, "width: 100%;"))}});
 
-	var slickListTrack = $(".slick-list .slick-track");
-	for (var i = 0; i < slickListTrack.length; i++) {
-		var thisWrapperStyle = $(slickListTrack[i]).attr("style");
-		if(thisWrapperStyle) {
-			$(slickListTrack[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
-		}
-	}
+  var slickListTrack = $(".slick-list .slick-track");
+  for (var i = 0; i < slickListTrack.length; i++) {
+    var thisWrapperStyle = $(slickListTrack[i]).attr("style");
+    if(thisWrapperStyle) {
+      $(slickListTrack[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
+    }
+  }
 }
 function fixSlickSlideActive() {
-	var slickSlideActive = $(".slick-slide.slick-active");
-	for (var i = 0; i < slickSlideActive.length; i++) {
-		var thisWrapperStyle = $(slickSlideActive[i]).attr("style");
-		if(thisWrapperStyle) {
-			$(slickSlideActive[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
-		}
-	}
+  var slickSlideActive = $(".slick-slide.slick-active");
+  for (var i = 0; i < slickSlideActive.length; i++) {
+    var thisWrapperStyle = $(slickSlideActive[i]).attr("style");
+    if(thisWrapperStyle) {
+      $(slickSlideActive[i]).attr("style", thisWrapperStyle.replace(/width: ?0px;/, "width: 100%;"));
+    }
+  }
 }
 
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
-	for (var key in objectToInspect) {
-		if (objectToInspect.hasOwnProperty(key)) {
-			var obj = objectToInspect[key];
-			for (var prop in obj) {
-				if(obj.hasOwnProperty(prop)){
-					console.log(prop + " = " + obj[prop]);
-				}
-			}
-		}
-	}
+  for (var key in objectToInspect) {
+    if (objectToInspect.hasOwnProperty(key)) {
+      var obj = objectToInspect[key];
+      for (var prop in obj) {
+        if(obj.hasOwnProperty(prop)){
+          console.log(prop + " = " + obj[prop]);
+        }
+      }
+    }
+  }
 }
