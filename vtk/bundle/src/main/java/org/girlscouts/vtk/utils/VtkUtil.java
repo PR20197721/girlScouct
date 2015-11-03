@@ -88,7 +88,6 @@ public class VtkUtil  implements ConfigListener{
 			}
 		}
 		return false;
-
 	}
 
 	public static double convertObjectToDouble(Object o) {

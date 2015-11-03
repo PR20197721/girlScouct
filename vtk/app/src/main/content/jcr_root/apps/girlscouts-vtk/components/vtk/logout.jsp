@@ -44,12 +44,17 @@
         String councilHomeUrl = "";
         try {
             Integer.parseInt(councilId);
+            
             councilHomeUrl = councilMapper.getCouncilUrl(councilId) +"en.html";
+            
         } catch (Exception e) {
             councilHomeUrl = resourceResolver.map("/content/" + councilId + "/en.html");
         }
-        response.sendRedirect(councilHomeUrl);
-    
+        if( councilHomeUrl!=null && councilHomeUrl.contains("uat.gswcf.org") ){
+        	
+        }else{
+                    response.sendRedirect(councilHomeUrl);
+        }
     	
     }
 
