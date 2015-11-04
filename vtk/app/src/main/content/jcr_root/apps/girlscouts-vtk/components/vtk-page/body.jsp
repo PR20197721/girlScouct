@@ -41,6 +41,13 @@
    	// TODO: language
    	branch += "/en";
    	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
+   	System.err.println("***"+branch +" : "+ newCurrentPage); 
+   	
+   	if( newCurrentPage==null ){
+   		System.err.println("Error in body.jsp missing design for council: "+ branch);
+   		out.println("Missing council design on branch: "+ branch);
+   		return;
+   	}
    	
    	// Get design
 	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
@@ -155,7 +162,7 @@ if (thisFooterScript!= null) {
  }
 </script>
 
-    <iframe id="test4" onLoad="doAlex()" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
+    <iframe style="display:none;" id="test4" onLoad="doAlex()" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
  
 	</body>
 	

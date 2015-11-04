@@ -588,7 +588,7 @@ public class SalesforceDAO {
 
 					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
 					errorTroopName = troop.getTroopName();
-if(i==0)throw new VtkException("test");	
+//if(i==0)throw new VtkException("test");	
 					troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
 																					// id
