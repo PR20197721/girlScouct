@@ -77,13 +77,6 @@ function addActiv3(id, registerHrefToPop){
 			a:Date.now()
 		},
 		success: function(result) {
-			//document.getElementById("cust_activ_"+id).innerHTML='Added';
-			
-			/*
-			if(registerHrefToPop!=null && registerHrefToPop!=''){
-				window.open(registerHrefToPop, '_blank');
-			}
-			*/
 			location.reload();
 		}
 	});
@@ -92,7 +85,6 @@ function addActiv3(id, registerHrefToPop){
 
 
 function showMap(address){
-	
 	 window.open('/content/girlscouts-vtk/controllers/vtk.map.html?address='+address);
 }
 

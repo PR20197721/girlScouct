@@ -17,24 +17,22 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %> 
 
-<%if( request.getParameter("isOverview")!=null ){%>
-	<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr() %></span>
-<%}else if( request.getParameter("isActivity")!=null ){%>
-	<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr() %> </span>
-<%}else if( request.getParameter("isMaterials")!=null ){%>
-	<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr() %></span> 
-<%}else if( request.getParameter("isAgenda")!=null ){
-
-
-	//java.util.List <Activity> _activities = meetingInfo.getActivities();
-	try {
-		meetingUtil.sortActivity(_activities);
-	} catch(Exception e){e.printStackTrace();}
+	<%if( request.getParameter("isOverview")!=null ){%>
+		<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr() %></span>
+	<%}else if( request.getParameter("isActivity")!=null ){%>
+		<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr() %> </span>
+	<%}else if( request.getParameter("isMaterials")!=null ){%>
+		<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr() %></span> 
+	<%}else if( request.getParameter("isAgenda")!=null ){
 	
-	for(int ii=0;ii< _activities.size();ii++){ 
-		Activity _activity = _activities.get(ii);
-		if(ii == Integer.parseInt(request.getParameter("isAgenda"))){	%>
-			<%@include file="include/modals/modal_agenda_edit.jsp" %> 
-			<% break; }
-	}
-} %>
+		try {
+			meetingUtil.sortActivity(_activities);
+		} catch(Exception e){e.printStackTrace();}
+		
+		for(int ii=0;ii< _activities.size();ii++){ 
+			Activity _activity = _activities.get(ii);
+			if(ii == Integer.parseInt(request.getParameter("isAgenda"))){	%>
+				<%@include file="include/modals/modal_agenda_edit.jsp" %> 
+				<% break; }
+		}
+	} %>
