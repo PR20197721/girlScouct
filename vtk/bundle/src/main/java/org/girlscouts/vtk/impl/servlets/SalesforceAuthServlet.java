@@ -329,8 +329,7 @@ System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
 	@Override
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
-			IOException {	
-System.err.println("tata >>>>>>>>>>>>>");		
+			IOException {			
 		ApiConfig config =null;
 		HttpSession session = request.getSession();
 		session.setAttribute("fatalError", null);
@@ -338,7 +337,6 @@ System.err.println("tata >>>>>>>>>>>>>");
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
-//if(true)throw new VtkException("test123 SSO exception");
 		org.girlscouts.vtk.sso.saml.Response samlResponse = null;
 		try {
 			samlResponse = new org.girlscouts.vtk.sso.saml.Response(
@@ -350,10 +348,10 @@ System.err.println("tata >>>>>>>>>>>>>");
 
 		String token = null, userId = null;
 		try {
-System.err.println("RESP SAML param: "+ request.getParameter("SAMLResponse"));
+			log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-System.err.println("RESP SAML: "+ samlResponse);	
+			log.debug("RESP SAML: "+ samlResponse);	
 
 			String requestURL = request.getRequestURL().toString();
 			if (!requestURL.startsWith("http://my-local")) {
@@ -388,118 +386,90 @@ System.err.println("RESP SAML: "+ samlResponse);
 		}
 		
 	
-		if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
-	
-	
-	try{
-		SalesforceDAO dao = salesforceDAOFactory.getInstance();
-		byte[] data = Base64.decodeBase64(configManager
-				.getConfig("gsCertificate"));
-		ByteArrayInputStream is = new ByteArrayInputStream(data);
-		config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
-				.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
-						.getConfig("communityUrl"));
-
-//if(true)throw new VtkException("test fail OAuth exception");
-
-		config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
-		config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
-		String refreshTokenStr = null;
-		String id = userId;
-		config.setId(id);
-		config.setUserId(id.substring(id.lastIndexOf("/") + 1));
-		if (refreshTokenStr != null) {
-			config.setRefreshToken(refreshTokenStr);
-		}
-		config.setCallbackUrl(callbackUrl);
-		config.setClientId(clientId);
-		config.setOAuthUrl(OAuthUrl);
-		
-		//set config items here
-		config.setVtkApiTroopUri( vtkApiTroopUri );
-		config.setVtkApiUserUri( vtkApiUserUri );
-		config.setVtkApiContactUri(vtkApiContactUri);
-		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
-		config.setAccessTokenValid(true);
-		session.setAttribute(ApiConfig.class.getName(), config);
-		User user = null;
-		try {
-			user = dao.getUser(config);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (user == null) {
-			response.setStatus(500);
-			return;
-		}
-		session.setAttribute(User.class.getName(), user);
-		config.setUser(user);
+			if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
 		
 		
-		
-		
-		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
-		vtkUser.setApiConfig(config);
-		if (config.getTroops() != null && config.getTroops().size() > 0) {
+				try{
+					SalesforceDAO dao = salesforceDAOFactory.getInstance();
+					byte[] data = Base64.decodeBase64(configManager
+							.getConfig("gsCertificate"));
+					ByteArrayInputStream is = new ByteArrayInputStream(data);
+					config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
+							.doIt(is, token.substring(token.indexOf("@") + 1), clientId, configManager
+									.getConfig("communityUrl"));
+					config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
+					config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
+					String refreshTokenStr = null;
+					String id = userId;
+					config.setId(id);
+					config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+					if (refreshTokenStr != null) {
+						config.setRefreshToken(refreshTokenStr);
+					}
+					config.setCallbackUrl(callbackUrl);
+					config.setClientId(clientId);
+					config.setOAuthUrl(OAuthUrl);
+					
+					//set config items here
+					config.setVtkApiTroopUri( vtkApiTroopUri );
+					config.setVtkApiUserUri( vtkApiUserUri );
+					config.setVtkApiContactUri(vtkApiContactUri);
+					config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
+					config.setAccessTokenValid(true);
+					session.setAttribute(ApiConfig.class.getName(), config);
+					User user = null;
+					try {
+						user = dao.getUser(config);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					if (user == null) {
+						response.setStatus(500);
+						return;
+					}
+					session.setAttribute(User.class.getName(), user);
+					config.setUser(user);
+					
+					
+					
+					
+					org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
+					vtkUser.setApiConfig(config);
+					if (config.getTroops() != null && config.getTroops().size() > 0) {
+						
+						
+						// load config
+						vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
+						
+						}
+					session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
+							vtkUser);
 			
-			
-			// load config
-			vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
-			
-			}
-		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
-				vtkUser);
-
-	    // Set cookie troopDataPath 
-		if (config.getTroops() != null && !config.getTroops().isEmpty()) {
-		    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
-		    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
-		    cookie.setPath("/");
-		    response.addCookie(cookie);
-		}
-		
- }catch(Exception e){
-	 e.printStackTrace();
+				    // Set cookie troopDataPath 
+					if (config.getTroops() != null && !config.getTroops().isEmpty()) {
+					    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+					    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+					    cookie.setPath("/");
+					    response.addCookie(cookie);
+					}
+					
+			 }catch(Exception e){
+				 e.printStackTrace();
+				 
+				 VtkError err= new VtkError();
+				 err.setName("Error logging in");
+				 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e.toString());
+				 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-oAuth");
+				 err.setErrorCode("VTK-oAuth");
+				 err.addTarget("home");
+				 session.setAttribute("fatalError", err);
+				 
+				 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
+				 return;
+				 
+			 }
 	 
-	 VtkError err= new VtkError();
-	 err.setName("Error logging in");
-	 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e.toString());
-	 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-oAuth");
-	 err.setErrorCode("VTK-oAuth");
-	 err.addTarget("home");
-	 session.setAttribute("fatalError", err);
-	 //redirect(response, "/content/girlscouts-vtk/en/vtk.home.html");
-	 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
-	 return;
-	 /*
-	 if( config==null )
-		 config = new ApiConfig();
-	 config.setFail(true);
-	  
-	 java.util.List<VtkError> errors = new java.util.ArrayList<VtkError>();
-	 VtkError err= new VtkError();
-	 err.setName("Error logging in.");
-	 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e.toString());
-	 err.setUserFormattedMsg("There appears to be an error in loggin. Please notify support with error code VTK-oAuth");
-	 err.setErrorCode("VTK-oAuth");
-	 errors.add(err);
-	 config.setErrors(errors);
-	 
-	 session.setAttribute(ApiConfig.class.getName(), config);
-	 */
-	 
-	 /*
-	 PrintWriter out = response.getWriter();
-	 out.println("ERROR getting OAUth token from Salesforce. ");
-	 out.println("<br/><a href=\""+configManager.getConfig("baseUrl")+"\">Home</a>");
-	 out.println("<br/><a href=\""+configManager.getConfig("communityUrl")+"\">Community</a>");
-	 out.close();
-	 //response.sendRedirect(configManager.getConfig("baseUrl"));
-	 return;
-	 */
- }
- 
-	}//end oAuthtoken
+		}//end oAuthtoken
 
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
 			    redirect(response, request.getParameter("RelayState"));
@@ -611,7 +581,6 @@ System.err.println("RESP SAML: "+ samlResponse);
 		HttpsURLConnection con = null;
 		try {
 			String url = apiConfig.getInstanceUrl() + "/secur/logout.jsp"; // DYNAMIC
-//TODO wrong url
 			url = "http://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource=http://localhost:4503/content/girlscouts-vtk/en/vtk.home.html";
 
 			obj = new URL(url);

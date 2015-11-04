@@ -1950,9 +1950,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(Meeting.class); // eg
-										// ClassDescriptorUtils.getFullData(),
-										// ClassDescriptorUtils.getMeetingMinimal()
+			classes.add(Meeting.class); 
 			classes.add(Activity.class);
 			classes.add(MeetingE.class);
 			classes.add(Achievement.class);
@@ -2074,13 +2072,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
 		final String RESOURCES_PATH = "resources";
-
 		String councilId = null;
-
 		if (troop.getTroop() != null) {
-
 			councilId = Integer.toString(troop.getTroop().getCouncilCode());
-
 		}
 
 		String branch = councilMapper.getCouncilBranch(councilId);
@@ -2245,47 +2239,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return count;
 	}
 	
-	/*
-	public int getXCount(User user, Troop troop) throws IllegalAccessException {
-		int count = 0;
-		
-		Session session = null;
-		try {
-			String sql = "SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(['/content/dam/girlscouts-vtk/local/aid/meetings/'])"; 
 
-
-			session = sessionFactory.getSession();
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.JCR_SQL2);
-			
-			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null) {
-					sessionFactory.closeSession(session);
-				}
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-
-		}
-		return count;
-	}
-	*/
 	
 	
 	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
 			throws IllegalAccessException { 
 		
 		int count = 0;
-		if( troop==null) return 0;
+		if( troop==null || troop.getTroop()==null || troop.getTroop().getGradeLevel()==null) return 0;
 		
 		String level = troop.getTroop().getGradeLevel().toLowerCase();
 		if (level.contains("-")) {
@@ -2294,9 +2255,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		
 		Session session = null;
 		try {
-			//_path= "/content/dam/girlscouts-vtk/local/aid/meetings/";
-			//String sql ="SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, ['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
-					//"SELECT * FROM [dam:Asset] AS s WHERE ISDESCENDANTNODE(['/content/dam/girlscouts-vtk/local/aid/meetings/']) and [cq:tags] is not null"; 
 			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
 					+ " from [nt:unstructured] as parent where "
 					+ " (isdescendantnode (parent, ["

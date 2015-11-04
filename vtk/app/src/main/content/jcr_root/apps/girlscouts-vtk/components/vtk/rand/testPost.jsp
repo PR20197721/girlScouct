@@ -1,7 +1,0 @@
-<form action="http://localhost:4503/content/girlscouts-vtk/controllers/auth.sso.html?j_validate=false" method="POST">
-<input type="submit"/>
-
-<input type="hidden" name="app" value="0spZ0000000004h">
-<input type="hidden" value="nZNfb9owFMW%2FSuT3%2FB0UYhEmRjUNqdsiyPqwl8p1bsCbY2e%2BN5R%2B%2BzoUKqRVPPTJ0vX1Pef8cjND0eqOL3ramTX86wEpOLTaID9eFKx3hluBCrkRLSAnyTeL73c8ixLeOUtWWs2C1W3BHvJslNVjkYfjUT4JR5PHmzCXMAqTdDqZQpYm0ExZcA8OlTUF8xP8Q8QeVgZJGPKlJB2HyY1%2FUaUpT3KejX%2BzoDzJfFGmVmZ73dPjaxPyb1VVhuXPTcWCBSI48qJLa7BvwW3A7ZWEX%2Bu7gu2IOh7H2kqhdxaJj8bJp1haQ2Ao3iqnUdqeMNzT32PZWa19hlh4ZhGijXbU6s9%2FHvZCq1oQFI3QCGw%2BGwjyY0B3wfS6fXG2yuaDMfTOttijCEN%2FCIokpmnUPkcoNGBjnYRI2nYWX2i9Cnf8hx%2B%2Bui2tVvI5%2BGpdK%2Bi69lBRddgcW3lvsAOpGgW1J6i1fVo6GOIxcv0QL%2F5f5ix92iSoj3u1HFgeKFjathNO4fDx4SAknRlddi21R7CG5iPErrZJLofRvlz648m6etgrkN5l5YQPax2dOL7n5y3vu9nebi9%2FpPkL" name="SAMLRequest">
-
-</form>
