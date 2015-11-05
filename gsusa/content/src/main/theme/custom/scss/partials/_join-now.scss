@@ -56,25 +56,8 @@
       margin-bottom: 0;
     }
   }
-  .button.arrow {
-    white-space: nowrap;
-    padding-left: rem-calc(10);
-    z-index: 2;
-    margin: 0;
-    width: 100%;
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      border-style: solid;
-      border-color: transparent transparent transparent $white;
-      border-width: 0.71429rem;
-      top: 50%;
-      right: 0;
-      margin-top: -0.71429rem;
-    }
-  }
 }
+
 .join-buttons {
   float: right;
   padding-left: rem-calc(80);
@@ -166,22 +149,6 @@
     }
   }
   .button.arrow {
-    white-space: nowrap;
-    padding-left: rem-calc(10);
-    z-index: 2;
-    margin: 0;
-    width: 100%;
     padding: rem-calc(13 0);
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      border-style: solid;
-      border-color: transparent transparent transparent $white;
-      border-width: 0.71429rem;
-      top: 50%;
-      right: 0;
-      margin-top: -0.71429rem;
-    }
   }
 }

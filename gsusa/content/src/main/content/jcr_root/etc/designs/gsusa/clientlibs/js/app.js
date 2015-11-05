@@ -609,6 +609,23 @@ if($.browser.msie && parseFloat($.browser.version)<10){
     imageMap.resize();
   }
 
+  function shop_rotator() {
+    $('.shop-carousel').slick({
+      dots: false,
+      speed: 500,
+      autoplay: false,
+      arrows: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      // responsive: [{
+      //   breakpoint: 768,
+      //   settings: {
+      //     slidesToShow: 1
+      //   }
+      // }]
+    });
+  }
+
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -617,6 +634,7 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   explore_button();
   join_now();
   scroll_feeds();
+  shop_rotator();
 
   // $(window).on("orientationchange", function () {
   //   alert("Privet!");
