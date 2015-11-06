@@ -82,19 +82,45 @@
      
      
     
-       <%for(int i=0;i<split_exclDates.length;i++){
+       <%
+java.util.List<Long> storedHolidayDates = new java.util.ArrayList<Long>();       
+       for(int i=0;i<split_exclDates.length;i++){
     	  try{
     	   holidayCount++;
     	   String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(split_exclDates[i]));
            String holidayTitle = holidays.get(new java.util.Date(holidayDateFmt).getTime()) ;
-    	   
+storedHolidayDates.add(new java.util.Date(holidayDateFmt).getTime());    	   
     	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
        %>
          <li>
             <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
          </li>
-      <%}catch(Exception e){e.printStackTrace();}
+         
+      <%
+    	  }catch(Exception e){e.printStackTrace();}
        }
+     
+       
+       
+       
+       
+       
+       if( itr!=null )      
+        while( itr.hasNext()){ 
+           try{	
+	           long holidayDate = (Long) itr.next();
+	           if( storedHolidayDates!=null && !storedHolidayDates.contains(holidayDate) ){
+	        	   holidayCount++;
+	               String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(holidayDate));
+	               String holidayTitle = holidays.get(holidayDate); 
+	               %>
+	                <li>
+	                    <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+	                </li>
+	               <%
+	           }//end if
+           }catch(Exception e){e.printStackTrace();}
+	    }//end while
      }//end else
        %>
       

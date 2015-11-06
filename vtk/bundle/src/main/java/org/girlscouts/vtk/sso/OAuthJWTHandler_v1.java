@@ -32,7 +32,7 @@ public class OAuthJWTHandler_v1 {
 	
 	 @SuppressWarnings("deprecation")
 	public static void main(String[] args) {}
-public ApiConfig doIt(java.io.InputStream is, String email, String access_token, String communityUrl ){
+public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String access_token, String communityUrl ){
 	//Security.addProvider(new com.sun.crypto.provider.SunJCE());
 	ApiConfig config=null;
 	 
