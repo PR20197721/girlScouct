@@ -34,6 +34,9 @@
 	int maxWidth = properties.get("maxWidth", 210);
 	Boolean zip = (properties.get("zip", "Yes")).equals("Yes");
 	String href = properties.get("href", "");
+	if(!href.startsWith("http://") && !href.startsWith("https://")){
+		href = "http://" + href;
+ 	}
 
 	if(!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>****** If you do not use the zip code option, you must enter a URL *******<%
