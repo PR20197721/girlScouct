@@ -1,6 +1,6 @@
 <div class="content">
 	<div id="<%=ii %>" style="display:block;" class="setupCalendar">
-		<h3>Agenda Item: <%= _activity.getName() %></h3>
+		<h3>***Agenda Item: <%= _activity.getName() %></h3>
 		<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 			<option value="5"  <%= (_activity.getDuration()==5)  ? "SELECTED" : "" %>>5</option>
 			<option value="10" <%= (_activity.getDuration()==10) ? "SELECTED" : "" %>>10</option>
