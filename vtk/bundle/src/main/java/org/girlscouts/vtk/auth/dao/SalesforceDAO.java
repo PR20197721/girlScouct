@@ -99,6 +99,7 @@ public class SalesforceDAO {
 			}
 
 			log.debug(">>>>> " + rsp);
+System.err.println(rsp);			
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -168,6 +169,7 @@ public class SalesforceDAO {
 					JSONArray parentTroops = response.getJSONArray("camps");
 					java.util.List<Troop> troops = getTroops_merged(user,
 							apiConfig, user.getSfUserId(), parentTroops);
+					
 					apiConfig.setTroops(troops);
 					
 					java.util.List<VtkError> _errors = apiConfig.getErrors();
@@ -571,7 +573,7 @@ public class SalesforceDAO {
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-
+System.err.println(response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				String errorTroopId="-1";
