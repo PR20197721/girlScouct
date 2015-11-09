@@ -69,7 +69,7 @@
                         ignoreData="{Boolean}true"
                         name="./bg/sling:resourceType"
                         value="gsusa/components/image"
-                        xtype="hidden"/>                    
+                        xtype="hidden"/>
                 </items>
             </background-image>
         </items>

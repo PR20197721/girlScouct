@@ -12,6 +12,7 @@
         </div>
         <div class="middle-col">
             <cq:include script="main.jsp"/>
+
         </div>
         <div class="right-col">
             <cq:include script="right.jsp"/>
