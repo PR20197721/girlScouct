@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
 @Properties({
         @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API"),
         @Property(name = "connectionTimeOut", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds."),
-        @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds."),
+        @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds.")
 })
 public class BoothFinder {
     // TODO: use configuration. Pay attention to the trailing slash. 
