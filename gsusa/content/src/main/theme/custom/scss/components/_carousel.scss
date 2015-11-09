@@ -393,3 +393,22 @@ div.carousel {
   }
 }
 
+.video-slider {
+  .slick-slide {
+    background: green;
+    margin: 0 10px;
+  }
+  button {
+    &:before,
+    &:after {
+      opacity: 1;
+      display: block;
+    }
+    &:before {
+      content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
+    }
+    &:after {
+      content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
+    }
+  }
+}

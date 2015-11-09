@@ -12,6 +12,14 @@
         </div>
         <div class="middle-col">
             <cq:include script="main.jsp"/>
+            <div class="video-slider">
+              <div>your content1</div>
+              <div>your content2</div>
+              <div>your content3</div>
+              <div>your content1</div>
+              <div>your content2</div>
+              <div>your content3</div>
+            </div>
         </div>
         <div class="right-col">
             <cq:include script="right.jsp"/>
