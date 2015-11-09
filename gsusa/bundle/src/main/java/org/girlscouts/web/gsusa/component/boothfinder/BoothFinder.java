@@ -3,9 +3,7 @@ package org.girlscouts.web.gsusa.component.boothfinder;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Dictionary;
-import java.util.Hashtable;
 import java.util.List;
-import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -23,6 +21,7 @@ import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
+import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -34,7 +33,7 @@ import org.xml.sax.SAXException;
 @Service(BoothFinder.class)
 @Properties({
         @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API"),
-        @Property(name = "connectionTimeOut", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds."),
+        @Property(name = "connectionTimeout", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds."),
         @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds.")
 })
 public class BoothFinder {
@@ -42,7 +41,8 @@ public class BoothFinder {
     private static final String API_BASE = "http://www.girlscoutcookies.org/";
     private static final String LOCAL_COUNCIL_COOKIE_SALE_STATUS_API = "ajax_GetCouncilInfo.asp?ZIPCode=";
     private static final String FETCH_BOOTH_LIST_API = "iphoneapp/booth_list.asp?";
-    private static final long serialVersionUID = -1155198001819957909L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = -1155198001819957909L;
     private static Logger log = LoggerFactory.getLogger(BoothFinder.class);
     
     private HttpConnectionManager connectionManager;
@@ -81,13 +81,12 @@ public class BoothFinder {
         }
     }
     
-    @Activate
-    public void init() {
-        dbFactory = DocumentBuilderFactory.newInstance();
-    }
-    
     @Modified
-    public void updateConfig(@SuppressWarnings("rawtypes") Dictionary dict) {
+    @Activate
+    public void updateConfig(ComponentContext context) {
+        dbFactory = DocumentBuilderFactory.newInstance();
+        @SuppressWarnings("rawtypes")
+        Dictionary dict = context.getProperties();
     	apiBasePath = (String)dict.get("apiBasePath");
     	if (null == apiBasePath || apiBasePath.isEmpty()) {
     		if (!apiBasePath.endsWith("/")) {
@@ -106,30 +105,6 @@ public class BoothFinder {
         connectionManager.setParams(params);
         log.info("HttpConnctionManager start up. Connection Timeout = " + Integer.toString(connectionTimeout) +
         		" Socket Timeout = " + Integer.toString(socketTimeout));
-    }
-    
-    // TODO: test. Remote later
-    public static void main(String[] args) {
-        BoothFinder finder = new BoothFinder();
-        Dictionary dict = new Hashtable();
-        dict.put("connectionTimeout", 10000);
-        dict.put("socketTimeout", 10000);
-        dict.put("apiBasePath", "http://www.girlscoutcookies.org/");
-        
-        finder.init();
-        finder.updateConfig(dict);
-        Random rand = new Random();
-        for (int i = 0; i < 100; i++) {
-	        try {
-	            //List<BoothBasic> booths = finder.getBooths("11361", "180", "100", "distance", 0, 100);
-	            //System.out.println(booths);
-	        	String randZip = Integer.toString(rand.nextInt(89999) + 10000);
-	            Council council = finder.getCouncil(randZip);
-	            System.out.println(council);
-	        } catch (Exception e) {
-	        	System.err.println(e.getMessage());
-	        }
-        }
     }
     
     public Council getCouncil(String zipCode) throws Exception {
