@@ -49,6 +49,11 @@
   .left-col {
     display: none;
   }
+  .three-cols .right-col,
+  .three-cols .middle-col,
+  .two-cols .middle-col {
+    float: none;
+  }
 }
 .curriculum-filter {
   form {
