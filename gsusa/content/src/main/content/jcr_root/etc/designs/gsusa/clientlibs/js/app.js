@@ -232,39 +232,6 @@
         headercomptrigger(headervolunteer, event);
       }
     });
-
-    // searchjoin.button.click(function (event) {
-    //   event.stopPropagation();
-    //   searchjoin.input.stop().animate({
-    //     width: 'toggle',
-    //   }, 500, function () {
-    //     if (searchjoin.input.is(':visible')) {
-    //       searchjoin.input.focus();
-    //       searchjoin.button.addClass('on');
-    //     } else {
-    //       // searchSlider.button.focus();
-    //       searchjoin.button.removeClass('on');
-
-    //     }
-    //   });
-    // });
-
-    // searchvolunteer.button.click(function (event) {
-    //   event.stopPropagation();
-    //   searchvolunteer.input.stop().animate({
-    //     width: 'toggle',
-    //   }, 500, function () {
-    //     if (searchvolunteer.input.is(':visible')) {
-    //       searchvolunteer.input.focus();
-    //       searchvolunteer.button.addClass('on');
-    //     } else {
-    //       // searchSlider.button.focus();
-    //       searchvolunteer.button.removeClass('on');
-    //     }
-    //   });
-    //   event.preventDefault();
-    // });
-
     searchvolunteer.form.submit(function () {
       if (searchvolunteer.input.val() !== "") {
         searchvolunteer.form.submit();
@@ -608,6 +575,23 @@
     var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
     imageMap.resize();
   }
+  $('.video-slider').slick({
+    dots: false,
+    cssEase: 'linear',
+    centerMode: true,
+    slidesToShow: 1,
+    centerPadding: '100px',
+    responsive: [
+     {
+       breakpoint: 480,
+       settings: {
+         arrows: false,
+         centerMode: true,
+         centerPadding: '30px',
+       }
+     }
+    ]
+  });
 
   function shop_rotator() {
     $('.shop-carousel').slick({

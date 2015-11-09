@@ -439,3 +439,37 @@ div.carousel {
   }
 }
 
+.video-slider {
+  .slick-slide {
+    background: green;
+    margin: 0 7px;
+  }
+  button {
+    &:before,
+    &:after {
+      opacity: 1;
+      display: block;
+    }
+    height: rem-calc(106);
+    margin-bottom: 0;
+    margin-top: rem-calc(-53);
+    background: rgba(0,0,0, 0.5);
+    width: rem-calc(48);
+    &:hover,
+    &:focus {
+      background: rgba(0,0,0, 1);
+    }
+    &.slick-prev {
+      left: 0;
+      &:before {
+        content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
+      }
+    }
+    &.slick-next {
+      right:0;
+      &:before {
+        content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
+      }
+    }
+  }
+}

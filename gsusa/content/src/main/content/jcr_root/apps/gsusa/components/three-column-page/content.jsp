@@ -23,9 +23,23 @@
         <div class="hero-section">
             <cq:include path="content/middle/breadcrumb" resourceType="gsusa/components/breadcrumb-trail" />
             <cq:include path="content/hero/par" resourceType="girlscouts/components/styled-parsys" />
+            <div class="video-slider">
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+            </div>
         </div>
         <div class="middle-col">
             <cq:include script="main.jsp"/>
+            <div class="video-slider">
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+              <div><img src="/etc/designs/gsusa/images/temp_video.png" alt="" /></div>
+            </div>
         </div>
         <div class="right-col">
             <cq:include script="right.jsp"/>
