@@ -95,14 +95,14 @@ div.wrapper .row:nth-child(2) {
   display: block;
   position: absolute;
   top: 50%;
-  border-color: #00ae58 transparent transparent;
+  border-color: transparent transparent transparent #00ae58;
   margin-left: 5px;
   border-width: 5px;
-  margin-top: -2px;
+  margin-top: -5px;
 }
 .accordion.section dt h6.on:before {
-  border-color: transparent transparent transparent #00ae58;
-  margin-top: -5px;
+  border-color: #00ae58 transparent transparent;
+  margin-top: -2px;
 }
 
 /*form group*/

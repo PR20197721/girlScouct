@@ -1,0 +1,36 @@
+.cookie-page {
+  .accordion {
+    dt {
+      h6 {
+        color: $primary-color;
+        display: block;
+        padding: rem-calc(10);
+        &:before {
+          border-color:transparent transparent transparent #00ae58;
+          left: 0;
+        }
+        &.on:before {
+          border-color: #00ae58 transparent transparent;
+        }
+      }
+    }
+    &.section dt.on {
+      background: #00ae58;
+      margin: 0;
+      h6 {
+        color: #fff;
+        margin-bottom: 0;
+        &:before {
+          border-color:transparent transparent transparent #fff;
+          left: 0;
+        }
+        &.on:before {
+          border-color: #fff transparent transparent;
+        }
+      }
+    }
+    dd {
+      background: #f8f8f8;
+    }
+  }
+}
