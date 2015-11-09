@@ -763,17 +763,15 @@
                     ObjectMapper mapper = new ObjectMapper();
                     try {
                     	
-              System.err.println("***** "+ mapper.writeValueAsString(troop)
-                      .replaceAll("mailto:", "")
-                      .replaceAll("</a>\"</a>", "</a>")
-                      .replaceAll("\"</a>\"", ""));      	
-                    	
-                    out.println(mapper.writeValueAsString(troop)
+
+                    out.println(mapper.writeValueAsString(troop)         		
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
+                         
                     } catch (Exception ee) {
                         // error message in logs
+                        ee.printStackTrace();
                     }
                     
                     troop.getYearPlan().setMeetingEvents(TMP_meetings);

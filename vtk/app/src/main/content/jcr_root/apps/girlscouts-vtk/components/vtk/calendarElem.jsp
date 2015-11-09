@@ -32,7 +32,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 				<p><strong>Change Date:</strong></p>
 				<span>Select today's date or any future date</span>
 				<div id="datepicker"></div>
-				<!-- <input type="hidden" name="cngDate0" value="" id="cngDate0" /> -->
 				<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
 				<p><strong>Change Time:</strong></p>
 				<section class='row clearfix'>
@@ -134,13 +133,8 @@ $().ready(function() {
 $('#saveCalElem').click(function() {
 
 	if($('#cclRadio').prop('checked')){
-		   //var r = $("#meeting_select option:selected").val();
-		   //var isProceed = confirm("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
-  	   //if( isProceed == true ) {rmMeeting('<%=date.getTime()%>',r); }
-  	   
 		   fnOpenNormalDialog();
-	}
-	else if($("#cngRadio").prop("checked")){
+	}else if($("#cngRadio").prop("checked")){
 
 		if ($('#frmCalElem').valid()) {
 		
@@ -154,16 +148,9 @@ $('#saveCalElem').click(function() {
 
 	}
 	function timeDiff(){
-		//var date= document.getElementById("cngDate0").value;
 		return true;
-
 	}
 });
-
-//function timeDiff(){
-//	var date= document.getElementById("cngDate0").value;
-//	return true;
-//}
 
 if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
   $('select').css('background-image', 'none');

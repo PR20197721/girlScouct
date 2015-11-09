@@ -3,19 +3,15 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
-
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
 <%
 String activeTab = "milestones";
 boolean showVtkNav = true;
-
 int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
-%>
-<%
-  String sectionClassDefinition = "milestones";
+String sectionClassDefinition = "milestones";
 %>
 
 <%@include file="include/bodyTop.jsp" %>

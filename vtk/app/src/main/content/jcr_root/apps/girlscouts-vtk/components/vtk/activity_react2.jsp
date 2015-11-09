@@ -45,17 +45,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                  )
                  )
         <%}else{%>return React.createElement("span")<%} %>
-
-
-
-
-
-
           }
           });
-
-
-
           var Emails = React.createClass({displayName: "Emails Activity",
               render: function() {
                   if( activityHelper.permissions!=null && activityHelper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_ACT_ID%>')!=-1){
@@ -71,12 +62,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                   }
               }
             });
-
-
-
-
-
-
 
           var ViewEmailWithPermis = React.createClass({displayName: "ViewEmailWithPermis",
               render: function() {
@@ -279,14 +264,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               ),
               React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}})
             )
-
-
-
-,React.createElement(ActivityCommunication)
-
-
-)
-         // </div>
+			,React.createElement(ActivityCommunication)
+			)
           );
         }
       });

@@ -16,7 +16,6 @@
     if (apiConfig != null && !apiConfig.isFail()) {
 
 	    CouncilMapper mapper = sling.getService(CouncilMapper.class);
-	
 	    String branch = null;
 	    try {
 	        councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
@@ -33,16 +32,12 @@
 	
 	    // language
 	    branch += "/en/jcr:content";
-	    System.out.println("##branch = " + branch);
-	
 	    ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
 	    isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
 	    isHideMember = valueMap.get("hideMemberButton", "").equals("true");
-	
-	    
     }
     
- // Get URL for community page
+    // Get URL for community page
     ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
     if (configManager != null) {
         communityUrl = configManager.getConfig("communityUrl");

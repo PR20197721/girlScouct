@@ -21,15 +21,9 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
                 a:Date.now()
             },
             success: function(result) {
-            	//applyAids('<%=request.getParameter("aidId")%>', '<%=request.getParameter("aidName")%>', '<%=request.getParameter("aType")%>');
-           
-            	//-applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
-            	
             	applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
-            	
             }
         });
-        //applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
 }
 
 
@@ -97,7 +91,6 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
         <hr/>
     </div>
     <div class="small-4 medium-2 large-2 columns">
-       <!--   <a class="right" onclick="closeModalPage()" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a> -->
     </div>
 </div>
 <%
@@ -146,10 +139,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 <%
             } else if(!isActivity){
 %>
-
             <li><a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><%=displayName%></a></li>
-        
-
 <%
                         }
         }
@@ -157,10 +147,6 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
         </ul>
     </div>
 </div>
-
-
-
-
 <%
     }
 %>

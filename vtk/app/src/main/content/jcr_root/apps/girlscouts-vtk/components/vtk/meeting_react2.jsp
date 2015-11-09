@@ -571,6 +571,8 @@ React.createElement(ActivityPlan),
         console.log("loading..");
 
         this.dataWorker.getData();
+       
+        
       },
       forceReload: function() {
           this.dataWorker.getData(true);
@@ -586,7 +588,7 @@ React.createElement(ActivityPlan),
             });            
         }, 10000);
         this.dataWorker.start();
-        console.log(this.state.data) 
+        
       },
       checkLocalUpdate: function(){
           if( (isActivNew == 1) || (isActivNew == 2) )
@@ -595,7 +597,6 @@ React.createElement(ActivityPlan),
       render: function() {
           var x;
           var sched;
-console.log(this.state.data);
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
 
 
@@ -619,14 +620,8 @@ console.log(this.state.data);
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
 
-              x =  this.state.data.meetingEvents;//meetingCanceled;
+              x =  this.state.data.meetingEvents;
                   sched = this.state.data.schedule;
-
-                  /*
-                  if( this.state.data.locations!=null ){
-                      meetingLocation = this.state.data.locations[0];
-                  }
-                  */
                   locations= this.state.data.locations;
 
                   return (
