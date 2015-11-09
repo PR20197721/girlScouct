@@ -30,6 +30,7 @@
         <div class="right-col">
             <cq:include script="right.jsp"/>
         </div>
+    <cq:include script="cookie-footer.jsp"/>
     </div>
 </div>
 <!-- END of content -->
