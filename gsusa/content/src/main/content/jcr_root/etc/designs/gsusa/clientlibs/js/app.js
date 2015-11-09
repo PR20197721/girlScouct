@@ -580,9 +580,20 @@ if($.browser.msie && parseFloat($.browser.version)<10){
     cssEase: 'linear',
     centerMode: true,
     slidesToShow: 1,
+    centerPadding: '100px',
+    responsive: [
+     {
+       breakpoint: 480,
+       settings: {
+         arrows: false,
+         centerMode: true,
+         centerPadding: '30px',
+       }
+     }
+    ]
   });
 
-  fix_bottom_footer();
+  fix_bottom_footer();clearQueue(queueName);
   slide_search_bar();
   small_screens();
   show_hide_features();
