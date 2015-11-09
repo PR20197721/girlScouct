@@ -4,7 +4,7 @@
 	<%
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	%>
-<div id="locMsg"></div>
+    <div id="locMsg"></div>
 	<p>Select the <i class="icon-calendar"></i> to change the date, time, or cancel an individual meeting. Or select the <i class="icon-gear"></i> to use the planning wizard to reconfigure the calendar from that date forward.</p>
 	<table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">
 		<%

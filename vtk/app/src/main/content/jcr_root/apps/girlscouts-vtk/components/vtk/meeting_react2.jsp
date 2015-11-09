@@ -567,43 +567,35 @@ React.createElement(ActivityPlan),
 
 
     var CommentBox = React.createClass({displayName: "CommentBox",
-     loadCommentsFromServer: function( isFirst ) {
+      loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
 
         this.dataWorker.getData();
       },
-
       forceReload: function() {
           this.dataWorker.getData(true);
       },
-
       getInitialState: function() {
         return {data: []};
       },
-      componentDidMount: function() {
+      componentDidMount: function() {	  
+  	  
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
             this.setState({
                 data: data.yearPlan
-            });
+            });            
         }, 10000);
         this.dataWorker.start();
-        //this.loadCommentsFromServer(1);
-        //setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        //setInterval( this.checkLocalUpdate, 1000);
-
-
+        console.log(this.state.data) 
       },
       checkLocalUpdate: function(){
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-
-
-
           var x;
           var sched;
-
+console.log(this.state.data);
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
 
 

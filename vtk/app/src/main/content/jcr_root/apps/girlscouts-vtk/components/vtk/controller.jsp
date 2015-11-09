@@ -762,6 +762,12 @@
 
                     ObjectMapper mapper = new ObjectMapper();
                     try {
+                    	
+              System.err.println("***** "+ mapper.writeValueAsString(troop)
+                      .replaceAll("mailto:", "")
+                      .replaceAll("</a>\"</a>", "</a>")
+                      .replaceAll("\"</a>\"", ""));      	
+                    	
                     out.println(mapper.writeValueAsString(troop)
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")

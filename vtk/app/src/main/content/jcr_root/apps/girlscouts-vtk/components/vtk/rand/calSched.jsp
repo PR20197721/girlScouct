@@ -44,14 +44,6 @@
 		<ul class="doubleList">
 		<%
 		UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
-		
-
-		//out.println("VacationDates: "+ ubConf.getVacationDates() );
-		
-		/*** SAVE API
-			ubConf.setVacationDates("|09/07/2014|10/12/2014|");
-			userDAO.updateUserGlobConfig();
-			*/
 		%>
 			<li><label><input type="checkbox" name="exclDt" value="09/07/2014" <%=("".equals(exlDates) || exlDates.contains("09/07/2014")) ? "CHECKED" : ""  %>/>09/07/2014 (Labor Day)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="10/12/2014" <%=("".equals(exlDates) || exlDates.contains("10/12/2014")) ? "CHECKED" : ""  %>/>10/12/2014 (Columbus Day)</label></li>
@@ -63,7 +55,6 @@
 			<li><label><input type="checkbox" name="exclDt" value="02/16/2015" <%=("".equals(exlDates) || exlDates.contains("02/16/2015")) ? "CHECKED" : ""  %>/>02/16/2015 (Washington's Birthday)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="05/25/2015" <%=("".equals(exlDates) || exlDates.contains("02/25/2015")) ? "CHECKED" : ""  %>/>05/25/2015 (Memorial Day)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="07/04/2015" <%=("".equals(exlDates) || exlDates.contains("07/04/2015")) ? "CHECKED" : ""  %>/>07/04/2015 (Independence Day)</label></li>
-		
 		</ul>
 		<div class="linkButtonWrapper">
 			<input type="button" value="create calendar" onclick="buildSched()" class="button linkButton"/>
