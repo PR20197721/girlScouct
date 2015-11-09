@@ -4,7 +4,7 @@
 <%@include file="include/session.jsp"%>
 <div id="error-message"></div>
 <%
-String sectionClassDefinition="";
+  String sectionClassDefinition="";
   String activeTab = "myTroop";
   boolean showVtkNav = true;
 %>

@@ -32,6 +32,16 @@
                         name="./title"
                         value="Find Your Local Council"
                         xtype="textfield"/>
+                    <mainTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Main Title"
+                        name="./mainTitle"
+                        xtype="textfield"/>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Text"
+                        name="./text"
+                        xtype="textarea"/>
                 </items>
             </tab1>
             <background-image

@@ -32,6 +32,15 @@
 
 <%  String title = properties.get("title", "Donate");
 	int maxWidth = properties.get("maxWidth", 210);
+	Boolean zip = (properties.get("zip", "Yes")).equals("Yes");
+	String href = properties.get("href", "");
+	if(!href.startsWith("http://") && !href.startsWith("https://")){
+		href = "http://" + href;
+ 	}
+
+	if(!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
+		%>****** If you do not use the zip code option, you must enter a URL *******<%
+	}else if(zip || !href.isEmpty()){
 
 	String bg = "";
 	try {
@@ -46,21 +55,30 @@
 	    <cq:include path="bg" resourceType="gsusa/components/image"/></div>
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 	    <div class="button-wrap">
-			<a class="button"><%= title %></a>
+	    	<% if(zip){ %>
+			<a class="button form"><%= title %></a>
 				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
-					<input type="submit" class="button">GO</button>
+					<button type="submit" class="button">GO</button>
 				</form>
+				<% }else{ %>
+				<a class="button" href="<%= href %>" target="_blank"><%= title %></a>
+				<% } %>
 		</div>
 	</div> <%
 	} else { %>
 		<div class="standalone-donate form-no-image donate-block">
-	    <a class="button"><%= title %></a>
+		<% if(zip){ %>
+	    <a class="button form"><%= title %></a>
 			<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
 	            <!-- <label for="zipcode">Enter Zip Code: </label> -->
 	            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 				<button type="submit" class="button">GO</button>
 			</form>
+			<% }else{ %>
+				<a class="button" href="<%= href %>" target="_blank"><%= title %></a>
+			<% } %>
 		</div>
-	<%}%>
+	<%}
+	}%>
