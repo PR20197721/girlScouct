@@ -135,7 +135,7 @@ if(theme.equals("classic")) {
 				            <input type="hidden" name="source" value="homepage">
 							<button type="submit" class="fa fa-play-circle"></button>
 						</form>
-						<a  id="tag_tile_button_local" class="button" style="background-color: <%= bgcolorClassic %>">Support Your Local Girl Scouts Council</a>
+						<a  id="tag_tile_button_local" class="button" style="background-color: <%= bgcolorClassic %>">Support Your Local Girl Scout Council</a>
 					<%}%>
 				</div>
 			</div>

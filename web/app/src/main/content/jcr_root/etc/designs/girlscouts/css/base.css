@@ -1510,3 +1510,6 @@ padding: 40px 0px 40px 0;
 	cursort: hand;
 }
 
+div.textimage div.image {
+	max-width: 100%;
+}

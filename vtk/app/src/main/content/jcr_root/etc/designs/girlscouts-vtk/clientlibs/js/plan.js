@@ -1012,7 +1012,7 @@ function councilRpt(troopId, cid){
 	  isLoggedIn=false;
   }
   
-  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; checkIsLoggedIn()}
+  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; }
   function 	checkIsLoggedIn(){  
 	  if( document.getElementById("myframe")==null){return;}
 	  console.log("checking isLoggedin..."+ isLoggedIn);
