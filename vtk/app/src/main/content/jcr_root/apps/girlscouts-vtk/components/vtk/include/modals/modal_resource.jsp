@@ -70,7 +70,7 @@ Page resourceContent;
     StringWriter sw = new StringWriter();
   	e.printStackTrace(new PrintWriter(sw));
   	String stackTrace = sw.toString();
-        out.println(stackTrace);
+    out.println(stackTrace);
     }
 }
 %>

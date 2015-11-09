@@ -28,16 +28,10 @@ request.setAttribute("meetings", meetings);
       dropOnEmpty: true,
       helper: 'clone',
       start : function(event, ui) {
-    	  //var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
-    	  //console.log("New rpt: "+sortedIDs); 
       },
       activate: function(e,ui){
-        // console.log($('#sortable1').height());
     	  var min_height = $('#sortable1').height()-71;
-          $("#sortable2").css('min-height', min_height);
-         //console.log($("#sortable1").height() );
-    	 // $("#sortable1, #sortable2").css('minHeight', $("#sortable1").height() + "px");
-    	  
+          $("#sortable2").css('min-height', min_height);   	  
       }
     }).disableSelection();
   });
@@ -66,17 +60,6 @@ request.setAttribute("meetings", meetings);
   	  location.reload();
     });
   }
- /* 
-  $(document).ready(function(){
-	
-      var min_height = $('#sortable1').height()-71;
-      $("#sortable2").css('min-height', min_height);
-      alert(1);  
-  }
-  */
-  
-  
- 
   </script>
 
 

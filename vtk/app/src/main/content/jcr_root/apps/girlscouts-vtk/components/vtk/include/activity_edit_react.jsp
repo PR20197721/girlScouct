@@ -25,9 +25,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
     jQuery(function($){
         
         $("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
-        
         $('#newCustActivity_date').datepicker({minDate: 0});
-        
         $("#newCustActivity_startTime").inputmask("h:s", {});
         $("#newCustActivity_endTime").inputmask("h:s", {});
         $("#newCustActivity_cost").maskMoney({thousands:''});
@@ -69,8 +67,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
                     required:true,
                     minlength:8,
                     date:true
-                }
-                
+                }       
             },
             messages: {
                 newCustActivity_name: {
@@ -95,8 +92,6 @@ Activity activity = (Activity)planView.getYearPlanComponent();
                 }
             }
         });
-
-     
     });
 
     function saveActivity(){
@@ -104,18 +99,13 @@ Activity activity = (Activity)planView.getYearPlanComponent();
             if(!timeDiff()){ return false;}
             editNewCustActivity('<%=activity.getUid()%>');
             if( isTimeCng ){
-
-    self.location="/content/girlscouts-vtk/en/vtk.html";
-
-    } else {
-
-        $('#modal_popup_activity').foundation('reveal', 'close');
-
-    }
-        }
-        else {
-          alert("The form has one or more errors.  Please update the form and try again.");
-        }
+                 self.location="/content/girlscouts-vtk/en/vtk.html";
+		    } else {
+		        $('#modal_popup_activity').foundation('reveal', 'close');
+		    }
+	        }else {
+	          alert("The form has one or more errors.  Please update the form and try again.");
+	        }
         }
         
     $('#newCustActivity1').click(function() {
@@ -163,10 +153,10 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 
     var isTimeCng= false;
 
-function cngTimeFlag(){
-
-        isTimeCng= true;
-}
+	function cngTimeFlag(){
+	
+	        isTimeCng= true;
+	}
 </script>
 
 <div> <!--   id="editCustActiv"  class="reveal-modal" data-reveal -->

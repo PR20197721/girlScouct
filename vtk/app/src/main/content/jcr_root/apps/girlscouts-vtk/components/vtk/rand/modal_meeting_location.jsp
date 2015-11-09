@@ -10,9 +10,7 @@
         <dd><a href="#panel2">manage location</a></dd>
         <dd><a href="#panel3">manage activity</a></dd>
       </dl>
-
-      <div className="tabs-content">
-        
+      <div className="tabs-content">    
         <div className="content clearfix active row" id="panel1">
           <form className="clearfix">
             <section className="clearfix">
