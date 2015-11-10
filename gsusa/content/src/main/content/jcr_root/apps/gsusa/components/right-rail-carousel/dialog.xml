@@ -11,17 +11,23 @@
                 jcr:primaryType="cq:Panel"
                 title="Content">
                 <items jcr:primaryType="cq:WidgetCollection">
-                	<carousel
+                	<dynamiccarousel
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Dynamic Carousel"
                         fieldSubLabel="If this is turned off. Only the first image will be shown."
-                        name="./carousel"
-                        xtype="checkbox"/>
+                        name="./dynamiccarousel"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <carouseltitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Carousel Title"
+                        name="./carouselTitle"
+                        xtype="textfield"/>
                     <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
                         hideLabel="{Boolean}true"
-                        name="./navs"
+                        name="./carouselList"
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
