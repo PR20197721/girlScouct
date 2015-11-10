@@ -42,6 +42,11 @@ if (zip == null || zip.isEmpty()) {
     List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage + 1);
     Council council = boothFinder.getCouncil(zip);
     String preferredPath = council.preferredPath;
+
+    // TODO: for debugging paths. Remove before push live.
+    // Uncomment the following two lines to test other paths. Modify preferredPath variable to the path you wanna test.
+    //booths = new java.util.ArrayList<BoothBasic>();
+    //preferredPath = "Path1";
     
     request.setAttribute("gsusa_council_info", council);
     if (!booths.isEmpty()) {
