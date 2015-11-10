@@ -54,12 +54,10 @@ if (null==searchIn){
 }
 
 // pbae: adding ~ to enable stemming search
-final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "") + "~";
-final String escapedQueryPlain = xssAPI.encodeForHTML(q != null ? q : "");
+final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
 pageContext.setAttribute("escapedQuery", escapedQuery);
-pageContext.setAttribute("escapedQueryPlain", escapedQueryPlain);
 pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
 
 String theseDamDocuments = properties.get("docusrchpath","");
@@ -103,7 +101,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     </fmt:message>
 <% } else { %>
     <p><strong>
-        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQueryPlain}"
+        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQuery}"
     </strong></p>
     <ul class="search-row">
 <%
