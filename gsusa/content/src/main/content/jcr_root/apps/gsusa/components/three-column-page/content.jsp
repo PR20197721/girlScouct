@@ -46,5 +46,6 @@
         </div>
     <cq:include script="cookie-footer.jsp"/>
     </div>
+    <cq:include path="content/bottom/par" resourceType="girlscouts/components/styled-parsys" />
 </div>
 <!-- END of content -->
