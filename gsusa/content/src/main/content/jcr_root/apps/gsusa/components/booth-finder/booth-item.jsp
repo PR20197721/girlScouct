@@ -21,6 +21,7 @@ if (booth != null) {
     </div>
     <div>
         <div><%= booth.distance %> Miles</div>
+        <div>VIEW MAP >></div>
     </div>
 <% 
 }

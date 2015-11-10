@@ -73,6 +73,7 @@ boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
 for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
 	request.setAttribute("gsusa-booth-list-item", booths.get(i));
 	%><cq:include script="booth-item.jsp"/><%
+	request.removeAttribute("gsusa-booth-list-item");
 	
     if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
         %><cq:include script="contact-banner.jsp"/><%
