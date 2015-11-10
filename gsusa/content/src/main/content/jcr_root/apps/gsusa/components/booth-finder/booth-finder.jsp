@@ -2,12 +2,25 @@
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
                 java.util.List,
-                org.apache.sling.api.SlingHttpServletRequest" %>
+                java.util.regex.Pattern,
+                org.apache.sling.api.SlingHttpServletRequest,
+                org.apache.sling.api.request.RequestPathInfo" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 
 <%
 String zip = getDefault("zip", "", slingRequest);
+RequestPathInfo requestPathInfo = slingRequest.getRequestPathInfo();
+String[] selectors = requestPathInfo.getSelectors();
+// Check if any selector is a zip. If so, it takes over the zip parameter.
+Pattern zipPattern = Pattern.compile("^\\d{5}$");
+for (String selector : selectors) {
+    if (zipPattern.matcher(selector).matches()) {
+    	zip = selector;
+    	break;
+    }
+}
+
 if (zip == null || zip.isEmpty()) {
     %><cq:include script="zip-required.jsp" /><%
 } else {
