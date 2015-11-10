@@ -11,6 +11,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Content">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<carousel
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Dynamic Carousel"
+                        fieldSubLabel="If this is turned off. Only the first image will be shown."
+                        name="./carousel"
+                        xtype="checkbox"/>
                     <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
@@ -27,55 +33,19 @@
                 jcr:primaryType="cq:Panel"
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <ColNum
+                    <autoScroll
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Number Of Columns"
-                        fieldSubLabel="Please enter a number between 1-3"
-                        name="./colNum"
-                        allowDecimals="{Boolean}false"
-                        maxValue="3"
-                        minValue="1"
-                        xtype="numberfield"/>
-                    <radiogp
+                        fieldLabel="Auto Scroll"
+                        name="./autoscroll"
+                        xtype="checkbox"/>
+                    <timedelay
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Select a source"
-                        name="./source"
-                        type="radiogroup"
-                        xtype="selection">
-                        <options jcr:primaryType="cq:WidgetCollection">
-                            <option1
-                                jcr:primaryType="nt:unstructured"
-                                text="Directory"
-                                value="dir"/>
-                            <option2
-                                jcr:primaryType="nt:unstructured"
-                                text="Individual stories manually"
-                                value="manual"/>
-                        </options>
-                        <listeners
-                            jcr:primaryType="nt:unstructured"
-                            selectionchanged="function(me, val, isChecked) {&#xa;    var panel = me.findParentByType(&quot;panel&quot;); &#xa;    var pathField = panel.getComponent(&quot;pathField&quot;); &#xa;&#x9;var storyPathField = panel.getComponent(&quot;storyPathField&quot;);&#xa;&#xa;    if (val === 'dir') {&#xa;       pathField.show();&#xa;&#x9;   storyPathField.hide();&#xa;   } else {&#xa;       pathField.hide();&#xa;&#x9;   storyPathField.show();&#xa;   }&#xa;}"/>
-                    </radiogp>
-                    <path
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Directory Path"
-                        fieldSubLabel="Please choose a directory"
-                        hidden="true"
-                        itemId="pathField"
-                        name="./path"
-                        rootPath="/content/gsusa/en"
-                        xtype="pathfield"/>
-                    <storyPath
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Our Stories Path"
-                        itemId="storyPathField"
-                        name="./storypath"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            rootPath="/content/gsusa/en"
-                            xtype="pathfield"/>
-                    </storyPath>
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="timedelay"
+                        xtype="numberfield">
+                    </timedelay>
+                   
+                    
                 </items>
             </tab2>
         </items>
