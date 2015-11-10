@@ -1,9 +1,7 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
-                java.util.List,
-                java.text.DateFormat,
-                java.text.SimpleDateFormat" %>
+                java.util.List" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
@@ -73,24 +71,9 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 int count = 0;
 boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
 for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
-    BoothBasic booth = booths.get(i);
-    DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
-    DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
-    String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
-%>
-    <div>
-        <div><%= booth.location %></div>
-        <div><%= booth.address1 %></div>
-        <div><%= booth.address2 %></div>
-    </div>    
-    <div>
-        <div><%= startDate %></div>
-        <div><%= booth.timeOpen %>-<%= booth.timeClose %></div>
-    </div>
-    <div>
-        <div><%= booth.distance %> Miles</div>
-    </div>
-<% 
+	request.setAttribute("gsusa-booth-list-item", booths.get(i));
+	%><cq:include script="booth-item.jsp"/><%
+	
     if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
         %><cq:include script="contact-banner.jsp"/><%
     }
