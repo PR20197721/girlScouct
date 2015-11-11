@@ -23,6 +23,11 @@
                         fieldLabel="Carousel Title"
                         name="./carouselTitle"
                         xtype="textfield"/>
+                    <carouselsubtitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Carousel Sub-Title"
+                        name="./carouselSubTitle"
+                        xtype="textfield"/>
                     <multi
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Links"
@@ -33,6 +38,16 @@
                             jcr:primaryType="nt:unstructured"
                             xtype="rightrailcarouselwidget"/>
                     </multi>
+                    <calltoactionname
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Call To Action Name"
+                        name="./calltoactionname"
+                        xtype="textfield"/>
+                    <calltoactionlink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Call To Action Link"
+                        name="./calltoactionlink"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
             <tab2
