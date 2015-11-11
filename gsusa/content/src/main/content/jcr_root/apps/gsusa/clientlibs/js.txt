@@ -7,3 +7,4 @@ shop-tile-widget.js
 toggleparsys.js
 icon-picker.js
 social-media-widget-with-name.js
+meet-the-cookies-widget.js

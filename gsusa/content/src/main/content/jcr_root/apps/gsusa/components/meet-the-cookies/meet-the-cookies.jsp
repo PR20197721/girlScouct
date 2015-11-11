@@ -1,5 +1,9 @@
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
+if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+    %><cq:includeClientLib categories="apps.gsusa.authoring" /><%
+}
 %>
 <div id="meet-cookie-layout">
     <div>
