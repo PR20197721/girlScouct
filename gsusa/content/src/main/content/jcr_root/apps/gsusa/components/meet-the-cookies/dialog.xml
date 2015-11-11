@@ -12,6 +12,7 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <cookies
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="Use &amp;trade; for the trademark sign. Use &amp;reg; for the registered trademark sign."
                         fieldLabel="Cookies"
                         name="./cookies"
                         xtype="multifield">
