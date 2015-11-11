@@ -8,3 +8,4 @@ shop-tile-widget.js
 icon-picker.js
 social-media-widget-with-name.js
 accordion-field.js
+meet-the-cookies-widget.js
