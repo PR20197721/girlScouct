@@ -81,7 +81,7 @@ function vtk_accordion() {
         $(this).parent().addClass('on');
       }
       if(window[ parsysID ] != null){
-    	   window[ parsysID ].showParsys();
+    	   window[ parsysID ].toggle();
        }
       return false;
     });
