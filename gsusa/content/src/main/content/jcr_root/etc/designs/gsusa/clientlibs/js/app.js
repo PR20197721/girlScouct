@@ -597,9 +597,10 @@
     $('.shop-carousel').slick({
       dots: false,
       speed: 500,
-      autoplay: false,
+      autoplay: (typeof shopautoscroll !== 'undefined') ? shopautoscroll : false,
       arrows: true,
       slidesToShow: 1,
+      autoplaySpeed: (typeof shoptimedelay !== 'undefined') ? shoptimedelay : 2000,
       slidesToScroll: 1,
       // responsive: [{
       //   breakpoint: 768,

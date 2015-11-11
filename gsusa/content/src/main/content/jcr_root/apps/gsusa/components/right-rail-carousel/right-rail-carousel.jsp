@@ -18,7 +18,7 @@
 final String[] carouselList = properties.get("carouselList", String[].class);
 final boolean isCarousel = properties.get("dynamiccarousel", false);
 final String carouselTitle = properties.get("carouselTitle", "Default Title");
-final int delaytime = properties.get("timedelay", 2000);
+final int timedelay = properties.get("timedelay", 2000);
 final boolean autoscroll = properties.get("autoscroll", false);
 
 int numberOfImages= 0;
@@ -30,6 +30,11 @@ if (carouselList != null) {
 		numberOfImages = 1; //only show the first image if the user uncheck this option
 	}
 %>
+<script>
+	shoptimedelay = <%= timedelay %>;
+	shopautoscroll = <%= autoscroll %>;
+</script>
+
 
 <div class="rotator">
   <h5> <%= carouselTitle %></h5>
@@ -52,8 +57,6 @@ if (carouselList != null) {
 			}
 			%><div><a href="<%= link %>" <%= target %>><img src="<%= imagePath %>" alt=""/></a><p><%=label %></p></div><%
 		}
-	
-	//closing div
 	%>
   </div>
 </div>
