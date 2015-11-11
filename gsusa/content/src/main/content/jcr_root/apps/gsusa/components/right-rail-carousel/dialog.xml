@@ -48,7 +48,7 @@
                     <timedelay
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Time Delay of the carousel (in ms)"
-                        name="timedelay"
+                        name="./timedelay"
                         allowNegative="{Boolean}false"
                         allowDecimals="{Boolean}false"
                         maxValue="10000"
