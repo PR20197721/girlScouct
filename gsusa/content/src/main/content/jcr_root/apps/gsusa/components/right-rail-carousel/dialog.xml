@@ -43,7 +43,8 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Auto Scroll"
                         name="./autoscroll"
-                        xtype="checkbox"/>
+                        type="checkbox"
+                		xtype="selection"/>
                     <timedelay
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Time Delay of the carousel (in ms)"

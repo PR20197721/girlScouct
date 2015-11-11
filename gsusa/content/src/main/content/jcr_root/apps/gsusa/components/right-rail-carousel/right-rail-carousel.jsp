@@ -18,15 +18,24 @@
 final String[] carouselList = properties.get("carouselList", String[].class);
 final boolean isCarousel = properties.get("dynamiccarousel", false);
 final String carouselTitle = properties.get("carouselTitle", "Default Title");
+final int delaytime = properties.get("timedelay", 2000);
+final boolean autoscroll = properties.get("autoscroll", false);
 
-if (isCarousel) {
-	%>
+int numberOfImages= 0;
+
+if (carouselList != null) {
+	if (isCarousel) {
+		numberOfImages = carouselList.length;
+	} else {
+		numberOfImages = 1; //only show the first image if the user uncheck this option
+	}
+%>
+
 <div class="rotator">
   <h5> <%= carouselTitle %></h5>
   <div class="shop-carousel">
 	<%
-	if (carouselList != null) {
-		for (int i = 0; i < carouselList.length; i++) {
+		for (int i = 0; i < numberOfImages; i++) {
 			String[] split = carouselList[i].split("\\|\\|\\|");
 			String label = split.length >= 1 ? split[0] : "";
 			String link = split.length >= 2 ? split[1] : "";
@@ -41,42 +50,16 @@ if (isCarousel) {
 			if (openInNewWindow) {
 				target = "target=\"_blank\"";
 			}
-			%><div><a href="<%= linkPage %>"><img src="<%= imagePath %>" alt=""/></a><p><%=label %></p></div><%
+			%><div><a href="<%= link %>" <%= target %>><img src="<%= imagePath %>" alt=""/></a><p><%=label %></p></div><%
 		}
-	}
+	
 	//closing div
 	%>
   </div>
 </div>
 <%
-} else {
-	%>
-<div class="rotator">
-   	<h5>Get Supper-Fun Girl Scout Stuff</h5>
-           <div class="shop-carousel">
-             <div><img src="/etc/designs/gsusa/images/test-tmp.png" alt=""/><p>Cookie Charm Bracelet</p></div>
-             <div><img src="/etc/designs/gsusa/images/test-tmp.png" alt=""/><p>Some Other product</p></div>
-             <div><img src="/etc/designs/gsusa/images/test-tmp.png" alt=""/><p>Badges</p></div>
-           </div>
-       <a class="button arrow" href="http://www.girlscoutshop.com" title="shop now">Shop Now</a>
-</div>
-	<% 
-}
-
-
-%>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-<%
+} else {%>
+<p>Please right click here to edit this right rail carousel.</p>
+<% }
 %>
 
