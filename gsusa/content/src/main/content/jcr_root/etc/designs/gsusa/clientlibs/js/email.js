@@ -24,7 +24,7 @@ $('#emailSignupNav').submit(function (event){
 	var emailAddress = $(me).find("[name='email']").val();
 	var zipcode = $(me).find("[name='zipcode']").val();
 	var alumna = $(me).find("[name='alumna']").val();
-	var error = $('.error hide');
+	var error = $('.error.hide');
 	$.get('/program/gs_cookies/newsletteradd.asp?email=' + emailAddress + '&alumna=' + alumna + '&zipcode=' + zipcode, function(result){
 		if(txt.search(/OK/i) == -1) {
 			error.show();
