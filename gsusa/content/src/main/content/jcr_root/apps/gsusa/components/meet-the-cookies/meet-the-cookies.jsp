@@ -8,20 +8,30 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 
 String[] cookies = properties.get("cookies", String[].class);
 if (cookies != null && cookies.length != 0) {
-	%><div id="meet-cookie-layout"><%
-	for (String cookie : cookies) {
+    %><div id="meet-cookie-layout"><%
+    for (String cookie : cookies) {
+        String[] infos = cookie.split("\\|\\|\\|");
+        String title = "", image = "", description = "", buttonTitle = "", buttonLink = "";
+        try {
+        	title = infos[0];
+        	image = infos[1];
+        	description = infos[2];
+        	buttonTitle = infos[3];
+        	buttonLink = infos[4];
+        } catch (Exception e) {}
 %>
         <div>
-            <img src="/etc/designs/gsusa/images/thin_mint.png" alt="" />
+            <img src="<%= image %>" alt="" />
             <div class="wrapper">
-                <h4><%= cookie %></h4>
+                <h4><%= title %></h4>
                 <section>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna</p>
+                    <%= description %>
+                    <a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a>
                 </section>
             </div>
         </div>
 <%
-	}
+    }
     %></div><%
 }
 %>
