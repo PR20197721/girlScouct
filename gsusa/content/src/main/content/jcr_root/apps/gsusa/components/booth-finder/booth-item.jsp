@@ -10,19 +10,24 @@ if (booth != null) {
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
     String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
 %>
-    <div>
-        <div><%= booth.location %></div>
-        <div><%= booth.address1 %></div>
-        <div><%= booth.address2 %></div>
-    </div>    
-    <div>
-        <div><%= startDate %></div>
-        <div><%= booth.timeOpen %>-<%= booth.timeClose %></div>
+<div class="row details">
+    <div class="detail clearfix">
+        <section>
+            <p><%= booth.location %></p>
+            <p><%= booth.address1 %></p>
+            <p><%= booth.address2 %></p>
+        </section>
+        <section>
+            <p><%= startDate %></p>
+            <p><%= booth.timeOpen %> - <%= booth.timeClose %></p>
+        </section>
+        <section>
+            <p><%= booth.distance %> Miles</p>
+        </section>
     </div>
-    <div>
-        <div><%= booth.distance %> Miles</div>
-        <div>VIEW MAP >></div>
-    </div>
-<% 
+    <div class="clearfix right"><a href=""class="button">view details</a></div>
+</div>
+
+<%
 }
 %>

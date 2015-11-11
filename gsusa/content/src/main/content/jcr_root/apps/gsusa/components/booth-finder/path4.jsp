@@ -4,7 +4,7 @@
 <%
 Council council = (Council)request.getAttribute("gsusa_council_info");
 %>
-<div>
+<p>
 The cookie sale has ended for the <strong><%= council.name %></strong>.
 Check out cookie related merchandise in the Girl Scout online shop.
-</div>
+</p>

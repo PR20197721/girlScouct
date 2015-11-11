@@ -13,7 +13,7 @@ String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
 int pageNum = (Integer)request.getAttribute("gsusa_booth_list_pagenum");
 int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
-int showContactBannerPer = properties.get("showContactBannerPer", 25); 
+int showContactBannerPer = properties.get("showContactBannerPer", 25);
 
 String nearestDistance = "";
 if ("distance".equals(sortBy) && !booths.isEmpty()) {
@@ -33,63 +33,84 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 }
 %>
 
-<div>Booth Locations near you:</div>
-<div>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</div>
-<form>
-    <div>Radius:</div>
-    <input type="hidden" name="zip" value="<%=zip%>"></input>
-    <select name="radius">
-        <option value="1" <%= "1".equals(radius) ? "selected" : "" %>>1 miles</option>
-        <option value="5" <%= "5".equals(radius) ? "selected" : "" %>>5 miles</option>
-        <option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
-        <option value="15" <%= "15".equals(radius) ? "selected" : "" %>>15 miles</option>
-        <option value="25" <%= "25".equals(radius) ? "selected" : "" %>>25 miles</option>
-        <option value="50" <%= "50".equals(radius) ? "selected" : "" %>>50 miles</option>
-        <option value="100" <%= "100".equals(radius) ? "selected" : "" %>>100 miles</option>
-        <option value="250" <%= "250".equals(radius) ? "selected" : "" %>>250 miles</option>
-        <option value="500" <%= "500".equals(radius) ? "selected" : "" %>>500 miles</option>
-    </select>
-    <div>Date:</div>
-    <select name="date">
-        <option value="7" <%= "7".equals(date) ? "selected" : "" %>>1 week</option>
-        <option value="14" <%= "14".equals(date) ? "selected" : "" %>>2 weeks</option>
-        <option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
-        <option value="60" <%= "60".equals(date) ? "selected" : "" %>>2 months</option>
-        <option value="90" <%= "90".equals(date) ? "selected" : "" %>>3 months</option>
-        <option value="all" <%= "all".equals(date) ? "selected" : "" %>>all</option>
-    </select>
-    <div>Sort by:</div>
-    <select name="sortBy">
-        <option value="distance" <%= "distance".equals(date) ? "selected" : "" %>>distance</option>
-        <option value="date" <%= "date".equals(date) ? "selected" : "" %>>date</option>
-    </select>
-    <div>
+<h4>Booth Locations near you:</h4>
+<p>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</p>
+<form class="sort-form">
+    <section>
+        <label>Radius:</label>
+        <input type="hidden" name="zip" value="<%=zip%>"></input>
+        <select name="radius">
+            <option value="1" <%= "1".equals(radius) ? "selected" : "" %>>1 miles</option>
+            <option value="5" <%= "5".equals(radius) ? "selected" : "" %>>5 miles</option>
+            <option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
+            <option value="15" <%= "15".equals(radius) ? "selected" : "" %>>15 miles</option>
+            <option value="25" <%= "25".equals(radius) ? "selected" : "" %>>25 miles</option>
+            <option value="50" <%= "50".equals(radius) ? "selected" : "" %>>50 miles</option>
+            <option value="100" <%= "100".equals(radius) ? "selected" : "" %>>100 miles</option>
+            <option value="250" <%= "250".equals(radius) ? "selected" : "" %>>250 miles</option>
+            <option value="500" <%= "500".equals(radius) ? "selected" : "" %>>500 miles</option>
+        </select>
+    </section>
+    <section>
+        <label>Date:</label>
+        <select name="date">
+            <option value="7" <%= "7".equals(date) ? "selected" : "" %>>1 week</option>
+            <option value="14" <%= "14".equals(date) ? "selected" : "" %>>2 weeks</option>
+            <option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
+            <option value="60" <%= "60".equals(date) ? "selected" : "" %>>2 months</option>
+            <option value="90" <%= "90".equals(date) ? "selected" : "" %>>3 months</option>
+            <option value="all" <%= "all".equals(date) ? "selected" : "" %>>all</option>
+        </select>
+    </section>
+    <section>
+        <label>Sort by:</label>
+        <select name="sortBy">
+            <option value="distance" <%= "distance".equals(date) ? "selected" : "" %>>distance</option>
+            <option value="date" <%= "date".equals(date) ? "selected" : "" %>>date</option>
+        </select>
+    </section>
+
+<!--     <div>
         <input type="submit"></input>
-    </div>
+    </div> -->
 </form>
-<% 
+<div class="row headers">
+  <section>
+        <h4>Location</h4>
+  </section>
+  <section>
+        <h4>Date</h4>
+  </section>
+  <section>
+        <h4>Distance</h4>
+  </section>
+</div>
+<%
 int count = 0;
 boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
 for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
 	request.setAttribute("gsusa-booth-list-item", booths.get(i));
 	%><cq:include script="booth-item.jsp"/><%
 	request.removeAttribute("gsusa-booth-list-item");
-	
-    if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
+
+    /* if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
         %><cq:include script="contact-banner.jsp"/><%
     }
-    count = (count + 1) % showContactBannerPer;
-} 
+    count = (count + 1) % showContactBannerPer;*/
+} %>
 
-String baseLink = "?zip=" + zip + "&radius=" + radius + 
-                  "&date" + date + "&sortBy=" + sortBy + "&numPerPage=" + numPerPage;
-if (pageNum != 0) {
-    String prevLink = baseLink + "&page=" + Integer.toString(pageNum - 1);
-    %><a href="<%= prevLink %>">Prev</a><%
-}
-// If there are more booths, display next link.
-if (booths.size() > numPerPage) {
-    String nextLink = baseLink + "&page=" + Integer.toString(pageNum + 1);
-    %><a href="<%= nextLink %>">Next</a><%
-}
-%>
+<div class="row show-more">
+    <%
+    String baseLink = "?zip=" + zip + "&radius=" + radius +
+                      "&date" + date + "&sortBy=" + sortBy + "&numPerPage=" + numPerPage;
+    if (pageNum != 0) {
+        String prevLink = baseLink + "&page=" + Integer.toString(pageNum - 1);
+        %><a href="<%= prevLink %>">Prev</a><%
+    }
+    // If there are more booths, display next link.
+    if (booths.size() > numPerPage) {
+        String nextLink = baseLink + "&page=" + Integer.toString(pageNum + 1);
+        %><a href="<%= nextLink %>">Next</a><%
+    }
+    %>
+</div>

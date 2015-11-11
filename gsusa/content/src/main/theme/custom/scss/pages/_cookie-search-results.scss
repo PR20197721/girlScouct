@@ -1,0 +1,54 @@
+.booth-finder {
+  >h4 {
+    margin: 0;
+    line-height: 1;
+  }
+  p {
+    font-size: rem-calc(14);
+  }
+  .sort-form {
+    section {
+      @media #{$medium-up} {
+        @include grid-column(8, $collapse: true);
+      }
+    }
+    label {
+      display: inline;
+      font-size: rem-calc(14);
+    }
+    select {
+      margin: 0 0 1rem 0;
+      display: inline;
+      width: 65%;
+      font-size: rem-calc(14);
+      height: auto;
+      padding:rem-calc(4 5);
+    }
+  }
+  .row.headers,
+  .detail {
+    @media #{$medium-up} {
+      section:nth-of-type(1) {
+        @include grid-column(8, $collapse: true);
+      }
+      section:nth-of-type(2) {
+        @include grid-column(7, $collapse: true);
+      }
+      section:nth-of-type(3) {
+        @include grid-column(5, $collapse: true, $push: 4);
+      }
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+  .row.details {
+    border-bottom: solid 1px #e1e1e1;
+    padding-bottom: rem-calc(15);
+    margin-bottom: rem-calc(15);
+    .button {
+      margin: 0;
+      padding: rem-calc(5 10);
+    }
+  }
+}
