@@ -38,7 +38,7 @@
   }
 }
 .hero-section {
-  @include grid-column(24, $collapse:true);
+  @include grid-column(24, $collapse:true, $float:none);
 }
 .one-cols {
   .middle-col {
@@ -48,6 +48,11 @@
 @media #{$small-only} {
   .left-col {
     display: none;
+  }
+  .three-cols .right-col,
+  .three-cols .middle-col,
+  .two-cols .middle-col {
+    float: none;
   }
 }
 .curriculum-filter {

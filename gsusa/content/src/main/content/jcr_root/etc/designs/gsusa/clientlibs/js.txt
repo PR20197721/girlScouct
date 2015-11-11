@@ -15,5 +15,6 @@ council-finder.js
 retina.js
 spin.js
 cqformfix.js
+brick-by-brick.js
 
 app.js

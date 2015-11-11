@@ -8,13 +8,13 @@ if (!Date.now) {
 function toggleParsys(s)
 {
     var componentPath = s;
-    
+
     this.toggle = function()
     {
     	if (componentPath)
         {
     		var parsysComp = CQ.WCM.getEditable(componentPath);
-    		
+
     		if(parsysComp.hidden == true){
     			parsysComp.show();
     		}
@@ -54,17 +54,28 @@ function toggleParsys(s)
 };
 
 function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function() {
-      var target = $(this).parent().data('target');
+    $('.accordion dt > :first-child').on('click', function(e) {
+       if($('.inner-wrap').hasClass('cookie-page')) {
+        $('.cookie-page .accordion dd .content').slideUp('slow');
+        $('.cookie-page .accordion dt > :first-child').removeClass('on');
+        $('.cookie-page .accordion dt').removeClass('on');
+       }
+      var target = $(this).parent().next().find('.content');
       var toggle = $(this);
-      $('#' + target).slideToggle('slow');
-      $(toggle).toggleClass('on');
-      if(window[ target ] != null && window[ target ].toggle != null){
-    	  window[ target ].toggle();
+
+      if(target.is(':visible')) {
+        toggle.removeClass('on');
+        target.slideUp();
+        $(this).parent().removeClass('on');
+      } else {
+        toggle.addClass('on');
+        target.slideDown();
+        $(this).parent().addClass('on');
       }
-        return false;
+      return false;
     });
   }
+
 $(document).ready(function(){
- vtk_accordion();
+  vtk_accordion();
 });

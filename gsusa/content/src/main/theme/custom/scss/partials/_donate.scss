@@ -5,7 +5,7 @@
     position: absolute;
     bottom: 0.625rem;
     width: 100%;
-    padding: 0 5px;
+    padding: rem-calc(0 12);
     //toggle button
     a.button {
       white-space: nowrap;
@@ -23,7 +23,7 @@
       position: absolute;
       bottom: 0;
       background: #FFFFFF;
-      width: 95%;
+      width: 90%;
       z-index: 3;
       padding: rem-calc(5);
       input[type="text"] {

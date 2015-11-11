@@ -10,22 +10,36 @@
 %><%
 	// TODO add you code here
 %>
-<div class="row">
-    <div class="install-app">
-        <p>Install App</p>
+<!--  <div class="install-app">
+    <i class="icon-download"></i>
+    <div class="wrapper clearfix">
+        <p>Install</p>
         <p>The official Girl Scout Cookie Finder App</p>
-        <i class="icon-platform-apple"></i>
-        <i class="icon-platform-android"></i>
     </div>
-    <div class="get-updates">
+    <div class="wrapper clearfix">
+        <a href="https://itunes.apple.com/us/app/girl-scout-cookie-finder/id593932097?mt=8" target="_blank" class="apple-download">
+        <img src="/etc/designs/gsusa/clientlibs/images/itunes-app-store-logo.png" alt="app store"/><span>Girl Scouts iPhone App</span></a>
+        <a href="https://play.google.com/store/apps/details?id=com.gsa.gscookiefinder" target="_blank" class="google-play-download"><img src="/etc/designs/gsusa/clientlibs/images/android_google_play_logo.png" alt="google play store"/><span>Girl Scouts Android App</span></a>
+    </div>
+</div> -->
+
+<cq:include path="install-block" resourceType="gsusa/components/install-block" />
+
+<div class="get-updates">
+    <i class="icon-mail"></i>
+    <div class="wrapper clearfix">
         <p>Get Updates</p>
         <p>Sign up for cookie email updates</p>
-        <form id="emailSignupNav" name="emailSignupNav" action="#" novalidate="novalidate">
-          <input name="email" type="text" class="required email" id="newsletter" placeholder="email address" maxlength="30"><br>
-          <input name="zipcode" type="text" class="required zipcode" id="newsletterzipcode" placeholder="zip code" maxlength="5"><br>
-            <span class="alumniTxt"><input name="alumna" id="alumna" type="checkbox" value="alumna">&nbsp; I'm a Girl Scout Alumna.</span>
-          <input type="submit" name="go" class="submit" value="Submit">
-          <div class="newslettererror" style="display:none;"><p>Invalid email or zipcode</p></div>
-      </form>
     </div>
+    <form id="emailSignupNav" name="emailSignupNav" action="#" novalidate="novalidate">
+        <div class="wrapper clearfix">
+            <input name="email" type="text" class="required email" id="newsletter" placeholder="email address" maxlength="30">
+            <input name="zipcode" type="text" class="required zipcode" id="newsletterzipcode" placeholder="Zip Code" maxlength="5">
+        </div>
+        <div class="wrapper clearfix">
+            <input name="alumna" id="alumna" type="checkbox" value="alumna" /> <label for="alumna">I'm a Girl Scout Alumna.</label>
+            <input type="submit" name="go" class="submit button" value="Submit" />
+        </div>
+        <p class="error hide">Invalid email or zipcode</p>
+  </form>
 </div>
