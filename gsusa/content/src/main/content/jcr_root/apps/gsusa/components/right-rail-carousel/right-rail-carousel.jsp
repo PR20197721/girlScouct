@@ -18,6 +18,9 @@
 final String[] carouselList = properties.get("carouselList", String[].class);
 final boolean isCarousel = properties.get("dynamiccarousel", false);
 final String carouselTitle = properties.get("carouselTitle", "Default Title");
+final String carouselSubTitle = properties.get("carouselSubTitle", "Default Sub Title");
+final String callToActionName = properties.get("calltoactionname", "Default Sub Title");
+String callToActionLink = properties.get("calltoactionlink", "Default Sub Title");
 final int timedelay = properties.get("timedelay", 2000);
 final boolean autoscroll = properties.get("autoscroll", false);
 
@@ -38,6 +41,7 @@ if (carouselList != null) {
 
 <div class="rotator">
   <h5> <%= carouselTitle %></h5>
+  <h6> <%= carouselSubTitle %></h6>
   <div class="shop-carousel">
 	<%
 		for (int i = 0; i < numberOfImages; i++) {
@@ -52,13 +56,18 @@ if (carouselList != null) {
 			if (linkPage != null && !link.contains(".html")) {
 				link += ".html";
 			}
+			Page callToActionPage = resourceResolver.resolve(callToActionLink).adaptTo(Page.class);
+			if (callToActionPage != null && !callToActionLink.contains(".html")) {
+				callToActionLink += ".html";
+			}
 			if (openInNewWindow) {
 				target = "target=\"_blank\"";
 			}
-			%><div><a href="<%= link %>" <%= target %>><img src="<%= imagePath %>" alt=""/></a><p><%=label %></p></div><%
+			%><div><a href="<%= link %>" <%= target %>><img src="<%= imagePath %>" alt="<%=label %>"/><p><%=label %></p></a></div><%
 		}
 	%>
   </div>
+   <a class="button arrow" href="<%= callToActionLink %>" title="<%= callToActionName%>"><%= callToActionName%></a>
 </div>
 <%
 } else {%>
