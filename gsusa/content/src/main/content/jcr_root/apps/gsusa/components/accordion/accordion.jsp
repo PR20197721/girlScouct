@@ -21,7 +21,7 @@
 		children = new String[namesAndAnchors.length];
 		anchors = new String[namesAndAnchors.length];
 		for(int i =0; i < namesAndAnchors.length; i++){
-			String[] split = namesAndAnchors[i].split("\\|\\|");
+			String[] split = namesAndAnchors[i].split("\\|\\|\\|");
 			children[i] = split.length >= 1 ? split[0] : "";
             anchors[i] = split.length >= 2 ? split[1] : "";
 		}
