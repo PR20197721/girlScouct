@@ -79,10 +79,10 @@ function vtk_accordion() {
         toggle.addClass('on');
         target.slideDown();
         $(this).parent().addClass('on');
-        if(window[ parsysID ] != null){
-     	   window[ parsysID ].showParsys();
-        }
       }
+      if(window[ parsysID ] != null){
+    	   window[ parsysID ].showParsys();
+       }
       return false;
     });
   }
