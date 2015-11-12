@@ -38,8 +38,7 @@ if (zip == null || zip.isEmpty()) {
     int numPerPage = properties.get("numPerPage", 50);
     
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
-    // Query one more booth to see if there are more.
-    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage + 1);
+    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
     Council council = boothFinder.getCouncil(zip);
     String preferredPath = council.preferredPath;
 

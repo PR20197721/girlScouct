@@ -21,4 +21,13 @@ for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
     }
     count = (count + 1) % showContactBannerPer;
 } 
+
+// If there are no more booths, hide the "more" link.
+if (booths.size() <= numPerPage) {
+%>
+    <script>
+        $('.booth-finder .show-more').hide();
+    </script>
+<%
+}
 %>

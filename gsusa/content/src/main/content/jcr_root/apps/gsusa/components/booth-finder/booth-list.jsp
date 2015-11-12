@@ -95,9 +95,11 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     %>
         <a id="more">More</a>
         <script>
+            var pageNum = 1;
             $('.booth-finder a#more').on('click', function() {
                 var url = '<%= resource.getPath() %>.headless.html';
-                url = url + '?zip=<%=zip%>&radius=<%=radius%>&date=<%=date%>&sortBy=<%=sortBy%>&numPerPage=<%=numPerPage%>&page=<%=Integer.toString(pageNum + 1)%>';
+                url = url + '?zip=<%=zip%>&radius=<%=radius%>&date=<%=date%>&sortBy=<%=sortBy%>&numPerPage=<%=numPerPage%>&page=' + pageNum;
+                pageNum++;
             	$.ajax({
             		url: url,
             		success: function(html) {
