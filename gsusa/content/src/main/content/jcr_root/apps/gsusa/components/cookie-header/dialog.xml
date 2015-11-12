@@ -14,7 +14,7 @@
 	            	<sharesection
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Right Share Section"
-	                    fieldDescription="The right section of the header will be delicated to sharing"
+	                    fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
 	                    name="./shareSection"
 	                    type="checkbox"
 	            		xtype="selection"/>

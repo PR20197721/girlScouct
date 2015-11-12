@@ -12,16 +12,25 @@ final boolean hasRightShareSection = properties.get("shareSection", false);
 final String shareSectionIcon = properties.get("icon", "");
 final String shareSectionText = properties.get("sharetext", "");
 final String shareSectionLink = properties.get("sharelink", "");
-final String image = properties.get("file", "");
+
+Resource thumbnail = resource.getChild("thumbnail");
+String filePath = "";
+if(thumbnail != null) {
+	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+}
 //TODO share link to 
 %>
+
+<script>
+document.styleSheets[0].addRule('.wrapper-inner','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
+</script>
 
 <div class="row">
   <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
     <div class="wrapper-inner clearfix">
     <%if (hasRightShareSection) { %>
-      <form class="find-cookies" name="find-cookies" style="width: 50%">
+      <form class="find-cookies" name="find-cookies" style="width: 50%;">
     <%} else {%>
         <form class="find-cookies" name="find-cookies" style="width: 67%; float:right;">
     <% }%> 
@@ -35,7 +44,7 @@ final String image = properties.get("file", "");
 	      <div class="share">
 	        <a href="<%=shareSectionLink %>" title="cookies on facebook"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
 	      </div>
-      <%}%>
+      <%} %> 
     </div>
   </div>
 </div>
