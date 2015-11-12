@@ -1,9 +1,11 @@
 #base=js
 
 main.js
+right-rail-carousel-widget.js
 dynamic-pathfield.js
 simple-link-widget.js
 shop-tile-widget.js
-toggleparsys.js
 icon-picker.js
 social-media-widget-with-name.js
+accordion-field.js
+meet-the-cookies-widget.js

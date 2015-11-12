@@ -362,8 +362,8 @@
   }
 
   //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
-// inkoo added slide alternate view for carousel for ie9 and under because it breaks
-  if($.browser.msie && parseFloat($.browser.version)<10){
+  // inkoo added slide alternate view for carousel for ie9 and under because it breaks
+  if($.browser.msie && parseFloat($.browser.version)<10) {
     $('.main-slider').slick({
       dots: false,
       infinite: true,
@@ -386,6 +386,7 @@
   }
 
   var lastAfterSlick = null;
+
   function explore_button() {
     $(".hero-text .button.explore").on("click", function () {
       $('.inner-sliders .inner').slick({
@@ -575,6 +576,7 @@
     var imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
     imageMap.resize();
   }
+
   $('.video-slider').slick({
     dots: false,
     cssEase: 'linear',
@@ -597,9 +599,10 @@
     $('.shop-carousel').slick({
       dots: false,
       speed: 500,
-      autoplay: false,
+      autoplay: (typeof shopautoscroll !== 'undefined') ? shopautoscroll : false,
       arrows: true,
       slidesToShow: 1,
+      autoplaySpeed: (typeof shoptimedelay !== 'undefined') ? shoptimedelay : 2000,
       slidesToScroll: 1,
       // responsive: [{
       //   breakpoint: 768,
@@ -621,6 +624,21 @@
   shop_rotator();
 
 
+  //call to brick-by-brickJS for the meet the cookie page.
+  $('#meet-cookie-layout').layout({
+    itemPadding: 0
+    }
+  );
+
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
+  hide_show_cookie();
+
   // $(window).on("orientationchange", function () {
   //   alert("Privet!");
   // });
@@ -629,7 +647,7 @@
     equilize_our_stories();
   });
   // form on the Donate Tile.
-  $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e){
+  $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
     // $('.formDonate').addClass('hide');
     // if($('.formDonate').is(':hidden')) {
@@ -694,3 +712,4 @@ function printObjectProperties(objectToInspect) {
     }
   }
 }
+

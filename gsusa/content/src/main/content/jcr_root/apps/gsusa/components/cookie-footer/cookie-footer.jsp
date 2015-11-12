@@ -10,7 +10,7 @@
 %><%
 	// TODO add you code here
 %>
-<div class="install-app">
+<!--  <div class="install-app">
     <i class="icon-download"></i>
     <div class="wrapper clearfix">
         <p>Install</p>
@@ -21,7 +21,9 @@
         <img src="/etc/designs/gsusa/clientlibs/images/itunes-app-store-logo.png" alt="app store"/><span>Girl Scouts iPhone App</span></a>
         <a href="https://play.google.com/store/apps/details?id=com.gsa.gscookiefinder" target="_blank" class="google-play-download"><img src="/etc/designs/gsusa/clientlibs/images/android_google_play_logo.png" alt="google play store"/><span>Girl Scouts Android App</span></a>
     </div>
-</div>
+</div> -->
+
+<cq:include path="install-block" resourceType="gsusa/components/install-block" />
 
 <div class="get-updates">
     <i class="icon-mail"></i>

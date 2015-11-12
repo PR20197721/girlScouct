@@ -49,6 +49,12 @@
   }
 }
 .share-modal {
+  .close-reveal-modal {
+    color: $primary-color;
+    font-weight: normal;
+    position: static;
+    float: right;
+  }
   .float-left{
     @media #{$medium-up} {
       @include grid-column(8);
@@ -62,7 +68,15 @@
       @include grid-column(13, $push: 1);
     }
   }
+  h4 {
+    font-size: rem-calc(30);
+  }
+  p {
+    font-size: rem-calc(18);
+  }
   .button {
+    text-transform: uppercase;
+    display: block;
     padding: 0 2%;
     i {
       font-size: rem-calc(45);
