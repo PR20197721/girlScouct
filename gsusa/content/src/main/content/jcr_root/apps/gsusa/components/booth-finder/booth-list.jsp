@@ -11,7 +11,6 @@ String zip = (String)request.getAttribute("gsusa_booth_list_zip");
 String radius = (String)request.getAttribute("gsusa_booth_list_radius");
 String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
-int pageNum = (Integer)request.getAttribute("gsusa_booth_list_pagenum");
 int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
 int showContactBannerPer = properties.get("showContactBannerPer", 25);
 
