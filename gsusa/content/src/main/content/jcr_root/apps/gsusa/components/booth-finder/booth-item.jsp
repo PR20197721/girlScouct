@@ -9,6 +9,7 @@ if (booth != null) {
     DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
     String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
+    String uid= (new java.util.Date().getTime()+"_"+ Math.random() ).replace(".","-");
 %>
 <div class="row details">
     <div class="detail clearfix">
