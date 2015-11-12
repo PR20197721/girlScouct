@@ -14,13 +14,13 @@
                     <show-contact-banner-per
                         jcr:primaryType="cq:Widget"
                         fieldDescription="If the council is in path 2, a contact banner is shown every a few booths. This field is to configure the number."
-                        fieldLabel="Show Contact Banner Per"
+                        fieldLabel="Show Contact Banner Every n Booths"
                         name="./showContactBannerPer"
                         xtype="numberfield"/>
                     <num-per-page
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Number of booths shown on each page"
-                        fieldLabel="Number Per Page"
+                        fieldLabel="Number of Booths Per Page"
                         name="./numPerPage"
                         xtype="numberfield"/>
                 </items>
