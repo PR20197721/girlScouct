@@ -101,7 +101,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
             	$.ajax({
             		url: url,
             		success: function(html) {
-            			$('.booth-finder .details').last().after(html);
+            			$('.booth-finder .show-more').before(html);
             		}
             	})
             });
