@@ -1,0 +1,71 @@
+.reveal-modal {
+  padding: rem-calc(9);
+  @media #{$medium-up} {
+    max-width: rem-calc(563);
+  }
+  h4 {
+    font-size: rem-calc(30);
+  }
+  p {
+    font-weight:600;
+    font-size: rem-calc(18);
+    line-height: 1.2;
+  }
+}
+.local-lookup {
+  padding: rem-calc(20);
+  form {
+    width: 100%;
+    label {
+      margin-bottom: rem-calc(10);
+      margin-top: rem-calc(10);
+    }
+    > div:nth-last-of-type(1) {
+      label {
+        display: inline;
+        margin-right: rem-calc(10);
+        margin-top: 0;
+      }
+      margin-top: rem-calc(10);
+    }
+    @media #{$medium-up} {
+      input[type="text"] {
+        float: left;
+        width: 72%;
+        margin-bottom: rem-calc(10);
+        padding-left: rem-calc(5);
+      }
+      label {
+        display: inline;
+        text-align: right;
+        width: 18%;
+        float: left;
+        margin-right: rem-calc(10);
+      }
+    }
+  }
+  .button {
+    margin: 0;
+  }
+}
+.share-modal {
+  .float-left{
+    @media #{$medium-up} {
+      @include grid-column(8);
+    }
+    img {
+      width: 100%;
+    }
+  }
+  .float-right {
+    @media #{$medium-up} {
+      @include grid-column(13, $push: 1);
+    }
+  }
+  .button {
+    padding: 0 2%;
+    i {
+      font-size: rem-calc(45);
+    }
+  }
+}
