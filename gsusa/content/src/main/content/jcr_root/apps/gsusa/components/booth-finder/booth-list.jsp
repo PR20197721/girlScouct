@@ -95,12 +95,15 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     %>
         <a id="more">More</a>
         <script>
-            var url = window.location.href; // /content/gsusa/en/booth-result.21215.html
-            url = url.substring(url.lastIndexOf('/') + 1); // booth-result.21215.html
-            url = url.substring(0, url.indexOf('.')) + '.headless.html'; // booth-result.headless.html
-            url = url + '?zip=<%=zip%>&radius=<%=radius%>&date=<%=date%>&sortBy=<%=sortBy%>&numPerPage=<%=numPerPage%>&page=<%=Integer.toString(pageNum + 1)%>';
             $('.booth-finder a#more').on('click', function() {
-            	alert('more! url = ' + url);
+                var url = '<%= resource.getPath() %>.headless.html';
+                url = url + '?zip=<%=zip%>&radius=<%=radius%>&date=<%=date%>&sortBy=<%=sortBy%>&numPerPage=<%=numPerPage%>&page=<%=Integer.toString(pageNum + 1)%>';
+            	$.ajax({
+            		url: url,
+            		success: function(html) {
+            			$('.booth-finder .details').last().after(html);
+            		}
+            	})
             });
         </script>
     <%
