@@ -50,6 +50,14 @@ if (zip == null || zip.isEmpty()) {
     
     request.setAttribute("gsusa_council_info", council);
     if (!booths.isEmpty()) {
+        boolean headless = false;
+        for (String selector : selectors) {
+        	if (selector.equalsIgnoreCase("headless")) {
+        		headless = true;
+        		break;
+        	}
+        }
+        
         request.setAttribute("gsusa_cookie_booths", booths);
         request.setAttribute("gsusa_booth_list_zip", zip);
         request.setAttribute("gsusa_booth_list_radius", radius);
@@ -57,7 +65,11 @@ if (zip == null || zip.isEmpty()) {
         request.setAttribute("gsusa_booth_list_sortby", sortBy);
         request.setAttribute("gsusa_booth_list_pagenum", pageNum);
         request.setAttribute("gsusa_booth_list_numperpage", numPerPage);
-        %><cq:include script="booth-list.jsp" /><%
+        if (headless) {
+            %><cq:include script="booths.jsp" /><%
+        } else {
+            %><cq:include script="booth-list.jsp" /><%
+        }
         request.setAttribute("gsusa_cookie_booths", null);
     } else if ("Path1".equalsIgnoreCase(preferredPath)) {
         %><cq:include script="path1.jsp" /><%
