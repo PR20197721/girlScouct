@@ -9,6 +9,11 @@ String phone = request.getParameter("phone");
 boolean optIn = "on".equalsIgnoreCase(request.getParameter("optIn"));
 
 BoothFinder boothFinder = sling.getService(BoothFinder.class);
-String result = boothFinder.saveContactMeInformation(zipCode, email, firstName, optIn, phone);
+String result = "";
+try {
+    result = boothFinder.saveContactMeInformation(zipCode, email, firstName, optIn, phone);
+} catch (Exception e) {
+	result = "There is a problem communicating with the server. Please try again later.";
+}
 %>
 <%= result %>
