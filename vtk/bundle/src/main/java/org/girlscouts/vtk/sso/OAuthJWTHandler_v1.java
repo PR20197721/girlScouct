@@ -106,7 +106,7 @@ public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String ac
 		      HttpResponse response = client.execute(oauthPost);		      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
-	System.err.println("RESP: "+ EntityUtils.toString(response.getEntity()) );	      
+	//System.err.println("RESP: "+ EntityUtils.toString(response.getEntity()) );	      
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));
 		      
 		   
