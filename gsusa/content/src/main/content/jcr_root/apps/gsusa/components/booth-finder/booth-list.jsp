@@ -69,6 +69,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
         </select>
     </section>
 </form>
+<div id="modal_booth_item_map"  class="reveal-modal"  data-reveal data-options="close_on_esc:true"></div>
 
 <div class="row headers">
   <section>

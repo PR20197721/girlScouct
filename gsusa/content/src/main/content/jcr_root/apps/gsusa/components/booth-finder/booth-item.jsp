@@ -1,5 +1,5 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
-                java.text.DateFormat,
+                java.text.DateFormat, java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,
                 java.text.SimpleDateFormat" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
@@ -9,6 +9,8 @@ if (booth != null) {
     DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
     String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
+    String uid= (new java.util.Date().getTime()+"_"+ Math.random() ).replace(".","-");
+    ObjectMapper mapper = new ObjectMapper();
 %>
 <div class="row details">
     <div class="detail clearfix">
@@ -25,7 +27,20 @@ if (booth != null) {
             <p><%= booth.distance %> Miles</p>
         </section>
     </div>
-    <div class="clearfix right"><a href=""class="button">view details</a></div>
+    <div class="clearfix right">
+            <a class='viewMapA<%=uid%>'>View Map</a>
+            <script>
+                $('a.viewMapA<%=uid%>').on('click', function() {
+                    $('#modal_booth_item_map').foundation('reveal', 'open', {
+                        url: '<%= resource.getPath() %>.booth-detail.html',
+                        cache:false,
+                        data: 
+                                <%= mapper.writeValueAsString(booth) %>
+
+                    });
+                 });
+            </script>
+    </div>
 </div>
 
 <%
