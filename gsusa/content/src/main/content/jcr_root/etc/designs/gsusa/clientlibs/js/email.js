@@ -26,10 +26,12 @@ $('#emailSignupNav').submit(function (event){
 	var alumna = ($(me).find("[name='alumna']").is(':checked') ? "Yes" : "No");
 	var error = $('.error.hide');
 	$.get('/program/gs_cookies/newsletteradd.asp?email=' + emailAddress + '&alumna=' + alumna + '&zipcode=' + zipcode, function(result){
-		if(txt.search(/OK/i) == -1) {
+		if(result.search(/OK/i) == -1) {
 			error.show();
 		} else {
-			//TODO Display thank you notice
+			Display thank you notice
+			$('.get-updates section').hide();
+			$('.success').removeClass('hide');
 		}
 	});
 	return false;
