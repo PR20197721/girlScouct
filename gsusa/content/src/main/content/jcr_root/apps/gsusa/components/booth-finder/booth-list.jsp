@@ -93,10 +93,10 @@ for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
 	%><cq:include script="booth-item.jsp"/><%
 	request.removeAttribute("gsusa-booth-list-item");
 
-    /* if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
+    if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
         %><cq:include script="contact-banner.jsp"/><%
     }
-    count = (count + 1) % showContactBannerPer;*/
+    count = (count + 1) % showContactBannerPer;
 } %>
 
 <div class="row show-more">

@@ -26,3 +26,13 @@
       margin-top: -0.71429rem;
     }
 }
+.reveal-modal .close-reveal-modal {
+  color: $primary-color;
+  font-weight: normal;
+}
+.reveal-modal {
+  .button {
+    text-transform: uppercase;
+    padding: rem-calc(5 10);
+  }
+}
