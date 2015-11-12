@@ -20,16 +20,22 @@ final String image = properties.get("file", "");
   <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
     <div class="wrapper-inner clearfix">
-      <form class="find-cookies" name="find-cookies">
+    <%if (hasRightShareSection) { %>
+      <form class="find-cookies" name="find-cookies" style="width: 50%">
+    <%} else {%>
+        <form class="find-cookies" name="find-cookies" style="width: 67%; float:right;">
+    <% }%> 
         <label for="zip-code"><%= mainText %></label>
         <div class="form-wrapper clearfix">
           <input type="text" placeholder="ZIP Code" class="zip-code" name="zip-code">
           <input type="submit" class="link-arrow" value="Go >"/>
         </div>
       </form>
-      <div class="share">
-        <a href="<%=shareSectionLink %>" title="cookies on facebook"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
-      </div>
+      <%if (hasRightShareSection)  { %>
+	      <div class="share">
+	        <a href="<%=shareSectionLink %>" title="cookies on facebook"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
+	      </div>
+      <%}%>
     </div>
   </div>
 </div>
