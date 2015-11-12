@@ -17,10 +17,10 @@
 <%@page session="false"%><%
 final String[] carouselList = properties.get("carouselList", String[].class);
 final boolean isCarousel = properties.get("dynamiccarousel", false);
-final String carouselTitle = properties.get("carouselTitle", "Default Title");
-final String carouselSubTitle = properties.get("carouselSubTitle", "Default Sub Title");
-final String callToActionName = properties.get("calltoactionname", "Default Sub Title");
-String callToActionLink = properties.get("calltoactionlink", "Default Sub Title");
+final String carouselTitle = properties.get("carouselTitle", "");
+final String carouselSubTitle = properties.get("carouselSubTitle", "");
+final String callToActionName = properties.get("calltoactionname", "Default Call To Action");
+String callToActionLink = properties.get("calltoactionlink", "");
 final int timedelay = properties.get("timedelay", 2000);
 final boolean autoscroll = properties.get("autoscroll", false);
 
