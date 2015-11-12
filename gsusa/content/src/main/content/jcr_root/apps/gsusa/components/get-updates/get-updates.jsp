@@ -17,7 +17,7 @@
           <input name="zipcode" type="text" class="required zipcode" id="newsletterzipcode" placeholder="zip code" maxlength="5" />
       </div>
       <div class="wrapper clearfix">
-          <input name="alumna" id="alumna" type="checkbox" value="alumna" /> <label for="alumna">I'm a Girl Scout Alumna.</label>
+          <input name="alumna" id="alumna" type="checkbox" /> <label for="alumna">I'm a Girl Scout Alumna.</label>
           <input type="submit" name="go" class="submit button" value="Submit" />
       </div>
       <p class="error hide">Invalid email or zipcode</p>
