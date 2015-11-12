@@ -1,7 +1,18 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder" %>
+<%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random"  %>
 <%@page session="false" %>
+<%!
+public String generateId() {
+	Random rand=new Random();
+	String possibleLetters = "abcdefghijklmnopqrstuvwxyz";   
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++) 
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
+}
+%>
+
 
 <%if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
@@ -12,23 +23,22 @@ final boolean hasRightShareSection = properties.get("shareSection", false);
 final String shareSectionIcon = properties.get("icon", "");
 final String shareSectionText = properties.get("sharetext", "");
 final String shareSectionLink = properties.get("sharelink", "");
-
+final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
 if(thumbnail != null) {
 	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 }
-//TODO share link to 
 %>
 
 <script>
-document.styleSheets[0].addRule('.wrapper-inner','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
+document.styleSheets[0].addRule('#<%= id%>','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
 </script>
 
 <div class="row">
   <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
-    <div class="wrapper-inner clearfix">
+    <div class="wrapper-inner clearfix" id="<%= id %>">
     <%if (hasRightShareSection) { %>
       <form class="find-cookies" name="find-cookies" style="width: 50%;">
     <%} else {%>
