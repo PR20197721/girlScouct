@@ -26,13 +26,16 @@
       margin-top: -0.71429rem;
     }
 }
-.reveal-modal .close-reveal-modal {
-  color: $primary-color;
-  font-weight: normal;
-}
 .reveal-modal {
+  .close-reveal-modal {
+    color: $primary-color;
+    font-weight: normal;
+    position: static;
+    float: right;
+  }
   .button {
-    text-transform: uppercase;
     padding: rem-calc(5 10);
+    text-transform: uppercase;
+    display: block;
   }
 }
