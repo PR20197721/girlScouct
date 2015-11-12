@@ -89,14 +89,21 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     <%
     String baseLink = "?zip=" + zip + "&radius=" + radius +
                       "&date" + date + "&sortBy=" + sortBy + "&numPerPage=" + numPerPage;
-    if (pageNum != 0) {
-        String prevLink = baseLink + "&page=" + Integer.toString(pageNum - 1);
-        %><a href="<%= prevLink %>">Prev</a><%
-    }
-    // If there are more booths, display next link.
+
+    // If there are more booths, display the "more" link.
     if (booths.size() > numPerPage) {
-        String nextLink = baseLink + "&page=" + Integer.toString(pageNum + 1);
-        %><a href="<%= nextLink %>">Next</a><%
+    %>
+        <a id="more">More</a>
+        <script>
+            var url = window.location.href; // /content/gsusa/en/booth-result.21215.html
+            url = url.substring(url.lastIndexOf('/') + 1); // booth-result.21215.html
+            url = url.substring(0, url.indexOf('.')) + '.headless.html'; // booth-result.headless.html
+            url = url + '?zip=<%=zip%>&radius=<%=radius%>&date=<%=date%>&sortBy=<%=sortBy%>&numPerPage=<%=numPerPage%>&page=<%=Integer.toString(pageNum + 1)%>';
+            $('.booth-finder a#more').on('click', function() {
+            	alert('more! url = ' + url);
+            });
+        </script>
+    <%
     }
     %>
 </div>
