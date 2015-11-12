@@ -156,13 +156,14 @@ public class BoothFinder {
                          "&t=" + sortBy.trim() + 
                          "&s=" + Integer.toString(pageNum * numPerPage + 1) +
                          "&m=" + Integer.toString(numPerPage) +
-                         //("all".equalsIgnoreCase(dateRange) ? "&d=" + dateRange.trim() : "") +
-                         // TODO: for test:
-                         "&d1=2013-10-1&d2=2014-4-30";
+                         // TODO: What is the number for "all"?
+                         "&d=" + ("all".equalsIgnoreCase(dateRange) ? "3650" : dateRange.trim());
 
         GetMethod get = new GetMethod(apiPath);
         try  {
             int resStatus = httpClient.executeMethod(get);
+            
+            // TODO: Even if it is returning 200, there is still of error.
             if (resStatus != 200) {
                 throw new Exception("Response not 200.");
             }
