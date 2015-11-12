@@ -1,0 +1,24 @@
+<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
+                org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
+                java.util.List" %>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@page session="false" %>
+<%
+List<BoothBasic> booths = (List<BoothBasic>)request.getAttribute("gsusa_cookie_booths");
+Council council = (Council)request.getAttribute("gsusa_council_info");
+int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
+int showContactBannerPer = properties.get("showContactBannerPer", 25);
+
+int count = 0;
+boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
+for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
+	request.setAttribute("gsusa-booth-list-item", booths.get(i));
+	%><cq:include script="booth-item.jsp"/><%
+	request.removeAttribute("gsusa-booth-list-item");
+
+    if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
+        %><cq:include script="contact-banner.jsp"/><%
+    }
+    count = (count + 1) % showContactBannerPer;
+} 
+%>

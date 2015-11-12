@@ -69,11 +69,8 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
             <option value="date" <%= "date".equals(date) ? "selected" : "" %>>date</option>
         </select>
     </section>
-
-<!--     <div>
-        <input type="submit"></input>
-    </div> -->
 </form>
+
 <div class="row headers">
   <section>
         <h4>Location</h4>
@@ -85,19 +82,8 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
         <h4>Distance</h4>
   </section>
 </div>
-<%
-int count = 0;
-boolean shouldDisplayContactBanner = "Path2".equals(council.preferredPath);
-for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
-	request.setAttribute("gsusa-booth-list-item", booths.get(i));
-	%><cq:include script="booth-item.jsp"/><%
-	request.removeAttribute("gsusa-booth-list-item");
 
-    if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
-        %><cq:include script="contact-banner.jsp"/><%
-    }
-    count = (count + 1) % showContactBannerPer;
-} %>
+<cq:include script="booths.jsp" />
 
 <div class="row show-more">
     <%
