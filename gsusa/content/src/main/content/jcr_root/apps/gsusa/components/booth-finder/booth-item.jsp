@@ -25,7 +25,20 @@ if (booth != null) {
             <p><%= booth.distance %> Miles</p>
         </section>
     </div>
-    <div class="clearfix right"><a href=""class="button">view details</a></div>
+    <div class="clearfix right">
+            <a class='viewMapA<%=uid%>'>View Map</a>
+            <script>
+                $('a.viewMapA<%=uid%>').on('click', function() {
+                    $('#modal_booth_item_map').foundation('reveal', 'open', {
+                        url: '<%= resource.getPath() %>.booth-detail.html',
+                        cache:false,
+                        data: 
+                                <%= mapper.writeValueAsString(booth) %>
+
+                    });
+                 });
+            </script>
+    </div>
 </div>
 
 <%
