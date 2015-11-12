@@ -111,3 +111,5 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     }
     %>
 </div>
+<h4>Not finding what you're looking for?</h4>
+<cq:include script="contact-banner.jsp"/>
