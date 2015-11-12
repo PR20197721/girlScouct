@@ -40,9 +40,9 @@
       }
     }
     .share {
-      #main & {
-        display: none;
-      }
+      //#main & {
+      //  display: none;
+      //}
       @media #{$small-only} {
         text-align: center;
         clear:both;
@@ -85,7 +85,8 @@
         margin-left: rem-calc(265);//width of the image + 30px
         .main-content & {
           margin: 0;
-          float: right;
+          //float: right;
+          margin-left: rem-calc(265);//width of the image + 30px
           padding: 0 20px 0 0;
           width: 67%;
         }
