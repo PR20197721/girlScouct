@@ -1,5 +1,5 @@
 <a href="#" data-reveal-id="contactCouncil" class="button">Contact your local council</a>
-<div id="contactCouncil" class="reveal-modal large" data-reveal aria-hidden="true" role="dialog">
+<div id="contactCouncil" class="reveal-modal" data-reveal aria-hidden="true" role="dialog">
     <h2>Support Girl Scouts in Your Area</h2>
     <p>Enter you info below and girls from the local council name will contact you to help you place an order.</p>
     <form>
