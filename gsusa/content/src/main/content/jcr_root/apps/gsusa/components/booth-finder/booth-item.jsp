@@ -10,6 +10,7 @@ if (booth != null) {
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
     String startDate = outputFormat.format(inputFormat.parse(booth.dateStart));
     String uid= (new java.util.Date().getTime()+"_"+ Math.random() ).replace(".","-");
+    ObjectMapper mapper = new ObjectMapper();
 %>
 <div class="row details">
     <div class="detail clearfix">
