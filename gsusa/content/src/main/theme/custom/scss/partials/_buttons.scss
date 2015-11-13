@@ -26,3 +26,30 @@
       margin-top: -0.71429rem;
     }
 }
+#more {
+  display: block;
+  line-height: 1;
+  text-align: center;
+  &:after {
+    content: "";
+    border-width: rem-calc(7);
+    border-color: #00AE58 transparent transparent transparent;
+    border-style: solid;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: rem-calc(10);
+  }
+}
+.reveal-modal {
+  .close-reveal-modal {
+    color: $primary-color;
+    font-weight: normal;
+    position: static;
+    float: right;
+  }
+  .button {
+    padding: rem-calc(5 10);
+    text-transform: uppercase;
+    display: block;
+  }
+}

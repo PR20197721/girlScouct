@@ -1,0 +1,73 @@
+.booth-finder {
+  > h4 {
+    // margin: 0;
+    line-height: 1;
+    &.special-title {
+      margin-bottom: rem-calc(15);
+    }
+  }
+  p {
+    font-size: rem-calc(14);
+  }
+  .sort-form {
+    section {
+      @include grid-column(8, $collapse: true);
+    }
+    label {
+      @media #{$medium-up} {
+        display: inline;
+      }
+      font-size: rem-calc(14);
+    }
+    select {
+      margin: 0 0 1rem 0;
+      display: inline;
+      width: 90%;
+      @media #{$medium-up} {
+        width: 62%;
+      }
+      font-size: rem-calc(14);
+      height: auto;
+      padding:rem-calc(4 5);
+    }
+  }
+  .row.headers,
+  .detail {
+    @media #{$medium-up} {
+      section:nth-of-type(1) {
+        @include grid-column(8, $collapse: true);
+      }
+      section:nth-of-type(2) {
+        @include grid-column(7, $collapse: true);
+      }
+      section:nth-of-type(3) {
+        @include grid-column(5, $collapse: true, $push: 4);
+      }
+    }
+    p {
+      margin-bottom: 0;
+    }
+  }
+  .row.headers {
+    @media #{$small-only} {
+      display: none;
+    }
+  }
+  .row.details {
+    border-bottom: solid 1px #e1e1e1;
+    padding-bottom: rem-calc(15);
+    margin-bottom: rem-calc(15);
+    .detail section:nth-last-child(n+2) {
+      @media #{$small-only} {
+        margin-bottom: rem-calc(25);
+      }
+    }
+    .button {
+      margin: 0;
+      padding: rem-calc(5 10);
+    }
+  }
+  .not-finding {
+    margin: rem-calc(20 0);
+  }
+}
