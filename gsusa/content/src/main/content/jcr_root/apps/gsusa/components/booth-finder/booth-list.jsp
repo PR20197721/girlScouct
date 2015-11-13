@@ -115,7 +115,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 <div class="not-finding">
     <h4>Not finding what you're looking for?</h4>
     <cq:include script="contact-banner.jsp"/>
-</cq:include>
+</div>
 
 <div id="contactCouncil" class="reveal-modal local-lookup" data-reveal aria-hidden="true" role="dialog">
     <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
