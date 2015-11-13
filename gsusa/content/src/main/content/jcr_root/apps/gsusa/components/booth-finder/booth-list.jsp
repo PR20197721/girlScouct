@@ -38,7 +38,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     <section>
         <label>Radius:</label>
         <input type="hidden" name="zip" value="<%=zip%>"></input>
-        <select name="radius">
+        <select name="radius" onchange="this.form.submit()">
             <option value="1" <%= "1".equals(radius) ? "selected" : "" %>>1 miles</option>
             <option value="5" <%= "5".equals(radius) ? "selected" : "" %>>5 miles</option>
             <option value="10" <%= "10".equals(radius) ? "selected" : "" %>>10 miles</option>
@@ -52,7 +52,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     </section>
     <section>
         <label>Date:</label>
-        <select name="date">
+        <select name="date" onchange="this.form.submit()">
             <option value="7" <%= "7".equals(date) ? "selected" : "" %>>1 week</option>
             <option value="14" <%= "14".equals(date) ? "selected" : "" %>>2 weeks</option>
             <option value="30" <%= "30".equals(date) ? "selected" : "" %>>1 month</option>
@@ -63,7 +63,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     </section>
     <section>
         <label>Sort by:</label>
-        <select name="sortBy">
+        <select name="sortBy" onchange="this.form.submit()">
             <option value="distance" <%= "distance".equals(date) ? "selected" : "" %>>distance</option>
             <option value="date" <%= "date".equals(date) ? "selected" : "" %>>date</option>
         </select>
