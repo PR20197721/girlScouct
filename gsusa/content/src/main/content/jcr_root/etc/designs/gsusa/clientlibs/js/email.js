@@ -29,7 +29,7 @@ $('#emailSignupNav').submit(function (event){
 		if(result.search(/OK/i) == -1) {
 			error.show();
 		} else {
-			Display thank you notice
+			//Display thank you notice
 			$('.get-updates section').hide();
 			$('.success').removeClass('hide');
 		}
