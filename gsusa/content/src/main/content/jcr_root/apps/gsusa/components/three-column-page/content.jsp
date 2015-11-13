@@ -23,11 +23,9 @@
         <div class="hero-section">
             <cq:include path="content/middle/breadcrumb" resourceType="gsusa/components/breadcrumb-trail" />
             <cq:include path="content/hero/par" resourceType="girlscouts/components/styled-parsys" />
-            <cq:include path="./video-slider0" resourceType="gsusa/components/video-slider" />
         </div>
         <div class="middle-col">
             <cq:include script="main.jsp"/>
-            <cq:include path="./video-slider1" resourceType="gsusa/components/video-slider" />
         </div>
         <div class="right-col">
             <cq:include script="right.jsp"/>

@@ -8,7 +8,21 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Tab 1"/>
+                title="Tab 1">
+                <items
+                	jcr:primaryType="cq:WidgetCollection">
+	                <multi
+	                        jcr:primaryType="cq:Widget"
+	                        fieldLabel="Links"
+	                        fieldDescription="Insert paths to DAM photos or Youtube/Vimeo embed linkslo"
+	                        name="./links"
+	                        xtype="multifield">
+	                        <fieldConfig
+	                            jcr:primaryType="nt:unstructured"
+	                            xtype="pathfield"/>
+	                    </multi>
+                </items>
+            </tab1>
         </items>
     </items>
 </jcr:root>
