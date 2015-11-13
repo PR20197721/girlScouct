@@ -1,7 +1,10 @@
 .booth-finder {
-  >h4 {
-    margin: 0;
+  > h4 {
+    // margin: 0;
     line-height: 1;
+    &.special-title {
+      margin-bottom: rem-calc(15);
+    }
   }
   p {
     font-size: rem-calc(14);

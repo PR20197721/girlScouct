@@ -36,18 +36,18 @@ if (zip == null || zip.isEmpty()) {
         pageNum = 0;
     }
     int numPerPage = properties.get("numPerPage", 50);
-    
+
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
     try {
         List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
         Council council = boothFinder.getCouncil(zip);
         String preferredPath = council.preferredPath;
-    
+
         // TODO: for debugging paths. Remove before push live.
         // Uncomment the following two lines to test other paths. Modify preferredPath variable to the path you wanna test.
-        //booths = new java.util.ArrayList<BoothBasic>();
-        //preferredPath = "Path1";
-        
+        booths = new java.util.ArrayList<BoothBasic>();
+        preferredPath = "Path5";
+
         request.setAttribute("gsusa_council_info", council);
         if (!booths.isEmpty()) {
             boolean headless = false;
@@ -57,7 +57,7 @@ if (zip == null || zip.isEmpty()) {
             		break;
             	}
             }
-            
+
             request.setAttribute("gsusa_cookie_booths", booths);
             request.setAttribute("gsusa_booth_list_zip", zip);
             request.setAttribute("gsusa_booth_list_radius", radius);

@@ -14,6 +14,8 @@ if (daysBetween <= 0) {
 	daysBetween = 0;
 }
 %>
+<h1>Search Results</h1>
+<h4 class="special-title">Only <span id="cntdwn"><%= Long.toString(daysBetween) %></span> days until cookie season. </h4>
 <p>
 <strong><%= council.name %></strong> cookie sale starts in <span id="cntdwn"><%= Long.toString(daysBetween) %></span> <%= daysBetween == 1 ? "day" : "days" %>.
 Until then, check out cookie related merchandise in the Girl Scout online shop."
