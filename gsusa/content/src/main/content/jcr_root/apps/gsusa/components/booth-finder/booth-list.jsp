@@ -93,7 +93,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     // If there are more booths, display the "more" link.
     if (booths.size() > numPerPage) {
     %>
-        <a id="more">More</a>
+        <a id="more" title="show more results">MORE</a>
         <script>
             var pageNum = 1;
             $('.booth-finder a#more').on('click', function() {
@@ -112,16 +112,17 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
     }
     %>
 </div>
-
-<h4>Not finding what you're looking for?</h4>
-<cq:include script="contact-banner.jsp"/>
+<div class="not-finding">
+    <h4>Not finding what you're looking for?</h4>
+    <cq:include script="contact-banner.jsp"/>
+</cq:include>
 
 <div id="contactCouncil" class="reveal-modal local-lookup" data-reveal aria-hidden="true" role="dialog">
     <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
     <h4>Support Girl Scouts in Your Area</h4>
     <p>Enter you info below and girls from the local council name will contact you to help you place an order.</p>
     <form id="contactlocalcouncil" action="<%= resource.getPath() %>.contact.html">
-        <div class="error"></div>   
+        <div class="error"></div>
         <input type="hidden" name="zipCode" value="<%= zip %>"></input>
         <div class="clearfix"><label>Enter address</label><input type="text" name="email"/></div>
         <div class="clearfix"><label>First Name</label><input type="text" name="firstName"/></div>
