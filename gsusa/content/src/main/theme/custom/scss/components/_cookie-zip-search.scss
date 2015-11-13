@@ -1,4 +1,4 @@
-.cookie-header {
+.standalone-cookie-header, .cookie-header {
   font-size: rem-calc(18);
   margin-top: rem-calc(9);
   .row {
@@ -133,15 +133,7 @@
   }
 }
 
-//if the cookie header is in the top hero parsys, which span the full width, it will always appear in mobile
-//if it is not under the top hero parsys, it will not appear in mobile
-.right-wrapper .cookie-header {
-  @media #{$small-only} {
-    display: none;
-  }
-}
-
-.main-content .cookie-header .row form.find-cookies-share {
+.main-content .standalone-cookie-header .row form.find-cookies-share {
   @media #{$medium-up} {
     width: 50%;
   }
@@ -149,12 +141,24 @@
     width: 100%;
   }
 }
-.main-content .cookie-header .row form.find-cookies-noshare {
+.main-content .standalone-cookie-header .row form.find-cookies-noshare {
   @media #{$medium-up} {
     width: 67%;
     float:right;
   }
   @media #{$small-only} {
     width: 100%;
+  }
+}
+
+#stay-cheader .cookie-header,.standalone-cookie-header {
+  @media #{$small-only} {
+    display: inline;
+  }
+}
+
+.styled-parsys.par,.right-wrapper,left-col .standalone-cookie-header {
+  @media #{$small-only} {
+    display: none;
   }
 }
