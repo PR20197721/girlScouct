@@ -29,10 +29,18 @@ String filePath = "";
 if(thumbnail != null) {
 	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 }
+Resource mobileImage = resource.getChild("mobileimage");
+String mobileImagePath = "";
+if(mobileImage != null) {
+	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
+}
+//medium up query: @media only screen and (min-width: 48.1225em)
+//small-only: @media only screen and (max-width: 48em)
 %>
 
 <script>
-document.styleSheets[0].addRule('#<%= id%>:before','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
+document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0% transparent; } }");
+document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0% transparent; } }");
 </script>
 
 <div class="row">
