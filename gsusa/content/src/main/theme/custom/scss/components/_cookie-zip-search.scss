@@ -125,3 +125,29 @@
     }
   }
 }
+
+//if the cookie header is in the top hero parsys, which span the full width, it will always appear in mobile
+//if it is not under the top hero parsys, it will not appear in mobile
+.right-wrapper .cookie-header {
+  @media #{$small-only} {
+    display: none;
+  }
+}
+
+.main-content .cookie-header .row form.find-cookies-share {
+  @media #{$medium-up} {
+    width: 50%;
+  }
+  @media #{$small-only} {
+    width: 100%;
+  }
+}
+.main-content .cookie-header .row form.find-cookies-noshare {
+  @media #{$medium-up} {
+    width: 67%;
+    float:right;
+  }
+  @media #{$small-only} {
+    width: 100%;
+  }
+}

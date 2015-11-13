@@ -48,9 +48,9 @@ document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
     <div class="wrapper-inner clearfix" id="<%= id %>">
     <%if (hasRightShareSection) { %>
-      <form class="find-cookies" name="find-cookies" style="width: 50%;">
+      <form class="find-cookies-share" name="find-cookies">
     <%} else {%>
-        <form class="find-cookies" name="find-cookies" style="width: 67%; float:right;">
+        <form class="find-cookies-noshare" name="find-cookies">
     <% }%> 
         <label for="zip-code"><%= mainText %></label>
         <div class="form-wrapper clearfix">
