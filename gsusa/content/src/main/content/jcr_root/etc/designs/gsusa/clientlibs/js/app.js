@@ -579,6 +579,8 @@
 
   $('.video-slider').slick({
     dots: false,
+    speed: 500,
+    fade: false,
     cssEase: 'linear',
     centerMode: true,
     slidesToShow: 1,
