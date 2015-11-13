@@ -1,9 +1,8 @@
 .cookie-header {
   font-size: rem-calc(18);
   margin-top: rem-calc(9);
-  .row {
-    color: $white;
-    padding: rem-calc(0 0 28);
+  color: $white;
+  margin-bottom: rem-calc(28);
     .wrapper {
       background: #6e298d;
       margin-top: rem-calc(13);
@@ -122,5 +121,4 @@
         }
       }
     }
-  }
 }
