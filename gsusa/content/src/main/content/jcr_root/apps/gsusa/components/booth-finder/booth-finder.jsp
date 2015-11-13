@@ -38,58 +38,61 @@ if (zip == null || zip.isEmpty()) {
     int numPerPage = properties.get("numPerPage", 50);
     
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
-    List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
-    Council council = boothFinder.getCouncil(zip);
-    String preferredPath = council.preferredPath;
-
-    // TODO: for debugging paths. Remove before push live.
-    // Uncomment the following two lines to test other paths. Modify preferredPath variable to the path you wanna test.
-    //booths = new java.util.ArrayList<BoothBasic>();
-    //preferredPath = "Path1";
+    try {
+        List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
+        Council council = boothFinder.getCouncil(zip);
+        String preferredPath = council.preferredPath;
     
-    request.setAttribute("gsusa_council_info", council);
-    if (!booths.isEmpty()) {
-        boolean headless = false;
-        for (String selector : selectors) {
-        	if (selector.equalsIgnoreCase("headless")) {
-        		headless = true;
-        		break;
-        	}
-        }
+        // TODO: for debugging paths. Remove before push live.
+        // Uncomment the following two lines to test other paths. Modify preferredPath variable to the path you wanna test.
+        //booths = new java.util.ArrayList<BoothBasic>();
+        //preferredPath = "Path1";
         
-        request.setAttribute("gsusa_cookie_booths", booths);
-        request.setAttribute("gsusa_booth_list_zip", zip);
-        request.setAttribute("gsusa_booth_list_radius", radius);
-        request.setAttribute("gsusa_booth_list_date", date);
-        request.setAttribute("gsusa_booth_list_sortby", sortBy);
-        request.setAttribute("gsusa_booth_list_pagenum", pageNum);
-        request.setAttribute("gsusa_booth_list_numperpage", numPerPage);
-        if (headless) {
-            %><cq:include script="booths.jsp" /><%
-        } else {
-            %><cq:include script="booth-list.jsp" /><%
+        request.setAttribute("gsusa_council_info", council);
+        if (!booths.isEmpty()) {
+            boolean headless = false;
+            for (String selector : selectors) {
+            	if (selector.equalsIgnoreCase("headless")) {
+            		headless = true;
+            		break;
+            	}
+            }
+            
+            request.setAttribute("gsusa_cookie_booths", booths);
+            request.setAttribute("gsusa_booth_list_zip", zip);
+            request.setAttribute("gsusa_booth_list_radius", radius);
+            request.setAttribute("gsusa_booth_list_date", date);
+            request.setAttribute("gsusa_booth_list_sortby", sortBy);
+            request.setAttribute("gsusa_booth_list_pagenum", pageNum);
+            request.setAttribute("gsusa_booth_list_numperpage", numPerPage);
+            if (headless) {
+                %><cq:include script="booths.jsp" /><%
+            } else {
+                %><cq:include script="booth-list.jsp" /><%
+            }
+            request.setAttribute("gsusa_cookie_booths", null);
+        } else if ("Path1".equalsIgnoreCase(preferredPath)) {
+            %><cq:include script="path1.jsp" /><%
+        } else if ("Path2".equalsIgnoreCase(preferredPath)) {
+            %><cq:include script="path2.jsp" /><%
+        } else if ("Path3".equalsIgnoreCase(preferredPath)) {
+            // Path3 is deprecated.
+        } else if ("Path4".equalsIgnoreCase(preferredPath)) {
+            %><cq:include script="path4.jsp" /><%
+        } else if ("Path5".equals(preferredPath)) {
+            %><cq:include script="path5.jsp" /><%
         }
-        request.setAttribute("gsusa_cookie_booths", null);
-    } else if ("Path1".equalsIgnoreCase(preferredPath)) {
-        %><cq:include script="path1.jsp" /><%
-    } else if ("Path2".equalsIgnoreCase(preferredPath)) {
-        %><cq:include script="path2.jsp" /><%
-    } else if ("Path3".equalsIgnoreCase(preferredPath)) {
-        // Path3 is deprecated.
-    } else if ("Path4".equalsIgnoreCase(preferredPath)) {
-        %><cq:include script="path4.jsp" /><%
-    } else if ("Path5".equals(preferredPath)) {
-        %><cq:include script="path5.jsp" /><%
+        request.setAttribute("gsusa_council_info", null);
+        request.setAttribute("gsusa_booth_list_zip", null);
+        request.setAttribute("gsusa_booth_list_radius", null);
+        request.setAttribute("gsusa_booth_list_date", null);
+        request.setAttribute("gsusa_booth_list_sortby", null);
+        request.setAttribute("gsusa_booth_list_pagenum", null);
+        request.setAttribute("gsusa_booth_list_numperpage", null);
+    } catch (Exception e) { // boothFinder.getBooths
+    	%><div>There is a problem communicating with the server. Please try again later.</div><%
     }
-    request.setAttribute("gsusa_council_info", null);
-    request.setAttribute("gsusa_booth_list_zip", null);
-    request.setAttribute("gsusa_booth_list_radius", null);
-    request.setAttribute("gsusa_booth_list_date", null);
-    request.setAttribute("gsusa_booth_list_sortby", null);
-    request.setAttribute("gsusa_booth_list_pagenum", null);
-    request.setAttribute("gsusa_booth_list_numperpage", null);
 }
-
 %>
 
 <%!

@@ -41,6 +41,7 @@ public class BoothFinder {
     private static final String API_BASE = "http://www.girlscoutcookies.org/";
     private static final String LOCAL_COUNCIL_COOKIE_SALE_STATUS_API = "ajax_GetCouncilInfo.asp?ZIPCode=";
     private static final String FETCH_BOOTH_LIST_API = "iphoneapp/booth_list.asp?";
+    private static final String SAVE_CONTACT_ME_INFORMATION_API = "ajax_customer_insert.asp?";
     @SuppressWarnings("unused")
 	private static final long serialVersionUID = -1155198001819957909L;
     private static Logger log = LoggerFactory.getLogger(BoothFinder.class);
@@ -219,6 +220,32 @@ public class BoothFinder {
             throw new Exception(pce);
         } catch (SAXException se) {
             throw new Exception(se);
+        } finally {
+            get.releaseConnection();
+        }
+    }
+    
+    public String saveContactMeInformation(String zipCode, String email, String firstName, boolean optIn, String phone) throws Exception {
+        String apiPath = apiBasePath + SAVE_CONTACT_ME_INFORMATION_API + 
+                "ZIPCode=" + zipCode.trim() + 
+                "&Email=" + email.trim() + 
+                "&FirstName=" + firstName.trim() + 
+                "&OptIn=" + (optIn ? "true" : "false") +
+                "&Phone=" + phone.replaceAll("[^0-9]", "");
+
+        GetMethod get = new GetMethod(apiPath);
+        try  {
+            int resStatus = httpClient.executeMethod(get);
+            if (resStatus != 200) {
+                throw new Exception("Response not 200.");
+            }
+            
+            String resBody = get.getResponseBodyAsString().trim();
+            return resBody;
+        } catch (HttpException he) {
+            throw new Exception(he);
+        } catch (IOException ie) {
+            throw new Exception(ie);
         } finally {
             get.releaseConnection();
         }
