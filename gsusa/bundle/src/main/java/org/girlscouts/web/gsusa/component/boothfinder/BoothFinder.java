@@ -158,7 +158,7 @@ public class BoothFinder {
                          "&s=" + Integer.toString(pageNum * numPerPage + 1) +
                          "&m=" + Integer.toString(numPerPage + 1) + // Query one more record to see if there are more.
                          // TODO: What is the number for "all"?
-                         "&d=" + ("all".equalsIgnoreCase(dateRange) ? "3650" : dateRange.trim());
+                         "&d=" + ("all".equalsIgnoreCase(dateRange) ? "365" : dateRange.trim());
 
         GetMethod get = new GetMethod(apiPath);
         try  {
