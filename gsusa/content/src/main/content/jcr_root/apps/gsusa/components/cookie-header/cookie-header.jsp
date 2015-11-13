@@ -32,7 +32,7 @@ if(thumbnail != null) {
 %>
 
 <script>
-document.styleSheets[0].addRule('#<%= id%>','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
+document.styleSheets[0].addRule('#<%= id%>:before','background: url("<%= filePath%>") no-repeat 0% 0% transparent;');
 </script>
 
 <div class="row">
