@@ -18,3 +18,21 @@ $('.email-signin').submit(function (event) {
 	});
 	return false;
 });
+
+$('#emailSignupNav').submit(function (event){
+	var me = event.target;
+	var emailAddress = $(me).find("[name='email']").val();
+	var zipcode = $(me).find("[name='zipcode']").val();
+	var alumna = ($(me).find("[name='alumna']").is(':checked') ? "Yes" : "No");
+	var error = $('.error.hide');
+	$.get('/program/gs_cookies/newsletteradd.asp?email=' + emailAddress + '&alumna=' + alumna + '&zipcode=' + zipcode, function(result){
+		if(result.search(/OK/i) == -1) {
+			error.show();
+		} else {
+			//Display thank you notice
+			$('.get-updates section').hide();
+			$('.success').removeClass('hide');
+		}
+	});
+	return false;
+});

@@ -137,6 +137,12 @@
 	<version>2.2.4-B001</version>
 	<scope>provided</scope>
 </dependency>
+            <dependency>
+                <groupId>com.day.commons.osgi.wrapper</groupId>
+                <artifactId>com.day.commons.osgi.wrapper.joda-time</artifactId>
+                <version>1.6-0002</version>
+                <scope>provided</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
