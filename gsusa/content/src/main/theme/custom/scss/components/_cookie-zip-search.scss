@@ -19,6 +19,7 @@
       &:before {
         @media #{$medium-up} {
           content: "";
+          //This now done in the jsp. Please check cookie-header.jsp for more details
           //background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
           height: rem-calc(105);
           width: rem-calc(235);
@@ -28,6 +29,7 @@
         }
         @media #{$small-only} {
           content: "";
+          //This now done in the jsp. Please check cookie-header.jsp for more details
           //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
           height: rem-calc(71);
           width: rem-calc(71);
@@ -40,6 +42,7 @@
       }
     }
     .share {
+    //This now done in the jsp. Please check cookie-header.jsp for more details
       //#main & {
       //  display: none;
       //}
@@ -48,9 +51,11 @@
         clear:both;
       }
       i {
+        color: white;
         font-size: rem-calc(37);
       }
       a {
+        color: white;
         vertical-align: middle;
         line-height: 1.2;
       }
@@ -111,11 +116,13 @@
         @include grid-column(5, $float:right);
         line-height: rem-calc(37);
         i {
+          color: white;
           float: right;
           width: 22%;
         }
         a {
           span {
+            color: white;
             display: inline-block;
             float: left;
             width: 73%;
