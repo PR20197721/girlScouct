@@ -137,7 +137,6 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 			$.post($(this).attr('action'), $(this).serialize(), function(response) {
 				// Remove blank lines
 				response = response.replace(/^\s*\n/gm, '').trim();
-				alert(response);
 				if (response.toUpperCase() == 'OK') {
 					$('#contactlocalcouncil').html('Thank you for contacting us');
 				} else {

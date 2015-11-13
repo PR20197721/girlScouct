@@ -577,8 +577,10 @@
     imageMap.resize();
   }
 
-  $('.video-slider').slick({
-    dots: false,
+  $('.video-slider-wrapper').slick({  
+    dots: false, 
+    speed: 500,
+    fade: false,
     cssEase: 'linear',
     centerMode: true,
     slidesToShow: 1,
