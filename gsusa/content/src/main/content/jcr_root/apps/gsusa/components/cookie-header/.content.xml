@@ -3,4 +3,4 @@
     jcr:description="Cookie Header"
     jcr:primaryType="cq:Component"
     jcr:title="Cookie Header"
-    componentGroup="GSUSA"/>
+    componentGroup=".hidden"/>
