@@ -7,9 +7,10 @@
 <%@page session="false" %>
 
 <%!
-public String extract(String url){
+public String[] extract(String url){
 	if (url.indexOf("youtube") != -1) {
-		return "https://i1.ytimg.com/vi/" + extractYTId(url) +"/hqdefault.jpg";
+		String ytid = extractYTId(url);
+		return new String[]{"https://www.youtube.com/embed/" + ytid , "https://i1.ytimg.com/vi/" + ytid +"/hqdefault.jpg"};
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);
@@ -17,14 +18,14 @@ public String extract(String url){
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					return (String)json.getJSONObject(0).getString("thumbnail_large");
+					return new String[]{"https://player.vimeo.com/video/"+ vimeoId, (String)json.getJSONObject(0).getString("thumbnail_large")};
 				}
 			}
 		} catch (Exception e) {
-			return "";
+			return new String[0];
 		}
 	}
-	return "";
+	return new String[0];
 }
 
 public String extractYTId(String ytUrl) {
@@ -76,10 +77,10 @@ public  String readUrlFile(String urlString) throws Exception {
 	if(links != null && links.length > 0){
 		for(int i = 0; i < links.length; i++){
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				String thumbnail = extract(links[i]);
-				if(!thumbnail.equals("")){
-					%> <div><div class="hide-for-large"><a href="<%= links[i] %>"><img src="<%= thumbnail %>" /></a></div>
-					   <div class="show-for-large"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div> <%
+				String[] urls = extract(links[i]);
+				if(urls.length == 2){
+					%> <div><div class="hide-for-large"><a href="<%= links[i] %>"><img src="<%= urls[1] %>" /></a></div>
+					   <div class="show-for-large"><iframe src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div> <%
 				} else{ %><div>*** Format not supported ***</div><% }
 			} else{
 				alt = "Image slider " + i;
