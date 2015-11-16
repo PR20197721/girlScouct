@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Contact Modal"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Keep In Touch Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<btn
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Button Text"
+                		name="./btn"
+                		value="Contact Your Local Council"
+                		defaultValue="Contact Your Local Council"
+                		xtype="textfield"/>
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title"
+                        name="./title"
+                        xtype="textfield"/>
+                    <desc
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Description"
+                    	name="./desc"
+                    	xtype="textarea"/>
+                 </items>
+             </tab1>
+        </items>
+    </items>
+</jcr:root>

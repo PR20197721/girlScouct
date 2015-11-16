@@ -1,1 +1,0 @@
-<a href="#" data-reveal-id="contactCouncil" class="button">Contact your local council</a>
