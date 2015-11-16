@@ -2,11 +2,14 @@
 <%@include file="/libs/foundation/global.jsp" %>
 
 <%
+String[] cookies = properties.get("cookies", String[].class);
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %><cq:includeClientLib categories="apps.gsusa.authoring" /><%
+	if (cookies == null || cookies.length == 0) {
+		%>Meet The Cookies: Double click here to edit.<%
+	}
 }
 
-String[] cookies = properties.get("cookies", String[].class);
 if (cookies != null && cookies.length != 0) {
     %><div id="meet-cookie-layout"><%
     for (String cookie : cookies) {
