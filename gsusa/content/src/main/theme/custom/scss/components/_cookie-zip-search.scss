@@ -161,8 +161,21 @@
   }
 }
 
-.styled-parsys.par,.right-wrapper,left-col .standalone-cookie-header {
-  @media #{$small-only} {
-    display: none;
-  }
+.header .cookie-header {
+	@media #{$small-only} {
+    	display: inline;
+   	}
 }
+
+#main .cookie-header {
+	@media #{$small-only} {
+    	display: none;
+   	}
+}
+
+.styled-parsys.par .standalone-cookie-header {
+	@media #{$small-only} {
+		display: none;
+	}
+}
+

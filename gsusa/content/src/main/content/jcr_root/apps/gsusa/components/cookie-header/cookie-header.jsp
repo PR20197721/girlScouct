@@ -29,7 +29,7 @@ boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
 
 if (hasHeader) {// contains cookie) {
 %>
-<div id="stay-cheader" class="show-for-small">
+<div class="show-for-small">
 	<cq:include path="mobile-cookie-header" resourceType="gsusa/components/standalone-cookie-header" />
 </div>
 <%
