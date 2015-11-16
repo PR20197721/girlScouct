@@ -52,6 +52,11 @@
                 		fieldDescription="text in the center of the header"
                 		name="./maintext"
                 		xtype="textfield"/>
+                	<cookieboothpath
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the Cookie Booth"
+	                    name="./cookieboothlink"
+	                    xtype="pathfield"/>
                 </items>
             </maincontent>
             <image
