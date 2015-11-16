@@ -70,7 +70,23 @@ public class BoothFinder {
             preferredPath, path2Method, cookiePageUrl,
             cookieSaleContactEmail;
         
-        @Override
+        
+        
+        public Council() {
+			this.code = "";
+			this.name = "";
+			this.abbrName = "";
+			this.cityStateZip = "";
+			this.url = "";
+			this.cookieSaleStartDate = "";
+			this.cookieSaleEndDate = "";
+			this.preferredPath = "";
+			this.path2Method = "";
+			this.cookiePageUrl = "";
+			this.cookieSaleContactEmail = "";
+		}
+
+		@Override
         public String toString() {
             return "Council: code=" + code + ";name=" + name + ";abbrName=" + abbrName +
                    ";cityStateZip=" + cityStateZip + ";url=" + url +
