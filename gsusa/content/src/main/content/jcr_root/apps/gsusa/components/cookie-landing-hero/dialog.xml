@@ -34,7 +34,6 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
-                            rootPath="/"
                             xtype="pathfield"/>
                     </images>
                 </items>
