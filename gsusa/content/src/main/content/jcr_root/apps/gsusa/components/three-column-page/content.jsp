@@ -13,6 +13,7 @@
 <!-- content -->
 <div id="main" class="three-cols">
     <cq:include path="content/top/par" resourceType="girlscouts/components/styled-parsys" />
+
     <div class="left-col">
         <cq:include script="left.jsp"/>
     </div>

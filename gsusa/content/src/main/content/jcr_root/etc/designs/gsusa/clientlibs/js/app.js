@@ -617,6 +617,26 @@
       // }]
     });
   }
+  function welcome_cookie_slider() {
+    // $('.rotator .button.arrow').on("click", function (event) {
+    //   this.delegateEvents();
+    // }
+    $('.welcome-video-slider').slick({
+      dots: false,
+      speed: 500,
+      autoplay: true,
+      arrows: false,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      fade: true,
+      // responsive: [{
+      //   breakpoint: 768,
+      //   settings: {
+      //     slidesToShow: 1
+      //   }
+      // }]
+    });
+  }
 
   fix_bottom_footer();
   slide_search_bar();
@@ -627,6 +647,7 @@
   join_now();
   scroll_feeds();
   shop_rotator();
+  welcome_cookie_slider();
 
   function hide_show_cookie() {
     $('#meet-cookie-layout section').hide();
