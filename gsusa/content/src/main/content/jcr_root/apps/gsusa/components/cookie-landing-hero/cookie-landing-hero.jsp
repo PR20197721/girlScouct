@@ -1,20 +1,24 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-	// TODO add you code here
+String text = properties.get("text", "");
+String facebookLink = properties.get("facebookLink", "");
+String[] images = properties.get("images", String[].class);
+if (images == null || images.length == 0) {
+    %>Cookie Landing Component. Double click here to edit.<%
+} else {
 %>
     <div class="cookie-landing-hero hide-for-small">
       <div class="welcome-video-slider">
-      <div><img src="/etc/designs/gsusa/images/cookie-carousel-hp.png" alt="" /></div>
-      <div><img src="/etc/designs/gsusa/images/cookie-carousel-hp2.png" alt="" /></div>
-      <div><img src="/etc/designs/gsusa/images/cookie-carousel-h3.png" alt="" /></div>
-      <div><img src="/etc/designs/gsusa/images/cookie-carousel-h4.png" alt="" /></div>
+<%    for (String image : images) { %>
+      	<div><img src="<%= image %>" alt="" /></div>
+<%    } %>
       </div>
       <div class="cookie-header">
         <div class="wrapper clearfix">
           <div class="wrapper-inner clearfix">
             <form class="find-cookies" name="find-cookies">
-              <label for="zip-code">Nemo enim ipsam volu quia voluptas sit.</label>
+              <label for="zip-code"><%= text %> %></label>
               <div class="form-wrapper clearfix">
                 <input type="text" placeholder="ZIP Code" class="zip-code" name="zip-code">
                 <input type="submit" class="link-arrow" value="Go >"/>
@@ -24,6 +28,9 @@
         </div>
       </div>
       <div class="facebook-image">
-        <a href="" title="follow on facebook"><img src="/etc/designs/gsusa/images/facebook-image.png" alt="facebook" /></a>
+        <a href="<%= facebookLink %>" title="follow on facebook"><img src="/etc/designs/gsusa/images/facebook-image.png" alt="facebook" /></a>
       </div>
     </div>
+<%
+    }
+%>
