@@ -59,7 +59,12 @@
       line-height: 1.2;
     }
   }
-  form {
+  form.find-cookies {
+   	@media #{$medium-up} {
+    	margin-left: 0;
+    }
+  }
+  form.find-cookies-noshare, form.find-cookies-share {
     label {
       color: $white;
       font-size: rem-calc(16);
@@ -85,8 +90,8 @@
       position: relative;
     }
     @media #{$medium-up} {
-      width: 50%;
-      margin-left: rem-calc(265);//width of the image + 30px
+       width: 50%;
+       margin-left: rem-calc(265);//width of the image + 30px
       .main-content & {
         margin: 0;
         //float: right;
@@ -148,6 +153,7 @@
     width: 100%;
   }
 }
+
 
 #stay-cheader .cookie-header,.standalone-cookie-header {
   @media #{$small-only} {
