@@ -31,7 +31,6 @@
         <div class="right-col">
             <cq:include script="right.jsp"/>
         </div>
-    <cq:include script="cookie-footer.jsp"/>
     </div>
     <div class="wrapper clearfix"></div>
     <cq:include path="content/bottom/par" resourceType="girlscouts/components/styled-parsys" />

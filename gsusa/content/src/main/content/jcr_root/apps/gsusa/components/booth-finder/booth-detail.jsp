@@ -1,8 +1,15 @@
- <%
+ <%@page import="java.net.URLEncoder"%>
+<%
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
-String address = request.getParameter("address1");
+String address2 = request.getParameter("address2");
+address2 = address2 ==null ? "" : address2;
+String address = request.getParameter("address1") +" " + address2 ; 
+String zip = (String)request.getParameter("zip");
+zip = (zip ==null ? "" : zip);
+String councilName= (String)request.getParameter("councilName");
+councilName= councilName== null ? "" : councilName;
 %>
 <html>
 <head>
@@ -58,7 +65,7 @@ String address = request.getParameter("address1");
                 <p><%= request.getParameter("address1") %></p>
             </div>
             <div>
-                <a href="" title="">Get Directions ></a>
+                <a href="http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>" title="" target="_blank">Get Directions ></a>
             </div>
             <div>
                 <h5>Date and Time</h5>
@@ -67,7 +74,7 @@ String address = request.getParameter("address1");
             </div>
             <div>
                 <h5>Council</h5>
-                <p>Cuuncil NameXXXX</p>
+                <p><%=councilName %></p>
             </div>
         </section>
         <section>
