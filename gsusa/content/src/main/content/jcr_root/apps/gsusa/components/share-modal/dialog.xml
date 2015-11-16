@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Share Modal"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Share Modal Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <btn
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="SHARE WITH YOUR FRIENDS"
+                        value="SHARE WITH YOUR FRIENDS"
+                        fieldLabel="Button Text"
+                        name="./btn"
+                        xtype="textfield"/>
+                    <header
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Modal header text"
+                        name="./header"
+                        xtype="textarea"/>
+                    <desc
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Modal Description"
+                        xtype="textarea"
+                        name="./desc"/>
+                    <text1
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Button 1 Text"
+                    	name="./text1"
+                    	xtype="textfield"/>
+                    <link1
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button 1 URL"
+                        name="./link1"
+                        xtype="textfield"/>
+                    <icon1
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Icon 1 (optional)"
+                        xtype="iconpicker"
+                        name="./icon1"/>
+                    <text2
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Button 2 Text"
+                    	name="./text2"
+                    	xtype="textfield"/>
+                    <link2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button 2 URL"
+                        name="./link2"
+                        xtype="textfield"/>
+                    <icon2
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Icon 2 (optional)"
+                        xtype="iconpicker"
+                        name="./icon2"/>
+                </items>
+            </tab1>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./image/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./image/fileName"
+                fileReferenceParameter="./image/fileReference"
+                mapParameter="./image/imageMap"
+                name="./file"
+                requestSuffix="/image.img.png"
+                rotateParameter="./image/imageRotate"
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
+        </items>
+    </items>
+</jcr:root>
