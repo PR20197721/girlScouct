@@ -20,6 +20,7 @@
                         fieldDescription="Result page that will show the cookie booths"
                         fieldLabel="Result Page"
                         name="./resultPage"
+                        rootPath="/content/gsusa"
                         xtype="pathfield"/>
                     <facebook-link
                         jcr:primaryType="cq:Widget"
@@ -33,6 +34,7 @@
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
+                            rootPath="/"
                             xtype="pathfield"/>
                     </images>
                 </items>
