@@ -7,6 +7,26 @@
 <%@page session="false" %>
 
 <%!
+public String extract(String url){
+	if (url.indexOf("youtube") != -1) {
+		return "https://i1.ytimg.com/vi/" + extractYTId(url) +"/mqdefault.jpg";
+	} else if (url.indexOf("vimeo") != -1) {
+		try{
+			String vimeoId = extractVimeoId(url);
+			String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+			if (!"".equals(jsonOutput)) {
+				JSONArray json = new JSONArray(jsonOutput);
+				if (!json.isNull(0)) {
+					return (String)json.getJSONObject(0).getString("thumbnail_large");
+				}
+			}
+		} catch (Exception e) {
+			return "";
+		}
+	}
+	return "";
+}
+
 public String extractYTId(String ytUrl) {
 	String vId = null;
 	Pattern pattern = Pattern.compile(".*(?:youtu.be\\/|v\\/|u\\/\\w\\/|embed\\/|watch\\?v=)([^#\\&\\?]*).*");
@@ -47,42 +67,31 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 	}
 }
-public void addVideoNode(String videoPath, String videoName) {
-
-    }
     %>
 
 <div class="video-slider-wrapper">
 <%
 	String[] links = properties.get("links",String[].class);
 	String alt = "";
-	if(links != null && links.length > 0){
-		for(int i = 0; i < links.length; i++){
+	if(links != null && links.length > 0) {
+		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				if (links[i].indexOf("youtube") != -1) {
-					String ytId = extractYTId(links[i]);
-					String thumbnail = "https://i1.ytimg.com/vi/" + ytId +"/hqdefault.jpg";
-					%> <div><div class="hide-for-large"><a href="<%= links[i] %>"><img src="<%= thumbnail %>" /></a></div>
-					   <div class="show-for-large"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div> <%
-				} else if (links[i].indexOf("vimeo") != -1) {
-					String vimeoId = extractVimeoId(links[i]);
-					String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-					if (!"".equals(jsonOutput)) {
-						JSONArray json = new JSONArray(jsonOutput);
-						if (!json.isNull(0)) {
-							%> <div><div class="hide-for-large"><a href="<%= links[i] %>"><img src="<%= json.getJSONObject(0).getString("thumbnail_large") %>" /></a></div> 
-							   <div class="show-for-large"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div><%
-						}
-					}
-				} else{ %><div>*** Format not supported ***</div><% }
-			} else{
-				alt = "Image slider " + i;
-				%><div><img src="<%= links[i] %>" alt="<%= alt %>" /></div> <%
-			}
+				String thumbnail = extract(links[i]);
+				if(!thumbnail.equals("")) { %>
+					<div>
+						<div class="show-for-small thumbnail"><a href="<%= links[i] %>" title="video thumbnail"><img src="<%= thumbnail %>" /></a></div>
+					   	<div class="show-for-medium-up"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
+					</div>
+				<% } else { %>
+					<div>*** Format not supported ***</div>
+				<% }
+			} else {
+				alt = "Image slider " + i; %>
+				<div><img src="<%= links[i] %>" alt="<%= alt %>" /></div>
+		<% }
 		}
-	} else{
-		%> <div>***** Please add a video or image *****</div>
-		<div>***** Please add a video or image *****</div> <%
-	}
-%>
+	} else { %>
+		<div>***** Please add a video or image *****</div>
+		<div>***** Please add a video or image *****</div>
+	<% } %>
 </div>

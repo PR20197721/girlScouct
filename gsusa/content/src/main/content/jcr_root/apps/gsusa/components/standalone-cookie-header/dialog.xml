@@ -40,6 +40,10 @@
                 jcr:primaryType="cq:Panel"
                 title="Main Content">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<text
+                		jcr:primaryType="cq:Widget"
+                        text="Important: If this component is in the page, please shrink your browser to a smaller size (width smaller than 640px) until you see another header. You will also need to configure that header"
+                        xtype="label"/>
                     <bgcolor
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter background color in HEX (e.g. e34c38). Default: 6e298d"
@@ -52,6 +56,11 @@
                 		fieldDescription="text in the center of the header"
                 		name="./maintext"
                 		xtype="textfield"/>
+                	<cookieboothpath
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the Cookie Booth"
+	                    name="./cookieboothlink"
+	                    xtype="pathfield"/>
                 </items>
             </maincontent>
             <image
