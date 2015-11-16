@@ -1,9 +1,15 @@
 package org.girlscouts.web.gsusa.component.boothfinder;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -42,6 +48,7 @@ public class BoothFinder {
     private static final String LOCAL_COUNCIL_COOKIE_SALE_STATUS_API = "ajax_GetCouncilInfo.asp?ZIPCode=";
     private static final String FETCH_BOOTH_LIST_API = "iphoneapp/booth_list.asp?";
     private static final String SAVE_CONTACT_ME_INFORMATION_API = "ajax_customer_insert.asp?";
+    private static final String websiteIdentify = "Website";
     @SuppressWarnings("unused")
 	private static final long serialVersionUID = -1155198001819957909L;
     private static Logger log = LoggerFactory.getLogger(BoothFinder.class);
@@ -55,6 +62,7 @@ public class BoothFinder {
     public static class BoothBasic {
         public String id, distance, location, address1, address2, dateStart, dateEnd, timeOpen, timeClose;
 
+        
         @Override
         public String toString() {
             return "BoothBasic: id=" + id + ";distance=" + distance + ";location=" + location +
@@ -150,7 +158,7 @@ public class BoothFinder {
         }
     }
     
-    public List<BoothBasic> getBooths(String zipCode, String dateRange, String distance, String sortBy, int pageNum, int numPerPage) throws Exception {
+    public List<BoothBasic> getBooths(String zipCode, String dateRange, String distance, String sortBy, int pageNum, int numPerPage, final String queryString) throws Exception {
         String apiPath = apiBasePath + FETCH_BOOTH_LIST_API + 
                          "z=" + zipCode.trim() + 
                          "&r=" + distance.trim() + 
@@ -158,7 +166,21 @@ public class BoothFinder {
                          "&s=" + Integer.toString(pageNum * numPerPage + 1) +
                          "&m=" + Integer.toString(numPerPage + 1) + // Query one more record to see if there are more.
                          // TODO: What is the number for "all"?
-                         "&d=" + ("all".equalsIgnoreCase(dateRange) ? "365" : dateRange.trim());
+                         "&d=" + ("all".equalsIgnoreCase(dateRange) ? "365" : dateRange.trim()) +
+                         "&f=" + websiteIdentify;
+
+        if (queryString != null) { 
+        	Map<String, List<String>> para = splitQuery(queryString);
+        	if (para.get("utm_campiagn").get(0) != null) {
+        		apiPath += "&utm_campiagn=" + para.get("utm_campiagn").get(0);
+        	}
+        	if (para.get("utm_medium").get(0) != null) {
+        		apiPath += "&utm_medium=" + para.get("utm_medium").get(0);
+        	}
+        	if (para.get("utm_source").get(0) != null) {
+        		apiPath += "&utm_source=" + para.get("utm_source").get(0);
+        	}
+        }
 
         GetMethod get = new GetMethod(apiPath);
         try  {
@@ -249,5 +271,20 @@ public class BoothFinder {
         } finally {
             get.releaseConnection();
         }
+    }
+    
+    public Map<String, List<String>> splitQuery(String stringQuery) throws UnsupportedEncodingException {
+    	final Map<String, List<String>> query_pairs = new LinkedHashMap<String, List<String>>();
+    	final String[] pairs = stringQuery.split("&");
+    	for (String pair : pairs) {
+    	    final int idx = pair.indexOf("=");
+    	    final String key = idx > 0 ? URLDecoder.decode(pair.substring(0, idx), "UTF-8") : pair;
+    	    if (!query_pairs.containsKey(key)) {
+    	        query_pairs.put(key, new LinkedList<String>());
+    	    }
+    	    final String value = idx > 0 && pair.length() > idx + 1 ? URLDecoder.decode(pair.substring(idx + 1), "UTF-8") : null;
+    	    query_pairs.get(key).add(value);
+    	}
+    	return query_pairs;
     }
 }

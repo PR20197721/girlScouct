@@ -4,8 +4,10 @@
                 java.util.List,
                 java.util.regex.Pattern,
                 org.apache.sling.api.SlingHttpServletRequest,
-                org.apache.sling.api.request.RequestPathInfo" %>
+                org.apache.sling.api.request.RequestPathInfo, 
+                com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp"%>
+
 <%@page session="false" %>
 
 <%
@@ -37,9 +39,11 @@ if (zip == null || zip.isEmpty()) {
     }
     int numPerPage = properties.get("numPerPage", 50);
 
+    String queryString = request.getQueryString();
+    
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
     try {
-        List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage);
+        List<BoothBasic> booths = boothFinder.getBooths(zip, date, radius, sortBy, pageNum, numPerPage, queryString);
         Council council = boothFinder.getCouncil(zip);
         String preferredPath = council.preferredPath;
 
@@ -89,9 +93,11 @@ if (zip == null || zip.isEmpty()) {
         request.setAttribute("gsusa_booth_list_sortby", null);
         request.setAttribute("gsusa_booth_list_pagenum", null);
         request.setAttribute("gsusa_booth_list_numperpage", null);
-    } catch (Exception e) { // boothFinder.getBooths
-    	%><div>There is a problem communicating with the server. Please try again later.</div><%
+	} catch (Exception e) { // boothFinder.getBooths
+//		System.out.println(e.getMessage());
+       %><div>There is a problem communicating with the server. Please try again later.</div><%
     }
+    
 }
 %>
 
