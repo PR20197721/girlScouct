@@ -33,6 +33,6 @@ $('#emailSignupNav').submit(function (event){
 			$('.get-updates section').hide();
 			$('.success').removeClass('hide');
 		}
-	});
+	}).fail(function() { error.show() });
 	return false;
 });
