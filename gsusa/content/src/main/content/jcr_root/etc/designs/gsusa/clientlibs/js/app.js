@@ -628,13 +628,6 @@
   scroll_feeds();
   shop_rotator();
 
-
-  //call to brick-by-brickJS for the meet the cookie page.
-  $('#meet-cookie-layout').layout({
-    itemPadding: 0
-    }
-  );
-
   function hide_show_cookie() {
     $('#meet-cookie-layout section').hide();
     $('#meet-cookie-layout .wrapper h4').on('click', function (e) {

@@ -32,6 +32,13 @@ if (cookies != null && cookies.length != 0) {
         </div>
 <%
     }
-    %></div><%
+%>
+    </div>
+    <script>
+        $('#meet-cookie-layout').layout({
+            itemPadding: 0
+        });
+    </script>
+<%
 }
 %>
