@@ -1,24 +1,33 @@
-<%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %><%
-%><%
-	// TODO add you code here
-%>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page import="com.day.cq.wcm.api.WCMMode, 
+                com.day.cq.wcm.foundation.Placeholder, 
+                java.util.Random,
+                java.util.Map,
+                java.util.HashMap,
+                com.day.cq.search.QueryBuilder,
+                com.day.cq.search.Query,
+                com.day.cq.search.PredicateGroup,
+                com.day.cq.search.result.SearchResult"  %>
+<%@page session="false" %>
 
-<div class="row">
-  <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
-  <div class="wrapper clearfix">
-    <div class="wrapper-inner clearfix">
-      <form class="find-cookies" name="find-cookies">
-        <label for="zip-code">Nemo enim ipsam volu quia voluptas sit.</label>
-        <div class="form-wrapper clearfix">
-          <input type="text" placeholder="ZIP Code" class="zip-code" name="zip-code">
-          <input type="submit" class="link-arrow" value="Go >"/><!-- <span></span> -->
-        </div>
-      </form>
-      <div class="share">
-        <a href="https://www.facebook.com/GirlScoutCookieProgram" title="cookies on facebook"><span>Follow&nbsp;cookies on Facebook</span> <i class="icon-social-facebook"></i></a>
-      </div>
-    </div>
-  </div>
+<%
+QueryBuilder builder = sling.getService(QueryBuilder.class);
+Map<String, String> map = new HashMap<String, String>();
+map.put("path", currentPage.getPath());
+map.put("property", "sling:resourceType");
+map.put("property.value", "gsusa/components/standalone-cookie-header");
+
+Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+SearchResult result = query.getResult();
+long matchNum = result.getTotalMatches();
+boolean hasHeader = matchNum != 0;
+
+    if (hasHeader) {// contains cookie) {
+%>
+<div id="stay-cheader" class="show-for-small">
+	<cq:include path="mobile-cookie-header" resourceType="gsusa/components/standalone-cookie-header" />
 </div>
+<%
+}
+%>

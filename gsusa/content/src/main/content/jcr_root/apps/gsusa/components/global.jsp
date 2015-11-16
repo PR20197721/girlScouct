@@ -92,4 +92,5 @@ public boolean isCookiePage(Page currentPage) {
 		return parentPage == null ? false : isCookiePage(parentPage);
 	}
 }
+
 %>
