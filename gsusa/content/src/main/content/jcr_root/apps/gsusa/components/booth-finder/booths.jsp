@@ -19,7 +19,7 @@ for (int i = 0; i < Math.min(booths.size(), numPerPage); i++) {
 	request.removeAttribute("gsusa-booth-list-item");
 
     if (shouldDisplayContactBanner && count == showContactBannerPer - 1) {
-        %><cq:include script="contact-banner.jsp"/><%
+        %><cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/><%
     }
     count = (count + 1) % showContactBannerPer;
 }
