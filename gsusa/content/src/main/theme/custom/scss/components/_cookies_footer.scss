@@ -1,5 +1,9 @@
 .cookie-footer {
   color: $white;
+  margin-bottom: rem-calc(20);
+  @media #{$medium-up} {
+    @include grid-column(19, $push: 5);
+  }
   a {
     color: $white;
     display: inline-block;
@@ -23,8 +27,9 @@
     padding-left: rem-calc(25);
     padding-right: rem-calc(25);
     padding-bottom: rem-calc(20);
+    margin-bottom: rem-calc(20);
     @media #{$medium-up} {
-      width: 48%;
+      width: 48.8%;
       float: left;
       height: rem-calc(152);
       margin: 0;
@@ -69,7 +74,6 @@
   .install-app {
     background: #f8971d;
     padding-top: rem-calc(25);
-    margin-bottom: rem-calc(20);
   }
   .get-updates {
     background: #a6ce38;
