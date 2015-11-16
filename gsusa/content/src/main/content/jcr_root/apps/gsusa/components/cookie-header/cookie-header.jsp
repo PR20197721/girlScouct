@@ -18,12 +18,16 @@ map.put("path", currentPage.getPath());
 map.put("property", "sling:resourceType");
 map.put("property.value", "gsusa/components/standalone-cookie-header");
 
-Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
-SearchResult result = query.getResult();
-long matchNum = result.getTotalMatches();
-boolean hasHeader = matchNum != 0;
+Query query0 = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+map.put("property.value", "gsusa/components/cookie-landing-hero");
+Query query1 = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 
-    if (hasHeader) {// contains cookie) {
+long matchNum0 = query0.getResult().getTotalMatches();
+long matchNum1 = query1.getResult().getTotalMatches();
+// TODO: Can we consolidate two queries into one?
+boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
+
+if (hasHeader) {// contains cookie) {
 %>
 <div id="stay-cheader" class="show-for-small">
 	<cq:include path="mobile-cookie-header" resourceType="gsusa/components/standalone-cookie-header" />
