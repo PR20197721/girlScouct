@@ -9,7 +9,7 @@
 <%!
 public String extract(String url){
 	if (url.indexOf("youtube") != -1) {
-		return "https://i1.ytimg.com/vi/" + extractYTId(url) +"/hqdefault.jpg";
+		return "https://i1.ytimg.com/vi/" + extractYTId(url) +"/mqdefault.jpg";
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);
@@ -73,22 +73,25 @@ public  String readUrlFile(String urlString) throws Exception {
 <%
 	String[] links = properties.get("links",String[].class);
 	String alt = "";
-	if(links != null && links.length > 0){
-		for(int i = 0; i < links.length; i++){
+	if(links != null && links.length > 0) {
+		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				String thumbnail = extract(links[i]);
-				if(!thumbnail.equals("")){
-					%> <div><div class="hide-for-large"><a href="<%= links[i] %>"><img src="<%= thumbnail %>" /></a></div>
-					   <div class="show-for-large"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div> <%
-				} else{ %><div>*** Format not supported ***</div><% }
-			} else{
-				alt = "Image slider " + i;
-				%><div><img src="<%= links[i] %>" alt="<%= alt %>" /></div> <%
-			}
+				if(!thumbnail.equals("")) { %>
+					<div>
+						<div class="show-for-small thumbnail"><a href="<%= links[i] %>" title="video thumbnail"><img src="<%= thumbnail %>" /></a></div>
+					   	<div class="show-for-medium-up"><iframe src="<%= links[i] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
+					</div>
+				<% } else { %>
+					<div>*** Format not supported ***</div>
+				<% }
+			} else {
+				alt = "Image slider " + i; %>
+				<div><img src="<%= links[i] %>" alt="<%= alt %>" /></div>
+		<% }
 		}
-	} else{
-		%> <div>***** Please add a video or image *****</div>
-		<div>***** Please add a video or image *****</div> <%
-	}
-%>
+	} else { %>
+		<div>***** Please add a video or image *****</div>
+		<div>***** Please add a video or image *****</div>
+	<% } %>
 </div>
