@@ -5,9 +5,9 @@
 <%!
 public String generateId() {
 	Random rand=new Random();
-	String possibleLetters = "abcdefghijklmnopqrstuvwxyz";   
+	String possibleLetters = "abcdefghijklmnopqrstuvwxyz";
 	StringBuilder sb = new StringBuilder(6);
-	for(int i = 0; i < 6; i++) 
+	for(int i = 0; i < 6; i++)
 	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
 	return sb.toString();
 }
@@ -46,7 +46,7 @@ document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
 	$('.find-cookies-share, .find-cookies-noshare').submit(function(event){
-		if(event.preventDefault){ 
+		if(event.preventDefault){
 			event.preventDefault()
 		} else {
 			event.stop()
@@ -68,7 +68,7 @@ $(document).ready(function(){
       <form class="find-cookies-share" name="find-cookies">
     <%} else {%>
         <form class="find-cookies-noshare" name="find-cookies">
-    <% }%> 
+    <% }%>
         <label for="zip-code"><%= mainText %></label>
         <div class="form-wrapper clearfix">
           <input type="text" placeholder="ZIP Code" class="zip-code" name="zip-code">
@@ -79,7 +79,7 @@ $(document).ready(function(){
 	      <div class="share">
 	        <a href="<%=shareSectionLink %>" title="cookies on facebook" target="_blank"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
 	      </div>
-      <%} %> 
+      <%} %>
     </div>
   </div>
 </div>
