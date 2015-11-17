@@ -656,7 +656,9 @@
       $(this).toggleClass('on');
     });
   }
-  hide_show_cookie();
+  $(document).ready(function(){
+     hide_show_cookie(); 
+  });
 
   // $(window).on("orientationchange", function () {
   //   alert("Privet!");
