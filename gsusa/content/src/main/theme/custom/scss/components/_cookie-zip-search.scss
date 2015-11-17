@@ -64,7 +64,7 @@
     	margin-left: 0;
     }
   }
-  form.find-cookies-noshare, form.find-cookies-share {
+  form.find-cookies-noshare, form.find-cookies-share, form.find-cookies {
     label {
       color: $white;
       font-size: rem-calc(16);
@@ -154,25 +154,27 @@
   }
 }
 
-
-#stay-cheader .cookie-header,.standalone-cookie-header {
-  @media #{$small-only} {
-    display: inline;
+.main-content #main .cookie-landing-hero form.find-cookies {
+  @media #{$medium-up} {
+    margin-left: 0;
   }
 }
 
+//All the cookie-header/standalone-cookie-header will be hidden except the one under .header
 .header .cookie-header {
 	@media #{$small-only} {
     	display: inline;
    	}
 }
 
+//All the cookie-header/standalone-cookie-header will be hidden except the one under .header
 #main .cookie-header {
 	@media #{$small-only} {
     	display: none;
    	}
 }
 
+//All the cookie-header/standalone-cookie-header will be hidden except the one under .header
 .styled-parsys.par .standalone-cookie-header {
 	@media #{$small-only} {
 		display: none;
