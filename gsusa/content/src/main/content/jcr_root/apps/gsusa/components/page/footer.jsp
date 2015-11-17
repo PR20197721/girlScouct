@@ -12,6 +12,9 @@
 <section class="row">
     <cq:include script="cookie-footer.jsp" />
 </section>
+<section class="row">
+  <cq:include script="join-volunteer.jsp"/>
+</section>
 <div class="footer-wrapper">
     <section class="clearfix">
       <div class="float-right">
