@@ -370,9 +370,11 @@ System.err.println(rsp);
 			}
 			rsp = "{\"records\":" + rsp + "}";
 			log.debug(">>>>> " + rsp);
+		
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
+System.err.println("RESP CONTACT 1: " + response);		
 
 				JSONArray results = response.getJSONArray("records");
 				for (int i = 0; i < results.length(); i++) {
@@ -573,7 +575,7 @@ System.err.println(rsp);
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println(response);
+System.err.println(">>>>>>>>>>>>>test>>>>>>  "+response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				String errorTroopId="-1";

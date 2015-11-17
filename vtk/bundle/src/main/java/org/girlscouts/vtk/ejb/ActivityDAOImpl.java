@@ -51,7 +51,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			throws IllegalStateException, IllegalAccessException {
 		Session session = null;
 		try {
-
+			
 			if (troop != null
 				&& !userUtil.hasPermission(troop,
 							Permission.PERMISSION_ADD_ACTIVITY_ID))
