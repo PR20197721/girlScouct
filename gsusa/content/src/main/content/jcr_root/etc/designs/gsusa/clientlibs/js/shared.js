@@ -75,14 +75,17 @@ function vtk_accordion() {
         toggle.removeClass('on');
         target.slideUp();
         $(this).parent().removeClass('on');
+        if(window[parsysID] != null){
+     	   window[parsysID].hideParsys();
+        }
       } else {
         toggle.addClass('on');
         target.slideDown();
         $(this).parent().addClass('on');
+        if(window[parsysID] != null){
+     	   window[parsysID].showParsys();
+        }
       }
-      if(window[parsysID] != null){
-    	   window[parsysID].toggleParsys();
-       }
       return false;
     });
   }

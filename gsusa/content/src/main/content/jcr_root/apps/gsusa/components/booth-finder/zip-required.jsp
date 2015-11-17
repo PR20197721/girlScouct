@@ -1,3 +1,3 @@
 <div>
-    Please enter a valid zip.
+    Please use a valid zip code when searching for Cookie Booths
 </div>
