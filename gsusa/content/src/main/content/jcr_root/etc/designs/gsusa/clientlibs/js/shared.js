@@ -56,12 +56,12 @@ function toggleParsys(s)
 function vtk_accordion() {
     $('.accordion dt > :first-child').on('click', function(e) {
        if($('.inner-wrap').hasClass('cookie-page')) {
-    	$('.cookie-page .accordion dt > :first-child').each(function(i, value){
+    	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
     		var parsysID = $(value).parent().data('target');
     		//Necessary for authoring mode. See main.js:toggleParsys
-            if(window[ parsysID ] != null){
-         	   window[ parsysID ].hideParsys();
-            }
+        if(window.parsysID != null){
+     	      window.parsysID.hideParsys();
+        }
     	});
         $('.cookie-page .accordion dd .content').slideUp('slow');
         $('.cookie-page .accordion dt > :first-child').removeClass('on');
@@ -80,8 +80,8 @@ function vtk_accordion() {
         target.slideDown();
         $(this).parent().addClass('on');
       }
-      if(window[ parsysID ] != null){
-    	   window[ parsysID ].toggle();
+      if(window.parsysID != null){
+    	   window.parsysID.toggleParsys();
        }
       return false;
     });

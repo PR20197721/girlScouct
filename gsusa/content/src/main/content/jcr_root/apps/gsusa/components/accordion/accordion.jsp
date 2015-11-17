@@ -53,8 +53,8 @@
         	<%
         		for(int i=0; i<ids.length; i++){
         	%>
-        			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
-        			window.<%= ids[i] %>.hideParsys();
+    			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
+    			window.<%= ids[i] %>.hideParsys();
         	<%
 				}
 			%>
