@@ -32,6 +32,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 }
 %>
 
+<h3>Search Results</h3>
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</p>
 <form class="sort-form clearfix">
