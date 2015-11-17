@@ -577,8 +577,8 @@
     imageMap.resize();
   }
 
-  $('.video-slider-wrapper').slick({  
-    dots: false, 
+  $('.video-slider-wrapper').slick({
+    dots: false,
     speed: 500,
     fade: false,
     cssEase: 'linear',
@@ -657,7 +657,7 @@
     });
   }
   $(document).ready(function(){
-     hide_show_cookie(); 
+     hide_show_cookie();
   });
 
   // $(window).on("orientationchange", function () {

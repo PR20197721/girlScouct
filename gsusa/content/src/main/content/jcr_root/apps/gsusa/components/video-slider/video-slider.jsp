@@ -10,7 +10,7 @@
 public String[] extract(String url){
 	if (url.indexOf("youtube") != -1) {
 		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid , "https://i1.ytimg.com/vi/" + ytid +"/hqdefault.jpg"};
+		return new String[]{"https://www.youtube.com/embed/" + ytid , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg"};
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);

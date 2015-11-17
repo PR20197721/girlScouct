@@ -442,7 +442,6 @@ div.carousel {
   }
 }
 .video-slider {
-  // @include flex-video-container();
   iframe {
     position: absolute;
     top: 0px;
@@ -454,7 +453,12 @@ div.carousel {
     margin: 0 7px;
     position: relative;
     padding-bottom: 6%;
-    height: 0px;
+    @media #{$medium-up} {
+      height: rem-calc(307);
+    }
+    @media #{$small-only} {
+      height: rem-calc(207);
+    }
     .thumbnail a {
       display: block;
       position: relative;
