@@ -1,7 +1,12 @@
 .single-column .b-by-b-item {
   width: 100%!important;
 }
-
+.meet-the-cookies {
+  @media #{$small-only} {
+    width: 100vw;
+    margin-left: -5vw;
+  }
+}
 #meet-cookie-layout .b-by-b-item {
   @media #{$small-only} {
     width: 100%;
@@ -11,7 +16,7 @@
   margin-bottom: rem-calc(30) !important;
   h4 {
     font-size: rem-calc(24);
-    font-weight: 500;
+    font-weight: 600;
     position: relative;
     cursor: pointer;
     margin-bottom: rem-calc(20);
@@ -21,7 +26,7 @@
       display: block;
       border-style: solid;
       border-color: #b7b8ba transparent transparent;
-      border-width: rem-calc(17);
+      border-width: rem-calc(14);
       right: 0;
       top: 50%;
       margin-top: rem-calc(-8.5);

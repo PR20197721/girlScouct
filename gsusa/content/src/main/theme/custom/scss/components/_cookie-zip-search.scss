@@ -7,9 +7,11 @@
   }
   .row {
     font-size: rem-calc(18);
-    margin-top: rem-calc(9);
+    @media #{$medium-up} {
+      margin-top: rem-calc(9);
+    }
+    margin-bottom: 4%;
     color: $white;
-    margin-bottom: rem-calc(28);
   }
   .wrapper {
     background: #6e298d;
@@ -76,6 +78,39 @@
     label {
       color: $white;
       font-size: rem-calc(18);
+      @media #{$small-only} {
+        margin-bottom: rem-calc(15);
+      }
+    }
+    @media #{$small-only} {
+      margin: rem-calc(20 0);
+    }
+    @media #{$medium-up} {
+      width: 50%;
+      margin-left: rem-calc(265); //width of the image + 30px
+      .main-content & {
+        padding: 0 20px 0 0;
+      }
+      .three-cols .middle-col &  {
+        width: 50%;
+      }
+      .two-cols .middle-col & {
+        width: 66%;
+      }
+      .hero-section & {
+        width: 66%;
+      }
+      .form-wrapper {
+        width: 50%;
+        float: left;
+        margin:0;
+      }
+      label {
+        float: left;
+        line-height: 1.2;
+        display: inline;
+        width: 50%;
+      }
     }
     input[type="text"] {
       float: left;
@@ -95,46 +130,22 @@
       color: $white;
     }
     .form-wrapper {
-      margin: 5% 0;
       position: relative;
-    }
-    @media #{$medium-up} {
-      width: 50%;
-      margin-left: rem-calc(265); //width of the image + 30px
-      .main-content & {
-        padding: 0 20px 0 0;
-      }
-      .middle-col &  {
-        width: 50%;
-      }
-      .hero-section & {
-        width: 66%;
-      }
-      .form-wrapper {
-        width: 50%;
-        float: left;
-        margin:0;
-      }
-      label {
-        float: left;
-        line-height: 1.2;
-        display: inline;
-        width: 50%;
-      }
     }
   }
   @media #{$medium-up} {
     .share {
       @include grid-column(5, $float:right);
       line-height: rem-calc(37);
+      * {
+        color: $white;
+      }
       i {
-        color: white;
         float: right;
         width: 22%;
       }
       a {
         span {
-          color: white;
           display: inline-block;
           float: left;
           width: 73%;
