@@ -2,6 +2,7 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     title="Share Modal"
+    width="{Long}800"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -29,35 +30,46 @@
                         xtype="textarea"
                         name="./desc"/>
                     <text1
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button 1 Text"
-                    	name="./text1"
-                    	xtype="textfield"/>
-                    <link1
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Button 1 URL"
-                        name="./link1"
-                        xtype="textfield"/>
+                        fieldLabel="Button 1 - Facebook Text"
+                        xtype="textfield"
+                        name="./text1"/>
                     <icon1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon 1 (optional)"
                         xtype="iconpicker"
                         name="./icon1"/>
+                    <fbtitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Facebook Title"
+                        name="./fbtitle"
+                        xtype="textfield"/>
+                    <fbdesc
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Facebook Description"
+                    	name="./fbdesc"
+                    	xtype="textarea"/>
                     <text2
                     	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Button 2 Text"
+                    	fieldLabel="Button 2 - Twitter Text"
                     	name="./text2"
                     	xtype="textfield"/>
-                    <link2
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Button 2 URL"
-                        name="./link2"
-                        xtype="textfield"/>
                     <icon2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Icon 2 (optional)"
                         xtype="iconpicker"
                         name="./icon2"/>
+                    <twtext
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Button 2 - Tweet Message"
+                        name="./tweet"
+                        xtype="textarea"/>
+                    <hashtags
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Twitter Hashtags"
+                    	fieldDescription="List relevant hashtags, separated by comma (leave out the '#' sign)"
+                    	name="./hashtags"
+                    	xtype="textfield"/>
                 </items>
             </tab1>
             <image
