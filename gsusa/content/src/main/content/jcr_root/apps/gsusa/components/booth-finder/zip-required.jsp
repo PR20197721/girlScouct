@@ -1,3 +1,3 @@
 <div>
-    Please enter the zip.
+    Please enter a valid zip.
 </div>
