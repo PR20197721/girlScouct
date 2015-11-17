@@ -34,11 +34,13 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
       </div>
     </div>
     <script>
-	    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
-	        var zip = $(this).find('input[name="zip-code"]').val();
-	        window.location.href = '<%= resultPage %>.' + zip + '.html';
-	        return false;
-	    });
+    	$(document).ready(function(){
+		    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
+		        var zip = $(this).find('input[name="zip-code"]').val();
+		        window.location.href = '<%= resultPage %>.' + zip + '.html';
+		        return false;
+		    });
+    	});
     </script>
 <%
     }
