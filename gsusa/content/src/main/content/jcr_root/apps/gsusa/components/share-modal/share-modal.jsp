@@ -3,8 +3,11 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 
 <%
+	String header = (String)request.getAttribute("gsusa-share-model-header");
+	if (header == null) {
+		header = properties.get("header","");
+	}
 	String button = properties.get("btn","");
-	String header = properties.get("header","");
 	String desc = properties.get("desc","");
 	String text1 = properties.get("text1","");
 	String link1 = properties.get("link1","#");

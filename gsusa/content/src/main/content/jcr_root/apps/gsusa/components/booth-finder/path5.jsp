@@ -21,9 +21,12 @@ try {
 } catch (java.text.ParseException e) {
 	
 }
+
+String msg = "Only " + Long.toString(daysBetween) + " days until cookie season.";
+request.setAttribute("gsusa-share-model-header", msg);
 %>
 <h1>Search Results</h1>
-<h4 class="special-title">Only <span id="cntdwn"><%= Long.toString(daysBetween) %></span> days until cookie season. </h4>
+<h4 class="special-title"><%= msg %></h4>
 <p>
 <a href="<%= council.url %>" target="_blank"><strong><%= council.name %></strong></a> cookie sale starts in <span id="cntdwn"><%= Long.toString(daysBetween) %></span> <%= daysBetween == 1 ? "day" : "days" %>.
 Until then, check out cookie related merchandise in the <a href="http://www.girlscoutshop.com/" taret="_blank">Girl Scout online shop</a>.
