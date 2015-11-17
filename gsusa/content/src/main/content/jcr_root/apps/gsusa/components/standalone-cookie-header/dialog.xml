@@ -83,26 +83,6 @@
                         xtype="hidden"/>
                 </items>
             </image>
-            <mobileimage
-                jcr:primaryType="cq:Widget"
-                cropParameter="./mobileimage/imageCrop"
-                ddGroups="media"
-                fileNameParameter="./mobileimage/fileName"
-                fileReferenceParameter="./mobileimage/fileReference"
-                mapParameter="./mobileimage/imageMap"
-                name="./mobilefile"
-                requestSuffix="/mobileimage.img.png"
-                rotateParameter="./mobileimage/imageRotate"
-                title="Mobile Image"
-                xtype="html5smartimage">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <resource-type
-                        jcr:primaryType="cq:Widget"
-                        name="./mobileimage/sling:resourceType"
-                        value="foundation/components/image"
-                        xtype="hidden"/>
-                </items>
-            </mobileimage>
         </items>
     </items>
 </jcr:root>
