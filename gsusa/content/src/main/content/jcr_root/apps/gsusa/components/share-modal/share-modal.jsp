@@ -43,10 +43,10 @@
 	      <h3><%= header %></h3>
 	      <p><%= desc %></p>
 	      <% if(!link1.equals("") && !text1.equals("")){ %>
-	      <a href="<%= link1 %>" class="button"><%= text1 %> <% if(!icon1.equals("")){ %><i class="<%= icon1 %>"></i><% } %></a>
+	      <a href="<%= link1 %>" target="_blank" class="button"><%= text1 %> <% if(!icon1.equals("")){ %><i class="<%= icon1 %>"></i><% } %></a>
 	      <% } 
 	      if(!link2.equals("") && !text2.equals("")){%>
-	      <a href="<%= link2 %>" class="button"><%= text2 %> <% if(!icon2.equals("")){ %><i class="<%= icon2 %>"></i><% } %></a>
+	      <a href="<%= link2 %>" target="_blank" class="button"><%= text2 %> <% if(!icon2.equals("")){ %><i class="<%= icon2 %>"></i><% } %></a>
 	      <% } %>
 	  </div>
 	</div>
