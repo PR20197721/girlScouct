@@ -31,7 +31,7 @@
 
 			//We are hardcoding openInNewWindow for "For Cookies", "Shop" and Cookies"
 			//TODO: Please make it customizable, like the eyebrow-nav components
-			if (i == 2 || i == 3) {
+			if (i == 2) {
 				openInNewWindow = true;
 				target = "target=\"_blank\"";
 			}
