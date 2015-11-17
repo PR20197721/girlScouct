@@ -670,12 +670,9 @@
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
-    // $('.formDonate').addClass('hide');
-    // if($('.formDonate').is(':hidden')) {
-      $('.formDonate').toggleClass('hide');
-      $(this).toggleClass('hide');
-      $('.formDonate input[type="text"]').focus();
-    // }
+    $('.formDonate').toggleClass('hide');
+    $(this).toggleClass('hide');
+    $('.formDonate input[type="text"]').focus();
   })
 
 
