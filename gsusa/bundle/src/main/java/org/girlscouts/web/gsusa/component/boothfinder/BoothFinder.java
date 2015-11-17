@@ -185,7 +185,7 @@ public class BoothFinder {
                          "&d=" + ("all".equalsIgnoreCase(dateRange) ? "365" : dateRange.trim()) +
                          "&f=" + websiteIdentify;
 
-        if (queryString != null) { 
+        if (queryString != null && queryString != "") { 
         	Map<String, List<String>> para = splitQuery(queryString);
         	if (para.get("utm_campiagn") != null && para.get("utm_campiagn").get(0) != null) {
         		apiPath += "&utm_campiagn=" + para.get("utm_campiagn").get(0);

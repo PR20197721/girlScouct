@@ -40,6 +40,9 @@ if (zip == null || zip.isEmpty()) {
     int numPerPage = properties.get("numPerPage", 50);
 
     String queryString = request.getQueryString();
+    if (queryString == null) {
+		queryString = "";
+    }
     
     BoothFinder boothFinder = sling.getService(BoothFinder.class);
     try {
