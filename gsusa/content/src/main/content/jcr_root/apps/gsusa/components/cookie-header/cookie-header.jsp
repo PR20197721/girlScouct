@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode, 
-                com.day.cq.wcm.foundation.Placeholder, 
+<%@page import="com.day.cq.wcm.api.WCMMode,
+                com.day.cq.wcm.foundation.Placeholder,
                 java.util.Random,
                 java.util.Map,
                 java.util.HashMap,

@@ -28,9 +28,9 @@ if (cookies != null && cookies.length != 0) {
             <div class="wrapper">
                 <h4><%= title %></h4>
                 <section>
-                    <div>
+                    <p>
                         <%= description %>
-                    </div>
+                    </p>
                     <a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a>
                 </section>
             </div>
