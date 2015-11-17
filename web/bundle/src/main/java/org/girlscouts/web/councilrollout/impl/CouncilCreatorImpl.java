@@ -111,7 +111,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
+				pages.add(buildThankYouPage(pageManager, session, languagePath + "/our-council/contact-us", councilTitle));
 				pages.add(buildWebToCasePage(pageManager, session, languagePath, councilTitle));
+				pages.add(buildThankYouPage(pageManager, session, languagePath + "/our-council/web-to-case", councilTitle));
 				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
@@ -661,6 +663,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			formStartNode.setProperty("from","placeholder@"+councilName+".org");
 			formStartNode.setProperty("mailto","placeholder@"+councilName+".org");
 			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
+			formStartNode.setProperty("redirect", path + "/contact-us/thank-you");
 			formStartNode.setProperty("subject", "Contact Form");
 			
 			Node titleNode = parNode.addNode("title");
@@ -864,11 +867,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		Page returnPage = null;
 		String path =languagePath + "/our-council";
 		try {
-			returnPage = manager.create(path, "web-to-case", "/apps/girlscouts/templates/three-column-page", "Submit a Case");
+			returnPage = manager.create(path, "web-to-case", "/apps/girlscouts/templates/three-column-page", "Contact Us");
 			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
 			jcrNode.setProperty("sling:resourceType", "girlscouts/components/three-column-page");
-			jcrNode.setProperty("seoTitle", "Submit a Case | " + councilTitle);
-			jcrNode.setProperty("hideInNav", true);
+			jcrNode.setProperty("seoTitle", "Contact Us | " + councilTitle);
 			
 			Node contentNode = jcrNode.addNode("content");
 			contentNode.setPrimaryType("nt:unstructured");
@@ -886,7 +888,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			formStartNode.setProperty("cwrw","cw");
 			formStartNode.setProperty("formActionURL","https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8");
 			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
-			formStartNode.setProperty("redirect", languagePath);
+			formStartNode.setProperty("redirect", path + "/web-to-case/thank-you");
 
 			
 			Node titleNode = parNode.addNode("title");
@@ -929,7 +931,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			methodNode.setProperty("jcr:title","Preferred Method of Contact");
 			methodNode.setPrimaryType("nt:unstructured");
 			methodNode.setProperty("name","00NG000000DdNmM");
-			methodNode.setProperty("options",new String[]{"=--None--","Phone","E-mail","Either"});
+			methodNode.setProperty("options",new String[]{"Phone","E-mail","Either"});
 			methodNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
 			methodNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
 			
@@ -961,7 +963,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			typeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
 			typeNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
 			typeNode.setProperty("options",
-					new String[]{"=--None--","Troop Support/Girl Program","Service Area Support",
+					new String[]{"Troop Support/Girl Program","Service Area Support",
 								"Product Sales","Registration/Reservations","Recruitment","Shop",
 								"Giving/Sponsorships","General","Other"});
 			
@@ -1008,5 +1010,45 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		}
 		
 		return returnPage;
+	}
+
+	/**
+	 * Creates the Thank You Page to Accompany the Web-To-Case Page
+	 * @param  languagePath  path to the page's /en directory
+	 * @param  councilTitle  full name of the council
+	 * @return the newly created web to case page
+	 * @author dlubin
+	 */
+	private Page buildThankYouPage(PageManager manager, Session session, String languagePath, String councilTitle){
+		Page thanksPage = null;
+		String thanksPath = languagePath;
+		try {
+			thanksPage = manager.create(thanksPath, "thank-you", "/apps/girlscouts/templates/three-column-page", "Thank You");
+			Node thanksJcrNode = session.getNode(thanksPage.getPath() + "/jcr:content");
+			thanksJcrNode.setProperty("sling:resourceType", "girlscouts/components/three-column-page");
+			thanksJcrNode.setProperty("seoTitle", "Thank You | " + councilTitle);
+			thanksJcrNode.setProperty("hideInNav", true);
+			
+			Node thanksContentNode = thanksJcrNode.addNode("content");
+			thanksContentNode.setPrimaryType("nt:unstructured");
+			
+			Node thanksMiddleNode = thanksContentNode.addNode("middle");
+			thanksMiddleNode.setPrimaryType("nt:unstructured");
+			
+			Node thanksParNode = thanksMiddleNode.addNode("par");
+			thanksParNode.setPrimaryType("nt:unstructured");
+			thanksParNode.setProperty("sling:resourceType", "foundation/components/parsys");
+			
+			Node thanksTextNode = thanksParNode.addNode("text");
+			thanksTextNode.setPrimaryType("nt:unstructured");
+			thanksTextNode.setProperty("sling:resourceType", "girlscouts/components/text");
+			thanksTextNode.setProperty("text", "<h2>Thank you for contacting us, we have received your inquiry and will be in touch shortly!</h2>");
+			thanksTextNode.setProperty("textIsRich", "true");
+			
+		} catch(Exception e){
+			LOG.error("Failed to create Thank You Page: \n" + e.toString());
+		}
+		
+		return thanksPage;
 	}
 }
