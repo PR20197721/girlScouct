@@ -71,7 +71,7 @@ $(document).ready(function(){
       </form>
       <%if (hasRightShareSection)  { %>
 	      <div class="share">
-	        <a href="<%=shareSectionLink %>" title="cookies on facebook"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
+	        <a href="<%=shareSectionLink %>" title="cookies on facebook" target="_blank"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
 	      </div>
       <%} %> 
     </div>
