@@ -10,7 +10,7 @@
     String cookieFooter = footerPath + "/cookie-footer";
 %>
 <section class="row">
-    <cq:include path="<%= cookieFooter %>" resourceType="gsusa/components/cookie-footer" />
+    <cq:include script="cookie-footer.jsp" />
 </section>
 <div class="footer-wrapper">
     <section class="clearfix">

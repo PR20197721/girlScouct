@@ -41,13 +41,18 @@ if (mobileImage != null) {
 %>
 <script>
 
-
-document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0% transparent; } }");
-document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0% transparent; } }");
+document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0% transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0% transparent; } }", 0);
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
 	$('.find-cookies-share, .find-cookies-noshare').submit(function(event){
-		event.preventDefault();
+		if(event.preventDefault){ 
+			event.preventDefault()
+		} else {
+			event.stop()
+		}
+		event.returnValue = false;
+		event.stopPropagation();
 	    var zip = $(this).find('input[name="zip-code"]').val(),
 	    	loc = "<%=cookieBoothLink %>";
 	    //window.location.href = '/content/gsusa/en/booth-result.' + zip + '.html';
@@ -72,7 +77,7 @@ $(document).ready(function(){
       </form>
       <%if (hasRightShareSection)  { %>
 	      <div class="share">
-	        <a href="<%=shareSectionLink %>" title="cookies on facebook"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
+	        <a href="<%=shareSectionLink %>" title="cookies on facebook" target="_blank"><span><%= shareSectionText %></span> <i class="<%= shareSectionIcon %>"></i></a>
 	      </div>
       <%} %> 
     </div>
