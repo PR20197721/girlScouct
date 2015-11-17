@@ -187,13 +187,13 @@ public class BoothFinder {
 
         if (queryString != null) { 
         	Map<String, List<String>> para = splitQuery(queryString);
-        	if (para.get("utm_campiagn").get(0) != null) {
+        	if (para.get("utm_campiagn") != null && para.get("utm_campiagn").get(0) != null) {
         		apiPath += "&utm_campiagn=" + para.get("utm_campiagn").get(0);
         	}
-        	if (para.get("utm_medium").get(0) != null) {
+        	if (para.get("utm_medium") != null && para.get("utm_medium").get(0) != null) {
         		apiPath += "&utm_medium=" + para.get("utm_medium").get(0);
         	}
-        	if (para.get("utm_source").get(0) != null) {
+        	if (para.get("utm_source") != null && para.get("utm_source").get(0) != null) {
         		apiPath += "&utm_source=" + para.get("utm_source").get(0);
         	}
         }
