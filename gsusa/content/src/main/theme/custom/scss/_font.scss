@@ -28,3 +28,6 @@
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../../fonts/open-sans-bold.woff') format('woff');
 }
+  *::-moz-placeholder {
+    font-style:italic;
+  }

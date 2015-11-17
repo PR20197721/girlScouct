@@ -442,6 +442,11 @@ div.carousel {
   }
 }
 .video-slider {
+  margin-top: rem-calc(18);
+  @media #{$small-only} {
+    width: 100vw;
+    margin-left: -5vw;
+  }
   iframe {
     position: absolute;
     top: 0px;
@@ -457,7 +462,7 @@ div.carousel {
       height: rem-calc(307);
     }
     @media #{$small-only} {
-      height: rem-calc(207);
+      height: rem-calc(160);
     }
     .thumbnail a {
       display: block;
@@ -512,6 +517,8 @@ div.carousel {
 }
 .cookie-landing-hero {
   position: relative;
+  margin-top: rem-calc(12);
+  margin-bottom: rem-calc(12);
   .welcome-video-slider {
     max-height: rem-calc(334);
     overflow: hidden;
