@@ -85,8 +85,8 @@
 }
 
 .cookie-page .cookieRightPath {
-  .standalone-volunteer,
-  .standalone-join,
+  .standalone-volunteer:not(.bg-image),
+  .standalone-join:not(.bg-image),
   .rotator {
     @media #{$medium-up} {
       padding-left: rem-calc(15);
