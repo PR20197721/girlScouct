@@ -13,13 +13,11 @@ if (cookies != null && cookies.length != 0) {
     %><div id="meet-cookie-layout"><%
     for (String cookie : cookies) {
         String[] infos = cookie.split("\\|\\|\\|");
-        String title = "", image = "", description = "", buttonTitle = "", buttonLink = "";
+        String title = "", image = "", description = "";
         try {
         	title = infos[0];
         	image = infos[1];
         	description = infos[2];
-        	buttonTitle = infos[3];
-        	buttonLink = infos[4];
         } catch (Exception e) {} %>
         <div>
             <img src="<%= image %>" alt="" />
@@ -27,9 +25,6 @@ if (cookies != null && cookies.length != 0) {
                 <h4><%= title %></h4>
                 <section>
                     <%= description %>
-                    <% if (!buttonTitle.isEmpty()) { %>
-                       <p class="button-p"><a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a></p>
-                    <% } %>
                 </section>
             </div>
         </div>
