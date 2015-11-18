@@ -37,7 +37,7 @@ if (!iter.hasNext()) {
 		  You see this page because you are in an authoring environment with a cookies page underneath this place-holder page<br>
 		  In publish environment, this page will be redirected to the <u>first child of this page</u><br>
 		  <br>
-		  Please <u>activate</u> this page to activate the cookie page finder in mobile.<br>
+		  Please <u>activate</u> this page in the side-kick to activate the cookie page finder in mobile.<br>
 		  <br>
 		  If you have more questions, please contact site admin.
 		</html>
