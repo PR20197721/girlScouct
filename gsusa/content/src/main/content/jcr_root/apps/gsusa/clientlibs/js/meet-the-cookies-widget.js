@@ -4,8 +4,6 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     title: null,
     image: null,
     description: null,
-    buttonTitle: null,
-    buttonLink: null,
 
     constructor: function(config) {
         config = config || { };
@@ -44,6 +42,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         
         this.add(new CQ.Ext.form.Label({text: "Image"}));
         this.image = new CQ.form.PathField({
+        	rootPath: "/content/dam",
             listeners: {
                 change: {
                     scope:this,
@@ -100,36 +99,6 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.description);
-        
-        this.add(new CQ.Ext.form.Label({text: "Button Title"}));
-        this.buttonTitle = new CQ.Ext.form.TextField({
-            listeners: {
-                change: {
-                    scope:this,
-                    fn:this.updateHidden
-                },
-                dialogselect: {
-                    scope:this,
-                    fn:this.updateHidden
-                }
-            } 
-        });
-        this.add(this.buttonTitle);
-        
-        this.add(new CQ.Ext.form.Label({text: "Button Link"}));
-        this.buttonLink = new CQ.Ext.form.TextField({
-            listeners: {
-                change: {
-                    scope:this,
-                    fn:this.updateHidden
-                },
-                dialogselect: {
-                    scope:this,
-                    fn:this.updateHidden
-                }
-            } 
-        });
-        this.add(this.buttonLink);
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -138,8 +107,6 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.title.setValue(parts[0]);
         this.image.setValue(parts[1]);
         this.description.setValue(parts[2]);
-        this.buttonTitle.setValue(parts[3]);
-        this.buttonLink.setValue(parts[4]);
         this.hiddenField.setValue(value);
     },
 
@@ -152,9 +119,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     getRawValue: function() {
         return this.title.getValue() + "|||" 
             + this.image.getValue() + "|||"
-            + this.description.getValue() + "|||"
-            + this.buttonTitle.getValue() + "|||"
-            + this.buttonLink.getValue();
+            + this.description.getValue();
     },
 
     // private
