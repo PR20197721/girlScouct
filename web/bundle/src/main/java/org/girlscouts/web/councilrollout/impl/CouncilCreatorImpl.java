@@ -961,11 +961,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			typeNode.setProperty("required", true);
 			typeNode.setProperty("requiredMessage", "Please select a type.");
 			typeNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
-			typeNode.setProperty("sling:resourceType", "foundation/components/form/dropdown");
-			typeNode.setProperty("options",
-					new String[]{"Troop Support/Girl Program","Service Area Support",
-								"Product Sales","Registration/Reservations","Recruitment","Shop",
-								"Giving/Sponsorships","General","Other"});
+			typeNode.setProperty("sling:resourceType", "foundation/components/form/dropdown-no-edit");
+			typeNode.setProperty("optionsLoadPath", "/etc/designs/girlscouts/dropdown_data/case_type_list_value/caseTypes");
 			
 			
 			Node subjectNode = parNode.addNode("text_4");
