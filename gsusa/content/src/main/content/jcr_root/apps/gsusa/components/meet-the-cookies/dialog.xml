@@ -17,7 +17,7 @@
                         fieldSubLabel="Use &amp;amp;trade; for &amp;trade;. Use &amp;amp;reg; for &amp;reg;."
                         fieldLabel="Cookies"
                         name="./cookies"
-                        xtype="multifield">
+                        xtype="meetthecookiesmultifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
                             xtype="meetthecookies"/>
