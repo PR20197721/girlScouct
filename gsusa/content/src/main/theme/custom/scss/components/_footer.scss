@@ -2,7 +2,10 @@ footer {
   .footer-wrapper {
     background: $primary-color;
     color: #C1EAD4;
-    padding: rem-calc(40 0);
+    @media #{$medium-up} {
+      padding-top: rem-calc(40);
+    }
+    padding-bottom: rem-calc(40);
     @include grid-row();
     * {
       font-size: rem-calc(14);

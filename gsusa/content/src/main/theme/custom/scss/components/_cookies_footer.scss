@@ -3,6 +3,7 @@
   @media #{$medium-up} {
     @include grid-column(19, $push: 5);
     margin-bottom: rem-calc(20);
+    margin-top: rem-calc(30);
   }
   a {
     color: $white;
@@ -96,6 +97,7 @@
         float: right;
       }
     }
+
     input {
       margin-bottom: 0;
     }
