@@ -30,7 +30,13 @@ if (cookies != null && cookies.length != 0) {
                     <p>
                         <%= description %>
                     </p>
-                    <a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a>
+<% 
+					if (!buttonTitle.isEmpty()) {
+%>
+                        <a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a>
+<%
+					}
+%>
                 </section>
             </div>
         </div>
