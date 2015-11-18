@@ -12,7 +12,6 @@ String radius = (String)request.getAttribute("gsusa_booth_list_radius");
 String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
 int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
-int showContactBannerPer = properties.get("showContactBannerPer", 25);
 
 String nearestDistance = "";
 if ("distance".equals(sortBy) && !booths.isEmpty()) {
