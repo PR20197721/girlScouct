@@ -42,8 +42,6 @@
 	String cookiePlaceholderPath = cp.getContentResource().getPath();
 %>
 	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
-<%	if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
-		<a href ="#" class="button show-for-small" style="background-color:red;">Activiate the above hero banner in mobile view</a>
-<%	}
- } %>
+<%
+} %>
 <!--/header -->

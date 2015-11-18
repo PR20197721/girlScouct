@@ -28,7 +28,20 @@ if (!iter.hasNext()) {
 	}
 	
 	if (foundCookiesPage && (WCMMode.fromRequest(request) == WCMMode.EDIT)) {
-		%>Please activate this page to activate/update the cookie page header in mobile<%
+		%>
+		<html>
+		  <head>
+			<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
+		  </head>
+		  <h3><u>Placeholder Page for the Cookie Finder</u></h3>
+		  You see this page because you are in an authoring environment with a cookies page underneath this place-holder page<br>
+		  In publish environment, this page will be redirected to the <u>first child of this page</u><br>
+		  <br>
+		  Please <u>activate</u> this page to activate the cookie page finder in mobile.<br>
+		  <br>
+		  If you have more questions, please contact site admin.
+		</html>
+		 <%
 	} else { 
 	    String redirectUrl = firstChild.getPath() + ".html";
 	    response.setStatus(301);
