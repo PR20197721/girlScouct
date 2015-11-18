@@ -48,7 +48,7 @@ if (!iter.hasNext()) {
 		  This is a place-holder for the cookie page in the authoring environment.<br>
 		  On the publish environment, you will be redirected to the <a href=<%= firstChild.getPath() + ".html"%>>first child of this page</a>.<br>
 		  <br>
-		  Please <u>activate</u> this page in the side-kick to make the component available throught the cookies site.<br>
+		  Please <u>activate</u> this page in the side-kick to make the component available through the cookies site.<br>
 		  <%-- <div class="header">
 		  	<div class="cookie-header">
 		  	  <div class="standalone-cookie-header mobile-cookie-header">
