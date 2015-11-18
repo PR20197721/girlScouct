@@ -59,7 +59,7 @@ function vtk_accordion() {
     	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
     		var parsysID = $(value).parent().data('target');
     		//Necessary for authoring mode. See main.js:toggleParsys
-        if(window[parsysID] != null){
+        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
      	      window[parsysID].hideParsys();
         }
     	});
@@ -75,14 +75,14 @@ function vtk_accordion() {
         toggle.removeClass('on');
         target.slideUp();
         $(this).parent().removeClass('on');
-        if(window[parsysID] != null){
+        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
      	   window[parsysID].hideParsys();
         }
       } else {
         toggle.addClass('on');
         target.slideDown();
         $(this).parent().addClass('on');
-        if(window[parsysID] != null){
+        if(window[parsysID] != null && window[parsysID].showParsys != undefined){
      	   window[parsysID].showParsys();
         }
       }
