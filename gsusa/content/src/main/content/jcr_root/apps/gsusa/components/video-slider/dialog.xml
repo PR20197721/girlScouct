@@ -19,6 +19,7 @@
 	                        xtype="multifield">
 	                        <fieldConfig
 	                            jcr:primaryType="nt:unstructured"
+	                            rootPath="/content/dam"
 	                            xtype="pathfield"/>
 	                    </multi>
                 </items>

@@ -17,22 +17,22 @@
 	String tweet = properties.get("tweet","");
 	String icon2 = properties.get("icon2", "");
 	String hashTags = properties.get("hashtags","");
-	
+
 	// Get the URL
 	String url = properties.get("url", currentPage.getPath());
 	url = resourceResolver.map(currentPage.getPath());
 	if (!url.contains(".html")) {
 	    url += ".html";
 	}
-	
-	String facebookId = currentSite.get("facebookId", ""); 
+
+	String facebookId = currentSite.get("facebookId", "");
 
 	Resource img = resource.getChild("image");
 	String filePath = "";
 	if(img != null) {
 		filePath = ((ValueMap)img.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
-	
+
 	if (button.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%> ****Please configure the modal button text **** <%
 	} else {
@@ -51,11 +51,11 @@
 	    <% } %>
 	  </div>
 	  <div class="float-right">
-	      <h3><%= header %></h3>
+	      <h4><%= header %></h4>
 	      <p><%= desc %></p>
 	      <% if(!fbtitle.equals("") && !fbdesc.equals("") && !text1.equals("")){ %>
 	      <a class="button" onclick="postToFeed(); return false;"><%= text1 %> <% if(!icon1.equals("")){ %><i class="<%= icon1 %>"></i><% } %></a>
-	      <% } 
+	      <% }
 	      if(!text2.equals("") && !tweet.equals("")){
 	      	tweet = tweet.replace("\"","%quot;").replace(" ","%20").replace("#","%23");
 	      	hashTags = hashTags.replace("\"","%quot;").replace(" ","%20").replace("#","%23");
@@ -66,8 +66,8 @@
 	</div>
 </div>
 <% } %>
- 
-    <script type="text/javascript"> 
+
+    <script type="text/javascript">
 
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
@@ -77,14 +77,14 @@
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
 		scriptTag.onload=initFB;
-		scriptTag.onreadystatechange = function () {                
+		scriptTag.onreadystatechange = function () {
 		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
 		}
 	});
 	function initFB() {
 		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
 	}
- 
+
       function postToFeed() {
 
         // calling the API ...
@@ -94,11 +94,11 @@
           name: '<%= fbtitle %>',
           description: '<%= fbdesc.replace("\'","\\'") %>'
         };
- 
+
         function callback(response) {
         }
- 
+
         FB.ui(obj, callback);
       }
- 
+
     </script>

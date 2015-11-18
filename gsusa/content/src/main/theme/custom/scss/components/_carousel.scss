@@ -398,16 +398,22 @@ div.carousel {
 .rotator {
   padding: rem-calc(0 13 10);
   h5 {
-    font-weight: 700;
+    font-weight: 600;
+    font-size: rem-calc(20);
+    line-height: 1.2;
   }
   .shop-carousel {
     &.slick-slider {
-      margin-bottom: rem-calc(15);
+      margin-bottom: 0;
       padding: rem-calc(0 17);
       .slick-slide {
         p {
           margin: 0;
-          font-size: rem-calc(14);
+          font-size: rem-calc(13);
+          line-height: 1.2;
+        }
+        a {
+          color: #000;
         }
         img {
           width: 100%;
