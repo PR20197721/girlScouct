@@ -14,11 +14,11 @@
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
 	} catch (Exception e) {}
 	if (!bg.equals("")) { %>
-		<div class="standalone-volunteer join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
-			<div class="bg-image">
+		<div class="standalone-volunteer join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>;">
+		<!-- 	<div class="bg-image"> -->
 				<% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 				<cq:include path="bg" resourceType="gsusa/components/image"/>
-			</div>
+			<!-- </div> -->
 			<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 		    <div class="wrapper">
 		        <a href="#" title="Volunteer" class="vol button arrow"><%= callToActionName %></a>

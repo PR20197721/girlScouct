@@ -14,11 +14,12 @@
 	} catch (Exception e) {}
 	if (!bg.equals("")) {%>
 
-	<div class="standalone-join join-volunteer-block" style="max-width:<%= maxWidth + "px"%>;">
-	    <div class="bg-image">
+	<div class="standalone-join join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>;">
+	   <!--  <div class="bg-image"> -->
 
-	    <% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
-	    <cq:include path="bg" resourceType="gsusa/components/image"/></div>
+		    <% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
+		    <cq:include path="bg" resourceType="gsusa/components/image"/>
+	    <!-- </div> -->
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 	    <div class="wrapper">
 	        <a href="#" title="Join Now" class="join button arrow"><%= callToActionName %></a>
@@ -32,7 +33,7 @@
 	</div> <%
 
 	} else if (!text.equals("")) { %>
-		<div class="standalone-volunteer join-volunteer-block text-version">
+		<div class="standalone-join join-volunteer-block text-version">
 		   <h5><%= mainTitle %></h5>
 		   <p><%= text %></p>
 		   <div class="wrapper">

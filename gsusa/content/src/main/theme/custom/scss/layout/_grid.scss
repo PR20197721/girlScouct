@@ -13,6 +13,9 @@
     @include grid-column(24);
     @media #{$medium-up} {
       @include grid-column(19);
+      .cookie-page & {
+        padding-right: rem-calc(20);
+      }
     }
     @media #{$small-only} {
       .cookie-page & {
@@ -33,6 +36,14 @@
     @include grid-column(24);
     @media #{$medium-up} {
       @include grid-column(17);
+      .cookie-page & {
+        padding-right: rem-calc(20);
+      }
+    }
+    @media #{$small-only} {
+      .cookie-page & {
+        @include grid-column(22, $center:true);
+      }
     }
   }
   .right-col {
@@ -74,16 +85,18 @@
 }
 
 .cookie-page .cookieRightPath {
-  .standalone-volunteer,
-  .standalone-join,
+  .standalone-volunteer:not(.bg-image),
+  .standalone-join:not(.bg-image),
   .rotator {
-    padding-left: rem-calc(15);
-    border-width: 3px 0 3px 3px;
-    border-style: solid;
-    -webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#e1e1e1), to(rgba(220, 220, 220, 1))) 1 100%;
-    -webkit-border-image: -webkit-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-    -moz-border-image: -moz-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-    -o-border-image: -o-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-    border-image: linear-gradient(to right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+    @media #{$medium-up} {
+      padding-left: rem-calc(15);
+      border-width: 2px 0 2px 2px;
+      border-style: solid;
+      -webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#e1e1e1), to(rgba(220, 220, 220, 1))) 1 100%;
+      -webkit-border-image: -webkit-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+      -moz-border-image: -moz-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+      -o-border-image: -o-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+      border-image: linear-gradient(to right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+    }
   }
 }

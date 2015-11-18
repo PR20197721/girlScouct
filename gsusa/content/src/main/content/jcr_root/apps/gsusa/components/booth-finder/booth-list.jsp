@@ -12,7 +12,6 @@ String radius = (String)request.getAttribute("gsusa_booth_list_radius");
 String date = (String)request.getAttribute("gsusa_booth_list_date");
 String sortBy = (String)request.getAttribute("gsusa_booth_list_sortby");
 int numPerPage = (Integer)request.getAttribute("gsusa_booth_list_numperpage");
-int showContactBannerPer = properties.get("showContactBannerPer", 25);
 
 String nearestDistance = "";
 if ("distance".equals(sortBy) && !booths.isEmpty()) {
@@ -115,7 +114,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 </div>
 <div class="not-finding">
     <h4>Not finding what you're looking for?</h4>
-    <cq:include path="contact-banner" resourceType="components/gsusa/contact-banner"/>
+    <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
 </div>
 
 <script>

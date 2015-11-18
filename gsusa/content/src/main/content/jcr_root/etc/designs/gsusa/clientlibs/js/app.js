@@ -101,7 +101,7 @@
         $('.vol.button.arrow').siblings('form').addClass('hide');
       }
       if ((target.closest('.standalone-join').length === 0 && target.closest('.footer-join').length ===0)
-              && target.closest('.vol.button.arrow').siblings('form').css('display') !== 'none') {
+              && target.closest('.join.button.arrow').siblings('form').css('display') !== 'none') {
             $('.join.button.arrow').siblings('form').addClass('hide');
           }
       if (target.closest('.standalone-donate').length === 0 && target.closest('a.button.form').siblings('form').css('display') !== 'none') {
