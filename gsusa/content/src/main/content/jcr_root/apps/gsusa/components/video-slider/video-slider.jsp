@@ -10,7 +10,7 @@
 public String[] extract(String url){
 	if (url.indexOf("youtube") != -1) {
 		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid + "?rel=0" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg"};
+		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube"};
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);
@@ -18,7 +18,7 @@ public String[] extract(String url){
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId, (String)json.getJSONObject(0).getString("thumbnail_large")};
+					return new String[]{"https://player.vimeo.com/video/"+ vimeoId, (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo"};
 				}
 			}
 		} catch (Exception e) {
@@ -69,6 +69,21 @@ public  String readUrlFile(String urlString) throws Exception {
 	}
 }
     %>
+    
+    <%
+    final int timedelay = properties.get("timedelay", 2000);
+	final boolean autoscroll = properties.get("autoscroll", false);
+    %>
+<script>
+videoSliderDelay = <%= timedelay %>;
+videoSliderAuto = <%= autoscroll %>;
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+	});
+</script>
 
 <div class="video-slider-wrapper">
 <%
@@ -78,9 +93,9 @@ public  String readUrlFile(String urlString) throws Exception {
 		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				String[] urls = extract(links[i]);
-				if(urls.length == 2){
+				if(urls.length == 3){
 					%><div><div class="show-for-small thumbnail"><a href="<%= links[i] %>" title="video thumbnail"><img src="<%= urls[1] %>" /></a></div>
-					  <div class="show-for-medium-up"><iframe src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>
+					  <div class="show-for-medium-up"><iframe class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>
 				<% } else { %>
 					<div>*** Format not supported ***</div>
 				<% }

@@ -23,6 +23,29 @@
 	                    </multi>
                 </items>
             </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <autoScroll
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Auto Scroll"
+                        name="./autoscroll"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <timedelay
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="./timedelay"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </timedelay>
+                </items>
+            </tab2>
         </items>
     </items>
 </jcr:root>
