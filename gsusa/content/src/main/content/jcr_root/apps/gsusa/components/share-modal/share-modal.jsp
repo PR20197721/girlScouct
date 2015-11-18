@@ -92,7 +92,7 @@
           method: 'feed',
           link: '<%= url %>',
           name: '<%= fbtitle %>',
-          description: '<%= fbdesc %>'
+          description: '<%= fbdesc.replace("\'","\\'") %>'
         };
  
         function callback(response) {

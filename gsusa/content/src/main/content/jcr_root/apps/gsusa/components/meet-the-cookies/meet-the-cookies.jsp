@@ -1,6 +1,5 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
-
 <%
 String[] cookies = properties.get("cookies", String[].class);
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {

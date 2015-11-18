@@ -58,7 +58,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.image);
 
         this.add(new CQ.Ext.form.Label({text: "Description"}));
-        this.description = new CQ.Ext.form.TextField({
+        this.description = new CQ.form.RichText({
             listeners: {
                 change: {
                     scope:this,
