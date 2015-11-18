@@ -115,7 +115,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 </div>
 <div class="not-finding">
     <h4>Not finding what you're looking for?</h4>
-    <cq:include path="contact-banner" resourceType="components/gsusa/contact-banner"/>
+    <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
 </div>
 
 <script>
