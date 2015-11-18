@@ -179,8 +179,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 	    		          text: "Button",
 	    		      }
 	    		  ],
-	    		  "fieldLabel": "Style",
-	    		  "fieldDescription": "Enter <i>button white</i> for the link button"
+	    		  "fieldLabel": "Style"
 	    	  }]
 	      }
 	   },
