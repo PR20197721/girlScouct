@@ -20,29 +20,23 @@ if (cookies != null && cookies.length != 0) {
         	description = infos[2];
         	buttonTitle = infos[3];
         	buttonLink = infos[4];
-        } catch (Exception e) {}
-%>
+        } catch (Exception e) {} %>
         <div>
             <img src="<%= image %>" alt="" />
             <div class="wrapper">
-                <h4><%= title %></h4>
+                <h4><%= title %><span>&reg;</span> / <%= title %><span>&reg;</span></h4>
                 <section>
-                    <p>
-                        <%= description %>
-                    </p>
-<% 
-					if (!buttonTitle.isEmpty()) {
-%>
-                        <a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a>
-<%
-					}
-%>
+                    <%= description %>
+                    <% if (!buttonTitle.isEmpty()) { %>
+                       <p class="button-p"><a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a></p>
+                    <% } %>
+                    <% if (!buttonTitle.isEmpty()) /*there are TWO TITLES*/ { %>
+                        <p class="button-p"><a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a></p>
+                    <% } %>
                 </section>
             </div>
         </div>
-<%
-    }
-%>
+    <% } %>
     </div>
     <script>
     	$(document).ready(function(){
@@ -51,6 +45,4 @@ if (cookies != null && cookies.length != 0) {
 	        });
     	})
     </script>
-<%
-}
-%>
+<% } %>

@@ -19,33 +19,50 @@
     font-weight: 600;
     position: relative;
     cursor: pointer;
-    margin-bottom: rem-calc(20);
+    margin-bottom: rem-calc(18);
+    margin-top: 0;
+    line-height: 1;
+    span {
+      vertical-align: super;
+      font-size: rem-calc(20);
+    }
     &:after {
       content: "";
       position: absolute;
       display: block;
       border-style: solid;
       border-color: #b7b8ba transparent transparent;
-      border-width: rem-calc(14);
-      right: 0;
+      border-width: rem-calc(14 14 0 14);
+      right: rem-calc(-5);
       top: 50%;
       margin-top: rem-calc(-8.5);
     }
     &.on:after {
       border-color: transparent transparent #b7b8ba;
-      top: 0;
+      border-width: rem-calc(0 14 14 14);
     }
   }
   img {
     width: 100%;
   }
   .wrapper {
-    padding: rem-calc(20 14 0 10);
+    padding: rem-calc(20 14 0 14);
+    .button-p {
+      margin: rem-calc(0 0 10 0);
+    }
     a.button.white {
       background: $white;
       color: $primary-color;
       border: solid 1px $primary-color;
       text-transform: none;
+      padding: rem-calc(5 10);
+      margin: 0;
+    }
+    section {
+      padding-bottom: rem-calc(10);
+      * {
+        font-size: rem-calc(14);
+      }
     }
   }
 }
