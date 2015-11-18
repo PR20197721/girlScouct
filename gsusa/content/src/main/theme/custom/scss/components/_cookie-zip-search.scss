@@ -81,6 +81,9 @@
       @media #{$small-only} {
         margin-bottom: rem-calc(15);
       }
+      *{
+      	color: $white;
+      }
     }
     @media #{$small-only} {
       margin: rem-calc(20 0);
