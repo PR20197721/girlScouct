@@ -106,7 +106,7 @@
         width: 66%;
       }
       .form-wrapper {
-        width: 50%;
+        width: 48%;
         float: left;
         margin:0;
       }
@@ -115,13 +115,14 @@
         line-height: 1.2;
         display: inline;
         width: 50%;
+        margin-right: 1%;
       }
     }
     input[type="text"] {
       float: left;
       width: 100%;
       font-style: italic;
-      padding-left: rem-calc(10);
+      padding-left: rem-calc(5);
       height: rem-calc(47);
     }
     .link-arrow {
@@ -159,37 +160,3 @@
     }
   }
 }
-
-// .standalone-cookie-header {
-//   form {
-//     &.find-cookies-share {
-//       @media #{$medium-up} {
-//         width: 50%;
-//       }
-//       @media #{$small-only} {
-//         width: 100%;
-//       }
-//     }
-//     &.find-cookies-noshare {
-//       @media #{$small-only} {
-//         width: 100%;
-//       }
-//     }
-//   }
-// }
-
-//All the cookie-header/standalone-cookie-header will be hidden except the one under .header
-// .header .cookie-header {
-// 	@media #{$small-only} {
-//     display: block;
-//   }
-// }
-
-//All the cookie-header/standalone-cookie-header will be hidden except the one under .header
-// .cookie-header,
-// .standalone-cookie-header {
-// 	@media #{$small-only} {
-//     display: none;
-//    }
-// }
-
