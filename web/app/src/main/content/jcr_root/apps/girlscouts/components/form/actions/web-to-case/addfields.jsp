@@ -67,6 +67,8 @@
 <!-- <input type=hidden name="orgid" value="00Dg0000006SfYn"> -->
 <!-- EMAIL SERVICE -->
 <input type=hidden name="00NG000000DdXSU" id="00NG000000DdXSU" value="Web">
+<!-- CASE ESCALATION -->
+<input type="hidden" name="00NG000000DdU4U" id="00NG000000DdU4U" value="Tier 1">
 <!-- <input type=hidden name="retURL" value="/">-->
 <input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
 <%  } 
