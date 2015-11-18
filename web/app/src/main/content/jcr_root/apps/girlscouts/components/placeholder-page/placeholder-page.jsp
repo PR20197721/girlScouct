@@ -27,6 +27,8 @@ if (!iter.hasNext()) {
         }
 	}
 	
+	System.out.println("What we have: " + currentPage.getPath());
+
 	if (foundCookiesPage && (WCMMode.fromRequest(request) == WCMMode.EDIT)) {
 		%>
 		<html>
@@ -39,7 +41,8 @@ if (!iter.hasNext()) {
 		  <br>
 		  Please <u>activate</u> this page in the side-kick to activate the cookie page finder in mobile.<br>
 		  <br>
-		  If you have more questions, please contact site admin.
+		  If you have more questions, please contact your site admin.
+		  <cq:include path="<%= currentPage.getContentResource().getPath() %>" resourceType="gsusa/components/cookie-header" />
 		</html>
 		 <%
 	} else { 

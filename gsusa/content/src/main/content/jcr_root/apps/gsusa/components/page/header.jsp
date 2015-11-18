@@ -40,6 +40,7 @@
 		cp = cp.getParent();
 	}
 	String cookiePlaceholderPath = cp.getContentResource().getPath();
+	System.out.println("What we want: " + cookiePlaceholderPath);
 %>
 	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
 <%
