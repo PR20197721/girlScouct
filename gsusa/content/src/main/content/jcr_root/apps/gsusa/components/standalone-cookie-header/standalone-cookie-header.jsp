@@ -24,8 +24,8 @@ final boolean disableInMobile = properties.get("disableinmobile", false);
 final boolean disableInDesktop = properties.get("disableindesktop", false);
 final String shareSectionIcon = properties.get("icon", "");
 final String shareSectionText = properties.get("sharetext", "");
-final String shareSectionLink = properties.get("sharelink", "");
-final String cookieBoothLink = properties.get("cookieboothlink", "test");
+String shareSectionLink = properties.get("sharelink", "");
+final String cookieBoothLink = properties.get("cookieboothlink", "");
 final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
@@ -38,6 +38,10 @@ if (mobileImage != null) {
 	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
 }
 
+Page shareSectionLinkPage = resourceResolver.resolve(shareSectionLink).adaptTo(Page.class);
+if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
+	shareSectionLink += ".html";
+}
 %>
 <script>
 
