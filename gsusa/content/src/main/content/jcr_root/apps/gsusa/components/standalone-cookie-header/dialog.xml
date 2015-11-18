@@ -59,6 +59,8 @@
                 	<cookieboothpath
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Link in the Cookie Booth"
+	                    allowBlank="false"
+	                    fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
 	                    name="./cookieboothlink"
 	                    xtype="pathfield"/>
                 </items>
