@@ -1,5 +1,7 @@
 <%@page import="java.util.Iterator" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
  
 <%
@@ -7,7 +9,10 @@ Iterator<Page> iter = currentPage.listChildren();
 if (!iter.hasNext()) {
     response.sendError(HttpServletResponse.SC_NOT_FOUND);
 } else {
-	boolean foundCookiesPage = false;
+	//we will try to scan all the children underneath this folder
+	//if we found a cookies page, we will need to show the placeholder page
+	/* boolean foundCookiesPage = false;
+	String cookiePageTitle = "";
 	int counter = 0;
 	Page firstChild = null;
 	while (iter.hasNext()) {
@@ -22,27 +27,35 @@ if (!iter.hasNext()) {
         if (contentNode.hasProperty("isCookiePage")) {
 	        if ("true".equals(contentNode.getProperty("isCookiePage").getString())) {
 	        	foundCookiesPage = true;
+	        	cookiePageTitle = contentNode.getProperty("articleTitle").getString();
 	        	break;
 	        }
         }
-	}
+	} */
 	
-	System.out.println("What we have: " + currentPage.getPath());
-
-	if (foundCookiesPage && (WCMMode.fromRequest(request) == WCMMode.EDIT)) {
+	//if there are no children underneath this placeholder page, set it to the currentPage
+	/* if (firstChild == null) {
+		firstChild = currentPage;
+	} */
+	Page firstChild = iter.next();
+	if (isCookiePage(currentPage) && (WCMMode.fromRequest(request) == WCMMode.EDIT)) {
 		%>
 		<html>
 		  <head>
 			<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
 		  </head>
-		  <h3><u>Placeholder Page for the Cookie Finder</u></h3>
-		  You see this page because you are in an authoring environment with a cookies page underneath this place-holder page<br>
-		  In publish environment, this page will be redirected to the <u>first child of this page</u><br>
+		  <h2><u>Placeholder Page for the Cookie Finder</u></h2>
+		  This is a place-holder for the cookie page in the authoring environment.<br>
+		  On the publish environment, you will be redirected to the <a href=<%= firstChild.getPath() + ".html"%>>first child of this page</a>.<br>
 		  <br>
-		  Please <u>activate</u> this page in the side-kick to activate the cookie page finder in mobile.<br>
-		  <br>
-		  If you have more questions, please contact your site admin.
-		  <cq:include path="<%= currentPage.getContentResource().getPath() %>" resourceType="gsusa/components/cookie-header" />
+		  Please <u>activate</u> this page in the side-kick to make the component available throught the cookies site.<br>
+		  <%-- <div class="header">
+		  	<div class="cookie-header">
+		  	  <div class="standalone-cookie-header mobile-cookie-header">
+		 	    <cq:include path="<%= currentPage.getContentResource().getPath() %>" resourceType="gsusa/components/cookie-header" />
+		 	  </div>
+		  	</div>
+		  </div> --%>
 		</html>
 		 <%
 	} else { 

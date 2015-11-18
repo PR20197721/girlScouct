@@ -9,7 +9,6 @@
     String headerNavPath = headerPath + "/header-nav";
     String eyebrowNavPath = headerPath + "/eyebrow-nav";
     String headerSearchPath = headerPath + "/search";
-    System.out.println(headerSearchPath);
     //The cookie header will be created under its own parent, so that all the children of this parent will share the same mobile header
     //String cookieHeaderPath = currentPage. + "/cookie-header";
 %>
@@ -34,13 +33,16 @@
     </section>
 </div>
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
-<% if (isCookiePage(currentPage)) { 
+<% 
+if (isCookiePage(currentPage)) { 
+	String cookiePlaceholderPath = currentPage.getContentResource().getPath();
 	Page cp = currentPage;
-	while (cp != null && cp.getContentResource() != null && !"girlscouts/components/placeholder-page".equals(cp.getContentResource().getResourceType())) {
+	while (cp.getParent() != null) {
 		cp = cp.getParent();
+		if (isCookiePage(cp)) {
+			cookiePlaceholderPath = cp.getContentResource().getPath();
+		}
 	}
-	String cookiePlaceholderPath = cp.getContentResource().getPath();
-	System.out.println("What we want: " + cookiePlaceholderPath);
 %>
 	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
 <%
