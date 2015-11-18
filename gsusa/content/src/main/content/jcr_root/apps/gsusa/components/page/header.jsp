@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <!-- header -->
 <%
     // All pages share the same header from the site root, except Join and Volunteer!
@@ -8,7 +9,9 @@
     String headerNavPath = headerPath + "/header-nav";
     String eyebrowNavPath = headerPath + "/eyebrow-nav";
     String headerSearchPath = headerPath + "/search";
-    String cookieHeaderPath = headerPath + "/cookie-header";
+    System.out.println(headerSearchPath);
+    //The cookie header will be created under its own parent, so that all the children of this parent will share the same mobile header
+    //String cookieHeaderPath = currentPage. + "/cookie-header";
 %>
 <div class="top-header row">
     <section class="logo-section">
@@ -31,7 +34,16 @@
     </section>
 </div>
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
-<% if (isCookiePage(currentPage)) { %>
-	<cq:include path="<%= cookieHeaderPath %>" resourceType="gsusa/components/cookie-header" />
-<% } %>
+<% if (isCookiePage(currentPage)) { 
+	Page cp = currentPage;
+	while (cp != null && cp.getContentResource() != null && !"girlscouts/components/placeholder-page".equals(cp.getContentResource().getResourceType())) {
+		cp = cp.getParent();
+	}
+	String cookiePlaceholderPath = cp.getContentResource().getPath();
+%>
+	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
+<%	if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+		<a href ="#" class="button show-for-small" style="background-color:red;">Activiate the above hero banner in mobile view</a>
+<%	}
+ } %>
 <!--/header -->
