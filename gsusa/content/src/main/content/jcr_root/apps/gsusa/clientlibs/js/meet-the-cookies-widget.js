@@ -163,47 +163,27 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     },
     
 	RTE_PLUGIN_CONF: {
-	   "links": [
-	      {
-	         "height": 316,
-	         "linkAttributes": [
-	            {
-	               "collapsed": true,
-	               "collapsible": true,
-	               "inputValue": "advanced",
-	               "name": "./linkdialog/cq:adhocLinkTrackingTab",
-	               "title": "Link tracking",
-	               "xtype": "dialogfieldset",
-	               "items": {
-	                  "enable": {
-	                     "attribute": "enabletracking",
-	                     "fieldDescription": "override analytics framework settings",
-	                     "fieldLabel": "Custom link tracking",
-	                     "name": "./linkdialog/cq:adhocLinkTrackingEnableTracking",
-	                     "xtype": "checkbox",
-	                     "listeners": {
-	                        "check": function(component){ var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked); }
-	                     }
-	                  },
-	                  "events": {
-	                     "attribute": "adhocevents",
-	                     "fieldDescription": "e.g.: event2, event7",
-	                     "fieldLabel": "Include SiteCatalyst events",
-	                     "name": "./linkdialog/cq:adhocLinkTrackingEvents",
-	                     "xtype": "textfield"
-	                  },
-	                  "evars": {
-	                     "attribute": "adhocevars",
-	                     "fieldDescription": "e.g.: eVar1: pagedata.url, prop4: 'const'",
-	                     "fieldLabel": "Include SiteCatalyst variables",
-	                     "name": "./linkdialog/cq:adhocLinkTrackingEvars",
-	                     "xtype": "textfield"
-	                  }
-	               }
-	            }
-	         ]
-	      }
-	   ],
+	   "links": {
+	      "linkDialogConfig": {
+	    	  "height": "250",
+	    	  "linkAttributes": [{
+	    		  "attribute": "class",
+	    		  "xtype": "selection",
+	    		  "options": [
+	    		      {
+	    		          value: "",
+	    		          text: "Normal Link"
+	    		      },
+	    		      {
+	    		          value: "button white",
+	    		          text: "Button",
+	    		      }
+	    		  ],
+	    		  "fieldLabel": "Style",
+	    		  "fieldDescription": "Enter <i>button white</i> for the link button"
+	    	  }]
+	      }
+	   },
 	   "misctools": {
 	      "features": "*"
 	   },
