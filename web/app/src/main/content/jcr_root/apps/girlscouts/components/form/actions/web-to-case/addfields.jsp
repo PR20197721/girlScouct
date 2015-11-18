@@ -61,8 +61,12 @@
     String cwrw = props.get("cwrw", "");
     if(!councilCode.isEmpty() && !cwrw.isEmpty()){
 %>
+<!-- CASE SUBMISSION -->
 <input type=hidden name="orgid" value="00DG0000000leqU"> 
+<!-- TEST ID -->
 <!-- <input type=hidden name="orgid" value="00Dg0000006SfYn"> -->
+<!-- EMAIL SERVICE -->
+<input type=hidden name="00NG000000DdXSU" id="00NG000000DdXSU" value="Web">
 <!-- <input type=hidden name="retURL" value="/">-->
 <input type="hidden" name="origin" value="<%= councilCode+cwrw %>">
 <%  } 
