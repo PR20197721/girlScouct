@@ -1,4 +1,5 @@
  <%@page import="java.net.URLEncoder"%>
+ <%@include file="/libs/foundation/global.jsp" %>
 <%
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
@@ -80,11 +81,14 @@ councilName= councilName== null ? "" : councilName;
         <section>
             <div id="map"></div>
             <ul class="inline-list">
-                <li><a class="icon-social-facebook" href=""></a></li>
-                <li><a class="icon-social-twitter-tweet-bird" href=""></a></li>
-                <li><a class="icon-mail" href=""></a></li>
-                <li><a class="icon-printer" href=""></a></li>
-            </ul>
+            	<li><div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="Cookies are here." addthis:description="I found mine. Now find yours. Girl Scout Cookies are in your neighborhood!">
+					<a class="addthis_button_facebook"><span class="icon-social-facebook"></span></a>
+					<a class="addthis_button_twitter"><span class="icon-social-twitter-tweet-bird"></span></a>
+					<a class="addthis_button_email"><span class="icon-mail"></span></a>
+					<a class="addthis_button_print"><span class="icon-printer"></span></a>
+				</div>
+            </li></ul>
         </section>
+        <script>addthis.toolbox("#toolbox");</script>
     </body>
 </html>
