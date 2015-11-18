@@ -32,7 +32,7 @@
 	</div> <%
 
 	} else if (!text.equals("")) { %>
-		<div class="standalone-volunteer join-volunteer-block text-version">
+		<div class="standalone-join join-volunteer-block text-version">
 		   <h5><%= mainTitle %></h5>
 		   <p><%= text %></p>
 		   <div class="wrapper">
