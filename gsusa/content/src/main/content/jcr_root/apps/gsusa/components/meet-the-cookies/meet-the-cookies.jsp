@@ -24,14 +24,11 @@ if (cookies != null && cookies.length != 0) {
         <div>
             <img src="<%= image %>" alt="" />
             <div class="wrapper">
-                <h4><%= title %><span>&reg;</span> / <%= title %><span>&reg;</span></h4>
+                <h4><%= title %></h4>
                 <section>
                     <%= description %>
                     <% if (!buttonTitle.isEmpty()) { %>
                        <p class="button-p"><a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a></p>
-                    <% } %>
-                    <% if (!buttonTitle.isEmpty()) /*there are TWO TITLES*/ { %>
-                        <p class="button-p"><a href="<%= buttonLink %>" title="<%= buttonTitle %>" class="button white"><%= buttonTitle %></a></p>
                     <% } %>
                 </section>
             </div>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
-    width="{Long}1800"
     height="{Long}400"
+    width="{Long}1800"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -12,9 +12,13 @@
                 jcr:primaryType="cq:Panel"
                 title="Meet The Cookies">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <help
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Help"
+                        html="For the cookie titles:  &lt;br/> Enter &amp;lt;span&amp;gt;&amp;amp;trade;&amp;lt;/span&amp;gt; for &amp;trade;. &lt;br/>Enter &amp;lt;span&amp;gt;&amp;amp;reg;&amp;lt;/span&amp;gt; for &amp;reg;."
+                        xtype="label"/>
                     <cookies
                         jcr:primaryType="cq:Widget"
-                        fieldSubLabel="Use &amp;amp;trade; for &amp;trade;. Use &amp;amp;reg; for &amp;reg;."
                         fieldLabel="Cookies"
                         name="./cookies"
                         xtype="meetthecookiesmultifield">
