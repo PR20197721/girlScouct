@@ -397,6 +397,8 @@ div.carousel {
 }
 .rotator {
   padding: rem-calc(0 13 10);
+  max-width: rem-calc(210);
+  width: 100%;
   h5 {
     font-weight: 600;
     font-size: rem-calc(20);

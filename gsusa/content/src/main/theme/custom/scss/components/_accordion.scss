@@ -41,6 +41,9 @@
     dd {
       background: #f8f8f8;
       margin-bottom: rem-calc(3) !important;
+      .content {
+        padding: rem-calc(25 15 0 15);
+      }
     }
     p {
       font-size: rem-calc(14);
