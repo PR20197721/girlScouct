@@ -18,9 +18,7 @@ gsusa.components.MeetTheCookiesMultifield = CQ.Ext.extend(CQ.form.MultiField, {
 			    	
                     var hiddenValue = field.title.getValue() + "|||" +
                                 field.image.getValue() + "|||" +
-                                field.description.getValue() + "|||" +
-                                field.buttonTitle.getValue() + "|||" +
-                                field.buttonLink.getValue();
+                                field.description.getValue();
                     field.hiddenField.setValue(hiddenValue);
                 }
             }, this);
