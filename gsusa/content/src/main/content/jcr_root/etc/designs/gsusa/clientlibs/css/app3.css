@@ -2400,6 +2400,7 @@ div.carousel .slick-next:before {
   position: absolute;
   bottom: 0;
   right: 0;
+  z-index: 2;
 }
 
 @media only screen and (max-width: 48em) {
