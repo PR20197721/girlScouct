@@ -42,7 +42,7 @@
   function pauseVideoSliderVideos() {
 	  if($('.vimeo').length > 0){
 		  $.each($(".vimeo"), function( i, val ) { 
-	    	  val.api('pause');
+	    	  $f(val).api('unload');
 	      });
 	  } if($('.youtube').length > 0) {
 	      $.each($('.youtube'), function( i, val ) { 
