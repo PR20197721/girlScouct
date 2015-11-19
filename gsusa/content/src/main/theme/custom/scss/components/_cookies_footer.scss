@@ -77,6 +77,11 @@
     @media #{$small-only} {
       margin-bottom: rem-calc(20);
     }
+    .wrapper:nth-of-type(2) {
+      a {
+        margin-top: 2%;
+      }
+    }
   }
   .get-updates {
     background: #a6ce38;
