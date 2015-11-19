@@ -894,7 +894,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Node titleNode = parNode.addNode("title");
 			titleNode.setPrimaryType("nt:unstructured");
 			titleNode.setProperty("sling:resourceType", "girlscouts/components/title");
-			titleNode.setProperty("title","Submit a Case to Volunteer Systems");
+			titleNode.setProperty("title","Contact Us");
 			
 			Node nameNode = parNode.addNode("text");
 			nameNode.setPrimaryType("nt:unstructured");
@@ -1039,7 +1039,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Node thanksTextNode = thanksParNode.addNode("text");
 			thanksTextNode.setPrimaryType("nt:unstructured");
 			thanksTextNode.setProperty("sling:resourceType", "girlscouts/components/text");
-			thanksTextNode.setProperty("text", "<h2>Thank you for contacting us, we have received your inquiry and will be in touch shortly!</h2>");
+			thanksTextNode.setProperty("text", "<h3>Thank you for contacting us, we have received your inquiry and will be in touch shortly!</h3>");
 			thanksTextNode.setProperty("textIsRich", "true");
 			
 		} catch(Exception e){
