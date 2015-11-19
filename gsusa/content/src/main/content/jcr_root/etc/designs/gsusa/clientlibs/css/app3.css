@@ -1405,9 +1405,16 @@ table tr td {
     float: left;
   }
 }
-
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (max-width: 48em) {
   /* line 88, ../../../../../../../theme/custom/scss/layout/_grid.scss */
+  .cookie-page .right-col {
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+@media only screen and (min-width: 48.1225em) {
+  /* line 96, ../../../../../../../theme/custom/scss/layout/_grid.scss */
   .cookie-page .cookieRightPath .standalone-volunteer:not(.bg-image),
   .cookie-page .cookieRightPath .standalone-join:not(.bg-image),
   .cookie-page .cookieRightPath .rotator {
@@ -2331,6 +2338,7 @@ div.carousel .slick-next:before {
   max-height: 20.875rem;
   overflow: hidden;
   margin-bottom: 0;
+  z-index: 1;
 }
 /* line 534, ../../../../../../../theme/custom/scss/components/_carousel.scss */
 .cookie-landing-hero .welcome-video-slider img {
@@ -2345,6 +2353,7 @@ div.carousel .slick-next:before {
   padding: 0;
   margin-bottom: 0;
   margin-left: 2.9375rem;
+  z-index: 2;
 }
 /* line 546, ../../../../../../../theme/custom/scss/components/_carousel.scss */
 .cookie-landing-hero .cookie-header .wrapper {
