@@ -23,6 +23,7 @@ final String callToActionName = properties.get("calltoactionname", "Default Call
 String callToActionLink = properties.get("calltoactionlink", "");
 final int timedelay = properties.get("timedelay", 2000);
 final boolean autoscroll = properties.get("autoscroll", false);
+final boolean showVerticalRule = properties.get("showverticalrule", false);
 
 int numberOfImages= 0;
 
@@ -38,8 +39,12 @@ if (carouselList != null) {
 	shopautoscroll = <%= autoscroll %>;
 </script>
 
+<% if (showVerticalRule) {%>
+	<div class="rotator" style="border-left: solid 1px #e5e7e8;">
+<%} else { %>
+	<div class="rotator">
+<%} %>
 
-<div class="rotator">
   <h5> <%= carouselTitle %></h5>
   <h6> <%= carouselSubTitle %></h6>
   <div class="shop-carousel">
