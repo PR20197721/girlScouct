@@ -3,6 +3,7 @@
     jcr:primaryType="cq:Dialog"
     title="Booth Finder"
     width="800"
+    height="600"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -26,6 +27,7 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <text
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter {{name}} for the council name, {{url}} for the link to the council website. More options can be found in the &quot;special characters&quot; menu (The star button)."
                         fieldLabel="Text"
                         name="./path1Text"
                         xtype="richtext">
@@ -155,6 +157,42 @@
                         </rtePlugins>
                         <specialCharsConfig jcr:primaryType="nt:unstructured">
                             <chars jcr:primaryType="nt:unstructured">
+                                <name
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{name}}"/>
+                                <url
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{url}}"/>
+                                <code
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{code}}"/>
+                                <abbrName
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{abbrName}}"/>
+                                <cityStateZip
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cityStateZip}}"/>
+                                <cookieSaleStartDate
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookieSaleStartDate}}"/>
+                                <cookieSaleEndDate
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookieSaleEndDate}}"/>
+                                <cookiePathUrl
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{url}}"/>
+                                <cookieSaleContactEmail
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookieSaleContactEmail}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
