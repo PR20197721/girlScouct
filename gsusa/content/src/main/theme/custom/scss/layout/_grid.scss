@@ -98,13 +98,13 @@
     .rotator {
       @media #{$medium-up} {
         padding-left: rem-calc(15);
-        border-width: 2px 0 2px 2px;
-        border-style: solid;
-        -webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#e1e1e1), to(rgba(220, 220, 220, 1))) 1 100%;
-        -webkit-border-image: -webkit-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-        -moz-border-image: -moz-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-        -o-border-image: -o-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
-        border-image: linear-gradient(to right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+        // border-width: 2px 0 2px 2px;
+        // border-style: solid;
+        // -webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#e1e1e1), to(rgba(220, 220, 220, 1))) 1 100%;
+        // -webkit-border-image: -webkit-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+        // -moz-border-image: -moz-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+        // -o-border-image: -o-linear-gradient(right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
+        // border-image: linear-gradient(to right, #e1e1e1, rgba(220, 220, 220, 1)) 1 100%;
       }
     }
   }

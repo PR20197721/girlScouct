@@ -35,25 +35,27 @@
     position: absolute;
     bottom: 0;
     background: $white;
-    width: 100%;
+    width: 95%;
     z-index: 3;
     padding-bottom: rem-calc(10);
     padding-left: rem-calc(6);
     label {
       color: $primary-color;
       text-transform: uppercase;
-      margin-bottom: rem-calc(20);
+      margin-bottom: rem-calc(15);
       font-size: rem-calc(13);
+      margin-top: rem-calc(5);
     }
     input[type="text"] {
-      width: rem-calc(140);
+      width: 95%;
       float: left;
      // height: rem-calc(33);
-
     }
     input[type="submit"] {
       padding: rem-calc(8 5 7 5);
       margin-bottom: 0;
+      position: absolute;
+      right: 5px;
     }
   }
 }

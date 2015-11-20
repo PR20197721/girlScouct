@@ -25,7 +25,7 @@
 	        <a href="#" title="Join Now" class="join button arrow"><%= callToActionName %></a>
 	        <form class="formJoin hide">
 	            <label><%= title %></label>
-	            <input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+	            <input type="text" name="ZipJoin" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
 	            <input type="hidden" name="source" value="<%= source %>">
 	        	<input class="button" class="button" type="submit" value="<%= searchBtnName %>">
 	        </form>
@@ -40,7 +40,7 @@
 		       <a href="#" title="Volunteer" class="join button arrow"><%= callToActionName %></a>
 		       <form class="formVol hide">
 		           <label><%= title %></label>
-		           <input type="text" name="ZipVolunteer" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+		           <input type="text" name="ZipVolunteer" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
 		           <input type="hidden" name="source" value="<%= source %>">
 		       	<input class="button" type="submit" value="<%= searchBtnName %>">
 		       </form>
@@ -51,7 +51,7 @@
 	    <a href="#" title="Join Now" class="join button arrow"><%= callToActionName %></a>
 	    <form class="formJoin hide">
 	        <label><%= title %></label>
-	        <input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+	        <input type="text" name="ZipJoin" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
 	        <input type="hidden" name="source" value="<%= source %>">
 	        <input class="button" type="submit" value="<%= searchBtnName %>">
 	    </form>

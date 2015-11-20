@@ -2471,6 +2471,7 @@ div.carousel .slick-next:before {
     margin-left: -2.25rem;
     margin-bottom: 1.25rem;
     margin-top: 1.25rem;
+    background-size: contain;
   }
 }
 @media only screen and (max-width: 48em) {
