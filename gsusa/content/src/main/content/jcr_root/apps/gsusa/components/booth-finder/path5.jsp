@@ -31,3 +31,19 @@ request.setAttribute("gsusa-share-model-header", msg);
 <a href="<%= council.url %>" target="_blank"><strong><%= council.name %></strong></a> cookie sale starts in <span id="cntdwn"><%= Long.toString(daysBetween) %></span> <%= daysBetween == 1 ? "day" : "days" %>.
 Until then, check out cookie related merchandise in the <a href="http://www.girlscoutshop.com/" taret="_blank">Girl Scout online shop</a>.
 </p>
+
+<%
+request.setAttribute("gsusa-share-model-header", "Cookies are coming in " + daysBetween + " days");
+request.setAttribute("gsusa-share-modal-tweet", "#GirlScoutsCookie time is coming in " + daysBetween + " days to my neighborhood. Find your cookies. @girlscouts"); 
+request.setAttribute("gsusa-share-modal-description", "I searched for Girl Scout Cookies. Search for Girl Scout cookies in your neighborhood");
+request.setAttribute("gsusa-share-modal-img-path", "/content/dam/girlscouts-gsusa/images/Cookies/share-default.png");
+slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+%>
+<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
+<%
+slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
+request.setAttribute("gsusa-share-modal-img-path", null);
+request.setAttribute("gsusa-share-model-header", null);
+request.setAttribute("gsusa-share-modal-tweet", null); 
+request.setAttribute("gsusa-share-modal-description", null);
+%>

@@ -3,19 +3,30 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%
+	String uniqueID = "" + System.currentTimeMillis();
+
 	String header = (String)request.getAttribute("gsusa-share-model-header");
 	if (header == null) {
 		header = properties.get("header","");
 	}
-	String button = properties.get("btn","");
-	String desc = properties.get("desc","");
-	String text1 = properties.get("text1","");
-	String fbtitle = properties.get("fbtitle","");
-	String fbdesc = properties.get("fbdesc","#");
-	String icon1 = properties.get("icon1","");
-	String text2 = properties.get("text2","");
-	String tweet = properties.get("tweet","");
-	String icon2 = properties.get("icon2", "");
+	String button = properties.get("btn","Share With Your Friends");
+	String desc = (String)request.getAttribute("gsusa-share-modal-description");
+	if(desc == null){
+		desc = properties.get("desc","");
+	}
+	String text1 = properties.get("text1","Share on Facebook");
+	String fbtitle = (String)request.getAttribute("gsusa-share-model-header");
+	if(fbtitle == null){
+		fbtitle = properties.get("fbtitle","");
+	}
+	String fbdesc = properties.get("fbdesc",desc);
+	String icon1 = properties.get("icon1","icon-social-facebook");
+	String text2 = properties.get("text2","Share on Twitter");
+	String tweet = (String)request.getAttribute("gsusa-share-modal-tweet");
+	if(tweet == null){
+		tweet = properties.get("tweet",desc);	
+	}
+	String icon2 = properties.get("icon2", "icon-social-twitter-tweet-bird");
 	String hashTags = properties.get("hashtags","");
 
 	// Get the URL
@@ -28,9 +39,11 @@
 	String facebookId = currentSite.get("facebookId", "");
 
 	Resource img = resource.getChild("image");
-	String filePath = "";
-	if(img != null) {
-		filePath = ((ValueMap)img.adaptTo(ValueMap.class)).get("fileReference", "");
+	String filePath = (String)request.getAttribute("gsusa-share-modal-img-path");
+	if(filePath == null){
+		if(img != null) {
+			filePath = ((ValueMap)img.adaptTo(ValueMap.class)).get("fileReference", "");
+		}
 	}
 
 	if (button.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -39,6 +52,7 @@
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 			%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 		}
+		
 %>
 <div class="share-modal">
 	<a href="#" data-reveal-id="shareModal" class="button"><%= button %></a>
@@ -54,7 +68,7 @@
 	      <h4><%= header %></h4>
 	      <p><%= desc %></p>
 	      <% if(!fbtitle.equals("") && !fbdesc.equals("") && !text1.equals("")){ %>
-	      <a class="button" onclick="postToFeed(); return false;"><%= text1 %> <% if(!icon1.equals("")){ %><i class="<%= icon1 %>"></i><% } %></a>
+	      <a class="button" onclick="postToFeed<%= uniqueID %>(); return false;"><%= text1 %> <% if(!icon1.equals("")){ %><i class="<%= icon1 %>"></i><% } %></a>
 	      <% }
 	      if(!text2.equals("") && !tweet.equals("")){
 	      	tweet = tweet.replace("\"","%quot;").replace(" ","%20").replace("#","%23");
@@ -85,13 +99,15 @@
 		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
 	}
 
-      function postToFeed() {
+      function postToFeed<%= uniqueID %>() {
 
         // calling the API ...
         var obj = {
           method: 'feed',
           link: '<%= url %>',
           name: '<%= fbtitle %>',
+          picture: location.host + '<%= filePath %>',
+          caption: 'WWW.GIRLSCOUTS.ORG',
           description: '<%= fbdesc.replace("\'","\\'") %>'
         };
 
