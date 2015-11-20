@@ -92,8 +92,8 @@ if (zip == null || zip.isEmpty()) {
         request.setAttribute("gsusa_booth_list_pagenum", null);
         request.setAttribute("gsusa_booth_list_numperpage", null);
 	} catch (Exception e) { // boothFinder.getBooths
-//		System.out.println(e.getMessage());
-       %><div>There is a problem communicating with the server. Please try again later.</div><%
+        log.error(e.getMessage());
+        %><div>There is a problem communicating with the server. Please try again later.</div><%
     }
     
 }
