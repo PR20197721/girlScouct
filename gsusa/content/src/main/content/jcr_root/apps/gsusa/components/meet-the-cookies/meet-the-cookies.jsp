@@ -33,7 +33,7 @@ if (cookies != null && cookies.length != 0) {
     <script>
     	$(document).ready(function(){
 	        $('#meet-cookie-layout').layout({
-	            itemPadding: 0
+                itemPadding : 0
 	        });
     	})
     </script>
