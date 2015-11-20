@@ -63,12 +63,15 @@
     }
     i {
       color: white;
-      font-size: rem-calc(37);
+      font-size: rem-calc(43);
     }
     a {
       color: white;
       vertical-align: middle;
       line-height: 1.2;
+      &:hover {
+        color: $white;
+      }
     }
   }
   .find-cookies {
@@ -83,7 +86,7 @@
       @media #{$small-only} {
         margin-bottom: rem-calc(15);
       }
-      *{
+      * {
       	color: $white;
       }
     }
@@ -147,14 +150,13 @@
         color: $white;
       }
       i {
-        float: right;
-        width: 22%;
+        position: absolute;
+        right: 18px;
+        top: 16px;
       }
       a {
         span {
           display: inline-block;
-          float: left;
-          width: 73%;
         }
       }
     }
