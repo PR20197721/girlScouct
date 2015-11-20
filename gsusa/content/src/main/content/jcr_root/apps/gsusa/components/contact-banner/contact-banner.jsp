@@ -1,9 +1,12 @@
+<%@page import="java.util.Map,
+                org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/libs/foundation/global.jsp" %>
 
 <%
-	String btn = properties.get("btn", "Contact Your Local Council");
-	String title = properties.get("title", "");
-	String desc = properties.get("desc", "");
+    Map<String, String> propsFromAttr = (Map<String, String>)request.getAttribute("gsusa-contact-banner-conf");
+	String btn = getDefault("btn", "Contact Your Local Council", propsFromAttr, properties);
+	String title = getDefault("title", "", propsFromAttr, properties);
+	String desc = getDefault("desc", "", propsFromAttr, properties);
 	String zip = (String)request.getAttribute("gsusa_booth_list_zip");
 %>
 
@@ -22,3 +25,13 @@
         <button type="submit" class="button right" value="Submit">Submit</button>
     </form>
 </div>
+
+<%!
+public String getDefault(String key, String defaultValue, Map<String, String> props, ValueMap properties) {
+	String value = props.get(key);
+	if (value != null) {
+		return value;
+	}
+	return properties.get(key, defaultValue);
+}
+%>
