@@ -95,7 +95,7 @@ videoSliderAuto = <%= autoscroll %>;
 				String[] urls = extract(links[i]);
 				if(urls.length == 3){
 					%><div><div class="show-for-small thumbnail"><a href="<%= links[i] %>" title="video thumbnail"><img src="<%= urls[1] %>" /></a></div>
-					  <div class="show-for-medium-up"><iframe class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>
+					  <div class="vid-slide-wrapper show-for-medium-up"><iframe class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>
 				<% } else { %>
 					<div>*** Format not supported ***</div>
 				<% }
