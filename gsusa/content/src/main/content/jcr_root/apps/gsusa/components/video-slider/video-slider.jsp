@@ -3,14 +3,15 @@
 				java.io.*,
 				java.util.regex.*,
 				java.net.*,
-				org.apache.sling.commons.json.*" %>
+				org.apache.sling.commons.json.*, 
+				java.util.Random" %>
 <%@page session="false" %>
 
 <%!
 public String[] extract(String url){
 	if (url.indexOf("youtube") != -1) {
 		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube"};
+		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId()};
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);
@@ -18,7 +19,7 @@ public String[] extract(String url){
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId, (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo"};
+					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1", (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo", generateId()};
 				}
 			}
 		} catch (Exception e) {
@@ -46,6 +47,15 @@ public String extractVimeoId(String vimeoUrl) {
 		vId = matcher.group(1);
 	}
 	return vId;
+}
+
+public String generateId() {
+	Random rand=new Random();
+	String possibleLetters = "abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
 }
 
 
@@ -81,7 +91,9 @@ videoSliderAuto = <%= autoscroll %>;
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function () {
+			attachListenerToVideoSlider();
+		});
 	});
 </script>
 
@@ -93,9 +105,18 @@ videoSliderAuto = <%= autoscroll %>;
 		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				String[] urls = extract(links[i]);
-				if(urls.length == 3){
-					%><div><div class="show-for-small thumbnail"><a href="<%= links[i] %>" title="video thumbnail"><img src="<%= urls[1] %>" /></a></div>
-					  <div class="vid-slide-wrapper show-for-medium-up"><iframe class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div></div>
+				if(urls.length == 4){
+					%><div>
+						<div class="show-for-small thumbnail">
+							<a href="<%= links[i] %>" title="video thumbnail">
+								<img src="<%= urls[1] %>" />
+							</a>
+						</div>
+					  	<div class="vid-slide-wrapper show-for-medium-up">
+					  		<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+				  			</iframe>
+			  			</div>
+		  			</div>
 				<% } else { %>
 					<div>*** Format not supported ***</div>
 				<% }
