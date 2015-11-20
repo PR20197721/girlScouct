@@ -80,4 +80,16 @@ public String linkifyString (String string, int maxChars) {
 	}
 	return string.toLowerCase().trim();
 }
+
+public boolean isCookiePage(Page currentPage) {
+	String isCookiePage = currentPage.getProperties().get("isCookiePage", "derived");
+	if ("true".equals(isCookiePage)) {
+		return true;
+	} else if ("false".equals(isCookiePage)) {
+		return false;
+	} else {
+		Page parentPage = currentPage.getParent();
+		return parentPage == null ? false : isCookiePage(parentPage);
+	}
+}
 %>

@@ -63,7 +63,7 @@
 					<button type="submit" class="button">GO</button>
 				</form>
 				<% }else{ %>
-				<a class="button" href="<%= href %>"><%= title %></a>
+				<a class="button" href="<%= href %>" target="_blank"><%= title %></a>
 				<% } %>
 		</div>
 	</div> <%
@@ -77,7 +77,7 @@
 				<button type="submit" class="button">GO</button>
 			</form>
 			<% }else{ %>
-				<a class="button" href="<%= href %>"><%= title %></a>
+				<a class="button" href="<%= href %>" target="_blank"><%= title %></a>
 			<% } %>
 		</div>
 	<%}

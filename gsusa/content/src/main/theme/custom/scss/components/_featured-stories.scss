@@ -103,7 +103,7 @@ div.featured-stories {
       }
       .contents {
         @include grid-column(22, $center:true, $collapse:true);
-        margin-top: rem-calc(10);
+        margin-top: rem-calc(13);
       }
       &.no-padding {
         .bg-wrapper {
@@ -121,6 +121,9 @@ div.featured-stories {
         }
       }
       &.colorless {
+        .header {
+          padding: 0;
+        }
         .left-wrapper {
           & * {color: $white;}
           text-align: center;
@@ -134,12 +137,13 @@ div.featured-stories {
           [class^="icon-"] {
             float: none;
             display: block;
-            margin-bottom: rem-calc(38);
             font-size: rem-calc(60);
+            margin-top: rem-calc(14);
           }
           .text {
             padding-left: rem-calc(20);
             text-align: left;
+            padding-right: rem-calc(20);
             .desc {
               margin-bottom: rem-calc(30);
               font-weight: 600;
@@ -148,21 +152,86 @@ div.featured-stories {
           p {
             font-size: rem-calc(20);
           }
-          .button {
-            margin-top: rem-calc(40);
-            margin-left: auto;
-            margin-right: auto;
-            left: rem-calc(18);
-            right: rem-calc(18);
+          .button-wrap {
             position: absolute;
             bottom: 0;
-            box-shadow: inset 0 0 0 99999px rgba(0,0,0,.3);
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            @media #{$small-only} {
+              bottom: auto;
+            }
+            .button {
+              text-transform: none;
+              position: relative;
+              left: auto;
+              right: auto;
+              white-space: nowrap;
+              margin-bottom: 8px;
+              padding: .65rem 1rem .65rem 1rem;
+              width: 88%;
+              box-shadow: inset 0 0 0 99999px rgba(0,0,0,.3);
+              @media #{$small-only} {
+                white-space: normal;
+              }
+            }
+            .formDonate {
+              background-color: rgba(196,216,46, .9);
+              box-shadow: inset 0 0 0 99999px rgba(0,0,0,.3);
+              width: 88%;
+              padding: .65rem 0 0;
+              margin: 0 auto;
+              -webkit-animation: fadeIn 1s;
+              animation: fadeIn 1s;
+              &.hide {
+                -webkit-animation: fadeIn 1s;
+                animation: fadeIn 1s;
+              }
+              label {
+                display: inline;
+                vertical-align: middle;
+                font-weight: bold;
+                margin-right: rem-calc(5);
+                @media #{$small-only} {
+                  display: none;
+                }
+              }
+              input[type="text"] {
+                display: inline;
+                width: 50%;
+                vertical-align: middle;
+                color: rgba(0, 0, 0, 0.75);
+                padding-left: rem-calc(5);
+              }
+              button {
+                font-size: rem-calc(30);
+                background-color: transparent;
+                display: inline;
+                padding: 0;
+                vertical-align: middle;
+                margin: 0;
+              }
+            }
           }
+          // .button {
+          //   // margin-top: rem-calc(40);
+          //   margin-left: auto;
+          //   margin-right: auto;
+          //   left: rem-calc(18);
+          //   right: rem-calc(18);
+          //   position: absolute;
+          //   bottom: 0;
+          //   box-shadow: inset 0 0 0 99999px rgba(0,0,0,.3);
+          //   &:first-of-type {
+          //     bottom: rem-calc(45);
+          //   }
+          // }
         }
         .icon-cross {
           @media #{$medium-up} {
             position: absolute;
-            right: 0;
+            right: rem-calc(15);
+            top: rem-calc(15);
           }
         }
       }

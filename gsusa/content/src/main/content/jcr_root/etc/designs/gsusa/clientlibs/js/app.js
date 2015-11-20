@@ -11,7 +11,7 @@
     var footer_height = $("footer").outerHeight();
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
-    $(".main-content").css({
+    $(".main-content, #main .vtk").css({
     	  "min-height" : total_height
     });
     $(".join-volunteer").css({
@@ -103,6 +103,10 @@
       if ((target.closest('.standalone-join').length === 0 && target.closest('.footer-join').length ===0)
               && target.closest('.button.arrow').siblings('form').css('display') !== 'none') {
             $('.join.button.arrow').siblings('form').addClass('hide');
+          }
+      if (target.closest('.standalone-donate').length === 0 && target.closest('a.button.form').siblings('form').css('display') !== 'none') {
+            $('a.button.form').siblings('form').addClass('hide');
+            $('a.button.form').removeClass('hide');
           }
     });
   }
@@ -621,6 +625,16 @@ if($.browser.msie && parseFloat($.browser.version)<10){
   $(window).load(function () {
     equilize_our_stories();
   });
+  // form on the Donate Tile.
+  $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e){
+    e.preventDefault();
+    // $('.formDonate').addClass('hide');
+    // if($('.formDonate').is(':hidden')) {
+      $('.formDonate').toggleClass('hide');
+      $(this).toggleClass('hide');
+      $('.formDonate input[type="text"]').focus();
+    // }
+  })
 
 }(jQuery));
 

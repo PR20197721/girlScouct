@@ -19,7 +19,8 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
   mapFullText.put("boolproperty","jcr:content/hideInNav");
   mapFullText.put("boolproperty.value","false");
   mapFullText.put("p.limit","-1");
-  mapFullText.put("orderby","type");
+  mapFullText.put("orderby","@jcr:content/cq:lastModified");	// order by latest first (pbae)
+  mapFullText.put("orderby.sort", "desc"); 
   PredicateGroup pg=PredicateGroup.create(mapFullText);
   Query query = queryBuilder.createQuery(pg,session);
   query.setExcerpt(true);
@@ -33,12 +34,26 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
+String start = request.getParameter("start");
+int pageSize = 10;
+int endIdx = pageSize; //this may change for the last page
+double totalPage = 0;
+int startIdx = 0;
+try {
+	startIdx = Integer.parseInt(start); 
+} catch (NumberFormatException e) {
+	startIdx = 0;
+} 
+int currentPageNo = startIdx/pageSize;
+
+
 String documentLocation = "/content/dam/gsusa-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 if (null==searchIn){
   searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
+// pbae: adding ~ to enable stemming search
 final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
@@ -60,9 +75,18 @@ long startTime = System.nanoTime();
 List<Hit> hits = new ArrayList<Hit>();
 Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 
+//Since we have to seperate the query, we have to do pagination manually
 hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,escapedQuery));
 hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
+
+String numberOfResults = String.valueOf(hits.size());
+if (startIdx + pageSize > hits.size()) {
+	endIdx = hits.size(); //last page
+} else {
+	endIdx = startIdx + pageSize; //all other page
+}
+totalPage = Math.ceil((double)hits.size()/pageSize);
 
 %>
 
@@ -77,14 +101,16 @@ hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
     </fmt:message>
 <% } else { %>
     <p><strong>
-        <%= properties.get("resultPagesText","Results for")%> "${escapedQuery}"
+        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQuery}"
     </strong></p>
     <ul class="search-row">
 <%
-
-  for(Hit hit: hits) {
+  
+  
+  
+  for(int i = startIdx; i < endIdx ; i++) {
     try {
-      DocHit docHit = new DocHit(hit);
+      DocHit docHit = new DocHit(hits.get(i));
       String path = docHit.getURL();
       int idx = path.lastIndexOf('.');
       String extension = idx >= 0 ? path.substring(idx + 1) : "";
@@ -95,9 +121,29 @@ hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
                 <% } %>
                 <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
                 <p><%=docHit.getExcerpt()%></p>
+                <% 
+                	// show last modified to confirm result sorting (pbae)
+                	// String lastModified = docHit.getProperties().get("cq:lastModified").toString();
+                	// out.println(lastModified); 
+                %>
             </li>
         <% } catch(Exception w) {}
     } %>
+    </ul>
+    <ul class="search-page">
+    	<%if (currentPageNo != 0) {  %>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
+    	<%}  %>
+    <%for (int i = 0; i < totalPage; i++ ) { 
+    	if (currentPageNo == i) {%>
+    		<li class="currentPageNo"><%= i+1 %></li>
+    	<%} else {%>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li>
+    <%	}
+    }%>
+    <%if (currentPageNo != totalPage-1) {  %>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
+    	<%}  %>
     </ul>
 <% } %>
 
