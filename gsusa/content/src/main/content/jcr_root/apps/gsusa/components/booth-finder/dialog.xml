@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     title="Booth Finder"
     xtype="dialog">
@@ -19,6 +19,38 @@
                         xtype="numberfield"/>
                 </items>
             </tab1>
+            <path1
+                jcr:primaryType="cq:Panel"
+                title="Path 1">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Text"
+                        name="./path1Text"
+                        xtype="richtext">
+                        <htmlRules jcr:primaryType="nt:unstructured">
+                            <blockHandling
+                                jcr:primaryType="nt:unstructured"
+                                removeSingleParagraphContainer="{Boolean}true"/>
+                        </htmlRules>
+                    </text>
+                </items>
+            </path1>
+            <path2
+                jcr:primaryType="cq:Panel"
+                title="Path 2">
+                <items jcr:primaryType="cq:WidgetCollection"/>
+            </path2>
+            <path4
+                jcr:primaryType="cq:Panel"
+                title="Path 4">
+                <items jcr:primaryType="cq:WidgetCollection"/>
+            </path4>
+            <path5
+                jcr:primaryType="cq:Panel"
+                title="Path 5">
+                <items jcr:primaryType="cq:WidgetCollection"/>
+            </path5>
         </items>
     </items>
 </jcr:root>
