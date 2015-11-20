@@ -82,10 +82,12 @@ public class BoothFinder {
         
         public Council() {
 			this.code = "";
-			this.name = "";
+			// TODO: Test
+			this.name = "Girl Scouts Sample Council";
 			this.abbrName = "";
 			this.cityStateZip = "";
-			this.url = "";
+			// TODO: Test
+			this.url = "http://www.girlscouts.org/";
 			this.cookieSaleStartDate = "";
 			this.cookieSaleEndDate = "";
 			this.preferredPath = "";
