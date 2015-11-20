@@ -1,6 +1,10 @@
  <%@page import="java.net.URLEncoder"%>
- <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
+
 <%
+String uniqueID = "" + System.currentTimeMillis();
+String facebookId = currentSite.get("facebookId", "");
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
@@ -11,6 +15,13 @@ String zip = (String)request.getParameter("zip");
 zip = (zip ==null ? "" : zip);
 String councilName= (String)request.getParameter("councilName");
 councilName= councilName== null ? "" : councilName;
+
+// Get the URL
+String url = properties.get("url", currentPage.getPath());
+url = resourceResolver.map(currentPage.getPath());
+if (!url.contains(".html")) {
+    url += ".html";
+}
 %>
 <html>
 <head>
@@ -64,6 +75,7 @@ councilName= councilName== null ? "" : councilName;
             <div>
                 <h5><%= request.getParameter("location") %></h5>
                 <p><%= request.getParameter("address1") %></p>
+                <p><%= request.getParameter("address2") %></p>
             </div>
             <div>
                 <a href="http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>" title="" target="_blank">Get Directions ></a>
@@ -81,9 +93,11 @@ councilName= councilName== null ? "" : councilName;
         <section>
             <div id="map"></div>
             <ul class="inline-list">
-            	<li><div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="Cookies are here." addthis:description="I found mine. Now find yours. Girl Scout Cookies are in your neighborhood!">
-					<a class="addthis_button_facebook"><span class="icon-social-facebook"></span></a>
-					<a class="addthis_button_twitter"><span class="icon-social-twitter-tweet-bird"></span></a>
+            	<li><div>
+            		<a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
+					<a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=Oh%20yeah!%20It%E2%80%99s%20%23GirlScoutCookie%20time%20in%20my%20neighborhood.%20Find%20your%20cookies.%20%40girlscouts"></a>
+				</div></li>
+				<li><div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="Cookies are here." addthis:description="I found mine. Now find yours. Girl Scout Cookies are in your neighborhood!">
 					<a class="addthis_button_email"><span class="icon-mail"></span></a>
 					<a class="addthis_button_print"><span class="icon-printer"></span></a>
 				</div>
@@ -92,3 +106,41 @@ councilName= councilName== null ? "" : councilName;
         <script>addthis.toolbox("#toolbox");</script>
     </body>
 </html>
+
+    <script type="text/javascript">
+
+	$(document).ready(function() {
+		var scriptTag = document.createElement("script");
+		scriptTag.type = "text/javascript"
+		scriptTag.src="http://connect.facebook.net/en_US/all.js";
+		scriptTag.async = true;
+		document.getElementsByTagName("head")[0].appendChild(scriptTag);
+
+		scriptTag.onload=initFB;
+		scriptTag.onreadystatechange = function () {
+		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
+		}
+	});
+	function initFB() {
+		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
+	}
+
+      function postToFeed<%= uniqueID %>() {
+
+        // calling the API ...
+        var obj = {
+          method: 'feed',
+          link: '<%= url %>',
+          name: 'Support Girl Scouts in your neighborhood by visiting this Cookie Booth on <%= request.getParameter("dateStart") %>',
+          picture: location.host + '/content/dam/girlscouts-gsusa/images/Cookies/share-default.png',
+          caption: 'WWW.GIRLSCOUTS.ORG',
+          description: 'WHEN: <%= request.getParameter("dateStart")%>, from <%= request.getParameter("timeOpen") %> to <%= request.getParameter("timeClose") %>. WHERE: <%= request.getParameter("location") %>, <%= request.getParameter("address1") %>, <%= zip %>, by <%= councilName %>'
+        };
+
+        function callback(response) {
+        }
+
+        FB.ui(obj, callback);
+      }
+
+    </script>
