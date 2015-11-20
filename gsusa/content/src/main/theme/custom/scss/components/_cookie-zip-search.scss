@@ -101,10 +101,14 @@
         padding: 0 20px 0 0;
       }
       .three-cols .middle-col &  {
-        width: 50%;
+        width: 54%;
+        margin-left: 15.4rem;
         label {
           font-size: rem-calc(20);
         }
+         input[type="text"] {
+          font-size: rem-calc(16);
+         }
       }
       .two-cols .middle-col & {
         width: 66%;
@@ -129,8 +133,9 @@
       float: left;
       width: 100%;
       font-style: italic;
-      padding-left: rem-calc(5);
+      padding-left: rem-calc(10);
       height: rem-calc(47);
+      font-size: rem-calc(18);
     }
     .link-arrow {
       border: none;
