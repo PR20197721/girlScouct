@@ -668,8 +668,6 @@
   shop_rotator();
   welcome_cookie_slider();
 
-  
-
   function hide_show_cookie() {
     $('#meet-cookie-layout section').hide();
     $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
@@ -700,21 +698,20 @@
 
 function attachListenerToVideoSlider () {
     for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
-    	var iframe = $('.vid-slide-wrapper iframe')[0],
+    	var iframe = $('.vid-slide-wrapper iframe')[i],
     		player;
     	if ($(iframe).hasClass("vimeo")) {
     		player = $f(iframe);
-    		player.addEvent('playProgress', function() {
-    			stopSlider();
-    		});
-    	} else { //youtube
-    		console.info("youtube");
+    		player.addEvent('ready', function() { 
+    			player.addEvent('playProgress', function() {
+    				stopSlider();
+    			}); 
+    		}); 
     	}
     }   
 }
 
 function stopSlider() {
-	console.info("hello");
 	var slick = $('.video-slider-wrapper');
 	if(slick != undefined && slick.slick != undefined){
 		slick.slick('slickPause');

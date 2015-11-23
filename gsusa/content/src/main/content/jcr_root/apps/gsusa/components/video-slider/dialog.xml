@@ -8,7 +8,7 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Tab 1">
+                title="Media">
                 <items
                 	jcr:primaryType="cq:WidgetCollection">
 	                <multi

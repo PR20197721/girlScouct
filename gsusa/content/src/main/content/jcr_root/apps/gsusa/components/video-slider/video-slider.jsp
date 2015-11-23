@@ -11,7 +11,7 @@
 public String[] extract(String url){
 	if (url.indexOf("youtube") != -1) {
 		String ytid = extractYTId(url);
-		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId()};
+		return new String[]{"https://www.youtube.com/embed/" + ytid + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent" , "https://i1.ytimg.com/vi/" + ytid +"/mqdefault.jpg", "youtube", generateId(), ytid};
 	} else if (url.indexOf("vimeo") != -1) {
 		try{
 			String vimeoId = extractVimeoId(url);
@@ -19,7 +19,8 @@ public String[] extract(String url){
 			if (!"".equals(jsonOutput)) {
 				JSONArray json = new JSONArray(jsonOutput);
 				if (!json.isNull(0)) {
-					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1", (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo", generateId()};
+					String id = generateId();
+					return new String[]{"https://player.vimeo.com/video/"+ vimeoId + "?api=1&player_id=" + id, (String)json.getJSONObject(0).getString("thumbnail_large"), "vimeo", id};
 				}
 			}
 		} catch (Exception e) {
@@ -87,13 +88,45 @@ public  String readUrlFile(String urlString) throws Exception {
 <script>
 videoSliderDelay = <%= timedelay %>;
 videoSliderAuto = <%= autoscroll %>;
+var youtubeIDs = [];
 </script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function () {
-			attachListenerToVideoSlider();
-		});
+		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+	});
+	$(window).load(function(){
+		attachListenerToVideoSlider();
+		
+		function loadYTScript() {
+		    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
+		        var tag = document.createElement('script');
+		        tag.src = "https://www.youtube.com/iframe_api";
+		        var firstScriptTag = document.getElementsByTagName('script')[0];
+		        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+		    }
+		}
+
+		function loadPlayer() {
+		        window.onYouTubePlayerAPIReady = function() {
+		        	if(typeof youtubeIDs != undefined){
+		        		for(var i = 0; i < youtubeIDs.length; i++){
+		        			createPlayer(youtubeIDs[i]);
+		        		}
+		        	}
+		        };
+		}
+
+		function createPlayer(id){
+			var player = new YT.Player(id[1], {
+				videoId: id[0],
+				events: {
+					'onStateChange': stopSlider
+				}
+			});
+		}
+		loadYTScript();
+		loadPlayer();
 	});
 </script>
 
@@ -105,8 +138,17 @@ videoSliderAuto = <%= autoscroll %>;
 		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				String[] urls = extract(links[i]);
-				if(urls.length == 4){
+				if(urls.length >= 4){
 					%><div>
+						<%if(urls.length == 5){
+							%>
+							<script>
+							var ytid = '<%= urls[4] %>';
+							var id = '<%= urls[3] %>';
+							youtubeIDs.push([ytid, id]);
+							</script>
+							<%
+						} %>
 						<div class="show-for-small thumbnail">
 							<a href="<%= links[i] %>" title="video thumbnail">
 								<img src="<%= urls[1] %>" />
