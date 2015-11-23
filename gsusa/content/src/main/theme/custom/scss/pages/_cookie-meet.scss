@@ -2,11 +2,11 @@
   width: 100%!important;
 }
 .meet-the-cookies {
-  @media #{$landscape} {
+  @media #{$small-only} and (orientation: landscape) {
     width: 100vw;
     margin-left: -5.6666666%;
   }
-   @media #{$portrait} {
+   @media #{$small-only} and (orientation: portrait) {
     width: 100vw;
     margin-left: -6.5%;
   }
