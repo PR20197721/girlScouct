@@ -1,4 +1,5 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
+                com.day.cq.wcm.api.WCMMode,
                 java.text.DateFormat,
                 java.text.SimpleDateFormat,
                 java.util.Map,
@@ -26,11 +27,13 @@ Map<String, String> councilMap = council.adaptToMap();
 councilMap.put("daysLeft", Long.toString(daysBetween));
 
 String text = properties.get("path5Text", "");
-boolean isShowShareDialog = properties.get("path5ShowShareDialog", "false").equalsIgnoreCase("true");
-%>
-<%= replaceCouncilInfo(text, councilMap) %>
+if (text.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	%>### Booth Result Path 5: double click here to configure.<% 
+} else {
+    %><p><%= replaceCouncilInfo(text, councilMap) %></p><%
+}
 
-<%
+boolean isShowShareDialog = properties.get("path5ShowShareDialog", "false").equalsIgnoreCase("true");
 if (isShowShareDialog) {
 	String header = replaceCouncilInfo(properties.get("path5ShareDialogHeader", ""), councilMap);
 	String tweet = replaceCouncilInfo(properties.get("path5ShareDialogTweet", ""), councilMap);
