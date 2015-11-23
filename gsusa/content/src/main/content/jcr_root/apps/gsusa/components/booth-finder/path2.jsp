@@ -1,25 +1,34 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
-                java.util.Map,
-                java.util.HashMap" %>
+<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/booth-finder/replace-council-info.jsp"%>
 <%@page session="false" %>
 <%
 Council council = (Council)request.getAttribute("gsusa_council_info");
 if (council == null) {
 	council = new Council();
 }
+String text = properties.get("path2Text", "");
 %>
-<p>
-The cookie sale is underway for the <a href="<%= council.url %>" target="_blank"><strong><%= council.name %></strong></a>.
-Fill out the form and girls from the <a href="<%= council.url %>" target="_blank"><strong><%= council.name %></strong></a> will help you place an order.
+<p><%= replaceCouncilInfo(text, council.adaptToMap()) %></p>
+
 <%
-Map<String, String> props = new HashMap<String, String>();
-props.put("title", "Support Girl Scouts");
-props.put("desc", "Enter your info below");
-request.setAttribute("gsusa-contact-banner-conf", props);
+if (isShowShareDialog) {
+	String header = replaceCouncilInfo(properties.get("path5ShareDialogHeader", ""), councilMap);
+	String tweet = replaceCouncilInfo(properties.get("path5ShareDialogTweet", ""), councilMap);
+	String description = replaceCouncilInfo(properties.get("path5ShareDialogDescription", ""), councilMap);
+	String imgPath = properties.get("path5ShareDialogImgPath", "");
+	request.setAttribute("gsusa-share-model-header", header);
+	request.setAttribute("gsusa-share-modal-tweet", tweet); 
+	request.setAttribute("gsusa-share-modal-description", description);
+	request.setAttribute("gsusa-share-modal-img-path", imgPath);
+	slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+	%>
+	<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
+	<%
+	slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
+	request.setAttribute("gsusa-share-modal-img-path", null);
+	request.setAttribute("gsusa-share-model-header", null);
+	request.setAttribute("gsusa-share-modal-tweet", null); 
+	request.setAttribute("gsusa-share-modal-description", null);
+}
 %>
-<cq:include path="path2-contact-us" resourceType="gsusa/components/contact-banner" />
-<%
-request.setAttribute("gsusa-contact-banner-conf", null);
-%>
-</p>

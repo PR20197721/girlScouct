@@ -4,12 +4,31 @@
 <%@page session="false" %>
 <%
 Council council = (Council)request.getAttribute("gsusa_council_info");
-String defaultText = "<h1>Cookie sale is underway.</h1>" + 
-    "<p>The cookie sale is underway for the <a href=\"{{url}}\" target=\"_blank\"><strong>{{name}}</strong></a>. " +
-	"No cookie booth sales are currently scheduled, but keep checking back for updated results.</p>";
-String text = properties.get("path1Text", defaultText);
 if (council == null) {
 	council = new Council();
 }
+String text = properties.get("path1Text", "");
 %>
-<p><%= replaceCouncilInfo(text, council) %></p>
+<p><%= replaceCouncilInfo(text, council.adaptToMap()) %></p>
+
+<%
+if (isShowShareDialog) {
+	String header = replaceCouncilInfo(properties.get("path5ShareDialogHeader", ""), councilMap);
+	String tweet = replaceCouncilInfo(properties.get("path5ShareDialogTweet", ""), councilMap);
+	String description = replaceCouncilInfo(properties.get("path5ShareDialogDescription", ""), councilMap);
+	String imgPath = properties.get("path5ShareDialogImgPath", "");
+	request.setAttribute("gsusa-share-model-header", header);
+	request.setAttribute("gsusa-share-modal-tweet", tweet); 
+	request.setAttribute("gsusa-share-modal-description", description);
+	request.setAttribute("gsusa-share-modal-img-path", imgPath);
+	slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+	%>
+	<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
+	<%
+	slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
+	request.setAttribute("gsusa-share-modal-img-path", null);
+	request.setAttribute("gsusa-share-model-header", null);
+	request.setAttribute("gsusa-share-modal-tweet", null); 
+	request.setAttribute("gsusa-share-modal-description", null);
+}
+%>

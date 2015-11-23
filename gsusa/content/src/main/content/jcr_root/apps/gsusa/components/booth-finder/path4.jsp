@@ -1,14 +1,34 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/booth-finder/replace-council-info.jsp"%>
 <%@page session="false" %>
 <%
 Council council = (Council)request.getAttribute("gsusa_council_info");
 if (council == null) {
 	council = new Council();
 }
+String text = properties.get("path4Text", "");
 %>
-<h4 class="special-title">We are getting ready for the next cookie season.</h4> 
-<p>
-The cookie sale has ended for the <a href="<%= council.url %>" target="_blank"><strong><%= council.name %></strong></a>.
-Check out cookie related merchandise in the <a href="http://www.girlscoutshop.com/" target="_blank"></a>Girl Scout online shop</a>.
-</p>
+<p><%= replaceCouncilInfo(text, council.adaptToMap()) %></p>
+
+<%
+if (isShowShareDialog) {
+	String header = replaceCouncilInfo(properties.get("path5ShareDialogHeader", ""), councilMap);
+	String tweet = replaceCouncilInfo(properties.get("path5ShareDialogTweet", ""), councilMap);
+	String description = replaceCouncilInfo(properties.get("path5ShareDialogDescription", ""), councilMap);
+	String imgPath = properties.get("path5ShareDialogImgPath", "");
+	request.setAttribute("gsusa-share-model-header", header);
+	request.setAttribute("gsusa-share-modal-tweet", tweet); 
+	request.setAttribute("gsusa-share-modal-description", description);
+	request.setAttribute("gsusa-share-modal-img-path", imgPath);
+	slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+	%>
+	<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
+	<%
+	slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
+	request.setAttribute("gsusa-share-modal-img-path", null);
+	request.setAttribute("gsusa-share-model-header", null);
+	request.setAttribute("gsusa-share-modal-tweet", null); 
+	request.setAttribute("gsusa-share-modal-description", null);
+}
+%>

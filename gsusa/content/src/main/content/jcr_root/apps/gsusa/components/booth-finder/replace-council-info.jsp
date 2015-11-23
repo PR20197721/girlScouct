@@ -1,18 +1,20 @@
-<%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council" %>
+<%@page import="java.util.Map,
+                org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council" %>
 <%!
-public String replaceCouncilInfo(String input, Council council) {
-	if (council == null) {
+public String replaceCouncilInfo(String input, Map<String, String> councilMap) {
+	if (councilMap == null) {
 		return input;
 	} else {
-		String output = input.replaceAll("\\{\\{code\\}\\}", council.code)
-				             .replaceAll("\\{\\{name\\}\\}", council.name)
-				             .replaceAll("\\{\\{abbrName\\}\\}", council.abbrName)
-				             .replaceAll("\\{\\{cityStateZip\\}\\}", council.cityStateZip)
-				             .replaceAll("\\{\\{url\\}\\}", council.url)
-				             .replaceAll("\\{\\{cookieSaleStartDate\\}\\}", council.cookieSaleStartDate)
-				             .replaceAll("\\{\\{cookieSaleEndDate\\}\\}", council.cookieSaleEndDate)
-				             .replaceAll("\\{\\{cookiePathUrl\\}\\}", council.cookiePageUrl)
-				             .replaceAll("\\{\\{cookieSaleContactEmail\\}\\}", council.cookieSaleContactEmail);
+		String output = input.replaceAll("\\{\\{code\\}\\}", councilMap.get("code"))
+				             .replaceAll("\\{\\{name\\}\\}", councilMap.get("name"))
+				             .replaceAll("\\{\\{abbrName\\}\\}", councilMap.get("abbrName"))
+				             .replaceAll("\\{\\{cityStateZip\\}\\}", councilMap.get("cityStateZip"))
+				             .replaceAll("\\{\\{url\\}\\}", councilMap.get("url"))
+				             .replaceAll("\\{\\{cookieSaleStartDate\\}\\}", councilMap.get("cookieSaleStartDate"))
+				             .replaceAll("\\{\\{cookieSaleEndDate\\}\\}", councilMap.get("cookieSaleEndDate"))
+				             .replaceAll("\\{\\{cookiePathUrl\\}\\}", councilMap.get("cookiePageUrl"))
+				             .replaceAll("\\{\\{cookieSaleContactEmail\\}\\}", councilMap.get("cookieSaleContactEmail"))
+				             .replaceAll("\\{\\{daysLeft\\}\\}", councilMap.get("daysLeft"));
 		return output;
 	}
 }
