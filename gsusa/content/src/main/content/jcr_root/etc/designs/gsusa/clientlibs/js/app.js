@@ -692,18 +692,32 @@
     $('.formDonate').toggleClass('hide');
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
-  })
-
+  });
 
 }(jQuery));
 
+function attachListenerToVideoSlider () {
+    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
+    	var iframe = $('.vid-slide-wrapper iframe')[i],
+    		player;
+    	if ($(iframe).hasClass("vimeo")) {
+    		player = $f(iframe);
+    		player.addEvent('ready', function() { 
+    			player.addEvent('playProgress', function() {
+    				stopSlider();
+    			}); 
+    		}); 
+    	}
+    }   
+}
+
 function stopSlider() {
-	  var slick = $('.video-slider-wrapper');
-	  if(slick != undefined && slick.slick != undefined){
-		  slick.slick('slickPause');
-		  slick.slick('slickSetOption', 'autoplay', false, false);
-		  slick.slick('autoPlay',$.noop);
-	  }
+	var slick = $('.video-slider-wrapper');
+	if(slick != undefined && slick.slick != undefined){
+		slick.slick('slickPause');
+		slick.slick('slickSetOption', 'autoplay', false, false);
+		slick.slick('autoPlay',$.noop);
+	}
 };
 
 
