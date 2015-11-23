@@ -150,7 +150,7 @@ var youtubeIDs = [];
 							<%
 						} %>
 						<div class="show-for-small thumbnail">
-							<a href="<%= links[i] %>" title="video thumbnail">
+							<a href="<%= links[i] %>" target="_blank" title="video thumbnail">
 								<img src="<%= urls[1] %>" />
 							</a>
 						</div>
