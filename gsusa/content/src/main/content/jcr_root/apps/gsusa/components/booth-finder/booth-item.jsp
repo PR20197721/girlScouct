@@ -40,7 +40,7 @@ if (booth != null) {
         </section>
     </div>
     <div class="clearfix right">
-            <a class='viewMapA<%=uid%> button'>View Map</a>
+            <a class='viewMapA<%=uid%> button'>View Details</a>
             <script>
                 $('a.viewMapA<%=uid%>').on('click', function() {
                     $('#modal_booth_item_map').foundation('reveal', 'open', {
