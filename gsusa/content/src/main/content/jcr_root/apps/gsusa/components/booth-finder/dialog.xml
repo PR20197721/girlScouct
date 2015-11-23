@@ -169,6 +169,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{code}}"/>
+                                <daysLeft
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{daysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -388,6 +392,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{code}}"/>
+                                <daysLeft
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{daysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -607,6 +615,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{code}}"/>
+                                <daysLeft
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{daysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -826,6 +838,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{code}}"/>
+                                <daysLeft
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{daysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"

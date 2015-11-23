@@ -29,6 +29,7 @@ if (booth != null) {
             <p><%= booth.location %></p>
             <p><%= booth.address1 %></p>
             <p><%= booth.address2 %></p>
+            <p><%= booth.city %>, <%= booth.state %> <%= booth.zipCode %></p>
         </section>
         <section>
             <p><%= startDate %></p>
@@ -39,7 +40,7 @@ if (booth != null) {
         </section>
     </div>
     <div class="clearfix right">
-            <a class='viewMapA<%=uid%> button'>View Map</a>
+            <a class='viewMapA<%=uid%> button'>View Details</a>
             <script>
                 $('a.viewMapA<%=uid%>').on('click', function() {
                     $('#modal_booth_item_map').foundation('reveal', 'open', {
