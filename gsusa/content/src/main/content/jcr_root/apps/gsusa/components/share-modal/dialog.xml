@@ -72,17 +72,18 @@
                     	xtype="textfield"/>
                 </items>
             </tab1>
-            <image
+            <modalimage
                 jcr:primaryType="cq:Widget"
-                cropParameter="./image/imageCrop"
+                cropParameter="./modalimage/imageCrop"
                 ddGroups="media"
-                fileNameParameter="./image/fileName"
-                fileReferenceParameter="./image/fileReference"
-                mapParameter="./image/imageMap"
+                fileNameParameter="./modalimage/fileName"
+                fileReferenceParameter="./modalimage/fileReference"
+                mapParameter="./modalimage/imageMap"
                 name="./file"
-                requestSuffix="/image.img.png"
-                rotateParameter="./image/imageRotate"
-                title="Image"
+                requestSuffix="/modalimage.img.png"
+                rotateParameter="./modalimage/imageRotate"
+                title="Modal Image"
+                description="This image will appear in the popup modal"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
@@ -91,7 +92,28 @@
                         value="foundation/components/image"
                         xtype="hidden"/>
                 </items>
-            </image>
+            </modalimage>
+            <shareimage
+                jcr:primaryType="cq:Widget"
+                cropParameter="./shareimage/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./shareimage/fileName"
+                fileReferenceParameter="./shareimage/fileReference"
+                mapParameter="./shareimage/imageMap"
+                name="./file"
+                requestSuffix="/shareimage.img.png"
+                rotateParameter="./shareimage/imageRotate"
+                title="Image to Share"
+                description="This image will be used by facebook when sharing the page"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </shareimage>
         </items>
     </items>
 </jcr:root>

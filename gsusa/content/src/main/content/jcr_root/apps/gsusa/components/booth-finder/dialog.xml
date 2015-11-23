@@ -889,10 +889,18 @@
                         fieldDescription="Text to include in the tweet."
                         fieldLabel="Tweet"
                         name="./path5ShareDialogTweet"/>
-                    <shareDialogImg
+                    <shareDialogModImg
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Image"
-                        name="./path5ShareDialogImagePath"
+                        fieldLabel="Modal Image"
+                        fieldDescription="This image will appear in the popup modal"
+                        name="./path5ShareDialogModImagePath"
+                        rootPath="/content/dam"
+                        xtype="pathfield"/>
+                    <shareDialogShareImg
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Image to Share"
+                        fieldDescription="This image will be used by facebook when sharing the page"
+                        name="./path5ShareDialogShareImagePath"
                         rootPath="/content/dam"
                         xtype="pathfield"/>
                 </items>

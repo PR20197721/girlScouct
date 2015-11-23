@@ -38,17 +38,20 @@ if (isShowShareDialog) {
 	String header = replaceCouncilInfo(properties.get("path5ShareDialogHeader", ""), councilMap);
 	String tweet = replaceCouncilInfo(properties.get("path5ShareDialogTweet", ""), councilMap);
 	String description = replaceCouncilInfo(properties.get("path5ShareDialogDescription", ""), councilMap);
-	String imgPath = properties.get("path5ShareDialogImgPath", "");
+	String modImgPath = properties.get("path5ShareDialogModImagePath", "");
+	String shareImgPath = properties.get("path5ShareDialogShareImagePath","");
 	request.setAttribute("gsusa-share-model-header", header);
 	request.setAttribute("gsusa-share-modal-tweet", tweet); 
 	request.setAttribute("gsusa-share-modal-description", description);
-	request.setAttribute("gsusa-share-modal-img-path", imgPath);
+	request.setAttribute("gsusa-share-modal-mod-img-path", modImgPath);
+	request.setAttribute("gsusa-share-modal-share-img-path", shareImgPath);
 	slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
 	%>
 	<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
 	<%
 	slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE);
-	request.setAttribute("gsusa-share-modal-img-path", null);
+	request.setAttribute("gsusa-share-modal-mod-img-path", null);
+	request.setAttribute("gsusa-share-modal-share-img-path", null);
 	request.setAttribute("gsusa-share-model-header", null);
 	request.setAttribute("gsusa-share-modal-tweet", null); 
 	request.setAttribute("gsusa-share-modal-description", null);

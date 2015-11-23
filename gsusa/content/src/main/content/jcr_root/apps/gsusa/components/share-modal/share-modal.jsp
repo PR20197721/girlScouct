@@ -38,11 +38,19 @@
 
 	String facebookId = currentSite.get("facebookId", "");
 
-	Resource img = resource.getChild("image");
-	String filePath = (String)request.getAttribute("gsusa-share-modal-img-path");
-	if(filePath == null){
-		if(img != null) {
-			filePath = ((ValueMap)img.adaptTo(ValueMap.class)).get("fileReference", "");
+	Resource modimg = resource.getChild("modimage");
+	String modFilePath = (String)request.getAttribute("gsusa-share-modal-mod-img-path");
+	if(modFilePath == null){
+		if(modimg != null) {
+			modFilePath = ((ValueMap)modimg.adaptTo(ValueMap.class)).get("fileReference", "");
+		}
+	}
+	
+	Resource shareimg = resource.getChild("shareimage");
+	String shareFilePath = (String)request.getAttribute("gsusa-share-modal-share-img-path");
+	if(shareFilePath == null){
+		if(shareimg != null) {
+			shareFilePath = ((ValueMap)shareimg.adaptTo(ValueMap.class)).get("fileReference", "");
 		}
 	}
 
@@ -60,8 +68,8 @@
 	<div id="shareModal" class="reveal-modal share-modal" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
 	  <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
 	  <div class="float-left">
-	    <% if(!filePath.equals("")){ %>
-	    <img src="<%= filePath %>" alt="" />
+	    <% if(!modFilePath.equals("")){ %>
+	    <img src="<%= modFilePath %>" alt="" />
 	    <% } %>
 	  </div>
 	  <div class="float-right">
@@ -106,7 +114,7 @@
           method: 'feed',
           link: '<%= url %>',
           name: '<%= fbtitle %>',
-          picture: location.host + '<%= filePath %>',
+          picture: location.host + '<%= shareFilePath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
           description: '<%= fbdesc.replace("\'","\\'") %>'
         };
