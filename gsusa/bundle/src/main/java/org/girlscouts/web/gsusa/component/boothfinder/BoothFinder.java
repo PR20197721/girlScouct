@@ -60,16 +60,15 @@ public class BoothFinder {
     private String apiBasePath;
     
     public static class BoothBasic {
-        public String id, distance, location, address1, address2, dateStart, dateEnd, timeOpen, timeClose;
+        public String id, distance, location, address1, address2, dateStart, dateEnd, timeOpen, timeClose, city, state, zipCode;
 
-        
-        @Override
-        public String toString() {
-            return "BoothBasic: id=" + id + ";distance=" + distance + ";location=" + location +
-                   ";address1=" + address1 + ";address2=" + address2 +
-                   ";dateStart=" + dateStart + ";dateEnd=" + dateEnd +
-                   ";timeOpen=" + timeOpen + ";timeClose=" + timeClose;
-        }
+		@Override
+		public String toString() {
+			return "BoothBasic [id=" + id + ", distance=" + distance + ", location=" + location + ", address1="
+					+ address1 + ", address2=" + address2 + ", dateStart=" + dateStart + ", dateEnd=" + dateEnd
+					+ ", timeOpen=" + timeOpen + ", timeClose=" + timeClose + ", city=" + city + ", state=" + state
+					+ ", zipCode=" + zipCode + "]";
+		}
     }
     
     public static class Council {
@@ -95,17 +94,16 @@ public class BoothFinder {
 			this.daysLeft = "";
 		}
 
-		@Override
-        public String toString() {
-            return "Council: code=" + code + ";name=" + name + ";abbrName=" + abbrName +
-                   ";cityStateZip=" + cityStateZip + ";url=" + url +
-                   ";cookieSaleStartDate=" + cookieSaleStartDate +
-                   ";cookieSaleEndDate=" + cookieSaleEndDate +
-                   ";preferredPath=" + preferredPath + ";path2Method=" + path2Method +
-                   ";cookiePageUrl=" + cookiePageUrl + ";cookieSaleContactEmail=" + cookieSaleContactEmail;
-                    
-        }
 		
+		@Override
+		public String toString() {
+			return "Council [code=" + code + ", name=" + name + ", abbrName=" + abbrName + ", cityStateZip="
+					+ cityStateZip + ", url=" + url + ", cookieSaleStartDate=" + cookieSaleStartDate
+					+ ", cookieSaleEndDate=" + cookieSaleEndDate + ", preferredPath=" + preferredPath + ", path2Method="
+					+ path2Method + ", cookiePageUrl=" + cookiePageUrl + ", cookieSaleContactEmail="
+					+ cookieSaleContactEmail + ", daysLeft=" + daysLeft + "]";
+		}
+
 		public Map<String, String> adaptToMap() {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("code", code);
@@ -256,8 +254,14 @@ public class BoothFinder {
                             booth.dateEnd = value;
                         } else if ("TimeOpen".equalsIgnoreCase(key)) {
                             booth.timeOpen = value;
-                        } else if ("timeClose".equalsIgnoreCase(key)) {
+                        } else if ("TimeClose".equalsIgnoreCase(key)) {
                             booth.timeClose = value;
+                        } else if ("City".equalsIgnoreCase(key)) {
+                            booth.city = value;
+                        } else if ("State".equalsIgnoreCase(key)) {
+                            booth.state = value;
+                        } else if ("ZipCode".equalsIgnoreCase(key)) {
+                            booth.zipCode = value;
                         }
                     }
                 }

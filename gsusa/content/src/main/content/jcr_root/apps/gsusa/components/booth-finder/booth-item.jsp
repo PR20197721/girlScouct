@@ -29,6 +29,7 @@ if (booth != null) {
             <p><%= booth.location %></p>
             <p><%= booth.address1 %></p>
             <p><%= booth.address2 %></p>
+            <p><%= booth.city %>, <%= booth.state %> <%= booth.zipCode %></p>
         </section>
         <section>
             <p><%= startDate %></p>
