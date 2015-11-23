@@ -93,11 +93,12 @@
     }
   }
   .cookieRightPath {
-    .standalone-volunteer:not(.bg-image),
-    .standalone-join:not(.bg-image),
-    .rotator {
+    .standalone-volunteer.border,
+    .standalone-join.border,
+    .rotator.border {
       @media #{$medium-up} {
-        padding-left: rem-calc(15);
+        padding-left: rem-calc(10);
+        border-left: solid 1px #e5e7e8;
         // border-width: 2px 0 2px 2px;
         // border-style: solid;
         // -webkit-border-image: -webkit-gradient(linear, 100% 0, 0 0, from(#e1e1e1), to(rgba(220, 220, 220, 1))) 1 100%;

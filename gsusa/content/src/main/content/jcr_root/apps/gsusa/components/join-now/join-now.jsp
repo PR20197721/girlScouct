@@ -16,10 +16,10 @@
 	if (!bg.equals("")) {%>
 
 <% if (showVerticalRule) {%>
-	<div class="standalone-join join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>; border-left: solid 1px #e5e7e8;">
+	<div class="standalone-join join-volunteer-block bg-image border" style="max-width:<%= maxWidth + "px"%>">
 <%} else { %>
 	<div class="standalone-join join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>;">
-<%} %>		    
+<%} %>
 		<% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 		    <cq:include path="bg" resourceType="gsusa/components/image"/>
 	    <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
@@ -36,11 +36,11 @@
 
 	} else if (!text.equals("")) { %>
 		<% if (showVerticalRule) {%>
-			<div class="standalone-join join-volunteer-block text-version" style="border-left: solid 1px #e5e7e8;">
+			<div class="standalone-join join-volunteer-block text-version border">
 		<%} else { %>
 			<div class="standalone-join join-volunteer-block text-version">
 		<%} %>
-		
+
 		   <h5><%= mainTitle %></h5>
 		   <p><%= text %></p>
 		   <div class="wrapper">
@@ -55,11 +55,11 @@
 		</div>
 	<% } else { %>
 		<% if (showVerticalRule) {%>
-			<div class="standalone-join form-no-image join-volunteer-block" style="border-left: solid 1px #e5e7e8;">
+			<div class="standalone-join form-no-image join-volunteer-block border">
 		<%} else { %>
 			<div class="standalone-join form-no-image join-volunteer-block">
 		<%} %>
-	
+
 	    <a href="#" title="Join Now" class="join button arrow"><%= callToActionName %></a>
 	    <form class="formJoin hide">
 	        <label><%= title %></label>

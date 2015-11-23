@@ -40,7 +40,7 @@ if (carouselList != null) {
 </script>
 
 <% if (showVerticalRule) {%>
-	<div class="rotator" style="border-left: solid 1px #e5e7e8;">
+	<div class="rotator border">
 <%} else { %>
 	<div class="rotator">
 <%} %>
@@ -56,7 +56,7 @@ if (carouselList != null) {
 			String target = "";
 			boolean openInNewWindow = split.length >= 3 ? Boolean.parseBoolean(split[2]) : false;
 			String imagePath = split.length >= 4 ? split[3] : "";
-			
+
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
 			if (linkPage != null && !link.contains(".html")) {
 				link += ".html";

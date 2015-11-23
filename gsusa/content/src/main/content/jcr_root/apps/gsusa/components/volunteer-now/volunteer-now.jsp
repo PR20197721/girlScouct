@@ -10,7 +10,7 @@
     int maxWidth = properties.get("maxWidth", 210);
     final boolean showVerticalRule = properties.get("showverticalrule", false);
 
-    
+
     String bg = "";
 	try {
 		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
@@ -18,11 +18,11 @@
 
 	if (!bg.equals("")) { %>
 		<% if (showVerticalRule) {%>
-			<div class="standalone-volunteer join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>; border-left: solid 1px #e5e7e8;">
+			<div class="standalone-volunteer join-volunteer-block bg-image border" style="max-width:<%= maxWidth + "px"%>">
 		<% } else { %>
 			<div class="standalone-volunteer join-volunteer-block bg-image" style="max-width:<%= maxWidth + "px"%>;">
 		<% } %>
-		
+
 			<% slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
 				<cq:include path="bg" resourceType="gsusa/components/image"/>
 			<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
@@ -38,7 +38,7 @@
 		</div> <%
 	} else if (!text.equals("")) { %>
 		<% if (showVerticalRule) { %>
-<div class="standalone-volunteer join-volunteer-block text-version" style="border-left: solid 1px #e5e7e8;">
+<div class="standalone-volunteer join-volunteer-block text-version border">
 		<% } else { %>
 <div class="standalone-volunteer join-volunteer-block text-version">
 		<% } %>
@@ -56,7 +56,7 @@
 		</div>
 	<% } else { //bg is null, doing this mainly for css %>
 		<% if (showVerticalRule) { %>
-<div class="standalone-volunteer form-no-image  join-volunteer-block" style="border-left: solid 1px #e5e7e8;">
+<div class="standalone-volunteer form-no-image  join-volunteer-block border">
 		<% } else { %>
 <div class="standalone-volunteer form-no-image  join-volunteer-block">
 		<% } %>
