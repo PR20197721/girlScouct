@@ -31,7 +31,8 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 }
 %>
 
-<h3>Search Results</h3>
+<h3>Cookies Are Here!</h3>
+<p>The cookie season for the <strong><a href="<%= council.url %>" target="_blank"><%= council.name %></a></strong> is currently underway!</p>
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</p>
 <form class="sort-form clearfix">
