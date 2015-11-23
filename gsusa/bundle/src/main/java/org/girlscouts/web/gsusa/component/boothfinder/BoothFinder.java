@@ -2,10 +2,10 @@ package org.girlscouts.web.gsusa.component.boothfinder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -76,9 +76,7 @@ public class BoothFinder {
         public String code, name, abbrName, cityStateZip,
             url, cookieSaleStartDate, cookieSaleEndDate,
             preferredPath, path2Method, cookiePageUrl,
-            cookieSaleContactEmail;
-        
-        
+            cookieSaleContactEmail, daysLeft;
         
         public Council() {
 			this.code = "";
@@ -94,6 +92,7 @@ public class BoothFinder {
 			this.path2Method = "";
 			this.cookiePageUrl = "";
 			this.cookieSaleContactEmail = "";
+			this.daysLeft = "";
 		}
 
 		@Override
@@ -106,6 +105,20 @@ public class BoothFinder {
                    ";cookiePageUrl=" + cookiePageUrl + ";cookieSaleContactEmail=" + cookieSaleContactEmail;
                     
         }
+		
+		public Map<String, String> adaptToMap() {
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("code", code);
+			map.put("name", name);
+			map.put("abbrName", abbrName);
+			map.put("cityStateZip", cityStateZip);
+			map.put("url", url);
+			map.put("cookieSaleStartDate", cookieSaleStartDate);
+			map.put("cookieSaleEndDate", cookieSaleEndDate);
+			map.put("cookiePathUrl", cookiePageUrl);
+			map.put("cookieSaleContactEmail", cookieSaleContactEmail);
+			return map;
+		}
     }
     
     @Modified
