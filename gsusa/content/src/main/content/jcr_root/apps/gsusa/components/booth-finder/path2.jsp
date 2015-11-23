@@ -38,3 +38,4 @@ if (isShowShareDialog) {
 	request.setAttribute("gsusa-share-modal-description", null);
 }
 %>
+<cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
