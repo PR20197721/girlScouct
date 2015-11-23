@@ -2,9 +2,13 @@
   width: 100%!important;
 }
 .meet-the-cookies {
-  @media #{$small-only} {
+  @media #{$small-only} and (orientation: landscape) {
     width: 100vw;
     margin-left: -5.6666666%;
+  }
+   @media #{$small-only} and (orientation: portrait) {
+    width: 100vw;
+    margin-left: -6.5%;
   }
 }
 #meet-cookie-layout .b-by-b-item {
@@ -47,6 +51,7 @@
   }
   .wrapper {
     padding: rem-calc(20 14 0 14);
+    background-color: #fbfbfb;
     .button-p {
       margin: rem-calc(0 0 10 0);
     }

@@ -28,9 +28,11 @@
 
 <%!
 public String getDefault(String key, String defaultValue, Map<String, String> props, ValueMap properties) {
-	String value = props.get(key);
-	if (value != null) {
-		return value;
+	if(props != null){
+		String value = props.get(key);
+		if (value != null) {
+			return value;
+		}	
 	}
 	return properties.get(key, defaultValue);
 }
