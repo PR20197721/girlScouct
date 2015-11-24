@@ -60,7 +60,13 @@ $(document).ready(function(){
 	    var zip = $(this).find('input[name="zip-code"]').val(),
 	    	loc = "<%=cookieBoothLink %>";
 	    //window.location.href = '/content/gsusa/en/booth-result.' + zip + '.html';
-	    window.location.href = loc + '.' + zip + '.html';
+	    var redirectUrl = loc + '.' + zip + '.html';
+	    var currentUrl = window.location.href;
+	    var queryPos = currentUrl.indexOf('?');
+	    if (queryPos != -1) {
+	    	redirectUrl += currentUrl.substring(queryPos);
+	    }
+	    window.location.href = redirectUrl;
 	});
 });
 </script>
