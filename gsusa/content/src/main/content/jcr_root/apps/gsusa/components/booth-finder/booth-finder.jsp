@@ -83,6 +83,8 @@ if (zip == null || zip.isEmpty()) {
             %><cq:include script="path4.jsp" /><%
         } else if ("Path5".equals(preferredPath)) {
             %><cq:include script="path5.jsp" /><%
+        } else {
+            %><cq:include script="not-found.jsp" /><%
         }
         request.setAttribute("gsusa_council_info", null);
         request.setAttribute("gsusa_booth_list_zip", null);

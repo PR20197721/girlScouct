@@ -12,7 +12,7 @@ if (council == null) {
 Map<String, String> councilMap = council.adaptToMap();
 String text = properties.get("path1Text", "");
 if (text.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%>### Booth Result Path 1: double click here to configure.<% 
+	%>Booth Result Path 1: double click here to configure.<% 
 } else {
     %><p><%= replaceCouncilInfo(text, councilMap) %></p><%
 }

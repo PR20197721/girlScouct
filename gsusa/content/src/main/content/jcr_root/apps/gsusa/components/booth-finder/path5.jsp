@@ -28,7 +28,7 @@ councilMap.put("daysLeft", Long.toString(daysBetween));
 
 String text = properties.get("path5Text", "");
 if (text.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%>### Booth Result Path 5: double click here to configure.<% 
+	%>Booth Result Path 5: double click here to configure.<% 
 } else {
     %><p><%= replaceCouncilInfo(text, councilMap) %></p><%
 }
