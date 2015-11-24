@@ -9,7 +9,7 @@
 	if (header == null) {
 		header = properties.get("header","");
 	}
-	String button = properties.get("btn","Share With Your Friends");
+	String button = properties.get("btn","SHARE WITH YOUR FRIENDS");
 	String desc = (String)request.getAttribute("gsusa-share-modal-description");
 	if(desc == null){
 		desc = properties.get("desc","");
@@ -43,6 +43,8 @@
 	if(modFilePath == null){
 		if(modimg != null) {
 			modFilePath = ((ValueMap)modimg.adaptTo(ValueMap.class)).get("fileReference", "");
+		} else{
+			modFilePath = "";
 		}
 	}
 	
@@ -57,6 +59,7 @@
 	if (button.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%> ****Please configure the modal button text **** <%
 	} else {
+		%><script>console.log("Hello");</script><%
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 			%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 		}
