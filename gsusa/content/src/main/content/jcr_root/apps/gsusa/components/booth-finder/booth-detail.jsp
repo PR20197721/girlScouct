@@ -99,7 +99,7 @@ if (!url.contains(".html")) {
                 <p><%= request.getParameter("timeOpen") %> - <%= request.getParameter("timeClose") %></p>
             </div>
             <div>
-                <h5>Council</h5>
+                <h5>Council:</h5>
                 <p><%=councilName %></p>
             </div>
         </section>
