@@ -7,8 +7,6 @@ String notFoundText = properties.get("notFoundText", "");
 if (notFoundText.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>Booth Result Not Found: double click here to configure.<% 
 } else {
-%>
-<h3></h3>
-<%
+	%><%= notFoundText %><%
 }
 %>
