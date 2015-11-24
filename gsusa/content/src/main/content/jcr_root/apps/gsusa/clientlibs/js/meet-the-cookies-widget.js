@@ -70,7 +70,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             } 
         });
         this.description = new CQ.form.RichText({
-        	rtePlugins: this.RTE_PLUGIN_CONF,
+        	rtePlugins: this.RTE_PLUGIN_CONF(),
         	specialCharsConfig: {
         		chars: {
         			"em-dash": {
@@ -127,7 +127,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.hiddenField.setValue(this.getValue());
     },
     
-	RTE_PLUGIN_CONF: {
+	RTE_PLUGIN_CONF: function(){return {
 	   "links": {
 	      "linkDialogConfig": {
 	    	  "height": "250",
@@ -220,7 +220,7 @@ gsusa.components.MeetTheCookiesWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 	   "undo": {
 	      "features": "*"
 	   }
-	}
+	};}
 });
 
 // register xtype
