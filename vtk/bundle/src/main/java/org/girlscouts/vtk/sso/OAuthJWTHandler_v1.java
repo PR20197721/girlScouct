@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.sso;
 
 import org.apache.commons.codec.binary.Base64;
+
+import javax.net.ssl.SSLContext;
 import javax.xml.soap.SOAPException;
 import org.apache.http.HttpException;
 import org.apache.http.HttpResponse;
@@ -11,7 +13,13 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.params.CookiePolicy;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.SSLContexts;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
@@ -87,11 +95,33 @@ public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String ac
 		      //Add the encoded signature
 		      token.append(signedPayload);
 		     
+		     /*
+		      //DefaultHttpClient client = new DefaultHttpClient();
+		     // private PoolingHttpClientConnectionManager connMrg;
+		      SSLContext sslContext = SSLContexts.custom()
+				        .useTLS() // Only this turned out to be not enough
+				        .build();
+				SSLConnectionSocketFactory sf = new SSLConnectionSocketFactory(
+				        sslContext,
+				        new String[] {"TLSv1", "TLSv1.1", "TLSv1.2"},
+				        null,
+				        SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+				CloseableHttpClient client = HttpClients.custom()
+				        .setSSLSocketFactory(sf)
+				        //.setConnectionManager(connMrg)
+				        .build();
+		      */
+		      
+		      CloseableHttpClient client = HttpClientBuilder
+		      .create()
+		      .setSslcontext(SSLContexts.custom().useProtocol("TLSv1.2").build())
+		      .build();
 		     
-		      DefaultHttpClient client = new DefaultHttpClient();
+		     /*
 		      HttpParams params = client.getParams();
 		      HttpClientParams.setCookiePolicy(params, CookiePolicy.RFC_2109);
 		      params.setParameter(HttpConnectionParams.CONNECTION_TIMEOUT, 30000);
+		      */
 		      HttpPost oauthPost = new HttpPost(communityUrl+"/services/oauth2/token");//"https://gsuat-gsmembers.cs17.force.com/members/services/oauth2/token"); // community user
 		      List<BasicNameValuePair> parametersBody = new ArrayList<BasicNameValuePair>();
 		      parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
