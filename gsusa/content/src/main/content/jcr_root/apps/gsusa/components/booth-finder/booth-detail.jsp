@@ -81,7 +81,7 @@ if (!url.contains(".html")) {
 </head>
     <body>
         <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
-        <h4>Support Girlscouts in Your Area</h4>
+        <h4>Support Girl Scouts in Your Area</h4>
         <section>
             <div>
                 <h5>Location:</h5>
