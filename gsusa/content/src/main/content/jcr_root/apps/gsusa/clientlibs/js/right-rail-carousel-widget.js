@@ -59,7 +59,27 @@ gsusa.components.RightRailCarouselWidget = CQ.Ext.extend(CQ.form.CompositeField,
 		this.add(this.checkBoxField);
 
         this.add(new CQ.Ext.form.Label({text: "Label"}));
-        this.labelField = new CQ.Ext.form.TextField({
+        this.labelField = new CQ.form.RichText({
+        	rtePlugins: this.RTE_PLUGIN_CONF(),
+        	specialCharsConfig: {
+        		chars: {
+        			"em-dash": {
+        				"entity": "&#8212;"
+        			},
+        			"copyright": {
+        				"entity": "&#169;"
+        			},
+        			"registerd": {
+        				"entity": "&#174;",
+        			},
+        			"trademark": {
+        				"entity": "&#8482;",
+        			},
+        			"horizontal-rule": {
+        				"entity": "<hr>"
+        			}	
+        		}
+        	},
             listeners: {
                 change: {
                     scope:this,
@@ -132,7 +152,102 @@ gsusa.components.RightRailCarouselWidget = CQ.Ext.extend(CQ.form.CompositeField,
     // private
     updateHidden: function() {
         this.hiddenField.setValue(this.getValue());
-    } 
+    },
+
+	RTE_PLUGIN_CONF: function(){return {
+	   "links": {
+	      "linkDialogConfig": {
+	    	  "height": "250",
+	    	  "linkAttributes": [{
+	    		  "attribute": "class",
+	    		  "xtype": "selection",
+	    		  "options": [
+	    		      {
+	    		          value: "",
+	    		          text: "Normal Link"
+	    		      },
+	    		      {
+	    		          value: "button white",
+	    		          text: "Button",
+	    		      }
+	    		  ],
+	    		  "fieldLabel": "Style"
+	    	  }]
+	      }
+	   },
+	   "misctools": {
+	      "features": "*"
+	   },
+	   "edit": {
+	      "features": "[paste-plaintext,paste-wordhtml]"
+	   },
+	   "findreplace": {
+	      "features": "*"
+	   },
+	   "format": {
+	      "features": "*"
+	   },
+	   "image": {
+	      "features": "*"
+	   },
+	   "keys": {
+	      "features": "*"
+	   },
+	   "justify": {
+	      "features": "*"
+	   },
+	   "lists": {
+	      "features": "*"
+	   },
+	   "paraformat": {
+	      "features": "*",
+	      "formats": [
+	          {
+	              "description": "Paragraph",
+	              "tag": "p"
+	          },
+	          {
+	              "description": "Header 1",
+	              "tag": "h1"
+	          },
+	          {
+	              "description": "Header 2",
+	              "tag": "h2"
+	          },
+	          {
+	              "description": "Header 3",
+	              "tag": "h3"
+	          },
+	          {
+	              "description": "Header 4",
+	              "tag": "h4"
+	          },
+	          {
+	              "description": "Header 5",
+	              "tag": "h5"
+	          },
+	          {
+	              "description": "Header 6",
+	              "tag": "h6"
+	          }
+		  ]
+	   },
+	   "spellcheck": {
+	      "features": "*"
+	   },
+	   "styles": {
+	      "features": "*"
+	   },
+	   "subsuperscript": {
+	      "features": "*"
+	   },
+	   "table": {
+	      "features": "*"
+	   },
+	   "undo": {
+	      "features": "*"
+	   }
+	};}
 
 });
 
