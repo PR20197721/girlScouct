@@ -86,6 +86,7 @@
       font-weight: 300;
       @media #{$small-only} {
         margin-bottom: rem-calc(15);
+        text-align: center;
       }
       * {
       	color: $white;
