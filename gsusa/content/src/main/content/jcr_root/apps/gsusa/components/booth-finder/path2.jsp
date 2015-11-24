@@ -1,5 +1,6 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 java.util.Map,
+                java.util.HashMap,
                 com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/booth-finder/replace-council-info.jsp"%>
@@ -37,5 +38,10 @@ if (isShowShareDialog) {
 	request.setAttribute("gsusa-share-modal-tweet", null); 
 	request.setAttribute("gsusa-share-modal-description", null);
 }
+
+Map<String, String> conf = new HashMap<String, String>();
+conf.put("title", "Cookies are Here!");
+conf.put("desc", "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order.");
+request.setAttribute("gsusa-contact-banner-conf", conf);
 %>
 <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
