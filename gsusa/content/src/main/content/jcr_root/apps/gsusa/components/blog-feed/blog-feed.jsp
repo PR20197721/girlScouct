@@ -10,7 +10,7 @@
 	String url = "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key;
 %>
 	<div class="align-center">
-		<img src="http://wwwl.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
+		<img src="http://wwwr.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
 		<div class="blog-embed-area"></div>
 	</div>
 

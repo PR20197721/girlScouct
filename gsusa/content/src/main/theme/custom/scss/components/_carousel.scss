@@ -392,4 +392,200 @@ div.carousel {
     }
   }
 }
+.right-rail-carousel {
+  clear: both;
+}
+.rotator {
+  padding: rem-calc(0 13 10);
+  max-width: rem-calc(210);
+  width: 100%;
+  h5 {
+    font-weight: 600;
+    font-size: rem-calc(20);
+    line-height: 1.2;
+  }
+  .shop-carousel {
+    &.slick-slider {
+      margin-bottom: 0;
+      padding: rem-calc(0 17);
+      .slick-slide {
+        p {
+          margin: rem-calc(10 0);
+          font-size: rem-calc(13);
+          line-height: 1.2;
+        }
+        a {
+          color: #000;
+        }
+        img {
+          width: 100%;
+        }
+      }
+    }
+    .slick-prev,
+    .slick-next {
+      margin-top: rem-calc(-10);
+      padding: 0;
+      margin-bottom: 0;
+      &:before {
+        opacity: 1;
+        border-width: rem-calc(10);
+        display: block;
+        content: "";
+        border-style: solid;
+      }
+    }
+    .slick-prev {
+      left: rem-calc(-10);
+      &:before {
+        border-color: transparent #aeaeae transparent transparent;
+      }
+    }
+    .slick-next {
+      right: rem-calc(-10);
+      &:before {
+        border-color: transparent transparent transparent #aeaeae;
+      }
+    }
+  }
+}
+.video-slider {
+  margin-top: rem-calc(18);
+  @media #{$small-only} {
+    width: 100vw;
+    margin-left: -5vw;
+  }
+  iframe {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .slick-slide {
+    margin: 0 7px;
+    position: relative;
+    padding-bottom: 6%;
+    @media #{$medium-up} {
+      height: rem-calc(307);
+    }
+    @media #{$small-only} {
+      height: rem-calc(160);
+    }
+    .thumbnail a {
+      display: block;
+      position: relative;
+        &:hover:after {
+          -webkit-filter: grayscale(100%); filter: grayscale(100%);
+        }
+        &:after {
+          z-index: 10;
+          content: "";
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent url("../images/play-btn.png") no-repeat 50% 40%;
+          background-size: 17%;
+        }
+      img {
+        width: 100%;
+      }
+    }
 
+  }
+  button {
+    &:before,
+    &:after {
+      opacity: 1;
+      display: block;
+    }
+    height: rem-calc(106);
+    margin-bottom: 0;
+    margin-top: rem-calc(-53);
+    background: rgba(0,0,0, 0.5);
+    width: rem-calc(48);
+    &:hover,
+    &:focus {
+      background: rgba(0,0,0, 1);
+    }
+    &.slick-prev {
+      left: 0;
+      &:before {
+        content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
+      }
+    }
+    &.slick-next {
+      right:0;
+      &:before {
+        content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
+      }
+    }
+  }
+}
+.cookie-landing-hero {
+  position: relative;
+  margin-top: rem-calc(12);
+  margin-bottom: rem-calc(12);
+  .welcome-video-slider {
+    max-height: rem-calc(334);
+    overflow: hidden;
+    margin-bottom: 0;
+    z-index: 1;
+    img {
+      width: 100%;
+    }
+  }
+  .cookie-header {
+    width: 32.1875%;
+    position: absolute;
+    top: 50%;
+    margin-top: rem-calc(-111);
+    padding: 0;
+    margin-bottom: 0;
+    margin-left: rem-calc(47);
+    z-index: 2;
+    .wrapper {
+      background: rgba(0,0,0,.5);
+      margin: 0;
+      .wrapper-inner {
+        padding-left: 5%;
+        padding-right: 5%;
+        &::before {
+          content: "";
+          background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+          height: rem-calc(71);
+          width: rem-calc(71);
+          left: 50%;
+          position: relative;
+          margin-left: rem-calc(-36);
+          margin-bottom: 0;
+          margin-top: rem-calc(20);
+          background-size: contain;
+        }
+        form {
+          float: none;
+          width: 100%;
+          padding: 0;
+        }
+        label {
+          float: none;
+          width: 100%;
+          display: block;
+          margin-bottom: rem-calc(20);
+          text-align: center;
+        }
+        .form-wrapper {
+          float: none;
+          width: 100%;
+        }
+      }
+    }
+  }
+  .facebook-image {
+    position: absolute;
+    bottom:0;
+    right:0;
+    z-index: 2;
+  }
+}
