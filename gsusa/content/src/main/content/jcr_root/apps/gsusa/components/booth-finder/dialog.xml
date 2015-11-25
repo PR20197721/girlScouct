@@ -192,7 +192,7 @@
                                 <cookiePathUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{cookiePathUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -415,7 +415,7 @@
                                 <cookiePathUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{cookiePathUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -638,7 +638,7 @@
                                 <cookiePathUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{cookiePathUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -861,7 +861,7 @@
                                 <cookiePathUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{cookiePathUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -1091,7 +1091,7 @@
                                 <cookiePathUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{cookiePathUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
