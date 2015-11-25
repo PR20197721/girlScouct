@@ -921,6 +921,34 @@
                         xtype="pathfield"/>
                 </items>
             </path5>
+            <mapModal
+            	jcr:primaryType="cq:Panel"
+            	title="Map Modal">
+            	<items jcr:primaryType="cq:WidgetCollection">
+            		<mapFBTitle
+            			jcr:primaryType="cq:Widget"
+            			fieldDescription="The title of the Facebook share"
+            			fieldLabel="Facebook Title"
+            			name="./mapFBTitle"/>
+            		<mapFBDesc
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="The text of the Facebook share."
+                        fieldLabel="Facebook Description"
+                        name="./mapFBDesc"/>
+                    <mapTweet
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Text to include in the tweet."
+                        fieldLabel="Tweet"
+                        name="./mapTweet"/>
+                    <mapFBImg
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="This image will be used by facebook when sharing the page"
+                        fieldLabel="Image to Share"
+                        name="./mapFBImgPath"
+                        rootPath="/content/dam"
+                        xtype="pathfield"/>
+            	</items>
+            </mapModal>
             <not-found
                 jcr:primaryType="cq:Panel"
                 title="Not Found">

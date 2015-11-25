@@ -1,10 +1,19 @@
  <%@page import="java.net.URLEncoder,
                  java.text.DateFormat,
-                 java.text.SimpleDateFormat"%>
+                 java.text.SimpleDateFormat,
+                 java.net.URLEncoder"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%
+String facebookTitle = request.getParameter("fbTitle");
+if(facebookTitle != null) {facebookTitle = facebookTitle.replace("\'","\\\'");}
+String facebookDesc = request.getParameter("fbDesc");
+if(facebookDesc != null) {facebookDesc = facebookDesc.replace("\'","\\\'");}
+String tweet = request.getParameter("tweet");
+if(tweet != null) {tweet = URLEncoder.encode(tweet,"UTF-8");}
+String imgPath = request.getParameter("shareImgPath");
+
 String uniqueID = "" + System.currentTimeMillis();
 String facebookId = currentSite.get("facebookId", "");
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -108,7 +117,7 @@ if (!url.contains(".html")) {
             <ul class="inline-list">
             	<li><div>
             		<a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
-					<a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=Oh%20yeah!%20It%E2%80%99s%20%23GirlScoutCookie%20time%20in%20my%20neighborhood.%20Find%20your%20cookies.%20%40girlscouts"></a>
+					<a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=<%=tweet%>"></a>
 				</div></li>
 				<li><div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="Cookies are here." addthis:description="I found mine. Now find yours. Girl Scout Cookies are in your neighborhood!">
 					<a class="addthis_button_email"><span class="icon-mail"></span></a>
@@ -144,10 +153,10 @@ if (!url.contains(".html")) {
         var obj = {
           method: 'feed',
           link: '<%= url %>',
-          name: 'Support Girl Scouts in your neighborhood by visiting this Cookie Booth on <%= request.getParameter("dateStart") %>',
-          picture: location.host + '/content/dam/girlscouts-gsusa/images/Cookies/share-default.png',
+          name: '<%= facebookTitle %>',
+          picture: location.host + '<%= imgPath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
-          description: 'WHEN: <%= request.getParameter("dateStart")%>, from <%= request.getParameter("timeOpen") %> to <%= request.getParameter("timeClose") %>. WHERE: <%= request.getParameter("location") %>, <%= request.getParameter("address1") %>, <%= zip %>, by <%= councilName %>'
+          description: '<%= facebookDesc %>'
         };
 
         function callback(response) {
