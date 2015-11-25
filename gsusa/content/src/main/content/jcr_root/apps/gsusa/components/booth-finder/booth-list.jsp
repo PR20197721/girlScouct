@@ -1,6 +1,8 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
+                java.util.Map,
+                java.util.HashMap,
                 java.util.List" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
@@ -115,6 +117,12 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 </div>
 <div class="not-finding">
     <h4>Not finding what you're looking for?</h4>
+<%
+	Map<String, String> conf = new HashMap<String, String>();
+	conf.put("title", "Cookies are Here!");
+	conf.put("desc", "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order.");
+	request.setAttribute("gsusa-contact-banner-conf", conf);
+%>
     <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
 </div>
 
