@@ -1,6 +1,8 @@
 <%@page import="org.girlscouts.web.gsusa.component.boothfinder.BoothFinder,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.Council,
                 org.girlscouts.web.gsusa.component.boothfinder.BoothFinder.BoothBasic,
+                java.util.Map,
+                java.util.HashMap,
                 java.util.List" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
@@ -32,7 +34,7 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 %>
 
 <h3>Cookies Are Here!</h3>
-<p>The cookie season for the <strong><a href="<%= council.url %>" target="_blank"><%= council.name %></a></strong> is currently underway!</p>
+<p>The cookie season for the <strong><a href="<%= council.cookiePageUrl %>" target="_blank"><%= council.name %></a></strong> is currently underway!</p>
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is <%= nearestDistance %> miles away from <%= zip %>.</p>
 <form class="sort-form clearfix">
@@ -115,24 +117,11 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 </div>
 <div class="not-finding">
     <h4>Not finding what you're looking for?</h4>
+<%
+	Map<String, String> conf = new HashMap<String, String>();
+	conf.put("title", "Cookies are Here!");
+	conf.put("desc", "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order.");
+	request.setAttribute("gsusa-contact-banner-conf", conf);
+%>
     <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
 </div>
-
-<script>
-	$(document).ready(function(){
-		$('.booth-finder form#contactlocalcouncil').submit(function(){
-			$.post($(this).attr('action'), $(this).serialize(), function(response) {
-				// Remove blank lines
-				response = response.replace(/^\s*\n/gm, '').trim();
-				if (response.toUpperCase() == 'OK') {
-					$('#contactlocalcouncil').html('Thank you for contacting us');
-				} else {
-					$('#contactlocalcouncil div.error').html(response + '. Please correct the form.');
-				}
-			});
-
-			// Prevent default
-			return false;
-		});
-	});
-</script>

@@ -35,7 +35,7 @@
                         fieldLabel="Links"
                         hideLabel="{Boolean}true"
                         name="./carouselList"
-                        xtype="multifield">
+                        xtype="rightrailcarouselmultifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
                             xtype="rightrailcarouselwidget"/>

@@ -37,7 +37,13 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     	$(document).ready(function(){
 		    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
 		        var zip = $(this).find('input[name="zip-code"]').val();
-		        window.location.href = '<%= resultPage %>.' + zip + '.html';
+			    var redirectUrl = '<%= resultPage %>.' + zip + '.html'; 
+			    var currentUrl = window.location.href;
+			    var queryPos = currentUrl.indexOf('?');
+			    if (queryPos != -1) {
+			    	redirectUrl += currentUrl.substring(queryPos);
+			    }
+			    window.location.href = redirectUrl;
 		        return false;
 		    });
     	});

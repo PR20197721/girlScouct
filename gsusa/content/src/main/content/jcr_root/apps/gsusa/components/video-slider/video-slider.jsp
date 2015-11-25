@@ -89,55 +89,48 @@ public  String readUrlFile(String urlString) throws Exception {
 videoSliderDelay = <%= timedelay %>;
 videoSliderAuto = <%= autoscroll %>;
 var youtubeIDs = [];
-</script>
 
-<script type="text/javascript">
-	$(document).ready(function() {
-		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
-	});
-	$(window).load(function(){
-		attachListenerToVideoSlider();
-		
-		function loadYTScript() {
-		    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
-		        var tag = document.createElement('script');
-		        tag.src = "https://www.youtube.com/iframe_api";
-		        var firstScriptTag = document.getElementsByTagName('script')[0];
-		        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-		    }
-		}
+function getInternetExplorerVersion()
+	//Returns the version of Internet Explorer or a -1
+	//(indicating the use of another browser).
+	{
+	var rv = -1; // Return value assumes failure.
+	if (navigator.appName == 'Microsoft Internet Explorer')
+	{
+	 var ua = navigator.userAgent;
+	 var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+	 if (re.exec(ua) != null)
+	   rv = parseFloat( RegExp.$1 );
+	}
+	return rv;
+}
 
-		function loadPlayer() {
-		        window.onYouTubePlayerAPIReady = function() {
-		        	if(typeof youtubeIDs != undefined){
-		        		for(var i = 0; i < youtubeIDs.length; i++){
-		        			createPlayer(youtubeIDs[i]);
-		        		}
-		        	}
-		        };
-		}
+function checkVersion()
+{
+	var ver = getInternetExplorerVersion();
+	
+	if ( ver > -1 )
+	{
+	 if ( ver <= 9.0 ){ 
+	   console.log("No auto slide due to browser incompatibility");
+	   videoSliderAuto = false;
+	 }
+	}
+}
 
-		function createPlayer(id){
-			var player = new YT.Player(id[1], {
-				videoId: id[0],
-				events: {
-					'onStateChange': stopSlider
-				}
-			});
-		}
-		loadYTScript();
-		loadPlayer();
-	});
+checkVersion();
 </script>
 
 <div class="video-slider-wrapper">
 <%
+	//TODO: Optimize following javascript
 	String[] links = properties.get("links",String[].class);
 	String alt = "";
+	String[] urls = null;
 	if(links != null && links.length > 0) {
 		for(int i = 0; i < links.length; i++) {
 			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				String[] urls = extract(links[i]);
+				urls = extract(links[i]);
 				if(urls.length >= 4){
 					%><div>
 						<%if(urls.length == 5){
@@ -158,6 +151,85 @@ var youtubeIDs = [];
 					  		<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
 				  			</iframe>
 			  			</div>
+			  			<script type="text/javascript">
+						$('#<%=urls[3]%>').load(function() {
+							  
+							
+							$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
+								  
+								  function pauseVideoSliderVideos() {
+									  if($('.vimeo').length > 0){
+										  $.each($(".vimeo"), function( i, val ) { 
+									    	  $f(val).api('unload');
+									      });
+									  } if($('.youtube').length > 0) {
+									      $.each($('.youtube'), function( i, val ) {
+									    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+									      });
+								  	}
+								  }
+								  
+								  function stopSlider() {
+										var slick = $('.video-slider-wrapper');
+										if(slick != undefined && slick.slick != undefined){
+											slick.slick('slickPause');
+											slick.slick('slickSetOption', 'autoplay', false, false);
+											slick.slick('autoPlay',$.noop);
+										}
+									}
+								  
+								  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
+									    pauseVideoSliderVideos();
+									});
+								  
+								  function attachListenerToVideoSlider () {
+									    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
+									    	var iframe = $('.vid-slide-wrapper iframe')[i],
+									    		player;
+									    	if ($(iframe).hasClass("vimeo")) {
+									    		player = $f(iframe);
+								    			player.addEvent('playProgress', function() {
+								    				stopSlider();
+									    		}); 
+									    	}
+									    }   
+									}
+						
+									function loadYTScript() {
+									    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
+									        var tag = document.createElement('script');
+									        tag.src = "https://www.youtube.com/iframe_api";
+									        var firstScriptTag = document.getElementsByTagName('script')[0];
+									        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+									    }
+									}
+						
+									function loadPlayer() {
+									        window.onYouTubePlayerAPIReady = function() {
+									        	if(typeof youtubeIDs != undefined){
+									        		for(var i = 0; i < youtubeIDs.length; i++){
+									        			createPlayer(youtubeIDs[i]);
+									        		}
+									        	}
+									        };
+									}
+						
+									function createPlayer(id){
+										var player = new YT.Player(id[1], {
+											videoId: id[0],
+											events: {
+												'onStateChange': stopSlider
+											}
+										});
+									}
+									
+									attachListenerToVideoSlider();
+									loadYTScript();
+									loadPlayer();
+							});
+						  
+						  });
+					</script>
 		  			</div>
 				<% } else { %>
 					<div>*** Format not supported ***</div>

@@ -1,6 +1,7 @@
 #base=js
 
 main.js
+right-rail-carousel-multifield-widget.js
 right-rail-carousel-widget.js
 dynamic-pathfield.js
 simple-link-widget.js

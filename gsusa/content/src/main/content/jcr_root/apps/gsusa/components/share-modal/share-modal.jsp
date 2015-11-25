@@ -59,7 +59,6 @@
 	if (button.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%> ****Please configure the modal button text **** <%
 	} else {
-		%><script>console.log("Hello");</script><%
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 			%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 		}

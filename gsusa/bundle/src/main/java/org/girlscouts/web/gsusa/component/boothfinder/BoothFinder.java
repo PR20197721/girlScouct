@@ -89,7 +89,8 @@ public class BoothFinder {
 			this.cookieSaleEndDate = "";
 			this.preferredPath = "";
 			this.path2Method = "";
-			this.cookiePageUrl = "";
+			// TODO: Test
+			this.cookiePageUrl = "http://www.girlscoutcookies.org/";
 			this.cookieSaleContactEmail = "";
 			this.daysLeft = "";
 		}
@@ -113,7 +114,7 @@ public class BoothFinder {
 			map.put("url", url);
 			map.put("cookieSaleStartDate", cookieSaleStartDate);
 			map.put("cookieSaleEndDate", cookieSaleEndDate);
-			map.put("cookiePathUrl", cookiePageUrl);
+			map.put("cookiePageUrl", cookiePageUrl);
 			map.put("cookieSaleContactEmail", cookieSaleContactEmail);
 			return map;
 		}
@@ -200,14 +201,14 @@ public class BoothFinder {
 
         if (queryString != null && queryString != "") { 
         	Map<String, List<String>> para = splitQuery(queryString);
-        	if (para.get("utm_campiagn") != null && para.get("utm_campiagn").get(0) != null) {
-        		apiPath += "&utm_campiagn=" + para.get("utm_campiagn").get(0);
+        	if (para.get("utm_campaign") != null && para.get("utm_campaign").get(0) != null) {
+        		apiPath += "&GACampaign=" + para.get("utm_campaign").get(0);
         	}
         	if (para.get("utm_medium") != null && para.get("utm_medium").get(0) != null) {
-        		apiPath += "&utm_medium=" + para.get("utm_medium").get(0);
+        		apiPath += "&GAMedium=" + para.get("utm_medium").get(0);
         	}
         	if (para.get("utm_source") != null && para.get("utm_source").get(0) != null) {
-        		apiPath += "&utm_source=" + para.get("utm_source").get(0);
+        		apiPath += "&GASource=" + para.get("utm_source").get(0);
         	}
         }
 
