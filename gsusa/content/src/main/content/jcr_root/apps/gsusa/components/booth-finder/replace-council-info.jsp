@@ -12,7 +12,7 @@ public String replaceCouncilInfo(String input, Map<String, String> councilMap) {
 				             .replaceAll("\\{\\{url\\}\\}", councilMap.get("url"))
 				             .replaceAll("\\{\\{cookieSaleStartDate\\}\\}", councilMap.get("cookieSaleStartDate"))
 				             .replaceAll("\\{\\{cookieSaleEndDate\\}\\}", councilMap.get("cookieSaleEndDate"))
-				             .replaceAll("\\{\\{cookiePathUrl\\}\\}", councilMap.get("cookiePageUrl"))
+				             .replaceAll("\\{\\{cookiePageUrl\\}\\}", councilMap.get("cookiePageUrl"))
 				             .replaceAll("\\{\\{cookieSaleContactEmail\\}\\}", councilMap.get("cookieSaleContactEmail"))
 				             .replaceAll("\\{\\{daysLeft\\}\\}", councilMap.get("daysLeft"));
 		return output;

@@ -113,7 +113,7 @@ public class BoothFinder {
 			map.put("url", url);
 			map.put("cookieSaleStartDate", cookieSaleStartDate);
 			map.put("cookieSaleEndDate", cookieSaleEndDate);
-			map.put("cookiePathUrl", cookiePageUrl);
+			map.put("cookiePageUrl", cookiePageUrl);
 			map.put("cookieSaleContactEmail", cookieSaleContactEmail);
 			return map;
 		}
