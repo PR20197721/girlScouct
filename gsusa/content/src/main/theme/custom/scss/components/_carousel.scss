@@ -410,7 +410,7 @@ div.carousel {
       padding: rem-calc(0 17);
       .slick-slide {
         p {
-          margin: 0;
+          margin: rem-calc(10 0);
           font-size: rem-calc(13);
           line-height: 1.2;
         }
