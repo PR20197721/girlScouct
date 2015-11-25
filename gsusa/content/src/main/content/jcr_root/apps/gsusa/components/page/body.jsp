@@ -1,4 +1,10 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%
+String cookieClass = "";
+if (isCookiePage(currentPage)) {
+  cookieClass = " cookie-page";
+} %>
 <!-- body -->
 <body data-grid-framework="f4" data-grid-color="salmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
 	   <!-- Google Tag Manager -->
@@ -13,16 +19,14 @@
   <div id="fb-root"></div> <!-- Allows Facebook Share buttons -->
   <div class="off-canvas-wrap" data-offcanvas>
 
-      <div class="inner-wrap">
+      <div class="inner-wrap<%= cookieClass%>">
           <section class="main-section">
               <div class="header">
                 <cq:include script="header.jsp"/>
               </div>
               <div class="main-content row">
                 <cq:include script="content.jsp"/>
-                <cq:include script="join-volunteer.jsp"/>
               </div>
-              <cq:include script="cookie-footer.jsp"/>
               <footer>
                 <cq:include script="footer.jsp"/>
               </footer>
