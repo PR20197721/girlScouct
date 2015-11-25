@@ -12,7 +12,7 @@ response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
 String address2 = request.getParameter("address2");
 address2 = address2 ==null ? "" : address2;
-String address = request.getParameter("address1") +" " + address2 ; 
+String address = request.getParameter("address1") +" " + address2 ;
 String zip = (String)request.getParameter("zip");
 zip = (zip ==null ? "" : zip);
 String councilName= (String)request.getParameter("councilName");
@@ -50,31 +50,31 @@ if (!url.contains(".html")) {
       setTimeout(function(){ doIt(); }, 1000);
     }
     function codeAddress( resultsMap, geocoder) {
-        var address = "<%=address%>";
-        geocoder.geocode({'address': address}, function(results, status) {
-          if (status === google.maps.GeocoderStatus.OK) {
-            resultsMap.setCenter(results[0].geometry.location);
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              zoom: 8,
-              position: results[0].geometry.location
-            });
-          } else {
-          console.log('Geocode was not successful for the following reason: ' + status);
-          }
-        });
+      var address = "<%=address%>";
+      geocoder.geocode({'address': address}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          resultsMap.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+            map: resultsMap,
+            zoom: 8,
+            position: results[0].geometry.location
+          });
+        } else {
+        console.log('Geocode was not successful for the following reason: ' + status);
+        }
+      });
     }
     function doIt(){
-        codeAddress(map, geocoder);
-        google.maps.event.trigger(map, 'resize');
-        google.maps.event.trigger(map, 'center');
+      codeAddress(map, geocoder);
+      google.maps.event.trigger(map, 'resize');
+      google.maps.event.trigger(map, 'center');
     }
     function LoadGoogle(){
-        if(typeof google != 'undefined' && google && google.load){
-            google.load("maps", "3", {callback: initMap});
-        }else{
-            setTimeout(LoadGoogle, 30);
-        }
+      if(typeof google != 'undefined' && google && google.load){
+          google.load("maps", "3", {callback: initMap});
+      }else{
+          setTimeout(LoadGoogle, 30);
+      }
     }
     LoadGoogle();
  </script>
@@ -147,7 +147,7 @@ if (!url.contains(".html")) {
           name: 'Support Girl Scouts in your neighborhood by visiting this Cookie Booth on <%= request.getParameter("dateStart") %>',
           picture: location.host + '/content/dam/girlscouts-gsusa/images/Cookies/share-default.png',
           caption: 'WWW.GIRLSCOUTS.ORG',
-          description: 'WHEN: <%= request.getParameter("dateStart")%>, from <%= request.getParameter("timeOpen") %> to <%= request.getParameter("timeClose") %>. WHERE: <%= request.getParameter("location") %>, <%= request.getParameter("address1") %>, <%= zip %>, by <%= councilName %>'
+          description: "WHEN: <%= request.getParameter("dateStart")%>, from <%= request.getParameter("timeOpen") %> to <%= request.getParameter("timeClose") %>. WHERE: <%= request.getParameter("location") %>, <%= request.getParameter("address1") %>, <%= zip %>, by <%= councilName %>"
         };
 
         function callback(response) {

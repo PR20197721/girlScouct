@@ -136,3 +136,11 @@
     }
   }
 }
+@media print {
+  #modal_booth_item_map {
+    a {
+      display: none;
+    }
+  }
+  .noprint { display: none;}
+}
