@@ -81,6 +81,7 @@ if (booth != null) {
                         cache:false,
                         data:<%= boothBasic_json_data %>
                     });
+                    $(".off-canvas-wrap").addClass('noprint');
                  });
             </script>
     </div>

@@ -189,10 +189,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{cookieSaleEndDate}}"/>
-                                <cookiePathUrl
+                                <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
-                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookiePageUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -412,10 +412,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{cookieSaleEndDate}}"/>
-                                <cookiePathUrl
+                                <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
-                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookiePageUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -635,10 +635,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{cookieSaleEndDate}}"/>
-                                <cookiePathUrl
+                                <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
-                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookiePageUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -858,10 +858,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{cookieSaleEndDate}}"/>
-                                <cookiePathUrl
+                                <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
-                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookiePageUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
@@ -1116,10 +1116,10 @@
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
                                     entity="\{{cookieSaleEndDate}}"/>
-                                <cookiePathUrl
+                                <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
-                                    displayEntity="Cookie_Path_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{cookiePageUrl}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"

@@ -39,6 +39,18 @@
     }
   }
 
+  function pauseVideoSliderVideos() {
+	  if($('.vimeo').length > 0){
+		  $.each($(".vimeo"), function( i, val ) {
+	    	  $f(val).api('unload');
+	      });
+	  } if($('.youtube').length > 0) {
+	      $.each($('.youtube'), function( i, val ) {
+	    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+	      });
+  	}
+  }
+
   function document_close_all() {
     //Detect ipad
     var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
@@ -384,7 +396,6 @@
       cssEase: 'linear',
     });
   }
-
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -468,6 +479,10 @@
 
   $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
     pauseAllCarouselVideos();
+  });
+
+  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
+    pauseVideoSliderVideos();
   });
 
   var carouselSliderPropogate = true;
@@ -677,8 +692,35 @@
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
   });
-
+  $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
+    $(".off-canvas-wrap").removeClass('noprint');
+  });
 }(jQuery));
+
+function attachListenerToVideoSlider () {
+    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
+    	var iframe = $('.vid-slide-wrapper iframe')[i],
+    		player;
+    	if ($(iframe).hasClass("vimeo")) {
+    		player = $f(iframe);
+    		player.addEvent('ready', function() {
+    			player.addEvent('playProgress', function() {
+    				stopSlider();
+    			});
+    		});
+    	}
+    }
+}
+
+function stopSlider() {
+	var slick = $('.video-slider-wrapper');
+	if(slick != undefined && slick.slick != undefined){
+		slick.slick('slickPause');
+		slick.slick('slickSetOption', 'autoplay', false, false);
+		slick.slick('autoPlay',$.noop);
+	}
+};
+
 
 function fixColorlessWrapper() {
   // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos

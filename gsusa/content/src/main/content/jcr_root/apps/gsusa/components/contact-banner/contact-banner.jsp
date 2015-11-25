@@ -26,6 +26,25 @@
     </form>
 </div>
 
+<script>
+	$(document).ready(function(){
+		$('.booth-finder form#contactlocalcouncil').submit(function(){
+			$.post($(this).attr('action'), $(this).serialize(), function(response) {
+				// Remove blank lines
+				response = response.replace(/^\s*\n/gm, '').trim();
+				if (response.toUpperCase() == 'OK') {
+					$('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+				} else {
+					$('#contactlocalcouncil div.error').html(response + '. Please correct the form.');
+				}
+			});
+
+			// Prevent default
+			return false;
+		});
+	});
+</script>
+
 <%!
 public String getDefault(String key, String defaultValue, Map<String, String> props, ValueMap properties) {
 	if(props != null){
