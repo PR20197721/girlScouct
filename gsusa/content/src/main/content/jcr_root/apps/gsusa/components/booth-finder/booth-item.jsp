@@ -14,7 +14,7 @@ public String replaceBoothInfo(String input, BoothBasic b, String name) {
 	} else {
 		String output = input.replaceAll("\\{\\{location\\}\\}", b.location)
 	             .replaceAll("\\{\\{addr1\\}\\}", b.address1)
-	             .replaceAll("\\{\\{addr2\\}\\}", b.address2)
+	             .replaceAll("\\{\\{addr2\\}\\}", !b.address2.equals("")? " " + b.address2 : "")
 	             .replaceAll("\\{\\{city\\}\\}", b.city)
 	             .replaceAll("\\{\\{state\\}\\}", b.state)
 	             .replaceAll("\\{\\{zip\\}\\}", b.zipCode)
