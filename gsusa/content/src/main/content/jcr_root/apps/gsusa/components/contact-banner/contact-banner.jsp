@@ -35,7 +35,7 @@
 				if (response.toUpperCase() == 'OK') {
 					$('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
 				} else {
-					$('#contactlocalcouncil div.error').html(response + '. Please correct the form.');
+					$('#contactlocalcouncil div.error').html(response);
 				}
 			});
 
