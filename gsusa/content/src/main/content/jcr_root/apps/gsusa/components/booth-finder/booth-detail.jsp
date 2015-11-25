@@ -63,6 +63,9 @@ if (!url.contains(".html")) {
         console.log('Geocode was not successful for the following reason: ' + status);
         }
       });
+      map.addListener('click', function() {
+        window.open("http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>");
+      });
     }
     function doIt(){
       codeAddress(map, geocoder);
