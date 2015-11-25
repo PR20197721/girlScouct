@@ -89,7 +89,8 @@ public class BoothFinder {
 			this.cookieSaleEndDate = "";
 			this.preferredPath = "";
 			this.path2Method = "";
-			this.cookiePageUrl = "";
+			// TODO: Test
+			this.cookiePageUrl = "http://www.girlscoutcookies.org/";
 			this.cookieSaleContactEmail = "";
 			this.daysLeft = "";
 		}
