@@ -125,22 +125,3 @@ if ("distance".equals(sortBy) && !booths.isEmpty()) {
 %>
     <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
 </div>
-
-<script>
-	$(document).ready(function(){
-		$('.booth-finder form#contactlocalcouncil').submit(function(){
-			$.post($(this).attr('action'), $(this).serialize(), function(response) {
-				// Remove blank lines
-				response = response.replace(/^\s*\n/gm, '').trim();
-				if (response.toUpperCase() == 'OK') {
-					$('#contactlocalcouncil').html('Thank you for contacting us');
-				} else {
-					$('#contactlocalcouncil div.error').html(response + '. Please correct the form.');
-				}
-			});
-
-			// Prevent default
-			return false;
-		});
-	});
-</script>
