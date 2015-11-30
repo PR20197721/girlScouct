@@ -61,7 +61,7 @@ function anchorCheck(){
         var toggle = $(this);
         var parsysID = $(this).parent().data('target');
         var anchor = $(this).parent().attr('id');
-        if(window.location.hash.replace("#","") == anchor){
+        if(anchor != "" && window.location.hash.replace("#","") == anchor){
             toggle.addClass('on');
             target.slideDown();
             $(this).parent().addClass('on');
@@ -76,7 +76,7 @@ function inPageAnchorCheck(e){
         var toggle = $(this);
         var parsysID = $(this).parent().data('target');
         var anchor = $(this).parent().attr('id');
-        if(e.target.href.substring(e.target.href.indexOf("#")).replace("#","") == anchor){
+        if(anchor != "" && e.target.href.substring(e.target.href.indexOf("#")).replace("#","") == anchor){
             toggle.addClass('on');
             target.slideDown();
             $(this).parent().addClass('on');
