@@ -70,6 +70,17 @@ function anchorCheck(){
 }
 
 function inPageAnchorCheck(e){
+	$('.cookie-page .accordion dt > :first-child').each(function(i, value){
+		var target = $(this).parent().next().find('.content');
+		var toggle = $(this);
+		var parsysID = $(this).parent().data('target');
+		toggle.removeClass('on');
+		target.slideUp();
+		$(this).parent().removeClass('on');
+		if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+			window[parsysID].hideParsys();
+		}
+	});
 	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
     	var parsysID = $(value).parent().data('target');
     	var target = $(this).parent().next().find('.content');
