@@ -64,7 +64,7 @@ $(document).ready(function(){
 		}
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=cookieBoothLink %>";
+	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>";
 	    //window.location.href = '/content/gsusa/en/booth-result.' + zip + '.html';
 	    var redirectUrl = loc + '.' + zip + '.html';
 	    var currentUrl = window.location.href;
