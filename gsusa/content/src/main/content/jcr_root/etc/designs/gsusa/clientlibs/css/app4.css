@@ -1301,6 +1301,7 @@ div.carousel .slick-next:before {
   .three-cols .middle-col .standalone-cookie-header form input[type="text"], .three-cols .middle-col
   .cookie-header form input[type="text"] {
     font-size: 1rem;
+    padding-left: 3px;
   }
   /* line 114, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .two-cols .middle-col .standalone-cookie-header form, .two-cols .middle-col
