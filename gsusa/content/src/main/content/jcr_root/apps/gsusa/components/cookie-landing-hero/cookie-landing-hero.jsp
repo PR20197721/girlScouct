@@ -35,7 +35,12 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     </div>
     <script>
     	$(document).ready(function(){
+    		var heroFormSubmitted = false;
 		    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
+		    	if (heroFormSubmitted) {
+		    		return false;
+		    	}
+
 		        var zip = $(this).find('input[name="zip-code"]').val();
 			    var redirectUrl = '<%= resultPage %>.' + zip + '.html'; 
 			    var currentUrl = window.location.href;
@@ -44,6 +49,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 			    	redirectUrl += currentUrl.substring(queryPos);
 			    }
 			    window.location.href = redirectUrl;
+			    heroFormSubmitted = true;
 		        return false;
 		    });
     	});
