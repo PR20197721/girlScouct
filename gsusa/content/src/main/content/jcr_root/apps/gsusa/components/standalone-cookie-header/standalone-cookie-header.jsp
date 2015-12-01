@@ -49,7 +49,7 @@ document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em
 document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0% transparent; } }", 0);
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
-	var cookieFormSubmitted = false;
+	cookieFormSubmitted = false;
 	$('.find-cookies-share, .find-cookies-noshare').submit(function(event){
 		if(event.preventDefault){
 			event.preventDefault()
