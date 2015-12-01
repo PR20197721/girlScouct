@@ -35,7 +35,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     </div>
     <script>
     	$(document).ready(function(){
-    		var heroFormSubmitted = false;
+    		heroFormSubmitted = false;
 		    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
 		    	if (heroFormSubmitted) {
 		    		return false;
