@@ -1,7 +1,8 @@
 
+<%System.err.println(1); %>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
-org.girlscouts.web.search.DocHit,
+org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
 com.day.cq.tagging.TagManager,
 java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
@@ -12,7 +13,6 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
-
 <%@include file="../admin/toolbar.jsp"%>
 <h1>Council Report</h1>
  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
@@ -22,6 +22,9 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 
 <%
 
+SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
+StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
 java.util.Map<String, String> cTrans = new java.util.TreeMap();
 
 cTrans.put("597", "Girl Scouts of Northeast Texas"); 
@@ -187,7 +190,8 @@ cTrans.put("430", "Greater Chicago and NW  Indiana");
 				total += xx.get("1-Daisy");
 				council_dai = xx.get("1-Daisy");
 		    }
-			
+			buffer.append("\n"+ (councilId_str ==null ? council : councilId_str) +"," + "," +council_jun+ ","+ council_bro+","+ council_dai +"," + total);
+            
 			%>
 			
 				<tr style="background-color:lightgray;">
@@ -244,10 +248,11 @@ cTrans.put("430", "Greater Chicago and NW  Indiana");
 				
 			}
 			
-			%>
 			
+			buffer.append( "\n"+(councilId_str ==null ? council : councilId_str) +","+ "," +  total_jun +"," + total_bro +"," + total_dai +","+ council_total );
+			%>
 			<tr style="background-color:lightyellow;">
-			<td>*<%=councilId_str ==null ? council : councilId_str%></td>
+			<td><%=councilId_str ==null ? council : councilId_str%></td>
 			<td></td>
 			<td><%=total_jun %></td>
 			<td><%=total_bro %></td>
@@ -259,8 +264,11 @@ cTrans.put("430", "Greater Chicago and NW  Indiana");
 		out.println("</table>" );
 		
 		
-		
-		
+		try{
+		    		  PrintWriter writer = new PrintWriter("/Users/akobovich/gsReports/council_rpt_"+ format.format(new java.util.Date()) +".csv", "UTF-8");
+		    		  writer.println(buffer);
+		    		  writer.close();
+		}catch(Exception e){e.printStackTrace();}
 		
 		%>
 		
