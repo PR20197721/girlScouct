@@ -35,6 +35,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.day.text.Text;
+
 @Component(label = "Girl Scouts Cookie Booth Finder", description = "Find nearby cookie booth", metatype = true, immediate = true)
 @Service(BoothFinder.class)
 @Properties({
@@ -285,11 +287,11 @@ public class BoothFinder {
     
     public String saveContactMeInformation(String zipCode, String email, String firstName, boolean optIn, String phone) throws Exception {
         String apiPath = apiBasePath + SAVE_CONTACT_ME_INFORMATION_API + 
-                "ZIPCode=" + zipCode.trim() + 
-                "&Email=" + email.trim() + 
-                "&FirstName=" + firstName.trim() + 
+                "ZIPCode=" + Text.escape(zipCode.trim()) + 
+                "&Email=" + Text.escape(email.trim()) + 
+                "&FirstName=" + Text.escape(firstName.trim()) + 
                 "&OptIn=" + (optIn ? "true" : "false") +
-                "&Phone=" + phone.replaceAll("[^0-9]", "");
+                "&Phone=" + Text.escape(phone.replaceAll("[^0-9]", ""));
 
         GetMethod get = new GetMethod(apiPath);
         try  {
