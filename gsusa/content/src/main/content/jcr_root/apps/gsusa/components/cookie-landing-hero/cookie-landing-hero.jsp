@@ -35,15 +35,21 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     </div>
     <script>
     	$(document).ready(function(){
+    		heroFormSubmitted = false;
 		    $('.cookie-landing-hero form[name="find-cookies"]').submit(function(){
+		    	if (heroFormSubmitted) {
+		    		return false;
+		    	}
+
 		        var zip = $(this).find('input[name="zip-code"]').val();
-			    var redirectUrl = '<%= resultPage %>.' + zip + '.html'; 
+			    var redirectUrl = '<%= resourceResolver.map(resultPage) %>.' + zip + '.html'; 
 			    var currentUrl = window.location.href;
 			    var queryPos = currentUrl.indexOf('?');
 			    if (queryPos != -1) {
 			    	redirectUrl += currentUrl.substring(queryPos);
 			    }
 			    window.location.href = redirectUrl;
+			    heroFormSubmitted = true;
 		        return false;
 		    });
     	});

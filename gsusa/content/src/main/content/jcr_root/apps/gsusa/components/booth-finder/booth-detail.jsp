@@ -93,7 +93,7 @@ if (!url.contains(".html")) {
 </head>
     <body>
         <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
-        <h4>Support Girlscouts in Your Area</h4>
+        <h4>Check Out This Girl Scout Cookie Booth!</h4>
         <section>
             <div>
                 <h5>Location:</h5>
@@ -111,7 +111,7 @@ if (!url.contains(".html")) {
                 <p><%= request.getParameter("timeOpen") %> - <%= request.getParameter("timeClose") %></p>
             </div>
             <div>
-                <h5>Council</h5>
+                <h5>Council:</h5>
                 <p><%=councilName %></p>
             </div>
         </section>

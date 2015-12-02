@@ -45,10 +45,11 @@ if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
 %>
 <script>
 
-document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0% transparent; } }", 0);
-document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0% transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
+	cookieFormSubmitted = false;
 	$('.find-cookies-share, .find-cookies-noshare').submit(function(event){
 		if(event.preventDefault){
 			event.preventDefault()
@@ -57,8 +58,13 @@ $(document).ready(function(){
 		}
 		event.returnValue = false;
 		event.stopPropagation();
+
+		if (cookieFormSubmitted) {
+			return;
+		}
+
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=cookieBoothLink %>";
+	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>";
 	    //window.location.href = '/content/gsusa/en/booth-result.' + zip + '.html';
 	    var redirectUrl = loc + '.' + zip + '.html';
 	    var currentUrl = window.location.href;
@@ -67,6 +73,7 @@ $(document).ready(function(){
 	    	redirectUrl += currentUrl.substring(queryPos);
 	    }
 	    window.location.href = redirectUrl;
+	    cookieFormSubmitted = true;
 	});
 });
 </script>
