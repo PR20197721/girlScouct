@@ -1,13 +1,5 @@
-<%--
+<%@include file="/libs/foundation/global.jsp"%>
+<%@page session="false" %>
 
-  Cookie Footer component.
-
-  
-
---%><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %><%
-%><%
-	// TODO add you code here
-%>
-<div>### PLACEHOLDER of Cookie Page Footer ###</div>
+<cq:include path="install-block" resourceType="gsusa/components/install-block" />
+<cq:include path="get-updates" resourceType="gsusa/components/get-updates" />

@@ -5,16 +5,17 @@ if (!Date.now) {
 	  };
 	}
 
+
 function toggleParsys(s)
 {
     var componentPath = s;
-    
+
     this.toggle = function()
     {
     	if (componentPath)
         {
     		var parsysComp = CQ.WCM.getEditable(componentPath);
-    		
+
     		if(parsysComp.hidden == true){
     			parsysComp.show();
     		}
@@ -53,18 +54,87 @@ function toggleParsys(s)
     return this;
 };
 
-function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function() {
-      var target = $(this).parent().data('target');
-      var toggle = $(this);
-      $('#' + target).slideToggle('slow');
-      $(toggle).toggleClass('on');
-      if(window[ target ] != null && window[ target ].toggle != null){
-    	  window[ target ].toggle();
-      }
-        return false;
+function anchorCheck(){
+	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
+    	var parsysID = $(value).parent().data('target');
+    	var target = $(this).parent().next().find('.content');
+        var toggle = $(this);
+        var parsysID = $(this).parent().data('target');
+        var anchor = $(this).parent().attr('id');
+        if(anchor != "" && window.location.hash.replace("#","") == anchor){
+            toggle.addClass('on');
+            target.slideDown();
+            $(this).parent().addClass('on');
+        }
     });
+}
+
+function inPageAnchorCheck(e){
+	$('.cookie-page .accordion dt > :first-child').each(function(i, value){
+		var target = $(this).parent().next().find('.content');
+		var toggle = $(this);
+		var parsysID = $(this).parent().data('target');
+		toggle.removeClass('on');
+		target.slideUp();
+		$(this).parent().removeClass('on');
+		if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+			window[parsysID].hideParsys();
+		}
+	});
+	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
+    	var parsysID = $(value).parent().data('target');
+    	var target = $(this).parent().next().find('.content');
+        var toggle = $(this);
+        var parsysID = $(this).parent().data('target');
+        var anchor = $(this).parent().attr('id');
+        if(anchor != "" && e.target.href.substring(e.target.href.indexOf("#")).replace("#","") == anchor){
+            toggle.addClass('on');
+            target.slideDown();
+            $(this).parent().addClass('on');
+        }
+    });
+}
+
+function vtk_accordion() {
+    $('.accordion dt > :first-child').on('click', function(e) {
+       if($('.inner-wrap').hasClass('cookie-page')) {
+    	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
+    		var parsysID = $(value).parent().data('target');
+    		//Necessary for authoring mode. See main.js:toggleParsys
+        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+     	      window[parsysID].hideParsys();
+        }
+    	});
+        $('.cookie-page .accordion dd .content').slideUp('slow');
+        $('.cookie-page .accordion dt > :first-child').removeClass('on');
+        $('.cookie-page .accordion dt').removeClass('on');
+       }
+      var target = $(this).parent().next().find('.content');
+      var toggle = $(this);
+      var parsysID = $(this).parent().data('target');
+
+      if(target.is(':visible')) {
+        toggle.removeClass('on');
+        target.slideUp();
+        $(this).parent().removeClass('on');
+        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+     	   window[parsysID].hideParsys();
+        }
+      } else {
+        toggle.addClass('on');
+        target.slideDown();
+        $(this).parent().addClass('on');
+        if(window[parsysID] != null && window[parsysID].showParsys != undefined){
+     	   window[parsysID].showParsys();
+        }
+      }
+      return false;
+    });
+    
+    anchorCheck();
   }
+
 $(document).ready(function(){
- vtk_accordion();
+  vtk_accordion();
+  $('a').click(inPageAnchorCheck);
 });

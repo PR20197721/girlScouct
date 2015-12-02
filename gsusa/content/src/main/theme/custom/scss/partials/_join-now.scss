@@ -5,7 +5,8 @@
 .join-volunteer {
   margin-top: rem-calc(40);
 }
-.right-col .parbase.volunteer-now.section, .right-col .join-now.parbase.section {
+.right-col .parbase.volunteer-now.section,
+.right-col .join-now.parbase.section {
   @media only screen and (max-width: 48em) {
     float: left;
     width: 50%;
@@ -25,56 +26,49 @@
   .wrapper {
     position: absolute;
     bottom: rem-calc(10);
-    // max-width: rem-calc(198);
     width: 100%;
-    padding: 0 5px;
-    // left: 50%;
-    // margin-left: rem-calc(-99);
+    padding: rem-calc(0 5);
+  }
+  &.border .wrapper {
+    padding: rem-calc(0 10 0 0);
   }
   form {
     position: absolute;
     bottom: 0;
     background: $white;
-    width: 100%;
+    width: 95.1%;
     z-index: 3;
     padding-bottom: rem-calc(10);
     padding-left: rem-calc(6);
     label {
       color: $primary-color;
       text-transform: uppercase;
-      margin-bottom: rem-calc(20);
+      margin-bottom: rem-calc(11);
       font-size: rem-calc(13);
+      margin-top: rem-calc(12);
+      line-height: 1;
     }
     input[type="text"] {
-      width: rem-calc(140);
+      width: 95%;
       float: left;
+      padding-left: rem-calc(10);
      // height: rem-calc(33);
-
     }
     input[type="submit"] {
       padding: rem-calc(8 5 7 5);
       margin-bottom: 0;
+      position: absolute;
+      right: 5px;
     }
   }
-  .button.arrow {
-    white-space: nowrap;
-    padding-left: rem-calc(10);
-    z-index: 2;
-    margin: 0;
+  &.form-no-image form {
     width: 100%;
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      border-style: solid;
-      border-color: transparent transparent transparent $white;
-      border-width: 0.71429rem;
-      top: 50%;
-      right: 0;
-      margin-top: -0.71429rem;
-    }
+  }
+  &.border form {
+    width: 91%;
   }
 }
+
 .join-buttons {
   float: right;
   padding-left: rem-calc(80);
@@ -166,22 +160,16 @@
     }
   }
   .button.arrow {
-    white-space: nowrap;
-    padding-left: rem-calc(10);
-    z-index: 2;
-    margin: 0;
-    width: 100%;
     padding: rem-calc(13 0);
-    &:after {
-      content: "";
-      position: absolute;
-      display: block;
-      border-style: solid;
-      border-color: transparent transparent transparent $white;
-      border-width: 0.71429rem;
-      top: 50%;
-      right: 0;
-      margin-top: -0.71429rem;
-    }
+  }
+}
+.join-volunteer-block.text-version {
+  h5 {
+    font-weight: 600;
+    font-size: rem-calc(20);
+    line-height: 1.2;
+  }
+  .wrapper {
+    position: static;
   }
 }
