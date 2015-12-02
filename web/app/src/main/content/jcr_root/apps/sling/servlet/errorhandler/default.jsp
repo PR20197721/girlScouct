@@ -14,18 +14,18 @@
     Integer scObject = (Integer) request.getAttribute("javax.servlet.error.status_code");
 
     boolean isAuthorMode = WCMMode.fromRequest(request) != WCMMode.DISABLED && !sling.getService(SlingSettingsService.class).getRunModes().contains("publish");
-    
+
     int statusCode = (scObject != null)
             ? scObject.intValue()
             : HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
     if (message == null) {
         message = statusToString(statusCode);
     }
-    
+
     response.setStatus(statusCode);
-    response.setContentType("text/html"); 
+    response.setContentType("text/html");
     response.setCharacterEncoding("utf-8");
-        
+
 %><!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html>
     <head><title><%= statusCode %> <%= StringEscapeUtils.escapeHtml4(message) %></title></head>
@@ -38,12 +38,12 @@
             %> on this server<%
         }
         %></p>
-        
+
         <%
         if (isAuthorMode) {
             // write the exception message
             final PrintWriter escapingWriter = new PrintWriter(ResponseUtil.getXmlEscapingWriter(out));
-    
+
             // dump the stack trace
             if (request.getAttribute(SlingConstants.ERROR_EXCEPTION) instanceof Throwable) {
                 Throwable throwable = (Throwable) request.getAttribute(SlingConstants.ERROR_EXCEPTION);
@@ -54,7 +54,7 @@
                 escapingWriter.flush();
                 out.println("</pre>");
             }
-    
+
             // dump the request progress tracker
             if (slingRequest != null) {
                 RequestProgressTracker tracker = slingRequest.getRequestProgressTracker();
@@ -67,7 +67,7 @@
             }
         }
         %>
-        
+
         <hr>
         <address><%= StringEscapeUtils.escapeHtml4(this.getServletConfig().getServletContext().getServerInfo()) %></address>
     </body>
@@ -201,5 +201,5 @@
                 return String.valueOf(statusCode);
         }
     }
-    
+
 %>
