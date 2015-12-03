@@ -1,5 +1,3 @@
-
-
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,org.apache.commons.collections4.CollectionUtils,
 org.girlscouts.web.search.DocHit,java.io.*,
@@ -14,11 +12,15 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
+        boolean isHtml= true;
+		if(request.getParameter("download")!=null){
+		    response.setContentType("application/csv");
+		    isHtml = false;
+		}
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
 		StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-		java.util.Map<String, String> cTrans = new java.util.TreeMap();
-		
+		java.util.Map<String, String> cTrans = new java.util.TreeMap();		
 		cTrans.put("597", "Girl Scouts of Northeast Texas"); 
 		cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
 		cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
@@ -79,7 +81,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		    ageGroups.add(ypr.getTroopAge());
 		    count++;
 		}
-		out.println("Total: "+count +" Councils: "+ councilIds.size());
+		out.println("Report Generated on "+ format1.format( new java.util.Date() ) +" ,total results found: "+count +" ,Total council(s): "+ councilIds.size());
 	    java.util.Iterator itr= councilIds.iterator();
 	    while( itr.hasNext() ){
 		   final String councilId= (String) itr.next();
@@ -94,7 +96,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		                            		 o.getCouncil().equals( councilId);
 		                         }
 		         });
-		    out.println("<br/>"+ councilId +" >> " + ageGroup+ "  >> " + container.size() );
+		    out.println( (isHtml ? "<br/>" : "\n") + councilId +"," + ageGroup+ "," + container.size() );
 		   }
 	   }	        
 	%>
