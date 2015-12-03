@@ -14,6 +14,16 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
+		boolean isHtml= true;
+		if(request.getParameter("download")!=null){
+		    response.setContentType("application/csv");
+		    isHtml = false;
+		}else{
+			%>
+			<a href="?download=true">download report</a><br/><br/>
+			<% 
+		}
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
 		StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
@@ -108,10 +118,10 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		                            		 o.getCouncil().equals( councilId);
 		                         }
 		         });
-		    out.println("<br/>"+ councilId +"," +cTrans.get(councilId) +","+container.size() );
+		    out.println((isHtml ? "<br/>" : "\n")+ councilId +"," +cTrans.get(councilId) +","+container.size() );
 		    for(int i=0;i< container.size();i++){
 		    	org.girlscouts.vtk.models.YearPlanRpt _troop = container.get(i);
-		    	out.println("<br/> " + _troop.getTroop() +","+ _troop.getTroopName() +","+ yearPlans.get(_troop.getTroop()));
+		    	out.println((isHtml ? "<br/>" : "\n") + _troop.getTroop() +","+ _troop.getTroopName() +","+ yearPlans.get(_troop.getTroop()));
 		    }
 		   
 	   }	        

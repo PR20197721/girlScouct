@@ -16,7 +16,11 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		if(request.getParameter("download")!=null){
 		    response.setContentType("application/csv");
 		    isHtml = false;
-		}
+		}else{
+			%>
+	        <a href="?download=true">download report</a><br/><br/>
+	        <% 
+        }
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
 		StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
