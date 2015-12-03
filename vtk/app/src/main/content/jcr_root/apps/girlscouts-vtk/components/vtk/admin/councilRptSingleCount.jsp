@@ -1,14 +1,14 @@
 
 <%System.err.println(1); %>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@ page import="com.day.cq.wcm.foundation.Search,
+<%@ page import="com.day.cq.wcm.foundation.Search,org.apache.commons.collections4.CollectionUtils,
 org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
 com.day.cq.tagging.TagManager,
 java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
-com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
+com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,org.apache.commons.beanutils.*,
 java.util.Map,java.util.HashMap,java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
@@ -136,17 +136,32 @@ cTrans.put("430", "Greater Chicago and NW  Indiana");
 		       count++;
 		}
 		out.println("Total: "+count);
-		
+	/*	
 		// create the closure
 		 BeanPropertyValueEqualsPredicate predicate =
 		    new BeanPropertyValueEqualsPredicate( "troopAge", "2-Brownie" );
-
+*/
+/*
+		Collection test= new java.util.ArrayList();
 		 // search the Collection
-		 org.apache.commons.collections.MultiMap filtered =  CollectionUtils.find( containeR, predicate );
+		 org.apache.commons.collections.MultiMap filtered =  org.apache.commons.collections4.CollectionUtils.find( test, new Predicate<org.girlscouts.vtk.models.YearPlanRpt>() );//predicate );
 		 out.println("filtered: "+ filtered.size() );
-		 
-		 
-		if(true)return;
+	*/
+	/*
+	java.util.List test= new java.util.ArrayList();
+	 BeanPropertyValueEqualsPredicate predicate =
+	            new BeanPropertyValueEqualsPredicate( "troopAge", "2-Brownie" );
+	org.apache.commons.collections4.CollectionUtils.find(test, predicate);
+		 */
+		 java.util.List test= new java.util.ArrayList();
+		 java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) CollectionUtils
+				   .select(test, new  org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
+			             public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
+			                 return o.getTroopAge().equals("2-Brownie");
+			             }
+         });
+		 out.println("FOUND::: "+ container.size());
+		 if(true)return;
 		
 		
 		%>

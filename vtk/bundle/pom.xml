@@ -156,34 +156,7 @@
             <artifactId>jackrabbit-ocm</artifactId>
             <version>1.5.3</version>
         </dependency>
-       <!--
-         <dependency>
-    <groupId>org.apache</groupId>
-    <artifactId>jackrabbit-ocm</artifactId>
-    <version>2.0.0</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.avalon.framework</groupId>
-    <artifactId>avalon-framework-impl</artifactId>
-    <version>4.3.1</version>
-</dependency>
-<dependency>
-    <groupId>avalon-logkit</groupId>
-    <artifactId>avalon-logkit</artifactId>
-    <version>2.0.0</version>
-</dependency>
-<dependency>
-    <groupId>log4j</groupId>
-    <artifactId>log4j</artifactId>
-    <version>1.2.11</version>
-</dependency>
-<dependency>
-    <groupId>com.sun.jdmk</groupId>
-    <artifactId>jmxtools</artifactId>
-    <version>1.2.1</version>
-</dependency>
-   -->
+      
 <dependency>
             <groupId>com.day.commons</groupId>
             <artifactId>day-commons-text</artifactId>
@@ -191,33 +164,7 @@
             <scope>provided</scope>
         </dependency>
    
-        <!--
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        -->
-   
-   
-       <!--  
-        <dependency>
-    <groupId>com.day.commons.osgi.wrapper</groupId>
-    <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-    <version>1.2.0-0002</version>
-    <scope>provided</scope>
-</dependency>
--->
+       
     
       
 
@@ -317,11 +264,15 @@
             <version>2.0</version>
         </dependency>
 
+       
+        
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.0</version>
-        </dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.0</version>
+</dependency>
+        
+        
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
@@ -333,50 +284,7 @@
     <artifactId>httpclient-osgi</artifactId>
     <version>4.4</version>
 </dependency>
-<!--  
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.ehcache</artifactId>
-    <version>2.4.3_2</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.spymemcached</artifactId>
-    <version>2.5_2</version>
-</dependency>
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-osgi</artifactId>
-    <version>4.3.8.Final</version>
-</dependency>
--->
 
-<!-- 
-<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junitVersion}</version>
-      <scope>test</scope>
-    </dependency>
-    
-   
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4jVersion}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4jVersion}</version>
-    </dependency>
-
-<dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-    <version>4.3.6</version>
-</dependency>
--->
 <dependency>
     <groupId>com.googlecode.json-simple</groupId>
     <artifactId>json-simple</artifactId>
@@ -388,15 +296,6 @@
       <version>1.9</version>
     </dependency>
 
-
-<!-- 
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
-    <version>3.1_7</version>
-</dependency>
--->
-
 <dependency>
     <groupId>org.apache.jackrabbit</groupId>
     <artifactId>jackrabbit-api</artifactId>
@@ -405,7 +304,7 @@
 </dependency>
 
 
-    </dependencies>
+  </dependencies>
     <repositories>
         <repository>
             <id>adobe-public-releases</id>
