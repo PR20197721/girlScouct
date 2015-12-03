@@ -136,6 +136,19 @@ cTrans.put("430", "Greater Chicago and NW  Indiana");
 		       count++;
 		}
 		out.println("Total: "+count);
+		
+		// create the closure
+		 BeanPropertyValueEqualsPredicate predicate =
+		    new BeanPropertyValueEqualsPredicate( "troopAge", "2-Brownie" );
+
+		 // search the Collection
+		 org.apache.commons.collections.MultiMap filtered =  CollectionUtils.find( containeR, predicate );
+		 out.println("filtered: "+ filtered.size() );
+		 
+		 
+		if(true)return;
+		
+		
 		%>
 		<table>
 		<tr>
