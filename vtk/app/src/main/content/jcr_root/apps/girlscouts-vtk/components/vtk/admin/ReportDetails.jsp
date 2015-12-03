@@ -73,8 +73,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		
 		//troops SQL
 		sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
-		//javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
-		 q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		int count=0 ;
 		
 		java.util.HashSet councilIds = new java.util.HashSet<String>();
@@ -98,7 +97,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		    ageGroups.add(ypr.getTroopAge());
 		    count++;
 		}
-		out.println("Total: "+count +" Councils: "+ councilIds.size());
+		out.println("Report Generated on "+ format1.format( new java.util.Date() ) +" ,total results found: "+count +" ,Total council(s): "+ councilIds.size());
 	    java.util.Iterator itr= councilIds.iterator();
 	    while( itr.hasNext() ){
 		   final String councilId= (String) itr.next();
@@ -109,10 +108,10 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		                            		 o.getCouncil().equals( councilId);
 		                         }
 		         });
-		    out.println("<br/>>>>>>>>>>>>>>>>>>>>>>>>>"+ councilId +" >> "  + container.size() );
+		    out.println("<br/>"+ councilId +"," +cTrans.get(councilId) +","+container.size() );
 		    for(int i=0;i< container.size();i++){
 		    	org.girlscouts.vtk.models.YearPlanRpt _troop = container.get(i);
-		    	out.println("<br/> " + _troop.getTroop() +" : "+ _troop.getTroopName() +" : "+ yearPlans.get(_troop.getTroop()));
+		    	out.println("<br/> " + _troop.getTroop() +","+ _troop.getTroopName() +","+ yearPlans.get(_troop.getTroop()));
 		    }
 		   
 	   }	        
