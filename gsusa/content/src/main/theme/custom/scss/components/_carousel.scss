@@ -589,3 +589,7 @@ div.carousel {
     z-index: 2;
   }
 }
+
+.slick-loading .slick-list {
+  background: #fff url('../images/ajax-loader.gif') center center no-repeat;
+}
