@@ -26,4 +26,23 @@
       margin-right: rem-calc(5);
     }
   }
+
+  .search-page {
+    list-style: none;
+    text-align: center;
+    margin-left: 0;
+    li {
+      display: inline-block;
+      vertical-align: -20%;
+      padding: rem-calc(6);
+      @media #{$small-only} {
+      	padding: rem-calc(1);
+      }
+    }
+    .currentPageNo {
+      font-weight: bold;
+      font-size: rem-calc(25);
+      color: $primary-color;
+    }
+  }
 }

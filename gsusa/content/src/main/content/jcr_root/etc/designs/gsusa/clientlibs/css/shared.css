@@ -85,8 +85,7 @@ div.wrapper .row:nth-child(2) {
   margin-left: 30px;
   font-size: 14px;
   font-weight: 600;
-  text-transform: uppercase;
-  color: #000;
+  color: #00ae58;
   display: inline;
   cursor: pointer;
 }
@@ -96,14 +95,14 @@ div.wrapper .row:nth-child(2) {
   display: block;
   position: absolute;
   top: 50%;
-  border-color: #000 transparent transparent;
+  border-color: transparent transparent transparent #00ae58;
   margin-left: 5px;
   border-width: 5px;
-  margin-top: -2px;
+  margin-top: -5px;
 }
 .accordion.section dt h6.on:before {
-  border-color: transparent transparent transparent #000;
-  margin-top: -5px;
+  border-color: #00ae58 transparent transparent;
+  margin-top: -2px;
 }
 
 /*form group*/
