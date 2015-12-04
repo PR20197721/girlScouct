@@ -75,8 +75,27 @@
 		</div>
 		<%
 			} else if (request.getParameter("isActivity") != null) {
+				List<Activity> activities = meetingInfo.getActivities();
+				Collections.sort(activities, new Comparator<Activity>() {
+					public int compare(Activity activity1, Activity activity2) {
+						return activity1.getActivityNumber() - activity2.getActivityNumber();
+					}
+				});
+
+				StringBuilder builder = new StringBuilder();
+				for (Activity activity : activities) {
+					builder.append("<p><b>Activity " + Integer.toString(activity.getActivityNumber()));
+					builder.append(": " + activity.getName() + "</b></p>");
+
+					String description = activity.getActivityDescription();
+					if (!description.contains("Time Allotment")) {
+						builder.append("<p style=\"font-family: tahoma, arial, helvetica, sans-serif; font-size: 12px;\"><b>Time Allotment</b></p>");
+						builder.append("<p>" + Integer.toString(activity.getDuration()) + " minutes");
+					}
+					builder.append(description);
+				}
 		%>
-		<div class="editable-textarea column small-20 small-centered" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr()%></div>
+		<div class="editable-textarea column small-20 small-centered" id="editMeetingActivity"><%=builder.toString()%></div>
 		<%
 			} else if (request.getParameter("isMaterials") != null) {
 		%>
