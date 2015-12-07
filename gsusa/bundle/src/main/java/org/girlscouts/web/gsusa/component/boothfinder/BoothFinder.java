@@ -46,8 +46,8 @@ import com.day.text.Text;
         @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API"),
         @Property(name = "connectionTimeout", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds. Default: 10,000"),
         @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds. Default: 10,000"),
-        @Property(name = "connectionPoolSizeOverall", intValue = 200, label = "Connection Pool Size Per Host", description = "MAX concurrent connections per host. Default: 200"),
-        @Property(name = "connectionPoolSizePerHost", intValue = 200, label = "Connection Pool Size Overall", description = "MAX concurrent connections overall. Default: 200")
+        @Property(name = "connectionPoolSizeOverall", intValue = 100, label = "Connection Pool Size Per Host", description = "MAX concurrent connections per host. Default: 100"),
+        @Property(name = "connectionPoolSizePerHost", intValue = 100, label = "Connection Pool Size Overall", description = "MAX concurrent connections overall. Default: 100")
 })
 public class BoothFinder {
     // TODO: use configuration. Pay attention to the trailing slash. 
