@@ -2,6 +2,8 @@ package org.girlscouts.web.gsusa.component.boothfinder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Dictionary;
@@ -15,6 +17,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.httpclient.HostConfiguration;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpConnectionManager;
 import org.apache.commons.httpclient.HttpException;
@@ -143,6 +146,22 @@ public class BoothFinder {
         HttpConnectionManagerParams params = new HttpConnectionManagerParams();
         params.setConnectionTimeout(connectionTimeout);
         params.setSoTimeout(socketTimeout);
+        params.setMaxTotalConnections(200);
+        
+        try {
+            URL apiBaseUrl = new URL(apiBasePath);
+            String apiHost = apiBaseUrl.getHost();
+            HostConfiguration hostHttpConf = new HostConfiguration();
+            hostHttpConf.setHost(apiHost);
+            params.setMaxConnectionsPerHost(hostHttpConf, 200);
+
+            HostConfiguration hostHttpsConf = new HostConfiguration();
+            hostHttpsConf.setHost(apiHost, 443, "https");
+            params.setMaxConnectionsPerHost(hostHttpsConf, 200);
+        } catch (MalformedURLException e) {
+            log.error("API base URL: " + apiBasePath + " is malformed. Max connection per host is not set.");
+        }
+
         connectionManager.setParams(params);
         log.info("HttpConnctionManager start up. Connection Timeout = " + Integer.toString(connectionTimeout) +
         		" Socket Timeout = " + Integer.toString(socketTimeout));
