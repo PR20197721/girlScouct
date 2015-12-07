@@ -325,7 +325,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           if (date.toString() == 'NaN') {
               date = new Date(this.props.date).getTime();
           }
-            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+            var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
               React.createElement("a", {href: src}, this.props.name)
           );

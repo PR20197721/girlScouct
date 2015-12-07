@@ -22,7 +22,7 @@
 	}
 	String communityUrl = "/content/girlscouts-vtk/en/vtk.home.html";
 	
-	String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
+	//String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 	%>
 
 
@@ -59,14 +59,14 @@
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 				<dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
 					<a
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.myTroop.html">My
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My
 						Troop</a>
 				</dd>
 				<%} %>
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
 	
-						<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
 							Plan</a>
 					</dd>
 				<% } %>
@@ -86,32 +86,32 @@
 					</dd>
 				<%  } %>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
-					<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
+					<a href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
 				</dd>
 
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 					<dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
-						<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
 					</dd>
 				<% } %>
 
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_REPORT_ID) ){ %>
 					<dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
-						<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
 					</dd>
 				<% }  %>
 
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
 					<dd
 						<%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
-						<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
 					</dd>
 
 				<% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
 					<dd
 						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
 						<a title="Edit Finance Fields"
-							href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
+							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 					</dd>
 				<% } %>
 			</dl>
@@ -123,7 +123,7 @@
 					<li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
 						<%if(troop.getYearPlan()!=null &&
 							     (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
-						          <a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+						          <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
 						<%}else{ %> 
 						          <a href="#" onclick="alert('There is no Year Plan set up at this time.')">My Troop</a> 
 						<%} %>
@@ -141,7 +141,7 @@
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<li
 						class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
+						href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
 							Plan</a>
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
@@ -219,22 +219,22 @@
 					<%  } %>
 
 					<li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 					<li <%= ("milestones".equals(activeTab)) ? "class='active'" : "" %>><a
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a></li>
 					<% } %>
 
 
 					<%  if( user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0){ %>
 					<li
 						class='has-dropdown<%= ("reports".equals(activeTab)) ? " active" : "" %>'>
-						<a href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
 						<% if("reports".equals(activeTab)) { %>
 						<ul class="dropdown">
 							<li><a
-								href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
+								href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
 								title="download admin report">download</a></li>
 						</ul> <% } %>
 					</li>
@@ -243,13 +243,13 @@
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
 					<li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
 						<ul>
 							<% if("finances".equals(activeTab)) {
 
                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
 							<li><a title="Edit Finance Fields"
-								href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
+								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
 									finance fields</a></li>
 							<%
 		            }
@@ -257,7 +257,7 @@
 
               	 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
 							<li><a title="enter finance"
-								href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.finances.html">enter
+								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
 									finance</a></li>
 							<%
                 	 }
@@ -268,7 +268,7 @@
 					<li
 						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
 						<a title="Edit Finance Fields"
-						href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 					</li>
 					<% } %>
 				</ul>
@@ -290,7 +290,7 @@
                 if ("reports".equals(activeTab) &&
                          user.getApiConfig().getUser().isAdmin() && user.getApiConfig().getUser().getAdminCouncilId()>0) { %>
 						<li><a
-							href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
+							href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.admin_reports_downloadable.csv"
 							title="download admin report">download</a></li>
 						<% }
              %>
@@ -321,7 +321,7 @@
                 if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
 						<li><a data-reveal-id="modal_popup_activity"
 							data-reveal-ajax="true"
-							href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
+							href="<%=relayUrl %>/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit
 								Activity</a></li>
 						<% }
                 if (  !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
@@ -369,10 +369,10 @@
 							<% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
 							<p>edit finance fields</p> <% } else if("financesadmin".equals(activeTab)){ %>
 							<a title="Finance"
-							href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.finances.html">enter
+							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
 								finance</a> <% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
 							<a title="Edit Finance Fields"
-							href="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
+							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
 								finance fields</a> <% } %>
 						</li>
 						<%

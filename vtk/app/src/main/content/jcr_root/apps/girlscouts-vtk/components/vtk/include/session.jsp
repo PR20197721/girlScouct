@@ -32,6 +32,7 @@
 
 
 <% 
+String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
