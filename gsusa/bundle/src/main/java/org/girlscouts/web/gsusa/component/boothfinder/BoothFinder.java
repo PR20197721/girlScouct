@@ -168,7 +168,9 @@ public class BoothFinder {
 
         connectionManager.setParams(params);
         log.info("HttpConnctionManager start up. Connection Timeout = " + Integer.toString(connectionTimeout) +
-        		" Socket Timeout = " + Integer.toString(socketTimeout));
+        		" Socket Timeout = " + Integer.toString(socketTimeout) +
+        		" Connection Pool Size Overall = " + Integer.toString(connectionPoolSizeOverall) +
+        		" Connection Pool Size Per Host = " + Integer.toString(connectionPoolSizePerHost));
     }
     
     public Council getCouncil(String zipCode) throws Exception {
