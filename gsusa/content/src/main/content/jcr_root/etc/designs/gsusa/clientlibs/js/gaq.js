@@ -28,6 +28,6 @@
       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
   
       var gaAddons = document.createElement('script'); gaAddons.type = 'text/javascript'; gaAddons.async = true;
-      gaAddons.src = '/includes/utilities/gaAddons-2.0.8.min.js';
+      gaAddons.src = '/etc/designs/gsusa/clientlibs/js/gaAddons-2.0.8.min.js';
       s.parentNode.insertBefore(gaAddons, s);
    })();

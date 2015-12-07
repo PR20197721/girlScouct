@@ -12,8 +12,11 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 %>
     <div class="cookie-landing-hero hide-for-small">
       <div class="welcome-video-slider">
-<%    for (String image : images) { %>
-      	<div><img src="<%= image %>" alt="" /></div>
+<%    for (String image : images) { 
+		int lastDotPos = image.lastIndexOf(".");
+		String img2x = image.substring(0, lastDotPos) + "@2x" + image.substring(lastDotPos);
+%>
+      	<div><img src="<%= image %>" data-at2x="<%= img2x %>" alt="" /></div>
 <%    } %>
       </div>
       <div class="cookie-header">
