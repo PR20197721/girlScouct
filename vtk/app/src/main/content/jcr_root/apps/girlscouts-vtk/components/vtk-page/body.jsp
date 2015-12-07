@@ -161,9 +161,6 @@ if (thisFooterScript!= null) {
 	  window.setTimeout(function(){chkFrame();}, 2000);
  }
 </script>
-
-    <iframe style="display:none;" id="test4" onLoad="doAlex()" src="<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") %>&RelayState=<%=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") %>/content/girlscouts-vtk/controllers/vtk.include.sfUserLanding.html"/>
- 
-	</body>
+</body>
 	
 	

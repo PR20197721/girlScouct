@@ -1,10 +1,13 @@
 <%-- display aids --%>
+
+
         <%      
                 
                 Page categoryPage = manager.getPage(categoryParam);
-
+%> *********<%=categoryPage.getProperties().get("type", "") %> <%
                 if (categoryPage != null) {
-                    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+      out.println("FALSE....." + categoryPage.getProperties().get("type", "") );          	
+                    if ( categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
         %><table width="90%" align="center" class="browseMeetingAids">
             <tr>
                 <th colspan="3">Meeting Aids</th>
@@ -17,12 +20,14 @@
                                     Resource meetingResource = iter.next();
                                     
                                     String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
+                              System.err.println("****** "+ meetingId);     
                                     meetingId= meetingId.replace("/","");
                                     java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId());                            
+                             System.err.println(".........."+ lresources.size() +" : "+ LOCAL_MEETING_AID_PATH+"/"+meetingId );     
                                     for(int i=0;i<lresources.size();i++){      
                                         org.girlscouts.vtk.models.Asset la = lresources.get(i);
                                         String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
-
+System.err.println("*.*.*"+ lAssetImage);
             %>
             <tr>
 
@@ -36,7 +41,7 @@
                 </td>
                 <td><a class="previewItem" href="<%=la.getRefId()%>"
                     target="_blank"><%=la.getTitle()%></a></td>
-                <td width="40">
+                <td width="40"> *** <%=VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)  %>
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
                     %>
@@ -53,10 +58,10 @@
                                 }
                             } catch (Exception e) {e.printStackTrace();}
                           
-                            java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, GLOBAL_MEETING_AID_PATH+"/"); 
-                            for(int i=0;i<gresources.size();i++){
-                            org.girlscouts.vtk.models.Asset a = gresources.get(i);
-                            String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
+          java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, GLOBAL_MEETING_AID_PATH+"/"); 
+          for(int i=0;i<gresources.size();i++){
+          org.girlscouts.vtk.models.Asset a = gresources.get(i);
+          String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
             %>
             <tr>
                 <td width="40">
@@ -69,7 +74,7 @@
                 </td>
                 <td><a class="previewItem" href="<%=a.getRefId()%>"
                     target="_blank"><%=a.getTitle()%></a></td>
-                <td width="40">
+                <td width="40"> ***<%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) %>
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
                     %>
@@ -88,7 +93,9 @@
         </table>
         <%
             } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-        %><%=displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil, levelMeetingsRoot)%>
+            	
+            	
+        %>$$$$$<%=displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil, levelMeetingsRoot)%>
         <%
             } else {
         %><div><%=categoryPage.getTitle()%></div>
