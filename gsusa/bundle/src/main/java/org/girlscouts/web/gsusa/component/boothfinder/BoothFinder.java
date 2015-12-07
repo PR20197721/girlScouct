@@ -44,8 +44,10 @@ import com.day.text.Text;
 @Service(BoothFinder.class)
 @Properties({
         @Property(name = "apiBasePath", label = "API Base Path", description = "The base path of Girl Scouts cookie booth API"),
-        @Property(name = "connectionTimeout", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds."),
-        @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds.")
+        @Property(name = "connectionTimeout", intValue = 10000, label = "Connection Timeout", description = "Timeout for connecting to the API server in milliseconds. Default: 10,000"),
+        @Property(name = "socketTimeout", intValue = 10000, label = "Socket Timeout", description = "Timeout for the reponse from the API server in milliseconds. Default: 10,000"),
+        @Property(name = "connectionPoolSizeOverall", intValue = 200, label = "Connection Pool Size Per Host", description = "MAX concurrent connections per host. Default: 200"),
+        @Property(name = "connectionPoolSizePerHost", intValue = 200, label = "Connection Pool Size Overall", description = "MAX concurrent connections overall. Default: 200")
 })
 public class BoothFinder {
     // TODO: use configuration. Pay attention to the trailing slash. 
@@ -60,7 +62,7 @@ public class BoothFinder {
     
     private HttpConnectionManager connectionManager;
     private HttpClient httpClient;
-    private int connectionTimeout, socketTimeout;
+    private int connectionTimeout, socketTimeout, connectionPoolSizePerHost, connectionPoolSizeOverall;
     private DocumentBuilderFactory dbFactory;
     private String apiBasePath;
     
@@ -141,23 +143,25 @@ public class BoothFinder {
 
     	connectionTimeout = (Integer)dict.get("connectionTimeout");
     	socketTimeout = (Integer)dict.get("socketTimeout");
+    	connectionPoolSizePerHost = (Integer)dict.get("connectionPoolSizePerHost");
+    	connectionPoolSizeOverall = (Integer)dict.get("connectionPoolSizeOverall");
         connectionManager = new MultiThreadedHttpConnectionManager();
         httpClient = new HttpClient(connectionManager);
         HttpConnectionManagerParams params = new HttpConnectionManagerParams();
         params.setConnectionTimeout(connectionTimeout);
         params.setSoTimeout(socketTimeout);
-        params.setMaxTotalConnections(200);
+        params.setMaxTotalConnections(connectionPoolSizeOverall);
         
         try {
             URL apiBaseUrl = new URL(apiBasePath);
             String apiHost = apiBaseUrl.getHost();
             HostConfiguration hostHttpConf = new HostConfiguration();
             hostHttpConf.setHost(apiHost);
-            params.setMaxConnectionsPerHost(hostHttpConf, 200);
+            params.setMaxConnectionsPerHost(hostHttpConf, connectionPoolSizePerHost);
 
             HostConfiguration hostHttpsConf = new HostConfiguration();
             hostHttpsConf.setHost(apiHost, 443, "https");
-            params.setMaxConnectionsPerHost(hostHttpsConf, 200);
+            params.setMaxConnectionsPerHost(hostHttpsConf, connectionPoolSizePerHost);
         } catch (MalformedURLException e) {
             log.error("API base URL: " + apiBasePath + " is malformed. Max connection per host is not set.");
         }
