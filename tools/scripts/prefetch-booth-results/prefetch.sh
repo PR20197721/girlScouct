@@ -26,6 +26,7 @@ tar -czvf $TMP_FILE cookies.*.html
 for dispatcher in "${OTHER_DISPATCHERS[@]}"; do
     echo "Copying cache to $dispatcher"
     scp $TMP_FILE $USERNAME@$dispatcher:$TMP_FILE
+    # Add --touch so that the cache file is newer that .stat.
     ssh $USERNAME@$dispatcher "tar -C $BOOTH_RESULT_DIR --touch -xvf $TMP_FILE"
 done
 
