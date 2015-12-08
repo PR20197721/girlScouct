@@ -283,6 +283,12 @@ String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class)
 		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
+	
+	
+	
+	 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
+	 
+	 
 	/*
 	if( !apiConfig.isAccessTokenValid() ){
 		 %><script>doVtkLogout();</script><% 

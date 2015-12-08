@@ -191,7 +191,9 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
-System.err.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>SIGN IN.....");
+
+
+
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {

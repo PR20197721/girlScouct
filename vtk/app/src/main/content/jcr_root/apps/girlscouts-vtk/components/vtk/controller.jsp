@@ -7,6 +7,7 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
+
 	String vtkErr = "";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
