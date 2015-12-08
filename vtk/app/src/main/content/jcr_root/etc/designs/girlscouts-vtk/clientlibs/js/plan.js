@@ -1042,7 +1042,7 @@ function councilRpt(troopId, cid){
   
   function doVtkLogout(){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
-	     //- uncomment window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;  
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;  
   }
   
   function rmVtkErrMsg(errMsgId){

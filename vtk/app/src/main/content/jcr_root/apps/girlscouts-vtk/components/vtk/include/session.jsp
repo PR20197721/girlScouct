@@ -287,6 +287,13 @@ String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class)
 	
 	
 	 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
+	 if( !_isValidOAthToken )  {           
+		  System.err.println("token not valid .....logging outt........"+  sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true");         
+		  //response.sendRedirect( sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true"); 
+		  %><script>doVtkLogout();</script><% 
+		  return;
+	}
+	 
 	 
 	 
 	/*
