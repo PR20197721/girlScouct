@@ -54,3 +54,6 @@ rm -rf *
 
 10. On DISPATCHER 1, check the ssh FOR EACH DISPATCHER. Check the remote SSH signature and enter yes if it matchers.
 ssh cookieuser@OTHER_DISPATCHER_IP
+
+11. Add this script to touch gsusa .stat file every five minutes.
+*/5 * * * * touch -d '6 Jan 1973 12:00' /mnt/var/www/html/content/gsusa/.stat
