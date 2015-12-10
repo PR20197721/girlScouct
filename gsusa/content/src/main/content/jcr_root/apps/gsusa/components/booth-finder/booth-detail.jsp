@@ -36,12 +36,6 @@ try {
 	log.error("Error parsing start date.");
 }
 
-// Get the URL
-String url = properties.get("url", currentPage.getPath());
-url = resourceResolver.map(currentPage.getPath());
-if (!url.contains(".html")) {
-    url += ".html";
-}
 %>
 <html>
 <head>
@@ -155,7 +149,7 @@ if (!url.contains(".html")) {
         // calling the API ...
         var obj = {
           method: 'feed',
-          link: '<%= url %>',
+          link: window.location.href,
           name: '<%= facebookTitle %>',
           picture: location.host + '<%= imgPath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
