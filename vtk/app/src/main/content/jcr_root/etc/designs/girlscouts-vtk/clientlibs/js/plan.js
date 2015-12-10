@@ -841,12 +841,15 @@ function councilRpt(troopId, cid){
 
 	}
 
-	function vtkInitTracker(tName, tId, uId){
+	function vtkInitTracker(tName, tId, uId, cId, tAge, ypn){
 		//var newTracker = ga.getByName('vtkTracker');
 		//vtkCreateTracker();
 		ga('vtkTracker.set', 'dimension1', tName);
 		ga('vtkTracker.set', 'dimension2', tId);
 		ga('vtkTracker.set', 'dimension3', uId);
+		ga('vtkTracker.set', 'dimension7', cId);
+		ga('vtkTracker.set', 'dimension8', tAge);
+		ga('vtkTracker.set', 'dimension9', ypn);
 	}
 
 	function vtkTrackerPushAction(vAction){
