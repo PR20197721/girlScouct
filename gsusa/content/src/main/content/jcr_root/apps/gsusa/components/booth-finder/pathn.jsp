@@ -1,14 +1,15 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%
-String pathIndexStr = request.getAttribute("gsusa-component-booth-finder-index", pathIndexStr);
-String text = properties.get("path" + pathIndexStr + "Text", ""); // e.g. path1Text
+String pathIndexStr = (String)request.getAttribute("gsusa-component-booth-finder-index");
+String text = properties.get("path" + pathIndexStr + "Text", "").replaceAll("\\{\\{", "{{council."); // e.g. path1Text
 %>
 	<p><%= text %></p>
 <%
-}
-
 boolean isShowShareDialog = properties.get("path" + pathIndexStr + "ShowShareDialog", "false").equalsIgnoreCase("true"); // e.g. path1ShowShareDialog
+// TODO: force false now;
+isShowShareDialog = false;
+
 if (isShowShareDialog) {
 	String header = properties.get("path" + pathIndexStr + "ShareDialogHeader", "");
 	String tweet = properties.get("path" + pathIndexStr + "ShareDialogTweet", "");
