@@ -4,11 +4,11 @@
 <h3>Cookies Are Here!</h3>
 <p>The cookie season for the <strong><a href="{{council.cookiePageUrl}}" target="_blank">{{council.CouncilName}}</a></strong> is currently underway!</p>
 <h4>Booth Locations near you:</h4>
-<p>The nearest location is {{nearestDistance}} miles away from {{zip}}.</p>
+<p>The nearest location is {{nearestDistance}} miles away from {{env.zip}}.</p>
 <form class="sort-form clearfix">
     <section>
         <label>Radius:</label>
-        <input type="hidden" name="zip" value="{{zip}}"></input>
+        <input type="hidden" name="zip" value="{{env.zip}}"></input>
         <select name="radius" onchange="this.form.submit()">
             <option value="1">1 miles</option>
             <option value="5">5 miles</option>
