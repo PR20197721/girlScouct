@@ -27,6 +27,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<cq:include script="not-found.jsp" />
 </script>
 
+<%-- Template for booths if the list is not empty --%>
+<script id="template-booths" type="text/x-handlebars-template">
+	<cq:include script="booth-list.jsp" />
+</script>
+
 <%-- Placeholder for the actual render --%>
 <div id="booth-finder-result"></div> 
 
@@ -46,9 +51,9 @@ function BoothFinder(zip, radius, date, sortBy, numPerPage) {
 BoothFinder.prototype.getResult = function() {
 	// TODO: now testing. Ajax skipped.
 	// TODO: calculate days left and add it to the council.
-	//var result = { "council": { "CouncilCode":"218", "CouncilName":"Girl Scouts of Central Maryland, Inc", "CouncilAbbrName":"Central Maryland", "CouncilCityStateZip":"Baltimore, MD 21215-3247", "CouncilURL":"http://www.gscm.org", "CookieSaleStartDate":"9/11/2015", "CookieSaleEndDate":"12/7/2015", "PreferredPath":"Path4", "CookiePageURL":"http://www.gscm.org/cookies/gs-cookies/", "CookieSaleContact_Email":"cookies@gscm.org"}, "booths": [ { "Distance":"8.9", "Location":"Patterson Park, Great Lantern Festival & Parade", "TroopName":"262", "DateStart":"12/14/2015", "DateEnd":"12/14/2015", "TimeOpen":"1:30 PM", "TimeClose":"3:30 PM", "Address1":"Patterson Park Pulaski Monument on Eastern & Linwood Avenues", "Address2":"", "City":"Baltimore", "State":"MD", "ZipCode":"21224"}, { "Distance":"54.0", "Location":"Dollar Tree", "TroopName":"6164", "DateStart":"3/15/2016", "DateEnd":"", "TimeOpen":"1:00 PM", "TimeClose":"4:00 PM", "Address1":"14120 Lee Highway", "Address2":"", "City":"Centreville", "State":"VA", "ZipCode":"20120"}, { "Distance":"54.0", "Location":"Dollar Tree", "TroopName":"1040", "DateStart":"3/15/2016", "DateEnd":"", "TimeOpen":"4:00 PM", "TimeClose":"7:00 PM", "Address1":"14120 Lee Highway", "Address2":"", "City":"Centreville", "State":"VA", "ZipCode":"20120"}]};
+	var result = { "council": { "CouncilCode":"218", "CouncilName":"Girl Scouts of Central Maryland, Inc", "CouncilAbbrName":"Central Maryland", "CouncilCityStateZip":"Baltimore, MD 21215-3247", "CouncilURL":"http://www.gscm.org", "CookieSaleStartDate":"9/11/2015", "CookieSaleEndDate":"12/7/2015", "PreferredPath":"Path4", "CookiePageURL":"http://www.gscm.org/cookies/gs-cookies/", "CookieSaleContact_Email":"cookies@gscm.org"}, "booths": [ { "Distance":"8.9", "Location":"Patterson Park, Great Lantern Festival & Parade", "TroopName":"262", "DateStart":"12/14/2015", "DateEnd":"12/14/2015", "TimeOpen":"1:30 PM", "TimeClose":"3:30 PM", "Address1":"Patterson Park Pulaski Monument on Eastern & Linwood Avenues", "Address2":"", "City":"Baltimore", "State":"MD", "ZipCode":"21224"}, { "Distance":"54.0", "Location":"Dollar Tree", "TroopName":"6164", "DateStart":"3/15/2016", "DateEnd":"", "TimeOpen":"1:00 PM", "TimeClose":"4:00 PM", "Address1":"14120 Lee Highway", "Address2":"", "City":"Centreville", "State":"VA", "ZipCode":"20120"}, { "Distance":"54.0", "Location":"Dollar Tree", "TroopName":"1040", "DateStart":"3/15/2016", "DateEnd":"", "TimeOpen":"4:00 PM", "TimeClose":"7:00 PM", "Address1":"14120 Lee Highway", "Address2":"", "City":"Centreville", "State":"VA", "ZipCode":"20120"}]};
 	//var result = { "council": { "CouncilCode":"218", "CouncilName":"Girl Scouts of Central Maryland, Inc", "CouncilAbbrName":"Central Maryland", "CouncilCityStateZip":"Baltimore, MD 21215-3247", "CouncilURL":"http://www.gscm.org", "CookieSaleStartDate":"9/11/2015", "CookieSaleEndDate":"12/7/2015", "PreferredPath":"Path1", "CookiePageURL":"http://www.gscm.org/cookies/gs-cookies/", "CookieSaleContact_Email":"cookies@gscm.org"}, "booths": []};
-	var result = {"council": {}, "booths": []};
+	//var result = {"council": {}, "booths": []};
 	var council = result.council;
 	var booths = result.booths;
 	
