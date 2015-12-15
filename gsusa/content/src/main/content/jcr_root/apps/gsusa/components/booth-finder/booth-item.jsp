@@ -18,6 +18,6 @@
 	    </section>
 	</div>
 	<div class="clearfix right">
-	    <a class='viewMapA{{uid}} button'>View Details</a>
+	    <a class="viewmap button" data='{{{json .}}}'>View Details</a>
 	</div>
 </div>

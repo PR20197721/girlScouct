@@ -71,6 +71,9 @@ BoothFinder.prototype.getResult = function() {
 		var nearestDistance = Number.MAX_VALUE;
 		for (var boothIndex = 0; boothIndex < result.booths.length; boothIndex++) {
 			var booth = booths[boothIndex];
+			// Add index field
+			booth.ID = boothIndex;
+			
 			if (Number(booth.Distance) < nearestDistance) {
 				nearestDistance = Number(booth.Distance);
 			}
@@ -80,9 +83,24 @@ BoothFinder.prototype.getResult = function() {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
 	}
 
+	// Needed for "View Detail" data
+	Handlebars.registerHelper('json', function(context) {
+	    return JSON.stringify(context);
+	});
+	
 	templateId = 'template-' + templateId; // template-path1;
 	var html = Handlebars.compile($('#' + templateId).html())(result);
 	$('#booth-finder-result').html(html);
+	
+	// Bind "View Details" buttons
+	$('.viewmap.button').on('click', function(){
+		 $('#modal_booth_item_map').foundation('reveal', 'open', {
+                url: '<%= resource.getPath() %>.booth-detail.html',
+                cache:false,
+                data: JSON.parse($(this).attr('data'))
+            });
+            $(".off-canvas-wrap").addClass('noprint');
+	})
 }
 
 var boothFinder;
