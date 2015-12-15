@@ -80,7 +80,6 @@ BoothFinder.prototype.getResult = function() {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
 	}
 
-	
 	templateId = 'template-' + templateId; // template-path1;
 	var html = Handlebars.compile($('#' + templateId).html())(result);
 	$('#booth-finder-result').html(html);

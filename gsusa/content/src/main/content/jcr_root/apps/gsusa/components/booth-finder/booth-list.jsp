@@ -56,3 +56,6 @@
         <h4>Distance</h4>
   </section>
 </div>
+{{#each booths}}
+	<cq:include script="booth-item.jsp" />
+{{/each}}
