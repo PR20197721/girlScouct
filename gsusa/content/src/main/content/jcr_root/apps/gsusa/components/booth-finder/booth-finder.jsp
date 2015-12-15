@@ -57,19 +57,29 @@ BoothFinder.prototype.getResult = function() {
 	var council = result.council;
 	var booths = result.booths;
 	
+	// Add zip to environment
+	result = result || {};
+	result.env = result.env || {};
+	result.env.zip = this.zip;
+
 	var templateId;
 	if (!council.CouncilCode) { // Council Code not found. Council does not exist.
 		templateId = 'notfound';
 	} else if (booths.length != 0) {
 		templateId = 'booths';
+		
+		var nearestDistance = Number.MAX_VALUE;
+		for (var boothIndex = 0; boothIndex < result.booths.length; boothIndex++) {
+			var booth = booths[boothIndex];
+			if (Number(booth.Distance) < nearestDistance) {
+				nearestDistance = Number(booth.Distance);
+			}
+		}
+		result.env.nearestDistance = nearestDistance;
 	} else {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
 	}
 
-	// Add zip to environment
-	result = result || {};
-	result.env = result.env || {};
-	result.env.zip = this.zip;
 	
 	templateId = 'template-' + templateId; // template-path1;
 	var html = Handlebars.compile($('#' + templateId).html())(result);

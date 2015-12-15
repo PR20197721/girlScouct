@@ -4,7 +4,7 @@
 <h3>Cookies Are Here!</h3>
 <p>The cookie season for the <strong><a href="{{council.cookiePageUrl}}" target="_blank">{{council.CouncilName}}</a></strong> is currently underway!</p>
 <h4>Booth Locations near you:</h4>
-<p>The nearest location is {{nearestDistance}} miles away from {{env.zip}}.</p>
+<p>The nearest location is {{env.nearestDistance}} miles away from {{env.zip}}.</p>
 <form class="sort-form clearfix">
     <section>
         <label>Radius:</label>
