@@ -59,3 +59,4 @@
 {{#each booths}}
 	<cq:include script="booth-item.jsp" />
 {{/each}}
+<cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>

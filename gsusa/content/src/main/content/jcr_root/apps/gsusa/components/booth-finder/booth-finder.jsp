@@ -91,19 +91,29 @@ BoothFinder.prototype.getResult = function() {
 	    return JSON.stringify(context);
 	});
 	
+	// "Contact local council" form data
+	result.contactBanner = {
+		btn: "Contact Your Local Council",
+		title: "Cookies are Here!",
+		desc: "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order."
+	}
+	
 	templateId = 'template-' + templateId; // template-path1;
 	var html = Handlebars.compile($('#' + templateId).html())(result);
 	$('#booth-finder-result').html(html);
 	
 	// Bind "View Details" buttons
 	$('.viewmap.button').on('click', function(){
-		 $('#modal_booth_item_map').foundation('reveal', 'open', {
-                url: '<%= resource.getPath() %>.booth-detail.html',
-                cache:false,
-                data: JSON.parse($(this).attr('data'))
-            });
-            $(".off-canvas-wrap").addClass('noprint');
+	    $('#modal_booth_item_map').foundation('reveal', 'open', {
+           url: '<%= resource.getPath() %>.booth-detail.html',
+           cache:false,
+            data: JSON.parse($(this).attr('data'))
+        });
+        $('.off-canvas-wrap').addClass('noprint');
 	})
+	
+	// Reset foundation again since new tags are added.
+	$(document).foundation();
 }
 
 var boothFinder;

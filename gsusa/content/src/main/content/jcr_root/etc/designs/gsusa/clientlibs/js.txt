@@ -19,3 +19,4 @@ brick-by-brick.js
 handlebars.min.js
 
 app.js
+booth-finder.js
