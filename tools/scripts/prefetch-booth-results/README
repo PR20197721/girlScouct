@@ -1,0 +1,62 @@
+How to deploy the script:
+1. ON DISPATCHER 1, create a user called "cookieuser".
+sudo useradd cookieuser
+sudo passwd cookieuser
+
+2. Generate ssh key pair for the user.
+sudo mkdir -p /home/cookieuser
+sudo chown cookieuser:cookieuser /home/cookieuser
+
+su - cookieuser
+cd /home/cookieuser/
+mkdir .ssh
+chmod 0700 .ssh
+cd .ssh
+ssh-keygen -t rsa -b 4096 -C "cookieuser@dispatcher1"
+
+3. Copy the script and zip code file to /home/cookieuser directory and make is executable by cookieuser.
+cp /path/to/prefetch.sh /home/cookieuser/
+cp /path/to/zipUrls.txt /home/cookieuser/
+chmod +x /home/cookieuser/prefetch.sh
+
+4. Edit the prefetch.sh: Add all OTHER dispatcher IP addresses.
+
+5. Add cron job.
+crontab -e
+
+CAUTION: server may be in UTC. Please adjust accordingly. We want to run the script at 2 A.M. eastern.
+
+0 2 * * * cd /home/cookieuser && ./prefetch.sh > prefetch.out 2>&1
+
+6. ON OTHER DISPATCHERS, create a user called "cookieuser".
+sudo useradd cookieuser
+sudo passwd cookieuser
+
+7. Add id_rsa.pub lines to /home/cookieuser/.ssh/authorized_keys.
+sudo mkdir -p /home/cookieuser
+sudo chown cookieuser:cookieuser /home/cookieuser
+
+su - cookieuser
+cd /home/cookieuser/
+mkdir .ssh
+chmod 0700 .ssh
+cd .ssh
+cat /path/to/id_rsa.pub >> authorized_keys
+chown 0600 authorized_keys
+
+8. Open port 22 for DISPATCHER 1.
+
+9. Change the permission for the cookies directory. And, remove all content in that directory.
+exit
+sudo chmod 0777 /mnt/var/www/html/content/gsusa/en/cookies
+cd /mnt/var/www/html/content/gsusa/en/cookies
+rm -rf *
+
+10. On DISPATCHER 1, check the ssh FOR EACH DISPATCHER. Check the remote SSH signature and enter yes if it matchers.
+ssh cookieuser@OTHER_DISPATCHER_IP
+
+11. Add this script to touch gsusa .stat file every five minutes.
+*/5 * * * * touch -d '6 Jan 1973 12:00' /mnt/var/www/html/content/gsusa/.stat
+
+12. Comment out require tty in sudoers file.
+#Defaults    requiretty
