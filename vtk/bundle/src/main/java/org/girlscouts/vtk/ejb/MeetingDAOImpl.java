@@ -1235,6 +1235,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			meetings = (List<Meeting>) ocm.getObjects(query);
 
 			Comparator<Meeting> comp = new BeanComparator("position");
+	
 			if (meetings != null)
 				Collections.sort(meetings, comp);
 		} catch (Exception e) {
