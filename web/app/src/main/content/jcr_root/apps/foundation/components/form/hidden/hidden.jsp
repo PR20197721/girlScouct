@@ -23,7 +23,7 @@
         com.day.cq.wcm.foundation.forms.LayoutHelper" %><%
     I18n i18n = new I18n(slingRequest);
 
-    final String name = FormsHelper.getParameterName(resource);
+    final String name = FormsHelper.getParameterName(resource).replace("-","_");
     final String id = FormsHelper.getFieldId(slingRequest, resource);
 
     if (WCMMode.fromRequest(request) == WCMMode.EDIT) {

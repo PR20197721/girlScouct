@@ -59,7 +59,7 @@
                 for (Iterator<String> iterator = showHideExpressions.keySet().iterator(); iterator.hasNext(); ) {
                     String key = iterator.next();
                     String expression = showHideExpressions.get(key) + ";";
-                    out.write("      " + key.replace("-","_") + ": \"" + StringEscapeUtils.escapeEcmaScript(expression) + "\""
+                    out.write("      " + key.replace("-","_") + ": \"" + StringEscapeUtils.escapeEcmaScript(expression).replace("-","_") + "\""
                                 + (iterator.hasNext() ? ",\n" : "\n"));
                 }
                 out.write("    };\n");
