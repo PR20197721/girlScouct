@@ -15,7 +15,7 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
 	mapFullText.put("group.p.or","true");
   mapFullText.put("group.1_fulltext", escapedQuery);
   mapFullText.put("group.1_fulltext.relPath", "jcr:content");
-	mapFullText.put("group.2_fulltext", escapedQuery);
+	/*mapFullText.put("group.2_fulltext", escapedQuery);
 	mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
 	mapFullText.put("group.3_fulltext", escapedQuery);
 	mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
@@ -26,7 +26,7 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
 	mapFullText.put("group.6_fulltext", escapedQuery);
 	mapFullText.put("group.6_fulltext.relPath", "jcr:content/metadata/@pdf:Title");
 	mapFullText.put("group.7_fulltext", escapedQuery);
-  mapFullText.put("group.7_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description
+  mapFullText.put("group.7_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description*/
 
 	PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 	Map master = new HashMap();
@@ -75,7 +75,6 @@ if(theseDamDocuments.equals("")){
 			
 	}
 }
-long startTime = System.nanoTime();
 
 
 hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
