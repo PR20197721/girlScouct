@@ -21,7 +21,8 @@ response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
 String address2 = request.getParameter("Address2");
 address2 = address2 ==null ? "" : address2;
-String address = request.getParameter("Address1") +" " + address2 ;
+String address = request.getParameter("Address1") +" " + address2 + " " + 
+	request.getParameter("City") + ", " + request.getParameter("State") + " " + request.getParameter("ZipCode");
 String zip = (String)request.getParameter("queryZip");
 zip = (zip ==null ? "" : zip);
 String councilName= (String)request.getParameter("CouncilName");
