@@ -32,6 +32,27 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<cq:include script="booth-list.jsp" />
 </script>
 
+<%-- Template for share messages --%>
+<script id="template-share" type="text/x-handlebars-template">
+<%
+for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
+	if (pathIndex == 3) {continue;} // Skip obsolete path3.
+%>
+	<div id="share-path<%=pathIndex%>-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
+	<div id="share-path<%=pathIndex%>-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
+	<div id="share-path<%=pathIndex%>-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
+	<div id="share-path<%=pathIndex%>-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
+	<div id="share-path<%=pathIndex%>-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
+<%
+}
+%>
+
+<div id="share-map-FBTitle" data="<%= escapeDoubleQuotes(properties.get("mapFBTitle", "")) %>" />
+<div id="share-map-FBDesc" data="<%= escapeDoubleQuotes(properties.get("mapFBDesc", "")) %>" />
+<div id="share-map-Tweet" data="<%= escapeDoubleQuotes(properties.get("mapTweet", "")) %>" />
+<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotes(properties.get("mapFBImgPath", "")) %>" />
+</script>
+
 <%-- Placeholder for the actual render --%>
 <div id="booth-finder-result"></div> 
 
@@ -99,8 +120,9 @@ BoothFinder.prototype.getResult = function() {
 	}
 	
 	templateId = 'template-' + templateId; // template-path1;
-	var html = Handlebars.compile($('#' + templateId).html())(result);
-	$('#booth-finder-result').html(html);
+	var htmlTemplate = Handlebars.compile($('#' + templateId).html())(result);
+	var htmlShare = Handlebars.compile($('#template-share').html())(result);
+	$('#booth-finder-result').html(htmlTemplate + htmlShare);
 	
 	// Bind "View Details" buttons
 	$('.viewmap.button').on('click', function(){
@@ -137,3 +159,9 @@ $(document).ready(function(){
 	}
 });
 </script>
+
+<%! 
+public String escapeDoubleQuotes(String str) {
+	return str.replaceAll("\"", "\\\"");	
+}
+%>
