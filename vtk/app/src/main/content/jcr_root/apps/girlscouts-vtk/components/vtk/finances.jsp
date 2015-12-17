@@ -16,7 +16,6 @@
 <div id="errInfo"></div>
 
 <%
-
     String activeTab = "finances";
     boolean showVtkNav = true;
     int qtr = 1;

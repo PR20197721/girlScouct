@@ -26,7 +26,6 @@
 %>
 <%-- VTK tab --%>
 <%
-
 	String activeTab = "resource";
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
@@ -41,7 +40,6 @@
     int meeting_overviews = 0;
     if( path!=null )
     	meeting_overviews= yearPlanUtil.getMeetingCount(user, troop, path+"/");
-
 %>
 
 

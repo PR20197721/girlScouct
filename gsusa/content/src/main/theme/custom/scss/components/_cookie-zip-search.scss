@@ -1,0 +1,174 @@
+.standalone-cookie-header,
+.cookie-header {
+  @media #{$small-only} {
+    #main & {
+      display: none;
+    }
+  }
+  .row {
+    font-size: rem-calc(18);
+    @media #{$medium-up} {
+      margin-top: rem-calc(9);
+    }
+    margin-bottom: 4%;
+    color: $white;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .wrapper {
+    background: #6e298d;
+    margin-top: rem-calc(13);
+  }
+  .wrapper-inner {
+    position: relative;
+    z-index: 1;
+    padding: rem-calc(13 0);
+    @media #{$small-only} {
+      padding-left: 15%;
+      padding-right: 15%;
+    }
+    &:before {
+      @media #{$medium-up} {
+        content: "";
+        //This now done in the jsp. Please check cookie-header.jsp for more details
+        //background: url("../images/zip-cookie-bg1.png") no-repeat 0% 0% transparent;
+        height: rem-calc(105);
+        width: rem-calc(235);
+        position: absolute;
+        z-index: 2;
+        top: rem-calc(-13);
+      }
+      @media #{$small-only} {
+        content: "";
+        //This now done in the jsp. Please check cookie-header.jsp for more details
+        //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+        height: rem-calc(71);
+        width: rem-calc(71);
+        left: 50%;
+        position: relative;
+        margin-left: rem-calc(-36);
+        margin-bottom: rem-calc(20);
+        margin-top: rem-calc(20);
+      }
+    }
+  }
+  .share {
+  //This now done in the jsp. Please check cookie-header.jsp for more details
+    //#main & {
+    //  display: none;
+    //}
+    @media #{$small-only} {
+      text-align: center;
+      clear:both;
+    }
+    i {
+      color: white;
+      font-size: rem-calc(43);
+    }
+    a {
+      color: white;
+      vertical-align: middle;
+      line-height: 1.2;
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+  .find-cookies {
+   	@media #{$medium-up} {
+    	margin-left: 0;
+    }
+  }
+  form {
+    label {
+      color: $white;
+      font-size: rem-calc(30);
+      font-weight: 300;
+      @media #{$small-only} {
+        margin-bottom: rem-calc(15);
+        text-align: center;
+      }
+      * {
+      	color: $white;
+      }
+    }
+    @media #{$small-only} {
+      margin: rem-calc(20 0);
+    }
+    @media #{$medium-up} {
+      width: 50%;
+      margin-left: rem-calc(265); //width of the image + 30px
+      .main-content & {
+        padding: 0 20px 0 0;
+      }
+      .three-cols .middle-col &  {
+        width: 54%;
+        margin-left: 15.4rem;
+        label {
+          font-size: rem-calc(20);
+        }
+         input[type="text"] {
+          font-size: rem-calc(16);
+          padding-left: rem-calc(3);
+         }
+      }
+      .two-cols .middle-col & {
+        width: 66%;
+      }
+      .hero-section & {
+        width: 66%;
+      }
+      .form-wrapper {
+        width: 48%;
+        float: left;
+        margin:0;
+      }
+      label {
+        float: left;
+        line-height: rem-calc(47);
+        display: inline;
+        width: 51%;
+        margin-right: 1%;
+      }
+    }
+    input[type="text"] {
+      float: left;
+      width: 100%;
+      padding-left: rem-calc(10);
+      height: rem-calc(47);
+      font-size: rem-calc(18);
+    }
+    .link-arrow {
+      border: none;
+      background-color: $primary-color;
+      float: left;
+      line-height: rem-calc(37);
+      padding: 5px 4%;
+      position: absolute;
+      right: 0;
+      color: $white;
+    }
+    .form-wrapper {
+      position: relative;
+    }
+  }
+  @media #{$medium-up} {
+    .share {
+      @include grid-column(5, $float:right);
+      line-height: rem-calc(37);
+      * {
+        color: $white;
+      }
+      i {
+        position: absolute;
+        right: 18px;
+        top: 20%;
+      }
+      a {
+        span {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

@@ -4,7 +4,4 @@
     cq:disableTargeting="{Boolean}true"
     cq:layout="editbar"
     jcr:primaryType="cq:EditConfig">
-    <cq:listeners
-        jcr:primaryType="cq:EditListenersConfig"
-        afteredit="REFRESH_SELF"/>
 </jcr:root>

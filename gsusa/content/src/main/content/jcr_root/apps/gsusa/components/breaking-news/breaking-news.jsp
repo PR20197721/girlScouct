@@ -3,36 +3,62 @@
 	String message = properties.get("message","");
 	String url = properties.get("url","");
 	String alert = properties.get("alert","");
+	String newstype = properties.get("newstype","");
+	String bgcolor = properties.get("bgcolor","");
 
 	Resource thumbnail = resource.getChild("thumbnail");
 	String filePath = "";
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
-	if(!message.equals("")) {
 %>
-	<div class="inner-wrapper">
 <%
-		if(!filePath.equals("")) {
+	if(!newstype.equals("None")) {
+		if(!bgcolor.equals("") && newstype.equals("Text")) {
 %>
-			<img src="<%= filePath %>" alt="Breaking News Image" style="max-width:50px; max-height:50px" class="thumbnail"/>
-<%
-		}
-		if(!url.equals("")) {
+			<div class="inner-wrapper" style="background-color:#<%=bgcolor%>">
+<%	
+		} else if (newstype.equals("Image")) {
 %>
-			<a href="<%= url %>" target="_blank" title="<%= message %>">
+			<div class="inner-wrapper" style="padding: 0;">
+<%		} else {
+%>
+			<div class="inner-wrapper">
+<%		}
+
+		if(newstype.equals("Image")) {
+			if(!filePath.equals("")) {
+				if(!url.equals("")) {
+%>
+					<a href="<%= url %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
 <% 
+				}
+%>
+				<img src="<%= filePath %>" alt="<%=alert%> <%=message%>" title="<%=alert%> <%=message%>" style="max-width:100%;" class="thumbnail"/>
+<%
+				if(!url.equals("")) {
+%>
+					</a>
+<% 
+				}
+			}
 		}
+
+		if(newstype.equals("Text")) {
+			if(!url.equals("")) {
 %>
-				<strong><%= alert %></strong> <span><%= message %></span>
-<%
-		if(!url.equals("")) {
+				<a href="<%= url %>" title="<%= message %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
+<% 
+			}
 %>
-			</a>
+			<strong><%= alert %></strong> <span><%= message %></span>
 <%
+			if(!url.equals("")) {
+%>
+				</a>
+<%
+			}
 		}
-%>
-	</div>
-<%
+		%></div><%
 	}
 %>
