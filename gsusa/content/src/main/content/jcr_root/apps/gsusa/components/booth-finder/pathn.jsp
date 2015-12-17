@@ -7,18 +7,12 @@ String text = properties.get("path" + pathIndexStr + "Text", "").replaceAll("\\{
 	<p><%= text %></p>
 <%
 boolean isShowShareDialog = properties.get("path" + pathIndexStr + "ShowShareDialog", "false").equalsIgnoreCase("true"); // e.g. path1ShowShareDialog
-// TODO: force false now;
-isShowShareDialog = false;
 
 if (isShowShareDialog) {
-	String header = properties.get("path" + pathIndexStr + "ShareDialogHeader", "");
-	String tweet = properties.get("path" + pathIndexStr + "ShareDialogTweet", "");
-	String description = properties.get("path" + pathIndexStr + "ShareDialogDescription", "");
-	String imgPath = properties.get("path" + pathIndexStr + "ShareDialogImgPath", "");
-	request.setAttribute("gsusa-share-model-header", header);
-	request.setAttribute("gsusa-share-modal-tweet", tweet); 
-	request.setAttribute("gsusa-share-modal-description", description);
-	request.setAttribute("gsusa-share-modal-img-path", imgPath);
+	request.setAttribute("gsusa-share-model-header", properties.get("path" + pathIndexStr + "ShareDialogHeader", ""));
+	request.setAttribute("gsusa-share-modal-tweet", properties.get("path" + pathIndexStr + "ShareDialogTweet", "")); 
+	request.setAttribute("gsusa-share-modal-description", properties.get("path" + pathIndexStr + "ShareDialogDescription", ""));
+	request.setAttribute("gsusa-share-modal-img-path", properties.get("path" + pathIndexStr + "ShareDialogImagePath", ""));
 	slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
 	%>
 	<cq:include path="share-modal" resourceType="gsusa/components/share-modal" />
