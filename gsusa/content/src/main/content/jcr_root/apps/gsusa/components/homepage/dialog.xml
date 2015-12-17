@@ -48,6 +48,30 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="AddThis ID"
                             name="./addThisId"/>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            name="./ogImage"/>
+                        <fbappid
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="fb:app_id"
+                            name="./fbAppId"/>
                     </items>
                 </gsusa>
             </items>
