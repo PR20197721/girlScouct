@@ -16,6 +16,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 %>
 	<script id="template-path<%= pathIndexStr %>" type="text/x-handlebars-template">
 		<cq:include script="pathn.jsp" />
+		<div id="share-path<%=pathIndex%>-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
+		<div id="share-path<%=pathIndex%>-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
+		<div id="share-path<%=pathIndex%>-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
+		<div id="share-path<%=pathIndex%>-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
+		<div id="share-path<%=pathIndex%>-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
 	</script>
 <%
 	request.setAttribute("gsusa-component-booth-finder-index", null);
@@ -30,27 +35,10 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 <%-- Template for booths if the list is not empty --%>
 <script id="template-booths" type="text/x-handlebars-template">
 	<cq:include script="booth-list.jsp" />
-</script>
-
-<%-- Template for share messages --%>
-<script id="template-share" type="text/x-handlebars-template">
-<%
-for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
-	if (pathIndex == 3) {continue;} // Skip obsolete path3.
-%>
-	<div id="share-path<%=pathIndex%>-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
-	<div id="share-path<%=pathIndex%>-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
-	<div id="share-path<%=pathIndex%>-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
-	<div id="share-path<%=pathIndex%>-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
-	<div id="share-path<%=pathIndex%>-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
-<%
-}
-%>
-
-<div id="share-map-FBTitle" data="<%= escapeDoubleQuotes(properties.get("mapFBTitle", "")) %>" />
-<div id="share-map-FBDesc" data="<%= escapeDoubleQuotes(properties.get("mapFBDesc", "")) %>" />
-<div id="share-map-Tweet" data="<%= escapeDoubleQuotes(properties.get("mapTweet", "")) %>" />
-<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotes(properties.get("mapFBImgPath", "")) %>" />
+	<div id="share-map-FBTitle" data="<%= escapeDoubleQuotes(properties.get("mapFBTitle", "")) %>" />
+	<div id="share-map-FBDesc" data="<%= escapeDoubleQuotes(properties.get("mapFBDesc", "")) %>" />
+	<div id="share-map-Tweet" data="<%= escapeDoubleQuotes(properties.get("mapTweet", "")) %>" />
+	<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotes(properties.get("mapFBImgPath", "")) %>" />
 </script>
 
 <%-- Placeholder for the actual render --%>
@@ -119,20 +107,28 @@ BoothFinder.prototype.getResult = function() {
 		desc: "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order."
 	}
 	
-	templateId = 'template-' + templateId; // template-path1;
-	var htmlTemplate = Handlebars.compile($('#' + templateId).html())(result);
-	var htmlShare = Handlebars.compile($('#template-share').html())(result);
-	$('#booth-finder-result').html(htmlTemplate + htmlShare);
+	var templateDOMId = 'template-' + templateId; // template-path1;
+	var html = Handlebars.compile($('#' + templateDOMId).html())(result);
+	$('#booth-finder-result').html(html);
 	
-	// Bind "View Details" buttons
-	$('.viewmap.button').on('click', function(){
-	    $('#modal_booth_item_map').foundation('reveal', 'open', {
-           url: '<%= resource.getPath() %>.booth-detail.html',
-           cache:false,
-            data: JSON.parse($(this).attr('data'))
-        });
-        $('.off-canvas-wrap').addClass('noprint');
-	})
+	if (templateId == 'booths') {
+		// Bind "View Details" buttons
+		$('.viewmap.button').on('click', function(){
+	        var data = $.param(JSON.parse($(this).attr('data'))) + '&' + 
+	        	'fbTitle=' + encodeURIComponent($('#share-map-FBTitle').attr('data')) + '&' +
+	        	'fbDesc=' + encodeURIComponent($('#share-map-FBDesc').attr('data')) + '&' +
+	        	'tweet=' + encodeURIComponent($('#share-map-Tweet').attr('data')) + '&' +
+	        	'shareImgPath=' + encodeURIComponent($('#share-map-FBImgPath').attr('data'));
+	
+		    $('#modal_booth_item_map').foundation('reveal', 'open', {
+	            url: '<%= resource.getPath() %>.booth-detail.html',
+	            cache:false,
+	            processData: false,
+	            data: data
+	        });
+	        $('.off-canvas-wrap').addClass('noprint');
+		});
+	}
 	
 	// Reset foundation again since new tags are added.
 	$(document).foundation();
