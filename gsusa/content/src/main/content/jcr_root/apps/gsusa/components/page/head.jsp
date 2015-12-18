@@ -25,6 +25,8 @@
 --%><%@include file="/libs/foundation/global.jsp" %><%
 %><%@ page import="com.day.cq.commons.Doctype,
 				   org.apache.sling.settings.SlingSettingsService,
+				   org.apache.sling.api.SlingHttpServletRequest,
+				   com.day.cq.commons.Externalizer,
 				   java.util.Set"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
@@ -34,8 +36,9 @@
         favIcon = null;
     }
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
-	String ogTitle = siteProps.get("ogTitle", "Girl Scouts of the USA");
-	String ogSiteName = siteProps.get("ogSiteName", "");
+	String seoTitle = siteProps.get("seoTitle", "");
+	String ogTitle = siteProps.get("ogTitle", seoTitle);
+	String ogSiteName = siteProps.get("ogSiteName", "Girl Scouts of the USA");
 	String ogUrl = siteProps.get("ogUrl", "");
 	String ogDescription = siteProps.get("ogDescription", "");
 	String ogImage = siteProps.get("ogImage", "");
@@ -48,12 +51,34 @@
     	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
     <% } %>
     
-    <meta property="og:title" content="<%=ogTitle %>" />
-	<meta property="og:site_name" content="<%=ogSiteName %>"/>
-	<meta property="og:url" content="<%=ogUrl %>" />
-	<meta property="og:description" content="<%=ogDescription %>" />
-	<meta property="og:image" content="<%=ogImage %>" />
-	<meta property="fb:app_id" content="<%=fbAppId %>" />
+    
+    <% if (ogTitle.length() > 0) {%>
+    	<meta property="og:title" content="<%=ogTitle %>"/>
+    <%} %>
+    <% if (ogSiteName.length() > 0) {%>
+		<meta property="og:site_name" content="<%=ogSiteName %>"/>
+	<%} %>
+	<% if (ogUrl.length() > 0) {%>
+		<meta property="og:url" content="<%=ogUrl%>"/>
+	<%} %>
+	<% if (ogDescription.length() > 0) {%>
+		<meta property="og:description" content="<%=ogDescription %>"/>
+	<%} %>
+	<%
+	if (ogImage.length() > 0) {
+		if (ogImage.indexOf("http:") != -1) { %>
+			<meta property="og:image" content="<%=ogImage %>"/>
+	<%	} else { 
+			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+	%>
+			<meta property="og:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>"/>
+	<%
+		}
+	} %>
+	<% if (fbAppId.length() > 0) {%>
+		<meta property="fb:app_id" content="<%=fbAppId %>"/>
+	<%} %>
+    
     
     <meta http-equiv="X-UA-Compatible" content="IE=9">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
