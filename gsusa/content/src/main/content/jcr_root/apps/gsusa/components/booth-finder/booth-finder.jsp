@@ -167,6 +167,17 @@ BoothFinder.prototype.processFirstResult = function(result) {
 	        });
 	        $('.off-canvas-wrap').addClass('noprint');
 		});
+		
+		// Reset form values
+		var radius = getParameterByName('radius');
+		var date = getParameterByName('date');
+		var sortBy = getParameterByName('sortBy');
+		if (!radius) radius = 25;
+		if (!date) date = 60;
+		if (!sortBy) sortBy = 'distance'
+		$('select[name="radius"]').val(radius);
+		$('select[name="date"]').val(date);
+		$('select[name="sortBy"]').val(sortBy);
 	} 
 	
 	// Share dialog
@@ -192,7 +203,13 @@ BoothFinder.prototype.processFirstResult = function(result) {
 	this.page++;
 }
 
-var boothFinder;
+function getParameterByName(name) {
+    name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+    var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+        results = regex.exec(location.search);
+    return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
 $(document).ready(function(){
 	var zip;
 	// Get zip from hash
@@ -208,7 +225,14 @@ $(document).ready(function(){
 	if (zip == undefined) {
 		// TODO: error: zip not found.
 	} else {
-		boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, 25 /*radius*/, 60 /*date*/, 'distance' /*distance*/, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		var radius = getParameterByName('radius');
+		var date = getParameterByName('date');
+		var sortBy = getParameterByName('sortBy');
+		if (!radius) radius = 25;
+		if (!date) date = 60;
+		if (!sortBy) sortBy = 'distance';
+		
+		boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		boothFinder.getResult();
 	}
 });
