@@ -20,11 +20,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<script id="template-path<%= pathIndexStr %>" type="text/x-handlebars-template">
 		<cq:include script="pathn.jsp" />
 
-        <div id="share-path<%=pathIndex%>-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
-        <div id="share-path<%=pathIndex%>-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
-        <div id="share-path<%=pathIndex%>-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
-        <div id="share-path<%=pathIndex%>-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
-        <div id="share-path<%=pathIndex%>-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
+        <div id="share-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
+        <div id="share-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
+        <div id="share-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
+        <div id="share-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
+        <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
 	</script>
 
 <%
