@@ -17,6 +17,7 @@ spin.js
 cqformfix.js
 brick-by-brick.js
 handlebars.min.js
+moment.min.js
 
 app.js
 booth-finder.js
