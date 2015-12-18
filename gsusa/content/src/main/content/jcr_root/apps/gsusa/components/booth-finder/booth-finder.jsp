@@ -20,11 +20,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<script id="template-path<%= pathIndexStr %>" type="text/x-handlebars-template">
 		<cq:include script="pathn.jsp" />
 
-        <div id="share-showShareDialog" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
-        <div id="share-shareDialogHeader" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
-        <div id="share-shareDialogDescription" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
-        <div id="share-shareDialogTweet" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
-        <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotes(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
+        <div id="share-showShareDialog" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShowShareDialog", "")) %>" />
+        <div id="share-shareDialogHeader" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogHeader", "")) %>" />
+        <div id="share-shareDialogDescription" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
+        <div id="share-shareDialogTweet" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
+        <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
 	</script>
 
 <%
@@ -41,10 +41,10 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 <%-- Template for booths if the list is not empty --%>
 <script id="template-booths" type="text/x-handlebars-template">
 	<cq:include script="booth-list.jsp" />
-	<div id="share-map-FBTitle" data="<%= escapeDoubleQuotes(properties.get("mapFBTitle", "")) %>" />
-	<div id="share-map-FBDesc" data="<%= escapeDoubleQuotes(properties.get("mapFBDesc", "")) %>" />
-	<div id="share-map-Tweet" data="<%= escapeDoubleQuotes(properties.get("mapTweet", "")) %>" />
-	<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotes(properties.get("mapFBImgPath", "")) %>" />
+	<div id="share-map-FBTitle" data="<%= escapeDoubleQuotesAddCouncil(properties.get("mapFBTitle", "")) %>" />
+	<div id="share-map-FBDesc" data="<%= escapeDoubleQuotesAddCouncil(properties.get("mapFBDesc", "")) %>" />
+	<div id="share-map-Tweet" data="<%= escapeDoubleQuotesAddCouncil(properties.get("mapTweet", "")) %>" />
+	<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("mapFBImgPath", "")) %>" />
 </script>
 
 <%-- Template for share modal --%>
@@ -121,12 +121,12 @@ BoothFinder.prototype.getResult = function() {
 	
 	// Calculate days left
 	var daysLeft = moment(council.CookieSaleStartDate).diff(moment(), 'days') + 1;
-	result.council.daysLeft = daysLeft;
-	result.council.daysLeftStr = daysLeft + ' day';
-	result.council.daysLeftStrUpper = daysLeft + ' Day';
+	result.council.DaysLeft = daysLeft;
+	result.council.DaysLeftStr = daysLeft + ' day';
+	result.council.DaysLeftStrUpper = daysLeft + ' Day';
 	if (daysLeft !== 1) {
-		result.council.daysLeftStr += 's';
-		result.council.daysLeftStrUpper += 's';
+		result.council.DaysLeftStr += 's';
+		result.council.DaysLeftStrUpper += 's';
 	}
 	
 	var templateDOMId = 'template-' + templateId; // template-path1;
@@ -196,7 +196,7 @@ $(document).ready(function(){
 </script>
 
 <%! 
-public String escapeDoubleQuotes(String str) {
-	return str.replaceAll("\"", "\\\"").replaceAll("\\{\\{", "{{escapeDoubleQuotes ");	
+public String escapeDoubleQuotesAddCouncil(String str) {
+	return str.replaceAll("\"", "\\\"").replaceAll("\\{\\{", "{{escapeDoubleQuotes council.");	
 }
 %>
