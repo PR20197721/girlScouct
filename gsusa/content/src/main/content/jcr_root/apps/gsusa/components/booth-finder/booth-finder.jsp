@@ -200,7 +200,7 @@ $(document).ready(function(){
 	if (zip == undefined) {
 		// TODO: error: zip not found.
 	} else {
-		boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, 25 /*radius*/, 60 /*date*/, 'distance' /*distance*/, 50/*numPerPage*/);
+		boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, 25 /*radius*/, 60 /*date*/, 'distance' /*distance*/, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		boothFinder.getResult();
 	}
 });
