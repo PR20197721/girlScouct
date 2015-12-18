@@ -72,11 +72,19 @@ BoothFinder.prototype.getResult = function() {
 			s: this.page,
 			m: this.numPerPage 
 		},
-		success: BoothFinder.prototype.processResult 
+		success: BoothFinder.prototype.processResult.bind(this)
 	});
 }
 
 BoothFinder.prototype.processResult = function(result) {
+	if (this.page != 1) {
+		BoothFinder.prototype.processMoreResult(result);
+	} else {
+		BoothFinder.prototype.processFirstResult(result);
+	}
+}
+
+BoothFinder.prototype.processFirstResult = function(result) {
 	var council = result.council;
 	var booths = result.booths;
 	
