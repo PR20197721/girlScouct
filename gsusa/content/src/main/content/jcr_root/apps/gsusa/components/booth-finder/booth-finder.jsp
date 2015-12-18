@@ -1,5 +1,5 @@
-<%@page import="java.util.Map"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page session="false" %>
 
 
@@ -151,7 +151,10 @@ BoothFinder.prototype.getResult = function() {
 			header: $('#share-shareDialogHeader').attr('data'),
 			desc: $('#share-shareDialogDescription').attr('data'),
 			tweet: $('#share-shareDialogTweet').attr('data'),
-			modFilePath: $('#share-shareDialogImagePath').attr('data')
+			imageFilePath: $('#share-shareDialogImagePath').attr('data'),
+			url: window.location.href,
+			uniqueId: Math.floor((Math.random() * 1000) + 1),
+			facebookId: <%= currentSite.get("facebookId", "") %>
 		});
 		$('#booth-finder-result').append(shareModalHtml);
 	}
