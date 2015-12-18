@@ -8,7 +8,6 @@
 <form class="sort-form clearfix">
     <section>
         <label>Radius:</label>
-        <input type="hidden" name="zip" value="{{env.zip}}"></input>
         <select name="radius" onchange="this.form.submit()">
             <option value="1">1 miles</option>
             <option value="5">5 miles</option>
