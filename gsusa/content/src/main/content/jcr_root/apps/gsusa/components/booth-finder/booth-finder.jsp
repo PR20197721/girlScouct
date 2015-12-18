@@ -47,6 +47,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotes(properties.get("mapFBImgPath", "")) %>" />
 </script>
 
+<%-- Template for share modal --%>
+<script id="template-sharemodal" type="text/x-handlebars-template">
+	<cq:include script="share-modal.jsp" />
+</script>
+
 <script>
 function BoothFinder(zip, radius, date, sortBy, numPerPage) {
 	this.zip = zip;
@@ -116,6 +121,7 @@ BoothFinder.prototype.getResult = function() {
 	
 	var templateDOMId = 'template-' + templateId; // template-path1;
 	var html = Handlebars.compile($('#' + templateDOMId).html())(result);
+
 	$('#booth-finder-result').html(html);
 	
 	if (templateId == 'booths') {
@@ -135,11 +141,21 @@ BoothFinder.prototype.getResult = function() {
 	        });
 	        $('.off-canvas-wrap').addClass('noprint');
 		});
-	} else if (templateId.startsWith('path')) {
-		// show
-		$('[data-reveal-id="shareModal' + templateId + '"').show();
-	}
+	} 
 	
+	// Share dialog
+	var showShareDialog = $('#share-showShareDialog').attr('data') == 'true';
+	if (showShareDialog) {
+		var shareModalHtml = Handlebars.compile($('#template-sharemodal').html())({
+			buttonCaption: "SHARE WITH YOUR FRIENDS",
+			header: $('#share-shareDialogHeader').attr('data'),
+			desc: $('#share-shareDialogDescription').attr('data'),
+			tweet: $('#share-shareDialogTweet').attr('data'),
+			modFilePath: $('#share-shareDialogImagePath').attr('data')
+		});
+		$('#booth-finder-result').append(shareModalHtml);
+	}
+
 	// Reset foundation again since new tags are added.
 	$(document).foundation();
 }
