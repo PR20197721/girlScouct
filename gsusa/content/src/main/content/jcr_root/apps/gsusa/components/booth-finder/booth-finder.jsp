@@ -153,7 +153,7 @@ BoothFinder.prototype.getResult = function() {
 			tweet: $('#share-shareDialogTweet').attr('data'),
 			imageFilePath: $('#share-shareDialogImagePath').attr('data'),
 			url: window.location.href,
-			uniqueId: Math.floor((Math.random() * 1000) + 1),
+			uniqueID: Math.floor((Math.random() * 1000) + 1),
 			facebookId: <%= currentSite.get("facebookId", "") %>
 		});
 		$('#booth-finder-result').append(shareModalHtml);
