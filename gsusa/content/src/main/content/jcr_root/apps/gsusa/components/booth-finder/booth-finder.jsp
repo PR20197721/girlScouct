@@ -66,17 +66,32 @@ function BoothFinder(url, zip, radius, date, sortBy, numPerPage) {
 }
 
 BoothFinder.prototype.getResult = function() {
+    var data = {
+		z: this.zip,
+		r: this.radius,
+		d: this.date,
+		t: this.sortBy,
+		s: this.page,
+		m: this.numPerPage + 1 // Plus 1 to see if there are more results
+    };
+    
+    var gaparam = getParameterByName('utm_campaign');
+    if (gaparam) {
+    	data.GSCampaign = gaparam;
+    }
+    gaparam = getParameterByName('utm_medium');
+    if (gaparam) {
+    	data.GSMedium = gaparam;
+    }
+    gaparam = getParameterByName('utm_source');
+    if (gaparam) {
+    	data.GSSource = gaparam;
+    }
+
 	$.ajax({
 		url: this.url,
 		dataType: "json",
-		data: {
-			z: this.zip,
-			r: this.radius,
-			d: this.date,
-			t: this.sortBy,
-			s: this.page,
-			m: this.numPerPage + 1 // Plus 1 to see if there are more results
-		},
+		data: data,
 		success: BoothFinder.prototype.processResult.bind(this)
 	});
 }
