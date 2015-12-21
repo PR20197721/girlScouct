@@ -10,7 +10,7 @@ public class ApiConfig implements Serializable {
 	
 	/**
 	 * 
-	 */
+	*/
 	private static final long serialVersionUID = 7310414085726791761L;
 	private String accessToken, instanceUrl, tokenType, id, refreshToken,
 			userId, webServicesUrl; /* userId should be moved out.User obj exists* */

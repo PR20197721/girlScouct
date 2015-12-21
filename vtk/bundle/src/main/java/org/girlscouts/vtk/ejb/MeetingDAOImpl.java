@@ -2305,7 +2305,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			
-			String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, ['"+ _path +"'])";
+			String sql = "SELECT [jcr:path], [jcr:title] FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, ["+ _path +"])";
 
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
