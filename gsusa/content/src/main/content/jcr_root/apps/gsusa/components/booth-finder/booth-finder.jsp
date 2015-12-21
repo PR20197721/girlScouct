@@ -82,21 +82,6 @@ BoothFinder.prototype.getResult = function() {
 }
 
 BoothFinder.prototype.processResult = function(result) {
-	this.processFirstResult(result);
-	
-	// Increase page count
-	this.page++;
-
-	// Hide "more" link if there is no more result
-	if (this.shouldHideMoreButton) {
-		$('.booth-finder #more').hide();
-	}
-
-	// Reset foundation again since new tags are added.
-	$(document).foundation();
-}
-
-BoothFinder.prototype.processFirstResult = function(result) {
 	var council = result.council;
 	var booths = result.booths;
 	
@@ -226,6 +211,17 @@ BoothFinder.prototype.processFirstResult = function(result) {
 		});
 		$('#booth-finder-result').append(shareModalHtml);
 	}
+
+	// Increase page count
+	this.page++;
+
+	// Hide "more" link if there is no more result
+	if (this.shouldHideMoreButton) {
+		$('.booth-finder #more').hide();
+	}
+
+	// Reset foundation again since new tags are added.
+	$(document).foundation();
 }
 
 function getParameterByName(name) {
