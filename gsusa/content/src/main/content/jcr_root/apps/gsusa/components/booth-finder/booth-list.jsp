@@ -55,9 +55,6 @@
         <h4>Distance</h4>
   </section>
 </div>
-<div id="booth-list">
-{{#each booths}}
-	<cq:include script="booth-item.jsp" />
-{{/each}}
-</div>
+
+<cq:include script="booth-list-more.jsp" />
 <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
