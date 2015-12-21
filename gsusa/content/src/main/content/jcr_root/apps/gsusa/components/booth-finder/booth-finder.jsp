@@ -43,6 +43,11 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
 	<div id="share-map-FBImgPath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("mapFBImgPath", "")) %>" />
 </script>
 
+<%-- Template for more booths --%>
+<script id="template-more-booths" type="text/x-handlebars-template">
+	<cq:include script="booth-list-more.jsp" />
+</script>
+
 <%-- Template for share modal --%>
 <script id="template-sharemodal" type="text/x-handlebars-template">
 	<cq:include script="share-modal.jsp" />
@@ -77,17 +82,13 @@ BoothFinder.prototype.getResult = function() {
 }
 
 BoothFinder.prototype.processResult = function(result) {
-	if (this.page != 1) {
-		this.processMoreResult(result);
-	} else {
-		this.processFirstResult(result);
-	}
+	this.processFirstResult(result);
 	
 	// Increase page count
 	this.page++;
 
 	// Hide "more" link if there is no more result
-	if (result.booths.length <= this.numPerPage) {
+	if (this.shouldHideMoreButton) {
 		$('.booth-finder #more').hide();
 	}
 
@@ -111,7 +112,8 @@ BoothFinder.prototype.processFirstResult = function(result) {
 		templateId = 'booths';
 		
 		var nearestDistance = Number.MAX_VALUE;
-		var min = Math.min(result.booths.length - 1, this.numPerPage); // length - 1 to omit the "more" one
+		this.shouldHideMoreButton = booths.length <= this.numPerPage;
+		var min = Math.min(booths.length, this.numPerPage); // length - 1 to omit the "more" one
 		for (var boothIndex = 0; boothIndex < min; boothIndex++) { 
 			var booth = booths[boothIndex];
 			// Add index field
@@ -124,6 +126,10 @@ BoothFinder.prototype.processFirstResult = function(result) {
 				nearestDistance = Number(booth.Distance);
 			}
 		}
+		
+		// Remove "more" items
+		booths.splice(min, booths.length - min);
+
 		result.env.nearestDistance = nearestDistance;
 	} else {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
@@ -157,10 +163,16 @@ BoothFinder.prototype.processFirstResult = function(result) {
 		result.council.DaysLeftStrUpper += 's';
 	}
 	
-	var templateDOMId = 'template-' + templateId; // template-path1;
-	var html = Handlebars.compile($('#' + templateDOMId).html())(result);
 
-	$('#booth-finder-result').html(html);
+	if (this.page == 1) {
+		var templateDOMId = 'template-' + templateId; // template-path1;
+		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
+		$('#booth-finder-result').html(html);
+	} else {
+		var templateDOMId = 'template-more-booths';
+		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
+		$('.booth-finder .show-more').before(html);
+	}
 	
 	if (templateId == 'booths') {
 		// Bind "View Details" buttons
@@ -180,16 +192,23 @@ BoothFinder.prototype.processFirstResult = function(result) {
 	        $('.off-canvas-wrap').addClass('noprint');
 		});
 		
-		// Reset form values
-		var radius = getParameterByName('radius');
-		var date = getParameterByName('date');
-		var sortBy = getParameterByName('sortBy');
-		if (!radius) radius = 25;
-		if (!date) date = 60;
-		if (!sortBy) sortBy = 'distance'
-		$('select[name="radius"]').val(radius);
-		$('select[name="date"]').val(date);
-		$('select[name="sortBy"]').val(sortBy);
+		if (this.page == 1) {
+			// Reset form values
+			var radius = getParameterByName('radius');
+			var date = getParameterByName('date');
+			var sortBy = getParameterByName('sortBy');
+			if (!radius) radius = 25;
+			if (!date) date = 60;
+			if (!sortBy) sortBy = 'distance'
+			$('select[name="radius"]').val(radius);
+			$('select[name="date"]').val(date);
+			$('select[name="sortBy"]').val(sortBy);
+			
+			// Bind click more
+			$('.booth-finder #more').on('click', function(){
+				boothFinder.getResult();
+			});
+		}
 	} 
 	
 	// Share dialog
