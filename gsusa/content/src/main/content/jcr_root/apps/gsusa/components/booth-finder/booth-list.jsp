@@ -57,4 +57,10 @@
 </div>
 
 <cq:include script="booth-list-more.jsp" />
-<cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
+<div class="row show-more">
+  <a id="more" title="show more results">MORE</a>
+</div>
+<div class="not-finding">
+  <h4>Not finding what you're looking for?</h4>
+  <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
+</div>

@@ -3,7 +3,7 @@
 <%@page session="false" %>
 
 <%-- Placeholder for the actual render --%>
-<div id="booth-finder-result"></div> 
+<div id="booth-finder-result" class="booth-finder"></div> 
 
 <%
 // Templates
