@@ -70,7 +70,7 @@ BoothFinder.prototype.getResult = function() {
 			d: this.date,
 			t: this.sortBy,
 			s: this.page,
-			m: this.numPerPage 
+			m: this.numPerPage + 1 // Plus 1 to see if there are more results
 		},
 		success: BoothFinder.prototype.processResult.bind(this)
 	});
@@ -78,10 +78,21 @@ BoothFinder.prototype.getResult = function() {
 
 BoothFinder.prototype.processResult = function(result) {
 	if (this.page != 1) {
-		BoothFinder.prototype.processMoreResult(result);
+		this.processMoreResult(result);
 	} else {
-		BoothFinder.prototype.processFirstResult(result);
+		this.processFirstResult(result);
 	}
+	
+	// Increase page count
+	this.page++;
+
+	// Hide "more" link if there is no more result
+	if (result.booths.length <= this.numPerPage) {
+		$('.booth-finder #more').hide();
+	}
+
+	// Reset foundation again since new tags are added.
+	$(document).foundation();
 }
 
 BoothFinder.prototype.processFirstResult = function(result) {
@@ -100,7 +111,8 @@ BoothFinder.prototype.processFirstResult = function(result) {
 		templateId = 'booths';
 		
 		var nearestDistance = Number.MAX_VALUE;
-		for (var boothIndex = 0; boothIndex < result.booths.length; boothIndex++) {
+		var min = Math.min(result.booths.length - 1, this.numPerPage); // length - 1 to omit the "more" one
+		for (var boothIndex = 0; boothIndex < min; boothIndex++) { 
 			var booth = booths[boothIndex];
 			// Add index field
 			booth.ID = boothIndex;
@@ -195,12 +207,6 @@ BoothFinder.prototype.processFirstResult = function(result) {
 		});
 		$('#booth-finder-result').append(shareModalHtml);
 	}
-
-	// Reset foundation again since new tags are added.
-	$(document).foundation();
-	
-	// Increase page count
-	this.page++;
 }
 
 function getParameterByName(name) {
