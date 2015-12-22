@@ -71,7 +71,7 @@ BoothFinder.prototype.getResult = function() {
 		r: this.radius,
 		d: this.date,
 		t: this.sortBy,
-		s: this.page,
+		s: this.page * this.numPerPage,
 		m: this.numPerPage + 1 // Plus 1 to see if there are more results
     };
     
