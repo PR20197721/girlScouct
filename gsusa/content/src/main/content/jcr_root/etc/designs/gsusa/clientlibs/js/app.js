@@ -789,3 +789,14 @@ $(document).ready(function(){
 		return false;
 	});
 });
+
+// Needed for "View Detail" data
+Handlebars.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
+Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
+	if (typeof context == 'string') {
+    	return context.replace(/"/g, '\\\"');
+	}
+	return '';
+});

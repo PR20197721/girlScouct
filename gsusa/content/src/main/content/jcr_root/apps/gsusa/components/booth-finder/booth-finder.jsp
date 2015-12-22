@@ -135,17 +135,6 @@ BoothFinder.prototype.processResult = function(result) {
 		templateId = result.council.PreferredPath.toLowerCase(); // e.g. path1
 	}
 
-	// Needed for "View Detail" data
-	Handlebars.registerHelper('json', function(context) {
-	    return JSON.stringify(context);
-	});
-	Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
-		if (typeof context == 'string') {
-	    	return context.replace(/"/g, '\\\"');
-		}
-		return '';
-	});
-	
 	// "Contact local council" form data
 	result.contactBanner = {
 		btn: "Contact Your Local Council",
