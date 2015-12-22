@@ -220,9 +220,9 @@ public class ActivityDAOImpl implements ActivityDAO {
 		Session session = null;
 		try {
 
-			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ['"
+			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
 					+ path
-					+ "'])) and child.start is not null and parent.[jcr:title] is not null ";
+					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
 
 			log.debug(sql);
 			session = sessionFactory.getSession();
