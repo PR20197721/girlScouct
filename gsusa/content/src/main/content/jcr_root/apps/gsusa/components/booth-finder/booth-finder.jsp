@@ -276,6 +276,6 @@ $(document).ready(function(){
 
 <%! 
 public String escapeDoubleQuotesAddCouncil(String str) {
-	return str.replaceAll("\"", "\\\"").replaceAll("\\{\\{", "{{escapeDoubleQuotes council.");	
+	return str.replaceAll("\"", "\\\"").replaceAll("\\{\\{", "{{escapeDoubleQuotes council.").replaceAll("#", "%23");	
 }
 %>
