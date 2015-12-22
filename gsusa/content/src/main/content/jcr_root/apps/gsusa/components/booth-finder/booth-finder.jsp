@@ -104,7 +104,7 @@ BoothFinder.prototype.processResult = function(result) {
 	result = result || {};
 	result.env = result.env || {};
 	result.env.zip = this.zip;
-
+	
 	var templateId;
 	if (!council.CouncilCode) { // Council Code not found. Council does not exist.
 		templateId = 'notfound';

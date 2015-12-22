@@ -64,15 +64,16 @@ $(document).ready(function(){
 		}
 
 	    var zip = $(this).find('input[name="zip-code"]').val(),
-	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>";
-	    //window.location.href = '/content/gsusa/en/booth-result.' + zip + '.html';
-	    var redirectUrl = loc + '.' + zip + '.html';
+	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
+	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
 	    var queryPos = currentUrl.indexOf('?');
 	    if (queryPos != -1) {
 	    	redirectUrl += currentUrl.substring(queryPos);
 	    }
+	    redirectUrl = redirectUrl + '#' + zip;
 	    window.location.href = redirectUrl;
+	    window.location.reload();
 	    cookieFormSubmitted = true;
 	});
 });
