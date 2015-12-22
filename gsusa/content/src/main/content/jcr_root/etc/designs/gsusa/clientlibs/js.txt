@@ -20,4 +20,3 @@ handlebars.min.js
 moment.min.js
 
 app.js
-booth-finder.js
