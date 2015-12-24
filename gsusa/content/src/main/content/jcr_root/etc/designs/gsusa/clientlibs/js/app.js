@@ -656,6 +656,24 @@
     });
   }
 
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
+
+  function read_more() {
+    $('.camp-results .more-section section').hide();
+    $(".camp-results .more-section .read-more").on("click", function (e){
+      $(this).siblings('section').slideToggle();
+      $(this).html(($(this).text() == 'Read More') ? 'Read Less' : 'Read More');
+      $(this).toggleClass('on');
+      e.preventDefault();
+    });
+  }
+
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -666,16 +684,10 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
+read_more();
 
-  function hide_show_cookie() {
-    $('#meet-cookie-layout section').hide();
-    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
-      $(this).siblings('section').slideToggle();
-      $(this).toggleClass('on');
-    });
-  }
   $(document).ready(function(){
-     hide_show_cookie();
+    hide_show_cookie();
   });
 
   // $(window).on("orientationchange", function () {
