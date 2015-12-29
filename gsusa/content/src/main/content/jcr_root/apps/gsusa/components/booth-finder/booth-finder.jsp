@@ -143,7 +143,7 @@ BoothFinder.prototype.processResult = function(result) {
 	}
 	
 	// Calculate days left
-	var daysLeft = moment(council.CookieSaleStartDate).diff(moment(), 'days') + 1;
+	var daysLeft = moment(council.CookieSaleStartDate, 'M/D/YYYY').diff(moment(), 'days') + 1;
 	result.council.DaysLeft = daysLeft;
 	result.council.DaysLeftStr = daysLeft + ' day';
 	result.council.DaysLeftStrUpper = daysLeft + ' Day';
