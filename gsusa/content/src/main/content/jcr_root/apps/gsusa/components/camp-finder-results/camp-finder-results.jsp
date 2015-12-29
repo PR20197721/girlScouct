@@ -193,7 +193,8 @@ $(document).ready(function(){
 		//TODO: if (!endDate) date = 60;
 		if (!sortBy) sortBy = 'distance'
 
-		campFinder = new CampFinder("/cookiesapi/ajax_camp_results.asp", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		// TODO: User # for testing. Correct URL will be: /campsapi/ajax_camp_results.asp
+		campFinder = new CampFinder("#", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		campFinder.getResult();
 	}
 });
