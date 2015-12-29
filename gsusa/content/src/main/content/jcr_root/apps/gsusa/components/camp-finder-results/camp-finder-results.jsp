@@ -199,9 +199,3 @@ $(document).ready(function(){
 	}
 });
 </script>
-
-<%! 
-public String escapeDoubleQuotesAddCouncil(String str) {
-	return str.replaceAll("\"", "\\\"").replaceAll("\\{\\{", "{{escapeDoubleQuotes council.").replaceAll("#", "%23");	
-}
-%>
