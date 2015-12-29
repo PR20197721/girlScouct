@@ -200,7 +200,7 @@ $(document).ready(function(){
 		if (!sortBy) sortBy = 'distance'
 
 		// TODO: User # for testing. Correct URL will be: /campsapi/ajax_camp_results.asp
-		campFinder = new CampFinder("/en.html", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		campFinder = new CampFinder("/content/gsusa/en.html", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		campFinder.getResult();
 	}
 });
