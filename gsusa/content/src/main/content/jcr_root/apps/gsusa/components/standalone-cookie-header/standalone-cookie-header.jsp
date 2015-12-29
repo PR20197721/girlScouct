@@ -67,13 +67,21 @@ $(document).ready(function(){
 	    	loc = "<%=resourceResolver.map(cookieBoothLink)%>.html";
 	    var redirectUrl = loc;
 	    var currentUrl = window.location.href;
+	    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
 	    var queryPos = currentUrl.indexOf('?');
 	    if (queryPos != -1) {
-	    	redirectUrl += currentUrl.substring(queryPos);
+	    	var queryStr = currentUrl.substring(queryPos);
+	    	var hashPos = queryStr.indexOf('#');
+	    	if (hashPos != -1) {
+	    		queryStr = queryStr.substr(0, hashPos);
+	    	}
+	    	redirectUrl += queryStr;
 	    }
 	    redirectUrl = redirectUrl + '#' + zip;
 	    window.location.href = redirectUrl;
-	    window.location.reload();
+	    if (isSameUrl) {
+	    	window.location.reload();
+	    }
 	    cookieFormSubmitted = true;
 	});
 });
