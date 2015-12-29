@@ -141,7 +141,7 @@ CampFinder.prototype.processResult = function(campResult) {
 			$('select[name="sortBy"]').val(sortBy);
 			
 			// Bind click more
-			$('.camp-finder-result #more').on('click', function(){
+			$('#camp-finder-result #more').on('click', function(){
 				campFinder.getResult();
 			});
 		}
@@ -152,7 +152,7 @@ CampFinder.prototype.processResult = function(campResult) {
 
 	// Hide "more" link if there is no more result
 	if (this.shouldHideMoreButton) {
-		$('.camp-finder-result #more').hide();
+		$('#camp-finder-result #more').hide();
 	}
 
 	// Reset foundation again since new tags are added.
