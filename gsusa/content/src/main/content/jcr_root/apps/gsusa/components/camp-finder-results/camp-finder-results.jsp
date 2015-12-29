@@ -155,9 +155,13 @@ CampFinder.prototype.processResult = function(campResult) {
 		$('#camp-finder-result #more').hide();
 	}
 
-	// Reset foundation again since new tags are added.
-	// TODO: do we need this here?
-	$(document).foundation();
+    $('.camp-results .more-section section').hide();
+    $(".camp-results .more-section .read-more").on("click", function (e){
+      $(this).siblings('section').slideToggle();
+      $(this).html(($(this).text() == 'Read More') ? 'Read Less' : 'Read More');
+      $(this).toggleClass('on');
+      e.preventDefault();
+    });
 }
 
 function getParameterByName(name) {
