@@ -214,7 +214,7 @@
         var defaultSettings = {
             yt_api_key: yt_api_key,
             
-            youtube_parameters: 'rel=0',
+            youtube_parameters: 'rel=0&enablejsapi=1&wmode=transparent',
             loading_text: 'Loading...',
             display_title: true,
             default_ratio: '16:9',
