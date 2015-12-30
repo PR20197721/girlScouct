@@ -125,7 +125,7 @@
             .on('click', function (e) {
                 e.preventDefault();
                 if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
-                    $el.html('<iframe src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" frameborder="0" allowfullscreen></iframe>')
+                    $el.html('<iframe src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" onload="loadYoutubeAPI()" frameborder="0" allowfullscreen></iframe>')
                         .addClass(settings.video_loaded_class);
 
                     // execute callback
@@ -216,7 +216,7 @@
             
             youtube_parameters: 'rel=0&enablejsapi=1&wmode=transparent',
             loading_text: 'Loading...',
-            display_title: true,
+            display_title: false,
             default_ratio: '16:9',
             display_duration: false,
             callback: null,

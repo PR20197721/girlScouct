@@ -149,43 +149,75 @@ checkVersion();
 						</div>
 					  	<div class="vid-slide-wrapper show-for-medium-up">
 					  		<% if(urls.length == 5) { %>
-					  			<div class="lazyYT" data-youtube-id="<%= urls[4]%>"></div>
+					  			<div class="lazyYT" data-ratio="16:9" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } else { %>
 					  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
 					  			</iframe>
 				  			<% } %>
 			  			</div>
 			  			<script type="text/javascript">
-						$('iframe').on("load",function() {
-							  
-							
-							$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-								  
-								  function pauseVideoSliderVideos() {
-									  if($('.vimeo').length > 0){
-										  $.each($(".vimeo"), function( i, val ) { 
-									    	  $f(val).api('unload');
-									      });
-									  } if($('.lazyYT > iframe').length > 0) {
-									      $.each($('.lazyYT > iframe'), function( i, val ) {
-									    	  var iframe = val;
-									    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-									      });
-								  	}
-								  }
-								  
-								  function stopSlider() {
-										var slick = $('.video-slider-wrapper');
-										if(slick != undefined && slick.slick != undefined){
-											slick.slick('slickPause');
-											slick.slick('slickSetOption', 'autoplay', false, false);
-											slick.slick('autoPlay',$.noop);
-										}
+					  function stopSlider() {
+							var slick = $('.video-slider-wrapper');
+							if(slick != undefined && slick.slick != undefined){
+								slick.slick('slickPause');
+								slick.slick('slickSetOption', 'autoplay', false, false);
+								slick.slick('autoPlay',$.noop);
+							}
+						}
+					  
+			  			loadYoutubeAPI = function(){
+							function loadYTScript() {
+							    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
+							        var tag = document.createElement('script');
+							        tag.src = "https://www.youtube.com/iframe_api";
+							        var firstScriptTag = document.getElementsByTagName('script')[0];
+							        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+							    }
+							}
+				
+							function loadPlayer() {
+							        window.onYouTubePlayerAPIReady = function() {
+							        	if(typeof youtubeIDs != undefined){
+							        		for(var i = 0; i < youtubeIDs.length; i++){
+							        			createPlayer(youtubeIDs[i]);
+							        		}
+							        	}
+							        };
+							}
+				
+							function createPlayer(id){
+								var player = new YT.Player(id[1], {
+									videoId: id[0],
+									events: {
+										'onStateChange': stopSlider
 									}
-								  
-								  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-									    pauseVideoSliderVideos();
-									});
+								});
+							}
+							
+							loadYTScript();
+							loadPlayer();
+			  			}
+			  			
+						  function pauseVideoSliderVideos() {
+							  if($('.vimeo').length > 0){
+								  $.each($(".vimeo"), function( i, val ) { 
+							    	  $f(val).api('unload');
+							      });
+							  } if($('.lazyYT > iframe').length > 0) {
+							      $.each($('.lazyYT > iframe'), function( i, val ) {
+							    	  var iframe = val;
+							    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+							      });
+						  	}
+						  }
+						  
+						  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
+							    pauseVideoSliderVideos();
+							});
+						  
+						$('#<%= urls[3] %>').load(function() {
+
+							$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
 								  
 								  function attachListenerToVideoSlider () {
 									    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
@@ -199,38 +231,8 @@ checkVersion();
 									    	}
 									    }   
 									}
-						
-									function loadYTScript() {
-									    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
-									        var tag = document.createElement('script');
-									        tag.src = "https://www.youtube.com/iframe_api";
-									        var firstScriptTag = document.getElementsByTagName('script')[0];
-									        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-									    }
-									}
-						
-									function loadPlayer() {
-									        window.onYouTubePlayerAPIReady = function() {
-									        	if(typeof youtubeIDs != undefined){
-									        		for(var i = 0; i < youtubeIDs.length; i++){
-									        			createPlayer(youtubeIDs[i]);
-									        		}
-									        	}
-									        };
-									}
-						
-									function createPlayer(id){
-										var player = new YT.Player(id[1], {
-											videoId: id[0],
-											events: {
-												'onStateChange': stopSlider
-											}
-										});
-									}
 									
 									attachListenerToVideoSlider();
-									loadYTScript();
-									loadPlayer();
 							});
 						  
 						  });
