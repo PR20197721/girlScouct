@@ -24,7 +24,8 @@
             $thumb,
             thumb_img,
             loading_text = $el.text() ? $el.text() : settings.loading_text,
-            youtube_parameters = $el.data('parameters') || '';
+            youtube_parameters = $el.data('parameters') || '',
+            dom_id=$el.data('id'); //David - Added in so YT player objects could be created from iframe id
         
         ratio = ratio.split(":");
         
@@ -125,7 +126,7 @@
             .on('click', function (e) {
                 e.preventDefault();
                 if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
-                    $el.html('<iframe src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" onload="loadYoutubeAPI()" frameborder="0" allowfullscreen></iframe>')
+                    $el.html('<iframe id="' + dom_id + '" src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" onload="loadYoutubeAPI()" frameborder="0" allowfullscreen></iframe>')
                         .addClass(settings.video_loaded_class);
 
                     // execute callback

@@ -149,7 +149,7 @@ checkVersion();
 						</div>
 					  	<div class="vid-slide-wrapper show-for-medium-up">
 					  		<% if(urls.length == 5) { %>
-					  			<div class="lazyYT" data-ratio="16:9" data-youtube-id="<%= urls[4]%>"></div>
+					  			<div class="lazyYT" data-id="<%= urls[3] %>" data-ratio="16:9" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } else { %>
 					  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
 					  			</iframe>
@@ -166,9 +166,18 @@ checkVersion();
 						}
 					  
 			  			loadYoutubeAPI = function(){
+			  				
+			  				window.onYouTubePlayerAPIReady = function() {
+					        	if(typeof youtubeIDs != undefined){
+					        		for(var i = 0; i < youtubeIDs.length; i++){
+					        			createPlayer(youtubeIDs[i]);
+					        		}
+					        	}
+					        };
+					        
 							function loadYTScript() {
 							    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
-							        var tag = document.createElement('script');
+							    	var tag = document.createElement('script');
 							        tag.src = "https://www.youtube.com/iframe_api";
 							        var firstScriptTag = document.getElementsByTagName('script')[0];
 							        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
@@ -176,13 +185,15 @@ checkVersion();
 							}
 				
 							function loadPlayer() {
-							        window.onYouTubePlayerAPIReady = function() {
-							        	if(typeof youtubeIDs != undefined){
+								if (typeof(YT) != 'undefined' && typeof(YT.Player) != 'undefined') {
+									if(YT.loaded == 1){
+										if(typeof youtubeIDs != undefined){
 							        		for(var i = 0; i < youtubeIDs.length; i++){
 							        			createPlayer(youtubeIDs[i]);
 							        		}
 							        	}
-							        };
+									}
+								}
 							}
 				
 							function createPlayer(id){
