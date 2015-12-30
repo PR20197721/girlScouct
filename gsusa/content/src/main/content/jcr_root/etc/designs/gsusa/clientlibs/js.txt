@@ -18,5 +18,6 @@ cqformfix.js
 brick-by-brick.js
 handlebars.min.js
 moment.min.js
+lazyYT.js
 
 app.js

@@ -148,11 +148,15 @@ checkVersion();
 							</a>
 						</div>
 					  	<div class="vid-slide-wrapper show-for-medium-up">
-					  		<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
-				  			</iframe>
+					  		<% if(urls.length == 5) { %>
+					  			<div class="lazyYT" data-youtube-id="<%= urls[4]%>"></div>
+				  			<% } else { %>
+					  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+					  			</iframe>
+				  			<% } %>
 			  			</div>
 			  			<script type="text/javascript">
-						$('#<%=urls[3]%>').load(function() {
+						$('iframe').on("load",function() {
 							  
 							
 							$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
@@ -162,9 +166,10 @@ checkVersion();
 										  $.each($(".vimeo"), function( i, val ) { 
 									    	  $f(val).api('unload');
 									      });
-									  } if($('.youtube').length > 0) {
-									      $.each($('.youtube'), function( i, val ) {
-									    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+									  } if($('.lazyYT > iframe').length > 0) {
+									      $.each($('.lazyYT > iframe'), function( i, val ) {
+									    	  var iframe = val;
+									    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
 									      });
 								  	}
 								  }
