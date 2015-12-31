@@ -655,6 +655,20 @@
       // }]
     });
   }
+  
+	/*window.onYouTubeIframeAPIReady = function() {
+		loadYoutubeAPI();
+		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
+    };*/
+  
+	function loadYTScript() {
+	    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
+	    	var tag = document.createElement('script');
+	        tag.src = "https://www.youtube.com/iframe_api";
+	        var firstScriptTag = document.getElementsByTagName('script')[0];
+	        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	    }
+	}
 
   fix_bottom_footer();
   slide_search_bar();
@@ -666,6 +680,7 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
+  loadYTScript();
   $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
 
   function hide_show_cookie() {

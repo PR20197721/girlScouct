@@ -156,7 +156,8 @@ checkVersion();
 				  			<% } %>
 			  			</div>
 			  			<script type="text/javascript">
-					  function stopSlider() {
+						
+					  stopSlider = function() {
 							var slick = $('.video-slider-wrapper');
 							if(slick != undefined && slick.slick != undefined){
 								slick.slick('slickPause');
@@ -165,9 +166,9 @@ checkVersion();
 							}
 						}
 					  
-			  			loadYoutubeAPI = function(){
+			  			/*loadYoutubeAPI = function(){
 			  				
-			  				window.onYouTubePlayerAPIReady = function() {
+			  				window.onYouTubeIframeAPIReady = function() {
 					        	if(typeof youtubeIDs != undefined){
 					        		for(var i = 0; i < youtubeIDs.length; i++){
 					        			createPlayer(youtubeIDs[i]);
@@ -175,28 +176,23 @@ checkVersion();
 					        	}
 					        };
 					        
-							function loadYTScript() {
-							    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
-							    	var tag = document.createElement('script');
-							        tag.src = "https://www.youtube.com/iframe_api";
-							        var firstScriptTag = document.getElementsByTagName('script')[0];
-							        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-							    }
-							}
 				
 							function loadPlayer() {
 								if (typeof(YT) != 'undefined' && typeof(YT.Player) != 'undefined') {
 									if(YT.loaded == 1){
+										console.log("YT Player is ready.");
 										if(typeof youtubeIDs != undefined){
 							        		for(var i = 0; i < youtubeIDs.length; i++){
 							        			createPlayer(youtubeIDs[i]);
 							        		}
 							        	}
 									}
-								}
+								} else{ console.log("YT Player not ready."); }
 							}
 				
 							function createPlayer(id){
+								console.log("New Player: " + id[0]);
+								console.log($('#' + id[1]));
 								var player = new YT.Player(id[1], {
 									videoId: id[0],
 									events: {
@@ -205,9 +201,8 @@ checkVersion();
 								});
 							}
 							
-							loadYTScript();
 							loadPlayer();
-			  			}
+			  			}*/
 			  			
 						  function pauseVideoSliderVideos() {
 							  if($('.vimeo').length > 0){

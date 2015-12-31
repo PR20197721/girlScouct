@@ -126,7 +126,8 @@
             .on('click', function (e) {
                 e.preventDefault();
                 if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
-                    $el.html('<iframe id="' + dom_id + '" src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" onload="loadYoutubeAPI()" frameborder="0" allowfullscreen></iframe>')
+                	stopSlider();
+                    $el.html('<iframe id="' + dom_id + '" src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" frameborder="0" allowfullscreen></iframe>')
                         .addClass(settings.video_loaded_class);
 
                     // execute callback
