@@ -53,9 +53,13 @@
     <div class="clearfix">
         <section>
             <label>Start Date:</label>
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
         <section>
             <label>End Date:</label>
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
     </div>
     <div class="clearfix">
@@ -74,3 +78,26 @@
 <div class="row show-more">
     <a id="more" title="show more results">LOAD MORE</a>
 </div>
+<script>
+$(function() {
+    $(".dp-calendar").datepicker({
+      navTitles: {
+        days: 'MM <i>yyyy</i>',
+        months: 'yyyy',
+        years: 'yyyy1 - yyyy2'
+      },
+      onSelect: function (fd, date) {
+        var $start = $('#start'),
+            $end = $('#end');
+        $start.data('datepicker').update('maxDate', date);
+        $end.data('datepicker').update('minDate', date);
+      }
+    });
+    // $(window).resize(function(event) {
+    //     if ($(window).width() < 769) {
+    //       $('.datepicker.active').css("left","auto");
+    //     }
+    // });
+});
+
+</script>

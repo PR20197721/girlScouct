@@ -3,7 +3,7 @@
 <%@page session="false" %>
 
 <%-- Placeholder for the actual render --%>
-<div id="camp-finder-result" class="camp-results"></div> 
+<div id="camp-finder-result" class="camp-results"></div>
 
 <%-- Template for not found --%>
 <script id="template-notfound" type="text/x-handlebars-template">
@@ -31,7 +31,6 @@ function CampFinder(url, zip, radius, duration, grade, startDate, endDate, sortB
 	this.endDate = endDate;
 	this.sortBy = sortBy;
 	this.numPerPage = numPerPage;
-	
 	this.page = 1;
 }
 
@@ -49,7 +48,7 @@ CampFinder.prototype.getResult = function() {
 		//s: this.page * this.numPerPage,
 		//m: this.numPerPage + 1 // Plus 1 to see if there are more results
     };
-    
+
     var gaparam = getParameterByName('utm_campaign');
     if (gaparam) {
     	data.GSCampaign = gaparam;
@@ -75,26 +74,26 @@ CampFinder.prototype.getResult = function() {
 CampFinder.prototype.processResult = function(campResult) {
 	// TODO: test result
 	campResult = [{"Council Name":"Girl Scouts of North-Central Alabama","Camp Name":"Mountain\\Camp Cottaquilla","Location":"Anniston, AL","ZipCode":"36201","Description":"Located in the foothills of the Appalachian Mountains near the highest point in Alabama, Camp Cottaquilla offers sprawling hardwood forests, soaring mountains, miles of hiking trails, and 1,800 acres to explore. A small lake near the center of the camp provides the ideal location for girls to try canoeing, kayaking, paddle boarding, and fishing, and the swimming pool offers a welcome reprieve from the summer\'s heat. There\'s also archery, riflery, low ropes, \"nature nook,\" and campfire circle. Camp Cottaquilla is ACA accredited.","SeasonDates":"May 31 - June 12","SessionLength":"1 or 2 weeks","Fee":"$349 - $359 per week","Grades":"All","Website":"http:\/\/www.girlscoutsnca.org","Email1":"lelliott@girlscoutsnca.org","Email2":"","Phone1":"","Phone2":"","Distance":"0"},{"Council Name":"Girl Scouts of North-Central Alabama","Camp Name":"Camp Coleman","Location":"Trussville, AL","ZipCode":"35173","Description":"Nestled along the banks of the winding Cahaba River near Trussville, Alabama, Camp Coleman features 140 acres of woods, meadows, and trails. The camp provides an instructional horseback riding program, low and high ropes courses, indoor climbing wall, swimming pool, nature center, canoeing, kayaking, archery, riflery, and more.","SeasonDates":"May 26 - June 26","SessionLength":"1 or 2 weeks","Fee":"day camp, $125 per week; resident camp, $339 - $399 per week","Grades":"All","Website":"http:\/\/www.girlscoutsnca.org","Email1":"lelliott@girlscoutsnca.org","Email2":"hello@example.net","Phone1":"123-123-1234 ext 1234","Phone2":"456-456-4567 ext 7890","Distance":"43.5"},{"Council Name":"Girl Scout Council of the Florida Panhandle","Camp Name":"Kugelman\/Campus","Location":"Lillian, AL","ZipCode":"36549","Description":"Located just outside of Pensacola, Florida, on Perdido Bay, Kugelman Campus offers weeklong, half-week, and weekend camping programs for girls. Girls attending camp have the opportunity to work on Girl Scout Journeys and earn badges and leadership awards. Lodging at Kugelman Campus is dormitory style with central heat and air conditioning.","SeasonDates":"July 5 - 19","SessionLength":"Half week, Full week and Weekend","Fee":"$75 - $600 per session","Grades":"entering 1st - 12th","Website":"http:\/\/issuu.com\/gscfp\/docs\/camp_brochure__2015","Email1":"Camp@gscfp.org","Email2":"","Phone1":"888-271-8779","Phone2":"","Distance":"245.6"}];
-		
+
 	var camps = campResult;
-	
+
 	// Add zip to environment
 	var result = {};
 	result.env = result.env || {};
 	result.env.zip = this.zip;
-	
+
 	var templateId;
 	if (camps.length != 0) {
 		templateId = 'camps';
-		
+
 		this.shouldHideMoreButton = camps.length <= this.numPerPage;
 		var min = Math.min(camps.length, this.numPerPage); // length - 1 to omit the "more" one
-		for (var campIndex = 0; campIndex < min; campIndex++) { 
+		for (var campIndex = 0; campIndex < min; campIndex++) {
 			var camp = camps[campIndex];
 			// Add Council Name and zip field to camp. "View Detail" needs this info.
 			camp.queryZip = this.zip;
 		}
-		
+
 		// Remove "more" items
 		camps.splice(min, camps.length - min);
 
@@ -112,13 +111,13 @@ CampFinder.prototype.processResult = function(campResult) {
 		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
 		$('.camp-finder .show-more').before(html);
 	}
-	
+
 	if (templateId == 'camps') {
 		// Bind "View Details" buttons
 		$('.readmore.button').on('click', function(){
 			// TODO: bind view detail button
 		});
-		
+
 		if (this.page == 1) {
 			// Reset form values
 			var radius = getParameterByName('radius');
@@ -139,14 +138,14 @@ CampFinder.prototype.processResult = function(campResult) {
 			$('select[name="startDate"]').val(startDate);
 			$('select[name="endDate"]').val(endDate);
 			$('select[name="sortBy"]').val(sortBy);
-			
+
 			// Bind click more
 			$('#camp-finder-result #more').on('click', function(){
 				campFinder.getResult();
 			});
 		}
-	} 
-	
+	}
+
 	// Increase page count
 	this.page++;
 
@@ -171,7 +170,7 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-$(document).ready(function(){
+$(document).ready(function() {
 	var zip;
 	// Get zip from hash
 	zip = (function(zip){

@@ -19,4 +19,7 @@ brick-by-brick.js
 handlebars.min.js
 moment.min.js
 
+datepicker.min.js
+datepicker.en.js
+
 app.js
