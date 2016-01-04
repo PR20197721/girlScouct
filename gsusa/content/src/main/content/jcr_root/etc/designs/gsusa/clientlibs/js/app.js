@@ -39,18 +39,6 @@
     }
   }
 
-  function pauseVideoSliderVideos() {
-	  if($('.vimeo').length > 0){
-		  $.each($(".vimeo"), function( i, val ) {
-	    	  $f(val).api('unload');
-	      });
-	  } if($('.youtube').length > 0) {
-	      $.each($('.youtube'), function( i, val ) {
-	    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-	      });
-  	}
-  }
-
   function document_close_all() {
     //Detect ipad
     var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
@@ -479,10 +467,6 @@
 
   $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
     pauseAllCarouselVideos();
-  });
-
-  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-    pauseVideoSliderVideos();
   });
 
   var carouselSliderPropogate = true;

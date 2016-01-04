@@ -167,6 +167,7 @@ checkVersion();
 			  			<% } %>
 		  			</div>
 		  			<script type="text/javascript">
+		  			
 					
 				  stopSlider = function() {
 						var slick = $('.video-slider-wrapper');
@@ -176,51 +177,10 @@ checkVersion();
 							slick.slick('autoPlay',$.noop);
 						}
 					}
-				  
-		  			/*loadYoutubeAPI = function(){
-		  				
-		  				window.onYouTubeIframeAPIReady = function() {
-				        	if(typeof youtubeIDs != undefined){
-				        		for(var i = 0; i < youtubeIDs.length; i++){
-				        			createPlayer(youtubeIDs[i]);
-				        		}
-				        	}
-				        };
-				        
-			
-						function loadPlayer() {
-							if (typeof(YT) != 'undefined' && typeof(YT.Player) != 'undefined') {
-								if(YT.loaded == 1){
-									console.log("YT Player is ready.");
-									if(typeof youtubeIDs != undefined){
-						        		for(var i = 0; i < youtubeIDs.length; i++){
-						        			createPlayer(youtubeIDs[i]);
-						        		}
-						        	}
-								}
-							} else{ console.log("YT Player not ready."); }
-						}
-			
-						function createPlayer(id){
-							console.log("New Player: " + id[0]);
-							console.log($('#' + id[1]));
-							var player = new YT.Player(id[1], {
-								videoId: id[0],
-								events: {
-									'onStateChange': stopSlider
-								}
-							});
-						}
-						
-						loadPlayer();
-		  			}*/
+				  function pauseVideoSliderVideosVimeo(){};
 		  			
-					  function pauseVideoSliderVideos() {
-						  if($('.vimeo').length > 0){
-							  $.each($(".vimeo"), function( i, val ) { 
-						    	  $f(val).api('unload');
-						      });
-						  } if($('.lazyYT > iframe').length > 0) {
+					  function pauseVideoSliderVideosYoutube() {
+						  if($('.lazyYT > iframe').length > 0) {
 						      $.each($('.lazyYT > iframe'), function( i, val ) {
 						    	  var iframe = val;
 						    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
@@ -229,7 +189,8 @@ checkVersion();
 					  }
 					  
 					  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-						    pauseVideoSliderVideos();
+						    pauseVideoSliderVideosYoutube();
+						    pauseVideoSliderVideosVimeo();
 						});
 					  
 					$('#<%= urls[3] %>').load(function() {
@@ -248,8 +209,14 @@ checkVersion();
 								    	}
 								    }   
 								}
-								
-								attachListenerToVideoSlider();
+							  
+							  function pauseVideoSliderVideosVimeo(){
+								  $.each($(".vimeo"), function( i, val ) { 
+							    	  $f(val).api('unload');
+							      });
+							  }
+									
+							attachListenerToVideoSlider();
 						});
 					  
 					  });
