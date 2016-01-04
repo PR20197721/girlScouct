@@ -44,14 +44,26 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 		    		return false;
 		    	}
 
-		        var zip = $(this).find('input[name="zip-code"]').val();
-			    var redirectUrl = '<%= resourceResolver.map(resultPage) %>.' + zip + '.html'; 
+	    	    var zip = $(this).find('input[name="zip-code"]').val();
+			    var loc = '<%= resourceResolver.map(resultPage) %>.html';
+			    var redirectUrl = loc;
 			    var currentUrl = window.location.href;
+			    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
 			    var queryPos = currentUrl.indexOf('?');
 			    if (queryPos != -1) {
-			    	redirectUrl += currentUrl.substring(queryPos);
+			    	var queryStr = currentUrl.substring(queryPos);
+			    	var hashPos = queryStr.indexOf('#');
+			    	if (hashPos != -1) {
+			    		queryStr = queryStr.substr(0, hashPos);
+			    	}
+			    	redirectUrl += queryStr;
 			    }
+			    redirectUrl = redirectUrl + '#' + zip;
 			    window.location.href = redirectUrl;
+			    if (isSameUrl) {
+			    	window.location.reload();
+			    }
+		    
 			    heroFormSubmitted = true;
 		        return false;
 		    });
