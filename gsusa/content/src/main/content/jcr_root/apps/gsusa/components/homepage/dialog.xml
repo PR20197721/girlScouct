@@ -56,6 +56,8 @@
                         <ogsitename
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:site_name"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
                             fieldDescription="Default: Girl Scouts of the USA"
                             name="./ogSiteName"/>
                         <ogurl
@@ -75,7 +77,9 @@
                         <fbappid
                             jcr:primaryType="cq:Widget"
                             fieldLabel="fb:app_id"
-                            fieldDescription="Default: 419540344831322 "
+                            value="419540344831322"
+                            defaultValue="419540344831322"
+                            fieldDescription="Default: 419540344831322"
                             name="./fbAppId"/>
                     </items>
                 </gsusa>
