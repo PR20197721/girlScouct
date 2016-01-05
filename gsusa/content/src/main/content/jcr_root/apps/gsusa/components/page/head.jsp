@@ -36,13 +36,13 @@
         favIcon = null;
     }
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
-	String seoTitle = siteProps.get("seoTitle", "");
-	String ogTitle = siteProps.get("ogTitle", seoTitle);
-	String ogSiteName = siteProps.get("ogSiteName", "Girl Scouts of the USA");
-	String ogUrl = siteProps.get("ogUrl", "");
-	String ogDescription = siteProps.get("ogDescription", "");
-	String ogImage = siteProps.get("ogImage", "");
-	String fbAppId = siteProps.get("fbAppId", "419540344831322 ");
+	String seoTitle = properties.get("seoTitle", "");
+	String ogTitle = properties.get("ogTitle", seoTitle);
+	String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
+	String ogUrl = properties.get("ogUrl", "");
+	String ogDescription = properties.get("ogDescription", "");
+	String ogImage = properties.get("ogImage", "");
+	String fbAppId = properties.get("fbAppId", "419540344831322");
 
 %><head>
 	<% if (isProd) { %>
