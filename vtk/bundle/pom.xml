@@ -138,12 +138,13 @@
             <version>1.6-0002</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-commons</artifactId>
-            <version>5.8.32</version>
-            <scope>provided</scope>
-        </dependency>
+       <dependency>
+    <groupId>com.day.cq</groupId>
+    <artifactId>cq-commons</artifactId>
+    <version>5.8.32</version>
+    <scope>provided</scope>
+</dependency>
+        
         <dependency>
             <groupId>org.girlscouts.web</groupId>
             <artifactId>girlscouts-bundle</artifactId>
