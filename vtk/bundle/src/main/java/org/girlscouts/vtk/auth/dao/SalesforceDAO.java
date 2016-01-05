@@ -82,7 +82,8 @@ public class SalesforceDAO {
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
 				System.err.println("Method failed: " + resp.getStatusLine());
-				throw new IllegalAccessException();
+//System.err.println(EntityUtils.toString(resp.getEntity().getContent()));	
+				//throw new IllegalAccessException();
 			}
 			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );	
 			HttpEntity entity = null;

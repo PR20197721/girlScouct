@@ -285,36 +285,38 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	}
 	
 	
-	
+	/* moved
 	 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
+	 System.err.println("LOGIN CHECK: "+_isValidOAthToken);  
 	 if( !_isValidOAthToken )  {           
 		  System.err.println("token not valid .....logging outt........"+  sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true");         
 		  //response.sendRedirect( sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true"); 
 		  %><script>doVtkLogout();</script><% 
 		  return;
 	}
+	*/
 	 
 	 
-	 
-	/*
+	
 	if( !apiConfig.isAccessTokenValid() ){
 		 %><script>doVtkLogout();</script><% 
 		 return;
 	 }
 	 
 	 long lastTimeCheckValidOAuthToken = apiConfig.getLastTimeTokenRefreshed();
-System.err.println("...................Checking token >> "+  lastTimeCheckValidOAuthToken +" : "+ (new java.util.Date().getTime() - lastTimeCheckValidOAuthToken));	 
+System.err.println("...............yyy....Checking token >> "+  lastTimeCheckValidOAuthToken +" : "+ (new java.util.Date().getTime() - lastTimeCheckValidOAuthToken));	 
 	 if( lastTimeCheckValidOAuthToken <=0 || ((java.util.Calendar.getInstance().getTimeInMillis()  - lastTimeCheckValidOAuthToken) > 20000) ){
-System.err.println("......................Checking token.....................");
+System.err.println("..............yyy........Checking token.....................");
 		 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
+System.err.println("yyy.... isValid: "+ _isValidOAthToken);		 
 		 if( !_isValidOAthToken )  {			 
-System.err.println("token not valid .....logging outt........");		 
+System.err.println("yyy.....token not valid .....logging outt........");		 
 			 %><script>doVtkLogout();</script><% 
 			 return;
 		 }
 		
 	 }
-	 */
+	 
 %>
               
                 
