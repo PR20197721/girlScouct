@@ -165,12 +165,14 @@
             <version>3.0.1</version>
             <scope>provided</scope>
          </dependency> 
+         <!-- not working with AEM6.1 
         <dependency>
 	<groupId>com.adobe.granite</groupId>
 	<artifactId>com.adobe.granite.security.user</artifactId>
 	<version>0.1.6</version>
 	<scope>provided</scope>
 </dependency>
+-->
 <dependency>
 	<groupId>com.day.cq.workflow</groupId>
 	<artifactId>cq-workflow-api</artifactId>
