@@ -286,12 +286,7 @@
 
 
 
- <dependency>
-    <groupId>com.day.cq</groupId>
-    <artifactId>cq-commons</artifactId>
-    <version>5.6.4</version>
-    <scope>provided</scope>
-</dependency>
+
 <dependency>
     <groupId>com.adobe.aem</groupId>
     <artifactId>uber-jar</artifactId>
