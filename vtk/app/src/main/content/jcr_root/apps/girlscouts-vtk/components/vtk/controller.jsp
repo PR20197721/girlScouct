@@ -486,42 +486,8 @@
 				}
 			}
 
-		} else if (request.getParameter("test") != null) {
-
-			ObjectMapper mapper = new ObjectMapper();
-
-			org.girlscouts.vtk.salesforce.Troop prefTroop = null;
-			if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-				prefTroop = apiConfig.getTroops().get(0);
-			}
-			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-				if (apiConfig.getTroops().get(ii).getTroopId()
-						.equals(troop.getSfTroopId())) {
-					prefTroop = apiConfig.getTroops().get(ii);
-					break;
-				}
-			}
-
-			if (userUtil.isCurrentTroopId_NoRefresh(troop,
-					user.getSid())) {
-				return;
-			} else {
-				;
-			}
-
-			troop = troopUtil.getTroop(user,
-					"" + prefTroop.getCouncilCode(),
-					prefTroop.getTroopId());
-			session.setAttribute("VTK_troop", troop);
-
-			//if alter = timestamp change
-			out.println(mapper.writeValueAsString(troop));
-
-		} else if (request.getParameter("test1") != null) {
-
-		} else if (request.getParameter("editMtLogo") != null) {
-
-			;
+		
+		
 
 		} else if (request.getParameter("updateCouncilMilestones") != null) {
 
@@ -731,68 +697,53 @@
 				PlanView planView = meetingUtil.planView(user, troop, request);
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
-				//planView.getYearPlanComponent().getUid()
-				//for (int i = 0; i < meetings.size(); i++) {
-					MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
-					java.util.List<MeetingE> meetings = new java.util.ArrayList();
-					meetings.add(_meeting);
-					troop.getYearPlan().setMeetingEvents(meetings);
-Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
-Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
-int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
 
-if( attendance !=null && attendance.getUsers()!=null ){
-    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
-    attendanceTotal= attendance.getTotal();
-}
+				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
+				java.util.List<MeetingE> meetings = new java.util.ArrayList();
+				meetings.add(_meeting);
+				troop.getYearPlan().setMeetingEvents(meetings);
+				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
+				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
+				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
+				
+				if( attendance !=null && attendance.getUsers()!=null ){
+				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+				    attendanceTotal= attendance.getTotal();
+				}
+				
+				if( achievement !=null && achievement.getUsers()!=null ){
+				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+				}
 
-if( achievement !=null && achievement.getUsers()!=null ){
-    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
-}
+				if (_meeting.getMeetingInfo() != null
+						&& _meeting.getMeetingInfo()
+								.getActivities() != null) {
 
-/* 6/15/15 pop mult loc
-if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
-    for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-        if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){
-        	java.util.List<Location> locations= new java.util.ArrayList<Location>();
-        	locations.add( troop.getYearPlan().getLocations().get(k) );
-        	troop.getYearPlan().setLocations(locations);
-        }
-    }
-}
-*/
+					if (request.getParameter("isActivNew") != null
+							&& request.getParameter("isActivNew").equals("1")) {
+						_meeting.getMeetingInfo().setActivities(null);
 
+					} else {
+						java.util.List<Activity> _activities = _meeting
+								.getMeetingInfo().getActivities();
 
+						_meeting.getMeetingInfo()
+								.getMeetingInfo()
+								.put("meeting short description",
+										new JcrCollectionHoldString(
+												org.apache.commons.lang.StringEscapeUtils
+														.unescapeHtml(_meeting
+																.getMeetingInfo()
+																.getMeetingInfo() // fixme - refactor
+																.get("meeting short description")
+																.getStr())));
 
-					if (_meeting.getMeetingInfo() != null
-							&& _meeting.getMeetingInfo()
-									.getActivities() != null) {
-
-						if (request.getParameter("isActivNew") != null
-								&& request.getParameter("isActivNew").equals("1")) {
-							_meeting.getMeetingInfo().setActivities(null);
-
-						} else {
-							java.util.List<Activity> _activities = _meeting
-									.getMeetingInfo().getActivities();
-
-							_meeting.getMeetingInfo()
-									.getMeetingInfo()
-									.put("meeting short description",
-											new JcrCollectionHoldString(
-													org.apache.commons.lang.StringEscapeUtils
-															.unescapeHtml(_meeting
-																	.getMeetingInfo()
-																	.getMeetingInfo()
-																	.get("meeting short description")
-																	.getStr())));
-
-							java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
-									"activityNumber");
-							Collections.sort(_activities, comp);
-						}
-
+						java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
+								"activityNumber");
+						Collections.sort(_activities, comp);
 					}
+
+				}
 				if( troop!=null && troop.getYearPlan()!=null){
 					Helper helper = troop.getYearPlan().getHelper();
 					if( helper==null ) helper= new Helper();
@@ -801,62 +752,44 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					helper.setCurrentDate(planView.getSearchDate().getTime());
 					java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
 					if (troop != null && troop.getTroop() != null) {
-						if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
+						if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
 							permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
 						}
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
                                                 }
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
                                                 }
-                                                if(userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
+                                                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
                                                         permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
-					/*check with In Koo
-					if (user != null && user.getPermissions() != null) { 
-												if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID)) {
-						                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
-												}
-                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
-                                                }
-                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
-                                                }
-                                                if (userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ATTENDANCE_ID)) {
-                                                        permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
-                                                }
-					}
-					*/
 					helper.setPermissions(permissions);
 					helper.setAchievementCurrent(achievementCurrent);
 					helper.setAttendanceCurrent(attendanceCurrent);
 					helper.setAttendanceTotal(attendanceTotal);
 					troop.getYearPlan().setHelper(helper);
+
+	                session.putValue("VTK_troop", troop);
+
+                    ObjectMapper mapper = new ObjectMapper();
+                    try {
+                    out.println(mapper.writeValueAsString(troop)
+                            .replaceAll("mailto:", "")
+                            .replaceAll("</a>\"</a>", "</a>")
+                            .replaceAll("\"</a>\"", ""));
+                    } catch (Exception ee) {
+                        // error message in logs
+                    }
+                    
+                    troop.getYearPlan().setMeetingEvents(TMP_meetings);
+                    session.putValue("VTK_troop", troop);
+
+				} else {
+					// error message in logs
 				}
-				/*
-				troop.setTroop(prefTroop);
-				troop.setSfTroopId(troop.getTroop().getTroopId());
-				troop.setSfUserId(user.getApiConfig().getUserId());
-				troop.setSfTroopName(troop.getTroop().getTroopName());
-				troop.setSfTroopAge(troop.getTroop().getGradeLevel());
-				troop.setSfCouncil(troop.getTroop().getCouncilCode()
-						+ "");
-				*/
-				session.putValue("VTK_troop", troop);
-
-				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(troop)
-						.replaceAll("mailto:", "")
-						.replaceAll("</a>\"</a>", "</a>")
-						.replaceAll("\"</a>\"", ""));
 				
-				
-				troop.getYearPlan().setMeetingEvents(TMP_meetings);
-				session.putValue("VTK_troop", troop);
-
 			}
 
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
@@ -907,10 +840,10 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                         .getGradeLevel());
                 troop.setSfCouncil(troop.getTroop()
                         .getCouncilCode() + "");
-                    
+                  
 				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 						.getYearPlanSched(user, troop, troop.getYearPlan(), true, true);
-					
+				  
 				//start milestone
 				try {
 					if (troop.getYearPlan() != null) {
@@ -920,7 +853,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				  
 				if (troop.getYearPlan().getMilestones() == null)
 					troop.getYearPlan().setMilestones(
 							new java.util.ArrayList());
@@ -931,22 +864,12 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 									sched.put(troop.getYearPlan().getMilestones().get(i).getDate(),
 											troop.getYearPlan().getMilestones().get(i));
 				}
+				 
 
 				//edn milestone
-/*
-				troop.setTroop(prefTroop);
-				troop.setSfTroopId(troop.getTroop().getTroopId());
-				troop.setSfUserId(user.getApiConfig().getUserId());
-				troop.setSfTroopName(troop.getTroop()
-						.getTroopName());
-				troop.setSfTroopAge(troop.getTroop()
-						.getGradeLevel());
-				troop.setSfCouncil(troop.getTroop()
-						.getCouncilCode() + "");
-					*/
 							
 				session.putValue("VTK_troop", troop);
-
+					   
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
@@ -961,7 +884,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						} catch (Exception e) {
 	}
 					}
-
+ 
 				ObjectMapper mapper = new ObjectMapper();
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
@@ -969,59 +892,64 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
 				out.println("}");
+				   
 			}
 
 		} else if (request.getParameter("reactActivity") != null) {
 
-			boolean isFirst = false;
-			if (request.getParameter("isFirst") != null
-					&& request.getParameter("isFirst").equals("1")) {
-				isFirst = true;
-			}
+            boolean isFirst = false;
+            if (request.getParameter("isFirst") != null
+                    && request.getParameter("isFirst").equals("1")) {
+                isFirst = true;
+            }
 
-			boolean isCng = false;
+            boolean isCng = false;
 
-			if (!isFirst && troop.getYearPlan()!=null) {
-				ModifiedChecker modifiedChecker = sling
-						.getService(ModifiedChecker.class);
-				isCng = modifiedChecker.isModified(
-						"X" + session.getId(), troop.getYearPlan().getPath());
-			}
+            if (!isFirst && troop.getYearPlan()!=null) {
+            
+           	
+                ModifiedChecker modifiedChecker = sling
+                        .getService(ModifiedChecker.class);
+                isCng = modifiedChecker.isModified(
+                        "X" + session.getId(), troop.getYearPlan().getPath());
 
-			if (isFirst || isCng) {
+                
+            }
+
+            if (isFirst || isCng) {
                                 org.girlscouts.vtk.salesforce.Troop prefTroop = null;
                                 if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
                                         prefTroop = apiConfig.getTroops().get(0);
                                 }
-				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-					if (apiConfig.getTroops().get(ii).getTroopId()
-							.equals(troop.getSfTroopId())) {
-						prefTroop = apiConfig.getTroops().get(ii);
-						break;
-					}
-				}
+                for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+                    if (apiConfig.getTroops().get(ii).getTroopId()
+                            .equals(troop.getSfTroopId())) {
+                        prefTroop = apiConfig.getTroops().get(ii);
+                        break;
+                    }
+                }
 
-				Activity currentActivity = null;
-				troop = troopUtil.getTroop(user,
-						"" + prefTroop.getCouncilCode(),
-						prefTroop.getTroopId());
+                Activity currentActivity = null;
+                troop = troopUtil.getTroop(user,
+                        "" + prefTroop.getCouncilCode(),
+                        prefTroop.getTroopId());
+                troop.setTroop(prefTroop);
+                PlanView planView = meetingUtil.planView(user, troop, request);
+                java.util.List<Activity> activities = troop
+                        .getYearPlan().getActivities();
+                for (int i = 0; i < activities.size(); i++) {
+                    if (activities
+                            .get(i)
+                            .getUid()
+                            .equals(planView.getYearPlanComponent().getUid()))
+                        currentActivity = activities.get(i);
+                }
 
-				PlanView planView = meetingUtil.planView(user, troop, request);
-				java.util.List<Activity> activities = troop
-						.getYearPlan().getActivities();
-				for (int i = 0; i < activities.size(); i++) {
-					if (activities
-							.get(i)
-							.getUid()
-							.equals(planView.getYearPlanComponent().getUid()))
-						currentActivity = activities.get(i);
-				}
-
-				YearPlan yearPlan = new YearPlan();
-				
-				
-			
-				if( troop!=null && troop.getYearPlan()!=null){
+                YearPlan yearPlan = new YearPlan();
+                
+                
+            
+                if( troop!=null && troop.getYearPlan()!=null){
                     Helper helper = troop.getYearPlan().getHelper();
                     if( helper==null ) helper= new Helper();
                     helper.setNextDate(planView.getNextDate());
@@ -1030,23 +958,23 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                     helper.setSfTroopAge( troop.getSfTroopAge());
                     java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
                     
-                    if (troop != null && userUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
+                    if (troop != null && VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
                    
                     helper.setPermissions(permissions);
                     
                     yearPlan.setHelper(helper);
                 }
-				
-				
-				java.util.List<Activity> _activities= new java.util.ArrayList();
-				_activities.add( currentActivity );
-				yearPlan.setActivities( _activities);
-				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(yearPlan));
-				//orgi out.println(mapper.writeValueAsString(currentActivity));
+                
+                
+                java.util.List<Activity> _activities= new java.util.ArrayList();
+                _activities.add( currentActivity );
+                yearPlan.setActivities( _activities);
+                ObjectMapper mapper = new ObjectMapper();
+                out.println(mapper.writeValueAsString(yearPlan));
+                //orgi out.println(mapper.writeValueAsString(currentActivity));
 
-			}
+            }
 
 		} else if (request.getParameter("isRmTroopImg") != null) {
 

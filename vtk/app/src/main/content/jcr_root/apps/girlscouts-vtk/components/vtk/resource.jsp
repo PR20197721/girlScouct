@@ -27,20 +27,19 @@
 %>
 <%-- VTK tab --%>
 <%
+    
 	String activeTab = "resource";
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+    String sectionClassDefinition = "resource";
 %>
 
-<div id="vtkTabNav"></div>
-<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
+<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
-
-<div id="panelWrapper" class="row content">
-	<div id="vtkNav"></div>
+<%@include file="include/bodyTop.jsp" %>
 	<div class="columns large-20 large-centered">
 		<script>
 			var fixVerticalSizing = false;
@@ -250,7 +249,7 @@
 					target="_blank"><%=la.getTitle()%></a></td>
 				<td width="40">
 					<%
-						if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
+						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
 					%>
 					<input type="button" value="Add to Meeting"
 					onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )"
@@ -284,7 +283,7 @@
 					target="_blank"><%=a.getTitle()%></a></td>
 				<td width="40">
 					<%
-						if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
+						if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
 					%>
 					<input type="button" value="Add to Meeting"
 					onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )"
@@ -325,7 +324,7 @@
 				}
 		%>
 	</div>
-</div>
+<%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');
 </script>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="sling:Folder"
+    caseTypes="[ Troop Support/Girl Program, Service Area Support, Product Sales, Registration/Reservations, Recruitment, Shop, Giving/Sponsorships, General, Other ]"/>

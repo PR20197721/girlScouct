@@ -1,0 +1,22 @@
+this is a load test written using the Gatling framework.  In addition to running tests, Gatling can also act as a recording proxy so you can easily record yourself as you browse to quickly make new tests.
+
+To learn more about Gatling:
+    http://gatling.io/docs/2.1.7/quickstart.html#quickstart
+
+To run the test:
+    mvn compile
+    mvn gatling:execute
+
+To create tests you will need to download the Gatling bundle from the zip site and expand it in your GATLING_HOME directory (could be anywhere).
+
+You will need Java 8 to run the recorder inside $GATLING_HOME/bin/recorder.sh.
+Change the proxy listening port to an open port (default 8000) and update your browser's network configuration to use the proxy to access the internet.
+
+e.g. Manual proxy configuration:
+	HTTP Proxy: localhost Port:8000
+
+If running the recorder on localhost, be sure to remove the proxy exclusion for localhost.
+
+Click Start! on the Gatling recorder and click around on your browser to create your test.
+When finished, the script will be saved in the $GATLING_HOME/user-files/simulations/ directory.
+

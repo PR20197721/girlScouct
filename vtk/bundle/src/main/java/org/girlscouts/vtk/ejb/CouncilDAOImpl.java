@@ -71,13 +71,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Council council = null;
 		Session session = null;
 		try {
-			
-/*
-			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
-							Permission.PERMISSION_LOGIN_ID))
-				throw new IllegalAccessException();
-				*/
+			//TODO Permission.PERMISSION_LOGIN_ID
+
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
@@ -117,12 +112,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public Council createCouncil(User user, String councilId)
 			throws IllegalAccessException, VtkException {
-/*
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
-			throw new IllegalAccessException();
-			*/
+
+		//TODO Permission.PERMISSION_LOGIN_ID
 		Session session = null;
 		Council council = null;
 		try {
@@ -143,14 +134,13 @@ public class CouncilDAOImpl implements CouncilDAO {
 			String vtkBase = VtkUtil.getYearPlanBase(user, null);
 			session = sessionFactory.getSession();
 			if (!session.itemExists(vtkBase)) {
-				//create vtk base
-				//ocm.insert(new JcrNode(vtkBase.substring(0, vtkBase.length()-1)));
+				
 				permiss.modifyNodePermissions(vtkBase, "vtk");
 				permiss.modifyNodePermissions("/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/", "vtk");
 			}
 			
 			
-			//council = new Council("/vtk/" + councilId);
+	
 			council = new Council(vtkBase + councilId);
 		
 			if (!session.itemExists(vtkBase + councilId)) {
@@ -177,13 +167,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public Council getOrCreateCouncil(User user, String councilId)
 			throws IllegalAccessException, VtkException {
-/*
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
-			throw new IllegalAccessException();
-			*/
 
+		//TODO Permission.PERMISSION_LOGIN_ID
 		Council council = findCouncil(user, councilId);
 	
 		if (council == null){			
@@ -194,12 +179,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public void updateCouncil(User user, Council council)
 			throws IllegalAccessException {
-		/*
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
-			throw new IllegalAccessException();
-			*/
+		//TODO Permission.PERMISSION_LOGIN_ID
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -236,12 +216,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
 			throws IllegalAccessException{
-		/*
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_VIEW_MILESTONE_ID))
-			throw new IllegalAccessException();
-			*/
+		//TODO Permission.PERMISSION_VIEW_MILESTONE_ID
 		CouncilInfo list = getCouncilInfo(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
@@ -303,12 +278,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String cid)
 			throws IllegalAccessException{
-/*
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_EDIT_MILESTONE_ID))
-			throw new IllegalAccessException();
-			*/
+		
+		//TODO: permissions here Permission.PERMISSION_EDIT_MILESTONE_ID
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();

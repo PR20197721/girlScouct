@@ -38,34 +38,6 @@ public class UserUtil {
 		return true;
 	}
 
-	public boolean isCurrentTroopId(Troop troop, String sId) {
-
-		if (true)
-			return true;
-
-		java.util.Date lastUpdate = yearPlanDAO
-				.getLastModifByOthers(troop, sId);
-		if (lastUpdate != null && troop.getRetrieveTime() != null
-				&& troop.getRetrieveTime().before(lastUpdate)) {
-			troop.setRefresh(true);
-			return false;
-		}
-		return true;
-	}
-
-	public boolean isCurrentTroopId_NoRefresh(Troop troop, String sId) {
-
-		java.util.Date lastUpdate = yearPlanDAO
-				.getLastModifByOthers(troop, sId);
-		if (lastUpdate != null && troop.getRetrieveTime() != null
-				&& troop.getRetrieveTime().before(lastUpdate)) {
-
-			return false;
-		}
-
-		return true;
-	}
-
 	public String getCouncilUrlPath(ApiConfig apiConfig,
 			HttpServletRequest request) {
 		String redirectUrl = null;

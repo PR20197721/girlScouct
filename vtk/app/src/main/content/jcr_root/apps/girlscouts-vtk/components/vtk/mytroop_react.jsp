@@ -46,7 +46,7 @@
 	
 	
 
-<% if( !hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){
+<% if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID) && VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID)){
 		  
 
        for(int i=0; i<contacts.size(); i++) {
@@ -77,7 +77,7 @@
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
 		      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-		        <% if(hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){ %>
+		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){ %>
 		            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
 		         <%} %>
 		      </dt>

@@ -4,6 +4,7 @@ add_import_path "bower_components/slick.js/slick"
 #add_import_path "bower_components/fontawesome/scss"
 
 require 'sass-globbing'
+# require 'css_splitter'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
@@ -12,6 +13,11 @@ sass_dir = "custom/scss"
 images_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/images"
 javascripts_dir = "custom/js"
 fonts_dir = "bower_components/slick.js/slick/fonts"
+
+
+# on_stylesheet_saved do |path|
+#   CssSplitter.split(path) unless path[/\d+$/]
+# end
 
 # sourcemap = false
 

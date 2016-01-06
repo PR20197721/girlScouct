@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Right Rail Carousel"
+    height="{Long}600"
+    width="{Long}1000"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Content">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<dynamiccarousel
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Dynamic Carousel"
+                        fieldDescription="If dynamic carousel is turned off. Only the first image will be shown."
+                        name="./dynamiccarousel"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <carouseltitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Carousel Title"
+                        name="./carouselTitle"
+                        xtype="textfield"/>
+                    <carouselsubtitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Carousel Sub-Title"
+                        name="./carouselSubTitle"
+                        xtype="textfield"/>
+                    <multi
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Links"
+                        hideLabel="{Boolean}true"
+                        name="./carouselList"
+                        xtype="rightrailcarouselmultifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            xtype="rightrailcarouselwidget"/>
+                    </multi>
+                    <calltoactionname
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Call To Action Name"
+                        name="./calltoactionname"
+                        xtype="textfield"/>
+                    <calltoactionlink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Call To Action Link"
+                        name="./calltoactionlink"
+                        xtype="pathfield"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <autoScroll
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Auto Scroll"
+                        name="./autoscroll"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <timedelay
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="./timedelay"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </timedelay>
+                    <showverticalrule
+                    	jcr:primaryType="cq:Widget"
+                        fieldLabel="Show Vertical Rule"
+                        name="./showverticalrule"
+                        fieldDescription="Default: false"
+                        type="checkbox"
+                		xtype="selection">
+                    </showverticalrule>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>

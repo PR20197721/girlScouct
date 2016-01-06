@@ -63,6 +63,7 @@ implements OptingServlet {
 	protected static final String EXTENSION = "html";
 	protected static final boolean DEBUG = false;
 	protected static final String SALESFORCE_URL="https://www.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
+	//protected static final String SALESFORCE_URL="https://test.salesforce.com/servlet/servlet.WebToCase?encoding=UTF-8";
 
 	protected static final String URL_PROPERTY = "requestURL";
 	protected static final String CW_RW_PROPERTY = "cwrw";

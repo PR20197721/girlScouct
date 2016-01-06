@@ -72,6 +72,61 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
+                        <is-cookie-page
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Cookie pages have special headers, footers and third column."
+                            fieldLabel="Is Cookie Page"
+                            name="./isCookiePage"
+                            type="radio"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-cookie-page>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            fieldDescription="Default: SEO Title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"
+                            name="./ogImage"/>
+                        <fbappid
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="fb:app_id"
+                            value="419540344831322"
+                            defaultValue="419540344831322"
+                            fieldDescription="Default: 419540344831322 "
+                            name="./fbAppId"/>
                     </items>
                 </gsusa>
             </items>

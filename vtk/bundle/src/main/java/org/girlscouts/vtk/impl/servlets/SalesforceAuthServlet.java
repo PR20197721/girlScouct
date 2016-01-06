@@ -172,10 +172,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		}
 		String redirectUrl;
 		if (config == null || config.getId() == null) {
-			/*
-			 * String refererCouncil = request.getParameter("refererCouncil");
-			 * if (refererCouncil == null) { refererCouncil = ""; }
-			 */
+			
 
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
@@ -206,14 +203,12 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		}
 
 		AppSettings appSettings = new AppSettings();
-		// appSettings.setAssertionConsumerServiceUrl("http://localhost:4503/content/girlscouts-vtk/controllers/auth.sfauth.html");
 		appSettings.setAssertionConsumerServiceUrl(callbackUrl);
 		appSettings.setIssuer(configManager.getConfig("ssoIssuer"));// "https://gsusa--gsuat.cs11.my.salesforce.com");
 
 		AccountSettings accSettings = new AccountSettings();
 		accSettings.setIdpSsoTargetUrl(configManager
-				.getConfig("idpSsoTargetUrl"));// "https://gsuat-gsmembers.cs11.force.com/members/idp/login?app=0spZ0000000004h");
-
+				.getConfig("idpSsoTargetUrl"));
 		AuthRequest authReq = new AuthRequest(appSettings, accSettings);
 		try {
 			String reqString = authReq.getSSOurl(refererCouncil);
@@ -269,10 +264,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			/*
-			 * try { isLogoutWeb = logoutWeb(apiConfig); } catch (Exception e) {
-			 * e.printStackTrace(); }
-			 */
+			
 
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
@@ -295,22 +287,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 					redirectUrl = "/content/" + refererCouncil + "/";
 					redirectUrl = resourceResolver.map(redirectUrl);
 				}
-/*
-				    String refererCouncil = VtkUtil.getCouncilInClient(request);
-				    if (refererCouncil != null && !refererCouncil.isEmpty()) {
-				        redirectUrl = "/content/" + refererCouncil + "/";
-				        redirectUrl = resourceResolver.map(redirectUrl);
-				    }
-				} else {
-					redirectUrl = councilMapper.getCouncilUrl(councilId);
-				}
-			} catch (Exception e) {
-				String refererCouncil = VtkUtil.getCouncilInClient(request);
-			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
-			        redirectUrl = "/content/" + refererCouncil + "/";
-			        redirectUrl = resourceResolver.map(redirectUrl);
-			    }
-*/
+
 			}
 		}
 		if (redirectUrl == null) {
@@ -336,7 +313,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		redirectUrl = resourceResolver.map(redirectUrl);
 		redirectUrl = configManager.getConfig("communityUrl")
 				+ "/VTKLogout?redirectSource=" + configManager.getConfig("baseUrl") + "/content/girlscouts-vtk/en/vtk.logout.html";
-				//+ java.net.URLEncoder.encode(configManager.getConfig("baseUrl")+redirectUrl);
+				
 		redirect(response, redirectUrl);
 	}
 
@@ -366,10 +343,6 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			}
 			
 			samlResponse.setDestinationUrl(requestURL);
-					/*
-					.replace("http://my-uat", "https://my-uat")
-					.replace("http://my-stage", "https://my-stage") );
-					*/
 			if (samlResponse.isValid()) {
 				token = samlResponse.getNameId();
 				userId = samlResponse.getUserId(request
@@ -442,22 +415,11 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
-			/*
-			// CHN to LOAD PERMISSION HERE
-			vtkUser.setPermissions(config.getTroops().get(0)
-					.getPermissionTokens());
-			*/
-			
 			
 			
 			// load config
 			vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
-			/*
-			vtkUser.setCurrentYear(getCurrentYear(
-					request.getResourceResolver(), vtkUser.getApiConfig()
-							.getTroops().get(0).getCouncilCode()));
-		
-			 */
+			
 			}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
@@ -538,22 +500,7 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
 		if (config.getTroops() != null && config.getTroops().size() > 0) {
-			/*
-			// CHN to LOAD PERMISSION HERE
-			vtkUser.setPermissions(config.getTroops().get(0)
-					.getPermissionTokens());
-*/
-			
-			
-			
-			// load config
-			/*
-			vtkUser.setCurrentYear(getCurrentYear(
-					request.getResourceResolver(), vtkUser.getApiConfig()
-							.getTroops().get(0).getCouncilCode()));
-
-		*/
-			
+		
 			
 		// Set cookie troopDataPath 
 		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
@@ -585,7 +532,7 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		HttpsURLConnection con = null;
 		try {
 			String url = apiConfig.getInstanceUrl() + "/secur/logout.jsp"; // DYNAMIC
-
+//TODO wrong url
 			url = "http://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource=http://localhost:4503/content/girlscouts-vtk/en/vtk.home.html";
 
 			obj = new URL(url);

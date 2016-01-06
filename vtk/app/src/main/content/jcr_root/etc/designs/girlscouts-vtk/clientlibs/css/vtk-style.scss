@@ -356,6 +356,13 @@
       margin-bottom:20px;
     }
   }
+  #fullNav #vtkNav {
+    padding-top: 20px;
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 27px;
+    }
+  }
   .inline-list {
     margin: 0;
     &#sub-nav {
@@ -2276,5 +2283,4 @@ input[type="file"] {
       }
     }
 }
-
 

@@ -94,11 +94,6 @@ public interface MeetingDAO {
 	public List<Asset> getResource_global(User user,Troop troop, String tags,
 			String meetingName) throws IllegalAccessException;
 
-	// migrate script - 1time only
-	public void doX();
-
-	public void undoX();
-
 	public Attendance getAttendance(User user, Troop troop, String mid);
 
 	public boolean setAttendance(User user, Troop troop, String mid,

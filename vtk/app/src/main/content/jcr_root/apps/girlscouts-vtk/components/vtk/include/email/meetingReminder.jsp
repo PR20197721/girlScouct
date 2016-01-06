@@ -109,7 +109,8 @@
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel1">
       	<ul class="small-block-grid-2"><%  
-      	for(int i=0;i<planView.getAidTags().size();i++) { 
+      	if(planView.getAidTags()!=null)
+      	  for(int i=0;i<planView.getAidTags().size();i++) { 
 						String ext = planView.getAidTags().get(i).getDocType();
 						if(ext == null) {
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());

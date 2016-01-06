@@ -938,10 +938,10 @@ function councilRpt(troopId, cid){
 
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
-		loadUNav(activeTab);
+//		loadUNav(activeTab);
 	
 
-		setTimeout(function(){checkIsLoggedIn();}, 5000);
+		setTimeout(function(){checkIsLoggedIn();}, 10000);
 		     
 
 		if(activeTab!=null && activeTab=='myTroop'){
@@ -959,7 +959,7 @@ function councilRpt(troopId, cid){
 
 	}
 	
-
+/*
 
 	function loadUNav(activeTab){
 
@@ -972,7 +972,7 @@ function councilRpt(troopId, cid){
 	    })
 	}
 
-
+*/
 
 	function loadTabNav(activeTab){
 
@@ -980,7 +980,7 @@ function councilRpt(troopId, cid){
 	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
 	            cache: false
 	        }).done(function( html ) {
-	            var vtkNav = document.getElementById("vtkTabNav");
+	        	var vtkNav = document.getElementById("fullNav");
 	            vtkNav.innerHTML =html;
 	            getRelogin();
 
@@ -1012,7 +1012,7 @@ function councilRpt(troopId, cid){
 	  isLoggedIn=false;
   }
   
-  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; checkIsLoggedIn()}
+  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; }
   function 	checkIsLoggedIn(){  
 	  if( document.getElementById("myframe")==null){return;}
 	  console.log("checking isLoggedin..."+ isLoggedIn);
