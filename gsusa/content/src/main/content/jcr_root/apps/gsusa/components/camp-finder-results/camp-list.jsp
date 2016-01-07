@@ -3,7 +3,7 @@
 
 <form class="sort-form clearfix">
     <div class="clearfix">
-        <section>
+        <section class="radius">
             <label>Radius:</label>
             <select name="radius" onchange="this.form.submit()">
                 <option value="1">1 miles</option>
@@ -18,7 +18,7 @@
                 <option value="500">500 miles</option>
             </select>
         </section>
-        <section>
+        <section class="duration">
             <label>Duration:</label>
             <select name="duration" onchange="this.form.submit()">
                 <!-- default -->
@@ -28,7 +28,7 @@
                 <option value="more_than_1_week">More than 1 week</option>
             </select>
         </section>
-        <section>
+        <section  class="grade">
             <label>Grade:</label>
             <select name="grade" onchange="this.form.submit()">
                 <!-- default -->
@@ -49,26 +49,22 @@
                 <option value="adult">Adult</option>
             </select>
         </section>
-    </div>
-    <div class="clearfix">
-        <section>
+        <section  class="date">
             <label>Start Date:</label>
             <input type="text" class="dp-calendar form-control hide-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
             <input type="date" class="show-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
-        <section>
+        <section  class="date">
             <label>End Date:</label>
             <input type="text" class="dp-calendar form-control hide-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
             <input type="date" class="show-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
-    </div>
-    <div class="clearfix">
-        <section>
+        <section  class="sort">
             <label>Sort by:</label>
             <select name="sortBy" onchange="this.form.submit()">
                 <!-- default -->
-                <option value="distance" selected>distance</option>
-                <option value="date">date</option>
+                <option value="distance" selected>Distance</option>
+                <option value="date">Date</option>
             </select>
         </section>
     </div>
