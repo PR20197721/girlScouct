@@ -146,7 +146,6 @@ CampFinder.prototype.processResult = function(campResult) {
 		$('#camp-finder-result #more').hide();
 	}
 
-    $('.camp-results .more-section section').hide();
     $(".camp-results .more-section .read-more").unbind().on("click", function (e){
       $(this).siblings('section').slideToggle();
       $(this).html(($(this).text() == 'Read More') ? 'Read Less' : 'Read More');

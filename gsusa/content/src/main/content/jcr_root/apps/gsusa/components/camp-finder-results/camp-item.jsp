@@ -9,7 +9,7 @@
     <p>Website: <a href="{{Website}}" title="">{{Website}}</a></p>
     <p>Contact information: {{Email1}} or {{Phone1}}</p>
     <div class="more-section">
-        <section>
+        <section style="display:none;">
          <p>{{Description}}</p>
         </section>
         <a title="read more" class="read-more">Read More</a>
