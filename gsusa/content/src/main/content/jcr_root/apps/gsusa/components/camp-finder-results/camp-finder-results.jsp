@@ -108,15 +108,10 @@ CampFinder.prototype.processResult = function(campResult) {
 	} else {
 		var templateDOMId = 'template-more-camps';
 		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
-		$('.camp-finder .show-more').before(html);
+		$('.camp-finder-results .show-more').before(html);
 	}
 
 	if (templateId == 'camps') {
-		// Bind "View Details" buttons
-		$('.readmore.button').on('click', function(){
-			// TODO: bind view detail button
-		});
-
 		if (this.page == 1) {
 			// Reset form values
 			var radius = getParameterByName('radius');
@@ -152,7 +147,7 @@ CampFinder.prototype.processResult = function(campResult) {
 	}
 
     $('.camp-results .more-section section').hide();
-    $(".camp-results .more-section .read-more").on("click", function (e){
+    $(".camp-results .more-section .read-more").unbind().on("click", function (e){
       $(this).siblings('section').slideToggle();
       $(this).html(($(this).text() == 'Read More') ? 'Read Less' : 'Read More');
       $(this).toggleClass('on');
