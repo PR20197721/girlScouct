@@ -167,10 +167,10 @@
                             </chars>
                         </specialCharsConfig>
                     </intro>
-                    <no-result
+                    <no-results
                         jcr:primaryType="cq:Widget"
                         fieldLabel="No Result Text"
-                        name="./no-result"
+                        name="./no-results"
                         xtype="richtext">
                         <htmlRules jcr:primaryType="nt:unstructured">
                             <blockHandling
@@ -320,7 +320,7 @@
                                     entity="&lt;hr>"/>
                             </chars>
                         </specialCharsConfig>
-                    </no-result>
+                    </no-results>
                 </items>
             </tab1>
         </items>

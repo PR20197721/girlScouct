@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
-
+<%= properties.get("intro", "") %>
 <form class="sort-form clearfix">
     <div class="clearfix">
         <section class="radius">
@@ -23,9 +23,9 @@
             <select name="duration" onchange="this.form.submit()">
                 <!-- default -->
                 <option value="all" selected>All</option>
-                <option value="less_than_1_week">Less than 1 week</option>
-                <option value="1_week">1 week</option>
-                <option value="more_than_1_week">More than 1 week</option>
+                <option value="less">Less than 1 week</option>
+                <option value="week">1 week</option>
+                <option value="long">More than 1 week</option>
             </select>
         </section>
         <section  class="grade">

@@ -35,19 +35,22 @@ function CampFinder(url, zip, radius, duration, grade, startDate, endDate, sortB
 }
 
 CampFinder.prototype.getResult = function() {
-	// TODO: Other filters are not implemented yet.
     var data = {
 		z: this.zip,
-		//r: this.radius,
-		d: this.duration,
-		//d: this.duration
-		//g: this.grade,
-		//sd: this.startDate,
-		//ed: this.endDate,
-		//t: this.sortBy,
-		//s: this.page * this.numPerPage,
-		//m: this.numPerPage + 1 // Plus 1 to see if there are more results
+		d: this.radius,
+		cd: this.duration,
+		g: this.grade,
+		t: this.sortBy,
+		s: (this.page - 1) * this.numPerPage + 1,
+		m: this.numPerPage + 1 // Plus 1 to see if there are more results
     };
+    
+    if (this.startDate) {
+    	data.csd = this.startDate;
+    }
+    if (this.endDate) {
+    	data.ced = this.endDate;
+    }
 
     var gaparam = getParameterByName('utm_campaign');
     if (gaparam) {
@@ -64,17 +67,13 @@ CampFinder.prototype.getResult = function() {
 
 	$.ajax({
 		url: this.url,
-		// TODO: change it back after test
-		//dataType: "json",
+		dataType: "json",
 		data: data,
 		success: CampFinder.prototype.processResult.bind(this)
 	});
 }
 
 CampFinder.prototype.processResult = function(campResult) {
-	// TODO: test result
-	campResult = [{"Council Name":"Girl Scouts of North-Central Alabama","Camp Name":"Mountain\\Camp Cottaquilla","Location":"Anniston, AL","ZipCode":"36201","Description":"Located in the foothills of the Appalachian Mountains near the highest point in Alabama, Camp Cottaquilla offers sprawling hardwood forests, soaring mountains, miles of hiking trails, and 1,800 acres to explore. A small lake near the center of the camp provides the ideal location for girls to try canoeing, kayaking, paddle boarding, and fishing, and the swimming pool offers a welcome reprieve from the summer\'s heat. There\'s also archery, riflery, low ropes, \"nature nook,\" and campfire circle. Camp Cottaquilla is ACA accredited.","SeasonDates":"May 31 - June 12","SessionLength":"1 or 2 weeks","Fee":"$349 - $359 per week","Grades":"All","Website":"http:\/\/www.girlscoutsnca.org","Email1":"lelliott@girlscoutsnca.org","Email2":"","Phone1":"","Phone2":"","Distance":"0"},{"Council Name":"Girl Scouts of North-Central Alabama","Camp Name":"Camp Coleman","Location":"Trussville, AL","ZipCode":"35173","Description":"Nestled along the banks of the winding Cahaba River near Trussville, Alabama, Camp Coleman features 140 acres of woods, meadows, and trails. The camp provides an instructional horseback riding program, low and high ropes courses, indoor climbing wall, swimming pool, nature center, canoeing, kayaking, archery, riflery, and more.","SeasonDates":"May 26 - June 26","SessionLength":"1 or 2 weeks","Fee":"day camp, $125 per week; resident camp, $339 - $399 per week","Grades":"All","Website":"http:\/\/www.girlscoutsnca.org","Email1":"lelliott@girlscoutsnca.org","Email2":"hello@example.net","Phone1":"123-123-1234 ext 1234","Phone2":"456-456-4567 ext 7890","Distance":"43.5"},{"Council Name":"Girl Scout Council of the Florida Panhandle","Camp Name":"Kugelman\/Campus","Location":"Lillian, AL","ZipCode":"36549","Description":"Located just outside of Pensacola, Florida, on Perdido Bay, Kugelman Campus offers weeklong, half-week, and weekend camping programs for girls. Girls attending camp have the opportunity to work on Girl Scout Journeys and earn badges and leadership awards. Lodging at Kugelman Campus is dormitory style with central heat and air conditioning.","SeasonDates":"July 5 - 19","SessionLength":"Half week, Full week and Weekend","Fee":"$75 - $600 per session","Grades":"entering 1st - 12th","Website":"http:\/\/issuu.com\/gscfp\/docs\/camp_brochure__2015","Email1":"Camp@gscfp.org","Email2":"","Phone1":"888-271-8779","Phone2":"","Distance":"245.6"}];
-
 	var camps = campResult;
 
 	// Add zip to environment
@@ -127,10 +126,8 @@ CampFinder.prototype.processResult = function(campResult) {
 			var endDate = getParameterByName('endDate');
 			var sortBy = getParameterByName('sortBy');
 			if (!radius) radius = 250;
-			if (!duration) date = 'all';
-			if (!grade) sortBy = 'all';
-			//TODO: if (!startDate) radius = 25;
-			//TODO: if (!endDate) date = 60;
+			if (!duration) duration = 'all';
+			if (!grade) grade = 'all';
 			if (!sortBy) sortBy = 'distance'
 			$('select[name="radius"]').val(radius);
 			$('select[name="duration"]').val(duration);
@@ -192,14 +189,11 @@ $(document).ready(function() {
 		var endDate = getParameterByName('endDate');
 		var sortBy = getParameterByName('sortBy');
 		if (!radius) radius = 250;
-		if (!duration) date = 'all';
-		if (!grade) sortBy = 'all';
-		//TODO: if (!startDate) radius = 25;
-		//TODO: if (!endDate) date = 60;
+		if (!duration) duration = 'all';
+		if (!grade) grade = 'all';
 		if (!sortBy) sortBy = 'distance'
 
-		// TODO: User # for testing. Correct URL will be: /campsapi/ajax_camp_results.asp
-		campFinder = new CampFinder("/content/gsusa/en.html", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		campFinder = new CampFinder("/campsapi/ajax_camp_results.asp", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		campFinder.getResult();
 	}
 });
