@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <%= properties.get("intro", "") %>
-<form class="sort-form clearfix">
+<form class="camp-finder-options sort-form clearfix">
     <div class="clearfix">
         <section class="radius">
             <label>Radius:</label>
@@ -90,6 +90,8 @@ $(function() {
         end.data('datepicker').update('minDate', date);
         $('#start-touch').val(start.val());
         $('#end-touch').val(end.val());
+        
+        $('form.camp-finder-options').submit();
       }
     });
 });
