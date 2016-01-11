@@ -90,7 +90,7 @@ public interface MeetingDAO {
 	public List<Asset> getAidTag(User user,Troop troop, String tags, String meetingName)
 			throws IllegalAccessException;
 
-	public List<Asset> getResource_local(User user, Troop troop,String tags,
+	public List<Asset> getResource_local(User user, Troop troop,
 			String meetingName, String meetingPath) throws IllegalAccessException;
 
 	public List<Asset> getResource_global(User user,Troop troop, String tags,

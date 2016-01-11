@@ -865,15 +865,16 @@ public class MeetingUtil {
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {	
 		PlanView planView = planView1(user, troop, request);
+System.err.println("tata aidTags planView....");		
 		if (planView == null) {
 			return null;
 		}
-
+System.err.println("tata aidTags planView..1..");	
 		YearPlanComponent _comp = planView.getYearPlanComponent();
 		if (_comp == null) {
 			return null;
 		}
-
+System.err.println("tata aidTags planView..2..");	
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
@@ -908,14 +909,16 @@ public class MeetingUtil {
 			}
 			_aidTags = meeting.getAssets();
 			
-			
-		if( isUpdateAssetInDb ) {
+System.err.println("tata aidTags: start");			
+		if( true){//isUpdateAssetInDb ) {
 			
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
-			if (meeting.getLastAssetUpdate() == null
-					|| meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
-			
+System.err.println("tata aidTags: start 1.0 "+ meeting.getLastAssetUpdate());		
+System.err.println("tata aidTags: start1 "+ (meeting.getLastAssetUpdate() == null));
+System.err.println("tata aidTags: start1.1 " + (meeting.getLastAssetUpdate().before(sysAssetLastLoad)));
+			if (true){//meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+System.err.println("tata aidTags: start2");	
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
 
@@ -933,20 +936,31 @@ public class MeetingUtil {
 				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
 						meetingInfo.getAidTags(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
-
+System.err.println("tata aidTags: quiry: "+ (__aidTags==null) );
+				
 				// merge lists aids
 				_aidTags.addAll(__aidTags);
-
+System.err.println("tata aidTags: merged aids: "+ _aidTags.size() );
 				// query resources cachables
+
+
+/*
 				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
 						meetingInfo.getResources(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
+*/
+				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
+						meetingInfo.getAidTags(), meetingInfo.getId(),
+						meeting.getUid(), meetingInfo.getPath());
+
+
+
 
 				// merge lists resources
 				_aidTags.addAll(__resources);
 				
 				meeting.setLastAssetUpdate(new java.util.Date());
-
+System.err.println("tata aidTags: resources: "+ (_aidTags.size()) );
 				meeting.setAssets(_aidTags);					
 				 troopUtil.updateTroop(user, troop);
 				

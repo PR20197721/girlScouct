@@ -621,6 +621,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				for (int i = 0; i < assetPaths.length; i++) {
 					String assetPath = assetPaths[i].getString();
 					log.debug("Asset Path = " + assetPath);
+	System.err.println("tata aidTags: 1st try: "+ assetPath );				
 					assets.addAll(getAssetsFromPath(assetPath, type, session));
 				}
 			}
@@ -640,6 +641,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			String rootPath = getSchoolYearDamPath() + "/local/" + typeString
 					+ "/meetings/" + meetingName;
+	System.err.println("tata aidTags path: "+ rootPath);		
 			if (session.nodeExists(rootPath)) {
 				assets.addAll(getAssetsFromPath(rootPath, type, session));
 			}
@@ -702,12 +704,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public List<Asset> getResource_global(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
-
+System.err.println("tata aidTags 11");
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+System.err.println("tata aidTags 12");
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -718,17 +720,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 			String sql_tag = "";
 			java.util.StringTokenizer t = new java.util.StringTokenizer(tags,
 					";");
+System.err.println("tata aidTags 13");		
 			while (t.hasMoreElements()) {
 				String tag = t.nextToken();
+System.err.println("tata aidTags 14");
 				sql_tag += "cq:tags like '%" + tag + "%'";
 				if (t.hasMoreElements())
 					sql_tag += " or ";
 			}
-
+System.err.println("tata aidTags 15");
 			String sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
-
+System.err.println("tata aidTags: sql : "+ sql);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -747,6 +751,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				search.setRefId(path);
 				search.setIsCachable(true);
 				search.setType(AssetComponentType.RESOURCE);
+System.err.println("tata aidTags- found asset global: "+ path );			
 				try {
 					search.setDescription(r.getValue("dc:description")
 							.getString());
@@ -816,8 +821,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return assets;
 	}
 
-	public List<Asset> getResource_local(User user, Troop troop, String tags,
-			String meetingName, String meetingPath)
+	//public List<Asset> getResource_local(User user, Troop troop, String tags, String meetingName, String meetingPath)
+	public List<Asset> getResource_local(User user, Troop troop, String meetingName, String meetingPath)
 			throws IllegalAccessException {
 
 		if (user != null

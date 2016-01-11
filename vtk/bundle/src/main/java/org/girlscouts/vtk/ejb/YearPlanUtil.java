@@ -212,7 +212,7 @@ public class YearPlanUtil {
 			String tags, String meetingName, String uids, String meetingPath)
 			throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, troop, tags,
+		container.addAll(meetingDAO.getResource_local(user, troop, 
 				meetingName, meetingPath));
 		container.addAll(meetingDAO.getResource_global(user, troop, tags,
 				meetingName));

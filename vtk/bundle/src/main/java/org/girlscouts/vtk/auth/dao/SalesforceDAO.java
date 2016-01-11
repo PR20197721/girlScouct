@@ -23,6 +23,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.girlscouts.vtk.auth.models.ApiConfig;
@@ -989,6 +990,217 @@ System.err.println("OAUth token is valid!!!");
 	}
 	
 	
+	public void doJoe (String code, String redirect_uri, String myResource) {
+		//String code= "AAABAAAAiL9Kn2Z27UubvWFPbm0gLQIjdGrghn_rLHPWG_fvKbrYy6gWWh4jHO0ymIrFXOAZmgvolGSpSx_gTHbcbRlXZ_tAG0yZ8R197gAQOV3t9SP_NskmRWHWC5vI_735ZOtn8eWV1OuMSeWYkkE0jHbhePCRfFquBDRE3eovGdinbXo26DoeNGTBRqNKYI2BqQivXfiU-o39KxllGk3RyNDPoxzgSnegeNru4z2yHF65dodcdYBW6VDSGu3fBaIh5y4w8ClNaj29yRDsbNcxV7s34YwPNFL8rPkyYRfhu3N64T5LjVL2Yl5alNZQ_BrN0xTuQ3o7Z_e-iOt1PhWjyLabfp8Vru-Hi57WDHL1udGR0hEUCKgucmEhFtQJGJE2bmev-NtTBNdiaXXIn6NUKzSPlCZEoFWiPLTWRiN6N91X98De8aaZ-HZiiRKH76x6ZzJBHyXj1A6zuVn3LRDucxnYhvcu8UATMCGt28-5TG-jBO7YVu7xxYF4Y2UYLt112GhlEzgakN25qTPlH735Tx7wT2traoureEuX3LV25DrL8F-71Npn1pqZbAoCQyu8BX5FIAA&session_state=43ad2a10-cb12-4dd0-96e8-47fda80019ad";
+		try {
+			code = URLDecoder.decode(code, "UTF-8");
+		} catch (Exception e) {
+			log.error("Error decoding the code. Left it as is.");
+		}
+		HttpClient httpclient = new HttpClient();
+		String tokenUrl = "https://login.microsoftonline.com/82d58e0a-7ac9-4887-b35b-4badbeb58fa2/oauth2/token";
+		PostMethod post = new PostMethod(tokenUrl);
+		post.addParameter("code", code);
+		post.addParameter("grant_type", "authorization_code");
+		post.addParameter("client_id", "685755ef-6295-4343-b28c-d79065511bd0");
+		post.addParameter("client_secret", "Wi7sagASVcorobTuqh9oATOUKugyFpdpmaoWj2u4KuI=");
+		post.addParameter("redirect_uri", redirect_uri); //"https://graph.windows.net/82d58e0a-7ac9-4887-b35b-4badbeb58fa2");
+	post.addParameter("resource", myResource);//"http://localhost:8080/aem-connector");//https://eycms.crm.dynamics.com/aemconnector");
+		
+		System.err.println(post.getRequestCharSet());
+		log.debug(post.getRequestEntity().toString());
+		try {
+			System.err.println("________________doAuth_________start_____________________________");
+			System.err.println("code " + code);
+			System.err.println("grant_type: authorization_code");
+			System.err.println("client_id: " + clientId);
+			System.err.println("client_secret: " + clientSecret);
+			System.err.println("redirect_uri " + callbackUrl);
+			System.err.println(post.getRequestCharSet());
+			Header headers[] = post.getRequestHeaders();
+			for (Header h : headers) {
+				System.err.println("Headers: " + h.getName() + " : " + h.getValue());
+			}
+			System.err.println(":::> " + post.getQueryString());
+			System.err.println(OAuthUrl + "/services/oauth2/token");
+			System.err.println("___________________doAuth________end___________________________");
+			httpclient.executeMethod(post);
+			System.err.println("doAuth: " + post.getResponseBodyAsString());
+			if (post.getStatusCode() == HttpStatus.SC_OK) {
+				try {
+					JSONObject authResponse = new JSONObject(new JSONTokener(
+							new InputStreamReader(
+									post.getResponseBodyAsStream())));
+					ApiConfig config = new ApiConfig();
+					config.setAccessToken(authResponse
+							.getString("access_token"));
+doJoeApi(config.getAccessToken());					
+					
+					config.setInstanceUrl(authResponse
+							.getString("instance_url"));
+					config.setWebServicesUrl(authResponse
+							.getString("sfdc_community_url"));
+					String refreshTokenStr = null;
+					try {
+						refreshTokenStr = authResponse
+								.getString("refresh_token");
+					} catch (Exception npe) {
+						// skip refresh token
+						System.err.println("Skipping refresh token because SF is not providing it");
+					}
+					System.err.println("Access token: "
+							+ authResponse.getString("access_token"));
+					System.err.println("REfresh tolen: " + refreshTokenStr);
+
+					String id = authResponse.getString("id");
+					config.setId(id);
+					config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+					if (refreshTokenStr != null) {
+						config.setRefreshToken(refreshTokenStr);
+					}
+					config.setCallbackUrl(callbackUrl);
+					config.setClientId(clientId);
+					config.setClientSecret(clientSecret);
+					config.setOAuthUrl(OAuthUrl);
+					//return config;
+					
+				} catch (JSONException e) {
+					System.err.println("JSON Parse exception: " + e.toString());
+				}
+			} else {
+				System.err.println("Return status not OK: " + post.getStatusCode() + " "
+						+ post.getResponseBodyAsString());
+			}
+		} catch (Exception e) {
+			System.err.println("Error executing HTTP POST when authenticating: "
+					+ e.toString());
+		} finally {
+			post.releaseConnection();
+		}
+		//return null;
+	}
 	
+	
+	public void doJoeApi(String access_token){
+		
+		System.err.println("do Joe API....");
+
+			CloseableHttpClient connection = null;
+			
+			String url =  "https://eycms.api.crm.dynamics.com/api/data/v8.0/accounts?$select=name";
+
+			HttpGet method = new HttpGet(url);
+			method.setHeader("Authorization", "Bearer " + access_token);
+
+			try {
+
+				connection = connectionFactory.getConnection();
+
+				CloseableHttpResponse resp = connection.execute(method);
+
+				int statusCode = resp.getStatusLine().getStatusCode();
+
+				if (statusCode != HttpStatus.SC_OK) {
+
+					System.err.println("Method failed: " + resp.getStatusLine());
+
+				}
+				HttpEntity entity = null;
+
+				String rsp = null;
+
+				try {
+
+					entity = resp.getEntity();
+
+					entity.getContent();
+
+					rsp = EntityUtils.toString(entity);
+
+					EntityUtils.consume(entity);
+
+					method.releaseConnection();
+
+					method = null;
+
+				} finally {
+
+					resp.close();
+
+				}
+
+				rsp = "{\"records\":" + rsp + "}";
+
+System.err.println(">>>>> " + rsp);
+
+				try {
+
+					JSONObject response = new JSONObject(rsp);
+
+					log.debug("<<<<<Apex contacts reponse: " + response);
+
+					JSONArray results = response.getJSONArray("records");
+
+					for (int i = 0; i < results.length(); i++) {
+
+						log.debug("_____ " + results.get(i));
+
+						Contact contact = new Contact();
+
+						try {
+
+							contact.setFirstName(results.getJSONObject(i)
+									.getJSONObject("Contact")
+									.getString("FirstName"));
+
+							contact.setLastName(results.getJSONObject(i)
+									.getJSONObject("Contact").getString("LastName"));
+
+						} catch (Exception e) {
+
+							e.printStackTrace();
+
+						}
+
+						
+
+					}
+
+				} catch (JSONException e) {
+
+					e.printStackTrace();
+
+				}
+
+			} catch (HttpException e) {
+
+				System.err.println("Fatal protocol violation: " + e.getMessage());
+
+				e.printStackTrace();
+
+			} catch (IOException e) {
+
+				System.err.println("Fatal transport error: " + e.getMessage());
+
+				e.printStackTrace();
+
+			} catch (Exception eG) {
+
+				System.err.println("Fatal transport error: " + eG.getMessage());
+
+				eG.printStackTrace();
+
+			} finally {
+
+				if (method != null)
+
+					method.releaseConnection();
+
+			}
+
+		
+
+		
+	}
 }// end class
 
