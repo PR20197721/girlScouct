@@ -698,7 +698,7 @@
           }
         });
       } else {
-	  	  var currentUrl = window.location.pathname;
+	  	  var currentUrl = window.location.href;
 	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
 	  
 	      if (window.location.search != undefined && window.location.search != "") {
