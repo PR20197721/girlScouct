@@ -41,6 +41,8 @@ CampFinder.prototype.getResult = function() {
 		cd: this.duration,
 		g: this.grade,
 		t: this.sortBy,
+		csd: this.startDate,
+		ced: this.endDate,
 		s: (this.page - 1) * this.numPerPage + 1,
 		m: this.numPerPage + 1 // Plus 1 to see if there are more results
     };
