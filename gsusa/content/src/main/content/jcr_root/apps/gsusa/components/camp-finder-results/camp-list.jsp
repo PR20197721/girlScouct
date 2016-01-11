@@ -51,13 +51,13 @@
         </section>
         <section  class="date">
             <label>Start Date:</label>
-            <input type="text" class="dp-calendar form-control hide-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
-            <input type="date" class="show-for-touch" id="start" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="start-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="yyyy-mm-dd" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
         <section  class="date">
             <label>End Date:</label>
-            <input type="text" class="dp-calendar form-control hide-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
-            <input type="date" class="show-for-touch" id="end" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="end-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="yyyy-mm-dd" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
         </section>
         <section  class="sort">
             <label>Sort by:</label>
@@ -84,11 +84,13 @@ $(function() {
         years: 'yyyy1 - yyyy2'
       },
       onSelect: function (fd, date) {
-        var $start = $('#start'),
-            $end = $('#end');
-        $start.data('datepicker').update('maxDate', date);
-        $end.data('datepicker').update('minDate', date);
+        var start = $('#start-desktop'),
+            end = $('#end-desktop');
+        start.data('datepicker').update('maxDate', date);
+        end.data('datepicker').update('minDate', date);
+        $('#start-touch').val(start.val());
+        $('#end-touch').val(end.val());
       }
     });
 });
-</script>
+<{{!}}/script>
