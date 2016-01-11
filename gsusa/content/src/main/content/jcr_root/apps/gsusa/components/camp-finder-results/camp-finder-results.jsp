@@ -140,10 +140,14 @@ CampFinder.prototype.processResult = function(campResult) {
 			$('select[name="radius"]').val(radius);
 			$('select[name="duration"]').val(duration);
 			$('select[name="grade"]').val(grade);
-			$('#start-desktop').val(moment(startDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-			$('#start-touch').val(startDate);
-			$('#end-desktop').val(moment(endDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-			$('#end-touch').val(endDate);
+			if (startDate) {
+				$('#start-desktop').val(moment(startDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
+				$('#start-touch').val(startDate);
+			}
+			if (endDate) {
+				$('#end-desktop').val(moment(endDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
+				$('#end-touch').val(endDate);
+			}
 			$('select[name="sortBy"]').val(sortBy);
 
 			// Bind click more
