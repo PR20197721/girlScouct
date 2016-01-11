@@ -157,9 +157,9 @@ checkVersion();
 				  	<div class="vid-slide-wrapper show-for-medium-up">
 				  		<% if(urls.length == 5) { %>
 				  			<% if(!title.equals("")){ %>
-				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-ratio="16:9" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
+				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
 				  			<% } else { %>
-				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-ratio="16:9" data-youtube-id="<%= urls[4]%>"></div>
+				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } %>
 			  			<% } else { %>
 				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
