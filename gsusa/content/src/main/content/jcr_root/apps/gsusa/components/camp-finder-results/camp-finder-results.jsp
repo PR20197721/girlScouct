@@ -89,8 +89,19 @@ CampFinder.prototype.processResult = function(campResult) {
 		var min = Math.min(camps.length, this.numPerPage); // length - 1 to omit the "more" one
 		for (var campIndex = 0; campIndex < min; campIndex++) {
 			var camp = camps[campIndex];
-			// Add Council Name and zip field to camp. "View Detail" needs this info.
+			// Add zip field to camp. "View Detail" needs this info.
 			camp.queryZip = this.zip;
+			// Process emails
+			var origEmails = camp.Email.split(/[;,\s]/);
+			var emails = "";
+			for (var emailIndex = 0; emailIndex < origEmails.length; emailIndex++) {
+				var email = origEmails[emailIndex];
+				emails = emails + '<a href="mailto:' + email + '">' + email + '</a>, '
+			}
+			if (emails.endsWith(', ')) {
+				emails = emails.substring(0, emails.length - 2);
+			}
+			camp.Emails = emails;
 		}
 
 		// Remove "more" items
