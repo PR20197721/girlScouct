@@ -93,4 +93,31 @@ public boolean isCookiePage(Page currentPage) {
 	}
 }
 
+public String getResourceLocation(Resource r){
+	String path = r.getPath();
+	if(path.indexOf("jcr:content/content/middle/par") != -1){
+		return "cq5dam.npd.middle.";
+	} else if(path.indexOf("jcr:content/content/top/par") != -1){
+		return "cq5dam.npd.top.";
+	} else if(path.indexOf("jcr:content/content/left/par") != -1){
+		return "cq5dam.npd.left.";
+	} else if(path.indexOf("jcr:content/content/right/par") != -1){
+		return "cq5dam.npd.right.";
+	} else if(path.indexOf("jcr:content/content/hero/par") != -1){
+		return "cq5dam.npd.hero.";
+	} else {
+		return "original";
+	}
+}
+
+public String get2xPath(String path) {
+	int lastIndex = path.lastIndexOf('.');
+	if(lastIndex != -1 && path.indexOf("cq5dam.npd") != -1){
+		return path.substring(0,lastIndex) + "@2x" + path.substring(lastIndex);
+	}
+	else{
+		return path;
+	}
+}
+
 %>

@@ -66,12 +66,8 @@
       }
       if (target.closest('.featured-stories li').length === 0
           && target.closest(".story").css('display') !== 'none') {
-        // $(".story").removeClass("shown");
         $(".story").fadeOut('slow');
         $("body").css('overflow', '');
-        // $(".off-canvas-wrap").css({
-        //   'position': ''
-        // });
         $(".featured-stories").css('position', '');
       }
       if (target.closest('.join .wrapper').length === 0
@@ -655,6 +651,71 @@
       // }]
     });
   }
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
+
+  //camp-finder vaidation and submittion function
+  function camp_finder() {
+    var campFormSubmitted = false;
+    $('.find-camp').submit(function (event) {
+       if(event.preventDefault) {
+         event.preventDefault();
+       } else {
+         event.stop();
+       }
+       event.returnValue = false;
+       event.stopPropagation();
+
+       if (campFormSubmitted) {
+         return;
+       }
+
+      event.preventDefault();
+
+      var zip = $(this).find('input[name="zip-code"]').val();
+      var zip_field = $(this).find('input[type="text"]');
+      var redirectUrl = loc; //passed in from standalone-camp-finder.jsp
+
+      if(zip != zip.match("[0-9]{5}")) {
+
+        zip_field.attr("value", "invalid zip code");
+        zip_field.css({
+            "font-size" : "12px",
+            "color": "red"
+        });
+        zip_field.on( "blur, focus", function() {
+          $(this).css({
+              "font-size" : "1.125rem",
+              "color": "#000"
+          });
+          if($(this).attr('value') == "invalid zip code") {
+            $(this).val("").attr("placeholder", "ZIP Code");
+          }
+        });
+      } else {
+	  	  var currentUrl = window.location.pathname;
+	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
+	  
+	      if (window.location.search != undefined && window.location.search != "") {
+	    	  redirectUrl += window.location.search;
+	      }
+	   
+	      redirectUrl = redirectUrl + '#' + zip;
+	
+		  if (isSameUrl) {
+			  window.location.hash = "#" + zip;
+		      window.location.reload();
+		  }else{
+			  window.location.href = redirectUrl;
+		  }
+      }
+    });
+  }
 
   function hide_show_cookie() {
     $('#meet-cookie-layout section').hide();
@@ -673,6 +734,7 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
+  camp_finder();
 
   $(window).load(function () {
     equilize_our_stories();
