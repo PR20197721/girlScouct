@@ -51,13 +51,13 @@
         </section>
         <section  class="date">
             <label>Start Date:</label>
-            <input type="text" class="dp-calendar form-control hide-for-touch" id="start-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="yyyy-mm-dd" data-position="bottom center">
-            <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="start-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="this.form.submit()">
         </section>
         <section  class="date">
             <label>End Date:</label>
-            <input type="text" class="dp-calendar form-control hide-for-touch" id="end-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="yyyy-mm-dd" data-position="bottom center">
-            <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="text" class="dp-calendar form-control hide-for-touch" id="end-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+            <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="this.form.submit()">
         </section>
         <section  class="sort">
             <label>Sort by:</label>
@@ -88,8 +88,8 @@ $(function() {
             end = $('#end-desktop');
         start.data('datepicker').update('maxDate', date);
         end.data('datepicker').update('minDate', date);
-        $('#start-touch').val(start.val());
-        $('#end-touch').val(end.val());
+        $('#start-touch').val(moment(start.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         
         $('form.camp-finder-options').submit();
       }
