@@ -656,6 +656,13 @@
     });
   }
 
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -667,24 +674,11 @@
   shop_rotator();
   welcome_cookie_slider();
 
-  function hide_show_cookie() {
-    $('#meet-cookie-layout section').hide();
-    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
-      $(this).siblings('section').slideToggle();
-      $(this).toggleClass('on');
-    });
-  }
-  $(document).ready(function(){
-     hide_show_cookie();
-  });
-
-  // $(window).on("orientationchange", function () {
-  //   alert("Privet!");
-  // });
-
   $(window).load(function () {
     equilize_our_stories();
+    hide_show_cookie();
   });
+
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
@@ -695,6 +689,23 @@
   $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
     $(".off-canvas-wrap").removeClass('noprint');
   });
+  // $(document).ready(function() {
+    // Setup "contact local council" form
+    $('.booth-finder form#contactlocalcouncil').submit(function(){
+      $.post($(this).attr('action'), $(this).serialize(), function(response) {
+        // Remove blank lines
+        response = response.replace(/^\s*\n/gm, '').trim();
+        if (response.toUpperCase() == 'OK') {
+          $('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+        } else {
+          $('#contactlocalcouncil div.error').html(response);
+        }
+      });
+      // Prevent default
+      return false;
+    });
+  // });
+
 }(jQuery));
 
 function attachListenerToVideoSlider () {
@@ -719,8 +730,7 @@ function stopSlider() {
 		slick.slick('slickSetOption', 'autoplay', false, false);
 		slick.slick('autoPlay',$.noop);
 	}
-};
-
+}
 
 function fixColorlessWrapper() {
   // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
@@ -731,7 +741,7 @@ function fixColorlessWrapper() {
       $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
     }
   }
-  //            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+  //$(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
 }
 
 function fixSlickListTrack() {
@@ -771,25 +781,6 @@ function printObjectProperties(objectToInspect) {
     }
   }
 }
-
-$(document).ready(function(){
-	// Setup "contact local council" form
-	$('.booth-finder form#contactlocalcouncil').submit(function(){
-		$.post($(this).attr('action'), $(this).serialize(), function(response) {
-			// Remove blank lines
-			response = response.replace(/^\s*\n/gm, '').trim();
-			if (response.toUpperCase() == 'OK') {
-				$('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
-			} else {
-				$('#contactlocalcouncil div.error').html(response);
-			}
-		});
-
-		// Prevent default
-		return false;
-	});
-});
-
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
@@ -800,3 +791,4 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	}
 	return '';
 });
+
