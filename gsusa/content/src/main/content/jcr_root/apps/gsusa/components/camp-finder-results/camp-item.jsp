@@ -1,5 +1,5 @@
 <div class="result">
-    <h5>{{CouncilName}}</h5>
+    <h5><a href="{{Website}}" target="_blank">{{CouncilName}}</a></h5>
     <p>Camp Name: {{CampName}}</p>
     <p>Camp Location: {{CampCity}}, {{CampState}}</p>
     <p>Camp Dates: {{DateDescription}}</p>
