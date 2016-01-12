@@ -589,3 +589,56 @@ div.carousel {
     z-index: 2;
   }
 }
+.section.camp-landing-hero {
+    position: relative;
+    margin-top: 0.75rem;
+    margin-bottom: 0.75rem;
+    .camp-header {
+      width: rem-calc(306);
+      position: absolute;
+      top: 50%;
+      margin-top: rem-calc(-306/2);
+      padding: 0;
+      margin-bottom: 0;
+      margin-left: 2.9375rem;
+      z-index: 2;
+      height: rem-calc(233);
+    }
+    .wrapper {
+      width: rem-calc(180);
+      position: relative;
+      top: 25%;
+      margin: 0 auto;
+      label {
+        color: $white;
+        font-size: rem-calc(22);
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: rem-calc(15);
+        text-align: center;
+      }
+      .form-wrapper {
+        position: relative;
+        input[type="text"] {
+          float: left;
+          width: 100%;
+          padding-left: 0.625rem;
+          height: rem-calc(35);
+          font-size: 1.125rem;
+        }
+        input[type="submit"] {
+          border: none;
+          background-color: #00AE58;
+          float: left;
+          line-height: rem-calc(25);
+          padding: 5px 4%;
+          position: absolute;
+          right: 0;
+          color: $white;
+        }
+      }
+    }
+}
+.slick-loading .slick-list {
+  background: #fff url('../images/ajax-loader.gif') center center no-repeat;
+}

@@ -12,8 +12,11 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 %>
     <div class="cookie-landing-hero hide-for-small">
       <div class="welcome-video-slider">
-<%    for (String image : images) { %>
-      	<div><img src="<%= image %>" alt="" /></div>
+<%    for (String image : images) {
+		int lastDotPos = image.lastIndexOf(".");
+		String img2x = image.substring(0, lastDotPos) + "@2x" + image.substring(lastDotPos);
+%>
+      	<div><img src="<%= image %>" data-at2x="<%= img2x %>" alt="" /></div>
 <%    } %>
       </div>
       <div class="cookie-header">
@@ -22,7 +25,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
             <form class="find-cookies" name="find-cookies">
               <label for="zip-code"><%= text %></label>
               <div class="form-wrapper clearfix">
-                <input type="text" placeholder="ZIP Code" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
                 <input type="submit" class="link-arrow" value="Go >"/>
               </div>
             </form>
@@ -44,11 +47,22 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 		        var zip = $(this).find('input[name="zip-code"]').val();
 			    var redirectUrl = '<%= resourceResolver.map(resultPage) %>.' + zip + '.html'; 
 			    var currentUrl = window.location.href;
+			    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
 			    var queryPos = currentUrl.indexOf('?');
 			    if (queryPos != -1) {
-			    	redirectUrl += currentUrl.substring(queryPos);
+			    	var queryStr = currentUrl.substring(queryPos);
+			    	var hashPos = queryStr.indexOf('#');
+			    	if (hashPos != -1) {
+			    		queryStr = queryStr.substr(0, hashPos);
+			    	}
+			    	redirectUrl += queryStr;
 			    }
+			    redirectUrl = redirectUrl + '#' + zip;
 			    window.location.href = redirectUrl;
+			    if (isSameUrl) {
+			    	window.location.reload();
+			    }
+		    
 			    heroFormSubmitted = true;
 		        return false;
 		    });

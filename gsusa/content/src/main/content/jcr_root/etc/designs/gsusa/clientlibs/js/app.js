@@ -66,12 +66,8 @@
       }
       if (target.closest('.featured-stories li').length === 0
           && target.closest(".story").css('display') !== 'none') {
-        // $(".story").removeClass("shown");
         $(".story").fadeOut('slow');
         $("body").css('overflow', '');
-        // $(".off-canvas-wrap").css({
-        //   'position': ''
-        // });
         $(".featured-stories").css('position', '');
       }
       if (target.closest('.join .wrapper').length === 0
@@ -655,7 +651,79 @@
       // }]
     });
   }
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
 
+  //camp-finder vaidation and submittion function
+  function camp_finder() {
+    var campFormSubmitted = false;
+    $('.find-camp').submit(function (event) {
+       if(event.preventDefault) {
+         event.preventDefault();
+       } else {
+         event.stop();
+       }
+       event.returnValue = false;
+       event.stopPropagation();
+
+       if (campFormSubmitted) {
+         return;
+       }
+
+      event.preventDefault();
+
+      var zip = $(this).find('input[name="zip-code"]').val();
+      var zip_field = $(this).find('input[type="text"]');
+      var redirectUrl = loc; //passed in from standalone-camp-finder.jsp
+
+      if(zip != zip.match("[0-9]{5}")) {
+
+        zip_field.attr("value", "invalid zip code");
+        zip_field.css({
+            "font-size" : "12px",
+            "color": "red"
+        });
+        zip_field.on( "blur, focus", function() {
+          $(this).css({
+              "font-size" : "1.125rem",
+              "color": "#000"
+          });
+          if($(this).attr('value') == "invalid zip code") {
+            $(this).val("").attr("placeholder", "ZIP Code");
+          }
+        });
+      } else {
+	  	  var currentUrl = window.location.href;
+	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
+	  
+	      if (window.location.search != undefined && window.location.search != "") {
+	    	  redirectUrl += window.location.search;
+	      }
+	   
+	      redirectUrl = redirectUrl + '#' + zip;
+	
+		  if (isSameUrl) {
+			  window.location.hash = "#" + zip;
+		      window.location.reload();
+		  }else{
+			  window.location.href = redirectUrl;
+		  }
+      }
+    });
+  }
+
+  function hide_show_cookie() {
+    $('#meet-cookie-layout section').hide();
+    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
+      $(this).siblings('section').slideToggle();
+      $(this).toggleClass('on');
+    });
+  }
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -666,25 +734,13 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
-
-  function hide_show_cookie() {
-    $('#meet-cookie-layout section').hide();
-    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
-      $(this).siblings('section').slideToggle();
-      $(this).toggleClass('on');
-    });
-  }
-  $(document).ready(function(){
-     hide_show_cookie();
-  });
-
-  // $(window).on("orientationchange", function () {
-  //   alert("Privet!");
-  // });
+  camp_finder();
 
   $(window).load(function () {
     equilize_our_stories();
+    hide_show_cookie();
   });
+
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
@@ -695,6 +751,23 @@
   $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
     $(".off-canvas-wrap").removeClass('noprint');
   });
+  // $(document).ready(function() {
+    // Setup "contact local council" form
+    $('.booth-finder form#contactlocalcouncil').submit(function(){
+      $.post($(this).attr('action'), $(this).serialize(), function(response) {
+        // Remove blank lines
+        response = response.replace(/^\s*\n/gm, '').trim();
+        if (response.toUpperCase() == 'OK') {
+          $('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+        } else {
+          $('#contactlocalcouncil div.error').html(response);
+        }
+      });
+      // Prevent default
+      return false;
+    });
+  // });
+
 }(jQuery));
 
 function attachListenerToVideoSlider () {
@@ -719,8 +792,7 @@ function stopSlider() {
 		slick.slick('slickSetOption', 'autoplay', false, false);
 		slick.slick('autoPlay',$.noop);
 	}
-};
-
+}
 
 function fixColorlessWrapper() {
   // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
@@ -731,7 +803,7 @@ function fixColorlessWrapper() {
       $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
     }
   }
-  //            $(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+  //$(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
 }
 
 function fixSlickListTrack() {
@@ -771,4 +843,14 @@ function printObjectProperties(objectToInspect) {
     }
   }
 }
+// Needed for "View Detail" data
+Handlebars.registerHelper('json', function(context) {
+    return JSON.stringify(context);
+});
+Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
+	if (typeof context == 'string') {
+    	return context.replace(/"/g, '\\\"');
+	}
+	return '';
+});
 

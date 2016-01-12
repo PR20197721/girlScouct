@@ -50,13 +50,8 @@
         if ((now - captchaStartTime) > 60000) {
             captchaRefresh();
         }
-        var captchatimer = document.getElementById("cq_captchatimer");
-        if (!captchatimer) {
-            // captcha has been removed
-            return;
-        }
-        var width = Math.floor((60000 - (now - captchaStartTime)) / 60000 * 64);
-        captchatimer.innerHTML = "<div class=\"form_captchatimer_bar\" style=\"width:" + width + "px;\"></div>";
+
+
         window.setTimeout(captchaTimer, 500);
     }
 </script>
@@ -70,12 +65,10 @@
         	<a href="#" onclick="captchaRefresh(); return false;">Refresh</a>
         </div>
     </div>
+
 </div>
-<!-- <div class="form_row">
-    <%// LayoutHelper.printTitle(null, null, false, hideTitle, out); %>
-    <div class="form_rightcol"><div id="cq_captchatimer" class="form_captchatimer" style="width: 63px;"></div></div>
-</div>
--->
+
+
 <script type="text/javascript">
         captchaTimer();
 </script><%

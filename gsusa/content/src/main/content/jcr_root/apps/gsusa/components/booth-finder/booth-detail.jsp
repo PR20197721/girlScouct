@@ -19,15 +19,16 @@ String facebookId = currentSite.get("facebookId", "");
 response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 response.setHeader("Pragma", "no-cache");
 response.setHeader("Expires", "0");
-String address2 = request.getParameter("address2");
+String address2 = request.getParameter("Address2");
 address2 = address2 ==null ? "" : address2;
-String address = request.getParameter("address1") +" " + address2 ;
-String zip = (String)request.getParameter("zip");
+String address = request.getParameter("Address1") +" " + address2 + " " + 
+	request.getParameter("City") + ", " + request.getParameter("State") + " " + request.getParameter("ZipCode");
+String zip = (String)request.getParameter("queryZip");
 zip = (zip ==null ? "" : zip);
-String councilName= (String)request.getParameter("councilName");
+String councilName= (String)request.getParameter("CouncilName");
 councilName= councilName== null ? "" : councilName;
 
-String dateStart = request.getParameter("dateStart");
+String dateStart = request.getParameter("DateStart");
 try {
     DateFormat inputFormat = new SimpleDateFormat("M/d/yyyy");
     DateFormat outputFormat = new SimpleDateFormat("EEEE, MMMM d");
@@ -36,12 +37,6 @@ try {
 	log.error("Error parsing start date.");
 }
 
-// Get the URL
-String url = properties.get("url", currentPage.getPath());
-url = resourceResolver.map(currentPage.getPath());
-if (!url.contains(".html")) {
-    url += ".html";
-}
 %>
 <html>
 <head>
@@ -97,10 +92,10 @@ if (!url.contains(".html")) {
         <section>
             <div>
                 <h5>Location:</h5>
-                <p><%= request.getParameter("location") %></p>
-                <p><%= request.getParameter("address1") %></p>
-                <p><%= request.getParameter("address2") %></p>
-                <p><%= request.getParameter("city") %>, <%= request.getParameter("state") %> <%= request.getParameter("zipCode") %></p>
+                <p><%= request.getParameter("Location") %></p>
+                <p><%= request.getParameter("Address1") %></p>
+                <p><%= request.getParameter("Address2") %></p>
+                <p><%= request.getParameter("City") %>, <%= request.getParameter("State") %> <%= request.getParameter("ZipCode") %></p>
             </div>
             <div>
                 <a href="http://maps.google.com/maps/dir/<%= zip%>/<%= URLEncoder.encode(address) %>" title="" target="_blank">Get Directions ></a>
@@ -108,11 +103,11 @@ if (!url.contains(".html")) {
             <div>
                 <h5>Date and Time:</h5>
                 <p><%= dateStart %></p>
-                <p><%= request.getParameter("timeOpen") %> - <%= request.getParameter("timeClose") %></p>
+                <p><%= request.getParameter("TimeOpen") %> - <%= request.getParameter("TimeClose") %></p>
             </div>
             <div>
                 <h5>Council:</h5>
-                <p><%=councilName %></p>
+                <p><%= councilName %></p>
             </div>
         </section>
         <section>
@@ -155,7 +150,7 @@ if (!url.contains(".html")) {
         // calling the API ...
         var obj = {
           method: 'feed',
-          link: '<%= url %>',
+          link: window.location.href,
           name: '<%= facebookTitle %>',
           picture: location.host + '<%= imgPath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
