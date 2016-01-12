@@ -1,0 +1,41 @@
+.article-tile.section {
+  section {
+    position: relative;
+    a {
+      position: absolute;
+      display: block;
+      &:hover {
+        .text-content {
+          height: 100%;
+        }
+        p {
+          height: auto;
+        }
+      }
+    }
+    img {}
+    .text-content {
+      bottom: 0;
+      display: block;
+      padding: rem-calc(10 20 0);
+      color: #fff;
+      position: absolute;
+      width: 100%;
+      * {
+        color: $white;
+      }
+      h3 {
+        font-size: rem-calc(21);
+      }
+      p {
+        font-size: rem-calc(14);
+        // display: none;
+        // transition: all 2s linear;
+        height:0;
+        transition: height 3s;
+        overflow:hidden;
+        margin: 0;
+      }
+    }
+  }
+}
