@@ -94,6 +94,39 @@
                                     value="false"/>
                             </options>
                         </is-cookie-page>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            fieldDescription="Default: SEO Title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"
+                            name="./ogImage"/>
+                        <fbappid
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="fb:app_id"
+                            value="419540344831322"
+                            defaultValue="419540344831322"
+                            fieldDescription="Default: 419540344831322 "
+                            name="./fbAppId"/>
                     </items>
                 </gsusa>
             </items>
