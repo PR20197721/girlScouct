@@ -1,5 +1,5 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@ page import="com.day.cq.wcm.foundation.Search,org.apache.commons.collections4.CollectionUtils,
+<%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,java.io.*,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
 com.day.cq.tagging.TagManager,
@@ -96,7 +96,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		   java.util.Iterator ageGroupIter = ageGroups.iterator();
 		   while(ageGroupIter.hasNext()){
 			  final String ageGroup = (String)ageGroupIter.next();
-		      java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) CollectionUtils
+		      java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) org.apache.commons.collections4.CollectionUtils
 		                   .select(yprs, new  org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
 		                         public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
 		                             return 
