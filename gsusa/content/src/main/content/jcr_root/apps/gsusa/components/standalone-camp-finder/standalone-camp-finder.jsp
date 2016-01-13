@@ -35,7 +35,7 @@ else{
 	//variable to be passed to app.js function
 	var loc = "<%= resourceResolver.map(resultsPath) %>.html";
 	
-	document.styleSheets[0].insertRule("#<%= id%> { background: url('<%= getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))%>') no-repeat 0% 0%/contain transparent; }");
+	document.styleSheets[0].insertRule("#<%= id%> { background: url('<%= getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))%>') no-repeat 0% 0%/contain transparent; }", 0);
 	</script>
 	
 	<div class="row">
