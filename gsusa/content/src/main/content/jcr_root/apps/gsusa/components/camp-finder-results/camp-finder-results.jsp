@@ -76,10 +76,18 @@ CampFinder.prototype.getResult = function() {
 }
 
 CampFinder.prototype.processResult = function(campResult) {
-	var camps = campResult;
+	var result = {};
+
+	var camps;
+	if (Array.isArray(campResult)) {
+		camps = campResult;
+	} else {
+		// The API returns a council object instead of an array if no camp is found.
+		camps = [];
+		result.council = campResult;
+	}
 
 	// Add zip to environment
-	var result = {};
 	result.env = result.env || {};
 	result.env.zip = this.zip;
 

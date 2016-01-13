@@ -301,7 +301,11 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{CouncilName}}"/>
+                                    entity="\{{council.CouncilName}}"/>
+                                <url
+                                    jcr:primaryType="nt:unstructured"
+                                    displayEntity="Council_Website&amp;nbsp;&amp;nbsp;&amp;nbsp;"
+                                    entity="\{{council.Website}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
