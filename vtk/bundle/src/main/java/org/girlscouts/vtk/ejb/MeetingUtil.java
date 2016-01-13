@@ -916,7 +916,7 @@ System.err.println("tata aidTags: start");
 					.getTimestamp();
 System.err.println("tata aidTags: start 1.0 "+ meeting.getLastAssetUpdate());		
 System.err.println("tata aidTags: start1 "+ (meeting.getLastAssetUpdate() == null));
-System.err.println("tata aidTags: start1.1 " + (meeting.getLastAssetUpdate().before(sysAssetLastLoad)));
+//System.err.println("tata aidTags: start1.1 " + (meeting.getLastAssetUpdate().before(sysAssetLastLoad)));
 			if (true){//meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
 System.err.println("tata aidTags: start2");	
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
