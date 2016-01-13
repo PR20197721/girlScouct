@@ -1517,6 +1517,8 @@ System.err.println("tata aidTags- found asset global: "+ path );
 			String tags, String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region)
 			throws IllegalAccessException, IllegalStateException {
+		
+System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate +" : "+ region +" : "+ tags +" : " + cat);		
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
@@ -1560,7 +1562,12 @@ System.err.println("tata aidTags- found asset global: "+ path );
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-			String path = "/content/gateway/en/events/"
+String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());	
+System.err.println("searchA1 councilstr: "+ councilStr);	
+if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gateway";
+
+
+			String path = councilStr + "/en/events/"
 					+ VtkUtil.getCurrentGSYear() + "/%";
 			if (!isTag)
 				path = path + "/data";
@@ -1590,6 +1597,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
+System.err.println("searchA1 sql: "+ sql);			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -2065,7 +2073,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
 
 	Troop troop, String _query, String PATH) throws IllegalAccessException {
-
+System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
 		if (user != null
 
 		&& !userUtil.hasPermission(troop,
