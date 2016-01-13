@@ -3,6 +3,7 @@
 main.js
 right-rail-carousel-multifield-widget.js
 right-rail-carousel-widget.js
+image-video-multifield-widget.js
 dynamic-pathfield.js
 simple-link-widget.js
 shop-tile-widget.js
@@ -12,3 +13,4 @@ accordion-field.js
 meet-the-cookies-widget.js
 meet-the-cookies-multifield-widget.js
 toggleparsys.js
+title-and-pathfield.js
