@@ -8,6 +8,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
@@ -56,7 +58,15 @@ public class FacetBuilderImpl implements FacetBuilder{
 			Iterator <Resource> childFacets= resourceResolver.listChildren(resource);
 			while(childFacets.hasNext()){
 				Tag cTag = tagMgr.resolve(childFacets.next().getPath());
-				tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
+				Node tagNode = cTag.adaptTo(Node.class);
+				try {
+					System.out.println(tagNode.getPath());
+					if(!tagNode.hasProperty("cq:movedTo") || tagNode.getProperty("cq:movedTo") == null){
+						tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
+					}
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 			}
 			facets.put(tag.getName(), tagItems);
 		}
