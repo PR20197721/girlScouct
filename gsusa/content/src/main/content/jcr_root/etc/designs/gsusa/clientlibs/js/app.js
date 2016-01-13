@@ -39,18 +39,6 @@
     }
   }
 
-  function pauseVideoSliderVideos() {
-	  if($('.vimeo').length > 0){
-		  $.each($(".vimeo"), function( i, val ) {
-	    	  $f(val).api('unload');
-	      });
-	  } if($('.youtube').length > 0) {
-	      $.each($('.youtube'), function( i, val ) {
-	    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-	      });
-  	}
-  }
-
   function document_close_all() {
     //Detect ipad
     var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
@@ -477,10 +465,6 @@
     pauseAllCarouselVideos();
   });
 
-  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-    pauseVideoSliderVideos();
-  });
-
   var carouselSliderPropogate = true;
   $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
     var item_length =  $('.inner-sliders .inner > .slick-list > .slick-track > li').length - 1;
@@ -651,13 +635,22 @@
       // }]
     });
   }
-  function hide_show_cookie() {
-    $('#meet-cookie-layout section').hide();
-    $('#meet-cookie-layout .wrapper h4').on('click', function (e) {
-      $(this).siblings('section').slideToggle();
-      $(this).toggleClass('on');
-    });
-  }
+  
+	/*window.onYouTubeIframeAPIReady = function() {
+		loadYoutubeAPI();
+		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
+    };*/
+  
+	function loadYTScript() {
+	    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
+	    	var tag = document.createElement('script');
+	        tag.src = "https://www.youtube.com/iframe_api";
+	        var firstScriptTag = document.getElementsByTagName('script')[0];
+	        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+	    }
+	}
+
+
 
   //camp-finder vaidation and submittion function
   function camp_finder() {
@@ -734,6 +727,8 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
+  loadYTScript();
+  $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
   camp_finder();
 
   $(window).load(function () {
@@ -769,30 +764,6 @@
   // });
 
 }(jQuery));
-
-function attachListenerToVideoSlider () {
-    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
-    	var iframe = $('.vid-slide-wrapper iframe')[i],
-    		player;
-    	if ($(iframe).hasClass("vimeo")) {
-    		player = $f(iframe);
-    		player.addEvent('ready', function() {
-    			player.addEvent('playProgress', function() {
-    				stopSlider();
-    			});
-    		});
-    	}
-    }
-}
-
-function stopSlider() {
-	var slick = $('.video-slider-wrapper');
-	if(slick != undefined && slick.slick != undefined){
-		slick.slick('slickPause');
-		slick.slick('slickSetOption', 'autoplay', false, false);
-		slick.slick('autoPlay',$.noop);
-	}
-}
 
 function fixColorlessWrapper() {
   // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos

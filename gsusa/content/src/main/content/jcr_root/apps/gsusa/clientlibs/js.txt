@@ -12,3 +12,4 @@ accordion-field.js
 meet-the-cookies-widget.js
 meet-the-cookies-multifield-widget.js
 toggleparsys.js
+title-and-pathfield.js

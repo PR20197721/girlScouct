@@ -4,7 +4,8 @@
 				java.util.regex.*,
 				java.net.*,
 				org.apache.sling.commons.json.*, 
-				java.util.Random" %>
+				java.util.Random,
+				com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 
 <%!
@@ -121,126 +122,113 @@ function checkVersion()
 checkVersion();
 </script>
 
-<div class="video-slider-wrapper">
 <%
 	//TODO: Optimize following javascript
-	String[] links = properties.get("links",String[].class);
+	String[] links = properties.get("links", String[].class);
+	if (links == null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+%>
+<p> Video Slider - Please select at least one link to display</p>
+<% }else {
+	%><div class="video-slider-wrapper"><%
 	String alt = "";
 	String[] urls = null;
-	if(links != null && links.length > 0) {
-		for(int i = 0; i < links.length; i++) {
-			if(resourceResolver.resolve(links[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-				urls = extract(links[i]);
-				if(urls.length >= 4){
-					%><div>
-						<%if(urls.length == 5){
-							%>
-							<script>
-							var ytid = '<%= urls[4] %>';
-							var id = '<%= urls[3] %>';
-							youtubeIDs.push([ytid, id]);
-							</script>
-							<%
-						} %>
-						<div class="show-for-small thumbnail">
-							<a href="<%= links[i] %>" target="_blank" title="video thumbnail">
-								<img src="<%= urls[1] %>" />
-							</a>
-						</div>
-					  	<div class="vid-slide-wrapper show-for-medium-up">
-					  		<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+	for (int i = 0; i < links.length; i++) {
+	    String[] split = links[i].split("\\|\\|\\|");
+	    String title = split.length >= 1 ? split[0] : "";
+	    String path = split.length >= 2 ? split[1] : "";
+		if(resourceResolver.resolve(path).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+			urls = extract(path);
+			if(urls.length >= 4){
+				%><div>
+					<%if(urls.length == 5){
+						%>
+						<script>
+						var ytid = '<%= urls[4] %>';
+						var id = '<%= urls[3] %>';
+						youtubeIDs.push([ytid, id]);
+						</script>
+						<%
+					} %>
+					<div class="show-for-small thumbnail">
+						<a href="<%= path %>" target="_blank" title="video thumbnail">
+							<img src="<%= urls[1] %>" />
+						</a>
+					</div>
+				  	<div class="vid-slide-wrapper show-for-medium-up">
+				  		<% if(urls.length == 5) { %>
+				  			<% if(!title.equals("")){ %>
+				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
+				  			<% } else { %>
+				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
+				  			<% } %>
+			  			<% } else { %>
+				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
 				  			</iframe>
-			  			</div>
-			  			<script type="text/javascript">
-						$('#<%=urls[3]%>').load(function() {
-							  
-							
-							$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-								  
-								  function pauseVideoSliderVideos() {
-									  if($('.vimeo').length > 0){
-										  $.each($(".vimeo"), function( i, val ) { 
-									    	  $f(val).api('unload');
-									      });
-									  } if($('.youtube').length > 0) {
-									      $.each($('.youtube'), function( i, val ) {
-									    	  val.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-									      });
-								  	}
-								  }
-								  
-								  function stopSlider() {
-										var slick = $('.video-slider-wrapper');
-										if(slick != undefined && slick.slick != undefined){
-											slick.slick('slickPause');
-											slick.slick('slickSetOption', 'autoplay', false, false);
-											slick.slick('autoPlay',$.noop);
-										}
-									}
-								  
-								  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-									    pauseVideoSliderVideos();
-									});
-								  
-								  function attachListenerToVideoSlider () {
-									    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
-									    	var iframe = $('.vid-slide-wrapper iframe')[i],
-									    		player;
-									    	if ($(iframe).hasClass("vimeo")) {
-									    		player = $f(iframe);
-								    			player.addEvent('playProgress', function() {
-								    				stopSlider();
-									    		}); 
-									    	}
-									    }   
-									}
-						
-									function loadYTScript() {
-									    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
-									        var tag = document.createElement('script');
-									        tag.src = "https://www.youtube.com/iframe_api";
-									        var firstScriptTag = document.getElementsByTagName('script')[0];
-									        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-									    }
-									}
-						
-									function loadPlayer() {
-									        window.onYouTubePlayerAPIReady = function() {
-									        	if(typeof youtubeIDs != undefined){
-									        		for(var i = 0; i < youtubeIDs.length; i++){
-									        			createPlayer(youtubeIDs[i]);
-									        		}
-									        	}
-									        };
-									}
-						
-									function createPlayer(id){
-										var player = new YT.Player(id[1], {
-											videoId: id[0],
-											events: {
-												'onStateChange': stopSlider
-											}
-										});
-									}
-									
-									attachListenerToVideoSlider();
-									loadYTScript();
-									loadPlayer();
-							});
-						  
-						  });
-					</script>
+			  			<% } %>
 		  			</div>
-				<% } else { %>
-					<div>*** Format not supported ***</div>
-				<% }
-			} else {
-				alt = "Image slider " + i; %>
-				<div><img src="<%= links[i] %>" alt="<%= alt %>" /></div>
-		<% }
-		}
-	} else { %>
-		<div>***** Please add a video or image *****</div>
-		<div>***** Please add a video or image *****</div>
-	<% } %>
-</div>
+		  			<script type="text/javascript">
+		  			
+					
+				  stopSlider = function() {
+						var slick = $('.video-slider-wrapper');
+						if(slick != undefined && slick.slick != undefined){
+							slick.slick('slickPause');
+							slick.slick('slickSetOption', 'autoplay', false, false);
+							slick.slick('autoPlay',$.noop);
+						}
+					}
+				  function pauseVideoSliderVideosVimeo(){};
+		  			
+					  function pauseVideoSliderVideosYoutube() {
+						  if($('.lazyYT > iframe').length > 0) {
+						      $.each($('.lazyYT > iframe'), function( i, val ) {
+						    	  var iframe = val;
+						    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+						      });
+					  	}
+					  }
+					  
+					  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
+						    pauseVideoSliderVideosYoutube();
+						    pauseVideoSliderVideosVimeo();
+						});
+					  
+					$('#<%= urls[3] %>').load(function() {
+
+						$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
+							  
+							  function attachListenerToVideoSlider () {
+								    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
+								    	var iframe = $('.vid-slide-wrapper iframe')[i],
+								    		player;
+								    	if ($(iframe).hasClass("vimeo")) {
+								    		player = $f(iframe);
+							    			player.addEvent('playProgress', function() {
+							    				stopSlider();
+								    		}); 
+								    	}
+								    }   
+								}
+							  
+							  function pauseVideoSliderVideosVimeo(){
+								  $.each($(".vimeo"), function( i, val ) { 
+							    	  $f(val).api('unload');
+							      });
+							  }
+									
+							attachListenerToVideoSlider();
+						});
+					  
+					  });
+				</script>
+	  			</div>
+			<% } else { %>
+				<div>*** Format not supported ***</div>
+			<% }
+		} else {
+			alt = "Image slider " + i; %>
+			<div><img src="<%= path %>" alt="<%= alt %>" /></div>
+	<% }
+	}
+	%></div><%
+	}%>
