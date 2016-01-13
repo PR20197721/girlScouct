@@ -98,9 +98,10 @@
             innerHtml.push('</div>'); // /.ytp-chrome-top
         }
 
-        $el.css({
-            'padding-bottom': padding_bottom
-        })
+        $el
+        // .css({
+        //     'padding-bottom': padding_bottom
+        // })
           .html(innerHtml.join(''));
         
         if (width > 640) {

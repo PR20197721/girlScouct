@@ -64,34 +64,34 @@
           $('.join a').fadeIn('slow');
         });
       }
-      if (target.closest('.hero-feature').length === 0
-          && target.closest(".hero-feature").css('display') !== 'none') {
-        $('.position').animate({
-          'opacity': 0
-        }, 100, function () {
-          $('.hero-feature .overlay').fadeOut();
-          $('.position').css('z-index', '-1');
-          $('.zip-council').removeClass('change');
-          $('.main-slider').slick('slickPlay');
-          pauseAllCarouselVideos();
-          // release opacity for mike's fix
-          if (isIE11 && lastAfterSlick) {
-            for (var x in lastAfterSlick) {
-              for (var i = 0; i < lastAfterSlick.length; i++) {
-                $(lastAfterSlick[i]).css('opacity', '1');
-              }
-            }
-          }
-        });
-      }
-      if (target.closest('.final-comp').length === 0
-          && target.closest(".final-comp").css('display') !== 'none') {
-        $(".final-comp").fadeOut('slow');
-        $('.hero-text.first').show();
-        $('.zip-council').fadeIn('slow');
-        $('.main-slider').css('opacity', '');
-        $("#tag_explore_final input[type=\"text\"]").hide();
-      }
+      // if (target.closest('.hero-feature').length === 0
+      //     && target.closest(".hero-feature").css('display') !== 'none') {
+      //   $('.position').animate({
+      //     'opacity': 0
+      //   }, 100, function () {
+      //     $('.hero-feature .overlay').fadeOut();
+      //     $('.position').css('z-index', '-1');
+      //     $('.zip-council').removeClass('change');
+      //     $('.main-slider').slick('slickPlay');
+      //     pauseAllCarouselVideos();
+      //     // release opacity for mike's fix
+      //     if (isIE11 && lastAfterSlick) {
+      //       for (var x in lastAfterSlick) {
+      //         for (var i = 0; i < lastAfterSlick.length; i++) {
+      //           $(lastAfterSlick[i]).css('opacity', '1');
+      //         }
+      //       }
+      //     }
+      //   });
+      // // }
+      // if (target.closest('.final-comp').length === 0
+      //     && target.closest(".final-comp").css('display') !== 'none') {
+      //   $(".final-comp").fadeOut('slow');
+      //   $('.hero-text.first').show();
+      //   $('.zip-council').fadeIn('slow');
+      //   $('.main-slider').css('opacity', '');
+      //   $("#tag_explore_final input[type=\"text\"]").hide();
+      // }
       if ((target.closest('.standalone-volunteer').length === 0 && target.closest('.footer-volunteer').length ===0)
           && target.closest('.vol.button.arrow').siblings('form').css('display') !== 'none') {
         $('.vol.button.arrow').siblings('form').addClass('hide');
@@ -357,29 +357,40 @@
     }
   }
 
-  //the "interval" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
+  //the "homeCarouselTimeDelay" parameter is defined in the jsp in carousel.jsp, which allows the user to set its value
   // inkoo added slide alternate view for carousel for ie9 and under because it breaks
-  if($.browser.msie && parseFloat($.browser.version)<10) {
+  // if($.browser.msie && parseFloat($.browser.version)<10) {
+  //   $('.main-slider').slick({
+  //     dots: false,
+  //     infinite: true,
+  //     speed: (typeof homeCarouselTimeDelay !== 'undefined') ? homeCarouselTimeDelay : 1000,
+  //     fade: false,
+  //     autoplay: (typeof homeCarouselAutoScroll !== 'undefined') ? homeCarouselAutoScroll : false,
+  //     arrows: false,
+  //     cssEase: 'linear',
+  //   });
+  // } else {
     $('.main-slider').slick({
       dots: false,
-      infinite: true,
-      speed: (typeof interval !== 'undefined') ? interval : 1000,
+      speed: (typeof homeCarouselTimeDelay !== 'undefined') ? homeCarouselTimeDelay : 1000,
       fade: false,
-      autoplay: true,
-      arrows: false,
+      autoplay: (typeof homeCarouselAutoScroll !== 'undefined') ? homeCarouselAutoScroll : false,
+      arrows: true,
       cssEase: 'linear',
-    });
-  } else {
-    $('.main-slider').slick({
-      dots: false,
+      slidesToShow: 1,
       infinite: true,
-      speed: (typeof interval !== 'undefined') ? interval : 1000,
-      fade: true,
-      autoplay: true,
-      arrows: false,
-      cssEase: 'linear',
+      responsive: [
+       {
+         breakpoint: 480,
+         settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '30px',
+         }
+       }
+      ]
     });
-  }
+  // }
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -461,9 +472,9 @@
     });
   }//END OF EXPLORER CLICK FUNCTION
 
-  $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
-    pauseAllCarouselVideos();
-  });
+  // $('.inner-sliders .slide-4').on('afterChange', function (event, slick, currentSlide) {
+  //   pauseAllCarouselVideos();
+  // });
 
   var carouselSliderPropogate = true;
   $('.inner-sliders .inner').on('init reInit afterChange', function (slick, currentSlide, index) {
@@ -535,10 +546,6 @@
       $(".hero-text .button").show();
     }
   }
-
-  $(window).resize(function () {
-    small_screens();
-  });
 
   var ImageMap = function (map, img) {
     var n,
@@ -635,8 +642,17 @@
       // }]
     });
   }
-  
-	/*window.onYouTubeIframeAPIReady = function() {
+  function iframeClick() {
+    $("iframe").hover(function() {
+      $(".zip-council").slideUp();
+    }, function() {
+      $(".zip-council").slideDown();
+    });
+  }
+
+
+
+/*window.onYouTubeIframeAPIReady = function() {
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     };*/
@@ -727,10 +743,25 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
+  if($(window).width() > 769) {
+    iframeClick();
+  }
+
   loadYTScript();
   $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
   camp_finder();
 
+  $(window).resize(function() {
+    small_screens();
+  });
+  $(window).resize(function (event) {
+    if($(window).width() > 768) {
+      iframeClick();
+    } else {
+      $("iframe").off( "mouseenter mouseleave" );
+      //$("iframe").unbind("mouseenter,mouseleave");
+    }
+  });
   $(window).load(function () {
     equilize_our_stories();
     hide_show_cookie();
@@ -764,6 +795,30 @@
   // });
 
 }(jQuery));
+
+function attachListenerToVideoSlider () {
+    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
+        var iframe = $('.vid-slide-wrapper iframe')[i],
+            player;
+        if ($(iframe).hasClass("vimeo")) {
+            player = $f(iframe);
+            player.addEvent('ready', function() {
+                player.addEvent('playProgress', function() {
+                    stopSlider();
+                });
+            });
+        }
+    }
+}
+
+function stopSlider() {
+    var slick = $('.video-slider-wrapper');
+    if(slick != undefined && slick.slick != undefined){
+        slick.slick('slickPause');
+        slick.slick('slickSetOption', 'autoplay', false, false);
+        slick.slick('autoPlay',$.noop);
+    }
+};
 
 function fixColorlessWrapper() {
   // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
