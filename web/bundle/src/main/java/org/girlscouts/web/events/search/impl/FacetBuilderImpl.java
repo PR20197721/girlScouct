@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -55,17 +56,14 @@ public class FacetBuilderImpl implements FacetBuilder{
 			Resource resource = resources.next();
 		    Tag tag = tagMgr.resolve(resource.getPath());
 		    List<FacetsInfo> tagItems = new ArrayList<FacetsInfo>();
+		    TreeSet<String> tagTree = new TreeSet<String>();
 			Iterator <Resource> childFacets= resourceResolver.listChildren(resource);
 			while(childFacets.hasNext()){
 				Tag cTag = tagMgr.resolve(childFacets.next().getPath());
-				Node tagNode = cTag.adaptTo(Node.class);
-				try {
-					System.out.println(tagNode.getPath());
-					if(!tagNode.hasProperty("cq:movedTo") || tagNode.getProperty("cq:movedTo") == null){
-						tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
-					}
-				}catch(Exception e){
-					e.printStackTrace();
+				if(!tagTree.contains(cTag.getTagID())){
+					tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
+				} else {
+					tagTree.add(cTag.getTagID());
 				}
 			}
 			facets.put(tag.getName(), tagItems);
