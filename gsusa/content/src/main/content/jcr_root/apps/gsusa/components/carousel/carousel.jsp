@@ -115,7 +115,11 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 <script type="text/javascript">
 	$(document).ready(function() {			
-		function pauseVideoSliderVideosVimeo(){};
+		function pauseVideoSliderVideosVimeo(){
+			$('[id*="vimeoPlayer"]').each(function (i, val) {
+				$f(val).api('unload');
+			});
+		}
 		
 		function pauseVideoSliderVideosYoutube() {
 			if($('.lazyYT > iframe').length > 0) {
@@ -146,6 +150,7 @@ public  String readUrlFile(String urlString) throws Exception {
 					$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
 							function attachListenerToVideoSlider () {
 								for (var i = 0; i < $('.main-slider iframe').length; i ++) {
+								
 									var iframe = $('.main-slider iframe')[i],
 										player;
 										player = $f(iframe);
@@ -154,11 +159,6 @@ public  String readUrlFile(String urlString) throws Exception {
 										}); 
 									}
 								
-							}
-							function pauseVideoSliderVideosVimeo(){
-								$('[id*="vimeoPlayer"]').each(function (i, val) {
-									$f(val).api('unload');
-								});
 							}
 							attachListenerToVideoSlider();
 					});
