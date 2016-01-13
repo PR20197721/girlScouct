@@ -177,7 +177,13 @@ checkVersion();
 							slick.slick('autoPlay',$.noop);
 						}
 					}
-				  function pauseVideoSliderVideosVimeo(){};
+				  function pauseVideoSliderVideosVimeo(){
+					  $.each($(".vimeo"), function( i, val ) { 
+						  if(typeof($f) !== "undefined"){
+				    	  	$f(val).api('unload');
+						  }
+				      });
+				  };
 		  			
 					  function pauseVideoSliderVideosYoutube() {
 						  if($('.lazyYT > iframe').length > 0) {
@@ -212,9 +218,11 @@ checkVersion();
 							  
 							  function pauseVideoSliderVideosVimeo(){
 								  $.each($(".vimeo"), function( i, val ) { 
-							    	  $f(val).api('unload');
+									  if(typeof($f) !== "undefined"){
+							    	  	$f(val).api('unload');
+									  }
 							      });
-							  }
+							  };
 									
 							attachListenerToVideoSlider();
 						});
