@@ -117,7 +117,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	$(document).ready(function() {			
 		function pauseVideoSliderVideosVimeo(){
 			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				$f(val).api('unload');
+				//console.info($f(val));
+				$f(val).api('pause');
+				
 			});
 		}
 		
