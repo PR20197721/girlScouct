@@ -23,7 +23,6 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
               <div class="form-wrapper clearfix">
                 <input type="text" maxlength="5" placeholder="ZIP Code" title="5 number zip code" class="zip-code" name="zip-code">
                 <input type="submit" class="link-arrow" value="Go >"/>
-                <span>Please enter a valid zip code</span>
               </div>
             </form>
           </div>
