@@ -1144,6 +1144,11 @@ div.carousel .slick-next:before {
   z-index: 2;
 }
 
+/* line 593, ../../../../../../../theme/custom/scss/components/_carousel.scss */
+.slick-loading .slick-list {
+  background: #fff url("../images/ajax-loader.gif") center center no-repeat;
+}
+
 @media only screen and (max-width: 48em) {
   /* line 4, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   #main .standalone-cookie-header, #main

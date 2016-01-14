@@ -1,3 +1,9 @@
+<%@ page import="com.day.text.Text" %>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
+<cq:includeClientLib categories="apps.girlscouts" />
+<cq:defineObjects/>
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -49,7 +55,7 @@ function initialize() {
 }
 
 function codeAddress() {
-  var address = "<%=request.getParameter("address")%>";
+  var address = "<%=Text.escapeXml(request.getParameter("address"))%>";
   geocoder.geocode( { 'address': address}, function(results, status) {
     if (status == google.maps.GeocoderStatus.OK) {
       map.setCenter(results[0].geometry.location);
@@ -69,7 +75,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
   </head>
   <body onload="codeAddress()">
     <div id="panel">
-    <%=request.getParameter("address")%>
+    <%=Text.escapeXml(request.getParameter("address"))%>
      </div>
     <div id="map-canvas"></div>
   </body>

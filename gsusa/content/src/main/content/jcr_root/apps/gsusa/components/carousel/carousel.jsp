@@ -45,99 +45,50 @@ public  String readUrlFile(String urlString) throws Exception {
 
 %>
 <%
-	String[] emptyArray = new String[1];
-	String content = properties.get("content", "Join Now");
-	String btnName = properties.get("button", "Explore Girl Scouts");
-	String title = properties.get("title", "Introduce girls to");
-	String[] imagePathArray = properties.get("imagePath", emptyArray);
-	Integer interval = properties.get("interval", 1000);
-	String[] imageAlt = properties.get("imageAlt", emptyArray);
-
-
-	String[] content2 = properties.get("content2", emptyArray);
-	String[] imagePath2 = properties.get("imagePath2", emptyArray);
-	String[] subtitle2 = properties.get("subtitle2", emptyArray);
-	String title2 = properties.get("title2", "");
-	String[] imageAlt2 = properties.get("imageAlt2", emptyArray);
-
-	String[] content3 = properties.get("content3", emptyArray);
-	String[] imagePath3 = properties.get("imagePath3", emptyArray);
-	String[] subtitle3 = properties.get("subtitle3", emptyArray);
-	String title3 = properties.get("title3", "");
-	String[] imageAlt3 = properties.get("imageAlt3", emptyArray);
-
-
-	String title4 = properties.get("title4", "");
-
-	String title5 = properties.get("title5", "");
-	String videoType50 = properties.get("videoType50", "");
-	String videoType51 = properties.get("videoType51", "");
-	String videoType52 = properties.get("videoType52", "");
-	String videoType53 = properties.get("videoType53", "");
-	String[] videoType5 = {videoType50, videoType51, videoType52, videoType53};
-	String[] videoThumbNail = new String[4];
-	String[] videoId = new String[4];
-	String[] embeded = new String[4];
-	String[] subtitle5 = {properties.get("subtitle50", ""), properties.get("subtitle51", ""), properties.get("subtitle52", ""), properties.get("subtitle53", "")};
-	String[] content5 = {properties.get("content50", ""), properties.get("content51", ""), properties.get("content52", ""), properties.get("content53", "")};
-	String [] vidNames = {"vid0", "vid1", "vid2", "vid3"};
-	String[] vidThumbnailTitle5 = {properties.get("thumbnailTitle50", ""),
-			properties.get("thumbnailTitle51", ""),
-			properties.get("thumbnailTitle52", ""),
-			properties.get("thumbnailTitle53", "")
-	};
-
-	String title6 = properties.get("title6", "");
-	String content6 = properties.get("content6", "");
-	String imagePath6 = properties.get("imagePath6", "");
-    String imageAlt6 = properties.get("imageAlt6", "");
-	String closingSource6 = properties.get("closingSource6", "not_set");
-
-	String source7 = properties.get("source7", "not_set");
-
-	//passing this to another jsp
-	request.setAttribute("source7", source7);
-
-	//validation
-	String errorMessage = "";
-
-	if (imagePathArray.length != imageAlt.length) {
-		errorMessage += "The number of images and \"image alts\" need to be the same in the \"Opening Page\" tab <br>";
+	final String[] carouselList = properties.get("carouselList", String[].class);
+	int numberOfImages = 0;
+	if (carouselList != null) {
+		numberOfImages = carouselList.length;
 	}
-	if (content2.length != imagePath2.length || imagePath2.length != subtitle2.length || subtitle2.length != imageAlt2.length) {
-		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"First Page (Image)\" tab <br>";
-	}
-	if (content3.length != imagePath3.length || imagePath3.length != subtitle3.length || subtitle3.length != imageAlt3.length) {
-		errorMessage += "The number of images/image alts/subtitles/content need to be the same in the \"Second Page (Image)\" tab <br>";
-	}
-	if (!"".equals(errorMessage)) {
-		errorMessage += "Please right click on this message and edit the carousel component.";
-%>
-		<p class="error"> The following errors occur: <br> <%= errorMessage %></p>
-<%
-		return;
-	}
+	String title[] = new String[numberOfImages];
+	String alt[] = new String[numberOfImages];
+	String link[] = new String[numberOfImages];
+	String imagePath[] = new String[numberOfImages];
+	String target[] = new String[numberOfImages];
+	String openInNewWindow[] = new String[numberOfImages];
+	String videoId[] = new String[numberOfImages];
+	String videoThumbNail[] = new String[numberOfImages];
+	boolean tempHidden[] = new boolean[numberOfImages];
 
-	//now get all the variables
-	for (int i = 0 ; i < 4; i++ ){
-		if ("link".equals(videoType5[i])) {
-			String link = properties.get("videoLink5" + i, "");
-			if (link.indexOf("youtube") != -1) {
-				String ytId = extractYTId(link);
+	for (int i = 0; i < numberOfImages; i++) {
+		String[] split = carouselList[i].split("\\|\\|\\|");
+		tempHidden[i] = split.length >= 6 ? Boolean.parseBoolean(split[5]) : false;
+		if (!tempHidden[i]) {
+			title[i] = split.length >= 1 ? split[0] : "";
+			alt[i] = split.length >= 2 ? split[1] : "";
+			link[i] = split.length >= 3 ? split[2] : "";
+			imagePath[i] = split.length >= 4 ? split[3] : "";
+			target[i] = "";
+			if (split.length >= 5 && Boolean.parseBoolean(split[4])) {
+				openInNewWindow[i] = "target=\"_blank\"";
+			} else {
+				openInNewWindow[i] = "";
+			}
+
+			//process the data from above, first check if the link is external
+			Page linkPage = resourceResolver.resolve(link[i]).adaptTo(Page.class);
+			if (linkPage != null && !link[i].contains(".html")) {
+				link[i] += ".html";
+			}
+
+			//now check if the link is youtube/vimeo
+			if (link[i].indexOf("youtube") != -1) {
+				String ytId = extractYTId(link[i]);
 				videoId[i] = ytId;
 				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-
-				String browser = request.getHeader("User-Agent");
-				System.out.println(browser);
-				if (browser.indexOf("MSIE") != -1) {
-					embeded[i] ="<object type=\"application/x-shockwave-flash\" data=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\"><param name=\"movie\" value=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" /></object>";
-				} else {
-					embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
-				}
-
-				//embeded[i] = "<iframe id=\"youtubePlayer" + i +"\" width=\"100%\" height=\"100%\" src=\"https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent\" frameborder=\"0\" allowfullscreen></iframe>";
-			} else if (link.indexOf("vimeo") != -1) {
-				String vimeoId = extractVimeoId(link);
+				link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+			} else if (link[i].indexOf("vimeo") != -1) {
+				String vimeoId = extractVimeoId(link[i]);
 				videoId[i] = vimeoId;
 				String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
 				if (!"".equals(jsonOutput)) {
@@ -146,222 +97,152 @@ public  String readUrlFile(String urlString) throws Exception {
 						videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
 					}
 				}
-				embeded[i] = "<iframe id=\"vimeoPlayer" + i +"\" src=\"https://player.vimeo.com/video/"+ vimeoId +"\" width=\"100%\" height=\"100%\" frameborder=\"0\" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+				link[i] = "https://player.vimeo.com/video/" + vimeoId + "?api=1&player_id=" + "vimeoPlayer" + i ;
 			} else {
 				videoThumbNail[i] = "not supported";
 			}
-		} else if ("path".equals(videoType5[i])) {
-			String videoPath = properties.get("videoPath5" + i, "");
-			videoThumbNail[i] = videoPath + "/jcr:content/renditions/cq5dam.thumbnail.319.319.png";
-
-			//add video node
-			if (currentNode != null) {
-				SlingRepository repository = (SlingRepository)sling.getService(SlingRepository.class);
-				Session session = repository.loginAdministrative(null);
-
-				Node vid = resourceResolver.resolve(resource.getPath() + "/" + "").adaptTo(Node.class);
-				if (resourceResolver.resolve(resource.getPath() + "/" + vidNames[i]).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-					vid = session.getNode(resource.getPath()).addNode(vidNames[i], "nt:unstructured");
-					vid.setProperty("asset", videoPath);
-					vid.setProperty("sling:resourceType", "gsusa/components/video");
-				} else {
-					vid = session.getNode(resource.getPath() + "/" + vidNames[i]);
-					vid.setProperty("asset", videoPath);
-					vid.setProperty("sling:resourceType", "gsusa/components/video");
-				}
-
-				session.save();
-				session.logout();
-			}
-			//done adding video.
-			embeded[i] = "";
-		} else if("photo".equals(videoType5[i])){
-			String photoPath = properties.get("newsPic5" + i, "");
-			videoThumbNail[i] = photoPath;
-			//done adding video.
-			embeded[i] = "";
-		} else {
-			//videoType5[i] equals "none". Do nothing
-
 		}
 	}
+
+	String source7 = properties.get("source7", "not_set");
+	String homeCarouselAutoscroll = properties.get("homecarouselautoscroll", "false");
+	String homeCarouselTimeDelay = properties.get("homecarouseltimedelay", "1000");
+	String blogBgImage = properties.get("blogbgimage", "");
+
+	//passing this to another jsp
+	request.setAttribute("source7", source7);
+
 %>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js');
+	$(document).ready(function() {			
+		function pauseVideoSliderVideosVimeo(){
+			$('[id*="vimeoPlayer"]').each(function (i, val) {
+				//console.info($f(val));
+				$f(val).api('pause');
+				
+			});
+		}
+		
+		function pauseVideoSliderVideosYoutube() {
+			if($('.lazyYT > iframe').length > 0) {
+			    $.each($('.lazyYT > iframe'), function( i, val ) {
+			    	var iframe = val;
+			    	iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+			    });
+			}
+		}
+		
+		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
+			pauseVideoSliderVideosYoutube();
+			pauseVideoSliderVideosVimeo();
+		});
+		
+		stopSlider = function() {
+			var slick = $('.main-slider');
+			if (slick != undefined && slick.slick != undefined) {
+				slick.slick('slickPause');
+				slick.slick('slickSetOption', 'autoplay', false, false);
+				slick.slick('autoPlay',$.noop);
+			}
+		}
+			
+		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
+			if ($('#vimeoPlayer' + i).length > 0) {
+				$('#vimeoPlayer' + i).load(function() {
+					$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
+							function attachListenerToVideoSlider () {
+								for (var i = 0; i < $('.main-slider iframe').length; i ++) {
+								
+									var iframe = $('.main-slider iframe')[i],
+										player;
+										player = $f(iframe);
+										player.addEvent('playProgress', function() {
+											stopSlider();
+										}); 
+									}
+								
+							}
+							attachListenerToVideoSlider();
+					});
+				});
+			}
+		}
+		
 	});
 	var isRetina = (
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);
 
-	//this value is used to adjust the speed of hte carousel on the first opening page.
-	interval = <%= interval %>;
-
+	//this value is used to adjust the speed of the carousel on the first opening page.
+	homeCarouselAutoScroll = <%=homeCarouselAutoscroll%>;
+	homeCarouselTimeDelay = <%=homeCarouselTimeDelay%>;
+	
 </script>
 <div class="hero-feature">
-	<div id="hiddenThumbnail0" style=display:none><%=vidThumbnailTitle5[0]%></div>
-	<div id="hiddenThumbnail1" style=display:none><%=vidThumbnailTitle5[1]%></div>
-	<div id="hiddenThumbnail2" style=display:none><%=vidThumbnailTitle5[2]%></div>
-	<div id="hiddenThumbnail3" style=display:none><%=vidThumbnailTitle5[3]%></div>
-	<div class="overlay"></div>
 	<ul class="main-slider">
-<%
-	for (int i = 0 ; i < imagePathArray.length; i++) {
-%>
-		<li id="tag_explore_main_<%=i%>"><img src="<%= getImageRenditionSrc(resourceResolver, imagePathArray[i], "cq5dam.npd.top.")%>" alt="<%= imageAlt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/></li>
-<%
-	}
-%>
-	</ul>
-	<div class="hero-text first">
-		<section>
-			<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon" data-at2x="/etc/designs/gsusa/clientlibs/images/white_trefoil@2x.png" />
-			<h2><%= title %></h2>
-			<p><%= content %></p>
-			<a id="tag_explore_<%= linkifyString(btnName, 25)%>" href="#" class="button explore" tabindex="51"><%= btnName %></a>
-		</section>
-	</div>
-	<div class="position">
-		<div class="inner-sliders">
-			<ul class="inner">
-				<li>
-					<ul class="slide-4">
-<%
-	for (int i = 0 ; i < 4; i++) {
-                String displayContent = "";
-                if (content5[i] != null) {
-                        displayContent = content5[i].trim();
-                }
-%>
-                                                <li id="tag_explore_slide4_<%=i%>">
-<%
-		if("photo".equals(videoType5[i])){
-%>
-							<h3><%= title5 %></h3>
-							<div class="video-wrapper">
-								<div class="video video-embed">
-								  <img src="<%= getImageRenditionSrc(resourceResolver, videoThumbNail[i], "cq5dam.npd.hero.")%>" alt="" class="slide-thumb news-pic tag_explore_image_slide4_<%=i%>"/>
-								</div>
-								<div class="video-article">
-									<h4><%= subtitle5[i] %></h4>
-									<p><%= displayContent %></p>
-								</div>
-							</div>
-<%
-		} else if ("link".equals(videoType5[i])) {
-%>
-							<h3><%= title5 %></h3>
-							<div class="video-wrapper">
-								<div class="video-embed">
-									<img src="<%= videoThumbNail[i] %>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
-									<%= embeded[i] %>
-								</div>
-								<div class="video-article">
-									<h4><%= subtitle5[i] %></h4>
-									<p><%= displayContent %></p>
-								</div>
-							</div>
-<%
-		} else if ("path".equals(videoType5[i])) {
-%>
-							<h3><%= title5 %></h3>
-							<div class="video-wrapper">
-								<div class="video video-embed">
-									<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb tag_explore_image_slide4_<%=i%>"/>
-									<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
-								</div>
-								<div class="video-article">
-									<h4><%= subtitle5[i] %></h4>
-									<p><%= displayContent %></p>
-								</div>
-							</div>
-<%
-		} else {
-//none
+		<% 
+		for (int i = 0 ; i < numberOfImages; i++) { 
+			if (!tempHidden[i]) {%>
+		<li id="tag_explore_main_<%=i%>">
+			<% 
+				if (link[i].indexOf("https://www.youtube.com/embed/") != -1) {%>
+
+					<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
+
+			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
+
+					<div class="videoWrapper"><iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
+
+			<% } else {%>
+
+					<a href="<%=link[i]%>" title="<%=title[i]%>" <%=openInNewWindow[i]%>>
+						<img src="<%= getImageRenditionSrc(resourceResolver, imagePath[i], "cq5dam.npd.top.")%>" alt="<%= alt[i] %>" class="slide-thumb tag_explore_image_hero_<%=i%>"/>
+					</a>
+
+			<% }%>
+
+		</li>
+		<% } 
 		}
-%>
-						</li>
-<%
-	}
-%>
-					</ul>
-				</li>				<li>
-				<ul class="slide-2">
-<%
-	for (int i = 0 ; i < imagePath3.length; i++) {
-                String displayContent = "";
-                if (content3[i] != null) {
-                        displayContent = content3[i].trim();
-                }
-%>
-						<li id="tag_explore_slide2_<%=i%>">
-							<h3><%= title3 %></h3>
-							<div class="text white">
-								<h4><%= subtitle3[i] %></h4>
-								<p><%= displayContent %></p>
-							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath3[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt3[i] %>" class="slide-thumb tag_explore_image_slide2_<%=i%>"/>
-						</li>
-<%
-	}
-%>
-					</ul>
-				</li>
-                <li>
-					<ul class="slide-1">
-<%
-	for (int i = 0 ; i < imagePath2.length; i++) {
-		String displayContent = "";
-		if (content2[i] != null) {
-			displayContent = content2[i].trim();
-		}
-%>
-						<li id="tag_explore_slide1_<%=i%>">
-							<h3><%= title2 %></h3>
-							<div class="text white">
-								<h4><%= subtitle2[i] %></h4>
-								<p><%= displayContent %></p>
-							</div>
-							<img src="<%= getImageRenditionSrc(resourceResolver, imagePath2[i], "cq5dam.npd.hero.")%>" alt="<%= imageAlt2[i] %>" class="slide-thumb tag_explore_image_slide1_<%=i%>"/>
-						</li>
-<%
-	}
-%>
-					</ul>
-				</li>
-				<li>
-					<ul class="slide-3">
-						<li id="tag_explore_slide3">
-							<h3><%= title4 %></h3>
-							<div class="blog-feed">
-							<%
-							//Removes editing for this component, because its configuration is handled in carousel's dialog
-							slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
-							%>
-							<cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
-							<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
-							</div>
-						</li>
-					</ul>
-				</li>
+		%>
+		<li class="blog">
+			<a href="http://blog.girlscouts.org/" title="girlscouts blog">
+				<img src="<%=blogBgImage%>" alt="girlscouts blog home" />
+				<!-- for the small screens we need a bg image-->
+				<!-- <img src="../dam/girlscouts-gsusa/HomePage_Blog_Mockup-3.png" alt="girlscouts blog home" /> -->
+			</a>
+			<ul class="blog-grid">
+
+			<%
+            	//Removes editing for this component, because its configuration is handled in carousel's dialog
+                slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
+            %>
+            <cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
+            <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
+
+
+			  <!--  the following is now in blog-feed -->
+			  <!-- <li>
+				<div>
+				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
+				  	<a href="#" title="" class="button">Read More ></a>
+				</div>
+			  </li>
+			  <li>
+			   	<div>
+				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
+				  	<a href="#" title="" class="button">Read More ></a>
+			  	</div>
+			  </li>
+			  <li>
+			   	<div>
+				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
+				  	<a href="#" title="" class="button">Read More ></a>
+			  	</div>
+			  </li> -->
 			</ul>
-		</div>
-	</div>
-	<div class="final-comp">
-		<div class="hero-text">
-			<section>
-				<img src="/etc/designs/gsusa/clientlibs/images/white_trefoil.png" alt="icon"/>
-				<h2><%= title6%></h2>
-				<p><%= content6 %></p>
-				<form id="tag_explore_final" action="#" name="join-now" class="formJoin join-now-form clearfix">
-					<input type="text" name="ZipJoin" maxlength="5" pattern="[0-9]*" class="join-text hide" placeholder="Enter ZIP Code">
-					<input type="hidden" name="source" value="<%= closingSource6 %>">
-					<a href="#nogo" class="button join-now">Join Now</a>
-				</form>
-			</section>
-		</div>
-		<img src="<%= getImageRenditionSrc(resourceResolver, imagePath6, "cq5dam.npd.hero.")%>" alt="<%= imageAlt6 %>" class="main-image" />
-	</div>
+		</li>
+	</ul>
 	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>
 <%

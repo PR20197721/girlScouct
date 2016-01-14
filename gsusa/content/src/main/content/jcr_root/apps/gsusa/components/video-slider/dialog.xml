@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
+    width="{Long}1000"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -14,13 +15,13 @@
 	                <multi
 	                        jcr:primaryType="cq:Widget"
 	                        fieldLabel="Links"
-	                        fieldDescription="Insert paths to DAM photos or Youtube/Vimeo embed linkslo"
+	                        fieldDescription="Insert paths to DAM photos or Youtube/Vimeo embed links"
 	                        name="./links"
 	                        xtype="multifield">
 	                        <fieldConfig
 	                            jcr:primaryType="nt:unstructured"
 	                            rootPath="/content/dam"
-	                            xtype="pathfield"/>
+	                            xtype="titlepathfield"/>
 	                    </multi>
                 </items>
             </tab1>
