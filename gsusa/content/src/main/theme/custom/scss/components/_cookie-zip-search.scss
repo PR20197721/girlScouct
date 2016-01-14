@@ -200,12 +200,12 @@
   }
   form {
     margin: 0 auto;
-    width: 70%;
+    width: 60%;
     height: 100%;
     padding: rem-calc(17 0);
     label {
       float: left;
-      margin-right: 10%;
+      margin-right: 8%;
       margin-bottom: 0;
       text-align: center;
       color: $white;
@@ -232,6 +232,10 @@
       }
     }
     @media #{$medium-up} {
+      .two-cols .middle-col &, .three-cols .hero-section & {
+        padding-top:1%;
+        width:72%;
+      }
       .three-cols .middle-col &  {
         label {
           float: none;
