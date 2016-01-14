@@ -37,6 +37,15 @@
                         defaultValue="9"
                         xtype="numberfield">
                     </numberofarticles>
+                    <articletags 
+                    	jcr:primaryType="cq:Widget"
+						fieldLabel="Article Tags"
+						xtype="tags"
+						name="./cq:tags">
+						<namespaces jcr:primaryType="cq:WidgetCollection">  
+							<ns1 jcr:primaryType="nt:unstructured" maximum="5"  name="gsusa" />  
+						</namespaces> 
+					</articletags>
                 </items>
         	</tab0>
             <tab1
