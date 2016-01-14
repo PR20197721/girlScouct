@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Tile Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <tileTitle
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please input a title"
+                        fieldLabel="Tile Title"
+                        name="./jcr:content/tileTitle"
+                        xtype="textfield"/>
+                    <smallTileTitle
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please input a title"
+                        fieldLabel="Small Tile Title"
+                        name="./jcr:content/smallTileTitle"
+                        xtype="textfield"/>
+                    <tileSummary
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Tile Summary"
+                        name="./jcr:content/tileSummary"
+                        xtype="textarea"/>
+                    <tileSmallSummary
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Tile Small Summary"
+                        name="./jcr:content/tileSmallSummary"
+                        xtype="textarea"/>
+                    <tilePriority
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldDescription="The priority for sorting tiles within a carousel"
+                        fieldLabel="Tile Priority"
+                        name="./jcr:content/tilePriority"
+                        xtype="numberfield"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Article Configuartion">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <articleName
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Article Name"
+                        name="./jcr:content/jcr:title"
+                        xtype="textfield"/>
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Type"
+                        name="./jcr:content/type"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option0
+                                jcr:primaryType="nt:unstructured"
+                                text="Photo"
+                                value="photo"/>
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Video"
+                                value="video"/>
+                            <option2
+                                jcr:primaryType="nt:unstructured"
+                                text="External Link"
+                                value="external-link"/>
+                        </options>
+                    </type>
+                    <external-video
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Video Link"
+                        name="./jcr:content/videoLink"/>
+                    <externalLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="External Link"
+                        name="./jcr:content/externalLink"
+                        xtype="textfield"/>
+                    <image
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        border="true"
+                        cropParameter="./jcr:content/image/imageCrop"
+                        ddGroups="[media]"
+                        fieldLabel="Photo"
+                        fileNameParameter="./jcr:content/image/fileName"
+                        fileReferenceParameter="./jcr:content/image/fileReference"
+                        height="400"
+                        hideLabel="false"
+                        itemId="image"
+                        mapParameter="./jcr:content/image/imageMap"
+                        name="./jcr:content/image/file"
+                        requestSuffix="/jcr:content/image.img.png"
+                        rotateParameter="./jcr:content/image/imageRotate"
+                        sizeLimit="100"
+                        xtype="html5smartimage">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                name="./jcr:content/image/sling:resourceType"
+                                value="gsusa/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </image>
+                    <primaryTag
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Primary Tag"
+                        name="./jcr:content/cq:tags"
+                        namespaces="[gsusa]"
+                        xtype="tags"/>
+                    <secondaryTags
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Secondary Tags"
+                        name="./jcr:content/secondaryTags"
+                        namespaces="[gsusa]"
+                        xtype="tags"/>
+                    <vanityUrl
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Vanity Url"
+                        hidden="{Boolean}true"
+                        name="./jcr:content/sling:vanityPath"
+                        xtype="textfield"/>
+                    <editedDate
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Input the edited date for the article"
+                        fieldLabel="Edited Date"
+                        name="./jcr:content/editedDate"
+                        xtype="datefield"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>
