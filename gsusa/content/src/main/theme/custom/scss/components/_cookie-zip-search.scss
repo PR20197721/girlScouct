@@ -223,10 +223,10 @@
         float: none;
         margin-right: 0;
         font-size: rem-calc(20);
-        margin-bottom: rem-calc(15);
+        margin-bottom: rem-calc(7);
       }
       .form-wrapper {
-        width: 50%;
+        width: 55%;
         float: none;
         margin: 0 auto rem-calc(15);
       }
@@ -234,7 +234,10 @@
     @media #{$medium-up} {
       .two-cols .middle-col &, .three-cols .hero-section & {
         padding-top:1%;
-        width:72%;
+        width:80%;
+        .form-wrapper{
+          width: 30%;
+        }
       }
       .three-cols .middle-col &  {
         label {
