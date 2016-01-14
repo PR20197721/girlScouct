@@ -117,7 +117,9 @@ public  String readUrlFile(String urlString) throws Exception {
 	$(document).ready(function() {			
 		function pauseVideoSliderVideosVimeo(){
 			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				$f(val).api('unload');
+				//console.info($f(val));
+				$f(val).api('pause');
+				
 			});
 		}
 		
@@ -185,7 +187,7 @@ public  String readUrlFile(String urlString) throws Exception {
 			<% 
 				if (link[i].indexOf("https://www.youtube.com/embed/") != -1) {%>
 
-					<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title=""></div>
+					<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
 
 			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
 

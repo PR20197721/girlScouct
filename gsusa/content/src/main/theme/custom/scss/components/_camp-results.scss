@@ -1,4 +1,4 @@
-#camp-finder-result {
+.camp-results {
   form {
     div.clearfix {
       section {
@@ -46,9 +46,8 @@
       }
     }
   }
-  .no-results {
-    p {
-      margin:0;
-    }
+
+  div.no-results {
+    margin-top: 2.5rem;
   }
 }
