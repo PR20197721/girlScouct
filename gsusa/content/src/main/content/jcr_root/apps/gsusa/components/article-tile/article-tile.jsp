@@ -47,7 +47,7 @@
     </li>
     <li>
         <section>
-            <a href="#" data-reveal-id="videoModal">
+            <a href="//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0" data-reveal-id="videoModal" data-reveal-ajax="true">
                 <img src="/content/gsusa/en/about-girl-scouts/who-we-are/_jcr_content/content/hero/par/image_e03.img.jpg" alt="Article title" />
                 <div class="text-content" style="background: rgba(36, 184, 238, 0.8)">
                     <h3>Article Title</h3>
@@ -58,10 +58,9 @@
     </li>
 </ul>
 <div id="videoModal" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" role="dialog">
-  <h2 id="videoModalTitle">This modal has video</h2>
+<!--   <h2 id="videoModalTitle">This modal has video</h2>
   <div class="flex-video widescreen vimeo">
     <iframe width="100%" height="720" src="//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0" frameborder="0" allowfullscreen></iframe>
-  </div>
-
+  </div> -->
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 </div>
