@@ -2,9 +2,6 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page session="false" %>
 
-<%-- Placeholder for the actual render --%>
-<div id="camp-finder-result" class="camp-results"></div>
-
 <%-- Template for not found --%>
 <script id="template-notfound" type="text/x-handlebars-template">
 	<cq:include script="not-found.jsp" />
