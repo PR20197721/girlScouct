@@ -10,7 +10,7 @@
     <p>Fees: {{Fee}}</p>
     <p>Grades the Camp Serves: {{GradeDescription}}</p>
     <p>Website: <a href="{{Website}}" target="_blank">{{Website}}</a></p>
-    <p>Contact information: {{{Emails}}} or {{Phone}}</p>
+    <p>Contact Information: {{{Emails}}} or {{Phone}}</p>
     <div class="more-section">
         <section style="display:none;">
          <p>{{CampDescription}}</p>
