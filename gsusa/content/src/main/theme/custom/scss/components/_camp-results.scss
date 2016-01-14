@@ -46,11 +46,8 @@
       }
     }
   }
-}
-#camp-finder-result {
-  .no-results {
-    p {
-      margin:0;
-    }
+
+  div.no-results {
+    margin-top: 2.5rem;
   }
 }
