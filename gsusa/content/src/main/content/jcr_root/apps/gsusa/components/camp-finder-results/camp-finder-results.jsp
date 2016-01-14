@@ -161,7 +161,10 @@ CampFinder.prototype.getResult = function() {
     	data.GSSource = gaparam;
     }
 
-	$('#camp-finder-result').html('');
+    if (this.page == 1) {
+		$('#camp-finder-result').html('');
+    }
+
 	$.ajax({
 		url: this.url,
 		dataType: "json",
@@ -200,14 +203,14 @@ CampFinder.prototype.processResult = function(campResult) {
 			} else {
 				camp.Distance += ' miles';
 			}
-			// Add zip field to camp. "View Detail" needs this info.
-			camp.queryZip = this.zip;
+
 			// Process emails
-			var origEmails = camp.Email.split(/[;,\s]/);
+			var origEmails = camp.Email.split(/,\s+/);
 			var emails = "";
 			for (var emailIndex = 0; emailIndex < origEmails.length; emailIndex++) {
 				var email = origEmails[emailIndex];
-				emails = emails + '<a href="mailto:' + email + '">' + email + '</a>, '
+				email = email.replace(/([^\s]+@[^\s]+\.[^\s]+)/, '<a href="mailto:$1">$1</a>');
+				emails = emails + email + ', ';
 			}
 			if (emails.endsWith(', ')) {
 				emails = emails.substring(0, emails.length - 2);
