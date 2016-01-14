@@ -1534,8 +1534,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 				tags = "";
 			StringTokenizer t = new StringTokenizer(tags, "|");
 			while (t.hasMoreElements()) {
-				sqlTags += " contains(parent.[cq:tags], 'program-level/"
-						+ t.nextToken() + "') ";
+				sqlTags += " parent.[cq:tags] like '%program-level/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
 				isTag = true;
@@ -1547,8 +1546,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " contains( parent.[cq:tags], 'categories/"
-						+ t.nextToken() + "') ";
+				sqlCat += "  parent.[cq:tags] like '%categories/" + t.nextToken() + "%' ";
 
 				if (t.hasMoreElements())
 					sqlCat += " or ";
@@ -1591,9 +1589,20 @@ if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gat
 			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
 					+ eventPath
 					+ "])) and child.start is not null and parent.[jcr:title] is not null ";
+			
+			
+			
+			/*
 			if (keywrd != null && !keywrd.trim().equals(""))// && !isTag )
 				sql += " and (contains(child.*, '" + keywrd
 						+ "') or contains(parent.*, '" + keywrd + "')  )";
+			*/				
+			if (keywrd != null && !keywrd.trim().equals(""))
+				sql += " and ( child.* like '%" + keywrd + "%' " +
+						" or parent.* like '%" + keywrd + "%'  )";
+			
+			
+			
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
@@ -1607,11 +1616,12 @@ System.err.println("searchA1 sql: "+ sql);
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value v[] = r.getValues();
+		
 				Activity activity = new Activity();
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
 				activity.setContent(r.getValue("child.details").getString());
-
+System.err.println("SearchA1 details: "+activity.getContent() );
 				// convert to EST
 				// TODO: All VTK date is based on server time zone, which is
 				// eastern now.
@@ -1639,6 +1649,7 @@ System.err.println("searchA1 sql: "+ sql);
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
 								.getEndDate().before(new java.util.Date()))) {
+System.err.println("SearchA1 ... abort: "+ activity.getDate() +" : "+ activity.getEndDate()  +" : "+ new java.util.Date() );					
 					continue;
 				}
 				activity.setLocationName(r.getValue("child.locationLabel")
@@ -1680,12 +1691,14 @@ System.err.println("searchA1 sql: "+ sql);
 							&& activity.getDate().before(endDate))
 						;
 					else {
+System.err.println("searchA1 exiting this activity...." + activity.getDate()  +" : "+ startDate +" :" + endDate);						
 						continue;
 					}
 				}
-
+System.err.println("SearchA1 adding: "+ i);
 				toRet.add(activity);
 				i++;
+System.err.println("SearchA1 added activity: "+ i);				
 			}
 
 		} catch (Exception e) {
@@ -1698,6 +1711,7 @@ System.err.println("searchA1 sql: "+ sql);
 				ex.printStackTrace();
 			}
 		}
+System.err.println("SearchA1 return"+ toRet.size() );		
 		return toRet;
 	}
 
