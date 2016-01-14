@@ -104,12 +104,30 @@
         // })
           .html(innerHtml.join(''));
         
+        
+        
         if (width > 640) {
-            //thumb_img = 'maxresdefault.jpg';
-        	thumb_img = 'hqdefault.jpg';
+        	var img = new Image();
+        	img.onload= function(){
+        		if(img.width > 120){
+        			thumb_img = 'maxresdefault.jpg';
+        		} else{
+        			thumb_img = 'hqdefault.jpg';
+        		}
+        		proceed();
+        	}
+        	img.src = "http://img.youtube.com/vi/" + id + "/maxresdefault.jpg";
         } else if (width > 480) {
-            //thumb_img = 'sddefault.jpg';
-        	thumb_img = 'hqdefault.jpg';
+        	var img = new Image();
+        	img.onload= function(){
+	    		if(img.width > 120){
+	    			thumb_img = 'sddefault.jpg';
+	    		} else{
+	    			thumb_img = 'hqdefault.jpg';
+	    		}
+	    		proceed();
+        	}
+        	img.src = "http://img.youtube.com/vi/" + id + "/sddefault.jpg";
         } else if (width > 320) {
             thumb_img = 'hqdefault.jpg';
         } else if (width > 120) {
@@ -119,6 +137,8 @@
         } else {
             thumb_img = 'default.jpg';
         }
+        
+        function proceed(){
         
         $thumb = $el.find('.ytp-thumbnail').css({
             'background-image': ['url(http://img.youtube.com/vi/', id, '/', thumb_img, ')'].join('')
@@ -155,6 +175,7 @@
                 }
                 
             });
+        }
         }
 
     };

@@ -151,6 +151,12 @@ div.carousel {
       background: rgba(0, 0, 0, 0.5);
       width: 3rem;
     }
+    button{
+      &.ytp-button, &.ytp-button:focus{
+        background-color: inherit; 
+	    height: 64px;
+      }
+    }
   }
 }
 .hero-feature {
