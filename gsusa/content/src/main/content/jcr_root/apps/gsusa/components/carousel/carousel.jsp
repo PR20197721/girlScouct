@@ -205,43 +205,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		<% } 
 		}
 		%>
-		<li class="blog">
-			<a href="http://blog.girlscouts.org/" title="girlscouts blog">
-				<img src="<%=blogBgImage%>" alt="girlscouts blog home" />
-				<!-- for the small screens we need a bg image-->
-				<!-- <img src="../dam/girlscouts-gsusa/HomePage_Blog_Mockup-3.png" alt="girlscouts blog home" /> -->
-			</a>
-			<ul class="blog-grid">
-
-			<%
-            	//Removes editing for this component, because its configuration is handled in carousel's dialog
-                slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true);
-            %>
-            <cq:include path="blog-feed" resourceType="gsusa/components/blog-feed" />
-            <% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
-
-
-			  <!--  the following is now in blog-feed -->
-			  <!-- <li>
-				<div>
-				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
-				  	<a href="#" title="" class="button">Read More ></a>
-				</div>
-			  </li>
-			  <li>
-			   	<div>
-				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
-				  	<a href="#" title="" class="button">Read More ></a>
-			  	</div>
-			  </li>
-			  <li>
-			   	<div>
-				  	<img src="../dam/girlscouts-gsusa/blog-img2.jpg" alt="girlscouts blog home" />
-				  	<a href="#" title="" class="button">Read More ></a>
-			  	</div>
-			  </li> -->
-			</ul>
-		</li>
 	</ul>
 	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
 </div>
