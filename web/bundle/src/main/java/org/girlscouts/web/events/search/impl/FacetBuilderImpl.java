@@ -62,7 +62,6 @@ public class FacetBuilderImpl implements FacetBuilder{
 				Tag cTag = tagMgr.resolve(childFacets.next().getPath());
 				if(!tagTree.contains(cTag.getTagID())){
 					tagItems.add(new FacetsInfo(cTag.getTitle(),cTag.getTagID(),false,0L));
-				} else {
 					tagTree.add(cTag.getTagID());
 				}
 			}
