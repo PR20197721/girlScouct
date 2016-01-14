@@ -1,5 +1,8 @@
 <div class="result">
-    <h5><a href="{{Website}}" target="_blank">{{CouncilName}}</a></h5>
+    <div class="row">
+        <h5 class="columns large-17 medium-17 small-24"><a href="{{Website}}" target="_blank">{{CouncilName}}</a></h5>
+        <i class="columns large-6 medium-6 small-24">5 miles from 00000</i>
+    </div>
     <p>Camp Name: {{CampName}}</p>
     <p>Camp Location: {{CampCity}}, {{CampState}}</p>
     <p>Camp Dates: {{DateDescription}}</p>
