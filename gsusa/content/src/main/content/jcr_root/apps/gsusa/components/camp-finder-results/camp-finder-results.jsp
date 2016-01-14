@@ -194,6 +194,12 @@ CampFinder.prototype.processResult = function(campResult) {
 		var min = Math.min(camps.length, this.numPerPage); // length - 1 to omit the "more" one
 		for (var campIndex = 0; campIndex < min; campIndex++) {
 			var camp = camps[campIndex];
+			// Process distance
+			if (camp.Distance == '1') {
+				camp.Distance = "1 mile";
+			} else {
+				camp.Distance += ' miles';
+			}
 			// Add zip field to camp. "View Detail" needs this info.
 			camp.queryZip = this.zip;
 			// Process emails
