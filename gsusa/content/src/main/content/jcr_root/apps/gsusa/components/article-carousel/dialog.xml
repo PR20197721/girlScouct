@@ -41,9 +41,11 @@
                     	jcr:primaryType="cq:Widget"
 						fieldLabel="Article Tags"
 						xtype="tags"
+						suggestMinChars="1"
+						fieldDescription="You can select at most 3 tags."
 						name="./cq:tags">
 						<namespaces jcr:primaryType="cq:WidgetCollection">  
-							<ns1 jcr:primaryType="nt:unstructured" maximum="5"  name="gsusa" />  
+							<ns1 jcr:primaryType="nt:unstructured" maximum="3"  name="gsusa" />
 						</namespaces> 
 					</articletags>
                 </items>
