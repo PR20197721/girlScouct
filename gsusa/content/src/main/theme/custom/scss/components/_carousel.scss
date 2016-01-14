@@ -125,6 +125,7 @@ div.carousel {
           padding-bottom: 0;
           div {
             position: relative;
+            min-height: rem-calc(208);
           }
         }
         @media #{$small-only} {
@@ -566,7 +567,7 @@ div.carousel {
 	  font-family: inherit;
 	  cursor: default;
 	  line-height: inherit;
-	  
+
 	  /*  margin: 0; */
 	  padding: 0;
 	  background: none;
