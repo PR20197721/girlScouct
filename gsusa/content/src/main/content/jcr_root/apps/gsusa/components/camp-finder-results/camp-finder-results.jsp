@@ -28,7 +28,7 @@
         <div class="clearfix">
             <section class="radius">
                 <label>Radius:</label>
-                <select name="radius" onchange="this.form.submit()">
+                <select name="radius" onchange="getCampResults()">
                     <option value="1">1 miles</option>
                     <option value="5">5 miles</option>
                     <option value="10">10 miles</option>
@@ -43,7 +43,7 @@
             </section>
             <section class="duration">
                 <label>Duration:</label>
-                <select name="duration" onchange="this.form.submit()">
+                <select name="duration" onchange="getCampResults()">
                     <!-- default -->
                     <option value="all" selected>All</option>
                     <option value="less">Less than 1 week</option>
@@ -53,7 +53,7 @@
             </section>
             <section  class="grade">
                 <label>Grade:</label>
-                <select name="grade" onchange="this.form.submit()">
+                <select name="grade" onchange="getCampResults()">
                     <!-- default -->
                     <option value="all" selected>All</option>
                     <option value="k">Grade K</option>
@@ -75,16 +75,16 @@
             <section  class="date">
                 <label>Start Date:</label>
                 <input type="text" class="dp-calendar form-control hide-for-touch" id="start-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
-                <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="this.form.submit()">
+                <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="getCampResults()">
             </section>
             <section  class="date">
                 <label>End Date:</label>
                 <input type="text" class="dp-calendar form-control hide-for-touch" id="end-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
-                <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="this.form.submit()">
+                <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="getCampResults()">
             </section>
             <section  class="sort">
                 <label>Sort by:</label>
-                <select name="sortBy" onchange="this.form.submit()">
+                <select name="sortBy" onchange="getCampResults()">
                     <!-- default -->
                     <option value="distance" selected>Distance</option>
                     <option value="date">Date</option>
@@ -113,7 +113,7 @@ $(function() {
         $('#start-touch').val(moment(start.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         
-        $('form.camp-finder-options').submit();
+        getCampResults();
       }
     });
 });
@@ -231,30 +231,6 @@ CampFinder.prototype.processResult = function(campResult) {
 
 	if (templateId == 'camps') {
 		if (this.page == 1) {
-			// Reset form values
-			var radius = getParameterByName('radius');
-			var duration = getParameterByName('duration');
-			var grade = getParameterByName('grade');
-			var startDate = getParameterByName('startDate');
-			var endDate = getParameterByName('endDate');
-			var sortBy = getParameterByName('sortBy');
-			if (!radius) radius = 250;
-			if (!duration) duration = 'all';
-			if (!grade) grade = 'all';
-			if (!sortBy) sortBy = 'distance'
-			$('select[name="radius"]').val(radius);
-			$('select[name="duration"]').val(duration);
-			$('select[name="grade"]').val(grade);
-			if (startDate) {
-				$('#start-desktop').val(moment(startDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-				$('#start-touch').val(startDate);
-			}
-			if (endDate) {
-				$('#end-desktop').val(moment(endDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-				$('#end-touch').val(endDate);
-			}
-			$('select[name="sortBy"]').val(sortBy);
-
 			// Bind click more
 			$('#camp-finder-result #more').on('click', function(){
 				campFinder.getResult();
@@ -285,7 +261,7 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-$(document).ready(function() {
+function getCampResults() {
 	var zip;
 	// Get zip from hash
 	zip = (function(zip){
@@ -300,12 +276,13 @@ $(document).ready(function() {
 	if (zip == undefined) {
 		// TODO: error: zip not found.
 	} else {
-		var radius = getParameterByName('radius');
-		var duration = getParameterByName('duration');
-		var grade = getParameterByName('grade');
-		var startDate = getParameterByName('startDate');
-		var endDate = getParameterByName('endDate');
-		var sortBy = getParameterByName('sortBy');
+		var radius = $('select[name="radius"]').val();
+		var duration = $('select[name="duration"]').val();
+		var grade = $('select[name="grade"]').val();
+		var startDate = $('input[name="startDate"]').val();
+		var endDate = $('input[name="endDate"]').val();
+		var sortBy = $('select[name="sortBy"]').val();
+
 		if (!radius) radius = 250;
 		if (!duration) duration = 'all';
 		if (!grade) grade = 'all';
@@ -314,5 +291,9 @@ $(document).ready(function() {
 		campFinder = new CampFinder("/campsapi/ajax_camp_results.asp", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		campFinder.getResult();
 	}
+}
+
+$(document).ready(function() {
+	getCampResults();
 });
 </script>
