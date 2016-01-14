@@ -161,6 +161,7 @@ CampFinder.prototype.getResult = function() {
     	data.GSSource = gaparam;
     }
 
+	$('#camp-finder-result').html('');
 	$.ajax({
 		url: this.url,
 		dataType: "json",
