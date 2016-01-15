@@ -110,8 +110,6 @@ $(function() {
       onSelect: function (fd, date) {
         var start = $('#start-desktop'),
             end = $('#end-desktop');
-        start.data('datepicker').update('maxDate', date);
-        end.data('datepicker').update('minDate', date);
         $('#start-touch').val(moment(start.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         
