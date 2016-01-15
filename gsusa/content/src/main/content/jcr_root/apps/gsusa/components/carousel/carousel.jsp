@@ -116,10 +116,10 @@ public  String readUrlFile(String urlString) throws Exception {
 <script type="text/javascript">
 	$(document).ready(function() {			
 		function pauseVideoSliderVideosVimeo(){
-			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				//console.info($f(val));
-				$f(val).api('pause');
-				
+			$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
+				$('[id*="vimeoPlayer"]').each(function (i, val) {
+					$f(val).api('pause');
+				});
 			});
 		}
 		
