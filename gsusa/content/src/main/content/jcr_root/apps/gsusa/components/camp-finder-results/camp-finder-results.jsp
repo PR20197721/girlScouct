@@ -7,6 +7,11 @@
 	<cq:include script="not-found.jsp" />
 </script>
 
+<%-- Template for invalid zip --%>
+<script id="template-invalidzip" type="text/x-handlebars-template">
+	<cq:include script="invalid-zip.jsp" />
+</script>
+
 <%-- Template for camp list --%>
 <script id="template-camps" type="text/x-handlebars-template">
 	<cq:include script="camp-list.jsp" />
@@ -225,7 +230,11 @@ CampFinder.prototype.processResult = function(campResult) {
 
 		result.camps = camps;
 	} else {
-		templateId = 'notfound';
+		if (result.council && result.council.CouncilName) {
+			templateId = 'notfound';
+		} else {
+			templateId = 'invalidzip';
+		}
 	}
 
 	if (this.page == 1) {
