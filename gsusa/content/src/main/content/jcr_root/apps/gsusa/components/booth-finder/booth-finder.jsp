@@ -124,8 +124,7 @@ BoothFinder.prototype.processResult = function(result) {
 			var booth = booths[boothIndex];
 			// Add index field
 			booth.ID = boothIndex;
-			// Add Council Name and zip field to booth. "View Detail" needs this info.
-			booth.CouncilName = result.council.CouncilName;
+			// Add zip field to booth. "View Detail" needs this info.
 			booth.queryZip = this.zip;
 			
 			if (Number(booth.Distance) < nearestDistance) {
