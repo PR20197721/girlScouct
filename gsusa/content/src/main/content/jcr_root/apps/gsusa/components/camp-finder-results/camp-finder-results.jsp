@@ -213,7 +213,8 @@ CampFinder.prototype.processResult = function(campResult) {
 				email = email.replace(/([^\s]+@[^\s]+\.[^\s]+)/, '<a href="mailto:$1">$1</a>');
 				emails = emails + email + ', ';
 			}
-			if (emails.endsWith(', ')) {
+			// if (emails.endsWith(', ')) {  Safari on iOS 8.1 does not support endsWith
+			if (emails.lastIndexOf(', ') == emails.length - 2) {
 				emails = emails.substring(0, emails.length - 2);
 			}
 			camp.Emails = emails;
