@@ -772,7 +772,7 @@ function printObjectProperties(objectToInspect) {
   }
 }
 
-$(document).ready(function(){
+function setupContactLocalCouncilForm() {
 	// Setup "contact local council" form
 	$('.booth-finder form#contactlocalcouncil').submit(function(){
 		$.post($(this).attr('action'), $(this).serialize(), function(response) {
@@ -788,7 +788,9 @@ $(document).ready(function(){
 		// Prevent default
 		return false;
 	});
-});
+}
+
+$(document).ready(setupContactLocalCouncilForm);
 
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
