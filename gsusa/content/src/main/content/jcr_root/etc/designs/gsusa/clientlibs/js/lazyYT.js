@@ -130,12 +130,16 @@
         	img.src = "http://img.youtube.com/vi/" + id + "/sddefault.jpg";
         } else if (width > 320) {
             thumb_img = 'hqdefault.jpg';
+            proceed();
         } else if (width > 120) {
             thumb_img = 'mqdefault.jpg';
+            proceed();
         } else if (width == 0) { // sometimes it fails on fluid layout
             thumb_img = 'hqdefault.jpg';
+            proceed();
         } else {
             thumb_img = 'default.jpg';
+            proceed();
         }
         
         function proceed(){
