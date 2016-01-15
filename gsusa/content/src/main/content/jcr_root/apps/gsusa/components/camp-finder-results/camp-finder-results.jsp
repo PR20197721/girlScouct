@@ -111,7 +111,8 @@ $(function() {
         $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         
         getCampResults();
-      }
+      },
+      autoClose: true
     });
 });
 
