@@ -3,6 +3,7 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
     strGAMedium = getParameterByName("utm_medium");
     strGASource = getParameterByName("utm_source");  
 
+	joinForm = this;
     me = event.target;
 	zipValue = $(me).find("[name='ZipJoin']").val();
 	source = $(me).find("[name='source']").val();
@@ -66,7 +67,11 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
         
             submit_facebook_conversion_pixel("join/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully
-            window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
+            if ($(joinForm).hasClass("bottom-overlay-join")) {
+				window.setTimeout("redirect_to_council_new_window('"+result[2]+"')",1500);
+			} else {
+				window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
+			}
         } else {
             // invalidate the zipcode field manually
             $(me).find("[name='ZipJoin']").val('Invalid');
@@ -78,6 +83,10 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 
     return false;
 });
+
+function redirect_to_council_new_window(url) {
+	window.open(url);
+}
 
 function redirect_to_council(url) {
     parent.window.location = url;
