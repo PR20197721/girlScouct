@@ -61,15 +61,10 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		
 	    java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-		//String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
-		String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";
-        
+		String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-		int count=0 ;
-		
-		java.util.HashSet councilIds = new java.util.HashSet<String>();
-		java.util.List <org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
+		java.util.Map container= new java.util.TreeMap();
 		javax.jcr.query.QueryResult result = q.execute();
 		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 			javax.jcr.query.Row r = it.nextRow();
@@ -77,36 +72,20 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			String sfCouncil = null, sfTroopAge=null;
 			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}			
 		    try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
-
-		    org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
-		    ypr.setCouncil(sfCouncil);
-		    ypr.setTroop( r.getValue("sfTroopId").getString() );
-		    ypr.setTroopName( r.getValue("sfTroopName").getString() );
-		    ypr.setTroopAge(sfTroopAge);
-		    yprs.add(ypr);
-
-		    councilIds.add(sfCouncil);
-		    ageGroups.add(ypr.getTroopAge());
-		    count++;
+		    Integer counter = (Integer)container.get( sfCouncil+"|"+sfTroopAge );
+		    if( counter ==null )
+		    	container.put(sfCouncil+"|"+sfTroopAge , new Integer(0));
+		    else
+		    	container.put(sfCouncil+"|"+sfTroopAge , new Integer( counter.intValue() +1 ) );
 		}
-		out.println("Report Generated on "+ format1.format( new java.util.Date() ) +" ,total results found: "+count +" ,Total council(s): "+ councilIds.size());
-	    java.util.Iterator itr= councilIds.iterator();
-	    while( itr.hasNext() ){
-		   final String councilId= (String) itr.next();
-		   java.util.Iterator ageGroupIter = ageGroups.iterator();
-		   while(ageGroupIter.hasNext()){
-			  final String ageGroup = (String)ageGroupIter.next();
-			  
-		      java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) org.apache.commons.collections4.CollectionUtils
-		                   .select(yprs, new  org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
-		                         public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
-		                             return 
-		                            		 o.getTroopAge().equals(ageGroup) && 
-		                            		 o.getCouncil().equals( councilId);
-		                         }
-		         });
-			  
-		    out.println( (isHtml ? "<br/>" : "\n") + councilId +"," + ageGroup+ "," + container.size() );
-		   }
-	   }	        
+		out.println("Report Generated on "+ format1.format( new java.util.Date() ) );
+		java.util.Iterator itr = container.keySet().iterator();
+		while( itr.hasNext() ){
+		   String key = (String) itr.next();
+		   String councilId= key.substring(0, key.indexOf("|"));
+		   String ageGroup = key.substring(key.indexOf("|") +1 );
+		   Integer count= (Integer) container.get(key);
+		   out.println( (isHtml ? "<br/>" : "\n") + councilId +"," + ageGroup+ "," + count );		   
+		 }
+	   
 	%>
