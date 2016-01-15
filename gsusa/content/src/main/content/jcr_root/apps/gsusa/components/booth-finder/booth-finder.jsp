@@ -117,6 +117,8 @@ BoothFinder.prototype.processResult = function(result) {
 	} else if (booths.length != 0) {
 		templateId = 'booths';
 		
+		council.shoudShowContactUsFormAfterListing = council.PreferredPath.toLowerCase() == 'path2';
+		
 		var nearestDistance = Number.MAX_VALUE;
 		this.shouldHideMoreButton = booths.length <= this.numPerPage;
 		var min = Math.min(booths.length, this.numPerPage); // length - 1 to omit the "more" one
