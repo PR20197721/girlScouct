@@ -23,9 +23,9 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
         <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
 
 <%
-		if (pathIndex == 2) {
-			%><cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/><%
-		}
+        if (pathIndex == 2) {
+            %><cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/><%
+        }
 %>
 	</script>
 
@@ -221,6 +221,9 @@ BoothFinder.prototype.processResult = function(result) {
 		});
 		$('#booth-finder-result').append(shareModalHtml);
 	}
+	
+	// Setup contact local council form
+	setupContactLocalCouncilForm();
 
 	// Increase page count
 	this.page++;
