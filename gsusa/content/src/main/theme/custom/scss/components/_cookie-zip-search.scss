@@ -184,9 +184,11 @@
 .standalone-camp-finder {
   margin: rem-calc(15 0 15 0);
   @media #{$small-only} {
-    #main &,
-    .main-content & {
-      display: none;
+    &:not(.mobile-camp-finder) {
+      #main &,
+      .main-content & {
+        display: none;
+      }
     }
   }
   .three-cols .middle-col & {
