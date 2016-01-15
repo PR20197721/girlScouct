@@ -144,44 +144,55 @@
         
         function proceed(){
         
-        $thumb = $el.find('.ytp-thumbnail').css({
-            'background-image': ['url(http://img.youtube.com/vi/', id, '/', thumb_img, ')'].join('')
-        })
-            .addClass('lazyYT-image-loaded')
-            .on('click', function (e) {
-                e.preventDefault();
-                if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
-                	stopSlider();
-                    $el.html('<iframe id="' + dom_id + '" src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" frameborder="0" allowfullscreen></iframe>')
-                        .addClass(settings.video_loaded_class);
+	        $thumb = $el.find('.ytp-thumbnail').css({
+	            'background-image': ['url(http://img.youtube.com/vi/', id, '/', thumb_img, ')'].join('')
+	        })
+	            .addClass('lazyYT-image-loaded')
+	            .on('click', function (e) {
+	                e.preventDefault();
+	                if (!$el.hasClass('lazyYT-video-loaded') && $thumb.hasClass('lazyYT-image-loaded')) {
+	                	stopSlider();
+	                    $el.html('<iframe id="' + dom_id + '" src="//www.youtube.com/embed/' + id + '?' + youtube_parameters + '&autoplay=1" frameborder="0" allowfullscreen></iframe>')
+	                        .addClass(settings.video_loaded_class);
 
-                    // execute callback
-                    if (typeof settings.callback == 'function') { // make sure the callback is a function
-                        settings.callback.call($el); // brings the scope to the callback
-                    }
-                }
-            });
+	                    // execute callback
+	                    if (typeof settings.callback == 'function') { // make sure the callback is a function
+	                        settings.callback.call($el); // brings the scope to the callback
+	                    }
+	                }
+	                if ($(".zip-council").size() > 0) {
+						if($(window).width() > 769) {
+						    iframeClick();
+						}
+			        }
+			        function iframeClick() {
+					  $("iframe").hover(function() {
+				     	$(".zip-council").slideUp();
+					  }, function() {
+					    $(".zip-council").slideDown();
+					  });
+					}
+	            });
 
-        if ((!title && display_title) || display_duration) {
-            var youtube_data_url = ['https://www.googleapis.com/youtube/v3/videos?id=', id, '&key=', settings.yt_api_key, '&part=snippet'];
-            if (display_duration) youtube_data_url.push(',contentDetails'); // this extra info now costs some quota points, so we retrieve it only when necessary. More on quota: https://developers.google.com/youtube/v3/getting-started#quota
-            
-            $.getJSON(youtube_data_url.join(''), function (data) {
-                var item = data.items[0];
-                // console.log(item.snippet.title);
-                
-                $el.find('#lazyYT-title-' + id).text(item.snippet.title);
-                
-                if (display_duration) {
-                    $el.find('.video-time')
-                        .text(parseDuration(item.contentDetails.duration, settings))
-                        .show();
-                }
-                
-            });
+	        if ((!title && display_title) || display_duration) {
+	            var youtube_data_url = ['https://www.googleapis.com/youtube/v3/videos?id=', id, '&key=', settings.yt_api_key, '&part=snippet'];
+	            if (display_duration) youtube_data_url.push(',contentDetails'); // this extra info now costs some quota points, so we retrieve it only when necessary. More on quota: https://developers.google.com/youtube/v3/getting-started#quota
+	            
+	            $.getJSON(youtube_data_url.join(''), function (data) {
+	                var item = data.items[0];
+	                // console.log(item.snippet.title);
+	                
+	                $el.find('#lazyYT-title-' + id).text(item.snippet.title);
+	                
+	                if (display_duration) {
+	                    $el.find('.video-time')
+	                        .text(parseDuration(item.contentDetails.duration, settings))
+	                        .show();
+	                }
+	                
+	            });
+	        }
         }
-        }
-
     };
     
     function parseDuration(PT, settings) {
@@ -237,6 +248,8 @@
         
         return output.join(':');
     };
+
+
 
     $.fn.lazyYT = function (yt_api_key, newSettings) {
         var defaultSettings = {
