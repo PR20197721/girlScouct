@@ -21,6 +21,12 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
         <div id="share-shareDialogDescription" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
         <div id="share-shareDialogTweet" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
         <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
+
+<%
+		if (pathIndex == 2) {
+			%><cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/><%
+		}
+%>
 	</script>
 
 <%
