@@ -10,7 +10,7 @@
 <%
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 Map<String, String> map = new HashMap<String, String>();
-map.put("path", currentPage.getPath());
+map.put("path", currentPage.getPath()+"/jcr:content");
 map.put("property", "sling:resourceType");
 map.put("property.value", "gsusa/components/standalone-camp-finder");
 
