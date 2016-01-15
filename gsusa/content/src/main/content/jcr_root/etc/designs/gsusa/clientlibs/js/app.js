@@ -831,6 +831,7 @@ function fixSlickSlideActive() {
   }
 }
 
+
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
   for (var key in objectToInspect) {
@@ -844,6 +845,34 @@ function printObjectProperties(objectToInspect) {
     }
   }
 }
+
+function populateVideoIntoModal(divId, videoLink){
+	var frame = document.createElement('iframe');
+
+	var width = document.createAttribute("width");
+    var height = document.createAttribute("height");
+    var frameborder = document.createAttribute("frameborder");
+    var allow = document.createAttribute("allowfullscreen");
+    var source = document.createAttribute("src");
+
+    width.value = "100%";
+    height.value = "720";
+    frameborder.value = "0";
+    source.value = videoLink;
+
+
+    frame.setAttributeNode(width);
+    frame.setAttributeNode(height);
+    frame.setAttributeNode(frameborder);
+    frame.setAttributeNode(allow);
+	frame.setAttributeNode(source);
+
+    var parent = document.getElementById(divId);
+    parent.appendChild(frame);
+    return false;
+
+}
+
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);
