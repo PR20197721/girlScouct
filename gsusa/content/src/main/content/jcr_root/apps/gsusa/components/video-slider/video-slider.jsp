@@ -149,12 +149,7 @@ checkVersion();
 						</script>
 						<%
 					} %>
-					<div class="show-for-small thumbnail">
-						<a href="<%= path %>" target="_blank" title="video thumbnail">
-							<img src="<%= urls[1] %>" />
-						</a>
-					</div>
-				  	<div class="vid-slide-wrapper show-for-medium-up">
+				  	<div class="vid-slide-wrapper">
 				  		<% if(urls.length == 5) { %>
 				  			<% if(!title.equals("")){ %>
 				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
