@@ -709,13 +709,13 @@
       } else {
 	  	  var currentUrl = window.location.href;
 	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
-	  
+
 	      if (window.location.search != undefined && window.location.search != "") {
 	    	  redirectUrl += window.location.search;
 	      }
-	   
+
 	      redirectUrl = redirectUrl + '#' + zip;
-	
+
 		  if (isSameUrl) {
 			  window.location.hash = "#" + zip;
 		      window.location.reload();
@@ -793,6 +793,7 @@
       return false;
     });
   // });
+// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
 
 }(jQuery));
 
