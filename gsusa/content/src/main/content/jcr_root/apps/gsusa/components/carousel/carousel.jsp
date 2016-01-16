@@ -115,14 +115,6 @@ public  String readUrlFile(String urlString) throws Exception {
 %>
 <script type="text/javascript">
 	$(document).ready(function() {			
-		function pauseVideoSliderVideosVimeo(){
-			$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-				$('[id*="vimeoPlayer"]').each(function (i, val) {
-					$f(val).api('pause');
-				});
-			});
-		}
-		
 		function pauseVideoSliderVideosYoutube() {
 			if($('.lazyYT > iframe').length > 0) {
 			    $.each($('.lazyYT > iframe'), function( i, val ) {
@@ -130,6 +122,16 @@ public  String readUrlFile(String urlString) throws Exception {
 			    	iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
 			    });
 			}
+		}
+		
+		 function pauseVideoSliderVideosVimeo(){
+			$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
+				$('[id*="vimeoPlayer"]').each(function (i, val) {
+					if(typeof($f) !== "undefined"){
+						$f(val).api('pause');
+					}
+				});
+			});
 		}
 		
 		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
@@ -156,12 +158,17 @@ public  String readUrlFile(String urlString) throws Exception {
 								
 									var iframe = $('.main-slider iframe')[i],
 										player;
+									if (iframe.id != undefined) {
 										player = $f(iframe);
 										player.addEvent('playProgress', function() {
-											stopSlider();
+											//console.info('kaiiiiiiii');
+											//return false;
+											try {
+												stopSlider();
+											} catch (e) {}
 										}); 
 									}
-								
+								}
 							}
 							attachListenerToVideoSlider();
 					});
