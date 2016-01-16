@@ -135,6 +135,7 @@ public  String readUrlFile(String urlString) throws Exception {
 		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
 			pauseVideoSliderVideosVimeo();
+			$(".zip-council").slideDown();
 		});
 		
 		stopSlider = function() {

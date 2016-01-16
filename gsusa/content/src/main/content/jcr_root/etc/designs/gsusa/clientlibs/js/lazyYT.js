@@ -160,7 +160,10 @@
 	                        settings.callback.call($el); // brings the scope to the callback
 	                    }
 	                }
-	                if ($(".zip-council").size() > 0) {
+                    $(".zip-council").slideUp();
+	                
+/*
+                    if ($(".zip-council").size() > 0) {
 						if($(window).width() > 769) {
 						    iframeClick();
 						}
@@ -172,6 +175,8 @@
 					    $(".zip-council").slideDown();
 					  });
 					}
+*/
+
 	            });
 
 	        if ((!title && display_title) || display_duration) {

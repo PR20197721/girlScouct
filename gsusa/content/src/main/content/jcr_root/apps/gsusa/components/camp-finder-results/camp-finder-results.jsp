@@ -101,18 +101,27 @@
 
 <script>
 $(function() {
-    $(".dp-calendar").datepicker({
-      navTitles: {
+	var navTitles = {
         days: 'MM <i>yyyy</i>',
         months: 'yyyy',
         years: 'yyyy1 - yyyy2'
-      },
+    };
+	
+    $("#start-desktop").datepicker({
+      navTitles: navTitles,
       onSelect: function (fd, date) {
-        var start = $('#start-desktop'),
-            end = $('#end-desktop');
-        $('#start-touch').val(moment(start.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
-        $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
-        
+        $('#end-desktop').data('datepicker').update('minDate', date);
+        $('#start-touch').val(moment($('#start-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        getCampResults();
+      },
+      autoClose: true
+    });
+
+    $("#end-desktop").datepicker({
+      navTitles: navTitles,
+      onSelect: function (fd, date) {
+        $('#start-desktop').data('datepicker').update('maxDate', date);
+        $('#end-touch').val(moment($('#end-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
         getCampResults();
       },
       autoClose: true
