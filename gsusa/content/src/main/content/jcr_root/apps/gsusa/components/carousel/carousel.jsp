@@ -107,6 +107,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	String source7 = properties.get("source7", "not_set");
 	String homeCarouselAutoscroll = properties.get("homecarouselautoscroll", "false");
 	String homeCarouselTimeDelay = properties.get("homecarouseltimedelay", "1000");
+	String homeCarouselAutoPlaySpeed = properties.get("homecarouselautoplayspeed", "2000");
 	String blogBgImage = properties.get("blogbgimage", "");
 
 	//passing this to another jsp
@@ -180,6 +181,7 @@ public  String readUrlFile(String urlString) throws Exception {
 	//this value is used to adjust the speed of the carousel on the first opening page.
 	homeCarouselAutoScroll = <%=homeCarouselAutoscroll%>;
 	homeCarouselTimeDelay = <%=homeCarouselTimeDelay%>;
+	homeCarouselAutoPlaySpeed = <%=homeCarouselAutoPlaySpeed%>;
 	
 </script>
 <div class="hero-feature">

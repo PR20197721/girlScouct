@@ -376,6 +376,7 @@
       fade: false,
       autoplay: (typeof homeCarouselAutoScroll !== 'undefined') ? homeCarouselAutoScroll : false,
       arrows: true,
+      autoplaySpeed: (typeof homeCarouselAutoPlaySpeed !== 'undefined') ? homeCarouselAutoPlaySpeed : 2000,
       cssEase: 'linear',
       slidesToShow: 1,
       infinite: true,
