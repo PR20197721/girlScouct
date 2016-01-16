@@ -110,8 +110,14 @@ $(function() {
     $("#start-desktop").datepicker({
       navTitles: navTitles,
       onSelect: function (fd, date) {
-        $('#end-desktop').data('datepicker').update('minDate', date);
-        $('#start-touch').val(moment($('#start-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        var dateStr = $('#start-desktop').val();
+        if (dateStr) {
+        	$('#start-touch').val(moment($('#start-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#end-desktop').data('datepicker').update('minDate', date);
+        } else {
+        	$('#start-touch').val('');
+        	$('#end-desktop').data('datepicker').update('minDate', null);
+        }
         getCampResults();
       },
       autoClose: true
@@ -120,8 +126,14 @@ $(function() {
     $("#end-desktop").datepicker({
       navTitles: navTitles,
       onSelect: function (fd, date) {
-        $('#start-desktop').data('datepicker').update('maxDate', date);
-        $('#end-touch').val(moment($('#end-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        var dateStr = $('#end-desktop').val();
+        if (dateStr) {
+        	$('#end-touch').val(moment($('#end-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#start-desktop').data('datepicker').update('maxDate', date);
+        } else {
+        	$('#end-touch').val('');
+        	$('#start-desktop').data('datepicker').update('maxDate', null);
+        }
         getCampResults();
       },
       autoClose: true
