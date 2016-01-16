@@ -86,7 +86,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				String ytId = extractYTId(link[i]);
 				videoId[i] = ytId;
 				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-				link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+				link[i] = "https://www.youtube.com/vi/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
 			} else if (link[i].indexOf("vimeo") != -1) {
 				String vimeoId = extractVimeoId(link[i]);
 				videoId[i] = vimeoId;
@@ -186,10 +186,15 @@ public  String readUrlFile(String urlString) throws Exception {
 			if (!tempHidden[i]) {%>
 		<li id="tag_explore_main_<%=i%>">
 			<% 
-				if (link[i].indexOf("https://www.youtube.com/embed/") != -1) {%>
-
-					<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
-
+				if (link[i].indexOf("https://www.youtube.com/vi/") != -1) {%>
+					<div class="show-for-small thumbnail">
+						<a href="<%= link[i] %>" target="_blank" title="video thumbnail">
+							<img src="<%= videoThumbNail[i] %>" />
+						</a>
+					</div>
+					<div class="show-for-medium-up">
+						<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
+					</div>
 			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
 
 					<div class="videoWrapper"><iframe id="vimeoPlayer<%=i%>" src="<%=link[i]%>" width="100%" height="560" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe></div>
