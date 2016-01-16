@@ -642,13 +642,6 @@
       // }]
     });
   }
-  function iframeClick() {
-    $("iframe").hover(function() {
-      $(".zip-council").slideUp();
-    }, function() {
-      $(".zip-council").slideDown();
-    });
-  }
 
 
 
@@ -743,9 +736,6 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
-  if($(window).width() > 769) {
-    iframeClick();
-  }
 
   loadYTScript();
   $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
@@ -755,12 +745,12 @@
     small_screens();
   });
   $(window).resize(function (event) {
-    if($(window).width() > 768) {
-      iframeClick();
-    } else {
+    //if($(window).width() > 768) {
+    //  iframeClick();
+    //} else {
       $("iframe").off( "mouseenter mouseleave" );
       //$("iframe").unbind("mouseenter,mouseleave");
-    }
+    //}
   });
   $(window).load(function () {
     equilize_our_stories();

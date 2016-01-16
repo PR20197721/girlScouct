@@ -159,6 +159,7 @@ public  String readUrlFile(String urlString) throws Exception {
 									if (iframe.id != undefined) {
 										player = $f(iframe);
 										player.addEvent('playProgress', function() {
+											$(".zip-council").slideUp();
 											stopSlider();
 										}); 
 									}
