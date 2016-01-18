@@ -8,7 +8,6 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	zipValue = $(me).find("[name='ZipJoin']").val();
 	source = $(me).find("[name='source']").val();
 	
-	
 	// spin variables - start
 	opts = {
 	  lines: 11, // The number of lines to draw
@@ -73,7 +72,16 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	            submit_facebook_conversion_pixel("join/"+"homepage");
 	            //put delay so that google analytics and facebook conversion pixel registers successfully
 	            if ($(joinForm).hasClass("bottom-overlay-join")) {
-					window.setTimeout("redirect_to_council_new_window('"+result[2]+"')",1500);
+					//window.setTimeout will trigger pop-up blocker because it's not considered user-triggered event
+					//window.setTimeout("redirect_to_council_new_window('"+result[2]+"')",1500);
+					var d1 = new Date(),
+					    d2 = new Date(),
+					    timer = 1500; //Milliseconds
+					
+					while (d2.valueOf() < d1.valueOf() + timer) {
+					    d2 = new Date();
+					}
+					window.open(result[2], '_blank');
 				} else {
 					window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
 				}
@@ -90,9 +98,9 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
     return false;
 });
 
-function redirect_to_council_new_window(url) {
-	window.open(url);
-}
+//function redirect_to_council_new_window(url) {
+//	window.open(url, "newPage");
+//}
 
 function redirect_to_council(url) {
     parent.window.location = url;
