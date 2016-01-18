@@ -198,7 +198,11 @@ public  String readUrlFile(String urlString) throws Exception {
 						</a>
 					</div>
 					<div class="show-for-medium-up">
+					<% if(!"".equals(title[i])){ %>
 						<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>" data-display-title="true" title="<%=title[i]%>"></div>
+		  			<% } else { %>
+			  			<div id="youtubePlayer<%=i%>" class="lazyYT" data-id="youtubePlayer"<%=i%> data-ratio="16:9" data-youtube-id="<%= videoId[i]%>"></div>
+		  			<% } %>
 					</div>
 			<% } else if (link[i].indexOf("https://player.vimeo.com/video/") != -1) {%>
 
