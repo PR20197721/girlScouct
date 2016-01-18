@@ -384,7 +384,7 @@
        {
          breakpoint: 480,
          settings: {
-          arrows: false,
+          arrows: true,
           centerMode: true,
           centerPadding: '30px',
          }
@@ -650,7 +650,7 @@
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     };*/
-  
+
 	function loadYTScript() {
 	    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
 	    	var tag = document.createElement('script');
@@ -703,13 +703,13 @@
       } else {
 	  	  var currentUrl = window.location.href;
 	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
-	  
+
 	      if (window.location.search != undefined && window.location.search != "") {
 	    	  redirectUrl += window.location.search;
 	      }
-	   
+
 	      redirectUrl = redirectUrl + '#' + zip;
-	
+
 		  if (isSameUrl) {
 			  window.location.hash = "#" + zip;
 		      window.location.reload();

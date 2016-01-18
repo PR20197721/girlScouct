@@ -170,11 +170,15 @@ div.carousel {
       margin-top: -3.3125rem;
       background: rgba(0, 0, 0, 0.5);
       width: 3rem;
+      @media #{$small-only} {
+        margin-top: -5.375rem;
+        width: 2rem;
+      }
     }
     button{
       &.ytp-button, &.ytp-button:focus{
-        background-color: inherit; 
-	    height: 64px;
+        background-color: inherit;
+        height: 64px;
       }
     }
   }
@@ -745,22 +749,10 @@ div.carousel {
       }
     }
 }
-.main-slider .lazyYT {
+.main-slider .lazyYT,
+.videoWrapper  {
   position: relative;
-  padding-bottom: 58.3334%;
-  // padding-top: rem-calc(20);
-  height: 0;
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-.videoWrapper {
-  position: relative;
-  padding-bottom: 58.3334%;
+  padding-bottom: 56.25%;
   // padding-top: rem-calc(20);
   height: 0;
   iframe {
