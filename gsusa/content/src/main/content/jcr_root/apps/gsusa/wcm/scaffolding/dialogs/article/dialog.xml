@@ -17,24 +17,11 @@
                         fieldLabel="Tile Title"
                         name="./jcr:content/tileTitle"
                         xtype="textfield"/>
-                    <smallTileTitle
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldDescription="Please input a title"
-                        fieldLabel="Small Tile Title"
-                        name="./jcr:content/smallTileTitle"
-                        xtype="textfield"/>
                     <tileSummary
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldLabel="Tile Summary"
                         name="./jcr:content/tileSummary"
-                        xtype="textarea"/>
-                    <tileSmallSummary
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldLabel="Tile Small Summary"
-                        name="./jcr:content/tileSmallSummary"
                         xtype="textarea"/>
                     <tilePriority
                         jcr:primaryType="cq:Widget"
@@ -77,6 +64,12 @@
                                 value="external-link"/>
                         </options>
                     </type>
+                    <playOnClick
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Play On Click"
+                        name="./jcr:content/playOnClick"
+                        xtype="checkbox"/>
                     <external-video
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"

@@ -5,45 +5,93 @@
   Basic building block of the article hub components
 
 --%><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %><%
-%><%
-    String tileTitle = properties.get("tileTitle", "");
-	String tileSummary = properties.get("tileSummary", "");
-	String articleLink = properties.get("articleLink", "");
-	String imageSrc = properties.get("imageSrc", "");
-	String divId = properties.get("divId", "");
-	boolean clickPlay = properties.get("clickPlay", false);
-	String videoLink = properties.get("videoLink", "");
-	String divId = properties.get("divId", "");
-	String modId =  properties.get("modId", "");
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%
+%><%@page session="false" %>
+<%@page import="javax.jcr.Node"%>
+<%
+  String articlePath = (String)request.getAttribute("articlePath");
 
+	String tileTitle = "";
+    String tileSummary = "";
+    long priority = 0;
+    String type = "";
+    String videoLink = "";
+    String externalLink = "";
+    String editedDate = "";
+
+    boolean playOnClick = false;
+
+	String divId = "modal";
+    String modId = "modal1";
+	String imageSrc = "";
+
+
+	try{
+        Node node =   resourceResolver.getResource(articlePath).adaptTo(Node.class);
+		Node propNode = node.getNode("jcr:content");
+        if(propNode.hasProperty("tileTitle"))
+        tileTitle = propNode.getProperty("tileTitle").getString();
+
+        if(propNode.hasProperty("tileSummary"))
+        tileSummary = propNode.getProperty("tileSummary").getString();
+
+        if(propNode.hasProperty("tilePriority"))
+        priority = propNode.getProperty("tilePriority").getLong();
+
+        if(propNode.hasProperty("type"))
+        type = propNode.getProperty("type").getString();
+
+        if(propNode.hasProperty("videoLink"))
+        videoLink = propNode.getProperty("videoLink").getString();
+
+        if(propNode.hasProperty("externalLink"))
+        externalLink = propNode.getProperty("externalLink").getString();
+
+        if(propNode.hasProperty("editedDate"))
+        editedDate = propNode.getProperty("editedDate").getString();
+
+        if(propNode.hasProperty("playOnClick"))
+        playOnClick = propNode.getProperty("playOnClick").getBoolean();
+
+		Node imageNode = propNode.getNode("image");
+        imageSrc = imageNode.getProperty("fileReference").getString();
+
+    } catch(Exception e){
+        e.printStackTrace();
+        throw e;
+    }
+
+	if(!articlePath.isEmpty())
+        articlePath = articlePath + ".html";
+        
 %>
+
+
 
 <section>
     <%
-    if(clickPlay){
+    if(type.equals("video") && playOnClick){
         %>
-    <a href="<%=articleLink%>">
+    <a href="" onlclick="populateVideoIntoModal(<%=divId%>,<%=videoLink%>)" data-reveal-id="<%=modId%>">
+<% 
+    } else if (type.equals("external-link")){
+    %>
+	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
 <% 
     } else{
     %>
-	<a href="" onlclick="populateVideoIntoModal(<%=divId%>,<%=videoLink%>)" data-reveal-id="<%=modId%>">
-<% 
+    <a href="<%=articlePath%>">
+    <%
     }
-    %>
-		<img src="<%=imageSrc%>"/>
+    	%>
+		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
 		<div class="text-content" style="background: rgba(36, 184, 238, 0.8)">
 			<h3><%=tileTitle%></h3>
-			<p><%=articleSummary%></p>
+			<p><%=tileSummary%></p>
 		</div>
 	</a>
 </section>
 
-<div id="videoModal_0" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" role="dialog">
-<!--   <h2 id="videoModalTitle">This modal has video</h2>
-  <div class="flex-video widescreen vimeo">
-    <iframe width="100%" height="720" src="//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0" frameborder="0" allowfullscreen></iframe>
-  </div> -->
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-</div>
+
