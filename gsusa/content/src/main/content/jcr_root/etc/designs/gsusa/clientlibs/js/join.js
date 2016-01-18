@@ -61,9 +61,13 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	                found = false;
 	            }
 	        }
-	        
 
 	        if(found) {
+	        	//We are putting window.open here because either the _gaq.push or submit_facebook_conversion_pixel is async, causing browser to block pop-up window, thus, we have to open the window first
+	        	//However, if we want to open the redirect link in the same browser tab, then we will need to first call the functions, then redirect, so there is another if case at the end of this part
+	        	if ($(joinForm).hasClass("bottom-overlay-join")) {
+	        		window.open(result[2], '_blank');
+	        	}
 	            //register zipcode entered to google analytics
 	            //var curZipcode = $(me).find("[name='ZipJoin']").val();
 	            spinner.stop(spinner_div);
@@ -71,18 +75,7 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	        
 	            submit_facebook_conversion_pixel("join/"+"homepage");
 	            //put delay so that google analytics and facebook conversion pixel registers successfully
-	            if ($(joinForm).hasClass("bottom-overlay-join")) {
-					//window.setTimeout will trigger pop-up blocker because it's not considered user-triggered event
-					//window.setTimeout("redirect_to_council_new_window('"+result[2]+"')",1500);
-					var d1 = new Date(),
-					    d2 = new Date(),
-					    timer = 1500; //Milliseconds
-					
-					while (d2.valueOf() < d1.valueOf() + timer) {
-					    d2 = new Date();
-					}
-					window.open(result[2], '_blank');
-				} else {
+	            if (!$(joinForm).hasClass("bottom-overlay-join")) {
 					window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
 				}
 	        } else {
