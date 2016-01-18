@@ -147,6 +147,13 @@ public  String readUrlFile(String urlString) throws Exception {
 				slick.slick('autoPlay',$.noop);
 			}
 		}
+		startSlider = function() {
+			var slick = $('.main-slider');
+			if (slick != undefined && slick.slick != undefined) {
+				slick.slick('slickSetOption', 'autoplay', true, true);
+				slick.slick('autoPlay',$.noop);
+			}
+		}
 			
 		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
 			if ($('#vimeoPlayer' + i).length > 0) {
