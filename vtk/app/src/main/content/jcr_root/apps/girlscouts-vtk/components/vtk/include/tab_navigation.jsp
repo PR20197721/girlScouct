@@ -424,7 +424,7 @@ if (troops != null && troops.size() > 1) {
   </div>
 </div>
 
-<% if (true){//(SHOW_BETA || sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) && sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) {
+<% if (false){//(SHOW_BETA || sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) && sessionFeatures.contains(SHOW_VALID_SF_USER_FEATURE)) {
 
 %>
     <script>resetIsLoggedIn();</script>
