@@ -97,7 +97,7 @@ $(document).ready(function(){
     <% }%>
         <label for="zip-code"><%= mainText %></label>
         <div class="form-wrapper clearfix">
-          <input type="text" placeholder="ZIP Code" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+          <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
           <input type="submit" class="link-arrow" value="Go >"/>
         </div>
       </form>

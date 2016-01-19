@@ -3,896 +3,42 @@
     jcr:primaryType="cq:Dialog"
     title="Carousel"
     height="{Long}600"
-    width="{Long}1000"
+    width="{Long}1200"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
+        	<tab0
+	        	jcr:primaryType="cq:Panel"
+	            title="Images and Videos">
+	            <items jcr:primaryType="cq:WidgetCollection">
+	            	<text
+                		jcr:primaryType="cq:Widget"
+                        text="If you have a video URL, please put it in the Link field and leave the image path blank"
+                        xtype="label"/>
+		            <multi
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Images/Videos"
+                        hideLabel="{Boolean}true"
+                        name="./carouselList"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            xtype="imagevideomultifieldwidget"/>
+                    </multi>
+                </items>
+        	</tab0>
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Opening Page">
+                title="Blog">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <title
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="Introduce girls to"
-                        fieldLabel="Title"
-                        name="./title"
-                        xtype="textfield"/>
-                    <button
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="Explore Girls Scout"
-                        fieldLabel="Button"
-                        name="./button"
-                        xtype="textfield"/>
-                    <content
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="experiences the girls scout"
-                        fieldLabel="Content"
-                        name="./content"
-                        xtype="textfield"/>
-                    <imagePath
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Images"
-                        name="./imagePath"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            editable="{Boolean}false"
-                            limit="{Long}4"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"/>
-                    </imagePath>
-                    <imageAlt
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Image Alts"
-                        name="./imageAlt"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
-                    </imageAlt>
-                    <interval
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="false"
-                        allowDecimals="false"
-                        defaultValue="1000"
-                        fieldDescription="Set this value between 5 and 5000"
-                        fieldLabel="Speed for switching images"
-                        maxValue="5000"
-                        minValue="5"
-                        name="./interval"
-                        value="1000"
-                        xtype="numberfield"/>
-                </items>
-            </tab1>
-            <tab5
-                jcr:primaryType="cq:Panel"
-                title="First Page (News)">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <title5
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="What do girl scouts do? Stuff like this:"
-                        fieldLabel="Title"
-                        name="./title5"
-                        xtype="textfield"/>
-				   <videoType50
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Source 1"
-				       name="./videoType50"
-				       type="radiogroup"
-				       xtype="selection">
-				       <options jcr:primaryType="cq:WidgetCollection">
-				           <option0
-				               jcr:primaryType="nt:unstructured"
-				               text="None"
-				               value="none"/>
-				           <option1
-				               jcr:primaryType="nt:unstructured"
-				               text="Photo"
-				               value="photo"/>
-				           <option2
-				               jcr:primaryType="nt:unstructured"
-				               text="Youtube/Vimeo Link"
-				               value="link"/>
-				           <option3
-				               jcr:primaryType="nt:unstructured"
-				               text="Internal Video Path"
-				               value="path"/>
-				       </options>
-				       <listeners
-				           jcr:primaryType="nt:unstructured"
-				           selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType(&quot;panel&quot;); var picField = panel.getComponent(&quot;newsPic50&quot;); var pathField = panel.getComponent(&quot;videoPath50&quot;); var linkField = panel.getComponent(&quot;videoLink50&quot;); if(val === &quot;photo&quot;) { picField.show(); pathField.hide(); linkField.hide(); } else if (val === &quot;path&quot;) { picField.hide(); pathField.show(); linkField.hide(); } else if (val === &quot;link&quot;){ picField.hide(); pathField.hide(); linkField.show(); } else{ picField.hide(); pathField.hide(); linkField.hide(); } }"/>
-				   </videoType50>
-				   <subtitle50
-				       jcr:primaryType="cq:Widget"
-				       defaultValue="What do girl scouts do? Stuff like this:"
-				       fieldLabel="Subtitle 1"
-				       name="./subtitle50"
-				       xtype="textfield"/>
-				   <content50
-				    jcr:primaryType="cq:Widget"
-				    height="100"
-				    name="./content50"
-				    xtype="richtext">
-				    <listeners
-				        jcr:primaryType="nt:unstructured"
-				        destroy="function() {this.el.dom={};}"/>
-				    <rtePlugins jcr:primaryType="nt:unstructured">
-				        <links jcr:primaryType="nt:unstructured">
-				            <linkDialogConfig
-				                jcr:primaryType="nt:unstructured"
-				                height="{Long}316">
-				                <linkAttributes jcr:primaryType="cq:WidgetCollection">
-				                    <linkAdvanced
-				                        jcr:primaryType="cq:Widget"
-				                        collapsed="{Boolean}true"
-				                        collapsible="{Boolean}true"
-				                        inputValue="advanced"
-				                        name="./linkdialog/cq:adhocLinkTrackingTab"
-				                        title="Link tracking"
-				                        xtype="dialogfieldset">
-				                        <items jcr:primaryType="cq:WidgetCollection">
-				                            <enable
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="enabletracking"
-				                                fieldDescription="override analytics framework settings"
-				                                fieldLabel="Custom link tracking"
-				                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-				                                xtype="checkbox">
-				                                <listeners
-				                                    jcr:primaryType="nt:unstructured"
-				                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-				                            </enable>
-				                            <events
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevents"
-				                                fieldDescription="e.g.: event2, event7"
-				                                fieldLabel="Include SiteCatalyst events"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvents"
-				                                xtype="textfield"/>
-				                            <evars
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevars"
-				                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-				                                fieldLabel="Include SiteCatalyst variables"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvars"
-				                                xtype="textfield"/>
-				                        </items>
-				                    </linkAdvanced>
-				                </linkAttributes>
-				            </linkDialogConfig>
-				        </links>
-				        <justify
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				        <paraformat
-				            jcr:primaryType="nt:unstructured"
-				            features="*">
-				            <formats jcr:primaryType="cq:WidgetCollection">
-				                <p
-				                    jcr:primaryType="nt:unstructured"
-				                    description="Paragraph"
-				                    tag="p"/>
-				            </formats>
-				        </paraformat>
-				        <spellcheck
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				    </rtePlugins>
-				</content50>
-				   <newsPic50
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Photo Path 1"
-				       itemId="newsPic50"
-				       name="./newsPic50"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <videoLink50
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Video Link 1"
-				       itemId="videoLink50"
-				       name="./videoLink50"
-				       xtype="textfield"/>
-				   <thumbnailTitle50
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title 1"
-				       name="./thumbnailTitle50"
-				       maxLength="25"
-				       xtype="textfield"/>
-				   <videoPath50
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Video Path 1"
-				       itemId="videoPath50"
-				       name="./videoPath50"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <space0 
-						jcr:primaryType="cq:Widget"
-						height="{Long}75"
-						xtype="spacer"/>
-				   <videoType51
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Source 2"
-				       name="./videoType51"
-				       type="radiogroup"
-				       xtype="selection">
-				       <options jcr:primaryType="cq:WidgetCollection">
-				           <option0
-				               jcr:primaryType="nt:unstructured"
-				               text="None"
-				               value="none"/>
-				           <option1
-				               jcr:primaryType="nt:unstructured"
-				               text="Photo"
-				               value="photo"/>
-				           <option2
-				               jcr:primaryType="nt:unstructured"
-				               text="Youtube/Vimeo Link"
-				               value="link"/>
-				           <option3
-				               jcr:primaryType="nt:unstructured"
-				               text="Internal Video Path"
-				               value="path"/>
-				       </options>
-				       <listeners
-				           jcr:primaryType="nt:unstructured"
-				           selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType(&quot;panel&quot;); var picField = panel.getComponent(&quot;newsPic51&quot;); var pathField = panel.getComponent(&quot;videoPath51&quot;); var linkField = panel.getComponent(&quot;videoLink51&quot;); if(val === &quot;photo&quot;) { picField.show(); pathField.hide(); linkField.hide(); } else if (val === &quot;path&quot;) { picField.hide(); pathField.show(); linkField.hide(); } else if (val === &quot;link&quot;){ picField.hide(); pathField.hide(); linkField.show(); } else{ picField.hide(); pathField.hide(); linkField.hide(); } }"/>
-				   </videoType51>
-				   <subtitle51
-				       jcr:primaryType="cq:Widget"
-				       defaultValue="What do girl scouts do? Stuff like this:"
-				       fieldLabel="Subtitle 2"
-				       name="./subtitle51"
-				       xtype="textfield"/>
-				   <content51
-				    jcr:primaryType="cq:Widget"
-				    height="100"
-				    name="./content51"
-				    xtype="richtext">
-				    <listeners
-				        jcr:primaryType="nt:unstructured"
-				        destroy="function() {this.el.dom={};}"/>
-				    <rtePlugins jcr:primaryType="nt:unstructured">
-				        <links jcr:primaryType="nt:unstructured">
-				            <linkDialogConfig
-				                jcr:primaryType="nt:unstructured"
-				                height="{Long}316">
-				                <linkAttributes jcr:primaryType="cq:WidgetCollection">
-				                    <linkAdvanced
-				                        jcr:primaryType="cq:Widget"
-				                        collapsed="{Boolean}true"
-				                        collapsible="{Boolean}true"
-				                        inputValue="advanced"
-				                        name="./linkdialog/cq:adhocLinkTrackingTab"
-				                        title="Link tracking"
-				                        xtype="dialogfieldset">
-				                        <items jcr:primaryType="cq:WidgetCollection">
-				                            <enable
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="enabletracking"
-				                                fieldDescription="override analytics framework settings"
-				                                fieldLabel="Custom link tracking"
-				                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-				                                xtype="checkbox">
-				                                <listeners
-				                                    jcr:primaryType="nt:unstructured"
-				                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-				                            </enable>
-				                            <events
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevents"
-				                                fieldDescription="e.g.: event2, event7"
-				                                fieldLabel="Include SiteCatalyst events"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvents"
-				                                xtype="textfield"/>
-				                            <evars
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevars"
-				                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-				                                fieldLabel="Include SiteCatalyst variables"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvars"
-				                                xtype="textfield"/>
-				                        </items>
-				                    </linkAdvanced>
-				                </linkAttributes>
-				            </linkDialogConfig>
-				        </links>
-				        <justify
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				        <paraformat
-				            jcr:primaryType="nt:unstructured"
-				            features="*">
-				            <formats jcr:primaryType="cq:WidgetCollection">
-				                <p
-				                    jcr:primaryType="nt:unstructured"
-				                    description="Paragraph"
-				                    tag="p"/>
-				            </formats>
-				        </paraformat>
-				        <spellcheck
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				    </rtePlugins>
-				</content51>
-				   <newsPic51
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Photo Path 2"
-				       itemId="newsPic51"
-				       name="./newsPic51"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <videoLink51
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Video Link 2"
-				       itemId="videoLink51"
-				       name="./videoLink51"
-				       xtype="textfield"/>
-				   <thumbnailTitle51
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title 2"
-				       name="./thumbnailTitle51"
-				       maxLength="25"
-				       xtype="textfield"/>
-				   <videoPath51
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Video Path 2"
-				       itemId="videoPath51"
-				       name="./videoPath51"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <space1
-						jcr:primaryType="cq:Widget"
-						height="{Long}75"
-						xtype="spacer"/>
-				   <videoType52
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Source 3"
-				       name="./videoType52"
-				       type="radiogroup"
-				       xtype="selection">
-				       <options jcr:primaryType="cq:WidgetCollection">
-				           <option0
-				               jcr:primaryType="nt:unstructured"
-				               text="None"
-				               value="none"/>
-				           <option1
-				               jcr:primaryType="nt:unstructured"
-				               text="Photo"
-				               value="photo"/>
-				           <option2
-				               jcr:primaryType="nt:unstructured"
-				               text="Youtube/Vimeo Link"
-				               value="link"/>
-				           <option3
-				               jcr:primaryType="nt:unstructured"
-				               text="Internal Video Path"
-				               value="path"/>
-				       </options>
-				       <listeners
-				           jcr:primaryType="nt:unstructured"
-				           selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType(&quot;panel&quot;); var picField = panel.getComponent(&quot;newsPic52&quot;); var pathField = panel.getComponent(&quot;videoPath52&quot;); var linkField = panel.getComponent(&quot;videoLink52&quot;); if(val === &quot;photo&quot;) { picField.show(); pathField.hide(); linkField.hide(); } else if (val === &quot;path&quot;) { picField.hide(); pathField.show(); linkField.hide(); } else if (val === &quot;link&quot;){ picField.hide(); pathField.hide(); linkField.show(); } else{ picField.hide(); pathField.hide(); linkField.hide(); } }"/>
-				   </videoType52>
-				   <subtitle52
-				       jcr:primaryType="cq:Widget"
-				       defaultValue="What do girl scouts do? Stuff like this:"
-				       fieldLabel="Subtitle 3"
-				       name="./subtitle52"
-				       xtype="textfield"/>
-				   <content52
-				    jcr:primaryType="cq:Widget"
-				    height="100"
-				    name="./content52"
-				    xtype="richtext">
-				    <listeners
-				        jcr:primaryType="nt:unstructured"
-				        destroy="function() {this.el.dom={};}"/>
-				    <rtePlugins jcr:primaryType="nt:unstructured">
-				        <links jcr:primaryType="nt:unstructured">
-				            <linkDialogConfig
-				                jcr:primaryType="nt:unstructured"
-				                height="{Long}316">
-				                <linkAttributes jcr:primaryType="cq:WidgetCollection">
-				                    <linkAdvanced
-				                        jcr:primaryType="cq:Widget"
-				                        collapsed="{Boolean}true"
-				                        collapsible="{Boolean}true"
-				                        inputValue="advanced"
-				                        name="./linkdialog/cq:adhocLinkTrackingTab"
-				                        title="Link tracking"
-				                        xtype="dialogfieldset">
-				                        <items jcr:primaryType="cq:WidgetCollection">
-				                            <enable
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="enabletracking"
-				                                fieldDescription="override analytics framework settings"
-				                                fieldLabel="Custom link tracking"
-				                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-				                                xtype="checkbox">
-				                                <listeners
-				                                    jcr:primaryType="nt:unstructured"
-				                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-				                            </enable>
-				                            <events
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevents"
-				                                fieldDescription="e.g.: event2, event7"
-				                                fieldLabel="Include SiteCatalyst events"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvents"
-				                                xtype="textfield"/>
-				                            <evars
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevars"
-				                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-				                                fieldLabel="Include SiteCatalyst variables"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvars"
-				                                xtype="textfield"/>
-				                        </items>
-				                    </linkAdvanced>
-				                </linkAttributes>
-				            </linkDialogConfig>
-				        </links>
-				        <justify
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				        <paraformat
-				            jcr:primaryType="nt:unstructured"
-				            features="*">
-				            <formats jcr:primaryType="cq:WidgetCollection">
-				                <p
-				                    jcr:primaryType="nt:unstructured"
-				                    description="Paragraph"
-				                    tag="p"/>
-				            </formats>
-				        </paraformat>
-				        <spellcheck
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				    </rtePlugins>
-				</content52>
-				   <newsPic52
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Photo Path 3"
-				       itemId="newsPic52"
-				       name="./newsPic52"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <videoLink52
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Video Link 3"
-				       itemId="videoLink52"
-				       name="./videoLink52"
-				       xtype="textfield"/>
-				   <thumbnailTitle52
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title 3"
-				       name="./thumbnailTitle52"
-				       maxLength="25"
-				       xtype="textfield"/>
-				   <videoPath52
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Video Path 3"
-				       itemId="videoPath52"
-				       name="./videoPath52"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <space2
-						jcr:primaryType="cq:Widget"
-						height="{Long}75"
-						xtype="spacer"/>
-				   <videoType53
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Source 4"
-				       name="./videoType53"
-				       type="radiogroup"
-				       xtype="selection">
-				       <options jcr:primaryType="cq:WidgetCollection">
-				           <option0
-				               jcr:primaryType="nt:unstructured"
-				               text="None"
-				               value="none"/>
-				           <option1
-				               jcr:primaryType="nt:unstructured"
-				               text="Photo"
-				               value="photo"/>
-				           <option2
-				               jcr:primaryType="nt:unstructured"
-				               text="Youtube/Vimeo Link"
-				               value="link"/>
-				           <option3
-				               jcr:primaryType="nt:unstructured"
-				               text="Internal Video Path"
-				               value="path"/>
-				       </options>
-				       <listeners
-				           jcr:primaryType="nt:unstructured"
-				           selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType(&quot;panel&quot;); var picField = panel.getComponent(&quot;newsPic53&quot;); var pathField = panel.getComponent(&quot;videoPath53&quot;); var linkField = panel.getComponent(&quot;videoLink53&quot;); if(val === &quot;photo&quot;) { picField.show(); pathField.hide(); linkField.hide(); } else if (val === &quot;path&quot;) { picField.hide(); pathField.show(); linkField.hide(); } else if (val === &quot;link&quot;){ picField.hide(); pathField.hide(); linkField.show(); } else{ picField.hide(); pathField.hide(); linkField.hide(); } }"/>
-				   </videoType53>
-				   <subtitle53
-				       jcr:primaryType="cq:Widget"
-				       defaultValue="What do girl scouts do? Stuff like this:"
-				       fieldLabel="Subtitle 4"
-				       name="./subtitle53"
-				       xtype="textfield"/>
-				   <content53
-				    jcr:primaryType="cq:Widget"
-				    height="100"
-				    name="./content53"
-				    xtype="richtext">
-				    <listeners
-				        jcr:primaryType="nt:unstructured"
-				        destroy="function() {this.el.dom={};}"/>
-				    <rtePlugins jcr:primaryType="nt:unstructured">
-				        <links jcr:primaryType="nt:unstructured">
-				            <linkDialogConfig
-				                jcr:primaryType="nt:unstructured"
-				                height="{Long}316">
-				                <linkAttributes jcr:primaryType="cq:WidgetCollection">
-				                    <linkAdvanced
-				                        jcr:primaryType="cq:Widget"
-				                        collapsed="{Boolean}true"
-				                        collapsible="{Boolean}true"
-				                        inputValue="advanced"
-				                        name="./linkdialog/cq:adhocLinkTrackingTab"
-				                        title="Link tracking"
-				                        xtype="dialogfieldset">
-				                        <items jcr:primaryType="cq:WidgetCollection">
-				                            <enable
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="enabletracking"
-				                                fieldDescription="override analytics framework settings"
-				                                fieldLabel="Custom link tracking"
-				                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-				                                xtype="checkbox">
-				                                <listeners
-				                                    jcr:primaryType="nt:unstructured"
-				                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-				                            </enable>
-				                            <events
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevents"
-				                                fieldDescription="e.g.: event2, event7"
-				                                fieldLabel="Include SiteCatalyst events"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvents"
-				                                xtype="textfield"/>
-				                            <evars
-				                                jcr:primaryType="nt:unstructured"
-				                                attribute="adhocevars"
-				                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-				                                fieldLabel="Include SiteCatalyst variables"
-				                                name="./linkdialog/cq:adhocLinkTrackingEvars"
-				                                xtype="textfield"/>
-				                        </items>
-				                    </linkAdvanced>
-				                </linkAttributes>
-				            </linkDialogConfig>
-				        </links>
-				        <justify
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				        <paraformat
-				            jcr:primaryType="nt:unstructured"
-				            features="*">
-				            <formats jcr:primaryType="cq:WidgetCollection">
-				                <p
-				                    jcr:primaryType="nt:unstructured"
-				                    description="Paragraph"
-				                    tag="p"/>
-				            </formats>
-				        </paraformat>
-				        <spellcheck
-				            jcr:primaryType="nt:unstructured"
-				            features="*"/>
-				    </rtePlugins>
-				</content53>
-				   <newsPic53
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Photo Path 4"
-				       itemId="newsPic53"
-				       name="./newsPic53"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <videoLink53
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Video Link 4"
-				       itemId="videoLink53"
-				       name="./videoLink53"
-				       xtype="textfield"/>
-				   <thumbnailTitle53
-				       jcr:primaryType="cq:Widget"
-				       fieldLabel="Thumbnail Title 4"
-				       name="./thumbnailTitle53"
-				       maxLength="25"
-				       xtype="textfield"/>
-				   <videoPath53
-				       jcr:primaryType="cq:Widget"
-				       editable="{Boolean}false"
-				       fieldLabel="Video Path 4"
-				       itemId="videoPath53"
-				       name="./videoPath53"
-				       rootPath="/content/dam/girlscouts-gsusa"
-				       xtype="pathfield"/>
-				   <isRichTextFlag
-						jcr:primaryType="cq:Widget"
-						ignoreData="{Boolean}true"
-						name="./textIsRich"
-						value="true"
-						xtype="hidden"/>
-                </items>
-            </tab5>
-            <tab3
-                jcr:primaryType="cq:Panel"
-                title="Second Page (Image)">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <title3
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="What do girl scouts do? Stuff like this:"
-                        fieldLabel="Title"
-                        name="./title3"
-                        xtype="textfield"/>
-                    <imagePath3
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Images"
-                        name="./imagePath3"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            editable="{Boolean}false"
-                            limit="{Long}4"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"/>
-                    </imagePath3>
-                    <imageAlt3
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Image Alts"
-                        name="./imageAlt3"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
-                    </imageAlt3>
-                    <subtitle3
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Subtitle"
-                        name="./subtitle3"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
-                    </subtitle3>
-                    <content3
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Content"
-                        name="./content3"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            height="100"
-                            limit="{Long}4"
-                            xtype="richtext">
-                            <listeners
-                                jcr:primaryType="nt:unstructured"
-                                destroy="function() {this.el.dom={};}"/>
-                            <rtePlugins jcr:primaryType="nt:unstructured">
-                                <links jcr:primaryType="nt:unstructured">
-                                    <linkDialogConfig
-                                        jcr:primaryType="nt:unstructured"
-                                        height="{Long}316">
-                                        <linkAttributes jcr:primaryType="cq:WidgetCollection">
-                                            <linkAdvanced
-                                                jcr:primaryType="cq:Widget"
-                                                collapsed="{Boolean}true"
-                                                collapsible="{Boolean}true"
-                                                inputValue="advanced"
-                                                name="./linkdialog/cq:adhocLinkTrackingTab"
-                                                title="Link tracking"
-                                                xtype="dialogfieldset">
-                                                <items jcr:primaryType="cq:WidgetCollection">
-                                                    <enable
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="enabletracking"
-                                                        fieldDescription="override analytics framework settings"
-                                                        fieldLabel="Custom link tracking"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-                                                        xtype="checkbox">
-                                                        <listeners
-                                                            jcr:primaryType="nt:unstructured"
-                                                            check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-                                                    </enable>
-                                                    <events
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="adhocevents"
-                                                        fieldDescription="e.g.: event2, event7"
-                                                        fieldLabel="Include SiteCatalyst events"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEvents"
-                                                        xtype="textfield"/>
-                                                    <evars
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="adhocevars"
-                                                        fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-                                                        fieldLabel="Include SiteCatalyst variables"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEvars"
-                                                        xtype="textfield"/>
-                                                </items>
-                                            </linkAdvanced>
-                                        </linkAttributes>
-                                    </linkDialogConfig>
-                                </links>
-                                <justify
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*"/>
-                                <paraformat
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*">
-                                    <formats jcr:primaryType="cq:WidgetCollection">
-                                        <p
-                                            jcr:primaryType="nt:unstructured"
-                                            description="Paragraph"
-                                            tag="p"/>
-                                    </formats>
-                                </paraformat>
-                                <spellcheck
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*"/>
-                            </rtePlugins>
-                        </fieldConfig>
-                    </content3>
-                    <isRichTextFlag
-                        jcr:primaryType="cq:Widget"
-                        ignoreData="{Boolean}true"
-                        name="./textIsRich"
-                        value="true"
-                        xtype="hidden"/>
-                </items>
-            </tab3>
-            <tab2
-                jcr:primaryType="cq:Panel"
-                title="Fourth Page (Image)">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <title2
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="What do girl scouts do? Stuff like this:"
-                        fieldLabel="Title"
-                        name="./title2"
-                        xtype="textfield"/>
-                    <imagePath2
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Images"
-                        name="./imagePath2"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            editable="{Boolean}false"
-                            limit="{Long}4"
-                            rootPath="/content/dam/girlscouts-gsusa"
-                            xtype="pathfield"/>
-                    </imagePath2>
-                    <imageAlt2
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Image Alts"
-                        name="./imageAlt2"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
-                    </imageAlt2>
-                    <subtitle2
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Subtitle"
-                        name="./subtitle2"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            limit="{Long}4"
-                            xtype="textfield"/>
-                    </subtitle2>
-                    <content2
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Content"
-                        name="./content2"
-                        xtype="multifield">
-                        <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            height="100"
-                            limit="{Long}4"
-                            xtype="richtext">
-                            <listeners
-                                jcr:primaryType="nt:unstructured"
-                                destroy="function() {this.el.dom={};}"/>
-                            <rtePlugins jcr:primaryType="nt:unstructured">
-                                <links jcr:primaryType="nt:unstructured">
-                                    <linkDialogConfig
-                                        jcr:primaryType="nt:unstructured"
-                                        height="{Long}316">
-                                        <linkAttributes jcr:primaryType="cq:WidgetCollection">
-                                            <linkAdvanced
-                                                jcr:primaryType="cq:Widget"
-                                                collapsed="{Boolean}true"
-                                                collapsible="{Boolean}true"
-                                                inputValue="advanced"
-                                                name="./linkdialog/cq:adhocLinkTrackingTab"
-                                                title="Link tracking"
-                                                xtype="dialogfieldset">
-                                                <items jcr:primaryType="cq:WidgetCollection">
-                                                    <enable
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="enabletracking"
-                                                        fieldDescription="override analytics framework settings"
-                                                        fieldLabel="Custom link tracking"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
-                                                        xtype="checkbox">
-                                                        <listeners
-                                                            jcr:primaryType="nt:unstructured"
-                                                            check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
-                                                    </enable>
-                                                    <events
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="adhocevents"
-                                                        fieldDescription="e.g.: event2, event7"
-                                                        fieldLabel="Include SiteCatalyst events"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEvents"
-                                                        xtype="textfield"/>
-                                                    <evars
-                                                        jcr:primaryType="nt:unstructured"
-                                                        attribute="adhocevars"
-                                                        fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
-                                                        fieldLabel="Include SiteCatalyst variables"
-                                                        name="./linkdialog/cq:adhocLinkTrackingEvars"
-                                                        xtype="textfield"/>
-                                                </items>
-                                            </linkAdvanced>
-                                        </linkAttributes>
-                                    </linkDialogConfig>
-                                </links>
-                                <justify
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*"/>
-                                <paraformat
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*">
-                                    <formats jcr:primaryType="cq:WidgetCollection">
-                                        <p
-                                            jcr:primaryType="nt:unstructured"
-                                            description="Paragraph"
-                                            tag="p"/>
-                                    </formats>
-                                </paraformat>
-                                <spellcheck
-                                    jcr:primaryType="nt:unstructured"
-                                    features="*"/>
-                            </rtePlugins>
-                        </fieldConfig>
-                    </content2>
-                    <isRichTextFlag
-                        jcr:primaryType="cq:Widget"
-                        ignoreData="{Boolean}true"
-                        name="./textIsRich"
-                        value="true"
-                        xtype="hidden"/>
-                </items>
-            </tab2>
-            <tab4
-                jcr:primaryType="cq:Panel"
-                title="Third Page (Social)">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <title4
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="What do girl scouts do? Stuff like this:"
-                        fieldLabel="Title"
-                        name="./title4"
-                        xtype="textfield"/>
+                	<bgImage
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Background Image"
+	                    rootPath ="/content/dam/girlscouts-gsusa"
+	                    name="./blogbgimage"
+	                    xtype="pathfield"/>
                     <blog-id
 						jcr:primaryType="cq:Widget"
 						fieldDescription="(Optional) Specify an alternative blog to use by entering its Blogger ID"
@@ -905,61 +51,60 @@
 						fieldLabel="API Key"
 						name="./blog-feed/key"
 						xtype="textfield"/>
-                    <count
-                        jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify how many posts to display. Will default to 20 if left blank"
-                        fieldLabel="Count"
-                        minValue="1"
-                        name="./blog-feed/count"
-                        xtype="numberfield"/>
-                    <pin-id
+                    <post-id1
                     	jcr:primaryType="cq:Widget"
-                    	fieldDescription="If you would like to pin a blog post to the top of the feed, enter its post id here."
-                    	fieldLabel="Pin ID"
-                    	name="./blog-feed/pin-id"
+                    	fieldDescription="Specify a blog post by its id."
+                    	fieldLabel="Post ID"
+                    	name="./blog-feed/post-id1"
+                    	xtype="textfield"/>
+                    <post-id2
+                    	jcr:primaryType="cq:Widget"
+                    	fieldDescription="Specify a blog post by its id."
+                    	fieldLabel="Post ID"
+                    	name="./blog-feed/post-id2"
+                    	xtype="textfield"/>
+                    <post-id3
+                    	jcr:primaryType="cq:Widget"
+                    	fieldDescription="Specify a blog post by its id."
+                    	fieldLabel="Post ID"
+                    	name="./blog-feed/post-id3"
                     	xtype="textfield"/>
                 </items>
-            </tab4>
-            <tab6
+            </tab1>
+            <tab2
                 jcr:primaryType="cq:Panel"
-                title="Closing Page">
+                title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <title6
+                    <autoScroll
                         jcr:primaryType="cq:Widget"
-                        defaultValue="Closing Statement"
-                        fieldLabel="Title"
-                        name="./title6"
-                        xtype="textfield"/>
-                    <content6
+                        fieldLabel="Auto Scroll"
+                        name="./homecarouselautoscroll"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <timedelay
                         jcr:primaryType="cq:Widget"
-                        defaultValue="lorem ipsum"
-                        fieldLabel="Content"
-                        name="./content6"
-                        xtype="textfield"/>
-                    <imagePath6
+                        fieldLabel="Transition Time of the carousel (in ms)"
+                        name="./homecarouseltimedelay"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </timedelay>
+                    <autoplayspeed
                         jcr:primaryType="cq:Widget"
-                        editable="{Boolean}false"
-                        fieldLabel="Background Image"
-                        name="./imagePath6"
-                        rootPath="/content/dam/girlscouts-gsusa"
-                        xtype="pathfield"/>
-                    <imageAlt6
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="lorem ipsum"
-                        fieldLabel="imageAlt6"
-                        name="./imageAlt6"
-                        value="lorem ipsum"
-                        xtype="textfield"/>
-                    <closingSource
-                        jcr:primaryType="cq:Widget"
-                        defaultValue="not_set"
-                        fieldDescription="This field is used for tracking in Google Analytics."
-                        fieldLabel="Source"
-                        name="./closingSource6"
-                        value="not_set"
-                        xtype="textfield"/>
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="./homecarouselautoplayspeed"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </autoplayspeed>
                 </items>
-            </tab6>
+            </tab2>
             <tab7
                 jcr:primaryType="cq:Panel"
                 title="Bottom Overlay">

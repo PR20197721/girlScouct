@@ -5,6 +5,10 @@
       display: none;
     }
   }
+  .help-msg{
+  	text-align:left;
+  	font-size:rem-calc(12);
+  }
   .row {
     font-size: rem-calc(18);
     @media #{$medium-up} {
@@ -14,10 +18,6 @@
     color: $white;
     margin-right: 0;
     margin-left: 0;
-  }
-  .wrapper {
-    background: #6e298d;
-    margin-top: rem-calc(13);
   }
   .wrapper-inner {
     position: relative;
@@ -74,7 +74,8 @@
       }
     }
   }
-  .find-cookies {
+  .find-cookies,
+  .find-camp {
    	@media #{$medium-up} {
     	margin-left: 0;
     }
@@ -169,6 +170,103 @@
           display: inline-block;
         }
       }
+    }
+  }
+}
+.find-camp {
+  span {
+    font-size: 70%;
+    font-style: italic;
+    display: block;
+    color: $white;
+  }
+}
+.standalone-camp-finder {
+  margin: rem-calc(15 0 15 0);
+  @media #{$small-only} {
+    &:not(.mobile-camp-finder) {
+      #main &,
+      .main-content & {
+        display: none;
+      }
+    }
+  }
+  .three-cols .middle-col & {
+    margin: rem-calc(0 0 15 0);
+  }
+  .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  form {
+    margin: 0 auto;
+    width: 70%;
+    height: 100%;
+    padding: rem-calc(17 0);
+    label {
+      float: left;
+      margin-bottom: 0;
+      text-align: center;
+      color: $white;
+      font-size: rem-calc(28);
+      font-weight: 600;
+    }
+    .form-wrapper {
+      width: 34.22619%;
+      float: right;
+      margin-bottom: 0;
+      margin-top: 1.5%;
+    }
+    @media #{$small-only} {
+      label {
+        float: none;
+        margin-right: 0;
+        font-size: rem-calc(20);
+        margin-bottom: rem-calc(15);
+      }
+      .form-wrapper {
+        width: 70%;
+        float: none;
+        margin: 0 auto rem-calc(15);
+      }
+    }
+    @media #{$medium-up} {
+      .three-cols .middle-col &  {
+        label {
+          float: none;
+          margin-right: 0;
+          font-size: rem-calc(20);
+          margin-bottom: rem-calc(15);
+        }
+        .form-wrapper {
+          width: 70%;
+          float: none;
+          margin: 0 auto rem-calc(15);
+        }
+      }
+     .three-cols .middle-col &.small {
+        width: 65%;
+        margin-left: auto;
+  	  }
+    }
+    input[type="text"] {
+      float: left;
+      padding-left: rem-calc(10);
+      height: rem-calc(30);
+      font-size: rem-calc(18);
+    }
+    .link-arrow {
+      border: none;
+      background-color: $primary-color;
+      float: left;
+      line-height: rem-calc(30);
+      padding: 0 4%;
+      position: absolute;
+      right: 0;
+      color: $white;
+    }
+    .form-wrapper {
+      position: relative;
     }
   }
 }

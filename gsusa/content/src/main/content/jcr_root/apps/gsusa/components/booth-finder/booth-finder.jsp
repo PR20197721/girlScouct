@@ -146,7 +146,7 @@ BoothFinder.prototype.processResult = function(result) {
 	result.contactBanner = {
 		btn: "Contact Your Local Council",
 		title: "Cookies are Here!",
-		desc: "Enter your info below and girls from the " + council.CouncilName + " will contact you to help you place your cookie order."
+		desc: "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order."
 	}
 	
 	// Calculate days left

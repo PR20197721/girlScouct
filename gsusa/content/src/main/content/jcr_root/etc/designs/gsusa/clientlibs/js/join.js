@@ -3,10 +3,10 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
     strGAMedium = getParameterByName("utm_medium");
     strGASource = getParameterByName("utm_source");  
 
+	joinForm = this;
     me = event.target;
 	zipValue = $(me).find("[name='ZipJoin']").val();
 	source = $(me).find("[name='source']").val();
-	
 	
 	// spin variables - start
 	opts = {
@@ -30,54 +30,70 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	spinner_div = $('#spinner').get(0);
 	spinner = new Spinner(opts).spin(spinner_div);
 	
-    $.post('/includes/join/join_ajax_GetCouncilInfo.asp',{
-        zipcode: zipValue,
-        source: source,
-        actiontype: "join",
-        GACampaign: strGACampaign,
-        GAMedium: strGAMedium,
-        GASource: strGASource
-    }, function(txt) {
-        var found = true;
-        //submission page contains either welcome or thank you
-        //no need to check since it is not critical
-        if (txt.search(/INSERTED/i) == -1) {
-            alert('Sorry, there is no local council serving zipcode '+ zipValue);
-            spinner.stop(spinner_div);
-        }
+	$.ajax({
+		type: "POST",
+		url: '/includes/join/join_ajax_GetCouncilInfo.asp',
+		async: false,
+		data: {
+	        zipcode: zipValue,
+	        source: source,
+	        actiontype: "join",
+	        GACampaign: strGACampaign,
+	        GAMedium: strGAMedium,
+	        GASource: strGASource
+	    },
+		success: function(txt) {
+	        var found = true;
+	        //submission page contains either welcome or thank you
+	        //no need to check since it is not critical
+	        if (txt.search(/INSERTED/i) == -1) {
+	            alert('Sorry, there is no local council serving zipcode '+ zipValue);
+	            spinner.stop(spinner_div);
+	        }
 
-        //see if we can still parse and process url
-        var result = txt.split(",");
-        if(!isNumber(result[0])) {
-            found = false;
-        } else {
-        // finally, see if we have the url
-            if(!result[2]) {
-                found = false;
-            }
-        }
-        
+	        //see if we can still parse and process url
+	        var result = txt.split(",");
+	        if(!isNumber(result[0])) {
+	            found = false;
+	        } else {
+	        // finally, see if we have the url
+	            if(!result[2]) {
+	                found = false;
+	            }
+	        }
 
-        if(found) {
-            //register zipcode entered to google analytics
-            //var curZipcode = $(me).find("[name='ZipJoin']").val();
-            spinner.stop(spinner_div);
-            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/join/zipcode_entered'+"/"+zipValue]);
-        
-            submit_facebook_conversion_pixel("join/"+"homepage");
-            //put delay so that google analytics and facebook conversion pixel registers successfully
-            window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
-        } else {
-            // invalidate the zipcode field manually
-            $(me).find("[name='ZipJoin']").val('Invalid');
-            spinner.stop(spinner_div);
-            // .valid() should work but somehow with edge animation, it doesn't work.. so instead, using .select()
-            $(me).find("[name='ZipJoin']").select();		
-        }
-    });
+	        if(found) {
+	        	//We are putting window.open here because either the _gaq.push or submit_facebook_conversion_pixel is async, causing browser to block pop-up window, thus, we have to open the window first
+	        	//However, if we want to open the redirect link in the same browser tab, then we will need to first call the functions, then redirect, so there is another if case at the end of this part
+	        	if ($(joinForm).hasClass("bottom-overlay-join")) {
+	        		window.open(result[2], '_blank');
+	        	}
+	            //register zipcode entered to google analytics
+	            //var curZipcode = $(me).find("[name='ZipJoin']").val();
+	            spinner.stop(spinner_div);
+	            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/join/zipcode_entered'+"/"+zipValue]);
+	        
+	            submit_facebook_conversion_pixel("join/"+"homepage");
+	            //put delay so that google analytics and facebook conversion pixel registers successfully
+	            if (!$(joinForm).hasClass("bottom-overlay-join")) {
+					window.setTimeout("redirect_to_council('"+result[2]+"')",1500);
+				}
+	        } else {
+	            // invalidate the zipcode field manually
+	            $(me).find("[name='ZipJoin']").val('Invalid');
+	            spinner.stop(spinner_div);
+	            // .valid() should work but somehow with edge animation, it doesn't work.. so instead, using .select()
+	            $(me).find("[name='ZipJoin']").select();		
+	        }
+	    }
+	});
 
     return false;
 });
+
+//function redirect_to_council_new_window(url) {
+//	window.open(url, "newPage");
+//}
 
 function redirect_to_council(url) {
     parent.window.location = url;
