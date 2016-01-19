@@ -4,7 +4,7 @@
 
 <%
 	String id = "dynamic-tag-carousel-" + generateId();
-	String num = properties.get("num", 20);
+	String num = properties.get("num", "20");
 	
 	// TODO: how to get the default tag from the article page?
 	String defaultTag = "defaultTag";
