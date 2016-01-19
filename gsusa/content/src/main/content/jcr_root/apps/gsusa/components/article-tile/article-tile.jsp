@@ -23,8 +23,8 @@
 
     boolean playOnClick = false;
 
-	String divId = "modal";
-    String modId = "modal1";
+	String divId = (String)request.getAttribute("tileModalDivId");
+
 	String imageSrc = "";
 
 
@@ -52,40 +52,38 @@
         if(propNode.hasProperty("editedDate"))
         editedDate = propNode.getProperty("editedDate").getString();
 
-        if(propNode.hasProperty("playOnClick"))
-        playOnClick = propNode.getProperty("playOnClick").getBoolean();
+        if(propNode.hasProperty("playOnClick")){
+        	String isOn = propNode.getProperty("playOnClick").getString();
+            if(isOn.equals("on"))
+            playOnClick = true;
+        }
 
 		Node imageNode = propNode.getNode("image");
         imageSrc = imageNode.getProperty("fileReference").getString();
 
     } catch(Exception e){
         e.printStackTrace();
-        throw e;
     }
 
 	if(!articlePath.isEmpty())
         articlePath = articlePath + ".html";
-        
+
 %>
 
 
 
 <section>
     <%
-    if(type.equals("video") && playOnClick){
+    if(playOnClick){
         %>
-    <a href="" onlclick="populateVideoIntoModal(<%=divId%>,<%=videoLink%>)" data-reveal-id="<%=modId%>">
-<% 
-    } else if (type.equals("external-link")){
-    %>
-	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+    <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=videoLink%>')" data-reveal-id="<%=divId%>">
 <% 
     } else{
     %>
-    <a href="<%=articlePath%>">
-    <%
+	<a href="<%=articlePath%>">
+<% 
     }
-    	%>
+    %>
 		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
 		<div class="text-content" style="background: rgba(36, 184, 238, 0.8)">
 			<h3><%=tileTitle%></h3>
