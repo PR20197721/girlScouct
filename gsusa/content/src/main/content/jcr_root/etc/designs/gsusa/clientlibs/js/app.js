@@ -376,6 +376,7 @@
       fade: false,
       autoplay: (typeof homeCarouselAutoScroll !== 'undefined') ? homeCarouselAutoScroll : false,
       arrows: true,
+      autoplaySpeed: (typeof homeCarouselAutoPlaySpeed !== 'undefined') ? homeCarouselAutoPlaySpeed : 2000,
       cssEase: 'linear',
       slidesToShow: 1,
       infinite: true,
@@ -383,7 +384,7 @@
        {
          breakpoint: 480,
          settings: {
-          arrows: false,
+          arrows: true,
           centerMode: true,
           centerPadding: '30px',
          }
@@ -642,13 +643,6 @@
       // }]
     });
   }
-  function iframeClick() {
-    $("iframe").hover(function() {
-      $(".zip-council").slideUp();
-    }, function() {
-      $(".zip-council").slideDown();
-    });
-  }
 
 
 
@@ -656,7 +650,7 @@
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     };*/
-  
+
 	function loadYTScript() {
 	    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
 	    	var tag = document.createElement('script');
@@ -709,13 +703,13 @@
       } else {
 	  	  var currentUrl = window.location.href;
 	  	  var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
-	  
+
 	      if (window.location.search != undefined && window.location.search != "") {
 	    	  redirectUrl += window.location.search;
 	      }
-	   
+
 	      redirectUrl = redirectUrl + '#' + zip;
-	
+
 		  if (isSameUrl) {
 			  window.location.hash = "#" + zip;
 		      window.location.reload();
@@ -743,9 +737,6 @@
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();
-  if($(window).width() > 769) {
-    iframeClick();
-  }
 
   loadYTScript();
   $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
@@ -755,12 +746,12 @@
     small_screens();
   });
   $(window).resize(function (event) {
-    if($(window).width() > 768) {
-      iframeClick();
-    } else {
+    //if($(window).width() > 768) {
+    //  iframeClick();
+    //} else {
       $("iframe").off( "mouseenter mouseleave" );
       //$("iframe").unbind("mouseenter,mouseleave");
-    }
+    //}
   });
   $(window).load(function () {
     equilize_our_stories();
@@ -869,6 +860,27 @@ function printObjectProperties(objectToInspect) {
     }
   }
 }
+
+function setupContactLocalCouncilForm() {
+	// Setup "contact local council" form
+	$('.booth-finder form#contactlocalcouncil').submit(function(){
+		$.post($(this).attr('action'), $(this).serialize(), function(response) {
+			// Remove blank lines
+			response = response.replace(/^\s*\n/gm, '').trim();
+			if (response.toUpperCase() == 'OK') {
+				$('#contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+			} else {
+				$('#contactlocalcouncil div.error').html(response);
+			}
+		});
+
+		// Prevent default
+		return false;
+	});
+}
+
+$(document).ready(setupContactLocalCouncilForm);
+
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
     return JSON.stringify(context);

@@ -103,6 +103,26 @@ div.carousel {
     }
   }
   .main-slider {
+    .thumbnail a {
+      display: block;
+      position: relative;
+        &:hover:after {
+          -webkit-filter: grayscale(100%); filter: grayscale(100%);
+        }
+        &:after {
+          z-index: 10;
+          content: "";
+          position: absolute;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent url("../images/play-btn.png") no-repeat 50% 40%;
+          background-size: 17%;
+        }
+      img {
+        width: 100%;
+      }
+    }
     li.blog {
       background: #e6e7e8;
       position: relative;
@@ -125,6 +145,7 @@ div.carousel {
           padding-bottom: 0;
           div {
             position: relative;
+            min-height: rem-calc(208);
           }
         }
         @media #{$small-only} {
@@ -149,6 +170,16 @@ div.carousel {
       margin-top: -3.3125rem;
       background: rgba(0, 0, 0, 0.5);
       width: 3rem;
+      @media #{$small-only} {
+        margin-top: -5.375rem;
+        width: 2rem;
+      }
+    }
+    button{
+      &.ytp-button, &.ytp-button:focus{
+        background-color: inherit;
+        height: 64px;
+      }
     }
   }
 }
@@ -566,7 +597,7 @@ div.carousel {
 	  font-family: inherit;
 	  cursor: default;
 	  line-height: inherit;
-	  
+
 	  /*  margin: 0; */
 	  padding: 0;
 	  background: none;
@@ -718,22 +749,10 @@ div.carousel {
       }
     }
 }
-.main-slider .lazyYT {
+.main-slider .lazyYT,
+.videoWrapper  {
   position: relative;
-  padding-bottom: 58.3334%;
-  // padding-top: rem-calc(20);
-  height: 0;
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-}
-.videoWrapper {
-  position: relative;
-  padding-bottom: 58.3334%;
+  padding-bottom: 56.25%;
   // padding-top: rem-calc(20);
   height: 0;
   iframe {

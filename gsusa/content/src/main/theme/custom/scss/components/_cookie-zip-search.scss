@@ -182,15 +182,15 @@
   }
 }
 .standalone-camp-finder {
-  // .wrapper {
-  //   position: relative;
-  // }
-  // .bg-image {
-  //   position: absolute;
-  //   width: 100%;
-  //   height: auto;
-  // }
-  margin: rem-calc(15 0 0 0);
+  margin: rem-calc(15 0 15 0);
+  @media #{$small-only} {
+    &:not(.mobile-camp-finder) {
+      #main &,
+      .main-content & {
+        display: none;
+      }
+    }
+  }
   .three-cols .middle-col & {
     margin: rem-calc(0 0 15 0);
   }
@@ -200,12 +200,11 @@
   }
   form {
     margin: 0 auto;
-    width: 60%;
+    width: 70%;
     height: 100%;
     padding: rem-calc(17 0);
     label {
       float: left;
-      margin-right: 8%;
       margin-bottom: 0;
       text-align: center;
       color: $white;
@@ -213,8 +212,8 @@
       font-weight: 600;
     }
     .form-wrapper {
-      width: 35%;
-      float: left;
+      width: 34.22619%;
+      float: right;
       margin-bottom: 0;
       margin-top: 1.5%;
     }
@@ -226,16 +225,12 @@
         margin-bottom: rem-calc(15);
       }
       .form-wrapper {
-        width: 50%;
+        width: 70%;
         float: none;
         margin: 0 auto rem-calc(15);
       }
     }
     @media #{$medium-up} {
-      .two-cols .middle-col &, .three-cols .hero-section & {
-        padding-top:1%;
-        width:72%;
-      }
       .three-cols .middle-col &  {
         label {
           float: none;
@@ -244,7 +239,7 @@
           margin-bottom: rem-calc(15);
         }
         .form-wrapper {
-          width: 50%;
+          width: 70%;
           float: none;
           margin: 0 auto rem-calc(15);
         }
@@ -275,11 +270,3 @@
     }
   }
 }
-
-.standalone-camp-finder {
-  @media #{$small-only} {
-    #main & {
-      display: none;
-    }
-  }
- }
