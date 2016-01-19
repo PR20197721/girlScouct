@@ -22,6 +22,22 @@
         // https://github.com/imulus/retinajs/issues/8
         force_original_dimensions: true
     };
+    
+    function getDivBackgroundImages(){
+    	 var allDiv = $('div'), divs = [];
+    	 $.each(allDiv, function(index, value){
+    		 var $div = value;
+    		 var $jqDiv = $(value);
+    		 var $bgUrl = $jqDiv.css('background-image').split("\"")[1];
+    		 if($bgUrl != undefined){
+    			 if($bgUrl.indexOf(location.origin) == 0){
+    				 console.log($bgUrl);
+    				 divs.push($div);
+    			 }
+    		 }
+    	 });
+    	 return divs;
+    }
 
     function Retina() {}
 
@@ -48,16 +64,18 @@
 
         context.onload = function() {
             var images = document.getElementsByTagName('img'), retinaImages = [], i, image;
+            var divs = getDivBackgroundImages();
+            images = Array.prototype.slice.call(images).concat(divs);
             var isiPad = navigator.userAgent.match(/iPad/i) != null;
             for (i = 0; i < images.length; i += 1) {
                 image = images[i];
                 if (!!!image.getAttributeNode('data-no-retina')) {
                     // inkoo added: only if src cq5dam.npd
-                    if (image.src.indexOf("cq5dam.npd") > -1 || image.getAttribute('data-at2x') || image.src.indexOf("image.img.") > -1) {
+                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && image.src.indexOf("image.img.") > -1)) {
 		            // added: only if width < 768 pixels (mobile only)
-			    if ($(window).width() >= 768 && !isiPad) {	
-				    retinaImages.push(new RetinaImage(image));
-			    }
+					    if ($(window).width() >= 768 && !isiPad) {	
+						    retinaImages.push(new RetinaImage(image));
+					    }
                     }
                 }
             }
@@ -150,13 +168,23 @@
 
     function RetinaImage(el) {
         this.el = el;
-        this.path = new RetinaImagePath(this.el.getAttribute('src'), this.el.getAttribute('data-at2x'));
-        var that = this;
-        this.path.check_2x_variant(function(hasVariant) {
-            if (hasVariant) {
-                that.swap();
-            }
-        });
+        if(el.tagName == "IMG" || el.tagName == "img"){
+	        this.path = new RetinaImagePath(this.el.getAttribute('src'), this.el.getAttribute('data-at2x'));
+	        var that = this;
+	        this.path.check_2x_variant(function(hasVariant) {
+	            if (hasVariant) {
+	                that.swap();
+	            }
+	        });
+        } else{
+        	this.path = new RetinaImagePath($(this.el).css("background-image"), this.el.getAttribute('data-at2x'));
+        	var that = this;
+        	this.path.check_2x_variant(function(hasVariant) {
+	            if (hasVariant) {
+	                that.swapDiv();
+	            }
+	        });
+        }
     }
 
     root.RetinaImage = RetinaImage;
@@ -178,6 +206,30 @@
 
                 that.el.setAttribute('src', path);
             }
+        }
+        load();
+    };
+    
+    RetinaImage.prototype.swapDiv = function(path) {
+        if (typeof path === 'undefined') {
+            path = this.path.at_2x_path;
+        }
+
+        var that = this;
+        function load() {
+            //if (! that.el.complete) {
+            //    setTimeout(load, 5);
+            //} else {
+            //    if (config.force_original_dimensions) {
+            //        that.el.setAttribute('width', that.el.offsetWidth);
+            //        that.el.setAttribute('height', that.el.offsetHeight);
+            //    }
+
+                $(that.el).css({
+                	"background": "url('" + path + "') no-repeat 0% 0%/contain transparent"
+                });
+                //}
+            //}
         }
         load();
     };

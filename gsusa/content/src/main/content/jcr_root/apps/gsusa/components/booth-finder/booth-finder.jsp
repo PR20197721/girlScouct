@@ -21,6 +21,12 @@ for (int pathIndex = 1; pathIndex <= 5; pathIndex++) {
         <div id="share-shareDialogDescription" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogDescription", "")) %>" />
         <div id="share-shareDialogTweet" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogTweet", "")) %>" />
         <div id="share-shareDialogImagePath" data="<%= escapeDoubleQuotesAddCouncil(properties.get("path" + pathIndex + "ShareDialogImagePath", "")) %>" />
+
+<%
+        if (pathIndex == 2) {
+            %><cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/><%
+        }
+%>
 	</script>
 
 <%
@@ -111,6 +117,8 @@ BoothFinder.prototype.processResult = function(result) {
 	} else if (booths.length != 0) {
 		templateId = 'booths';
 		
+		council.shoudShowContactUsFormAfterListing = council.PreferredPath.toLowerCase() == 'path2';
+		
 		var nearestDistance = Number.MAX_VALUE;
 		this.shouldHideMoreButton = booths.length <= this.numPerPage;
 		var min = Math.min(booths.length, this.numPerPage); // length - 1 to omit the "more" one
@@ -118,8 +126,7 @@ BoothFinder.prototype.processResult = function(result) {
 			var booth = booths[boothIndex];
 			// Add index field
 			booth.ID = boothIndex;
-			// Add Council Name and zip field to booth. "View Detail" needs this info.
-			booth.CouncilName = result.council.CouncilName;
+			// Add zip field to booth. "View Detail" needs this info.
 			booth.queryZip = this.zip;
 			
 			if (Number(booth.Distance) < nearestDistance) {
@@ -139,7 +146,7 @@ BoothFinder.prototype.processResult = function(result) {
 	result.contactBanner = {
 		btn: "Contact Your Local Council",
 		title: "Cookies are Here!",
-		desc: "Enter your info below and girls from the " + council.CouncilName + " will contact you to help you place your cookie order."
+		desc: "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order."
 	}
 	
 	// Calculate days left
@@ -215,6 +222,9 @@ BoothFinder.prototype.processResult = function(result) {
 		});
 		$('#booth-finder-result').append(shareModalHtml);
 	}
+	
+	// Setup contact local council form
+	setupContactLocalCouncilForm();
 
 	// Increase page count
 	this.page++;

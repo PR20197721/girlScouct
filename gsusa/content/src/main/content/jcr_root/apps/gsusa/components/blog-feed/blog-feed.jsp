@@ -2,28 +2,30 @@
 <%@page import="org.apache.sling.commons.json.*, java.io.*, java.net.*" %>
 
 <%
-	int count = properties.get("count",20);
 	String id = properties.get("id","7441709438919444345");
 	String key = properties.get("key", "AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0");
-	String pinID = properties.get("pin-id","");
+	String pinID1 = properties.get("post-id1","");
+	String pinID2 = properties.get("post-id2","");
+	String pinID3 = properties.get("post-id3","");
 
 	String url = "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key;
 %>
-	<div class="align-center">
+	<!-- <div class="align-center">
 		<img src="http://wwwr.girlscouts.org/images/blog/gssm.png" alt="Girl Scout Blog" border="0" id="gsLogo">
 		<div class="blog-embed-area"></div>
-	</div>
+	</div> -->
 
 	<script type="text/javascript">
-	
-	var blogFeedArea = $(".blog-embed-area");
 
-	var count = <%= count %>;
+	//var blogFeedArea = $(".blog-embed-area");
+	var blogFeedArea = $(".blog-grid");
+
 	var id = "<%= id %>";
 	var key = "<%= key %>";
 	var ip = "<%=slingRequest.getHeader("x-forwarded-for") %>";
 	var comma = ip.indexOf(",");
-	var blogPinID = "<%= pinID %>";
+	var pinIDArray = ["<%=pinID1%>","<%=pinID2%>","<%=pinID3%>"];
+	var output = "";
 	ip = ip.substring(0, comma);
 	if(ip == ""){
 		if("<%= request.getRemoteAddr() %>" != ""){
@@ -34,7 +36,7 @@
 	if(comma != -1){
 		ip = ip.substring(0, comma);
 	}
-	
+
 	/*
 	To test run the following on the page console:
 	$.get("https://www.googleapis.com/blogger/v3/blogs/7441709438919444345/posts?key=AIzaSyDyEWV7rt41tGxPcIXZ04kG38-ZNxkBrM0&maxResults=1",function(data){
@@ -42,50 +44,40 @@
 	});
 
 	*/
-
 	$(document).ready(function() {
-		$.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts?key=" + key + "&maxResults=" + count + "&fields=items(published,title,url,content,id)&userIp=" + ip,function(data){
-			var output = "";
-			output += "<ul>";
-			var DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-			var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-			var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
-			var posts = [];
-			for (var i=0; i<data.items.length; i++){
-				if(blogPinID != "" && data.items[i].id == blogPinID){
-					posts.unshift(data.items[i]);
-					//console.log("Found Blog Pin");
-				}else{
-					posts.push(data.items[i]);
-				}
+		if (blogFeedArea[0].textContent.trim() === "") { //a temp/quick fix for an issue causing document.ready firing twice.
+			for (var i = 0; i < pinIDArray.length; i ++) {
+				$.ajax({
+					url: "https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts/" + pinIDArray[i] + "?key=" + key + "&userIp=" + ip,
+		        	async: false,
+		        	dataType: "json",
+		        	success: function(data) {
+						var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
+						var contentData = data.content;
+						var imageTag = "";
+						if (contentData && contentData.match(imageUrlPattern)) {
+							imageTag = contentData.match(imageUrlPattern)[0] + " />";
+						}
+						var blogtext = data.title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
+						output += '<li id="tag_blog_item_' + i + '"><div>' + imageTag + '<a id="tag_blog_title_' + blogtext + '" class="button" href="' + data.url + '" target="_blank">' + 'READ MORE' + '</a></div></li>';
+					}
+		        });
+	
+				/*
+				$.get("https://www.googleapis.com/blogger/v3/blogs/" + id + "/posts/" + pinIDArray[i] + "?key=" + key + "&userIp=" + ip, function(data) {
+					var imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
+					var contentData = data.content;
+					var imageTag = "";
+					if (contentData && contentData.match(imageUrlPattern)) {
+						imageTag = contentData.match(imageUrlPattern)[0] + " />";
+					}
+					var blogtext = data.title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
+					output += '<li id="tag_blog_item_' + 0 + '"><div>' + imageTag + '<a id="tag_blog_title_' + blogtext + '" class="title" href="' + data.url + '" target="_blank">' + 'READ MORE' + '</a></div></li>';
+				}).fail(function() {
+					console.log("Blog feed failed to get data");
+				});*/
 			}
-			var contentData = posts[0].content;
-			var imageTag = "";
-			if (contentData && contentData.match(imageUrlPattern)) {
-				imageTag = contentData.match(imageUrlPattern)[0] + " />";
-			}
-			for(var k=0; k<posts.length; k++){
-				contentData = posts[k].content;
-				imageUrlPattern = /<img [^>]*src=\"([^\"]*)\"/gmi;
-				imageTag = "";
-				if (contentData && contentData.match(imageUrlPattern)) {
-					imageTag = contentData.match(imageUrlPattern)[0] + " />";
-				}
-				var tmpDiv = document.createElement("div");
-				tmpDiv.innerHTML = contentData;
-				var shortDescription = (tmpDiv.textContent || tmpDiv.innerText || "").trim();
-				var dateline = new Date(posts[k].published);
-				var DESCRIPTION_LENGTH = 500;
-				if (shortDescription.length > DESCRIPTION_LENGTH) {
-					shortDescription = shortDescription.substring(0,DESCRIPTION_LENGTH) + "...";
-				}
-				var blogtext = posts[k].title.toLowerCase().replace(/https?:\/\//i, "").trim().replace(/[^0-9a-z_]/g, "-");
-				output += '<li id="tag_blog_item_' + k + '"><p class="dateline">' + DAYS[dateline.getDay()] + ', ' + MONTHS[dateline.getMonth()] + ' ' + dateline.getDate() + ', ' + dateline.getFullYear() + '</p><a id="tag_blog_title_' + blogtext + '" class="title" href="' + posts[k].url + '" target="_blank">' + posts[k].title + '</a>' + imageTag + '<p class="short-desc">' + shortDescription + '</p><p><a id="tag_blog_continue_' + blogtext + '" href="' + posts[k].url + '" target="_blank">continue reading ></a></p></li>';
-			}
-			output += "</ul>";
 			blogFeedArea.html(output);
-		}).fail(function() {
-			console.log("Blog feed failed to get data");
-		});
+		}
 	})
 </script>
