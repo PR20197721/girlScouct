@@ -16,9 +16,9 @@ map.put("property", "sling:resourceType");
 map.put("property.value", "gsusa/components/standalone-camp-finder");
 
 Map<String, String> notMap = new HashMap<String, String>();
-map.put("path", currentPage.getPath() + "/jcr:content/mobile-camp-finder");
-map.put("property", "sling:resourceType");
-map.put("property.value", "gsusa/components/standalone-camp-finder");
+notMap.put("path", currentPage.getPath() + "/jcr:content/mobile-camp-finder");
+notMap.put("property", "sling:resourceType");
+notMap.put("property.value", "gsusa/components/standalone-camp-finder");
 PredicateGroup notSearchGroup = PredicateGroup.create(notMap);
 
 Query query0 = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
