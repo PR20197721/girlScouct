@@ -54,13 +54,12 @@ public class Emailer {
 			
 			try{
 				if (user.getApiConfig().getUser().getEmail() != null && user.getApiConfig().getUser().getEmail().trim().length() > 0) {
-					java.util.List replyTos= new java.util.ArrayList();
-					replyTos.add(user.getApiConfig().getUser().getEmail() );
-					email.setReplyTo( replyTos );
-System.err.println("testrrrr   "+ user.getApiConfig().getUser().getEmail());
-email.addReplyTo("alex.yakobovich@ey.com");
+					
+					email.addReplyTo(user.getApiConfig().getUser().getEmail());
+
 				}
 			}catch(Exception e){e.printStackTrace();}
+			
 
 			email.setSubject(emr.getSubj());
 			email.setHtmlMsg(emr.getHtml());
