@@ -390,7 +390,25 @@
        }
       ]
     });
+    $(".article-slider").slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 3,
+      touchMove: true,
+      slidesToScroll: 3,
+      responsive: [
+       {
+         breakpoint: 480,
+         settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '60px',
+          slidesToShow: 1,
+         }
+       }
+      ]
+    });
   // }
+
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -656,7 +674,7 @@
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
     };*/
-  
+
 	function loadYTScript() {
 	    if (typeof(YT) == 'undefined' || typeof(YT.Player) == 'undefined') {
 	    	var tag = document.createElement('script');
