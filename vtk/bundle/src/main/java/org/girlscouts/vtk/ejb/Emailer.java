@@ -57,6 +57,8 @@ public class Emailer {
 					java.util.List replyTos= new java.util.ArrayList();
 					replyTos.add(user.getApiConfig().getUser().getEmail() );
 					email.setReplyTo( replyTos );
+System.err.println("testrrrr   "+ user.getApiConfig().getUser().getEmail());
+email.addReplyTo("alex.yakobovich@ey.com");
 				}
 			}catch(Exception e){e.printStackTrace();}
 
