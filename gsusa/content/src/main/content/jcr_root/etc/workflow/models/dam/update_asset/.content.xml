@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2016-01-15T11:09:44.568-05:00"
+        cq:lastModified="{Date}2016-01-19T15:10:02.213-05:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -49,17 +49,6 @@
                     PROCESS="/etc/workflow/scripts/gsusa/set-video-mimetype.ecma"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_6>
-            <process01
-                jcr:description="Upload asset to CreativeCloud"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="CreativeCloud Upload"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.creativecloud.CreativeCloudSyncProcess"
-                    PROCESS_ARGS=""
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process01>
             <process1
                 jcr:description="Image &amp; document thumbnails"
                 jcr:primaryType="nt:unstructured"
