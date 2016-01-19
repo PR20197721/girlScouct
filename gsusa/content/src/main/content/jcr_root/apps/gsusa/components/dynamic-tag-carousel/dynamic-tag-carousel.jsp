@@ -1,12 +1,13 @@
-<%--
+<%@include file="/libs/foundation/global.jsp"%>
+<%@page session="false" %>
+<%
 
-  Dynamic Tag Carousel component.
-
-  Content Hub Dynamic Tag Carousel
-
---%><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %><%
-%><%
-	// TODO add you code here
 %>
+
+<div id='testtest'></div>
+<script>
+	$(document).ready(function(){
+		var carousel = new DynamicTagCarousel('testtest', 20);
+		carousel.load();
+	});
+</script>
