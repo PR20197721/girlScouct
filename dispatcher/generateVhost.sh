@@ -23,7 +23,7 @@ fi
 var="
     RewriteEngine On
     RewriteLog \"logs/rewrite-www-"$2"-org.log\"
-    RewriteLogLevel 5
+    RewriteLogLevel 1
 
     RewriteRule ^/en.html / [R=301,L]
     RewriteRule ^/$ /content/"$2"/en.html [PT]

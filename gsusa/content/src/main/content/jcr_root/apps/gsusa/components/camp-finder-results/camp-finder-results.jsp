@@ -2,12 +2,14 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page session="false" %>
 
-<%-- Placeholder for the actual render --%>
-<div id="camp-finder-result" class="camp-results"></div>
-
 <%-- Template for not found --%>
 <script id="template-notfound" type="text/x-handlebars-template">
 	<cq:include script="not-found.jsp" />
+</script>
+
+<%-- Template for invalid zip --%>
+<script id="template-invalidzip" type="text/x-handlebars-template">
+	<cq:include script="invalid-zip.jsp" />
 </script>
 
 <%-- Template for camp list --%>
@@ -20,7 +22,124 @@
 	<cq:include script="camp-list-more.jsp" />
 </script>
 
+<%-- Intro --%>
+<%= properties.get("intro", "") %>
+
+<div class="camp-results">
+    <form class="camp-finder-options sort-form clearfix">
+        <div class="clearfix">
+            <section class="radius">
+                <label>Radius:</label>
+                <select name="radius" onchange="getCampResults()">
+                    <option value="1">1 miles</option>
+                    <option value="5">5 miles</option>
+                    <option value="10">10 miles</option>
+                    <option value="15">15 miles</option>
+                    <option value="25">25 miles</option>
+                    <option value="50">50 miles</option>
+                    <option value="100">100 miles</option>
+                    <!-- default -->
+                    <option value="250" selected>250 miles</option>
+                    <option value="500">500 miles</option>
+                </select>
+            </section>
+            <section class="duration">
+                <label>Duration:</label>
+                <select name="duration" onchange="getCampResults()">
+                    <!-- default -->
+                    <option value="all" selected>All</option>
+                    <option value="less">Less than 1 week</option>
+                    <option value="week">1 week</option>
+                    <option value="long">More than 1 week</option>
+                </select>
+            </section>
+            <section  class="grade">
+                <label>Grade:</label>
+                <select name="grade" onchange="getCampResults()">
+                    <!-- default -->
+                    <option value="all" selected>All</option>
+                    <option value="k">Grade K</option>
+                    <option value="1">Grade 1</option>
+                    <option value="2">Grade 2</option>
+                    <option value="3">Grade 3</option>
+                    <option value="4">Grade 4</option>
+                    <option value="5">Grade 5</option>
+                    <option value="6">Grade 6</option>
+                    <option value="7">Grade 7</option>
+                    <option value="8">Grade 8</option>
+                    <option value="9">Grade 9</option>
+                    <option value="10">Grade 10</option>
+                    <option value="11">Grade 11</option>
+                    <option value="12">Grade 12</option>
+                    <option value="adult">Adult</option>
+                </select>
+            </section>
+            <section  class="date">
+                <label>Start Date:</label>
+                <input type="text" class="dp-calendar form-control hide-for-touch" id="start-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+                <input type="date" class="show-for-touch" id="start-touch" data-language="my-lang" name="startDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="getCampResults()">
+            </section>
+            <section  class="date">
+                <label>End Date:</label>
+                <input type="text" class="dp-calendar form-control hide-for-touch" id="end-desktop" data-language="my-lang" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center">
+                <input type="date" class="show-for-touch" id="end-touch" data-language="my-lang" name="endDate" placeholder="mm/dd/yyyy" data-date-format="mm/dd/yyyy" data-position="bottom center" onchange="getCampResults()">
+            </section>
+            <section  class="sort">
+                <label>Sort by:</label>
+                <select name="sortBy" onchange="getCampResults()">
+                    <!-- default -->
+                    <option value="distance" selected>Distance</option>
+                    <option value="date">Date</option>
+                </select>
+            </section>
+        </div>
+    </form>
+</div>
+
+<%-- Placeholder for the actual render --%>
+<div id="camp-finder-result" class="camp-results"></div>
+
 <script>
+$(function() {
+	var navTitles = {
+        days: 'MM <i>yyyy</i>',
+        months: 'yyyy',
+        years: 'yyyy1 - yyyy2'
+    };
+	
+    $("#start-desktop").datepicker({
+      navTitles: navTitles,
+      onSelect: function (fd, date) {
+        var dateStr = $('#start-desktop').val();
+        if (dateStr) {
+        	$('#start-touch').val(moment($('#start-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#end-desktop').data('datepicker').update('minDate', date);
+        } else {
+        	$('#start-touch').val('');
+        	$('#end-desktop').data('datepicker').update('minDate', null);
+        }
+        getCampResults();
+      },
+      autoClose: true
+    });
+
+    $("#end-desktop").datepicker({
+      navTitles: navTitles,
+      onSelect: function (fd, date) {
+        var dateStr = $('#end-desktop').val();
+        if (dateStr) {
+        	$('#end-touch').val(moment($('#end-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#start-desktop').data('datepicker').update('maxDate', date);
+        } else {
+        	$('#end-touch').val('');
+        	$('#start-desktop').data('datepicker').update('maxDate', null);
+        }
+        getCampResults();
+      },
+      autoClose: true
+    });
+});
+
 function CampFinder(url, zip, radius, duration, grade, startDate, endDate, sortBy, numPerPage) {
 	this.url = url;
 	this.zip = zip;
@@ -67,6 +186,10 @@ CampFinder.prototype.getResult = function() {
     	data.GSSource = gaparam;
     }
 
+    if (this.page == 1) {
+		$('#camp-finder-result').html('');
+    }
+
 	$.ajax({
 		url: this.url,
 		dataType: "json",
@@ -99,16 +222,23 @@ CampFinder.prototype.processResult = function(campResult) {
 		var min = Math.min(camps.length, this.numPerPage); // length - 1 to omit the "more" one
 		for (var campIndex = 0; campIndex < min; campIndex++) {
 			var camp = camps[campIndex];
-			// Add zip field to camp. "View Detail" needs this info.
-			camp.queryZip = this.zip;
+			// Process distance
+			if (camp.Distance == '1') {
+				camp.Distance = "1 mile";
+			} else {
+				camp.Distance += ' miles';
+			}
+
 			// Process emails
-			var origEmails = camp.Email.split(/[;,\s]/);
+			var origEmails = camp.Email.split(/,\s+/);
 			var emails = "";
 			for (var emailIndex = 0; emailIndex < origEmails.length; emailIndex++) {
 				var email = origEmails[emailIndex];
-				emails = emails + '<a href="mailto:' + email + '">' + email + '</a>, '
+				email = email.replace(/([^\s]+@[^\s]+\.[^\s]+)/, '<a href="mailto:$1">$1</a>');
+				emails = emails + email + ', ';
 			}
-			if (emails.endsWith(', ')) {
+			// if (emails.endsWith(', ')) {  Safari on iOS 8.1 does not support endsWith
+			if (emails.lastIndexOf(', ') == emails.length - 2) {
 				emails = emails.substring(0, emails.length - 2);
 			}
 			camp.Emails = emails;
@@ -119,7 +249,11 @@ CampFinder.prototype.processResult = function(campResult) {
 
 		result.camps = camps;
 	} else {
-		templateId = 'notfound';
+		if (result.council && result.council.CouncilName) {
+			templateId = 'notfound';
+		} else {
+			templateId = 'invalidzip';
+		}
 	}
 
 	if (this.page == 1) {
@@ -134,30 +268,6 @@ CampFinder.prototype.processResult = function(campResult) {
 
 	if (templateId == 'camps') {
 		if (this.page == 1) {
-			// Reset form values
-			var radius = getParameterByName('radius');
-			var duration = getParameterByName('duration');
-			var grade = getParameterByName('grade');
-			var startDate = getParameterByName('startDate');
-			var endDate = getParameterByName('endDate');
-			var sortBy = getParameterByName('sortBy');
-			if (!radius) radius = 250;
-			if (!duration) duration = 'all';
-			if (!grade) grade = 'all';
-			if (!sortBy) sortBy = 'distance'
-			$('select[name="radius"]').val(radius);
-			$('select[name="duration"]').val(duration);
-			$('select[name="grade"]').val(grade);
-			if (startDate) {
-				$('#start-desktop').val(moment(startDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-				$('#start-touch').val(startDate);
-			}
-			if (endDate) {
-				$('#end-desktop').val(moment(endDate, 'YYYY-MM-DD').format('MM/DD/YYYY'));
-				$('#end-touch').val(endDate);
-			}
-			$('select[name="sortBy"]').val(sortBy);
-
 			// Bind click more
 			$('#camp-finder-result #more').on('click', function(){
 				campFinder.getResult();
@@ -188,7 +298,7 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-$(document).ready(function() {
+function getCampResults() {
 	var zip;
 	// Get zip from hash
 	zip = (function(zip){
@@ -203,12 +313,13 @@ $(document).ready(function() {
 	if (zip == undefined) {
 		// TODO: error: zip not found.
 	} else {
-		var radius = getParameterByName('radius');
-		var duration = getParameterByName('duration');
-		var grade = getParameterByName('grade');
-		var startDate = getParameterByName('startDate');
-		var endDate = getParameterByName('endDate');
-		var sortBy = getParameterByName('sortBy');
+		var radius = $('select[name="radius"]').val();
+		var duration = $('select[name="duration"]').val();
+		var grade = $('select[name="grade"]').val();
+		var startDate = $('input[name="startDate"]').val();
+		var endDate = $('input[name="endDate"]').val();
+		var sortBy = $('select[name="sortBy"]').val();
+
 		if (!radius) radius = 250;
 		if (!duration) duration = 'all';
 		if (!grade) grade = 'all';
@@ -217,5 +328,9 @@ $(document).ready(function() {
 		campFinder = new CampFinder("/campsapi/ajax_camp_results.asp", zip, radius, duration, grade, startDate, endDate, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		campFinder.getResult();
 	}
+}
+
+$(document).ready(function() {
+	getCampResults();
 });
 </script>

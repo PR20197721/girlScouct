@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Article Carousel"
+    height="{Long}600"
+    width="{Long}1200"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+        	<tab0
+	        	jcr:primaryType="cq:Panel"
+	            title="Article Carousel">
+	            <items jcr:primaryType="cq:WidgetCollection">
+	            	<heading
+	            		jcr:primaryType="cq:Widget"
+						fieldLabel="Heading"
+						name="./heading"
+						xtype="textfield"/>
+					<heading-link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Heading Link"
+                        name="./headingLink"
+                        rootPath="/content/gsusa"
+                        xtype="pathfield"/>
+	            	<numberofarticles
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number of Articles"
+                        name="./numberofarticles"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="30"
+                        minValue="3"
+                        fieldDescription="Default: 9 Min: 3, Max: 30"
+                        value="9"
+                        defaultValue="9"
+                        xtype="numberfield">
+                    </numberofarticles>
+                    <articletags 
+                    	jcr:primaryType="cq:Widget"
+						fieldLabel="Article Tags"
+						xtype="tags"
+						suggestMinChars="1"
+						fieldDescription="You can select at most 3 tags."
+						name="./cq:tags">
+						<namespaces jcr:primaryType="cq:WidgetCollection">  
+							<ns1 jcr:primaryType="nt:unstructured" maximum="3"  name="gsusa" />
+						</namespaces> 
+					</articletags>
+                </items>
+        	</tab0>
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <autoScroll
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Auto Scroll"
+                        name="./articlecarouselautoscroll"
+                        type="checkbox"
+                		xtype="selection"/>
+                    <timedelay
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="./articlecarouseltimedelay"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 1000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </timedelay>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

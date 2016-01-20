@@ -34,10 +34,10 @@ else{
 	<script>
 	//variable to be passed to app.js function
 	var loc = "<%= resourceResolver.map(resultsPath) %>.html";
-	
-	document.styleSheets[0].insertRule("#<%= id%> { background: url('<%= getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))%>') no-repeat 0% 0%/contain transparent; }", 0);
+
+	document.styleSheets[0].insertRule("#<%= id%> { background: url('<%= getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))%>') no-repeat 0% 0%/100% 100% transparent; }", 0);
 	</script>
-	
+
 	<div class="row">
 	  <div class="wrapper clearfix" id="<%= id %>" data-at2x="<%= get2xPath(getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))) %>">
 	    <div class="wrapper-inner clearfix">
@@ -46,7 +46,7 @@ else{
 	        <div class="form-wrapper clearfix">
 	          <input type="text" maxlength="5" placeholder="ZIP Code" title="5 number zip code" name="zip-code">
 	          <input type="submit" class="link-arrow" value="Go >"/>
-	          <span>Please enter a valid zip code</span>
+	          <!-- <span>Please enter a valid zip code</span> -->
 	        </div>
 	      </form>
 	    </div>

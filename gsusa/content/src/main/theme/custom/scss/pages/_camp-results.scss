@@ -2,13 +2,22 @@
   .result {
     h5 {
       color:$primary-color;
+      margin-bottom: 0;
     }
     p {
       margin: 0;
       font-size: rem-calc(14);
     }
-    .more-section{
+    i {
+      font-size: rem-calc(14);
+      color: #666;
+      margin-bottom: rem-calc(10);
+    }
+    .more-section {
       margin-top: rem-calc(25);
+      section {
+        margin-bottom: rem-calc(25);
+      }
     }
     border-bottom: solid 1px #e1e1e1;
     margin-top: rem-calc(40);
