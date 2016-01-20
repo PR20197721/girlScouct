@@ -883,7 +883,7 @@ $(document).ready(setupContactLocalCouncilForm);
 
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
-    return JSON.stringify(context);
+    return JSON.stringify(context).replace(/'/g, "&#39;");
 });
 Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	if (typeof context == 'string') {
