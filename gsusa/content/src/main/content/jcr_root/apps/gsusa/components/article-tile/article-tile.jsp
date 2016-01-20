@@ -9,7 +9,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
 %><%@page session="false" %>
-<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   String articlePath = (String)request.getAttribute("articlePath");
 
@@ -27,6 +27,9 @@
 
 	String imageSrc = "";
 
+	String rgba = "rgba(255, 255, 255, 0.8)";
+
+	Tag[] tags = null;
 
 	try{
         Node node =   resourceResolver.getResource(articlePath).adaptTo(Node.class);
@@ -61,12 +64,32 @@
 		Node imageNode = propNode.getNode("image");
         imageSrc = imageNode.getProperty("fileReference").getString();
 
+        Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
+        tags = tilePage.getTags();
+
+
     } catch(Exception e){
         e.printStackTrace();
     }
 
 	if(!articlePath.isEmpty())
         articlePath = articlePath + ".html";
+
+%><p><%=tags.length%></p> <%
+	if(tags != null && tags.length > 0){
+		Tag primaryTag = tags[0];
+        Node primaryNode = primaryTag.adaptTo(Node.class);
+        if(primaryNode.hasProperty("color")){
+			String hexColor = primaryNode.getProperty("color").getString();
+            int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
+            int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
+            int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
+			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
+
+        }
+	}
+
+
 
 %>
 
@@ -85,7 +108,7 @@
     }
     %>
 		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
-		<div class="text-content" style="background: rgba(36, 184, 238, 0.8)">
+		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
 			<p><%=tileSummary%></p>
 		</div>
