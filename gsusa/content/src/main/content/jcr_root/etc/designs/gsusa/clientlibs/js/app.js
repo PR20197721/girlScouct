@@ -890,29 +890,10 @@ function printObjectProperties(objectToInspect) {
   }
 }
 
-function populateVideoIntoModal(divId, videoLink){
-	var frame = document.createElement('iframe');
-
-	var width = document.createAttribute("width");
-    var height = document.createAttribute("height");
-    var frameborder = document.createAttribute("frameborder");
-    var allow = document.createAttribute("allowfullscreen");
-    var source = document.createAttribute("src");
-
-    width.value = "100%";
-    height.value = "720";
-    frameborder.value = "0";
-    source.value = videoLink;
-
-
-    frame.setAttributeNode(width);
-    frame.setAttributeNode(height);
-    frame.setAttributeNode(frameborder);
-    frame.setAttributeNode(allow);
-	frame.setAttributeNode(source);
-
+function populateVideoIntoModal(divId, videoLink){	
+	console.log("Triggered");
     var parent = document.getElementById(divId);
-    parent.appendChild(frame);
+    parent.innerHTML = videoLink;
     return false;
 
 }
