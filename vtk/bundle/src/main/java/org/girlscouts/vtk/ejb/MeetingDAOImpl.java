@@ -1560,8 +1560,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 				regionSql += " and LOWER(child.region) ='" + region + "'";
 			}
 
-String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());	
-System.err.println("searchA1 councilstr: "+ councilStr);	
+String councilStr = councilMapper.getCouncilBranch(troop.getSfCouncil());	 
 if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gateway";
 
 
@@ -1576,12 +1575,11 @@ if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gat
 			if (troop.getTroop() != null) {
 				councilId = Integer.toString(troop.getTroop().getCouncilCode());
 			}
-			String branch = councilMapper.getCouncilBranch(councilId);
+			String branch = councilStr; //councilMapper.getCouncilBranch(councilId);
 			branch += "/en";
 			String eventPath = "";
 			try {
-				eventPath = session.getProperty(
-						branch + "/jcr:content/eventPath").getString();
+				eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -1606,7 +1604,7 @@ if (councilStr==null || councilStr.trim().equals("") ) councilStr= "/content/gat
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
-System.err.println("searchA1 sql: "+ sql);			
+System.err.println("	 sql: "+ sql);			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
