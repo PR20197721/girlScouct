@@ -116,7 +116,7 @@
                     <secondaryTags
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Secondary Tags"
-                        name="./jcr:content/secondaryTags"
+                        name="./jcr:content/cq:tags"
                         namespaces="[gsusa]"
                         xtype="tags"/>
                     <vanityUrl

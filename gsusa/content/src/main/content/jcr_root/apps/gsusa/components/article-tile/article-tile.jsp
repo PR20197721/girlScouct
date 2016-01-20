@@ -9,7 +9,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
 %><%@page session="false" %>
-<%@page import="javax.jcr.Node"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils"%>
 <%
   String articlePath = (String)request.getAttribute("articlePath");
 
@@ -76,7 +76,7 @@
     <%
     if(playOnClick){
         %>
-    <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=videoLink%>')" data-reveal-id="<%=divId%>">
+    <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=StringEscapeUtils.escapeHtml(videoLink)%>')" data-reveal-id="<%=divId%>">
 <% 
     } else{
     %>
