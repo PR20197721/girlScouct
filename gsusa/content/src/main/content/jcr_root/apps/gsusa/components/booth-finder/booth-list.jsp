@@ -2,7 +2,7 @@
 <%@page session="false" %>
 
 <h3>Cookies Are Here!</h3>
-<p>The cookie season for the <strong><a href="{{council.cookiePageUrl}}" target="_blank">{{council.CouncilName}}</a></strong> is currently underway!</p>
+<p>The cookie season for the <strong><a href="{{council.CookiePageURL}}" target="_blank">{{council.CouncilName}}</a></strong> is currently underway!</p>
 <h4>Booth Locations near you:</h4>
 <p>The nearest location is {{env.nearestDistance}} miles away from {{env.zip}}.</p>
 <form class="sort-form clearfix">
@@ -60,7 +60,9 @@
 <div class="row show-more">
   <a id="more" title="show more results">MORE</a>
 </div>
-<div class="not-finding">
-  <h4>Not finding what you're looking for?</h4>
-  <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
-</div>
+{{#if council.shoudShowContactUsFormAfterListing}}
+  <div class="not-finding">
+    <h4>Not finding what you're looking for?</h4>
+    <cq:include path="contact-banner" resourceType="gsusa/components/contact-banner"/>
+  </div>
+{{/if}}
