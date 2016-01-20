@@ -1,0 +1,39 @@
+.article-carousel {
+  .slick-slider {
+    margin-left: 0;
+    .article-tile {
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+  }
+  // .slick-track .slick-slide.slick-active:nth-child(3n+3) .article-tile {
+  //   margin-left: 0;
+  // }
+  // .slick-track .slick-slide.slick-active:nth-of-type(2n-3) .article-tile {
+  //   padding: 0 10px;
+  // }
+  .slick-prev,
+  .slick-next {
+    height: rem-calc(50);
+    margin-bottom: 0;
+    margin-top: rem-calc(-25);
+    background: rgba(153, 153, 153, 0.8);
+    width: rem-calc(25);
+    box-shadow: 0px 2px 7px 0px #000;
+    &:hover, &:focus {
+      background: rgba(0, 0, 0, 0.8);
+    }
+  }
+  .slick-prev {
+    left: rem-calc(0);
+    &:before {
+      content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
+    }
+  }
+  .slick-next {
+    right: rem-calc(0);
+    &:before {
+      content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
+    }
+  }
+}
