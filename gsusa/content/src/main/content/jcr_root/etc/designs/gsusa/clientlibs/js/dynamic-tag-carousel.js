@@ -1,6 +1,5 @@
 (function(){
-	//const END_POINT = '/content/gsusa/components/article-hub/dynamic-tag-carousel';
-	const END_POINT = '/content/gsusa/en/jcr:content/header/logo';
+	const END_POINT = '/content/gsusa/en/components/article-hub/dynamic-tag-carousel';
 
 	DynamicTagCarousel = function(id, num, defaultTag) {
 		this.id = id;
