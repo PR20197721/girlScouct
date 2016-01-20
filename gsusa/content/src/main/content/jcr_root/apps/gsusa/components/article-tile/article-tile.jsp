@@ -75,7 +75,6 @@
 	if(!articlePath.isEmpty())
         articlePath = articlePath + ".html";
 
-%><p><%=tags.length%></p> <%
 	if(tags != null && tags.length > 0){
 		Tag primaryTag = tags[0];
         Node primaryNode = primaryTag.adaptTo(Node.class);
