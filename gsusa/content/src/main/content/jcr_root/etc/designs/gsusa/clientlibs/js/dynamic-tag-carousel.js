@@ -10,8 +10,6 @@
 		});
 	};
 	
-	console.info('Dynamic Tag Carousel definded.');
-
 	DynamicTagCarousel.prototype.load = function() {
 		var hash = window.location.hash;
 		
