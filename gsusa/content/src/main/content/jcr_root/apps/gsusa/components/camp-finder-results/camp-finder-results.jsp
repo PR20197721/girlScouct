@@ -7,6 +7,11 @@
 	<cq:include script="not-found.jsp" />
 </script>
 
+<%-- Template for invalid zip --%>
+<script id="template-invalidzip" type="text/x-handlebars-template">
+	<cq:include script="invalid-zip.jsp" />
+</script>
+
 <%-- Template for camp list --%>
 <script id="template-camps" type="text/x-handlebars-template">
 	<cq:include script="camp-list.jsp" />
@@ -96,22 +101,42 @@
 
 <script>
 $(function() {
-    $(".dp-calendar").datepicker({
-      navTitles: {
+	var navTitles = {
         days: 'MM <i>yyyy</i>',
         months: 'yyyy',
         years: 'yyyy1 - yyyy2'
-      },
+    };
+	
+    $("#start-desktop").datepicker({
+      navTitles: navTitles,
       onSelect: function (fd, date) {
-        var start = $('#start-desktop'),
-            end = $('#end-desktop');
-        start.data('datepicker').update('maxDate', date);
-        end.data('datepicker').update('minDate', date);
-        $('#start-touch').val(moment(start.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
-        $('#end-touch').val(moment(end.val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
-        
+        var dateStr = $('#start-desktop').val();
+        if (dateStr) {
+        	$('#start-touch').val(moment($('#start-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#end-desktop').data('datepicker').update('minDate', date);
+        } else {
+        	$('#start-touch').val('');
+        	$('#end-desktop').data('datepicker').update('minDate', null);
+        }
         getCampResults();
-      }
+      },
+      autoClose: true
+    });
+
+    $("#end-desktop").datepicker({
+      navTitles: navTitles,
+      onSelect: function (fd, date) {
+        var dateStr = $('#end-desktop').val();
+        if (dateStr) {
+        	$('#end-touch').val(moment($('#end-desktop').val(), 'MM/DD/YYYY').format('YYYY-MM-DD'));
+        	$('#start-desktop').data('datepicker').update('maxDate', date);
+        } else {
+        	$('#end-touch').val('');
+        	$('#start-desktop').data('datepicker').update('maxDate', null);
+        }
+        getCampResults();
+      },
+      autoClose: true
     });
 });
 
@@ -161,7 +186,10 @@ CampFinder.prototype.getResult = function() {
     	data.GSSource = gaparam;
     }
 
-	$('#camp-finder-result').html('');
+    if (this.page == 1) {
+		$('#camp-finder-result').html('');
+    }
+
 	$.ajax({
 		url: this.url,
 		dataType: "json",
@@ -194,16 +222,23 @@ CampFinder.prototype.processResult = function(campResult) {
 		var min = Math.min(camps.length, this.numPerPage); // length - 1 to omit the "more" one
 		for (var campIndex = 0; campIndex < min; campIndex++) {
 			var camp = camps[campIndex];
-			// Add zip field to camp. "View Detail" needs this info.
-			camp.queryZip = this.zip;
+			// Process distance
+			if (camp.Distance == '1') {
+				camp.Distance = "1 mile";
+			} else {
+				camp.Distance += ' miles';
+			}
+
 			// Process emails
-			var origEmails = camp.Email.split(/[;,\s]/);
+			var origEmails = camp.Email.split(/,\s+/);
 			var emails = "";
 			for (var emailIndex = 0; emailIndex < origEmails.length; emailIndex++) {
 				var email = origEmails[emailIndex];
-				emails = emails + '<a href="mailto:' + email + '">' + email + '</a>, '
+				email = email.replace(/([^\s]+@[^\s]+\.[^\s]+)/, '<a href="mailto:$1">$1</a>');
+				emails = emails + email + ', ';
 			}
-			if (emails.endsWith(', ')) {
+			// if (emails.endsWith(', ')) {  Safari on iOS 8.1 does not support endsWith
+			if (emails.lastIndexOf(', ') == emails.length - 2) {
 				emails = emails.substring(0, emails.length - 2);
 			}
 			camp.Emails = emails;
@@ -214,7 +249,11 @@ CampFinder.prototype.processResult = function(campResult) {
 
 		result.camps = camps;
 	} else {
-		templateId = 'notfound';
+		if (result.council && result.council.CouncilName) {
+			templateId = 'notfound';
+		} else {
+			templateId = 'invalidzip';
+		}
 	}
 
 	if (this.page == 1) {

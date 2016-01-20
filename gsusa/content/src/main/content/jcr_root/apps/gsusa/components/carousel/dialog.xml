@@ -83,7 +83,7 @@
                 		xtype="selection"/>
                     <timedelay
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Time Delay of the carousel (in ms)"
+                        fieldLabel="Transition Time of the carousel (in ms)"
                         name="./homecarouseltimedelay"
                         allowNegative="{Boolean}false"
                         allowDecimals="{Boolean}false"
@@ -92,6 +92,17 @@
                         fieldDescription="Default: 1000, Min: 20, Max: 10000"
                         xtype="numberfield">
                     </timedelay>
+                    <autoplayspeed
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Time Delay of the carousel (in ms)"
+                        name="./homecarouselautoplayspeed"
+                        allowNegative="{Boolean}false"
+                        allowDecimals="{Boolean}false"
+                        maxValue="10000"
+                        minValue="20"
+                        fieldDescription="Default: 2000, Min: 20, Max: 10000"
+                        xtype="numberfield">
+                    </autoplayspeed>
                 </items>
             </tab2>
             <tab7
