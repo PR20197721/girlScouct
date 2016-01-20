@@ -507,19 +507,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public List<Asset> getAidTag(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
-
+System.err.println("tata aidTags: getAidTag : 1 : "+ tags +" : "+ meetingName);
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
+System.err.println("tata aidTags: getAidTag : 2");
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			if (tags == null || tags.trim().equals(""))
 				return matched;
-
+System.err.println("tata aidTags: getAidTag : 3");
 			String sql_tag = "";
 			java.util.StringTokenizer t = new java.util.StringTokenizer(tags,
 					";");
@@ -534,7 +534,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
-
+System.err.println("SQL: "+ sql );
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
