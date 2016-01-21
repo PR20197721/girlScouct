@@ -9,15 +9,16 @@
                  com.day.cq.search.Query,
                  com.day.cq.search.PredicateGroup,
                  com.day.cq.search.result.SearchResult,
-                 com.day.cq.search.result.Hit" %>
+                 com.day.cq.search.result.Hit,
+                 org.apache.sling.api.request.RequestPathInfo" %>
 
 <%
 String tag = java.net.URLDecoder.decode(request.getParameter("tag"),"UTF-8");
 int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"),"UTF-8"));
-int pageNum = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("page"),"UTF-8"));
+int pageNum = Integer.parseInt(slingRequest.getRequestPathInfo().getSelectorString());
+
 
 final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
-
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
@@ -43,6 +44,7 @@ for(Hit h : hits){
 	writer.value(jo);
 }
 writer.endArray();
+writer.key("url").value(pageNum);
 writer.endObject();
 
 writer.setTidy("true".equals(request.getParameter("tidy")));
