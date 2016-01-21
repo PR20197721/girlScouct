@@ -77,11 +77,11 @@
     if(playOnClick){
         %>
     <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=StringEscapeUtils.escapeHtml(videoLink)%>')" data-reveal-id="<%=divId%>">
-<% 
+<%
     } else{
     %>
 	<a href="<%=articlePath%>">
-<% 
+<%
     }
     %>
 		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
