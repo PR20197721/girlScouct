@@ -14,6 +14,7 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.util.regex.*,
+	java.util.Random,
 	java.text.DateFormat" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
@@ -91,6 +92,42 @@ public boolean isCookiePage(Page currentPage) {
 		Page parentPage = currentPage.getParent();
 		return parentPage == null ? false : isCookiePage(parentPage);
 	}
+}
+
+public String getResourceLocation(Resource r){
+	String path = r.getPath();
+	if(path.indexOf("jcr:content/content/middle/par") != -1){
+		return "cq5dam.npd.middle.";
+	} else if(path.indexOf("jcr:content/content/top/par") != -1){
+		return "cq5dam.npd.top.";
+	} else if(path.indexOf("jcr:content/content/left/par") != -1){
+		return "cq5dam.npd.left.";
+	} else if(path.indexOf("jcr:content/content/right/par") != -1){
+		return "cq5dam.npd.right.";
+	} else if(path.indexOf("jcr:content/content/hero/par") != -1){
+		return "cq5dam.npd.hero.";
+	} else {
+		return "original";
+	}
+}
+
+public String get2xPath(String path) {
+	int lastIndex = path.lastIndexOf('.');
+	if(lastIndex != -1 && path.indexOf("cq5dam.npd") != -1){
+		return path.substring(0,lastIndex) + "@2x" + path.substring(lastIndex);
+	}
+	else{
+		return path;
+	}
+}
+
+public String generateId() {
+	Random rand=new Random();
+	String possibleLetters = "0123456789abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
 }
 
 %>
