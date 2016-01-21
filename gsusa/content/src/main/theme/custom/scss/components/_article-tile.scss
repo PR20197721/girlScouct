@@ -71,8 +71,31 @@ $lines-to-show: 3;
       padding-left: rem-calc(10);
     }
     ul {
-      @include block-grid(2, $spacing: rem-calc(8));
+      @include block-grid(2, $spacing: rem-calc(20));
     }
+  }
+}
+.related-articles {
+  margin-top: rem-calc(30);
+  padding-top: rem-calc(20);
+  border-top: solid 1px $black;
+  h4 {
+    font-weight: 700;
+    font-size: rem-calc(24);
+    margin-bottom: rem-calc(37);
+  }
+  .block-grid {
+    @media #{$medium-up} {
+      ul {
+        @include block-grid(3, $spacing: rem-calc(20));
+      }
+    }
+    @media #{$small-only} {
+      ul {
+        @include block-grid(1);
+      }
+    }
+
   }
 }
 .reveal-modal {

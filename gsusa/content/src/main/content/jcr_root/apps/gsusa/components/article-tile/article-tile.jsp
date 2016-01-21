@@ -27,7 +27,7 @@
 
 	String imageSrc = "";
 
-	String rgba = "rgba(255, 255, 255, 0.8)";
+	String rgba = "rgba(166, 206, 56, 0.8)";
 
 	Tag[] tags = null;
 
