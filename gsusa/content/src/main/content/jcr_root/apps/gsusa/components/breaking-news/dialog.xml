@@ -45,6 +45,12 @@
                         fieldLabel="News Message"
                         name="./message"
                         xtype="textarea"/>
+                    <textcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Optional) Enter text color in HEX (e.g. ffffff)"
+                        fieldLabel="Text Color"
+                        name="./textcolor"
+                        xtype="textfield"/>
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"

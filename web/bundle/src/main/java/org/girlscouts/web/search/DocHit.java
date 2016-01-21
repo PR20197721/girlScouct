@@ -63,9 +63,10 @@ public final class DocHit extends DocHitBase {
     public String getExcerpt() throws RepositoryException {
         String excerpt = this.hit.getExcerpt();
        	if(excerpt == null) { 
-		return "";
-	}
-	Matcher queryMatcher = STRONG_PATTERN.matcher(excerpt);
+       		return "";
+		}
+
+       	Matcher queryMatcher = STRONG_PATTERN.matcher(excerpt);
         String queryString = null;
         if (queryMatcher.find()) {
             queryString = STRIP_STRONG_PATTERN.matcher(queryMatcher.group()).replaceAll("");
@@ -86,8 +87,19 @@ public final class DocHit extends DocHitBase {
         if(excerpt.indexOf(APPL_VND) >0){
         	excerpt = excerpt.replaceAll(APPL_VND," ");
         }
+
         return excerpt;
     }
+
+    // for gsusa use only. for some reason original getExcerpt does not highlight correctly.
+    public String getRawExcerpt() throws RepositoryException {
+        String excerpt = this.hit.getExcerpt();
+       	if(excerpt == null) { 
+       		return "";
+		}
+        return excerpt;
+    }
+    
     
     public String getDescription() {
         try {
