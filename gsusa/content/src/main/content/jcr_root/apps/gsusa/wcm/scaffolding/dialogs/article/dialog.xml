@@ -73,7 +73,7 @@
                     <external-video
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}true"
-                        fieldLabel="Video Link"
+                        fieldLabel="Video Embed"
                         name="./jcr:content/videoLink"/>
                     <externalLink
                         jcr:primaryType="cq:Widget"
