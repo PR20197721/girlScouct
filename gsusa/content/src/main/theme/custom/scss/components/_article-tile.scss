@@ -75,3 +75,21 @@ $lines-to-show: 3;
     }
   }
 }
+.reveal-modal {
+  .video-popup {
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: rem-calc(50);
+    iframe {
+      width: 100%;
+    }
+  }
+  .close {
+    position: relative;
+    height: rem-calc(40);
+    width: 100%;
+    a {
+      top:0;
+    }
+  }
+}

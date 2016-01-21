@@ -73,5 +73,6 @@
         </ul>
     </div>
     <div id="<%=tileModalDivId%>" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" role="dialog">
-        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        <div class="close"><a class="close-reveal-modal" aria-label="Close">&#215;</a></div>
+        <div class="video-popup"></div>
     </div>

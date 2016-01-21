@@ -881,12 +881,11 @@ function printObjectProperties(objectToInspect) {
   }
 }
 
-function populateVideoIntoModal(divId, videoLink){	
-	console.log("Triggered");
-    var parent = document.getElementById(divId);
-    parent.innerHTML = videoLink;
-    return false;
-
+function populateVideoIntoModal(divId, videoLink, e) {
+  var parent = $("#" + divId + " " + ".video-popup");
+  parent.html(videoLink);
+  e.preventDefault();
+  return false;
 }
 
 function setupContactLocalCouncilForm() {
