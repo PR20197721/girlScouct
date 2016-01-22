@@ -31,7 +31,7 @@
     }
 
 	if(type.equals("video")){%>
-    <div><%=videoLink%></div>
+        <%=videoLink%>
     <%} else{%>
-	<div><img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.hubHero.")%>"/></div>
+	   <img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.hubHero.")%>" alt=""/>
     <%}%>

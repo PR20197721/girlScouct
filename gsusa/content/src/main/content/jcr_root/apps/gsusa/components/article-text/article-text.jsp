@@ -2,7 +2,7 @@
 
   Article Text component.
 
-  
+
 
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%><%
@@ -30,8 +30,5 @@
 
 %>
 
-<div>
-    <p><i>Edited: <%=editedDate%></i></p>
-    <%=articleText%>
-
-</div>
+<i>Edited: <%=editedDate%></i>
+<%=articleText%>

@@ -129,3 +129,19 @@ $lines-to-show: 3;
     }
   }
 }
+//article page related styles
+.article-hero {
+  margin-bottom: rem-calc(25);
+  img {
+    width: 100%;
+  }
+}
+.article-text {
+  i {
+    margin-bottom: rem-calc(25);
+    display: inline-block;
+  }
+  p {
+    font-size: rem-calc(16);
+  }
+}
