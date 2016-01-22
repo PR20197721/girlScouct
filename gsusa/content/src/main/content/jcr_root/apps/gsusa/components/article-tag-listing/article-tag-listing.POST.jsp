@@ -18,7 +18,7 @@ int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"
 int pageNum = Integer.parseInt(slingRequest.getRequestPathInfo().getSelectorString());
 
 
-final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
+//final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
@@ -35,7 +35,7 @@ SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 
 long total = sr.getTotalMatches();
-writer.object().key("total").value(total).key("more").value(num*pageNum < total ? "true" : "false");
+/*writer.object().key("total").value(total).key("more").value(num*pageNum < total ? "true" : "false");
 
 writer.key("results").array();
 for(Hit h : hits){
@@ -47,5 +47,10 @@ writer.endArray();
 writer.key("pageNum").value(pageNum);
 writer.endObject();
 
-writer.setTidy("true".equals(request.getParameter("tidy")));
+writer.setTidy("true".equals(request.getParameter("tidy")));*/
+
+for (Hit h : hits){
+	request.setAttribute("articlePath", h.getPath()); %>
+	<cq:include script="/apps/gsusa/components/article-tile/article-tile.jsp" /><%
+	}
 %>

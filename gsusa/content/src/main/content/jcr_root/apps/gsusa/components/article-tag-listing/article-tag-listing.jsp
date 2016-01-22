@@ -7,9 +7,9 @@ int num = Integer.parseInt(properties.get("num","9"));
 
 if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	%> *** Please select a tag *** <%
-} else{
+} else{ %>
 
-slingRequest.setAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE, true); %>
+<div id="article-list"/></div>
 
 <script>
 var page = 1;
@@ -21,17 +21,13 @@ if(!isNaN(parseInt(url[url.length-2]))){
 function loadResults(){
 	$.ajax({
 		type: "POST",
-		dataType: "json",
+		dataType: "html",
 		url: "<%= resource.getPath() %>."+ page + ".html",
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
 		    	page: page},
 		success: function(res){
-			console.log(res);
-			if(res.more == "false"){
-				$(".load-more").prop("disabled",true);
-				$(".load-more").css("display","none");
-			}
+			$("#article-list").append(res);
 		}
 	});
 }
@@ -47,5 +43,4 @@ $(".load-more").click(function(event){
 });
 </script>
 
-<% slingRequest.removeAttribute(ComponentContext.BYPASS_COMPONENT_HANDLING_ON_INCLUDE_ATTRIBUTE); %>
 <% } %>
