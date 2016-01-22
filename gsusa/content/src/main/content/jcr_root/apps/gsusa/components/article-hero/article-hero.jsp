@@ -1,21 +1,16 @@
 <%--
-
   Article Hero component.
-
-  
-
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page session="false" %><%
 %><%
 	String pagePath = currentPage.getPath();
-
 	String type = "";
 	String videoLink = "";
 	String imageSrc = "";
 
-	try{
+	try {
         Node node =   resourceResolver.getResource(pagePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
 
