@@ -3,10 +3,11 @@
 
 <% 
 String tag = properties.get("tag","");
+String path = properties.get("path","");
 int num = Integer.parseInt(properties.get("num","9"));
 
-if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> *** Please select a tag *** <%
+if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMode.EDIT){
+	%> *** Please select a tag and/or path *** <%
 } else{ %>
 
 <div id="article-list"/></div>
@@ -25,7 +26,8 @@ function loadResults(){
 		url: "<%= resource.getPath() %>.ajax."+ page + ".html",
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
-		    	page: page},
+		    	page: page,
+		    	path: "<%= path %>"},
 		success: function(res){
 			$("#article-list").append(res);
 		}

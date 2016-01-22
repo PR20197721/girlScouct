@@ -30,6 +30,12 @@
 						value="9"
 						defaultValue="{Long}9"
 						xtype="numberfield" />
+					<path
+	                	jcr:primaryType="cq:Widget"
+	                	fieldLabel="Path to Content Repository"
+	                	name="./path"
+	                	rootPath="/content/gsusa/en"
+	                	xtype="pathfield" />
                 </items>
             </tab1>
         </items>
