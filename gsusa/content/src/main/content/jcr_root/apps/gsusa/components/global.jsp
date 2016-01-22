@@ -121,7 +121,7 @@ public String get2xPath(String path) {
 	}
 }
 
-public String generateId() {
+public String genId() {
 	Random rand=new Random();
 	String possibleLetters = "0123456789abcdefghijklmnopqrstuvwxyz";
 	StringBuilder sb = new StringBuilder(6);
