@@ -63,7 +63,7 @@
         <f10
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/gsusa"
+            root="/content/gsusa/en/components/article-hub/dynamic-tag-carousel"
             rules="[]"/>
         <f11
             jcr:primaryType="sling:Folder"
