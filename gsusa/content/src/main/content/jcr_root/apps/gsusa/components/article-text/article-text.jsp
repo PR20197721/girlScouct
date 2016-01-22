@@ -11,6 +11,7 @@
 	String pagePath = currentPage.getPath();
 
 	String articleText = "";
+	String editedDate = "";
 
 	try{
         Node node =   resourceResolver.getResource(pagePath).adaptTo(Node.class);
@@ -18,6 +19,9 @@
 
         if(propNode.hasProperty("articleText"))
         articleText = propNode.getProperty("articleText").getString();
+
+        if(propNode.hasProperty("editedDate"))
+        editedDate = propNode.getProperty("editedDate").getString();
 
 
     } catch(Exception e){
@@ -27,5 +31,7 @@
 %>
 
 <div>
-	<%=articleText%>
+    <p><i>Edited: <%=editedDate%></i></p>
+    <%=articleText%>
+
 </div>
