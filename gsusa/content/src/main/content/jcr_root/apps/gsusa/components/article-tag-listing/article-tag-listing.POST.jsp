@@ -27,7 +27,6 @@ map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
 map.put("p.offset", num*(pageNum-1) + "");
-map.put("p.guessTotal",num + "");
 map.put("orderby","@jcr:content/editedDate");
 map.put("orderby.sort","desc");
 
@@ -35,7 +34,8 @@ Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.a
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 
-writer.object().key("total").value(hits.size()).key("more").value(sr.getNextPage() != null ? "true" : "false");
+long total = sr.getTotalMatches();
+writer.object().key("total").value(total).key("more").value(num*pageNum < total ? "true" : "false");
 
 writer.key("results").array();
 for(Hit h : hits){
@@ -44,7 +44,7 @@ for(Hit h : hits){
 	writer.value(jo);
 }
 writer.endArray();
-writer.key("url").value(pageNum);
+writer.key("pageNum").value(pageNum);
 writer.endObject();
 
 writer.setTidy("true".equals(request.getParameter("tidy")));

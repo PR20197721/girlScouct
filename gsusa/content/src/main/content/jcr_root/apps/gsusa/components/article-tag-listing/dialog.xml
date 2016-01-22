@@ -17,7 +17,7 @@
 						fieldLabel="Article Tag"
 						xtype="tags"
 						suggestMinChars="1"
-						name="./cq:tags">
+						name="./tag">
 						<namespaces jcr:primaryType="cq:WidgetCollection">  
 							<ns1 jcr:primaryType="nt:unstructured" maximum="1"  name="gsusa" />
 						</namespaces> 
