@@ -270,3 +270,14 @@
     }
   }
 }
+
+.standalone-camp-finder {
+  @media #{$small-only} {
+    #main &, .main-content & {
+      display: none;
+    }
+    .header .main-content & {
+      display: visible;
+    }
+  }
+ }
