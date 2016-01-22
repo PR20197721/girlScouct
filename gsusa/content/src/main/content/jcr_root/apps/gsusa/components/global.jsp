@@ -14,6 +14,7 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.util.regex.*,
+	java.util.Random,
 	java.text.DateFormat" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
@@ -118,6 +119,15 @@ public String get2xPath(String path) {
 	else{
 		return path;
 	}
+}
+
+public String genId() {
+	Random rand=new Random();
+	String possibleLetters = "0123456789abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
 }
 
 %>

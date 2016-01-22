@@ -1,5 +1,8 @@
 <div class="result">
-    <h5><a href="{{Website}}" target="_blank">{{CouncilName}}</a></h5>
+    <div class="row">
+        <h5 class="columns large-17 medium-17 small-24"><a href="{{Website}}" target="_blank">{{CouncilName}}</a></h5>
+        <i class="columns large-6 medium-6 small-24">{{Distance}} from {{../env.zip}}</i>
+    </div>
     <p>Camp Name: {{CampName}}</p>
     <p>Camp Location: {{CampCity}}, {{CampState}}</p>
     <p>Camp Dates: {{DateDescription}}</p>
@@ -7,7 +10,7 @@
     <p>Fees: {{Fee}}</p>
     <p>Grades the Camp Serves: {{GradeDescription}}</p>
     <p>Website: <a href="{{Website}}" target="_blank">{{Website}}</a></p>
-    <p>Contact information: {{{Emails}}} or {{Phone}}</p>
+    <p>Contact Information: {{{Emails}}} or {{Phone}}</p>
     <div class="more-section">
         <section style="display:none;">
          <p>{{CampDescription}}</p>

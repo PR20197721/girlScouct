@@ -1,7 +1,7 @@
 $font-size: 14px;
 $line-height: 1.4;
 $lines-to-show: 3;
-.article-tile.section {
+.article-tile {
   section {
     position: relative;
     a {
@@ -11,12 +11,19 @@ $lines-to-show: 3;
         .text-content {
           height: 100%;
         }
-        // p {
-        //   height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
-        // }
+        p {
+          height: 100%;
+        }
+        h3 {
+          white-space: normal;
+          width: 100%;
+          overflow: visible;
+        }
       }
     }
     img {
+      height: 100%;
+      width: 100%;
     }
     .text-content {
       bottom: 0;
@@ -26,7 +33,7 @@ $lines-to-show: 3;
       position: absolute;
       width: 100%;
       transition: height 1s;
-      height: rem-calc(45);
+      height: rem-calc(55);
       overflow: hidden;
       * {
         color: $white;
@@ -34,6 +41,11 @@ $lines-to-show: 3;
       h3 {
         font-size: rem-calc(21);
         line-height: rem-calc(24);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 90%;
+        overflow: hidden;
+        margin-bottom: 1rem;
       }
       p {
         font-size: rem-calc(14);
@@ -52,6 +64,68 @@ $lines-to-show: 3;
         line-height: $line-height;
         height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
       }
+    }
+  }
+}
+.featured-articles {
+  @include grid-row();
+  > div > .article-tile {
+    @media #{$medium-up} {
+      @include grid-column(12, $collapse:true);
+      padding-right: rem-calc(10);
+    }
+    @media #{$small-only} {
+      margin-bottom: rem-calc(15);
+    }
+  }
+  .block-grid {
+    @media #{$medium-up} {
+      @include grid-column(12, $collapse:true);
+      padding-left: rem-calc(10);
+    }
+    ul {
+      @include block-grid(2, $spacing: rem-calc(20));
+    }
+  }
+}
+.related-articles {
+  margin-top: rem-calc(30);
+  padding-top: rem-calc(20);
+  border-top: solid 1px $black;
+  h4 {
+    font-weight: 700;
+    font-size: rem-calc(24);
+    margin-bottom: rem-calc(37);
+  }
+  .block-grid {
+    @media #{$medium-up} {
+      ul {
+        @include block-grid(3, $spacing: rem-calc(20));
+      }
+    }
+    @media #{$small-only} {
+      ul {
+        @include block-grid(1);
+      }
+    }
+
+  }
+}
+.reveal-modal {
+  .video-popup {
+    width: 90%;
+    margin: 0 auto;
+    padding-bottom: rem-calc(50);
+    iframe {
+      width: 100%;
+    }
+  }
+  .close {
+    position: relative;
+    height: rem-calc(40);
+    width: 100%;
+    a {
+      top:0;
     }
   }
 }
