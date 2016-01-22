@@ -10,7 +10,10 @@ if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMod
 	%> *** Please select a tag and/or path *** <%
 } else{ %>
 
-<div id="article-list"/></div>
+<div class="related-articles"></div>
+<div class="block-grid"></div>
+<ul id="article-list">
+</ul>
 
 <script>
 var page = 1;
