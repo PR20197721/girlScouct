@@ -21,12 +21,17 @@ if(!isNaN(parseInt(url[url.length-2]))){
 function loadResults(){
 	$.ajax({
 		type: "POST",
+		dataType: "json",
 		url: "<%= resource.getPath() %>."+ page + ".html",
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
 		    	page: page},
 		success: function(res){
-			console.log("RESPONSE: " + res);
+			console.log(res);
+			if(res.more == "false"){
+				$(".load-more").prop("disabled",true);
+				$(".load-more").css("display","none");
+			}
 		}
 	});
 }
