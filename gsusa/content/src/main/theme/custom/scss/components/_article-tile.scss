@@ -11,6 +11,14 @@ $lines-to-show: 3;
         .text-content {
           height: 100%;
         }
+        p {
+          height: 100%;
+        }
+        h3 {
+          white-space: normal;
+          width: 100%;
+          overflow: visible;
+        }
       }
     }
     img {
@@ -25,7 +33,7 @@ $lines-to-show: 3;
       position: absolute;
       width: 100%;
       transition: height 1s;
-      height: rem-calc(45);
+      height: rem-calc(55);
       overflow: hidden;
       * {
         color: $white;
@@ -33,6 +41,11 @@ $lines-to-show: 3;
       h3 {
         font-size: rem-calc(21);
         line-height: rem-calc(24);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 90%;
+        overflow: hidden;
+        margin-bottom: 1rem;
       }
       p {
         font-size: rem-calc(14);
