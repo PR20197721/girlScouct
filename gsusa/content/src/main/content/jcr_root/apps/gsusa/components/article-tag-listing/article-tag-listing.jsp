@@ -20,9 +20,9 @@ if(!isNaN(parseInt(url[url.length-2]))){
 
 function loadResults(){
 	$.ajax({
-		type: "POST",
+		type: "GET",
 		dataType: "html",
-		url: "<%= resource.getPath() %>."+ page + ".html",
+		url: "<%= resource.getPath() %>.ajax."+ page + ".html",
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
 		    	page: page},
