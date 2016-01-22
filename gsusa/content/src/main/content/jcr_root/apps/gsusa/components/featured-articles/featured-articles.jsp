@@ -24,13 +24,14 @@
 	String smallArticle4 = properties.get("smallArticle4", "");
 %>
 <div>
+<div>
 	<%
     if(!largeArticle.isEmpty()){
     	request.setAttribute("articlePath", largeArticle);%>
 	<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
 </div>
     <%} else{%>
-    <p>Configure article</p>
+    <div><section>LARGE ARTICLE</section></div>
     <%}%>
 	<div class="block-grid">
     	<ul>
@@ -40,7 +41,7 @@
         			request.setAttribute("articlePath", smallArticle1);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else { %>
-        			<p>Configure article</p>
+                <section>ARTICLE 1</section>
         		<% } %>
             </li>
             <li>
@@ -49,7 +50,7 @@
         			request.setAttribute("articlePath", smallArticle2);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else { %>
-        			<p>Configure article</p>
+        			<section>ARTICLE 2</section>
         		<%}%>
             </li>
     		<li>
@@ -58,7 +59,7 @@
         			request.setAttribute("articlePath", smallArticle3);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else { %>
-        			<p>Configure article</p>
+        			<section>ARTICLE 3</section>
         		<% } %>
             </li>
             <li>
@@ -67,7 +68,7 @@
         			request.setAttribute("articlePath", smallArticle4);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else { %>
-        			<p>Configure article</p>
+        			<section>ARTICLE 4</section>
         		<% } %>
             </li>
         </ul>
@@ -76,3 +77,4 @@
         <div class="close"><a class="close-reveal-modal" aria-label="Close">&#215;</a></div>
         <div class="video-popup"></div>
     </div>
+</div>

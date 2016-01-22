@@ -6,80 +6,23 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-            <tab1
+            <tab2
                 jcr:primaryType="cq:Panel"
-                title="Tile Configuration">
+                title="Article Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <tileTitle
+                    <articleTitle
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldDescription="Please input a title"
-                        fieldLabel="Tile Title"
-                        name="./jcr:content/tileTitle"
-                        xtype="textfield"/>
-                    <tileSummary
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldLabel="Tile Summary"
-                        name="./jcr:content/tileSummary"
-                        xtype="textarea"/>
-                    <tilePriority
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}true"
-                        fieldDescription="The priority for sorting tiles within a carousel"
-                        fieldLabel="Tile Priority"
-                        name="./jcr:content/tilePriority"
-                        xtype="numberfield"/>
-                </items>
-            </tab1>
-            <tab2
-                jcr:primaryType="cq:Panel"
-                title="Article Configuartion">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <articleName
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldLabel="Article Name"
+                        fieldLabel="Article Title"
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
-                    <type
+                    <articleText
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
-                        fieldLabel="Type"
-                        name="./jcr:content/type"
-                        type="radio"
-                        xtype="selection">
-                        <options jcr:primaryType="cq:WidgetCollection">
-                            <option0
-                                jcr:primaryType="nt:unstructured"
-                                text="Photo"
-                                value="photo"/>
-                            <option1
-                                jcr:primaryType="nt:unstructured"
-                                text="Video"
-                                value="video"/>
-                            <option2
-                                jcr:primaryType="nt:unstructured"
-                                text="External Link"
-                                value="external-link"/>
-                        </options>
-                    </type>
-                    <playOnClick
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldLabel="Play On Click"
-                        name="./jcr:content/playOnClick"
-                        xtype="checkbox"/>
-                    <external-video
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}true"
-                        fieldLabel="Video Embed"
-                        name="./jcr:content/videoLink"/>
-                    <externalLink
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="External Link"
-                        name="./jcr:content/externalLink"
-                        xtype="textfield"/>
+                        fieldLabel="Article Text"
+                        name="./jcr:content/articleText"
+                        xtype="richtext"/>
                     <image
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -106,16 +49,67 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
+                    <editedDate
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Input the edited date for the article"
+                        fieldLabel="Edited Date"
+                        name="./jcr:content/editedDate"
+                        xtype="datefield"/>
+                    <articlePriority
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        defaultValue="0"
+                        fieldDescription="Enter a number to specify article priority. A higher number grants higher priority. The default is 0 at the lowest priority"
+                        fieldLabel="Article Priority"
+                        name="./jcr:content/articlePriority"
+                        xtype="numberfield"/>
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        defaultValue="photo"
+                        fieldLabel="Article Type"
+                        name="./jcr:content/type"
+                        type="radio"
+                        value="photo"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <photo
+                                jcr:primaryType="nt:unstructured"
+                                text="Photo"
+                                value="photo"/>
+                            <video
+                                jcr:primaryType="nt:unstructured"
+                                text="Video"
+                                value="video"/>
+                            <link
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                        </options>
+                    </type>
+                    <playOnClick
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Play On Click"
+                        name="./jcr:content/playOnClick"
+                        xtype="checkbox"/>
+                    <external-video
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldDescription="e.g. &amp;lt;iframe width=&amp;quot;560&amp;quot; height=&amp;quot;315&amp;quot; src=&amp;quot;https://www.youtube.com/embed/0OZO7atPNXE&amp;quot; frameborder=&amp;quot;0&amp;quot; allowfullscreen&amp;gt;&amp;lt;/iframe&amp;gt;"
+                        fieldLabel="Video Embed"
+                        name="./jcr:content/videoLink"/>
+                    <externalLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Link"
+                        name="./jcr:content/externalLink"
+                        xtype="textfield"/>
                     <primaryTag
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
+                        fieldDescription="The first tag in the list is the primary tag for the article"
                         fieldLabel="Primary Tag"
-                        name="./jcr:content/cq:tags"
-                        namespaces="[gsusa]"
-                        xtype="tags"/>
-                    <secondaryTags
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Secondary Tags"
                         name="./jcr:content/cq:tags"
                         namespaces="[gsusa]"
                         xtype="tags"/>
@@ -125,13 +119,6 @@
                         hidden="{Boolean}true"
                         name="./jcr:content/sling:vanityPath"
                         xtype="textfield"/>
-                    <editedDate
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        fieldDescription="Input the edited date for the article"
-                        fieldLabel="Edited Date"
-                        name="./jcr:content/editedDate"
-                        xtype="datefield"/>
                 </items>
             </tab2>
         </items>

@@ -14,7 +14,7 @@
   String articlePath = (String)request.getAttribute("articlePath");
 
 	String tileTitle = "";
-    String tileSummary = "";
+    String tileText = "";
     long priority = 0;
     String type = "";
     String videoLink = "";
@@ -34,14 +34,12 @@
 	try{
         Node node =   resourceResolver.getResource(articlePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
-        if(propNode.hasProperty("tileTitle"))
-        tileTitle = propNode.getProperty("tileTitle").getString();
 
-        if(propNode.hasProperty("tileSummary"))
-        tileSummary = propNode.getProperty("tileSummary").getString();
+        if(propNode.hasProperty("jcr:title"))
+        tileTitle = propNode.getProperty("jcr:title").getString();
 
-        if(propNode.hasProperty("tilePriority"))
-        priority = propNode.getProperty("tilePriority").getLong();
+        if(propNode.hasProperty("articleText"))
+        tileText = propNode.getProperty("articleText").getString();
 
         if(propNode.hasProperty("type"))
         type = propNode.getProperty("type").getString();
@@ -109,7 +107,7 @@
 		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
-			<p><%=tileSummary%></p>
+			<p><%=tileText%></p>
 		</div>
 	</a>
 </section>
