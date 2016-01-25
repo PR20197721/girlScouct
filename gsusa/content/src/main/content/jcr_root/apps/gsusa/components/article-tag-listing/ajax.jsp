@@ -44,7 +44,8 @@ long total = sr.getTotalMatches();
 for (Hit h : hits){
 	request.setAttribute("articlePath", h.getPath()); %>
 	<li>
-	<cq:include script="/apps/gsusa/components/article-tile/article-tile.jsp" /></li><%
+	<div class="article-tile">
+	<cq:include script="/apps/gsusa/components/article-tile/article-tile.jsp" /></li></div><%
 }
 if(total <= num*pageNum){
 	%> 
