@@ -49,7 +49,7 @@ for (Hit h : hits){
 }
 if(total <= num*pageNum){
 	%> 
-	<script>$(".load-more").css("display","none");</script>
+	<script>$("#more").css("display","none");</script>
 	<%
 }
 %>
