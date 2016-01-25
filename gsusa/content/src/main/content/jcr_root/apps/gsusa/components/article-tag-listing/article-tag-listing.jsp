@@ -1,7 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 
-<% 
+<%
 String tag = properties.get("tag","");
 String path = properties.get("path","");
 int num = Integer.parseInt(properties.get("num","9"));

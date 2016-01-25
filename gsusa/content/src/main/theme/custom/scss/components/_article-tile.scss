@@ -111,6 +111,11 @@ $lines-to-show: 3;
 
   }
 }
+.article-tag-listing {
+  .related-articles {
+    border: none;
+  }
+}
 .reveal-modal {
   .video-popup {
     width: 90%;
