@@ -4,7 +4,7 @@
 <%@include file="/apps/gsusa/components/global.jsp"%>
 
 <%
-	String id = "dynamic-tag-carousel-" + generateId();
+	String id = "dynamic-tag-carousel-" + genId();
 	String num = properties.get("num", "20");
 	
 	Tag[] tags = currentPage.getTags();
