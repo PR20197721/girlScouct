@@ -115,7 +115,13 @@ $lines-to-show: 3;
   .related-articles {
     border-bottom: solid 1px #e1e1e1;
     border-top: none;
-    margin-bottom: 20px;
+  }
+  .more-link {
+    text-align: center;
+  }
+  #more {
+    margin: rem-calc(20 0);
+    display: inline-block;
   }
 }
 .reveal-modal {

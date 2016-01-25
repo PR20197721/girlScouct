@@ -40,7 +40,7 @@ function loadResults(){
 }
 </script>
 
-<a id="more" title="show more results">LOAD MORE</a>
+<p class="more-link"><a id="more" title="show more results">LOAD MORE</a></p>
 
 <script>
 $("#more").click(function(event){
