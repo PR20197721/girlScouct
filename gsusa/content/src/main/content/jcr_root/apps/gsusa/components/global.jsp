@@ -94,6 +94,18 @@ public boolean isCookiePage(Page currentPage) {
 	}
 }
 
+public boolean isContentHub(Page currentPage) {
+	String isContentHub = currentPage.getProperties().get("isContentHub", "derived");
+	if ("true".equals(isContentHub)) {
+		return true;
+	} else if ("false".equals(isContentHub)) {
+		return false;
+	} else {
+		Page parentPage = currentPage.getParent();
+		return parentPage == null ? false : isContentHub(parentPage);
+	}
+}
+
 public String getResourceLocation(Resource r){
 	String path = r.getPath();
 	if(path.indexOf("jcr:content/content/middle/par") != -1){

@@ -2,10 +2,12 @@
                 java.util.Iterator,
                 com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     StringBuilder sb = new StringBuilder();
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
+    boolean isContentHub = isContentHub(currentPage);
 
     String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
     while (currentPage.isHideInNav()) {
@@ -22,6 +24,7 @@
     
     
 %>
+<%=isContentHub %>
 <nav class="left-nav">
   <ul>
     <li class="active<%= rootPageCurrent %>">
