@@ -130,6 +130,40 @@
         browseDialog.show();
     }
 
+        
+    function articleTypeChanged(field, value) {
+        var parent = field.findParentByType('panel'); 
+        var videoLink = parent.find('name', './jcr:content/videoLink')[0];
+        var playOnClick = parent.find('name', './jcr:content/playOnClick')[0];
+        var link = parent.find('name', './jcr:content/externalLink')[0];
+        switch (value) {
+        case 'photo':
+        	videoLink.hide();
+        	videoLink.setDisabled(true);
+        	playOnClick.hide();
+        	playOnClick.setDisabled(true);
+        	link.hide();
+        	link.setDisabled(true);
+        	break;
+        case 'video':
+        	videoLink.show();
+        	videoLink.setDisabled(false);
+        	playOnClick.show();
+        	playOnClick.setDisabled(false);
+        	link.hide();
+        	link.setDisabled(true);
+        	break;
+        case 'link':
+        	videoLink.hide();
+        	videoLink.setDisabled(true);
+        	playOnClick.hide();
+        	playOnClick.setDisabled(true);
+        	link.show();
+        	link.setDisabled(false);
+        	break;
+        }
+    }
+
     CQ.Ext.onReady(function() {
         /**
          * An array containing the xtype of widgets that need to call

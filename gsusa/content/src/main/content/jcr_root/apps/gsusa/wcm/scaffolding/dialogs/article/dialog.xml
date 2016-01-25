@@ -87,6 +87,10 @@
                                 text="Link"
                                 value="link"/>
                         </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            afterrender="function(field){articleTypeChanged(field, field.getValue());}"
+                            selectionchanged="function(field, value){articleTypeChanged(field, value);}"/>
                     </type>
                     <playOnClick
                         jcr:primaryType="cq:Widget"
@@ -96,12 +100,13 @@
                         xtype="checkbox"/>
                     <external-video
                         jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}true"
+                        allowBlank="{Boolean}false"
                         fieldDescription="e.g. &amp;lt;iframe width=&amp;quot;560&amp;quot; height=&amp;quot;315&amp;quot; src=&amp;quot;https://www.youtube.com/embed/0OZO7atPNXE&amp;quot; frameborder=&amp;quot;0&amp;quot; allowfullscreen&amp;gt;&amp;lt;/iframe&amp;gt;"
                         fieldLabel="Video Embed"
                         name="./jcr:content/videoLink"/>
                     <externalLink
                         jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
                         fieldLabel="Link"
                         name="./jcr:content/externalLink"
                         xtype="textfield"/>
