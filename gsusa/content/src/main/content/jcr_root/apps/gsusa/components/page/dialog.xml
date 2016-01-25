@@ -94,6 +94,26 @@
                                     value="false"/>
                             </options>
                         </is-cookie-page>
+                        <is-content-hub
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Article pages in content hub follows different logic for the left navigation"
+                            fieldLabel="Is Content Hub"
+                            name="./isContentHub"
+                            type="radio"
+                            defaultValue="false"
+                            value="false"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-content-hub>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:title"
