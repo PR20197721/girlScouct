@@ -113,7 +113,9 @@ $lines-to-show: 3;
 }
 .article-tag-listing {
   .related-articles {
-    border: none;
+    border-bottom: solid 1px #e1e1e1;
+    border-top: none;
+    margin-bottom: 20px;
   }
 }
 .reveal-modal {

@@ -11,10 +11,10 @@ if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMod
 } else{ %>
 
 <div class="related-articles">
-<div class="block-grid">
-<ul id="article-list">
-</ul>
-</div>
+	<div class="block-grid">
+		<ul id="article-list">
+		</ul>
+	</div>
 </div>
 
 <script>
@@ -40,10 +40,10 @@ function loadResults(){
 }
 </script>
 
-<a class="button load-more" >Load More</a>
+<a id="more" title="show more results">LOAD MORE</a>
 
 <script>
-$(".load-more").click(function(event){
+$("#more").click(function(event){
 	event.preventDefault();
 	loadResults();
 	page++;
