@@ -1,20 +1,20 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 
-<% 
+<%
 String tag = properties.get("tag","");
 String path = properties.get("path","");
 int num = Integer.parseInt(properties.get("num","9"));
 
 if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> *** Please select a tag and/or path *** <%
+	%> *** Please select a tag and path *** <%
 } else{ %>
 
 <div class="related-articles">
-<div class="block-grid">
-<ul id="article-list">
-</ul>
-</div>
+	<div class="block-grid">
+		<ul id="article-list">
+		</ul>
+	</div>
 </div>
 
 <script>
@@ -40,10 +40,10 @@ function loadResults(){
 }
 </script>
 
-<a class="button load-more" >Load More</a>
+<p class="more-link"><a id="more" title="show more results">LOAD MORE</a></p>
 
 <script>
-$(".load-more").click(function(event){
+$("#more").click(function(event){
 	event.preventDefault();
 	loadResults();
 	page++;

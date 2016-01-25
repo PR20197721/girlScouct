@@ -111,6 +111,19 @@ $lines-to-show: 3;
 
   }
 }
+.article-tag-listing {
+  .related-articles {
+    border-bottom: solid 1px #e1e1e1;
+    border-top: none;
+  }
+  .more-link {
+    text-align: center;
+  }
+  #more {
+    margin: rem-calc(20 0);
+    display: inline-block;
+  }
+}
 .reveal-modal {
   .video-popup {
     width: 90%;

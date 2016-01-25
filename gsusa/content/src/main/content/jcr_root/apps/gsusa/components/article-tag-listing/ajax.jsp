@@ -30,7 +30,7 @@ map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
 map.put("p.offset", num*(pageNum-1) + "");
-map.put("orderby","@jcr:content/tilePriority");
+map.put("orderby","@jcr:content/articlePriority");
 map.put("orderby.sort","desc");
 map.put("2_orderby","@jcr:content/editedDate");
 map.put("2_orderby.sort","desc");
@@ -49,7 +49,7 @@ for (Hit h : hits){
 }
 if(total <= num*pageNum){
 	%> 
-	<script>$(".load-more").css("display","none");</script>
+	<script>$("#more").css("display","none");</script>
 	<%
 }
 %>
