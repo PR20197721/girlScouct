@@ -87,6 +87,9 @@
                                 text="Link"
                                 value="link"/>
                         </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            selectionchanged="function(field, value){alert('changed!!' + value);}"/>
                     </type>
                     <playOnClick
                         jcr:primaryType="cq:Widget"
