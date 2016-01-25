@@ -89,7 +89,8 @@
                         </options>
                         <listeners
                             jcr:primaryType="nt:unstructured"
-                            selectionchanged="function(field, value){alert('changed!!' + value);}"/>
+                            afterrender="function(field){articleTypeChanged(field, field.getValue());}"
+                            selectionchanged="function(field, value){articleTypeChanged(field, value);}"/>
                     </type>
                     <playOnClick
                         jcr:primaryType="cq:Widget"
