@@ -7,7 +7,7 @@ String path = properties.get("path","");
 int num = Integer.parseInt(properties.get("num","9"));
 
 if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> *** Please select a tag and/or path *** <%
+	%> *** Please select a tag and path *** <%
 } else{ %>
 
 <div class="related-articles">
