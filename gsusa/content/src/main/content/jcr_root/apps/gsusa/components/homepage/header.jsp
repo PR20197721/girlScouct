@@ -42,7 +42,6 @@
 </div>
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
 <% 
-if (isCookiePage(currentPage)) { 
 	String cookiePlaceholderPath = currentPage.getContentResource().getPath();
 	Page cp = currentPage;
 	while (cp.getParent() != null) {
@@ -53,7 +52,5 @@ if (isCookiePage(currentPage)) {
 	}
 %>
 	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
-<%
-} %>
 
 <!--/header -->

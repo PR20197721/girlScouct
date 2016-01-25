@@ -1,9 +1,11 @@
 .standalone-cookie-header,
 .cookie-header {
   @media #{$small-only} {
-    #main & {
-      display: none;
-    }
+  	&:not(.mobile-cookie-finder) {
+	    #main &, .main-content & {
+	      display: none;
+	    }
+	}
   }
   .help-msg{
   	text-align:left;
