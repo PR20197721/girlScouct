@@ -139,18 +139,27 @@
         switch (value) {
         case 'photo':
         	videoLink.hide();
+        	videoLink.setDisabled(true);
         	playOnClick.hide();
+        	playOnClick.setDisabled(true);
         	link.hide();
+        	link.setDisabled(true);
         	break;
         case 'video':
         	videoLink.show();
+        	videoLink.setDisabled(false);
         	playOnClick.show();
+        	playOnClick.setDisabled(false);
         	link.hide();
+        	link.setDisabled(true);
         	break;
         case 'link':
         	videoLink.hide();
+        	videoLink.setDisabled(true);
         	playOnClick.hide();
+        	playOnClick.setDisabled(true);
         	link.show();
+        	link.setDisabled(false);
         	break;
         }
     }
