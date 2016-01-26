@@ -16,7 +16,12 @@
 		Matcher m = r.matcher(request.getRequestURI());
 		if (m.find()) {
 			currentPage = pm.getPage(m.group(0));
+			if (currentPage == null) {
+				%><p>Warning: </p> <p>The page <%=request.getRequestURI() %> does not exists in the site map. </p><p> Please add a corresponding page in the author mode. </p> <%
+				return;	
+			}
 	    } else {
+	    	%> The vanity URL <%=request.getRequestURI() %> does not match an existing pattern<%
 	    	//it should never come to here
 	    }
 	}
