@@ -1,14 +1,31 @@
 <%@page import="java.lang.StringBuilder,
+				java.util.regex.Pattern,
+    			java.util.regex.Matcher,
                 java.util.Iterator,
                 com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     StringBuilder sb = new StringBuilder();
+	boolean isContentHub = isContentHub(currentPage);
+	if (isContentHub) {
+		PageManager pm = resourceResolver.adaptTo(PageManager.class);
+		System.out.println(request.getRequestURI());
+		//TODO: please wait to see what the vanity URL is
+		//cut out the last part
+		String pattern = "(.*[/])";
+		Pattern r = Pattern.compile(pattern);
+		Matcher m = r.matcher(request.getRequestURI());
+		if (m.find( )) {
+	         System.out.println("Found value: " + m.group(0) );
+	    } else {
+	       System.out.println("NO MATCH");
+	    }
+		currentPage = pm.getPage(m.group(0));
+	}
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
-    boolean isContentHub = isContentHub(currentPage);
-
+    
     String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
     while (currentPage.isHideInNav()) {
     	currentPage = currentPage.getParent();
@@ -24,7 +41,6 @@
     
     
 %>
-<%=isContentHub %>
 <nav class="left-nav">
   <ul>
     <li class="active<%= rootPageCurrent %>">
