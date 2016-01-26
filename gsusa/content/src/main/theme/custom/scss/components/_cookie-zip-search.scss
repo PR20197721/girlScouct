@@ -120,7 +120,7 @@
         width: 66%;
       }
       .form-wrapper {
-        width: 48%;
+        width: 47%;
         float: left;
         margin:0;
       }
@@ -157,12 +157,13 @@
     .share {
       @include grid-column(5, $float:right);
       line-height: rem-calc(37);
+      width: 22%;
       * {
         color: $white;
       }
       i {
         position: absolute;
-        right: 18px;
+        right: 14px;
         top: 20%;
       }
       a {
