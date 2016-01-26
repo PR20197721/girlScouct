@@ -104,7 +104,7 @@
 <%
     }
     %>
-		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
+		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>" data-at2x="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile@2x.") %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
 			<p><%=tileText%></p>
