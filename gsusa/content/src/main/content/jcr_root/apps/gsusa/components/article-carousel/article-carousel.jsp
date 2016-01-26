@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page import="org.apache.sling.commons.json.*,
     java.io.*, java.util.regex.*,
 	java.net.*,
@@ -19,7 +19,7 @@
 <%@page session="false" %>
 <%
 String tag = properties.get("tag","");
-String path = "/content/gsusa/en/press-room/press-room/news-releases";
+String path = currentSite.get("contentHubPath", String.class);
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
