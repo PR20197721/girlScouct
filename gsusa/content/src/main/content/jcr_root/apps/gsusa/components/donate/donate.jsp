@@ -58,7 +58,7 @@
 	    	<% if(zip){ %>
 			<a class="button form"><%= title %></a>
 				<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-		            <!-- <label for="zipcode">Enter Zip Code: </label> -->
+		            <!-- <label for="zipcode">Enter ZIP Code: </label> -->
 		            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 					<button type="submit" class="button">GO</button>
 				</form>
@@ -72,7 +72,7 @@
 		<% if(zip){ %>
 	    <a class="button form"><%= title %></a>
 			<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-	            <!-- <label for="zipcode">Enter Zip Code: </label> -->
+	            <!-- <label for="zipcode">Enter ZIP Code: </label> -->
 	            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 				<button type="submit" class="button">GO</button>
 			</form>

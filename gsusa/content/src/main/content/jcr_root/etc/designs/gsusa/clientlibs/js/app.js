@@ -761,6 +761,7 @@
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
+    $('#tag_tile_button_donate').toggle();
     $('.formDonate').toggleClass('hide');
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
