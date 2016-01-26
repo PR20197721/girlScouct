@@ -10,7 +10,6 @@
 	boolean isContentHub = isContentHub(currentPage);
 	if (isContentHub) {
 		PageManager pm = resourceResolver.adaptTo(PageManager.class);
-		//TODO: please wait to see what the vanity URL is
 		String pattern = "(.*[/])";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(request.getRequestURI());
