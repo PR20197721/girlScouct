@@ -346,7 +346,7 @@
 
                 var primaryTag = frm.findField("./jcr:content/cq:tags").getValue()[0];
                 var articleName = frm.findField("./jcr:content/jcr:title").el.dom.value;
-                var automaticVanity = primaryTag.replace('gsusa:','') + '/'+ articleName;
+                var automaticVanity = primaryTag.replace('gsusa:','about-girl-scouts/our-stories/') + '/'+ articleName;
 
 
 
