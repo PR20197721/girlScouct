@@ -17,13 +17,14 @@
     }
 	request.setAttribute("tileModalDivId", tileModalDivId);
 
+	String title = properties.get("title", "#Configure Title#");
 	String largeArticle = properties.get("largeArticle", "");
 	String smallArticle1 = properties.get("smallArticle1", "");
 	String smallArticle2 = properties.get("smallArticle2", "");
 	String smallArticle3 = properties.get("smallArticle3", "");
 	String smallArticle4 = properties.get("smallArticle4", "");
 %>
-<div>
+<h4><%=title%></h4>
 <div>
 	<%
     if(!largeArticle.isEmpty()){
@@ -77,4 +78,4 @@
         <div class="close"><a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a></div>
         <div class="video-popup"></div>
     </div>
-</div>
+

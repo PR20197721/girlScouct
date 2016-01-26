@@ -35,6 +35,7 @@ function loadResults(){
 		    	path: "<%= path %>"},
 		success: function(res){
 			$("#article-list").append(res);
+			retina(true);
 		}
 	});
 }

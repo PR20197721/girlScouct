@@ -12,30 +12,40 @@
                 jcr:primaryType="cq:Panel"
                 title="Articles">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Component Title"
+                        name="./title"
+                        xtype="textfield"/>
                     <largeArticle
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Large Article Tile"
                         name="./largeArticle"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <smallArticle1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Small Article Tile 1"
                         name="./smallArticle1"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <smallArticle2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Small Article Tile 2"
                         name="./smallArticle2"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <smallArticle3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Small Article Tile 3"
                         name="./smallArticle3"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <smallArticle4
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Small Article Tile 4"
                         name="./smallArticle4"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                 </items>
             </properties>
