@@ -10,18 +10,15 @@
 	boolean isContentHub = isContentHub(currentPage);
 	if (isContentHub) {
 		PageManager pm = resourceResolver.adaptTo(PageManager.class);
-		System.out.println(request.getRequestURI());
 		//TODO: please wait to see what the vanity URL is
-		//cut out the last part
 		String pattern = "(.*[/])";
 		Pattern r = Pattern.compile(pattern);
 		Matcher m = r.matcher(request.getRequestURI());
-		if (m.find( )) {
-	         System.out.println("Found value: " + m.group(0) );
+		if (m.find()) {
+			currentPage = pm.getPage(m.group(0));
 	    } else {
-	       System.out.println("NO MATCH");
+	    	//it should never come to here
 	    }
-		currentPage = pm.getPage(m.group(0));
 	}
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
