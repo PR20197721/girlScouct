@@ -351,7 +351,7 @@
 				articleName = articleName.replace(/\s+/g, '-');
                 articleName = articleName.toLowerCase();
 
-                var automaticVanity = primaryTag.replace('gsusa:','/content/gsusa/en/about-girl-scouts/our-stories-page/') + '/'+ articleName;
+                var automaticVanity = primaryTag.replace('gsusa:content-hub','/content/gsusa/en/about-girl-scouts/our-stories-page') + '/'+ articleName;
 
                 frm.findField("./jcr:content/sling:vanityPath").el.dom.value = automaticVanity;
 
