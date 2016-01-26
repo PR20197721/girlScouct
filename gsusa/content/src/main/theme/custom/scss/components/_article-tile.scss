@@ -69,7 +69,7 @@ $lines-to-show: 3;
 }
 .featured-articles {
   @include grid-row();
-  > div > .article-tile {
+  > .article-tile {
     @media #{$medium-up} {
       @include grid-column(12, $collapse:true);
       padding-right: rem-calc(10);
@@ -125,6 +125,7 @@ $lines-to-show: 3;
   }
 }
 .reveal-modal {
+  z-index: 9000;
   .video-popup {
     width: 90%;
     margin: 0 auto;
