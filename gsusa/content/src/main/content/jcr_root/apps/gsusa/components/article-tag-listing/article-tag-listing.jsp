@@ -49,6 +49,7 @@ $("#more").click(function(event){
 	loadResults();
 	page++;
 });
+loadResults();
 </script>
 
 <% } %>
