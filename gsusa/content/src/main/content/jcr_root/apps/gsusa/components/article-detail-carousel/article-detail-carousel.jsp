@@ -62,7 +62,6 @@ List<Hit> hits = sr.getHits();
 </div>
 <script>
 $(document).ready(function() {
-	console.info('BEGON#####');
     $(".article-detail-carousel .article-slider").slick({
         lazyLoad: 'ondemand',
         slidesToShow: 4,
@@ -82,6 +81,5 @@ $(document).ready(function() {
         //  }
         // ]
     });
-	console.info('END#####');
 });
 </script>
