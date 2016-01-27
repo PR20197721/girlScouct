@@ -346,9 +346,12 @@
 
                 var primaryTag = frm.findField("./jcr:content/cq:tags").getValue()[0];
                 var articleName = frm.findField("./jcr:content/jcr:title").el.dom.value;
-                var automaticVanity = primaryTag.replace('gsusa:','about-girl-scouts/our-stories/') + '/'+ articleName;
+                articleName = articleName.replace(/[^a-z0-9\s]/gi, '');
+                articleName = articleName.trim();
+				articleName = articleName.replace(/\s+/g, '-');
+                articleName = articleName.toLowerCase();
 
-
+                var automaticVanity = primaryTag.replace('gsusa:content-hub','/content/gsusa/en/about-girl-scouts/our-stories-page') + '/'+ articleName;
 
                 frm.findField("./jcr:content/sling:vanityPath").el.dom.value = automaticVanity;
 

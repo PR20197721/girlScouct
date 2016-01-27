@@ -94,6 +94,30 @@
                                     value="false"/>
                             </options>
                         </is-cookie-page>
+                        <is-content-hub
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Article pages in content hub follows different logic for the left navigation"
+                            fieldLabel="Is Content Hub"
+                            name="./isContentHub"
+                            type="radio"
+                            defaultValue="derived"
+                            value="derived"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <derived
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Derived"
+                                    value="derived"/>
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="True"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="False"
+                                    value="false"/>
+                            </options>
+                        </is-content-hub>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:title"

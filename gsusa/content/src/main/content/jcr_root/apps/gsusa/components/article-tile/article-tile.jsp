@@ -11,7 +11,8 @@
 %><%@page session="false" %>
 <%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
-  String articlePath = (String)request.getAttribute("articlePath");
+  	String articlePath = (String)request.getAttribute("articlePath");
+	String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
 	String tileTitle = "";
     String tileText = "";
@@ -20,6 +21,7 @@
     String videoLink = "";
     String externalLink = "";
     String editedDate = "";
+	String vanityUrl = "";
 
     boolean playOnClick = false;
 
@@ -43,6 +45,9 @@
 
         if(propNode.hasProperty("type"))
         type = propNode.getProperty("type").getString();
+
+        if(propNode.hasProperty("sling:vanityPath"))
+        vanityUrl = propNode.getProperty("sling:vanityPath").getString();
 
         if(propNode.hasProperty("videoLink"))
         videoLink = propNode.getProperty("videoLink").getString();
@@ -83,8 +88,29 @@
             int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
 			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
 
+      	}
+        if(linkTagAnchors == null){
+        linkTagAnchors = "";
+
+			String primaryTitle = primaryNode.getProperty("jcr:title").getString();
+			Node parentNode = primaryNode.getParent();
+            String parentTitle = parentNode.getProperty("jcr:title").getString();
+            if(parentTitle.equals("Content Hub")){
+				linkTagAnchors = "#" + primaryTitle;
+            } else{
+				linkTagAnchors = "#" + parentTitle + "|" + primaryTitle;
+            }
         }
+
+
+
 	}
+
+	if(linkTagAnchors != null){
+		vanityUrl = vanityUrl + linkTagAnchors;
+	}
+
+
 
 
 
@@ -100,11 +126,11 @@
 <%
     } else{
     %>
-	<a href="<%=articlePath%>">
+	<a href="<%=vanityUrl%>">
 <%
     }
     %>
-		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>" data-at2x="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile@2x.") %>"/>
+		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
 			<p><%=tileText%></p>
