@@ -18,18 +18,18 @@
     org.apache.sling.api.request.RequestPathInfo" %>
 <%@page session="false" %>
 <%
-String tag = properties.get("tag","");
 String path = "/content/gsusa/en/content-hub/articles";
-int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
-if(tag.isEmpty()){
-    %>
-	<div class="article-slider">
-        <p>###Configure Article Carousel</p>
-    </div>
-<%
-        } else {
+String tag = selectors.length >= 1 ? selectors[0] : "articles";
+tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
+
+int num = 20;
+try {
+	if (selectors.length >= 2) {
+		num = Integer.parseInt(selectors[1]);
+	}
+} catch (java.lang.NumberFormatException e) {}
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
@@ -47,10 +47,10 @@ map.put("2_orderby.sort","desc");
 Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
-
-    %>
-
-<div class="article-slider">
+%>
+    
+<div class="article-detail-carousel">
+    <div class="article-slider">
     <%for (Hit h : hits){
         request.setAttribute("articlePath", h.getPath());%>
         <div>
@@ -58,6 +58,28 @@ List<Hit> hits = sr.getHits();
         </div>
     <%}
     %>
+    </div>
 </div>
-
-<% }%>
+<script>
+$(document).ready(function() {
+    $(".article-detail-carousel .article-slider").slick({
+        lazyLoad: 'ondemand',
+        slidesToShow: 4,
+        touchMove: true,
+        slidesToScroll: 4,
+        centerMode: true,
+        // infinite: false,
+        // responsive: [
+        //  {
+        //    breakpoint: 480,
+        //    settings: {
+        //     arrows: false,
+        //     centerMode: true,
+        //     centerPadding: '60px',
+        //     slidesToShow: 1,
+        //    }
+        //  }
+        // ]
+    });
+});
+</script>
