@@ -29,12 +29,12 @@
                         border="true"
                         cropParameter="./jcr:content/image/imageCrop"
                         ddGroups="[media]"
-                        fieldLabel="Photo"
+                        fieldLabel="Tile Photo"
                         fileNameParameter="./jcr:content/image/fileName"
                         fileReferenceParameter="./jcr:content/image/fileReference"
                         height="400"
                         hideLabel="false"
-                        itemId="image"
+                        itemId="tileimage"
                         mapParameter="./jcr:content/image/imageMap"
                         name="./jcr:content/image/file"
                         requestSuffix="/jcr:content/image.img.png"
@@ -49,6 +49,36 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
+                    <tileimage
+                        jcr:primaryType="cq:Widget"
+                        _x0031_6To9AspectRatio="16,9"
+                        _x0031_6To9AspectRatioText="16,9"
+                        _x0032_To1AspectRatio="2,1"
+                        _x0032_To1AspectRatioText="2,1"
+                        allowBlank="{Boolean}false"
+                        border="true"
+                        cropParameter="./jcr:content/image/tileimageCrop"
+                        ddGroups="[media]"
+                        fieldLabel="Photo"
+                        fileNameParameter="./jcr:content/image/tilefileName"
+                        fileReferenceParameter="./jcr:content/image/tilefileReference"
+                        height="400"
+                        hideLabel="false"
+                        itemId="image"
+                        mapParameter="./jcr:content/image/tileimageMap"
+                        name="./jcr:content/image/tilefile"
+                        requestSuffix="/jcr:content/image.img.png"
+                        rotateParameter="./jcr:content/image/tileimageRotate"
+                        sizeLimit="100"
+                        xtype="html5smartimageAR">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                name="./jcr:content/image/sling:resourceType"
+                                value="gsusa/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </tileimage>
                     <editedDate
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
