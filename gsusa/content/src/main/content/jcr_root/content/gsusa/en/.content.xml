@@ -6,7 +6,7 @@
         <article-hub jcr:primaryType="cq:WidgetCollection">
             <dynamic-tag-carousel
                 jcr:primaryType="cq:WidgetCollection"
-                sling:resourceType="gsusa/components/article-carousel"/>
+                sling:resourceType="gsusa/components/article-detail-carousel"/>
         </article-hub>
     </components>
 </jcr:root>
