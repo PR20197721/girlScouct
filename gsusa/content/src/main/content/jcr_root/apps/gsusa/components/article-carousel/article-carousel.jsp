@@ -20,9 +20,15 @@
 <%@page session="false" %>
 <%
 String tag = properties.get("tag","");
+String title = properties.get("componentTitle","");
 String path = currentSite.get("contentHubPath", String.class);
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
+
+if(!title.isEmpty()){
+                     %> <h4> <%=title%></h4> <%
+}
+
 
 if(tag.isEmpty()){
     if(WCMMode.fromRequest(request) == WCMMode.EDIT){
