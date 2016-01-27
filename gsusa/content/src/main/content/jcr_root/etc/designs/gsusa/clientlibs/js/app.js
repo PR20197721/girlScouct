@@ -391,7 +391,7 @@
        }
       ]
     });
-    $(".article-slider").slick({
+    $(".article-carousel .article-slider").slick({
       lazyLoad: 'ondemand',
       slidesToShow: 3,
       touchMove: true,
@@ -408,7 +408,6 @@
        }
       ]
     });
-  // }
 
   var lastAfterSlick = null;
 

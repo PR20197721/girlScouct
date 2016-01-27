@@ -92,30 +92,13 @@
 
       	}
         if(linkTagAnchors == null){
-        linkTagAnchors = "";
-
-			String primaryTitle = primaryNode.getProperty("jcr:title").getString();
-			Node parentNode = primaryNode.getParent();
-            String parentTitle = parentNode.getProperty("jcr:title").getString();
-            if(parentTitle.equals("Content Hub")){
-				linkTagAnchors = "#" + primaryTitle;
-            } else{
-				linkTagAnchors = "#" + parentTitle + "|" + primaryTitle;
-            }
+        	String tagPath = primaryNode.getPath();
+        	linkTagAnchors = "#" + tagPath.replaceAll("^/etc/tags/gsusa/content-hub/", "").replaceAll("/", "|");
         }
-
-
-
 	}
-
 	if(linkTagAnchors != null){
 		vanityUrl = vanityUrl + linkTagAnchors;
 	}
-
-
-
-
-
 %>
 
 <section>

@@ -134,8 +134,13 @@ function retina(forceful){
             if (undefined !== document.createElement) {
                 var locationObject = document.createElement('a');
                 locationObject.href = this.path;
-                locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
-                this.at_2x_path = locationObject.href;
+                var matchIndex = locationObject.pathname.indexOf(locationObject.pathname.match(regexMatch));
+                if(locationObject.pathname.substring(matchIndex-3,matchIndex) != "@2x"){ //If we're running retina a second time, such as in content hub dynamic tag listing, we don't want to try loading @2x@2x
+	                locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
+	                this.at_2x_path = locationObject.href;
+            	}else{
+            		this.at_2x_path = locationObject.href;
+            	}
             } else {
                 var parts = this.path.split('?');
                 parts[0] = parts[0].replace(regexMatch, suffixReplace);
