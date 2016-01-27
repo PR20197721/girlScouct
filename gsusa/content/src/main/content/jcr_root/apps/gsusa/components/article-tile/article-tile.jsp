@@ -101,19 +101,10 @@
 				linkTagAnchors = "#" + parentTitle + "|" + primaryTitle;
             }
         }
-
-
-
 	}
-
 	if(linkTagAnchors != null){
 		vanityUrl = vanityUrl + linkTagAnchors;
 	}
-
-
-
-
-
 %>
 
 

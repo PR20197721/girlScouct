@@ -48,6 +48,13 @@
     height: 100%;
     section {
       height: 100%;
+      h3 {
+        font-size: rem-calc(13);
+        margin: 0 0 5px 0;
+      }
+      .text-content {
+        height: rem-calc(40);
+      }
     }
   }
   .slick-slide {
