@@ -881,8 +881,9 @@ function printObjectProperties(objectToInspect) {
   }
 }
 
-function populateVideoIntoModal(divId, videoLink, e) {
+function populateVideoIntoModal(divId, videoLink, color, e) {
   var parent = $("#" + divId + " " + ".video-popup");
+  $("#" + divId).css("background-color", "#" + color);
   parent.html(videoLink);
   e.preventDefault();
   return false;
