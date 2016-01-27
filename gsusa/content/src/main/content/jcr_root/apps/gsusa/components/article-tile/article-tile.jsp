@@ -29,6 +29,8 @@
 
 	String imageSrc = "";
 
+	String hexColor = "FFFFFF";
+
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
 	Tag[] tags = null;
@@ -82,7 +84,7 @@
 		Tag primaryTag = tags[0];
         Node primaryNode = primaryTag.adaptTo(Node.class);
         if(primaryNode.hasProperty("color")){
-			String hexColor = primaryNode.getProperty("color").getString();
+			hexColor = primaryNode.getProperty("color").getString();
             int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
             int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
             int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
@@ -99,15 +101,18 @@
 	}
 %>
 
-
-
 <section>
     <%
-    if(playOnClick){
+    if(type.equals("video") && playOnClick){
         %>
-    <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=StringEscapeUtils.escapeHtml(videoLink)%>')" data-reveal-id="<%=divId%>">
+    <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
 <%
-    } else{
+    } else if(type.equals("link")){ 
+	%>
+	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+
+    <%
+	}else{
     %>
 	<a href="<%=vanityUrl%>">
 <%
