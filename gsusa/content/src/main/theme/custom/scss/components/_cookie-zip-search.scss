@@ -1,7 +1,7 @@
 .standalone-cookie-header,
 .cookie-header {
   @media #{$small-only} {
-  	&:not(.mobile-cookie-finder) {
+  	&:not(.mobile-cookie-header) {
 	    #main &, .main-content & {
 	      display: none;
 	    }
