@@ -19,7 +19,7 @@
 <%@page session="false" %>
 <%
 String tag = properties.get("tag","");
-String path = "/content/gsusa/en/press-room/press-room/news-releases";
+String path = "/content/gsusa/en/content-hub/articles";
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
@@ -29,7 +29,7 @@ if(tag.isEmpty()){
         <p>###Configure Article Carousel</p>
     </div>
 <%
-        } else{
+        } else {
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";

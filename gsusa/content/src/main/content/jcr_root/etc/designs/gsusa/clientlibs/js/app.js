@@ -391,7 +391,7 @@
        }
       ]
     });
-    $(".article-slider").slick({
+    $(".article-carousel .article-slider").slick({
       lazyLoad: 'ondemand',
       slidesToShow: 3,
       touchMove: true,
@@ -408,6 +408,27 @@
        }
       ]
     });
+
+    $(".article-detail-carousel .article-slider").slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 4,
+      touchMove: true,
+      slidesToScroll: 4,
+      centerMode: true,
+      // infinite: false,
+      // responsive: [
+      //  {
+      //    breakpoint: 480,
+      //    settings: {
+      //     arrows: false,
+      //     centerMode: true,
+      //     centerPadding: '60px',
+      //     slidesToShow: 1,
+      //    }
+      //  }
+      // ]
+    });
+
   // }
 
   var lastAfterSlick = null;

@@ -1,5 +1,5 @@
-.article-carousel {
-  .slick-slider {
+.article-slider {
+  &.slick-slider {
     margin-left: 0;
     .article-tile {
       padding-right: 5px;
@@ -39,6 +39,36 @@
     background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, .8) !important;
     &:before {
       //content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
+    }
+  }
+}
+.article-detail-carousel .article-slider {
+  .article-tile {
+    padding: 0;
+    height: 100%;
+    section {
+      height: 100%;
+    }
+  }
+  .slick-slide {
+    margin: rem-calc(0 15);
+    max-width: rem-calc(139);
+    height: rem-calc(119);
+    &.current {
+      border: solid 6px #acacac;
+    }
+  }
+  .slick-prev,
+  .slick-next {
+    margin: 0;
+    height: 100%;
+    top: 0;
+    box-shadow: none;
+    width: 50px;
+    background-color: rgba(173, 173, 173, 1) !important;
+    &:hover,
+    &:focus {
+      opacity: 1;
     }
   }
 }
