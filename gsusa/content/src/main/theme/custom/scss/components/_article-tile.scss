@@ -4,23 +4,6 @@ $lines-to-show: 3;
 .article-tile {
   section {
     position: relative;
-    a {
-      display: block;
-      width: 100%;
-      &:hover {
-        .text-content {
-          height: 100%;
-        }
-        p {
-          height: 100%;
-        }
-        h3 {
-          white-space: normal;
-          width: 100%;
-          overflow: visible;
-        }
-      }
-    }
     img {
       height: 100%;
       width: 100%;
@@ -63,6 +46,31 @@ $lines-to-show: 3;
         max-width: 99%;
         line-height: $line-height;
         height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+      }
+      .article-detail-carousel .article-slider & {
+        height: rem-calc(40);
+      }
+    }
+    a {
+      display: block;
+      width: 100%;
+      &:hover {
+        .text-content {
+          height: 100%;
+        }
+        .article-detail-carousel .article-slider  & {
+          .text-content {
+            height: 100%;
+          }
+        }
+        p {
+          height: 100%;
+        }
+        h3 {
+          white-space: normal;
+          width: 100%;
+          overflow: visible;
+        }
       }
     }
   }
