@@ -15,7 +15,8 @@
     com.day.cq.search.PredicateGroup,
     com.day.cq.search.result.SearchResult,
     com.day.cq.search.result.Hit,
-    org.apache.sling.api.request.RequestPathInfo" %>
+    org.apache.sling.api.request.RequestPathInfo,
+	com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
 String tag = properties.get("tag","");
@@ -24,12 +25,17 @@ int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 if(tag.isEmpty()){
+    if(WCMMode.fromRequest(request) == WCMMode.EDIT){
     %>
 	<div class="article-slider">
         <p>###Configure Article Carousel</p>
     </div>
 <%
-        } else{
+    } else{ %>
+	<div class="article-slider">
+    </div>
+ <% }
+} else{
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";

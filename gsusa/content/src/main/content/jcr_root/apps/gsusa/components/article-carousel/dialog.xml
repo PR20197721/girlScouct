@@ -18,12 +18,6 @@
                         fieldLabel="Component Title"
                         name="./componentTitle"
                         xtype="textfield"/>
-                    <heading-link
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Heading Link"
-                        name="./headingLink"
-                        rootPath="/content/gsusa"
-                        xtype="pathfield"/>
                     <numberofarticles
                         jcr:primaryType="cq:Widget"
                         allowDecimals="{Boolean}false"
@@ -52,28 +46,6 @@
                     </articletags>
                 </items>
             </tab0>
-            <tab1
-                jcr:primaryType="cq:Panel"
-                title="Configuration">
-                <items jcr:primaryType="cq:WidgetCollection">
-                    <autoScroll
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Auto Scroll"
-                        name="./articlecarouselautoscroll"
-                        type="checkbox"
-                        xtype="selection"/>
-                    <timedelay
-                        jcr:primaryType="cq:Widget"
-                        allowDecimals="{Boolean}false"
-                        allowNegative="{Boolean}false"
-                        fieldDescription="Default: 1000, Min: 20, Max: 10000"
-                        fieldLabel="Time Delay of the carousel (in ms)"
-                        maxValue="10000"
-                        minValue="20"
-                        name="./articlecarouseltimedelay"
-                        xtype="numberfield"/>
-                </items>
-            </tab1>
         </items>
     </items>
 </jcr:root>
