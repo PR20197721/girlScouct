@@ -22,6 +22,9 @@ String path = "/content/gsusa/en/content-hub/articles";
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
+if(!tag.equals("articles"))
+	request.setAttribute("linkTagAnchors", "#" + tag);
+
 tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
 
 int num = 20;
@@ -48,7 +51,7 @@ Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.a
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 %>
-
+    
 <div class="article-detail-carousel">
     <div class="article-slider">
     <%for (Hit h : hits){
@@ -67,7 +70,7 @@ $(document).ready(function() {
         slidesToShow: 4,
         touchMove: true,
         slidesToScroll: 4,
-        infinite: false,
+        centerMode: true,
         // infinite: false,
         // responsive: [
         //  {
