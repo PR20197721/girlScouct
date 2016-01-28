@@ -20,31 +20,35 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
             "freeCrop": {
                 "value": "0,0",
                 "text": CQ.I18n.getMessage("Free crop")
+            },
+            "2To1AspectRatio": {
+            	"value": "2,1",
+            	"text": "2:1"
             }
         };
  
         var tObj = this;
  
-        $.each(config, function (key, value) {
-            if (key.endsWith("AspectRatio")) {
-                var text = config[key + "Text"];
+        // $.each(config, function (key, value) {
+        //     if (key.endsWith("AspectRatio")) {
+        //         var text = config[key + "Text"];
  
-                if (!text) {
-                    text = key;
-                }
+        //         if (!text) {
+        //             text = key;
+        //         }
  
-                if (!value) {
-                    value = "0,0";
-                }
+        //         if (!value) {
+        //             value = "0,0";
+        //         }
  
-                aRatios[key] = {
-                    "value": value,
-                    "text": text
-                };
+        //         aRatios[key] = {
+        //             "value": value,
+        //             "text": text
+        //         };
  
-                tObj.crops[key] = { text: text, cords : ''};
-            }
-        });
+        //         tObj.crops[key] = { text: text, cords : ''};
+        //     }
+        // });
  
         var defaults = { "cropConfig": { "aspectRatios": aRatios } };
         config = CQ.Util.applyDefaults(config, defaults);
@@ -106,7 +110,6 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
                         if(!key){
                             return;
                         }
-                        console.info(this.crops[key].cords);
                         if(this.crops[key].cords){
                             this.setCoords(cropTool, this.crops[key].cords);
                         }else{
@@ -144,12 +147,13 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
             if(!aRatioChecked){
                 return;
             }
+ 			// console.info(aRatioChecked);
+    //         var key = this.getCropKey(aRatioChecked.text);
+    //         console.info(key);
+    //         var field = CQ.Ext.getCmp(key);
  
-            var key = this.getCropKey(aRatioChecked.text);
-            var field = CQ.Ext.getCmp(key);
- 
-            this.crops[key].cords = this.getRect(aRatioChecked, userInterface);
-            field.setValue(this.crops[key].cords);
+    //         this.crops[key].cords = this.getRect(aRatioChecked, userInterface);
+    //         field.setValue(this.crops[key].cords);
         }, this);
     },
  
