@@ -14,7 +14,6 @@
 
 <%
 String tag = java.net.URLDecoder.decode(request.getParameter("tag"),"UTF-8");
-String path = java.net.URLDecoder.decode(request.getParameter("path"),"UTF-8");
 int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"),"UTF-8"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 int pageNum = Integer.parseInt(selectors[selectors.length-1]);
@@ -26,7 +25,7 @@ QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
 map.put("type","cq:Page");
-map.put("path",path);
+map.put("path",currentPage.getAbsoluteParent(2).getPath());
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
