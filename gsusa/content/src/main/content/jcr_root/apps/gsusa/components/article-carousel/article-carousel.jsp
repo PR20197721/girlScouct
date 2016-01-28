@@ -28,6 +28,7 @@ String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 String sortByPriority = properties.get("sortByPriority", "false");
 
+String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
 
 if(!title.isEmpty()){
                      %> <h4> <%=title%></h4> <%
@@ -46,6 +47,9 @@ if(tag.isEmpty()){
     </div>
  <% }
 } else{
+
+String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
+request.setAttribute("linkTagAnchors", linkTagAnchors);
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
