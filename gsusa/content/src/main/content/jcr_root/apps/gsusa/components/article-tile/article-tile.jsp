@@ -66,8 +66,14 @@
             playOnClick = true;
         }
 
-		Node imageNode = propNode.getNode("image");
-        imageSrc = imageNode.getProperty("fileReference").getString();
+        if(propNode.hasNode("thumbnail")){
+			Node thumbnailNode = propNode.getNode("thumbnail");
+			imageSrc = thumbnailNode.getProperty("fileReference").getString();
+
+        } else{
+			Node imageNode = propNode.getNode("image");
+        	imageSrc = imageNode.getProperty("fileReference").getString();
+        }
 
         Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
         tags = tilePage.getTags();
