@@ -116,47 +116,42 @@ $(document).ready(function() {
 		}
 	}
 	
-	console.info('slides length  0 = ' + slides.length);
 	function adjustSlidesAndSlick() {
 		slides = $(TILES_SELECTOR);
 		var currentSlideHtml;
-		console.info('slides length  1 = ' + slides.length);
 		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
 			if (slideIndex == currentSlideIndex) {
-				console.info('oh yeah removed');
 				currentSlideHtml = '<div><div class="article-tile current">' + $(slides[slideIndex]).html() + '</div></div>';
-				console.info('html = ' + currentSlideHtml);
 				$(slides[slideIndex]).parent().remove();
 				break;
 			}
 		}
 
 		slides = $(TILES_SELECTOR);
-		console.info('slides length  2 = ' + slides.length);
+		var middleSlideIndex = slides.length <= 1 ? 1 : slides.length / 2;
 		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-			if (slideIndex == slides.length / 2 - 1) {
+			if (slideIndex == middleSlideIndex - 1) {
 				$(slides[slideIndex]).parent().after(currentSlideHtml);
 			}
 		}
-
-		slides = $(TILES_SELECTOR);
-		console.info('slides length  3 = ' + slides.length);
 
         $(".article-detail-carousel .article-slider").slick({
             lazyLoad: 'ondemand',
             slidesToShow: 4,
             touchMove: true,
             slidesToScroll: 4,
+            initialSlide: slides.length + 1 > 4 ? middleSlideIndex : 0,
             infinite: false
         });
 	}
 
 	if (currentSlideIndex == -1) {
 		$.get(
-			'/content/gsusa/en/components/article-hub/tile',
+			'/content/gsusa/en/components/article-hub/article-tile.html',
 			{articlePath: window.location.pathname},
 			function(html) {
-				$('.article-detail-carousel').append(html);
+				html = '<div><div class="article-tile current">' + html + '</div></div>';
+				$('.article-detail-carousel .article-slider').append(html);
 				currentSlideIndex = slides.length;
 				adjustSlidesAndSlick();
 			}
