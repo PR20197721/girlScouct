@@ -12,6 +12,9 @@
 <%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
+	if (articlePath == null) {
+		articlePath = request.getParameter("articlePath");
+	}
 	String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
 	String tileTitle = "";

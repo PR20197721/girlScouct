@@ -65,6 +65,7 @@ List<Hit> hits = sr.getHits();
 </div>
 <script>
 $(document).ready(function() {
+<<<<<<< HEAD
     $(".article-detail-carousel .article-slider").slick({
         lazyLoad: 'ondemand',
         slidesToShow: 4,
@@ -84,5 +85,86 @@ $(document).ready(function() {
         //  }
         // ]
     });
+=======
+	var TILES_SELECTOR = '.article-detail-carousel .article-tile';
+	var slides = $(TILES_SELECTOR);
+	var currentSlideIndex = -1;
+	for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+		var slide = slides[slideIndex];
+		var link = $(slide).find('a').attr('href');
+		if (typeof link !== 'string') {
+			return;
+		}
+
+		var hashIndex = link.lastIndexOf('#');
+		if (hashIndex == -1) {
+			hashIndex = link.length;	
+		}
+		var questionMarkIndex = link.lastIndexOf('?');
+		if (questionMarkIndex == -1) {
+			questionMarkIndex = link.length;
+		}
+		
+		var hashOrQuestionMarkIndex = Math.min(hashIndex, questionMarkIndex);
+		if (hashOrQuestionMarkIndex != -1) {
+			link = link.substring(0, hashOrQuestionMarkIndex);
+		}
+		
+		if (link == window.location.pathname) {
+			$(slide).addClass('current');
+			currentSlideIndex = slideIndex;
+		}
+	}
+	
+	console.info('slides length  0 = ' + slides.length);
+	function adjustSlidesAndSlick() {
+		slides = $(TILES_SELECTOR);
+		var currentSlideHtml;
+		console.info('slides length  1 = ' + slides.length);
+		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+			if (slideIndex == currentSlideIndex) {
+				console.info('oh yeah removed');
+				currentSlideHtml = '<div><div class="article-tile current">' + $(slides[slideIndex]).html() + '</div></div>';
+				console.info('html = ' + currentSlideHtml);
+				$(slides[slideIndex]).parent().remove();
+				break;
+			}
+		}
+
+		slides = $(TILES_SELECTOR);
+		console.info('slides length  2 = ' + slides.length);
+		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+			if (slideIndex == slides.length / 2 - 1) {
+				$(slides[slideIndex]).parent().after(currentSlideHtml);
+			}
+		}
+
+		slides = $(TILES_SELECTOR);
+		console.info('slides length  3 = ' + slides.length);
+
+        $(".article-detail-carousel .article-slider").slick({
+            lazyLoad: 'ondemand',
+            slidesToShow: 4,
+            touchMove: true,
+            slidesToScroll: 4,
+            infinite: false
+        });
+	}
+
+	if (currentSlideIndex == -1) {
+		$.get(
+			'/content/gsusa/en/components/article-hub/tile',
+			{articlePath: window.location.pathname},
+			function(html) {
+				$('.article-detail-carousel').append(html);
+				currentSlideIndex = slides.length;
+				adjustSlidesAndSlick();
+			}
+		)
+	} else {
+		adjustSlidesAndSlick();
+	}
+
+>>>>>>> 9a01a41f5b30a859282f36a1aab43eab166de930
 });
 </script>
