@@ -56,13 +56,11 @@ map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
 if(sortByPriority.equals("true")){
-    %><h2>We are in true</h2><%
 	map.put("orderby","@jcr:content/articlePriority");
 	map.put("orderby.sort","desc");
     map.put("2_orderby","@jcr:content/editedDate");
     map.put("2_orderby.sort","desc");
 } else {
-      %><h2>We are in false</h2><%
 	map.put("orderby","@jcr:content/editedDate");
 	map.put("orderby.sort","desc");
 }
