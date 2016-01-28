@@ -65,27 +65,6 @@ List<Hit> hits = sr.getHits();
 </div>
 <script>
 $(document).ready(function() {
-<<<<<<< HEAD
-    $(".article-detail-carousel .article-slider").slick({
-        lazyLoad: 'ondemand',
-        slidesToShow: 4,
-        touchMove: true,
-        slidesToScroll: 4,
-        centerMode: true,
-        // infinite: false,
-        // responsive: [
-        //  {
-        //    breakpoint: 480,
-        //    settings: {
-        //     arrows: false,
-        //     centerMode: true,
-        //     centerPadding: '60px',
-        //     slidesToShow: 1,
-        //    }
-        //  }
-        // ]
-    });
-=======
 	var TILES_SELECTOR = '.article-detail-carousel .article-tile';
 	var slides = $(TILES_SELECTOR);
 	var currentSlideIndex = -1;
@@ -159,7 +138,5 @@ $(document).ready(function() {
 	} else {
 		adjustSlidesAndSlick();
 	}
-
->>>>>>> 9a01a41f5b30a859282f36a1aab43eab166de930
 });
 </script>
