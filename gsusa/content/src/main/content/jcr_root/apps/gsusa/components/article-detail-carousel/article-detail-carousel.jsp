@@ -48,7 +48,7 @@ Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.a
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 %>
-    
+
 <div class="article-detail-carousel">
     <div class="article-slider">
     <%for (Hit h : hits){
@@ -67,7 +67,7 @@ $(document).ready(function() {
         slidesToShow: 4,
         touchMove: true,
         slidesToScroll: 4,
-        centerMode: true,
+        infinite: false,
         // infinite: false,
         // responsive: [
         //  {

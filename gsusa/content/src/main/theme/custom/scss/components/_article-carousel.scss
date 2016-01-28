@@ -42,6 +42,10 @@
     }
   }
 }
+.dynamic-tag-carousel {
+  width: 610px;
+  margin: 0 auto;
+}
 .article-detail-carousel .article-slider {
   .article-tile {
     padding: 0;
@@ -55,8 +59,8 @@
     }
   }
   .slick-slide {
-    margin: rem-calc(0 15);
-    max-width: rem-calc(139);
+    margin: rem-calc(0 10);
+    // max-width: rem-calc(140);
     height: rem-calc(119);
     &.current {
       border: solid 6px #acacac;
@@ -74,5 +78,11 @@
     &:focus {
       opacity: 1;
     }
+  }
+  .slick-next {
+    right: -70px;
+  }
+  .slick-prev {
+    left: -70px;
   }
 }
