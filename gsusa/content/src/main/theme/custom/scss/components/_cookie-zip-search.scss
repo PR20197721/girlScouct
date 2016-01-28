@@ -26,8 +26,7 @@
     z-index: 1;
     padding: rem-calc(13 0);
     @media #{$small-only} {
-      padding-left: 22%;
-      padding-right: 22%;
+      padding: rem-calc(25) 22%;
     }
     &:before {
       @media #{$medium-up} {
