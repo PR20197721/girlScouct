@@ -27,8 +27,10 @@
 						name="./num"
 						fieldLabel="Number of Tiles"
 						minValue="{Long}1"
+						maxValue="{Long}100"
 						value="9"
 						defaultValue="{Long}9"
+						allowDecimals="{Boolean}false"
 						xtype="numberfield" />
 					<path
 	                	jcr:primaryType="cq:Widget"
@@ -36,6 +38,13 @@
 	                	name="./path"
 	                	rootPath="/content/gsusa/en"
 	                	xtype="pathfield" />
+	                <priority
+	                	jcr:primaryType="cq:Widget"
+	                	fieldLabel="Sort By Priority"
+	                	defaultValue="true"
+	                	name="./priority"
+	                	type="checkbox"
+	                	xtype="selection"/>
                 </items>
             </tab1>
         </items>

@@ -29,6 +29,8 @@
 
 	String imageSrc = "";
 
+	String hexColor = "FFFFFF";
+
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
 	Tag[] tags = null;
@@ -64,8 +66,14 @@
             playOnClick = true;
         }
 
-		Node imageNode = propNode.getNode("image");
-        imageSrc = imageNode.getProperty("fileReference").getString();
+        if(propNode.hasNode("thumbnail")){
+			Node thumbnailNode = propNode.getNode("thumbnail");
+			imageSrc = thumbnailNode.getProperty("fileReference").getString();
+
+        } else{
+			Node imageNode = propNode.getNode("image");
+        	imageSrc = imageNode.getProperty("fileReference").getString();
+        }
 
         Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
         tags = tilePage.getTags();
@@ -82,7 +90,7 @@
 		Tag primaryTag = tags[0];
         Node primaryNode = primaryTag.adaptTo(Node.class);
         if(primaryNode.hasProperty("color")){
-			String hexColor = primaryNode.getProperty("color").getString();
+			hexColor = primaryNode.getProperty("color").getString();
             int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
             int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
             int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
@@ -90,41 +98,27 @@
 
       	}
         if(linkTagAnchors == null){
-        linkTagAnchors = "";
-
-			String primaryTitle = primaryNode.getProperty("jcr:title").getString();
-			Node parentNode = primaryNode.getParent();
-            String parentTitle = parentNode.getProperty("jcr:title").getString();
-            if(parentTitle.equals("Content Hub")){
-				linkTagAnchors = "#" + primaryTitle;
-            } else{
-				linkTagAnchors = "#" + parentTitle + "|" + primaryTitle;
-            }
+        	String tagPath = primaryNode.getPath();
+        	linkTagAnchors = "#" + tagPath.replaceAll("^/etc/tags/gsusa/content-hub/", "").replaceAll("/", "|");
         }
-
-
-
 	}
-
 	if(linkTagAnchors != null){
 		vanityUrl = vanityUrl + linkTagAnchors;
 	}
-
-
-
-
-
 %>
-
-
 
 <section>
     <%
-    if(playOnClick){
+    if(type.equals("video") && playOnClick){
         %>
-    <a href="" onclick="populateVideoIntoModal('<%=divId%>','<%=StringEscapeUtils.escapeHtml(videoLink)%>')" data-reveal-id="<%=divId%>">
+    <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
 <%
-    } else{
+    } else if(type.equals("link")){ 
+	%>
+	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+
+    <%
+	}else{
     %>
 	<a href="<%=vanityUrl%>">
 <%

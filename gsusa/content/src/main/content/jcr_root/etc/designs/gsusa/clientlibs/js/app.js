@@ -391,7 +391,7 @@
        }
       ]
     });
-    $(".article-slider").slick({
+    $(".article-carousel .article-slider").slick({
       lazyLoad: 'ondemand',
       slidesToShow: 3,
       touchMove: true,
@@ -408,7 +408,6 @@
        }
       ]
     });
-  // }
 
   var lastAfterSlick = null;
 
@@ -881,8 +880,9 @@ function printObjectProperties(objectToInspect) {
   }
 }
 
-function populateVideoIntoModal(divId, videoLink, e) {
+function populateVideoIntoModal(divId, videoLink, color, e) {
   var parent = $("#" + divId + " " + ".video-popup");
+  $("#" + divId).css("background-color", "#" + color);
   parent.html(videoLink);
   e.preventDefault();
   return false;
