@@ -18,6 +18,7 @@ String path = java.net.URLDecoder.decode(request.getParameter("path"),"UTF-8");
 int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"),"UTF-8"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 int pageNum = Integer.parseInt(selectors[selectors.length-1]);
+String priority = java.net.URLDecoder.decode(request.getParameter("priority"),"UTF-8");
 
 
 //final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
@@ -30,10 +31,15 @@ map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
 map.put("p.offset", num*(pageNum-1) + "");
-map.put("orderby","@jcr:content/articlePriority");
-map.put("orderby.sort","desc");
-map.put("2_orderby","@jcr:content/editedDate");
-map.put("2_orderby.sort","desc");
+if(priority.equals("true")){
+	map.put("orderby","@jcr:content/articlePriority");
+	map.put("orderby.sort","desc");
+	map.put("2_orderby","@jcr:content/editedDate");
+	map.put("2_orderby.sort","desc");
+}else{
+	map.put("orderby","@jcr:content/editedDate");
+	map.put("orderby.sort","desc");
+}
 
 Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 SearchResult sr = query.getResult();
