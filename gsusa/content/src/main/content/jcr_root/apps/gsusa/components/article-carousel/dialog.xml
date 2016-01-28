@@ -44,6 +44,12 @@
                                 name="gsusa"/>
                         </namespaces>
                     </articletags>
+                    <autoScroll
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </tab0>
         </items>

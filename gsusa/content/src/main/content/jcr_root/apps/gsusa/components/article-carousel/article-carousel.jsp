@@ -25,6 +25,10 @@ String path = currentSite.get("contentHubPath", String.class);
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
+
+String sortByPriority = properties.get("sortByPriority", "false");
+
+
 if(!title.isEmpty()){
                      %> <h4> <%=title%></h4> <%
 }
@@ -51,10 +55,17 @@ map.put("path",path);
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
-map.put("orderby","@jcr:content/tilePriority");
-map.put("orderby.sort","desc");
-map.put("2_orderby","@jcr:content/editedDate");
-map.put("2_orderby.sort","desc");
+if(sortByPriority.equals("true")){
+    %><h2>We are in true</h2><%
+	map.put("orderby","@jcr:content/articlePriority");
+	map.put("orderby.sort","desc");
+    map.put("2_orderby","@jcr:content/editedDate");
+    map.put("2_orderby.sort","desc");
+} else {
+      %><h2>We are in false</h2><%
+	map.put("orderby","@jcr:content/editedDate");
+	map.put("orderby.sort","desc");
+}
 
 Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 SearchResult sr = query.getResult();
