@@ -32,12 +32,6 @@
 						defaultValue="{Long}9"
 						allowDecimals="{Boolean}false"
 						xtype="numberfield" />
-					<path
-	                	jcr:primaryType="cq:Widget"
-	                	fieldLabel="Path to Content Repository"
-	                	name="./path"
-	                	rootPath="/content/gsusa/en"
-	                	xtype="pathfield" />
 	                <priority
 	                	jcr:primaryType="cq:Widget"
 	                	fieldLabel="Sort By Priority"
