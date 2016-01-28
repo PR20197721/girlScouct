@@ -2,6 +2,7 @@
 				java.util.regex.Pattern,
     			java.util.regex.Matcher,
                 java.util.Iterator,
+                com.day.cq.wcm.api.WCMMode,
                 com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
@@ -16,12 +17,16 @@
 		if (m.find()) {
 			currentPage = pm.getPage(m.group(0));
 			if (currentPage == null) {
-				%><p>Warning: </p> <p>The page <%=request.getRequestURI() %> does not exists in the site map. </p><p> Please add a corresponding page in the author mode. </p> <%
+				if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+					%><p>Warning: </p> <p>The page <%=request.getRequestURI() %> does not exists in the site map. </p><p> Please add a corresponding page in the author mode. </p> <%
+		    	}
 				return;	
 			}
 	    } else {
-	    	%> The vanity URL <%=request.getRequestURI() %> does not match an existing pattern<%
-	    	//it should never come to here
+	    	if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+	    		%> The vanity URL <%=request.getRequestURI() %> does not match an existing pattern<%
+	    		//it should never come to here
+	    	}
 	    }
 	}
     Page rootPage = currentPage.getAbsoluteParent(3);

@@ -3,11 +3,10 @@
 
 <%
 String tag = properties.get("tag","");
-String path = properties.get("path","");
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
 
-if((tag.equals("") || path.equals("")) && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	%> *** Please select a tag and path *** <%
 } else{ %>
 
@@ -33,7 +32,6 @@ function loadResults(){
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
 		    	page: page,
-		    	path: "<%= path %>",
 		    	priority: "<%= priority %>" },
 		success: function(res){
 			$("#article-list").append(res);

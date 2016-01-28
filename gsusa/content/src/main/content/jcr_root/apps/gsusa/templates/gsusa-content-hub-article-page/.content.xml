@@ -13,6 +13,7 @@
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="girlscouts/components/styled-parsys">
+
                     <dynamic_tag_carousel
                         jcr:created="{Date}2016-01-28T15:32:27.746-05:00"
                         jcr:createdBy="admin"
