@@ -16,7 +16,7 @@
 		defaultTag = "default";
 	}
 %>
-<div id="<%= id %>"></div>
+<div id="<%= id %>" class="hide-for-small"></div>
 
 <script>
 	$(document).ready(function(){
