@@ -14,6 +14,7 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.util.regex.*,
+	java.util.Random,
 	java.text.DateFormat" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
@@ -93,6 +94,18 @@ public boolean isCookiePage(Page currentPage) {
 	}
 }
 
+public boolean isContentHub(Page currentPage) {
+	String isContentHub = currentPage.getProperties().get("isContentHub", "derived");
+	if ("true".equals(isContentHub)) {
+		return true;
+	} else if ("false".equals(isContentHub)) {
+		return false;
+	} else {
+		Page parentPage = currentPage.getParent();
+		return parentPage == null ? false : isContentHub(parentPage);
+	}
+}
+
 public String getResourceLocation(Resource r){
 	String path = r.getPath();
 	if(path.indexOf("jcr:content/content/middle/par") != -1){
@@ -118,6 +131,15 @@ public String get2xPath(String path) {
 	else{
 		return path;
 	}
+}
+
+public String genId() {
+	Random rand=new Random();
+	String possibleLetters = "0123456789abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
 }
 
 %>

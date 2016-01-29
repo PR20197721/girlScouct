@@ -5,6 +5,7 @@
 	String alert = properties.get("alert","");
 	String newstype = properties.get("newstype","");
 	String bgcolor = properties.get("bgcolor","");
+	String textcolor = properties.get("textcolor","");
 
 	Resource thumbnail = resource.getChild("thumbnail");
 	String filePath = "";
@@ -50,15 +51,21 @@
 				<a href="<%= url %>" title="<%= message %>" <% if(url.substring(0,4).equals("http")) { %> target="_blank" <% } %>>
 <% 
 			}
+			if(!textcolor.equals("")) {
 %>
-			<strong><%= alert %></strong> <span><%= message %></span>
+				<strong style="color:#<%=textcolor%>"><%= alert %></strong> <span style="color:#<%=textcolor%>"><%= message %></span>
 <%
+			} else {
+%>
+				<strong><%= alert %></strong> <span><%= message %></span>
+<%			
+			}
 			if(!url.equals("")) {
 %>
 				</a>
 <%
 			}
 		}
-		%></div><%
 	}
 %>
+	</div>

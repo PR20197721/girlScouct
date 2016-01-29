@@ -391,7 +391,24 @@
        }
       ]
     });
-  // }
+    $(".article-carousel .article-slider").slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 3,
+      touchMove: true,
+      slidesToScroll: 3,
+      responsive: [
+       {
+         breakpoint: 480,
+         settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '60px',
+          slidesToShow: 1,
+         }
+       }
+      ]
+    });
+
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -761,6 +778,7 @@
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
+    $('#tag_tile_button_donate').toggle();
     $('.formDonate').toggleClass('hide');
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
@@ -784,6 +802,7 @@
       return false;
     });
   // });
+// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
 
 }(jQuery));
 
@@ -847,6 +866,7 @@ function fixSlickSlideActive() {
   }
 }
 
+
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
   for (var key in objectToInspect) {
@@ -859,6 +879,14 @@ function printObjectProperties(objectToInspect) {
       }
     }
   }
+}
+
+function populateVideoIntoModal(divId, videoLink, color, e) {
+  var parent = $("#" + divId + " " + ".video-popup");
+  $("#" + divId).css("background-color", "#" + color);
+  parent.html(videoLink);
+  e.preventDefault();
+  return false;
 }
 
 function setupContactLocalCouncilForm() {
@@ -883,7 +911,7 @@ $(document).ready(setupContactLocalCouncilForm);
 
 // Needed for "View Detail" data
 Handlebars.registerHelper('json', function(context) {
-    return JSON.stringify(context);
+    return JSON.stringify(context).replace(/'/g, "&#39;");
 });
 Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	if (typeof context == 'string') {

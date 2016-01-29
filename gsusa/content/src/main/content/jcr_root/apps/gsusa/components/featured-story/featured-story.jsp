@@ -130,7 +130,7 @@ if(theme.equals("classic")) {
 					<a  id="tag_tile_button_<%= linkifyString(title, 25)%>" href="<%= btnLink %>" class="button" style="background-color: <%= bgcolorClassic %>"><%= btnText %></a>
 					<% if(linkifyString(title, 25).equals("donate")) { %>
 						<form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-				            <label for="zipcode">Enter Zip Code: </label>
+				            <label for="zipcode">Enter ZIP Code: </label>
 				            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
 				            <input type="hidden" name="source" value="homepage">
 							<button type="submit" class="fa fa-play-circle"></button>
