@@ -69,13 +69,14 @@
             playOnClick = true;
         }
 
-        if(propNode.hasNode("thumbnail")){
-			Node thumbnailNode = propNode.getNode("thumbnail");
-			imageSrc = thumbnailNode.getProperty("fileReference").getString();
+        if(propNode.hasNode("tileimage")){
+			Node thumbnailNode = propNode.getNode("tileimage");
+			imageSrc = thumbnailNode.getPath() + ".img.png";
 
         } else{
 			Node imageNode = propNode.getNode("image");
         	imageSrc = imageNode.getProperty("fileReference").getString();
+            imageSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.");
         }
 
         Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
@@ -127,7 +128,7 @@
 <%
     }
     %>
-		<img src="<%= getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.")%>"/>
+		<img src="<%=imageSrc%>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
 			<p><%=tileText%></p>
