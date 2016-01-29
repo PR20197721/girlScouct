@@ -24,7 +24,8 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
             // },
             "2To1AspectRatio": {
             	"value": "1.166,1",
-            	"text": "1.166:1"
+            	"text": "1.166:1",
+                "checked": true
             }
         };
  
@@ -97,41 +98,44 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
         var userInterface = cropTool.userInterface;
         ui = userInterface;
  
-        this.on("loadimage", function(){
-            var aRatios = userInterface.aspectRatioMenu.findByType("menucheckitem");
+        // this.on("loadimage", function(){
+        //     var aRatios = userInterface.aspectRatioMenu.findByType("menucheckitem");
+            
+        //     if(!aRatios){
+        //         return;
+        //     }
  
-            if(!aRatios){
-                return;
-            }
+        //     // for(var x = 0; x < aRatios.length; x++){
+        //     //     if(aRatios[x].text !== "Free crop"){
+        //     //         aRatios[x].on('click', function(radio){
+        //     //             // console.info("say hello");
+        //     //             // var key = this.getCropKey(radio.text);
  
-            for(var x = 0; x < aRatios.length; x++){
-                if(aRatios[x].text !== "Free crop"){
-                    aRatios[x].on('click', function(radio){
-                        var key = this.getCropKey(radio.text);
+        //     //             // if(!key){
+        //     //             //     return;
+        //     //             // }
+        //     //             // if(this.crops[key].cords){
+        //     //             //     console.info("a");
+        //     //             //     this.setCoords(cropTool, this.crops[key].cords);
+        //     //             // }else{
+        //     //             //     console.info("b");
+        //     //             //     var field = CQ.Ext.getCmp(key);
+        //     //             //     this.crops[key].cords = this.getRect(radio, userInterface);
+        //     //             //     field.setValue(this.crops[key].cords);
+        //     //             // }
+        //     //         },this);
+        //     //     }
  
-                        if(!key){
-                            return;
-                        }
-                        if(this.crops[key].cords){
-                            this.setCoords(cropTool, this.crops[key].cords);
-                        }else{
-                            var field = CQ.Ext.getCmp(key);
-                            this.crops[key].cords = this.getRect(radio, userInterface);
-                            field.setValue(this.crops[key].cords);
-                        }
-                    },this);
-                }
+        //     //     var key = this.getCropKey(aRatios[x].text);
  
-                var key = this.getCropKey(aRatios[x].text);
+        //     //     if(key && this.dataRecord && this.dataRecord.data[key]){
+        //     //         this.crops[key].cords = this.dataRecord.data[key];
  
-                if(key && this.dataRecord && this.dataRecord.data[key]){
-                    this.crops[key].cords = this.dataRecord.data[key];
- 
-                    var field = CQ.Ext.getCmp(key);
-                    field.setValue(this.crops[key].cords);
-                }
-            }
-        });
+        //     //         var field = CQ.Ext.getCmp(key);
+        //     //         field.setValue(this.crops[key].cords);
+        //     //     }
+        //     // }
+        // });
  
         cropTool.workingArea.on("contentchange", function(changeDef){
             var aRatios = userInterface.aspectRatioMenu.findByType("menucheckitem");
