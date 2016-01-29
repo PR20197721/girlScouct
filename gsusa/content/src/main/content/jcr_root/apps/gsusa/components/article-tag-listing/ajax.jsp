@@ -25,7 +25,6 @@ QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
 map.put("type","cq:Page");
-map.put("path",currentPage.getAbsoluteParent(2).getPath());
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
