@@ -32,7 +32,7 @@
                         fieldLabel="Photo"
                         fileNameParameter="./jcr:content/image/fileName"
                         fileReferenceParameter="./jcr:content/image/fileReference"
-                        height="{Long}200"
+                        height="{Long}400"
                         hideLabel="false"
                         itemId="image"
                         mapParameter="./jcr:content/image/imageMap"
