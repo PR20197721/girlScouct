@@ -18,10 +18,10 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
         config = config || {};
  
         var aRatios = {
-            "freeCrop": {
-                "value": "0,0",
-                "text": CQ.I18n.getMessage("Free crop")
-            },
+            // "freeCrop": {
+            //     "value": "0,0",
+            //     "text": CQ.I18n.getMessage("Free crop")
+            // },
             "2To1AspectRatio": {
             	"value": "1.166,1",
             	"text": "1.166:1"

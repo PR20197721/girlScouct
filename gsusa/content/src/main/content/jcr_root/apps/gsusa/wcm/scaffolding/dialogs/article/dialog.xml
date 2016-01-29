@@ -59,6 +59,7 @@
                         cropParameter="./jcr:content/tileimage/imageCrop"
                         ddGroups="[media]"
                         fieldLabel="Tile Photo"
+                        fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
                         fileNameParameter="./jcr:content/tileimage/fileName"
                         fileReferenceParameter="./jcr:content/tileimage/fileReference"
                         height="{Long}200"
