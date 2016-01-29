@@ -46,8 +46,8 @@ function loadResults(){
 <script>
 $("#more").click(function(event){
 	event.preventDefault();
-	loadResults();
 	page++;
+	loadResults();
 });
 loadResults();
 </script>
