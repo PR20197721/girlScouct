@@ -22,16 +22,16 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 <% }else{%>
 <h4><%=title%></h4>
 <% } %>
-<div>
+
 	<%
     if(!largeArticle.isEmpty()){
     	request.setAttribute("articlePath", largeArticle);%>
 	<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-</div>
+
     <%} else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    <div><section>LARGE ARTICLE</section></div>
+	<div class="article-tile"><h3>LARGE ARTICLE</h3></div>
 	<%} else{%>
-	<div><section></section></div>
+	<div class="article-tile"></div>
 	<%}%>
 	<div class="block-grid">
     	<ul>
@@ -41,9 +41,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
         			request.setAttribute("articlePath", smallArticle1);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div><section>ARTICLE 1</section></div>
+    			<div class="article-tile"><h3>ARTICLE 1</h3></div>
 				<%} else{%>
-				<div><section></section></div>
+				<div class="article-tile"></div>
 				<%}%>
             </li>
             <li>
@@ -52,9 +52,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
         			request.setAttribute("articlePath", smallArticle2);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-   				<div><section>ARTICLE 2</section></div>
+   				<div class="article-tile"><h3>ARTICLE 2</h3></div>
 				<%} else{%>
-				<div><section></section></div>
+				<div class="article-tile"></div>
 				<%}%>
             </li>
     		<li>
@@ -63,9 +63,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
         			request.setAttribute("articlePath", smallArticle3);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div><section>ARTICLE 3</section></div>
+    			<div class="article-tile"><h3>ARTICLE 3</h3></div>
 				<%} else{%>
-				<div><section></section></div>
+				<div class="article-tile"></div>
 				<%}%>
             </li>
             <li>
@@ -74,9 +74,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
         			request.setAttribute("articlePath", smallArticle4);%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-    			<div><section>ARTICLE 4</section></div>
+    			<div class="article-tile"><h3>ARTICLE 4</h3></div>
 				<%} else{%>
-				<div><section></section></div>
+				<div class="article-tile"></div>
 				<%}%>
             </li>
         </ul>
