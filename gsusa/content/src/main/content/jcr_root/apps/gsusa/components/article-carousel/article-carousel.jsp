@@ -21,14 +21,11 @@
 <%
 String tag = properties.get("tag","");
 String title = properties.get("componentTitle","");
-String path = currentSite.get("contentHubPath", String.class);
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 
 String sortByPriority = properties.get("sortByPriority", "false");
-
-
 
 if(!title.isEmpty()){
                      %> <h4> <%=title%></h4> <%
@@ -55,7 +52,6 @@ QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
 map.put("type","cq:Page");
-map.put("path",path);
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
