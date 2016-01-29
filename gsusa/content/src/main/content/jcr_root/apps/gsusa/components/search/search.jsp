@@ -25,7 +25,7 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
   Query query = queryBuilder.createQuery(pg,session);
   query.setExcerpt(true);
   return query.getResult().getHits(); 
-}
+} 
 
 %>
 <%
@@ -120,7 +120,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
                 <span class="icon type_<%=extension%>"><!-- <img src="/etc/designs/default/0.gif" alt="*"> --></span>
                 <% } %>
                 <h5><a href="<%=path%>"><%=docHit.getTitle() %></a></h5>
-                <p><%=docHit.getExcerpt()%></p>
+                <p><%=docHit.getRawExcerpt()%></p>
                 <% 
                 	// show last modified to confirm result sorting (pbae)
                 	// String lastModified = docHit.getProperties().get("cq:lastModified").toString();

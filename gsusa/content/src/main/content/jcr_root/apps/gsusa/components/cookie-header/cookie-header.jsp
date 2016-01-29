@@ -14,7 +14,7 @@
 <%
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 Map<String, String> map = new HashMap<String, String>();
-map.put("path", currentPage.getPath());
+map.put("path", currentPage.getPath() + "/jcr:content");
 map.put("property", "sling:resourceType");
 map.put("property.value", "gsusa/components/standalone-cookie-header");
 
@@ -22,7 +22,7 @@ Query query0 = builder.createQuery(PredicateGroup.create(map), resourceResolver.
 map.put("property.value", "gsusa/components/cookie-landing-hero");
 Query query1 = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 
-long matchNum0 = query0.getResult().getTotalMatches();
+long matchNum0 = query0.getResult().getTotalMatches() - (resourceResolver.adaptTo(Session.class).nodeExists(currentPage.getPath() + "/jcr:content/mobile-cookie-header") ? 1 : 0);
 long matchNum1 = query1.getResult().getTotalMatches();
 // TODO: Can we consolidate two queries into one?
 boolean hasHeader = (matchNum0 != 0 || matchNum1 != 0);
