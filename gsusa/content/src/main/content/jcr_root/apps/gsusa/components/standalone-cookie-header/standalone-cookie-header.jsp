@@ -86,6 +86,11 @@ $(document).ready(function(){
 	});
 });
 </script>
+
+<%
+if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){
+	%>
+	<!-- HOMEPAGE VERSION -->
 <div class="row">
   <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
@@ -109,5 +114,16 @@ $(document).ready(function(){
     </div>
   </div>
 </div>
+	
+	<%
+}else{
+%>
+	<!-- NON-HOMEPAGE VERSION -->
+	**** asdfasdfasdf ****
+<%
+}
+%>
+
+
 
 
