@@ -53,7 +53,7 @@
         type = propNode.getProperty("type").getString();
 
         if(propNode.hasProperty("sling:vanityPath"))
-        vanityUrl = propNode.getProperty("sling:vanityPath").getString();
+        vanityUrl = propNode.getProperty("sling:vanityPath").getString() + ".html";
 
         if(propNode.hasProperty("videoLink"))
         videoLink = propNode.getProperty("videoLink").getString();
