@@ -28,7 +28,7 @@ String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 String sortByPriority = properties.get("sortByPriority", "false");
 
-String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
+
 
 if(!title.isEmpty()){
                      %> <h4> <%=title%></h4> <%
