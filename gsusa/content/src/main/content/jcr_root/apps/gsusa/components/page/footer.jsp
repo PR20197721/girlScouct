@@ -9,6 +9,10 @@
     String copyrightPath = footerPath + "/copyright";
     String cookieFooter = footerPath + "/cookie-footer";
 %>
+<div id="gsusaHiddenModal" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" style="background-color:#00ff00" role="dialog">
+        <div class="close"><a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a></div>
+        <div class="video-popup"></div>
+    </div>
 <section class="row">
     <cq:include script="cookie-footer.jsp" />
 </section>

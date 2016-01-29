@@ -54,7 +54,7 @@
         jcr:description="Manage GSUSA Article Hub tags and change category colors"
         jcr:mixinTypes="[sling:Redirect]"
         jcr:primaryType="nt:unstructured"
-        jcr:title="GSUSA Article Hub Tag Editor"
+        jcr:title="GSUSA Content Hub Tag Editor"
         sling:resourceType="sling:redirect"
         sling:status="302"
         sling:target="/apps/gsusa/wcm/components/tag-editor.html"/>

@@ -92,6 +92,7 @@
 	/0047 { /type "allow" /glob "GET /system/sling.js *" } # foundation slide show component
 	/0048 { /type "allow" /glob "GET /home/users/*/profile/photos/primary/*" } # soco: profile picture in forum
 	/0049 { /type "allow" /glob "GET /home/users/*/profile.form.html*" } # soco: profile page show/edit/passwordchange
+	/0050 { /type "allow" /glob "GET /etc/gsusa/*" } # gsusa
 	# add more here...
 
 
