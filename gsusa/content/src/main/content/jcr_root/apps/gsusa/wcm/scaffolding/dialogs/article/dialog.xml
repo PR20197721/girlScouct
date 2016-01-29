@@ -67,7 +67,7 @@
                         itemId="thumbnail"
                         mapParameter="./jcr:content/tileimage/imageMap"
                         name="./jcr:content/tileimage/file"
-                        requestSuffix="/jcr:content/image.img.png"
+                        requestSuffix="/jcr:content/tileimage.img.png"
                         rotateParameter="./jcr:content/tileimage/imageRotate"
                         sizeLimit="100"
                         width="{Long}200"
