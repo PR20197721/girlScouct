@@ -39,7 +39,7 @@
 	Tag[] tags = null;
 
 	try{
-        Node node =   resourceResolver.getResource(articlePath).adaptTo(Node.class);
+        Node node =   resourceResolver.resolve(articlePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
 
         if(propNode.hasProperty("jcr:title"))

@@ -7,9 +7,9 @@
             <dynamic-tag-carousel
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="gsusa/components/article-detail-carousel"/>
-            <tile
+            <article-tile
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="gsusa/components/tile"/>
+                sling:resourceType="gsusa/components/article-tile"/>
         </article-hub>
     </components>
 </jcr:root>
