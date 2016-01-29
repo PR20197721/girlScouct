@@ -46,7 +46,12 @@ if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
 <script>
 
 document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+<% if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){ %>
+
 document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%> form label:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+<% } else {%>
+    document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+<% } %>
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
 	cookieFormSubmitted = false;
@@ -91,7 +96,7 @@ $(document).ready(function(){
 if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){
 	%>
 	<!-- HOMEPAGE VERSION -->
-<div class="row">
+<div class="row homepage">
   <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
   <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
     <div class="wrapper-inner clearfix" id="<%= id %>">
@@ -114,12 +119,34 @@ if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){
     </div>
   </div>
 </div>
-	
+
 	<%
 }else{
 %>
 	<!-- NON-HOMEPAGE VERSION -->
-	**** asdfasdfasdf ****
+    <div class="row">
+      <!--img src="/etc/designs/gsusa/clientlibs/images/zip-cookie-bg.png" alt="cookie zip code image" /-->
+      <div class="wrapper clearfix" style="background: #<%= bgcolor%>">
+        <div class="wrapper-inner clearfix" id="<%= id %>">
+        <%if (hasRightShareSection) { %>
+          <form class="find-cookies-share" name="find-cookies">
+        <%} else {%>
+            <form class="find-cookies-noshare" name="find-cookies">
+        <% }%>
+            <label for="zip-code"><%= mainText %></label>
+            <div class="form-wrapper clearfix">
+              <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+              <input type="submit" class="link-arrow" value="Go >"/>
+            </div>
+          </form>
+          <%if (hasRightShareSection)  { %>
+              <div class="share">
+                <a href="<%=shareSectionLink %>" title="cookies on facebook" target="_blank"><span><%= shareSectionText %><i class="<%= shareSectionIcon %>"></i></span></a>
+              </div>
+          <%} %>
+        </div>
+      </div>
+    </div>
 <%
 }
 %>
