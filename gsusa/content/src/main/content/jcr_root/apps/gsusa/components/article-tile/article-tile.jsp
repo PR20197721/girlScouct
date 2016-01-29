@@ -31,6 +31,7 @@
 	String divId = (String)request.getAttribute("tileModalDivId");
 
 	String imageSrc = "";
+	String image2xSrc = "";
 
 	String hexColor = "FFFFFF";
 
@@ -72,10 +73,11 @@
         if(propNode.hasNode("tileimage")){
 			Node thumbnailNode = propNode.getNode("tileimage");
 			imageSrc = thumbnailNode.getPath() + ".img.png";
-
+			image2xSrc = thumbnailNode.getPath() + "2x.img.png";
         } else{
 			Node imageNode = propNode.getNode("image");
         	imageSrc = imageNode.getProperty("fileReference").getString();
+        	image2xSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile@2x.");
             imageSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.");
         }
 
@@ -128,7 +130,7 @@
 <%
     }
     %>
-		<img src="<%=imageSrc%>"/>
+		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
 			<p><%=tileText%></p>
