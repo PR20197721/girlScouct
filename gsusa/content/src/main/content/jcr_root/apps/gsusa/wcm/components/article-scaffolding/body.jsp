@@ -400,14 +400,12 @@
                         }
                     }
                 });
-                //console.info(myForm);
-                //console.info(frm.findField("./jcr:content/tileimage/imageCrop").getValue());
                 params["./jcr:content/tileimage2x/sling:resourceType"] = "gsusa/components/image";
                 params["./jcr:content/tileimage2x/fileReference"] = frm.findField("./jcr:content/tileimage/fileReference").getValue();
                 params["./jcr:content/tileimage2x/jcr:lastModified"] = "";
                 params["./jcr:content/tileimage2x/jcr:lastModifiedBy"] = "";
                 params["./jcr:content/tileimage2x/imageMap"] = frm.findField("./jcr:content/tileimage/imageMap").getValue();
-                params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("./jcr:content/tileimage/imageCrop").getValue();
+                params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
                 params["./jcr:content/tileimage2x/imageRotate"] = 0;
                 params["./jcr:content/tileimage2x/height"] = 600;
                 params["./jcr:content/tileimage2x/width"] = 700;
