@@ -176,6 +176,7 @@
         // margin-bottom: rem-calc(15);
         text-align: center;
         line-height: 1;
+        white-space: nowrap;
         &:before {
           content: "";
           //This now done in the jsp. Please check cookie-header.jsp for more details
