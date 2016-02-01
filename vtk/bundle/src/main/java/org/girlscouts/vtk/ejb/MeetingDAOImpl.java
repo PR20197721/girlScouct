@@ -1982,6 +1982,8 @@ System.err.println("SearchA1 return"+ toRet.size() );
 			classes.add(Achievement.class);
 			classes.add(Asset.class);
 			classes.add(Attendance.class);
+			classes.add(SentEmail.class);
+			
 			classes.add(JcrCollectionHoldString.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
@@ -2119,10 +2121,11 @@ System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
 			map.put("path", PATH);
+		
+System.err.println("tataSearch path: "+ PATH+" : "+ _query);			
 			com.day.cq.search.Query query = qBuilder.createQuery(
-
-			PredicateGroup.create(map), session);
-
+					PredicateGroup.create(map), session);
+query.setHitsPerPage(1);
 			query.setExcerpt(true);
 
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
