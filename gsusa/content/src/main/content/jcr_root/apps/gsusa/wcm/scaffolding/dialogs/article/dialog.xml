@@ -52,10 +52,9 @@
                     </image>
                     <tileimage
                         jcr:primaryType="cq:Widget"
-                        _x0031_6To1AspectRatio="16,9"
-                        _x0031_6To1AspectRatioText="16:9"
                         allowBlank="{Boolean}false"
                         border="true"
+                        allowUpload="false"
                         cropParameter="./jcr:content/tileimage/imageCrop"
                         ddGroups="[media]"
                         fieldLabel="Tile Photo"
