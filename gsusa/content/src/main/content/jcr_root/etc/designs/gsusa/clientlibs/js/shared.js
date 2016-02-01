@@ -54,8 +54,8 @@ function toggleParsys(s)
     return this;
 };
 
-function anchorCheck(){
-	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
+function anchorCheck() {
+	$('.accordion dt > :first-child').each(function(i, value) {
     	var parsysID = $(value).parent().data('target');
     	var target = $(this).parent().next().find('.content');
         var toggle = $(this);
@@ -96,43 +96,43 @@ function inPageAnchorCheck(e){
 }
 
 function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function(e) {
-       if($('.inner-wrap').hasClass('cookie-page')) {
-    	$('.cookie-page .accordion dt > :first-child').each(function(i, value) {
+    $('.accordion dt > :first-child').on('click', function (e) {
+        //close and remove classes first
+        $('.accordion dd .content').slideUp('slow');
+        $('.accordion dt > :first-child').removeClass('on');
+        $('.accordion dt').removeClass('on');
+
+    	$('.accordion dt > :first-child').each(function (i, value) {
     		var parsysID = $(value).parent().data('target');
     		//Necessary for authoring mode. See main.js:toggleParsys
-        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
-     	      window[parsysID].hideParsys();
-        }
+            if(window[parsysID] != null && window[parsysID].hideParsys != undefined) {
+         	      window[parsysID].hideParsys();
+            }
     	});
-        $('.cookie-page .accordion dd .content').slideUp('slow');
-        $('.cookie-page .accordion dt > :first-child').removeClass('on');
-        $('.cookie-page .accordion dt').removeClass('on');
-       }
-      var target = $(this).parent().next().find('.content');
-      var toggle = $(this);
-      var parsysID = $(this).parent().data('target');
 
-      if(target.is(':visible')) {
+        var target = $(this).parent().next().find('.content');
+        var toggle = $(this);
+        var parsysID = $(this).parent().data('target');
+
+        if(target.is(':visible')) {
         toggle.removeClass('on');
         target.slideUp();
         $(this).parent().removeClass('on');
-        if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
-     	   window[parsysID].hideParsys();
-        }
-      } else {
+            if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+            	   window[parsysID].hideParsys();
+            }
+        } else {
         toggle.addClass('on');
         target.slideDown();
         $(this).parent().addClass('on');
-        if(window[parsysID] != null && window[parsysID].showParsys != undefined){
-     	   window[parsysID].showParsys();
+            if(window[parsysID] != null && window[parsysID].showParsys != undefined){
+         	   window[parsysID].showParsys();
+            }
         }
-      }
-      return false;
+        return false;
     });
-    
     anchorCheck();
-  }
+}
 
 $(document).ready(function(){
   vtk_accordion();
