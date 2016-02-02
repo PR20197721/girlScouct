@@ -425,14 +425,14 @@
 
       // mike's fix for ie11 Windows 8
       if (isIE11) {
-        $('.inner-sliders .inner').on('beforeChange', function(event, slick, index) {
+        $('.inner-sliders .inner').on('beforeChange', function (event, slick, index) {
           var slides = slick.$slides;
           for (var i = 0; i < slides.length; i++) {
               $(slides[i]).css('opacity', '1');
           }
-            });
+        });
 
-            $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+        $('.inner-sliders .inner').on('afterChange', function (event, slick, index) {
           var slides = slick.$slides;
           lastAfterSlick = slides;
           for (var i = 0; i < slides.length; i++) {
