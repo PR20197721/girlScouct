@@ -51,7 +51,7 @@ Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.a
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 %>
-    
+
 <div class="article-detail-carousel">
     <div class="article-slider">
     <%for (Hit h : hits){
@@ -77,24 +77,24 @@ $(document).ready(function() {
 
 		var hashIndex = link.lastIndexOf('#');
 		if (hashIndex == -1) {
-			hashIndex = link.length;	
+			hashIndex = link.length;
 		}
 		var questionMarkIndex = link.lastIndexOf('?');
 		if (questionMarkIndex == -1) {
 			questionMarkIndex = link.length;
 		}
-		
+
 		var hashOrQuestionMarkIndex = Math.min(hashIndex, questionMarkIndex);
 		if (hashOrQuestionMarkIndex != -1) {
 			link = link.substring(0, hashOrQuestionMarkIndex);
 		}
-		
+
 		if (link == window.location.pathname) {
 			$(slide).addClass('current');
 			currentSlideIndex = slideIndex;
 		}
 	}
-	
+
 	function adjustSlidesAndSlick() {
 		slides = $(TILES_SELECTOR);
 		var currentSlideHtml;
@@ -120,8 +120,10 @@ $(document).ready(function() {
             touchMove: true,
             slidesToScroll: 4,
             initialSlide: slides.length + 1 > 4 ? middleSlideIndex : 0,
-            infinite: false
+            infinite: false,
         });
+        //adding more link as the last slider.
+        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"/content/gsusa/en/about-girl-scouts/our-stories-page/girls/stem/article-7.html#girls|stem\">See More</a></section></div>");
 	}
 
 	if (currentSlideIndex == -1) {
