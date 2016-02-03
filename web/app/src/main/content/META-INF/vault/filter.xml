@@ -70,4 +70,5 @@
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
+    <filter root="/var/classes"/>
 </workspaceFilter>
