@@ -153,3 +153,16 @@
 .instagram-feed-image-area {
   @include block-grid(3);
 }
+//article page
+.article-social-bar {
+  float: right;
+  li {
+    margin-left:rem-calc(10);
+    a {
+      font-size: 2rem;
+      &.icon-social-facebook {
+        margin-right: rem-calc(-10);
+      }
+    }
+  }
+}

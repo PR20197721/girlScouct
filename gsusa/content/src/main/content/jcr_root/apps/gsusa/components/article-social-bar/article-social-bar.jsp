@@ -26,7 +26,7 @@
 
 %>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
 
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
@@ -36,14 +36,14 @@
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
 		scriptTag.onload=initFB;
-		scriptTag.onreadystatechange = function () {                
+		scriptTag.onreadystatechange = function () {
 		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
 		}
 	});
 	function initFB() {
 		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
 	}
- 
+
       function postToFeed<%= uniqueID %>() {
 
         // calling the API ...
@@ -54,35 +54,26 @@
           name: '<%= title %>',
           description: '<%= facebookText %>'
         };
- 
+
         function callback(response) {
         }
- 
+
         FB.ui(obj, callback);
       }
- 
-    </script>
 
+    </script>
 <ul class="inline-list">
-    <li>
-       	<div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style">
-			<a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
-       	</div>
+    <li id="toolbox_1" class="addthis_toolbox">
+      <a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
     </li>
-    <li>
-        <div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style">
-			<a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=<%=tweetText%>&url=<%=tweetUrl%>"></a>
-        </div>
+    <li id="toolbox_2" class="addthis_toolbox">
+      <a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=<%=tweetText%>&url=<%=tweetUrl%>"></a>
     </li>
-    <li>
-        <div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style">
-			<a class="addthis_button_email"><span class="icon-mail"></span></a>
-        </div>
+    <li id="toolbox_3" class="addthis_toolbox">
+          <a class="addthis_button_email icon-mail"><!-- <span></span> --></a>
     </li>
-    <li>
-        <div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style">
-			<a class="addthis_button_print"><span class="icon-printer"></span></a>
-        </div>
+    <li id="toolbox_3" class="addthis_toolbox">
+        <a class="addthis_button_print icon-printer"><!-- <span></span> --></a>
     </li>
 
 </ul>
