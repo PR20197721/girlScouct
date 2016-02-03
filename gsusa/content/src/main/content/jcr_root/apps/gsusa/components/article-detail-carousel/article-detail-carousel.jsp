@@ -18,7 +18,6 @@
     org.apache.sling.api.request.RequestPathInfo" %>
 <%@page session="false" %>
 <%
-String path = "/content/gsusa/en/content-hub/articles";
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
@@ -38,7 +37,6 @@ QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
 Map<String, String> map = new HashMap<String, String>();
 map.put("type","cq:Page");
-map.put("path",path);
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
 map.put("p.limit",num + "");
