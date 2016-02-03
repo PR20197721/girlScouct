@@ -23,15 +23,15 @@
                    java.util.List,
                    java.util.Map,
                    java.util.Locale,
-				   java.util.ResourceBundle,
-				   com.day.cq.i18n.I18n,
+           java.util.ResourceBundle,
+           com.day.cq.i18n.I18n,
                    org.apache.commons.lang3.StringEscapeUtils" %><%
-	
-	final Locale pageLocale = currentPage.getLanguage(true);
-	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
-	I18n i18n = new I18n(resourceBundle); 
-					
-    final String name = FormsHelper.getParameterName(resource).replace("-","_");
+  
+  final Locale pageLocale = currentPage.getLanguage(true);
+  final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
+  I18n i18n = new I18n(resourceBundle); 
+          
+    final String name = FormsHelper.getParameterName(resource);
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
     final boolean hideTitle = properties.get("hideTitle", false);
