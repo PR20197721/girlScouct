@@ -18,16 +18,19 @@
                     <article1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 1"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article1"
                         xtype="pathfield"/>
                     <article2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 2"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article2"
                         xtype="pathfield"/>
                     <article3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 3"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article3"
                         xtype="pathfield"/>
                 </items>
