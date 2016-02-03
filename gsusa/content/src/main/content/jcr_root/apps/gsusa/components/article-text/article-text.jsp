@@ -29,7 +29,8 @@
     }
 
 %>
-
-<cq:include path="social-bar" resourceType="gsusa/components/article-social-bar" />
+<div class="clearfix">
+    <cq:include path="social-bar" resourceType="gsusa/components/article-social-bar" />
+</div>
 <i>Edited: <%=editedDate%></i>
 <%=articleText%>
