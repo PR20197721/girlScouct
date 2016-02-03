@@ -20,13 +20,13 @@
                    com.day.cq.wcm.foundation.forms.FormsHelper,
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
-				   java.util.ResourceBundle,
-				   com.day.cq.i18n.I18n" %><%
+                   java.util.ResourceBundle,
+                   com.day.cq.i18n.I18n" %><%
 
-	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
-	I18n i18n = new I18n(resourceBundle);  
-					
-    final String name = FormsHelper.getParameterName(resource).replace("-","_");
+    final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
+    I18n i18n = new I18n(resourceBundle);  
+                    
+    final String name = FormsHelper.getParameterName(resource);
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
     final boolean readOnly = FormsHelper.isReadOnly(slingRequest, resource);
