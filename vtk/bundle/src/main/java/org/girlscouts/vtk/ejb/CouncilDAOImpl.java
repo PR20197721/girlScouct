@@ -72,10 +72,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Session session = null;
 		try {
 			//TODO Permission.PERMISSION_LOGIN_ID
-
+System.err.println("caca findCouncil 1 "+ new java.util.Date() );
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
+			/*
 			classes.add(YearPlan.class);
 			classes.add(MeetingE.class);
 			classes.add(Location.class);
@@ -89,11 +90,17 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Attendance.class);
 			classes.add(Achievement.class);
 			classes.add(org.girlscouts.vtk.models.MeetingCanceled.class);
+			*/
+			System.err.println("caca findCouncil 2 "+ new java.util.Date() );
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
-	
+			System.err.println("caca findCouncil 3 "+ new java.util.Date() );
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+			System.err.println("caca findCouncil 4 "+ new java.util.Date() );
+String p= VtkUtil.getYearPlanBase(user, null) + councilId; 
+System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
+			council = (Council) ocm.getObject(p);
+			System.err.println("caca findCouncil 5 "+ new java.util.Date() );
+			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
@@ -107,6 +114,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				ex.printStackTrace();
 			}
 		}
+		System.err.println("caca findCouncil 7 "+ new java.util.Date() );
 		return council;
 	}
 

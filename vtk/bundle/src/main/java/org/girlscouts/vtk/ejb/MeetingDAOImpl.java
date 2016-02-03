@@ -182,7 +182,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
+System.err.println("caca **** "+ new java.util.Date() );			
 			meeting = (Meeting) ocm.getObject(path);
+System.err.println("caca **2** "+ new java.util.Date() );	
 
 			if (meeting != null && path != null
 					&& path.contains("/lib/meetings/")) {
@@ -514,6 +516,9 @@ System.err.println("tata aidTags: getAidTag : 1 : "+ tags +" : "+ meetingName);
 			throw new IllegalAccessException();
 System.err.println("tata aidTags: getAidTag : 2");
 		List<Asset> matched = new ArrayList<Asset>();
+
+
+
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -858,8 +863,9 @@ System.err.println("tata aidTags- found asset global: "+ path );
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"
-					+ councilStr + "/%'";
+			//020316 String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr + "/%'";
+			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/"+ councilStr + "%'";
+		
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -935,8 +941,9 @@ System.err.println("tata aidTags- found asset global: "+ path );
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"
-					+ councilStr + "/%'";
+			//String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/" + councilStr + "/%'";
+			String sql = "select jcr:title from nt:base where type='cq:Tag' and jcr:path like '/etc/tags/" + councilStr + "%'";
+			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1162,7 +1169,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
-			String sql = "select region, start, end from nt:base where jcr:path like '/content/"
+			String sql = "select region, start, end from cq:Page where jcr:path like '/content/"
 					+ councilStr
 					+ "/en/events-repository/%' and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
@@ -2084,7 +2091,7 @@ System.err.println("SearchA1 return"+ toRet.size() );
 
 	}
 
-	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
+	public List<org.girlscouts.vtk.models.Search> getDataItem_old020316(User user,
 
 	Troop troop, String _query, String PATH) throws IllegalAccessException {
 System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
@@ -2121,16 +2128,21 @@ System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
 			map.put("path", PATH);
-		
-System.err.println("tataSearch path: "+ PATH+" : "+ _query);			
-			com.day.cq.search.Query query = qBuilder.createQuery(
+			//map.put("p.limit", "1");
+System.err.println("tataSearch path: "+ PATH+" : "+ _query +" : "+ new java.util.Date());
+
+//if( true)return matched;
+//System.err.println("tataSearch ending ");
+
+	com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
-query.setHitsPerPage(1);
+	
 			query.setExcerpt(true);
 
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 
 			SearchResult result = query.getResult();
+System.err.println("tataSearch end query  : "+ new java.util.Date());
 
 			for (Hit hit : result.getHits()) {
 
@@ -2227,6 +2239,155 @@ query.setHitsPerPage(1);
 		return matched;
 
 	}
+	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
+
+			Troop troop, String _query, String PATH) throws IllegalAccessException {
+		System.err.println("tataSearch _*__ getDataItem: "+ _query +" : "+ PATH);
+				if (user != null
+
+				&& !userUtil.hasPermission(troop,
+
+				Permission.PERMISSION_LOGIN_ID))
+
+					throw new IllegalAccessException();
+
+				Session session = null;
+
+				List<org.girlscouts.vtk.models.Search> matched = null;
+				final String RESOURCES_PATH = "resources";
+				String councilId = null;
+				if (troop.getTroop() != null) {
+					councilId = Integer.toString(troop.getTroop().getCouncilCode());
+				}
+
+				String branch = councilMapper.getCouncilBranch(councilId);
+
+				String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+
+				if (PATH == null) {
+					PATH = resourceRootPath;
+				}
+				matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+				System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");
+				try {
+
+					session = sessionFactory.getSession();
+
+					java.util.Map<String, String> map = new java.util.HashMap<String, String>();
+					map.put("fulltext", _query);
+					map.put("path", PATH);
+					map.put("type", "dam:Asset");
+					//map.put("p.limit", "1");
+		System.err.println("tataSearch ** path: "+ PATH+" : "+ _query +" : "+ new java.util.Date());
+
+		//if( true)return matched;
+		//System.err.println("tataSearch ending ");
+
+			com.day.cq.search.Query query = qBuilder.createQuery(
+							PredicateGroup.create(map), session);
+			
+					query.setExcerpt(true);
+
+					java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
+
+					SearchResult result = query.getResult();
+		System.err.println("tataSearch end query  : "+ new java.util.Date());
+
+					for (Hit hit : result.getHits()) {
+
+						try {
+
+							String path = hit.getPath();
+
+							java.util.Map<String, String> exc = hit.getExcerpts();
+							java.util.Iterator itr = exc.keySet().iterator();
+
+							while (itr.hasNext()) {
+								String str = (String) itr.next();
+								String str1 = exc.get(str);
+							}
+
+							ValueMap vp = hit.getProperties();
+
+							itr = vp.keySet().iterator();
+
+							DocHit dh = new DocHit(hit);
+
+							org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+
+							search.setPath(dh.getURL());
+
+							search.setDesc(dh.getTitle());
+
+							search.setContent(dh.getExcerpt());
+
+							search.setSubTitle(dh.getDescription());
+
+							search.setAssetType(AssetComponentType.RESOURCE);
+
+							if (search.getPath().toLowerCase().contains("/aid/"))
+
+								search.setAssetType(AssetComponentType.AID);
+
+							if (unq.containsKey(search.getPath())) {
+
+								if (search.getContent() != null
+
+								&& !search.getContent().trim().equals("")) {
+
+									org.girlscouts.vtk.models.Search _search = unq
+
+									.get(search.getPath());
+
+									if (_search.getContent() == null
+
+									|| _search.getContent().trim().equals(""))
+
+										unq.put(search.getPath(), search);
+
+								}
+
+							} else
+
+								unq.put(search.getPath(), search);
+
+						} catch (RepositoryException e) {
+
+							e.printStackTrace();
+
+						}
+
+					}
+
+					java.util.Iterator itr = unq.keySet().iterator();
+
+					while (itr.hasNext())
+
+						matched.add(unq.get(itr.next()));
+
+				} catch (Exception e) {
+
+					e.printStackTrace();
+
+				} finally {
+
+					try {
+
+						if (session != null)
+
+							sessionFactory.closeSession(session);
+
+					} catch (Exception ex) {
+
+						ex.printStackTrace();
+
+					}
+
+				}
+
+				return matched;
+
+			}
 
 	
 	
