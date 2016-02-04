@@ -119,7 +119,7 @@
         %>
     <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
 <%
-    } else if(type.equals("link")){ 
+    } else if(type.equals("link")){
 	%>
 	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
 
@@ -133,7 +133,7 @@
 		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
-			<p><%=tileText%></p>
+			<%=tileText%>
 		</div>
 	</a>
 </section>
