@@ -16,17 +16,23 @@
     com.day.cq.search.PredicateGroup,
     com.day.cq.search.result.SearchResult,
     com.day.cq.search.result.Hit,
-    org.apache.sling.api.request.RequestPathInfo" %>
+    org.apache.sling.api.request.RequestPathInfo,
+    com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
-
+boolean editMode = false;
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
 
 tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
+
+if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	editMode = true;
+}
+
 
 int num = 20;
 try {
@@ -129,7 +135,12 @@ $(document).ready(function() {
         //adding more link as the last slider.
         articleHash = window.location;
         var contentHubParentPage = "<%=contentHubParentPage%>";
+        console.info("<%= editMode %>");
+        if (<%= editMode %> !== true) {
+        	contentHubParentPage = contentHubParentPage.replace("content/gsusa/", "");
+        }
         var currentURL = window.location.pathname;
+        
         var tagStructureIndex = currentURL.indexOf(contentHubParentPage) + contentHubParentPage.length;
         var tagStructure = currentURL.substring(tagStructureIndex, currentURL.lastIndexOf('/'));
         $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + contentHubParentPage + tagStructure + ".html\">See More</a></section></div>");
