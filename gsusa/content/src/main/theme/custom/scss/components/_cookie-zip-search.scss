@@ -1,9 +1,11 @@
 .standalone-cookie-header,
 .cookie-header {
   @media #{$small-only} {
-    #main & {
-      display: none;
-    }
+  	&:not(.mobile-cookie-header) {
+	    #main &, .main-content & {
+	      display: none;
+	    }
+	}
   }
   .help-msg{
   	text-align:left;
@@ -23,10 +25,6 @@
     position: relative;
     z-index: 1;
     padding: rem-calc(13 0);
-    @media #{$small-only} {
-      padding-left: 15%;
-      padding-right: 15%;
-    }
     &:before {
       @media #{$medium-up} {
         content: "";
@@ -85,16 +83,17 @@
       color: $white;
       font-size: rem-calc(30);
       font-weight: 300;
+      * {
+      	color: $white;
+      }
       @media #{$small-only} {
         margin-bottom: rem-calc(15);
         text-align: center;
       }
-      * {
-      	color: $white;
-      }
     }
     @media #{$small-only} {
-      margin: rem-calc(20 0);
+      // margin: rem-calc(20 0);
+      padding: 0 20%;
     }
     @media #{$medium-up} {
       width: 50%;
@@ -151,6 +150,43 @@
     }
     .form-wrapper {
       position: relative;
+      @media #{$small-only} {
+        margin-top: rem-calc(10);
+      }
+    }
+  }
+
+  .row.homepage {
+    .wrapper-inner {
+      @media #{$small-only} {
+        padding: 1.25rem 0;
+        &:before {
+          height: 0;
+          width: 0;
+          left: 0;
+          position: relative;
+          margin-left: 0;
+          margin-bottom: 0;
+          margin-top: 0;
+        }
+      }
+    }
+    form label {
+      @media #{$small-only} {
+        // margin-bottom: rem-calc(15);
+        text-align: center;
+        line-height: 1;
+        &:before {
+          content: "";
+          //This now done in the jsp. Please check cookie-header.jsp for more details
+          //background: url("../images/cookie-header.png") no-repeat 0% 0% transparent;
+          height: rem-calc(35);
+          width: rem-calc(35);
+          display: inline-block;
+          margin-right: rem-calc(15);
+          vertical-align: bottom;
+        }
+      }
     }
   }
   @media #{$medium-up} {
