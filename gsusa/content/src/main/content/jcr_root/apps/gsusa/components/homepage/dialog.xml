@@ -40,6 +40,11 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
+                        <content-hub-parent-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Content Hub Parent Page"
+                            name="./contenthubparentpage"
+                            xtype="dynamicPathField"/>
                         <facebook-id
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Facebook ID"
