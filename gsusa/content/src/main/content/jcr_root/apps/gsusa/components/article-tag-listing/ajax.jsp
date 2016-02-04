@@ -18,6 +18,12 @@ int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 int pageNum = Integer.parseInt(selectors[selectors.length-1]);
 String priority = java.net.URLDecoder.decode(request.getParameter("priority"),"UTF-8");
+String linkTagAnchors = request.getParameter("anchors");
+if(linkTagAnchors != null){
+	linkTagAnchors = java.net.URLDecoder.decode(linkTagAnchors,"UTF-8");
+}else{
+	linkTagAnchors = "";
+}
 
 
 //final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
@@ -46,7 +52,8 @@ List<Hit> hits = sr.getHits();
 long total = sr.getTotalMatches();
 
 for (Hit h : hits){
-	request.setAttribute("articlePath", h.getPath()); %>
+	request.setAttribute("articlePath", h.getPath());
+	request.setAttribute("linkTagAnchors",linkTagAnchors);%>
 	<li>
 	<div class="article-tile">
 	<cq:include script="/apps/gsusa/components/article-tile/article-tile.jsp" /></li></div><%
