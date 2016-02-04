@@ -107,10 +107,14 @@ $(document).ready(function() {
 		}
 
 		slides = $(TILES_SELECTOR);
-		var middleSlideIndex = slides.length <= 1 ? 1 : slides.length / 2;
-		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-			if (slideIndex == middleSlideIndex - 1) {
-				$(slides[slideIndex]).parent().after(currentSlideHtml);
+		var middleSlideIndex = slides.length / 2;
+		if (slides.length == 0) {
+			$('.article-detail-carousel .article-slider').prepend(currentSlideHtml);
+		} else {
+			for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+				if (slideIndex == middleSlideIndex - 1) {
+					$(slides[slideIndex]).parent().after(currentSlideHtml);
+				}
 			}
 		}
 
