@@ -93,10 +93,11 @@ public class EventsSrch
 		}
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",path);
+System.err.println("tata eventSearch: "+ path +" : "+q);		
 		searchQuery.put("1_property",EVENTS_PROP);
-		searchQuery.put("p.limit", "-1");
-		searchQuery.put("orderby","@jcr:content/data/start");
-		searchQuery.put("orderby.sort", "asc");
+	searchQuery.put("p.limit", "-1");
+	//-	searchQuery.put("orderby","@jcr:content/data/start");
+	//-	searchQuery.put("orderby.sort", "asc");
 		log.debug("Query Parameter : " +q);
 		
 		if(tags.length > 0) {
