@@ -1,9 +1,9 @@
-<%@page import="java.net.URLEncoder"%>
+<%@page import="java.net.URLEncoder,
+				org.jsoup.Jsoup" %>
 <%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <%
-
     String url = properties.get("url", currentPage.getPath());
 		url = resourceResolver.map(currentPage.getPath());
 	if (!url.contains(".html")) {
@@ -52,7 +52,7 @@
           link: '<%= url %>',
           picture: '<%= imageUrl %>',
           name: '<%= title %>',
-          description: '<%= facebookText %>'
+          description: '<%= Jsoup.parse(facebookText).text().replace("\n","\\n") %>'
         };
 
         function callback(response) {
