@@ -121,7 +121,12 @@ $(document).ready(function() {
             infinite: false,
         });
         //adding more link as the last slider.
-        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"/content/gsusa/en/about-girl-scouts/our-stories-page/girls/stem/article-7.html#girls|stem\">See More</a></section></div>");
+        articleHash = window.location.hash.replace('#', '').replace('|','/');
+        if (articleHash !== "") {
+        	$(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"/content/gsusa/en/about-girl-scouts/our-stories-page/" + articleHash + ".html\">See More</a></section></div>");
+        } else {
+        	//some default listing link from article page property
+        }
 	}
 
 	if (currentSlideIndex == -1) {
