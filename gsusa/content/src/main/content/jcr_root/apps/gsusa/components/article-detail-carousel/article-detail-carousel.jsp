@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+
 <%@page import="org.apache.sling.commons.json.*,
     java.io.*, java.util.regex.*,
 	java.net.*,
@@ -19,6 +20,7 @@
 <%@page session="false" %>
 <%
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
+String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
 
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
@@ -105,10 +107,14 @@ $(document).ready(function() {
 		}
 
 		slides = $(TILES_SELECTOR);
-		var middleSlideIndex = slides.length <= 1 ? 1 : slides.length / 2;
-		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-			if (slideIndex == middleSlideIndex - 1) {
-				$(slides[slideIndex]).parent().after(currentSlideHtml);
+		var middleSlideIndex = parseInt(slides.length / 2, 10);
+		if (slides.length == 0) {
+			$('.article-detail-carousel .article-slider').prepend(currentSlideHtml);
+		} else {
+			for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+				if (slideIndex == middleSlideIndex - 1) {
+					$(slides[slideIndex]).parent().after(currentSlideHtml);
+				}
 			}
 		}
 
@@ -121,12 +127,12 @@ $(document).ready(function() {
             infinite: false,
         });
         //adding more link as the last slider.
-        articleHash = window.location.hash.replace('#', '').replace('|','/');
-        if (articleHash !== "") {
-        	$(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"/content/gsusa/en/about-girl-scouts/our-stories-page/" + articleHash + ".html\">See More</a></section></div>");
-        } else {
-        	//some default listing link from article page property
-        }
+        articleHash = window.location;
+        var contentHubParentPage = "<%=contentHubParentPage%>";
+        var currentURL = window.location.pathname;
+        var tagStructureIndex = currentURL.indexOf(contentHubParentPage) + contentHubParentPage.length;
+        var tagStructure = currentURL.substring(tagStructureIndex, currentURL.lastIndexOf('/'));
+        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + contentHubParentPage + tagStructure + ".html\">See More</a></section></div>");
 	}
 
 	if (currentSlideIndex == -1) {

@@ -1,5 +1,6 @@
 <%@page import="java.net.URLEncoder,
-				org.jsoup.Jsoup" %>
+				org.jsoup.Jsoup,
+        org.apache.commons.lang.StringEscapeUtils"%>
 <%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -12,6 +13,7 @@
 	ValueMap pageProps = currentPage.getProperties();
 	String title = pageProps.get("jcr:title", "");
 	String facebookText = pageProps.get("articleText", "");
+	facebookText = StringEscapeUtils.escapeHtml(facebookText);
 	String tweetText = URLEncoder.encode(title,"UTF-8").replace("+", "%20");
 	String tweetUrl = url;
 
