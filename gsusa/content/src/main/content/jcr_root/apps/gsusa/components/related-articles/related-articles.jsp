@@ -12,13 +12,19 @@
 	String article1 = properties.get("article1", "");
 	String article2 = properties.get("article2", "");
 	String article3 = properties.get("article3", "");
-	String title = properties.get("title", "");
-	if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%>
-		<h4>##Configure Featured Article Title##</h4>
-	<% }else{%>
+	String title = properties.get("title", "Related Articles");
+
+	if(article1.isEmpty() && article2.isEmpty() && article3.isEmpty()){
+		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+
+		%>
+			<h4>##Configure Related Articles Component##</h4>
+		<% 
+        }
+
+    }else{%>
 		<h4><%=title%></h4>
-	<% } %>
+
 
 	<div class="block-grid">
     	<ul>
@@ -57,3 +63,4 @@
             </li>
         </ul>
 	</div>
+	<% } %>
