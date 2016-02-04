@@ -107,7 +107,7 @@ $(document).ready(function() {
 		}
 
 		slides = $(TILES_SELECTOR);
-		var middleSlideIndex = slides.length / 2;
+		var middleSlideIndex = parseInt(slides.length / 2, 10);
 		if (slides.length == 0) {
 			$('.article-detail-carousel .article-slider').prepend(currentSlideHtml);
 		} else {
