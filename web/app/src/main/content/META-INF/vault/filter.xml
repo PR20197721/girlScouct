@@ -5,8 +5,6 @@
     <filter root="/apps/wcm"/>
     <filter root="/etc/council-rollout"/>
     <filter root="/etc/map.author"/>
-    <filter root="/etc/map.publish"/>
-    <filter root="/etc/map.publish.dev"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
     <filter root="/etc/replication-checker"/>
