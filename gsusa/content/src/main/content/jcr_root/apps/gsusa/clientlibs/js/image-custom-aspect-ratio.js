@@ -11,9 +11,9 @@
  */
 gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartImage, {
 	
-       crops: {},
-       ui: {},
- 
+    crops: {},
+    ui: {},
+
     constructor: function (config) {
         config = config || {};
  
@@ -71,10 +71,18 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
         var userInterface = cropTool.userInterface;
         ui = userInterface;
  
+        this.on("loadimage", function(){
+            if ( typeof ui.cropRect !== "undefined") {
+                ui.onRatioChanged("1,1.1667", "1.1667");
+            }
+        });
+
+
+
         cropTool.workingArea.on("contentchange", function(changeDef){
             var aRatios = userInterface.aspectRatioMenu.findByType("menucheckitem");
             var aRatioChecked;
- 
+            
             if(aRatios){
                 for(var x = 0; x < aRatios.length; x++){
                     if(aRatios[x].checked === true){
