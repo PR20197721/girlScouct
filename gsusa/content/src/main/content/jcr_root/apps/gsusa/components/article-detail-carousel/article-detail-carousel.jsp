@@ -135,7 +135,6 @@ $(document).ready(function() {
         //adding more link as the last slider.
         articleHash = window.location;
         var contentHubParentPage = "<%=contentHubParentPage%>";
-        console.info("<%= editMode %>");
         if (<%= editMode %> !== true) {
         	contentHubParentPage = contentHubParentPage.replace("content/gsusa/", "");
         }
