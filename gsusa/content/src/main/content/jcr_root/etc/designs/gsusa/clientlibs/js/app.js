@@ -396,6 +396,7 @@
       slidesToShow: 3,
       touchMove: true,
       slidesToScroll: 3,
+      infinite: false,
       responsive: [
        {
          breakpoint: 480,
@@ -408,8 +409,9 @@
        }
       ]
     });
-
   var lastAfterSlick = null;
+
+  $(".article-carousel .article-slider").slick("slickAdd", "<div><div class=\"article-tile last\"><section><a href=\"www.google.com\">See More</a></section></div></div>");
 
   function explore_button() {
     $(".hero-text .button.explore").on("click", function () {

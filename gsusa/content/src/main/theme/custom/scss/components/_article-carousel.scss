@@ -97,3 +97,16 @@
     left: -70px;
   }
 }
+.article-carousel .article-slider .article-tile.last section {
+  min-height: 244px;
+  height: 100%;
+  background: #adadad;
+  text-align: center;
+  a {
+    color: $white;
+    position: absolute;
+    top: 50%;
+    margin-top: -0.5rem;
+    font-size: rem-calc(24);
+  }
+}
