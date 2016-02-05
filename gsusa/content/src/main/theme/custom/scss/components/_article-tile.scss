@@ -154,7 +154,7 @@ $lines-to-show: 3;
 //article page related styles
 .article-hero {
   margin-bottom: rem-calc(25);
-  img {
+  img, iframe {
     width: 100%;
   }
 }
