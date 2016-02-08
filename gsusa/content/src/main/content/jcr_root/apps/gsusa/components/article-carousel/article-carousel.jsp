@@ -50,6 +50,8 @@
 		map.put("type","cq:Page");
 		map.put("tagid",tag);
 		map.put("tagid.property","jcr:content/cq:tags");
+		String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
+		map.put("path",contentHubParentPage);
 		map.put("p.limit",num + "");
 		if (sortByPriority.equals("true")) {
 			map.put("orderby","@jcr:content/articlePriority");
