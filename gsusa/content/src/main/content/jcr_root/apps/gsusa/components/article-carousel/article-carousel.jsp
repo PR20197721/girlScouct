@@ -35,7 +35,6 @@ if(!title.isEmpty()){
 	%> <h4> <%=title%></h4> <%
 }
 
-
 if(tags == null){
     if(WCMMode.fromRequest(request) == WCMMode.EDIT){
     %>
