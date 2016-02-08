@@ -59,7 +59,7 @@
       }
     }
     &.last {
-      background: #adadad;
+      background: #ccc;
       text-align: center;
       opacity: 1;
       a {
@@ -108,7 +108,7 @@
     color: $white;
     position: absolute;
     top: 50%;
-    margin-top: -0.5rem;
+    margin-top: -1rem;
     font-size: rem-calc(24);
   }
 }
