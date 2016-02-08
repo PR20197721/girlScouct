@@ -11,6 +11,7 @@
 	java.util.HashMap,
 	java.util.List,
 	java.util.ArrayList,
+	java.lang.StringBuilder,
 	com.day.cq.search.QueryBuilder,
     com.day.cq.search.Query,
     com.day.cq.search.PredicateGroup,
@@ -20,11 +21,13 @@
 	com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
-
 String[] tags = (String[])properties.get("tag",String[].class);
+
 String title = properties.get("componentTitle","");
+
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
+
 
 String sortByPriority = properties.get("sortByPriority", "false");
 
@@ -46,15 +49,19 @@ if(tags == null){
  <% }
 } else{
 
-String linkTagAnchors = "#";
+StringBuilder anchorsBuilder = new StringBuilder("#");
 request.setAttribute("linkTagAnchors", linkTagAnchors);
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 
 List<String> tagIds = new ArrayList<String>();
 for(String tag : tags){
+    String cleanTag = tag.replaceAll("gsusa:content-hub/", "");
+    anchorsBuilder.append("|").append(cleanTag);
 	tagIds.add(tag);
 }
+anchorsBuilder.deleteCharAt(1);
+request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
 
@@ -80,4 +87,3 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
 </div>
 
 <% }%>
-
