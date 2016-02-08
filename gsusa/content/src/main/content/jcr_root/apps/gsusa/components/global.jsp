@@ -180,4 +180,28 @@ public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResol
 
 }
 
+public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	Map<String, String> map = new HashMap<String, String>();
+	map.put("type","cq:Page");
+
+    map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
+
+
+	map.put("p.limit",limit + "");
+	if(sortByPriority.equals("true")){
+		map.put("orderby","@jcr:content/articlePriority");
+		map.put("orderby.sort","desc");
+	    map.put("2_orderby","@jcr:content/editedDate");
+	    map.put("2_orderby.sort","desc");
+	} else {
+		map.put("orderby","@jcr:content/editedDate");
+		map.put("orderby.sort","desc");
+	}
+
+    Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+	SearchResult sr = query.getResult();
+	return sr.getHits();
+
+}
+
 %>
