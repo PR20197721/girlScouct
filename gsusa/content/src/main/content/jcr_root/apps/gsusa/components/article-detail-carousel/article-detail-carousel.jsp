@@ -73,6 +73,9 @@ SearchResult seeMoreLinkPage = pageQuery.getResult();
 List<Hit> pageHits = seeMoreLinkPage.getHits();
 if (pageHits.size() > 0) {
 	seeMoreLink = pageHits.get(0).getPath();
+} else {
+	//fallback
+	seeMoreLink = contentHubParentPage;
 }
 %>
 
