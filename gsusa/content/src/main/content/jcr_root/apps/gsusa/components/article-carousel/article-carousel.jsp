@@ -49,7 +49,6 @@ if(tags == null){
 } else{
 
 StringBuilder anchorsBuilder = new StringBuilder("#");
-request.setAttribute("linkTagAnchors", linkTagAnchors);
 
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 
