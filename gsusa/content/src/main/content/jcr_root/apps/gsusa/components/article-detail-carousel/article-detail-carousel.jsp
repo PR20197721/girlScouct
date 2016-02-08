@@ -139,7 +139,7 @@ $(document).ready(function() {
         	contentHubParentPage = contentHubParentPage.replace("content/gsusa/", "");
         }
         var currentURL = window.location.pathname;
-        
+
         var tagStructureIndex = currentURL.indexOf(contentHubParentPage) + contentHubParentPage.length;
         var tagStructure = currentURL.substring(tagStructureIndex, currentURL.lastIndexOf('/'));
         $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + contentHubParentPage + tagStructure + ".html\">See More</a></section></div>");
