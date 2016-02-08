@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="org.apache.sling.commons.json.*,
     java.io.*, java.util.regex.*,
 	java.net.*,
@@ -10,6 +10,7 @@
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
+	java.util.ArrayList,
 	com.day.cq.search.QueryBuilder,
     com.day.cq.search.Query,
     com.day.cq.search.PredicateGroup,
@@ -19,60 +20,63 @@
 	com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
-	String tag = properties.get("tag","");
-	String title = properties.get("componentTitle","");
-	int num = Integer.parseInt(properties.get("num","10"));
-	String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
+String[] tags = (String[])properties.get("tag",String[].class);
+String title = properties.get("componentTitle","");
+int num = Integer.parseInt(properties.get("num","10"));
+String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
-	String sortByPriority = properties.get("sortByPriority", "false");
+String sortByPriority = properties.get("sortByPriority", "false");
 
-	if(!title.isEmpty()){
-    	%> <h4> <%=title%></h4> <%
-	}
+if(!title.isEmpty()){
+	%> <h4> <%=title%></h4> <%
+}
 
-	if (tag.isEmpty()) {
-	    if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
-			<div class="article-slider">
-				<p>###Configure Article Carousel</p>
-			</div>
-	<%  } else{ %>
-			<div class="article-slider">
-			</div>
-	<%	}
-	} else{
-		String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
-		request.setAttribute("linkTagAnchors", linkTagAnchors);
-		
-		QueryBuilder builder = sling.getService(QueryBuilder.class);
-		String output = "";
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("type","cq:Page");
-		map.put("tagid",tag);
-		map.put("tagid.property","jcr:content/cq:tags");
-		String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
-		map.put("path",contentHubParentPage);
-		map.put("p.limit",num + "");
-		if (sortByPriority.equals("true")) {
-			map.put("orderby","@jcr:content/articlePriority");
-			map.put("orderby.sort","desc");
-		    map.put("2_orderby","@jcr:content/editedDate");
-		    map.put("2_orderby.sort","desc");
-		} else {
-			map.put("orderby","@jcr:content/editedDate");
-			map.put("orderby.sort","desc");
-		}
-		Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
-		SearchResult sr = query.getResult();
-		List<Hit> hits = sr.getHits();
+if(tags == null){
+    if(WCMMode.fromRequest(request) == WCMMode.EDIT){
     %>
 	<div class="article-slider">
-    	<%for (Hit h : hits) {
-        	request.setAttribute("articlePath", h.getPath());%>
-        	<div>
-            	<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
-        	</div>
-    	<%}
+        <p>###Configure Article Carousel</p>
+    </div>
+<%
+    } else{ %>
+	<div class="article-slider">
+    </div>
+ <% }
+} else{
+
+String linkTagAnchors = "#";
+request.setAttribute("linkTagAnchors", linkTagAnchors);
+
+QueryBuilder builder = sling.getService(QueryBuilder.class);
+
+List<String> tagIds = new ArrayList<String>();
+for(String tag : tags){
+	tagIds.add(tag);
+}
+
+List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
+
     %>
-	</div>
-<%}%>
+
+<div class="article-slider">
+
+    <%
+    if(hits.size() > 0){
+        for (Hit h : hits){
+        request.setAttribute("articlePath", h.getPath());%>
+        <div>
+            <cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
+        </div>
+    <%	}
+    } else{
+        if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+            %> <h4>##No Results Found For Specified Tags##</h4> <%
+        }
+    }
+
+    %>
+</div>
+
+<% }%>
+

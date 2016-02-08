@@ -23,6 +23,7 @@
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
 boolean editMode = false;
+String seeMoreLink = "";
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
@@ -57,6 +58,26 @@ map.put("2_orderby.sort","desc");
 Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
+
+//now query for the page
+//TODO: Please also make it using the AND logic for tags
+QueryBuilder pagebuilder = sling.getService(QueryBuilder.class);
+Map<String, String> pagemap = new HashMap<String, String>();
+pagemap.put("type","cq:Page");
+pagemap.put("tagid",tag);
+pagemap.put("tagid.property","jcr:content/tag");
+pagemap.put("p.limit", "1");
+pagemap.put("path", contentHubParentPage);
+
+Query pageQuery = pagebuilder.createQuery(PredicateGroup.create(pagemap), resourceResolver.adaptTo(Session.class));
+SearchResult seeMoreLinkPage = pageQuery.getResult();
+List<Hit> pageHits = seeMoreLinkPage.getHits();
+if (pageHits.size() > 0) {
+	seeMoreLink = pageHits.get(0).getPath();
+} else {
+	//fallback
+	seeMoreLink = contentHubParentPage;
+}
 %>
 
 <div class="article-detail-carousel">
@@ -135,15 +156,8 @@ $(document).ready(function() {
         });
         //adding more link as the last slider.
         articleHash = window.location;
-        var contentHubParentPage = "<%=contentHubParentPage%>";
-        if (<%= editMode %> !== true) {
-        	contentHubParentPage = contentHubParentPage.replace("content/gsusa/", "");
-        }
-        var currentURL = window.location.pathname;
-
-        var tagStructureIndex = currentURL.indexOf(contentHubParentPage) + contentHubParentPage.length;
-        var tagStructure = currentURL.substring(tagStructureIndex, currentURL.lastIndexOf('/'));
-        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + contentHubParentPage + tagStructure + ".html\">See More</a></section></div>");
+        var seeMoreLink = "<%= seeMoreLink %>";
+        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + seeMoreLink + ".html\">See More</a></section></div>");
 	}
 
 	if (currentSlideIndex == -1) {
