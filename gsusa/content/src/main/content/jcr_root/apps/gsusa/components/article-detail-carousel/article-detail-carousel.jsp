@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+
 <%@page import="org.apache.sling.commons.json.*,
     java.io.*, java.util.regex.*,
 	java.net.*,
@@ -15,16 +16,24 @@
     com.day.cq.search.PredicateGroup,
     com.day.cq.search.result.SearchResult,
     com.day.cq.search.result.Hit,
-    org.apache.sling.api.request.RequestPathInfo" %>
+    org.apache.sling.api.request.RequestPathInfo,
+    com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
-
+String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
+boolean editMode = false;
+String seeMoreLink = "";
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
 
 tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
+
+if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	editMode = true;
+}
+
 
 int num = 20;
 try {
@@ -48,6 +57,26 @@ map.put("2_orderby.sort","desc");
 Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
+
+//now query for the page
+//TODO: Please also make it using the AND logic for tags
+QueryBuilder pagebuilder = sling.getService(QueryBuilder.class);
+Map<String, String> pagemap = new HashMap<String, String>();
+pagemap.put("type","cq:Page");
+pagemap.put("tagid",tag);
+pagemap.put("tagid.property","jcr:content/tag");
+pagemap.put("p.limit", "1");
+pagemap.put("path", contentHubParentPage);
+
+Query pageQuery = pagebuilder.createQuery(PredicateGroup.create(pagemap), resourceResolver.adaptTo(Session.class));
+SearchResult seeMoreLinkPage = pageQuery.getResult();
+List<Hit> pageHits = seeMoreLinkPage.getHits();
+if (pageHits.size() > 0) {
+	seeMoreLink = pageHits.get(0).getPath();
+} else {
+	//fallback
+	seeMoreLink = contentHubParentPage;
+}
 %>
 
 <div class="article-detail-carousel">
@@ -105,10 +134,14 @@ $(document).ready(function() {
 		}
 
 		slides = $(TILES_SELECTOR);
-		var middleSlideIndex = slides.length <= 1 ? 1 : slides.length / 2;
-		for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-			if (slideIndex == middleSlideIndex - 1) {
-				$(slides[slideIndex]).parent().after(currentSlideHtml);
+		var middleSlideIndex = parseInt(slides.length / 2, 10);
+		if (slides.length == 0) {
+			$('.article-detail-carousel .article-slider').prepend(currentSlideHtml);
+		} else {
+			for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
+				if (slideIndex == middleSlideIndex - 1) {
+					$(slides[slideIndex]).parent().after(currentSlideHtml);
+				}
 			}
 		}
 
@@ -121,12 +154,9 @@ $(document).ready(function() {
             infinite: false,
         });
         //adding more link as the last slider.
-        articleHash = window.location.hash.replace('#', '').replace('|','/');
-        if (articleHash !== "") {
-        	$(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"/content/gsusa/en/about-girl-scouts/our-stories-page/" + articleHash + ".html\">See More</a></section></div>");
-        } else {
-        	//some default listing link from article page property
-        }
+        articleHash = window.location;
+        var seeMoreLink = "<%= seeMoreLink %>";
+        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + seeMoreLink + ".html\">See More</a></section></div>");
 	}
 
 	if (currentSlideIndex == -1) {

@@ -169,7 +169,7 @@
          * An array containing the xtype of widgets that need to call
          * their processRecord function even when creating a new page
          */
-        var forcedFields = ["smartfile", "smartimage", "html5smartfile", "html5smartimage"];
+        var forcedFields = ["smartfile", "smartimage", "html5smartfile", "html5smartimage", "html5smartimageAR"];
 
         myForm = new CQ.Ext.form.FormPanel({
             //standardSubmit: false,

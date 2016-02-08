@@ -43,6 +43,12 @@
             <version>1.1.1</version>
             <type>gem</type>
         </dependency>
+	<dependency>
+	    <groupId>org.jsoup</groupId>
+	    <artifactId>jsoup</artifactId>
+	    <version>1.7.3</version>
+	    <scope>provided</scope>
+	</dependency>
     </dependencies>
     <build>
         <resources>

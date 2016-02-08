@@ -20,13 +20,11 @@
 	com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
 <%
+
 String[] tags = (String[])properties.get("tag",String[].class);
-
 String title = properties.get("componentTitle","");
-
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
-
 
 String sortByPriority = properties.get("sortByPriority", "false");
 
@@ -82,3 +80,4 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
 </div>
 
 <% }%>
+

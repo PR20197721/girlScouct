@@ -8,7 +8,9 @@ String priority = properties.get("priority","false");
 
 if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	%> *** Please select a tag and path *** <%
-} else{ %>
+} else{ 
+	String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
+%>
 
 <div class="related-articles">
 	<div class="block-grid">
@@ -32,6 +34,7 @@ function loadResults(){
 	    data: { tag: "<%= tag %>",
 		    	num: "<%= num %>",
 		    	page: page,
+		    	anchors: "<%= linkTagAnchors %>",
 		    	priority: "<%= priority %>" },
 		success: function(res){
 			$("#article-list").append(res);
