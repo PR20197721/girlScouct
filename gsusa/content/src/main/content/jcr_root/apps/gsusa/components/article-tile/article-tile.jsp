@@ -9,7 +9,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
 %><%@page session="false" %>
-<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
@@ -37,7 +37,7 @@
 
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
-	Tag[] tags = null;
+	Value[] tags = null;
 
 	try{
         Node node =   resourceResolver.resolve(articlePath).adaptTo(Node.class);
@@ -64,6 +64,9 @@
         if(propNode.hasProperty("editedDate"))
         editedDate = propNode.getProperty("editedDate").getString();
 
+        if(propNode.hasProperty("cq:tags"))
+        tags = propNode.getProperty("cq:tags").getValues();
+
         if(propNode.hasProperty("playOnClick")){
         	String isOn = propNode.getProperty("playOnClick").getString();
             if(isOn.equals("on"))
@@ -81,8 +84,6 @@
             imageSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.");
         }
 
-        Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
-        tags = tilePage.getTags();
 
 
     } catch(Exception e){
@@ -93,7 +94,10 @@
         articlePath = articlePath + ".html";
 
 	if(tags != null && tags.length > 0){
-		Tag primaryTag = tags[0];
+		String primaryTagId = tags[0].getString();
+       	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
+        Tag primaryTag = tagManager.resolve(primaryTagId);
+
         Node primaryNode = primaryTag.adaptTo(Node.class);
         if(primaryNode.hasProperty("color")){
 			hexColor = primaryNode.getProperty("color").getString();

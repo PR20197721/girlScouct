@@ -33,6 +33,8 @@ Map<String, String> map = new HashMap<String, String>();
 map.put("type","cq:Page");
 map.put("tagid",tag);
 map.put("tagid.property","jcr:content/cq:tags");
+String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
+map.put("path",contentHubParentPage);
 map.put("p.limit",num + "");
 map.put("p.offset", num*(pageNum-1) + "");
 if(priority.equals("true")){

@@ -13,9 +13,18 @@
 	com.day.cq.wcm.api.components.IncludeOptions,
 	java.util.Calendar,
 	java.util.Date,
+	java.util.List,
+	java.util.Map,
+	java.util.HashMap,
 	java.util.regex.*,
 	java.util.Random,
-	java.text.DateFormat" %>
+	java.text.DateFormat,
+	com.day.cq.search.Query,
+	javax.jcr.Session,
+	com.day.cq.search.result.SearchResult,
+	com.day.cq.search.PredicateGroup,
+	com.day.cq.search.QueryBuilder,
+	com.day.cq.search.result.Hit" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
 
@@ -140,6 +149,59 @@ public String genId() {
 	for(int i = 0; i < 6; i++)
 	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
 	return sb.toString();
+}
+
+public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	Map<String, String> map = new HashMap<String, String>();
+	map.put("type","cq:Page");
+
+    int i = 1;
+	map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
+	map.put("property","jcr:content/cq:tags");
+	map.put("property.and","true");
+    for(String tag: tagIds){
+		map.put("property."+ i +"_value",tag);
+		i++;
+    }
+	map.put("p.limit",limit + "");
+	if(sortByPriority.equals("true")){
+		map.put("orderby","@jcr:content/articlePriority");
+		map.put("orderby.sort","desc");
+	    map.put("2_orderby","@jcr:content/editedDate");
+	    map.put("2_orderby.sort","desc");
+	} else {
+		map.put("orderby","@jcr:content/editedDate");
+		map.put("orderby.sort","desc");
+	}
+
+    Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+	SearchResult sr = query.getResult();
+	return sr.getHits();
+
+}
+
+public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	Map<String, String> map = new HashMap<String, String>();
+	map.put("type","cq:Page");
+
+    map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
+
+
+	map.put("p.limit",limit + "");
+	if(sortByPriority.equals("true")){
+		map.put("orderby","@jcr:content/articlePriority");
+		map.put("orderby.sort","desc");
+	    map.put("2_orderby","@jcr:content/editedDate");
+	    map.put("2_orderby.sort","desc");
+	} else {
+		map.put("orderby","@jcr:content/editedDate");
+		map.put("orderby.sort","desc");
+	}
+
+    Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+	SearchResult sr = query.getResult();
+	return sr.getHits();
+
 }
 
 %>
