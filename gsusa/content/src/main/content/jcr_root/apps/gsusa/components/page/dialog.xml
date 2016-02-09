@@ -118,20 +118,6 @@
                                     value="false"/>
                             </options>
                         </is-content-hub>
-                        <articletags
-	                        jcr:primaryType="cq:Widget"
-	                        fieldDescription="Select Tags. These will be used for all the \'See More\' links in the carousel."
-	                        fieldLabel="Content Hub Page Tag"
-	                        name="./tag"
-	                        suggestMinChars="1"
-	                        xtype="tags">
-	                        <namespaces jcr:primaryType="cq:WidgetCollection">
-	                            <ns1
-	                                jcr:primaryType="nt:unstructured"
-	                                maximum="5"
-	                                name="gsusa"/>
-	                        </namespaces>
-	                    </articletags>
                         <ogtitle
                             jcr:primaryType="cq:Widget"
                             fieldLabel="og:title"
