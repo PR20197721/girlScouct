@@ -397,7 +397,24 @@
        }
       ]
     });
-  // }
+    $(".article-carousel .article-slider").slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 3,
+      touchMove: true,
+      slidesToScroll: 3,
+      responsive: [
+       {
+         breakpoint: 480,
+         settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '60px',
+          slidesToShow: 1,
+         }
+       }
+      ]
+    });
+
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -414,14 +431,14 @@
 
       // mike's fix for ie11 Windows 8
       if (isIE11) {
-        $('.inner-sliders .inner').on('beforeChange', function(event, slick, index) {
+        $('.inner-sliders .inner').on('beforeChange', function (event, slick, index) {
           var slides = slick.$slides;
           for (var i = 0; i < slides.length; i++) {
               $(slides[i]).css('opacity', '1');
           }
-            });
+        });
 
-            $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+        $('.inner-sliders .inner').on('afterChange', function (event, slick, index) {
           var slides = slick.$slides;
           lastAfterSlick = slides;
           for (var i = 0; i < slides.length; i++) {
@@ -791,6 +808,7 @@
       return false;
     });
   // });
+// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
 
 }(jQuery));
 
@@ -854,6 +872,7 @@ function fixSlickSlideActive() {
   }
 }
 
+
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
   for (var key in objectToInspect) {
@@ -866,6 +885,14 @@ function printObjectProperties(objectToInspect) {
       }
     }
   }
+}
+
+function populateVideoIntoModal(divId, videoLink, color, e) {
+  var parent = $("#" + divId + " " + ".video-popup");
+  $("#" + divId).css("background-color", "#" + color);
+  parent.html(videoLink);
+  e.preventDefault();
+  return false;
 }
 
 function setupContactLocalCouncilForm() {
