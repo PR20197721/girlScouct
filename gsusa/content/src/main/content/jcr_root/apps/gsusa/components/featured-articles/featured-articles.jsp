@@ -2,19 +2,49 @@
   blockquote component.
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/global.jsp"%>
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@include file="/apps/gsusa/components/global.jsp"%>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+     			com.day.cq.search.result.Hit,
+				java.util.List,
+				java.util.ArrayList,
+				java.lang.StringBuilder,
+				com.day.cq.search.QueryBuilder" %>
 <%@page session="false" %>
 
 <%
 
 
 	String title = properties.get("title", "");
-	String largeArticle = properties.get("largeArticle", "");
-	String smallArticle1 = properties.get("smallArticle1", "");
-	String smallArticle2 = properties.get("smallArticle2", "");
-	String smallArticle3 = properties.get("smallArticle3", "");
-	String smallArticle4 = properties.get("smallArticle4", "");
+	String[] tags = (String[])properties.get("tag",String[].class);
+
+	int num = Integer.parseInt(properties.get("num","10"));
+	String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
+
+
+	String sortByPriority = properties.get("sortByPriority", "false");
+
+
+
+	QueryBuilder builder = sling.getService(QueryBuilder.class);
+
+
+
+	List<Hit> hits = new ArrayList<Hit>();
+	if(tags == null || tags.length == 0){
+		hits = getAllArticles(num, resourceResolver, builder, sortByPriority);
+    } else{
+        StringBuilder anchorsBuilder = new StringBuilder("#");
+        List<String> tagIds = new ArrayList<String>();
+		for(String tag : tags){
+    		String cleanTag = tag.replaceAll("gsusa:content-hub/", "");
+    		anchorsBuilder.append("|").append(cleanTag);
+			tagIds.add(tag);
+		}
+		anchorsBuilder.deleteCharAt(1);
+		request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
+		hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
+    }
+
 
 if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
@@ -24,8 +54,10 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 <% } %>
 
 	<%
-    if(!largeArticle.isEmpty()){
-    	request.setAttribute("articlePath", largeArticle);%>
+    if(hits.size() > 0){
+    	Hit h = hits.get(0);
+
+    	request.setAttribute("articlePath", h.getPath());%>
 	<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
 
     <%} else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
@@ -37,8 +69,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
     	<ul>
     		<li>
                 <%
-        		if(!smallArticle1.isEmpty()) {
-        			request.setAttribute("articlePath", smallArticle1);%>
+        		if(hits.size() > 1) {
+    				Hit h = hits.get(1);
+        			request.setAttribute("articlePath", h.getPath());%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
     			<div class="article-tile"><h3>ARTICLE 1</h3></div>
@@ -48,8 +81,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
             </li>
             <li>
                 <%
-        		if(!smallArticle2.isEmpty()) {
-        			request.setAttribute("articlePath", smallArticle2);%>
+        		if(hits.size() > 2) {
+    				Hit h = hits.get(2);
+        			request.setAttribute("articlePath", h.getPath());%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
    				<div class="article-tile"><h3>ARTICLE 2</h3></div>
@@ -59,8 +93,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
             </li>
     		<li>
                 <%
-        		if(!smallArticle3.isEmpty()) {
-        			request.setAttribute("articlePath", smallArticle3);%>
+        		if(hits.size() > 3) {
+    				Hit h = hits.get(3);
+        			request.setAttribute("articlePath", h.getPath());%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
     			<div class="article-tile"><h3>ARTICLE 3</h3></div>
@@ -70,8 +105,9 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
             </li>
             <li>
                 <%
-        		if(!smallArticle4.isEmpty()){
-        			request.setAttribute("articlePath", smallArticle4);%>
+        		if(hits.size() > 4) {
+    				Hit h = hits.get(4);
+        			request.setAttribute("articlePath", h.getPath());%>
 				<cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
        			<% } else if(WCMMode.fromRequest(request) == WCMMode.EDIT){%>
     			<div class="article-tile"><h3>ARTICLE 4</h3></div>

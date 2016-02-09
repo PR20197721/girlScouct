@@ -156,7 +156,7 @@ public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResol
 	map.put("type","cq:Page");
 
     int i = 1;
-
+	map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
 	map.put("property","jcr:content/cq:tags");
 	map.put("property.and","true");
     for(String tag: tagIds){
