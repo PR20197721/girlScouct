@@ -15,23 +15,29 @@
                         fieldLabel="Component Title"
                         name="./title"
                         xtype="textfield"/>
+                    <titleLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title Link"
+                        name="./titleLink"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
                     <article1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 1"
-                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article1"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <article2
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 2"
-                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article2"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                     <article3
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 3"
-                        rootPath="/content/gsusa/en/content-hub/articles"
                         name="./article3"
+                        rootPath="/content/gsusa/en/content-hub/articles"
                         xtype="pathfield"/>
                 </items>
             </tab1>
