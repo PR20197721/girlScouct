@@ -32,7 +32,7 @@ String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 String sortByPriority = properties.get("sortByPriority", "false");
 
 if(!title.isEmpty()){
-	%> <h4> <%=title%></h4> <%
+	%> <h4><%=title%></h4> <%
 }
 
 if(tags == null){
