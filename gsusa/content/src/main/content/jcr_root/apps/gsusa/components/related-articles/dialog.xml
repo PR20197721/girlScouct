@@ -15,12 +15,6 @@
                         fieldLabel="Component Title"
                         name="./title"
                         xtype="textfield"/>
-                    <titleLink
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Link"
-                        name="./titleLink"
-                        rootPath="/content/gsusa/en"
-                        xtype="pathfield"/>
                     <article1
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Article 1"

@@ -14,10 +14,6 @@
 	String article3 = properties.get("article3", "");
 	String title = properties.get("title", "Related Articles");
 
-	String titleLink = properties.get("titleLink", "");
-	if(!titleLink.isEmpty())
-		titleLink = titleLink + ".html";
-
 	if(article1.isEmpty() && article2.isEmpty() && article3.isEmpty()){
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 
@@ -26,13 +22,8 @@
 		<% 
         }
 
-    }else{
-
-		if(!titleLink.isEmpty()){
-        	%> <a href="<%=titleLink%>"> <h4> <%=title%></h4> </a><%
-    	} else{
-			%> <h4> <%=title%></h4> <%
-    	} %>
+    }else{%>
+		<h4><%=title%></h4>
 
 
 	<div class="block-grid">
