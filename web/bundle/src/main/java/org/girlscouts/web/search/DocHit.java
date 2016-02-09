@@ -8,6 +8,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Value;
 
+import org.apache.sling.api.resource.ValueMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,14 @@ public final class DocHit extends DocHitBase {
     }
 
     public String getTitle() throws RepositoryException {
+
+    	// try to get SEO Title since this is user friendly
+    	ValueMap properties = this.hit.getProperties();
+    	String seoTitle = (String)properties.get("seoTitle");
+        if (seoTitle != null) {
+            return seoTitle;
+        }
+    	
         String excerpt = (String) this.hit.getExcerpts().get("jcr:title");
         if (excerpt != null) {
             return excerpt;
