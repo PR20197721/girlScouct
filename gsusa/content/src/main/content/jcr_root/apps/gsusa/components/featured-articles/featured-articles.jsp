@@ -54,15 +54,15 @@ if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
 <h4>##Configure Featured Article Title##</h4>
 <% }else{
-    if(!titleLink.isEmpty()){
-        %> <a href="<%=titleLink%>"> <h4> <%=title%></h4> </a><%
-    } else{
-		%> <h4> <%=title%></h4> <%
+    if(!titleLink.isEmpty()) {
+        %>  <h4><a href="<%=titleLink%>"><%=title%></a></h4><%
+    } else {
+		%> <h4><%=title%></h4> <%
     }
 } %>
 
 	<%
-    if(hits.size() > 0){
+    if(hits.size() > 0) {
     	Hit h = hits.get(0);
 
     	request.setAttribute("articlePath", h.getPath());%>
