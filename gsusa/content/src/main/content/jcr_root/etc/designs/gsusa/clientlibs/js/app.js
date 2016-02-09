@@ -296,6 +296,8 @@
     });
   });
 
+  var homepageScrollTopPos;
+  
   function show_hide_features() {
     if ($(".featured-stories").length > 0) {
       if ($(".featured-stories li").length <= 3) {
@@ -320,7 +322,8 @@
             // $(".off-canvas-wrap").css({
             //   'position': 'fixed'
             // });
-            window.scrollTo(0,0);
+        	homepageScrollTopPos = document.documentElement.scrollTop || document.body.scrollTop;
+        	window.scrollTo(0,0);
             target.css({
               "bottom" : "auto",
               "top" : 0
@@ -340,6 +343,9 @@
         });
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
+
+       	  window.scrollTo(0,homepageScrollTopPos);	// go back to previous window Y position 
+        	
           target.removeClass("shown");
           target.fadeOut('slow');
           $("body").css('overflow', '');
@@ -350,7 +356,7 @@
           try {
             gsusa.functions.ToggleParsysAll.toggleAll(false);
           } catch (ignore) {}
-          e.stopPropagation();
+          e.stopPropagation();          
           return false;
         });
       });

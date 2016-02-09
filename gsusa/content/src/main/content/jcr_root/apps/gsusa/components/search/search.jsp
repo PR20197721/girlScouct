@@ -34,6 +34,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
+String cleanedQ = request.getParameter("q").replaceAll("[^a-zA-Z0-9 ]+", "");
 String start = request.getParameter("start");
 int pageSize = 10;
 int endIdx = pageSize; //this may change for the last page
@@ -53,8 +54,7 @@ if (null==searchIn){
   searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-// pbae: adding ~ to enable stemming search
-final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
+final String escapedQuery = xssAPI.encodeForHTML(cleanedQ != null ? cleanedQ : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
 pageContext.setAttribute("escapedQuery", escapedQuery);
@@ -97,11 +97,11 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
 
 <%if(hits.isEmpty()){ %>
     <fmt:message key="noResultsText">
-      <fmt:param value="${escapedQuery}"/>
+      <fmt:param value="${escapedQueryForAttr}"/>
     </fmt:message>
 <% } else { %>
     <p><strong>
-        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQuery}"
+        <%= numberOfResults%> <%= properties.get("resultPagesText","Results for")%> "${escapedQueryForAttr}"
     </strong></p>
     <ul class="search-row">
 <%
