@@ -15,6 +15,10 @@
 
 
 	String title = properties.get("title", "");
+	String titleLink = properties.get("titleLink", "");
+	if(!titleLink.isEmpty())
+		titleLink = titleLink + ".html";
+
 	String[] tags = (String[])properties.get("tag",String[].class);
 
 	int num = Integer.parseInt(properties.get("num","10"));
@@ -49,9 +53,13 @@
 if(title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
 <h4>##Configure Featured Article Title##</h4>
-<% }else{%>
-<h4><%=title%></h4>
-<% } %>
+<% }else{
+    if(!titleLink.isEmpty()){
+        %> <a href="<%=titleLink%>"> <h4> <%=title%></h4> </a><%
+    } else{
+		%> <h4> <%=title%></h4> <%
+    }
+} %>
 
 	<%
     if(hits.size() > 0){
