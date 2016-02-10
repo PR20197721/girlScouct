@@ -22,7 +22,6 @@
 <%@page session="false" %>
 <%
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
-String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
 boolean editMode = false;
 String seeMoreLink = "";
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
@@ -51,9 +50,6 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getServi
 String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));
 if (categoryPagePath != null) {
 	seeMoreLink = categoryPagePath + ".html";
-} else {
-	//fallback
-	seeMoreLink = contentHubParentPage;
 }
 %>
 
@@ -65,11 +61,13 @@ if (categoryPagePath != null) {
             <cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
         </div>
     <% } %>
+    <% if (seeMoreLink != null) { %>
 		<div>
 			<div class="article-tile last">
 				<section><a href="<%= seeMoreLink %>">See More</a></section>
 			</div>
 		</div>
+	<% } %>
     </div>
 </div>
 <script>
