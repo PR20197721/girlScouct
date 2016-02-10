@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -447,10 +448,16 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
+		Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
+		Boolean isProd = set.contains("prod");
 		if (!"Field NA in Salesforce".equals(registerVal)) {
 			dataNode.setProperty("register", registerVal);
 		} else {
-			dataNode.setProperty("register", "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + id);
+			if(!isProd){
+				dataNode.setProperty("register", "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + id);
+			} else{
+				dataNode.setProperty("register", "https://gsmembers.force.com/members/Event_join?EventId=" + id);
+			}
 		}
 		String colorVal = getString(payload, _color);
 		//they stated that it's always "Field NA in Salesforce".

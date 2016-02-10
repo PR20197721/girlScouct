@@ -42,7 +42,7 @@ function retrieveEvents(){
             eventIds=eventIds + $eventsCookie.events[i][0];
             navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
         }
-        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + eventIds + "\">REGISTER</a></dd></dl></div>";
+        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
         $("#appended-event-cart").html(navList);
         console.log("Cart loaded");
     }
@@ -84,7 +84,7 @@ function addToCart(name, eventID, href){
         for(var i=0; i < $eventsCookie.events.length; i++){
             navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
         }
-        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + eventID + "\">REGISTER</a></dd></dl></div>";
+        navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventID + "\">REGISTER</a></dd></dl></div>";
         $("#appended-event-cart").html(navList);
         vtk_accordion();
         return 0;
@@ -113,7 +113,7 @@ function addToCart(name, eventID, href){
         eventIds=eventIds + $eventsCookie.events[i][0];
         navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped2 + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
     }
-    navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + eventIds + "\">REGISTER</a></dd></dl></div>";
+    navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
     $("#appended-event-cart").html(navList);
     vtk_accordion();
     return 0;
@@ -144,7 +144,7 @@ function deleteEvent(eventID, name){
                     eventIds=eventIds + $eventsCookie.events[i][0];
                     navList = navList + "<li><i class=\"icon-cross delete-event\" onclick=\"deleteEvent('" + $eventsCookie.events[i][0] + "', '" + nameEscaped + "'); return false\"; /><a href=\"" + $eventsCookie.events[i][2] + "\">" + $eventsCookie.events[i][1] + "</li>";
                 }
-                navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + eventIds + "\">REGISTER</a></dd></dl></div>";
+                navList = navList + "</ul><a class=\"button register-all\" onclick=\"clearCart()\" href=\"" + eventToSalesforce + eventIds + "\">REGISTER</a></dd></dl></div>";
                 $("#appended-event-cart").html(navList);
                 vtk_accordion();
                 console.log("Cart loaded");

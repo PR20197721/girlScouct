@@ -16,7 +16,8 @@
   ==============================================================================
 
 --%><%@ page session="false" %><%
-%><%@page import="com.day.cq.wcm.api.WCMMode" %><%
+%><%@page import="com.day.cq.wcm.api.WCMMode,
+				  java.util.Set" %><%
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:includeClientLib categories="cq.shared"/><%
@@ -52,3 +53,13 @@
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />
 	<cq:includeClientLib categories="apps.gsusa.authoring" />
 <% } %>
+
+<% 
+Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
+Boolean isProd = set.contains("prod");
+String eventToSalesforce = isProd ? "https://gsmembers.force.com/members/Event_join?EventId=" : "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=";
+%>
+
+<script>
+eventToSalesforce = <%= eventToSalesforce %>;
+</script>
