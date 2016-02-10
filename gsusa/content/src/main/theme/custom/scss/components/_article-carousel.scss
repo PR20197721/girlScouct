@@ -64,9 +64,8 @@
       opacity: 1;
       a {
         color: $white;
-        top: 50%;
+        top: 45%;
         position: relative;
-        margin-top: rem-calc(-8);
         line-height: 1;
       }
     }
@@ -107,7 +106,7 @@
     }
   }
   .article-slider .article-tile.last section {
-    min-height: 244px;
+    min-height: 206px;
     height: 100%;
     background: #cccccc;
     text-align: center;
