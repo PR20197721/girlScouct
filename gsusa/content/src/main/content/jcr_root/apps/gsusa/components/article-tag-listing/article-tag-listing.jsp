@@ -2,14 +2,13 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 
 <%
-String tag = properties.get("tag","");
+String[] tags = (String[])properties.get("tags",String[].class);
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
 
-if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
+if(tags == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
 	%> *** Please select a tag and path *** <%
 } else{ 
-	String linkTagAnchors = "#" + tag.replaceAll("gsusa:content-hub/", "").replaceAll("/", "|");
 %>
 
 <div class="related-articles">
@@ -26,15 +25,19 @@ if(!isNaN(parseInt(url[url.length-2]))){
 	page = parseInt(url[url.length-2]);
 }
 
+var tags = [];
+<% for (String t : tags){ %>
+	tags.push("<%= java.net.URLEncoder.encode(t,"UTF-8") %>");
+<% } %>
+
 function loadResults(){
 	$.ajax({
 		type: "GET",
 		dataType: "html",
 		url: "<%= resource.getPath() %>.ajax."+ page + ".html",
-	    data: { tag: "<%= tag %>",
+	    data: { tag: tags.toString(),
 		    	num: "<%= num %>",
 		    	page: page,
-		    	anchors: "<%= linkTagAnchors %>",
 		    	priority: "<%= priority %>" },
 		success: function(res){
 			$("#article-list").append(res);

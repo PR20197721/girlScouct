@@ -153,13 +153,17 @@ public String genId() {
 }
 
 public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	SearchResult sr = getArticlesWithPaging(tagIds, limit, resourceResolver, builder, sortByPriority, 0);
+	return sr.getHits();
+}
+
+public SearchResult getArticlesWithPaging(List<String> tagIds, int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority, int offset){
 	Map<String, String> map = new HashMap<String, String>();
 	map.put("type","cq:Page");
 
     int i = 1;
 	map.put("1_property", "@jcr:content/cq:scaffolding");
     map.put("1_property.value", "/etc/scaffolding/gsusa/article");
-
     map.put("property","jcr:content/cq:tags");
 	map.put("property.and","true");
     for(String tag: tagIds){
@@ -167,6 +171,7 @@ public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResol
 		i++;
     }
 	map.put("p.limit",limit + "");
+    map.put("p.offset", offset + "");
 	if(sortByPriority.equals("true")){
 		map.put("orderby","@jcr:content/articlePriority");
 		map.put("orderby.sort","desc");
@@ -179,20 +184,15 @@ public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResol
 
     Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
 	SearchResult sr = query.getResult();
-	return sr.getHits();
+	return sr;
 
 }
 
 public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
 	Map<String, String> map = new HashMap<String, String>();
 	map.put("type","cq:Page");
-
-
 	map.put("property", "@jcr:content/cq:scaffolding");
     map.put("property.value", "/etc/scaffolding/gsusa/article");
-
-
-
 	map.put("p.limit",limit + "");
 	if(sortByPriority.equals("true")){
 		map.put("orderby","@jcr:content/articlePriority");

@@ -12,16 +12,20 @@
                 title="Tag Listing">
                 <items
                 	jcr:primaryType="cq:WidgetCollection">
-               		<articletags 
-                    	jcr:primaryType="cq:Widget"
-						fieldLabel="Article Tag"
-						xtype="tags"
-						suggestMinChars="1"
-						name="./tag">
-						<namespaces jcr:primaryType="cq:WidgetCollection">  
-							<ns1 jcr:primaryType="nt:unstructured" maximum="1"  name="gsusa" />
-						</namespaces> 
-					</articletags>
+					<articletags
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Select Tags"
+                        fieldLabel="Article Tag"
+                        name="./tags"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
 					<number
 						jcr:primaryType="cq:Widget"
 						name="./num"

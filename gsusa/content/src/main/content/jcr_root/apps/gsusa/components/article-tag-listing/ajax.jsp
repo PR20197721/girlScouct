@@ -5,6 +5,8 @@
 				 java.util.Map,
 				 java.util.HashMap,
 				 java.util.List,
+				 java.util.Arrays,
+				 java.util.ArrayList,
 				 com.day.cq.search.QueryBuilder,
                  com.day.cq.search.Query,
                  com.day.cq.search.PredicateGroup,
@@ -13,49 +15,41 @@
                  org.apache.sling.api.request.RequestPathInfo" %>
 
 <%
-String tag = java.net.URLDecoder.decode(request.getParameter("tag"),"UTF-8");
+String tagsStr = request.getParameter("tag");
+String[] tags = tagsStr.split(",");
+for (String t : tags){
+	t = java.net.URLDecoder.decode(t,"UTF-8");
+}
 int num = Integer.parseInt(java.net.URLDecoder.decode(request.getParameter("num"),"UTF-8"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 int pageNum = Integer.parseInt(selectors[selectors.length-1]);
 String priority = java.net.URLDecoder.decode(request.getParameter("priority"),"UTF-8");
-String linkTagAnchors = request.getParameter("anchors");
-if(linkTagAnchors != null){
-	linkTagAnchors = java.net.URLDecoder.decode(linkTagAnchors,"UTF-8");
-}else{
-	linkTagAnchors = "";
-}
-
 
 //final TidyJSONWriter writer = new TidyJSONWriter(response.getWriter());
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 String output = "";
-Map<String, String> map = new HashMap<String, String>();
-map.put("type","cq:Page");
-map.put("tagid",tag);
-map.put("tagid.property","jcr:content/cq:tags");
-String contentHubParentPage = currentPage.getAbsoluteParent(2).getContentResource().adaptTo(ValueMap.class).get("contenthubparentpage", String.class);
-map.put("path",contentHubParentPage);
-map.put("p.limit",num + "");
-map.put("p.offset", num*(pageNum-1) + "");
-if(priority.equals("true")){
-	map.put("orderby","@jcr:content/articlePriority");
-	map.put("orderby.sort","desc");
-	map.put("2_orderby","@jcr:content/editedDate");
-	map.put("2_orderby.sort","desc");
-}else{
-	map.put("orderby","@jcr:content/editedDate");
-	map.put("orderby.sort","desc");
+
+List<String> tagIds = new ArrayList<String>();
+StringBuilder anchorsBuilder = new StringBuilder("#");
+for(String t : tags){
+	t = java.net.URLDecoder.decode(t,"UTF-8");
+	tagIds.add(t);
+	anchorsBuilder.append("|").append(t.replaceAll("gsusa:content-hub/", ""));
 }
 
-Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
-SearchResult sr = query.getResult();
+anchorsBuilder.deleteCharAt(1);
+request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
+
+SearchResult sr = getArticlesWithPaging(tagIds,num,resourceResolver, builder, priority, num*(pageNum-1));
+
 List<Hit> hits = sr.getHits();
 
 long total = sr.getTotalMatches();
 
 for (Hit h : hits){
 	request.setAttribute("articlePath", h.getPath());
-	request.setAttribute("linkTagAnchors",linkTagAnchors);%>
+	
+	%>
 	<li>
 	<div class="article-tile">
 	<cq:include script="/apps/gsusa/components/article-tile/article-tile.jsp" /></li></div><%
