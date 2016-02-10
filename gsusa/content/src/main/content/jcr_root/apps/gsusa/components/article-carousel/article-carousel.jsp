@@ -105,8 +105,8 @@ if (seeMoreLink != null) {
 			<section><a href="<%= seeMoreLink %>">See More</a></section>
 		</div>
 	</div>
+    <% } %>
 </div>
-<% 
-	} 
+<% 	
  }
 %>
