@@ -53,8 +53,10 @@ StringBuilder anchorsBuilder = new StringBuilder("#");
 QueryBuilder builder = sling.getService(QueryBuilder.class);
 
 List<String> tagIds = new ArrayList<String>();
+List<String> cleanTags = new ArrayList<String>();
 for(String tag : tags){
     String cleanTag = tag.replaceAll("gsusa:content-hub/", "");
+    cleanTags.add(cleanTag);
     anchorsBuilder.append("|").append(cleanTag);
 	tagIds.add(tag);
 }
@@ -62,8 +64,11 @@ anchorsBuilder.deleteCharAt(1);
 request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
-
-    %>
+String seeMoreLink = getArticleCategoryPagePath(cleanTags.toArray(new String[cleanTags.size()]), resourceResolver.adaptTo(Session.class));
+if (seeMoreLink != null) {
+	seeMoreLink += ".html";
+}
+%>
 
 <div class="article-slider">
 
@@ -81,7 +86,15 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
         }
     }
 
+    if (seeMoreLink != null) {
     %>
+	<div>
+		<div class="article-tile last">
+			<section><a href="<%= seeMoreLink %>">See More</a></section>
+		</div>
+	</div>
 </div>
-
-<% }%>
+<% 
+	} 
+ }
+%>
