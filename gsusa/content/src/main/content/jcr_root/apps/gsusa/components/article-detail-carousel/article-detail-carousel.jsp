@@ -127,16 +127,18 @@ $(document).ready(function() {
 			}
 		}
 
+        var initialSlide = slides.length + 1 > 4 ? middleSlideIndex : 0;
         $(".article-detail-carousel .article-slider").slick({
             lazyLoad: 'ondemand',
             slidesToShow: 4,
             touchMove: true,
             slidesToScroll: 4,
-            initialSlide: slides.length + 1 > 4 ? middleSlideIndex : 0,
             infinite: false,
         });
-        //adding more link as the last slider.
-        articleHash = window.location;
+        // Initial Slide does not work. Use this instead.
+        $(function(){
+       		$('.article-detail-carousel .article-slider').slick('slickGoTo', initlaSlide, true);
+        });
 	}
 
 	if (currentSlideIndex == -1) {
