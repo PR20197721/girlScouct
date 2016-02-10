@@ -28,8 +28,6 @@ String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
 
-tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
-
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	editMode = true;
 }
@@ -60,20 +58,9 @@ SearchResult sr = query.getResult();
 List<Hit> hits = sr.getHits();
 
 //now query for the page
-//TODO: Please also make it using the AND logic for tags
-QueryBuilder pagebuilder = sling.getService(QueryBuilder.class);
-Map<String, String> pagemap = new HashMap<String, String>();
-pagemap.put("type","cq:Page");
-pagemap.put("tagid",tag);
-pagemap.put("tagid.property","jcr:content/tag");
-pagemap.put("p.limit", "1");
-pagemap.put("path", contentHubParentPage);
-
-Query pageQuery = pagebuilder.createQuery(PredicateGroup.create(pagemap), resourceResolver.adaptTo(Session.class));
-SearchResult seeMoreLinkPage = pageQuery.getResult();
-List<Hit> pageHits = seeMoreLinkPage.getHits();
-if (pageHits.size() > 0) {
-	seeMoreLink = pageHits.get(0).getPath();
+String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));
+if (categoryPagePath != null) {
+	seeMoreLink = categoryPagePath;
 } else {
 	//fallback
 	seeMoreLink = contentHubParentPage;
