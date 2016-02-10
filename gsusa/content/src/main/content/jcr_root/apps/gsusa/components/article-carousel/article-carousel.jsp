@@ -29,10 +29,6 @@ if(!titleLink.isEmpty()) {
 	titleLink = titleLink + ".html";
 }
 
-String titleLink = properties.get("titleLink", "");
-if(!titleLink.isEmpty())
-		titleLink = titleLink + ".html";
-
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 

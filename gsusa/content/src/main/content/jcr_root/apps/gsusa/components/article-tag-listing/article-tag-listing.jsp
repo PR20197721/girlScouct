@@ -6,9 +6,11 @@ String[] tags = (String[])properties.get("tags",String[].class);
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
 
-if(tags == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> *** Please select a tag and path *** <%
-} else{ 
+if(tags == null) {
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		%> *** Please select a tag *** <%
+	}
+} else { 
 %>
 
 <div class="related-articles">
