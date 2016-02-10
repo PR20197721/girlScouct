@@ -80,7 +80,8 @@ import org.girlscouts.web.exception.GirlScoutsException;
 	@Property(name = "server",label = "FTP Server Address", description = "FTP server"),
 	@Property(name = "username", label="username"),
 	@Property(name = "password", label="password"),
-	@Property(name = "directory", label="directory name")
+	@Property(name = "directory", label="directory name"),
+	@Property(name = "salesforcepath", label="Salesforce redirect path", description="This path is used to redirect links to salesforce")
 })
 
 public class EventsImportJobImpl implements Runnable, EventsImport{
@@ -103,6 +104,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String PASSWORD = "password";
 	public static final String DIR = "directory";
 	public static final String LAST_UPD = "lastUpdated";
+	public static final String SALESFORCEPATH = "salesforcepath";
 	//parent keys in Json file
 	public static final String PUT = "PUT";
 	public static final String DELETE = "DELETE";
@@ -140,7 +142,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String[] ILLEGAL_CHAR_MAPPING = JcrUtil.HYPHEN_LABEL_CHAR_MAPPING;
 	public static final String DEFAULT_REPL_CHAR = "_";
 
-	private String server,user,password,directory;
+	private String server, user, password, directory, salesforcePath;
 	//keep track of the latest time stamp of import.
 	private Date lastUpdated= new Date(Long.MIN_VALUE);
 	//map to track the error
@@ -154,8 +156,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		this.user=OsgiUtil.toString(configs.get(USER), null);
 		this.password=OsgiUtil.toString(configs.get(PASSWORD), null);
 		this.directory=OsgiUtil.toString(configs.get(DIR), null);
+		this.salesforcePath= OsgiUtil.toString(configs.get(SALESFORCEPATH), null);
 //		log.info("Configure: ftp server="+server+"; username="+user+"; password="+password+"; directory="+directory);	
-		log.info("Configure: ftp server="+server+"; username="+user+"; directory="+directory);	
+		log.info("Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
 		ftp = new FTPSClient();
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try {
@@ -448,16 +451,13 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
-		Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
-		Boolean isProd = set.contains("prod");
 		if (!"Field NA in Salesforce".equals(registerVal)) {
 			dataNode.setProperty("register", registerVal);
 		} else {
-			if(!isProd){
-				dataNode.setProperty("register", "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + id);
-			} else{
-				dataNode.setProperty("register", "https://gsmembers.force.com/members/Event_join?EventId=" + id);
-			}
+			///?????
+			dataNode.setProperty("register", salesforcePath + id);
+//			dataNode.setProperty("register", "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + id);
+//			dataNode.setProperty("register", "https://gsmembers.force.com/members/Event_join?EventId=" + id);
 		}
 		String colorVal = getString(payload, _color);
 		//they stated that it's always "Field NA in Salesforce".
