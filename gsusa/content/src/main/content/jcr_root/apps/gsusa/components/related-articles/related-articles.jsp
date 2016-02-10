@@ -5,14 +5,55 @@
   
 
 --%><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode"%>
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page session="false" %>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+    			java.util.List,
+				java.util.ArrayList,
+				com.day.cq.search.QueryBuilder,
+				com.day.cq.search.result.Hit"%>
 <%
-	String article1 = properties.get("article1", "");
-	String article2 = properties.get("article2", "");
-	String article3 = properties.get("article3", "");
 	String title = properties.get("title", "Related Articles");
+	String pullFromFeed = properties.get("pullFromFeed", "false");
+	String article1 = "";
+	String article2 = "";
+	String article3 = "";
+	if(pullFromFeed.equals("true")){
+		int feedLimit = Integer.parseInt(properties.get("feedLimit", "3"));
+        if(feedLimit > 3 || feedLimit < 1)
+            feedLimit = 3;
+        String sortByPriority = properties.get("sortByPriority", "false");
+        QueryBuilder builder = sling.getService(QueryBuilder.class);
+        String[] tags = (String[])properties.get("tag",String[].class);
+        List<String> tagIds = new ArrayList<String>();
+		for(String tag : tags){
+			tagIds.add(tag);
+		}
+
+        List<Hit> hits = getTaggedArticles(tagIds, feedLimit, resourceResolver, builder, sortByPriority);
+
+        if(hits.size() > 0){
+			article1 = hits.get(0).getPath();
+        }
+
+        if(hits.size() > 1){
+			article2 = hits.get(1).getPath();
+        }
+
+        if(hits.size() > 2){
+			article3 = hits.get(2).getPath();
+        }
+
+
+    } else{
+		article1 = properties.get("article1", "");
+		article2 = properties.get("article2", "");
+		article3 = properties.get("article3", "");
+    }
+
+
+
 
 	if(article1.isEmpty() && article2.isEmpty() && article3.isEmpty()){
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){

@@ -75,6 +75,13 @@ $lines-to-show: 3;
   }
 }
 .featured-articles {
+  h4 {
+    font-size: rem-calc(24);
+    font-weight: 700;
+    * {
+      font-weight: 600;
+    }
+  }
   @include grid-row();
   > .article-tile {
     @media #{$medium-up} {
