@@ -25,11 +25,6 @@ String[] tags = (String[])properties.get("tag",String[].class);
 
 String title = properties.get("componentTitle","");
 
-String titleLink = properties.get("titleLink", "");
-if(!titleLink.isEmpty())
-		titleLink = titleLink + ".html";
-
-
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
@@ -37,11 +32,7 @@ String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 String sortByPriority = properties.get("sortByPriority", "false");
 
 if(!title.isEmpty()){
-    if(!titleLink.isEmpty()){
-        %> <a href="<%=titleLink%>"> <h4> <%=title%></h4> </a><%
-    } else{
-		%> <h4> <%=title%></h4> <%
-    }
+	%> <h4><%=title%></h4> <%
 }
 
 if(tags == null){

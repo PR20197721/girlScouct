@@ -99,16 +99,24 @@
     left: -70px;
   }
 }
-.article-carousel .article-slider .article-tile.last section {
-  min-height: 244px;
-  height: 100%;
-  background: #cccccc;
-  text-align: center;
-  a {
-    color: $white;
-    position: absolute;
-    top: 50%;
-    margin-top: -1rem;
+.article-carousel {
+  h4 {
     font-size: rem-calc(24);
+    a {
+      font-weight: 600;
+    }
+  }
+  .article-slider .article-tile.last section {
+    min-height: 244px;
+    height: 100%;
+    background: #cccccc;
+    text-align: center;
+    a {
+      color: $white;
+      position: absolute;
+      top: 50%;
+      margin-top: -1rem;
+      font-size: rem-calc(24);
+    }
   }
 }
