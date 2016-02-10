@@ -24,8 +24,7 @@
 	com.day.cq.search.result.SearchResult,
 	com.day.cq.search.PredicateGroup,
 	com.day.cq.search.QueryBuilder,
-	com.day.cq.search.result.Hit,
-	javax.jcr.query.RowIterator" %>
+	com.day.cq.search.result.Hit" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
 
@@ -157,8 +156,10 @@ public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResol
 	map.put("type","cq:Page");
 
     int i = 1;
-	map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
-	map.put("property","jcr:content/cq:tags");
+	map.put("1_property", "@jcr:content/cq:scaffolding");
+    map.put("1_property.value", "/etc/scaffolding/gsusa/article");
+
+    map.put("property","jcr:content/cq:tags");
 	map.put("property.and","true");
     for(String tag: tagIds){
 		map.put("property."+ i +"_value",tag);
@@ -185,7 +186,10 @@ public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, Qu
 	Map<String, String> map = new HashMap<String, String>();
 	map.put("type","cq:Page");
 
-    map.put("@jcr:content/cq:scaffolding", "/etc/scaffolding/gsusa/article");
+
+	map.put("property", "@jcr:content/cq:scaffolding");
+    map.put("property.value", "/etc/scaffolding/gsusa/article");
+
 
 
 	map.put("p.limit",limit + "");
@@ -203,37 +207,6 @@ public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, Qu
 	SearchResult sr = query.getResult();
 	return sr.getHits();
 
-}
-
-public String getArticleCategoryPagePath(String[] tags, Session session) {
-	// SELECT [jcr:path] FROM [cq:PageContent] WHERE CONTAINS([cq:tags], 'gsusa:content-hub/girls') AND CONTAINS([cq:tags], 'gsusa:content-hub/girls/stem') AND NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'
-	try {
-		StringBuilder builder = new StringBuilder();
-		builder.append("SELECT [jcr:path] FROM [cq:PageContent] WHERE");
-		for (String tag : tags) {
-			builder.append(" CONTAINS([cq:tags], 'gsusa:content-hub/").append(tag).append("') AND");
-		}
-		if (tags.length == 0) {
-			builder.append(" AND");
-		}
-		builder.append(" NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'");
-		
-		String queryStr = builder.toString();
-		javax.jcr.query.Query query = session.getWorkspace().getQueryManager().createQuery(queryStr, javax.jcr.query.Query.JCR_SQL2);
-		query.setLimit(1);
-		RowIterator iter = query.execute().getRows();
-		
-		while (iter.hasNext()) {
-			String path = iter.nextRow().getPath();
-			if (path.endsWith("/jcr:content")) {
-				path = path.substring(0, path.length() - "/jcr:content".length());
-			}
-			return path;
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	return null;
 }
 
 %>
