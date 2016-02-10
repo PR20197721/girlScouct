@@ -24,7 +24,8 @@
 	com.day.cq.search.result.SearchResult,
 	com.day.cq.search.PredicateGroup,
 	com.day.cq.search.QueryBuilder,
-	com.day.cq.search.result.Hit" %>
+	com.day.cq.search.result.Hit,
+	javax.jcr.query.RowIterator" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
 
@@ -209,4 +210,34 @@ public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, Qu
 
 }
 
+public String getArticleCategoryPagePath(String[] tags, Session session) {
+       // SELECT [jcr:path] FROM [cq:PageContent] WHERE CONTAINS([cq:tags], 'gsusa:content-hub/girls') AND CONTAINS([cq:tags], 'gsusa:content-hub/girls/stem') AND NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'
+       try {
+               StringBuilder builder = new StringBuilder();
+               builder.append("SELECT [jcr:path] FROM [cq:PageContent] WHERE");
+               for (String tag : tags) {
+                       builder.append(" CONTAINS([cq:tags], 'gsusa:content-hub/").append(tag).append("') AND");
+               }
+               if (tags.length == 0) {
+                       builder.append(" AND");
+               }
+               builder.append(" NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'");
+
+               String queryStr = builder.toString();
+               javax.jcr.query.Query query = session.getWorkspace().getQueryManager().createQuery(queryStr, javax.jcr.query.Query.JCR_SQL2);
+               query.setLimit(1);
+               RowIterator iter = query.execute().getRows();
+
+               while (iter.hasNext()) {
+                       String path = iter.nextRow().getPath();
+                       if (path.endsWith("/jcr:content")) {
+                               path = path.substring(0, path.length() - "/jcr:content".length());
+                       }
+                       return path;
+               }
+       } catch (Exception e) {
+               e.printStackTrace();
+       }
+       return null;
+}
 %>
