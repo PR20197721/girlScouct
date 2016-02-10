@@ -135,7 +135,7 @@ $(document).ready(function() {
         });
         // Initial Slide does not work. Use this instead.
         $(function(){
-       		$('.article-detail-carousel .article-slider').slick('slickGoTo', initlaSlide, true);
+       		$('.article-detail-carousel .article-slider').slick('slickGoTo', initialSlide, true);
         });
 	}
 
