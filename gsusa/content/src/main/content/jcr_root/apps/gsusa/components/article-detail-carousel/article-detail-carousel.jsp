@@ -11,6 +11,7 @@
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
+	java.util.ArrayList,
 	com.day.cq.search.QueryBuilder,
     com.day.cq.search.Query,
     com.day.cq.search.PredicateGroup,
@@ -28,12 +29,9 @@ String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
 
-tag = "gsusa:content-hub/" + tag.replaceAll("\\|", "/");
-
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	editMode = true;
 }
-
 
 int num = 20;
 try {
@@ -42,38 +40,17 @@ try {
 	}
 } catch (java.lang.NumberFormatException e) {}
 
-QueryBuilder builder = sling.getService(QueryBuilder.class);
-String output = "";
-Map<String, String> map = new HashMap<String, String>();
-map.put("type","cq:Page");
-map.put("tagid",tag);
-map.put("tagid.property","jcr:content/cq:tags");
-map.put("p.limit",num + "");
-map.put("path",contentHubParentPage);
-map.put("orderby","@jcr:content/articlePriority");
-map.put("orderby.sort","desc");
-map.put("2_orderby","@jcr:content/editedDate");
-map.put("2_orderby.sort","desc");
 
-Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
-SearchResult sr = query.getResult();
-List<Hit> hits = sr.getHits();
+List<String> tagIds = new ArrayList<String>();
+for (String singleTag : tag.split("\\|")) {
+	tagIds.add("gsusa:content-hub/" + singleTag);
+}
+List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getService(QueryBuilder.class), "true");
 
 //now query for the page
-//TODO: Please also make it using the AND logic for tags
-QueryBuilder pagebuilder = sling.getService(QueryBuilder.class);
-Map<String, String> pagemap = new HashMap<String, String>();
-pagemap.put("type","cq:Page");
-pagemap.put("tagid",tag);
-pagemap.put("tagid.property","jcr:content/tag");
-pagemap.put("p.limit", "1");
-pagemap.put("path", contentHubParentPage);
-
-Query pageQuery = pagebuilder.createQuery(PredicateGroup.create(pagemap), resourceResolver.adaptTo(Session.class));
-SearchResult seeMoreLinkPage = pageQuery.getResult();
-List<Hit> pageHits = seeMoreLinkPage.getHits();
-if (pageHits.size() > 0) {
-	seeMoreLink = pageHits.get(0).getPath();
+String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));
+if (categoryPagePath != null) {
+	seeMoreLink = categoryPagePath + ".html";
 } else {
 	//fallback
 	seeMoreLink = contentHubParentPage;
@@ -87,8 +64,12 @@ if (pageHits.size() > 0) {
         <div>
             <cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
         </div>
-    <%}
-    %>
+    <% } %>
+		<div>
+			<div class="article-tile last">
+				<section><a href="<%= seeMoreLink %>">See More</a></section>
+			</div>
+		</div>
     </div>
 </div>
 <script>
@@ -146,18 +127,18 @@ $(document).ready(function() {
 			}
 		}
 
+        var initialSlide = slides.length + 1 > 4 ? middleSlideIndex : 0;
         $(".article-detail-carousel .article-slider").slick({
             lazyLoad: 'ondemand',
             slidesToShow: 4,
             touchMove: true,
             slidesToScroll: 4,
-            initialSlide: slides.length + 1 > 4 ? middleSlideIndex : 0,
             infinite: false,
         });
-        //adding more link as the last slider.
-        articleHash = window.location;
-        var seeMoreLink = "<%= seeMoreLink %>";
-        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + seeMoreLink + ".html\">See More</a></section></div>");
+        // Initial Slide does not work. Use this instead.
+        $(function(){
+       		$('.article-detail-carousel .article-slider').slick('slickGoTo', initlaSlide, true);
+        });
 	}
 
 	if (currentSlideIndex == -1) {
