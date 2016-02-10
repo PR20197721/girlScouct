@@ -11,6 +11,7 @@
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
+	java.util.ArrayList,
 	com.day.cq.search.QueryBuilder,
     com.day.cq.search.Query,
     com.day.cq.search.PredicateGroup,
@@ -32,7 +33,6 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	editMode = true;
 }
 
-
 int num = 20;
 try {
 	if (selectors.length >= 2) {
@@ -40,27 +40,17 @@ try {
 	}
 } catch (java.lang.NumberFormatException e) {}
 
-QueryBuilder builder = sling.getService(QueryBuilder.class);
-String output = "";
-Map<String, String> map = new HashMap<String, String>();
-map.put("type","cq:Page");
-map.put("tagid",tag);
-map.put("tagid.property","jcr:content/cq:tags");
-map.put("p.limit",num + "");
-map.put("path",contentHubParentPage);
-map.put("orderby","@jcr:content/articlePriority");
-map.put("orderby.sort","desc");
-map.put("2_orderby","@jcr:content/editedDate");
-map.put("2_orderby.sort","desc");
 
-Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
-SearchResult sr = query.getResult();
-List<Hit> hits = sr.getHits();
+List<String> tagIds = new ArrayList<String>();
+for (String singleTag : tag.split("\\|")) {
+	tagIds.add("gsusa:content-hub/" + singleTag);
+}
+List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getService(QueryBuilder.class), "true");
 
 //now query for the page
 String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));
 if (categoryPagePath != null) {
-	seeMoreLink = categoryPagePath;
+	seeMoreLink = categoryPagePath + ".html";
 } else {
 	//fallback
 	seeMoreLink = contentHubParentPage;
@@ -74,8 +64,12 @@ if (categoryPagePath != null) {
         <div>
             <cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
         </div>
-    <%}
-    %>
+    <% } %>
+		<div>
+			<div class="article-tile last">
+				<section><a href="<%= seeMoreLink %>">See More</a></section>
+			</div>
+		</div>
     </div>
 </div>
 <script>
@@ -143,8 +137,6 @@ $(document).ready(function() {
         });
         //adding more link as the last slider.
         articleHash = window.location;
-        var seeMoreLink = "<%= seeMoreLink %>";
-        $(".article-detail-carousel .article-slider").slick("slickAdd", "<div class=\"article-tile last\"><section><a href=\"" + seeMoreLink + ".html\">See More</a></section></div>");
 	}
 
 	if (currentSlideIndex == -1) {
