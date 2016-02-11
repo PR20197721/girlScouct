@@ -23,13 +23,26 @@
   ==============================================================================
 
 --%><%@include file="/libs/foundation/global.jsp" %><%
-%><%@ page import="com.day.cq.commons.Doctype" %><%
+%><%@ page import="com.day.cq.commons.Doctype,
+					org.apache.sling.settings.SlingSettingsService,
+					java.util.Set" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
     }
 %><head>
+
+<% 
+Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
+Boolean isProd = set.contains("prod");
+String eventToSalesforce = isProd ? "https://gsmembers.force.com/members/Event_join?EventId=" : "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=";
+%>
+
+<script>
+eventToSalesforce = "<%= eventToSalesforce %>";
+</script>
+
 <%
 	String pageCategory = "DEFAULT";
 	Object pageCategoryObject = request.getAttribute("PAGE_CATEGORY");

@@ -7,8 +7,9 @@ public class GirlScoutsException extends Exception {
     private String reason;
     
     public GirlScoutsException(Exception e, String reason) {
-	this.exception = e;
-	this.reason = reason;
+    	super(reason, e);
+    	this.exception = e;
+    	this.reason = reason;
     }
     
     public Exception getException() {
@@ -16,6 +17,8 @@ public class GirlScoutsException extends Exception {
     }
     
     public String getReason() {
-	return reason;
+    	return reason;
     }
+    
+
 }

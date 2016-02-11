@@ -93,5 +93,9 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
 	public String getCouncilUrl() {
 		return getCouncilUrl(null);
 	}
+	
+	public String getCouncilName(String councilCode){
+		return councilMap.get(councilCode);
+	}
 
 }
