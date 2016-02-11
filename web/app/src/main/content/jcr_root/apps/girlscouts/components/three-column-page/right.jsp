@@ -29,8 +29,12 @@ if (resourceResolver.resolve(currentDesign.getPath() + "/jcr:content/three-colum
 	par.setProperty("components", "/apps/girlscouts/components/event-cart");
 }
 
-session.save();
-session.logout();
+try{
+	session.save();
+	session.logout();
+}catch(Exception e){
+	e.printStackTrace();
+}
 	
 %>
 
