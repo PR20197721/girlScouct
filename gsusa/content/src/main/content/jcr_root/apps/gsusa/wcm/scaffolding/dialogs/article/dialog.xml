@@ -144,7 +144,7 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldDescription="The first tag in the list is the primary tag for the article"
-                        fieldLabel="Primary Tag"
+                        fieldLabel="Tag(s)"
                         name="./jcr:content/cq:tags"
                         namespaces="[gsusa]"
                         xtype="tags"/>
