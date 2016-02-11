@@ -16,8 +16,7 @@
   ==============================================================================
 
 --%><%@ page session="false" %><%
-%><%@page import="com.day.cq.wcm.api.WCMMode,
-				  java.util.Set" %><%
+%><%@page import="com.day.cq.wcm.api.WCMMode" %><%
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:includeClientLib categories="cq.shared"/><%
