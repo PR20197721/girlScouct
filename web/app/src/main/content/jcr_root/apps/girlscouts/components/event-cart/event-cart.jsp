@@ -7,7 +7,4 @@ org.girlscouts.vtk.dao.*,
 org.girlscouts.vtk.models.User" %>
 
 <div id="appended-event-cart"></div>
-<!-- <div id="event-cart"></div> -->
-<%
-HttpSession session = request.getSession();
-%><script> retrieveEvents("/content/girlscouts-shared/event-cart.html"); </script>
+<script> retrieveEvents("/content/girlscouts-shared/event-cart.html"); </script>
