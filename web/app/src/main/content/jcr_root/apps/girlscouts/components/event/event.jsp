@@ -102,7 +102,13 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
 	String membersOnly = properties.get("memberOnly","false");
 	String eventID = properties.get("eid", "-1");
-	String register = properties.get("register", "https://gsmembers.force.com/members/Event_join?EventId=" + eventID);
+	String register;
+	if(includeCart && !eventID.equals("-1")){
+		register = properties.get("register", "https://gsmembers.force.com/members/Event_join?EventId=" + eventID);
+	}
+	else{
+		register = properties.get("register", String.class);
+	}
 
 	//Start Time : startTimeStr var called time
 
