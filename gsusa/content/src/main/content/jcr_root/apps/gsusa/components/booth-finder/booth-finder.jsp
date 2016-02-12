@@ -247,6 +247,8 @@ function getParameterByName(name) {
 
 $(document).ready(function(){
 	var zip;
+	// Get zip from param
+	zip = getParameterByName('zip');
 	// Get zip from hash
 	zip = (function(zip){
 		var hash = window.location.hash;
@@ -255,7 +257,7 @@ $(document).ready(function(){
 		}
 		var zipRegex = /[0-9]{5}/;
 		return zipRegex.test(hash) ? hash : zip;
-	})();
+	})(zip);
 
 	if (zip == undefined) {
 		// TODO: error: zip not found.
