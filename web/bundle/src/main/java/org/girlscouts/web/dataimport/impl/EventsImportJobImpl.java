@@ -406,9 +406,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					int len = jsonTags.length();
 					String[] tags = new String[len];
 					for (int i = 0; i < len; i++) { 
-						String tagString = jsonTags.getString(i);
+						String tagString = councilMap.getCouncilName(councilCode) + ":" +jsonTags.getString(i);
 						if (rr.adaptTo(TagManager.class).resolve(tagString) != null){
-							tags[i]=tagString;
+							tags[i]= tagString;
 						} else {
 							//if invalid tags found, throw exception and the event page is not saved
 							throw new GirlScoutsException(null, "Invalid Tag String: "+tagString + ", no such tag exist under /etc/tags");
