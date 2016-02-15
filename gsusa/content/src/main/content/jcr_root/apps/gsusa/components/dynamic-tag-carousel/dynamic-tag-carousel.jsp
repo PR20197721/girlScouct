@@ -25,6 +25,12 @@
 		builder.deleteCharAt(builder.length() - 1);
 		defaultTag = builder.toString();
 	}
+
+	String sortByPriority = properties.get("sortByPriority", "false");
+	if ("true".equals(sortByPriority)) {
+		num = "-" + num;
+	}
+
 %>
 <div id="<%= id %>" class="hide-for-small"></div>
 
