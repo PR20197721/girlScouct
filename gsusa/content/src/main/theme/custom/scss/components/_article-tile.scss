@@ -99,6 +99,9 @@ $lines-to-show: 3;
     }
     ul {
       @include block-grid(2, $spacing: rem-calc(20));
+      li {
+        padding-bottom: rem-calc(17);
+      }
     }
   }
 }
