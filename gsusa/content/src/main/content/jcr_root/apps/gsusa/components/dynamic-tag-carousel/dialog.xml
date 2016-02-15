@@ -18,6 +18,25 @@
                         fieldLabel="Number of Page"
                         name="./num"
                         xtype="numberfield"/>
+                    <articletags
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Default tags"
+                        name="./tag"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
+                    <sortByPriority
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </properties>
         </items>
