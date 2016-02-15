@@ -3,4 +3,4 @@
     jcr:description="'Shopping cart' of events a user has registered for"
     jcr:primaryType="cq:Component"
     jcr:title="Event Cart"
-    componentGroup=".hidden"/>
+    componentGroup="Girl Scouts"/>

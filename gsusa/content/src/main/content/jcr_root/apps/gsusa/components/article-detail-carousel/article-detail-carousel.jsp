@@ -39,12 +39,18 @@ try {
 	}
 } catch (java.lang.NumberFormatException e) {}
 
+// If num is less than zero, it means it should be sorted by priority.
+String sortByPriority = "false";
+if (num < 0) {
+	sortByPriority = "true";
+	num = num * -1;
+}
 
 List<String> tagIds = new ArrayList<String>();
 for (String singleTag : tag.split("\\|")) {
 	tagIds.add("gsusa:content-hub/" + singleTag);
 }
-List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getService(QueryBuilder.class), "true");
+List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getService(QueryBuilder.class), sortByPriority);
 
 //now query for the page
 String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));

@@ -13,11 +13,9 @@ if(tags == null) {
 } else { 
 %>
 
-<div class="related-articles">
-	<div class="block-grid">
-		<ul id="article-list">
-		</ul>
-	</div>
+<div class="block-grid">
+	<ul id="article-list">
+	</ul>
 </div>
 
 <script>

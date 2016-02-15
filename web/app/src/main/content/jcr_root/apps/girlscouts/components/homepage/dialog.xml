@@ -84,6 +84,25 @@
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
                             fieldLabel="Tracking"
                             name="./footerTracking"/>
+                        <event-cart
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Display Event Cart"
+                        	fieldDescription="Include the event cart and associated functionality to the site"
+                        	xtype="selection"
+                        	value="false"
+                        	defaultValue="false"
+                        	name="./event-cart">
+                        	<options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="Yes"
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="No"
+                                    value="false"/>
+                            </options>
+                        </event-cart>
                         <hide-sign-in
                             jcr:primaryType="cq:Widget"
                             defaultValue="true"
