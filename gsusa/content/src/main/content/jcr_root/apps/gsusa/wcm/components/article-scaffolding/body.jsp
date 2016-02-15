@@ -352,11 +352,15 @@
                 }
 
                 var primaryTag = frm.findField("./jcr:content/cq:tags").getValue()[0];
+                if(typeof primaryTag == "undefined"){
+                	CQ.Ext.Msg.alert("Error", "Please enter at least one valid tag for the article");
+                }
                 var articleName = frm.findField("./jcr:content/jcr:title").el.dom.value;
                 articleName = articleName.replace(/[^a-z0-9\s]/gi, '');
                 articleName = articleName.trim();
 				articleName = articleName.replace(/\s+/g, '-');
                 articleName = articleName.toLowerCase();
+
 
                 var automaticVanity = primaryTag.replace('gsusa:content-hub','/content/gsusa/en/about-girl-scouts/our-stories-page') + '/'+ articleName;
 
