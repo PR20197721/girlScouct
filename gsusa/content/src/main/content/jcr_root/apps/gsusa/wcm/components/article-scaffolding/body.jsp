@@ -136,6 +136,7 @@
         var videoLink = parent.find('name', './jcr:content/videoLink')[0];
         var playOnClick = parent.find('name', './jcr:content/playOnClick')[0];
         var link = parent.find('name', './jcr:content/externalLink')[0];
+		var openInNewWindow = parent.find('name', './jcr:content/openInNewWindow')[0];
         switch (value) {
         case 'photo':
         	videoLink.hide();
@@ -144,6 +145,8 @@
         	playOnClick.setDisabled(true);
         	link.hide();
         	link.setDisabled(true);
+            openInNewWindow.hide();
+			openInNewWindow.setDisabled(true);
         	break;
         case 'video':
         	videoLink.show();
@@ -152,6 +155,8 @@
         	playOnClick.setDisabled(false);
         	link.hide();
         	link.setDisabled(true);
+            openInNewWindow.hide();
+			openInNewWindow.setDisabled(true);
         	break;
         case 'link':
         	videoLink.hide();
@@ -160,6 +165,8 @@
         	playOnClick.setDisabled(true);
         	link.show();
         	link.setDisabled(false);
+            openInNewWindow.show();
+			openInNewWindow.setDisabled(false);
         	break;
         }
     }

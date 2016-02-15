@@ -53,12 +53,12 @@
                     <tileimage
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
-                        border="true"
                         allowUpload="false"
+                        border="true"
                         cropParameter="./jcr:content/tileimage/imageCrop"
                         ddGroups="[media]"
-                        fieldLabel="Tile Photo"
                         fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
+                        fieldLabel="Tile Photo"
                         fileNameParameter="./jcr:content/tileimage/fileName"
                         fileReferenceParameter="./jcr:content/tileimage/fileReference"
                         height="{Long}200"
@@ -139,7 +139,13 @@
                         allowBlank="{Boolean}false"
                         fieldLabel="Link"
                         name="./jcr:content/externalLink"
-                        xtype="textfield"/>
+                        xtype="pathfield"/>
+                    <openInNewWindow
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Open In New Window"
+                        name="./jcr:content/openInNewWindow"
+                        xtype="checkbox"/>
                     <primaryTag
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"

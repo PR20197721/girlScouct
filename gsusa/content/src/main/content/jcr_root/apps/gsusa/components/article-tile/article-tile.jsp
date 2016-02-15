@@ -27,6 +27,7 @@
 	String vanityUrl = "";
 
     boolean playOnClick = false;
+	boolean openInNewWindow = false;
 
 	String divId = (String)request.getAttribute("tileModalDivId");
 
@@ -71,6 +72,12 @@
         	String isOn = propNode.getProperty("playOnClick").getString();
             if(isOn.equals("on"))
             playOnClick = true;
+        }
+
+        if(propNode.hasProperty("openInNewWindow")){
+        	String openIn = propNode.getProperty("openInNewWindow").getString();
+            if(openIn.equals("on"))
+            openInNewWindow = true;
         }
 
         if(propNode.hasNode("tileimage")){
@@ -124,10 +131,15 @@
     <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
 <%
     } else if(type.equals("link")){
-	%>
-	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
-
-    <%
+        if(openInNewWindow){
+		%>
+		<a x-cq-linkchecker="valid" href="<%=externalLink%>" target="_blank">
+    	<%
+        } else {
+		%>
+		<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+    	<%
+        }
 	}else{
     %>
 	<a href="<%=vanityUrl%>">
