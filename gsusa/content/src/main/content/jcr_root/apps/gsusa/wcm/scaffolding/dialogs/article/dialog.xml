@@ -17,10 +17,10 @@
                         fieldLabel="Article Title"
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
-                    <articleText
+                    <shortDescription
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
-                        fieldLabel="Article Text"
+                        fieldLabel="Short Description"
                         name="./jcr:content/articleText"
                         xtype="richtext"/>
                     <image
@@ -150,7 +150,7 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldDescription="The first tag in the list is the primary tag for the article"
-                        fieldLabel="Tag(s)"
+                        fieldLabel="Primary Tag"
                         name="./jcr:content/cq:tags"
                         namespaces="[gsusa]"
                         xtype="tags"/>
