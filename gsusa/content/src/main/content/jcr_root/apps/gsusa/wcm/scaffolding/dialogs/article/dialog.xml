@@ -124,7 +124,7 @@
                     </type>
                     <playOnClick
                         jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
+                        allowBlank="{Boolean}true"
                         fieldLabel="Play On Click"
                         name="./jcr:content/playOnClick"
                         xtype="checkbox"/>
@@ -142,7 +142,7 @@
                         xtype="pathfield"/>
                     <openInNewWindow
                         jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
+                        allowBlank="{Boolean}true"
                         fieldLabel="Open In New Window"
                         name="./jcr:content/openInNewWindow"
                         xtype="checkbox"/>
@@ -160,6 +160,26 @@
                         hidden="{Boolean}true"
                         name="./jcr:content/sling:vanityPath"
                         xtype="textfield"/>
+                    <removeFromSearch
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        defaultValue="no"
+                        fieldLabel="Remove From Search"
+                        name="./jcr:content/removeFromSearch"
+                        type="radio"
+                        value="no"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <yes
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="yes"/>
+                            <no
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="no"/>
+                        </options>
+                    </removeFromSearch>
                 </items>
             </tab2>
         </items>
