@@ -935,7 +935,7 @@ div.textimage.nowrap div.text p {
 }
 input.searchField {
   font-size: 0.75rem;
-  padding: 0.1rem;
+  padding: 0.1rem .1rem .1rem .5rem;
 }
 .noLeftPadding {
   padding-right: 0px;
@@ -1240,10 +1240,25 @@ ul.searchResultsList article p {
   text-align: left;
   margin-top: 1em;
 }
+.eventsList.eventSection .eventDetailsRegisterLink a:first-child {
+  margin-right: 30px;
+}
+.event-search-facets {
+  margin-top: 20px;
+}
+.event-search-facets .search-box-form {
+  width: 50%;
+  float: left;
+}
+.event-search-facets a.left {
+  width: 45%;
+  line-height: 37px;
+  margin-left:5%;
+}
 #event-cart {
   border: solid 1px #999;
   position: relative;
-  right: 20px;
+  /*right: 20px;*/
   top: -20px;
   text-align: left;
 }
@@ -1302,20 +1317,6 @@ ul.searchResultsList article p {
   border-color: #000 transparent transparent;
   margin-top: -2px;
 }
-/*.eventDetailsRegisterLink a {
-  background: url('/etc/designs/girlscouts/images/small-green-arrow-right.png') no-repeat 0px 0px;
-  background-position: right center;
-  padding-right: 10px;
-}
-*/
-/*.eventsListItem .columns {
-    padding: 20px 10px !important;
-}*/
-/*.logoContainer {
-    padding-right: 0 !important;
-}
-*/
-
 .mainRightBottom {
   margin: 0 !important;
 }
@@ -1512,4 +1513,10 @@ padding: 40px 0px 40px 0;
 
 div.textimage div.image {
 	max-width: 100%;
+}
+
+
+#drop-down-cart > form > a > input.button{
+	width:100%;
+	margin-bottom:-5%;
 }
