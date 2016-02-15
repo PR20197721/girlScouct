@@ -15,6 +15,16 @@
 	} else {
 		defaultTag = "default";
 	}
+
+	String[] tagStrs = (String[])properties.get("tag",String[].class);
+	if (tagStrs != null && tagStrs.length != 0) {
+		StringBuilder builder = new StringBuilder();
+		for (String tagStr : tagStrs) {
+			builder.append(tagStr.replaceAll("gsusa:content-hub/", "")).append("|");
+		}
+		builder.deleteCharAt(builder.length() - 1);
+		defaultTag = builder.toString();
+	}
 %>
 <div id="<%= id %>" class="hide-for-small"></div>
 
