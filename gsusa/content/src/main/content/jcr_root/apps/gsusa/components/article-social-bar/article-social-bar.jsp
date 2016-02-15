@@ -1,6 +1,7 @@
 <%@page import="java.net.URLEncoder,
-				org.jsoup.Jsoup,
-        org.apache.commons.lang.StringEscapeUtils"%>
+        org.apache.commons.lang.StringEscapeUtils,
+        com.day.cq.commons.Externalizer,
+        org.apache.sling.api.SlingHttpServletRequest"%>
 <%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -11,20 +12,46 @@
     	url += ".html";
 	}
 	ValueMap pageProps = currentPage.getProperties();
-	String title = pageProps.get("jcr:title", "");
-	String facebookText = pageProps.get("articleText", "");
+	
+	String title = pageProps.get("jcr:title","");
+	if(!"".equals(pageProps.get("ogTitle",""))){
+		title = pageProps.get("ogTitle","");
+	} else if(!"".equals(pageProps.get("seoTitle",""))){
+		title = pageProps.get("seoTitle","");
+	}
+	
+	String facebookText = pageProps.get("jcr:description", "");
+	if(!"".equals(pageProps.get("ogDescription",""))){
+		facebookText = pageProps.get("ogDescription","");
+	}
+	
 	facebookText = StringEscapeUtils.escapeHtml(facebookText);
-	String tweetText = URLEncoder.encode(title,"UTF-8").replace("+", "%20");
+	
+	String tweetText = pageProps.get("jcr:title","");
+	if(!"".equals(pageProps.get("ogTitle",""))){
+		tweetText = pageProps.get("ogTitle","");
+	} else if(!"".equals(pageProps.get("seoTitle",""))){
+		tweetText = pageProps.get("seoTitle","");
+	}
+	tweetText = URLEncoder.encode(tweetText,"UTF-8").replace("+", "%20");
 	String tweetUrl = url;
 
 	String uniqueID = "" + System.currentTimeMillis();
 	String facebookId = currentSite.get("facebookId", "");
-	String imageUrl = "";
-	String pageImagePath = currentPage.getPath() + "/jcr:content/image";
-    Session session = (Session)resourceResolver.adaptTo(Session.class);
-    if (session.nodeExists(pageImagePath)) {
-    	imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
-    }
+	if(!"".equals(pageProps.get("fbAppId",""))){
+		facebookId = pageProps.get("fbAppId","");
+	}
+	String imageUrl = pageProps.get("ogImage","");
+	if("".equals(imageUrl)){
+		String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+	    Session session = (Session)resourceResolver.adaptTo(Session.class);
+	    if (session.nodeExists(pageImagePath)) {
+	    	imageUrl = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+	    }
+	} else{
+		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+		imageUrl = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", imageUrl);
+	}
 
 %>
 
@@ -54,7 +81,7 @@
           link: '<%= url %>',
           picture: '<%= imageUrl %>',
           name: '<%= title %>',
-          description: '<%= Jsoup.parse(facebookText).text().replace("\n","\\n") %>'
+          description: '<%= facebookText %>'
         };
 
         function callback(response) {

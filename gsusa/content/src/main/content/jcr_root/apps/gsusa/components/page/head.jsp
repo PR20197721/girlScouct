@@ -42,7 +42,12 @@
 	String ogUrl = properties.get("ogUrl", "");
 	String ogDescription = properties.get("ogDescription", "");
 	String ogImage = properties.get("ogImage", "");
-	String fbAppId = properties.get("fbAppId", "419540344831322");
+	
+	Page parentPage = currentPage.getAbsoluteParent(2);
+	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
+	if(!"".equals(properties.get("fbAppId",""))){
+		fbAppId = properties.get("fbAppId","");
+	}
 
 %><head>
 	<% if (isProd) { %>

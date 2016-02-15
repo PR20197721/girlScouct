@@ -147,8 +147,6 @@
                         <fbappid
                             jcr:primaryType="cq:Widget"
                             fieldLabel="fb:app_id"
-                            value="419540344831322"
-                            defaultValue="419540344831322"
                             fieldDescription="Default: 419540344831322 "
                             name="./fbAppId"/>
                     </items>
