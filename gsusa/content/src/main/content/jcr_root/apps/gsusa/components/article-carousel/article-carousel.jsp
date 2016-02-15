@@ -28,12 +28,16 @@ String titleLink = properties.get("titleLink", "");
 if(!titleLink.isEmpty()) {
 	titleLink = titleLink + ".html";
 }
+String hasBorderLine = properties.get("borderLine", String.class);
 
 int num = Integer.parseInt(properties.get("num","10"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 
 String sortByPriority = properties.get("sortByPriority", "false");
+if ("true".equals(hasBorderLine)) {
+	%> <hr style="border-top: solid 1px #000000"><%
+}
 
 if(!title.isEmpty()){
     if(!titleLink.isEmpty()){
