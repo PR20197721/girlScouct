@@ -102,7 +102,13 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
 	String membersOnly = properties.get("memberOnly","false");
 	String eventID = properties.get("eid", "-1");
-	String register = properties.get("register", "https://gsmembers.force.com/members/Event_join?EventId=" + eventID);
+	String register;
+	if(includeCart && !eventID.equals("-1")){
+		register = properties.get("register", "https://gsmembers.force.com/members/Event_join?EventId=" + eventID);
+	}
+	else{
+		register = properties.get("register", String.class);
+	}
 
 	//Start Time : startTimeStr var called time
 
@@ -239,6 +245,17 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
            <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
                         </div>
                 </div>
+<%String priceRange = properties.get("priceRange","");
+	if (!"".equals(priceRange)) {%>                
+                <div class="row">
+                	<div class="small-8 medium-8 large-8 columns">
+                		<b>Price:</b>
+                	</div>
+                	<div class="small-16 medium-16 large-16 columns">
+                		<b><%= priceRange %></b>
+                	</div>
+				</div>
+	<% } %>
 	</div>
         <div class="small-24 medium-12 large-12 columns">
                 <div class="row">
@@ -275,10 +292,6 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
                      </div>
                 </div>
         </div>
-</div>
-<% String priceRange = properties.get("priceRange",""); %>
-<div class="price-range">
-	<%= priceRange %>
 </div>
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink">

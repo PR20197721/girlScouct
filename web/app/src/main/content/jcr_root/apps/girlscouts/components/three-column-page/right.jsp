@@ -4,7 +4,7 @@
 <!-- apps/girlscouts/components/three-column-page/right.jsp -->
 
 <%
-if(currentPage.getPath().contains("event-list") || currentPage.getPath().contains("events-list")){
+if(currentPage.getPath().contains("event-list") || currentPage.getPath().contains("events-list") || currentPage.getPath().contains("activity-list") || currentPage.getPath().contains("activities-list")){
 	Boolean includeCart = false;
 	if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		if(homepage.getContentResource().adaptTo(Node.class).getProperty("event-cart").getString().equals("true")){
