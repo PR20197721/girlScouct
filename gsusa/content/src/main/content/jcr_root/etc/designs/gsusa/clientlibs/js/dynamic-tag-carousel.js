@@ -4,7 +4,7 @@
 	DynamicTagCarousel = function(id, num, defaultTag) {
 		this.id = id;
 		this.num = num;
-		this.defaultTag;
+		this.defaultTag = defaultTag;
 	};
 	
 	DynamicTagCarousel.prototype.load = function() {
@@ -17,7 +17,7 @@
 		}
 		
 		var result = hash.split('$$$');
-		var tags = result.length >= 1 ? result[0] : this.defaultTag;
+		var tags = hash && result.length >= 1 ? result[0] : this.defaultTag;
 		
 		var selector = '#' + this.id;
 		var url = END_POINT + '.' + tags + '.' + this.num + '.html';
