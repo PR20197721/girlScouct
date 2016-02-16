@@ -136,7 +136,6 @@ $lines-to-show: 3;
 .related-articles {
   margin-top: rem-calc(30);
   padding-top: rem-calc(20);
-  border-top: solid 1px $black;
   h4 {
     font-weight: 700;
     font-size: rem-calc(24);
@@ -161,7 +160,6 @@ $lines-to-show: 3;
 }
 .article-tag-listing {
   .related-articles {
-    border-bottom: solid 1px #e1e1e1;
     border-top: none;
   }
   .more-link {

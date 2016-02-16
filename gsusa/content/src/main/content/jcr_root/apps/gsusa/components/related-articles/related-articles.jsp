@@ -16,6 +16,8 @@
 <%
 	String title = properties.get("title", "Related Articles");
 	String pullFromFeed = properties.get("pullFromFeed", "false");
+	String hasBorderLine = properties.get("borderLine", String.class);
+
 	String article1 = "";
 	String article2 = "";
 	String article3 = "";
@@ -52,7 +54,9 @@
 		article3 = properties.get("article3", "");
     }
 
-
+	if ("true".equals(hasBorderLine)) {
+		%> <hr style="border-top: solid 1px #000000"><%
+	}
 
 
 	if(article1.isEmpty() && article2.isEmpty() && article3.isEmpty()){
