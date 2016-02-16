@@ -214,3 +214,27 @@ $lines-to-show: 3;
     font-size: rem-calc(16);
   }
 }
+.dynamic-tag-carousel{
+  .article-detail-carousel{
+  	.article-slider{
+  	  .slick-slide:hover{
+  	  	.article-tile{
+  	  	  opacity:1;
+  	  	  transition-duration:500ms;
+  	  	  -webkit-transition-duration:500ms;
+  	  	}
+  	  }
+  	  .article-tile{
+		section{
+		  a{
+		    &:hover{
+		     .text-content {
+		        height: 2.5rem;
+			  }
+	        }
+		  }
+	    }
+	  }
+	}
+  }
+}
