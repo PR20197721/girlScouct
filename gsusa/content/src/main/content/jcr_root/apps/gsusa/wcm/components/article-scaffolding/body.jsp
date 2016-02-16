@@ -423,6 +423,11 @@
                 
                 params["./jcr:content/tileimage/height"] = 300;
                 params["./jcr:content/tileimage/width"] = 350;
+                
+                if (!isUpdate) {
+                	params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
+                	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';
+                }
                 frm.doAction(action);
             }
         });
