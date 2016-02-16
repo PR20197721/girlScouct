@@ -27,7 +27,7 @@
     }
 
 %>
-<div class="clearfix">
+<div>
     <cq:include path="social-bar" resourceType="gsusa/components/article-social-bar" />
 </div>
 <% if (isShowEditDate) { %>

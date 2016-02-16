@@ -154,13 +154,18 @@
                         name="./jcr:content/cq:tags"
                         namespaces="[gsusa]"
                         xtype="tags"/>
+                    <listingPage
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Listing Page"
+                        name="./jcr:content/listingPage"
+                        xtype="pathfield"/>
                     <vanityUrl
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Vanity Url"
                         hidden="{Boolean}true"
                         name="./jcr:content/sling:vanityPath"
                         xtype="textfield"/>
-                    
                 </items>
             </tab2>
         </items>

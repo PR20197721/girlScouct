@@ -30,7 +30,7 @@ if(!titleLink.isEmpty()) {
 }
 String hasBorderLine = properties.get("borderLine", String.class);
 
-int num = Integer.parseInt(properties.get("num","10"));
+int num = Integer.parseInt(properties.get("num","11"));
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 
