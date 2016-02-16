@@ -107,15 +107,17 @@
   }
   .article-slider .article-tile.last section {
     min-height: 206px;
-    height: 100%;
+    width: 250px;
     background: #cccccc;
     text-align: center;
+    display: table !important;
     a {
       color: $white;
-      position: absolute;
-      top: 50%;
-      margin-top: -1rem;
+      display: table-cell !important;
+      vertical-align: middle;
+      text-align: center;
       font-size: rem-calc(24);
+      width: 250px;
     }
   }
 }
