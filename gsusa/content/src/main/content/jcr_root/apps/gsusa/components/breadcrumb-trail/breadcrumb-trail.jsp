@@ -23,19 +23,6 @@
 	String trailStr = currentStyle.get("trail", "");
 	String delim = "";
 	String title="";
-	
-	boolean isContentHub = isContentHub(currentPage);
-	if (isContentHub) {
-        Pattern pattern = Pattern.compile(".*/([^/]+)/[^/]+");
-        Matcher matcher = pattern.matcher(request.getRequestURI());
-        if (matcher.find() && matcher.groupCount() >= 1) {
-            String tag = matcher.group(1);
-            String path = getArticleCategoryPagePath(new String[]{tag}, resourceResolver.adaptTo(Session.class));
-            if (path != null) {
-                currentPage = resourceResolver.resolve(path).adaptTo(Page.class);
-            }
-        }
-	}
 
 	if (!isHidden) {  %>
 		<ul class="breadcrumb inline-list"><%
