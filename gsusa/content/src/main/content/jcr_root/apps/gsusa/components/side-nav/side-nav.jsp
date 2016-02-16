@@ -8,18 +8,7 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     StringBuilder sb = new StringBuilder();
-    boolean isContentHub = isContentHub(currentPage);
-    if (isContentHub) {
-        Pattern pattern = Pattern.compile(".*/([^/]+)/[^/]+");
-        Matcher matcher = pattern.matcher(request.getRequestURI());
-        if (matcher.find() && matcher.groupCount() >= 1) {
-            String tag = matcher.group(1);
-            String path = getArticleCategoryPagePath(new String[]{tag}, resourceResolver.adaptTo(Session.class));
-            if (path != null) {
-                currentPage = resourceResolver.resolve(path).adaptTo(Page.class);
-            }
-        }
-    }
+
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
     
