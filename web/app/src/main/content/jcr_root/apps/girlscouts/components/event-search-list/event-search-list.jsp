@@ -33,8 +33,8 @@ String register = "";
 String membersOnly = "false";
 String eventID = "-1";
 
-User user = VtkUtil.getUser(request.getSession());
-Boolean isMember = (user != null);
+//User user = VtkUtil.getUser(request.getSession());
+//Boolean isMember = (user != null);
 
 try{
 	today = fromFormat.parse(evtStartDt);
