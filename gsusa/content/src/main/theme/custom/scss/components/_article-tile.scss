@@ -15,7 +15,7 @@ $lines-to-show: 3;
       color: #fff;
       position: absolute;
       width: 100%;
-      transition: height 1s;
+      transition: height 500ms;
       height: rem-calc(55);
       overflow: hidden;
       * {
