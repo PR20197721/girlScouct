@@ -20,7 +20,8 @@
                         xtype="textfield"/>
                     <titleLink
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Link"
+                        fieldLabel="Listing Page"
+                        fieldDescription="Link of the carousel title and the See More link"
                         name="./titleLink"
                         rootPath="/content/gsusa/en"
                         xtype="pathfield"/>

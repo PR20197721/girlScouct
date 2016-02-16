@@ -76,10 +76,7 @@ anchorsBuilder.deleteCharAt(1);
 request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
-String seeMoreLink = getArticleCategoryPagePath(cleanTags.toArray(new String[cleanTags.size()]), resourceResolver.adaptTo(Session.class));
-if (seeMoreLink != null) {
-	seeMoreLink += ".html";
-}
+String seeMoreLink = titleLink;
 %>
 
 <div class="article-slider">
