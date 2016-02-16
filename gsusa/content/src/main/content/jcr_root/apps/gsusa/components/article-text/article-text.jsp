@@ -8,6 +8,7 @@
 %><%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %><%
 %><%
+	boolean isShowEditDate = "true".equals(properties.get("showEditDate", "false"));
 	String pagePath = currentPage.getPath();
 
 	String articleText = "";
@@ -29,4 +30,6 @@
 <div class="clearfix">
     <cq:include path="social-bar" resourceType="gsusa/components/article-social-bar" />
 </div>
-<i>Edited: <%=editedDate%></i>
+<% if (isShowEditDate) { %>
+	<i>Edited: <%=editedDate%></i>
+<% } %>
