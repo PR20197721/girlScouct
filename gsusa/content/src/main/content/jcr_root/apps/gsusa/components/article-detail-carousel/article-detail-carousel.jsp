@@ -23,7 +23,6 @@
 <%
 String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 boolean editMode = false;
-String seeMoreLink = "";
 String tag = selectors.length >= 1 ? selectors[0] : "articles";
 if(!tag.equals("articles"))
 	request.setAttribute("linkTagAnchors", "#" + tag);
@@ -51,12 +50,6 @@ for (String singleTag : tag.split("\\|")) {
 	tagIds.add("gsusa:content-hub/" + singleTag);
 }
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getService(QueryBuilder.class), sortByPriority);
-
-//now query for the page
-String categoryPagePath = getArticleCategoryPagePath(tag.split("\\|"), resourceResolver.adaptTo(Session.class));
-if (categoryPagePath != null) {
-	seeMoreLink = categoryPagePath + ".html";
-}
 %>
 
 <div class="article-detail-carousel">
@@ -67,18 +60,39 @@ if (categoryPagePath != null) {
             <cq:include path="article-tile" resourceType="gsusa/components/article-tile" />
         </div>
     <% } %>
-    <% if (seeMoreLink != null) { %>
 		<div>
 			<div class="article-tile last">
-				<section><a href="<%= seeMoreLink %>">See More</a></section>
+				<section><a>See More</a></section>
 			</div>
 		</div>
-	<% } %>
     </div>
 </div>
 <script>
 $(document).ready(function() {
 	var TILES_SELECTOR = '.article-detail-carousel .article-tile';
+	
+	// Add "see more" tile if link is found
+	var hash = window.location.hash;
+		
+	if (hash) {
+		hash = hash.indexOf('#') == 0 ? hash.substring(1) : hash;
+	} else {
+		hash = "";
+	}
+	var hashSplitResult = hash.split('$$$');
+	var seeMoreLink = hashSplitResult.length >= 2 ? hashSplitResult[1] : null;
+	
+	var seeMoreTileSelector = '.article-detail-carousel .article-tile.last';
+	if (!seeMoreLink) {
+		seeMoreLink = $('#dynamic-tag-carousel-listing-page').attr('data');
+	}
+
+	if (seeMoreLink) {
+		$(seeMoreTileSelector + ' a').attr('href', seeMoreLink);
+	} else {
+		$(seeMoreTileSelector).parent().remove();
+	}
+	
 	var slides = $(TILES_SELECTOR);
 	var currentSlideIndex = -1;
 	for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {

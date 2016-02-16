@@ -24,7 +24,6 @@
     String videoLink = "";
     String externalLink = "";
     String editedDate = "";
-	String vanityUrl = "";
 
     boolean playOnClick = false;
 	boolean openInNewWindow = false;
@@ -39,10 +38,13 @@
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
 	Value[] tags = null;
+	
+	String linkToArticle = "";
 
 	try{
         Node node =   resourceResolver.resolve(articlePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
+		linkToArticle = node.getPath() + ".html";
 
         if(propNode.hasProperty("jcr:title"))
         tileTitle = propNode.getProperty("jcr:title").getString();
@@ -52,9 +54,6 @@
 
         if(propNode.hasProperty("type"))
         type = propNode.getProperty("type").getString();
-
-        if(propNode.hasProperty("sling:vanityPath"))
-        vanityUrl = propNode.getProperty("sling:vanityPath").getString() + ".html";
 
         if(propNode.hasProperty("videoLink"))
         videoLink = propNode.getProperty("videoLink").getString();
@@ -120,7 +119,7 @@
         }
 	}
 	if(linkTagAnchors != null){
-		vanityUrl = vanityUrl + linkTagAnchors;
+		linkToArticle += linkTagAnchors;
 	}
 %>
 
@@ -146,7 +145,7 @@
         }
 	}else if(!(type.equals("video") && playOnClick)){
     %>
-	<a class="<%= clazz %>" href="<%=vanityUrl%>">
+	<a class="<%= clazz %>" href="<%=linkToArticle%>">
 <%
     }
     %>

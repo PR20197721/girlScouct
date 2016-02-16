@@ -5,9 +5,6 @@
 		this.id = id;
 		this.num = num;
 		this.defaultTag;
-		
-		$(document).ready(function(){
-		});
 	};
 	
 	DynamicTagCarousel.prototype.load = function() {
@@ -16,11 +13,14 @@
 		if (hash) {
 			hash = hash.indexOf('#') == 0 ? hash.substring(1) : hash;
 		} else {
-			hash = this.defaultTag;
+			hash = "";
 		}
-			
+		
+		var result = hash.split('$$$');
+		var tags = result.length >= 1 ? result[0] : this.defaultTag;
+		
 		var selector = '#' + this.id;
-		var url = END_POINT + '.' + hash + '.' + this.num + '.html';
+		var url = END_POINT + '.' + tags + '.' + this.num + '.html';
 		$(selector).load(url);
 	};
 })();

@@ -28,6 +28,7 @@ String titleLink = properties.get("titleLink", "");
 if(!titleLink.isEmpty()) {
 	titleLink = titleLink + ".html";
 }
+String seeMoreLink = titleLink;
 String hasBorderLine = properties.get("borderLine", String.class);
 
 int num = Integer.parseInt(properties.get("num","11"));
@@ -73,10 +74,11 @@ for(String tag : tags){
 	tagIds.add(tag);
 }
 anchorsBuilder.deleteCharAt(1);
+anchorsBuilder.append("$$$");
+anchorsBuilder.append(resourceResolver.map(seeMoreLink));
 request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
-String seeMoreLink = titleLink;
 %>
 
 <div class="article-slider">

@@ -30,9 +30,17 @@
 	if ("true".equals(sortByPriority)) {
 		num = "-" + num;
 	}
-
+	
+	String listingPage = currentPage.getProperties().get("listingPage", "");
+	if (!listingPage.isEmpty()) {
+		listingPage = resourceResolver.map(listingPage + ".html");
+	}
 %>
 <div id="<%= id %>" class="hide-for-small"></div>
+
+<% if (!listingPage.isEmpty()) { %>
+	<div id="dynamic-tag-carousel-listing-page" data="<%= listingPage %>"></div>
+<% } %>
 
 <script>
 	$(document).ready(function(){
