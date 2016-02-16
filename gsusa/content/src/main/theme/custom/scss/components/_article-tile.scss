@@ -9,6 +9,7 @@ $lines-to-show: 3;
       width: 100%;
     }
     .text-content {
+      z-index: 15;
       bottom: 0;
       display: block;
       padding: rem-calc(10 20 0);
@@ -53,6 +54,16 @@ $lines-to-show: 3;
     a {
       display: block;
       width: 100%;
+	  &.video:after {
+        z-index: 10;
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent url("../images/play-btn.png") no-repeat 50% 40%;
+        background-size: 25%;
+      }
       @media #{$medium-up} {
 	      &:hover {
 	        .text-content {
