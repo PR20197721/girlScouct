@@ -126,11 +126,15 @@
 
 <section>
     <%
-    if(type.equals("video") && playOnClick){
+    String clazz = "";
+    if(type.equals("video")){
+    	clazz = "video";
+		if(playOnClick){
         %>
-    <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
+    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
 <%
-    } else if(type.equals("link")){
+    	}
+	} if(type.equals("link")){
         if(openInNewWindow){
 		%>
 		<a x-cq-linkchecker="valid" href="<%=externalLink%>" target="_blank">
@@ -140,9 +144,9 @@
 		<a x-cq-linkchecker="valid" href="<%=externalLink%>">
     	<%
         }
-	}else{
+	}else if(!(type.equals("video") && playOnClick)){
     %>
-	<a href="<%=vanityUrl%>">
+	<a class="<%= clazz %>" href="<%=vanityUrl%>">
 <%
     }
     %>

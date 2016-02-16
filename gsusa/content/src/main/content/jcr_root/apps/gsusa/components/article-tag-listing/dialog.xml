@@ -43,6 +43,16 @@
 	                	name="./priority"
 	                	type="checkbox"
 	                	xtype="selection"/>
+	                <border-line
+                    	defaultValue="false"
+                    	fieldLabel="Border Line"
+                    	value="false"
+                    	checked="false"
+                    	inputValue="false"
+                    	jcr:primaryType="cq:Widget"
+                    	name="./borderLine"
+                        type="checkbox" 
+                        xtype="selection"/>
                 </items>
             </tab1>
         </items>

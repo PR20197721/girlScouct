@@ -5,6 +5,13 @@
 String[] tags = (String[])properties.get("tags",String[].class);
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
+String hasBorderLine = properties.get("borderLine", String.class);
+
+if ("true".equals(hasBorderLine)) {%> 
+	<hr style="border-top: solid 1px #000000">
+<%
+}
+
 
 if(tags == null) {
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
