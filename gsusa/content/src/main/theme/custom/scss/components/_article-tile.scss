@@ -53,15 +53,17 @@ $lines-to-show: 3;
     a {
       display: block;
       width: 100%;
-      &:hover {
-        .text-content {
-          height: 100%;
-        }
-        .article-detail-carousel .article-slider  & {
-          .text-content {
-            height: 100%;
-          }
-        }
+      @media #{$medium-up} {
+	      &:hover {
+	        .text-content {
+	          height: 100%;
+	        }
+	        .article-detail-carousel .article-slider  & {
+	          .text-content {
+	            height: 100%;
+	          }
+	        }
+	    }
         // p {
         //   height: 100%;
         // }
