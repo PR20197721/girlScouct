@@ -160,26 +160,7 @@
                         hidden="{Boolean}true"
                         name="./jcr:content/sling:vanityPath"
                         xtype="textfield"/>
-                    <removeFromSearch
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        defaultValue="no"
-                        fieldLabel="Remove From Search"
-                        name="./jcr:content/removeFromSearch"
-                        type="radio"
-                        value="no"
-                        xtype="selection">
-                        <options jcr:primaryType="cq:WidgetCollection">
-                            <yes
-                                jcr:primaryType="nt:unstructured"
-                                text="Yes"
-                                value="yes"/>
-                            <no
-                                jcr:primaryType="nt:unstructured"
-                                text="No"
-                                value="no"/>
-                        </options>
-                    </removeFromSearch>
+                    
                 </items>
             </tab2>
         </items>

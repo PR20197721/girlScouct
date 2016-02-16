@@ -163,9 +163,7 @@ public SearchResult getArticlesWithPaging(List<String> tagIds, int limit, Resour
 
     int i = 1;
 
-	map.put("2_property", "@jcr:content/removeFromSearch");
-    map.put("2_property.value", "no");
-
+	
     map.put("1_property", "@jcr:content/cq:scaffolding");
     map.put("1_property.value", "/etc/scaffolding/gsusa/article");
     map.put("property","jcr:content/cq:tags");
@@ -196,8 +194,6 @@ public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, Qu
 	Map<String, String> map = new HashMap<String, String>();
 	map.put("type","cq:Page");
 
-	map.put("2_property", "@jcr:content/removeFromSearch");
-    map.put("2_property.value", "no");
 
 	map.put("property", "@jcr:content/cq:scaffolding");
     map.put("property.value", "/etc/scaffolding/gsusa/article");
