@@ -15,7 +15,9 @@
 
 
 	String title = properties.get("title", "");
-	String titleLink = properties.get("titleLink", "");
+	String listingPage = properties.get("listingPage", "");
+	String titleLink = listingPage;
+
 	if(!titleLink.isEmpty())
 		titleLink = titleLink + ".html";
 
@@ -45,6 +47,9 @@
 			tagIds.add(tag);
 		}
 		anchorsBuilder.deleteCharAt(1);
+        if(!listingPage.isEmpty())
+        	anchorsBuilder.append("$$$").append(titleLink);
+
 		request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 		hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
     }

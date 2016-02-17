@@ -17,10 +17,10 @@
                         fieldLabel="Component Title"
                         name="./title"
                         xtype="textfield"/>
-                    <titleLink
+                    <listingPage
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Title Link"
-                        name="./titleLink"
+                        fieldLabel="Listing Page"
+                        name="./listingPage"
                         rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
                     <articletags
