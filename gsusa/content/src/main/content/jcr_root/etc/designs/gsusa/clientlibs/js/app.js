@@ -926,3 +926,17 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	return '';
 });
 
+$(document).ready(seeMoreScale);
+$(window).on('resize',seeMoreScale);
+
+function seeMoreScale(){
+	$.each($('.article-slider .article-tile.last section'), function(index, value){
+		var thisDiv = $(value);
+		var parentDiv = thisDiv.parents('.slick-slide')[0];
+		if($(parentDiv).siblings()){
+			var siblingDiv = $(parentDiv).siblings()[0];
+			thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+			thisDiv.css('width',$(siblingDiv).innerWidth());
+		}
+	});
+}
