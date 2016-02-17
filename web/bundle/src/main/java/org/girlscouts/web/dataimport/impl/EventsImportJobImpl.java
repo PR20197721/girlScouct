@@ -129,7 +129,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String _visibleDate = "visibleDate";
 	public static final String _thumbImage = "thumbImage";
 	public static final String _priceRange = "priceRange";
-	private static final String _globalTagNamespace = "sf";
+	private static final String _globalTagNamespace = "sf-activities";
 
 	//The filename of the zip file is in this format: gsevents-yyyy-MM-ddTHHmmSS.zip
 	public static final String ZIP_REGEX = "gsevents-\\d{4}-\\d{2}-\\d{2}T\\d{6}.zip";
