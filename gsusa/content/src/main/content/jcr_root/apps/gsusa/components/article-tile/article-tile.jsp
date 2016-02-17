@@ -49,8 +49,11 @@
         if(propNode.hasProperty("jcr:title"))
         tileTitle = propNode.getProperty("jcr:title").getString();
 
-        if(propNode.hasProperty("articleText"))
-        tileText = propNode.getProperty("articleText").getString();
+        if(propNode.hasProperty("shortTitle"))
+        tileTitle = propNode.getProperty("shortTitle").getString();
+
+        if(propNode.hasProperty("jcr:description"))
+        tileText = propNode.getProperty("jcr:description").getString();
 
         if(propNode.hasProperty("type"))
         type = propNode.getProperty("type").getString();

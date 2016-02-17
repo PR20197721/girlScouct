@@ -362,11 +362,6 @@
                 articleName = articleName.toLowerCase();
 
 
-                var automaticVanity = primaryTag.replace('gsusa:content-hub','/content/gsusa/en/about-girl-scouts/our-stories-page') + '/'+ articleName;
-
-                frm.findField("./jcr:content/sling:vanityPath").el.dom.value = automaticVanity;
-
-
                 if (!isUpdate) {
                     if (pageMode) {
                         params["./jcr:primaryType"] = "cq:Page";

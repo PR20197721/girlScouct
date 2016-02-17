@@ -17,18 +17,18 @@
                         fieldLabel="Article Title"
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
-                   <shortTitle
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Short Title"
-                    	fieldDescription="This field determines the shortened version of the title, to be used in small tiles. If left, blank, the regular title will be used instead."
-                    	name="./jcr:content/shortTitle"
-                    	xtype="textfield"/>
-                   <seoTitle
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="SEO Title"
-                    	fieldDescription="You can change the page's SEO title without altering it's appearance on the site here."
-                    	name="./jcr:content/seoTitle"
-                    	xtype="textfield"/>
+                    <shortTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="This field determines the shortened version of the title, to be used in small tiles. If left, blank, the regular title will be used instead."
+                        fieldLabel="Short Title"
+                        name="./jcr:content/shortTitle"
+                        xtype="textfield"/>
+                    <seoTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Setting this field overrides the page's current SEO title if it exists."
+                        fieldLabel="SEO Title"
+                        name="./jcr:content/seoTitle"
+                        xtype="textfield"/>
                     <articleText
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -36,12 +36,12 @@
                         name="./jcr:content/articleText"
                         xtype="richtext"/>
                     <shortDesc
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Short Description"
-                    	fieldDescription="This field determines the text that appears in the small tiles, as well as the seo description data"
-                    	allowBlank="{Boolean}false"
-                    	name="./jcr:content/jcr:description"
-                    	xtype="textfield"/>
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="This field determines the text that appears in the small tiles, as well as the seo description data"
+                        fieldLabel="Short Description"
+                        name="./jcr:content/jcr:description"
+                        xtype="textfield"/>
                     <image
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
