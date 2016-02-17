@@ -129,6 +129,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String _visibleDate = "visibleDate";
 	public static final String _thumbImage = "thumbImage";
 	public static final String _priceRange = "priceRange";
+	private static final String _globalTagNamespace = "sf";
 
 	//The filename of the zip file is in this format: gsevents-yyyy-MM-ddTHHmmSS.zip
 	public static final String ZIP_REGEX = "gsevents-\\d{4}-\\d{2}-\\d{2}T\\d{6}.zip";
@@ -181,10 +182,10 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			if (props.containsKey(LAST_UPD)) {
 				Date date = props.get(LAST_UPD, Date.class);
 				lastUpdated = date==null ? lastUpdated : date;
-				log.info("Last import time stamp="+ZIP_DATE_FORMAT.format(lastUpdated));	
+				log.info("Last import time stamp=" + ZIP_DATE_FORMAT.format(lastUpdated));	
 			}
 		} catch (Exception e) {
-			log.error("Fail to read "+CONFIG_PATH);
+			log.error("Fail to read " + CONFIG_PATH);
 		}
 	}
 	private void writeTimeStamp() {
@@ -214,7 +215,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("Successfully switch to directory " + ftp.printWorkingDirectory());
 			//tracking the latest timeStamp for this update
 			ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.NON_PRINT_TEXT_FORMAT); 
-			//ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.BINARY_FILE_TYPE);
 			
 			Date latest = lastUpdated;
 			FTPFile[] files = ftp.listFiles();
@@ -266,7 +266,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 
 	}
 	private void readZip(String zipName) throws Exception {
-		log.info("Retrieving "+zipName);
+		log.info("Retrieving " + zipName);
 		InputStream input = ftp.retrieveFileStream(zipName);
 		if (input == null) { 
 			throw new GirlScoutsException(null, "data connection cannot be opened.");
@@ -303,7 +303,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(e, "Error reading file:"+zipName);
 		} finally {
 			if (!ftp.completePendingCommand()) {
-				throw new GirlScoutsException(null,	"FTP CompletePendingCommand returns false."+" File "+zipName+" transfer failed.");
+				throw new GirlScoutsException(null,	"FTP CompletePendingCommand returns false." + " File " + zipName + " transfer failed.");
 			}
 			input.close();
 			log.info("End of reading " + zipName);
@@ -362,7 +362,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		
 		String councilName = councilMap.getCouncilName(councilCode);
 		if (councilName == null) {
-			throw new GirlScoutsException(null, "No mapping found for council code: "+councilCode);
+			throw new GirlScoutsException(null, "No mapping found for council code: " + councilCode);
 		}
 
 		Calendar calendar = Calendar.getInstance();
@@ -371,12 +371,12 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			startDate = NO_TIMEZONE_FORMAT.parse(start);
 		} catch (ParseException e) {
 			e.printStackTrace();
-			throw new GirlScoutsException(e,"start date format error: "+start);
+			throw new GirlScoutsException(e,"start date format error: " + start);
 		} 
 
 		calendar.setTime(startDate);
 		int year = calendar.get(Calendar.YEAR);	
-		String parentPath = "/content/"+councilName+"/en/sf-events-repository/"+year;
+		String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
 		Session session =  rr.adaptTo(Session.class);
 		//Create event page
 		try {
@@ -384,7 +384,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			JcrUtil.createPath(parentPath, "cq:Page", session);
 		} catch (RepositoryException e) {
 			e.printStackTrace();
-			throw new GirlScoutsException(e, "Fail to get/create parent path: "+parentPath);
+			throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
 		}
 
 		//check existence to see if it is a add or update
@@ -401,17 +401,17 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			jcrNode.setProperty("jcr:title", title);
 			//add/update tags
 			try {
-				JSONArray jsonTags = payload.getJSONArray("tags");
+				JSONArray jsonTags = payload.getJSONArray(_tags);
 				if (jsonTags != null) { 
 					int len = jsonTags.length();
 					String[] tags = new String[len];
 					for (int i = 0; i < len; i++) { 
-						String tagString = councilMap.getCouncilName(councilCode) + ":" +jsonTags.getString(i);
+						String tagString = _globalTagNamespace + ":" +jsonTags.getString(i);
 						if (rr.adaptTo(TagManager.class).resolve(tagString) != null){
 							tags[i]= tagString;
 						} else {
 							//if invalid tags found, throw exception and the event page is not saved
-							throw new GirlScoutsException(null, "Invalid Tag String: "+tagString + ", no such tag exist under /etc/tags");
+							throw new GirlScoutsException(null, "Invalid Tag String: " + tagString + ", no such tag exist under /etc/tags");
 						}
 					} 
 					jcrNode.setProperty("cq:tags", tags);
@@ -454,7 +454,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		if (!"Field NA in Salesforce".equals(registerVal)) {
 			dataNode.setProperty("register", registerVal);
 		} else {
-			///?????
 			dataNode.setProperty("register", salesforcePath + id);
 //			dataNode.setProperty("register", "https://gsuat-gsmembers.cs17.force.com/members/Event_join?EventId=" + id);
 //			dataNode.setProperty("register", "https://gsmembers.force.com/members/Event_join?EventId=" + id);
@@ -530,7 +529,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		replicator.replicate(session, ReplicationActionType.DEACTIVATE, pageToDelete.getPath());
 		rr.adaptTo(PageManager.class).delete(pageToDelete, false);
 
-		log.info("<---------EVENT DELETED: Event page [id="+id+",path="+pageToDelete.getPath()+"] deleted successfully.--------->");
+		log.info("<---------EVENT DELETED: Event page [id=" + id + ",path=" + pageToDelete.getPath() + "] deleted successfully.--------->");
 
 
 	}
@@ -538,7 +537,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 //		String sql = "SELECT * FROM [cq:PageContent] AS s WHERE ISDESCENDANTNODE(s, '"
 //				+ path + "') AND [eid]='"+id+"'";
 		String sql = "SELECT * FROM [nt:unstructured] AS s WHERE ISDESCENDANTNODE(s, '"
-				+ path + "') AND [eid]='"+id+"'";
+				+ path + "') AND [eid]='" + id + "'";
 		log.info("SQL " + sql);
 		try {
 			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2); it.hasNext();) {
@@ -573,7 +572,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.error("FTP Login failed.");
 			return false;
 		}
-//		ftp.setFileTransferMode(FTP.BINARY_FILE_TYPE);
 		log.info("FTP login successfully.");
 		return true;
 
@@ -600,6 +598,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				try {
 					ftp.logout();
 					ftp.disconnect();
+					log.info("Disconnected from the FTP server");
 				} catch (IOException ioe) {
 					log.error("IOException catched when trying to disconnect ftp server");
 				}
@@ -620,7 +619,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		Date rightNow = new Date();
 		try {
 			Session session = rr.adaptTo(Session.class);
-			String path = CONFIG_PATH+"/error-log/"+ERROR_LOG_DATE_FORMAT.format(rightNow);
+			String path = CONFIG_PATH + "/error-log/" + ERROR_LOG_DATE_FORMAT.format(rightNow);
 			Node dateNode = JcrUtil.createPath(path, "nt:unstructured", session);
 			for (String zipName : errors.keySet()) {
 				Map<String, Exception> errMap = errors.get(zipName);
@@ -632,7 +631,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				}
 			}
 			session.save();
-			log.info("Some event files import failed on "+rightNow+". Error node stored: "+path);
+			log.info("Some event files import failed on " + rightNow + ". Error node stored: " + path);
 
 		} catch (RepositoryException e) {
 			e.printStackTrace();
