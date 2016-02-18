@@ -301,4 +301,4 @@ see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-v
 ### AEM 5.6--> 6.1 protocol
 - Install 5.6 repository and migrate to Oak and latest AEM 6.1 with patches.
 - Deploy VTKAEM61 code for gsusa, web, and vtk
-- Migrate the etc/tags/girlscouts tagging namespace to the new environment
+- Migrate the etc/tags tagging namespace to the new environment
