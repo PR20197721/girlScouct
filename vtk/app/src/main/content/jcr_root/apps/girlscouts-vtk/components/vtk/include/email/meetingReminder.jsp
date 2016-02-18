@@ -24,7 +24,7 @@
 	    <input type="checkbox" id="email_to_gp" checked />
 	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>
-<!-- <li>
+        <!-- <li>
 	    <input type="checkbox" id="email_to_sf" checked />
 	    <label for="email_to_sf"><p>Self</p></label>
 	  </li> -->

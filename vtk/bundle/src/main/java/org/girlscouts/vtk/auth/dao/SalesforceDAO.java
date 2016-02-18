@@ -745,7 +745,6 @@ System.err.println(">>>>>>>>>>>>>test>>>>>>  "+response);
 			rsp = "{\"records\":" + rsp + "}";
 
 			log.debug(">>>>> " + rsp);
-
 			try {
 
 				JSONObject response = new JSONObject(rsp);

@@ -909,29 +909,33 @@ System.err.println("tata aidTags planView..2..");
 			}
 			_aidTags = meeting.getAssets();
 			
-System.err.println("tata aidTags: start");			
-		if( true){//isUpdateAssetInDb ) {
+System.err.println("tata aidTags: start: "+ isUpdateAssetInDb);			
+		if( isUpdateAssetInDb ) {
 			
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
 System.err.println("tata aidTags: start 1.0 "+ meeting.getLastAssetUpdate());		
 System.err.println("tata aidTags: start1 "+ (meeting.getLastAssetUpdate() == null));
 //System.err.println("tata aidTags: start1.1 " + (meeting.getLastAssetUpdate().before(sysAssetLastLoad)));
-			if (true){//meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
-System.err.println("tata aidTags: start2");	
+			if ( meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+System.err.println("tata aidTags: start2 size:  "+ _aidTags);	
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
-
+System.err.println("tata aidTags: start3 size:  "+ _aidTags.size() );
 				// rm cachables
 				java.util.List aidToRm = new java.util.ArrayList();
 				for (int i = 0; i < _aidTags.size(); i++) {
 					if (_aidTags.get(i).getIsCachable())
 						aidToRm.add(_aidTags.get(i));
 				}
+				
+System.err.println("tata aidTags: start4 size:  "+ _aidTags.size() );
 
 				for (int i = 0; i < aidToRm.size(); i++)
 					_aidTags.remove(aidToRm.get(i));
 
+				
+System.err.println("tata aidTags: xx "+  meetingInfo.getAidTags() +" " +  meetingInfo.getPath() );
 				// query aids cachables
 				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
 						meetingInfo.getAidTags(), meetingInfo.getId(),

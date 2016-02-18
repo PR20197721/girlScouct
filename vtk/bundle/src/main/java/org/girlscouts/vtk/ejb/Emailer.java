@@ -51,6 +51,15 @@ public class Emailer {
 			if (emr.getTo() != null && !emr.getTo().isEmpty()) {
 				email.addTo(emr.getTo());
 			}
+			
+			try{
+				if (user.getApiConfig().getUser().getEmail() != null && user.getApiConfig().getUser().getEmail().trim().length() > 0) {
+					
+					email.addReplyTo(user.getApiConfig().getUser().getEmail());
+
+				}
+			}catch(Exception e){e.printStackTrace();}
+			
 
 			email.setSubject(emr.getSubj());
 			email.setHtmlMsg(emr.getHtml());

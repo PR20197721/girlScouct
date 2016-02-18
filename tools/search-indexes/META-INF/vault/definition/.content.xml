@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:created="{Date}2016-02-03T17:12:24.011-05:00"
+    jcr:createdBy="admin"
+    jcr:description=""
+    jcr:lastModified="{Date}2016-02-03T17:12:24.011-05:00"
+    jcr:lastModifiedBy="admin"
+    jcr:primaryType="vlt:PackageDefinition"
+    buildCount="1"
+    builtWith="Adobe Experience Manager-6.1.0.20150804"
+    group="my_packages"
+    lastUnwrapped="{Date}2016-02-03T17:12:24.011-05:00"
+    lastUnwrappedBy="admin"
+    lastWrapped="{Date}2016-02-03T17:12:24.011-05:00"
+    lastWrappedBy="admin"
+    name="GSIndexes"
+    version="20160202">
+    <filter jcr:primaryType="nt:unstructured">
+        <f0
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/oak:index/PropertyIndex"
+            rules="[]"/>
+        <f1
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/oak:index/LuceneIndex"
+            rules="[]"/>
+        <f2
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/oak:index/LucenePropertyIndex"
+            rules="[]"/>
+    </filter>
+</jcr:root>
