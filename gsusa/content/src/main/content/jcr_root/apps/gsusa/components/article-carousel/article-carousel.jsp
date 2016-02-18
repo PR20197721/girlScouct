@@ -36,7 +36,7 @@ String [] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 
 String sortByPriority = properties.get("sortByPriority", "false");
-if ("true".equals(hasBorderLine)) {
+if ("on".equals(hasBorderLine)) {
 	%> <hr style="border-top: solid 1px #000000"><%
 }
 

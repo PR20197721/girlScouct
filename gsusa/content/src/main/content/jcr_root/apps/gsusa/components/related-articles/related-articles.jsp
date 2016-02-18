@@ -54,7 +54,7 @@
 		article3 = properties.get("article3", "");
     }
 
-	if ("true".equals(hasBorderLine)) {
+	if ("on".equals(hasBorderLine)) {
 		%> <hr style="border-top: solid 1px #000000"><%
 	}
 
