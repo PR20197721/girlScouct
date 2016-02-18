@@ -7,7 +7,7 @@ int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
 String hasBorderLine = properties.get("borderLine", String.class);
 
-if ("true".equals(hasBorderLine)) {%> 
+if ("on".equals(hasBorderLine)) {%> 
 	<hr style="border-top: solid 1px #000000">
 <%
 }

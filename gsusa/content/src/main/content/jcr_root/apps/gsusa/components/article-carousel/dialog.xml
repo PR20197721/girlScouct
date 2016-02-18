@@ -20,8 +20,8 @@
                         xtype="textfield"/>
                     <titleLink
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Listing Page"
                         fieldDescription="Link of the carousel title and the See More link"
+                        fieldLabel="Listing Page"
                         name="./titleLink"
                         rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
@@ -57,16 +57,26 @@
                         name="./sortByPriority"
                         type="checkbox"
                         xtype="selection"/>
-                    <border-line
-                    	defaultValue="true"
-                    	fieldLabel="Border Line"
-                    	value="true"
-                    	checked="true"
-                    	inputValue="false"
-                    	jcr:primaryType="cq:Widget"
-                    	name="./borderLine"
-                        type="checkbox" 
-                        xtype="selection"/>
+                    <borderLine
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        defaultValue="on"
+                        fieldLabel="Border Line"
+                        name="./borderLine"
+                        type="radio"
+                        value="on"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <on
+                                jcr:primaryType="nt:unstructured"
+                                text="On"
+                                value="on"/>
+                            <off
+                                jcr:primaryType="nt:unstructured"
+                                text="Off"
+                                value="off"/>
+                        </options>
+                    </borderLine>
                 </items>
             </tab0>
         </items>
