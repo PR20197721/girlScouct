@@ -411,7 +411,9 @@
                 params["./jcr:content/tileimage2x/jcr:lastModified"] = "";
                 params["./jcr:content/tileimage2x/jcr:lastModifiedBy"] = "";
                 params["./jcr:content/tileimage2x/imageMap"] = frm.findField("./jcr:content/tileimage/imageMap").getValue();
-                params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
+                if(frm.findField("thumbnail").getRect().substr(0,1) !== "" && frm.findField("thumbnail").getRect().substr(0,1) !== "/"){
+                	params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
+                }
                 params["./jcr:content/tileimage2x/imageRotate"] = 0;
                 params["./jcr:content/tileimage2x/height"] = 600;
                 params["./jcr:content/tileimage2x/width"] = 700;
