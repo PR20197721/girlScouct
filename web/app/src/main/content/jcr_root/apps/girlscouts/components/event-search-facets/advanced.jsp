@@ -161,8 +161,9 @@ function toggleWhiteArrow() {
 		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 	<%
 	    // Get the categories
-		List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+		
 		try{
+			List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
 			for (FacetsInfo facetsInfo: facetsInfoList) {
 	%>
 	    	<li>
