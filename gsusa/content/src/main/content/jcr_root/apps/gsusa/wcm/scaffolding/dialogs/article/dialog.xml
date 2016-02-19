@@ -117,8 +117,8 @@
                     	allowBlank="{Boolean}false"
                     	fieldLabel="Show Edit Date"
                     	xtype="selection"
-                        value="Yes"
-                        defaultValue="Yes"
+                        value="No"
+                        defaultValue="No"
                     	name="./jcr:content/content/middle/par/edit_date/showEditDate">
                     	<options jcr:primaryType="cq:WidgetCollection">
                             <true
