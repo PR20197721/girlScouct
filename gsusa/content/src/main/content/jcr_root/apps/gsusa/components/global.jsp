@@ -29,6 +29,16 @@
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
 
+public String genLink(ResourceResolver rr, String link) {
+    // This is a Page resource but yet not end with ".html": append ".html"
+    if (!link.contains(".html") && rr.resolve(link).getResourceType().equals("cq:Page")  ) {
+        return link + ".html";
+    // Well, do nothing
+    } else {
+        return link;
+    }
+}
+
 public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String renditionStr) {
 	if (renditionStr == null) return imagePath;
 	StringBuffer returnImage = new StringBuffer("");

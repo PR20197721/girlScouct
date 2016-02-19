@@ -139,11 +139,11 @@
 	} if(type.equals("link")){
         if(openInNewWindow){
 		%>
-		<a x-cq-linkchecker="valid" href="<%=externalLink%>" target="_blank">
+		<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
     	<%
         } else {
 		%>
-		<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+		<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
     	<%
         }
 	}else if(!(type.equals("video") && playOnClick)){
