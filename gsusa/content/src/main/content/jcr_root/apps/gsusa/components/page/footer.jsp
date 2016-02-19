@@ -11,7 +11,7 @@
 %>
 
 
-<div id="gsusaHiddenModal" class="reveal-modal large" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" style="" role="dialog">
+<div id="gsusaHiddenModal" class="reveal-modal" data-reveal aria-labelledby="videoModalTitle" aria-hidden="true" style="" role="dialog">
     <div class="close">
         <a class="close-reveal-modal" aria-label="Close">
             <span class="fa-stack fa-lg">

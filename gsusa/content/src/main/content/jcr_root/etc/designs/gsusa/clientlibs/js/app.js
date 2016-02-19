@@ -891,7 +891,9 @@ function populateVideoIntoModal(divId, videoLink, color, e) {
   var parent = $("#" + divId + " " + ".video-popup");
   $("#" + divId).css("background-color", "#" + color);
   parent.html(videoLink);
-  e.preventDefault();
+  if(e){
+    e.preventDefault();
+  }
   return false;
 }
 

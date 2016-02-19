@@ -53,6 +53,7 @@
     opacity: .5;
     section {
       height: 100%;
+      display: table;
       h3 {
         font-size: rem-calc(13);
         margin: 0 0 5px 0;
@@ -64,9 +65,12 @@
       opacity: 1;
       a {
         color: $white;
-        top: 45%;
-        position: relative;
-        line-height: 1;
+        // top: 45%;
+        // position: relative;
+        // line-height: 1;
+        display: table-cell;
+        vertical-align: middle;
+        height: inherit;
       }
     }
   }
