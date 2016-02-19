@@ -75,6 +75,14 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
+                    <imagealt
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Image Alt"
+                        fieldLabel="Photo Alt"
+                        name="./jcr:content/imgAlt"
+                        xtype="textfield"
+                    />
                     <tileimage
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
