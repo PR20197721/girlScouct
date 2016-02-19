@@ -98,6 +98,13 @@
                                 xtype="hidden"/>
                         </items>
                     </tileimage>
+                    <ogimage
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="og:image"
+                        fieldDescription="This field determines what image is shared when a user clicks the Facebook Share icon. If blank, the hero image will be used by default."
+                        rootPath="/content/dam/girlscouts-gsusa"
+                        xtype="pathfield"
+                        name="./jcr:content/ogImage"/>
                     <editedDate
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
