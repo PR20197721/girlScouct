@@ -116,10 +116,6 @@
 			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
 
       	}
-        if(linkTagAnchors == null){
-        	String tagPath = primaryNode.getPath();
-        	linkTagAnchors = "#" + tagPath.replaceAll("^/etc/tags/gsusa/content-hub/", "").replaceAll("/", "|");
-        }
 	}
 	if(linkTagAnchors != null){
 		linkToArticle += linkTagAnchors;
