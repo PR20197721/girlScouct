@@ -45,10 +45,6 @@
                             fieldLabel="Content Hub Parent Page"
                             name="./contenthubparentpage"
                             xtype="dynamicPathField"/>
-                        <facebook-id
-                            jcr:primaryType="cq:Widget"
-                            fieldLabel="Facebook ID"
-                            name="./facebookId"/>
                         <addthis-id
                             jcr:primaryType="cq:Widget"
                             fieldLabel="AddThis ID"
@@ -79,13 +75,11 @@
                             rootPath="/content/dam/girlscouts-gsusa"
                             xtype="pathfield"
                             name="./ogImage"/>
-                        <fbappid
+                        <facebook-id
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="fb:app_id"
-                            value="419540344831322"
-                            defaultValue="419540344831322"
-                            fieldDescription="Default: 419540344831322"
-                            name="./fbAppId"/>
+                            fieldLabel="Facebook ID"
+                            fieldDescription="Default Facebook ID for the Site"
+                            name="./facebookId"/>
                     </items>
                 </gsusa>
             </items>
