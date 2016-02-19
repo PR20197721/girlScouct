@@ -17,6 +17,12 @@
                         fieldLabel="Article Title"
                         name="./jcr:content/jcr:title"
                         xtype="textfield"/>
+                    <pageTitle
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Page Title"
+                    	fieldDescription="This field will be used to determine the URL Path of the page. If blank, the Article Title will be used by default. For example, an article with 'Cookie Sale!' in this field will have the URL '/cookie-sale.html'"
+                    	name="./jcr:content/pageTitle"
+                    	xtype="textfield"/>
                     <shortTitle
                         jcr:primaryType="cq:Widget"
                         fieldDescription="This field determines the shortened version of the title, to be used in small tiles. If left, blank, the regular title will be used instead."

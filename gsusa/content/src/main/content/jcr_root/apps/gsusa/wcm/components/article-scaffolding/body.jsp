@@ -422,8 +422,13 @@
                 params["./jcr:content/tileimage/width"] = 350;
                 
                 if (!isUpdate) {
+                	if(frm.findField("./jcr:content/pageTitle").getValue() != undefined && frm.findField("./jcr:content/pageTitle").getValue() != ""){
+                		params[":name"] = frm.findField("./jcr:content/pageTitle").getValue()
+                		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	} else{
                 	params[":name"] = frm.findField("./jcr:content/jcr:title").getValue()
                 		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	}
                 	params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
                 	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';
                 }
