@@ -16,6 +16,7 @@
 
 <%
 String tagsStr = request.getParameter("tag");
+String listing = java.net.URLDecoder.decode(request.getParameter("listing"),"UTF-8");
 String[] tags = tagsStr.split(",");
 for (String t : tags){
 	t = java.net.URLDecoder.decode(t,"UTF-8");
@@ -38,6 +39,10 @@ for(String t : tags){
 }
 
 anchorsBuilder.deleteCharAt(1);
+if(!"".equals(listing)){
+	anchorsBuilder.append("$$$");
+	anchorsBuilder.append(resourceResolver.map(listing));
+}
 request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 SearchResult sr = getArticlesWithPaging(tagIds,num,resourceResolver, builder, priority, num*(pageNum-1));

@@ -6,6 +6,7 @@ String[] tags = (String[])properties.get("tags",String[].class);
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
 String hasBorderLine = properties.get("borderLine", String.class);
+String listing = properties.get("titleLink","");
 
 if ("on".equals(hasBorderLine)) {%> 
 	<hr style="border-top: solid 1px #000000">
@@ -45,7 +46,8 @@ function loadResults(){
 	    data: { tag: tags.toString(),
 		    	num: "<%= num %>",
 		    	page: page,
-		    	priority: "<%= priority %>" },
+		    	priority: "<%= priority %>",
+		    	listing: "<%= listing %>" },
 		success: function(res){
 			$("#article-list").append(res);
 			retina(true);

@@ -35,6 +35,13 @@
                         name="./num"
                         value="9"
                         xtype="numberfield"/>
+                    <titleLink
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Listing Page"
+                        name="./titleLink"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
                     <priority
                         jcr:primaryType="cq:Widget"
                         defaultValue="true"

@@ -103,7 +103,7 @@ $lines-to-show: 3;
       padding-right: rem-calc(10);
     }
     @media #{$small-only} {
-      margin-bottom: rem-calc(20);
+      margin-bottom: rem-calc(17);
     }
   }
   .block-grid {
@@ -115,6 +115,9 @@ $lines-to-show: 3;
       @include block-grid(2, $spacing: rem-calc(20));
       li {
         padding-bottom: rem-calc(20);
+      	@media #{$medium-up} {
+          padding-bottom: rem-calc(17);
+        }
       }
     }
   }

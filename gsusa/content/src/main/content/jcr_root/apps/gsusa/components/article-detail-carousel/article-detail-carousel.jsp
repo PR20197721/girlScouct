@@ -151,11 +151,14 @@ $(document).ready(function() {
 		for (var slideIndex = 0; slideIndex < slides.length - 1; slideIndex++) {
 			var slide = slides[slideIndex];
 			var link = $(slide).find('a').attr('href');
-			if (link.indexOf('#') == -1) {
-				link += '#';
-			}
-			if (seeMoreLink) {
-				$(slide).find('a').attr('href', link + '$$$' + seeMoreLink);
+			if (!$(slide).find('a').attr('class')) {
+				// It is article, not link or video
+				if (link.indexOf('#') == -1) {
+					link += '#';
+				}
+				if (seeMoreLink) {
+					$(slide).find('a').attr('href', link + '$$$' + seeMoreLink);
+				}
 			}
 		}
 		
