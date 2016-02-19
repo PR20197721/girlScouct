@@ -183,19 +183,27 @@ $lines-to-show: 3;
 .reveal-modal {
   z-index: 9000;
   .video-popup {
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: rem-calc(50);
+    // width: 90%;
+    // margin: 0 auto;
+    // padding-bottom: rem-calc(50);
     iframe {
       width: 100%;
     }
   }
+  .close-reveal-modal{
+    font-size: 16px !important;
+  }
+
+
   .close {
-    position: relative;
-    height: rem-calc(40);
-    width: 100%;
+    position: absolute;
+    right: -27px;
+    top:-29px;
+    // position: relative;
+    // height: rem-calc(40);
+    // width: 100%;
     a {
-      top:0;
+      // top:0;
     }
   }
 }
