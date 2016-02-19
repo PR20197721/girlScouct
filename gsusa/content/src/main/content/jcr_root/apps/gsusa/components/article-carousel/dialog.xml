@@ -29,13 +29,13 @@
                         jcr:primaryType="cq:Widget"
                         allowDecimals="{Boolean}false"
                         allowNegative="{Boolean}false"
-                        defaultValue="20"
-                        fieldDescription="Default: 9 Min: 3, Max: 30"
+                        defaultValue="11"
+                        fieldDescription="Default: 11 Min: 3, Max: 30"
                         fieldLabel="Number of Articles"
                         maxValue="30"
                         minValue="3"
                         name="./num"
-                        value="20"
+                        value="11"
                         xtype="numberfield"/>
                     <articletags
                         jcr:primaryType="cq:Widget"

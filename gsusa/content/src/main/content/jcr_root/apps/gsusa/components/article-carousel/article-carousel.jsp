@@ -97,7 +97,7 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
         }
     }
 
-    if (seeMoreLink != null) {
+    if (!"".equals(seeMoreLink)) {
     %>
 	<div>
 		<div class="article-tile last">
