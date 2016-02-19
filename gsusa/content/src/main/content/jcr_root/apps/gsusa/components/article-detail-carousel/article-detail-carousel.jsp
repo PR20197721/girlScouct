@@ -146,6 +146,19 @@ $(document).ready(function() {
 		}
 
         var initialSlide = slides.length + 1 > 4 ? middleSlideIndex : 0;
+
+		slides = $(TILES_SELECTOR);
+		for (var slideIndex = 0; slideIndex < slides.length - 1; slideIndex++) {
+			var slide = slides[slideIndex];
+			var link = $(slide).find('a').attr('href');
+			if (link.indexOf('#') == -1) {
+				link += '#';
+			}
+			if (seeMoreLink) {
+				$(slide).find('a').attr('href', link + '$$$' + seeMoreLink);
+			}
+		}
+		
         $(".article-detail-carousel .article-slider").slick({
             lazyLoad: 'ondemand',
             slidesToShow: 4,
