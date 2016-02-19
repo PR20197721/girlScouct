@@ -161,9 +161,20 @@ BoothFinder.prototype.processResult = function(result) {
 	
 
 	if (this.page == 1) {
-		var templateDOMId = 'template-' + templateId; // template-path1;
+		if (templateId == 'booths') {
+			// if templateId is booths, the council is either path 1 or path 2
+			// display both template-path1/2 (here) and template-booths (below)
+			var templatePathID = 'template-' + council.PreferredPath.toLowerCase();
+			var html = Handlebars.compile($('#' + templatePathID).html())(result);
+			$('#booth-finder-result').html(html);
+		}
+		
+		// this part is diplayed in all case scenarios besides booth finder show more
+		// in case there are booths, it compiles template-booths
+		// if there are no booths, it compiles template-path4, template-path5, notfound		
+		var templateDOMId = 'template-' + templateId; // template-path1; <-- Actually, it is template-booths
 		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
-		$('#booth-finder-result').html(html);
+		$('#booth-finder-result').append(html);	
 	} else {
 		var templateDOMId = 'template-more-booths';
 		var html = Handlebars.compile($('#' + templateDOMId).html())(result);
