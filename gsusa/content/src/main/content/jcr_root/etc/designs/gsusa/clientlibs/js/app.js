@@ -926,7 +926,7 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	return '';
 });
 
-$(document).ready(seeMoreScale);
+$(window).load(seeMoreScale);
 $(window).on('resize',seeMoreScale);
 
 function seeMoreScale(){
@@ -936,6 +936,7 @@ function seeMoreScale(){
 		if($(parentDiv).siblings()){
 			var siblingDiv = $(parentDiv).siblings()[0];
 			thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+			thisDiv.css('height',$(siblingDiv).innerHeight());
 			thisDiv.css('width',$(siblingDiv).innerWidth());
 		}
 	});
