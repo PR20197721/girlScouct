@@ -75,6 +75,14 @@
                                 xtype="hidden"/>
                         </items>
                     </image>
+                    <imagealt
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Image Alt"
+                        fieldLabel="Photo Alt"
+                        name="./jcr:content/imgAlt"
+                        xtype="textfield"
+                    />
                     <tileimage
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -116,8 +124,9 @@
                         allowBlank="{Boolean}false"
                         fieldDescription="Input the edited date for the article"
                         fieldLabel="Edited Date"
+                        hideTime="{Boolean}true"
                         name="./jcr:content/editedDate"
-                        xtype="datefield"/>
+                        xtype="datetime"/>
                     <showEditDate
                     	jcr:primaryType="cq:Widget"
                     	allowBlank="{Boolean}false"
