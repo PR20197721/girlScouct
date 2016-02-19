@@ -14,6 +14,12 @@
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
 		articlePath = request.getParameter("articlePath");
+		if (articlePath.endsWith(".html")) {
+			articlePath = articlePath.substring(0, articlePath.length() - 5);
+		}
+		if (!articlePath.startsWith("/content/gsusa")) {
+			articlePath = "/content/gsusa" + articlePath;
+		}
 	}
 	String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
