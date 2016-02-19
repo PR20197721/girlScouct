@@ -116,8 +116,9 @@
                         allowBlank="{Boolean}false"
                         fieldDescription="Input the edited date for the article"
                         fieldLabel="Edited Date"
+                        hideTime="{Boolean}true"
                         name="./jcr:content/editedDate"
-                        xtype="datefield"/>
+                        xtype="datetime"/>
                     <showEditDate
                     	jcr:primaryType="cq:Widget"
                     	allowBlank="{Boolean}false"
