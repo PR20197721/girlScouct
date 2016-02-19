@@ -136,8 +136,8 @@
                     	allowBlank="{Boolean}false"
                     	fieldLabel="Show Edit Date"
                     	xtype="selection"
-                        value="No"
-                        defaultValue="No"
+                        value="false"
+                        defaultValue="false"
                     	name="./jcr:content/content/middle/par/edit_date/showEditDate">
                     	<options jcr:primaryType="cq:WidgetCollection">
                             <true
@@ -215,8 +215,8 @@
                     	allowBlank="{Boolean}false"
                     	fieldLabel="Make the Article Searchable"
                     	xtype="selection"
-                        value="Yes"
-                        defaultValue="Yes"
+                        value="true"
+                        defaultValue="true"
                     	name="./jcr:content/hideInNav">
                     	<options jcr:primaryType="cq:WidgetCollection">
                             <true
