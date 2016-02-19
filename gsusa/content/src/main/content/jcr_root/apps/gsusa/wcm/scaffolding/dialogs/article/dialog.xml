@@ -105,6 +105,25 @@
                         fieldLabel="Edited Date"
                         name="./jcr:content/editedDate"
                         xtype="datefield"/>
+                    <showEditDate
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+                    	fieldLabel="Show Edit Date"
+                    	xtype="selection"
+                        value="Yes"
+                        defaultValue="Yes"
+                    	name="./jcr:content/content/middle/par/edit_date/showEditDate">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                            <true
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="true"/>
+                            <false
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="false"/>
+                        </options>
+                    </showEditDate>
                     <articlePriority
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
@@ -165,6 +184,25 @@
                         fieldLabel="Open In New Window"
                         name="./jcr:content/openInNewWindow"
                         xtype="checkbox"/>
+                    <hideInNav
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+                    	fieldLabel="Make the Article Searchable"
+                    	xtype="selection"
+                        value="Yes"
+                        defaultValue="Yes"
+                    	name="./jcr:content/hideInNav">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                            <true
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="false"/>
+                            <false
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="true"/>
+                        </options>
+                    </hideInNav>
                     <primaryTag
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
