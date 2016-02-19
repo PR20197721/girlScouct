@@ -133,7 +133,7 @@
     	clazz = "video";
 		if(playOnClick){
         %>
-    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
+    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal">
 <%
     	}
 	} if(type.equals("link")){
