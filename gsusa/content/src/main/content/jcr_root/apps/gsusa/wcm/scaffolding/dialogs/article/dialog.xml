@@ -211,8 +211,8 @@
                     	allowBlank="{Boolean}false"
                     	fieldLabel="Make the Article Searchable"
                     	xtype="selection"
-                        value="Yes"
-                        defaultValue="Yes"
+                        value="No"
+                        defaultValue="No"
                     	name="./jcr:content/hideInNav">
                     	<options jcr:primaryType="cq:WidgetCollection">
                             <true
