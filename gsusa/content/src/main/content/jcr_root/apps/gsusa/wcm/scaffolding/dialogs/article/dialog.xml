@@ -103,14 +103,18 @@
                         rotateParameter="./jcr:content/tileimage/imageRotate"
                         sizeLimit="100"
                         width="{Long}200"
-                        xtype="html5smartimageAR">
-                        <items jcr:primaryType="cq:WidgetCollection">
-                            <resType
-                                jcr:primaryType="cq:Widget"
-                                name="./jcr:content/tileimage/sling:resourceType"
-                                value="gsusa/components/image"
-                                xtype="hidden"/>
-                        </items>
+                        xtype="html5smartimage">
+                        <cropConfig
+					        jcr:primaryType="nt:unstructured">
+					        <aspectRatios
+					                jcr:primaryType="nt:unstructured">
+					            <aspectRatio-1.6x1
+					                    jcr:primaryType="nt:unstructured"
+					                    text="1.166x1"
+					                    value="1.166,1"
+					                    checked="true"/>
+					        </aspectRatios>
+					    </cropConfig>
                     </tileimage>
                     <ogimage
                         jcr:primaryType="cq:Widget"
