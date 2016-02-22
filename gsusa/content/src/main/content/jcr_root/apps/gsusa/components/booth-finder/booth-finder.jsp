@@ -245,6 +245,22 @@ BoothFinder.prototype.processResult = function(result) {
 		$('.booth-finder #more').hide();
 	}
 
+	// Attach ajax to all council links
+	var cname = council.CouncilName;
+	var cdata = {
+		z: this.zip	
+	};
+	
+	$('a:contains('+cname+')').on('click', function(){
+		$.ajax({
+			url: "/cookiesapi/booth_list_link_visits.asp",
+			data: cdata,
+			datatype: "json"
+		});
+	});	
+
+	
+
 	// Reset foundation again since new tags are added.
 	$(document).foundation();
 }
