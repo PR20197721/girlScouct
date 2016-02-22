@@ -195,6 +195,13 @@ $lines-to-show: 3;
 .reveal-modal {
   z-index: 9000;
   .video-popup {
+	  
+	  position: relative;
+//    padding-top: -4.4375em;
+    padding-bottom: 55.9%;
+    height: 0;
+    margin-bottom: 1em;
+    overflow: hidden;
     // width: 90%;
     // margin: 0 auto;
     // padding-bottom: rem-calc(50);
