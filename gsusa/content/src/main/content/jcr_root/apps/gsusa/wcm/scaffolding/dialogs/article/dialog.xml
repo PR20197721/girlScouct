@@ -213,7 +213,7 @@
                     <hideInNav
                     	jcr:primaryType="cq:Widget"
                     	allowBlank="{Boolean}false"
-                    	fieldLabel="Make the Article Searchable"
+                    	fieldLabel="Hide in Navigation"
                     	xtype="selection"
                         value="true"
                         defaultValue="true"
@@ -222,11 +222,11 @@
                             <true
                                 jcr:primaryType="nt:unstructured"
                                 text="Yes"
-                                value="false"/>
+                                value="true"/>
                             <false
                                 jcr:primaryType="nt:unstructured"
                                 text="No"
-                                value="true"/>
+                                value="false"/>
                         </options>
                     </hideInNav>
                     <primaryTag
