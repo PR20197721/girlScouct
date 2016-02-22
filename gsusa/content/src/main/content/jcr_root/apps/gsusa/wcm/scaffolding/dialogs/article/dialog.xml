@@ -94,7 +94,6 @@
                         fieldLabel="Tile Photo"
                         fileNameParameter="./jcr:content/tileimage/fileName"
                         fileReferenceParameter="./jcr:content/tileimage/fileReference"
-                        height="{Long}200"
                         hideLabel="false"
                         itemId="thumbnail"
                         mapParameter="./jcr:content/tileimage/imageMap"
@@ -102,7 +101,7 @@
                         requestSuffix="/jcr:content/tileimage.img.png"
                         rotateParameter="./jcr:content/tileimage/imageRotate"
                         sizeLimit="100"
-                        width="{Long}200"
+                        height="{Long}200"
                         xtype="html5smartimage">
                         <cropConfig
 					        jcr:primaryType="nt:unstructured">
@@ -111,7 +110,7 @@
 					            <aspectRatio-1.6x1
 					                    jcr:primaryType="nt:unstructured"
 					                    text="1.166x1"
-					                    value="1.166,1"
+					                    value="116,100"
 					                    checked="true"/>
 					        </aspectRatios>
 					    </cropConfig>
@@ -213,6 +212,7 @@
                     <hideInNav
                     	jcr:primaryType="cq:Widget"
                     	allowBlank="{Boolean}false"
+
                     	fieldLabel="Hide In Navigation"
                     	xtype="selection"
                         value="true"
