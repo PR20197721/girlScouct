@@ -25,7 +25,7 @@ $lines-to-show: 3;
       h3 {
         font-size: rem-calc(21);
         line-height: rem-calc(24);
-        white-space: nowrap;
+        //white-space: nowrap;
         text-overflow: ellipsis;
         width: 90%;
         overflow: hidden;
@@ -103,7 +103,7 @@ $lines-to-show: 3;
       padding-right: rem-calc(10);
     }
     @media #{$small-only} {
-      margin-bottom: rem-calc(20);
+      margin-bottom: rem-calc(17);
     }
   }
   .block-grid {
@@ -115,6 +115,9 @@ $lines-to-show: 3;
       @include block-grid(2, $spacing: rem-calc(20));
       li {
         padding-bottom: rem-calc(20);
+      	@media #{$medium-up} {
+          padding-bottom: rem-calc(17);
+        }
       }
     }
   }
@@ -183,19 +186,27 @@ $lines-to-show: 3;
 .reveal-modal {
   z-index: 9000;
   .video-popup {
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: rem-calc(50);
+    // width: 90%;
+    // margin: 0 auto;
+    // padding-bottom: rem-calc(50);
     iframe {
       width: 100%;
     }
   }
+  .close-reveal-modal{
+    font-size: 16px !important;
+  }
+
+
   .close {
-    position: relative;
-    height: rem-calc(40);
-    width: 100%;
+    position: absolute;
+    right: -27px;
+    top:-29px;
+    // position: relative;
+    // height: rem-calc(40);
+    // width: 100%;
     a {
-      top:0;
+      // top:0;
     }
   }
 }
@@ -239,3 +250,6 @@ $lines-to-show: 3;
 	}
   }
 }
+  .clearboth{
+    clear:both;
+  } 

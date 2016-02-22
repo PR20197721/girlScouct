@@ -32,4 +32,6 @@
 </div>
 <% if (isShowEditDate) { %>
 	<i>Edited: <%=editedDate%></i>
+<% } else{ %>
+	<i></i>
 <% } %>

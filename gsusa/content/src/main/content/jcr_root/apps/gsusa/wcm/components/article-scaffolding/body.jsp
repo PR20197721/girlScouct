@@ -411,21 +411,30 @@
                 params["./jcr:content/tileimage2x/jcr:lastModified"] = "";
                 params["./jcr:content/tileimage2x/jcr:lastModifiedBy"] = "";
                 params["./jcr:content/tileimage2x/imageMap"] = frm.findField("./jcr:content/tileimage/imageMap").getValue();
-                if(frm.findField("thumbnail").getRect().substr(0,1) !== "" && frm.findField("thumbnail").getRect().substr(0,1) !== "/"){
-                	params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
-                }
+                //if(frm.findField("thumbnail").getRect().substr(0,1) !== "" && frm.findField("thumbnail").getRect().substr(0,1) !== "/"){
+                //	params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
+                //}
+                params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("./jcr:content/tileimage/imageCrop").getValue();
                 params["./jcr:content/tileimage2x/imageRotate"] = 0;
                 params["./jcr:content/tileimage2x/height"] = 600;
                 params["./jcr:content/tileimage2x/width"] = 700;
                 
                 params["./jcr:content/tileimage/height"] = 300;
                 params["./jcr:content/tileimage/width"] = 350;
+                params["./jcr:content/tileimage/sling:resourceType"] = "gsusa/components/image";
+                params["./jcr:content/tileimage2x/sling:resourceType"] = "gsusa/components/image";
                 
                 if (!isUpdate) {
+                	if(frm.findField("./jcr:content/pageTitle").getValue() != undefined && frm.findField("./jcr:content/pageTitle").getValue() != ""){
+                		params[":name"] = frm.findField("./jcr:content/pageTitle").getValue()
+                		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	} else{
                 	params[":name"] = frm.findField("./jcr:content/jcr:title").getValue()
                 		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	}
                 	params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
                 	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';
+                	params["./jcr:content/content/middle/par/article_text/additionalCss"] = "clearboth";
                 }
                 frm.doAction(action);
             }

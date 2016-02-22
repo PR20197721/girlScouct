@@ -74,8 +74,10 @@ for(String tag : tags){
 	tagIds.add(tag);
 }
 anchorsBuilder.deleteCharAt(1);
-anchorsBuilder.append("$$$");
-anchorsBuilder.append(resourceResolver.map(seeMoreLink));
+if(!"".equals(seeMoreLink)){
+	anchorsBuilder.append("$$$");
+	anchorsBuilder.append(resourceResolver.map(seeMoreLink));
+}
 request.setAttribute("linkTagAnchors", anchorsBuilder.toString());
 
 List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortByPriority);
@@ -97,7 +99,7 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
         }
     }
 
-    if (seeMoreLink != null) {
+    if (!"".equals(seeMoreLink)) {
     %>
 	<div>
 		<div class="article-tile last">

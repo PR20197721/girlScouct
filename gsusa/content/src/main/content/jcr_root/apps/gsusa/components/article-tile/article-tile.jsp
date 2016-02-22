@@ -14,6 +14,12 @@
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
 		articlePath = request.getParameter("articlePath");
+		if (articlePath.endsWith(".html")) {
+			articlePath = articlePath.substring(0, articlePath.length() - 5);
+		}
+		if (!articlePath.startsWith("/content/gsusa")) {
+			articlePath = "/content/gsusa" + articlePath;
+		}
 	}
 	String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
@@ -116,10 +122,6 @@
 			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
 
       	}
-        if(linkTagAnchors == null){
-        	String tagPath = primaryNode.getPath();
-        	linkTagAnchors = "#" + tagPath.replaceAll("^/etc/tags/gsusa/content-hub/", "").replaceAll("/", "|");
-        }
 	}
 	if(linkTagAnchors != null){
 		linkToArticle += linkTagAnchors;
@@ -133,17 +135,18 @@
     	clazz = "video";
 		if(playOnClick){
         %>
-    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
+    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal">
 <%
     	}
 	} if(type.equals("link")){
         if(openInNewWindow){
 		%>
-		<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
+
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
     	<%
         } else {
 		%>
-		<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
     	<%
         }
 	}else if(!(type.equals("video") && playOnClick)){
