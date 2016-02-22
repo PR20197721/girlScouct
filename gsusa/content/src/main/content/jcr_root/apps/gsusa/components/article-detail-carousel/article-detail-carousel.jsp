@@ -152,8 +152,7 @@ $(document).ready(function() {
 			var slide = slides[slideIndex];
 			var link = $(slide).find('a').attr('href');
 			var clazz = $(slide).find('a').attr('class');
-			if (!clazz || clazz == 'video non-click') {
-				// It is article / non-click video, not link or click video
+			if (clazz == 'photo' || clazz == 'video non-click') {
 				if (link.indexOf('#') == -1) {
 					link += '#';
 				}
