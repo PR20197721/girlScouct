@@ -102,6 +102,16 @@ $(document).ready(function() {
             return;
         }
 
+        var clazz = $(slide).find('a').attr('class');
+        if (clazz == 'photo' || clazz == 'video non-click') {
+            if (link.indexOf('#') == -1) {
+                link += '#';
+            }
+            if (seeMoreLink) {
+                $(slide).find('a').attr('href', link + '$$$' + seeMoreLink);
+            }
+        }
+
         var hashIndex = link.lastIndexOf('#');
         if (hashIndex == -1) {
             hashIndex = link.length;
@@ -122,72 +132,19 @@ $(document).ready(function() {
         }
     }
 
-    function adjustSlidesAndSlick() {
-        slides = $(TILES_SELECTOR);
-        var currentSlideHtml;
-        for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-            if (slideIndex == currentSlideIndex) {
-                currentSlideHtml = '<div><div class="article-tile current">' + $(slides[slideIndex]).html() + '</div></div>';
-                $(slides[slideIndex]).parent().remove();
-                break;
-            }
+    $(".article-detail-carousel .article-slider").slick({
+        lazyLoad: 'ondemand',
+        slidesToShow: 4,
+        touchMove: true,
+        slidesToScroll: 4,
+        infinite: false,
+    });
+
+    // Initial Slide does not work. Use this instead.
+    $(function(){
+        if (currentSlideIndex != -1) {
+            $('.article-detail-carousel .article-slider').slick('slickGoTo', currentSlideIndex, true);
         }
-
-        slides = $(TILES_SELECTOR);
-        var middleSlideIndex = parseInt(slides.length / 2, 10);
-        if (slides.length == 0) {
-            $('.article-detail-carousel .article-slider').prepend(currentSlideHtml);
-        } else {
-            for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
-                if (slideIndex == middleSlideIndex - 1) {
-                    $(slides[slideIndex]).parent().after(currentSlideHtml);
-                }
-            }
-        }
-
-        var initialSlide = slides.length + 1 > 4 ? middleSlideIndex : 0;
-
-        slides = $(TILES_SELECTOR);
-        for (var slideIndex = 0; slideIndex < slides.length - 1; slideIndex++) {
-            var slide = slides[slideIndex];
-            var link = $(slide).find('a').attr('href');
-            var clazz = $(slide).find('a').attr('class');
-            if (clazz == 'photo' || clazz == 'video non-click') {
-                if (link.indexOf('#') == -1) {
-                    link += '#';
-                }
-                if (seeMoreLink) {
-                    $(slide).find('a').attr('href', link + '$$$' + seeMoreLink);
-                }
-            }
-        }
-        
-        $(".article-detail-carousel .article-slider").slick({
-            lazyLoad: 'ondemand',
-            slidesToShow: 4,
-            touchMove: true,
-            slidesToScroll: 4,
-            infinite: false,
-        });
-        // Initial Slide does not work. Use this instead.
-        $(function(){
-               $('.article-detail-carousel .article-slider').slick('slickGoTo', initialSlide, true);
-        });
-    }
-
-    if (currentSlideIndex == -1) {
-        $.get(
-            '/content/gsusa/en/components/article-hub/article-tile.html',
-            {articlePath: window.location.pathname},
-            function(html) {
-                html = '<div><div class="article-tile current">' + html + '</div></div>';
-                $('.article-detail-carousel .article-slider').append(html);
-                currentSlideIndex = slides.length;
-                adjustSlidesAndSlick();
-            }
-        )
-    } else {
-        adjustSlidesAndSlick();
-    }
+    });
 });
 </script>
