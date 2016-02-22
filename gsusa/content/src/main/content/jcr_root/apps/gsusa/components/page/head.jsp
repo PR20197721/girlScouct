@@ -42,6 +42,16 @@
 	String ogUrl = properties.get("ogUrl", "");
 	String ogDescription = properties.get("ogDescription", "");
 	String ogImage = properties.get("ogImage", "");
+	if("".equals(ogImage)){
+		String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+	    Session session = (Session)resourceResolver.adaptTo(Session.class);
+	    if (session.nodeExists(pageImagePath)) {
+	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+	    }
+	} else{
+		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage);
+	}
 	
 	Page parentPage = currentPage.getAbsoluteParent(2);
 	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");

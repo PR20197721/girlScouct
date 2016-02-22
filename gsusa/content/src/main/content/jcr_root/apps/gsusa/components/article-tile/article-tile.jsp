@@ -130,16 +130,15 @@
 
 <section>
     <%
-    String clazz = "";
     if(type.equals("video")){
-    	clazz = "video";
 		if(playOnClick){
-        %>
-    <a class="<%= clazz %>" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal">
-<%
+        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"><%
+    	} else {
+			%><a class="video non-click" href="<%=linkToArticle%>"><%
     	}
-	} if(type.equals("link")){
+	} else if(type.equals("link")){
         if(openInNewWindow){
+
 		%>
 
 			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
@@ -149,10 +148,8 @@
 			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
     	<%
         }
-	}else if(!(type.equals("video") && playOnClick)){
-    %>
-	<a class="<%= clazz %>" href="<%=linkToArticle%>">
-<%
+	} else {
+    	%> <a class="photo" href="<%=linkToArticle%>"> <%
     }
     %>
 		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>

@@ -11,7 +11,12 @@
 	// The first tag of the article is the default tag of the carousel.
 	String defaultTag;
 	if (tags != null && tags.length != 0) {
-		defaultTag = tags[0].getName();
+		StringBuilder builder = new StringBuilder();
+		for (Tag tag : tags) {
+			builder.append(tag.getName()).append("|");
+		}
+		builder.deleteCharAt(builder.length() - 1);
+		defaultTag = builder.toString();
 	} else {
 		defaultTag = "default";
 	}
