@@ -1369,7 +1369,7 @@ System.err.println("tata meetingUtil planView end....");
 			addMeetings(user, troop, t.nextToken());
 	}
 
-	public void rmExtraMeetingsNotOnSched(User user, Troop troop)
+	public void rmExtraMeetingsNotOnSched(User user, Troop troop) 
 			throws IllegalAccessException {
 		String dates = troop.getYearPlan().getSchedule().getDates();
 		StringTokenizer t = new StringTokenizer(dates, ",");
