@@ -178,8 +178,7 @@ public SearchResult getArticlesWithPaging(List<String> tagIds, int limit, Resour
     map.put("1_property.value", "/etc/scaffolding/gsusa/article");
     map.put("property","jcr:content/cq:tags");
 	map.put("property.and","true");
-    map.put("boolproperty", "jcr:content/hideInNav");
-    map.put("boolproperty.value", "false");
+   
     for(String tag: tagIds){
 		map.put("property."+ i +"_value",tag);
 		i++;
@@ -209,8 +208,7 @@ public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, Qu
 
 	map.put("property", "@jcr:content/cq:scaffolding");
     map.put("property.value", "/etc/scaffolding/gsusa/article");
-    map.put("boolproperty", "jcr:content/hideInNav");
-    map.put("boolproperty.value", "false");
+    
 	map.put("p.limit",limit + "");
 	if(sortByPriority.equals("true")){
 		map.put("orderby","@jcr:content/articlePriority");
