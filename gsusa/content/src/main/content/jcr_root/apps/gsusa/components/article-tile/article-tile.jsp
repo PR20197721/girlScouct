@@ -138,9 +138,15 @@
     	}
 	} else if(type.equals("link")){
         if(openInNewWindow){
-			%> <a class="link" x-cq-linkchecker="valid" href="<%=externalLink%>" target="_blank"> <%
+
+		%>
+
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
+    	<%
         } else {
-			%> <a class="link" x-cq-linkchecker="valid" href="<%=externalLink%>"> <%
+		%>
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
+    	<%
         }
 	} else {
     	%> <a class="photo" href="<%=linkToArticle%>"> <%
