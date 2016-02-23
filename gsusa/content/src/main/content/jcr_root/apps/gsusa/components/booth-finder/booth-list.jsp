@@ -42,6 +42,7 @@
             <option value="date">date</option>
         </select>
     </section>
+    <input type="hidden" name="zip" value="{{env.zip}}"></input>
 </form>
 <div id="modal_booth_item_map"  class="reveal-modal"  data-reveal data-options="close_on_esc:true"></div>
 
