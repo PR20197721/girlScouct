@@ -66,6 +66,16 @@ gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartI
         if (tool.toolId === "smartimageCrop") {
 	    	tool.userInterface.changeAspectRatio(116,100);
 	    }
+    },
+    getCropData: function() {
+    	if (this.toolComponents != null) {
+	    	if (this.toolComponents["smartimageCrop"] != null) {
+	    		console.info(this.toolComponents["smartimageCrop"]);
+	    		return this.toolComponents["smartimageCrop"].toolRef.serialize();
+	    	}
+	    } else {
+	    	return null;
+	    }
     }
 
 });
