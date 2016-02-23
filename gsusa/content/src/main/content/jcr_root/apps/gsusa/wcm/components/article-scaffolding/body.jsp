@@ -421,8 +421,8 @@
                 
                 params["./jcr:content/tileimage/height"] = 300;
                 params["./jcr:content/tileimage/width"] = 350;
-                params["./jcr:content/tileimage/sling:resourceType"] = "gsusa/components/image";
-                params["./jcr:content/tileimage2x/sling:resourceType"] = "gsusa/components/image";
+                //params["./jcr:content/tileimage/sling:resourceType"] = "gsusa/components/image";
+                //params["./jcr:content/tileimage2x/sling:resourceType"] = "gsusa/components/image";
                 
                 if (!isUpdate) {
                 	if(frm.findField("./jcr:content/pageTitle").getValue() != undefined && frm.findField("./jcr:content/pageTitle").getValue() != ""){

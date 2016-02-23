@@ -84,37 +84,45 @@
                         xtype="textfield"
                     />
                     <tileimage
-                        jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}false"
-                        allowUpload="false"
-                        border="true"
-                        cropParameter="./jcr:content/tileimage/imageCrop"
-                        ddGroups="[media]"
-                        fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
-                        fieldLabel="Tile Photo"
-                        fileNameParameter="./jcr:content/tileimage/fileName"
-                        fileReferenceParameter="./jcr:content/tileimage/fileReference"
-                        hideLabel="false"
-                        itemId="thumbnail"
-                        mapParameter="./jcr:content/tileimage/imageMap"
-                        name="./jcr:content/tileimage/file"
-                        requestSuffix="/jcr:content/tileimage.img.png"
-                        rotateParameter="./jcr:content/tileimage/imageRotate"
-                        sizeLimit="100"
-                        height="{Long}200"
-                        xtype="html5smartimage">
-                        <cropConfig
-					        jcr:primaryType="nt:unstructured">
-					        <aspectRatios
-					                jcr:primaryType="nt:unstructured">
-					            <aspectRatio-1.6x1
-					                    jcr:primaryType="nt:unstructured"
-					                    text="1.166x1"
-					                    value="116,100"
-					                    checked="true"/>
-					        </aspectRatios>
-					    </cropConfig>
-                    </tileimage>
+					    jcr:primaryType="cq:Widget"
+					    allowBlank="{Boolean}false"
+					    allowUpload="false"
+					    border="true"
+					    cropParameter="./jcr:content/tileimage/imageCrop"
+					    ddGroups="[media]"
+					    fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
+					    fieldLabel="Tile Photo"
+					    fileNameParameter="./jcr:content/tileimage/fileName"
+					    fileReferenceParameter="./jcr:content/tileimage/fileReference"
+					    height="{Long}200"
+					    hideLabel="false"
+					    itemId="thumbnail"
+					    mapParameter="./jcr:content/tileimage/imageMap"
+					    name="./jcr:content/tileimage/file"
+					    requestSuffix="/jcr:content/tileimage.img.png"
+					    rotateParameter="./jcr:content/tileimage/imageRotate"
+					    sizeLimit="100"
+					    width="{Long}200"
+					    xtype="html5smartimageAR">
+					    <cropConfig
+                            jcr:primaryType="nt:unstructured">
+                            <aspectRatios
+                                jcr:primaryType="nt:unstructured">
+                                <aspectRatio-1.6x1
+                                    jcr:primaryType="nt:unstructured"
+                                    text="1.166x1"
+                                    value="116,100"
+                                    checked="true"/>
+                            </aspectRatios>
+                        </cropConfig>
+					    <items jcr:primaryType="cq:WidgetCollection">
+					        <resType
+					            jcr:primaryType="cq:Widget"
+					            name="./jcr:content/tileimage/sling:resourceType"
+					            value="gsusa/components/image"
+					            xtype="hidden"/>
+					    </items>
+					</tileimage>
                     <ogimage
                         jcr:primaryType="cq:Widget"
                         fieldLabel="og:image"
