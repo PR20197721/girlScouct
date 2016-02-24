@@ -17,8 +17,8 @@ allowedReportUsers.add("005g0000002apMT");
 allowedReportUsers.add("005G0000006oEkZ");
 allowedReportUsers.add("005G0000006oBVG");
 if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-    out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
-    return;
+	out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
+	return;
 } else {
 
         boolean isHtml= true;
