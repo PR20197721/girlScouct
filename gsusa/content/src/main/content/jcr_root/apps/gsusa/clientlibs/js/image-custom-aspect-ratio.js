@@ -10,118 +10,74 @@
  * with Day.
  */
 gsusa.components.Html5SmartImageAspectRatio = CQ.Ext.extend(CQ.html5.form.SmartImage, {
-	
-       crops: {},
-       ui: {},
- 
-    constructor: function (config) {
-        config = config || {};
- 
-        var aRatios = {
-            "2To1AspectRatio": {
-            	"value": "1.166,1",
-            	"text": "1.166:1",
-                "checked": true
+	toolClicked: function(tool) {
+        var prevTool;
+        var toolButton = tool.buttonComponent;
+        if (toolButton.pressed) {
+            var isFirstTimeCall = false;
+            if (this.toolComponents == null) {
+                this.toolComponents = { };
             }
-        };
- 
-        var defaults = { "cropConfig": { "aspectRatios": aRatios } };
-        config = CQ.Util.applyDefaults(config, defaults);
- 
-        gsusa.components.Html5SmartImageAspectRatio.superclass.constructor.call(this, config);
-    },
- 
-    initComponent: function () {
-        gsusa.components.Html5SmartImageAspectRatio.superclass.initComponent.call(this);
- 
-        var imgTools = this.imageToolDefs;
-        var cropTool;
- 
-        if(imgTools){
-            for(var x = 0; x < imgTools.length; x++){
-                if(imgTools[x].toolId == 'smartimageCrop'){
-                    cropTool = imgTools[x];
-                    break;
-                }
+            if (!this.toolComponents[tool.toolId]) {
+                this.toolComponents[tool.toolId] = {
+                    isVisible: false,
+                    toolRef: tool
+                };
+                isFirstTimeCall = true;
             }
-        }
- 
-        if(!cropTool){
-            return;
-        }
- 
-        for(var x in this.crops){
-            if(this.crops.hasOwnProperty(x)){
-                var field = new CQ.Ext.form.Hidden({
-                    id: x,
-                    name: "./" + x
-                });
- 
-                this.add(field);
- 
-                field = new CQ.Ext.form.Hidden({
-                    name: "./" + x + "Text",
-                    value: this.crops[x].text
-                });
- 
-                this.add(field);
+            var toolDef = this.toolComponents[tool.toolId];
+            // hide all other tools' components
+            prevTool = this.hideTools(tool.toolId);
+            // render (if necessary) and show tools' components
+            if (tool.userInterface && (!tool.userInterface.rendered)) {
+                tool.userInterface.render(CQ.Util.getRoot());
             }
-        }
- 
-        var userInterface = cropTool.userInterface;
-        ui = userInterface;
- 
-        cropTool.workingArea.on("contentchange", function(changeDef){
-            var aRatios = userInterface.aspectRatioMenu.findByType("menucheckitem");
-            var aRatioChecked;
- 
-            if(aRatios){
-                for(var x = 0; x < aRatios.length; x++){
-                    if(aRatios[x].checked === true){
-                        aRatioChecked = aRatios[x];
-                        break;
+            if (prevTool) {
+                prevTool.onDeactivation();
+            }
+            if (tool.userInterface) {
+                tool.userInterface.show();
+                toolDef.isVisible = true;
+                if (!(tool.userInterface.saveX && tool.userInterface.saveY)) {
+                    var height = tool.userInterface.getSize().height;
+                    var pos = this.getPosition();
+                    var toolbarPosX = pos[0];
+                    var toolbarPosY = pos[1] - (height + 4);
+                    if (toolbarPosX < 0) {
+                        toolbarPosX = 0;
                     }
+                    if (toolbarPosY < 0) {
+                        toolbarPosY = 0;
+                    }
+                    tool.userInterface.setPosition(toolbarPosX, toolbarPosY);
+                } else {
+                    tool.userInterface.setPosition(
+                            tool.userInterface.saveX, tool.userInterface.saveY);
                 }
             }
- 
-            if(!aRatioChecked){
-                return;
+            tool.onActivation();
+        } else {
+            prevTool = this.hideTools();
+            if (prevTool) {
+                prevTool.onDeactivation();
             }
-        }, this);
-    },
- 
-    getCropKey: function(text){
-        for(var x in this.crops){
-            if(this.crops.hasOwnProperty(x)){
-                if(this.crops[x].text == text){
-                    return x;
-                }
-            }
+            this.imagePanel.drawImage();
         }
- 
-        return null;
+        if (tool.toolId === "smartimageCrop") {
+	    	tool.userInterface.changeAspectRatio(116,100);
+	    }
     },
- 
-    getRect: function (radio) {
-        var ratioStr = "";
-        var aspectRatio = "1.166,1"; //hardcoding it
- 
-        if ((aspectRatio != null) && (aspectRatio != "0,0")) {
-            ratioStr = "/" + aspectRatio;
-        }
- 
-        if (ui.cropRect == null) {
-            return ratioStr;
-        }
- 
-        return ui.cropRect.x + "," + ui.cropRect.y + "," + (ui.cropRect.x + ui.cropRect.width) + ","
-            + (ui.cropRect.y + ui.cropRect.height) + ratioStr;
-    },
- 
-    setCoords: function (cropTool, cords) {
-        cropTool.initialValue = cords;
-        cropTool.onActivation();
+    getCropData: function() {
+    	if (this.toolComponents != null) {
+	    	if (this.toolComponents["smartimageCrop"] != null) {
+	    		console.info(this.toolComponents["smartimageCrop"]);
+	    		return this.toolComponents["smartimageCrop"].toolRef.serialize();
+	    	}
+	    } else {
+	    	return null;
+	    }
     }
+
 });
 
 CQ.Ext.reg("html5smartimageAR", gsusa.components.Html5SmartImageAspectRatio);

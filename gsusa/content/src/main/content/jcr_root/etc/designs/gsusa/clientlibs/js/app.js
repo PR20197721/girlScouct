@@ -402,6 +402,7 @@
       slidesToShow: 3,
       touchMove: true,
       slidesToScroll: 3,
+      infinite: false,
       responsive: [
        {
          breakpoint: 480,
@@ -414,7 +415,6 @@
        }
       ]
     });
-
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -891,7 +891,9 @@ function populateVideoIntoModal(divId, videoLink, color, e) {
   var parent = $("#" + divId + " " + ".video-popup");
   $("#" + divId).css("background-color", "#" + color);
   parent.html(videoLink);
-  e.preventDefault();
+  if(e){
+    e.preventDefault();
+  }
   return false;
 }
 
@@ -926,3 +928,18 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	return '';
 });
 
+$(window).load(seeMoreScale);
+$(window).on('resize',seeMoreScale);
+
+function seeMoreScale(){
+	$.each($('.article-slider .article-tile.last section'), function(index, value){
+		var thisDiv = $(value);
+		var parentDiv = thisDiv.parents('.slick-slide')[0];
+		if($(parentDiv).siblings()){
+			var siblingDiv = $(parentDiv).siblings()[0];
+			thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+			thisDiv.css('height',$(siblingDiv).innerHeight());
+			thisDiv.css('width',$(siblingDiv).innerWidth());
+		}
+	});
+}

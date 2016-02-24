@@ -8,6 +8,7 @@
 %><%@include file="/libs/foundation/global.jsp"%><%
 %><%@page session="false" %><%
 %><%
+	boolean isShowEditDate = "true".equals(properties.get("showEditDate", "false"));
 	String pagePath = currentPage.getPath();
 
 	String articleText = "";
@@ -16,9 +17,6 @@
 	try{
         Node node =   resourceResolver.getResource(pagePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
-
-        if(propNode.hasProperty("articleText"))
-        articleText = propNode.getProperty("articleText").getString();
 
         if(propNode.hasProperty("editedDate"))
         editedDate = propNode.getProperty("editedDate").getString();
@@ -29,8 +27,11 @@
     }
 
 %>
-<div class="clearfix">
+<div>
     <cq:include path="social-bar" resourceType="gsusa/components/article-social-bar" />
 </div>
-<i>Edited: <%=editedDate%></i>
-<%=articleText%>
+<% if (isShowEditDate) { %>
+	<i>Edited: <%=editedDate%></i>
+<% } else{ %>
+	<i></i>
+<% } %>

@@ -136,6 +136,7 @@
         var videoLink = parent.find('name', './jcr:content/videoLink')[0];
         var playOnClick = parent.find('name', './jcr:content/playOnClick')[0];
         var link = parent.find('name', './jcr:content/externalLink')[0];
+		var openInNewWindow = parent.find('name', './jcr:content/openInNewWindow')[0];
         switch (value) {
         case 'photo':
         	videoLink.hide();
@@ -144,6 +145,8 @@
         	playOnClick.setDisabled(true);
         	link.hide();
         	link.setDisabled(true);
+            openInNewWindow.hide();
+			openInNewWindow.setDisabled(true);
         	break;
         case 'video':
         	videoLink.show();
@@ -152,6 +155,8 @@
         	playOnClick.setDisabled(false);
         	link.hide();
         	link.setDisabled(true);
+            openInNewWindow.hide();
+			openInNewWindow.setDisabled(true);
         	break;
         case 'link':
         	videoLink.hide();
@@ -160,6 +165,8 @@
         	playOnClick.setDisabled(true);
         	link.show();
         	link.setDisabled(false);
+            openInNewWindow.show();
+			openInNewWindow.setDisabled(false);
         	break;
         }
     }
@@ -169,7 +176,7 @@
          * An array containing the xtype of widgets that need to call
          * their processRecord function even when creating a new page
          */
-        var forcedFields = ["smartfile", "smartimage", "html5smartfile", "html5smartimage"];
+        var forcedFields = ["smartfile", "smartimage", "html5smartfile", "html5smartimage", "html5smartimageAR"];
 
         myForm = new CQ.Ext.form.FormPanel({
             //standardSubmit: false,
@@ -345,15 +352,14 @@
                 }
 
                 var primaryTag = frm.findField("./jcr:content/cq:tags").getValue()[0];
+                if(typeof primaryTag == "undefined"){
+                	CQ.Ext.Msg.alert("Error", "Please enter at least one valid tag for the article");
+                }
                 var articleName = frm.findField("./jcr:content/jcr:title").el.dom.value;
                 articleName = articleName.replace(/[^a-z0-9\s]/gi, '');
                 articleName = articleName.trim();
 				articleName = articleName.replace(/\s+/g, '-');
                 articleName = articleName.toLowerCase();
-
-                var automaticVanity = primaryTag.replace('gsusa:content-hub','/content/gsusa/en/about-girl-scouts/our-stories-page') + '/'+ articleName;
-
-                frm.findField("./jcr:content/sling:vanityPath").el.dom.value = automaticVanity;
 
 
                 if (!isUpdate) {
@@ -405,13 +411,31 @@
                 params["./jcr:content/tileimage2x/jcr:lastModified"] = "";
                 params["./jcr:content/tileimage2x/jcr:lastModifiedBy"] = "";
                 params["./jcr:content/tileimage2x/imageMap"] = frm.findField("./jcr:content/tileimage/imageMap").getValue();
-                params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getRect();
+                if(frm.findField("thumbnail").getCropData() != null){
+                	params["./jcr:content/tileimage2x/imageCrop"] = frm.findField("thumbnail").getCropData();
+                }
+               
                 params["./jcr:content/tileimage2x/imageRotate"] = 0;
                 params["./jcr:content/tileimage2x/height"] = 600;
                 params["./jcr:content/tileimage2x/width"] = 700;
                 
                 params["./jcr:content/tileimage/height"] = 300;
                 params["./jcr:content/tileimage/width"] = 350;
+                //params["./jcr:content/tileimage/sling:resourceType"] = "gsusa/components/image";
+                //params["./jcr:content/tileimage2x/sling:resourceType"] = "gsusa/components/image";
+                
+                if (!isUpdate) {
+                	if(frm.findField("./jcr:content/pageTitle").getValue() != undefined && frm.findField("./jcr:content/pageTitle").getValue() != ""){
+                		params[":name"] = frm.findField("./jcr:content/pageTitle").getValue()
+                		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	} else{
+                	params[":name"] = frm.findField("./jcr:content/jcr:title").getValue()
+                		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
+                	}
+                	params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
+                	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';
+                	params["./jcr:content/content/middle/par/article_text/additionalCss"] = "clearboth";
+                }
                 frm.doAction(action);
             }
         });

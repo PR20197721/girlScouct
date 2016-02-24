@@ -18,6 +18,12 @@
                         fieldLabel="Number of Page"
                         name="./num"
                         xtype="numberfield"/>
+                    <sortByPriority
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </properties>
         </items>

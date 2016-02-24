@@ -2,19 +2,28 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 
 <%
-String tag = properties.get("tag","");
+String[] tags = (String[])properties.get("tags",String[].class);
 int num = Integer.parseInt(properties.get("num","9"));
 String priority = properties.get("priority","false");
+String hasBorderLine = properties.get("borderLine", String.class);
+String listing = properties.get("titleLink","");
 
-if(tag.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> *** Please select a tag and path *** <%
-} else{ %>
+if ("on".equals(hasBorderLine)) {%> 
+	<hr style="border-top: solid 1px #000000">
+<%
+}
 
-<div class="related-articles">
-	<div class="block-grid">
-		<ul id="article-list">
-		</ul>
-	</div>
+
+if(tags == null) {
+	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		%> *** Please select a tag *** <%
+	}
+} else { 
+%>
+
+<div class="block-grid">
+	<ul id="article-list">
+	</ul>
 </div>
 
 <script>
@@ -24,15 +33,21 @@ if(!isNaN(parseInt(url[url.length-2]))){
 	page = parseInt(url[url.length-2]);
 }
 
+var tags = [];
+<% for (String t : tags){ %>
+	tags.push("<%= java.net.URLEncoder.encode(t,"UTF-8") %>");
+<% } %>
+
 function loadResults(){
 	$.ajax({
 		type: "GET",
 		dataType: "html",
 		url: "<%= resource.getPath() %>.ajax."+ page + ".html",
-	    data: { tag: "<%= tag %>",
+	    data: { tag: tags.toString(),
 		    	num: "<%= num %>",
 		    	page: page,
-		    	priority: "<%= priority %>" },
+		    	priority: "<%= priority %>",
+		    	listing: "<%= listing %>" },
 		success: function(res){
 			$("#article-list").append(res);
 			retina(true);

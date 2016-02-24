@@ -18,7 +18,7 @@
     margin-bottom: 0;
     margin-top: rem-calc(-25);
     width: rem-calc(25);
-    box-shadow: 0px 2px 7px 0px #000;
+    box-shadow: 0px 2px 7px -2px #000;
     &:hover,
     &:focus {
       background-color: rgba(104, 104, 104, .8) !important;
@@ -28,14 +28,14 @@
     }
   }
   .slick-prev {
-    left: rem-calc(0);
+    left: rem-calc(3);
     background: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, .8) !important;
     &:before {
      // content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
     }
   }
   .slick-next {
-    right: rem-calc(0);
+    right: rem-calc(3);
     background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, .8) !important;
     &:before {
       //content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
@@ -50,22 +50,27 @@
   .article-tile {
     padding: 0;
     height: 100%;
+    opacity: .5;
     section {
       height: 100%;
+      display: table;
       h3 {
         font-size: rem-calc(13);
         margin: 0 0 5px 0;
       }
     }
     &.last {
-      background: #adadad;
+      background: #ccc;
       text-align: center;
+      opacity: 1;
       a {
         color: $white;
-        top: 50%;
-        position: relative;
-        margin-top: rem-calc(-8);
-        line-height: 1;
+        // top: 45%;
+        // position: relative;
+        // line-height: 1;
+        display: table-cell;
+        vertical-align: middle;
+        height: inherit;
       }
     }
   }
@@ -74,7 +79,7 @@
     // max-width: rem-calc(140);
     height: rem-calc(119);
     .current {
-      border: solid 6px #acacac;
+      opacity: 1;
     }
   }
   .slick-prev,
@@ -95,5 +100,28 @@
   }
   .slick-prev {
     left: -70px;
+  }
+}
+.article-carousel {
+  h4 {
+    font-size: rem-calc(24);
+    a {
+      font-weight: 600;
+    }
+  }
+  .article-slider .article-tile.last section {
+    min-height: 206px;
+    width: 250px;
+    background: #cccccc;
+    text-align: center;
+    display: table !important;
+    a {
+      color: $white;
+      display: table-cell !important;
+      vertical-align: middle;
+      text-align: center;
+      font-size: rem-calc(24);
+      width: 250px;
+    }
   }
 }
