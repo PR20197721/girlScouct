@@ -24,3 +24,5 @@ datepicker.min.js
 datepicker.en.js
 
 app.js
+
+dynamic-tag-carousel.js

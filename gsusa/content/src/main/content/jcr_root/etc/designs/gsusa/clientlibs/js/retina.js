@@ -7,8 +7,11 @@
  * Retina.js is an open source script that makes it easy to serve
  * high-resolution images to devices with retina displays.
  */
-
 (function() {
+	retina(false);
+})();
+
+function retina(forceful){
     var root = (typeof exports === 'undefined' ? window : exports);
     var config = {
         // An option to choose a suffix for 2x images
@@ -62,7 +65,27 @@
 
         var existing_onload = context.onload || function(){};
 
-        context.onload = function() {
+        if(!forceful){
+	        context.onload = function() {
+	            var images = document.getElementsByTagName('img'), retinaImages = [], i, image;
+	            var divs = getDivBackgroundImages();
+	            images = Array.prototype.slice.call(images).concat(divs);
+	            var isiPad = navigator.userAgent.match(/iPad/i) != null;
+	            for (i = 0; i < images.length; i += 1) {
+	                image = images[i];
+	                if (!!!image.getAttributeNode('data-no-retina')) {
+	                    // inkoo added: only if src cq5dam.npd
+	                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && image.src.indexOf("image.img.") > -1)) {
+			            // added: only if width < 768 pixels (mobile only)
+						    if ($(window).width() >= 768 && !isiPad) {	
+							    retinaImages.push(new RetinaImage(image));
+						    }
+	                    }
+	                }
+	            }
+	            existing_onload();
+	        };
+        }else{
             var images = document.getElementsByTagName('img'), retinaImages = [], i, image;
             var divs = getDivBackgroundImages();
             images = Array.prototype.slice.call(images).concat(divs);
@@ -79,8 +102,7 @@
                     }
                 }
             }
-            existing_onload();
-        };
+        }
     };
 
     Retina.isRetina = function(){
@@ -112,8 +134,13 @@
             if (undefined !== document.createElement) {
                 var locationObject = document.createElement('a');
                 locationObject.href = this.path;
-                locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
-                this.at_2x_path = locationObject.href;
+                var matchIndex = locationObject.pathname.indexOf(locationObject.pathname.match(regexMatch));
+                if(locationObject.pathname.substring(matchIndex-3,matchIndex) != "@2x"){ //If we're running retina a second time, such as in content hub dynamic tag listing, we don't want to try loading @2x@2x
+	                locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
+	                this.at_2x_path = locationObject.href;
+            	}else{
+            		this.at_2x_path = locationObject.href;
+            	}
             } else {
                 var parts = this.path.split('?');
                 parts[0] = parts[0].replace(regexMatch, suffixReplace);
@@ -238,4 +265,4 @@
     if (Retina.isRetina()) {
         Retina.init(root);
     }
-})();
+};

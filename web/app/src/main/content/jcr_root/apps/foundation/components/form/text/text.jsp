@@ -26,7 +26,7 @@
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
 	I18n i18n = new I18n(resourceBundle);  
 					
-    final String name = FormsHelper.getParameterName(resource);
+    final String name = FormsHelper.getParameterName(resource).replace("-","_");
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
     final boolean readOnly = FormsHelper.isReadOnly(slingRequest, resource);

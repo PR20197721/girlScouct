@@ -31,7 +31,7 @@
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
 	I18n i18n = new I18n(resourceBundle); 
 					
-    final String name = FormsHelper.getParameterName(resource);
+    final String name = FormsHelper.getParameterName(resource).replace("-","_");
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);
     final boolean hideTitle = properties.get("hideTitle", false);

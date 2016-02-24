@@ -1,6 +1,7 @@
 #base=js
 
 main.js
+image-custom-aspect-ratio.js
 right-rail-carousel-multifield-widget.js
 right-rail-carousel-widget.js
 image-video-multifield-widget.js

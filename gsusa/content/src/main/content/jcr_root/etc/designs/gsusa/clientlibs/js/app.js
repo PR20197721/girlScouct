@@ -296,6 +296,8 @@
     });
   });
 
+  var homepageScrollTopPos;
+  
   function show_hide_features() {
     if ($(".featured-stories").length > 0) {
       if ($(".featured-stories li").length <= 3) {
@@ -320,7 +322,8 @@
             // $(".off-canvas-wrap").css({
             //   'position': 'fixed'
             // });
-            window.scrollTo(0,0);
+        	homepageScrollTopPos = document.documentElement.scrollTop || document.body.scrollTop;
+        	window.scrollTo(0,0);
             target.css({
               "bottom" : "auto",
               "top" : 0
@@ -340,6 +343,9 @@
         });
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
+
+       	  window.scrollTo(0,homepageScrollTopPos);	// go back to previous window Y position 
+        	
           target.removeClass("shown");
           target.fadeOut('slow');
           $("body").css('overflow', '');
@@ -350,7 +356,7 @@
           try {
             gsusa.functions.ToggleParsysAll.toggleAll(false);
           } catch (ignore) {}
-          e.stopPropagation();
+          e.stopPropagation();          
           return false;
         });
       });
@@ -391,7 +397,24 @@
        }
       ]
     });
-  // }
+    $(".article-carousel .article-slider").slick({
+      lazyLoad: 'ondemand',
+      slidesToShow: 3,
+      touchMove: true,
+      slidesToScroll: 3,
+      infinite: false,
+      responsive: [
+       {
+         breakpoint: 480,
+         settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '60px',
+          slidesToShow: 1,
+         }
+       }
+      ]
+    });
   var lastAfterSlick = null;
 
   function explore_button() {
@@ -408,14 +431,14 @@
 
       // mike's fix for ie11 Windows 8
       if (isIE11) {
-        $('.inner-sliders .inner').on('beforeChange', function(event, slick, index) {
+        $('.inner-sliders .inner').on('beforeChange', function (event, slick, index) {
           var slides = slick.$slides;
           for (var i = 0; i < slides.length; i++) {
               $(slides[i]).css('opacity', '1');
           }
-            });
+        });
 
-            $('.inner-sliders .inner').on('afterChange', function(event, slick, index){
+        $('.inner-sliders .inner').on('afterChange', function (event, slick, index) {
           var slides = slick.$slides;
           lastAfterSlick = slides;
           for (var i = 0; i < slides.length; i++) {
@@ -761,6 +784,7 @@
   // form on the Donate Tile.
   $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
     e.preventDefault();
+    $('#tag_tile_button_donate').toggle();
     $('.formDonate').toggleClass('hide');
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
@@ -784,6 +808,7 @@
       return false;
     });
   // });
+// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
 
 }(jQuery));
 
@@ -847,6 +872,7 @@ function fixSlickSlideActive() {
   }
 }
 
+
 // useful utility printer of object properties
 function printObjectProperties(objectToInspect) {
   for (var key in objectToInspect) {
@@ -859,6 +885,16 @@ function printObjectProperties(objectToInspect) {
       }
     }
   }
+}
+
+function populateVideoIntoModal(divId, videoLink, color, e) {
+  var parent = $("#" + divId + " " + ".video-popup");
+  $("#" + divId).css("background-color", "#" + color);
+  parent.html(videoLink);
+  if(e){
+    e.preventDefault();
+  }
+  return false;
 }
 
 function setupContactLocalCouncilForm() {
@@ -892,3 +928,18 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	return '';
 });
 
+$(window).load(seeMoreScale);
+$(window).on('resize',seeMoreScale);
+
+function seeMoreScale(){
+	$.each($('.article-slider .article-tile.last section'), function(index, value){
+		var thisDiv = $(value);
+		var parentDiv = thisDiv.parents('.slick-slide')[0];
+		if($(parentDiv).siblings()){
+			var siblingDiv = $(parentDiv).siblings()[0];
+			thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+			thisDiv.css('height',$(siblingDiv).innerHeight());
+			thisDiv.css('width',$(siblingDiv).innerWidth());
+		}
+	});
+}
