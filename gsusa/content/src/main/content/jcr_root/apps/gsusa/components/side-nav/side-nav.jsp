@@ -1,12 +1,17 @@
 <%@page import="java.lang.StringBuilder,
+				java.util.regex.Pattern,
+    			java.util.regex.Matcher,
                 java.util.Iterator,
+                com.day.cq.wcm.api.WCMMode,
                 com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%
     StringBuilder sb = new StringBuilder();
+
     Page rootPage = currentPage.getAbsoluteParent(3);
     Iterator<Page> iter = rootPage.listChildren();
-
+    
     String rootPageCurrent = rootPage.getPath().equals(currentPage.getPath()) ? " current" : "";
     while (currentPage.isHideInNav()) {
     	currentPage = currentPage.getParent();

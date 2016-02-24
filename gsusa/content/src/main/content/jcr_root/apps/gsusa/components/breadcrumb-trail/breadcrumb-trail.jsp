@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 <%!
 	int MAX_TITLE = 58;

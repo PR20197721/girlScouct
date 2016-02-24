@@ -92,6 +92,7 @@
 	/0047 { /type "allow" /glob "GET /system/sling.js *" } # foundation slide show component
 	/0048 { /type "allow" /glob "GET /home/users/*/profile/photos/primary/*" } # soco: profile picture in forum
 	/0049 { /type "allow" /glob "GET /home/users/*/profile.form.html*" } # soco: profile page show/edit/passwordchange
+	/0050 { /type "allow" /glob "GET /etc/gsusa/*" } # gsusa
 	# add more here...
 
 
@@ -131,7 +132,7 @@
       # document root of the webserver. when an activation request for some 
       # handle is received, only files within the same subtree are affected 
       # by the invalidation.
-      /statfileslevel "0"
+      /statfileslevel "2"
       
       # caches also authorized data
       /allowAuthorized "0"
@@ -163,18 +164,16 @@
           { 
           /glob "/content/dam/girlscouts-vtk/troop-data*" /type "deny"
           }
-# inkoo added caching troop photo
-        /0003
-          {
-          /glob "/content/dam/girlscouts-vtk/troop-data*/imgLib/*"
-          /type "allow"
-          }
-# inkoo added caching static myvtk pages
-        /0004
-          {
-          /glob "/content/girlscouts-vtk/en/myvtk/*"
-          /type "allow"
-          }
+# added caching troop photo 
+	/0003 
+	{ 
+	/glob "/content/dam/girlscouts-vtk/troop-data*/imgLib/*" /type "deny" 
+	} 
+# added caching static myvtk pages 
+	/0004 
+	{
+	 /glob "/content/girlscouts-vtk/en/myvtk/*" /type "allow"
+	}
         }
       # the invalidate section defines those pages which are 'invalidated' after
       # any activation. please note that, the activated page itself and all 

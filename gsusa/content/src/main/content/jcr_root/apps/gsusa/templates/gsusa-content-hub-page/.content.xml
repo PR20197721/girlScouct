@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Template"
+    jcr:title="GSUSA Content Hub Page"
+    allowedPaths="[/content(/.*)?]"
+    ranking="{Long}100">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="/apps/gsusa/components/two-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/styled-parsys">
+                    <featured_articles
+                        jcr:created="{Date}2016-01-29T09:37:59.191-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-01-29T14:46:27.058-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="gsusa/components/featured-articles"
+                        title="Featured Articles"/>
+                    <article_carousel
+                        jcr:created="{Date}2016-01-29T09:42:03.949-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-01-29T14:46:39.578-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="gsusa/components/article-carousel"
+                        num="20"
+                        tag="[]"/>
+                    <article_carousel_0
+                        jcr:created="{Date}2016-01-29T09:42:03.949-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-01-29T14:46:39.578-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="gsusa/components/article-carousel"
+                        num="20"
+                        tag="[]"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>

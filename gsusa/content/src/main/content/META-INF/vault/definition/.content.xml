@@ -55,5 +55,15 @@
             mode="replace"
             root="/etc/designs/gsusa/jcr:content/page/video"
             rules="[]"/>
+        <f9
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/libs/cq/core/content/welcome/features/gsusa-tag-editor"
+            rules="[]"/>
+        <f10
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/content/gsusa/en/components/article-hub/dynamic-tag-carousel"
+            rules="[]"/>
     </filter>
 </jcr:root>
