@@ -162,6 +162,10 @@
            <id>rubygems-release</id>
            <url>http://rubygems-proxy.torquebox.org/releases</url>
         </repository>
+   <repository>
+      <id>Rubygems</id>
+      <url>https://rubygems.org/gems</url>
+    </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>

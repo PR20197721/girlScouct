@@ -300,5 +300,9 @@ see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-v
 
 ### AEM 5.6--> 6.1 protocol
 - Install 5.6 repository and migrate to Oak and latest AEM 6.1 with patches.
+- Delete org.jsoup bundle
 - Deploy VTKAEM61 code for gsusa, web, and vtk
-- Migrate the etc/tags tagging namespace to the new environment
+- Create a package of etc/tags from production author, install on new environment author and publish
+- Create package for search indexes in tools/search-indexes and upload/deploy via package manager
+Restart AEM
+
