@@ -39,8 +39,13 @@
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"
                         fieldLabel="Article Text"
-                        name="./jcr:content/articleText"
+                        name="./jcr:content/content/middle/par/article_text/text"
                         xtype="richtext"/>
+                    <textIsRich
+                    	jcr:primaryType="cq:Widget"
+                    	xtype="hidden"
+                    	value="true"
+                    	name="./jcr:content/content/middle/par/article_text/textIsRich"/>
                     <shortDesc
                         jcr:primaryType="cq:Widget"
                         allowBlank="{Boolean}false"

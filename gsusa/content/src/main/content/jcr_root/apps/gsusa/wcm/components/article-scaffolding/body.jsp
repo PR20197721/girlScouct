@@ -432,8 +432,8 @@
                 	params[":name"] = frm.findField("./jcr:content/jcr:title").getValue()
                 		.toLowerCase().replace(/[^0-9a-zA-Z]+/g, '-').replace(/^-+/, '').replace(/-+$/, '');
                 	}
-                	params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
-                	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';
+                	/*params["./jcr:content/content/middle/par/article_text/text"] = frm.findField("./jcr:content/articleText").getValue();
+                	params["./jcr:content/content/middle/par/article_text/textIsRich"] = 'true';*/
                 	params["./jcr:content/content/middle/par/article_text/additionalCss"] = "clearboth";
                 }
                 frm.doAction(action);
