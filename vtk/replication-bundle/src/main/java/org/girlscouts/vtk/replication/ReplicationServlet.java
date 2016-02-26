@@ -91,7 +91,9 @@ public class ReplicationServlet extends SlingAllMethodsServlet
     throws ServletException, IOException
   {
     response.setContentType("text/plain");
+/* In Koo removed incompatible method for AEM 6.1 upgrade
     response.setCharacterEncoding("utf-8");
+*/
     try
     {
       ReplicationActionType actionType = ReplicationActionType.fromName(request.getHeader("Action"));
@@ -228,7 +230,9 @@ public class ReplicationServlet extends SlingAllMethodsServlet
     if (action == ReplicationActionType.TEST) {
       response.setStatus(200);
       response.setContentType("text/plain");
+/* In Koo removed incompatible method for AEM 6.1 upgrade
       response.setCharacterEncoding("utf-8");
+*/
       response.getWriter().println("ok");
       response.flushBuffer();
       return;

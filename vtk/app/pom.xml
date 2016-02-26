@@ -20,11 +20,17 @@
 	<name>Girl Scouts Volunteer Toolkit App Package</name>
 
 	<dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+		<dependency>
+		    <groupId>${project.groupId}</groupId>
+		    <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+		    <version>${project.version}</version>
+		</dependency>
+                <dependency>
+                         <groupId>org.girlscouts.vtk</groupId>
+                         <artifactId>modified-checker-bundle</artifactId>
+                         <version>${project.version}</version>
+                         <scope>provided</scope>
+                </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>girlscouts-vtk-bundle</artifactId>
@@ -60,110 +66,44 @@
 			<artifactId>beanutils-wrapper</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>${project.groupId}</groupId>
-			<artifactId>boon-wrapper</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.livesense</groupId>
-			<artifactId>org.liveSense.fragment.sun.misc</artifactId>
-			<version>1.0.5</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.day.cq.wcm</groupId>
-			<artifactId>cq-wcm-api</artifactId>
-			<version>5.6.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.day.cq.dam</groupId>
-			<artifactId>cq-dam-api</artifactId>
-			<version>5.6.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.day.cq</groupId>
-			<artifactId>cq-search</artifactId>
-			<version>5.6.4</version>
-			<scope>provided</scope>
-		</dependency>
-		
+                <dependency>
+                        <groupId>org.apache.sling</groupId>
+                        <artifactId>org.apache.sling.fragment.transaction</artifactId>
+                        <scope>provided</scope>
+                </dependency>
+                <dependency>
+                        <groupId>javax.mail</groupId>
+                        <artifactId>mail</artifactId>
+                        <scope>provided</scope>
+                </dependency>
+                <dependency>
+                        <groupId>org.slf4j</groupId>
+                        <artifactId>jcl-over-slf4j</artifactId>
+                        <scope>provided</scope>
+                </dependency>
+                <dependency>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-mapper-asl</artifactId>
+                        <scope>provided</scope>
+                </dependency>
+		<!-- external dependencies -->
+<!--
 		<dependency>
 			<groupId>commons-beanutils</groupId>
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-<!-- 
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.0</version>
-		</dependency>
-		
-		<dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>4.0</version>
-        </dependency>
--->
-
-<dependency>
-    <groupId>org.apache.commons</groupId>
-    <artifactId>commons-collections4</artifactId>
-    <version>4.0</version>
-</dependency>
-
-		<dependency>
-			<groupId>commons-logging</groupId>
-			<artifactId>commons-logging</artifactId>
-			<version>1.2</version>
-		</dependency>
-		
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
 			<version>5.0.6</version>
 		</dependency>
-
 		<dependency>
 			<groupId>com.google.collections</groupId>
 			<artifactId>google-collections</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
-
-<dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.6.4</version>
-    </dependency>
-<dependency>
-    <groupId>org.apache.sling</groupId>
-    <artifactId>org.apache.sling.fragment.transaction</artifactId>
-    <version>1.0.0</version>
-    <scope>provided</scope>
-</dependency>
-
-<dependency>
-
-    <groupId>javax.mail</groupId>
-    <artifactId>mail</artifactId>
-    <version>1.5.0-b01</version>
-    <scope>provided</scope>
-</dependency>
-
- <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-            <scope>provided</scope>
-        </dependency>
-        
-        
-        
-        
+-->
 	</dependencies>
 	<build>
 		<resources>
@@ -265,11 +205,6 @@
 							<artifactId>modified-checker-bundle</artifactId>
 							<target>/apps/girlscouts-vtk/install</target>
 						</embedded>
-						<embedded>
-							<groupId>org.apache.commons</groupId>
-							<artifactId>commons-collections4</artifactId>
-							<target>/apps/girlscouts-vtk/install</target>
-						</embedded>
 					</embeddeds>
 					<targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
 				</configuration>
@@ -337,11 +272,6 @@
 								<embedded>
 									<groupId>${project.groupId}</groupId>
 									<artifactId>modified-checker-bundle</artifactId>
-									<target>/apps/girlscouts-vtk/install</target>
-								</embedded>
-								<embedded>
-									<groupId>org.apache.commons</groupId>
-									<artifactId>commons-collections4</artifactId>
 									<target>/apps/girlscouts-vtk/install</target>
 								</embedded>
 							</embeddeds>

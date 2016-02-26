@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+/*
+In Koo removed for AEM 6.1 upgrade
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
@@ -11,6 +13,7 @@ import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
+*/
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -111,6 +114,8 @@ System.err.println("tata aidTags: end getAids...."+ container.size() );
 
 		return container;
 	}
+/*
+In Koo removed for AEM 6.1 upgrade
 
 	@SuppressWarnings("unchecked")
 	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user, Troop troop)
@@ -182,6 +187,7 @@ System.err.println("tata aidTags: end getAids...."+ container.size() );
 		return calendar;
 	}
 
+*/
 	private String getLocation(Troop user, String locationId) {
 
 		String fmtLocation = "";
