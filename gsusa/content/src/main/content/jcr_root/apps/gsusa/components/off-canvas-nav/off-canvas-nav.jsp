@@ -18,6 +18,7 @@
     List<String[]> eyebrowNavs = new ArrayList<String[]>();
     
     int found = -1;
+    
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
@@ -37,7 +38,19 @@
         nav[0] = label;
 
         headerNavs.add(nav);
-        if ((currentPage.getPath() + "/").startsWith(nav[1] + "/") && found == -1) { // if current page belong to this branch
+        
+        String topPath = nav[1];
+        
+        //if external, then nav starts with http
+        if (nav[1].startsWith("http")) {
+        	continue;
+        } else {
+        	// rePath restrings nav[1] up to level 4 which is the top menu
+        	// /content/gsusa/en/topmenu
+        	topPath = rePath(nav[1],4);
+        }
+
+        if (currentPage.getPath().startsWith(topPath) && found == -1) { // if current page belong to this branch
             found = i;
         }
     }
@@ -155,5 +168,21 @@
         if (hasChild) {
             sb.append("</ul>");
         }
+    }
+    
+    public String rePath(String path, int level) {
+    	String[] array = path.split("/");
+    	level++;
+    	
+    	if (level <= 0) {
+    		level = array.length;
+    	}
+    	
+    	StringBuilder newPath = new StringBuilder();    	
+    	for (int i = 1; i < level; i++) {    		
+    		newPath.append("/"+array[i]);	    		
+    	}  	    	
+    	
+    	return newPath.toString();
     }
 %>
