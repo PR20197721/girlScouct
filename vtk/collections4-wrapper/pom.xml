@@ -36,9 +36,10 @@
 				<configuration>
 					<instructions>
 						<Bundle-SymbolicName>org.apache.commons.commons-collections4-wrapper</Bundle-SymbolicName>
-						<Import-Package>org.w3c.dom.*
+						<Import-Package>
+							org.w3c.dom
 						</Import-Package>
-						<Export-Package>org.apache.commons.*,*</Export-Package>
+						<Export-Package>org.apache.commons.*</Export-Package>
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
 						<!-- Recursively embed dependency jars -->
 						<Embed-Transitive>true</Embed-Transitive>

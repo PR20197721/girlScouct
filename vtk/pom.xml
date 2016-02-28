@@ -4,7 +4,6 @@
 	<!-- ====================================================================== -->
 	<!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
 	<!-- ====================================================================== -->
-
 	<groupId>org.girlscouts.vtk</groupId>
 	<artifactId>girlscouts-vtk</artifactId>
 	<version>1.0-SNAPSHOT</version>
@@ -48,6 +47,12 @@
                                 <version>20090211_1</version>
                                 <scope>provided</scope>
                         </dependency>
+			<dependency>
+				<groupId>com.adobe.granite</groupId>
+				<artifactId>com.adobe.granite.replication.core</artifactId>
+				<version>5.15.26-CQ561-B0018</version>
+				<scope>provided</scope>
+			</dependency>
                         <dependency>
                                 <groupId>com.day.cqse</groupId>
                                 <artifactId>cqse-httpservice</artifactId>
@@ -122,6 +127,12 @@
                         </dependency>
                         <dependency>
                                 <groupId>org.apache.sling</groupId>
+                                <artifactId>org.apache.sling.jcr.api</artifactId>
+                                <version>2.2.0</version>
+                                <scope>provided</scope>
+                        </dependency>
+                        <dependency>
+                                <groupId>org.apache.sling</groupId>
                                 <artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
                                 <version>2.0.0</version>
                                 <scope>provided</scope>
@@ -151,6 +162,11 @@
                                 <version>1.43.0</version>
                         </dependency>
 			<dependency>
+				<groupId>com.google.inject</groupId>
+				<artifactId>guice</artifactId>
+				<version>3.0</version>
+			</dependency>
+			<dependency>
 				<groupId>com.googlecode.json-simple</groupId>
 				<artifactId>json-simple</artifactId>
 				<version>1.1.1</version>
@@ -159,6 +175,11 @@
 				<groupId>com.googlecode.java-diff-utils</groupId>
 				<artifactId>diffutils</artifactId>
 				<version>1.2.1</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-beanutils</groupId>
+				<artifactId>commons-beanutils</artifactId>
+				<version>1.9.2</version>
 			</dependency>
                         <dependency>
                                 <groupId>commons-fileupload</groupId>
@@ -186,16 +207,15 @@
                                 <version>2.1</version>
                         </dependency>
 			<dependency>
+				<groupId>io.fastjson</groupId>
+				<artifactId>boon</artifactId>
+				<version>0.30</version>
+			</dependency>
+			<dependency>
 				<groupId>javax.portlet</groupId>
 				<artifactId>portlet-api</artifactId>
 				<version>2.0</version>
 			</dependency>
-                        <dependency>
-                                <groupId>junit</groupId>
-                                <artifactId>junit</artifactId>
-                                <version>4.8.1</version>
-                                <scope>test</scope>
-                        </dependency>
                         <dependency>
                                 <groupId>org.apache.commons</groupId>
                                 <artifactId>commons-lang3</artifactId>
@@ -226,6 +246,38 @@
                                 <artifactId>org.apache.commons.collections</artifactId>
                                 <version>3.2.1</version>
                         </dependency>
+
+<!-- test dependencies -->
+                        <dependency>
+                                <groupId>junit</groupId>
+                                <artifactId>junit</artifactId>
+                                <version>4.8.1</version>
+                                <scope>test</scope>
+                        </dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.testing.jcr-mock</artifactId>
+				<version>1.1.4</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.testing.osgi-mock</artifactId>
+				<version>1.2.0</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz</artifactId>
+				<version>2.2.1</version>
+				<scope>test</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.quartz-scheduler</groupId>
+				<artifactId>quartz-jobs</artifactId>
+				<version>2.2.1</version>
+				<scope>test</scope>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<!--
