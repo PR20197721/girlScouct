@@ -36,13 +36,11 @@
 	<dependencyManagement>
 		<dependencies>
 <!-- AEM provided dependencies -->
-			<dependency>
-				<groupId>com.adobe.aem</groupId>
-				<artifactId>uber-jar</artifactId>
-				<classifier>obfuscated-apis</classifier>
-				<version>6.1.0</version>
-				<scope>provided</scope>
-			</dependency>
+            <dependency>
+                <groupId>com.day.cq</groupId>
+                <artifactId>cq-quickstart</artifactId>
+                <version>6.1.0</version>
+            </dependency>
                         <dependency>
                                 <groupId>com.adobe.granite.bundles</groupId>
                                 <artifactId>json</artifactId>
@@ -333,6 +331,11 @@
 		Repository Manager. Once you do that, remove these sections.
 	 -->
 	<repositories>
+                <repository>
+                       <id>project.local</id>
+                       <name>Local Repo</name>
+                       <url>file:${project.basedir}/../../repo</url>
+                </repository>
                 <repository>
                         <id>apache-maven</id>
                         <name>Maven Apache Public Repository</name>
