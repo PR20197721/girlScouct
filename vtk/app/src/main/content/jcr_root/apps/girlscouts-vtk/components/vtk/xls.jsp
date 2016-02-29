@@ -16,9 +16,10 @@ Set<String> allowedReportUsers = new HashSet<String>();
 allowedReportUsers.add("005g0000002apMT");
 allowedReportUsers.add("005G0000006oEkZ");
 allowedReportUsers.add("005G0000006oBVG");
+allowedReportUsers.add("005g0000002G004");
 if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-	out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
-	return;
+    out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
+    return;
 } else {
 
         boolean isHtml= true;
@@ -112,7 +113,12 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             String path = r.getValue("jcr:path").getString() ;
             String sfCouncil = null, sfTroopAge=null;
             try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
-            try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
+            try{
+                sfTroopAge= r.getValue("sfTroopAge").getString(); 
+                if(!sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
+                    continue;
+                    }
+            }catch(Exception e){}
             Integer counter = (Integer)container.get( sfCouncil+"|"+sfTroopAge );
             if( counter ==null )
                 container.put(sfCouncil+"|"+sfTroopAge , new Integer(0));
