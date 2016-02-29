@@ -6,7 +6,8 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
@@ -21,7 +22,8 @@ import com.day.cq.workflow.metadata.MetaDataMap;
 @Service({WorkflowProcess.class})
 @Property(name="process.label", value={"Girl Scouts Deactivate Node"})
 public class DeactivateProcess implements WorkflowProcess {
-    private static Logger log = Logger.getLogger(DeactivateProcess.class);
+	private static final Logger log = LoggerFactory.getLogger(DeactivateProcess.class);
+
 
     @Reference
     private Replicator replicator;

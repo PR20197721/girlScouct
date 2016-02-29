@@ -20,13 +20,12 @@
     <name>Girl Scouts USA Bundle</name>
 
     <dependencies>
-                        <dependency>
-                                <groupId>com.adobe.aem</groupId>
-                                <artifactId>uber-jar</artifactId>
-                                <classifier>obfuscated-apis</classifier>
-                                <version>6.1.0</version>
-                                <scope>provided</scope>
-                        </dependency>
+	<dependency>
+		<groupId>com.adobe.aem</groupId>
+		<artifactId>uber-jar</artifactId>
+		<classifier>obfuscated-apis</classifier>
+		<scope>provided</scope>
+	</dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
@@ -48,73 +47,43 @@
             <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.felix</groupId>
             <artifactId>org.apache.felix.http.servlet-api</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.jcr.api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.day.commons</groupId>
-            <artifactId>day-commons-text</artifactId>
-            <version>1.1.8</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-commons</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.scripting.javascript</artifactId>
-            <version>2.0.12</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency> 
-        	<groupId>com.day.cq</groupId>
-            <artifactId>cq-search</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-         </dependency>
-         <dependency>
-          	<groupId>com.day.cq</groupId> 
-          	<artifactId>cq-tagging</artifactId> 
-          	<version>5.6.4</version> 
-          	<scope>provided</scope> 
-        </dependency>
-		<dependency>
-			<groupId>com.adobe.granite</groupId>
-			<artifactId>com.adobe.granite.workflow.api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
-  			<groupId>com.day.cq</groupId>
-  			<artifactId>cq-mailer</artifactId>
-  			<version>5.4.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.apache.sling</groupId>
-		    <artifactId>org.apache.sling.commons.log</artifactId>
-		    <version>3.0.0</version>
-		    <scope>provided</scope>
-		</dependency>
+<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>commons-io</groupId>
+	<artifactId>commons-io</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-lang2</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+        <groupId>org.apache.sling</groupId>
+        <artifactId>org.apache.sling.scripting.javascript</artifactId>
+        <scope>provided</scope>
+</dependency>
         <!-- FOR STATS -->
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.settings</artifactId>
-            <version>1.2.2</version>
             <scope>provided</scope>
         </dependency>
         <!--  AEM 6.1 not working with this module
@@ -125,6 +94,7 @@
             <scope>provided</scope>
         </dependency>
         -->
+<!--
         <dependency>
             <groupId>com.day.cq</groupId>
             <artifactId>cq-statistics</artifactId>
@@ -146,10 +116,7 @@
         <dependency>
             <groupId>com.adobe.granite</groupId>
             <artifactId>com.adobe.granite.replication.core</artifactId>
-<!--
-            <version>5.16.4</version>
-            <version>5.15.26-CQ561-B0018</version>
--->
+		<scope>provided</scope>
          </dependency>
          <dependency>
             <groupId>com.day.cq</groupId>
@@ -163,14 +130,14 @@
             <version>5.6.4</version>
             <scope>provided</scope>
          </dependency>
+-->
          <dependency> 
             <groupId>org.apache.commons</groupId> 
             <artifactId>commons-lang3</artifactId>
-            <version>3.0.1</version>
             <scope>provided</scope>
          </dependency> 
-         <!-- not working with AEM6.1 
-        <dependency>
+ <!-- not working with AEM6.1 
+<dependency>
 	<groupId>com.adobe.granite</groupId>
 	<artifactId>com.adobe.granite.security.user</artifactId>
 	<version>0.1.6</version>
@@ -178,66 +145,21 @@
 </dependency>
 -->
 <dependency>
-	<groupId>com.day.cq.workflow</groupId>
-	<artifactId>cq-workflow-api</artifactId>
-	<version>5.6.2</version>
-	<scope>provided</scope>
-</dependency>
-<dependency>
 	<groupId>org.apache.jackrabbit</groupId>
-	<artifactId>jackrabbit-api</artifactId>
-	<version>2.6.2</version>
+	<artifactId>jackrabbit-jcr-commons</artifactId>
 	<scope>provided</scope>
 </dependency>
 <dependency>
-	<groupId>com.day.cq</groupId>
-	<artifactId>cq-security-api</artifactId>
-	<version>5.6.2</version>
+	<groupId>org.apache.sling</groupId>
+	<artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
 	<scope>provided</scope>
 </dependency>
 <dependency>
-	<groupId>com.day.cq.dam</groupId>
-	<artifactId>cq-dam-commons</artifactId>
-	<version>5.6.8</version>
+	<groupId>com.adobe.granite.bundles</groupId>
+	<artifactId>json</artifactId>
 	<scope>provided</scope>
-</dependency>
-<dependency>
-	<groupId>com.day.cq.dam</groupId>
-	<artifactId>cq-dam-api</artifactId>
-	<version>5.6.6</version>
-	<scope>provided</scope>
-</dependency>
-<dependency>
-	<groupId>com.day.cq.wcm</groupId>
-	<artifactId>cq-wcm-workflow</artifactId>
-	<version>5.6.4</version>
-	<scope>provided</scope>
-</dependency>
-    <dependency>
-      <groupId>com.adobe.granite.bundles</groupId>
-      <artifactId>json</artifactId>
-      <version>20090211_1</version>
-      <scope>provided</scope>
 </dependency>
         <!-- END STATS -->
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-msm-api</artifactId>
-            <version>5.6.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.apache.sling</groupId>
-        	<artifactId>org.apache.sling.auth.core</artifactId>
-        	<version>1.1.2</version>
-        	<scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.apache.pdfbox</groupId>
-        	<artifactId>pdfbox</artifactId>
-        	<version>1.6.0</version>
-        	<scope>provided</scope>
-        </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
