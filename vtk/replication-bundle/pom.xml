@@ -33,12 +33,11 @@
 		</repository>
 	</repositories>
 	<dependencies>
-		<dependency>
-			<groupId>com.adobe.aem</groupId>
-			<artifactId>uber-jar</artifactId>
-			<classifier>obfuscated-apis</classifier>
-			<scope>provided</scope>
-		</dependency>
+                <dependency>
+                        <groupId>com.day.cq</groupId>
+                        <artifactId>cq-quickstart</artifactId>
+                        <scope>provided</scope>
+                </dependency>
 		<dependency>
 			 <groupId>org.girlscouts.vtk</groupId>
 			 <artifactId>modified-checker-bundle</artifactId>

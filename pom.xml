@@ -36,41 +36,42 @@
 	<dependencyManagement>
 		<dependencies>
 <!-- AEM provided dependencies -->
-            <dependency>
-                <groupId>com.day.cq</groupId>
-                <artifactId>cq-quickstart</artifactId>
-                <version>6.1.0</version>
-            </dependency>
-                        <dependency>
-                                <groupId>com.adobe.granite.bundles</groupId>
-                                <artifactId>json</artifactId>
-                                <version>20090211_1</version>
+			<dependency>
+				<groupId>com.day.cq</groupId>
+				<artifactId>cq-quickstart</artifactId>
+				<version>6.1.0</version>
                                 <scope>provided</scope>
-                        </dependency>
+			</dependency>
+			<dependency>
+				<groupId>com.adobe.granite.bundles</groupId>
+				<artifactId>json</artifactId>
+				<version>20090211_1</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.adobe.granite</groupId>
 				<artifactId>com.adobe.granite.replication.core</artifactId>
 				<version>5.15.26-CQ561-B0018</version>
 				<scope>provided</scope>
 			</dependency>
-                        <dependency>
-                                <groupId>com.day.cqse</groupId>
-                                <artifactId>cqse-httpservice</artifactId>
-                                <version>4.1.52</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>com.day.commons.osgi.wrapper</groupId>
-                                <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-                                <version>1.2.0-0002</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>com.day.commons.osgi.wrapper</groupId>
-                                <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
-                                <version>3.1.0.018</version>
-                                <scope>provided</scope>
-                        </dependency>
+			<dependency>
+				<groupId>com.day.cqse</groupId>
+				<artifactId>cqse-httpservice</artifactId>
+				<version>4.1.52</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.day.commons.osgi.wrapper</groupId>
+				<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+				<version>1.2.0-0002</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>com.day.commons.osgi.wrapper</groupId>
+				<artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+				<version>3.1.0.018</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>com.day.commons.osgi.wrapper</groupId>
 				<artifactId>com.day.commons.osgi.wrapper.commons-lang2</artifactId>
@@ -83,84 +84,84 @@
 				<version>2.4</version>
 				<scope>provided</scope>
 			</dependency>
-                        <dependency>
-                                <groupId>javax.mail</groupId>
-                                <artifactId>mail</artifactId>
-                                <version>1.5.0-b01</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>joda-time</groupId>
-                                <artifactId>joda-time</artifactId>
-                                <version>2.7</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.codehaus.jackson</groupId>
-                                <artifactId>jackson-mapper-asl</artifactId>
-                                <version>1.9.13</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.felix</groupId>
-                                <artifactId>org.apache.felix.eventadmin</artifactId>
-                                <version>1.3.2</version>
-                                <scope>provided</scope>
-                        </dependency>
+			<dependency>
+				<groupId>javax.mail</groupId>
+				<artifactId>mail</artifactId>
+				<version>1.5.0-b01</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>joda-time</groupId>
+				<artifactId>joda-time</artifactId>
+				<version>2.7</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.codehaus.jackson</groupId>
+				<artifactId>jackson-mapper-asl</artifactId>
+				<version>1.9.13</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.eventadmin</artifactId>
+				<version>1.3.2</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.felix</groupId>
 				<artifactId>org.apache.felix.http.servlet-api</artifactId>
 				<version>1.1.0</version>
 				<scope>provided</scope>
 			</dependency>
-                        <dependency>
-                                <groupId>org.apache.felix</groupId>
-                                <artifactId>org.apache.felix.scr</artifactId>
-                                <version>1.8.3-R1658944</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.felix</groupId>
-                                <artifactId>org.apache.felix.scr.annotations</artifactId>
-                                <version>1.9.6</version>
-                                <scope>provided</scope>
-                        </dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.scr</artifactId>
+				<version>1.8.3-R1658944</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.scr.annotations</artifactId>
+				<version>1.9.6</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.jackrabbit</groupId>
 				<artifactId>jackrabbit-jcr-commons</artifactId>
 				<version>2.10.0</version>
 				<scope>provided</scope>
 			</dependency>
-                        <dependency>
-                                <groupId>org.apache.sling</groupId>
-                                <artifactId>org.apache.sling.api</artifactId>
-                                <version>2.9.0</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.sling</groupId>
-                                <artifactId>org.apache.sling.fragment.transaction</artifactId>
-                                <version>1.0.0</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.sling</groupId>
-                                <artifactId>org.apache.sling.fragment.ws</artifactId>
-                                <version>1.0.2</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.sling</groupId>
-                                <artifactId>org.apache.sling.jcr.api</artifactId>
-                                <version>2.2.0</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.sling</groupId>
-                                <artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
-                                <version>2.0.0</version>
-                                <scope>provided</scope>
-                        </dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.api</artifactId>
+				<version>2.9.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.fragment.transaction</artifactId>
+				<version>1.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.fragment.ws</artifactId>
+				<version>1.0.2</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.jcr.api</artifactId>
+				<version>2.2.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
+				<version>2.0.0</version>
+				<scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.sling</groupId>
 				<artifactId>org.apache.sling.scripting.javascript</artifactId>
@@ -173,30 +174,30 @@
 				<version>1.3.6</version>
 				<scope>provided</scope>
 			</dependency>
-                        <dependency>
-                                <groupId>org.osgi</groupId>
-                                <artifactId>org.osgi.compendium</artifactId>
-                                <version>4.2.0</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.osgi</groupId>
-                                <artifactId>org.osgi.core</artifactId>
-                                <version>4.2.0</version>
-                                <scope>provided</scope>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.slf4j</groupId>
-                                <artifactId>jcl-over-slf4j</artifactId>
-                                <version>1.7.6</version>
-                                <scope>provided</scope>
-                        </dependency>     
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.compendium</artifactId>
+				<version>4.2.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.core</artifactId>
+				<version>4.2.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>1.7.6</version>
+				<scope>provided</scope>
+			</dependency>	 
 <!-- external dependencies -->
-                        <dependency>
-                                <groupId>biz.aQute</groupId>
-                                <artifactId>bndlib</artifactId>
-                                <version>1.43.0</version>
-                        </dependency>
+			<dependency>
+				<groupId>biz.aQute</groupId>
+				<artifactId>bndlib</artifactId>
+				<version>1.43.0</version>
+			</dependency>
 			<dependency>
 				<groupId>com.google.inject</groupId>
 				<artifactId>guice</artifactId>
@@ -217,31 +218,31 @@
 				<artifactId>commons-beanutils</artifactId>
 				<version>1.9.2</version>
 			</dependency>
-                        <dependency>
-                                <groupId>commons-fileupload</groupId>
-                                <artifactId>commons-fileupload</artifactId>
-                                <version>1.3</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>commons-pool</groupId>
-                                <artifactId>commons-pool</artifactId>
-                                <version>1.4</version>
-                        </dependency>
-                        <dependency>
-                                  <groupId>commons-codec</groupId>
-                                  <artifactId>commons-codec</artifactId>
-                                  <version>1.9</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>commons-net</groupId>
-                                <artifactId>commons-net</artifactId>
-                                <version>3.0.1</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>excalibur-logger</groupId>
-                                <artifactId>excalibur-logger</artifactId>
-                                <version>2.1</version>
-                        </dependency>
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+				<version>1.3</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-pool</groupId>
+				<artifactId>commons-pool</artifactId>
+				<version>1.4</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.9</version>
+			</dependency>
+			<dependency>
+				<groupId>commons-net</groupId>
+				<artifactId>commons-net</artifactId>
+				<version>3.0.1</version>
+			</dependency>
+			<dependency>
+				<groupId>excalibur-logger</groupId>
+				<artifactId>excalibur-logger</artifactId>
+				<version>2.1</version>
+			</dependency>
 			<dependency>
 				<groupId>io.fastjson</groupId>
 				<artifactId>boon</artifactId>
@@ -252,53 +253,53 @@
 				<artifactId>portlet-api</artifactId>
 				<version>2.0</version>
 			</dependency>
-                        <dependency>
-                                <groupId>org.apache.commons</groupId>
-                                <artifactId>commons-lang3</artifactId>
-                                <version>3.4</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.httpcomponents</groupId>
-                                <artifactId>httpclient-osgi</artifactId>
-                                <version>4.4</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache</groupId>
-                                <artifactId>jackrabbit-ocm</artifactId>
-                                <version>2.0.0</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.avalon.framework</groupId>
-                                <artifactId>avalon-framework-api</artifactId>
-                                <version>4.3.1</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.commons</groupId>
-                                <artifactId>commons-collections4</artifactId>
-                                <version>4.0</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.pdfbox</groupId>
-                                <artifactId>pdfbox</artifactId>
-                                <version>1.6.0</version>
-                        </dependency>
-                        <dependency>
-                                <groupId>org.apache.directory.studio</groupId>
-                                <artifactId>org.apache.commons.collections</artifactId>
-                                <version>3.2.1</version>
-                        </dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>3.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.httpcomponents</groupId>
+				<artifactId>httpclient-osgi</artifactId>
+				<version>4.4</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache</groupId>
+				<artifactId>jackrabbit-ocm</artifactId>
+				<version>2.0.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.avalon.framework</groupId>
+				<artifactId>avalon-framework-api</artifactId>
+				<version>4.3.1</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-collections4</artifactId>
+				<version>4.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.pdfbox</groupId>
+				<artifactId>pdfbox</artifactId>
+				<version>1.6.0</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.directory.studio</groupId>
+				<artifactId>org.apache.commons.collections</artifactId>
+				<version>3.2.1</version>
+			</dependency>
 			<dependency>
 				<groupId>org.jsoup</groupId>
 				<artifactId>jsoup</artifactId>
 				<version>1.7.3</version>
 			</dependency>
 <!-- test dependencies -->
-                        <dependency>
-                                <groupId>junit</groupId>
-                                <artifactId>junit</artifactId>
-                                <version>4.8.1</version>
-                                <scope>test</scope>
-                        </dependency>
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.8.1</version>
+				<scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.sling</groupId>
 				<artifactId>org.apache.sling.testing.jcr-mock</artifactId>
@@ -331,40 +332,40 @@
 		Repository Manager. Once you do that, remove these sections.
 	 -->
 	<repositories>
-                <repository>
-                       <id>project.local</id>
-                       <name>Local Repo</name>
-                       <url>file:${project.basedir}/../../repo</url>
-                </repository>
-                <repository>
-                        <id>apache-maven</id>
-                        <name>Maven Apache Public Repository</name>
-                        <url>https://repo.maven.apache.org/maven2/</url>
-                        <layout>default</layout>
-                </repository>
-                <repository>
-                        <id>adobe-public-releases</id>
-                        <name>Adobe Public Repository</name>
-                        <url>http://repo.adobe.com/nexus/content/groups/public</url>
-                        <releases>
-                                <enabled>true</enabled>
-                                <updatePolicy>never</updatePolicy>
-                        </releases>
-                        <snapshots>
-                                <enabled>false</enabled>
-                        </snapshots>
-                </repository>
-                <repository>
-                        <id>com.springsource.repository.bundles.external</id>
-                        <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-                        <url>http://repository.springsource.com/maven/bundles/external/</url>
-                </repository>
-                <repository>
-                        <id>apache</id>
-                        <name>Apache Public Repository</name>
-                        <url>https://repository.apache.org/content/groups/public/</url>
-                        <layout>default</layout>
-                </repository>
+		<repository>
+			<id>project.local</id>
+			<name>Local Repo</name>
+			<url>file:${project.basedir}/../../repo</url>
+		</repository>
+		<repository>
+			<id>apache-maven</id>
+			<name>Maven Apache Public Repository</name>
+			<url>https://repo.maven.apache.org/maven2/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>adobe-public-releases</id>
+			<name>Adobe Public Repository</name>
+			<url>http://repo.adobe.com/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external/</url>
+		</repository>
+		<repository>
+			<id>apache</id>
+			<name>Apache Public Repository</name>
+			<url>https://repository.apache.org/content/groups/public/</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>
 	<pluginRepositories>
 		<pluginRepository>
@@ -373,19 +374,18 @@
 			<url>https://repo.adobe.com/nexus/content/groups/public/</url>
 			<layout>default</layout>
 		</pluginRepository>
-               <pluginRepository>
-                        <id>com.springsource.repository.bundles.external</id>
-                        <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-                        <url>http://repository.springsource.com/maven/bundles/external/</url>
-                </pluginRepository>
-                <pluginRepository>
-                        <id>apache</id>
-                        <name>Apache Public Repository</name>
-                        <url>https://repository.apache.org/content/groups/public/</url>
-                        <layout>default</layout>
-                </pluginRepository>
+		<pluginRepository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external/</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>apache</id>
+			<name>Apache Public Repository</name>
+			<url>https://repository.apache.org/content/groups/public/</url>
+			<layout>default</layout>
+		</pluginRepository>
 	</pluginRepositories>
-
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -489,25 +489,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-        <profiles>                      
-                <profile>       
-                        <id>autoInstallBundle</id>
-                        <build>         
-                                <plugins>
-                                        <plugin>
-                                                <groupId>org.apache.sling</groupId>
-                                                <artifactId>maven-sling-plugin</artifactId>
-                                                <executions>
-                                                        <execution>
-                                                                <id>install-bundle</id>
-                                                                <goals>
-                                                                        <goal>install</goal>
-                                                                </goals>
-                                                        </execution>
-                                                </executions>
-                                        </plugin>
-                                </plugins>
-                        </build>
-                </profile>
-        </profiles>
+	<profiles>					  
+		<profile>	   
+			<id>autoInstallBundle</id>
+			<build>		 
+				<plugins>
+					<plugin>
+						<groupId>org.apache.sling</groupId>
+						<artifactId>maven-sling-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>install-bundle</id>
+								<goals>
+									<goal>install</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

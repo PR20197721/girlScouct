@@ -19,9 +19,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.adobe.aem</groupId>
-			<artifactId>uber-jar</artifactId>
-			<classifier>obfuscated-apis</classifier>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-quickstart</artifactId>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.adobe.granite.bundles</groupId>
@@ -61,7 +61,7 @@
 		<dependency>
 			<groupId>org.girlscouts.web</groupId>
 			<artifactId>girlscouts-bundle</artifactId>
-			<version>0.1-SNAPSHOT</version>
+			<version>1.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>

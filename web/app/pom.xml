@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.girlscouts.web</groupId>
         <artifactId>girlscouts</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <!-- ====================================================================== -->
@@ -20,25 +20,24 @@
     <name>Girl Scouts USA App Package</name>
 
     <dependencies>
+	<dependency>
+		<groupId>com.day.cq</groupId>
+		<artifactId>cq-quickstart</artifactId>
+		<scope>provided</scope>
+	</dependency>
+<!--
         <dependency>
                 <groupId>com.adobe.aem</groupId>
                 <artifactId>uber-jar</artifactId>
-                <classifier>obfuscated-apis</classifier>
+                <classifier>apis</classifier>
                 <scope>provided</scope>
         </dependency>
+-->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>girlscouts-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
-<!--
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-api</artifactId>
-            <version>5.6.6</version>
-            <scope>provided</scope>
-        </dependency>
-  -->  
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
