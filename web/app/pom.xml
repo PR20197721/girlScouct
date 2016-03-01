@@ -84,11 +84,6 @@
                             <target>/apps/girlscouts/install</target>
                         </embedded>
                         -->
-                        <embedded>
-                            <groupId>org.girlscouts.web</groupId>
-                            <artifactId>pdfbox-wrapper</artifactId>
-                            <target>/apps/girlscouts/install</target>
-                        </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
                 </configuration>

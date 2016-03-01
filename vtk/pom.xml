@@ -18,11 +18,6 @@
 	<name>Girl Scouts Volunteer Toolkit - Reactor Project</name>
 	<description>Maven Multimodule project for Girl Scouts Volunteer Toolkit.</description>
 
-	<!-- ====================================================================== -->
-	<!-- P R O P E R T I E S -->
-	<!-- ====================================================================== -->
-	<properties>
-	</properties>
 	<modules>
 		<module>collections4-wrapper</module>
 		<module>modified-checker-bundle</module>
