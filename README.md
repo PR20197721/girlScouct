@@ -307,4 +307,4 @@ see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-v
 - Create a package of etc/tags from production author, install on new environment author and publish
 - Create package for search indexes in tools/search-indexes and upload/deploy via package manager
 Restart AEM
-
+- Install script in tools/scripts/aem61-upgrade/prototype-content-20160301.zip
