@@ -19,7 +19,6 @@
 	<packaging>bundle</packaging>
 	<name>Girl Scouts USA Bundle</name>
 
-<<<<<<< HEAD
 	<dependencies>
 		<dependency>
 			<groupId>com.day.cq</groupId>
@@ -43,7 +42,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
+			<artifactId>slf4j-api</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
