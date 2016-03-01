@@ -19,6 +19,7 @@
 	<packaging>bundle</packaging>
 	<name>Girl Scouts USA Bundle</name>
 
+<<<<<<< HEAD
 	<dependencies>
 		<dependency>
 			<groupId>com.day.cq</groupId>
@@ -92,43 +93,6 @@
 			<scope>provided</scope>
 		</dependency>
 		-->
-<!--
-		<dependency>
-			<groupId>com.day.cq</groupId>
-			<artifactId>cq-statistics</artifactId>
-			<version>5.6.2</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.day.cq.wcm</groupId>
-			<artifactId>cq-wcm-core</artifactId>
-			<version>5.6.16</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.day.cq.wcm</groupId>
-			<artifactId>cq-wcm-api</artifactId>
-			<version>5.6.6</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.adobe.granite</groupId>
-			<artifactId>com.adobe.granite.replication.core</artifactId>
-		<scope>provided</scope>
-		 </dependency>
-		 <dependency>
-			<groupId>com.day.cq</groupId>
-			<artifactId>cq-analytics</artifactId>
-			<version>5.6.16</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency> 
-			<groupId>com.day.cq.wcm</groupId>
-			<artifactId>cq-wcm-foundation</artifactId> 
-			<version>5.6.4</version>
-			<scope>provided</scope>
-		 </dependency>
--->
 		 <dependency> 
 			<groupId>org.apache.commons</groupId> 
 			<artifactId>commons-lang3</artifactId>
@@ -142,21 +106,21 @@
 	<scope>provided</scope>
 </dependency>
 -->
-<dependency>
-	<groupId>org.apache.jackrabbit</groupId>
-	<artifactId>jackrabbit-jcr-commons</artifactId>
-	<scope>provided</scope>
-</dependency>
-<dependency>
-	<groupId>org.apache.sling</groupId>
-	<artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
-	<scope>provided</scope>
-</dependency>
-<dependency>
-	<groupId>com.adobe.granite.bundles</groupId>
-	<artifactId>json</artifactId>
-	<scope>provided</scope>
-</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-jcr-commons</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.adobe.granite.bundles</groupId>
+			<artifactId>json</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<!-- END STATS -->
 	</dependencies>
 
