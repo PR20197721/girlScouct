@@ -18,13 +18,9 @@
 	<name>Girl Scouts USA - Reactor Project</name>
 	<description>Maven Multimodule project for Girl Scouts USA.</description>
 
-	<dependencies>
-	</dependencies>
-
 	<modules>
 		<module>bundle</module>
 		<module>app</module>
 		<module>content</module>
-		<module>pdfbox-wrapper</module>
 	</modules>
 </project>

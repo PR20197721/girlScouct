@@ -197,7 +197,7 @@
 							org.mozilla.javascript,
                                                         org.osgi.framework.*,
                                                         org.osgi.service.*,
-							org.slf4j.impl,
+							org.slf4j.*,
 							!com.google.inject.internal.asm.util,
 							!org.apache.myfaces.*,
 							!org.apache.tools.ant.*,
@@ -210,10 +210,7 @@
 							!sun.io.*
 						</Import-Package>
 						<Export-Package>
-							org.girlscouts.vtk.helpers.*,
-							org.girlscouts.vtk.models.*,
-							org.girlscouts.vtk.modifiedcheck.*,
-							org.girlscouts.vtk.utils.*
+							org.girlscouts.vtk.*
 						</Export-Package>
 						<!-- Recursively embed dependency jars -->
 						<Embed-Transitive>true</Embed-Transitive>

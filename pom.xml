@@ -140,6 +140,12 @@
 			</dependency>
 			<dependency>
 				<groupId>org.apache.sling</groupId>
+				<artifactId>org.apache.sling.commons.mime</artifactId>
+				<version>2.1.8</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.sling</groupId>
 				<artifactId>org.apache.sling.fragment.transaction</artifactId>
 				<version>1.0.0</version>
 				<scope>provided</scope>
@@ -193,10 +199,10 @@
 			</dependency>
 			<dependency>
 				<groupId>org.slf4j</groupId>
-				<artifactId>jcl-over-slf4j</artifactId>
+				<artifactId>slf4j-api</artifactId>
 				<version>1.7.6</version>
 				<scope>provided</scope>
-			</dependency>	 
+			</dependency>
 <!-- external dependencies -->
 			<dependency>
 				<groupId>biz.aQute</groupId>
@@ -298,6 +304,18 @@
 				<artifactId>jsoup</artifactId>
 				<version>1.7.3</version>
 			</dependency>
+			<dependency>
+				<groupId>rubygems</groupId>
+				<artifactId>compass</artifactId>
+				<version>1.0.3</version>
+				<type>gem</type>
+			</dependency>
+			<dependency>
+				<groupId>rubygems</groupId>
+				<artifactId>sass-globbing</artifactId>
+				<version>1.1.1</version>
+				<type>gem</type>
+			</dependency>
 <!-- test dependencies -->
 			<dependency>
 				<groupId>junit</groupId>
@@ -370,6 +388,14 @@
 			<name>Apache Public Repository</name>
 			<url>https://repository.apache.org/content/groups/public/</url>
 			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>rubygems-release</id>
+			<url>http://rubygems-proxy.torquebox.org/releases</url>
+		</repository>
+		<repository>
+			<id>Rubygems</id>
+			<url>https://rubygems.org/gems</url>
 		</repository>
 	</repositories>
 	<pluginRepositories>

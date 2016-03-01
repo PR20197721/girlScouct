@@ -302,6 +302,8 @@ see your handiwork at https://girlscouts-dev2.adobecqms.net/content/girlscouts-v
 - Install 5.6 repository and migrate to Oak and latest AEM 6.1 with patches.
 - Delete org.jsoup bundle
 - Deploy VTKAEM61 code for gsusa, web, and vtk
+- SSH to server and change sling.properties to correct setting (e.g.run.modes=author,prod)
+
 - Create a package of etc/tags from production author, install on new environment author and publish
 - Create package for search indexes in tools/search-indexes and upload/deploy via package manager
 Restart AEM
