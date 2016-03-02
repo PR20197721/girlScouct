@@ -207,15 +207,11 @@
 							!net.spy.memcached,
 							!com.sun.jdmk.comm,
 							!junit.framework,
-							!sun.io.*,
-                            *
+							!sun.io.*
 						</Import-Package>
-                        <!--
 						<Export-Package>
-							org.girlscouts.vtk.*,
-                            org.apache.sling.jcr.api
+							org.girlscouts.vtk.*
 						</Export-Package>
-                        -->
 						<!-- Recursively embed dependency jars -->
 						<Embed-Transitive>true</Embed-Transitive>
 					</instructions>
