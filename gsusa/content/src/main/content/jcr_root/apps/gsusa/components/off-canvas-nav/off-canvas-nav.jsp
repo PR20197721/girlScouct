@@ -170,19 +170,20 @@
         }
     }
     
-    public String rePath(String path, int level) {
-    	String[] array = path.split("/");
-    	level++;
-    	
-    	if (level <= 0) {
-    		level = array.length;
-    	}
-    	
-    	StringBuilder newPath = new StringBuilder();    	
-    	for (int i = 1; i < level; i++) {    		
-    		newPath.append("/"+array[i]);	    		
-    	}  	    	
-    	
-    	return newPath.toString();
-    }
+	public String rePath(String path, int level) {
+		
+		String[] array = path.split("/");
+		level++;
+		
+		if ((level > array.length) || (level <= 0)) {
+			level = array.length;
+		}
+		
+		StringBuilder newPath = new StringBuilder();    	
+		for (int i = 1; i < level; i++) {    		
+			newPath.append("/"+array[i]);	    		
+		}  	    	
+		
+		return newPath.toString();
+	}
 %>
