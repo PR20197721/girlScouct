@@ -160,6 +160,13 @@
       <scope>provided</scope>
     </dependency>
     <!-- END double check versions -->
+    <!-- The following dependencies are newly added. - Mike -->
+    <dependency>
+      <groupId>org.joda</groupId>
+      <artifactId>joda-convert</artifactId>
+      <version>1.8.1</version>
+    </dependency>
+    <!-- END new -->
   </dependencies>
   <repositories>
     <repository>
