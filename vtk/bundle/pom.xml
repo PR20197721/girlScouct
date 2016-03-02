@@ -221,6 +221,7 @@
             <!-- Mike Z.: It is safe not to import these packages. Ref: -->
             <!-- http://svn.apache.org/repos/asf/sling/tags/org.apache.sling.jcr.ocm-2.0.4-incubator/pom.xml -->
             <Import-Package>
+              org.apache.avalon.framework.logger;resolution:=optional,
               !org.apache.myfaces.*,
               !org.apache.tools.ant,
               !org.apache.tools.ant.types,
