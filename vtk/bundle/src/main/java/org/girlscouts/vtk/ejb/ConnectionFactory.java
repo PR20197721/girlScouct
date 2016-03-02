@@ -65,9 +65,13 @@ public class ConnectionFactory {
 		return connection;
 	}
 
-	@Deactivate
 	public void closeConnection(CloseableHttpClient connection) throws IOException {
 		connection.close();
 	}
 
+	@Deactivate
+	public void deactivate() {
+		// TODO: @Deactivate annotation was wrongly placed on the closeConnection method above.
+		// Do we need to close all connections here? - Mike
+	}
 }
