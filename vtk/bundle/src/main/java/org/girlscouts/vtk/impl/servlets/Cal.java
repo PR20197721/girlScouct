@@ -16,12 +16,15 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.ejb.YearPlanUtil;
 
-@Component(label = "vtk upload tet", description = "vtk upload test", metatype = true, immediate = true)
+@Component(metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET") })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
+        @Property(name="label", value="Girl Scouts VTK Upload Servlet"),
+        @Property(name="description", value="Girl Scouts VTK Upload Servlet")
+})
 public class Cal extends SlingSafeMethodsServlet {
 
 	@Reference

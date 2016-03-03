@@ -50,16 +50,42 @@
 			 <version>${project.version}</version>
 			 <scope>provided</scope>
 		</dependency>
+                <dependency>
+                        <groupId>org.girlscouts.web</groupId>
+                        <artifactId>girlscouts-bundle</artifactId>
+                        <version>${project.version}</version>
+                </dependency>
+                <dependency>
+                         <groupId>org.girlscouts.vtk</groupId>
+                         <artifactId>collections4-wrapper</artifactId>
+                         <version>${project.version}</version>
+                </dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache</groupId>
+			<artifactId>jackrabbit-ocm</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.fragment.ws</artifactId>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.adobe.granite</groupId>
 			<artifactId>com.adobe.granite.replication.core</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.apache.felix</groupId>
-			<artifactId>org.apache.felix.scr</artifactId>
-			<scope>provided</scope>
-		</dependency>
+                <dependency>
+                        <groupId>org.apache.commons</groupId>
+                        <artifactId>commons-lang3</artifactId>
+                </dependency>
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.eventadmin</artifactId>
@@ -75,6 +101,11 @@
                         <artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
                         <scope>provided</scope>
                 </dependency>
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.scripting.javascript</artifactId>
+			<scope>provided</scope>
+		</dependency>
                 <dependency>
                         <groupId>com.day.commons.osgi.wrapper</groupId>
                         <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
@@ -85,6 +116,106 @@
                         <artifactId>cqse-httpservice</artifactId>
                         <scope>provided</scope>
                 </dependency>
+		<dependency>
+			<groupId>com.googlecode.java-diff-utils</groupId>
+			<artifactId>diffutils</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+                        <scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<scope>provided</scope>
+		</dependency>
+<!--
+<dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-digester3</artifactId>
+</dependency> 
+-->
+<dependency>
+	<groupId>commons-digester</groupId>
+	<artifactId>commons-digester</artifactId>
+</dependency>
+<dependency>
+	<groupId>commons-pool</groupId>
+	<artifactId>commons-pool</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.googlecode.json-simple</groupId>
+	<artifactId>json-simple</artifactId>
+</dependency>
+<dependency>
+	<groupId>net.sf.ehcache</groupId>
+	<artifactId>ehcache-core</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-core</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-annotations</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>org.javassist</groupId>
+	<artifactId>javassist</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.jboss.jandex</groupId>
+	<artifactId>jandex-maven-plugin</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.apache.maven</groupId>
+	<artifactId>maven-plugin-api</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.jboss.logging</groupId>
+	<artifactId>jboss-logging</artifactId>
+</dependency>
+<dependency>
+	<groupId>antlr</groupId>
+	<artifactId>antlr</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-core</artifactId>
+</dependency>
+                        <dependency>
+                                <groupId>org.apache.httpcomponents</groupId>
+                                <artifactId>httpcore</artifactId>
+                        </dependency>
+                        <dependency>
+                                <groupId>org.apache.httpcomponents</groupId>
+                                <artifactId>httpcore-nio</artifactId>
+                                <scope>provided</scope>
+                        </dependency>
+
+                        <dependency>
+                                <groupId>org.apache.httpcomponents</groupId>
+                                <artifactId>httpclient-osgi</artifactId>
+                        </dependency>
+			<dependency>
+				<groupId>javax.persistence</groupId>
+				<artifactId>persistence-api</artifactId>
+			</dependency>
+<dependency>
+	<groupId>javax</groupId>
+	<artifactId>javaee-api</artifactId>
+</dependency>
+			<dependency>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>org.apache.felix.http.servlet-api</artifactId>
+				<scope>provided</scope>
+			</dependency>
 		<!-- Testing -->
                 <dependency>
                         <groupId>junit</groupId>
@@ -144,15 +275,43 @@
 							com.adobe.granite.*,
 							com.day.*,
 							javax.*,
-							org.apache.commons.*,
 							org.apache.jackrabbit.*,
 							org.apache.sling.*,
+							org.apache.commons.*,
+							org.apache.http.*,
 							org.osgi.framework.*,
 							org.osgi.service.*,
 							org.slf4j,
-							org.xml.sax.*
+							org.xml.sax,
+                                                        !org.apache.tools.ant.*,
+                                                        !org.objectweb.asm.*,
+                                                        !net.spy.memcached,
+                                                        !sun.io.*,
+							!org.ietf.jgss,
+							!sun.misc,
+org.apache.felix.http.*,
+!org.hibernate.*,
+org.json,
+org.mozilla.javascript.*,
+org.joda.time.*,
+!org.dom4j.*,
+!com.fasterxml.*,
+!com.sun.jdi.*,
+!org.apache.log4j.*,
+!org.apache.logging.*,
+!org.codehaus.plexus.util,
+!org.jboss.jandex,
+!org.jboss.logmanager,
+!org.slf4j.spi,
+!org.w3c.dom,
+!org.xml.sax.helpers,
+!org.apache.maven.*,
+!org.codehaus.plexus.*,
+!com.sun.faces.spi,
+!com.sun.mail.util,
+!org.xml.sax.ext
                                                 </Import-Package>
-                                                <Export-Package></Export-Package>
+                                                <Export-Package>org.girlscouts.vtk.*</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>

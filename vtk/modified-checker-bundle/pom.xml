@@ -72,12 +72,15 @@
 					<instructions>
 						<Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-modified-checker-bundle</Bundle-SymbolicName>
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-						<!-- Recursively embed dependency jars
 						<Embed-Transitive>true</Embed-Transitive>
--->
-					</instructions>
-				</configuration>
-			</plugin>
+                                                <Import-Package>
+							org.apache.sling.api.*, org.slf4j.*, org.w3c.dom.*
+                                                </Import-Package>
+                                                <Export-Package>org.girlscouts.vtk.*</Export-Package>
+                                                <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                                        </instructions>
+                                </configuration>
+                        </plugin>
 			<plugin>
 				<groupId>org.apache.sling</groupId>
 				<artifactId>maven-sling-plugin</artifactId>

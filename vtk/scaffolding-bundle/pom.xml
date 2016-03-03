@@ -25,11 +25,13 @@
                         <artifactId>cq-quickstart</artifactId>
                         <scope>provided</scope>
                 </dependency>
+<!--
 		<dependency>
 			<groupId>org.apache.felix</groupId>
 			<artifactId>org.apache.felix.scr</artifactId>
 			<scope>provided</scope>
 		</dependency>
+-->
 		<dependency>
 			<groupId>org.apache.sling</groupId>
 			<artifactId>org.apache.sling.jcr.jcr-wrapper</artifactId>
@@ -45,6 +47,13 @@
 			<artifactId>org.apache.felix.scr.annotations</artifactId>
 			<scope>provided</scope>
 		</dependency>
+<!--
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-commons</artifactId>
+			<scope>provided</scope>
+		</dependency>
+-->
 	</dependencies>
 
 	<!-- ====================================================================== -->
@@ -72,9 +81,16 @@
 					<instructions>
 						<Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-scaffolding-bundle</Bundle-SymbolicName>
 						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-					</instructions>
-				</configuration>
-			</plugin>
+                                                <Import-Package>
+com.day.cq.*,
+commons.jcr.*,
+javax.*,
+org.apache.sling.*
+                                                </Import-Package>
+                                                <Export-Package>org.girlscouts.vtk.*</Export-Package>
+                                        </instructions>
+                                </configuration>
+                        </plugin>
 			<plugin>
 				<groupId>org.apache.sling</groupId>
 				<artifactId>maven-sling-plugin</artifactId>
