@@ -30,21 +30,18 @@
   </repositories>
   <dependencies>
     <dependency>
-      <groupId>com.day.commons.osgi.wrapper</groupId>
-      <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
-      <version>3.1.0.018</version>
-      <scope>provided</scope>
+      <groupId>com.adobe.aem</groupId>
+      <artifactId>uber-jar</artifactId>
+      <classifier>apis</classifier>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
       <artifactId>modified-checker-bundle</artifactId>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
       <artifactId>girlscouts-vtk-bundle</artifactId>
       <version>${project.version}</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.osgi</groupId>
@@ -69,8 +66,6 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.9</version>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -81,111 +76,16 @@
       <artifactId>jcr</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.jcr.api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.adobe.granite</groupId>
-      <artifactId>com.adobe.granite.replication.core</artifactId>
-      <version>5.15.26-CQ561-B0018</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.day.cq</groupId>
-      <artifactId>cq-commons</artifactId>
-      <version>5.6.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.commons.scheduler</artifactId>
-      <version>2.3.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.commons.json</artifactId>
-      <version>2.0.6</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>2.4</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-jcr-commons</artifactId>
-      <version>2.6.2</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.day.jcr.vault</groupId>
-      <artifactId>com.day.jcr.vault</artifactId>
-      <version>2.4.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.commons.osgi</artifactId>
-      <version>2.2.2</version>
+      <groupId>com.day.commons.osgi.wrapper</groupId>
+      <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
     </dependency>
     <dependency>
       <groupId>com.day.commons</groupId>
       <artifactId>day-commons-durbo</artifactId>
-      <version>2.1.6</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.5.2</version>
-    </dependency>
-    <!-- Testing -->
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.testing.osgi-mock</artifactId>
-      <version>1.2.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.sling</groupId>
-      <artifactId>org.apache.sling.testing.jcr-mock</artifactId>
-      <version>1.1.4</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz</artifactId>
-      <version>2.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.quartz-scheduler</groupId>
-      <artifactId>quartz-jobs</artifactId>
-      <version>2.2.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-module-junit4</artifactId>
-      <version>1.6.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.powermock</groupId>
-      <artifactId>powermock-api-easymock</artifactId>
-      <version>1.6.2</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
-      <version>3.3.1</version>
-      <scope>test</scope>
+      <groupId>com.adobe.granite</groupId>
+      <artifactId>com.adobe.granite.replication.core</artifactId>
     </dependency>
   </dependencies>
   <!-- ====================================================================== -->
