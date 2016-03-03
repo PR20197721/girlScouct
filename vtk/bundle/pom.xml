@@ -41,11 +41,9 @@
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
       <artifactId>ical4j-wrapper</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>${project.version}</version>
       <scope>provided</scope>
     </dependency>
-    <!-- The following dependencies were from the old pom.xml for AEM 5.6.1.
-         Double check the versions in a real env. - Mike -->
     <dependency>
       <groupId>com.day.commons.osgi.wrapper</groupId>
       <artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
@@ -67,6 +65,8 @@
     <dependency>
       <groupId>com.day.cq</groupId>
       <artifactId>cq-mailer</artifactId>
+      <!-- 5.9.12, which is in AEM depfinder, is not available in Adobe repo.
+           User 5.6.4 from AEM demo project instead. -->
       <version>5.6.4</version>
       <scope>provided</scope>
     </dependency>
@@ -126,10 +126,6 @@
       <artifactId>commons-pool</artifactId>
       <version>1.4</version>
     </dependency>
-    <!-- END old dependencies -->
-    <!-- The following dependencies are copied from the AEM 6.1 demo.
-         https://github.com/justinedelson/aem-uberjar-demo/tree/unobfuscated
-         Double check the versions in a real env. - Mike -->
     <dependency>
       <groupId>org.apache.felix</groupId>
       <artifactId>org.apache.felix.scr.annotations</artifactId>
@@ -166,14 +162,11 @@
       <version>1.43.0</version>
       <scope>provided</scope>
     </dependency>
-    <!-- END double check versions -->
-    <!-- The following dependencies are newly added. - Mike -->
     <dependency>
       <groupId>org.joda</groupId>
       <artifactId>joda-convert</artifactId>
       <version>1.8.1</version>
     </dependency>
-    <!-- END new -->
   </dependencies>
   <repositories>
     <repository>
