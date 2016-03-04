@@ -47,6 +47,16 @@
       <layout>default</layout>
     </pluginRepository>
   </pluginRepositories>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>northpointdigital</groupId>
+        <artifactId>selectiveclean-maven-plugin</artifactId>
+        <version>${project.version}</version>
+        <type>pom</type>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <profiles>
     <profile>
       <id>autoInstallBundle</id>
