@@ -61,7 +61,7 @@ implements OptingServlet {
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
-    protected MailService mailService;
+    protected volatile MailService mailService;
     
     /**
      * @see org.apache.sling.api.servlets.OptingServlet#accepts(org.apache.sling.api.SlingHttpServletRequest)
