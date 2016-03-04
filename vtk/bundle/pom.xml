@@ -149,30 +149,6 @@
       <artifactId>commons-collections4</artifactId>
     </dependency>
   </dependencies>
-  <repositories>
-    <repository>
-      <id>project.local</id>
-      <name>project</name>
-      <url>file:${project.basedir}/repo</url>
-    </repository>
-    <repository>
-      <id>adobe-public-releases</id>
-      <name>Adobe Public Repository</name>
-      <url>http://repo.adobe.com/nexus/content/groups/public</url>
-      <releases>
-        <enabled>true</enabled>
-        <updatePolicy>never</updatePolicy>
-      </releases>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-    <repository>
-      <id>com.springsource.repository.bundles.external</id>
-      <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-      <url>http://repository.springsource.com/maven/bundles/external/</url>
-    </repository>
-  </repositories>
   <!-- ====================================================================== -->
   <!-- B U I L D D E F I N I T I O N -->
   <!-- ====================================================================== -->
