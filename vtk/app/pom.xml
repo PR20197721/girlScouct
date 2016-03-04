@@ -163,11 +163,6 @@
               <artifactId>modified-checker-bundle</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
-            <embedded>
-              <groupId>org.apache.commons</groupId>
-              <artifactId>commons-collections4</artifactId>
-              <target>/apps/girlscouts-vtk/install</target>
-            </embedded>
           </embeddeds>
           <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
         </configuration>
@@ -235,11 +230,6 @@
                 <embedded>
                   <groupId>${project.groupId}</groupId>
                   <artifactId>modified-checker-bundle</artifactId>
-                  <target>/apps/girlscouts-vtk/install</target>
-                </embedded>
-                <embedded>
-                  <groupId>org.apache.commons</groupId>
-                  <artifactId>commons-collections4</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
               </embeddeds>

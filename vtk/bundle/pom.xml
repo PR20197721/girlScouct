@@ -271,7 +271,6 @@
               net.fortuna.ical4j.model.component,
               net.fortuna.ical4j.model.property,
               net.fortuna.ical4j.util,
-              org.apache.commons.collections4,
               org.apache.commons.httpclient,
               org.apache.commons.httpclient.methods,
               org.apache.commons.httpclient.params,
