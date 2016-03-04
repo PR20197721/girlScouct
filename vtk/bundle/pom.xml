@@ -276,6 +276,8 @@
               org.apache.commons.httpclient.methods,
               org.apache.commons.httpclient.params,
               org.apache.commons.httpclient.util,
+              org.apache.commons.io,
+              org.apache.commons.io.output,
               org.apache.commons.mail,
               org.apache.jackrabbit.api,
               org.apache.jackrabbit.api.security,

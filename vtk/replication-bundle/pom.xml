@@ -87,6 +87,10 @@
       <groupId>com.adobe.granite</groupId>
       <artifactId>com.adobe.granite.replication.core</artifactId>
     </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
   </dependencies>
   <!-- ====================================================================== -->
   <!-- B U I L D D E F I N I T I O N -->
