@@ -285,4 +285,9 @@
       </snapshots>
     </repository>
   </repositories>
+  <modules>
+    <module>vtk</module>
+    <module>web</module>
+    <module>gsusa</module>
+  </modules>
 </project>
