@@ -22,18 +22,6 @@
   <prerequisites>
     <maven>3.0.2</maven>
   </prerequisites>
-  <properties>
-    <crx.host>localhost</crx.host>
-    <crx.port>4502</crx.port>
-    <crx.username>admin</crx.username>
-    <crx.password>admin</crx.password>
-    <publish.crx.host>localhost</publish.crx.host>
-    <publish.crx.port>4503</publish.crx.port>
-    <publish.crx.username>admin</publish.crx.username>
-    <publish.crx.password>admin</publish.crx.password>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
   <!--
         Inclusion of repositories in POMs is controversial, to say the least.
         It would be best if you proxied the Adobe repository using a Maven
