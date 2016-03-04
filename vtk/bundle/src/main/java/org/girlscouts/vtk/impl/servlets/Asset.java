@@ -8,11 +8,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.ValueFactory;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -24,14 +20,16 @@ import org.girlscouts.vtk.utils.VtkUtil;
 
 import com.day.cq.commons.jcr.JcrUtil;
 
-@Component(label = "vtk upload assets", description = "vtk upload assets", metatype = true, immediate = true)
+@Component(metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "asset"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = {
-				"POST", "GET" }) })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "asset"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = { "POST", "GET" }),
+	@Property(name="label", value="Girl Scouts VTK Upload Assets"),
+	@Property(name="description", value="Girl Scouts VTK Upload Assets")
+})
 public class Asset extends SlingAllMethodsServlet {
 
 	@Reference

@@ -23,10 +23,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.ejb.VtkError;
@@ -42,6 +39,10 @@ import org.girlscouts.vtk.models.bean_resource;
 
 @Component(metatype = true, immediate = true)
 @Service(value = VtkUtil.class)
+@Properties ({
+        @Property(name="label", value="Girl Scouts VTK Utils"),
+        @Property(name="description", value="Girl Scouts VTK Utils")
+})
 public class VtkUtil  implements ConfigListener{
 	
 	@Reference

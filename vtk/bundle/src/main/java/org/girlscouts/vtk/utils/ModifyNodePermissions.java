@@ -24,9 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-@Component(label = "ModifyNodePermissions", metatype = false, immediate = true)
+@Component(metatype = false, immediate = true)
 @Properties({
-  @Property(name = Constants.SERVICE_DESCRIPTION, value = "ModifyNodePermissions") })
+	@Property(name = Constants.SERVICE_DESCRIPTION, value = "ModifyNodePermissions"),
+        @Property(name="label", value="Girl Scouts VTK Modify Node Permissions"),
+        @Property(name="description", value="Girl Scouts VTK Modify Node Permissions")
+})
 @Service(value = ModifyNodePermissions.class)
 public class ModifyNodePermissions {
 

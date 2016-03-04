@@ -59,14 +59,16 @@ import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(label = "Girl Scouts VTK Salesforce Authentication Servlet", description = "Handles OAuth Authentication with Salesforce", metatype = true, immediate = true)
+@Component(metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sfauth"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = {
-				"POST", "GET" }) })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sfauth"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = { "POST", "GET" }),
+        @Property(name="label", value="Girl Scouts VTK Salesforce Authentication Servlet"),
+        @Property(name="description", value="Girl Scouts VTK Salesforce Authentication Servlet")
+})
 // @Property(propertyPrivate = true, name = "sling.servlet.methods", value =
 // "GET") })
 public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
