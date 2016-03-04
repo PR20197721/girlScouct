@@ -9,11 +9,17 @@
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
 %><%@page session="false" %>
-<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
+<%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
 	if (articlePath == null) {
 		articlePath = request.getParameter("articlePath");
+		if (articlePath.endsWith(".html")) {
+			articlePath = articlePath.substring(0, articlePath.length() - 5);
+		}
+		if (!articlePath.startsWith("/content/gsusa")) {
+			articlePath = "/content/gsusa" + articlePath;
+		}
 	}
 	String linkTagAnchors = (String)request.getAttribute("linkTagAnchors");
 
@@ -24,9 +30,9 @@
     String videoLink = "";
     String externalLink = "";
     String editedDate = "";
-	String vanityUrl = "";
 
     boolean playOnClick = false;
+	boolean openInNewWindow = false;
 
 	String divId = (String)request.getAttribute("tileModalDivId");
 
@@ -37,23 +43,26 @@
 
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
-	Tag[] tags = null;
+	Value[] tags = null;
+	
+	String linkToArticle = "";
 
 	try{
         Node node =   resourceResolver.resolve(articlePath).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content");
+		linkToArticle = node.getPath() + ".html";
 
         if(propNode.hasProperty("jcr:title"))
         tileTitle = propNode.getProperty("jcr:title").getString();
 
-        if(propNode.hasProperty("articleText"))
-        tileText = propNode.getProperty("articleText").getString();
+        if(propNode.hasProperty("shortTitle"))
+        tileTitle = propNode.getProperty("shortTitle").getString();
+
+        if(propNode.hasProperty("jcr:description"))
+        tileText = propNode.getProperty("jcr:description").getString();
 
         if(propNode.hasProperty("type"))
         type = propNode.getProperty("type").getString();
-
-        if(propNode.hasProperty("sling:vanityPath"))
-        vanityUrl = propNode.getProperty("sling:vanityPath").getString() + ".html";
 
         if(propNode.hasProperty("videoLink"))
         videoLink = propNode.getProperty("videoLink").getString();
@@ -64,10 +73,19 @@
         if(propNode.hasProperty("editedDate"))
         editedDate = propNode.getProperty("editedDate").getString();
 
+        if(propNode.hasProperty("cq:tags"))
+        tags = propNode.getProperty("cq:tags").getValues();
+
         if(propNode.hasProperty("playOnClick")){
         	String isOn = propNode.getProperty("playOnClick").getString();
             if(isOn.equals("on"))
             playOnClick = true;
+        }
+
+        if(propNode.hasProperty("openInNewWindow")){
+        	String openIn = propNode.getProperty("openInNewWindow").getString();
+            if(openIn.equals("on"))
+            openInNewWindow = true;
         }
 
         if(propNode.hasNode("tileimage")){
@@ -81,8 +99,6 @@
             imageSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.");
         }
 
-        Page tilePage = resourceResolver.getResource(articlePath).adaptTo(Page.class);
-        tags = tilePage.getTags();
 
 
     } catch(Exception e){
@@ -93,7 +109,10 @@
         articlePath = articlePath + ".html";
 
 	if(tags != null && tags.length > 0){
-		Tag primaryTag = tags[0];
+		String primaryTagId = tags[0].getString();
+       	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
+        Tag primaryTag = tagManager.resolve(primaryTagId);
+
         Node primaryNode = primaryTag.adaptTo(Node.class);
         if(primaryNode.hasProperty("color")){
 			hexColor = primaryNode.getProperty("color").getString();
@@ -103,37 +122,40 @@
 			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
 
       	}
-        if(linkTagAnchors == null){
-        	String tagPath = primaryNode.getPath();
-        	linkTagAnchors = "#" + tagPath.replaceAll("^/etc/tags/gsusa/content-hub/", "").replaceAll("/", "|");
-        }
 	}
 	if(linkTagAnchors != null){
-		vanityUrl = vanityUrl + linkTagAnchors;
+		linkToArticle += linkTagAnchors;
 	}
 %>
 
 <section>
     <%
-    if(type.equals("video") && playOnClick){
-        %>
-    <a href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','<%=hexColor%>')" data-reveal-id="gsusaHiddenModal">
-<%
-    } else if(type.equals("link")){ 
-	%>
-	<a x-cq-linkchecker="valid" href="<%=externalLink%>">
+    if(type.equals("video")){
+		if(playOnClick){
+        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"><%
+    	} else {
+			%><a class="video non-click" href="<%=linkToArticle%>"><%
+    	}
+	} else if(type.equals("link")){
+        if(openInNewWindow){
 
-    <%
-	}else{
-    %>
-	<a href="<%=vanityUrl%>">
-<%
+		%>
+
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
+    	<%
+        } else {
+		%>
+			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
+    	<%
+        }
+	} else {
+    	%> <a class="photo" href="<%=linkToArticle%>"> <%
     }
     %>
 		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
-			<p><%=tileText%></p>
+			<%=tileText%>
 		</div>
 	</a>
 </section>

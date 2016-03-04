@@ -146,7 +146,7 @@ BoothFinder.prototype.processResult = function(result) {
 	result.contactBanner = {
 		btn: "Contact Your Local Council",
 		title: "Cookies are Here!",
-		desc: "Enter your info below and girls from the " + council.name + " will contact you to help you place your cookie order."
+		desc: "Enter your info below and girls from the " + council.CouncilName + " will contact you to help you place your cookie order."
 	}
 	
 	// Calculate days left
@@ -274,6 +274,8 @@ function getParameterByName(name) {
 
 $(document).ready(function(){
 	var zip;
+	// Get zip from param
+	zip = getParameterByName('zip');
 	// Get zip from hash
 	zip = (function(zip){
 		var hash = window.location.hash;
@@ -282,7 +284,7 @@ $(document).ready(function(){
 		}
 		var zipRegex = /[0-9]{5}/;
 		return zipRegex.test(hash) ? hash : zip;
-	})();
+	})(zip);
 
 	if (zip == undefined) {
 		// TODO: error: zip not found.

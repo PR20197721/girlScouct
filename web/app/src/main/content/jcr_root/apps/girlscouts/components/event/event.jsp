@@ -14,13 +14,24 @@
 	java.util.TimeZone,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
-	com.day.cq.dam.api.Asset
+	com.day.cq.dam.api.Asset,
+	org.girlscouts.vtk.utils.VtkUtil,
+	org.girlscouts.vtk.models.User,
+	javax.servlet.http.HttpSession
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects />
 <!-- apps/girlscouts/components/components/event/event.jsp -->
 <%
+
+Boolean includeCart = false;
+if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
+	if(homepage.getContentResource().adaptTo(Node.class).getProperty("event-cart").getString().equals("true")){
+		includeCart = true;
+	}
+}
+	
 	String currentPath = currentPage.getPath() + ".html";
 
     // Defining a hashMap for the Program Level - Level and Categories -> Category
@@ -29,16 +40,38 @@
     map.put("Categories", "Category");
     //String locale =  currentSite.get("locale", "America/Chicago");
 	//TimeZone tZone = TimeZone.getTimeZone(locale);
-
+	
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
+	DateFormat formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 	utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	//timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	//Date startDate = properties.get("start", Date.class);
+	
+	String visibleDate = properties.get("visibleDate","");
+	Date vis;
+	if(!visibleDate.isEmpty()){
+		try{
+			vis = formatWTZone.parse(visibleDate);
+		}catch(Exception e){
+			formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			vis = formatWTZone.parse(visibleDate);
+		}
+		
+		long visLong = vis.getTime();
+		long currentTime = Calendar.getInstance().getTime().getTime();
+		if(visLong > currentTime){
+			%> 
+				<script type="text/javascript">
+	   			window.location = "/404.html";
+				</script>
+		 	<%
+		}
+	} 
 
 	Calendar startDateCl = properties.get("start", Calendar.class);
 
@@ -65,7 +98,17 @@
 
     String endDateSt = properties.get("end", "");
 	String timeZoneLabel = properties.get("timezone", "");
-	String register = properties.get("register", String.class);
+	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
+	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
+	String membersOnly = properties.get("memberOnly","false");
+	String eventID = properties.get("eid", "-1");
+	String register;
+	if(includeCart && !eventID.equals("-1")){
+		register = properties.get("register", "https://gsmembers.force.com/members/Event_join?EventId=" + eventID);
+	}
+	else{
+		register = properties.get("register", String.class);
+	}
 
 	//Start Time : startTimeStr var called time
 
@@ -156,7 +199,12 @@
 </div>
 <%
 	try {
-	    String imgPath = resource.getPath() + "/image";
+		String imgPath = properties.get("image","");
+		if(!imgPath.isEmpty()){
+			%> <img src="<%= imgPath %>" /> <%
+		}
+		else{
+	    imgPath = resource.getPath() + "/image";
 	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
 
 	    if( imgNode.hasProperty("fileReference")){
@@ -165,7 +213,7 @@
 			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
 			</p>
 		</div>
-<%
+<%}
 		    }
 	} catch (Exception e) {}
 	%>
@@ -197,6 +245,17 @@
            <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
                         </div>
                 </div>
+<%String priceRange = properties.get("priceRange","");
+	if (!"".equals(priceRange)) {%>                
+                <div class="row">
+                	<div class="small-8 medium-8 large-8 columns">
+                		<b>Price:</b>
+                	</div>
+                	<div class="small-16 medium-16 large-16 columns">
+                		<b><%= priceRange %></b>
+                	</div>
+				</div>
+	<% } %>
 	</div>
         <div class="small-24 medium-12 large-12 columns">
                 <div class="row">
@@ -236,7 +295,12 @@
 </div>
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink">
-    	 	<a href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
+    	 	<a class="button" href="<%=genLink(resourceResolver, register)%>">REGISTER NOW</a>
+    	 	<% if(includeCart && !eventID.equals("-1")){ %>
+    	 	<a class="button" onclick="addToCart('<%= title.replace("'","\\'") %>', '<%= eventID %>', '<%= currentPage.getPath() %>'); return false;">Add to MyActivities</a>
+    		<%}
+    		%>
+
     	</div>
      <%} %>
 <div class="row">

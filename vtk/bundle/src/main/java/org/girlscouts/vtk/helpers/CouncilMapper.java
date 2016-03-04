@@ -14,4 +14,6 @@ public interface CouncilMapper {
 	 * @return the default council url
 	 */
 	String getCouncilUrl();
+	
+	String getCouncilName(String concilCode);
 }

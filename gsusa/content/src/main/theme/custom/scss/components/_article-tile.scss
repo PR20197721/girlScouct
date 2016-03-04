@@ -9,13 +9,14 @@ $lines-to-show: 3;
       width: 100%;
     }
     .text-content {
+      z-index: 15;
       bottom: 0;
       display: block;
       padding: rem-calc(10 20 0);
       color: #fff;
       position: absolute;
       width: 100%;
-      transition: height 1s;
+      transition: height 500ms;
       height: rem-calc(55);
       overflow: hidden;
       * {
@@ -24,28 +25,28 @@ $lines-to-show: 3;
       h3 {
         font-size: rem-calc(21);
         line-height: rem-calc(24);
-        white-space: nowrap;
+        //white-space: nowrap;
         text-overflow: ellipsis;
         width: 90%;
         overflow: hidden;
         margin-bottom: 1rem;
+		white-space: nowrap;
       }
       p {
         font-size: rem-calc(14);
-        -webkit-line-clamp: $lines-to-show;
-        -webkit-box-orient: vertical;
-        -moz-line-clamp: $lines-to-show;
-        -moz-box-orient: vertical;
-        display: block;
-        display: -moz-box;
-        display: -webkit-box;
+        // -webkit-line-clamp: $lines-to-show;
+        // -webkit-box-orient: vertical;
+        // -moz-line-clamp: $lines-to-show;
+        // -moz-box-orient: vertical;
+        // display: block;
+        // display: -moz-box;
+        // display: -webkit-box;
         text-overflow: ellipsis;
         overflow:hidden;
         margin: 0;
-        text-overflow: ellipsis;
-        max-width: 99%;
+        // max-width: 99%;
         line-height: $line-height;
-        height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
+        // height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
       }
       .article-detail-carousel .article-slider & {
         height: rem-calc(40);
@@ -54,18 +55,39 @@ $lines-to-show: 3;
     a {
       display: block;
       width: 100%;
-      &:hover {
-        .text-content {
-          height: 100%;
-        }
-        .article-detail-carousel .article-slider  & {
-          .text-content {
-            height: 100%;
-          }
-        }
-        p {
-          height: 100%;
-        }
+	  &.video:after {
+        z-index: 10;
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent url("../images/play-btn.png") no-repeat 50% 40%;
+        background-size: 25%;
+      }
+      @media #{$medium-up} {
+	      &:hover {
+	        .text-content {
+	          height: 100%;
+								  h3{
+					  text-overflow: clip;
+					  white-space: normal;
+				  }
+	        }
+	        .article-detail-carousel .article-slider  & {
+	          .text-content {
+	            height: 100%;
+				  h3{
+					  text-overflow: clip;
+					  white-space: normal;
+				  }
+	          }
+	        }
+	    }
+        // p {
+        //   height: 100%;
+        // }
         h3 {
           white-space: normal;
           width: 100%;
@@ -76,6 +98,13 @@ $lines-to-show: 3;
   }
 }
 .featured-articles {
+  h4 {
+    font-size: rem-calc(24);
+    font-weight: 700;
+    * {
+      font-weight: 600;
+    }
+  }
   @include grid-row();
   > .article-tile {
     @media #{$medium-up} {
@@ -83,7 +112,7 @@ $lines-to-show: 3;
       padding-right: rem-calc(10);
     }
     @media #{$small-only} {
-      margin-bottom: rem-calc(15);
+      margin-bottom: rem-calc(17);
     }
   }
   .block-grid {
@@ -93,13 +122,17 @@ $lines-to-show: 3;
     }
     ul {
       @include block-grid(2, $spacing: rem-calc(20));
+      li {
+        padding-bottom: rem-calc(20);
+      	@media #{$medium-up} {
+          padding-bottom: rem-calc(17);
+        }
+      }
     }
   }
 }
-.related-articles {
+.article-tag-listing {
   margin-top: rem-calc(30);
-  padding-top: rem-calc(20);
-  border-top: solid 1px $black;
   h4 {
     font-weight: 700;
     font-size: rem-calc(24);
@@ -109,6 +142,34 @@ $lines-to-show: 3;
     @media #{$medium-up} {
       ul {
         @include block-grid(3, $spacing: rem-calc(20));
+        .three-cols #mainContent & {
+          @include block-grid(2, $spacing: rem-calc(20));
+        }
+      }
+    }
+    @media #{$small-only} {
+      ul {
+        @include block-grid(2);
+      }
+    }
+
+  }
+}
+.related-articles {
+  margin-top: rem-calc(30);
+  padding-top: rem-calc(20);
+  h4 {
+    font-weight: 700;
+    font-size: rem-calc(24);
+    margin-bottom: rem-calc(37);
+  }
+  .block-grid {
+    @media #{$medium-up} {
+      ul {
+        @include block-grid(3, $spacing: rem-calc(20));
+        .three-cols #mainContent & {
+          @include block-grid(2, $spacing: rem-calc(20));
+        }
       }
     }
     @media #{$small-only} {
@@ -121,7 +182,6 @@ $lines-to-show: 3;
 }
 .article-tag-listing {
   .related-articles {
-    border-bottom: solid 1px #e1e1e1;
     border-top: none;
   }
   .more-link {
@@ -135,35 +195,75 @@ $lines-to-show: 3;
 .reveal-modal {
   z-index: 9000;
   .video-popup {
-    width: 90%;
-    margin: 0 auto;
-    padding-bottom: rem-calc(50);
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
     iframe {
-      width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
     }
   }
+  .close-reveal-modal{
+    font-size: 16px !important;
+  }
+
+
   .close {
-    position: relative;
-    height: rem-calc(40);
-    width: 100%;
+    position: absolute;
+    right: -27px;
+    top:-29px;
+    // position: relative;
+    // height: rem-calc(40);
+    // width: 100%;
     a {
-      top:0;
+      // top:0;
     }
   }
 }
 //article page related styles
 .article-hero {
   margin-bottom: rem-calc(25);
-  img {
+  img, iframe {
     width: 100%;
   }
 }
 .article-text {
   i {
-    margin-bottom: rem-calc(25);
+    padding-top: 10px;
     display: inline-block;
   }
   p {
     font-size: rem-calc(16);
   }
 }
+.dynamic-tag-carousel{
+  .article-detail-carousel{
+  	.article-slider{
+  	  .slick-slide:hover{
+  	  	.article-tile{
+  	  	  opacity:1;
+  	  	  transition-duration:500ms;
+  	  	  -webkit-transition-duration:500ms;
+  	  	}
+  	  }
+  	  .article-tile{
+		section{
+		  a{
+		    &:hover{
+		     .text-content {
+		        height: 2.5rem;
+			  }
+	        }
+		  }
+	    }
+	  }
+	}
+  }
+}
+  .clearboth{
+    clear:both;
+  } 

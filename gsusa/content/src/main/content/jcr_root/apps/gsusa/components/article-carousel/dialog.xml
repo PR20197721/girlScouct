@@ -13,22 +13,29 @@
                 jcr:primaryType="cq:Panel"
                 title="Article Carousel">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <heading
+                    <title
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Component Title"
                         name="./componentTitle"
                         xtype="textfield"/>
+                    <titleLink
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Link of the carousel title and the See More link"
+                        fieldLabel="Listing Page"
+                        name="./titleLink"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
                     <numberofarticles
                         jcr:primaryType="cq:Widget"
                         allowDecimals="{Boolean}false"
                         allowNegative="{Boolean}false"
-                        defaultValue="20"
-                        fieldDescription="Default: 9 Min: 3, Max: 30"
+                        defaultValue="11"
+                        fieldDescription="Default: 11 Min: 3, Max: 30"
                         fieldLabel="Number of Articles"
                         maxValue="30"
                         minValue="3"
                         name="./num"
-                        value="20"
+                        value="11"
                         xtype="numberfield"/>
                     <articletags
                         jcr:primaryType="cq:Widget"
@@ -44,12 +51,32 @@
                                 name="gsusa"/>
                         </namespaces>
                     </articletags>
-                    <autoScroll
+                    <sortByPriority
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Sort By Priority"
                         name="./sortByPriority"
                         type="checkbox"
                         xtype="selection"/>
+                    <borderLine
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        defaultValue="on"
+                        fieldLabel="Border Line"
+                        name="./borderLine"
+                        type="radio"
+                        value="on"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <on
+                                jcr:primaryType="nt:unstructured"
+                                text="On"
+                                value="on"/>
+                            <off
+                                jcr:primaryType="nt:unstructured"
+                                text="Off"
+                                value="off"/>
+                        </options>
+                    </borderLine>
                 </items>
             </tab0>
         </items>

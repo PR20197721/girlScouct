@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
+    title="Dialog"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -8,7 +9,16 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Tab 1"/>
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <showEditDate
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Show Edit Date"
+                        name="./showEditDate"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </tab1>
         </items>
     </items>
 </jcr:root>

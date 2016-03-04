@@ -65,10 +65,5 @@
             mode="replace"
             root="/content/gsusa/en/components/article-hub/dynamic-tag-carousel"
             rules="[]"/>
-        <f11
-            jcr:primaryType="sling:Folder"
-            mode="replace"
-            root="/etc/importers/original-bulkeditor"
-            rules="[]"/>
     </filter>
 </jcr:root>

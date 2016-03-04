@@ -31,38 +31,6 @@
                     jcr:primaryType="cq:Widget"
                     path="/libs/foundation/components/page/tab_livecopy.infinity.json"
                     xtype="cqinclude"/>
-                <metadata
-                    jcr:primaryType="cq:Widget"
-                    title="Article Metadata">
-                    <items jcr:primaryType="cq:WidgetCollection">
-                        <intro
-                            jcr:primaryType="nt:unstructured"
-                            html="&lt;b>These fields are for social media share and SEO.&lt;/b>"
-                            xtype="label"/>
-                        <article-title
-                            jcr:primaryType="cq:Widget"
-                            fieldDescription="Default to the title of the page."
-                            fieldLabel="Title"
-                            fieldSubLabel="articleTitle"
-                            name="./articleTitle"
-                            xtype="textfield">
-                            <listeners
-                                jcr:primaryType="nt:unstructured"
-                                loadcontent="function(){&#xa;    var field = $('input[name=&quot;./articleTitle&quot;]');&#xa;    if (field.val().length == 0) {&#xa;        field.val($('input[name=&quot;./jcr:title&quot;]').val());&#xa;    }&#xa;}&#xa;"/>
-                        </article-title>
-                        <short-description
-                            jcr:primaryType="cq:Widget"
-                            fieldLabel="Short Description"
-                            fieldSubLabel="description"
-                            name="./description"
-                            xtype="textarea"/>
-                        <image-label
-                            jcr:primaryType="nt:unstructured"
-                            fieldLabel="Image"
-                            html="Please use the &quot;Image&quot; tab to upload an image."
-                            xtype="label"/>
-                    </items>
-                </metadata>
                 <gsusa
                     jcr:primaryType="cq:Widget"
                     title="Girl Scouts USA">
@@ -97,7 +65,7 @@
                         <is-content-hub
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Article pages in content hub follows different logic for the left navigation"
-                            fieldLabel="Is Content Hub"
+                            fieldLabel="Is Content Hub Repository"
                             name="./isContentHub"
                             type="radio"
                             defaultValue="derived"
@@ -147,8 +115,6 @@
                         <fbappid
                             jcr:primaryType="cq:Widget"
                             fieldLabel="fb:app_id"
-                            value="419540344831322"
-                            defaultValue="419540344831322"
                             fieldDescription="Default: 419540344831322 "
                             name="./fbAppId"/>
                     </items>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     height="{Long}500"
     width="{Long}750"
@@ -17,36 +17,32 @@
                         fieldLabel="Component Title"
                         name="./title"
                         xtype="textfield"/>
-                    <largeArticle
+                    <listingPage
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Large Article Tile"
-                        name="./largeArticle"
-                        rootPath="/content/gsusa/en/content-hub/articles"
+                        fieldLabel="Listing Page"
+                        name="./listingPage"
+                        rootPath="/content/gsusa/en"
                         xtype="pathfield"/>
-                    <smallArticle1
+                    <articletags
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Small Article Tile 1"
-                        name="./smallArticle1"
-                        rootPath="/content/gsusa/en/content-hub/articles"
-                        xtype="pathfield"/>
-                    <smallArticle2
+                        fieldDescription="Select One Tag"
+                        fieldLabel="Article Tag"
+                        name="./tag"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
+                    <sortByPriority
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Small Article Tile 2"
-                        name="./smallArticle2"
-                        rootPath="/content/gsusa/en/content-hub/articles"
-                        xtype="pathfield"/>
-                    <smallArticle3
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Small Article Tile 3"
-                        name="./smallArticle3"
-                        rootPath="/content/gsusa/en/content-hub/articles"
-                        xtype="pathfield"/>
-                    <smallArticle4
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Small Article Tile 4"
-                        name="./smallArticle4"
-                        rootPath="/content/gsusa/en/content-hub/articles"
-                        xtype="pathfield"/>
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
                 </items>
             </properties>
         </items>
