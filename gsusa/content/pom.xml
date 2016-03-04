@@ -18,12 +18,6 @@
   <name>Girl Scouts USA Package</name>
   <dependencies>
     <dependency>
-      <groupId>northpointdigital</groupId>
-      <artifactId>selectiveclean-maven-plugin</artifactId>
-      <version>1.0-SNAPSHOT</version>
-      <type>pom</type>
-    </dependency>
-    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>gsusa-bundle</artifactId>
       <version>${project.version}</version>
@@ -31,13 +25,11 @@
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>compass</artifactId>
-      <version>1.0.3</version>
       <type>gem</type>
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
       <artifactId>sass-globbing</artifactId>
-      <version>1.1.1</version>
       <type>gem</type>
     </dependency>
   </dependencies>

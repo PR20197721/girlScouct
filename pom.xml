@@ -208,6 +208,18 @@
         <version>2.4</version>
         <scope>provided</scope>
       </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>compass</artifactId>
+        <version>1.0.3</version>
+        <type>gem</type>
+      </dependency>
+      <dependency>
+        <groupId>rubygems</groupId>
+        <artifactId>sass-globbing</artifactId>
+        <version>1.1.1</version>
+        <type>gem</type>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
