@@ -69,5 +69,4 @@ public class ConnectionFactory {
 	public void closeConnection() throws IOException {
 		connMrg.close();
 	}
-
 }
