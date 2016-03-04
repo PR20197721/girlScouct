@@ -8,7 +8,7 @@
   <parent>
     <groupId>org.girlscouts.web</groupId>
     <artifactId>girlscouts</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
   </parent>
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
