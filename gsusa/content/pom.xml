@@ -18,6 +18,12 @@
   <name>Girl Scouts USA Package</name>
   <dependencies>
     <dependency>
+      <groupId>northpointdigital</groupId>
+      <artifactId>selectiveclean-maven-plugin</artifactId>
+      <version>${project.version}</version>
+      <type>pom</type>
+    </dependency>
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>gsusa-bundle</artifactId>
       <version>${project.version}</version>
