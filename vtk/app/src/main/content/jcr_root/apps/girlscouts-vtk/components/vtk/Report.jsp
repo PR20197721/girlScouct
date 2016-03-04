@@ -114,10 +114,10 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             String sfCouncil = null, sfTroopAge=null;
             try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
             try{
-                sfTroopAge= r.getValue("sfTroopAge").getString(); 
+            	sfTroopAge= r.getValue("sfTroopAge").getString(); 
                 if(!sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
-                    continue;
-                    }
+                	continue;
+                	}
             }catch(Exception e){}
             Integer counter = (Integer)container.get( sfCouncil+"|"+sfTroopAge );
             if( counter ==null )
