@@ -14,6 +14,14 @@ if [ -z $NEW_VERSION ]; then
 fi
 
 mvn versions:set -DnewVersion=$NEW_VERSION
+rm pom.xml.versionsBackup
+
+echo ${NEW_VERSION} `date +%m/%d/%y` > newtmp
+echo "TODO: enter version description here." >> newtmp
+echo "" >> newtmp
+cat newtmp VERSIONS.txt > tmp
+mv tmp VERSIONS.txt
+rm newtmp
 
 FILENAME=web/app/src/main/content/META-INF/vault/properties.xml
 LINE_NUM=11
@@ -92,3 +100,7 @@ LINE_NUM=17
 PREV='    version=\"'
 AFTER='\">'
 change_version
+
+echo "###################################################################"
+echo "Don't forget to enter version description in the VERSIONS.txt file!"
+echo "###################################################################"
