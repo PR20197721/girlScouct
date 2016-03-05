@@ -28,14 +28,14 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>org.girlscouts.web</groupId>
-      <artifactId>girlscouts-bundle</artifactId>
+      <groupId>org.girlscouts.vtk</groupId>
+      <artifactId>modified-checker-bundle</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.girlscouts.vtk</groupId>
-      <artifactId>modified-checker-bundle</artifactId>
-      <scope>provided</scope>
+      <groupId>org.girlscouts.web</groupId>
+      <artifactId>girlscouts-bundle</artifactId>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
