@@ -47,7 +47,18 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>changeVersion</id>
+      <modules>
+        <module>bundle</module>
+        <module>app</module>
+        <module>pdfbox-wrapper</module>
+        <!-- Add bootstrap to changeVersion -->
+        <module>bootstrap</module>
+      </modules>
+    </profile>
   </profiles>
+  <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
     <module>bundle</module>
     <module>app</module>

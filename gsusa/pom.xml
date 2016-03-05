@@ -53,7 +53,18 @@
         </plugins>
       </build>
     </profile>
+    <profile>
+      <id>changeVersion</id>
+      <modules>
+        <module>../tools/java/mvn-plugins/customclean-maven-plugin/selective-clean</module>
+        <module>bundle</module>
+        <module>app</module>
+        <!-- Add bootstrap to changeVersion -->
+        <module>bootstrap</module>
+      </modules>
+    </profile>
   </profiles>
+  <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
     <module>../tools/java/mvn-plugins/customclean-maven-plugin/selective-clean</module>
     <module>bundle</module>
