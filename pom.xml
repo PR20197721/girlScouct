@@ -325,6 +325,14 @@
       </snapshots>
     </repository>
   </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>adobe</id>
+      <name>Adobe Public Repository</name>
+      <url>https://repo.adobe.com/nexus/content/groups/public/</url>
+      <layout>default</layout>
+    </pluginRepository>
+  </pluginRepositories>
   <modules>
     <module>vtk</module>
     <module>web</module>

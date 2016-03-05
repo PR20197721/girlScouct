@@ -33,6 +33,13 @@
       <type>gem</type>
     </dependency>
   </dependencies>
+  <!-- Torquebox rubygem repo only for gsusa content project -->
+  <repositories>
+    <repository>
+      <id>rubygems-release</id>
+      <url>http://rubygems-proxy.torquebox.org/releases</url>
+    </repository>
+  </repositories>
   <build>
     <resources>
       <resource>
