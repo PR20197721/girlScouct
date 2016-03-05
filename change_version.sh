@@ -13,7 +13,7 @@ if [ -z $NEW_VERSION ]; then
     exit;
 fi
 
-mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false 
+mvn versions:set -DnewVersion=$NEW_VERSION -DgenerateBackupPoms=false -P changeVersion
 
 echo ${NEW_VERSION} `date +%m/%d/%y` > newtmp
 echo "TODO: enter version description here." >> newtmp
