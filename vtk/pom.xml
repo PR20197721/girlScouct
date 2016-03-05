@@ -49,13 +49,14 @@
   <modules>
     <module>modified-checker-bundle</module>
     <module>bundle</module>
+    <module>app</module>
     <module>replication-bundle</module>
+    <module>scaffolding-bundle</module>
     <module>ical4j-wrapper</module>
     <module>itextpdf-wrapper</module>
     <module>beanutils-wrapper</module>
     <module>boon-wrapper</module>
     <module>google-collections-wrapper</module>
-    <module>app</module>
-    <module>scaffolding-bundle</module>
+    <module>googleinject-wrapper</module>
   </modules>
 </project>

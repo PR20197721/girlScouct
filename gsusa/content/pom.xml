@@ -70,7 +70,7 @@
       <plugin>
         <groupId>northpointdigital</groupId>
         <artifactId>selectiveclean-maven-plugin</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>${project.version}</version>
         <configuration>
           <preserveInTarget>
             <param>rubygems</param>
