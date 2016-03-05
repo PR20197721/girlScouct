@@ -22,17 +22,6 @@
   <prerequisites>
     <maven>3.0.2</maven>
   </prerequisites>
-  <dependencyManagement>
-    <dependencies>
-      <!-- For mvn clean: not to remove rubygems -->
-      <dependency>
-        <groupId>northpointdigital</groupId>
-        <artifactId>selectiveclean-maven-plugin</artifactId>
-        <version>${project.version}</version>
-        <type>pom</type>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
   <profiles>
     <profile>
       <id>autoInstallBundle</id>
@@ -56,7 +45,7 @@
     <profile>
       <id>changeVersion</id>
       <modules>
-        <module>../tools/java/mvn-plugins/customclean-maven-plugin/selective-clean</module>
+        <module>selective-clean</module>
         <module>bundle</module>
         <module>app</module>
         <!-- Add bootstrap to changeVersion -->
@@ -66,7 +55,8 @@
   </profiles>
   <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
-    <module>../tools/java/mvn-plugins/customclean-maven-plugin/selective-clean</module>
+    <!-- For mvn clean: not to remove rubygems -->
+    <module>selective-clean</module>
     <module>bundle</module>
     <module>app</module>
   </modules>
