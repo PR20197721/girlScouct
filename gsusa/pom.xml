@@ -24,6 +24,7 @@
   </prerequisites>
   <dependencyManagement>
     <dependencies>
+      <!-- For mvn clean: not to remove rubygems -->
       <dependency>
         <groupId>northpointdigital</groupId>
         <artifactId>selectiveclean-maven-plugin</artifactId>
