@@ -82,24 +82,6 @@ PREV='    version=\"'
 AFTER='\">'
 change_version
 
-FILENAME=tools/jsp/sibling-remover/src/main/content/META-INF/vault/properties.xml
-LINE_NUM=6
-PREV='<entry key=\"version\">'
-AFTER='\">'
-change_version
-
-FILENAME=tools/search-indexes/META-INF/vault/properties.xml
-LINE_NUM=11
-PREV='<entry key=\"version\">'
-AFTER='\">'
-change_version
-
-FILENAME=tools/search-indexes/META-INF/vault/definition/.content.xml
-LINE_NUM=17
-PREV='    version=\"'
-AFTER='\">'
-change_version
-
 echo "###################################################################"
 echo "Don't forget to enter version description in the VERSIONS.txt file!"
 echo "###################################################################"
