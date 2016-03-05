@@ -57,6 +57,6 @@
   <modules>
     <module>../tools/java/mvn-plugins/customclean-maven-plugin/selective-clean</module>
     <module>bundle</module>
-    <module>content</module>
+    <module>app</module>
   </modules>
 </project>

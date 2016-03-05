@@ -1,4 +1,0 @@
-# Ignore app.css because it is compiled from sass.
-src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css
-.sass-cache/
-/target
