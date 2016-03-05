@@ -34,13 +34,13 @@ PREV='    version=\"'
 AFTER='\">'
 change_version
 
-FILENAME=web/content/src/main/content/META-INF/vault/properties.xml
+FILENAME=web/bootstrap/src/main/content/META-INF/vault/properties.xml
 LINE_NUM=11
 PREV='<entry key=\"version\">'
 AFTER='</entry>'
 change_version
 
-FILENAME=web/content/src/main/content/META-INF/vault/definition/.content.xml
+FILENAME=web/bootstrap/src/main/content/META-INF/vault/definition/.content.xml
 LINE_NUM=17
 PREV='    version=\"'
 AFTER='\">'
@@ -58,6 +58,18 @@ PREV='    version=\"'
 AFTER='\">'
 change_version
 
+FILENAME=gsusa/app/src/main/content/META-INF/vault/properties.xml
+LINE_NUM=6
+PREV='<entry key=\"version\">'
+AFTER='</entry>'
+change_version
+
+FILENAME=gsusa/app/src/main/content/META-INF/vault/definition/.content.xml
+LINE_NUM=11
+PREV='    version=\"'
+AFTER='\">'
+change_version
+
 FILENAME=gsusa/bootstrap/src/main/content/META-INF/vault/properties.xml
 LINE_NUM=6
 PREV='<entry key=\"version\">'
@@ -65,18 +77,6 @@ AFTER='</entry>'
 change_version
 
 FILENAME=gsusa/bootstrap/src/main/content/META-INF/vault/definition/.content.xml
-LINE_NUM=11
-PREV='    version=\"'
-AFTER='\">'
-change_version
-
-FILENAME=gsusa/content/src/main/content/META-INF/vault/properties.xml
-LINE_NUM=6
-PREV='<entry key=\"version\">'
-AFTER='</entry>'
-change_version
-
-FILENAME=gsusa/content/src/main/content/META-INF/vault/definition/.content.xml
 LINE_NUM=11
 PREV='    version=\"'
 AFTER='\">'
