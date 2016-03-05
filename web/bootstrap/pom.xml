@@ -13,9 +13,9 @@
   <!-- ====================================================================== -->
   <!-- P R O J E C T D E S C R I P T I O N -->
   <!-- ====================================================================== -->
-  <artifactId>girlscouts-content</artifactId>
+  <artifactId>girlscouts-bootstrap</artifactId>
   <packaging>content-package</packaging>
-  <name>Girl Scouts USA Content Package</name>
+  <name>Girl Scouts USA Bootstrap Package</name>
   <dependencies>
     <dependency>
       <groupId>${project.groupId}</groupId>
