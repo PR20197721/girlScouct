@@ -73,8 +73,16 @@ public class img_GET extends AbstractImageServlet {
         }
 
         if (!image.hasContent()) {
-            resp.sendError(HttpServletResponse.SC_NOT_FOUND);
-            return;
+        	if (c.defaultResource != null) {
+                if (isRemovedDiff(c)) {
+                    image = new Image(c.diffInfo.getContent());
+                } else {
+                    image = new Image(c.defaultResource);
+                }
+            } else {
+                resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+                return;
+            }
         }
 
         // get style and set constraints
