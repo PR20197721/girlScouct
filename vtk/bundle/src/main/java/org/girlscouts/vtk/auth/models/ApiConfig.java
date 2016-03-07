@@ -26,13 +26,21 @@ public class ApiConfig implements Serializable {
 	//error msg
 	java.util.List<VtkError> errors;
 	
-	private boolean demoUser;
+	private boolean demoUser, useAsDemo;
 	
 	
 	
 	
 	
 	
+	public boolean isUseAsDemo() {
+		return useAsDemo;
+	}
+
+	public void setUseAsDemo(boolean useAsDemo) {
+		this.useAsDemo = useAsDemo;
+	}
+
 	public boolean isDemoUser() {
 		return demoUser;
 	}

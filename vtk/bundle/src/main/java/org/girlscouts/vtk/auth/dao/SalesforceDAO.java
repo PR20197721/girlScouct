@@ -105,6 +105,8 @@ public class SalesforceDAO {
 			log.debug(">>>>> " + rsp);
 			System.err.println("getUSER resp: " + rsp);	
 			
+			if(apiConfig.isUseAsDemo() )
+				writeToFile("/Users/akobovich/vtk/vtkUser.json" , rsp);
 	}else{
 		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
@@ -568,6 +570,9 @@ public class SalesforceDAO {
 			HttpEntity entity = resp.getEntity();
 			entity.getContent();
 			rsp= EntityUtils.toString(entity);
+			
+			if(apiConfig.isUseAsDemo() )
+				writeToFile("/Users/akobovich/vtk/vtkTroop.json" , rsp);
 		}else{
 			rsp= readFile("/Users/akobovich/vtk/vtkTroop.json").toString();
 		}
@@ -995,6 +1000,28 @@ System.err.println("xx: "+ rsp);
             // ex.printStackTrace();
         }
     return sf;
+	}
+	
+	private void writeToFile( String fileName, String content) {
+		try{
+		File file = new File(fileName);
+
+		// if file doesnt exists, then create it
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+
+		FileWriter fw = new FileWriter(file.getAbsoluteFile());
+		BufferedWriter bw = new BufferedWriter(fw);
+		bw.write(content);
+		bw.close();
+
+		System.out.println("Done");
+
+	} catch (IOException e) {
+		e.printStackTrace();
+	}
+		
 	}
 }// end class
 

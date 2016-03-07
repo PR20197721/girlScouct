@@ -260,5 +260,5 @@ System.err.println("tata session1");
 		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-	System.err.println("tata session4");
+
 %>

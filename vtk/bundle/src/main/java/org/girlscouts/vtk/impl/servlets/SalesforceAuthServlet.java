@@ -321,6 +321,9 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {	
+		
+		
+		
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
@@ -395,6 +398,12 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
 		
 		HttpSession session = request.getSession();
+		boolean useAsDemo = false;
+		if( session.getAttribute("useAsDemo") !=null &&  ((Boolean)session.getAttribute("useAsDemo")).booleanValue() ==true )
+			useAsDemo=true;
+		
+		config.setUseAsDemo( useAsDemo );
+		//HttpSession session = request.getSession();
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
 		try {
@@ -432,6 +441,7 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		    response.addCookie(cookie);
 		}
 	}//end oAuthtoken
+
 
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
 
