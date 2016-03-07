@@ -51,7 +51,7 @@ final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
 Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-String q = request.getParameter("q");
+String q = slingRequest.getParameter("q");
 String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 List<Hit> hits = new ArrayList<Hit>();
@@ -59,11 +59,11 @@ if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
-final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
+final String escapedQuery = q != null ? q : "";
+final String escapedQueryForAttr = q != null ? q : "";
 
-pageContext.setAttribute("escapedQuery", escapedQuery);
-pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
+pageContext.setAttribute("escapedQuery", java.net.URLDecoder.decode(escapedQuery, "UTF-8"));
+pageContext.setAttribute("escapedQueryForAttr", java.net.URLDecoder.decode(escapedQueryForAttr, "UTF-8"));
 
 String theseDamDocuments = properties.get("docusrchpath","");
 if(theseDamDocuments.equals("")){
@@ -77,9 +77,9 @@ if(theseDamDocuments.equals("")){
 }
 
 
-hits.addAll(getHits(queryBuilder,session,searchIn,escapedQuery));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,escapedQuery));
-hits.addAll(getHits(queryBuilder,session,documentLocation,escapedQuery));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 %>
 <center>
