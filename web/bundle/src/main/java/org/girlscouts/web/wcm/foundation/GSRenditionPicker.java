@@ -44,31 +44,31 @@ public class GSRenditionPicker implements RenditionPicker {
 			
 		
 		if(TOP.equals(gsusaRenditionName))
-			return R520X520;
+			return R1280X1280;
 				
 		if(RIGHT.equals(gsusaRenditionName))
-			return R240X240;
+			return R520X520;
 				
 		if(MIDDLE.equals(gsusaRenditionName))
 			return R520X520;
 					
 		if(LEFT.equals(gsusaRenditionName))
-			return R120X80;
+			return R400X400;
 					
 		if(HERO.equals(gsusaRenditionName))
-			return R319X319;
+			return R520X520;
 					
 		if(TOP2X.equals(gsusaRenditionName))
 			return R1280X1280;
 				
 		if(RIGHT2X.equals(gsusaRenditionName))
-			return R400X400;
+			return R520X520;
 					
 		if(MIDDLE2X.equals(gsusaRenditionName))
 			return R520X520;
 					
 		if(LEFT2X.equals(gsusaRenditionName))
-			return R240X240;
+			return R520X520;
 					
 		if(HERO2X.equals(gsusaRenditionName))
 			return R520X520;
