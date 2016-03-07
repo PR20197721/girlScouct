@@ -22,11 +22,13 @@
   <prerequisites>
     <maven>3.0.2</maven>
   </prerequisites>
-  <!--
-        Inclusion of repositories in POMs is controversial, to say the least.
-        It would be best if you proxied the Adobe repository using a Maven
-        Repository Manager. Once you do that, remove these sections.
-     -->
+  <repositories>
+    <repository>
+      <id>project.local</id>
+      <name>project</name>
+      <url>file:../repo</url>
+    </repository>
+  </repositories>
   <profiles>
     <profile>
       <id>autoInstallBundle</id>
