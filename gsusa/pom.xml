@@ -26,7 +26,7 @@
     <repository>
       <id>project.local</id>
       <name>project</name>
-      <url>file:../repo</url>
+      <url>file:${project.basedir}/../repo</url>
     </repository>
   </repositories> 
   <profiles>
