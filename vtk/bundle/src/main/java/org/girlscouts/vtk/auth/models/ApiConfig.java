@@ -26,7 +26,21 @@ public class ApiConfig implements Serializable {
 	//error msg
 	java.util.List<VtkError> errors;
 	
+	private boolean demoUser;
 	
+	
+	
+	
+	
+	
+	public boolean isDemoUser() {
+		return demoUser;
+	}
+
+	public void setDemoUser(boolean demoUser) {
+		this.demoUser = demoUser;
+	}
+
 	public String getVtkApiTroopLeadersUri() {
 		return vtkApiTroopLeadersUri;
 	}

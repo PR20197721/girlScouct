@@ -4,6 +4,13 @@
 
     HttpSession session = request.getSession();
     String myUrl = request.getRequestURL().toString();
+       
+    if( myUrl.trim().contains("vtk.demo.index.html") ) {
+    	//response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/controllers/vtk.demo.index.html");
+    	//return;
+    	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
+    	session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
+    }
     
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);

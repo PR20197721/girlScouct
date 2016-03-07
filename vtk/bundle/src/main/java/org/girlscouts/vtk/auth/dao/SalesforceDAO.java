@@ -1,10 +1,12 @@
 package org.girlscouts.vtk.auth.dao;
-
+//import org.json.simple.JSONArray;
+//import org.json.simple.JSONObject;
+//import org.json.simple.parser.JSONParser;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-
+import java.io.*;
 import org.apache.commons.codec.binary.Base64;
 
 import java.util.Dictionary;
@@ -76,6 +78,8 @@ public class SalesforceDAO {
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
 		try {
+			String rsp = null;
+	if(  !apiConfig.isDemoUser() ){
 			connection = connectionFactory.getConnection();
 			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
@@ -85,7 +89,7 @@ public class SalesforceDAO {
 			}
 
 			HttpEntity entity = null;
-			String rsp = null;
+			
 			try {
 				entity = resp.getEntity();
 				entity.getContent();
@@ -96,9 +100,19 @@ public class SalesforceDAO {
 			} finally {
 				resp.close();
 			}
-
+			
+			//response = new JSONObject(rsp);
 			log.debug(">>>>> " + rsp);
-System.err.println("getUSER resp: " + rsp);
+			System.err.println("getUSER resp: " + rsp);	
+			
+	}else{
+		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
+
+		rsp = readFile("/Users/akobovich/vtk/vtkUser.json").toString();
+	}
+	
+	
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex user reponse: " + response);
@@ -533,6 +547,9 @@ System.err.println("getUSER resp: " + rsp);
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
+			String rsp =null;
+		if( !apiConfig.isDemoUser()  ){	
+			
 			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
 			String url = apiConfig.getWebServicesUrl() + vtkApiTroopUri
 					+ "?userId=" + contactId;
@@ -550,11 +567,16 @@ System.err.println("getUSER resp: " + rsp);
 			}
 			HttpEntity entity = resp.getEntity();
 			entity.getContent();
-			String rsp = EntityUtils.toString(entity);
+			rsp= EntityUtils.toString(entity);
+		}else{
+			rsp= readFile("/Users/akobovich/vtk/vtkTroop.json").toString();
+		}
+		
+System.err.println("xx: "+ rsp);			
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
-System.err.println("troop :"+ response);
+//System.err.println("troop :"+ response);
 			JSONArray results = response.getJSONArray("records");
 			for (int i = 0; i < results.length(); i++) {
 				String errorTroopId="-1";
@@ -644,7 +666,8 @@ System.err.println("troop :"+ response);
 			e.printStackTrace();
 		} finally {
 			try {
-				method.releaseConnection();
+				if( method!=null)
+					method.releaseConnection();
 			} catch (Exception eConn) {
 				eConn.printStackTrace();
 			}
@@ -932,6 +955,46 @@ System.err.println("troop :"+ response);
 			}
 		}
 		return troopDiff;
+	}
+	
+	
+	private StringBuffer readFile(String fileName){
+		
+		StringBuffer sf = new StringBuffer();
+
+        // This will reference one line at a time
+        String line = null;
+
+        try {
+            // FileReader reads text files in the default encoding.
+            FileReader fileReader = 
+                new FileReader(fileName);
+
+            // Always wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader = 
+                new BufferedReader(fileReader);
+
+            while((line = bufferedReader.readLine()) != null) {
+                //System.out.println(line);
+                sf.append(line);
+            }   
+
+            // Always close files.
+            bufferedReader.close();         
+        }
+        catch(FileNotFoundException ex) {
+            System.out.println(
+                "Unable to open file '" + 
+                fileName + "'");                
+        }
+        catch(IOException ex) {
+            System.out.println(
+                "Error reading file '" 
+                + fileName + "'");                  
+            // Or we could just do this: 
+            // ex.printStackTrace();
+        }
+    return sf;
 	}
 }// end class
 
