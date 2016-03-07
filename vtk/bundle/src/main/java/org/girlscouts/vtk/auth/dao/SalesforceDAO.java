@@ -106,12 +106,12 @@ public class SalesforceDAO {
 			System.err.println("getUSER resp: " + rsp);	
 			
 			if(apiConfig.isUseAsDemo() )
-				writeToFile("/Users/akobovich/vtk/vtkUser.json" , rsp);
+				writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
 	}else{
 		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
 
-		rsp = readFile("/Users/akobovich/vtk/vtkUser.json").toString();
+		rsp = readFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json").toString();
 	}
 	
 	
@@ -572,9 +572,9 @@ public class SalesforceDAO {
 			rsp= EntityUtils.toString(entity);
 			
 			if(apiConfig.isUseAsDemo() )
-				writeToFile("/Users/akobovich/vtk/vtkTroop.json" , rsp);
+				writeToFile("/Users/akobovich/vtk/vtkTroop_"+apiConfig.getUser().getName()+".json" , rsp);
 		}else{
-			rsp= readFile("/Users/akobovich/vtk/vtkTroop.json").toString();
+			rsp= readFile("/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json").toString();
 		}
 		
 System.err.println("xx: "+ rsp);			

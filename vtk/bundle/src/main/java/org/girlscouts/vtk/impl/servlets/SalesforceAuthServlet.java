@@ -399,8 +399,10 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		
 		HttpSession session = request.getSession();
 		boolean useAsDemo = false;
-		if( session.getAttribute("useAsDemo") !=null &&  ((Boolean)session.getAttribute("useAsDemo")).booleanValue() ==true )
+		if( session.getAttribute("useAsDemo") !=null ){
 			useAsDemo=true;
+			//useAsDemoUser = (String) session.getAttribute("useAsDemo");
+		}
 		
 		config.setUseAsDemo( useAsDemo );
 		//HttpSession session = request.getSession();

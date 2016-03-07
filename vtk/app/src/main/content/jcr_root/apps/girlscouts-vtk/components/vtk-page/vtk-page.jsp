@@ -2,8 +2,8 @@
 
 
     HttpSession session = request.getSession();
-    if( request.getParameter("useAsDemo")!=null && request.getParameter("useAsDemo").equals("true") )
-    		session.setAttribute("useAsDemo", true);
+    if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") )
+    		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
     else
     	    session.removeAttribute("useAsDemo");
 

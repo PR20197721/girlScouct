@@ -21,10 +21,11 @@ final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 
 HttpSession session = request.getSession();
 
-String contactId="contact1";
+String contactId="Alice";
 org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
 apiConfig.setUserId(contactId);
 apiConfig.setDemoUser(true);
+apiConfig.setDemoUserName(contactId);
 
 //getUser
 org.girlscouts.vtk.auth.models.User  user=  new org.girlscouts.vtk.auth.dao.SalesforceDAO(
