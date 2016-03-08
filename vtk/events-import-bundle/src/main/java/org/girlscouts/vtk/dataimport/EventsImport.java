@@ -1,4 +1,4 @@
-package org.girlscouts.web.dataimport;
+package org.girlscouts.vtk.dataimport;
 
 public interface EventsImport {
 	void run();

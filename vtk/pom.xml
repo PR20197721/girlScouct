@@ -270,6 +270,7 @@
 	<module>boon-wrapper</module>
 	<module>google-collections-wrapper</module>
 	<module>app</module>
+	<module>events-import-bundle</module>
 	<module>scaffolding-bundle</module>
   </modules>
 </project>

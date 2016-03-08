@@ -6,20 +6,20 @@
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
     <parent>
-        <groupId>org.girlscouts.web</groupId>
-        <artifactId>girlscouts</artifactId>
-        <version>0.1-SNAPSHOT</version>
+        <groupId>org.girlscouts.vtk</groupId>
+        <artifactId>girlscouts-vtk</artifactId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
 
     <!-- ====================================================================== -->
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
 
-    <artifactId>girlscouts-bundle</artifactId>
+    <artifactId>events-import-bundle</artifactId>
     <packaging>bundle</packaging>
-    <name>Girl Scouts USA Bundle</name>
+    <name>Girl Scouts Volunteer Toolkit Events Import Bundle</name>
 
-    <dependencies>
+	    <dependencies>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
@@ -242,7 +242,19 @@
         	<version>1.6.0</version>
         	<scope>provided</scope>
         </dependency>
-
+        <!-- FTP support for SalesForce events integration -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <!-- END FTP -->
+         <dependency>
+                <groupId>org.girlscouts.vtk</groupId>
+                <artifactId>girlscouts-vtk-bundle</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>provided</scope>
+          </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -268,7 +280,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.girlscouts.web.girlscouts-bundle</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-events-import-bundle</Bundle-SymbolicName>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
                     </instructions>
                 </configuration>
             </plugin>
@@ -276,7 +289,7 @@
                 <groupId>org.apache.sling</groupId>
                 <artifactId>maven-sling-plugin</artifactId>
                 <configuration>
-                    <slingUrl>http://${crx.host}:${crx.port}/apps/girlscouts/install</slingUrl>
+                    <slingUrl>http://${crx.host}:${crx.port}/apps/myproject/install</slingUrl>
                     <usePut>true</usePut>
                 </configuration>
             </plugin>
