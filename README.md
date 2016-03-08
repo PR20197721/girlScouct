@@ -285,11 +285,17 @@ git branch "root" is the latest n greatest, while "master" is what's in prod
 
 there are 3 sites: gsusa, vtk, and web
 
-To deploy vtk to DEV:
-
 cd web; mvn clean install
 cd vtk; mvn clean install
+cd gsusa; man clean install
+
+To deploy to local instance:
+./deploy.sh
+
+
+To deploy vtk to DEV:
 ./deployDev.sh
+
 (if needed) flush the dispatcher cache:
 	ssh npUser@54.83.199.114
 	sudo ./flushCache
