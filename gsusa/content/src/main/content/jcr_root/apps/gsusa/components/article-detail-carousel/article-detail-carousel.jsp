@@ -70,10 +70,10 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, sling.getServi
 <script>
 $(document).ready(function() {
     var TILES_SELECTOR = '.article-detail-carousel .article-tile';
-    
+
     // Add "see more" tile if link is found
     var hash = window.location.hash;
-        
+
     if (hash) {
         hash = hash.indexOf('#') == 0 ? hash.substring(1) : hash;
     } else {
@@ -81,7 +81,7 @@ $(document).ready(function() {
     }
     var hashSplitResult = hash.split('$$$');
     var seeMoreLink = hashSplitResult.length >= 2 ? hashSplitResult[1] : null;
-    
+
     var seeMoreTileSelector = '.article-detail-carousel .article-tile.last';
     if (!seeMoreLink) {
         seeMoreLink = $('#dynamic-tag-carousel-listing-page').attr('data');
@@ -92,7 +92,7 @@ $(document).ready(function() {
     } else {
         $(seeMoreTileSelector).parent().remove();
     }
-    
+
     var slides = $(TILES_SELECTOR);
     var currentSlideIndex = -1;
     for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
@@ -132,7 +132,14 @@ $(document).ready(function() {
         }
     }
 
-    $(".article-detail-carousel .article-slider").slick({
+    var slider = $(".article-detail-carousel .article-slider");
+
+    slider.on('init', function(){
+        alert('caca');
+        article_tiles();
+    });
+
+    slider.slick({
         lazyLoad: 'ondemand',
         slidesToShow: 4,
         touchMove: true,
@@ -140,8 +147,10 @@ $(document).ready(function() {
         infinite: false,
     });
 
+
+
     // Initial Slide does not work. Use this instead.
-    $(function(){
+    $(function() {
         if (currentSlideIndex != -1) {
             $('.article-detail-carousel .article-slider').slick('slickGoTo', currentSlideIndex, true);
         }
