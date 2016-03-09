@@ -22,7 +22,7 @@
                     	jcr:primaryType="cq:Widget"
                     	allowBlank="{Boolean}false"
                     	fieldLabel="Scholarship Type"
-                    	name="./sType"
+                    	name="./jcr:content/sType"
                     	type="select"
                     	value="All"
                     	defaultValue="All"
