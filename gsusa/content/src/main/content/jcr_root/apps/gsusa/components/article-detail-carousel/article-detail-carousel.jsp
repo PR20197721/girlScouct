@@ -98,6 +98,7 @@ $(document).ready(function() {
     for (var slideIndex = 0; slideIndex < slides.length; slideIndex++) {
         var slide = slides[slideIndex];
         var link = $(slide).find('a').attr('href');
+
         if (typeof link !== 'string') {
             return;
         }
@@ -125,17 +126,16 @@ $(document).ready(function() {
         if (hashOrQuestionMarkIndex != -1) {
             link = link.substring(0, hashOrQuestionMarkIndex);
         }
-
         if (link == window.location.pathname) {
             $(slide).addClass('current');
             currentSlideIndex = slideIndex;
+
         }
     }
 
     var slider = $(".article-detail-carousel .article-slider");
 
     slider.on('init', function(){
-        alert('caca');
         article_tiles();
     });
 

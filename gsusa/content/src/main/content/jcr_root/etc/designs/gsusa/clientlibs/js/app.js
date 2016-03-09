@@ -817,8 +817,7 @@ function article_tiles() {
     var title_height = $(this).innerHeight();
     var content_height = $(this).parent().height();
     var adjusted = $(this).data('adjusted') == 'true';
-    console.info("INFO: "+ adjusted);
-    if (!adjusted) {
+    if (!adjusted && content_height > title_height) {
      $(this).css("padding-top",(content_height-title_height)/2 +'px');
      $(this).data('adjusted', 'true');
     }
