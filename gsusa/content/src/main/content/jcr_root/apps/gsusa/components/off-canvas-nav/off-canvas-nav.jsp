@@ -18,6 +18,7 @@
     List<String[]> eyebrowNavs = new ArrayList<String[]>();
     
     int found = -1;
+    
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
         String[] nav = headerNavValues[i].getString().split("\\|\\|\\|"); // path, text
@@ -37,7 +38,19 @@
         nav[0] = label;
 
         headerNavs.add(nav);
-        if ((currentPage.getPath() + "/").startsWith(nav[1] + "/") && found == -1) { // if current page belong to this branch
+        
+        String topPath = nav[1];
+        
+        //if external, then nav starts with http
+        if (nav[1].startsWith("http")) {
+        	continue;
+        } else {
+        	// rePath restrings nav[1] up to level 4 which is the top menu
+        	// /content/gsusa/en/topmenu
+        	topPath = rePath(nav[1],4);
+        }
+
+        if (currentPage.getPath().startsWith(topPath) && found == -1) { // if current page belong to this branch
             found = i;
         }
     }
@@ -54,7 +67,11 @@
     buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1);
     sb.append("</nav>");
 %>
+
 <%= sb.toString() %>
+
+
+    
 
 <%!
     public void buildTopMenu(List<String[]> navs, String currentPath, ResourceResolver rr, StringBuilder sb, int found) {
@@ -62,11 +79,16 @@
         sb.append("<ul class=\"off-canvas-list\">");
         for (String[] nav : navs) {
             if (count == found) {
-                if (currentPath.equals(nav[1])) {
+            	sb.append("<li class=\"active\" tabindex=\"-1\">");
+                /**
+                This should not happen since this is top menu and top page always calls on 
+                its first child page
+            	if (currentPath.equals(nav[1])) {
                 	sb.append("<li class=\"active current\" tabindex=\"-1\">");
                 } else {
                 	sb.append("<li class=\"active\" tabindex=\"-1\">");
                 }
+                **/
             } else {
                 sb.append("<li tabindex=\"-1\">");
             }
@@ -75,11 +97,13 @@
             } else {
                 sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
             }
-            if (count == found) {
-                Page rootPage = rr.resolve(nav[1]).adaptTo(Page.class);
-                buildMenu(rootPage, currentPath, sb);
+            if (count == found) {            	
+                String topMenuPath = nav[1].substring(0,nav[1].lastIndexOf("/"));
+                Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
+                
+                buildMenu(topMenuPathPage, currentPath, sb);
             }
-            sb.append("</li>");
+            sb.append("</li>");  
                 
             count++;
         }
@@ -97,7 +121,9 @@
     }
 
     public void buildMenu(Page rootPage, String currentPath, StringBuilder sb) {
+
         Iterator<Page> iter = rootPage.listChildren();
+
         boolean hasChild = false;
         while(iter.hasNext()) {
             Page page = iter.next();
@@ -143,4 +169,21 @@
             sb.append("</ul>");
         }
     }
+    
+	public String rePath(String path, int level) {
+		
+		String[] array = path.split("/");
+		level++;
+		
+		if ((level > array.length) || (level <= 0)) {
+			level = array.length;
+		}
+		
+		StringBuilder newPath = new StringBuilder();    	
+		for (int i = 1; i < level; i++) {    		
+			newPath.append("/"+array[i]);	    		
+		}  	    	
+		
+		return newPath.toString();
+	}
 %>
