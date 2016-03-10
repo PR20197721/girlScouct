@@ -668,8 +668,6 @@
     });
   }
 
-
-
 /*window.onYouTubeIframeAPIReady = function() {
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
@@ -683,8 +681,6 @@
 	        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	    }
 	}
-
-
 
   //camp-finder vaidation and submittion function
   function camp_finder() {
@@ -751,6 +747,7 @@
       $(this).toggleClass('on');
     });
   }
+
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -769,6 +766,7 @@
   $(window).resize(function() {
     small_screens();
   });
+
   $(window).resize(function (event) {
     //if($(window).width() > 768) {
     //  iframeClick();
@@ -777,6 +775,7 @@
       //$("iframe").unbind("mouseenter,mouseleave");
     //}
   });
+
   $(window).load(function () {
     equilize_our_stories();
     hide_show_cookie();
@@ -790,43 +789,49 @@
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
   });
+
   $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
     $(".off-canvas-wrap").removeClass('noprint');
   });
-  // $(document).ready(function() {
-    // Setup "contact local council" form
-    $('.booth-finder form.contactlocalcouncil').submit(function(){
-      $.post($(this).attr('action'), $(this).serialize(), function(response) {
-        // Remove blank lines
-        response = response.replace(/^\s*\n/gm, '').trim();
-        if (response.toUpperCase() == 'OK') {
-          $('.contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
-        } else {
-          $('.contactlocalcouncil div.error').html(response);
-        }
-      });
-      // Prevent default
-      return false;
+
+  // Setup "contact local council" form
+  $('.booth-finder form.contactlocalcouncil').submit(function(){
+    $.post($(this).attr('action'), $(this).serialize(), function(response) {
+      // Remove blank lines
+      response = response.replace(/^\s*\n/gm, '').trim();
+      if (response.toUpperCase() == 'OK') {
+        $('.contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+      } else {
+        $('.contactlocalcouncil div.error').html(response);
+      }
     });
-  // });
-// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
+    // Prevent default
+    return false;
+  });
+
+  article_tiles();
+
 }(jQuery));
 
 function article_tiles() {
   $('.article-tile .text-content h3').each(function(index, el) {
-    var title_height = $(this).innerHeight();
+    //var title_height = $(el).innerHeight();
+    var title_height = parseInt($(this).height(), 10);
     var content_height = $(this).parent().height();
-    var adjusted = $(this).data('adjusted') == 'true';
+    console.info("math content_height" + content_height);
+    console.info("math title_height" + title_height);
+    var adjusted = $(this).attr('data-adjusted') == 'true';
     if (!adjusted && content_height > title_height) {
+      console.info('Works everywhere else: ' + (content_height-title_height)/2);
      $(this).css("padding-top",(content_height-title_height)/2 +'px');
-     $(this).data('adjusted', 'true');
+     $(this).attr('data-adjusted', 'true');
     }
   });
 }
 
-$(document).ready(function(){
-  article_tiles();
-});
+// $(document).ready(function(){
+//   article_tiles();
+// });
 
 function attachListenerToVideoSlider () {
     for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {

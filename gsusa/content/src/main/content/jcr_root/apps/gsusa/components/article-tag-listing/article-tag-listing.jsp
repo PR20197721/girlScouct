@@ -50,8 +50,8 @@ function loadResults(){
 		    	listing: "<%= listing %>" },
 		success: function(res){
 			$("#article-list").append(res);
-			article_tiles();
 			retina(true);
+			article_tiles();
 		}
 	});
 }
