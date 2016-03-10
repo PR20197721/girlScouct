@@ -111,8 +111,13 @@
         <dependency>
             <groupId>com.day.cq</groupId>
             <artifactId>cq-replication</artifactId>
-            <version>5.0.6</version>
+            <version>5.4.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-commons</artifactId>
+            <version>5.5.0</version>
+         </dependency>
          <dependency>
             <groupId>org.girlscouts.web</groupId>
             <artifactId>girlscouts-bundle</artifactId>
@@ -120,8 +125,9 @@
         </dependency>
         <dependency>
             <groupId>org.girlscouts.vtk</groupId>
-            <artifactId>girlscouts-vtk</artifactId>
+            <artifactId>girlscouts-vtk-bundle</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
         <!-- END FTP -->
     </dependencies>
