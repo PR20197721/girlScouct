@@ -5,7 +5,7 @@
     <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
 
-    <groupId>gs-activities</groupId>
+    <groupId>org.girlscouts.gsactivities</groupId>
     <artifactId>gsactivities</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -243,5 +243,6 @@
   <modules>
     <module>bundle</module>
     <module>content</module>
+    <module>app</module>
   </modules>
 </project>

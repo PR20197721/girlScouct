@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/gsactivities"/>
+    <filter root="/etc/ftp-event-trigger"/>
+    <filter root="/etc/map.author"/>
+    <filter root="/etc/map.publish"/>
+    <filter root="/etc/map.publish.dev"/>
+</workspaceFilter>
