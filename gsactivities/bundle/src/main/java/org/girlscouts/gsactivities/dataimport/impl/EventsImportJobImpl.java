@@ -1,6 +1,6 @@
-package org.girlscouts.vtk.dataimport.impl;
+package org.girlscouts.gsactivities.dataimport.impl;
 
-import org.girlscouts.vtk.dataimport.EventsImport;
+import org.girlscouts.gsactivities.dataimport.EventsImport;
 
 import java.io.IOException;
 import java.io.InputStream;
