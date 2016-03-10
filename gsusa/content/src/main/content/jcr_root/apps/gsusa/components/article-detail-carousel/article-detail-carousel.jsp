@@ -135,16 +135,12 @@ $(document).ready(function() {
 
     var slider = $(".dynamic-tag-carousel .article-detail-carousel .article-slider");
 
-    slider.on('init', function() {
-        article_tiles();
-    });
-
     slider.slick({
         lazyLoad: 'ondemand',
         slidesToShow: 4,
         touchMove: true,
         slidesToScroll: 4,
-        infinite: false,
+        infinite: false
     });
 
     // Initial Slide does not work. Use this instead.
