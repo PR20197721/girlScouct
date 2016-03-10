@@ -6,7 +6,7 @@
 <%
 	String id = "dynamic-tag-carousel-" + genId();
 	String num = properties.get("num", "20");
-	
+
 	Tag[] tags = currentPage.getTags();
 	// The first tag of the article is the default tag of the carousel.
 	String defaultTag;
@@ -25,7 +25,7 @@
 	if ("true".equals(sortByPriority)) {
 		num = "-" + num;
 	}
-	
+
 	String listingPage = currentPage.getProperties().get("listingPage", "");
 	if (!listingPage.isEmpty()) {
 		listingPage = resourceResolver.map(listingPage + ".html");
@@ -42,4 +42,5 @@
 		var carousel = new DynamicTagCarousel('<%= id %>', <%= num %>, '<%= defaultTag %>');
 		carousel.load();
 	});
+
 </script>
