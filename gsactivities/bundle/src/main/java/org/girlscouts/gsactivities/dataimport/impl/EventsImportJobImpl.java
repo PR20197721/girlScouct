@@ -328,7 +328,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			try {
 				replicateNode(newPath);
 			} catch (Exception e) {
-				log.error(e.getMessage());
 				throw new GirlScoutsException(e, "Fail to ACTIVIATE the Node from author with path: " + newPath);
 			}
 		} else if (action.equalsIgnoreCase("DELETE")) {
@@ -343,9 +342,17 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	private void replicateNode(String newPath) throws ReplicationException {
+	private void replicateNode(String newPath) throws GirlScoutsException {
 		Session session = rr.adaptTo(Session.class);
-		replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
+		try {
+			replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
+		} catch (NullPointerException npe) {
+			log.error("Replicator is null for path: " + newPath);
+			throw new GirlScoutsException(npe, "Fail to Activates the path with NPE: " + newPath);
+		} catch (Exception e) {
+			//e.printStackTrace();
+			throw new GirlScoutsException(e, "Fail to Activates the path: " + newPath + ". " + e.getMessage());
+		}
 		log.info("<---------EVENT ACTIVIATED: " + newPath + " -------->");
 	}
 	
@@ -587,12 +594,15 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		try{
 			if (ftpLogin()) {
 				getFiles();
+			} else {
+				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
-			log.error("IOException catched during access to FTP server",e);
+			log.error("IOException caught during access to FTP server",e);
 			//e.printStackTrace();
 		} catch(Exception e) {
-			e.printStackTrace();
+			log.error("Exception caught during access to FTP server",e);
+			//e.printStackTrace();
 		} finally {
 			if (ftp.isConnected()) {
 				try {
