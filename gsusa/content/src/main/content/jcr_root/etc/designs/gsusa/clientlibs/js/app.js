@@ -297,7 +297,7 @@
   });
 
   var homepageScrollTopPos;
-  
+
   function show_hide_features() {
     if ($(".featured-stories").length > 0) {
       if ($(".featured-stories li").length <= 3) {
@@ -344,8 +344,8 @@
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
 
-       	  window.scrollTo(0,homepageScrollTopPos);	// go back to previous window Y position 
-        	
+       	  window.scrollTo(0,homepageScrollTopPos);	// go back to previous window Y position
+
           target.removeClass("shown");
           target.fadeOut('slow');
           $("body").css('overflow', '');
@@ -356,7 +356,7 @@
           try {
             gsusa.functions.ToggleParsysAll.toggleAll(false);
           } catch (ignore) {}
-          e.stopPropagation();          
+          e.stopPropagation();
           return false;
         });
       });
@@ -397,6 +397,7 @@
        }
       ]
     });
+
     $(".article-carousel .article-slider").slick({
       lazyLoad: 'ondemand',
       slidesToShow: 3,
@@ -667,8 +668,6 @@
     });
   }
 
-
-
 /*window.onYouTubeIframeAPIReady = function() {
 		loadYoutubeAPI();
 		$('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
@@ -682,8 +681,6 @@
 	        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 	    }
 	}
-
-
 
   //camp-finder vaidation and submittion function
   function camp_finder() {
@@ -750,6 +747,7 @@
       $(this).toggleClass('on');
     });
   }
+
   fix_bottom_footer();
   slide_search_bar();
   small_screens();
@@ -768,6 +766,7 @@
   $(window).resize(function() {
     small_screens();
   });
+
   $(window).resize(function (event) {
     //if($(window).width() > 768) {
     //  iframeClick();
@@ -776,6 +775,7 @@
       //$("iframe").unbind("mouseenter,mouseleave");
     //}
   });
+
   $(window).load(function () {
     equilize_our_stories();
     hide_show_cookie();
@@ -789,26 +789,27 @@
     $(this).toggleClass('hide');
     $('.formDonate input[type="text"]').focus();
   });
+
   $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {
     $(".off-canvas-wrap").removeClass('noprint');
   });
-  // $(document).ready(function() {
-    // Setup "contact local council" form
-    $('.booth-finder form.contactlocalcouncil').submit(function(){
-      $.post($(this).attr('action'), $(this).serialize(), function(response) {
-        // Remove blank lines
-        response = response.replace(/^\s*\n/gm, '').trim();
-        if (response.toUpperCase() == 'OK') {
-          $('.contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
-        } else {
-          $('.contactlocalcouncil div.error').html(response);
-        }
-      });
-      // Prevent default
-      return false;
+
+  // Setup "contact local council" form
+  $('.booth-finder form.contactlocalcouncil').submit(function(){
+    $.post($(this).attr('action'), $(this).serialize(), function(response) {
+      // Remove blank lines
+      response = response.replace(/^\s*\n/gm, '').trim();
+      if (response.toUpperCase() == 'OK') {
+        $('.contactlocalcouncil').html('Thank you. A representative will contact you shortly.');
+      } else {
+        $('.contactlocalcouncil div.error').html(response);
+      }
     });
-  // });
-// $('#videoModal').foundation('reveal', 'open', '//www.youtube-nocookie.com/embed/wnXCopXXblE?rel=0');
+    // Prevent default
+    return false;
+  });
+
+  // article_tiles();
 
 }(jQuery));
 
@@ -928,8 +929,9 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	return '';
 });
 
-$(window).load(seeMoreScale);
-$(window).on('resize',seeMoreScale);
+$(window).load(seeMoreScale, article_tiles);
+
+$(window).on('resize', seeMoreScale, article_tiles);
 
 function seeMoreScale(){
 	$.each($('.article-slider .article-tile.last section'), function(index, value){
@@ -943,3 +945,17 @@ function seeMoreScale(){
 		}
 	});
 }
+function article_tiles() {
+  $('.article-tile .text-content h3').each(function(index, el) {
+    var title_height = parseInt($(this).height());
+    var content_height = $(this).parent().height();
+    var adjusted = $(this).attr('data-adjusted') == 'true';
+    if (!adjusted && content_height > title_height) {
+     $(this).css("padding-top",(content_height-title_height)/2 +'px');
+     $(this).attr('data-adjusted', 'true');
+    }
+  });
+}
+
+
+

@@ -12,28 +12,36 @@ $lines-to-show: 3;
       z-index: 15;
       bottom: 0;
       display: block;
-      padding: rem-calc(10 20 0);
+      padding: rem-calc(0 20 0);
       color: #fff;
       position: absolute;
       width: 100%;
-      transition: height 500ms;
-      height: rem-calc(55);
+      transition:500ms;
+      height: rem-calc(100);
       overflow: hidden;
+      max-height: 34.5%;
       * {
         color: $white;
       }
       h3 {
         font-size: rem-calc(21);
         line-height: rem-calc(24);
+        margin-bottom: rem-calc(10);
+        margin-top: 0;
         //white-space: nowrap;
-        text-overflow: ellipsis;
-        width: 90%;
-        overflow: hidden;
-        margin-bottom: 1rem;
-		white-space: nowrap;
+        // text-overflow: ellipsis;
+        // width: 90%;
+        // overflow: hidden;
+		    // white-space: nowrap;
       }
       p {
         font-size: rem-calc(14);
+        transition: opacity 1s linear;
+         -moz-transition: opacity 1s linear;
+         -webkit-transition: opacity 1s linear;
+        margin: 0;
+        line-height: $line-height;
+        opacity: 0;
         // -webkit-line-clamp: $lines-to-show;
         // -webkit-box-orient: vertical;
         // -moz-line-clamp: $lines-to-show;
@@ -41,11 +49,9 @@ $lines-to-show: 3;
         // display: block;
         // display: -moz-box;
         // display: -webkit-box;
-        text-overflow: ellipsis;
-        overflow:hidden;
-        margin: 0;
         // max-width: 99%;
-        line-height: $line-height;
+        // text-overflow: ellipsis;
+        // overflow:hidden;
         // height: $font-size*$line-height*$lines-to-show; /* Fallback for non-webkit */
       }
       .article-detail-carousel .article-slider & {
@@ -70,24 +76,28 @@ $lines-to-show: 3;
 	      &:hover {
 	        .text-content {
 	          height: 100%;
-								  h3{
-					  text-overflow: clip;
-					  white-space: normal;
-				  }
+            max-height: 100%;
+						h3{
+  					  text-overflow: clip;
+  					  white-space: normal;
+				    }
+            p {
+              opacity: 1;
+              transition: opacity .5s linear;
+              -moz-transition: opacity .5s linear;
+              -webkit-transition: opacity .5s linear;
+            }
 	        }
 	        .article-detail-carousel .article-slider  & {
 	          .text-content {
 	            height: 100%;
-				  h3{
-					  text-overflow: clip;
-					  white-space: normal;
-				  }
+  				  h3 {
+    					  text-overflow: clip;
+    					  white-space: normal;
+  				    }
 	          }
 	        }
-	    }
-        // p {
-        //   height: 100%;
-        // }
+        }
         h3 {
           white-space: normal;
           width: 100%;
@@ -128,11 +138,25 @@ $lines-to-show: 3;
           padding-bottom: rem-calc(17);
         }
       }
+      @media #{$small-only} {
+        @include block-grid(2, $spacing: rem-calc(5));
+      }
+    }
+    section .text-content h3 {
+      font-size: 100%;
+      line-height: rem-calc(20);
     }
   }
 }
 .article-tag-listing {
   margin-top: rem-calc(30);
+  .more-link {
+    text-align: center;
+    #more {
+      margin: rem-calc(20 0);
+      display: inline-block;
+    }
+  }
   h4 {
     font-weight: 700;
     font-size: rem-calc(24);
@@ -156,7 +180,7 @@ $lines-to-show: 3;
   }
 }
 .related-articles {
-  margin-top: rem-calc(30);
+  // margin-top: rem-calc(30);
   padding-top: rem-calc(20);
   h4 {
     font-weight: 700;
@@ -178,18 +202,6 @@ $lines-to-show: 3;
       }
     }
 
-  }
-}
-.article-tag-listing {
-  .related-articles {
-    border-top: none;
-  }
-  .more-link {
-    text-align: center;
-  }
-  #more {
-    margin: rem-calc(20 0);
-    display: inline-block;
   }
 }
 .reveal-modal {
@@ -250,20 +262,23 @@ $lines-to-show: 3;
   	  	  -webkit-transition-duration:500ms;
   	  	}
   	  }
-  	  .article-tile{
-		section{
-		  a{
-		    &:hover{
-		     .text-content {
-		        height: 2.5rem;
-			  }
-	        }
-		  }
+  	.article-tile{
+  		section {
+  		  a {
+  		    &:hover{
+  		      .text-content {
+  		        height: 2.5rem;
+            }
+            p {
+              display: none;
+            }
+          }
+  		  }
 	    }
 	  }
 	}
   }
 }
-  .clearboth{
-    clear:both;
-  } 
+.clearboth{
+  clear:both;
+}

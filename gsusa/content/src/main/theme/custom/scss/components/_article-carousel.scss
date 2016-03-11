@@ -2,8 +2,12 @@
   &.slick-slider {
     margin-left: 0;
     .article-tile {
-      padding-right: 5px;
-      padding-left: 5px;
+      padding-right: rem-calc(5);
+      padding-left: rem-calc(5);
+    }
+    section .text-content {
+      padding-left: rem-calc(34);
+      padding-right: rem-calc(34);
     }
   }
   // .slick-track .slick-slide.slick-active:nth-child(3n+3) .article-tile {
@@ -28,14 +32,14 @@
     }
   }
   .slick-prev {
-    left: rem-calc(3);
+    left: rem-calc(5);
     background: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, .8) !important;
     &:before {
      // content: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png");
     }
   }
   .slick-next {
-    right: rem-calc(3);
+    right: rem-calc(5);
     background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, .8) !important;
     &:before {
       //content: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png");
@@ -43,8 +47,12 @@
   }
 }
 .dynamic-tag-carousel {
-  width: 610px;
+  width: rem-calc(610);
   margin: 0 auto;
+  section .text-content {
+    padding-left: rem-calc(10) !important;
+    padding-right: rem-calc(10) !important;
+  }
 }
 .article-detail-carousel .article-slider {
   .article-tile {
@@ -54,8 +62,10 @@
     section {
       height: 100%;
       display: table;
+      width: 100%;
       h3 {
-        font-size: rem-calc(13);
+        font-size: rem-calc(12);
+        line-height: rem-calc(14);
         margin: 0 0 5px 0;
       }
     }
@@ -65,9 +75,6 @@
       opacity: 1;
       a {
         color: $white;
-        // top: 45%;
-        // position: relative;
-        // line-height: 1;
         display: table-cell;
         vertical-align: middle;
         height: inherit;
@@ -76,8 +83,7 @@
   }
   .slick-slide {
     margin: rem-calc(0 10);
-    // max-width: rem-calc(140);
-    height: rem-calc(119);
+    height: rem-calc(114);
     .current {
       opacity: 1;
     }
@@ -110,18 +116,18 @@
     }
   }
   .article-slider .article-tile.last section {
-    min-height: 206px;
-    width: 250px;
+    min-height: rem-calc(206);
+    width: rem-calc(250);
     background: #cccccc;
     text-align: center;
-    display: table !important;
+    display: table;
     a {
       color: $white;
-      display: table-cell !important;
+      display: table-cell;
       vertical-align: middle;
       text-align: center;
       font-size: rem-calc(24);
-      width: 250px;
+      width: rem-calc(250);
     }
   }
 }

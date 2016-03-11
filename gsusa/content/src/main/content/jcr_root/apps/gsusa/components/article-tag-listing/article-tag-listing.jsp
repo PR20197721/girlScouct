@@ -8,7 +8,7 @@ String priority = properties.get("priority","false");
 String hasBorderLine = properties.get("borderLine", String.class);
 String listing = properties.get("titleLink","");
 
-if ("on".equals(hasBorderLine)) {%> 
+if ("on".equals(hasBorderLine)) {%>
 	<hr style="border-top: solid 1px #000000">
 <%
 }
@@ -18,7 +18,7 @@ if(tags == null) {
 	if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%> *** Please select a tag *** <%
 	}
-} else { 
+} else {
 %>
 
 <div class="block-grid">
@@ -51,6 +51,7 @@ function loadResults(){
 		success: function(res){
 			$("#article-list").append(res);
 			retina(true);
+			article_tiles();
 		}
 	});
 }
