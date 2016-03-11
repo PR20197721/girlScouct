@@ -931,7 +931,7 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 
 $(window).load(seeMoreScale, article_tiles);
 
-$(window).on('resize',seeMoreScale, article_tiles);
+$(window).on('resize', seeMoreScale, article_tiles);
 
 function seeMoreScale(){
 	$.each($('.article-slider .article-tile.last section'), function(index, value){
@@ -951,7 +951,6 @@ function article_tiles() {
     var content_height = $(this).parent().height();
     var adjusted = $(this).attr('data-adjusted') == 'true';
     if (!adjusted && content_height > title_height) {
-      console.info('Works everywhere else: ' + (content_height-title_height)/2);
      $(this).css("padding-top",(content_height-title_height)/2 +'px');
      $(this).attr('data-adjusted', 'true');
     }
