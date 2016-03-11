@@ -16,9 +16,10 @@ $lines-to-show: 3;
       color: #fff;
       position: absolute;
       width: 100%;
-      transition: height 500ms;
+      transition:500ms;
       height: rem-calc(100);
       overflow: hidden;
+      max-height: 34.5%;
       * {
         color: $white;
       }
@@ -75,6 +76,7 @@ $lines-to-show: 3;
 	      &:hover {
 	        .text-content {
 	          height: 100%;
+            max-height: 100%;
 						h3{
   					  text-overflow: clip;
   					  white-space: normal;
@@ -142,11 +144,19 @@ $lines-to-show: 3;
     }
     section .text-content h3 {
       font-size: 100%;
+      line-height: rem-calc(20);
     }
   }
 }
 .article-tag-listing {
   margin-top: rem-calc(30);
+  .more-link {
+    text-align: center;
+    #more {
+      margin: rem-calc(20 0);
+      display: inline-block;
+    }
+  }
   h4 {
     font-weight: 700;
     font-size: rem-calc(24);
@@ -170,7 +180,7 @@ $lines-to-show: 3;
   }
 }
 .related-articles {
-  margin-top: rem-calc(30);
+  // margin-top: rem-calc(30);
   padding-top: rem-calc(20);
   h4 {
     font-weight: 700;
@@ -192,18 +202,6 @@ $lines-to-show: 3;
       }
     }
 
-  }
-}
-.article-tag-listing {
-  .related-articles {
-    border-top: none;
-  }
-  .more-link {
-    text-align: center;
-  }
-  #more {
-    margin: rem-calc(20 0);
-    display: inline-block;
   }
 }
 .reveal-modal {
@@ -281,6 +279,6 @@ $lines-to-show: 3;
 	}
   }
 }
-  .clearboth{
-    clear:both;
-  }
+.clearboth{
+  clear:both;
+}

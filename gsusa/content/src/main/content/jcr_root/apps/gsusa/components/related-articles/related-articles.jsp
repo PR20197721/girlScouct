@@ -1,9 +1,5 @@
 <%--
-
   Related Articles component.
-
-  
-
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/gsusa/components/global.jsp" %>
@@ -64,7 +60,7 @@
 
 		%>
 			<h4>##Configure Related Articles Component##</h4>
-		<% 
+		<%
         }
 
     }else{%>
