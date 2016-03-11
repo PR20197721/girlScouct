@@ -931,7 +931,7 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 
 $(window).load(seeMoreScale, article_tiles);
 
-$(window).on('resize',seeMoreScale);
+$(window).on('resize',seeMoreScale, article_tiles);
 
 function seeMoreScale(){
 	$.each($('.article-slider .article-tile.last section'), function(index, value){
@@ -947,11 +947,8 @@ function seeMoreScale(){
 }
 function article_tiles() {
   $('.article-tile .text-content h3').each(function(index, el) {
-    //var title_height = $(el).innerHeight();
     var title_height = parseInt($(this).height());
     var content_height = $(this).parent().height();
-    console.info("math content_height: " + content_height);
-    console.info("math title_height: " + title_height);
     var adjusted = $(this).attr('data-adjusted') == 'true';
     if (!adjusted && content_height > title_height) {
       console.info('Works everywhere else: ' + (content_height-title_height)/2);

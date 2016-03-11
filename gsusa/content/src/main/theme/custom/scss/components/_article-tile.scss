@@ -136,6 +136,9 @@ $lines-to-show: 3;
           padding-bottom: rem-calc(17);
         }
       }
+      @media #{$small-only} {
+        @include block-grid(2, $spacing: rem-calc(5));
+      }
     }
     section .text-content h3 {
       font-size: 100%;
