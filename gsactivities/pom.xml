@@ -242,7 +242,6 @@
     </profiles>
   <modules>
     <module>bundle</module>
-    <module>content</module>
     <module>app</module>
   </modules>
 </project>
