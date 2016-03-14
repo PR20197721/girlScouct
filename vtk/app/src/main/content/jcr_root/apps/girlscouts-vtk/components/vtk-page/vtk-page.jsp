@@ -4,20 +4,20 @@
    HttpSession session = request.getSession();
    //final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
    String isDemoSite= "true";//configManager.getConfig("isDemoSite");
-System.err.println("IsDemoSite: " + isDemoSite);  
+//System.err.println("IsDemoSite: " + isDemoSite);  
 
-    if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") )
+    if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){
     		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
-    else
+    }else{
     	    session.removeAttribute("useAsDemo");
-
+    }
     
     String myUrl = request.getRequestURL().toString();
        
-    if( ( isDemoSite != null && isDemoSite.equals("true") ) ){//|| myUrl.trim().contains("vtk.demo.index.html") ) {
-    	
-    	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
-    	session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
+    if(  myUrl.trim().contains("vtk.demo.index.html") ) {
+        
+        org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
+        session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
     }
     
     if( myUrl!=null)

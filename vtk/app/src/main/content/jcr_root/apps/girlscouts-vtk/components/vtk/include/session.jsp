@@ -103,48 +103,7 @@
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
-		if( isDemoSite ){
-							
-				boolean isGroupDemo= request.getParameter("isGroupDemo") !=null ? true : false;
-				String contactId= request.getParameter("user");
-				System.err.println("user : "+ contactId);
-				
-				apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
-				apiConfig.setUserId(contactId);
-				apiConfig.setDemoUser(true);
-				apiConfig.setDemoUserName(contactId);
-				
-				
-				//getUser
-				org.girlscouts.vtk.auth.models.User _user=  new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				        troopDAO, connectionFactory).getUser( apiConfig);
-				apiConfig.setUser(_user);
-				_user.setName(contactId);
-				session.setAttribute(org.girlscouts.vtk.auth.models.User.class.getName(), _user);
-				
-				//getTroop
-				java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				        troopDAO, connectionFactory).troopInfo( _user,  apiConfig, contactId );
-				
-				 for(int i=0;i<troops.size();i++){
-				    org.girlscouts.vtk.salesforce.Troop troop = troops.get(i);
-				    if( !isGroupDemo && troop.getPermissionTokens().contains(13)){ //if not parent
-				            troop.setTroopId( "SHARED_"+session.getId()+"_"+troop.getTroopId() );
-				    }
-				 }
-				
-				apiConfig.setTroops(troops);
-				session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
-				
-				org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
-				vtkUser.setApiConfig(apiConfig);
-				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
-				    vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
-				    }
-				session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
-			    out.println("Demo caca goes here");
-			return;
-		}else{
+		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
@@ -159,7 +118,7 @@
 			
 			<%
 		    return;
-		}//edn else
+		
 	}
 
 	
