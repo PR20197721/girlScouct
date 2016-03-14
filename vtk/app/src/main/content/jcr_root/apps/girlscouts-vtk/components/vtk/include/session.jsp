@@ -192,7 +192,6 @@
 
 		try{
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
-System.err.println("tata session1");
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
@@ -238,7 +237,7 @@ System.err.println("tata session1");
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 		session.setAttribute("VTK_troop", troop);
 	}
-	System.err.println("tata session3");
+	System.err.println("tata session3 " +(troop==null));
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
 		troops = user.getApiConfig().getTroops();
@@ -261,4 +260,7 @@ System.err.println("tata session1");
 	    request.setAttribute("footerScript", footerScript);
 	}
 
+
+System.err.println("tatax: isAdmin: "+ user.getApiConfig().getUser().isAdmin() +" : "+ 
+        user.getApiConfig().getUser().getAdminCouncilId() +" yearPlan: "+ troop.getYearPlan() +" : "+ VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) +" : "+ troop. );
 %>

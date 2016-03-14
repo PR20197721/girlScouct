@@ -27,6 +27,7 @@ apiConfig.setUserId(contactId);
 apiConfig.setDemoUser(true);
 apiConfig.setDemoUserName(contactId);
 
+
 //getUser
 org.girlscouts.vtk.auth.models.User  user=  new org.girlscouts.vtk.auth.dao.SalesforceDAO(
         troopDAO, connectionFactory).getUser( apiConfig);
@@ -37,10 +38,7 @@ session.setAttribute(org.girlscouts.vtk.auth.models.User.class.getName(), user);
 java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
         troopDAO, connectionFactory).troopInfo( user,  apiConfig, contactId );
 apiConfig.setTroops(troops);
-
 session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
-
-
 
 org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 vtkUser.setApiConfig(apiConfig);
@@ -48,4 +46,7 @@ if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
     vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
     }
 session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
+
+System.err.println("tataxx: isAdmin: "+ vtkUser.getApiConfig().getUser().isAdmin() +" : "+ 
+		vtkUser.getApiConfig().getUser().getAdminCouncilId() );
 %>

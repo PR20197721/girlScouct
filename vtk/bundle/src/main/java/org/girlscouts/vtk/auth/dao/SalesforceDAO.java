@@ -110,8 +110,10 @@ public class SalesforceDAO {
 	}else{
 		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
-
-		rsp = readFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json").toString();
+       
+		String userJsonFile="/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json";
+		System.err.println(userJsonFile);
+		rsp = readFile(userJsonFile).toString();
 	}
 	
 	
@@ -574,7 +576,8 @@ public class SalesforceDAO {
 			if(apiConfig.isUseAsDemo() )
 				writeToFile("/Users/akobovich/vtk/vtkTroop_"+apiConfig.getUser().getName()+".json" , rsp);
 		}else{
-			rsp= readFile("/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json").toString();
+			String troopJsonFile= "/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json";
+			rsp= readFile(troopJsonFile).toString();
 		}
 		
 System.err.println("xx: "+ rsp);			
