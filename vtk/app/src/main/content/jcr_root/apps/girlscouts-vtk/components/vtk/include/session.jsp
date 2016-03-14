@@ -31,7 +31,7 @@
 
 
 <% 
-
+    boolean isDemoSite= true;
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -103,7 +103,10 @@
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
 		
-		
+		if( isDemoSite ){
+			out.println("Demo");
+			return;
+		}else{
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
@@ -118,6 +121,7 @@
 			
 			<%
 		    return;
+		}//edn else
 	}
 
 	
@@ -237,7 +241,7 @@
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 		session.setAttribute("VTK_troop", troop);
 	}
-	System.err.println("tata session3 " +(troop==null));
+	
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
 		troops = user.getApiConfig().getTroops();
@@ -260,5 +264,7 @@
 	    request.setAttribute("footerScript", footerScript);
 	}
 
+	
+	
 
 %>

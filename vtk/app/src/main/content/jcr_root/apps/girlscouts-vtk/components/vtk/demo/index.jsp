@@ -21,6 +21,7 @@ final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 
 HttpSession session = request.getSession();
 
+boolean isGroupDemo= request.getParameter("isGroupDemo") !=null ? true : false;
 String contactId= request.getParameter("user");
 System.err.println("user : "+ contactId);
 
@@ -43,8 +44,8 @@ java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts
 
  for(int i=0;i<troops.size();i++){
 	org.girlscouts.vtk.salesforce.Troop troop = troops.get(i);
-	if( troop.getPermissionTokens().contains(11)){ //if not parent
-	    	troop.setTroopId( session.getId()+"_"+troop.getTroopId() );
+	if( !isGroupDemo && troop.getPermissionTokens().contains(13)){ //if not parent
+	    	troop.setTroopId( "SHARED_"+session.getId()+"_"+troop.getTroopId() );
 	}
  }
 
@@ -59,4 +60,30 @@ if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
 
 
+if( false ){
 %>
+<a href="/content/girlscouts-vtk/en/vtk.html">GO TO VTK</a>
+<br/><br/>
+<table>
+ <tr>
+    <th>User name</th>
+    <th>Permissions</th>
+    <th>Login as/Single mode</th>
+    <th>Login as/Group mode</th>
+ </tr>
+ <tr>
+  <td>Alice</td>
+  <td>DP/ADMIN</td>
+  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Alice">VTK</a></td>
+  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Alice&isGroupDemo=true">Group VTK</a></td>
+ 
+ </tr>
+ 
+   <td>Leaderw2Kids</td>
+  <td>Parent</td>
+  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Leaderw2Kids">VTK</a></td>
+  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Leaderw2Kids&isGroupDemo=true">Group VTK</a></td>
+ </tr>
+</table>
+
+<%}%>
