@@ -3,16 +3,16 @@
 <properties>
 <comment>FileVault Package Properties</comment>
 <entry key="createdBy">admin</entry>
-<entry key="name">GSIndexes</entry>
-<entry key="lastModified">2016-02-03T17:12:24.011-05:00</entry>
+<entry key="name">search-indexes</entry>
+<entry key="lastModified">2016-03-14T18:36:00.836-04:00</entry>
 <entry key="lastModifiedBy">admin</entry>
-<entry key="created">2016-02-03T17:12:24.389-05:00</entry>
+<entry key="created">2016-03-14T18:36:00.950-04:00</entry>
 <entry key="buildCount">1</entry>
-<entry key="version">1.0-SNAPSHOT">
+<entry key="version">20161314</entry>
 <entry key="dependencies"/>
 <entry key="packageFormatVersion">2</entry>
-<entry key="description"/>
-<entry key="lastWrapped">2016-02-03T17:12:24.011-05:00</entry>
 <entry key="group">my_packages</entry>
+<entry key="lastWrapped">2016-03-14T18:36:00.836-04:00</entry>
+<entry key="description"/>
 <entry key="lastWrappedBy">admin</entry>
 </properties>
