@@ -261,6 +261,4 @@
 	}
 
 
-System.err.println("tatax: isAdmin: "+ user.getApiConfig().getUser().isAdmin() +" : "+ 
-        user.getApiConfig().getUser().getAdminCouncilId() +" yearPlan: "+ troop.getYearPlan() +" : "+ VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) );
 %>

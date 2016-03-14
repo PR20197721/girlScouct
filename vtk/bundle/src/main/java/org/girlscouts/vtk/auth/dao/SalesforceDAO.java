@@ -105,8 +105,7 @@ public class SalesforceDAO {
 			log.debug(">>>>> " + rsp);
 			System.err.println("getUSER resp: " + rsp);	
 			
-			if(apiConfig.isUseAsDemo() )
-				writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
+			
 	}else{
 		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
@@ -134,6 +133,13 @@ public class SalesforceDAO {
 						try {
 							user.setName(json.getString("FirstName"));
 							user.setFirstName(user.getName());
+							
+							
+							if(apiConfig.isUseAsDemo() ){
+								//writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
+								writeToFile("/Users/akobovich/vtk/vtkUser_"+user.getName()+".json" , rsp);
+								
+							}
 						} catch (org.json.JSONException je) {
 							log.info("User " + user.getSfUserId()
 									+ " does not have a FirstName");
@@ -588,7 +594,7 @@ public class SalesforceDAO {
 			rsp= EntityUtils.toString(entity);
 			
 			if(apiConfig.isUseAsDemo() )
-				writeToFile("/Users/akobovich/vtk/vtkTroop_"+apiConfig.getUser().getName()+".json" , rsp);
+				writeToFile("/Users/akobovich/vtk/vtkTroop_"+user.getName()+".json" , rsp);
 		}else{
 			String troopJsonFile= "/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json";
 			rsp= readFile(troopJsonFile).toString();

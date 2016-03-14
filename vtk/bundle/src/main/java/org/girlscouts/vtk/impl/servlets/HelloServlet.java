@@ -32,13 +32,16 @@ public class HelloServlet extends SlingSafeMethodsServlet {
 				User user = null;
 				try {
 					user = (User) session.getAttribute(User.class.getName());
+				
 				} catch (Exception e) {
+					e.printStackTrace();
 				}
 
 				if (user == null) {
 					sayPleaseSignIn(out);
 				} else {
 					String name = user.getName();
+					
 					sayHello(out, name);
 				}
 			}
