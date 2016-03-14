@@ -1,11 +1,11 @@
 <%@page import="com.day.cq.wcm.foundation.List,com.day.cq.wcm.api.Page,java.util.Set,java.util.HashSet,
                 java.util.Iterator,com.day.cq.wcm.api.PageFilter,com.day.cq.wcm.api.WCMMode,
-                java.util.LinkedList" %>
+                java.util.Deque, java.util.ArrayDeque" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%
     
 List list = new List(slingRequest, new PageFilter());
-LinkedList<String> featureEvents = new LinkedList<String>();
+Deque<String> featureEvents = new ArrayDeque<String>();
 if(!list.isEmpty()){
 	Iterator<Page> items = list.getPages();
 	
