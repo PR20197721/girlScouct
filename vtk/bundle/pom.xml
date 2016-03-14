@@ -31,11 +31,13 @@
       <groupId>org.girlscouts.vtk</groupId>
       <artifactId>modified-checker-bundle</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.web</groupId>
       <artifactId>girlscouts-bundle</artifactId>
       <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.girlscouts.vtk</groupId>
@@ -187,6 +189,9 @@
               !org.objectweb.asm.util,
               !org.codehaus.aspectwerkz.hook,
               <!-- END -->
+              javax.xml.parsers,
+              org.xml.sax,
+              org.w3c.dom,
               com.day.cq.commons,
               com.day.cq.commons.jcr,
               com.day.cq.dam.api,
