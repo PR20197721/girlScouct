@@ -349,27 +349,41 @@ public class SalesforceDAO {
 				+ "?troopId=" + sfTroopId;
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+		String rsp = null;
 		try {
-			connection = connectionFactory.getConnection();
-			CloseableHttpResponse resp = connection.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				System.err.println("Method failed: " + resp.getStatusLine());
-			}
-			HttpEntity entity = null;
-			String rsp = null;
-			try {
-				entity = resp.getEntity();
-				entity.getContent();
-				rsp = EntityUtils.toString(entity);
-				EntityUtils.consume(entity);
-				method.releaseConnection();
-				method = null;
-			} finally {
-				resp.close();
-			}
-			rsp = "{\"records\":" + rsp + "}";
+			if(  !apiConfig.isDemoUser() ){
+				connection = connectionFactory.getConnection();
+				CloseableHttpResponse resp = connection.execute(method);
+				int statusCode = resp.getStatusLine().getStatusCode();
+				if (statusCode != HttpStatus.SC_OK) {
+					System.err.println("Method failed: " + resp.getStatusLine());
+				}
+				HttpEntity entity = null;
+			
+				try {
+					entity = resp.getEntity();
+					entity.getContent();
+					rsp = EntityUtils.toString(entity);
+					EntityUtils.consume(entity);
+					method.releaseConnection();
+					method = null;
+				} finally {
+					resp.close();
+				}
+				rsp = "{\"records\":" + rsp + "}";
+				if(apiConfig.isUseAsDemo() )
+					writeToFile("/Users/akobovich/vtk/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
+
+				
+			}else{
+			
+				String userJsonFile="/Users/akobovich/vtk/vtkContact_"+apiConfig.getDemoUserName()+".json";
+				System.err.println(userJsonFile);
+				rsp = readFile(userJsonFile).toString();
+		    }
+			
 			log.debug(">>>>> " + rsp);
+	System.err.println("Contacts Troops API : "+ rsp);
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);

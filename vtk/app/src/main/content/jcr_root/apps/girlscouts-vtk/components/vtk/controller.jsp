@@ -801,8 +801,7 @@
 			}
 
 			boolean isFirst = false;
-			if ((request.getAttribute("isFirst") != null
-					&& ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
+			  if((request.getAttribute("isFirst") != null && ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
 				isFirst = true;
 			}
 
