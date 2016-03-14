@@ -108,6 +108,6 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
 	</div>
     <% } %>
 </div>
-<% 	
+<%
  }
 %>
