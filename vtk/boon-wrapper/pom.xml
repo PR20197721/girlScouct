@@ -36,9 +36,10 @@
           <instructions>
             <Bundle-SymbolicName>org.girlscouts.vtk.boon-wrapper</Bundle-SymbolicName>
             <Import-Package>
-                            com.sun.management.*;resolution:=optional,
-                            *
-                        </Import-Package>
+                sun.misc;resolution:=optional,
+                com.sun.management.*;resolution:=optional,
+                *
+            </Import-Package>
             <Export-Package>org.boon.core.*</Export-Package>
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <!-- Recursively embed dependency jars -->
