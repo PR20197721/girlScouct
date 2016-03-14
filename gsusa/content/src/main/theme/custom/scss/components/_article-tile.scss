@@ -12,7 +12,7 @@ $lines-to-show: 3;
       z-index: 15;
       bottom: 0;
       display: block;
-      padding: rem-calc(0 20 0);
+      padding: rem-calc(0 18 0);
       color: #fff;
       position: absolute;
       width: 100%;
@@ -24,8 +24,8 @@ $lines-to-show: 3;
         color: $white;
       }
       h3 {
-        font-size: rem-calc(21);
-        line-height: rem-calc(24);
+        font-size: rem-calc(18);
+        line-height: rem-calc(21);
         margin-bottom: rem-calc(10);
         margin-top: 0;
         //white-space: nowrap;
@@ -124,6 +124,14 @@ $lines-to-show: 3;
     @media #{$small-only} {
       margin-bottom: rem-calc(17);
     }
+    section .text-content {
+      padding-left: rem-calc(34);
+      padding-left: rem-calc(34);
+      h3 {
+        font-size: rem-calc(21) !important;
+        line-height: rem-calc(24) !important;
+      }
+    }
   }
   .block-grid {
     @media #{$medium-up} {
@@ -144,7 +152,7 @@ $lines-to-show: 3;
     }
     section .text-content h3 {
       font-size: 100%;
-      line-height: rem-calc(20);
+      line-height: rem-calc(18);
     }
   }
 }
