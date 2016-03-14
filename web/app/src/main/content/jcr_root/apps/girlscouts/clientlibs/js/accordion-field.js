@@ -19,7 +19,7 @@
  * @param {Object} config The config object
  */
 
-gsusa.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
+girlscouts.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 	
     hiddenField: null,
     nameField: null,
@@ -33,12 +33,12 @@ gsusa.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             "columns":2
         };
         config = CQ.Util.applyDefaults(config, defaults);
-        gsusa.components.AccordionWidget.superclass.constructor.call(this, config);
+        girlscouts.components.AccordionWidget.superclass.constructor.call(this, config);
     },
 
     // overriding CQ.Ext.Component#initComponent
     initComponent: function() {
-        gsusa.components.AccordionWidget.superclass.initComponent.call(this);
+        girlscouts.components.AccordionWidget.superclass.initComponent.call(this);
         
         this.hiddenField = new CQ.Ext.form.Hidden({
             name: this.name
@@ -95,4 +95,4 @@ gsusa.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 });
 
 // register xtype
-CQ.Ext.reg('accordionfield', gsusa.components.AccordionWidget);
+CQ.Ext.reg('accordionfield', girlscouts.components.AccordionWidget);

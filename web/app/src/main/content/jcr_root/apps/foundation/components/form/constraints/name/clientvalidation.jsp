@@ -22,7 +22,7 @@
                   org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper"%>
 <%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-    final String regexp = "/[\\w\\.\\s]+$/";
+    final String regexp = "/[\\w\\s,.'-]+$/";
     final FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
     FieldHelper.writeClientRegexpText(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext), desc, regexp);
 %>
