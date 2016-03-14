@@ -189,6 +189,9 @@
               !org.objectweb.asm.util,
               !org.codehaus.aspectwerkz.hook,
               <!-- END -->
+              javax.xml.parsers,
+              org.xml.sax,
+              org.w3c.dom,
               com.day.cq.commons,
               com.day.cq.commons.jcr,
               com.day.cq.dam.api,
