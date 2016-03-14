@@ -133,9 +133,9 @@ $(document).ready(function() {
         }
     }
 
-    var slider = $(".article-detail-carousel .article-slider");
+    var slider = $(".dynamic-tag-carousel .article-detail-carousel .article-slider");
 
-    slider.on('init', function(){
+    slider.on('init', function() {
         article_tiles();
     });
 
@@ -147,12 +147,10 @@ $(document).ready(function() {
         infinite: false,
     });
 
-
-
     // Initial Slide does not work. Use this instead.
     $(function() {
         if (currentSlideIndex != -1) {
-            $('.article-detail-carousel .article-slider').slick('slickGoTo', currentSlideIndex, true);
+            $(".dynamic-tag-carousel .article-detail-carousel .article-slider").slick('slickGoTo', currentSlideIndex, true);
         }
     });
 });

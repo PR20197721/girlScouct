@@ -155,7 +155,7 @@
 		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
-			<p><%=tileText%></p>
+            <p><%=tileText%></p>
 		</div>
 	</a>
 </section>
