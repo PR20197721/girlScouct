@@ -36,7 +36,7 @@
             for (int i=0; i<children.length; i++){
             	String parsys = resource.getName() + "_parsys_" + i;
             	ids[i] = parsys;
-            	%><dt id="<%=anchors[i]%>" data-target="<%=parsys%>"><h6><%=children[i]%></dt>
+            	%><dt style="clear:both" id="<%=anchors[i]%>" data-target="<%=parsys%>"><h6><%=children[i]%></dt>
             	<dd class="accordion-navigation">
             		<div class="content" id="<%=parsys%>">
             			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
