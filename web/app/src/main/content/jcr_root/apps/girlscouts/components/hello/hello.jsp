@@ -437,7 +437,7 @@
 <!-- vtk start -->
 
 <a href="?showTroopPermDetails=ad">show permission details</a>
-<br/><a href="/content/girlscouts-vtk/en/vtk.html?useAsDemo=true">Add User</a>
+<br/><a href="/content/girlscouts-vtk/en/vtk.html?useAsDemo=true">Add/Update User</a>
 
 
 
