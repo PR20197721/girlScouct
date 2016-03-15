@@ -103,7 +103,7 @@ List<Hit> hits = getTaggedArticles(tagIds, num, resourceResolver, builder, sortB
     %>
 	<div>
 		<div class="article-tile last">
-			<section><a href="<%= seeMoreLink %>">See More</a></section>
+			<section><a href="<%= seeMoreLink %>"><img class="last" src="/etc/designs/gsusa/images/see-more.png"/></a></section>
 		</div>
 	</div>
     <% } %>

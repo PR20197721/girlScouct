@@ -13,10 +13,9 @@
       padding-right: rem-calc(5);
       padding-left: rem-calc(5);
       &.last section {
-        min-height: rem-calc(206);
         background: #cccccc;
         text-align: center;
-        display: table;
+        display: block;
         a {
           color: $white;
           display: table-cell;
