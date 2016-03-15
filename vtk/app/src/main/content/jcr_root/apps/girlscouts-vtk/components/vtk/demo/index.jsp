@@ -12,10 +12,14 @@
                 org.girlscouts.vtk.helpers.TroopHashGenerator"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 <cq:defineObjects />
-<h1>Demo site home page</h1>
 <%
+
+Cookie killMyCookie = new Cookie("girl-scout-name", null);
+killMyCookie.setMaxAge(0);
+killMyCookie.setPath("/");
+response.addCookie(killMyCookie);
+
 final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 
@@ -59,31 +63,5 @@ if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
     }
 session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
 
-
-if( false ){
+response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
 %>
-<a href="/content/girlscouts-vtk/en/vtk.html">GO TO VTK</a>
-<br/><br/>
-<table>
- <tr>
-    <th>User name</th>
-    <th>Permissions</th>
-    <th>Login as/Single mode</th>
-    <th>Login as/Group mode</th>
- </tr>
- <tr>
-  <td>Alice</td>
-  <td>DP/ADMIN</td>
-  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Alice">VTK</a></td>
-  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Alice&isGroupDemo=true">Group VTK</a></td>
- 
- </tr>
- 
-   <td>Leaderw2Kids</td>
-  <td>Parent</td>
-  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Leaderw2Kids">VTK</a></td>
-  <td><a href="/content/girlscouts-vtk/en/vtk.demo.index.html?user=Leaderw2Kids&isGroupDemo=true">Group VTK</a></td>
- </tr>
-</table>
-
-<%}%>
