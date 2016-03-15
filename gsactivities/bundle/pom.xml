@@ -160,14 +160,7 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>gs-activities.gsactivities-bundle</Bundle-SymbolicName>
-                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-                        <!-- Mike Z.: It is safe not to import these packages. Ref: -->
-                        <!-- http://svn.apache.org/repos/asf/sling/tags/org.apache.sling.jcr.ocm-2.0.4-incubator/pom.xml -->
-                        <Import-Package>
-                        !org.apache.commons.net.*,
-                            *
-                        </Import-Package>
+                        <Bundle-SymbolicName>org.girlscouts.gsactivites.girlscouts-bundle</Bundle-SymbolicName>
                     </instructions>
                 </configuration>
             </plugin>
@@ -175,7 +168,7 @@
                 <groupId>org.apache.sling</groupId>
                 <artifactId>maven-sling-plugin</artifactId>
                 <configuration>
-                    <slingUrl>http://${crx.host}:${crx.port}/apps/gsactivities/install</slingUrl>
+                    <slingUrl>http://${crx.host}:${crx.port}/apps/girlscouts/install</slingUrl>
                     <usePut>true</usePut>
                 </configuration>
             </plugin>
@@ -190,4 +183,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

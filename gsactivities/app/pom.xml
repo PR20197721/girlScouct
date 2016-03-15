@@ -66,6 +66,11 @@
                             <artifactId>gsactivities-bundle</artifactId>
                             <target>/apps/gsactivities/install</target>
                         </embedded>
+                        <embedded>
+                            <groupId>commons-net</groupId>
+                            <artifactId>commons-net</artifactId>
+                            <target>/apps/gsactivities/install</target>
+                        </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
                 </configuration>
