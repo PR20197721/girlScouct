@@ -941,5 +941,7 @@ function article_tiles() {
   });
 }
 
-
+$(document).ready(function(){
+	article_tiles();
+});
 
