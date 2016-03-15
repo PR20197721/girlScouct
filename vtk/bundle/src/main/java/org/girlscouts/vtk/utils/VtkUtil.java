@@ -386,6 +386,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 			return null;
 		} 
 	 
+		
 	return ((org.girlscouts.vtk.models.User) session
  			.getAttribute(org.girlscouts.vtk.models.User.class
  					.getName()));

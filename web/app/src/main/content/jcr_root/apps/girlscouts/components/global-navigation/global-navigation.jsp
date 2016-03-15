@@ -73,7 +73,11 @@ for (int i = 0; i < links.length; i++) {
             <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
               <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
               <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
-              <li><a href="<%= path %>">Volunteer Toolkit</a></li>
+              <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
+                 <li><a href="/content/girlscouts-shared/hello.html">Demo</a></li>
+              <%}else{ %>
+                 <li><a href="<%= path %>">Volunteer Toolkit</a></li>
+              <%} %>
             </ul>
         </li>
     <%

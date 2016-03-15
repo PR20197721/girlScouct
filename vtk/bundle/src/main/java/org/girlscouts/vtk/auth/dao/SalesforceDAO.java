@@ -79,134 +79,45 @@ public class SalesforceDAO {
 
 		try {
 			String rsp = null;
-	if(  !apiConfig.isDemoUser() ){
-			connection = connectionFactory.getConnection();
-			CloseableHttpResponse resp = connection.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				System.err.println("Method failed: " + resp.getStatusLine());
-				throw new IllegalAccessException();
-			}
-
-			HttpEntity entity = null;
-			
-			try {
-				entity = resp.getEntity();
-				entity.getContent();
-				rsp = EntityUtils.toString(entity);
-				EntityUtils.consume(entity);
-				method.releaseConnection();
-				method = null;
-			} finally {
-				resp.close();
-			}
-			
-			//response = new JSONObject(rsp);
-			log.debug(">>>>> " + rsp);
-			System.err.println("getUSER resp: " + rsp);	
-			
-			
-	}else{
-		//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
-		//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
-       
-		String userJsonFile="/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json";
-		System.err.println(userJsonFile);
-		rsp = readFile(userJsonFile).toString();
-	}
-	
-	
-			try {
-				JSONObject response = new JSONObject(rsp);
-				log.debug("<<<<<Apex user reponse: " + response);
-				JSONArray results = response.getJSONArray("users");
-				for (int i = 0; i < results.length(); i++) {
-					org.json.JSONObject json = results.getJSONObject(i);
-					try {
-						user.setSfUserId(json.getString("Id"));
-						try {
-							user.setEmail(json.getString("Email"));
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have an Email");
-						}
-						try {
-							user.setName(json.getString("FirstName"));
-							user.setFirstName(user.getName());
-							
-							
-							if(apiConfig.isUseAsDemo() ){
-								//writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
-								writeToFile("/Users/akobovich/vtk/vtkUser_"+user.getName()+".json" , rsp);
-								
-							}
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have a FirstName");
-						}
-						try {
-							user.setLastName(json.getString("LastName"));
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have a LastName");
-						}
-						try {
-							user.setPhone(json.getString("Phone"));
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have a Phone");
-						}
-						try {
-							user.setContactId(json.getString("ContactId"));
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have a ContactId");
-						}
-						try {
-							org.json.JSONObject contactJson = json
-									.getJSONObject("Contact");
-							try {
-								user.setAdmin(contactJson
-										.getBoolean("VTK_Admin__c"));
-							} catch (org.json.JSONException je) {
-								log.info("User "
-										+ user.getSfUserId()
-										+ " does not have a Contact VTK_Admin__c");
-							}
-							try {
-								user.setAdminCouncilId(contactJson
-										.getJSONObject("Owner").getInt(
-												"Council_Code__c"));
-							} catch (org.json.JSONException je) {
-								log.info("User " + user.getSfUserId()
-										+ " does not have a Contact Owner");
-							}
-						} catch (org.json.JSONException je) {
-							log.info("User " + user.getSfUserId()
-									+ " does not have a Contact");
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
+			if(  !apiConfig.isDemoUser() ){
+					connection = connectionFactory.getConnection();
+					CloseableHttpResponse resp = connection.execute(method);
+					int statusCode = resp.getStatusLine().getStatusCode();
+					if (statusCode != HttpStatus.SC_OK) {
+						System.err.println("Method failed: " + resp.getStatusLine());
+						throw new IllegalAccessException();
 					}
-
-					JSONArray parentTroops = response.getJSONArray("camps");
-					java.util.List<Troop> troops = getTroops_merged(user,
-							apiConfig, user.getSfUserId(), parentTroops);
-					apiConfig.setTroops(troops);
+		
+					HttpEntity entity = null;
 					
-					java.util.List<VtkError> _errors = apiConfig.getErrors();
-					if( errors!=null && errors.size()>0 ){
-						if( _errors!=null )
-							errors.addAll(_errors);
-						apiConfig.setErrors(errors);
-						
+					try {
+						entity = resp.getEntity();
+						entity.getContent();
+						rsp = EntityUtils.toString(entity);
+						EntityUtils.consume(entity);
+						method.releaseConnection();
+						method = null;
+					} finally {
+						resp.close();
 					}
-					return user;
-
-				}
-			} catch (JSONException e) {
-				e.printStackTrace();
+					
+					//response = new JSONObject(rsp);
+					log.debug(">>>>> " + rsp);
+					System.err.println("getUSER resp: " + rsp);	
+					
+					
+			}else{
+				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
+				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
+		       
+				String userJsonFile="/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json";
+				System.err.println(userJsonFile);
+				rsp = readFile(userJsonFile).toString();
 			}
+			
+			user = getUser_parse(user, apiConfig, rsp );
+		
+		
 		} catch (HttpException e) {
 			System.err.println("Fatal protocol violation: " + e.getMessage());
 			e.printStackTrace();
@@ -223,6 +134,104 @@ public class SalesforceDAO {
 
 		return user;
 	}
+	
+	
+	public User getUser_parse(User user, ApiConfig apiConfig, String rsp) throws Exception{
+
+		try {
+			JSONObject response = new JSONObject(rsp);
+			log.debug("<<<<<Apex user reponse: " + response);
+			JSONArray results = response.getJSONArray("users");
+			for (int i = 0; i < results.length(); i++) {
+				org.json.JSONObject json = results.getJSONObject(i);
+				try {
+					user.setSfUserId(json.getString("Id"));
+					try {
+						user.setEmail(json.getString("Email"));
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have an Email");
+					}
+					try {
+						user.setName(json.getString("FirstName"));
+						user.setFirstName(user.getName());
+						
+						
+						if(apiConfig.isUseAsDemo() ){
+							//writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
+							writeToFile("/Users/akobovich/vtk/vtkUser_"+user.getName()+".json" , rsp);
+							
+						}
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have a FirstName");
+					}
+					try {
+						user.setLastName(json.getString("LastName"));
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have a LastName");
+					}
+					try {
+						user.setPhone(json.getString("Phone"));
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have a Phone");
+					}
+					try {
+						user.setContactId(json.getString("ContactId"));
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have a ContactId");
+					}
+					try {
+						org.json.JSONObject contactJson = json
+								.getJSONObject("Contact");
+						try {
+							user.setAdmin(contactJson
+									.getBoolean("VTK_Admin__c"));
+						} catch (org.json.JSONException je) {
+							log.info("User "
+									+ user.getSfUserId()
+									+ " does not have a Contact VTK_Admin__c");
+						}
+						try {
+							user.setAdminCouncilId(contactJson
+									.getJSONObject("Owner").getInt(
+											"Council_Code__c"));
+						} catch (org.json.JSONException je) {
+							log.info("User " + user.getSfUserId()
+									+ " does not have a Contact Owner");
+						}
+					} catch (org.json.JSONException je) {
+						log.info("User " + user.getSfUserId()
+								+ " does not have a Contact");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				JSONArray parentTroops = response.getJSONArray("camps");
+				java.util.List<Troop> troops = getTroops_merged(user,
+						apiConfig, user.getSfUserId(), parentTroops);
+				apiConfig.setTroops(troops);
+				
+				java.util.List<VtkError> _errors = apiConfig.getErrors();
+				if( errors!=null && errors.size()>0 ){
+					if( _errors!=null )
+						errors.addAll(_errors);
+					apiConfig.setErrors(errors);
+					
+				}
+				return user;
+
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return user;
+	}
+	
 
 	public ApiConfig doAuth(String code) {
 		try {
@@ -571,35 +580,65 @@ public class SalesforceDAO {
 		CloseableHttpClient connection = null;
 		HttpGet method = null;
 		try {
-			String rsp =null;
-		if( !apiConfig.isDemoUser()  ){	
-			
-			String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
-			String url = apiConfig.getWebServicesUrl() + vtkApiTroopUri
-					+ "?userId=" + contactId;
-
-			method = new HttpGet(url); // no filters
-			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
-
-			connection = connectionFactory.getConnection();
-			HttpResponse resp = connection.execute(method);
-			int statusCode = resp.getStatusLine().getStatusCode();
-
-			if (statusCode != HttpStatus.SC_OK) {
-				System.err.println("Method failed: " + resp.getStatusLine());
-				throw new IllegalAccessException();
+				String rsp =null;
+			if( !apiConfig.isDemoUser()  ){	
+				
+				String vtkApiTroopUri = apiConfig.getVtkApiTroopUri();
+				String url = apiConfig.getWebServicesUrl() + vtkApiTroopUri
+						+ "?userId=" + contactId;
+	
+				method = new HttpGet(url); // no filters
+				method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+	
+				connection = connectionFactory.getConnection();
+				HttpResponse resp = connection.execute(method);
+				int statusCode = resp.getStatusLine().getStatusCode();
+	
+				if (statusCode != HttpStatus.SC_OK) {
+					System.err.println("Method failed: " + resp.getStatusLine());
+					throw new IllegalAccessException();
+				}
+				HttpEntity entity = resp.getEntity();
+				entity.getContent();
+				rsp= EntityUtils.toString(entity);
+				
+				if(apiConfig.isUseAsDemo() )
+					writeToFile("/Users/akobovich/vtk/vtkTroop_"+user.getName()+".json" , rsp);
+			}else{
+				String troopJsonFile= "/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json";
+				rsp= readFile(troopJsonFile).toString();
 			}
-			HttpEntity entity = resp.getEntity();
-			entity.getContent();
-			rsp= EntityUtils.toString(entity);
 			
-			if(apiConfig.isUseAsDemo() )
-				writeToFile("/Users/akobovich/vtk/vtkTroop_"+user.getName()+".json" , rsp);
-		}else{
-			String troopJsonFile= "/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json";
-			rsp= readFile(troopJsonFile).toString();
-		}
+		troops= troopInfo_parse(user, rsp);
 		
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if( method!=null)
+					method.releaseConnection();
+			} catch (Exception eConn) {
+				eConn.printStackTrace();
+			}
+		}
+
+		if (user.isAdmin() && (troops == null || troops.size() <= 0)) {
+			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
+			user_troop.setPermissionTokens(Permission
+					.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+			user_troop.setTroopId("none");
+			user_troop.setCouncilCode(user.getAdminCouncilId());
+			user_troop.setTroopName("vtk_virtual_troop");
+			// user.setPermissions(user_troop.getPermissionTokens());
+			troops.add(user_troop);
+		}
+		return troops;
+	}
+
+	
+	public java.util.List<Troop>  troopInfo_parse(User user, String rsp ) throws Exception{
+		
+		   java.util.List<Troop> troops = new java.util.ArrayList();
 System.err.println("xx: "+ rsp);			
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
@@ -690,30 +729,9 @@ System.err.println("xx: "+ rsp);
 				  }catch(Exception e){e.printStackTrace();}
 			  }
 			}//edn for
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if( method!=null)
-					method.releaseConnection();
-			} catch (Exception eConn) {
-				eConn.printStackTrace();
-			}
-		}
-
-		if (user.isAdmin() && (troops == null || troops.size() <= 0)) {
-			org.girlscouts.vtk.salesforce.Troop user_troop = new org.girlscouts.vtk.salesforce.Troop();
-			user_troop.setPermissionTokens(Permission
-					.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
-			user_troop.setTroopId("none");
-			user_troop.setCouncilCode(user.getAdminCouncilId());
-			user_troop.setTroopName("vtk_virtual_troop");
-			// user.setPermissions(user_troop.getPermissionTokens());
-			troops.add(user_troop);
-		}
 		return troops;
 	}
-
+	
 	private String getToken(ApiConfig apiConfig) {
 		return apiConfig.getAccessToken();
 	}
@@ -986,7 +1004,7 @@ System.err.println("xx: "+ rsp);
 	}
 	
 	
-	private StringBuffer readFile(String fileName){
+	public StringBuffer readFile(String fileName){
 		
 		StringBuffer sf = new StringBuffer();
 

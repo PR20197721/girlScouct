@@ -63,5 +63,5 @@ if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
     }
 session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
 
-response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
+response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 %>
