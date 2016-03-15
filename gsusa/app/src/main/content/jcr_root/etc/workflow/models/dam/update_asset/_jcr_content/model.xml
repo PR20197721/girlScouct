@@ -7,9 +7,10 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1457635056030"
+        cq:lastModified="{Long}1458069956964"
         cq:lastModifiedBy="admin"
-        jcr:primaryType="nt:unstructured"/>
+        jcr:primaryType="nt:unstructured"
+        tags="dam"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
@@ -238,8 +239,8 @@
         </node21>
         <node22
             jcr:primaryType="cq:WorkflowNode"
-            description="This process creates a web enabled retina rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 520x520 @2x"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 520x520"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -260,8 +261,8 @@
         </node23>
         <node24
             jcr:primaryType="cq:WorkflowNode"
-            description="This process creates a web enabled retina rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 400x400 @2x"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 400x400"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -282,8 +283,8 @@
         </node25>
         <node26
             jcr:primaryType="cq:WorkflowNode"
-            description="This process creates a web enabled retina rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 240x240 @2x"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 240x240"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -304,8 +305,8 @@
         </node27>
         <node28
             jcr:primaryType="cq:WorkflowNode"
-            description="This process creates a web enabled retina rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 120x80 @2x"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 120x80"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
