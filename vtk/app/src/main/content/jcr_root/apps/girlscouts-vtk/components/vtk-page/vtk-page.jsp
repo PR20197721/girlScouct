@@ -2,8 +2,8 @@
 
 
    HttpSession session = request.getSession();
-   //final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-   String isDemoSite= "true";//configManager.getConfig("isDemoSite");
+   final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+   String isDemoSite= configManager.getConfig("isDemoSite");
 //System.err.println("IsDemoSite: " + isDemoSite);  
 
     if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){

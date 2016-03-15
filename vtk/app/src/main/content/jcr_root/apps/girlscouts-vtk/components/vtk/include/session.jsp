@@ -31,7 +31,7 @@
 
 
 <% 
-    boolean isDemoSite= true;
+   // boolean isDemoSite= true;
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
