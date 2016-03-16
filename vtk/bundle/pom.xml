@@ -266,7 +266,11 @@
             <version>5.6.4</version>
             <scope>provided</scope>
         </dependency>
-
+ 		<dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+        </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
@@ -396,50 +400,6 @@
     <version>2.6.2</version>
     <scope>provided</scope>
 </dependency>
-
-        <!-- FTP support for SalesForce events integration -->
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
-        </dependency>
-        <dependency>
-              <groupId>org.apache.sling</groupId>
-              <artifactId>org.apache.sling.commons.scheduler</artifactId>
-              <version>2.4.2</version>
-              <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.scripting.javascript</artifactId>
-            <version>2.0.12</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.commons.log</artifactId>
-            <version>3.0.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.settings</artifactId>
-            <version>1.2.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-core</artifactId>
-            <version>5.6.16</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-api</artifactId>
-            <version>5.6.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- END FTP -->
 
 
     </dependencies>
