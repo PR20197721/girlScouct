@@ -42,6 +42,8 @@
 
     String title = i18n.getVar(FormsHelper.getTitle(resource, "Text"));
     String prefix = properties.get("prefix", "");
+    final String maxLength = properties.get("maxlength", String.class);
+    final boolean showCharCount = properties.get("showcharcount", false);
 
     if (multiValued && !readOnly) {
         %><%@include file="multivalue.jsp"%><%
@@ -53,7 +55,11 @@
     String forceMrChangeHandler = multiRes ? "cq5forms_multiResourceChange(event, '" + xssAPI.encodeForJSString(mrName) + "', true);" : "";
 
     %><div class="form_row">
-        <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %>
+        <% LayoutHelper.printTitle(id, title, required, hideTitle, out); %><%
+  	      if (showCharCount && maxLength != null) {
+  	      	%><div style="display:block; float:left; margin-left:10px; position:relative; top:-2px;">(<span id="<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft"><%= maxLength %></span> characters left)</div><%
+          }
+          %>
         <div class="form_rightcol" id="<%= xssAPI.encodeForHTMLAttr(name) %>_rightcol"><%
             int i = 0;
             for (String value : values) {
@@ -75,6 +81,12 @@
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
+                            if (maxLength != null) {
+                                %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
+                            }
+					  	    if (showCharCount && maxLength != null) {
+					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
+ 					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%
                     } else {
                         %><textarea class="<%= FormsHelper.getCss(properties, "form_field form_field_textarea") %>" <%
@@ -84,6 +96,12 @@
                             if (width != null) {
                                 %>style="width:<%= xssAPI.getValidInteger(width, 100) %>px;" <%
                             }
+                            if (maxLength != null) {
+                                %>maxlength="<%= xssAPI.getValidInteger(maxLength, 100) %>" <%
+                            }
+					  	    if (showCharCount && maxLength != null) {
+					  	 	    %>onkeyup="$('#<%= xssAPI.encodeForHTMLAttr(name) %>_charsleft').text(<%= xssAPI.getValidInteger(maxLength, 100) %> - $(this).val().length);" <%
+ 					        }
                             %>onkeydown="<%= mrChangeHandler %>" ><%= xssAPI.encodeForHTML(value) %></textarea><%
                     }
                     if (values.length > 1) {
