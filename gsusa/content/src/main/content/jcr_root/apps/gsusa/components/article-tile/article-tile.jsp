@@ -44,7 +44,7 @@
 	String rgba = "rgba(166, 206, 56, 0.8)";
 
 	Value[] tags = null;
-	
+
 	String linkToArticle = "";
 
 	try{
@@ -155,7 +155,7 @@
 		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
-			<%=tileText%>
+            <p><%=tileText%></p>
 		</div>
 	</a>
 </section>

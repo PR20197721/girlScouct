@@ -52,7 +52,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = slingRequest.getParameter("q");
-String documentLocation = "/content/dam/girlscouts-shared/documents";
+//String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 List<Hit> hits = new ArrayList<Hit>();
 if (null==searchIn){
@@ -76,10 +76,9 @@ if(theseDamDocuments.equals("")){
 	}
 }
 
-
 hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
-hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
+//hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 %>
 <center>
