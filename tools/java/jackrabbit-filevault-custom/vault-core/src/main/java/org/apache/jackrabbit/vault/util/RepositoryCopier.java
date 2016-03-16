@@ -320,7 +320,23 @@ public class RepositoryCopier {
             if (skip) {
                 track(path, "------ S");
             } else if (overwrite) {
-                if (onlyNewer && dstName.equals("jcr:content")) {
+                String nodeType = null;
+                try {
+                    nodeType = src.getPrimaryNodeType().getName();
+                } catch (RepositoryException e) {
+                    log.warn("Cannot get primary node type for node: " + src.getPath());
+                }
+
+                if (onlyNewer && ("dam:Asset".equals(nodeType) || "cq:Page".equals(nodeType))) {
+                    if (src != null && src.hasNode("jcr:content") && dst != null && dst.hasNode("jcr:content") &&
+                            isNewer(src.getNode("jcr:content"), dst.getNode("jcr:content"))) {
+                        track(dstPath, "%06d U", ++totalNodes);
+                    } else {
+                        overwrite = false;
+                        recursive = false;
+                        track(dstPath, "%06d *", ++totalNodes);
+                    }
+                } else if (onlyNewer && dstName.equals("jcr:content")) {
                     if (isNewer(src, dst)) {
                         track(dstPath, "%06d U", ++totalNodes);
                     } else {
