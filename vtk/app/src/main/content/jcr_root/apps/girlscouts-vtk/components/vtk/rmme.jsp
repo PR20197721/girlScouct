@@ -3,6 +3,8 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <% 
+
+    if( !apiConfig.isDemoUser() ){ out.println("No permission(s) to perform this operation. "); return; }
 	troopUtil.rmTroop(troop);
 	session.putValue("VTK_troop",null);
 	session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
