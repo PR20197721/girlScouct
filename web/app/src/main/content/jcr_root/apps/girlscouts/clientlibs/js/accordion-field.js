@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-
+ 
 /**
  * @class Ejst.CustomWidget
  * @extends CQ.form.CompositeField

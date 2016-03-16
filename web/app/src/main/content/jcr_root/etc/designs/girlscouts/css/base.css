@@ -1536,3 +1536,15 @@ div.textimage div.image {
 	width:100%;
 	margin-bottom:-5%;
 }
+
+.breaking-news .inner-wrapper {
+    background: #ec008b none repeat scroll 0 0;
+    padding: 0.520833%;
+    text-align: center;
+    color: white;
+    line-height: 1.5em;
+}
+
+.breaking-news .inner-wrapper a {
+    color: white;
+}
