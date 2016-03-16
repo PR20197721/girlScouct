@@ -5,6 +5,9 @@
 <% 
 	troopUtil.rmTroop(troop);
 	session.putValue("VTK_troop",null);
+	session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
+	session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
+	session.putValue(org.girlscouts.vtk.models.User.class.getName(), null);
     response.sendRedirect("http://localhost:4503/content/girlscouts-shared/demo.html");
 %>
  
