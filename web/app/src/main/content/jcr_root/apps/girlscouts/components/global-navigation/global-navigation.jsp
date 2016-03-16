@@ -72,10 +72,12 @@ for (int i = 0; i < links.length; i++) {
             <a data-dropdown="drop1" aria-controls="drop1" class="<%= clazz %> show-for-small-only menuHighlight" aria-expanded="false"><%= sLabel %></a>
             <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
               <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
-              <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
-              <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
+               <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
+                 <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)">Member Profile</a></li>
                  <li><a href="/content/girlscouts-shared/hello.html">Demo</a></li>
+                 
               <%}else{ %>
+                 <li><a href="<%= configManager.getConfig("communityUrl")%>" disabled="true">Member Profile</a></li>
                  <li><a href="<%= path %>">Volunteer Toolkit</a></li>
               <%} %>
             </ul>
