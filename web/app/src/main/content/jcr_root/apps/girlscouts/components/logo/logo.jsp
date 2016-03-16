@@ -38,7 +38,7 @@
 	
 	<%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
 	   <b>THIS IS DEMO SITE</b>
-	   <br/><a href="/content/girlscouts-vtk/controllers/vtk.rmme.html">RESTART DEMO</a>
+	   <br/><a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">RESTART DEMO</a>
 	<%}%>
 	
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
