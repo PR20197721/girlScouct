@@ -3,4 +3,5 @@
     jcr:description="Alex Hello Component"
     jcr:primaryType="cq:Component"
     jcr:title="Hello"
+    sling:resourceSuperType="girlscouts/components/three-column-page"
     componentGroup=".hidden"/>
