@@ -928,34 +928,38 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	}
 	return '';
 });
+$(window).load(article_tiles);
 
-$(window).load(seeMoreScale, article_tiles);
-
-$(window).on('resize', seeMoreScale, article_tiles);
+$(window).on('resize',article_tiles);
 
 function seeMoreScale(){
-	$.each($('.article-slider .article-tile.last section'), function(index, value){
-		var thisDiv = $(value);
-		var parentDiv = thisDiv.parents('.slick-slide')[0];
-		if($(parentDiv).siblings()){
-			var siblingDiv = $(parentDiv).siblings()[0];
-			thisDiv.css('minHeight',$(siblingDiv).innerHeight());
-			thisDiv.css('height',$(siblingDiv).innerHeight());
-			thisDiv.css('width',$(siblingDiv).innerWidth());
-		}
-	});
-}
-function article_tiles() {
-  $('.article-tile .text-content h3').each(function(index, el) {
-    var title_height = parseInt($(this).height());
-    var content_height = $(this).parent().height();
-    var adjusted = $(this).attr('data-adjusted') == 'true';
-    if (!adjusted && content_height > title_height) {
-     $(this).css("padding-top",(content_height-title_height)/2 +'px');
-     $(this).attr('data-adjusted', 'true');
+  $.each($('.article-slider .article-tile.last section'), function(index, value){
+    var thisDiv = $(value);
+    var parentDiv = thisDiv.parents('.slick-slide')[0];
+    if($(parentDiv).siblings()){
+      var siblingDiv = $(parentDiv).siblings()[0];
+      thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+      thisDiv.css('height',$(siblingDiv).innerHeight());
+      thisDiv.css('width',$(siblingDiv).innerWidth());
     }
   });
 }
 
+function article_tiles() {
+  $('.article-tile .text-content h3').each(function(index, el) {
+    var title_height = parseInt($(this).innerHeight());
+    var content_height = $(this).parent().innerHeight();
+    var adjusted = $(this).attr('data-adjusted') == 'true';
+    if (!adjusted && content_height > title_height) {
+	    $(this).css("padding-top",'0px');
+	     var title_height = parseInt($(this).height());
+	     $(this).css("padding-top",(content_height-title_height)/2 +'px');
+	     $(this).attr('data-adjusted', 'true');
+    }
+  });
+}
 
+$(window).load(function(){
+	article_tiles();
+});
 

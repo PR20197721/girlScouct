@@ -76,7 +76,6 @@ if(theseDamDocuments.equals("")){
 	}
 }
 
-
 hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
