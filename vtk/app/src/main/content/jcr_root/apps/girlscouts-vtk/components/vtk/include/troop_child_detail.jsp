@@ -21,8 +21,8 @@
     </ul>
     <ul class="column large-18 right">
       <li><address><p>
-        <%=contact.getAddress()==null ? "" : contact.getAddress() %><br/><%=contact.getCity()==null ? "" : contact.getCity() %>, 
-        <%=contact.getState()==null ? "" : contact.getState() %><br/><%=contact.getZip()==null ? "" : contact.getZip() %>
+        <%=contact.getAddress()==null ? "" : contact.getAddress() %><br/><%=contact.getCity()==null ? "" : contact.getCity() %> 
+        <%=contact.getState()==null ? "" : (", "+contact.getState()) %><br/><%=contact.getZip()==null ? "" : contact.getZip() %>
         </p></address></li>
     </ul>
      <ul class="column large-18">

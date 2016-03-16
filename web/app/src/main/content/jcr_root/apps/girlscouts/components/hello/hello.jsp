@@ -447,17 +447,39 @@
     <th>Permissions</th>
     <th>Kiosk mode</th>
     <th>Shared mode</th>
+    <th>Remove User</th>
  </tr>
 <%
+String path="/Users/akobovich/vtk";
+java.io.File folder = new java.io.File(path);
+java.io.File[] listOfFiles = folder.listFiles();
+
+
+if( request.getParameter("rmUser")!=null){
+	
+	 for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {
+	          String name= listOfFiles[i].getName();
+	          if( name.contains("_"+  request.getParameter("rmUser") +".json") ){
+	        	  listOfFiles[i].delete();
+	          }
+	      }//ednif
+	 }//end for
+}//end if   
+
+
+
+
+
+java.util.Map<String, String> permisDeff = new java.util.TreeMap<String, String>();
+permisDeff.put("DP", "Troop Leader");
+permisDeff.put("PA", "Parent");
+
+
 org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null);
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
 //org.girlscouts.vtk.models.User user= org.girlscouts.vtk.utils.VtkUtil.getUser( hsession );
-
-
-String path="/Users/akobovich/vtk";
-java.io.File folder = new java.io.File(path);
-java.io.File[] listOfFiles = folder.listFiles();
 
     for (int i = 0; i < listOfFiles.length; i++) {
       if (listOfFiles[i].isFile()) {
@@ -504,7 +526,9 @@ java.io.File[] listOfFiles = folder.listFiles();
                                        java.util.Iterator itr= roles.iterator();
                                        while( itr.hasNext() ){
                                            String rl= (String) itr.next();
-                                           %><%=rl%> <%= itr.hasNext() ? "," : ""%><%
+                                           String rl_deff= permisDeff.get( rl );
+                                           
+                                           %><%=(rl_deff==null) ? rl : rl_deff %> <%= itr.hasNext() ? "," : ""%><%
                                        }
                                    }
                                         
@@ -513,7 +537,8 @@ java.io.File[] listOfFiles = folder.listFiles();
                              </td>
                              <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">VTK</a></td>
                              <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName %>&isGroupDemo=true">Group VTK</a></td>
-                  
+                             <td><a href="?rmUser=<%=userName %>">Remove</a></td> 
+                            
                       </tr>
                    <% 
               }catch(Exception e){e.printStackTrace();
