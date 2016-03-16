@@ -1,4 +1,4 @@
-
+<div id="main" class="row collapse">
 
 <!-- vtk start -->
 
@@ -157,6 +157,6 @@ HttpSession hsession = request.getSession();
 
 <!-- vtk end -->
 
-
+</div>
 
 
