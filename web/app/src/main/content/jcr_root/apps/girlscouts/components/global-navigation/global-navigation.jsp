@@ -74,7 +74,7 @@ for (int i = 0; i < links.length; i++) {
               <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
                  <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)">Member Profile</a></li>
-                 <li><a href="/content/girlscouts-shared/hello.html">Demo</a></li>
+                 <li><a href="/content/girlscouts-shared/demo.html">Demo</a></li>
                  
               <%}else{ %>
                  <li><a href="<%= configManager.getConfig("communityUrl")%>" disabled="true">Member Profile</a></li>
