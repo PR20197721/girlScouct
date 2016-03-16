@@ -9,7 +9,7 @@
 
 <table border="1">
  <tr>
-    <th>*User name</th>
+    <th>**User name</th>
     <th>Permissions</th>
     <th>Kiosk mode</th>
     <th>Shared mode</th>
