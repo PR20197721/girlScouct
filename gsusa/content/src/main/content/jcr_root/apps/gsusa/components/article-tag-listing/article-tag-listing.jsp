@@ -53,7 +53,7 @@ function loadResults(){
 			retina(true);
 			setTimeout(function() {
 				article_tiles();
-			}, 10);
+			}, 750);
 		}
 	});
 }

@@ -947,17 +947,19 @@ function seeMoreScale(){
 
 function article_tiles() {
   $('.article-tile .text-content h3').each(function(index, el) {
-    var title_height = parseInt($(this).height());
-    var content_height = $(this).parent().height();
+    var title_height = parseInt($(this).innerHeight());
+    var content_height = $(this).parent().innerHeight();
     var adjusted = $(this).attr('data-adjusted') == 'true';
     if (!adjusted && content_height > title_height) {
-     $(this).css("padding-top",(content_height-title_height)/2 +'px');
-     $(this).attr('data-adjusted', 'true');
+	    $(this).css("padding-top",'0px');
+	     var title_height = parseInt($(this).height());
+	     $(this).css("padding-top",(content_height-title_height)/2 +'px');
+	     $(this).attr('data-adjusted', 'true');
     }
   });
 }
 
-$(document).ready(function(){
+$(window).load(function(){
 	article_tiles();
 });
 
