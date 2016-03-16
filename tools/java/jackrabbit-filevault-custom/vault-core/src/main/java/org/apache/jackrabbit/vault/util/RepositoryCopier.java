@@ -475,7 +475,11 @@ public class RepositoryCopier {
                             Node child = niter.nextNode();
                             String name = child.getName();
                             if (dst.hasNode(name)) {
-                                dst.orderBefore(name, null);
+                                try {
+                                    dst.orderBefore(name, null);
+                                } catch (RepositoryException e) {
+                                    log.warn("Ordering is not supported.");
+                                }
                             }
                         }
                     }
