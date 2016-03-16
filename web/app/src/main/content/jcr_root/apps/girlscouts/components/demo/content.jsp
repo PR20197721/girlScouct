@@ -102,7 +102,7 @@ HttpSession hsession = request.getSession();
                                    %>
                              </td>
                              <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">VTK</a></td>
-                             <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName %>&isGroupDemo=true">Group VTK</a></td>
+                             <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName %>&isGroupDemo=true">VTK</a></td>
                              <td><a href="?rmUser=<%=userName %>">Remove</a></td> 
                             
                       </tr>
