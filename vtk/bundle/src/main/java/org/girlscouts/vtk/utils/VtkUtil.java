@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
@@ -453,5 +454,39 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 	 	
  	}catch(Exception e){e.printStackTrace();}
  return false;	
+ }
+ 
+ public static void logout(HttpServletRequest request, HttpServletResponse response){
+	 try{
+		 HttpSession session = request.getSession();
+	    session.putValue("VTK_troop",null);
+		session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
+		session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
+		session.putValue(org.girlscouts.vtk.models.User.class.getName(), null);
+				
+		
+		Cookie killMyCookie = new Cookie("girl-scout-name", null);
+		killMyCookie.setMaxAge(0);
+		killMyCookie.setPath("/");
+		response.addCookie(killMyCookie);
+
+	}catch(Exception e){e.printStackTrace();}
+ }
+ 
+ 
+public static org.girlscouts.vtk.auth.models.ApiConfig getApiConfig( HttpSession session){
+	 
+	 org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+		try {
+			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+			} else {
+			   return null;
+			}
+		} catch (ClassCastException cce) {
+			return null;
+		} 
+		
+	 return apiConfig;
  }
 }//end class
