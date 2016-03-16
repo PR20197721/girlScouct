@@ -33,7 +33,14 @@
 %>
 <nav class="column large-24 medium-24">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+    <%final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+	
+	<%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
+	   <b>THIS IS DEMO SITE</b>
+	   <br/><a href="/content/girlscouts-vtk/controllers/vtk.rmme.html">RESTART DEMO</a>
+	<%}%>
+	
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>
