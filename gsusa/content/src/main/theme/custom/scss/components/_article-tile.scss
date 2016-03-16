@@ -6,8 +6,8 @@ $lines-to-show: 3;
     position: relative;
     img {
       width: 100%;
-      &:not(.last) {
-        height: 100%;
+      &.last {
+        height: auto;
       }
     }
     .text-content {
@@ -129,8 +129,6 @@ $lines-to-show: 3;
     }
     section .text-content p {
       line-height: 1.2rem;
-      padding-left:0.8rem;
-      padding-right:0.8rem;
     }
   }
 }

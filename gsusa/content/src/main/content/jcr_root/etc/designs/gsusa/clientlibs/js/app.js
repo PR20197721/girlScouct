@@ -928,6 +928,22 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	}
 	return '';
 });
+$(window).load(article_tiles);
+
+$(window).on('resize',article_tiles);
+
+function seeMoreScale(){
+  $.each($('.article-slider .article-tile.last section'), function(index, value){
+    var thisDiv = $(value);
+    var parentDiv = thisDiv.parents('.slick-slide')[0];
+    if($(parentDiv).siblings()){
+      var siblingDiv = $(parentDiv).siblings()[0];
+      thisDiv.css('minHeight',$(siblingDiv).innerHeight());
+      thisDiv.css('height',$(siblingDiv).innerHeight());
+      thisDiv.css('width',$(siblingDiv).innerWidth());
+    }
+  });
+}
 
 function article_tiles() {
   $('.article-tile .text-content h3').each(function(index, el) {
