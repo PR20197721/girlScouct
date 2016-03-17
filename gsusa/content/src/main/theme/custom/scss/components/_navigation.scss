@@ -37,10 +37,18 @@
 //off canvase menues.
 .right-off-canvas-menu {
   ul.off-canvas-list {
+    > li {
+      border-left: solid rem-calc(10) $gs-orange;
+    }
+    > li.active{
+      border-left: solid rem-calc(10) $gs-light-orange;
+    }
+    /*
     &:first-child {
       border-left: solid rem-calc(10) $gs-orange;
       border-bottom: 1px solid #464646;
     }
+    */
     li.has-submenu {
       > a {
         text-transform: uppercase;
@@ -61,9 +69,18 @@
   }
   li.active.current {
     > a {
-      color: #FAA61A;
+      color: $gs-light-orange;
     }
   }
+  /*
+  li.active{
+    &:hover{
+      > a {
+        color: $gs-light-orange;
+      }
+    }
+  }
+  */
 }
 //left column navigation
 .left-nav {
