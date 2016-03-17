@@ -6,7 +6,7 @@
     <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
     <h4>{{contactBanner.title}}</h4>
     <p>{{contactBanner.desc}}</p>
-    <form id="contactlocalcouncil" action="<%= resource.getPath() %>.contact.html">
+    <form id="contactlocalcouncil" class="contactlocalcouncil" action="<%= resource.getPath() %>.contact.html">
         <div class="error"></div>
         <input type="hidden" name="zipCode" value="{{env.zip}}"></input>
         <div class="clearfix"><label>Email Address</label><input type="email" name="email" required/></div>

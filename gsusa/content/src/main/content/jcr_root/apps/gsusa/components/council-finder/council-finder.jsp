@@ -25,7 +25,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 					<h6>By Zip Code</h6>
 					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
 					<section>
-						<input required type="text" name="zip" placeholder="Enter ZIP Code" />
+						<input required type="text" pattern="[0-9]*" name="zip" placeholder="Enter ZIP Code" />
 						<input type="submit" value="Go" class="button tiny" />
 					</section>
 				</form>

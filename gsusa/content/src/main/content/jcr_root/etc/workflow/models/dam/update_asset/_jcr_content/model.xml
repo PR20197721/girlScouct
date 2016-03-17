@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1453234207455"
+        cq:lastModified="{Long}1458069956964"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -91,7 +91,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node7>
         <node8
@@ -114,7 +114,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1920:1920,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:1920:1920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node10>
         <node11
@@ -125,7 +125,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:960:960,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:960:960,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node11>
         <node12
@@ -136,7 +136,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:230:920,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:230:920,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node12>
         <node13
@@ -147,7 +147,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:460:1840,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:460:1840,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node13>
         <node14
@@ -158,7 +158,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:510:510,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:510:510,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node14>
         <node15
@@ -169,7 +169,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1020:1020,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:1020:1020,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node15>
         <node16
@@ -180,7 +180,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:190:760,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:190:760,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node16>
         <node17
@@ -191,7 +191,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:380:1520,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:380:1520,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node17>
         <node18
@@ -202,7 +202,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:750:375,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:750:375,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node18>
         <node19
@@ -213,64 +213,20 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1500:750,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
+                PROCESS_ARGS="dimension:1500:750,mimetype:image/jpeg,quality:88,skip:application/pdf,skip:audio/mpeg,skip:"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node19>
         <node20
-            jcr:primaryType="cq:WorkflowNode"
-            description="Creates the &quot;tile&quot; retina rendition."
-            title="Content Hub Tile Rendition"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:350:300,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node20>
-        <node21
-            jcr:primaryType="cq:WorkflowNode"
-            description="Creates the &quot;tile@2x&quot; retina rendition."
-            title="Content Hub Tile Retina Rendition"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:700:600,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node21>
-        <node22
-            jcr:primaryType="cq:WorkflowNode"
-            description="Creates the &quot;hubHero&quot; retina rendition."
-            title="Content Hub Hero Rendition"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:750:325,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node22>
-        <node23
-            jcr:primaryType="cq:WorkflowNode"
-            description="Creates the &quot;hubHero@2x&quot; retina rendition."
-            title="Content Hub Hero Retina Rendition"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1500:650,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node23>
-        <node24
             jcr:primaryType="cq:WorkflowNode"
             title="Rendition Renaming"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
-                PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.960:top,1920.1920:top@2x,350.300:tile,700.600:tile@2x,750.325:hubHero,1500.650:hubHero@2x"
+                PROCESS_ARGS="750.375:hero,1500.750:hero@2x,190.760:left,380.1520:left@2x,510.510:middle,1020.1020:middle@2x,230.920:right,460.1840:right@2x,960.960:top,1920.1920:top@2x"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node24>
-        <node25
+        </node20>
+        <node21
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
             title="Web enabled rendition 520x520"
@@ -278,10 +234,21 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node25>
-        <node26
+        </node21>
+        <node22
+            jcr:primaryType="cq:WorkflowNode"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 520x520"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_ARGS="dimension:1040:1040,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node22>
+        <node23
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
             title="Web enabled rendition 400x400"
@@ -289,10 +256,21 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:400:400,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:400:400,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node26>
-        <node27
+        </node23>
+        <node24
+            jcr:primaryType="cq:WorkflowNode"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 400x400"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_ARGS="dimension:800:800,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node24>
+        <node25
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
             title="Web enabled rendition 240x240"
@@ -300,10 +278,21 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:240:240,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:240:240,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node27>
-        <node28
+        </node25>
+        <node26
+            jcr:primaryType="cq:WorkflowNode"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 240x240"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_ARGS="dimension:480:480,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node26>
+        <node27
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
             title="Web enabled rendition 120x80"
@@ -311,7 +300,18 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:120:80,mimetype:image/jpeg,quality:95,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:120:80,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node27>
+        <node28
+            jcr:primaryType="cq:WorkflowNode"
+            description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+            title="Web enabled retina rendition 120x80"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_ARGS="dimension:240:160,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node28>
         <node29
@@ -517,13 +517,21 @@
             to="node20">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node19_x0023_node20>
-        <node20_x0023_node21
+        <node20_x0023_node9
             jcr:primaryType="cq:WorkflowTransition"
             from="node20"
-            rule=""
-            to="node21">
+            to="node9">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node20_x0023_node21>
+        </node20_x0023_node9>
+        <node8_x0023_node21
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node8"
+            rule="function check() {&#xa;    var p = workflowData.getPayload().toString();&#xa;    return !p.indexOf('/content/dam/girlscouts-gsusa') == 0;&#xa;}"
+            to="node21">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                isDefault="false"/>
+        </node8_x0023_node21>
         <node21_x0023_node22
             jcr:primaryType="cq:WorkflowTransition"
             from="node21"
@@ -545,21 +553,13 @@
             to="node24">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node23_x0023_node24>
-        <node24_x0023_node9
+        <node24_x0023_node25
             jcr:primaryType="cq:WorkflowTransition"
             from="node24"
-            to="node9">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node24_x0023_node9>
-        <node8_x0023_node25
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node8"
-            rule="function check() {&#xa;    var p = workflowData.getPayload().toString();&#xa;    return !p.indexOf('/content/dam/girlscouts-gsusa') == 0;&#xa;}"
+            rule=""
             to="node25">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                isDefault="false"/>
-        </node8_x0023_node25>
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node24_x0023_node25>
         <node25_x0023_node26
             jcr:primaryType="cq:WorkflowTransition"
             from="node25"

@@ -17,7 +17,7 @@ if (!url.contains(".html")) {
 String title = properties.get("title","");
 ValueMap pageProps = currentPage.getProperties();
 if (title.isEmpty()) {
-    title = pageProps.get("articleTitle", ""); 
+    title = pageProps.get("articleTitle", "");
 }
 if (title.isEmpty()) {
     title = pageProps.get("jcr:title", "");
@@ -50,7 +50,7 @@ String pinterestText = properties.get("pinterestText", description);
 
 
 // IDs
-String facebookId = currentSite.get("facebookId", ""); 
+String facebookId = currentSite.get("facebookId", "");
 
 long uniqueId = System.currentTimeMillis();
 
@@ -61,8 +61,8 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
     if (!hideFacebook) {
     %>
     <a class="facebook-icon" onclick="postToFeed(); return false;" />
- 
-    <script type="text/javascript"> 
+
+    <script type="text/javascript">
 
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
@@ -72,14 +72,14 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
 		document.getElementsByTagName("head")[0].appendChild(scriptTag);
 
 		scriptTag.onload=initFB;
-		scriptTag.onreadystatechange = function () {                
+		scriptTag.onreadystatechange = function () {
 		  if (this.readyState == 'complete' || this.readyState == 'loaded') initFB();
 		}
 	});
 	function initFB() {
 		FB.init({appId: "<%= facebookId %>", status: true, cookie: true});
 	}
- 
+
       function postToFeed() {
 
         // calling the API ...
@@ -87,18 +87,18 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
           method: 'feed',
           link: '<%= url %>',
           picture: '<%= imageUrl %>',
-          name: '<%= title %>',
-          description: '<%= facebookText %>'
+          name: '<%= title.replaceAll("\\'","\\\\'") %>',
+          description: '<%= facebookText.replaceAll("\\'","\\\\'") %>'
         };
- 
+
         function callback(response) {
         }
- 
+
         FB.ui(obj, callback);
       }
- 
+
     </script>
-    <% 
+    <%
     }
 
     StringBuilder sb = new StringBuilder();
@@ -112,7 +112,7 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
         }
         sb.append("></a>");
     }
-    
+
     if(!hidePinterest){
         sb.append("<a id=\"addthis_button_pinterest_share" + uniqueId + "\" class=\"addthis_button_pinterest_share\" addthis:url=\"" + url + "\"");
         if(!title.equals("")){
@@ -123,7 +123,7 @@ if(hideFacebook && hideTwitter && hidePinterest && WCMMode.fromRequest(request) 
         }
         sb.append("></a>");
     }
-    
+
     %> <%= sb.toString() %> <%
     %> </div> <%
 }

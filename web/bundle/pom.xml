@@ -169,12 +169,6 @@
             <version>3.0.1</version>
             <scope>provided</scope>
          </dependency> 
-         <dependency>
-                <groupId>org.girlscouts.vtk</groupId>
-                <artifactId>girlscouts-vtk-bundle</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <scope>provided</scope>
-          </dependency>
         <dependency>
 	<groupId>com.adobe.granite</groupId>
 	<artifactId>com.adobe.granite.security.user</artifactId>
@@ -249,13 +243,6 @@
         	<scope>provided</scope>
         </dependency>
 
-        <!-- FTP support for SalesForce events integration -->
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
-        </dependency>
-        <!-- END FTP -->
     </dependencies>
 
     <!-- ====================================================================== -->
