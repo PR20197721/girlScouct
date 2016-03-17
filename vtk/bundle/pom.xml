@@ -83,7 +83,9 @@
     <dependency>
       <groupId>joda-time</groupId>
       <artifactId>joda-time</artifactId>
+       <scope>provided</scope>
     </dependency>
+   
     <dependency>
       <groupId>com.googlecode.java-diff-utils</groupId>
       <artifactId>diffutils</artifactId>
@@ -277,6 +279,7 @@
               org.apache.sling.settings,
               org.girlscouts.vtk.modifiedcheck,
               org.ietf.jgss,
+              org.joda.time,
               org.json,
               org.mozilla.javascript,
               org.osgi.framework,
