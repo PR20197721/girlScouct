@@ -1,5 +1,5 @@
 <%
-
+String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
 String path="/Users/akobovich/vtk";
 java.io.File folder = new java.io.File(path);
 java.io.File[] listOfFiles = folder.listFiles();
@@ -27,7 +27,15 @@ if( request.getParameter("rmUser")!=null){
 
 
 %>
+<script>
 
+function xyz(slc){
+	
+	var e = document.getElementById("carlos");
+	var strUser = e.options[e.selectedIndex].value;
+	self.location="?vTroop="+ strUser;
+}
+</script>
 <div id="main" class="row collapse">
 
 <div style="clear: both"></div>
@@ -38,6 +46,11 @@ if( request.getParameter("rmUser")!=null){
 	<div class="vtk-demo-wrap-top row">
 		<div class="columns small-push-3 small-18 end">
 			<h2>
+			<select name="vTroop" id="carlos" onchange="xyz()">
+			 <option value="">Select </option>
+			 <option value="troop1">red</option>
+			 <option value="troop2">green</option>
+			</select>
 			  	Plan quickly. Save Time. Stay Organized.
 			</h2>
 			<h1>
@@ -76,12 +89,13 @@ if( request.getParameter("rmUser")!=null){
 			                       roles.add( _troop.getRole() );
 			                   }
 
+			                   
 			                   if(roles.contains("DP")){
 			                  %>
 								 
 								  <div class="vtk-demo-card columns small-24 medium-8 end">
 										<div class="vtk-header-box">
-										  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+										  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
 										</div>
 								
 										<p>Everything ready, right at your fingertips to save time:</p>
@@ -98,7 +112,7 @@ if( request.getParameter("rmUser")!=null){
 								 
 								  <div class="vtk-demo-card columns  small-24  medium-8 end">
 									  <div class="vtk-header-box">
-										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
+										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
 									  </div>
 									  <p>Check in on the troop and see what your girl needs for meetings:</p>
 									  <ul>
@@ -113,7 +127,7 @@ if( request.getParameter("rmUser")!=null){
 								 
 								  <div class="vtk-demo-card columns  small-24  medium-8 end">
 									  <div class="vtk-header-box">
-										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
+										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
 									  </div>
 								
 									  <p>Material and aids are organized to help everyone work together:</p>
@@ -153,6 +167,7 @@ if( request.getParameter("rmUser")!=null){
 	<th>Permissions</th>
 	<th>Kiosk mode</th>
 	<th>Shared mode</th>
+	<th>Virtual Troop mode</th>
 	<th>Remove User</th>
  </tr>
 <%
@@ -202,6 +217,8 @@ if( request.getParameter("rmUser")!=null){
 							 </td>
 							 <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">VTK</a></td>
 							 <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName %>&isGroupDemo=true">VTK</a></td>
+							 <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName %>&isGroupDemo=true">VTK</a></td>
+                             
 							 <td><a href="?showDetails=true&rmUser=<%=userName %>">Remove</a></td>
 
 					  </tr>
