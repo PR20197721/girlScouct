@@ -48,92 +48,95 @@ if( request.getParameter("rmUser")!=null){
   <!-- / info -->
 
 
-<div class="row vtk-demo-wrap-bottom">
-<% 
-    for (int i = 0; i < listOfFiles.length; i++) {
-      if (listOfFiles[i].isFile()) {
-          String name= listOfFiles[i].getName();
-
-          if( name!=null && name.startsWith("vtkUser")){
-              String rsp=  sfDAO.readFile(path+"/"+name).toString();
-              org.girlscouts.vtk.auth.models.User User = new org.girlscouts.vtk.auth.models.User();
-              String userName= name.substring( name.indexOf("_")+1 , name.indexOf(".") );
-              org.girlscouts.vtk.auth.models.ApiConfig apiConfig = new org.girlscouts.vtk.auth.models.ApiConfig();
-              apiConfig.setDemoUser(true);
-              apiConfig.setDemoUserName( userName );
-              try{
-                   User= sfDAO.getUser_parse(User, apiConfig, rsp);
-                  
-                   java.util.Set<String> roles = new java.util.HashSet<String>();
-                   java.util.List<org.girlscouts.vtk.salesforce.Troop> troops= apiConfig.getTroops();
-                   for(int ii=0;ii<troops.size();ii++){
-                       org.girlscouts.vtk.salesforce.Troop _troop = troops.get(ii);
-                       roles.add( _troop.getRole() );
-                   }
-
-                   if(roles.contains("DP")){
-                  %>
-					 
-					  <div class="vtk-demo-card columns small-24 medium-6 medium-push-3">
-							<div class="vtk-header-box">
-							  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
-							</div>
-					
-							<p>Everything ready, right at your fingertips to save time:</p>
-							<ul>
-							  <li>Pre-populated plans.</li>
-							  <li>Add you own activities.</li>
-							  <li>See your troop roster.</li>
-							  <li>Track girls' achievements and attendance.</li>
-							</ul>
-					  </div>
-					  
-					  <!-- / Troop Leader -->
-					<%}else if(roles.contains("PA")){ %>
-					 
-					  <div class="vtk-demo-card columns  small-24  medium-6 medium-push-3">
-						  <div class="vtk-header-box">
-							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
-						  </div>
-						  <p>Check in on the troop and see what your girl needs for meetings:</p>
-						  <ul>
-							<li>View troop plans (easy-to use calendar)</li>
-							<li>Stay In touch with the troop leader and volunteers.</li>
-							<li>Find ways to help the troop.</li>
-						  </ul>
-						 
-					  </div>
-					  <!-- / Parents -->
-					<% }else if( User.isAdmin() ){  %>
-					 
-					  <div class="vtk-demo-card columns  small-24  medium-6 medium-push-3 end">
-						  <div class="vtk-header-box">
-							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
-						  </div>
-					
-						  <p>Material and aids are organized to help everyone work together:</p>
-						  <ul>
-							<li>Upload materials to support the troop Leaders.</li>
-							<li>Report in troop finances.</li>
-							<li>Stay organized across troops.</li>
-						  </ul>
-					  </div>
-					  
-					  <!-- / Council Admin -->
-					  <%
-					  }//end if Admin            
-                   
-              }catch(Exception e){e.printStackTrace();}
-          } //if
-      } //if
-    } //for
-  %>
-</div>
 
 
+	<div class="row vtk-demo-wrap-bottom">
+		<div class="columns small-24 medium-3"><br /></div>
+		<div class="columns small-24 medium-18">
+			<div class="row">
+			<% 
+			    for (int i = 0; i < listOfFiles.length; i++) {
+			      if (listOfFiles[i].isFile()) {
+			          String name= listOfFiles[i].getName();
 
-</div>
+			          if( name!=null && name.startsWith("vtkUser")){
+			              String rsp=  sfDAO.readFile(path+"/"+name).toString();
+			              org.girlscouts.vtk.auth.models.User User = new org.girlscouts.vtk.auth.models.User();
+			              String userName= name.substring( name.indexOf("_")+1 , name.indexOf(".") );
+			              org.girlscouts.vtk.auth.models.ApiConfig apiConfig = new org.girlscouts.vtk.auth.models.ApiConfig();
+			              apiConfig.setDemoUser(true);
+			              apiConfig.setDemoUserName( userName );
+			              try{
+			                   User= sfDAO.getUser_parse(User, apiConfig, rsp);
+			                  
+			                   java.util.Set<String> roles = new java.util.HashSet<String>();
+			                   java.util.List<org.girlscouts.vtk.salesforce.Troop> troops= apiConfig.getTroops();
+			                   for(int ii=0;ii<troops.size();ii++){
+			                       org.girlscouts.vtk.salesforce.Troop _troop = troops.get(ii);
+			                       roles.add( _troop.getRole() );
+			                   }
 
+			                   if(roles.contains("DP")){
+			                  %>
+								 
+								  <div class="vtk-demo-card columns small-24 medium-8 end">
+										<div class="vtk-header-box">
+										  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+										</div>
+								
+										<p>Everything ready, right at your fingertips to save time:</p>
+										<ul>
+										  <li>Pre-populated plans.</li>
+										  <li>Add you own activities.</li>
+										  <li>See your troop roster.</li>
+										  <li>Track girls achievements and attendance.</li>
+										</ul>
+								  </div>
+								  
+								  <!-- / Troop Leader -->
+								<%}else if(roles.contains("PA")){ %>
+								 
+								  <div class="vtk-demo-card columns  small-24  medium-8 end">
+									  <div class="vtk-header-box">
+										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
+									  </div>
+									  <p>Check in on the troop and see what your girl needs for meetings:</p>
+									  <ul>
+										<li>View troop plans (easy-to use calendar)</li>
+										<li>Stay In touch with the troop leader and volunteers.</li>
+										<li>Find ways to help the troop.</li>
+									  </ul>
+									 
+								  </div>
+								  <!-- / Parents -->
+								<% }else if( User.isAdmin() ){  %>
+								 
+								  <div class="vtk-demo-card columns  small-24  medium-8 end">
+									  <div class="vtk-header-box">
+										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
+									  </div>
+								
+									  <p>Material and aids are organized to help everyone work together:</p>
+									  <ul>
+										<li>Upload materials to support the troop Leaders.</li>
+										<li>Report in troop finances.</li>
+										<li>Stay organized across troops.</li>
+									  </ul>
+								  </div>
+								  
+								  <!-- / Council Admin -->
+								  <%
+								  }//end if Admin            
+			                   
+			              }catch(Exception e){e.printStackTrace();}
+			          } //if
+			      } //if
+			    } //for
+			  %>
+			</div>
+		</div>
+		<div class="columns small-24 medium-3"><br /></div>
+	</div>
 
 
 <% if( request.getParameter("showDetails") !=null ){ %>
