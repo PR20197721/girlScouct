@@ -57,11 +57,6 @@
       <artifactId>beanutils-wrapper</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>boon-wrapper</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
   <build>
     <resources>
@@ -145,11 +140,6 @@
             </embedded>
             <embedded>
               <groupId>${project.groupId}</groupId>
-              <artifactId>boon-wrapper</artifactId>
-              <target>/apps/girlscouts-vtk/install</target>
-            </embedded>
-            <embedded>
-              <groupId>${project.groupId}</groupId>
               <artifactId>google-collections-wrapper</artifactId>
               <target>/apps/girlscouts-vtk/install</target>
             </embedded>
@@ -215,11 +205,6 @@
                 <embedded>
                   <groupId>com.github.livesense</groupId>
                   <artifactId>org.liveSense.fragment.sun.misc</artifactId>
-                  <target>/apps/girlscouts-vtk/install</target>
-                </embedded>
-                <embedded>
-                  <groupId>${project.groupId}</groupId>
-                  <artifactId>boon-wrapper</artifactId>
                   <target>/apps/girlscouts-vtk/install</target>
                 </embedded>
                 <embedded>
