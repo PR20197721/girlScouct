@@ -49,7 +49,6 @@ if( request.getParameter("rmUser")!=null){
 
 
 <div class="row vtk-demo-wrap-bottom">
-
 <% 
     for (int i = 0; i < listOfFiles.length; i++) {
       if (listOfFiles[i].isFile()) {
@@ -74,12 +73,8 @@ if( request.getParameter("rmUser")!=null){
 
                    if(roles.contains("DP")){
                   %>
-                          
-                    
-                    
 					 
-					  <div class="vtk-demo-card columns small-24
-					   medium-6">
+					  <div class="vtk-demo-card columns small-24 medium-6 medium-push-3">
 							<div class="vtk-header-box">
 							  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
 							</div>
@@ -92,9 +87,11 @@ if( request.getParameter("rmUser")!=null){
 							  <li>Track girls' achievements and attendance.</li>
 							</ul>
 					  </div>
+					  
 					  <!-- / Troop Leader -->
 					<%}else if(roles.contains("PA")){ %>
-					  <div class="vtk-demo-card columns small-24  medium-6">
+					 
+					  <div class="vtk-demo-card columns  small-24  medium-6 medium-push-3">
 						  <div class="vtk-header-box">
 							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
 						  </div>
@@ -104,10 +101,12 @@ if( request.getParameter("rmUser")!=null){
 							<li>Stay In touch with the troop leader and volunteers.</li>
 							<li>Find ways to help the troop.</li>
 						  </ul>
+						 
 					  </div>
 					  <!-- / Parents -->
 					<% }else if( User.isAdmin() ){  %>
-					  <div class="vtk-demo-card columns small-24  medium-6 end">
+					 
+					  <div class="vtk-demo-card columns  small-24  medium-6 medium-push-3 end">
 						  <div class="vtk-header-box">
 							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
 						  </div>
@@ -119,6 +118,7 @@ if( request.getParameter("rmUser")!=null){
 							<li>Stay organized across troops.</li>
 						  </ul>
 					  </div>
+					  
 					  <!-- / Council Admin -->
 					  <%
 					  }//end if Admin            
