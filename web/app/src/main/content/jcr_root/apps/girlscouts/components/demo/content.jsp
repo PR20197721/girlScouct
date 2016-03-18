@@ -66,7 +66,7 @@ HttpSession hsession = request.getSession();
 					 
 					  <div class="vtk-demo-card columns small-24 medium-push-3 medium-6">
 							<div class="vtk-header-box">
-							  <a href="">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+							  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
 							</div>
 					
 							<p>Everything ready, right at your fingertips to save time:</p>
@@ -81,7 +81,7 @@ HttpSession hsession = request.getSession();
 					<%}else if(roles.contains("PA")){ %>
 					  <div class="vtk-demo-card columns small-24  medium-push-3 medium-6">
 						  <div class="vtk-header-box">
-							<a href="">Parents <span class="float-right icon-button-arrow-right"></a>
+							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
 						  </div>
 						  <p>Check in on the troop and see what your girl needs for meetings:</p>
 						  <ul>
@@ -94,7 +94,7 @@ HttpSession hsession = request.getSession();
 					<% }else if( User.isAdmin() ){  %>
 					  <div class="vtk-demo-card columns small-24 medium-push-3 medium-6 end">
 						  <div class="vtk-header-box">
-							<a href="">Council Admin <span class="float-right icon-button-arrow-right"></a>
+							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
 						  </div>
 					
 						  <p>Material and aids are organized to help everyone work together:</p>
