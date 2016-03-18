@@ -36,10 +36,10 @@
     <%final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	
-	<!-- <%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
+	 <%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
 	   <b>THIS IS DEMO SITE</b>
 	   <br/><a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">RESTART DEMO</a>
-	<%}%> -->
+	<%}%> 
 	
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
