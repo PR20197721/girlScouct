@@ -12,6 +12,20 @@ org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.da
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
 
+
+if( request.getParameter("rmUser")!=null){
+
+     for (int i = 0; i < listOfFiles.length; i++) {
+          if (listOfFiles[i].isFile()) {
+              String name= listOfFiles[i].getName();
+              if( name.contains("_"+  request.getParameter("rmUser") +".json") ){
+                  listOfFiles[i].delete();
+              }
+          }//ednif
+     }//end for
+}//end if
+
+
 %>
 
 <div id="main" class="row collapse">
@@ -64,7 +78,8 @@ HttpSession hsession = request.getSession();
                     
                     
 					 
-					  <div class="vtk-demo-card columns small-24 medium-push-3 medium-6">
+					  <div class="vtk-demo-card columns small-24
+					   medium-6">
 							<div class="vtk-header-box">
 							  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
 							</div>
@@ -79,7 +94,7 @@ HttpSession hsession = request.getSession();
 					  </div>
 					  <!-- / Troop Leader -->
 					<%}else if(roles.contains("PA")){ %>
-					  <div class="vtk-demo-card columns small-24  medium-push-3 medium-6">
+					  <div class="vtk-demo-card columns small-24  medium-6">
 						  <div class="vtk-header-box">
 							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
 						  </div>
@@ -92,7 +107,7 @@ HttpSession hsession = request.getSession();
 					  </div>
 					  <!-- / Parents -->
 					<% }else if( User.isAdmin() ){  %>
-					  <div class="vtk-demo-card columns small-24 medium-push-3 medium-6 end">
+					  <div class="vtk-demo-card columns small-24  medium-6 end">
 						  <div class="vtk-header-box">
 							<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
 						  </div>
@@ -140,19 +155,6 @@ HttpSession hsession = request.getSession();
 <%
 
 
-if( request.getParameter("rmUser")!=null){
-
-	 for (int i = 0; i < listOfFiles.length; i++) {
-		  if (listOfFiles[i].isFile()) {
-			  String name= listOfFiles[i].getName();
-			  if( name.contains("_"+  request.getParameter("rmUser") +".json") ){
-				  listOfFiles[i].delete();
-			  }
-		  }//ednif
-	 }//end for
-}//end if
-
-
 
 
 	for (int i = 0; i < listOfFiles.length; i++) {
@@ -197,7 +199,7 @@ if( request.getParameter("rmUser")!=null){
 							 </td>
 							 <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName%>">VTK</a></td>
 							 <td><a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?user=<%=userName %>&isGroupDemo=true">VTK</a></td>
-							 <td><a href="?rmUser=<%=userName %>">Remove</a></td>
+							 <td><a href="?showDetails=true&rmUser=<%=userName %>">Remove</a></td>
 
 					  </tr>
 				   <%
