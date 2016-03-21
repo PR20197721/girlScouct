@@ -93,8 +93,24 @@ function xyz(slc){
 			                       roles.add( _troop.getRole() );
 			                   }
 
-			                   
-			                   if(roles.contains("DP")){
+			                   if( User.isAdmin() ){  %>
+                               
+                               <div class="vtk-demo-card columns  small-24  medium-8 end">
+                                   <div class="vtk-header-box">
+                                     <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
+                                   </div>
+                             
+                                   <p>Material and aids are organized to help everyone work together:</p>
+                                   <ul>
+                                     <li>Upload materials to support the troop Leaders.</li>
+                                     <li>Report in troop finances.</li>
+                                     <li>Stay organized across troops.</li>
+                                   </ul>
+                               </div>
+                               
+                               <!-- / Council Admin -->
+                               <%
+			                   }else if(roles.contains("DP")){
 			                  %>
 								 
 								  <div class="vtk-demo-card columns small-24 medium-8 end">
@@ -127,24 +143,7 @@ function xyz(slc){
 									 
 								  </div>
 								  <!-- / Parents -->
-								<% }else if( User.isAdmin() ){  %>
-								 
-								  <div class="vtk-demo-card columns  small-24  medium-8 end">
-									  <div class="vtk-header-box">
-										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
-									  </div>
-								
-									  <p>Material and aids are organized to help everyone work together:</p>
-									  <ul>
-										<li>Upload materials to support the troop Leaders.</li>
-										<li>Report in troop finances.</li>
-										<li>Stay organized across troops.</li>
-									  </ul>
-								  </div>
-								  
-								  <!-- / Council Admin -->
-								  <%
-								  }//end if Admin            
+								<% }           
 			                   
 			              }catch(Exception e){e.printStackTrace();}
 			          } //if
