@@ -34,15 +34,24 @@
 <nav class="column large-24 medium-24">
 
 
-<% 
-	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); 
- 	if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
- 	//Put the sencond image
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
-<% 	} else { %>
+<% 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
+ 	
+	<% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+		<div class="vtk-demo-logo" style="width:<%= regularWidth %>,height:<%= regularHeight%>">
+			<img class="vtk-demo-logo-img" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+	<% } %>
+
 	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+		<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
+
+
+
+	<% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+	</div>
+	<% } %>
+
+
 </nav>
 <% } %>
 <!--<![endif]-->
