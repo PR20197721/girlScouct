@@ -50,6 +50,10 @@ function xyz(slc){
 			 <option value="">Select</option>
 			 <option value="troop1" <%=vTroop.equals("troop1") ? "selected" : "" %>>red</option>
 			 <option value="troop2" <%=vTroop.equals("troop2") ? "selected" : "" %>>green</option>
+             <option value="troop3" <%=vTroop.equals("troop3") ? "selected" : "" %>>blue</option>
+             <option value="troop4" <%=vTroop.equals("troop4") ? "selected" : "" %>>orange</option>
+			 <option value="troop5" <%=vTroop.equals("troop5") ? "selected" : "" %>>violet</option>
+			
 			</select>
 			  	Plan quickly. Save Time. Stay Organized.
 			</h2>
