@@ -43,18 +43,21 @@ function xyz(slc){
 
 <div class="vtk-demo-wrap row">
 
-	<div class="vtk-demo-wrap-top row">
-		<div class="columns small-push-3 small-18 end">
-			<h2>
-			<select name="vTroop" id="carlos" onchange="xyz()">
-			 <option value="">Select</option>
+	<div class="vtk-demo-select row">
+		<select name="vTroop" id="carlos" onchange="xyz()">
+			 <option value="">Select a Troop</option>
 			 <option value="troop1" <%=vTroop.equals("troop1") ? "selected" : "" %>>red</option>
 			 <option value="troop2" <%=vTroop.equals("troop2") ? "selected" : "" %>>green</option>
              <option value="troop3" <%=vTroop.equals("troop3") ? "selected" : "" %>>blue</option>
              <option value="troop4" <%=vTroop.equals("troop4") ? "selected" : "" %>>orange</option>
 			 <option value="troop5" <%=vTroop.equals("troop5") ? "selected" : "" %>>violet</option>
-			
-			</select>
+		</select>
+	</div>
+	<!-- / Selected -->
+
+	<div class="vtk-demo-wrap-top row">
+		<div class="columns small-push-3 small-18 end">
+			<h2>
 			  	Plan quickly. Save Time. Stay Organized.
 			</h2>
 			<h1>
@@ -65,8 +68,6 @@ function xyz(slc){
   <!-- / info -->
 
 
-
-
 	<div class="row vtk-demo-wrap-bottom">
 		<div class="columns small-24 medium-3"><br /></div>
 		<div class="columns small-24 medium-18">
@@ -74,7 +75,7 @@ function xyz(slc){
 			<% 
 			
 			if( request.getParameter("vTroop") ==null)
-				out.println("Select troop first");
+				out.println("<h2 class='vtk-demo-select_'>Please Select A Troop First</h2>");
 			else
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {

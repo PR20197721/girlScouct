@@ -32,16 +32,17 @@
 // this shows for header large only
 %>
 <nav class="column large-24 medium-24">
-<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-    <%final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
+
+
+<% 
+	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); 
+ 	if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
+ 	//Put the sencond image
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
-	
-	 <%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
-	   <b>THIS IS DEMO SITE</b>
-	   <br/><a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">RESTART DEMO</a>
-	<%}%> 
-	
-<% if (!linkURL.isEmpty()) { %> </a> <% } %>
+<% 	} else { %>
+	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>
 <!--<![endif]-->

@@ -24,7 +24,18 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 %>##### Global Navigation #####<%
 } else if (links != null){
 %>
-    <ul class="inline-list">
+
+
+
+<%if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) {%>
+
+    <div class="vtk-demo-restart">
+        <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
+    </div>
+        
+
+<%} else {%>
+<ul class="inline-list">
 <%
 String currPath = currentPage.getPath();
 String rootPath = currentPage.getAbsoluteParent(2).getPath();
@@ -98,8 +109,9 @@ for (int i = 0; i < links.length; i++) {
 }
 %>
 </ul>
-<script>
+<% } %>
 
+<script>
 $(document).foundation({
     dropdown: {
         // specify the class used for active dropdowns
