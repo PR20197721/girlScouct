@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": "true",
   "dependencies": {
-    "foundation": "zurb/bower-foundation",
-    "slick.js": "~1.5.5",
-    "fontawesome": "~4.3.0"
+    "foundation": "5.5.2",
+    "slick.js": "1.5.8",
+    "fontawesome": "4.3.0"
   }
 }
+
