@@ -47,9 +47,9 @@ function xyz(slc){
 		<div class="columns small-push-3 small-18 end">
 			<h2>
 			<select name="vTroop" id="carlos" onchange="xyz()">
-			 <option value="">Select </option>
-			 <option value="troop1">red</option>
-			 <option value="troop2">green</option>
+			 <option value="">Select</option>
+			 <option value="troop1" <%=vTroop.equals("troop1") ? "selected" : "" %>>red</option>
+			 <option value="troop2" <%=vTroop.equals("troop2") ? "selected" : "" %>>green</option>
 			</select>
 			  	Plan quickly. Save Time. Stay Organized.
 			</h2>
@@ -68,6 +68,10 @@ function xyz(slc){
 		<div class="columns small-24 medium-18">
 			<div class="row">
 			<% 
+			
+			if( request.getParameter("vTroop") ==null)
+				out.println("Select troop first");
+			else
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {
 			          String name= listOfFiles[i].getName();
