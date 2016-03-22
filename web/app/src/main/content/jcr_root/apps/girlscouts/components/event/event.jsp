@@ -9,6 +9,7 @@
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
+	java.util.Set,
 	java.util.ArrayList,
 	java.util.Iterator,
 	java.util.TimeZone,
@@ -17,7 +18,11 @@
 	com.day.cq.dam.api.Asset,
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
-	javax.servlet.http.HttpSession
+	javax.servlet.http.HttpSession,
+	org.joda.time.DateTimeZone,
+	org.joda.time.format.DateTimeFormatter,
+	org.joda.time.format.DateTimeFormat,
+	org.joda.time.DateTime
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -26,6 +31,7 @@
 <%
 
 Boolean includeCart = false;
+
 if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	if(homepage.getContentResource().adaptTo(Node.class).getProperty("event-cart").getString().equals("true")){
 		includeCart = true;
@@ -38,19 +44,16 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     Map<String,String> map = new HashMap<String,String>();
     map.put("Program Level", "Level");
     map.put("Categories", "Category");
-    //String locale =  currentSite.get("locale", "America/Chicago");
-	//TimeZone tZone = TimeZone.getTimeZone(locale);
 	
 	// date and time
+	String councilTimeZone = homepage.getContentResource().adaptTo(Node.class).getProperty("timezone").getString();
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
 	DateFormat formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
 	utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-	//timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
-	//Date startDate = properties.get("start", Date.class);
 	
 	String visibleDate = properties.get("visibleDate","");
 	Date vis;
@@ -83,8 +86,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 	String startDateStr = dateFormat.format(cale.getTime());
 	String startTimeStr = timeFormat.format(cale.getTime());
-
-
+	
 	//Calendar Date and Month
 
     Calendar calendar = Calendar.getInstance();
@@ -97,7 +99,6 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     String time = startTimeStr;
 
     String endDateSt = properties.get("end", "");
-	String timeZoneLabel = properties.get("timezone", "");
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
 	String membersOnly = properties.get("memberOnly","false");
@@ -110,11 +111,21 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		register = properties.get("register", String.class);
 	}
 
-	//Start Time : startTimeStr var called time
+    DateTimeFormatter dtfnotimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM"); 
+    DateTimeFormatter dtfTimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM zzz"); 
+	DateTimeFormatter dtftimeonly = DateTimeFormat.forPattern("HH:MM zzz");
 
-	//String dateStr = startDateStr + ", " +startTimeStr;
-    String formatedStartDateStr= startDateStr + ", " +startTimeStr;
-
+	String inputPattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
+	DateTimeFormatter formatter = DateTimeFormat.forPattern(inputPattern);
+	DateTime datetime = formatter.parseDateTime(edtTime);
+	DateTime dtCouncil = datetime.withZone(DateTimeZone.forID(councilTimeZone));
+	String formatedStartDateStr = null;
+	if ("".equals(endDateSt)) {
+		formatedStartDateStr = dtfTimezone.print(dtCouncil);
+	} else {
+		formatedStartDateStr = dtfnotimezone.print(dtCouncil);
+	}
+    
     String formatedEndDateStr="";
     Date endDate=null;
 	if (endDateSt != null && !endDateSt.isEmpty()) {
@@ -127,19 +138,17 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
+		
+		//consider timezone with joda
+		DateTime endDateTime = formatter.parseDateTime(endDateSt);
+		DateTime endDateTimeCouncil = endDateTime.withZone(DateTimeZone.forID(councilTimeZone));
 		if (!sameDay) {
-			formatedEndDateStr =  endDateStr +", " + endTimeStr;
-
+			formatedEndDateStr = dtfTimezone.print(endDateTimeCouncil);			
 		}else{
-			formatedEndDateStr =  endTimeStr;
-
+			formatedEndDateStr =  dtftimeonly.print(endDateTimeCouncil);
 		}
 
 	}
-	if(!timeZoneLabel.isEmpty()){
-		formatedEndDateStr += " " + timeZoneLabel;
-	}
-
 
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	if(currentNode.getParent().hasProperty("cq:tags")){
