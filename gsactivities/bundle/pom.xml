@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.girlscouts.gsactivities</groupId>
         <artifactId>gsactivities</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>2.0-SNAPSHOT</version>
     </parent>
 
     <!-- ====================================================================== -->
@@ -62,10 +62,10 @@
         </dependency>
         <!-- FTP support for SalesForce events integration -->
         <dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>3.4</version>
-		</dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.4</version>
+        </dependency>
         <dependency>
               <groupId>org.apache.sling</groupId>
               <artifactId>org.apache.sling.commons.scheduler</artifactId>
@@ -121,12 +121,12 @@
          <dependency>
             <groupId>org.girlscouts.web</groupId>
             <artifactId>girlscouts-bundle</artifactId>
-            <version>0.1-SNAPSHOT</version> 
+            <version>${project.version}</version> 
         </dependency>
         <dependency>
             <groupId>org.girlscouts.vtk</groupId>
             <artifactId>girlscouts-vtk-bundle</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${project.version}</version> 
             <scope>provided</scope>
         </dependency>
         <dependency>

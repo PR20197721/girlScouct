@@ -337,5 +337,6 @@
     <module>vtk</module>
     <module>web</module>
     <module>gsusa</module>
+    <module>gsactivities</module>
   </modules>
 </project>
