@@ -1,5 +1,6 @@
 .single-column .b-by-b-item {
   width: 100%!important;
+  background-color: #fbfbfb;
 }
 .meet-the-cookies {
   @media #{$small-only} and (orientation: landscape) {
@@ -62,6 +63,7 @@
       text-transform: none;
       padding: rem-calc(5 10);
       margin: 0;
+      position: static;
     }
     section {
       padding-bottom: rem-calc(10);

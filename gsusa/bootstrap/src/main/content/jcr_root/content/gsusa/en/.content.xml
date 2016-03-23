@@ -34,7 +34,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="gsusa/components/header-nav"
-                navs="[About Girl Scouts|||/content/gsusa/en/about-girl-scouts||||||About Girl Scouts|||About,Our Program|||/content/gsusa/en/our-program||||||Our Program|||Our Program,Girls|||/content/gsusa/en/girls||||||Girls|||Girls,Adults|||/content/gsusa/en/adults||||||Adults|||Adults,Shop|||/content/gsusa/en/shop||||||Shop|||Shop,Cookies|||/content/gsusa/en/cookies||||||Cookies|||Cookies]"/>
+                navs="[About Girl Scouts|||/content/gsusa/en/about-girl-scouts||||||About Girl Scouts|||About,Our Program|||/content/gsusa/en/our-program||||||Our Program|||Our Program,Girls|||/content/gsusa/en/girls||||||Girls|||Girls,Adults|||/content/gsusa/en/adults||||||Adults|||Adults,Shop|||/content/gsusa/en/shop||||||Shop|||Shop,Cookies|||/content/gsusa/en/cookies||||||Cookies|||Cookies,Camp|||/content/gsusa/en/camp||||||Camp|||Camp]"/>
             <logo
                 jcr:lastModified="{Date}2015-06-11T14:49:31.664-04:00"
                 jcr:lastModifiedBy="admin"
@@ -352,4 +352,5 @@
     <trademark-statement/>
     <visit-us/>
     <ads/>
+    <content-hub/>
 </jcr:root>

@@ -8,7 +8,6 @@
                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <%
@@ -33,7 +32,17 @@
    String enddtRange = request.getParameter("enddtRange");
    String year=request.getParameter("year");
   
-   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
+   Boolean includeCart = false;
+   if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
+   	if(homepage.getContentResource().adaptTo(Node.class).getProperty("event-cart").getString().equals("true")){
+   		includeCart = true;
+   	}
+   }
+   if(includeCart){
+	   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,"sf-activities");
+   }else{
+   		searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
+   }
    Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
    SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
    SearchResult searchResults = searchResultsInfo.getSearchResults();

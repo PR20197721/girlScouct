@@ -160,43 +160,43 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{name}}"/>
+                                    entity="\{{CouncilName}}"/>
                                 <url
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{CouncilURL}}"/>
                                 <code
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{code}}"/>
+                                    entity="\{{CouncilCode}}"/>
                                 <daysLeft
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{daysLeft}}"/>
+                                    entity="\{{DaysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{abbrName}}"/>
+                                    entity="\{{CouncilAbbrName}}"/>
                                 <cityStateZip
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cityStateZip}}"/>
+                                    entity="\{{CouncilCityStateZip}}"/>
                                 <cookieSaleStartDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleStartDate}}"/>
+                                    entity="\{{CookieSaleStartDate}}"/>
                                 <cookieSaleEndDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleEndDate}}"/>
+                                    entity="\{{CookieSaleEndDate}}"/>
                                 <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookiePageUrl}}"/>
+                                    entity="\{{CookiePageURL}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleContactEmail}}"/>
+                                    entity="\{{CookieSaleContact_Email}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
@@ -383,43 +383,43 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{name}}"/>
+                                    entity="\{{CouncilName}}"/>
                                 <url
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{CouncilURL}}"/>
                                 <code
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{code}}"/>
+                                    entity="\{{CouncilCode}}"/>
                                 <daysLeft
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{daysLeft}}"/>
+                                    entity="\{{DaysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{abbrName}}"/>
+                                    entity="\{{CouncilAbbrName}}"/>
                                 <cityStateZip
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cityStateZip}}"/>
+                                    entity="\{{CouncilCityStateZip}}"/>
                                 <cookieSaleStartDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleStartDate}}"/>
+                                    entity="\{{CookieSaleStartDate}}"/>
                                 <cookieSaleEndDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleEndDate}}"/>
+                                    entity="\{{CookieSaleEndDate}}"/>
                                 <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookiePageUrl}}"/>
+                                    entity="\{{CookiePageURL}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleContactEmail}}"/>
+                                    entity="\{{CookieSaleContact_Email}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
@@ -606,43 +606,43 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{name}}"/>
+                                    entity="\{{CouncilName}}"/>
                                 <url
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{CouncilURL}}"/>
                                 <code
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{code}}"/>
+                                    entity="\{{CouncilCode}}"/>
                                 <daysLeft
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{daysLeft}}"/>
+                                    entity="\{{DaysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{abbrName}}"/>
+                                    entity="\{{CouncilAbbrName}}"/>
                                 <cityStateZip
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cityStateZip}}"/>
+                                    entity="\{{CouncilCityStateZip}}"/>
                                 <cookieSaleStartDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleStartDate}}"/>
+                                    entity="\{{CookieSaleStartDate}}"/>
                                 <cookieSaleEndDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleEndDate}}"/>
+                                    entity="\{{CookieSaleEndDate}}"/>
                                 <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookiePageUrl}}"/>
+                                    entity="\{{CookiePageURL}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleContactEmail}}"/>
+                                    entity="\{{CookieSaleContact_Email}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
@@ -829,43 +829,43 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{name}}"/>
+                                    entity="\{{CouncilName}}"/>
                                 <url
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{CouncilURL}}"/>
                                 <code
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{code}}"/>
+                                    entity="\{{CouncilCode}}"/>
                                 <daysLeft
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{daysLeft}}"/>
+                                    entity="\{{DaysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{abbrName}}"/>
+                                    entity="\{{CouncilAbbrName}}"/>
                                 <cityStateZip
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cityStateZip}}"/>
+                                    entity="\{{CouncilCityStateZip}}"/>
                                 <cookieSaleStartDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleStartDate}}"/>
+                                    entity="\{{CookieSaleStartDate}}"/>
                                 <cookieSaleEndDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleEndDate}}"/>
+                                    entity="\{{CookieSaleEndDate}}"/>
                                 <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookiePageUrl}}"/>
+                                    entity="\{{CookiePageURL}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleContactEmail}}"/>
+                                    entity="\{{CookieSaleContact_Email}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>
@@ -1087,43 +1087,43 @@
                                 <name
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{name}}"/>
+                                    entity="\{{CouncilName}}"/>
                                 <url
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{url}}"/>
+                                    entity="\{{CouncilURL}}"/>
                                 <code
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Council_Code&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{code}}"/>
+                                    entity="\{{CouncilCode}}"/>
                                 <daysLeft
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Days_Left&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{daysLeft}}"/>
+                                    entity="\{{DaysLeft}}"/>
                                 <abbrName
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Abbr_Name&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{abbrName}}"/>
+                                    entity="\{{CouncilAbbrName}}"/>
                                 <cityStateZip
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="City_State_Zip&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cityStateZip}}"/>
+                                    entity="\{{CouncilCityStateZip}}"/>
                                 <cookieSaleStartDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Start_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleStartDate}}"/>
+                                    entity="\{{CookieSaleStartDate}}"/>
                                 <cookieSaleEndDate
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Ccookie_Sale_End_Date&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleEndDate}}"/>
+                                    entity="\{{CookieSaleEndDate}}"/>
                                 <cookiePageUrl
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Page_URL&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookiePageUrl}}"/>
+                                    entity="\{{CookiePageURL}}"/>
                                 <cookieSaleContactEmail
                                     jcr:primaryType="nt:unstructured"
                                     displayEntity="Cookie_Sale_Contact_Email&amp;nbsp;&amp;nbsp;&amp;nbsp;"
-                                    entity="\{{cookieSaleContactEmail}}"/>
+                                    entity="\{{CookieSaleContact_Email}}"/>
                                 <em-dash
                                     jcr:primaryType="nt:unstructured"
                                     entity="&amp;#8212;"/>

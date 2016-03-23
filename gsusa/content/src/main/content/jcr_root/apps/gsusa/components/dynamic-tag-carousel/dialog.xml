@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Properties">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <num
+                        jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
+                        allowNegative="{Boolean}false"
+                        fieldDescription="If left blank, default to 20."
+                        fieldLabel="Number of Page"
+                        name="./num"
+                        xtype="numberfield"/>
+                    <sortByPriority
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>

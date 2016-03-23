@@ -23,14 +23,14 @@
         com.day.cq.wcm.foundation.forms.FormsHelper,
         com.day.cq.wcm.foundation.forms.LayoutHelper,
         com.day.cq.wcm.foundation.forms.ValidationInfo,
-		java.util.Locale,
-		java.util.ResourceBundle,
-		com.day.cq.i18n.I18n" %><%
-		
-	final Locale pageLocale = currentPage.getLanguage(true);
-	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
-	I18n i18n = new I18n(resourceBundle);  
-		
+    java.util.Locale,
+    java.util.ResourceBundle,
+    com.day.cq.i18n.I18n" %><%
+    
+  final Locale pageLocale = currentPage.getLanguage(true);
+  final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
+  I18n i18n = new I18n(resourceBundle);  
+    
     final String name = FormsHelper.getParameterName(resource);
     final String id = FormsHelper.getFieldId(slingRequest, resource);
     final boolean required = FormsHelper.isRequired(resource);

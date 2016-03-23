@@ -1,4 +1,6 @@
-<%@page import="java.util.*, com.day.cq.wcm.api.WCMMode" %>
+<%@page import="java.lang.StringBuilder,
+				java.util.*, 
+				com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
 <%
@@ -10,6 +12,8 @@
 
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
+	StringBuilder sb = new StringBuilder();
+	
 	request.setAttribute("fromHeaderNav", "true");
 	if (navs != null) {
 %>
@@ -35,15 +39,18 @@
 				openInNewWindow = true;
 				target = "target=\"_blank\"";
 			}
-
+						
+			String topPath = rePath(split[1],4);
+						
 			Page linkPage = resourceResolver.resolve(link).adaptTo(Page.class);
 			if(!resourceResolver.resolve(link).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 				if (linkPage != null && !link.contains(".html")) {
 					link += ".html";
 				}
-
-				if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
-					activeClass = "active";
+				
+				// if (currentPage.getPath().startsWith(linkPage.getPath() + "/")) {
+				if (currentPage.getPath().startsWith(topPath)) {
+					activeClass = "active";					
 				}
 			}
 
@@ -68,6 +75,7 @@
 %>
 			</ul>
 		</section>
+		<%= sb.toString() %>
 	</nav>
 
 
@@ -90,4 +98,25 @@
 	} else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>Double click here to edit header navigation.<%
 	}
+%>
+
+<%! 
+
+	public String rePath(String path, int level) {
+		
+		String[] array = path.split("/");
+		level++;
+		
+		if ((level > array.length) || (level <= 0)) {
+			level = array.length;
+		}
+		
+		StringBuilder newPath = new StringBuilder();    	
+		for (int i = 1; i < level; i++) {    		
+			newPath.append("/"+array[i]);	    		
+		}  	    	
+		
+		return newPath.toString();
+	}
+
 %>

@@ -1,0 +1,53 @@
+.camp-results {
+  form {
+    div.clearfix {
+      section {
+        float: left;
+        margin-right: 3%;
+        &:last-child {
+          margin-right: 0;
+        }
+        @media #{$small-only} {
+          width: 31% !important;
+          &.grade {
+            margin: 0;
+          }
+          &:nth-last-child(-n+3) {
+            margin-top: rem-calc(20);
+          }
+        }
+        &.radius {
+          width: 12%;
+        }
+        &.date {
+          width: 14%;
+        }
+        &.sort {
+          width: 12%;
+        }
+        &.duration {
+          width: 20%;
+        }
+        &.grade {
+          width: 13%;
+        }
+        select, input[type="text"] {
+          margin: 0;
+        }
+        label {
+          margin-bottom: rem-calc(5);
+        }
+        select {
+          padding: .5rem .3rem;
+        }
+        input[type="text"] {
+          text-indent: .7rem;
+        }
+      }
+    }
+  }
+
+  div.no-results {
+    margin-top: 2.5rem;
+  }
+}

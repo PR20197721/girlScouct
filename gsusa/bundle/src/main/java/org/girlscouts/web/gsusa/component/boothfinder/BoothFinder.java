@@ -135,10 +135,11 @@ public class BoothFinder {
         Dictionary dict = context.getProperties();
     	apiBasePath = (String)dict.get("apiBasePath");
     	if (null == apiBasePath || apiBasePath.isEmpty()) {
+    		apiBasePath = API_BASE;
+    	} else {
     		if (!apiBasePath.endsWith("/")) {
     			apiBasePath += "/";
     		}
-    		apiBasePath = API_BASE;
     	}
 
     	connectionTimeout = (Integer)dict.get("connectionTimeout");

@@ -40,14 +40,46 @@
                             fieldLabel="Global Search Landing Page"
                             name="./globalLanding"
                             xtype="dynamicPathField"/>
-                        <facebook-id
+                        <content-hub-parent-page
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="Facebook ID"
-                            name="./facebookId"/>
+                            fieldLabel="Content Hub Parent Page"
+                            name="./contenthubparentpage"
+                            xtype="dynamicPathField"/>
                         <addthis-id
                             jcr:primaryType="cq:Widget"
                             fieldLabel="AddThis ID"
                             name="./addThisId"/>
+                        <ogtitle
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:title"
+                            fieldDescription="Default: SEO Title"
+                            name="./ogTitle"/>
+                        <ogsitename
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:site_name"
+                            value="Girl Scouts of the USA"
+                            defaultValue="Girl Scouts of the USA"
+                            fieldDescription="Default: Girl Scouts of the USA"
+                            name="./ogSiteName"/>
+                        <ogurl
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:url"
+                            name="./ogUrl"/>
+                        <ogdescription
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:description"
+                            name="./ogDescription"/>
+                        <ogimage
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="og:image"
+                            rootPath="/content/dam/girlscouts-gsusa"
+                            xtype="pathfield"
+                            name="./ogImage"/>
+                        <facebook-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Facebook ID"
+                            fieldDescription="Default Facebook ID for the Site"
+                            name="./facebookId"/>
                     </items>
                 </gsusa>
             </items>

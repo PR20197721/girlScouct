@@ -24,7 +24,7 @@
                 com.day.cq.wcm.foundation.forms.ValidationInfo"%><%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-    final Pattern p = Pattern.compile("[\\w\\.\\s]+$");
+    final Pattern p = Pattern.compile("[\\w\\s,.'-]+$");
     final FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
     final String[] values = request.getParameterValues(desc.getName());
     if ( values != null ) {

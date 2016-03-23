@@ -1385,7 +1385,7 @@ System.err.println("tata aidTags: resources: "+ (_aidTags.size()) );
 			addMeetings(user, troop, t.nextToken());
 	}
 
-	public void rmExtraMeetingsNotOnSched(User user, Troop troop)
+	public void rmExtraMeetingsNotOnSched(User user, Troop troop) 
 			throws IllegalAccessException {
 		String dates = troop.getYearPlan().getSchedule().getDates();
 		StringTokenizer t = new StringTokenizer(dates, ",");

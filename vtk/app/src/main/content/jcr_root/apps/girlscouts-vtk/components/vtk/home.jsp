@@ -119,9 +119,8 @@
                     <!-- Begin of VTK icon -->
                     <a href="<%=vtkLanding%>">
                     <img src="/etc/designs/girlscouts-vtk/images/btn_VTK.jpg"/></a>
-                    <p>
-                    If you&rsquo;re a Troop or Co-Leader, click here! For Daisy, Brownie, and Junior troops, the Volunteer Toolkit comes with pre-populated plans for everything-a full year of Girl Scouts right there on your device! Cadette, Senior, and Ambassador troops don&rsquo;t get pre-populated meetings yet (coming soon), but you can still access great planning features.
-                    </p>
+                    <p> If you&rsquo;re a Troop or Co-Leader, click here! For Daisy, Brownie, and Junior troops, the Volunteer Toolkit comes with pre-populated plans for everything-a full year of Girl Scouts right there on your device! Cadette, Senior, and Ambassador troops don&rsquo;t get pre-populated meetings yet (coming soon), but you can still access great planning features.
+                   </p>
                     <% } %>
                   </li>
                   <li>

@@ -28,7 +28,7 @@
 	    <input type="checkbox" id="email_to_sf" checked />
 	    <label for="email_to_sf"><p>Self</p></label>
 	  </li> -->
-	  <li>
+	  <li style="display:none;">
 	    <input type="checkbox" id="email_to_tv" />
 	    <label for="email_to_tv"><p>Troop Volunteers</p></label>
 	  </li>

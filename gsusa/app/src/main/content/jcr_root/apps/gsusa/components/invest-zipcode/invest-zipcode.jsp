@@ -43,7 +43,7 @@ else{
 	<div class="invest-button">
 		<p class="invest-text">Support Your Local Girl Scout Council</p>
 		<form class="invest-zip" onsubmit="completeAndRedirectInvest(); return false;" method="POST">
-			<p class="invest-text">Enter Zip Code: </p>
+			<p class="invest-text">Enter ZIP Code: </p>
 			<section class="clearfix">
 				<input type="text" name="zipcode" required />
 				<button type="submit" class="fa fa-play-circle"></button>

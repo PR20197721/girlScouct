@@ -13,10 +13,31 @@
 	com.day.cq.wcm.api.components.IncludeOptions,
 	java.util.Calendar,
 	java.util.Date,
+	java.util.List,
+	java.util.Map,
+	java.util.HashMap,
 	java.util.regex.*,
-	java.text.DateFormat" %>
+	java.util.Random,
+	java.text.DateFormat,
+	com.day.cq.search.Query,
+	javax.jcr.Session,
+	com.day.cq.search.result.SearchResult,
+	com.day.cq.search.PredicateGroup,
+	com.day.cq.search.QueryBuilder,
+	com.day.cq.search.result.Hit,
+	javax.jcr.query.RowIterator" %>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
+
+public String genLink(ResourceResolver rr, String link) {
+    // This is a Page resource but yet not end with ".html": append ".html"
+    if (!link.contains(".html") && rr.resolve(link).getResourceType().equals("cq:Page")  ) {
+        return link + ".html";
+    // Well, do nothing
+    } else {
+        return link;
+    }
+}
 
 public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String renditionStr) {
 	if (renditionStr == null) return imagePath;
@@ -93,4 +114,146 @@ public boolean isCookiePage(Page currentPage) {
 	}
 }
 
+public boolean isContentHub(Page currentPage) {
+	String isContentHub = currentPage.getProperties().get("isContentHub", "derived");
+	if ("true".equals(isContentHub)) {
+		return true;
+	} else if ("false".equals(isContentHub)) {
+		return false;
+	} else {
+		Page parentPage = currentPage.getParent();
+		return parentPage == null ? false : isContentHub(parentPage);
+	}
+}
+
+public String getResourceLocation(Resource r){
+	String path = r.getPath();
+	if(path.indexOf("jcr:content/content/middle/par") != -1){
+		return "cq5dam.npd.middle.";
+	} else if(path.indexOf("jcr:content/content/top/par") != -1){
+		return "cq5dam.npd.top.";
+	} else if(path.indexOf("jcr:content/content/left/par") != -1){
+		return "cq5dam.npd.left.";
+	} else if(path.indexOf("jcr:content/content/right/par") != -1){
+		return "cq5dam.npd.right.";
+	} else if(path.indexOf("jcr:content/content/hero/par") != -1){
+		return "cq5dam.npd.hero.";
+	} else {
+		return "original";
+	}
+}
+
+public String get2xPath(String path) {
+	int lastIndex = path.lastIndexOf('.');
+	if(lastIndex != -1 && path.indexOf("cq5dam.npd") != -1){
+		return path.substring(0,lastIndex) + "@2x" + path.substring(lastIndex);
+	}
+	else{
+		return path;
+	}
+}
+
+public String genId() {
+	Random rand=new Random();
+	String possibleLetters = "0123456789abcdefghijklmnopqrstuvwxyz";
+	StringBuilder sb = new StringBuilder(6);
+	for(int i = 0; i < 6; i++)
+	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
+	return sb.toString();
+}
+
+public List<Hit> getTaggedArticles(List<String> tagIds, int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	SearchResult sr = getArticlesWithPaging(tagIds, limit, resourceResolver, builder, sortByPriority, 0);
+	return sr.getHits();
+}
+
+public SearchResult getArticlesWithPaging(List<String> tagIds, int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority, int offset){
+	Map<String, String> map = new HashMap<String, String>();
+	map.put("type","cq:Page");
+
+    int i = 1;
+
+	
+    map.put("1_property", "@jcr:content/cq:scaffolding");
+    map.put("1_property.value", "/etc/scaffolding/gsusa/article");
+    map.put("property","jcr:content/cq:tags");
+	map.put("property.and","true");
+   
+    for(String tag: tagIds){
+		map.put("property."+ i +"_value",tag);
+		i++;
+    }
+	map.put("p.limit",limit + "");
+    map.put("p.offset", offset + "");
+	if(sortByPriority.equals("true")){
+		map.put("orderby","@jcr:content/articlePriority");
+		map.put("orderby.sort","desc");
+	    map.put("2_orderby","@jcr:content/editedDate");
+	    map.put("2_orderby.sort","desc");
+	} else {
+		map.put("orderby","@jcr:content/editedDate");
+		map.put("orderby.sort","desc");
+	}
+
+    Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+	SearchResult sr = query.getResult();
+	return sr;
+
+}
+
+public List<Hit> getAllArticles(int limit, ResourceResolver resourceResolver, QueryBuilder builder, String sortByPriority){
+	Map<String, String> map = new HashMap<String, String>();
+	map.put("type","cq:Page");
+
+
+	map.put("property", "@jcr:content/cq:scaffolding");
+    map.put("property.value", "/etc/scaffolding/gsusa/article");
+    
+	map.put("p.limit",limit + "");
+	if(sortByPriority.equals("true")){
+		map.put("orderby","@jcr:content/articlePriority");
+		map.put("orderby.sort","desc");
+	    map.put("2_orderby","@jcr:content/editedDate");
+	    map.put("2_orderby.sort","desc");
+	} else {
+		map.put("orderby","@jcr:content/editedDate");
+		map.put("orderby.sort","desc");
+	}
+
+    Query query = builder.createQuery(PredicateGroup.create(map), resourceResolver.adaptTo(Session.class));
+	SearchResult sr = query.getResult();
+	return sr.getHits();
+
+}
+
+public String getArticleCategoryPagePath(String[] tags, Session session) {
+        // SELECT [jcr:path] FROM [cq:PageContent] WHERE CONTAINS([cq:tags], 'gsusa:content-hub/girls') AND CONTAINS([cq:tags], 'gsusa:content-hub/girls/stem') AND NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'
+        try {
+                StringBuilder builder = new StringBuilder();
+                builder.append("SELECT [jcr:path] FROM [cq:PageContent] WHERE");
+                for (String tag : tags) {
+                        builder.append(" CONTAINS([cq:tags], 'gsusa:content-hub/").append(tag).append("') AND");
+                }
+                if (tags.length == 0) {
+                        builder.append(" AND");
+                }
+                builder.append(" NOT [cq:scaffolding] = '/etc/scaffolding/gsusa/article'");
+ 
+                String queryStr = builder.toString();
+                javax.jcr.query.Query query = session.getWorkspace().getQueryManager().createQuery(queryStr, javax.jcr.query.Query.JCR_SQL2);
+                query.setLimit(1);
+                RowIterator iter = query.execute().getRows();
+ 
+                while (iter.hasNext()) {
+                        String path = iter.nextRow().getPath();
+                        if (path.endsWith("/jcr:content")) {
+                                path = path.substring(0, path.length() - "/jcr:content".length());
+                        }
+                        return path;
+                }
+        } catch (Exception e) {
+                e.printStackTrace();
+        }
+        return null;
+}
 %>

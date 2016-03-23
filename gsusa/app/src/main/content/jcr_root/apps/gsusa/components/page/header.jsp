@@ -1,6 +1,14 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+				com.day.cq.wcm.foundation.Placeholder,
+                java.util.Random,
+                java.util.Map,
+                java.util.HashMap,
+                com.day.cq.search.QueryBuilder,
+                com.day.cq.search.Query,
+                com.day.cq.search.PredicateGroup,
+                com.day.cq.search.result.SearchResult"  %>
 <!-- header -->
 <%
     // All pages share the same header from the site root, except Join and Volunteer!
@@ -47,4 +55,6 @@ if (isCookiePage(currentPage)) {
 	<cq:include path="<%= cookiePlaceholderPath %>" resourceType="gsusa/components/cookie-header" />
 <%
 } %>
+<cq:include script="camp-header.jsp"/>
+
 <!--/header -->

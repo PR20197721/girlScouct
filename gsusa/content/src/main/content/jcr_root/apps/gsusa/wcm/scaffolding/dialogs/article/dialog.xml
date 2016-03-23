@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Article Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <articleTitle
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Please input a title"
+                        fieldLabel="Article Title"
+                        name="./jcr:content/jcr:title"
+                        xtype="textfield"/>
+                    <pageTitle
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Page Title"
+                    	fieldDescription="This field will be used to determine the URL Path of the page. If blank, the Article Title will be used by default. For example, an article with 'Cookie Sale!' in this field will have the URL '/cookie-sale.html'"
+                    	name="./jcr:content/pageTitle"
+                    	xtype="textfield"/>
+                    <shortTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="This field determines the shortened version of the title, to be used in small tiles. If left, blank, the regular title will be used instead."
+                        fieldLabel="Short Title"
+                        name="./jcr:content/shortTitle"
+                        xtype="textfield"/>
+                    <seoTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Setting this field overrides the page's current SEO title if it exists."
+                        fieldLabel="SEO Title"
+                        name="./jcr:content/seoTitle"
+                        xtype="textfield"/>
+                    <articleText
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Article Text"
+                        name="./jcr:content/content/middle/par/article_text/text"
+                        xtype="richtext"/>
+                    <textIsRich
+                    	jcr:primaryType="cq:Widget"
+                    	xtype="hidden"
+                    	value="true"
+                    	name="./jcr:content/content/middle/par/article_text/textIsRich"/>
+                    <shortDesc
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="This field determines the text that appears in the small tiles, as well as the seo description data"
+                        fieldLabel="Short Description"
+                        name="./jcr:content/jcr:description"
+                        xtype="textfield"/>
+                    <image
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        border="true"
+                        cropParameter="./jcr:content/image/imageCrop"
+                        ddGroups="[media]"
+                        fieldLabel="Photo"
+                        fileNameParameter="./jcr:content/image/fileName"
+                        fileReferenceParameter="./jcr:content/image/fileReference"
+                        height="{Long}400"
+                        hideLabel="false"
+                        itemId="image"
+                        mapParameter="./jcr:content/image/imageMap"
+                        name="./jcr:content/image/file"
+                        requestSuffix="/jcr:content/image.img.png"
+                        rotateParameter="./jcr:content/image/imageRotate"
+                        sizeLimit="100"
+                        width="{Long}200"
+                        xtype="html5smartimage">
+                        <items jcr:primaryType="cq:WidgetCollection">
+                            <resType
+                                jcr:primaryType="cq:Widget"
+                                name="./jcr:content/image/sling:resourceType"
+                                value="gsusa/components/image"
+                                xtype="hidden"/>
+                        </items>
+                    </image>
+                    <imagealt
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Image Alt"
+                        fieldLabel="Photo Alt"
+                        name="./jcr:content/imgAlt"
+                        xtype="textfield"
+                    />
+                    <tileimage
+					    jcr:primaryType="cq:Widget"
+					    allowBlank="{Boolean}false"
+					    allowUpload="false"
+					    border="true"
+					    cropParameter="./jcr:content/tileimage/imageCrop"
+					    ddGroups="[media]"
+					    fieldDescription="Please crop the image using aspect ratio 1.166:1 for the best result"
+					    fieldLabel="Tile Photo"
+					    fileNameParameter="./jcr:content/tileimage/fileName"
+					    fileReferenceParameter="./jcr:content/tileimage/fileReference"
+					    height="{Long}200"
+					    hideLabel="false"
+					    itemId="thumbnail"
+					    mapParameter="./jcr:content/tileimage/imageMap"
+					    name="./jcr:content/tileimage/file"
+					    requestSuffix="/jcr:content/tileimage.img.png"
+					    rotateParameter="./jcr:content/tileimage/imageRotate"
+					    sizeLimit="100"
+					    width="{Long}200"
+					    xtype="html5smartimageAR">
+					    <cropConfig
+                            jcr:primaryType="nt:unstructured">
+                            <aspectRatios
+                                jcr:primaryType="nt:unstructured">
+                                <aspectRatio-1.6x1
+                                    jcr:primaryType="nt:unstructured"
+                                    text="1.166x1"
+                                    value="116,100"
+                                    checked="true"/>
+                            </aspectRatios>
+                        </cropConfig>
+					    <items jcr:primaryType="cq:WidgetCollection">
+					        <resType
+					            jcr:primaryType="cq:Widget"
+					            name="./jcr:content/tileimage/sling:resourceType"
+					            value="gsusa/components/image"
+					            xtype="hidden"/>
+					    </items>
+					</tileimage>
+                    <ogimage
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="og:image"
+                        fieldDescription="This field determines what image is shared when a user clicks the Facebook Share icon. If blank, the hero image will be used by default."
+                        rootPath="/content/dam/girlscouts-gsusa"
+                        xtype="pathfield"
+                        name="./jcr:content/ogImage"/>
+                    <editedDate
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="Input the edited date for the article"
+                        fieldLabel="Edited Date"
+                        hideTime="{Boolean}true"
+                        name="./jcr:content/editedDate"
+                        xtype="datetime"/>
+                    <showEditDate
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+                    	fieldLabel="Show Edit Date"
+                    	xtype="selection"
+                        value="false"
+                        defaultValue="false"
+                    	name="./jcr:content/content/middle/par/edit_date/showEditDate">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                            <true
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="true"/>
+                            <false
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="false"/>
+                        </options>
+                    </showEditDate>
+                    <articlePriority
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        defaultValue="0"
+                        fieldDescription="Enter a number to specify article priority. A higher number grants higher priority. The default is 0 at the lowest priority"
+                        fieldLabel="Article Priority"
+                        name="./jcr:content/articlePriority"
+                        xtype="numberfield"/>
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        defaultValue="photo"
+                        fieldLabel="Article Type"
+                        name="./jcr:content/type"
+                        type="radio"
+                        value="photo"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <photo
+                                jcr:primaryType="nt:unstructured"
+                                text="Photo"
+                                value="photo"/>
+                            <video
+                                jcr:primaryType="nt:unstructured"
+                                text="Video"
+                                value="video"/>
+                            <link
+                                jcr:primaryType="nt:unstructured"
+                                text="Link"
+                                value="link"/>
+                        </options>
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            afterrender="function(field){articleTypeChanged(field, field.getValue());}"
+                            selectionchanged="function(field, value){articleTypeChanged(field, value);}"/>
+                    </type>
+                    <playOnClick
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Play On Click"
+                        name="./jcr:content/playOnClick"
+                        xtype="checkbox"/>
+                    <external-video
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="While not necessary, for best results, set width and height to a 16:9 ratio. Example: &amp;lt;iframe width=&amp;quot;750&amp;quot; height=&amp;quot;422&amp;quot; src=&amp;quot;https://www.youtube.com/embed/0OZO7atPNXE&amp;quot; frameborder=&amp;quot;0&amp;quot; allowfullscreen&amp;gt;&amp;lt;/iframe&amp;gt;"
+                        fieldLabel="Video Embed"
+                        name="./jcr:content/videoLink"/>
+                    <externalLink
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Link"
+                        name="./jcr:content/externalLink"
+                        xtype="pathfield"/>
+                    <openInNewWindow
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Open In New Window"
+                        name="./jcr:content/openInNewWindow"
+                        xtype="checkbox"/>
+                    <hideInNav
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+
+                    	fieldLabel="Hide In Navigation"
+                    	xtype="selection"
+                        value="true"
+                        defaultValue="true"
+                    	name="./jcr:content/hideInNav">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+                            <true
+                                jcr:primaryType="nt:unstructured"
+                                text="Yes"
+                                value="true"/>
+                            <false
+                                jcr:primaryType="nt:unstructured"
+                                text="No"
+                                value="false"/>
+                        </options>
+                    </hideInNav>
+                    <primaryTag
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldDescription="The first tag in the list is the primary tag for the article"
+                        fieldLabel="Tag(s)"
+                        name="./jcr:content/cq:tags"
+                        namespaces="[gsusa]"
+                        xtype="tags"/>
+                    <listingPage
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Listing Page"
+                        name="./jcr:content/listingPage"
+                        xtype="pathfield"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>

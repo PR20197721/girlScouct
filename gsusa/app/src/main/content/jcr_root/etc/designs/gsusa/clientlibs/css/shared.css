@@ -75,19 +75,27 @@ div.wrapper .row:nth-child(2) {
 
 /*accordion*/
 .accordion.section dt {
-  background:#f6f6f6;
-  padding:0;
+  padding: 0;
   position: relative;
+  background: #e3e3e3;
+  margin-bottom: 3px;
+}
+.accordion.section dt.on {
+  background: #00ae58;
 }
 .accordion.section dt h6 {
   background:none;
   padding: 0;
-  margin-left: 30px;
-  font-size: 14px;
   font-weight: 600;
-  color: #00ae58;
-  display: inline;
   cursor: pointer;
+  color: #000;
+  display: block;
+  padding: 0.63rem;
+  font-size: 1.13rem;
+  margin: 0;
+}
+.accordion.section dt h6.on {
+  color: #fff;
 }
 .accordion.section dt h6:before {
   border-style: solid;
@@ -95,16 +103,26 @@ div.wrapper .row:nth-child(2) {
   display: block;
   position: absolute;
   top: 50%;
-  border-color: transparent transparent transparent #00ae58;
-  margin-left: 5px;
-  border-width: 5px;
-  margin-top: -5px;
+  border-color: #00ae58 transparent transparent;
+  border-width: 0.63rem;
+  margin-left: 0.31rem;
+  left: auto;
+  right: 0.63rem;
+  margin-top: -0.31rem;
 }
 .accordion.section dt h6.on:before {
-  border-color: #00ae58 transparent transparent;
-  margin-top: -2px;
+  border-color: transparent transparent #fff;
+  margin-top: -0.94rem;
 }
-
+.accordion.section dd {
+  background: #f8f8f8;
+}
+.accordion.section .content {
+    padding: 25px 15px 0 15px;
+}
+.accordion.section dd p {
+  font-size: 14px;
+}
 /*form group*/
 #form .title {
   padding: 4px 0px 7px 0px;

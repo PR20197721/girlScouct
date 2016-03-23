@@ -3,6 +3,8 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <%
+	String pathIndexStr = (String)request.getAttribute("gsusa-component-booth-finder-index");
+
 	String uniqueID = "" + System.currentTimeMillis();
 
 	String header = (String)request.getAttribute("gsusa-share-model-header");
@@ -24,7 +26,7 @@
 	String text2 = properties.get("text2","Share on Twitter");
 	String tweet = (String)request.getAttribute("gsusa-share-modal-tweet");
 	if(tweet == null){
-		tweet = properties.get("tweet",desc);	
+		tweet = properties.get("tweet",desc);
 	}
 	String icon2 = properties.get("icon2", "icon-social-twitter-tweet-bird");
 	String hashTags = properties.get("hashtags","");
@@ -47,7 +49,7 @@
 			modFilePath = "";
 		}
 	}
-	
+
 	Resource shareimg = resource.getChild("shareimage");
 	String shareFilePath = (String)request.getAttribute("gsusa-share-modal-share-img-path");
 	if(shareFilePath == null){
@@ -62,12 +64,12 @@
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 			%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 		}
-		
+
 %>
 <div class="share-modal">
-	<a href="#" data-reveal-id="shareModal" class="button"><%= button %></a>
+	<a href="#" data-reveal-id="shareModalpath<%=pathIndexStr%>" class="button" style="display:none"><%= button %></a>
 	<!-- Reveal Modals begin -->
-	<div id="shareModal" class="reveal-modal share-modal" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
+	<div id="shareModalpath<%=pathIndexStr%>" class="reveal-modal share-modal" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
 	  <a class="close-reveal-modal icon-button-circle-cross" aria-label="Close"></a>
 	  <div class="float-left">
 	    <% if(!modFilePath.equals("")){ %>
@@ -91,8 +93,7 @@
 </div>
 <% } %>
 
-    <script type="text/javascript">
-
+<script type="text/javascript">
 	$(document).ready(function() {
 		var scriptTag = document.createElement("script");
 		scriptTag.type = "text/javascript"
@@ -115,10 +116,10 @@
         var obj = {
           method: 'feed',
           link: '<%= url %>',
-          name: '<%= fbtitle %>',
+          name: '<%= fbtitle.replaceAll("\\'","\\\\'") %>',
           picture: location.host + '<%= shareFilePath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
-          description: '<%= fbdesc.replace("\'","\\'") %>'
+          description: '<%= fbdesc.replaceAll("\\'","\\\\'") %>'
         };
 
         function callback(response) {
@@ -126,5 +127,4 @@
 
         FB.ui(obj, callback);
       }
-
-    </script>
+</script>

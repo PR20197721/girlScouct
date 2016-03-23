@@ -25,6 +25,8 @@
 --%><%@include file="/libs/foundation/global.jsp" %><%
 %><%@ page import="com.day.cq.commons.Doctype,
 				   org.apache.sling.settings.SlingSettingsService,
+				   org.apache.sling.api.SlingHttpServletRequest,
+				   com.day.cq.commons.Externalizer,
 				   java.util.Set"%><%
 	Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
 	Boolean isProd = set.contains("prod");
@@ -33,12 +35,66 @@
     if (resourceResolver.getResource(favIcon) == null) {
         favIcon = null;
     }
+	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
+	String seoTitle = properties.get("seoTitle", "");
+	String ogTitle = properties.get("ogTitle", seoTitle);
+	String ogSiteName = properties.get("ogSiteName", "Girl Scouts of the USA");
+	String ogUrl = properties.get("ogUrl", "");
+	String ogDescription = properties.get("ogDescription", "");
+	String ogImage = properties.get("ogImage", "");
+	if("".equals(ogImage)){
+		String pageImagePath = currentPage.getPath() + "/jcr:content/image";
+	    Session session = (Session)resourceResolver.adaptTo(Session.class);
+	    if (session.nodeExists(pageImagePath)) {
+	    	ogImage = resourceResolver.map(currentPage.getPath() + "/jcr:content.img.png");
+	    }
+	} else{
+		Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+		ogImage = externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage);
+	}
+	
+	Page parentPage = currentPage.getAbsoluteParent(2);
+	String fbAppId = parentPage.getProperties().get("facebookId", "419540344831322");
+	if(!"".equals(properties.get("fbAppId",""))){
+		fbAppId = properties.get("fbAppId","");
+	}
+
 %><head>
 	<% if (isProd) { %>
     	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96.js"></script>
     <% } else { %>
     	<script src="//assets.adobedtm.com/8fdbb9077cc907df83e5ac2a5b43422f8da0b942/satelliteLib-3d0de2c9d6782ec7986e1b3747da043a2d16bd96-staging.js"></script>
     <% } %>
+    
+    
+    <% if (ogTitle.length() > 0) {%>
+    	<meta property="og:title" content="<%=ogTitle %>"/>
+    <%} %>
+    <% if (ogSiteName.length() > 0) {%>
+		<meta property="og:site_name" content="<%=ogSiteName %>"/>
+	<%} %>
+	<% if (ogUrl.length() > 0) {%>
+		<meta property="og:url" content="<%=ogUrl%>"/>
+	<%} %>
+	<% if (ogDescription.length() > 0) {%>
+		<meta property="og:description" content="<%=ogDescription %>"/>
+	<%} %>
+	<%
+	if (ogImage.length() > 0) {
+		if (ogImage.indexOf("http:") != -1) { %>
+			<meta property="og:image" content="<%=ogImage %>"/>
+	<%	} else { 
+			Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+	%>
+			<meta property="og:image" content="<%=externalizer.absoluteLink((SlingHttpServletRequest)request, "http", ogImage) %>"/>
+	<%
+		}
+	} %>
+	<% if (fbAppId.length() > 0) {%>
+		<meta property="fb:app_id" content="<%=fbAppId %>"/>
+	<%} %>
+    
+    
     <meta http-equiv="X-UA-Compatible" content="IE=9">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
     <!--for the mobile viewport.-->
