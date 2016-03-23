@@ -4,7 +4,6 @@
     <filter root="/apps/foundation"/>
     <filter root="/apps/wcm"/>
     <filter root="/etc/council-rollout"/>
-    <filter root="/etc/ftp-event-trigger"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import/girlscouts/csv"/>
