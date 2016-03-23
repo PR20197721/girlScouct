@@ -2,7 +2,11 @@
     org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
-	com.day.text.Text" %>
+	com.day.text.Text,
+	org.joda.time.DateTimeZone,
+	org.joda.time.format.DateTimeFormatter,
+	org.joda.time.format.DateTimeFormat,
+	org.joda.time.DateTime" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -23,6 +27,10 @@ DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
 utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 DateFormat formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
+
+DateTimeFormatter dtfnotimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM"); 
+DateTimeFormatter dtfTimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM zzz"); 
+DateTimeFormatter dtftimeonly = DateTimeFormat.forPattern("HH:MM zzz");
 
 Date today = new Date();
 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

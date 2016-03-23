@@ -13,7 +13,8 @@
 	com.day.cq.wcm.api.components.IncludeOptions,
 	java.util.Calendar,
 	java.util.Date,
-	java.text.DateFormat" %>
+	java.text.DateFormat,
+	org.joda.time.DateTime" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
@@ -163,6 +164,10 @@ public static String getDateTime(Date startDate, Date endDate,DateFormat dateFor
 
  		}
 	return dateStr;
+}
+
+public static boolean isSameDate(DateTime d1, DateTime d2) {
+	return (d1.getYear() == d2.getYear() && d1.monthOfYear() == d2.monthOfYear() && d1.dayOfMonth() == d2.dayOfMonth());
 }
 
 
