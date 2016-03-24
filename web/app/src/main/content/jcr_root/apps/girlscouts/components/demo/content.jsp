@@ -1,6 +1,6 @@
 <%
 String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
-String path="/Users/akobovich/vtk";
+String path="/usr/local/vtk"; //"/Users/akobovich/vtk";
 java.io.File folder = new java.io.File(path);
 java.io.File[] listOfFiles = folder.listFiles();
 
@@ -14,7 +14,7 @@ HttpSession hsession = request.getSession();
 
 
 if( request.getParameter("rmUser")!=null){
-
+   if( listOfFiles!=null ) 
      for (int i = 0; i < listOfFiles.length; i++) {
           if (listOfFiles[i].isFile()) {
               String name= listOfFiles[i].getName();
@@ -75,8 +75,9 @@ function xyz(slc){
 			<% 
 			
 			if( request.getParameter("vTroop") ==null)
-				out.println("<h2 class='vtk-demo-select_'>Please Select A Troop First</h2>");
-			else
+			     out.println("<h2 class='vtk-demo-select_'>Please Select A Troop First</h2>");
+			else{
+			  if( listOfFiles!=null ) {
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {
 			          String name= listOfFiles[i].getName();
@@ -154,6 +155,8 @@ function xyz(slc){
 			          } //if
 			      } //if
 			    } //for
+			  }
+			}
 			  %>
 			</div>
 		</div>
@@ -182,8 +185,9 @@ function xyz(slc){
 
 
 
-
+if( listOfFiles!=null ) 
 	for (int i = 0; i < listOfFiles.length; i++) {
+	
 	  if (listOfFiles[i].isFile()) {
 		  String name= listOfFiles[i].getName();
 
