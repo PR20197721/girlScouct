@@ -1,6 +1,6 @@
 <%
 String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
-String path="/Users/akobovich/vtk";
+String path="/usr/local/vtk"; //"/Users/akobovich/vtk";
 java.io.File folder = new java.io.File(path);
 java.io.File[] listOfFiles = folder.listFiles();
 
@@ -14,7 +14,7 @@ HttpSession hsession = request.getSession();
 
 
 if( request.getParameter("rmUser")!=null){
-
+   if( listOfFiles!=null ) 
      for (int i = 0; i < listOfFiles.length; i++) {
           if (listOfFiles[i].isFile()) {
               String name= listOfFiles[i].getName();
@@ -40,7 +40,7 @@ function xyz(slc){
 
 <div style="clear: both"></div>
 <!-- vtk start -->
-
+XXXXXXXXXXXXXXX
 <div class="vtk-demo-wrap row">
 
 	<div class="vtk-demo-wrap-top row">
@@ -75,7 +75,8 @@ function xyz(slc){
 			
 			if( request.getParameter("vTroop") ==null)
 				out.println("Select troop first");
-			else
+			else{
+			  if( listOfFiles!=null ) {
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {
 			          String name= listOfFiles[i].getName();
@@ -153,6 +154,8 @@ function xyz(slc){
 			          } //if
 			      } //if
 			    } //for
+			  }
+			}
 			  %>
 			</div>
 		</div>
@@ -181,8 +184,9 @@ function xyz(slc){
 
 
 
-
+if( listOfFiles!=null ) 
 	for (int i = 0; i < listOfFiles.length; i++) {
+	
 	  if (listOfFiles[i].isFile()) {
 		  String name= listOfFiles[i].getName();
 

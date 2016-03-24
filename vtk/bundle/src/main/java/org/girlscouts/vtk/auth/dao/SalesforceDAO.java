@@ -59,7 +59,7 @@ public class SalesforceDAO {
 	private TroopDAO troopDAO;
 	private ConnectionFactory connectionFactory;
 	private java.util.List<VtkError> errors;
-	
+	private String vtkDemoPath ="/usr/local/vtk";
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
 		this.troopDAO = troopDAO;
 		this.connectionFactory = connectionFactory;
@@ -110,7 +110,7 @@ public class SalesforceDAO {
 				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
 		       
-				String userJsonFile="/Users/akobovich/vtk/vtkUser_"+apiConfig.getDemoUserName()+".json";
+				String userJsonFile= vtkDemoPath +"/vtkUser_"+apiConfig.getDemoUserName()+".json";
 				System.err.println(userJsonFile);
 				rsp = readFile(userJsonFile).toString();
 			}
@@ -159,7 +159,7 @@ public class SalesforceDAO {
 						
 						if(apiConfig.isUseAsDemo() ){
 							//writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
-							writeToFile("/Users/akobovich/vtk/vtkUser_"+user.getName()+".json" , rsp);
+							writeToFile(vtkDemoPath +"/vtkUser_"+user.getName()+".json" , rsp);
 							
 						}
 					} catch (org.json.JSONException je) {
@@ -387,12 +387,12 @@ public class SalesforceDAO {
 				}
 				rsp = "{\"records\":" + rsp + "}";
 				if(apiConfig.isUseAsDemo() )
-					writeToFile("/Users/akobovich/vtk/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
+					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
 				
 			}else{
 			
-				String userJsonFile="/Users/akobovich/vtk/vtkContact_"+apiConfig.getDemoUserName()+".json";
+				String userJsonFile=vtkDemoPath +"/vtkContact_"+apiConfig.getDemoUserName()+".json";
 				System.err.println(userJsonFile);
 				rsp = readFile(userJsonFile).toString();
 		    }
@@ -603,9 +603,9 @@ public class SalesforceDAO {
 				rsp= EntityUtils.toString(entity);
 				
 				if(apiConfig.isUseAsDemo() )
-					writeToFile("/Users/akobovich/vtk/vtkTroop_"+user.getName()+".json" , rsp);
+					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
-				String troopJsonFile= "/Users/akobovich/vtk/vtkTroop_"+apiConfig.getDemoUserName()+".json";
+				String troopJsonFile= vtkDemoPath +"/vtkTroop_"+apiConfig.getDemoUserName()+".json";
 				rsp= readFile(troopJsonFile).toString();
 			}
 			
