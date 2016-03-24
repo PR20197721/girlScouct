@@ -37,8 +37,11 @@
 <% 	final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
  	
 	<% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+		
+		<link type="text/css" rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/_demo.css"/>
+		
 		<div class="vtk-demo-logo" style="width:<%= regularWidth %>,height:<%= regularHeight%>">
-			<img class="vtk-demo-logo-img" src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+		  <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/log_demo.png"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 	<% } %>
 
 	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>

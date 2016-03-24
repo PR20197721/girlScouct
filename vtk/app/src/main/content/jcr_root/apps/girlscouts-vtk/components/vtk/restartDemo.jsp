@@ -4,6 +4,8 @@
 
 <% 
 
+    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+
 	try{
 		final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 		
@@ -11,8 +13,7 @@
 		//org.girlscouts.vtk.auth.models.ApiConfig apiConfig= VtkUtil.getApiConfig(session);
 	   // if( apiConfig!=null && !apiConfig.isDemoUser() ){ out.println("No permission(s) to perform this operation. "); return; }
 		
-	   final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-       if( configManager.getConfig("isDemoSite") ==null || !configManager.getConfig("isDemoSite").equals("true")){
+	   if( configManager.getConfig("isDemoSite") ==null || !configManager.getConfig("isDemoSite").equals("true")){
     	   { out.println("No permission(s) to perform this operation. "); return; }
        }
 	   
@@ -32,7 +33,7 @@
 	}catch(Exception e){e.printStackTrace();}
 
 
-    response.sendRedirect("http://localhost:4503/content/girlscouts-demo/en.html");
+    response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html");
 %>
  
 

@@ -33,7 +33,11 @@ function xyz(slc){
 	
 	var e = document.getElementById("carlos");
 	var strUser = e.options[e.selectedIndex].value;
-	self.location="?vTroop="+ strUser;
+	if( strUser==null || strUser =='' ){
+	    self.location="?";
+	}else{
+		self.location="?vTroop="+ strUser;
+	}
 }
 </script>
 <div id="main" class="row collapse">
