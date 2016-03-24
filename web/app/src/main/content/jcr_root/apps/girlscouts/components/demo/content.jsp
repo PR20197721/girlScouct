@@ -40,7 +40,7 @@ function xyz(slc){
 
 <div style="clear: both"></div>
 <!-- vtk start -->
-XXXXXXXXXXXXXXX
+
 <div class="vtk-demo-wrap row">
 
 	<div class="vtk-demo-wrap-top row">
