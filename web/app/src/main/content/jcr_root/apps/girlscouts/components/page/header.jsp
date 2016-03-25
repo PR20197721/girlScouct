@@ -44,7 +44,8 @@
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
         <div class="demo">
-           <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
+           <!-- <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a> -->
+            <a data-reveal-id="myModal">Restart Demo</a>
         </div>
        
         <% } %>
@@ -63,7 +64,10 @@
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
         <div class="demo">
-          <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
+        
+          <!-- <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a> -->
+          <a data-reveal-id="myModal">Restart Demo</a>
+
         </div>
         
           <% } %>

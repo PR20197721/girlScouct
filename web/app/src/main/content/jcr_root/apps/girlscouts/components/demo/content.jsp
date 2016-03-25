@@ -255,3 +255,18 @@ if( listOfFiles!=null )
 </div>
 
 
+<div id="myModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle">Awesome. I have it.</h2>
+  <p class="lead">Your couch.  It is mine.</p>
+  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+
+  <a class="button tiny alert right" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">OK</a>
+
+</div>
+
+<script>
+	$(document).foundation();
+</script>
+
+
