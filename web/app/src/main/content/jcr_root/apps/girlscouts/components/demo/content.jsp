@@ -256,13 +256,14 @@ if( listOfFiles!=null )
 
 
 <div id="myModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <h2 id="modalTitle">Awesome. I have it.</h2>
-  <p class="lead">Your couch.  It is mine.</p>
-  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+  <h2 id="modalTitle">Are You Sure?</h2>
+  <p>If you restart the demo, any changes you have made will be lost.</p>
+  <!-- <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p> -->
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 
-  <a class="button radius success right" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">OK</a>
-
+  <a class="button radius success right tiny" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart</a>
+<a class="button secondary right tiny" onclick="$('a.close-reveal-modal').trigger('click');
+">Cancel</a>
 </div>
 
 <script>
