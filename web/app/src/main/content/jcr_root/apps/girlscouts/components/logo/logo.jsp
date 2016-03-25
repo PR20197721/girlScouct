@@ -41,7 +41,7 @@
 		<link type="text/css" rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/_demo.css"/>
 		
 		<div class="vtk-demo-logo" style="width:<%= regularWidth %>,height:<%= regularHeight%>">
-		  <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+		  <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png"<%= alt %> id="logoImg" />
 	<% } %>
 
 	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
@@ -51,9 +51,6 @@
 
 
 	<% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
-    <div class="vtk-demo-restart">
-        <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
-    </div>
 	</div>
 	<% } %>
 

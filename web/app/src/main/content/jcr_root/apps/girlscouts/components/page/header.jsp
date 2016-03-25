@@ -17,6 +17,10 @@
   request.setAttribute("headerPath", headerPath);
   String headerImagePath = currentSite.get("headerImagePath", "");
 %>
+
+<%  final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
+
+
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
@@ -33,8 +37,19 @@
       <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
       <div class="row collapse">
-        <% setCssClasses("large-17 medium-17 small-24 columns", request); %>
+
+        <div class="large-17 medium-17 small-24 columns">
+        <% /*setCssClasses("large-17 medium-17 small-24 columns", request); */ %> 
+        
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+        <div class="demo">
+           <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
+        </div>
+       
+        <% } %>
+
+        </div>
         <% if(currentSite.get("hideSearch","false").equals("false")){ %>
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
         <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
@@ -43,8 +58,16 @@
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
-        <% setCssClasses("small-19 columns", request); %>
+        <% /* setCssClasses("small-19 columns", request); */%>
+        <div class="columns small-19">
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+        <div class="demo">
+          <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
+        </div>
+        
+          <% } %>
+                  </div>
         <div class="small-5 columns">
           <div class="small-search-hamburger">
              <% if(currentSite.get("hideSearch","false").equals("false")){ %>
