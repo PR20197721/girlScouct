@@ -261,7 +261,7 @@ if( listOfFiles!=null )
   <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
   <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 
-  <a class="button tiny alert right" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">OK</a>
+  <a class="button radius success right" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">OK</a>
 
 </div>
 
