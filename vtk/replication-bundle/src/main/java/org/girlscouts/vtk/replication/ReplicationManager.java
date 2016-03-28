@@ -52,8 +52,8 @@ public class ReplicationManager {
     // TODO: should I leave this?
     // All methods called here are static, but keeping this reference might help
     // make VTKUtil initialize before this component. 
-    @Reference
-    private VtkUtil vtkUtil;
+    //@Reference
+    //private VtkUtil vtkUtil;
 
     private Session session;
     private ObservationManager manager;
@@ -71,10 +71,10 @@ public class ReplicationManager {
         session = repository.loginAdministrative(null);
         
         // Generate paths to monitor
-        String year = Integer.toString(vtkUtil._getCurrentGSYear());
+        String year = Integer.toString(VtkUtil.getCurrentGSYear());
         List<String> monitorPaths = new ArrayList<String>();
         // Add /vtk(year)
-        String yearPlanBase = vtkUtil._getYearPlanBase(null, null);
+        String yearPlanBase = VtkUtil.getYearPlanBase(null, null);
         monitorPaths.add(yearPlanBase);
         // Add /content/dam/girlscouts-vtk/troop-data(year)
         monitorPaths.add(Constants.DAM_PATH + year);
