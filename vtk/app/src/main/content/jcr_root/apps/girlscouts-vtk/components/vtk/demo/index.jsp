@@ -51,7 +51,7 @@ java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts
 	
 	if(request.getParameter("vTroop")!=null && !request.getParameter("vTroop").equals("")){
 	 troop.setTroopId( request.getParameter("vTroop")+"_"+troop.getTroopId() );
-	    
+System.err.println("teststss : "+ troop.getTroopId() );	    
 	    
     }else if( !isGroupDemo && troop.getPermissionTokens().contains(13)){ //if not parent
 	    	//troop.setTroopId( "SHARED_"+session.getId()+"_"+troop.getTroopId() ); //group

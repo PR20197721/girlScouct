@@ -224,6 +224,7 @@ if( listOfFiles!=null )
 									   java.util.Iterator itr= roles.iterator();
 									   while( itr.hasNext() ){
 										   String rl= (String) itr.next();
+										   if( rl==null) continue;
 										   String rl_deff= permisDeff.get( rl );
 
 										   %><%=(rl_deff==null) ? rl : rl_deff %> <%= itr.hasNext() ? "," : ""%><%
