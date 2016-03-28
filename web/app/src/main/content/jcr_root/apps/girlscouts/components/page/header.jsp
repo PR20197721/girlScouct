@@ -40,6 +40,12 @@
 
         <div class="large-17 medium-17 small-24 columns">
         <% /*setCssClasses("large-17 medium-17 small-24 columns", request); */ %> 
+        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+            <div class="vtk-vounteer-trainer">
+              Volunteer Toolkit Training
+            </div>
+
+        <% } %>
         
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
@@ -61,6 +67,13 @@
       <div class="row vtk-login collapse">
         <% /* setCssClasses("small-19 columns", request); */%>
         <div class="columns small-19">
+        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
+            <div class="vtk-vounteer-trainer">
+              Volunteer Toolkit Training
+            </div>
+             <div style="clear:both"></div>
+        <% } %>
+
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
         <div class="demo">
