@@ -60,21 +60,16 @@ function xyz(slc){
 	<!-- / Selected -->
 
 	<div class="vtk-demo-wrap-top row">
-		<div class="columns small-push-3 small-18 end">
-			<h2>
-			  	Plan quickly. Save Time. Stay Organized.
-			</h2>
-			<h1>
+		<div class="columns small-24 end">
+			  	Plan quickly. Save Time. Stay Organized.<br>
 			  	Everyone benefits when they know how to use the volunteer Toolkit.
-			</h1>
 		</div>
 	</div>
   <!-- / info -->
 
 
 	<div class="row vtk-demo-wrap-bottom">
-		<div class="columns small-24 medium-3"><br /></div>
-		<div class="columns small-24 medium-18">
+		<div class="columns small-24">
 			<div class="row">
 			<% 
 			
@@ -164,8 +159,14 @@ function xyz(slc){
 			  %>
 			</div>
 		</div>
-		<div class="columns small-24 medium-3"><br /></div>
 	</div>
+
+	<div class="row">
+		<div class="vtk-bottom-frase columns small-24">
+			> See for yourself! Phone, Tablet or Desktop, select a role and experience how easy troop planning can be.
+		</div>
+	</div>
+
 
 
 <% if( request.getParameter("showDetails") !=null ){ %>
