@@ -1,6 +1,6 @@
 <%
 String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
-String path="/usr/local/vtk"; //"/Users/akobovich/vtk";
+String path="/usr/local/vtk"; 
 java.io.File folder = new java.io.File(path);
 java.io.File[] listOfFiles = folder.listFiles();
 
@@ -8,6 +8,7 @@ java.io.File[] listOfFiles = folder.listFiles();
 java.util.Map<String, String> permisDeff = new java.util.TreeMap<String, String>();
 permisDeff.put("DP", "Troop Leader");
 permisDeff.put("PA", "Parent");
+
 org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null);
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
@@ -47,7 +48,7 @@ function xyz(slc){
 
 <div class="vtk-demo-wrap row">
 
-	<div class="vtk-demo-select row">
+	<div class="vtk-demo-select row" style="display:none;">
 		<select name="vTroop" id="carlos" onchange="xyz()">
 			 <option value="">Select a Troop</option>
 			 <option value="troop1" <%=vTroop.equals("troop1") ? "selected" : "" %>>red</option>
@@ -67,15 +68,13 @@ function xyz(slc){
 	</div>
   <!-- / info -->
 
-
 	<div class="row vtk-demo-wrap-bottom">
 		<div class="columns small-24">
 			<div class="row">
+		
 			<% 
 			
-			if( request.getParameter("vTroop") ==null)
-			     out.println("<h2 class='vtk-demo-select_'>Please Select A Troop First</h2>");
-			else{
+			
 			  if( listOfFiles!=null ) {
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {
@@ -155,7 +154,7 @@ function xyz(slc){
 			      } //if
 			    } //for
 			  }
-			}
+			
 			  %>
 			</div>
 		</div>
