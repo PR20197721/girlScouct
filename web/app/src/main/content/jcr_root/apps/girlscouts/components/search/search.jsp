@@ -59,8 +59,9 @@ if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-final String escapedQuery = q != null ? q : "";
-final String escapedQueryForAttr = q != null ? q : "";
+final String query = java.net.URLEncoder.encode(q != null ? q : "","UTF-8");
+final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
+final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
 pageContext.setAttribute("escapedQuery", java.net.URLDecoder.decode(escapedQuery, "UTF-8"));
 pageContext.setAttribute("escapedQueryForAttr", java.net.URLDecoder.decode(escapedQueryForAttr, "UTF-8"));
@@ -76,8 +77,8 @@ if(theseDamDocuments.equals("")){
 	}
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8")));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 %>
