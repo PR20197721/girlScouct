@@ -4,9 +4,9 @@
         <%      
                 
                 Page categoryPage = manager.getPage(categoryParam);
-%> *********<%=categoryPage.getProperties().get("type", "") %> <%
+
                 if (categoryPage != null) {
-      out.println("FALSE....." + categoryPage.getProperties().get("type", "") );          	
+            	
                     if ( categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
         %><table width="90%" align="center" class="browseMeetingAids">
             <tr>
@@ -20,14 +20,12 @@
                                     Resource meetingResource = iter.next();
                                     
                                     String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
-                              System.err.println("****** "+ meetingId);     
                                     meetingId= meetingId.replace("/","");
                                     java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId());                            
-                             System.err.println(".........."+ lresources.size() +" : "+ LOCAL_MEETING_AID_PATH+"/"+meetingId );     
                                     for(int i=0;i<lresources.size();i++){      
                                         org.girlscouts.vtk.models.Asset la = lresources.get(i);
                                         String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
-System.err.println("*.*.*"+ lAssetImage);
+
             %>
             <tr>
 
@@ -41,7 +39,7 @@ System.err.println("*.*.*"+ lAssetImage);
                 </td>
                 <td><a class="previewItem" href="<%=la.getRefId()%>"
                     target="_blank"><%=la.getTitle()%></a></td>
-                <td width="40"> *** <%=VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)  %>
+                <td width="40"> 
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
                     %>
