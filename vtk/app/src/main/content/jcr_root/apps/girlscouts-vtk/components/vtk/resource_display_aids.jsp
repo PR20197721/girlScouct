@@ -74,7 +74,7 @@ System.err.println("*.*.*"+ lAssetImage);
                 </td>
                 <td><a class="previewItem" href="<%=a.getRefId()%>"
                     target="_blank"><%=a.getTitle()%></a></td>
-                <td width="40"> ***<%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) %>
+                <td width="40"> 
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
                     %>
@@ -95,7 +95,7 @@ System.err.println("*.*.*"+ lAssetImage);
             } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
             	
             	
-        %>$$$$$<%=displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil, levelMeetingsRoot)%>
+        %><%=displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil, levelMeetingsRoot)%>
         <%
             } else {
         %><div><%=categoryPage.getTitle()%></div>
