@@ -2412,7 +2412,12 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					javax.jcr.query.Query.JCR_SQL2);
 			
 			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
+			
+			NodeIterator itr = result.getNodes();
+			while(itr.hasNext()){
+				itr.next() ;
+				count++;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
