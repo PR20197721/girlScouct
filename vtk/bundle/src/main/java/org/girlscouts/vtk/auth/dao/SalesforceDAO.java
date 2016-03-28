@@ -60,6 +60,8 @@ public class SalesforceDAO {
 	private ConnectionFactory connectionFactory;
 	private java.util.List<VtkError> errors;
 	private String vtkDemoPath ="/usr/local/vtk";
+	private String vtkDemoCouncil="999";
+	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
 		this.troopDAO = troopDAO;
 		this.connectionFactory = connectionFactory;
@@ -196,9 +198,13 @@ public class SalesforceDAO {
 									+ " does not have a Contact VTK_Admin__c");
 						}
 						try {
-							user.setAdminCouncilId(contactJson
+							if(  apiConfig.isDemoUser() ){
+								user.setAdminCouncilId(Integer.parseInt(vtkDemoCouncil));
+							}else{
+								user.setAdminCouncilId(contactJson
 									.getJSONObject("Owner").getInt(
 											"Council_Code__c"));
+							}
 						} catch (org.json.JSONException je) {
 							log.info("User " + user.getSfUserId()
 									+ " does not have a Contact Owner");
@@ -211,6 +217,8 @@ public class SalesforceDAO {
 					e.printStackTrace();
 				}
 
+				
+				
 				JSONArray parentTroops = response.getJSONArray("camps");
 				java.util.List<Troop> troops = getTroops_merged(user,
 						apiConfig, user.getSfUserId(), parentTroops);
@@ -609,7 +617,7 @@ public class SalesforceDAO {
 				rsp= readFile(troopJsonFile).toString();
 			}
 			
-		troops= troopInfo_parse(user, rsp);
+		troops= troopInfo_parse(user, rsp, apiConfig);
 		
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -627,7 +635,12 @@ public class SalesforceDAO {
 			user_troop.setPermissionTokens(Permission
 					.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
 			user_troop.setTroopId("none");
-			user_troop.setCouncilCode(user.getAdminCouncilId());
+			
+			if(  apiConfig.isDemoUser() ){
+				user_troop.setCouncilCode(Integer.parseInt(vtkDemoCouncil));
+			}else{
+				user_troop.setCouncilCode(user.getAdminCouncilId());
+			}
 			user_troop.setTroopName("vtk_virtual_troop");
 			// user.setPermissions(user_troop.getPermissionTokens());
 			troops.add(user_troop);
@@ -636,7 +649,7 @@ public class SalesforceDAO {
 	}
 
 	
-	public java.util.List<Troop>  troopInfo_parse(User user, String rsp ) throws Exception{
+	public java.util.List<Troop>  troopInfo_parse(User user, String rsp,ApiConfig apiConfig ) throws Exception{
 		
 		   java.util.List<Troop> troops = new java.util.ArrayList();
 System.err.println("xx: "+ rsp);			
@@ -661,9 +674,12 @@ System.err.println("xx: "+ rsp);
 					troop.setTroopName(results.getJSONObject(i).getJSONObject("Parent").getString("Name"));
 					errorTroopName = troop.getTroopName();
 
-					troop.setCouncilCode(results.getJSONObject(i)
+					if(  apiConfig.isDemoUser() ){
+						troop.setCouncilCode(Integer.parseInt(vtkDemoCouncil));
+					}else{						
+						troop.setCouncilCode(results.getJSONObject(i)
 							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
-																					// id
+					}															// id
 					troop.setCouncilId(results.getJSONObject(i)
 							.getJSONObject("Parent").getString("Account__c"));
 					troop.setGradeLevel(results.getJSONObject(i)
@@ -868,13 +884,13 @@ System.err.println("xx: "+ rsp);
 		java.util.List<Troop> troops_withAssociation = troopInfo(user,
 				apiConfig, user.getSfUserId());
 		java.util.List<Troop> troops_withOutAssociation = parseParentTroops(user,
-				parentTroops);
+				parentTroops, apiConfig);
 		java.util.List<Troop> merged_troops = mergeTroops(
 				troops_withAssociation, troops_withOutAssociation);
 		return merged_troops;
 	}
 
-	public java.util.List<Troop> parseParentTroops(User user, JSONArray results) {
+	public java.util.List<Troop> parseParentTroops(User user, JSONArray results, ApiConfig apiConfig) {
 		
 		java.util.List<Troop> troops = new java.util.ArrayList<Troop>();
 		for (int i = 0; i < results.length(); i++) {
@@ -883,12 +899,23 @@ System.err.println("xx: "+ rsp);
 		  try{
 			Troop troop = new Troop();
 	
-			troop.setTroopId(results.getJSONObject(i).getString("Id"));
+			if(  apiConfig.isDemoUser() ){
+				troop.setTroopId(vtkDemoCouncil);
+			}else{
+				troop.setTroopId(results.getJSONObject(i).getString("Id"));
+			}
 			errorTroopId = troop.getTroopId();
 			troop.setTroopName(results.getJSONObject(i).getString("Name"));
 			errorTroopName= troop.getTroopName();
+				
+			if(  apiConfig.isDemoUser() ){
+				troop.setCouncilCode(Integer.parseInt(vtkDemoCouncil));
+			}else{						
 				troop.setCouncilCode(results.getJSONObject(i).getInt(
 						"Council_Code__c"));
+			}	
+				
+				
 				troop.setCouncilId(results.getJSONObject(i).getString(
 						"Account__c"));
 			
