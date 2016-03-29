@@ -2291,7 +2291,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 
 					SearchResult result = query.getResult();
-		System.err.println("tataSearch end query  : "+ new java.util.Date());
+		System.err.println("tataSearch end query  : "+ new java.util.Date() +" : " + result.getHits().size());
 
 					for (Hit hit : result.getHits()) {
 

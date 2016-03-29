@@ -554,6 +554,7 @@ var displayCurrent = function(isUploaded){
 		        if(localMediaStream != null && localMediaStream != undefined){
 		        	try{
                         localMediaStream.stop();
+                       
                     }catch(err){}
 		        }
 				$('#upload-tool').remove();
