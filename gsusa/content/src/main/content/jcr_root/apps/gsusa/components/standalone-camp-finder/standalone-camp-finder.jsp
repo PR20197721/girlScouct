@@ -44,7 +44,7 @@ else{
 	        <form class="find-camp clearfix" name="find-camp">
 	        <label for="zip-code"><%= text %></label>
 	        <div class="form-wrapper clearfix">
-	          <input type="text" maxlength="5" placeholder="ZIP Code" title="5 number zip code" name="zip-code">
+	          <input type="text" pattern="[0-9]*" maxlength="5" placeholder="ZIP Code" title="5 number zip code" name="zip-code">
 	          <input type="submit" class="link-arrow" value="Go >"/>
 	          <!-- <span>Please enter a valid zip code</span> -->
 	        </div>

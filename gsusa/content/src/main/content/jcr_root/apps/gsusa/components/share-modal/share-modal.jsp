@@ -26,7 +26,7 @@
 	String text2 = properties.get("text2","Share on Twitter");
 	String tweet = (String)request.getAttribute("gsusa-share-modal-tweet");
 	if(tweet == null){
-		tweet = properties.get("tweet",desc);	
+		tweet = properties.get("tweet",desc);
 	}
 	String icon2 = properties.get("icon2", "icon-social-twitter-tweet-bird");
 	String hashTags = properties.get("hashtags","");
@@ -49,7 +49,7 @@
 			modFilePath = "";
 		}
 	}
-	
+
 	Resource shareimg = resource.getChild("shareimage");
 	String shareFilePath = (String)request.getAttribute("gsusa-share-modal-share-img-path");
 	if(shareFilePath == null){
@@ -64,7 +64,7 @@
 		if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 			%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
 		}
-		
+
 %>
 <div class="share-modal">
 	<a href="#" data-reveal-id="shareModalpath<%=pathIndexStr%>" class="button" style="display:none"><%= button %></a>
@@ -116,10 +116,10 @@
         var obj = {
           method: 'feed',
           link: '<%= url %>',
-          name: '<%= fbtitle %>',
+          name: '<%= fbtitle.replaceAll("\\'","\\\\'") %>',
           picture: location.host + '<%= shareFilePath %>',
           caption: 'WWW.GIRLSCOUTS.ORG',
-          description: '<%= fbdesc.replace("\'","\\'") %>'
+          description: '<%= fbdesc.replaceAll("\\'","\\\\'") %>'
         };
 
         function callback(response) {
