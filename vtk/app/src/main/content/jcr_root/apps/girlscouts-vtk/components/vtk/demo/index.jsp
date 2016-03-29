@@ -46,6 +46,8 @@ session.setAttribute(org.girlscouts.vtk.auth.models.User.class.getName(), user);
 java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
         troopDAO, connectionFactory).troopInfo( user,  apiConfig, contactId );
 
+System.err.println("tataDD: "+ apiConfig.getTroops().size() );
+/*
  for(int i=0;i<troops.size();i++){
 	org.girlscouts.vtk.salesforce.Troop troop = troops.get(i);
 	
@@ -59,6 +61,7 @@ java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts
  }
 
 apiConfig.setTroops(troops);
+*/
 session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
 
 org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();

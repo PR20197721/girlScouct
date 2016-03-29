@@ -410,6 +410,7 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		User user = null;
 		try {
 			user = dao.getUser(config);
+System.err.println("tataBB: "+ config.getTroops().size() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -499,6 +500,7 @@ if( request.getParameter("RelayState")==null || (request.getParameter("RelayStat
 		User user = null;
 		try {
 			user = dao.getUser(config);
+System.err.println("tataaA: "+ config.getTroops().size() );			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

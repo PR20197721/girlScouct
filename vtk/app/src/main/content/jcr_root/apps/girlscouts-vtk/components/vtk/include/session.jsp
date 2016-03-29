@@ -98,7 +98,7 @@
 		return;
 	}
 	
-			
+System.err.println("tataCC: " + apiConfig.getTroops().size());			
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		

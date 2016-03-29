@@ -118,6 +118,7 @@ public class SalesforceDAO {
 			}
 			
 			user = getUser_parse(user, apiConfig, rsp );
+System.err.println("tata00: "+ apiConfig.getTroops().size() );
 		
 		
 		} catch (HttpException e) {
@@ -222,7 +223,9 @@ public class SalesforceDAO {
 				JSONArray parentTroops = response.getJSONArray("camps");
 				java.util.List<Troop> troops = getTroops_merged(user,
 						apiConfig, user.getSfUserId(), parentTroops);
+System.err.println("tata001: "+ troops.size() );				
 				apiConfig.setTroops(troops);
+System.err.println("tata002 : "+ apiConfig.getTroops().size() );				
 				
 				java.util.List<VtkError> _errors = apiConfig.getErrors();
 				if( errors!=null && errors.size()>0 ){
@@ -883,6 +886,7 @@ System.err.println("xx: "+ rsp);
 		
 		java.util.List<Troop> troops_withAssociation = troopInfo(user,
 				apiConfig, user.getSfUserId());
+System.err.println("tata11: "+ troops_withAssociation);		
 		java.util.List<Troop> troops_withOutAssociation = parseParentTroops(user,
 				parentTroops, apiConfig);
 System.err.println("tata12: "+ troops_withOutAssociation);			
