@@ -552,7 +552,9 @@ var displayCurrent = function(isUploaded){
 	        	submitCrop.disabled = true;
 	        	
 		        if(localMediaStream != null && localMediaStream != undefined){
-					localMediaStream.stop();
+		        	try{
+                        localMediaStream.stop();
+                    }catch(err){}
 		        }
 				$('#upload-tool').remove();
 		
