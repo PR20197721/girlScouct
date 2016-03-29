@@ -885,8 +885,11 @@ System.err.println("xx: "+ rsp);
 				apiConfig, user.getSfUserId());
 		java.util.List<Troop> troops_withOutAssociation = parseParentTroops(user,
 				parentTroops, apiConfig);
+System.err.println("tata12: "+ troops_withOutAssociation);			
 		java.util.List<Troop> merged_troops = mergeTroops(
 				troops_withAssociation, troops_withOutAssociation);
+		
+System.err.println("tata13: "+ merged_troops);		
 		return merged_troops;
 	}
 

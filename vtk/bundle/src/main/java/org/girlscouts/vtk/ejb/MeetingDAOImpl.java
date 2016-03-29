@@ -85,12 +85,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by planId
 	public java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop,
 			String yearPlanId) throws IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
@@ -98,8 +96,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"

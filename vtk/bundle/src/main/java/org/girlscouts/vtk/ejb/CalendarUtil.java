@@ -255,6 +255,7 @@ public class CalendarUtil {
 			plan.setCalStartDate(Long.parseLong(dates.substring(0,
 					dates.indexOf(","))));
 		plan.setCalExclWeeksOf(exclDate);
+		
 		Cal calendar = plan.getSchedule();
 		if (calendar == null)
 			calendar = new Cal();
@@ -274,9 +275,9 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate,
-				oldFromDate);
+		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate, oldFromDate);
 		troop.setYearPlan(plan);
+		
 		// if sched dates > meetings = rm last N meetings
 		meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
 		troopUtil.updateTroop(user, troop);

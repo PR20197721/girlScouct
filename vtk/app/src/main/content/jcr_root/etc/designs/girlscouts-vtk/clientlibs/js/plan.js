@@ -365,14 +365,9 @@ function buildSched(){
 
 	if( new Date(dt) <= minExpDate )
 	{
-
 			alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future.");
 			return;
 	}
-
-
-
-
 
 	var _level="";
 	var levels = document.getElementsByName('exclDt');

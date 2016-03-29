@@ -27,7 +27,7 @@ HttpSession session = request.getSession();
 
 boolean isGroupDemo= request.getParameter("isGroupDemo") !=null ? true : false;
 String contactId= request.getParameter("user");
-System.err.println("user : "+ contactId);
+//System.err.println("user : "+ contactId);
 
 org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
 apiConfig.setUserId(contactId);
@@ -50,8 +50,7 @@ java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts
 	org.girlscouts.vtk.salesforce.Troop troop = troops.get(i);
 	
 	if(request.getParameter("vTroop")!=null && !request.getParameter("vTroop").equals("")){
-	 troop.setTroopId( request.getParameter("vTroop")+"_"+troop.getTroopId() );
-System.err.println("teststss : "+ troop.getTroopId() );	    
+		  troop.setTroopId( request.getParameter("vTroop")+"_"+troop.getTroopId() );	    
 	    
     }else if( !isGroupDemo && troop.getPermissionTokens().contains(13)){ //if not parent
 	    	//troop.setTroopId( "SHARED_"+session.getId()+"_"+troop.getTroopId() ); //group

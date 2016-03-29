@@ -7,7 +7,7 @@
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.apache.sling.runmode.RunMode"%>
 <%!
-// put all static in util classes
+    // put all static in util classes
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
     
@@ -101,9 +101,7 @@
 			
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
-		
-		
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
@@ -214,7 +212,7 @@
 		
 	    if (troop == null ) {
 	        try{
-	        	System.err.println("tata session2"); 	
+	        		
 	        
 	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
             }catch(org.girlscouts.vtk.utils.VtkException e){
