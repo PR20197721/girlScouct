@@ -1,4 +1,4 @@
-<%@page import="com.day.cq.wcm.foundation.Image,java.util.List,java.util.ArrayList,
+<%@page import="com.day.cq.wcm.foundation.Image,java.util.List,
 java.util.Map,java.util.HashMap,java.util.Iterator,com.day.cq.wcm.api.WCMMode,
 org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONException,com.day.cq.dam.api.Asset" %>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -28,6 +28,7 @@ else if(imageNode!=null){
 	Iterator<Resource> images = resource.listChildren();
 	String alt = "";
 	String linkUrl = "";
+	String sortOrder = "";
 	if(imageNode.hasProperty("alt")){
 			alt = imageNode.getProperty("alt").getString();
 	}
@@ -36,6 +37,9 @@ else if(imageNode!=null){
 			if (!linkUrl.contains("://")) { // If it is not external link
 			    linkUrl += ".html";
 			}
+	}
+	if(imageNode.hasProperty("sortOrder")){
+			sortOrder = imageNode.getProperty("sortOrder").getString();
 	}
 %>  
   
