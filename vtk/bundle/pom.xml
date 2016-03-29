@@ -285,7 +285,8 @@
               org.osgi.framework,
               org.osgi.service.component,
               org.osgi.service.event,
-              org.slf4j
+              org.slf4j,
+              org.girlscouts.web.search.*
             </Import-Package>
             <!--  
             <Export-Package>
