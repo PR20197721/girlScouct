@@ -306,7 +306,7 @@
                     String str=(String) itr1.next();
                     %>
                     <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
-                    <label for="sch_lvl_<%=i %>"><p><span><%= levels.get(str) %></span></p></label></li>
+                    <label for="sch_lvl_<%=i %>"><p><span><%= str %></span></p></label></li>
                   <% } %>
                 </ul>
               </div>

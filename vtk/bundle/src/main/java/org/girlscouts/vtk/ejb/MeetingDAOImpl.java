@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -848,25 +847,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 		SearchTag tags = new SearchTag();
 		try {
 			session = sessionFactory.getSession();
-			String tagStr = councilStr;
-			try{
-				Node homepage = session.getNode("/content/" + councilStr + "/en/jcr:content");
-				if(homepage != null){
-					if(homepage.hasProperty("event-cart")){
-						if("true".equals(homepage.getProperty("event-cart").getString())){
-							tagStr = "sf-activities";
-						}
-					}
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
 			java.util.Map<String, String> regionsMain = searchRegion(user,
 					troop, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
 			String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"
-					+ tagStr + "/%'";
+					+ councilStr + "/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -876,14 +862,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 				Row r = it.nextRow();
 
 				if (r.getPath().startsWith(
-						"/etc/tags/" + tagStr + "/categories")) {
+						"/etc/tags/" + councilStr + "/categories")) {
 					String elem = r.getValue("jcr:title").getString();
-					System.out.println(elem);
 					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
-						"/etc/tags/" + tagStr + "/program-level")) {
+						"/etc/tags/" + councilStr + "/program-level")) {
 					String elem = r.getValue("jcr:title").getString();
-					System.out.println(elem);
 					levels.put(r.getNode().getName(), elem);
 				}
 
@@ -977,7 +961,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			if (levels != null) {
 				levels.remove("Program Level");
-				levels.remove("program-level");
 				levels.remove("program level");
 			}
 
@@ -1168,25 +1151,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
-		Node homepage = null;
-		String repoStr = councilStr + "/en/events-repository";
 		try {
 			session = sessionFactory.getSession();
-			try{
-				homepage = session.getNode(councilStr + "/en/jcr:content");
-				if(homepage != null){
-					if(homepage.hasProperty("eventPath")){
-						repoStr = homepage.getProperty("eventPath").getString();
-					}
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
 			String sql = "select region, start, end from nt:base where jcr:path like '/content/"
-					+ repoStr
-					+ "/%' and region is not null";
+					+ councilStr
+					+ "/en/events-repository/%' and region is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1548,42 +1519,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		try {
 			session = sessionFactory.getSession();
-			
-			String councilId = null;
-			if (troop.getTroop() != null) {
-				councilId = Integer.toString(troop.getTroop().getCouncilCode());
-			}
-			String branch = councilMapper.getCouncilBranch(councilId);
-			String namespace = branch.replace("/content/", "");
-			branch += "/en";
-			String eventPath = "";
-			try {
-				eventPath = session.getProperty(
-						branch + "/jcr:content/eventPath").getString();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			try{
-				Node homepage = session.getNode(branch + "/jcr:content");
-				if(homepage != null){
-					if(homepage.hasProperty("event-cart")){
-						if("true".equals(homepage.getProperty("event-cart").getString())){
-							namespace = "sf-activities";
-						}
-					}
-				}
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			
 			boolean isTag = false;
 			String sqlTags = "";
 			if (tags.equals("|"))
 				tags = "";
 			StringTokenizer t = new StringTokenizer(tags, "|");
 			while (t.hasMoreElements()) {
-				sqlTags += " contains(parent.[cq:tags], '" + namespace + ":program-level/"
+				sqlTags += " contains(parent.[cq:tags], 'program-level/"
 						+ t.nextToken() + "') ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
@@ -1596,8 +1538,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 				cat = "";
 			t = new StringTokenizer(cat, "|");
 			while (t.hasMoreElements()) {
-				sqlCat += " contains( parent.[cq:tags], '" + namespace + ":categories/"
+				sqlCat += " contains( parent.[cq:tags], 'categories/"
 						+ t.nextToken() + "') ";
+
 				if (t.hasMoreElements())
 					sqlCat += " or ";
 				isTag = true;
@@ -1616,6 +1559,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 				path = path + "/data";
 			else
 				path = path + "/jcr:content";
+
+			String councilId = null;
+			if (troop.getTroop() != null) {
+				councilId = Integer.toString(troop.getTroop().getCouncilCode());
+			}
+			String branch = councilMapper.getCouncilBranch(councilId);
+			branch += "/en";
+			String eventPath = "";
+			try {
+				eventPath = session.getProperty(
+						branch + "/jcr:content/eventPath").getString();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
 			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["
 					+ eventPath
