@@ -14,8 +14,7 @@
 	"prefix": {
 		"www": "www",
 		"prod": "prod",
-		"withDash": "",
-		"noDash": ""
+		"withDash": ""
 	},
 	"dispatcherLogLevel": "1"
 }
