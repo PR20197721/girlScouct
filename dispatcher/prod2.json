@@ -5,11 +5,11 @@
 		"alias": "author.girlscouts.org"
 	},
 	"publishRenderer": {
-		"ip": "10.3.14.88",
+		"ip": "10.3.14.49"
 		"hostname": "girlscouts-prod-aem61.adobecqms.net"
 	},
 	"otherPublishRenderer": {
-		"ip": "10.3.14.49"
+		"ip": "10.3.14.88",
 	},
 	"prefix": {
 		"www": "www",
