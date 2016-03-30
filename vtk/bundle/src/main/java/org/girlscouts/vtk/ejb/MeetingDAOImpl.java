@@ -987,6 +987,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 
 			if (levels != null) {
 				levels.remove("Program Level");
+				levels.remove("program-level");
 				levels.remove("program level");
 			}
 
@@ -1599,7 +1600,6 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 				sqlTags += " parent.[cq:tags] like '%" + namespace + ":program-level/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlTags += " or ";
-				System.out.println(sqlTags);
 				isTag = true;
 			}
 			if (isTag)
@@ -1612,7 +1612,6 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 				sqlCat += " parent.[cq:tags] like '%" + namespace + ":categories/" + t.nextToken() + "%' ";
 				if (t.hasMoreElements())
 					sqlCat += " or ";
-				System.out.println(sqlCat);
 				isTag = true;
 			}
 			if (!sqlCat.equals(""))
