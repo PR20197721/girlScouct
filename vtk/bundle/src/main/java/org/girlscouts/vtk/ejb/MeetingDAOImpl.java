@@ -917,6 +917,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 
 			if (levels != null) {
 				levels.remove("Program Level");
+				levels.remove("program-level");
 				levels.remove("program level");
 			}
 
