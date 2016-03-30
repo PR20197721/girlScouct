@@ -70,18 +70,11 @@
 	  # deny query
 	  /0090 { /type "deny"  /glob "* *.query.json*" }
 
-	  # Elham's changes
+	#Elham's changes
 	  /0091 { /type "deny"  /glob "GET /content.pages.json*"      }
 	  /0092 { /type "deny"  /glob "GET /content.languages.json*"      }
 	  /0093 { /type "deny"  /glob "GET /content.blueprint.json*"      }
 	  /0094 { /type "deny"  /glob "GET /content.feed.html*"      }
-	  /0095 { /type "allow"  /glob "GET /libs/granite/csrf/token.json*" } # CSRF
-
-	  # Girl Scouts
-	  /0101 { /type "allow" /glob "GET /content/gsusa/sitemap.xml *" } # allow sitmap.xml
-	  /0111 { /type "allow" /glob "GET /content/girlscouts-vtk/en/vtk.expiredcheck.json*" } # VTK Ex-pire check
-	  /0112 { /type "allow" /glob "GET /vtk-data/*.json*" } # VTK cached data
-	  /0113 { /type "allow" /glob "GET /myvtk/*" } # VTK parent cache
 	  }
 	# allow propagation of replication posts (should seldomly be used)
 	/propagateSyndPost "0"

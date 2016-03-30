@@ -11,16 +11,6 @@
  	}
 /0001
 	{
-		/glob "/content/girlscouts-vtk/*"
-		/type "deny"
-	}
-# Do not cache troop photos
-/0002
-	{ 
-		/glob "/content/dam/girlscouts-vtk/troop-data*" /type "deny"
-	}
-# Cache static myvtk pages for parents
-/0003
-	{
-		/glob "/content/girlscouts-vtk/en/myvtk/*" /type "allow"
+		/glob "/libs/granite/csrf/token.json"
+		/type "allow"
 	}
