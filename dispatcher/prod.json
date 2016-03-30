@@ -11,9 +11,11 @@
 	"otherPublishRenderer": {
 		"ip": "10.3.14.49"
 	},
-	"prefixes": {
+	"prefix": {
 		"www": "www",
-		"prod": "prod"
+		"prod": "prod",
+		"withDash": "",
+		"noDash": ""
 	},
 	"dispatcherLogLevel": "1"
 }
