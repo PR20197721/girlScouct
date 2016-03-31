@@ -1,0 +1,6 @@
+/0
+  {
+  /hostname "{{publishRenderer.ip}}"
+  /port "4503"
+  /timeout "10000"
+  }

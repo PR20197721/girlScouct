@@ -1,0 +1,5 @@
+/0
+  {
+  /glob "{{authorRenderer.ip}}"
+  /type "allow"
+  }
