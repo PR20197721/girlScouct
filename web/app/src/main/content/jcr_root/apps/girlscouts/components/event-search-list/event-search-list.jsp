@@ -1,15 +1,13 @@
-<%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,
+<%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,
     org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	com.day.text.Text,
-	org.joda.time.DateTimeZone,
-	org.joda.time.format.DateTimeFormatter,
-	org.joda.time.format.DateTimeFormat,
-	org.joda.time.DateTime,
-	org.joda.time.DateTimeZone,
-	org.joda.time.DateTimeUtils,
-	java.util.TimeZone" %>
+	org.girlscouts.web.events.search.GSDateTimeFormat,
+	org.girlscouts.web.events.search.GSDateTimeFormatter,
+	org.girlscouts.web.events.search.GSDateTime,
+	org.girlscouts.web.events.search.GSDateTimeZone,
+	org.girlscouts.web.events.search.GSDateTimeUtils" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -23,11 +21,12 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	}
 }
 
-DateTime today = new DateTime();
-DateTimeFormatter dtfIn = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-DateTimeFormatter dtfOutDate = DateTimeFormat.forPattern("EEE MMM dd");
-DateTimeFormatter dtfOutTime = DateTimeFormat.forPattern("HH:mm aa");
-DateTimeFormatter dtfOutMY = DateTimeFormat.forPattern("MMMM yyyy");
+GSDateTime today = new GSDateTime();
+GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("EEE MMM dd");
+GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm aa");
+GSDateTimeFormatter dtfOutMY = GSDateTimeFormat.forPattern("MMMM yyyy");
+GSDateTimeFormatter dtUTF = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 String register = "";
 String membersOnly = "false";
 String eventID = "-1";
@@ -69,25 +68,26 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	} else {
 		for(String result: results) {
 			register = "";
-			DateTime evntComparsion = null;
+			GSDateTime evntComparison = null;
 			Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 			try {
 				Node propNode = node.getNode("jcr:content/data");
 				if(propNode.hasProperty("visibleDate")){
 					String visibleDate = propNode.getProperty("visibleDate").getString();
 
-					DateTime vis = DateTime.parse(visibleDate,dtfIn);
+					GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
 					if(vis.isAfter(today)){
 						continue;
 					}
 				}
 				String stringStartDate = propNode.getProperty("start").getString();
-				DateTime startDate = DateTime.parse(stringStartDate,dtfIn);
+				GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
 				eventID = "-1";
 				
                 //Add time zone label to date string if event has one
                 String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
                 String timeZoneShortLabel = "";
+                GSDateTimeZone dtz = null;
 				if(!timeZoneLabel.isEmpty()){
 					//dateStr = dateStr + " " + timeZoneLabel;
 					int openParen1 = timeZoneLabel.indexOf("(");
@@ -96,12 +96,17 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					if(closeParen != -1 && openParen2 != -1 && timeZoneLabel.length() > openParen2){
 						timeZoneLabel = timeZoneLabel.substring(openParen2+1,closeParen);
 					}
-					DateTimeZone dtz = DateTimeZone.forID(timeZoneLabel);
-					timeZoneShortLabel = dtz.getShortName(DateTimeUtils.currentTimeMillis());
-					startDate = new DateTime(startDate.getMillis(),dtz);
+					try{
+						dtz = GSDateTimeZone.forID(timeZoneLabel);
+						startDate = startDate.withZone(dtz);
+						timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					//startDate = new GSDateTime(startDate.getMillis());
 				}
 				
-				DateTime evntComparison = startDate;
+				evntComparison = startDate;
 				
 				if(propNode.hasProperty("eid")){
 					eventID = propNode.getProperty("eid").getString();
@@ -119,7 +124,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				String locationLabel = "";
 
 				String startDateStr = dtfOutDate.print(startDate);
-				String startTimeStr = dtfOutTime(startDate);
+				String startTimeStr = dtfOutTime.print(startDate);
 				String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 				if(propNode.hasProperty("locationLabel")){
@@ -127,33 +132,35 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				}
 
 				String formatedEndDateStr="";
-				DateTime endDate =null;
+				GSDateTime endDate =null;
 				if(propNode.hasProperty("end")){
-					endDate = DateTime.parse(formatedEndDateStr,dtfIn);
+					endDate = GSDateTime.parse(propNode.getProperty("end").getString(),dtfIn);
+					if(dtz != null){
+						endDate = endDate.withZone(dtz);
+					}
 					evntComparison = endDate;
-					boolean sameDay = startDate.year().get() == endDate.year().get() && startDate.dayOfYear().get() == endDate.dayOfYear().get();
-					String endDateStr = dtfOutDate.parse(endDate);
-					String endTimeStr = dtfOutTime.parse(endDate);
+					boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
+					String endDateStr = dtfOutDate.print(endDate);
+					String endTimeStr = dtfOutTime.print(endDate);
 					if (!sameDay) {
 						//dateStr += " - " + endDateStr +", " + endTimeStr;
 						formatedEndDateStr= endDateStr +", " + endTimeStr;
 					}else {
 						//dateStr += " - " + endTimeStr;
-						formatedEndDateStr= endTimeStr;
+						formatedEndDateStr= " - " + endTimeStr;
 					}
 				}
 				String details = propNode.getProperty("details").getString();
-				int month = startDate.monthOfYear().get();
+				int month = startDate.monthOfYear();
 				
 				formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
-				
-				if(evntComparison.year().get() > today.year().get() || (evntComparison.year().get() == today.year().get() && (evntComparsion.dayOfYear().get() >= today.dayOfYear().get()))) {
 
+				if(evntComparison.year() > today.year() || (evntComparison.year() == today.year() && (evntComparison.dayOfYear() >= today.dayOfYear()))) {
 					if(tempMonth!=month) {
 						String monthYr = dtfOutMY.print(startDate);
 %>
 		<div class="eventsList monthSection">
-			<div class="leftCol"><b><%=monthName.toUpperCase() %>&nbsp;<%=yr %></b></div>
+			<div class="leftCol"><b><%=monthYr.toUpperCase() %></b></div>
 			<div class="rightCol horizontalRule">&nbsp;</div>
 		</div>
 		<br/>
@@ -188,9 +195,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				   }%>
 				<p class="bold">Date:
 				    <%try{%>
-                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span>
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%= dtUTF.withZone(GSDateTimeZone.UTC).print(startDate) %>"><%=formatedStartDateStr%></span>
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
-                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                            <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate))%>"><%=formatedEndDateStr %></span>
                         <%
                         }
                      }catch(Exception eDateStr){eDateStr.printStackTrace();}
@@ -215,6 +222,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 				}
 					} catch(Exception e){
+						e.printStackTrace();
 			}
 		}
 	}
