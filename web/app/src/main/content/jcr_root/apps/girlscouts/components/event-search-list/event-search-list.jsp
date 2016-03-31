@@ -144,13 +144,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					String endTimeStr = dtfOutTime.print(endDate);
 					if (!sameDay) {
 						//dateStr += " - " + endDateStr +", " + endTimeStr;
-						formatedEndDateStr= endDateStr +", " + endTimeStr;
+						formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
 					}else {
 						//dateStr += " - " + endTimeStr;
 						formatedEndDateStr= " - " + endTimeStr;
 					}
 				}
-				String details = propNode.getProperty("details").getString();
+				String details = "";
+				if(propNode.hasProperty("details")){
+					details = propNode.getProperty("details").getString();
+				}
 				int month = startDate.monthOfYear();
 				
 				formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
@@ -222,7 +225,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 				}
 					} catch(Exception e){
-						e.printStackTrace();
 			}
 		}
 	}
