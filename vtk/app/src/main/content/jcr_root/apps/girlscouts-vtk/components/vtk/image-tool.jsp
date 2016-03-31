@@ -554,7 +554,7 @@ var displayCurrent = function(isUploaded){
 		        if(localMediaStream != null && localMediaStream != undefined){
 		        	try{
 		        		   localMediaStream.stop();
-		        	}catch(err){}
+		        	}catch(err){ cleanUp(); }
 		        }
 				$('#upload-tool').remove();
 		
@@ -671,4 +671,11 @@ var dataURL = image_target.src;
 	}<%
 }%>
 
+
+function cleanUp(){
+	if (localMediaStream.active) {
+	    var track = localMediaStream.getTracks()[0];
+        track.stop();
+	}
+}
 </script>

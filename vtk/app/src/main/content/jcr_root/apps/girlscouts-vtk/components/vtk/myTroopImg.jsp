@@ -37,7 +37,9 @@
         $('#modal_upload_image').foundation('reveal', 'close');
         if( <%=isImgExists%>){displayCurrent();}
         if(localMediaStream != null && localMediaStream != undefined){
-                localMediaStream.stop();
+	        	try{
+	                localMediaStream.stop();
+	            }catch(err){ cleanUp(); }
             }
     }
 
