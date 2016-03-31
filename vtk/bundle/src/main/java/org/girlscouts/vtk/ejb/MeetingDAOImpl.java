@@ -878,12 +878,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				if (r.getPath().startsWith(
 						"/etc/tags/" + tagStr + "/categories")) {
 					String elem = r.getValue("jcr:title").getString();
-					System.out.println(elem);
 					categories.put(r.getNode().getName(), elem);
 				} else if (r.getPath().startsWith(
 						"/etc/tags/" + tagStr + "/program-level")) {
 					String elem = r.getValue("jcr:title").getString();
-					System.out.println(elem);
 					levels.put(r.getNode().getName(), elem);
 				}
 
@@ -908,6 +906,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			if (levels != null) {
 				levels.remove("Program Level");
+				levels.remove("program-level");
 				levels.remove("program level");
 			}
 
