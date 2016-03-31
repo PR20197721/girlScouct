@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%
 String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
 String path="/usr/local/vtk"; 
@@ -73,8 +74,8 @@ function xyz(slc){
 			<div class="row">
 		
 			<% 
-			
-			
+			  java.util.Map container= new java.util.TreeMap();	
+			  
 			  if( listOfFiles!=null ) {
 			    for (int i = 0; i < listOfFiles.length; i++) {
 			      if (listOfFiles[i].isFile()) {
@@ -97,63 +98,77 @@ function xyz(slc){
 			                       roles.add( _troop.getRole() );
 			                   }
 
-			                   if( User.isAdmin() ){  %>
+			                   if( User.isAdmin() ){ 
+                                container.put("3-"+userName,"Admin");
                                
-                               <div class="vtk-demo-card columns  small-24  medium-8 end">
-                                   <div class="vtk-header-box">
-                                     <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
-                                   </div>
-                             
-                                   <p>Material and aids are organized to help everyone work together:</p>
-                                   <ul>
-                                     <li>Upload materials to support the troop Leaders.</li>
-                                     <li>Report in troop finances.</li>
-                                     <li>Stay organized across troops.</li>
-                                   </ul>
-                               </div>
-                               
-                               <!-- / Council Admin -->
-                               <%
 			                   }else if(roles.contains("DP")){
-			                  %>
-								 
-								  <div class="vtk-demo-card columns small-24 medium-8 end">
-										<div class="vtk-header-box">
-										  <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
-										</div>
-								
-										<p>Everything ready, right at your fingertips to save time:</p>
-										<ul>
-										  <li>Pre-populated plans.</li>
-										  <li>Add you own activities.</li>
-										  <li>See your troop roster.</li>
-										  <li>Track girls achievements and attendance.</li>
-										</ul>
-								  </div>
-								  
-								  <!-- / Troop Leader -->
-								<%}else if(roles.contains("PA")){ %>
-								 
-								  <div class="vtk-demo-card columns  small-24  medium-8 end">
-									  <div class="vtk-header-box">
-										<a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=userName%>">Parents <span class="float-right icon-button-arrow-right"></a>
-									  </div>
-									  <p>Check in on the troop and see what your girl needs for meetings:</p>
-									  <ul>
-										<li>View troop plans (easy-to use calendar)</li>
-										<li>Stay In touch with the troop leader and volunteers.</li>
-										<li>Find ways to help the troop.</li>
-									  </ul>
-									 
-								  </div>
-								  <!-- / Parents -->
-								<% }           
+			                	   container.put("1-"+userName, "DP");
+			                	   
+			                	}else if(roles.contains("PA")){ 
+									container.put( "2-"+userName, "PA");
+									
+								 }           
 			                   
 			              }catch(Exception e){e.printStackTrace();}
 			          } //if
 			      } //if
 			    } //for
 			  }
+			
+			  
+			 
+				  java.util.Iterator _itr= container.keySet().iterator();
+				  while( _itr.hasNext() ){
+					  String user= (String) _itr.next();
+					  
+					  if( container.get(user).equals("Admin")){%>
+					     <div class="vtk-demo-card columns  small-24  medium-8 end">
+	                      <div class="vtk-header-box">
+	                        <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
+	                      </div>
+	                
+	                      <p>Material and aids are organized to help everyone work together:</p>
+	                      <ul>
+	                        <li>Upload materials to support the troop Leaders.</li>
+	                        <li>Report in troop finances.</li>
+	                        <li>Stay organized across troops.</li>
+	                      </ul>
+	                     </div>
+                  
+					  <%  }else if( container.get(user).equals("PA")){ %>
+					               <div class="vtk-demo-card columns  small-24  medium-8 end">
+                                      <div class="vtk-header-box">
+                                        <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Parents <span class="float-right icon-button-arrow-right"></a>
+                                      </div>
+                                      <p>Check in on the troop and see what your girl needs for meetings:</p>
+                                      <ul>
+                                        <li>View troop plans (easy-to use calendar)</li>
+                                        <li>Stay In touch with the troop leader and volunteers.</li>
+                                        <li>Find ways to help the troop.</li>
+                                      </ul>
+                                     
+                                  </div>
+                                  <!-- / Parents -->
+					  <%  }else if( container.get(user).equals("DP")){ %>
+						        <div class="vtk-demo-card columns small-24 medium-8 end">
+                                        <div class="vtk-header-box">
+                                          <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+                                        </div>
+                                
+                                        <p>Everything ready, right at your fingertips to save time:</p>
+                                        <ul>
+                                          <li>Pre-populated plans.</li>
+                                          <li>Add you own activities.</li>
+                                          <li>See your troop roster.</li>
+                                          <li>Track girls achievements and attendance.</li>
+                                        </ul>
+                                  </div>
+                                  
+                                  <!-- / Troop Leader -->
+                                  <% 
+					  }//end else
+					  
+				  }//edn while
 			
 			  %>
 			</div>
