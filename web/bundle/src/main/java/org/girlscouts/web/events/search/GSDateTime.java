@@ -31,6 +31,10 @@ public class GSDateTime{
 		return dt.isAfter(gsdt.dt);
 	}
 	
+	public boolean isEqual(GSDateTime gsdt){
+		return dt.isEqual(gsdt.dt);
+	}
+	
 	public long getMillis(){
 		return dt.getMillis();
 	}
@@ -53,5 +57,13 @@ public class GSDateTime{
 	
 	public int dayOfMonth(){
 		return dt.dayOfMonth().get();
+	}
+	
+	public int hourOfDay(){
+		return dt.hourOfDay().get();
+	}
+	
+	public int minuteOfHour(){
+		return dt.minuteOfHour().get();
 	}
 }
