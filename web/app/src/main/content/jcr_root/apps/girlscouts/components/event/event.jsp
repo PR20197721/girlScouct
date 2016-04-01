@@ -2,27 +2,18 @@
 	import="java.text.Format,
 	java.text.ParseException,
 	java.lang.Exception,
-	java.text.SimpleDateFormat,
-	java.text.DateFormat,
-	java.util.Date,
-	java.util.Calendar,
 	java.util.Map,
 	java.util.HashMap,
 	java.util.List,
-	java.util.Set,
 	java.util.ArrayList,
 	java.util.Iterator,
-	java.util.TimeZone,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset,
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
-	org.joda.time.DateTimeZone,
-	org.joda.time.format.DateTimeFormatter,
-	org.joda.time.format.DateTimeFormat,
-	org.joda.time.DateTime
+	org.girlscouts.web.events.search.*
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -31,7 +22,6 @@
 <%
 
 Boolean includeCart = false;
-
 if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	if(homepage.getContentResource().adaptTo(Node.class).getProperty("event-cart").getString().equals("true")){
 		includeCart = true;
@@ -44,61 +34,63 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     Map<String,String> map = new HashMap<String,String>();
     map.put("Program Level", "Level");
     map.put("Categories", "Category");
+    //String locale =  currentSite.get("locale", "America/Chicago");
+	//TimeZone tZone = TimeZone.getTimeZone(locale);
 	
-	// date and time
-	String councilTimeZone = homepage.getContentResource().adaptTo(Node.class).getProperty("timezone").getString();
-    DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
-	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-	DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
-	DateFormat formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX");
-	utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
+	GSDateTime today = new GSDateTime();
+	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("EEE MMM dd");
+	GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm aa");
+	GSDateTimeFormatter dtfOutMY = GSDateTimeFormat.forPattern("MMMM yyyy");
+	GSDateTimeFormatter dtfOutMYCal = GSDateTimeFormat.forPattern("MM'-'yyyy");
+	GSDateTimeFormatter dtUTF = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 	
 	String visibleDate = properties.get("visibleDate","");
-	Date vis;
+	GSDateTime vis = null;
 	if(!visibleDate.isEmpty()){
 		try{
-			vis = formatWTZone.parse(visibleDate);
+			vis = GSDateTime.parse(visibleDate,dtfIn);
+			if(vis.isAfter(today)){
+				%> 
+					<script type="text/javascript">
+		   			window.location = "/404.html";
+					</script>
+			 	<%
+			}
 		}catch(Exception e){
-			formatWTZone = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-			vis = formatWTZone.parse(visibleDate);
-		}
-		
-		long visLong = vis.getTime();
-		long currentTime = Calendar.getInstance().getTime().getTime();
-		if(visLong > currentTime){
-			%> 
-				<script type="text/javascript">
-	   			window.location = "/404.html";
-				</script>
-		 	<%
+			e.printStackTrace();
 		}
 	} 
 
-	Calendar startDateCl = properties.get("start", Calendar.class);
-
-	String edtTime = properties.get("start", "");
-    Date basedOnTimeZone = dateFormat1.parse(edtTime);
-    Calendar cale =  Calendar.getInstance();
-    cale.setTime(basedOnTimeZone);
-	Date startDate = cale.getTime();
-
-	String startDateStr = dateFormat.format(cale.getTime());
-	String startTimeStr = timeFormat.format(cale.getTime());
+	String stringStartDate = properties.get("start","");
+	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
 	
-	//Calendar Date and Month
+    //Add time zone label to date string if event has one
+    String timeZoneLabel = properties.get("timezone","");
+    String timeZoneShortLabel = "";
+    GSDateTimeZone dtz = null;
+	if(!timeZoneLabel.isEmpty()){
+		//dateStr = dateStr + " " + timeZoneLabel;
+		int openParen1 = timeZoneLabel.indexOf("(");
+		int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
+		int closeParen = timeZoneLabel.indexOf(")",openParen2);
+		if(closeParen != -1 && openParen2 != -1 && timeZoneLabel.length() > openParen2){
+			timeZoneLabel = timeZoneLabel.substring(openParen2+1,closeParen);
+		}
+		try{
+			dtz = GSDateTimeZone.forID(timeZoneLabel);
+			startDate = startDate.withZone(dtz);
+			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		//startDate = new GSDateTime(startDate.getMillis());
+	}
 
-    Calendar calendar = Calendar.getInstance();
-    calendar.setTime(cale.getTime());
-    int month = calendar.get(Calendar.MONTH)+1;
-    int year = calendar.get(Calendar.YEAR);
-    String combineMonthYear = month+"-"+year;
-    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear;
+	String startDateStr = dtfOutDate.print(startDate);
+	String startTimeStr = dtfOutTime.print(startDate);
+	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
-    String time = startTimeStr;
-
-    String endDateSt = properties.get("end", "");
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
 	String membersOnly = properties.get("memberOnly","false");
@@ -111,44 +103,27 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		register = properties.get("register", String.class);
 	}
 
-    DateTimeFormatter dtfnotimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM"); 
-    DateTimeFormatter dtfTimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM zzz"); 
-	DateTimeFormatter dtftimeonly = DateTimeFormat.forPattern("HH:MM zzz");
-
-	String inputPattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
-	DateTimeFormatter formatter = DateTimeFormat.forPattern(inputPattern);
-	DateTime datetime = formatter.parseDateTime(edtTime);
-	DateTime dtCouncil = datetime.withZone(DateTimeZone.forID(councilTimeZone));
-	String formatedStartDateStr = null;
-	if ("".equals(endDateSt)) {
-		formatedStartDateStr = dtfTimezone.print(dtCouncil);
-	} else {
-		formatedStartDateStr = dtfnotimezone.print(dtCouncil);
-	}
-    
-    String formatedEndDateStr="";
-    Date endDate=null;
-	if (endDateSt != null && !endDateSt.isEmpty()) {
-	    Calendar cal1 = Calendar.getInstance();
-	    Calendar cal2 = Calendar.getInstance();
-	    endDate = dateFormat1.parse(endDateSt);
-	    cal2.setTime(endDate);
-	    cal1.setTime(startDate);
-	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-		String endDateStr = dateFormat.format(endDate);
-		String endTimeStr = timeFormat.format(endDate);
-		
-		//consider timezone with joda
-		DateTime endDateTime = formatter.parseDateTime(endDateSt);
-		DateTime endDateTimeCouncil = endDateTime.withZone(DateTimeZone.forID(councilTimeZone));
-		if (!sameDay) {
-			formatedEndDateStr = dtfTimezone.print(endDateTimeCouncil);			
-		}else{
-			formatedEndDateStr =  dtftimeonly.print(endDateTimeCouncil);
+	String formatedEndDateStr="";
+	GSDateTime endDate =null;
+	if(!"".equals(properties.get("end",""))){
+		endDate = GSDateTime.parse(properties.get("end",""),dtfIn);
+		if(dtz != null){
+			endDate = endDate.withZone(dtz);
 		}
-
+		boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
+		String endDateStr = dtfOutDate.print(endDate);
+		String endTimeStr = dtfOutTime.print(endDate);
+		if (!sameDay) {
+			//dateStr += " - " + endDateStr +", " + endTimeStr;
+			formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
+		}else {
+			//dateStr += " - " + endTimeStr;
+			formatedEndDateStr= " - " + endTimeStr;
+		}
 	}
+	
+	formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
+
 
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	if(currentNode.getParent().hasProperty("cq:tags")){
@@ -186,6 +161,9 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
     //Location Label
     String locationLabel = properties.get("locationLabel","");
+    
+    String monthYr = dtfOutMYCal.print(startDate);
+    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+monthYr;
 
 %>
 
@@ -236,9 +214,9 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
                         <div class="small-16 medium-16 large-16 columns">
            <b>
            <%try{%>
-                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span>
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(startDate)%>"><%=formatedStartDateStr%></span>
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
-                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                            <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate))%>"><%=formatedEndDateStr %></span>
                         <%
                         }
                      }catch(Exception eDateStr){eDateStr.printStackTrace();}

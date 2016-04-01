@@ -1,6 +1,8 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
-<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.Calendar,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone"%>
+<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.Calendar,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,
+org.girlscouts.web.events.search.GSDateTimeZone,
+org.girlscouts.web.events.search.GSDateTimeUtils"%>
 
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -105,6 +107,18 @@
 					//Add time zone label to date string if event has one
                		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
 					if(!timeZoneLabel.isEmpty()){
+						int openParen1 = timeZoneLabel.indexOf("(");
+						int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
+						int closeParen = timeZoneLabel.indexOf(")",openParen2);
+						if(closeParen != -1 && openParen2 != -1 && timeZoneLabel.length() > openParen2){
+							timeZoneLabel = timeZoneLabel.substring(openParen2+1,closeParen);
+						}
+						try{
+							GSDateTimeZone dtz = GSDateTimeZone.forID(timeZoneLabel);
+							timeZoneLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+						}catch(Exception e){
+							e.printStackTrace();
+						}
 						dateStr = dateStr + " " + timeZoneLabel;
 					}
 
