@@ -82,6 +82,7 @@
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+System.err.println("tata yes");			
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -192,6 +193,7 @@ System.err.println("tataCC: " + apiConfig.getTroops().size());
 		try{
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+System.err.println("tataGG:" +prefTroop.getCouncilCode()+ " : "+ prefTroop.getTroopId() );   
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 %>

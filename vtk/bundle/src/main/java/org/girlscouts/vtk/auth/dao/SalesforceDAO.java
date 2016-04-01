@@ -906,11 +906,9 @@ System.err.println("tata13: "+ merged_troops);
 		  try{
 			Troop troop = new Troop();
 	
-			if(  apiConfig.isDemoUser() ){
-				troop.setTroopId(vtkDemoCouncil);
-			}else{
+			
 				troop.setTroopId(results.getJSONObject(i).getString("Id"));
-			}
+			
 			errorTroopId = troop.getTroopId();
 			troop.setTroopName(results.getJSONObject(i).getString("Name"));
 			errorTroopName= troop.getTroopName();
@@ -926,9 +924,7 @@ System.err.println("tata13: "+ merged_troops);
 				troop.setCouncilId(results.getJSONObject(i).getString(
 						"Account__c"));
 			
-				troop.setGradeLevel(results.getJSONObject(i)
-
-				.getString("Program_Grade_Level__c"));
+				troop.setGradeLevel(results.getJSONObject(i).getString("Program_Grade_Level__c"));
 
 				troop.setTroopName(results.getJSONObject(i).getString("Name"));
 				troop.setRole("PA");

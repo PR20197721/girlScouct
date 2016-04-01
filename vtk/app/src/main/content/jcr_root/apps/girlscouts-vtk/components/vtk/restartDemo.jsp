@@ -18,13 +18,12 @@
        }
 	   
 	    Troop troop = VtkUtil.getTroop(session);
-	    troopUtil.rmTroop( troop );
+	    try{ troopUtil.rmTroop( troop ); }catch(Exception e){e.printStackTrace();}
 		session.putValue("VTK_troop",null);
 		session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
 		session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
 		session.putValue(org.girlscouts.vtk.models.User.class.getName(), null);
 				
-		
 		javax.servlet.http.Cookie killMyCookie = new javax.servlet.http.Cookie("girl-scout-name", null);
 		killMyCookie.setMaxAge(0);
 		killMyCookie.setPath("/");
