@@ -44,13 +44,16 @@ $slick-opacity-not-active: 0.25 !default;
 
 /* Icons */
 @if $slick-font-family == "slick" {
-    @font-face {
+//temporary commented out from Kai
+//The following code requests for font, but the request path will become /theme/bower_components/slick.js/slick/fonts/slick.ttf?1459780659. With
+//the question marks at the end, CQ dispatcher blocks it. For now slick font is not used, so I will just remove it.
+/*    @font-face {
         font-family: "slick";
         src: slick-font-url("slick.eot");
         src: slick-font-url("slick.eot?#iefix") format("embedded-opentype"), slick-font-url("slick.woff") format("woff"), slick-font-url("slick.ttf") format("truetype"), slick-font-url("slick.svg#slick") format("svg");
         font-weight: normal;
         font-style: normal;
-    }
+    }*/
 }
 
 /* Arrows */
