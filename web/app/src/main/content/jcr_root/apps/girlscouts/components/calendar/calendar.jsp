@@ -164,8 +164,10 @@ org.girlscouts.web.events.search.*"%>
    if(null!=eventSuffix) {
 	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
 	String[] my = temp.split("-");
-	month = String.valueOf(Integer.parseInt(my[0])-1);
-	year = my[1];
+	try{
+		month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0],"UTF-8"))-1);
+		year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1],"UTF-8")));
+	}catch(Exception e){}
    }
 
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
