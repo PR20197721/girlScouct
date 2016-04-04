@@ -9,8 +9,9 @@ com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResu
 java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
+
 <%!
-public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
+public List<Hit> alex(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
     Map mapFullText = new HashMap();
     //-mapFullText.put("group.p.or","true");
     mapFullText.put("fulltext", escapedQuery);
@@ -101,8 +102,8 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
+hits.addAll(alex(queryBuilder,session,searchIn,java.net.URLDecoder.decode(escapedQuery, "UTF-8"), "dam:Asset"));
+hits.addAll(alex(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(escapedQuery, "UTF-8"), "dam:Asset"));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 %>

@@ -109,16 +109,20 @@
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel1">
       	<ul class="small-block-grid-2"><%  
+      	boolean isAidTag= false;
       	if(planView.getAidTags()!=null)
       	  for(int i=0;i<planView.getAidTags().size();i++) { 
 						String ext = planView.getAidTags().get(i).getDocType();
 						if(ext == null) {
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
+						isAidTag= true;
       	%>
       		<li><span class="name icon <%=ext%>"><a href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></span></li>
       		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=_meeting.getUid() %>')"><i class="icon-button-circle-plus"></i></a></li><%
-      	}%>
+      	} %>
+      	
+      	<% if( !isAidTag){ %><li>No Aids found</li><% }%>
       	</ul>
 	    </div>
 	  </dd>
