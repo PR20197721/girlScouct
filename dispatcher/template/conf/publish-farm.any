@@ -51,6 +51,7 @@
 	  /0049 { /type "allow" /glob "* *.ttf *"   }  # enable ttf
 	  /0050 { /type "allow" /glob "* *.eot *"   }  # enable eot
 	  /0051 { /type "allow" /glob "* *.jpg *"   }  # enable jpg
+	  /0052 { /type "allow" /glob "* *.woff2 *"  }  # enable woff2
 
 	  # enable features 
 	  /0061 { /type "allow" /glob "POST /content/[.]*.form.html" }  # allow POSTs to form selectors under content
