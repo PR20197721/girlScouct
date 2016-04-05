@@ -110,7 +110,7 @@
                 text: browseRoot
             },
             treeLoader: {
-                dataUrl: CQ.shared.HTTP.getXhrHookedURL(CQ.Util.externalize("/bin/tree/ext.json")),
+                dataUrl: CQ.shared.HTTP.getXhrHookedURL(CQ.Util.externalize(parentPath + ".ext.json")),
                 baseParams: {
                     "_charset_": "utf-8"
                 },
