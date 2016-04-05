@@ -1,12 +1,7 @@
 <%@ page import="java.util.Date,
 				java.text.DateFormat,
 				java.text.SimpleDateFormat,
-				java.util.Calendar,
-				org.joda.time.DateTimeZone,
-				org.joda.time.format.DateTimeFormatter,
-				org.joda.time.format.DateTimeFormat,
-				org.joda.time.DateTime"
-%>
+				java.util.Calendar"%>
 				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -20,57 +15,30 @@
 	String locationLabel = "";
 	String imgPath="";
 	String iconPath="";
-	DateTimeFormatter dtfnotimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM"); 
-    DateTimeFormatter dtfTimezone = DateTimeFormat.forPattern("EEE MMM d yyyy, HH:MM zzz"); 
-	DateTimeFormatter dtftimeonly = DateTimeFormat.forPattern("HH:MM zzz");
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
-	String inputPattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZZ";
-	String formatedStartDateStr = null;
-	String formatedEndDateStr = null;
-	
-	//DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
-	//DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	
 	
-//	Calendar cal =  Calendar.getInstance();
-//	cal.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-//	startDate = cal.getTime(); 
-//	startDateStr = dateFormat.format(startDate);
-//	startTimeStr = timeFormat.format(startDate);
-
-//process the start date
-	DateTimeFormatter formatter = DateTimeFormat.forPattern(inputPattern);
-	DateTime Startdt = formatter.parseDateTime(propNode.getProperty("start").getString());
-	DateTime startdtCouncil = Startdt.withZone(DateTimeZone.forID(councilTimeZone));
-	if (propNode.hasProperty("end")) {
-		formatedStartDateStr = dtfTimezone.print(startdtCouncil);
-	} else {
-		formatedStartDateStr = dtfnotimezone.print(startdtCouncil);
-	}
+	Calendar cal =  Calendar.getInstance();
+	cal.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+	startDate = cal.getTime(); 
+	startDateStr = dateFormat.format(startDate);
+	startTimeStr = timeFormat.format(startDate);
 
 	
 	
 	String dateStr="";
-	dateStr = formatedStartDateStr;
+	dateStr = startDateStr + ", " +startTimeStr;
 	time = startTimeStr;
 	
 	if(propNode.hasProperty("locationLabel")){
 		locationLabel=propNode.getProperty("locationLabel").getString();
 	}
-	if (propNode.hasProperty("end")) {
-		//consider timezone with joda
-		
-		DateTime endDateTime = formatter.parseDateTime(propNode.hasProperty("end").getString());
-		DateTime endDateTimeCouncil = endDateTime.withZone(DateTimeZone.forID(councilTimeZone));
-		if (!isSameDate(endDateTimeCouncil, startdtCouncil)) {
-			formatedEndDateStr = dtfTimezone.print(endDateTimeCouncil);			
-		} else {
-			formatedEndDateStr =  dtftimeonly.print(endDateTimeCouncil);
-		}
-		dateStr += formatedEndDateStr;
-		//cal.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-		//Date endDate = cal.getTime();
-		//dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
+	if (propNode.hasProperty("end")){
+		cal.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
+		Date endDate = cal.getTime();
+		dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
  	}
  
 	boolean hasImage = false;
@@ -81,10 +49,10 @@
 
 
 	//Add time zone label to date string if event has one
-	/* String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+	String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
 	if(!timeZoneLabel.isEmpty()){
 		dateStr = dateStr + " " + timeZoneLabel;
-	} */
+	}
 
 	String title = (String)request.getAttribute("title");
 	String href = (String)request.getAttribute("href");
