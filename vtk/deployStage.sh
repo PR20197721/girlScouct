@@ -7,7 +7,7 @@ if [ -z $VERSION ]; then
     VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
 fi
 
-SERVER_LIST=(52.73.0.56:4503 author-girlscouts-stage-aem61.adobecqms.net:80)
+SERVER_LIST=(52.73.0.56:4503 52.73.10.68:4502)
 
 for server in ${SERVER_LIST[@]}; do
 	echo "Trying server $server"
