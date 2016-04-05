@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1458076656216"
+        cq:lastModified="{Long}1459890347125"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -382,16 +382,6 @@
         </node34>
         <node35
             jcr:primaryType="cq:WorkflowNode"
-            description="This process will fragment an asset in its subassets"
-            title="Create Sub Asset"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateSubAssetsProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node35>
-        <node36
-            jcr:primaryType="cq:WorkflowNode"
             description="This step will check for the thumbnail existence. It will create new thumbnails from thumbnail.jpg rendition"
             title="INDD Verify Thumbnail"
             type="PROCESS">
@@ -400,8 +390,8 @@
                 PROCESS="com.day.cq.dam.indd.process.INDDCreateThumbnailProcess"
                 PROCESS_ARGS="\[140:100],[48:48],[319:319]"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node36>
-        <node37
+        </node35>
+        <node36
             jcr:primaryType="cq:WorkflowNode"
             description="InDesign Page Extraction"
             title="Page Extraction"
@@ -414,8 +404,8 @@
                 pageTitle="IDML Extraction"
                 PROCESS="com.day.cq.dam.indd.process.INDDPageExtractProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node37>
-        <node38
+        </node36>
+        <node37
             jcr:primaryType="cq:WorkflowNode"
             description="Uploads and processes videos through the Adobe Dynamic Media Video Service."
             title="Dynamic Media Video Service Process"
@@ -424,8 +414,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node38>
-        <node39
+        </node37>
+        <node38
             jcr:primaryType="cq:WorkflowNode"
             description="This process will create one or more thumbnails for the asset, create web enabled rendition and update folder thumbnail."
             title="Process Thumbnails"
@@ -434,8 +424,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.ThumbnailProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node39>
-        <node40
+        </node38>
+        <node39
             jcr:primaryType="cq:WorkflowNode"
             description="Dynamic Media On-Premise apply image profile"
             title="Dynamic Media On-Premise Apply Image Profile"
@@ -444,8 +434,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.s7dam.onprem.process.ApplyImageProfileProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node40>
-        <node41
+        </node39>
+        <node40
             jcr:primaryType="cq:WorkflowNode"
             description="This process will extract and upload the product assets"
             title="Product Asset Upload"
@@ -454,8 +444,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.pim.impl.sourcing.upload.process.ProductAssetsUploadProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node41>
-        <node42
+        </node40>
+        <node41
             jcr:primaryType="cq:WorkflowNode"
             description="Apply metadata template to uploaded assets"
             title="Apply Metadata Template"
@@ -464,8 +454,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.ApplyMetadataTemplateProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node42>
-        <node43
+        </node41>
+        <node42
             jcr:primaryType="cq:WorkflowNode"
             description="remove jcr:title and dc:title ending with &quot;.docx&quot; for pdf files."
             title="metadata title update"
@@ -474,13 +464,13 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-title.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node43>
-        <node44
+        </node42>
+        <node43
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node44>
+        </node43>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -788,15 +778,8 @@
         <node42_x0023_node43
             jcr:primaryType="cq:WorkflowTransition"
             from="node42"
-            rule=""
             to="node43">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node42_x0023_node43>
-        <node43_x0023_node44
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node43"
-            to="node44">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node43_x0023_node44>
     </transitions>
 </jcr:root>
