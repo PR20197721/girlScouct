@@ -14,7 +14,8 @@
 	java.util.Calendar,
 	java.util.Date,
 	java.text.DateFormat,
-	org.girlscouts.web.events.search.GSDateTime" %>
+	org.girlscouts.web.events.search.GSDateTime,
+	org.girlscouts.web.events.search.GSDateTimeFormatter" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
@@ -164,6 +165,21 @@ public static String getDateTime(Date startDate, Date endDate,DateFormat dateFor
 
  		}
 	return dateStr;
+}
+
+public static String getDateTime(GSDateTime startDate, GSDateTime endDate, GSDateTimeFormatter dateFormat, GSDateTimeFormatter timeFormat,String dateStr,String timeZoneShortLabel){
+    boolean sameDay = startDate.year() == endDate.year() &&
+                      startDate.dayOfYear() == endDate.dayOfYear();
+    String endDateStr = dateFormat.print(endDate);
+    String endTimeStr = timeFormat.print(endDate);
+    if (!sameDay) {
+	      dateStr += " - " + endDateStr +", " + endTimeStr;
+	   }else
+	   {
+		   dateStr += " - " + endTimeStr;
+
+		}
+	return dateStr + " " + timeZoneShortLabel;
 }
 
 public static boolean isSameDate(GSDateTime d1, GSDateTime d2) {
