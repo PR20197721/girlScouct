@@ -62,6 +62,8 @@ public class ReplicationReceiverImpl
   private VTKDataCacheInvalidator invalidator;
   @Reference
   private TroopHashGenerator troopHashGenerator;
+  @Reference
+  private ReplicationReceiverFilter replicationReceiverFilter;
   /* Girl Scouts Customization END */
 
   @Property(longValue={1048576L})
@@ -138,8 +140,14 @@ public class ReplicationReceiverImpl
     throws ReplicationException, IOException
   {
     /* Girl Scouts Customization BEGIN */
-    // Invalidate cache if it is troop data
     String path = action.getPath();
+
+    // Drop the node if the filter rejects it
+    if (!replicationReceiverFilter.accept(path)) {
+    	return;
+    }
+    
+    // Invalidate cache if it is troop data
     Matcher troopMatcher = TROOP_PATTERN.matcher(path);
     String affectedTroop = null;
     while (troopMatcher.find()) {
