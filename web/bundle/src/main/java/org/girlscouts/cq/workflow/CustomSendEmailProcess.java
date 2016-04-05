@@ -29,6 +29,8 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.granite.security.user.UserProperties;
+import com.adobe.granite.security.user.UserPropertiesManager;
 //import com.adobe.granite.security.user.UserProperties;
 //import com.adobe.granite.security.user.UserPropertiesManager;
 import com.day.cq.commons.Externalizer;
@@ -212,6 +214,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			map.put("payload.type", data.getPayloadType());
 			map.put("comment", getComment(flow, session));
 			map.put("initiator.email", getInitiatorEmail(resolver, flow));
+			System.out.println(getInitiatorEmail(resolver, flow));
 
 		} catch (Exception e) {
 
@@ -224,14 +227,12 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 	private String getInitiatorEmail(ResourceResolver resolver,
 			Workflow workflow) {
 		try {
-			/*
 			UserPropertiesManager upMgr = (UserPropertiesManager) resolver
 					.adaptTo(UserPropertiesManager.class);
 			UserProperties initiator = null;
 			String initiatorId = workflow.getInitiator();
 			initiator = upMgr.getUserProperties(initiatorId, "profile");
 			initiatorEmail = initiator.getProperty("email");
-*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
