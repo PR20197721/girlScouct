@@ -19,6 +19,7 @@ public final class DocHit extends DocHitBase {
     private static final String JCR_TITLE_PROPERTY = "jcr:content/jcr:title";
     private static final String DC_TITLE_PROPERTY = "jcr:content/metadata/dc:title";
     private static final String DC_DESCRIPTION_PROPERTY = "jcr:content/metadata/dc:description";
+    private static final String SRCH_DESC_PROPERTY = "jcr:content/data/srchdisp";
     
     private final Hit hit;
     private static final Pattern STRONG_PATTERN = Pattern.compile("<strong>.*?</strong>");
@@ -113,6 +114,9 @@ public final class DocHit extends DocHitBase {
     public String getDescription() {
         try {
             Node pageOrAssetNode = getPageOrAsset();
+    		if(pageOrAssetNode.hasProperty(SRCH_DESC_PROPERTY)){
+    			return pageOrAssetNode.getProperty(SRCH_DESC_PROPERTY).getString();
+    		}
             if (pageOrAssetNode.hasProperty(DC_DESCRIPTION_PROPERTY)) {
             	if(pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).isMultiple()){
             		Value[] value = pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).getValues();
