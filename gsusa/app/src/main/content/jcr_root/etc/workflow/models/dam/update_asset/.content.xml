@@ -493,20 +493,6 @@
                     scriptPaths="[/etc/dam/indesign/scripts/ThumbnailExport.jsx,/etc/dam/indesign/scripts/XHTMLExport.jsx,/etc/dam/indesign/scripts/IDMLExport.jsx]"
                     timeout="3600"/>
             </process5>
-            <createsubassetproces
-                jcr:created="{Date}2016-03-15T16:45:35.642-04:00"
-                jcr:createdBy="admin"
-                jcr:description="This process will fragment an asset in its subassets"
-                jcr:lastModified="{Date}2016-03-15T16:45:35.642-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Create Sub Asset"
-                sling:resourceType="dam/components/workflow/createsubassetprocess">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.CreateSubAssetsProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </createsubassetproces>
             <process_0
                 jcr:created="{Date}2011-09-30T15:44:14.978+08:00"
                 jcr:createdBy="admin"
