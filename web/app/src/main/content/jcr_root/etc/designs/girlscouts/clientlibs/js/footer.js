@@ -54,20 +54,61 @@
       modal.css('margin-left','');
     }
   }
+
+  function anchorCheck() {
+		$('.accordion dt > :first-child').each(function(i, value) {
+	    	var parsysID = $(value).parent().data('target');
+	    	var target = $(this).parent().next().find('.content');
+	        var toggle = $(this);
+	        var parsysID = $(this).parent().data('target');
+	        var anchor = $(this).parent().attr('id');
+	        if(anchor != "" && window.location.hash.replace("#","") == anchor){
+	            toggle.addClass('on');
+	            target.slideDown();
+	            $(this).parent().addClass('on');
+	        }
+	    });
+	}
+  
   function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function(e) {
-      e.stopPropagation();
-      var target = $(this).parent().data('target');
-      var toggle = $(this);
-      $('#' + target).slideToggle('slow');
-      $(toggle).toggleClass('on');
-      //For Web Component. See main.js:toggleParsys
-       if(window[ target ] != null){
-    	   window[ target ].toggle();
-       }
-        return false;
-    });
-  }
+	    $('.accordion dt > :first-child').on('click', function (e) {
+	        //close and remove classes first
+	        $('.accordion dd .content').slideUp('slow');
+	        $('.accordion dt > :first-child').removeClass('on');
+	        $('.accordion dt').removeClass('on');
+
+	    	$('.accordion dt > :first-child').each(function (i, value) {
+	    		var parsysID = $(value).parent().data('target');
+	    		//Necessary for authoring mode. See main.js:toggleParsys
+	            if(window[parsysID] != null && window[parsysID].hideParsys != undefined) {
+	         	      window[parsysID].hideParsys();
+	            }
+	    	});
+
+	        var target = $(this).parent().next().find('.content');
+	        var toggle = $(this);
+	        var parsysID = $(this).parent().data('target');
+
+	        if(target.is(':visible')) {
+	        toggle.removeClass('on');
+	        target.slideUp();
+	        $(this).parent().removeClass('on');
+	            if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
+	            	   window[parsysID].hideParsys();
+	            }
+	        } else {
+	        toggle.addClass('on');
+	        target.slideDown();
+	        $(this).parent().addClass('on');
+	            if(window[parsysID] != null && window[parsysID].showParsys != undefined){
+	         	   window[parsysID].showParsys();
+	            }
+	        }
+	        return false;
+	    });
+	    anchorCheck();
+	}
+
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
