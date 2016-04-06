@@ -243,6 +243,23 @@
         	<scope>provided</scope>
         </dependency>
 
+        <!-- FTP support for SalesForce events integration -->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+        </dependency>
+        <!-- END FTP -->
+        <dependency>
+        	<groupId>joda-time</groupId>
+        	<artifactId>joda-time</artifactId>
+        	<version>2.9.3</version>
+        </dependency>
+	<dependency>
+		<groupId>org.joda</groupId>
+		<artifactId>joda-convert</artifactId>
+		<version>1.8.1</version>
+	</dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -269,6 +286,13 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.web.girlscouts-bundle</Bundle-SymbolicName>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+			<Import-Package>
+				!com.google.common.reflect,
+				*
+			</Import-Package>
+                        <!-- Recursively embed dependency jars -->
+                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>

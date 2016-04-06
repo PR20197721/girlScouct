@@ -1463,40 +1463,56 @@ padding: 40px 0px 40px 0;
   padding-top: 20px;
   padding-bottom: 20px;
 }
+
 /*accordion*/
 .accordion.section dt {
-  background:#f6f6f6;
-  padding:0;
-  position: relative;
+    background: #e3e3e3 none repeat scroll 0 0;
+    margin-bottom: 3px;
+    padding: 0;
+    position: relative;
+}
+.accordion.section dt.on {
+    background: #00ae58 none repeat scroll 0 0;
 }
 .accordion.section dt h6 {
-  background:none;
-  padding: 0;
-  margin-left: 30px;
-  font-size: 14px;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: #000;
-  display: inline;
-  cursor: pointer;
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    color: #000;
+    cursor: pointer;
+    display: block;
+    font-size: 1.13rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0.63rem;
 }
-.accordion.section dt h6:before {
-  border-style: solid;
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  border-color: #000 transparent transparent;
-  margin-left: 5px;
-  border-width: 5px;
-  margin-top: -2px;
+.accordion.section dt h6.on {
+    color: #fff;
 }
-.accordion.section dt h6.on:before {
-  border-color: transparent transparent transparent #000;
-  margin-top: -5px;
+.accordion.section dt h6::before {
+    border-color: #00ae58 transparent transparent;
+    border-style: solid;
+    border-width: 0.63rem;
+    content: "";
+    display: block;
+    left: auto;
+    margin-left: 0.31rem;
+    margin-top: -0.31rem;
+    position: absolute;
+    right: 0.63rem;
+    top: 50%;
 }
-
-
+.accordion.section dt h6.on::before {
+    border-color: transparent transparent #fff;
+    margin-top: -0.94rem;
+}
+.accordion.section dd {
+    background: #f8f8f8 none repeat scroll 0 0;
+}
+.accordion.section .content {
+//    padding: 25px 15px 0;
+}
+.accordion.section dd p {
+    font-size: 14px;
+}
 
 #main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
 	max-width: 170px;

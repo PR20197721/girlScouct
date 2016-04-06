@@ -130,6 +130,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String _thumbImage = "thumbImage";
 	public static final String _priceRange = "priceRange";
 	private static final String _globalTagNamespace = "sf-activities";
+	private static final String _timezone ="timezone";
 
 	//The filename of the zip file is in this format: gsevents-yyyy-MM-ddTHHmmSS.zip
 	public static final String ZIP_REGEX = "gsevents-\\d{4}-\\d{2}-\\d{2}T\\d{6}.zip";
@@ -455,6 +456,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		dataNode.setProperty("region", getString(payload, _region));
 		dataNode.setProperty("srchdisp", getString(payload, _description));
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
+		dataNode.setProperty("timezone", getString(payload, _timezone));
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now

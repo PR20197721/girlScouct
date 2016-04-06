@@ -1,6 +1,7 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
-<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.Calendar,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone"%>
+<%@ page import="com.day.cq.tagging.TagManager,org.apache.sling.commons.json.*,java.util.ArrayList,java.util.HashSet, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,
+org.girlscouts.web.events.search.*"%>
 
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -11,25 +12,26 @@
   
   private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
     List<JSONObject> eventList = new ArrayList<JSONObject>();
-    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
-    DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
-    Date startDate = null; 
-    Calendar cale = Calendar.getInstance();
+    GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE, MMM d, yyyy");
+    GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm a");
+    GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   
     
-    
-	Date today = new Date();
-	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	String evtStartDt = formatter.format(today);
+	GSDateTime today = new GSDateTime();
+	GSDateTimeFormatter formatter = GSDateTimeFormat.forPattern("yyyy-MM-dd");
+	String evtStartDt = formatter.print(today);
 	try{
-		today = formatter.parse(evtStartDt);
+		today = GSDateTime.parse(evtStartDt,formatter);
 		
-	}catch(Exception e){}
+	}catch(Exception e){
+		e.printStackTrace();
+	}
 	String end ="";
     String location="";
     String detail="";
-    Date eventDate = null;
-    DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
+    GSDateTime eventDate = null;
+    GSDateTime startDate = null;
+    GSDateTime endDate = null;
+    GSDateTimeFormatter dateFt = GSDateTimeFormat.forPattern("MMM d, yyyy");
     String jsonEvents="";
 	for(String path: eventsPath){
 		String color = "#00AE58";
@@ -46,18 +48,44 @@
 
 				JSONObject obj = new JSONObject();
 				
-				if(propNode.hasProperty("end")){
-					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-					eventDate = cale.getTime();
-				}else if(propNode.hasProperty("start")){
-					cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-					eventDate = cale.getTime();
+				if(propNode.hasProperty("start")){
+					startDate = GSDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
+					eventDate = startDate;
 				}
+				if(propNode.hasProperty("end")){
+					endDate = GSDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+					eventDate = endDate;
+				}
+				
+           		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+				if(!timeZoneLabel.isEmpty()){
+					int openParen1 = timeZoneLabel.indexOf("(");
+					int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
+					int closeParen = timeZoneLabel.indexOf(")",openParen2);
+					if(closeParen != -1 && openParen2 != -1 && timeZoneLabel.length() > openParen2){
+						timeZoneLabel = timeZoneLabel.substring(openParen2+1,closeParen);
+					}
+					try{
+						GSDateTimeZone dtz = GSDateTimeZone.forID(timeZoneLabel);
+						if(startDate != null){
+							startDate = startDate.withZone(dtz);
+						}
+						if(endDate != null){
+							endDate = endDate.withZone(dtz);
+						}
+						timeZoneLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
 				try{
-					eventDt = formatter.format(eventDate);
-					eventDate = formatter.parse(eventDt);
-				}catch(Exception e){}
-				if(eventDate.after(today) || eventDate.equals(today)){
+					eventDt = formatter.print(eventDate);
+					eventDate = GSDateTime.parse(eventDt,formatter);
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+				if(eventDate.isAfter(today) || eventDate.isEqual(today)){
 					String title = propNode.getProperty("../jcr:title").getString();
 					detail = "";
 					location="";
@@ -67,33 +95,25 @@
 					if(propNode.hasProperty("locationLabel")){
 						 location = propNode.getProperty("locationLabel").getString();
 	 				}
-					//cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
-					Calendar startDt = DateToCalendar(fromFormat.parse(propNode.getProperty("start").getString()));
-	            	
+
 					//Start is need for the calendar to display right event on Calendar
 	             	
-					String start = dateFt.format(startDt.getTime());
-	      			String time = timeFormat.format(startDt.getTime());
-	             	String dateInCalendar = dateFormat.format(startDt.getTime());
-	             	String startTimeStr = timeFormat.format(startDt.getTime());
+					String start = dateFt.print(startDate);
+	      			String time = timeFormat.print(startDate);
+	             	String dateInCalendar = dateFormat.print(startDate);
+	             	String startTimeStr = timeFormat.print(startDate);
 	             	String dateStr = dateInCalendar + ", " +startTimeStr;
 	             	
 	             	
 	              	if(propNode.hasProperty("end")){
-						Calendar endDt = DateToCalendar(fromFormat.parse(propNode.getProperty("end").getString()));
 					     //End is need for the calendar to display right end date of an event on Calendar
-						end = dateFt.format(endDt.getTime());
-						Calendar cal1 = Calendar.getInstance();
-						Calendar cal2 = Calendar.getInstance();
-						Calendar endDate = DateToCalendar(fromFormat.parse(propNode.getProperty("end").getString()));
-						cal1.setTime(startDt.getTime());
-						cal2.setTime(endDate.getTime());
-						boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-					                  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-                        boolean sameTime = cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY) && 
-                            		  cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE);
-						String endDateStr = dateFormat.format(endDt.getTime());
-						String endTimeStr = timeFormat.format(endDt.getTime());
+						end = dateFt.print(endDate);
+						boolean sameDay = startDate.year() == endDate.year() &&
+					                  startDate.dayOfMonth() == endDate.dayOfMonth() && startDate.monthOfYear() == endDate.monthOfYear();
+                        boolean sameTime = startDate.hourOfDay() == endDate.hourOfDay() && 
+                            		  startDate.minuteOfHour() == endDate.minuteOfHour();
+						String endDateStr = dateFormat.print(endDate);
+						String endTimeStr = timeFormat.print(endDate);
 
                         if (!sameDay && !sameTime) {
 					 	  	dateStr += " - " + endDateStr +", " + endTimeStr;
@@ -102,8 +122,6 @@
 						}
 	            	  }
                     
-					//Add time zone label to date string if event has one
-               		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
 					if(!timeZoneLabel.isEmpty()){
 						dateStr = dateStr + " " + timeZoneLabel;
 					}
@@ -125,12 +143,16 @@
 		        }
 	            
 			}  
-        }catch(Exception e){}
+        }catch(Exception e){
+        	e.printStackTrace();
+        }
 	}
 	try{
 		JSONArray eventArray = new JSONArray(eventList);
 		jsonEvents = eventArray.toString();
-	}catch(Exception je){}  
+	}catch(Exception je){
+		je.printStackTrace();
+	}  
      return jsonEvents;
 }
 %>
@@ -142,8 +164,10 @@
    if(null!=eventSuffix) {
 	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
 	String[] my = temp.split("-");
-	month = String.valueOf(Integer.parseInt(my[0])-1);
-	year = my[1];
+	try{
+		month = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[0],"UTF-8"))-1);
+		year = String.valueOf(Integer.parseInt(java.net.URLEncoder.encode(my[1],"UTF-8")));
+	}catch(Exception e){}
    }
 
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
@@ -171,12 +195,3 @@ $(document).ready(function(){
 	}
 }); 
 </script>
-<%!
-public Calendar DateToCalendar(Date date){ 
-	  Calendar cal = Calendar.getInstance();
-	  cal.setTime(date);
-	  return cal;
-	}
-
-
-%>
