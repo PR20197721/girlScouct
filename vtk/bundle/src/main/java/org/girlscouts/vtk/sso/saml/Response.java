@@ -177,8 +177,8 @@ System.err.println("testB1");
 			System.err.println("testB15");
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
 			System.err.println("testB16 " + xmlSignature.validate(ctx));
-			//-return xmlSignature.validate(ctx); //TODO restore when going to PROD 4/5/16
-			return true;
+			return xmlSignature.validate(ctx); 
+			//return true;
 		}catch (Error e) {
 			e.printStackTrace();
 			error.append(e.getMessage());
