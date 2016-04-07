@@ -80,7 +80,7 @@
                         org.apache.jackrabbit.vault.cli*,org.apache.jackrabbit.vault.davex,*.impl*,org.apache.jackrabbit.vault.util.xml,org.apache.jackrabbit.vault.vlt.actions,org.apache.jackrabbit.vault.vlt.meta.*,org.apache.jackrabbit.vault.packaging.hotfix
                     </excludePackageNames>
                     <reportOutputDirectory>${basedir}/vault-doc/target/site</reportOutputDirectory>
-                    <additionalparam>-notimestamp</additionalparam>
+                    <additionalparam>-notimestamp -Xdoclint:none</additionalparam>
                 </configuration>
                 <executions>
                     <execution>
