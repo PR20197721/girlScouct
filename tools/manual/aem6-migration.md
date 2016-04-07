@@ -71,6 +71,8 @@ Use the same filters in step 5.
 
 ### Step 15. Smoke test both publishers and preview
 
+### Step 16. Turn workflow launchers backon on AEM 6.1 instance
+
 **One council completed.**
 
 DNS Cutover
