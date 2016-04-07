@@ -1,1 +1,2 @@
 "{{authorRenderer.hostname}}"
+"{{authorRenderer.alias}}"
