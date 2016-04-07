@@ -160,3 +160,34 @@
     font-size: 16px;
     font-weight: lighter;
 }
+
+
+
+/* vtk-demo-login-form.css */
+.vtk-demo-form-box {
+  border: 1px solid #cccccc;
+  padding: 20px;
+  border-radius: 6px;
+  margin: 40px 0;
+}
+
+.vtk-demo-form-top{
+  text-align: center;
+}
+
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-label {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-input input[type=text], .vtk-demo-form-input input[type=password],{
+  padding: 15px 10px;
+  font-size: 12px;
+}
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-input input[type=submit] {
+  text-align: center;
+  width: 100%;
+  margin:0;
+}

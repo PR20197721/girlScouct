@@ -1,12 +1,47 @@
 <%@page import="java.util.HashMap"%>
 <% if( session== null || session.getAttribute("demoSiteUser")==null){ %>
-<form action="/content/girlscouts-demo/en/jcr:content" method="POST">
-        <center>
-            <input type="text" name="u" value=""/>
-            <br/><input type="text" name="p" value=""/>
-            <br/><input type="submit" value="Login" name="login"/>
-        </center>
-    </form>
+
+<div id="main" class="row content">
+    
+    <div class=" vtk-demo-form-box columns small-20 small-centered medium-10 medium-centered">
+        
+        <div class="vtk-demo-form-top">
+            <!-- <img src="" alt=""> THE GIRLSCOUT LOGO-->
+        </div>
+
+
+        <div class="div-demo-form-message">
+          <div data-alert class="alert-box alert ">
+  This is a warning alert that is rounded.
+
+</div>
+
+
+        </div>
+  
+        <div class="vtk-demo-login-form">
+          <form action="/content/girlscouts-demo/en/jcr:content" method="POST">
+            
+            <div class="vtk-demo-form-input">
+              <div class="vtk-demo-form-label">Username</div>
+              <input type="text" name="u" value=""/>
+            </div>
+            
+            <div class="vtk-demo-form-input">
+              <div class="vtk-demo-form-label">Password</div>
+              <input type="password" name="p" value=""/>
+            </div>
+            
+            <div class="vtk-demo-form-input">
+              <input class="button tiny" type="submit" value="Login" name="login"/>
+            </div>
+       
+        </form>
+        </div>
+    </div>
+</div>
+
+
 <% 
 return;
 }//edn if
