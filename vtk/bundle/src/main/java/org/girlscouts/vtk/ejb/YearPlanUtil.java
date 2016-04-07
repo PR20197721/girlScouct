@@ -377,4 +377,8 @@ In Koo removed for AEM 6.1 upgrade
 	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException{
 		return meetingDAO.getMeetingCount(user, troop, path);
 	}
+	
+	public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException{
+		return meetingDAO.getVtkAssetCount(user, troop, path);
+	}
 }// edn class

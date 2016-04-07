@@ -1306,6 +1306,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
+System.err.println("tata11: "+ sql );			
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2443,7 +2444,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					+ " (isdescendantnode (s, ["
 					+ path
 					+ "]))";
-
+System.err.println("tata sql: "+ sql);
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2456,6 +2457,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				itr.next() ;
+System.err.println("tata count: " + count);			
 				count++;
 			}
 			
@@ -2495,7 +2497,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-
+System.err.println("tata sql: "+ sql);
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2507,7 +2509,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				Node node = (Node)itr.next() ;
-			
+System.err.println("tata -- "+ node.getPath() +" : "+ count);			
 				if( node.getPath().toLowerCase().contains( ("meetings/" + level.charAt(0)).toLowerCase() ) ) 
 						count++;
 			}
@@ -2639,6 +2641,43 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.SQL);
+			
+			QueryResult result = q.execute();
+			count = (int) result.getNodes().getSize();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return count;
+	}
+	
+	
+	
+public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
+		
+		int count = 0;
+		if(path == null || "".equals(path)) {
+			return 0;
+		}
+		Session session = null;
+		try {
+			String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, ["+path+"])) and [cq:tags] is not null";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
 			
 			QueryResult result = q.execute();
 			count = (int) result.getNodes().getSize();

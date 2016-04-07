@@ -32,8 +32,13 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
 
+    /*
     int meetingAidCount = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
     meetingAidCount += yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
+    */
+    
+    int meetingAidCount = yearPlanUtil.getVtkAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
+    
     //int countLocalMeetingsAidsByLevel = yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"); 
                                 
    String path = getMeetingsRootPath(troop);
