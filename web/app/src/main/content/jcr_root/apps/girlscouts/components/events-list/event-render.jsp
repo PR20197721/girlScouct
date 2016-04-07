@@ -15,9 +15,10 @@ try{
 	String iconPath="";
 	GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 	GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE MMM dd yyyy");
-	GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("hh:mm aa");
+	GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm aa");
 	
 	startDate = GSDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
+	GSLocalDateTime localStartDate = null;
 	
     //Add time zone label to date string if event has one
    	String timeZoneLabel = null;
@@ -36,13 +37,16 @@ try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
 			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+			startDateStr = dateFormat.print(startDate);
+			startTimeStr = timeFormat.print(startDate);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+    }else{
+		localStartDate = GSLocalDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
+		startDateStr = dateFormat.print(localStartDate);
+		startTimeStr = timeFormat.print(localStartDate);
     }
-	
-	startDateStr = dateFormat.print(startDate);
-	startTimeStr = timeFormat.print(startDate);
 
 	
 	
@@ -55,10 +59,15 @@ try{
 	}
 	if (propNode.hasProperty("end")){
 		GSDateTime endDate = GSDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+		GSLocalDateTime localEndDate = null;
 		if(dtz != null){
 			endDate = endDate.withZone(dtz);
+			dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr,timeZoneShortLabel);
+		}else{
+			localEndDate = GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+			dateStr = getDateTime(localStartDate,localEndDate,dateFormat,timeFormat,dateStr,timeZoneShortLabel);
 		}
-		dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr,timeZoneShortLabel);
+		
  	}
  
 	boolean hasImage = false;

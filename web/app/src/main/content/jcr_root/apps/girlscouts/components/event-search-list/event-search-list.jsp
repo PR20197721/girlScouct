@@ -3,11 +3,7 @@
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	com.day.text.Text,
-	org.girlscouts.web.events.search.GSDateTimeFormat,
-	org.girlscouts.web.events.search.GSDateTimeFormatter,
-	org.girlscouts.web.events.search.GSDateTime,
-	org.girlscouts.web.events.search.GSDateTimeZone,
-	org.girlscouts.web.events.search.GSDateTimeUtils" %>
+	org.girlscouts.web.events.search.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -24,7 +20,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 GSDateTime today = new GSDateTime();
 GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("EEE MMM dd");
-GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm aa");
+GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("h:mm aa");
 GSDateTimeFormatter dtfOutMY = GSDateTimeFormat.forPattern("MMMM yyyy");
 GSDateTimeFormatter dtUTF = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
 String register = "";
@@ -70,6 +66,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			register = "";
 			GSDateTime evntComparison = null;
 			Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
+			GSDateTime startDate = null;
+			GSLocalDateTime localStartDate = null;
 			try {
 				Node propNode = node.getNode("jcr:content/data");
 				if(propNode.hasProperty("visibleDate")){
@@ -81,13 +79,15 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 				}
 				String stringStartDate = propNode.getProperty("start").getString();
-				GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
+				startDate = GSDateTime.parse(stringStartDate,dtfIn);
 				eventID = "-1";
 				
                 //Add time zone label to date string if event has one
                 String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
                 String timeZoneShortLabel = "";
                 GSDateTimeZone dtz = null;
+				String startDateStr = "";
+				String startTimeStr = "";
 				if(!timeZoneLabel.isEmpty()){
 					//dateStr = dateStr + " " + timeZoneLabel;
 					int openParen1 = timeZoneLabel.indexOf("(");
@@ -100,10 +100,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 						dtz = GSDateTimeZone.forID(timeZoneLabel);
 						startDate = startDate.withZone(dtz);
 						timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+						startDateStr = dtfOutDate.print(startDate);
+						startTimeStr = dtfOutTime.print(startDate);
 					}catch(Exception e){
 						e.printStackTrace();
 					}
 					//startDate = new GSDateTime(startDate.getMillis());
+				} else{
+					localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
+					startTimeStr = dtfOutTime.print(localStartDate);
+					startDateStr = dtfOutDate.print(localStartDate);
 				}
 				
 				evntComparison = startDate;
@@ -123,8 +129,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				String time = "";
 				String locationLabel = "";
 
-				String startDateStr = dtfOutDate.print(startDate);
-				String startTimeStr = dtfOutTime.print(startDate);
 				String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 				if(propNode.hasProperty("locationLabel")){
@@ -133,15 +137,24 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 
 				String formatedEndDateStr="";
 				GSDateTime endDate =null;
+				String endDateStr = "";
+				String endTimeStr = "";
+				GSLocalDateTime localEndDate = null;
 				if(propNode.hasProperty("end")){
 					endDate = GSDateTime.parse(propNode.getProperty("end").getString(),dtfIn);
 					if(dtz != null){
 						endDate = endDate.withZone(dtz);
+						endDateStr = dtfOutDate.print(endDate);
+						endTimeStr = dtfOutTime.print(endDate);
+					} else{
+						localEndDate = GSLocalDateTime.parse(propNode.getProperty("end").getString(),dtfIn);
+						endDateStr = dtfOutDate.print(localEndDate);
+						endTimeStr = dtfOutTime.print(localEndDate);
 					}
 					evntComparison = endDate;
 					boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
-					String endDateStr = dtfOutDate.print(endDate);
-					String endTimeStr = dtfOutTime.print(endDate);
+					endDateStr = dtfOutDate.print(endDate);
+					endTimeStr = dtfOutTime.print(endDate);
 					if (!sameDay) {
 						//dateStr += " - " + endDateStr +", " + endTimeStr;
 						formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
