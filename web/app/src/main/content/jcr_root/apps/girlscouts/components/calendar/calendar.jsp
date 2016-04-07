@@ -58,6 +58,16 @@ org.girlscouts.web.events.search.*"%>
 				}
 				
            		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+           		GSLocalDateTime localStartDate = null;
+           		GSLocalDateTime localEndDate = null;
+           		
+				String start = ""; 
+      			String time = ""; 
+             	String dateInCalendar = ""; 
+             	String startTimeStr = ""; 
+             	String endDateStr = "";
+             	String endTimeStr = "";
+           		
 				if(!timeZoneLabel.isEmpty()){
 					int openParen1 = timeZoneLabel.indexOf("(");
 					int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
@@ -69,13 +79,34 @@ org.girlscouts.web.events.search.*"%>
 						GSDateTimeZone dtz = GSDateTimeZone.forID(timeZoneLabel);
 						if(startDate != null){
 							startDate = startDate.withZone(dtz);
+							start = dateFt.print(startDate);
+							time = timeFormat.print(startDate);
+							dateInCalendar = dateFormat.print(startDate);
+							startTimeStr = timeFormat.print(startDate);
 						}
 						if(endDate != null){
 							endDate = endDate.withZone(dtz);
+							end = dateFt.print(endDate);
+							endDateStr = dateFormat.print(endDate);
+							endTimeStr = timeFormat.print(endDate);
 						}
 						timeZoneLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
 					}catch(Exception e){
 						e.printStackTrace();
+					}
+				} else{
+					if(startDate != null){
+						localStartDate = GSLocalDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
+						start = dateFt.print(localStartDate);
+						time = timeFormat.print(localStartDate);
+						dateInCalendar = dateFormat.print(localStartDate);
+						startTimeStr = timeFormat.print(localStartDate);
+					}
+					if(endDate != null){
+						localEndDate = GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+						end = dateFt.print(localEndDate);
+						endDateStr = dateFormat.print(localEndDate);
+						endTimeStr = timeFormat.print(localEndDate);
 					}
 				}
 				
@@ -98,22 +129,15 @@ org.girlscouts.web.events.search.*"%>
 
 					//Start is need for the calendar to display right event on Calendar
 	             	
-					String start = dateFt.print(startDate);
-	      			String time = timeFormat.print(startDate);
-	             	String dateInCalendar = dateFormat.print(startDate);
-	             	String startTimeStr = timeFormat.print(startDate);
 	             	String dateStr = dateInCalendar + ", " +startTimeStr;
 	             	
 	             	
 	              	if(propNode.hasProperty("end")){
 					     //End is need for the calendar to display right end date of an event on Calendar
-						end = dateFt.print(endDate);
 						boolean sameDay = startDate.year() == endDate.year() &&
 					                  startDate.dayOfMonth() == endDate.dayOfMonth() && startDate.monthOfYear() == endDate.monthOfYear();
                         boolean sameTime = startDate.hourOfDay() == endDate.hourOfDay() && 
                             		  startDate.minuteOfHour() == endDate.minuteOfHour();
-						String endDateStr = dateFormat.print(endDate);
-						String endTimeStr = timeFormat.print(endDate);
 
                         if (!sameDay && !sameTime) {
 					 	  	dateStr += " - " + endDateStr +", " + endTimeStr;
