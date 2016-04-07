@@ -429,7 +429,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			//add data node
 			Node dataNode = JcrUtil.createPath(jcrNode, "data", false, null, "nt:unstructured", session, false);
-			setNodeProperties(id, dataNode, calendar, payload);
+			setNodeProperties(id, dataNode, start, payload);
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
@@ -447,9 +447,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return eventPage.getPath();
 	}
 	
-	private void setNodeProperties(String id, Node dataNode, Calendar calendar, JSONObject payload) throws RepositoryException, GirlScoutsException {
+	private void setNodeProperties(String id, Node dataNode, String start, JSONObject payload) throws RepositoryException, GirlScoutsException {
 		dataNode.setProperty("eid", id);
-		dataNode.setProperty("start", calendar);
+		dataNode.setProperty("start", start);
 		dataNode.setProperty("address", getString(payload, _address));
 		dataNode.setProperty("details", getString(payload, _details));
 		dataNode.setProperty("locationLabel", getString(payload, _location));
@@ -495,27 +495,11 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 		String end = getString(payload, _end);
 		if (end != null) {
-			try {
-				Date endDate = NO_TIMEZONE_FORMAT.parse(end);
-				calendar.setTime(endDate);
-				dataNode.setProperty("end", calendar);
-			} catch(ParseException e) {
-				e.printStackTrace();
-				throw new GirlScoutsException(e, "End date format error: " + end);
-			}
+			dataNode.setProperty("end", end);
 		}
 		String visibleDate = getString(payload, _visibleDate);
 		if (visibleDate != null) {
-			try {
-				Date parsedVisibleDate = NO_TIMEZONE_FORMAT.parse(visibleDate);
-				calendar.setTime(parsedVisibleDate);
-				dataNode.setProperty("visibleDate", calendar);
-			} catch(ParseException e) {
-				e.printStackTrace();
-				throw new GirlScoutsException(e, "Visible date format error: " + end);
-			}
-		} else {
-			log.info("<----- Visible Date is not availabe from the JSON file. ----->");
+			dataNode.setProperty("visibleDate", visibleDate);
 		}
 	}
 	

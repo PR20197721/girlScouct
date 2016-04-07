@@ -40,7 +40,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	GSDateTime today = new GSDateTime();
 	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 	GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("EEE MMM dd");
-	GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm aa");
+	GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("h:mm aa");
 	GSDateTimeFormatter dtfOutMY = GSDateTimeFormat.forPattern("MMMM yyyy");
 	GSDateTimeFormatter dtfOutMYCal = GSDateTimeFormat.forPattern("MM'-'yyyy");
 	GSDateTimeFormatter dtUTF = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm");
@@ -64,11 +64,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 	String stringStartDate = properties.get("start","");
 	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
+	GSLocalDateTime localStartDate = null;
 	
     //Add time zone label to date string if event has one
     String timeZoneLabel = properties.get("timezone","");
     String timeZoneShortLabel = "";
     GSDateTimeZone dtz = null;
+    String startDateStr = "";
+    String startTimeStr = "";
+    
 	if(!timeZoneLabel.isEmpty()){
 		//dateStr = dateStr + " " + timeZoneLabel;
 		int openParen1 = timeZoneLabel.indexOf("(");
@@ -81,14 +85,18 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
 			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+			startDateStr = dtfOutDate.print(startDate);
+			startTimeStr = dtfOutTime.print(startDate);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		//startDate = new GSDateTime(startDate.getMillis());
+	}else{
+		localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
+		startDateStr = dtfOutDate.print(localStartDate);
+		startTimeStr = dtfOutTime.print(localStartDate);
 	}
 
-	String startDateStr = dtfOutDate.print(startDate);
-	String startTimeStr = dtfOutTime.print(startDate);
 	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
@@ -105,14 +113,21 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 	String formatedEndDateStr="";
 	GSDateTime endDate =null;
+	String endDateStr = "";
+	String endTimeStr = "";
+	GSLocalDateTime localEndDate = null;
 	if(!"".equals(properties.get("end",""))){
 		endDate = GSDateTime.parse(properties.get("end",""),dtfIn);
 		if(dtz != null){
 			endDate = endDate.withZone(dtz);
+			endDateStr = dtfOutDate.print(endDate);
+			endTimeStr = dtfOutTime.print(endDate);
+		} else{
+			localEndDate = GSLocalDateTime.parse(properties.get("end",""),dtfIn);
+			endDateStr = dtfOutDate.print(localEndDate);
+			endTimeStr = dtfOutTime.print(localEndDate);
 		}
 		boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
-		String endDateStr = dtfOutDate.print(endDate);
-		String endTimeStr = dtfOutTime.print(endDate);
 		if (!sameDay) {
 			//dateStr += " - " + endDateStr +", " + endTimeStr;
 			formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
