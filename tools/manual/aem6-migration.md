@@ -83,7 +83,7 @@ DNS Cutover
 
 ### Step 3. Smoke test
 
-### Step 4. CHEERS!
+### Step 4. CHEERS! :smile:
 
 Appendix A: IP Addresses
 ------------------------
