@@ -151,7 +151,9 @@
 		        		  bresource.setItemCount(meeting_overviews);
 		         %>
 			         <div>
-			            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
+			            
+			             <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
+			             
 			         </div> 
 			     <%} %>
 		    </li>

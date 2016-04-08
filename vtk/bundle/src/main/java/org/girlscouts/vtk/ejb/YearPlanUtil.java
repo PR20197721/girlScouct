@@ -62,6 +62,7 @@ public class YearPlanUtil {
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws java.lang.IllegalAccessException, VtkException,
 			IllegalStateException {
+	
 		activity.setDbUpdate(true);
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
