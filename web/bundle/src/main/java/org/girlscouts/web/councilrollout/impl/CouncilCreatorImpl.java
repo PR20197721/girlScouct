@@ -126,6 +126,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				Node enContentNode = enJcrContentNode.addNode("content", "nt:unstructured");
 				Node subParNode = enContentNode.addNode("styled-subpar");
 				subParNode.setProperty("cssClasses", "row home-section");
+				Node breakingNewsNode = enContentNode.addNode("breaking-news");
+				breakingNewsNode.setProperty("sling:resourceType", "girlscouts/components/breaking-news");
+				breakingNewsNode.setProperty("newstype","None");
 				
 				Node enHeaderNode = enJcrContentNode.addNode("header", "nt:unstructured");
 				Node globalNavNode = enHeaderNode.addNode("global-nav");
