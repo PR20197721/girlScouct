@@ -160,7 +160,15 @@
 	    <%} %>
 	</ul>
 	<%
-	String categoryParam = (String)request.getParameter("category");
+	//String categoryParam = (String)request.getParameter("category");
+	String[] selectors = slingRequest.getRequestPathInfo().getSelectors();
+	String categoryParam = null;
+	for (String selector : selectors) {
+		if (!"resource".equals(selector)) {
+			categoryParam = "/" + selector.replaceAll("___", "/");
+			break;
+		}
+	}
 	if( categoryParam!=null && !categoryParam.trim().equals("")){
 	%>
 	   <%@include file="resource_display_aids.jsp" %>
