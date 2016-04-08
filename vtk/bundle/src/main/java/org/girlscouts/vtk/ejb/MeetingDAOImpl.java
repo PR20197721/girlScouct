@@ -1,12 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.jcr.LoginException;
 import javax.jcr.Node;
@@ -69,6 +64,12 @@ import com.day.cq.search.result.SearchResult;
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
+	
+	public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
+	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
+//	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
+	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -83,6 +84,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	@Activate
 	void activate() {
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 	}
 
 	// by planId
@@ -2661,10 +2663,18 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 	}
 	
 	
-	
+
 public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
-		
-		int count = 0;
+		if (resourceCountMap.containsKey(path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - resourceCountMap.get(RESOURCE_COUNT_MAP_AGE).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata resource from cache");				
+				return resourceCountMap.get(path).intValue();
+			}
+		}
+			
+		long count = 0;
 		if(path == null || "".equals(path)) {
 			return 0;
 		}
@@ -2680,7 +2690,9 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 					javax.jcr.query.Query.JCR_SQL2);
 			
 			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
+			count = (long) result.getNodes().getSize();
+System.err.println("tata resource from SQL");				
+			resourceCountMap.put(path, count);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2694,7 +2706,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 			}
 
 		}
-		return count;
+		return (int)count;
 	}
 	
 }// edn class
