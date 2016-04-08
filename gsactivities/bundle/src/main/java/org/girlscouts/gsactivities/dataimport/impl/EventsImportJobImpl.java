@@ -382,10 +382,14 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(e,"start date format error: " + start);
 		} 
 
+		
+		//We use calendar now only for its YEAR field to create the directory.
+		//We just save the whole string to the data node now.
 		calendar.setTime(startDate);
 		int year = calendar.get(Calendar.YEAR);	
 		String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
 		Session session =  rr.adaptTo(Session.class);
+		
 		//Create event page
 		try {
 			//need session.save() to persist
