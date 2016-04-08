@@ -65,7 +65,8 @@ import com.day.cq.search.result.SearchResult;
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
 	
-	public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
+	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
+	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
 //	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
 	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
@@ -2537,7 +2538,14 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 		
 		int count = 0;
 		
-		
+		if (resourceCountMap.containsKey(_path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata getResourceData resource from cache");				
+				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
+			}
+		}
 		
 		java.util.Map <String, bean_resource>dictionary =null;
 		Session session = null;
@@ -2624,6 +2632,13 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 			}
 
 		}
+		
+		
+		System.err.println("tata getResourceData resource from SQL");				
+		resourceCountMap.put(_path, dictionary.values());
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
+
+		
 		return dictionary.values();
 	}
 	
@@ -2633,6 +2648,17 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 		if(path == null || "".equals(path)) {
 			return 0;
 		}
+		
+		if (resourceCountMap.containsKey(path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata meetingCount from cache");				
+				return ((Integer)resourceCountMap.get(path)).intValue();
+			}
+		}
+		
+		
 		Session session = null;
 		try {
 			String sql = "select * from nt:base where jcr:path like '"+path+"%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
@@ -2659,6 +2685,10 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 			}
 
 		}
+		
+		System.err.println("tata meetingCount from SQL");				
+		resourceCountMap.put(path, count);
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
 	}
 	
@@ -2667,10 +2697,10 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
 		if (resourceCountMap.containsKey(path)) {
 			// it contains the key
-			if(System.currentTimeMillis() - resourceCountMap.get(RESOURCE_COUNT_MAP_AGE).longValue() < MAX_CACHE_AGE_MS) {
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
 				// return cache
 System.err.println("tata resource from cache");				
-				return resourceCountMap.get(path).intValue();
+				return ((Long)resourceCountMap.get(path)).intValue();
 			}
 		}
 			
@@ -2693,6 +2723,7 @@ System.err.println("tata resource from cache");
 			count = (long) result.getNodes().getSize();
 System.err.println("tata resource from SQL");				
 			resourceCountMap.put(path, count);
+			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
