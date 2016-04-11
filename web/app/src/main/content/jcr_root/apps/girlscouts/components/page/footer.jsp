@@ -32,4 +32,4 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
-<!-- AEM Version 6.1 -->
+<!-- Version Animal Cracker -->
