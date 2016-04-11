@@ -19,7 +19,9 @@ com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener
 
 ### Step 3.5 create event replication queue in AEM5.6 to replicate event AEM6.1(destination)
  copy /etc/replication/agents.author/publish1useast1 to create /etc/replication/agents.author/event61publish1
+
  copy /etc/replication/agents.author/publish1useast1 to create /etc/replication/agents.author/event61publish2
+
 **In each replication queue, make the following two changes:
 (1) update jcr:title to event61publish1 in /etc/replication/agents.author/event61publish1/jcr:content 
 update jcr:title to event61publish2 in /etc/replication/agents.author/event61publish2/jcr:content
