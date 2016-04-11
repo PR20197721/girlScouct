@@ -26,7 +26,6 @@
   <div id="header" class="row">
     <div class="large-6 medium-9 columns">
       <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
-      <!-- TODO: remove this after testing --> <div>AEM 6.1</div>
       <%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
       <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
     </div>
