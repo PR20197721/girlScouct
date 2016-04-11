@@ -11,6 +11,13 @@ The Day Before DNS Cutover
 ### Step 1. Kick off content freeze
 Notify and confirm with the affected councils that the content freeze has started.
 
+### Step 1.5. Ports open
+AEM5.6 author needs to access AEM61 publish 1 and 2
+61 author  need access to 56 author 
+61 publish 1 need access to 56 publish 1
+61 publish 2 need access to 56 publish 2
+61 preview  need access to 56 preview 
+
 ### Step 2. Backup the both AEM 5.6.1 and AEM 6.1 author and publishers using CRX cloud backup
 
 ### Step 3. Turn off workflow launchers on AEM 6.1 instance
