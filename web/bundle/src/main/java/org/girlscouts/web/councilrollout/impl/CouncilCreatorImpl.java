@@ -41,7 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 //Jackrabbit User APIs
-import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.Group;
@@ -183,12 +182,14 @@ public class CouncilCreatorImpl implements CouncilCreator {
 
 					while (i.hasNext()) {
 						Node scaffoldingNode = i.nextNode();
-						String targetPath = scaffoldingNode.getNode("jcr:content").getProperty("cq:targetPath").getValue().getString();
-						String type = scaffoldingNode.getName();
-						scaffoldingNode = JcrUtil.copy(scaffoldingNode, councilFolder, type);
-						targetPath = targetPath.replace(scaffoldingPrototype, councilName);
-						scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
-						scaffoldings.add(scaffoldingNode);
+						if(scaffoldingNode.hasNode("jcr:content")){
+							String targetPath = scaffoldingNode.getNode("jcr:content").getProperty("cq:targetPath").getValue().getString();
+							String type = scaffoldingNode.getName();
+							scaffoldingNode = JcrUtil.copy(scaffoldingNode, councilFolder, type);
+							targetPath = targetPath.replace(scaffoldingPrototype, councilName);
+							scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
+							scaffoldings.add(scaffoldingNode);
+						}
 					}
 				} else {
 					LOG.error(scaffoldingPrototype + "folder contains no nodes, cannot copy scaffolding");
@@ -399,7 +400,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 
 		try {
 			JackrabbitSession jackSession = (JackrabbitSession) session;
-			JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) session.getAccessControlManager();
+			JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) jackSession.getAccessControlManager();
 			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
 
 			Principal principal = councilGroup.getPrincipal();	
@@ -415,20 +416,27 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/" + councilName, "READ"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE"), acm, session).getPrivilegeList());
 			}
-			if(councilGroup.getID().equals(REVIEWERS)) {
+			else if(councilGroup.getID().equals(REVIEWERS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE_DELETE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/" + councilName, "READ"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());			
+			} else{
+				System.err.println("Failed to set permissions on User Group: " + councilGroup.getID());
 			}
 			//Policies are all generated into a list and for loop binds policies to their respective nodes
 			for(JackrabbitAccessControlList l: aclList) {
+				try{
 					acm.setPolicy(l.getPath(), l);
+				}catch(Exception e){
+					System.err.println("Failed to set policy on " + l.getPath());
+					e.printStackTrace();
+				}
 			}
 			
 		} catch (Exception e) {
@@ -525,8 +533,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			    map.put("REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE)});
 				map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
 				map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
-			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
-			
+			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});			
 			} catch (RepositoryException e) {
 				LOG.error("Error occurred while generating privileges in Privilege Map: " + e.toString());
 			}			
