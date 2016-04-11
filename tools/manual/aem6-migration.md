@@ -17,7 +17,7 @@ Notify and confirm with the affected councils that the content freeze has starte
 com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl
 com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener
 
-**Repeat step 3 to step 14 for each council:**
+**Repeat step 4 to step 14 for each council:**
 
 ### Step 4. Migrate data from AEM 5.6.1 author to AEM 6.1 author using vlt
 *prerequisite: port 4502 of AEM 5.6.1 author should be reachable to AEM 6.1 author.*
@@ -30,6 +30,7 @@ export PASSWORD=[password]
 ./vlt rcp -r -u -n 'http://admin:$PASSWORD@AEM56:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 'http://admin:$PASSWORD@localhost:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 2>&1 | tee vlt.log
 
 ### Step 5. Create a content package on AEM 5.6.1 author
+*1 content package will be created for all 10 sites*
 The name of this package should be: [council_name]-content
 The version should be: YYYYMMDD_1
 Use the following filters:
