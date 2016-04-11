@@ -41,7 +41,7 @@ export COUNCIL_DAM=[council_dam] ([council_dam] should be the folder name under 
 export PASSWORD=[password]
 ./vlt rcp -r -u -n 'http://admin:$PASSWORD@AEM56:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 'http://admin:$PASSWORD@localhost:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 2>&1 | tee vlt.log
 
-#for shared dam assets
+**for shared dam assets
 ./vlt rcp -r -u -n 'http://admin:$PASSWORD@AEM56:$PORT/crx/-/jcr:root/content/dam/girlscouts-shared' 'http://admin:$PASSWORD@localhost:$PORT/crx/-/jcr:root/content/dam/girlscouts-shared' 2>&1 | tee vlt.log
 
 ### Step 5. Create a content package on AEM 5.6.1 author
