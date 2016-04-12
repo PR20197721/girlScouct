@@ -11,11 +11,34 @@ The Day Before DNS Cutover
 ### Step 1. Kick off content freeze
 Notify and confirm with the affected councils that the content freeze has started.
 
+### Step 1.5. Ports open
+AEM5.6 author needs to access AEM61 publish 1 and 2
+61 author  need access to 56 author 
+61 publish 1 need access to 56 publish 1
+61 publish 2 need access to 56 publish 2
+61 preview  need access to 56 preview 
+
 ### Step 2. Backup the both AEM 5.6.1 and AEM 6.1 author and publishers using CRX cloud backup
 
 ### Step 3. Turn off workflow launchers on AEM 6.1 instance
 com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl
 com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener
+
+### Step 3.5 create event replication queue in AEM5.6 to replicate event AEM6.1(destination)
+ copy /etc/replication/agents.author/publish1useast1 to create /etc/replication/agents.author/event61publish1
+
+ copy /etc/replication/agents.author/publish1useast1 to create /etc/replication/agents.author/event61publish2
+
+**In each replication queue, make the following two changes:
+(1) update jcr:title to event61publish1 in /etc/replication/agents.author/event61publish1/jcr:content 
+update jcr:title to event61publish2 in /etc/replication/agents.author/event61publish2/jcr:content
+
+(2) update transportUri to http://[61 pub publish 1 and 2 ipaddress]/bin/vtk-receive?......
+
+### Step 3.7 create package for the following filters for ALL councils existing in CRX, install in publish 1 and 2, build package but DO NOT INSTALL
+we already have created this package in author at https://www.dropbox.com/s/u2timjfpkmclcqg/council-events.jar?dl=0 , need upload it to publish 1 and 2
+/content/{council_id}/en/events-repository
+/content/girlscouts-template
 
 **Repeat step 4 to step 14 for each council:**
 
@@ -29,13 +52,16 @@ export COUNCIL_DAM=[council_dam] ([council_dam] should be the folder name under 
 export PASSWORD=[password]
 ./vlt rcp -r -u -n 'http://admin:$PASSWORD@AEM56:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 'http://admin:$PASSWORD@localhost:$PORT/crx/-/jcr:root/content/dam/$COUNCIL_DAM' 2>&1 | tee vlt.log
 
+**for shared dam assets
+./vlt rcp -r -u -n 'http://admin:$PASSWORD@AEM56:$PORT/crx/-/jcr:root/content/dam/girlscouts-shared' 'http://admin:$PASSWORD@localhost:$PORT/crx/-/jcr:root/content/dam/girlscouts-shared' 2>&1 | tee vlt.log
+
 ### Step 5. Create a content package on AEM 5.6.1 author
 *1 content package will be created for all 10 sites*
 The name of this package should be: [council_name]-content
 The version should be: YYYYMMDD_1
 Use the following filters:
 /content/[[council]]
-/content/dam/[council] -- some councils use inconsistent directory names
+/content/usergenerated/{council_id}
 /etc/designs/girlscouts-[council]
 /etc/scaffolding/[council]
 /etc/tags/[council]
