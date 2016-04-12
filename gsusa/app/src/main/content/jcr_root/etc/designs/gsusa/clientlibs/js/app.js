@@ -557,7 +557,7 @@
   function equilize_our_stories() {
     var blocks = $('.our-stories-block li div');
     var maxHeight = Math.max.apply(Math, blocks.map(function () {
-      console.log($(this).height());
+      //console.log($(this).height());
       return $(this).height();
     }).get());
     blocks.height(maxHeight);
@@ -949,7 +949,6 @@ function seeMoreScale(){
 //This function could be refact but this is the way that the compoennt was built
 function article_tiles() {
     var arrayElements = [];
-    var arrayElementsPending = [];
 
     //Format the component.
     var transform = function(obj,hover) {
@@ -958,7 +957,7 @@ function article_tiles() {
             var jqElement = $(obj.el);
 
             var title_height = parseInt($(obj.el).height());
-            console.log($(obj.el).parents('.text-content').css("padding-left"));
+
             if(hover){
               jqElement.animate({"padding-top":(obj.content_height*0.33 - obj.title_height) /2 + 'px'});
             } else {
