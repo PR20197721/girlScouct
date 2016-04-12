@@ -35,7 +35,8 @@ update jcr:title to event61publish2 in /etc/replication/agents.author/event61pub
 
 (2) update transportUri to http://[61 pub publish 1 and 2 ipaddress]/bin/vtk-receive?......
 
-### Step 3.7 create package for the following filters for ALL councils existing in CRX
+### Step 3.7 create package for the following filters for ALL councils existing in CRX, install in publish 1 and 2, build package but DO NOT INSTALL
+we already have created this package in author at https://www.dropbox.com/s/u2timjfpkmclcqg/council-events.jar?dl=0 , need upload it to publish 1 and 2
 /content/{council_id}/en/events-repository
 /content/girlscouts-template
 
