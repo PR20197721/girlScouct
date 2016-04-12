@@ -8,7 +8,7 @@
 <entry key="lastModifiedBy">admin</entry>
 <entry key="created">2014-04-02T13:15:17.529-04:00</entry>
 <entry key="buildCount">1</entry>
-<entry key="version">2.0-SNAPSHOT</entry>
+<entry key="version">2.0.0</entry>
 <entry key="dependencies"/>
 <entry key="packageFormatVersion">2</entry>
 <entry key="description">Maven Multimodule project for Girl Scouts USA.</entry>
