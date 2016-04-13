@@ -14,7 +14,7 @@
     lastWrapped="{Date}2014-03-14T13:47:11.509-04:00"
     lastWrappedBy="admin"
     name="girlscouts-app"
-    version="2.0.0">
+    version="2.0-SNAPSHOT">
     <thumbnail.png/>
     <filter jcr:primaryType="nt:unstructured">
         <f0

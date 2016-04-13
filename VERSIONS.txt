@@ -1,5 +1,2 @@
-2.0.0 04/12/16
-- AEM 6.1 upgrade done.
-
 2.0-SNAPSHOT 03/05/16
-- AEM 6.1 upgrade WIP.
+- AEM 6.1 upgrade WIP
