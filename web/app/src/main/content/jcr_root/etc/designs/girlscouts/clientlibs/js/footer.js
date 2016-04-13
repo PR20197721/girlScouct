@@ -69,7 +69,7 @@
 	        }
 	    });
 	}
-  
+  /*
   function vtk_accordion() {
 	    $('.accordion dt > :first-child').on('click', function (e) {
 	        //close and remove classes first
@@ -108,7 +108,9 @@
 	    });
 	    anchorCheck();
 	}
-
+*/
+  
+  
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
@@ -129,3 +131,36 @@ $(window).load(function(){
     attendance_popup_width();
   }
 });
+
+
+
+
+
+
+
+function vtk_accordion() {
+  $('.accordion dt > :first-child').on('click', function(e) {
+
+    e.stopPropagation();
+
+    var target = $(this).parent().data('target');
+
+    var toggle = $(this);
+
+    $('#' + target).slideToggle('slow');
+
+    $(toggle).toggleClass('on');
+
+    //For Web Component. See main.js:toggleParsys
+
+     if(window[ target ] != null){
+
+  	   window[ target ].toggle();
+
+     }
+
+      return false;
+
+  });
+
+}
