@@ -266,14 +266,15 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		if(query!=null && !query.isEmpty()) {
 			log.info("Search Query Term [" +query +"]");
 			Map<String,String> mapFullText = new HashMap<String,String>();
-			mapFullText.put("group.p.or","true" );
-			mapFullText.put("group.1_fulltext", query);
-			mapFullText.put("group.1_fulltext.relPath", "jcr:content/@jcr:title"); // search cq:tags
-			mapFullText.put("group.2_fulltext", query);
-			mapFullText.put("group.2_fulltext.relPath", "jcr:content/metadata/@dc:title"); // search title
-			mapFullText.put("group.3_fulltext", query);
-			mapFullText.put("group.3_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description
-			mapFullText.put("group.4_fulltext", query); //search everything, including file contents via PDFBox
+			//mapFullText.put("group.p.or","true" );
+			//mapFullText.put("group.1_fulltext", query);
+			//mapFullText.put("group.1_fulltext.relPath", "jcr:content/@jcr:title"); // search cq:tags
+			//mapFullText.put("group.2_fulltext", query);
+			//mapFullText.put("group.2_fulltext.relPath", "jcr:content/metadata/@dc:title"); // search title
+			//mapFullText.put("group.3_fulltext", query);
+			//mapFullText.put("group.3_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description
+			//mapFullText.put("group.4_fulltext", query); //search everything, including file contents via PDFBox
+			mapFullText.put("fulltext", query); //search everything, including file contents via PDFBox
 			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 			master.add(predicateFullText);
 			
