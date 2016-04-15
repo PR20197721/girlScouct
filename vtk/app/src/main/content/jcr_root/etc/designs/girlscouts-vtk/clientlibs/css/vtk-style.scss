@@ -1621,7 +1621,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        & * { background: #f7f7f6 !important; }
+         background: #f7f7f6 !important; 
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
@@ -1681,9 +1681,15 @@
     //paragraph after the address
     dd ul li {
       margin-bottom: 20px;
+      background-color: #f7f7f6 !important;
+
+      div.row{
+        background-color: #f7f7f6 !important;
+      }
+
       p {
         margin-bottom: 0;
-      }
+              }
     }
   }
   //Financial page
@@ -2300,3 +2306,5 @@ input[type="file"] {
     }
 }
 
+
+@import 'vtk-button';
