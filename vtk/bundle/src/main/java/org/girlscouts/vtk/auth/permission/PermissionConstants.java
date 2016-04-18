@@ -33,7 +33,8 @@ public class PermissionConstants {
 	public static final int PERMISSION_VIEW_MILESTONE_ID=611;
 	public static final int PERMISSION_EDIT_ATTENDANCE_ID=621;
 	public static final int PERMISSION_SEND_EMAIL_MT_ID=631;	
-	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;	
+	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;
+	public static final int PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID=642; //on troop page send all parents email;used by DP
 	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=651; //in meeting meterials
 	public static final int PERMISSION_EDIT_MILESTONE_ID=701;
 	public static final int GROUP_ROOT = 0;
@@ -69,7 +70,8 @@ public class PermissionConstants {
 			PERMISSION_EDIT_ATTENDANCE_ID,
 			PERMISSION_REMOVE_MEETING_ID,PERMISSION_EDIT_TROOP_IMG_ID,
 			PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID
-			,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID
+			,PERMISSION_VIEW_FINANCE_ID, PERMISSION_EDIT_FINANCE_ID,
+			PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID
 	};
 
 	public static final int GROUP_MEMBER_2G = 12;
