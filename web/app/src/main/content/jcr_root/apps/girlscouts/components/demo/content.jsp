@@ -10,13 +10,10 @@
         </div>
 
 
-        <div class="div-demo-form-message">
+        <div class="div-demo-form-message" style="display:none;">
           <div data-alert class="alert-box alert ">
-  This is a warning alert that is rounded.
-
-</div>
-
-
+                This is a warning alert that is rounded.
+          </div>
         </div>
   
         <div class="vtk-demo-login-form">
