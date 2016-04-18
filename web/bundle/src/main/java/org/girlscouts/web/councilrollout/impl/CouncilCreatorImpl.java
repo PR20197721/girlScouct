@@ -435,7 +435,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", true), acm, session).getPrivilegeList());			
 			} else if(councilGroup.getID().equals("gs-authors") || councilGroup.getID().equals("gs-reviewers")){
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ", false), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "etc/scaffolding/" + councilName, "READ", false), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", false), acm, session).getPrivilegeList());
 			} else{
 				System.err.println("Failed to set permissions on User Group: " + councilGroup.getID());
 			}
