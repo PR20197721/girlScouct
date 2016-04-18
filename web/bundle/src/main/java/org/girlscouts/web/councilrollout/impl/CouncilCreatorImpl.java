@@ -357,12 +357,14 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		    };
 			Group councilAuthors = userManager.createGroup(principalAuthors, homePath + "/" + councilName);
 			Group councilReviewers = userManager.createGroup(principalReviewers, homePath + "/" + councilName);
+			Group gsAuthors = null;
+			Group gsReviewers = null;
 			
 			if(userManager.getAuthorizableByPath(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup) != null && userManager.getAuthorizableByPath(homePath + "/" + girlscoutsPath + "/"  + allReviewersGroup) != null){
 				groupList.add("\"" + principalAuthors.getName() + "\"" + "group created under path:\n" + councilAuthors.getPath());
 				groupList.add("\"" + principalReviewers.getName() + "\"" + "gorup created under path:\n" + councilReviewers.getPath());		
-				Group gsAuthors = (Group) userManager.getAuthorizable(allAuthorsGroup);
-				Group gsReviewers = (Group) userManager.getAuthorizable(allReviewersGroup);
+				gsAuthors = (Group) userManager.getAuthorizable(allAuthorsGroup);
+				gsReviewers = (Group) userManager.getAuthorizable(allReviewersGroup);
 				gsAuthors.addMember(councilAuthors);
 				gsReviewers.addMember(councilReviewers);
 			}
@@ -379,6 +381,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			session.getNode(reviewersProfilePath).setProperty("givenName", councilTitle + " Reviewers");
 			
 			//Permissions for council Group are generated here
+			if(null != gsAuthors){
+				buildPermissions(session, councilName, gsAuthors);
+			} if(null != gsReviewers){
+				buildPermissions(session, councilName, gsReviewers);
+			}
 			buildPermissions(session, councilName, councilAuthors);
 			buildPermissions(session, councilName, councilReviewers);
 			
@@ -407,25 +414,28 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			String groupName = principal.getName();
 
 			if(councilGroup.getID().equals(AUTHORS)) {
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/ad-page", "REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/contacts", "REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/events-repository", "REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/milestones", "REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/ad-page", "REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/contacts", "REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/events-repository", "REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/milestones", "REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_MODIFY_REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE", true), acm, session).getPrivilegeList());
 			}
 			else if(councilGroup.getID().equals(REVIEWERS)) {
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());			
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ", true), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", true), acm, session).getPrivilegeList());			
+			} else if(councilGroup.getID().equals("gs-authors") || councilGroup.getID().equals("gs-reviewers")){
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ", false), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", false), acm, session).getPrivilegeList());
 			} else{
 				System.err.println("Failed to set permissions on User Group: " + councilGroup.getID());
 			}
@@ -449,19 +459,22 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		String contentPath;
 		String permission;
 		String glob;
+		boolean isAllow;
 		
-		Rule(Principal principal, String contentPath, String permission) {
+		Rule(Principal principal, String contentPath, String permission, boolean isAllow) {
 			this.principal = principal;
 			this.contentPath = contentPath;
 			this.permission = permission;
 			this.glob = null;
+			this.isAllow = isAllow;
 		}
 		
-		Rule(Principal principal, String contentPath, String permission, String glob) {
+		Rule(Principal principal, String contentPath, String permission, String glob, boolean isAllow) {
 			this.principal = principal;
 			this.contentPath = contentPath;
 			this.permission = permission;
 			this.glob = glob;
+			this.isAllow = isAllow;
 		}
 	}
 		
@@ -500,9 +513,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 					Map<String, Value> restrictions = new HashMap<String, Value>();
 					ValueFactory vf = session.getValueFactory();
 					restrictions.put("rep:glob", vf.createValue(this.rule.glob));
-					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, true, restrictions);
+					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, rule.isAllow, restrictions);
 				} else if (this.rule.glob == null) {
-					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, true);	
+					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, rule.isAllow);	
 				}	
 				
 			} else {
