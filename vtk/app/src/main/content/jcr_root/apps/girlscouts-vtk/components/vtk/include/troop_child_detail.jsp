@@ -76,7 +76,7 @@
         </li>       
          <li class="row">
             <div style="float:right">
-            <a href="http://yahoo.com" class="button">RENEW NOW</a><a href="http://google.com" class="button">UPDATE CONTACT INFO</a>
+            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a><a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
             </div> 
         </li>                        
      </ul>
