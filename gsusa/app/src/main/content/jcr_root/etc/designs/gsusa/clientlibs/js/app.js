@@ -557,7 +557,7 @@
   function equilize_our_stories() {
     var blocks = $('.our-stories-block li div');
     var maxHeight = Math.max.apply(Math, blocks.map(function () {
-      console.log($(this).height());
+      //console.log($(this).height());
       return $(this).height();
     }).get());
     blocks.height(maxHeight);
@@ -928,9 +928,9 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	}
 	return '';
 });
-$(window).load(article_tiles);
+// $(window).load(article_tiles);
 
-$(window).on('resize',article_tiles);
+
 
 function seeMoreScale(){
   $.each($('.article-slider .article-tile.last section'), function(index, value){
@@ -945,21 +945,58 @@ function seeMoreScale(){
   });
 }
 
+
+//This function could be refact but this is the way that the compoennt was built
 function article_tiles() {
-  $('.article-tile .text-content h3').each(function(index, el) {
-    var title_height = parseInt($(this).innerHeight());
-    var content_height = $(this).parent().innerHeight();
-    var adjusted = $(this).attr('data-adjusted') == 'true';
-    if (!adjusted && content_height > title_height) {
-	    $(this).css("padding-top",'0px');
-	     var title_height = parseInt($(this).height());
-	     $(this).css("padding-top",(content_height-title_height)/2 +'px');
-	     $(this).attr('data-adjusted', 'true');
+    var arrayElements = [];
+
+    //Format the component.
+    var transform = function(obj,hover) {
+        if (!obj.adjusted && obj.content_height > obj.title_height) {
+
+            var jqElement = $(obj.el);
+
+            var title_height = parseInt($(obj.el).height());
+
+            if(hover){
+              jqElement.animate({"padding-top":(obj.content_height*0.33 - obj.title_height) /2 + 'px'});
+            } else {
+              jqElement.animate({"padding-top":(obj.content_height - obj.title_height) / 2 + 'px'});
+            } 
+            
+            jqElement.attr('data-adjusted', 'true');
+        } 
     }
-  });
+
+    //Create an Array of object width information
+    $('.article-tile .text-content h3').each(function(index, el) {
+        var obj = {
+            index: index,
+            el: el,
+            title_height: parseInt($(el).innerHeight()),
+            content_height: $(el).parent().innerHeight(),
+            adjusted: $(el).data('adjusted')
+        };
+
+
+        arrayElements.push(obj);
+    });
+
+    //Call the function Transoform
+    arrayElements.forEach(function(elObj) {
+        var ishover = $(elObj.el).parents('a').is(':hover');
+        transform(elObj,ishover);
+    });
 }
 
-$(window).load(function(){
-	article_tiles();
+
+$(document).ready(function(){
+  
+  $(window).on('resize',article_tiles);
+  $(window).load(function(){
+    article_tiles();
+  });
+
 });
+
 

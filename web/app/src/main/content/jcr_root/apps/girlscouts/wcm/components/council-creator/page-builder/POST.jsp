@@ -79,14 +79,6 @@ Node contentNode = session.getNode(contentPath);
             <%
         }
         
-        %><br>GROUPS:<br><%
-        ArrayList<String> groupList = new ArrayList<String>(creator.generateGroups(session, councilName, councilTitle));
-        if(groupList != null){
-        	for (String g : groupList) { 
-            	%><%= g %><br><%
-        	}
-        }
-
         %><br>DESIGN:<br><%
     	ArrayList<Node> designList = new ArrayList<Node>(creator.generateDesign(session, resourceResolver, councilName, councilTitle));
         for (Node d : designList) { 
@@ -94,6 +86,14 @@ Node contentNode = session.getNode(contentPath);
             <%= d.getPath() %>
             <br>
             <%
+        }
+        
+        %><br>GROUPS:<br><%
+        ArrayList<String> groupList = new ArrayList<String>(creator.generateGroups(session, councilName, councilTitle));
+        if(groupList != null){
+        	for (String g : groupList) { 
+            	%><%= g %><br><%
+        	}
         }
 	}
 

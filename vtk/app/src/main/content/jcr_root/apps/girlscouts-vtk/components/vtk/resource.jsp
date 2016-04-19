@@ -32,8 +32,13 @@
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
 
+    /*
     int meetingAidCount = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
     meetingAidCount += yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
+    */
+ System.err.println("tata b4");   
+    int meetingAidCount = yearPlanUtil.getVtkAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
+ System.err.println("tata after");   
     //int countLocalMeetingsAidsByLevel = yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"); 
                                 
    String path = getMeetingsRootPath(troop);
@@ -146,14 +151,24 @@
 		        		  bresource.setItemCount(meeting_overviews);
 		         %>
 			         <div>
-			            <a href="?category=<%=bresource.getPath()%>"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
+			            
+			             <a href="/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.<%=(bresource.getPath() ==null || bresource.getPath().length()<=0) ? "" : bresource.getPath().substring(1).replaceAll("/","___")%>.html"><%=bresource.getTitle()%> (<%=bresource.getItemCount()%>) </a>
+			             
 			         </div> 
 			     <%} %>
 		    </li>
 	    <%} %>
 	</ul>
 	<%
-	String categoryParam = (String)request.getParameter("category");
+	//String categoryParam = (String)request.getParameter("category");
+	String[] selectors = slingRequest.getRequestPathInfo().getSelectors();
+	String categoryParam = null;
+	for (String selector : selectors) {
+		if (!"resource".equals(selector)) {
+			categoryParam = "/" + selector.replaceAll("___", "/");
+			break;
+		}
+	}
 	if( categoryParam!=null && !categoryParam.trim().equals("")){
 	%>
 	   <%@include file="resource_display_aids.jsp" %>

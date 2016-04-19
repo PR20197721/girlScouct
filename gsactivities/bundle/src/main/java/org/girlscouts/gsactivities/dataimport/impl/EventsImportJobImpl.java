@@ -130,6 +130,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String _thumbImage = "thumbImage";
 	public static final String _priceRange = "priceRange";
 	private static final String _globalTagNamespace = "sf-activities";
+	private static final String _timezone ="timezone";
 
 	//The filename of the zip file is in this format: gsevents-yyyy-MM-ddTHHmmSS.zip
 	public static final String ZIP_REGEX = "gsevents-\\d{4}-\\d{2}-\\d{2}T\\d{6}.zip";
@@ -381,10 +382,14 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(e,"start date format error: " + start);
 		} 
 
+		
+		//We use calendar now only for its YEAR field to create the directory.
+		//We just save the whole string to the data node now.
 		calendar.setTime(startDate);
 		int year = calendar.get(Calendar.YEAR);	
 		String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
 		Session session =  rr.adaptTo(Session.class);
+		
 		//Create event page
 		try {
 			//need session.save() to persist
@@ -428,7 +433,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			//add data node
 			Node dataNode = JcrUtil.createPath(jcrNode, "data", false, null, "nt:unstructured", session, false);
-			setNodeProperties(id, dataNode, calendar, payload);
+			setNodeProperties(id, dataNode, start, payload);
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
@@ -446,15 +451,16 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return eventPage.getPath();
 	}
 	
-	private void setNodeProperties(String id, Node dataNode, Calendar calendar, JSONObject payload) throws RepositoryException, GirlScoutsException {
+	private void setNodeProperties(String id, Node dataNode, String start, JSONObject payload) throws RepositoryException, GirlScoutsException {
 		dataNode.setProperty("eid", id);
-		dataNode.setProperty("start", calendar);
+		dataNode.setProperty("start", start);
 		dataNode.setProperty("address", getString(payload, _address));
 		dataNode.setProperty("details", getString(payload, _details));
 		dataNode.setProperty("locationLabel", getString(payload, _location));
 		dataNode.setProperty("region", getString(payload, _region));
 		dataNode.setProperty("srchdisp", getString(payload, _description));
 		dataNode.setProperty("memberOnly", getString(payload, _member_only));
+		dataNode.setProperty("timezone", getString(payload, _timezone));
 		String registerVal = getString(payload,_register);
 		//they stated that it's always Field NA in Salesforce, we may not need an if case at all
 		//We will keep it for now
@@ -493,27 +499,11 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 		String end = getString(payload, _end);
 		if (end != null) {
-			try {
-				Date endDate = NO_TIMEZONE_FORMAT.parse(end);
-				calendar.setTime(endDate);
-				dataNode.setProperty("end", calendar);
-			} catch(ParseException e) {
-				e.printStackTrace();
-				throw new GirlScoutsException(e, "End date format error: " + end);
-			}
+			dataNode.setProperty("end", end);
 		}
 		String visibleDate = getString(payload, _visibleDate);
 		if (visibleDate != null) {
-			try {
-				Date parsedVisibleDate = NO_TIMEZONE_FORMAT.parse(visibleDate);
-				calendar.setTime(parsedVisibleDate);
-				dataNode.setProperty("visibleDate", calendar);
-			} catch(ParseException e) {
-				e.printStackTrace();
-				throw new GirlScoutsException(e, "Visible date format error: " + end);
-			}
-		} else {
-			log.info("<----- Visible Date is not availabe from the JSON file. ----->");
+			dataNode.setProperty("visibleDate", visibleDate);
 		}
 	}
 	

@@ -212,7 +212,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		AppSettings appSettings = new AppSettings();
 		appSettings.setAssertionConsumerServiceUrl(callbackUrl);
 		appSettings.setIssuer(configManager.getConfig("ssoIssuer"));// "https://gsusa--gsuat.cs11.my.salesforce.com");
-		System.err.println("testA4 "+ configManager.getConfig("ssoIssuer"));
+		System.err.println("testA4 "+configManager.getConfig("ssoIssuer") );
 		AccountSettings accSettings = new AccountSettings();
 		accSettings.setIdpSsoTargetUrl(configManager
 				.getConfig("idpSsoTargetUrl"));

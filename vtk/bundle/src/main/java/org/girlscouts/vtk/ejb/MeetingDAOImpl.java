@@ -1,12 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 import javax.jcr.LoginException;
 import javax.jcr.Node;
@@ -69,6 +64,13 @@ import com.day.cq.search.result.SearchResult;
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
+	
+	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
+	public static Map resourceCountMap = new HashMap();
+	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
+//	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
+	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -83,6 +85,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	@Activate
 	void activate() {
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 	}
 
 	// by planId
@@ -1306,6 +1309,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
+System.err.println("tata11: "+ sql );			
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2443,7 +2447,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					+ " (isdescendantnode (s, ["
 					+ path
 					+ "]))";
-
+System.err.println("tata sql: "+ sql);
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2456,6 +2460,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				itr.next() ;
+System.err.println("tata count: " + count);			
 				count++;
 			}
 			
@@ -2495,7 +2500,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-
+System.err.println("tata sql: "+ sql);
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2507,7 +2512,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				Node node = (Node)itr.next() ;
-			
+System.err.println("tata -- "+ node.getPath() +" : "+ count);			
 				if( node.getPath().toLowerCase().contains( ("meetings/" + level.charAt(0)).toLowerCase() ) ) 
 						count++;
 			}
@@ -2533,7 +2538,14 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 		
 		int count = 0;
 		
-		
+		if (resourceCountMap.containsKey(_path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata getResourceData resource from cache");				
+				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
+			}
+		}
 		
 		java.util.Map <String, bean_resource>dictionary =null;
 		Session session = null;
@@ -2620,6 +2632,13 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			}
 
 		}
+		
+		
+		System.err.println("tata getResourceData resource from SQL");				
+		resourceCountMap.put(_path, dictionary.values());
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
+
+		
 		return dictionary.values();
 	}
 	
@@ -2629,6 +2648,17 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 		if(path == null || "".equals(path)) {
 			return 0;
 		}
+		
+		if (resourceCountMap.containsKey(path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata meetingCount from cache");				
+				return ((Integer)resourceCountMap.get(path)).intValue();
+			}
+		}
+		
+		
 		Session session = null;
 		try {
 			String sql = "select * from nt:base where jcr:path like '"+path+"%' and ocm_classname='org.girlscouts.vtk.models.Meeting'";
@@ -2655,7 +2685,59 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 			}
 
 		}
+		
+		System.err.println("tata meetingCount from SQL");				
+		resourceCountMap.put(path, count);
+		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
+	}
+	
+	
+
+public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException {
+		if (resourceCountMap.containsKey(path)) {
+			// it contains the key
+			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
+				// return cache
+System.err.println("tata resource from cache");				
+				return ((Long)resourceCountMap.get(path)).intValue();
+			}
+		}
+			
+		long count = 0;
+		if(path == null || "".equals(path)) {
+			return 0;
+		}
+		Session session = null;
+		try {
+			String sql = "select [jcr:path]  from [nt:unstructured] as s   where  (isdescendantnode (s, ["+path+"])) and [cq:tags] is not null";
+
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.JCR_SQL2);
+			
+			QueryResult result = q.execute();
+			count = (long) result.getNodes().getSize();
+System.err.println("tata resource from SQL");				
+			resourceCountMap.put(path, count);
+			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+
+		}
+		return (int)count;
 	}
 	
 }// edn class
