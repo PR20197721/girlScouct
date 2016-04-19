@@ -85,6 +85,7 @@
         line-height: rem-calc(14);
         margin: 0 0 5px 0;
       }
+      
       a {
         opacity: .5;
         &:hover {
@@ -120,7 +121,7 @@
   .slick-slide {
     margin: rem-calc(0 10);
     height: rem-calc(114);
-    .current {
+    .article-tile.current a {
       opacity: 1;
     }
   }
