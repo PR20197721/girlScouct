@@ -128,8 +128,10 @@ public class ReplicationServlet extends SlingAllMethodsServlet
       }
       else {
         /* Girl Scouts Customization START */
-    	// Use this.session instead to prevent event avalanche
-        //Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
+    	// In AEM 5.6, We used to use this.session instead to prevent event avalanche
+    	// However, this is not applicable in AEM 6 any more since it adopts a new saving model.
+    	// Thus, we put it back.
+        Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
         /* Girl Scouts Customization END */
         String noInstall = request.getParameter("noinstall");
         boolean install = true;
@@ -197,9 +199,10 @@ public class ReplicationServlet extends SlingAllMethodsServlet
         } else {
           ReplicationAction action = new ReplicationAction(actionType, path);
           /* Girl Scouts Customization START */
-          //this.receiver.receive(session, action, is, request.getContentLength(), out, install, binaryLess);
           // Explicitly use this.session to prevent event avalanche.
-          this.receiver.receive(this.session, action, is, request.getContentLength(), out, install, binaryLess);
+          // Not applicable in AEM 6 any more. Revert back.
+          //this.receiver.receive(this.session, action, is, request.getContentLength(), out, install, binaryLess);
+          this.receiver.receive(session, action, is, request.getContentLength(), out, install, binaryLess);
           /* Girl Scouts Customization START */
         }
 
