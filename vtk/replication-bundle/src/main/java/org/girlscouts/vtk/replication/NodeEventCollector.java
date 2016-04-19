@@ -7,6 +7,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 
+import org.apache.jackrabbit.api.observation.JackrabbitEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,8 +52,27 @@ public class NodeEventCollector {
         Set<NodeEvent> nodes = new LinkedHashSet<NodeEvent>();
         
         while (iter.hasNext()) {
-            Event event = iter.nextEvent();
+            Event rawEvent = iter.nextEvent();
             try {
+            	if (!(rawEvent instanceof JackrabbitEvent)) {
+            		log.warn("This is not a JackrabbitEvent. Discard.");
+            		continue;
+            	}
+            	JackrabbitEvent event = (JackrabbitEvent)rawEvent;
+            	
+            	if (event.isExternal()) {
+            		log.warn("This is an external event. Discard.");
+            		continue;
+            	}
+            	
+            	// Only collect events created by the vtk user
+            	// This will prevent receiver-generated events, 
+            	// which is created by admin, from being replicated.
+            	if (!"vtk".equals(event.getUserID())) {
+            		log.info("This is an event not created by vtk user. Discard.");
+            		continue;
+            	}
+
                 String path = event.getPath();
                 int type = event.getType();
 
