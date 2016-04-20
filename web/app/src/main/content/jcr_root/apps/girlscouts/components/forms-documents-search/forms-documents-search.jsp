@@ -154,7 +154,7 @@ try{
 Session session = resourceResolver.adaptTo(Session.class);
 QueryManager qm = session.getWorkspace().getQueryManager();
 if( q.length()>3  ||  (set!=null && set.size()>0))
- for(int i=0;i<3;i++){  
+ for(int i=0;i<2;i++){  
 
 String query = "";
     if( i==1 )
