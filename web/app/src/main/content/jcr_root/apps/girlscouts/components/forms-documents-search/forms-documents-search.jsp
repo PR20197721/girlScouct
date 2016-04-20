@@ -1,24 +1,54 @@
 <%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
+<%@page import="javax.jcr.query.*,
+                javax.jcr.*" %>
+
+
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+<script>
+    function checkLen(){
+        var x = document.getElementById("frmSrch");
+
+        if( x!=null  ){
+            x= $.trim( x.value ) ;
+        }
+
+
+        if( x.length <4 ){
+
+            var isTag=0;
+            var coffee = document.frm.tags;
+            for (i = 0; i < coffee.length; i++) {
+              if (coffee[i].checked) {
+                isTag = isTag +1 ; 
+              }
+            }
+            if( isTag>0 ){return true;}
+            alert("Search queries must be greater than 3 characters.");
+            return false;
+        }
+        return true;
+    }
+</script>
 <%
 // This is the path where the documents will reside
 String path = properties.get("./srchLocation", "");
 if(path.isEmpty()){  
-	path = "/content/dam/girlscouts-shared/en/documents";
+    path = "/content/dam/girlscouts-shared/en/documents";
 }
 
 String formDocumentContentPath = properties.get("./form-document-path","");
 if(formDocumentContentPath.isEmpty()){
-	//formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
-	//change default content path to current page.
-	formDocumentContentPath = currentPage.getPath();
+    //formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
+    //change default content path to current page.
+    formDocumentContentPath = currentPage.getPath();
 }
 
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 String q = request.getParameter("q");
+q= q==null ? "" : q.trim();
 String param ="";
 
 // xss escaped query string
@@ -30,23 +60,28 @@ String[] tags = new String[]{};
 Set<String> set = new HashSet<String>();
 boolean thisIsAdvanced = false;
 if (request.getParameterValues("tags") != null) {
-	thisIsAdvanced = true;
-	tags = request.getParameterValues("tags");
-	String tagParams="";
-	for (String words : tags){
-		set.add(words);
-	}
-	
+    thisIsAdvanced = true;
+    tags = request.getParameterValues("tags");
+    String tagParams="";
+    for (String words : tags){
+        set.add(words);
+    }
+    
 }
+
+
+
+
 
 Map<String, List<FacetsInfo>> facetsAndTags = formsDocuImpl.loadFacets(slingRequest, currentPage.getAbsoluteParent(1).getName());
 try{
-	formsDocuImpl.executeSearch(resourceResolver, q, path, tags, formDocumentContentPath,facetsAndTags);
+    //formsDocuImpl.executeSearch(resourceResolver, q, path, tags, formDocumentContentPath,facetsAndTags);
 }catch(Exception e){}
-List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
+List<Hit> hits = new ArrayList(); //formsDocuImpl.getSearchResultsInfo().getResultsHits();
+
 String suffix = slingRequest.getRequestPathInfo().getSuffix();
 if (suffix != null) {
-	thisIsAdvanced = true;
+    thisIsAdvanced = true;
 }
 String formAction = currentPage.getPath()+".html";
 String placeHolder = "Keyword Search";
@@ -54,155 +89,196 @@ String placeHolder = "Keyword Search";
 %>
 <div class="expandable">
 <div class="programLevel">
-	<form action="<%=formAction%>" method="get">
-		<div id="searchBox" class="baseDiv">
-			<input type="text" name="q" class="searchField formsAndDocuments" placeholder="<%=placeHolder%>" value="<%=escapedQueryForAttr%>" />
-		</div>
+    <form action="<%=formAction%>" method="get" name="frm" onsubmit="return checkLen()">
+        <div id="searchBox" class="baseDiv">
+            <input type="text" name="q" id="frmSrch" class="searchField formsAndDocuments" placeholder="<%=placeHolder%>" value="<%=escapedQueryForAttr%>" />
+        </div>
 <script>
-	function toggleOption() {
-		if ($("#optionIndicatorId").attr("src") == "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png") {
-			$(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-up-arrow.png");
-			$(".advancedSearch").hide();
-		} else {
+    function toggleOption() {
+        if ($("#optionIndicatorId").attr("src") == "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png") {
+            $(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-up-arrow.png");
+            $(".advancedSearch").hide();
+        } else {
                         $(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png");
                         $(".advancedSearch").show();
-		}
-	}
-	$(document).ready(function() {
+        }
+    }
+    $(document).ready(function() {
 <%
-	if (thisIsAdvanced) {
+    if (thisIsAdvanced) {
 %>
-		toggleOption();
+        toggleOption();
 <%
-	}
+    }
 %>
-	});
+    });
 </script>
-		<div class="baseDiv toggleDisplay">
-			<a href="#" onclick="toggleOption()"><img id="optionIndicatorId" class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20">&nbsp;Options&nbsp;<img class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20"></a>
-		</div>
-		<div class="options formsSearchOptions baseDiv advancedSearch">
-			<div id="title">Categories</div>
-			<ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
+        <div class="baseDiv toggleDisplay">
+            <a href="#" onclick="toggleOption()"><img id="optionIndicatorId" class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20">&nbsp;Options&nbsp;<img class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20"></a>
+        </div>
+        <div class="options formsSearchOptions baseDiv advancedSearch">
+            <div id="title">Categories</div>
+            <ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
 <%
 
 List fdocs = facetsAndTags.get("forms_documents");
 // Here if we don't have forms_document page shouldn't blow-up
 try {
-	for(int pi=0; pi<fdocs.size(); pi++){
-		FacetsInfo fdocLevelList = (FacetsInfo)fdocs.get(pi);
+    for(int pi=0; pi<fdocs.size(); pi++){
+        FacetsInfo fdocLevelList = (FacetsInfo)fdocs.get(pi);
 %>  
-			<li>
-				<input type="checkbox" id="<%=fdocLevelList.getFacetsTagId()%>" value="<%=fdocLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(fdocLevelList.getFacetsTagId())){ %>checked <%} %>/>
-				<label for="<%=fdocLevelList.getFacetsTagId() %>"><%=fdocLevelList.getFacetsTitle()%></label>
-			</li> 
-<%	}
+            <li>
+                <input type="checkbox" id="<%=fdocLevelList.getFacetsTagId()%>" value="<%=fdocLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(fdocLevelList.getFacetsTagId())){ %>checked <%} %>/>
+                <label for="<%=fdocLevelList.getFacetsTagId() %>"><%=fdocLevelList.getFacetsTitle()%></label>
+            </li> 
+<%  }
 }catch(Exception e){}
 %>
 
-			</ul>
-		</div>
-		
-		<div class="searchButtonRow baseDiv advancedSearch">
-			<input type="submit" value="Search" class="form-btn advancedSearchButton"/>
-		</div>
-	</form>
+            </ul>
+        </div>
+        
+        <div class="searchButtonRow baseDiv advancedSearch">
+            <input type="submit" value="Search" class="form-btn advancedSearchButton"/>
+        </div>
+    </form>
 </div>
 <% if((q!=null && !q.isEmpty()) ||  (request.getParameterValues("tags") != null)){ %>
 <div class="search">
 <%
 try{
-	for(Hit hit: hits) {
-		DocHit docHit = new DocHit(hit);
-		String pth = docHit.getURL();
-		String title = docHit.getTitle();
-		String description = docHit.getDescription();
 
-		Node node = resourceResolver.resolve(pth).adaptTo(Node.class);
+ boolean isTag=false;
+ if( set!=null && set.size()>0){isTag= true;} 
 
-		//GSWS-132: Prevents unwanted (folder) results
-		if(!node.getPrimaryNodeType().getName().equals("dam:Asset") && !node.getPrimaryNodeType().getName().equals("cq:Page")){
-			continue;
-		}
+Session session = resourceResolver.adaptTo(Session.class);
+QueryManager qm = session.getWorkspace().getQueryManager();
+if( q.length()>3  ||  (set!=null && set.size()>0))
+ for(int i=0;i<3;i++){  
 
-		else if(node.hasNode("jcr:content/metadata")){
-			Node metadata = node.getNode("jcr:content/metadata");
-            //The title set in the dam is dc:title, and the description is dc:description
-            
-            // Temporary Hit fix for handling multiple description and title
-            if(metadata.hasProperty("dc:title")){
-            	if(metadata.getProperty("dc:title").isMultiple()) {
-					Value[] value = null;
+String query = "";
+    if( i==1 )
+        query ="SELECT "+ (isTag ? "[/jcr:content/metadata/cq:tags]," : "") +" [excerpt(/renditions/original/jcr:content/jcr:data)],[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title],[jcr:content/jcr:title],[jcr:content/metadata/dc:description] from [dam:Asset] WHERE ISDESCENDANTNODE(["+path +"]) "+ ((q.length() > 0 ) ? " AND contains(*, '"+q+"')" : "");
 
-					value = metadata.getProperty("dc:title").getValues();
-					if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
-						title = value[0].getString();
+    else if( i==0 )
+        query ="SELECT "+ (isTag ? "[/jcr:content/cq:tags]," : "") +" [excerpt(/renditions/original/jcr:content/jcr:data)],[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title],[jcr:content/jcr:title],[jcr:content/metadata/dc:description] from [cq:Page] WHERE ISDESCENDANTNODE(["+formDocumentContentPath+"])  "+ ((q.length() > 0 ) ? " AND contains(*, '"+q+"')" : "");
 
-					}
-				}
-            	else{
-                	title = metadata.getProperty("dc:title").getString();
-            	}
-            }
-            // In case title wasn't set. This usually includes the file extension
-            else if(metadata.hasProperty("jcr:title")){
-                title = metadata.getProperty("jcr:title").getString();
-            }
-            if(metadata.hasProperty("dc:description")){
-                // Hotfix for description been multivalue- If description is empty we will try-to
-				//identify if dc:description is multivalued
-				if(metadata.getProperty("dc:description").isMultiple()) {
-					Value[] value = null;
-					value = metadata.getProperty("dc:description").getValues();
-					if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
-						description = value[0].getString();
-					}
-				}
-                else{
-                    Property fileDesc = metadata.getProperty("dc:description");
-                    description = fileDesc.getString();
-                }
-            }
+    else if( i==2 )
+        query ="SELECT  [excerpt(/renditions/original/jcr:content/jcr:data)],[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title],[jcr:content/jcr:title],[jcr:content/metadata/dc:description] from [dam:Asset] WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/documents])  "+ ((q.length() > 0 ) ? " AND contains(*, '"+q+"')" : "");
+
+        out.println("<!-- "+ query +" -->" ); 
+
+
+
+    Query q1 = qm.createQuery(query, Query.JCR_SQL2);
+    // q1.setLimit(100); 
+QueryResult result = q1.execute();
+    alex:for (RowIterator it = result.getRows(); it.hasNext(); ) {
+        try{       
+   Row r = it.nextRow();
+
+
+
+
+  if( i!=2 && isTag ){
+
+   boolean isFound= false; 
+   String _tags=  "";
+   if( i!=0 ) _tags = getValue(r,"/jcr:content/metadata/cq:tags");
+    else
+        _tags = getValue(r,"/jcr:content/cq:tags");
+
+       _tags= _tags +",";
+       StringTokenizer t= new StringTokenizer( _tags, ",");
+       while( t.hasMoreElements()){
+            String _tag= t.nextToken();
+            if( set.contains( _tag ) ){ isFound= true; }
         }
 
-		int idx = pth.lastIndexOf('.');
-		String extension = idx >= 0 ? pth.substring(idx + 1) : "";
-		String newWindow = "";
-%>
-		<br/>
-<%
-		if(!extension.isEmpty() && !extension.equals("html")){
-			newWindow = "target=_blank";
-%>
-		<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
-<%
-		}
-%>
-		<a href="<%=pth%>" <%=newWindow %>><%=title %></a>
-<%
-		if (q != null && !q.isEmpty()) {
-			String excerpt = docHit.getExcerpt();
-			if(excerpt!=null && !"".equals(excerpt) && (description==null || "".equals(description))) {
-%>
-				<div><%= excerpt %></div>
-<%
-			} else {
-%>
-                <div><%=description%></div>
-<%
-			}
-		} else {
+    if( !isFound ){continue alex;}
+  }//edn if
 
+
+
+
+
+    String pth = getValue(r,"jcr:path");
+
+    String title = "";
+    title = getValue(r, "jcr:content/metadata/dc:title");
+
+    if (title.isEmpty()) {
+        title = getValue(r, "jcr:content/jcr:title");
+    }
+    if (title.isEmpty()) {
+        title = path.substring(path.lastIndexOf("/") + 1);
+    }
+
+
+String description = getValue(r, "jcr:content/metadata/dc:description");
+
+
+
+int idx = pth.lastIndexOf('.');
+        String extension = idx >= 0 ? pth.substring(idx + 1) : "";
+        String newWindow = "";
 %>
-		<div><%= description %></div>
+        <br/>
 <%
-		}
+        if(!extension.isEmpty() && !extension.equals("html")){
+            newWindow = "target=_blank";
 %>
-		<br/>
+        <span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
 <%
-	}
-}catch(Exception e){ System.err.println(e.getMessage()); }
+        }
+%>
+    <a href="<%=(i==0) ? (pth+".html") : pth%>" <%=newWindow %>><%=title %></a>
+<%
+        if ( (set!=null && set.size()>0 ) || (q != null && !q.isEmpty()) ) {
+            String excerpt = description;
+            if (description ==null || "".equals(description)) {
+                excerpt = title;
+            }
+%>
+    <div><%= excerpt %></div>
+<%
+        }
+%>
+    <br/>
+
+<!--end-->
+
+
+    <%
+        }catch(Exception ex){ex.printStackTrace();}
+}//end for
+}//end i
+
+}catch(Exception e){ e.printStackTrace();System.err.println(e.getMessage()); }
 %>
 </div>
 <%}%>
 </div>
+
+
+
+<%!
+public String getValue(Row r, String column) throws ItemNotFoundException, RepositoryException {
+    String toRet="";
+
+    try{
+        if( r==null) return "";
+        Value val = r.getValue(column);
+        if (val == null) {
+            return "";
+        }
+        String strVal = val.getString();
+        if (strVal == null) {
+            return "";
+        }
+        return  strVal.trim();
+
+    }catch(Exception exx){System.err.println("tata: "+column); exx.printStackTrace();}
+    return "";
+}
+%>
