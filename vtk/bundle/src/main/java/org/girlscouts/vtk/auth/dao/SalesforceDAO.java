@@ -336,7 +336,8 @@ System.err.println(rsp);
 				+ "?troopId=" + sfTroopId;
 //url = apiConfig.getWebServicesUrl() +"/services/apexrest/troopMembersV2?troopId=" + sfTroopId;		
 System.err.println("URL contact: "+ url);		
-url= "https://gsuat-gsmembers.cs17.force.com/members/services/apexrest/troopMembersV2?troopId=701G0000001T8hUIAS";
+url= apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembersV2?troopId=" + sfTroopId;
+//"services/apexrest/troopMembersV2?troopId=701G0000001T8hUIAS";
 System.err.println("Url contact v2: "+ url);
 HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
@@ -382,7 +383,24 @@ HttpGet method = new HttpGet(url);
 				log.debug("<<<<<Apex contacts reponse: " + response);
 System.err.println("RESP CONTACT 1: " + response);		
 
-				JSONArray results = response.getJSONArray("records");
+java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
+JSONArray results1 = response.getJSONObject("records").getJSONArray("lstCM");
+for (int i = 0; i < results1.length(); i++) {
+	try {
+		try {
+			renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
+		} catch (Exception e) {
+		}
+	}catch(Exception ex){ex.printStackTrace();}
+}//edn for
+
+
+
+
+
+
+				JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
+				
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					Contact contact = new Contact();
@@ -479,7 +497,8 @@ System.err.println("RESP CONTACT 1: " + response);
 
 						//renewal
 						try {
-								contact.setRenewalDue(true);
+								Boolean isRenewal = renewals.get( contact.getId() );
+								contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
 						} catch (Exception e) {
 						}
 						
