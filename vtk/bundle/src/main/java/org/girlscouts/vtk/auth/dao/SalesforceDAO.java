@@ -334,7 +334,11 @@ System.err.println(rsp);
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
-		HttpGet method = new HttpGet(url);
+//url = apiConfig.getWebServicesUrl() +"/services/apexrest/troopMembersV2?troopId=" + sfTroopId;		
+System.err.println("URL contact: "+ url);		
+url= "https://gsuat-gsmembers.cs17.force.com/members/services/apexrest/troopMembersV2?troopId=701G0000001T8hUIAS";
+System.err.println("Url contact v2: "+ url);
+HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 			connection = connectionFactory.getConnection();
@@ -473,6 +477,13 @@ System.err.println("RESP CONTACT 1: " + response);
 						} catch (Exception e) {
 						}
 
+						//renewal
+						try {
+								contact.setRenewalDue(true);
+						} catch (Exception e) {
+						}
+						
+						
 						contact.setType(0);
 						Contact contactSub = new Contact();
 						try {
