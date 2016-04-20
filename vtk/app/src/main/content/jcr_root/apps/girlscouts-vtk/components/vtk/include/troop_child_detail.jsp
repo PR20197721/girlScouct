@@ -78,7 +78,7 @@
             <div style="float:right">
             
             <% 
-             
+            if( contact.isRenewalDue() )
              if( apiConfig!=null && troop.getTroop().getRole().equals("PA") ){
                %>
 	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
