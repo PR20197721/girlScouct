@@ -55,13 +55,14 @@ public class NodeEventCollector {
             Event rawEvent = iter.nextEvent();
             try {
             	if (!(rawEvent instanceof JackrabbitEvent)) {
-            		log.warn("This is not a JackrabbitEvent. Discard.");
+            		log.warn("This is not a JackrabbitEvent. Discard. Path: " + rawEvent.getPath());
             		continue;
             	}
             	JackrabbitEvent event = (JackrabbitEvent)rawEvent;
             	
             	if (event.isExternal()) {
-            		log.warn("This is an external event. Discard.");
+            		log.warn("This is an external event. Discard. Path: " + event.getPath());
+            		log.warn("Even though this is an external event, what is the username? " + event.getUserID());
             		continue;
             	}
             	
@@ -69,7 +70,7 @@ public class NodeEventCollector {
             	// This will prevent receiver-generated events, 
             	// which is created by admin, from being replicated.
             	if (!"vtk".equals(event.getUserID())) {
-            		log.info("This is an event not created by vtk user. Discard.");
+            		log.info("This is an event not created by vtk user. Discard. Path: " + event.getPath());
             		continue;
             	}
 
