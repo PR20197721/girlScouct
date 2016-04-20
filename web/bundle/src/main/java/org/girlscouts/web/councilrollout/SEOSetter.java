@@ -7,7 +7,6 @@ import javax.jcr.Session;
 
 public interface SEOSetter {
 
-    List<Page> recurse(Page p);
     String setSEO(Session s, Page p, String councilName);
 
 }
