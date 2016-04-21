@@ -45,8 +45,19 @@
 
 
 
+<div id="modal_popup_activity_MOTHERFIDE" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle">Awesome. I have it.</h2>
+  <p class="lead">Your couch.  It is mine.</p>
+  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+
+
+
+
 	<div class="columns large-20 large-centered" style="overflow:hidden;">
-<div style="z-index: 100000000; position: absolute;height: 911px;width: 100%;" onclick="alert('MOTHERFIDE')"></div>
+<a style="border:0; z-index: 100000000; position: absolute;height: 911px;width: 100%;" data-reveal-id="modal_popup_activity_MOTHERFIDE"></a>
 		<script>
 			var fixVerticalSizing = false;
 			$(function() {
