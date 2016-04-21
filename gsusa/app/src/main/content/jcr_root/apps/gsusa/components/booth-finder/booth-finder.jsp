@@ -78,7 +78,8 @@ BoothFinder.prototype.getResult = function() {
 		d: this.date,
 		t: this.sortBy,
 		s: (this.page - 1) * this.numPerPage + 1,
-		m: this.numPerPage + 1 // Plus 1 to see if there are more results
+		m: this.numPerPage + 1, // Plus 1 to see if there are more results
+		f: 'Website'	// call is made from website
     };
     
     var gaparam = getParameterByName('utm_campaign');
