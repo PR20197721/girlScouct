@@ -333,12 +333,11 @@ System.err.println(rsp);
 
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
-				+ "?troopId=" + sfTroopId;
-//url = apiConfig.getWebServicesUrl() +"/services/apexrest/troopMembersV2?troopId=" + sfTroopId;		
+				+ "?troopId=" + sfTroopId;		
 System.err.println("URL contact: "+ url);		
 url= apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembersV2?troopId=" + sfTroopId;
-//"services/apexrest/troopMembersV2?troopId=701G0000001T8hUIAS";
-System.err.println("Url contact v2: "+ url);
+//System.err.println("Url contact v2: "+ url);
+
 HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
