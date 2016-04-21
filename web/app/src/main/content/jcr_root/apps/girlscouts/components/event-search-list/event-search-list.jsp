@@ -153,8 +153,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 					evntComparison = endDate;
 					boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
-					endDateStr = dtfOutDate.print(endDate);
-					endTimeStr = dtfOutTime.print(endDate);
 					if (!sameDay) {
 						//dateStr += " - " + endDateStr +", " + endTimeStr;
 						formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
