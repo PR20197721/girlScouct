@@ -36,7 +36,9 @@
 	          <p><strong>Secondary Info:</strong></p>
 	          <div class="row">
 	            <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-	                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
+	             <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
+                           <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
+	            <%} %>
 	            <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
 	          </div>
 	        </li>

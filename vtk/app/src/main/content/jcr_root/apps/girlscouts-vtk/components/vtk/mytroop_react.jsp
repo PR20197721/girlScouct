@@ -77,9 +77,10 @@
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
 		      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){ %>
-		            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
+		           <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
 		         <%} %>
+		         
 		      </dt>
 		      <dd class="accordion-navigation">
 		        <div class="content active" id="panel1">

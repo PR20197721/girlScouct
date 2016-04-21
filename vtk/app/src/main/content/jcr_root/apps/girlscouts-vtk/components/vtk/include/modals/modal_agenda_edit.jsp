@@ -32,7 +32,7 @@
 	<% if(!act.isEmpty()) { %>
 		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
 	<% } %>
-	<%  if (request.getParameter("isAgenda") == null) {%>
+	<%  if (request.getParameter("isAgenda") == null &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ) {%>
 		<a id="print-link" class="icon-printer right" title="print"></a>
 	<% } %>
 		<div class="setupCalendar row">

@@ -36,11 +36,17 @@
 %>
 
 
+
+
 <div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
 <%@include file="include/bodyTop.jsp" %>
-	<div class="columns large-20 large-centered">
+
+
+
+	<div class="columns large-20 large-centered" style="overflow:hidden;">
+<div style="z-index: 100000000; position: absolute;height: 911px;width: 100%;" onclick="alert('MOTHERFIDE')"></div>
 		<script>
 			var fixVerticalSizing = false;
 			$(function() {
@@ -93,6 +99,7 @@
 
 
 		<h1>Search For Resources</h1>
+	
 		<div class="ui-widget">
 			<input type="text" id="resourceSearchField" name="q"
 				placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="vtkSearchField" />
@@ -324,10 +331,13 @@
 				}
 		%>
 	</div>
+	
 <%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');
 </script>
+
+
 <%!private long countAllChildren(Page page) {   
 		// TODO: Need an efficient way.
 		long count = 1;

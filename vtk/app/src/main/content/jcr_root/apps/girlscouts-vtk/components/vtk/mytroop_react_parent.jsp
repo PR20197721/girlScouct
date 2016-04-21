@@ -61,6 +61,7 @@
 
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
+      
       <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
          <a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a>
       <%} %>
@@ -80,9 +81,11 @@
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
-                        <a class="column large-10 email" href="mailto:<%=_email%>">
-                        <i class="icon icon-mail"></i><%=contact.getEmail() %>
-                      </a>
+                        <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
+	                        <a class="column large-10 email" href="mailto:<%=_email%>">
+	                           <i class="icon icon-mail"></i><%=contact.getEmail() %>
+	                        </a>
+                        <%} %>
                       <span class="column large-4"><%=contact.getPhone() %></span>
                     </dt>
                     <dd class="accordion-navigation clearfix">
