@@ -78,15 +78,19 @@
             <div style="float:right">
             
             <% 
-            if( contact.isRenewalDue() )
+            
              if( apiConfig!=null && troop.getTroop().getRole().equals("PA") ){
+            	 if( contact.isRenewalDue() ){
                %>
-	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+	                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+	            <%}//edn if %>
 	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 	       
 	        }else{
+	        	 if( contact.isRenewalDue() ){
 	        	%>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                     <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+               <%}//edn if %>
                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 
 	        }
