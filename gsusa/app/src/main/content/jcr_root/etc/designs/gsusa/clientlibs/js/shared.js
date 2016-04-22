@@ -149,10 +149,11 @@ function toggleAccordion(target, that) {
         //Add the Class to give some formatt to the accordion
         $(that).parents('dt').toggleClass('on');
         $(that).toggleClass('on');
+        CHECK = that;
+        
+    }else{
+        CHECK=undefined;
     }
-
-
-    CHECK = that;
 }
 
 function vtk_accordion() {
@@ -179,20 +180,15 @@ function vtk_accordion() {
     anchorCheck();
 }
 
-
-
 $(document).ready(function() {
-    console.log('mamam mia')
     vtk_accordion();
     $('.accordion a').click(inPageAnchorCheck);
-
 
     //Check if the hash change without reload the page
 
     $(window).on('hashchange', function() {
       anchorCheck();
     });
-
 });
 
 
