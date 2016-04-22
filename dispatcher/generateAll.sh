@@ -5,5 +5,5 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 for var in prod preview stage
-do ./generateVhost.sh $var $1 $2
+do ./generateVhost-original.sh $var $1 $2
 done
