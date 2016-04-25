@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
@@ -15,10 +16,11 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -50,6 +52,10 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+//import org.joda.time.DateTime;
+
+
+
 
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.ReplicationActionType;
@@ -136,6 +142,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String ZIP_REGEX = "gsevents-\\d{4}-\\d{2}-\\d{2}T\\d{6}.zip";
 	public static final SimpleDateFormat ZIP_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HHmmSS");
 	public static final SimpleDateFormat NO_TIMEZONE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	//The time format we receive is now ISO8601.. except it contains milliseconds.
+	public static final SimpleDateFormat TIMEZONE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSX", Locale.US);
 	public static final SimpleDateFormat ERROR_LOG_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HHmmss");
 
 	public static final int TIME_OUT_IN_SEC = 300;
@@ -149,6 +157,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private Date lastUpdated= new Date(Long.MIN_VALUE);
 	//map to track the error
 	private Map<String, Map<String, Exception>> errors;
+	private TimeZone tz = TimeZone.getTimeZone("UTC");
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -323,7 +332,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				newPath = put(payload);
 			} catch (Exception e) {
 				log.error(e.getMessage());
-				throw new GirlScoutsException(e, "Fail to PUT the payload: "+payload);
+				throw new GirlScoutsException(e, "Fail to PUT the payload: " + payload);
 			}
 			//Then we replicate the node here
 			try {
@@ -373,18 +382,16 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			throw new GirlScoutsException(null, "No mapping found for council code: " + councilCode);
 		}
 
-		Calendar calendar = Calendar.getInstance();
-		Date startDate;
+		Calendar calendar = Calendar.getInstance(tz);
+		Date startDate = null;
 		try {
-			startDate = NO_TIMEZONE_FORMAT.parse(start);
+			log.info(start);
+			startDate = TIMEZONE_FORMAT.parse(start);
 		} catch (ParseException e) {
 			e.printStackTrace();
 			throw new GirlScoutsException(e,"start date format error: " + start);
-		} 
+		}
 
-		
-		//We use calendar now only for its YEAR field to create the directory.
-		//We just save the whole string to the data node now.
 		calendar.setTime(startDate);
 		int year = calendar.get(Calendar.YEAR);	
 		String parentPath = "/content/" + councilName + "/en/sf-events-repository/" + year;
@@ -433,7 +440,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			//add data node
 			Node dataNode = JcrUtil.createPath(jcrNode, "data", false, null, "nt:unstructured", session, false);
-			setNodeProperties(id, dataNode, start, payload);
+			setNodeProperties(id, dataNode, calendar, payload);
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
@@ -451,9 +458,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		return eventPage.getPath();
 	}
 	
-	private void setNodeProperties(String id, Node dataNode, String start, JSONObject payload) throws RepositoryException, GirlScoutsException {
+	private void setNodeProperties(String id, Node dataNode, Calendar startCal, JSONObject payload) throws RepositoryException, GirlScoutsException {
 		dataNode.setProperty("eid", id);
-		dataNode.setProperty("start", start);
+		dataNode.setProperty("start", startCal);
 		dataNode.setProperty("address", getString(payload, _address));
 		dataNode.setProperty("details", getString(payload, _details));
 		dataNode.setProperty("locationLabel", getString(payload, _location));
@@ -497,13 +504,22 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} else {
 			dataNode.setProperty("image", imageVal);
 		}
-		String end = getString(payload, _end);
-		if (end != null) {
-			dataNode.setProperty("end", end);
-		}
 		String visibleDate = getString(payload, _visibleDate);
 		if (visibleDate != null) {
 			dataNode.setProperty("visibleDate", visibleDate);
+		}
+		Date endDate = null;
+		String end = getString(payload, _end);
+		try {
+			endDate = TIMEZONE_FORMAT.parse(end);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			log.error("Fail to parse END date: " + end);
+		}
+		if (endDate != null) {
+			Calendar calendarEndDate = Calendar.getInstance(tz);
+			calendarEndDate.setTime(endDate);
+			dataNode.setProperty("end", calendarEndDate);
 		}
 	}
 	
