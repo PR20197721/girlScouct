@@ -11,10 +11,15 @@
     <p>Grades the Camp Serves: {{GradeDescription}}</p>
     <p>Website: <a href="{{Website}}" target="_blank">{{Website}}</a></p>
     <p>Contact Information: {{{Emails}}} or {{Phone}}</p>
-    <div class="more-section">
-        <section style="display:none;">
-         <p>{{CampDescription}}</p>
-        </section>
-        <a title="read more" class="read-more">Read More</a>
-    </div>
+    
+    {{#if CampDescription}}
+	    <div class="more-section">
+    	    <section style="display:none;">
+        	 <p>{{CampDescription}}</p>
+	        </section>
+    	    <a title="read more" class="read-more">Read More</a>
+	    </div>
+	{{else}}
+		<div class="more-section"></div>
+    {{/if}}
 </div>
