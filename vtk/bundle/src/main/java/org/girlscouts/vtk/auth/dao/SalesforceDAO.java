@@ -335,7 +335,7 @@ System.err.println(rsp);
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;		
 System.err.println("URL contact: "+ url);		
-url= apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembersV2?troopId=" + sfTroopId;
+//url= apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembersV2?troopId=" + sfTroopId;
 //System.err.println("Url contact v2: "+ url);
 
 HttpGet method = new HttpGet(url);
