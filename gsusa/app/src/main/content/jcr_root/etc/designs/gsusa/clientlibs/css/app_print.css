@@ -1,6 +1,6 @@
 @charset "UTF-8";
 
-img#mainGSLogoPrint { display: block; margin-bottom: 20px;}
+img#mainGSLogoPrint { display: block !important; margin-bottom: 20px;}
 div.header { display: none; }
 div.left-col { display: none; }
 div.right-col { display: none; }
