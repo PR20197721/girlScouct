@@ -24,8 +24,7 @@ java.util.Collections,java.util.Comparator" %>
   // reiterate over and add the items into the slots
   ArrayList<Resource> imageList = new ArrayList<Resource>();
   for(int i=1; i<slideShowCount+1;i++){
-    Resource myImage = images.next();
-    imageList.add(myImage);
+    if(images.hasNext()) imageList.add(images.next());
   }
   
   // sort
@@ -43,7 +42,7 @@ java.util.Collections,java.util.Comparator" %>
           sortOrder2 = node2.getProperty("sortOrder").getString();
         }
       } catch (Exception e) {
-    	System.err.println("Exception: " + e.getMessage());
+    	e.printStackTrace();
       }
       return sortOrder1.compareToIgnoreCase(sortOrder2);
     }
