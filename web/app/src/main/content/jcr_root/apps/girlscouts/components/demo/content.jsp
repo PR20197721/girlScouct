@@ -1,3 +1,6 @@
+
+<%@include file="my_demo_top.jsp" %>
+
 <%@page import="java.util.HashMap"%>
 <% if( session== null || session.getAttribute("demoSiteUser")==null){ %>
 

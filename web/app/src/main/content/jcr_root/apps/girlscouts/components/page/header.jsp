@@ -25,7 +25,7 @@
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
-<div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
+<div id="webheader" class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
 <div class='columns'>
   <div id="header" class="row">
     <div class="large-6 medium-9 columns">
