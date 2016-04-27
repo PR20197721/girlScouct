@@ -343,8 +343,10 @@
         });
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
-
-       	  window.scrollTo(0,homepageScrollTopPos);	// go back to previous window Y position
+          
+          if ($(window).width() <= 768) {
+            window.scrollTo(0,homepageScrollTopPos);   // go back to previous window Y position
+          }
 
           target.removeClass("shown");
           target.fadeOut('slow');
