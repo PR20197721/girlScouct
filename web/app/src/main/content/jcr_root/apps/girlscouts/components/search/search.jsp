@@ -19,6 +19,8 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
     mapFullText.put("path",path);
     mapFullText.put("group.1_fulltext.relPath", "jcr:content");
     mapFullText.put("p.limit","-1");
+    mapFullText.put("boolproperty","jcr:content/hideInNav");
+    mapFullText.put("boolproperty.value","false");
 
 
     //-mapFullText.put("type","cq:Page");

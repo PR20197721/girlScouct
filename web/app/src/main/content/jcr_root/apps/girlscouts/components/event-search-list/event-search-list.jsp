@@ -3,11 +3,39 @@
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
 	com.day.text.Text,
-	org.girlscouts.web.events.search.*" %>
+	org.girlscouts.web.events.search.*,
+	java.util.Collections" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+
+<%!
+	public class DateComparator implements java.util.Comparator<String> {
+		ResourceResolver rr;
+	
+		public DateComparator(ResourceResolver rr){
+			this.rr = rr;
+		}
+	
+		@Override
+		public int compare(String s1, String s2){
+			try{
+				Node n1 =  rr.getResource(s1).adaptTo(Node.class);
+				Node n2 =  rr.getResource(s2).adaptTo(Node.class);
+				Node prop1 = n1.getNode("jcr:content/data");
+				Node prop2 = n2.getNode("jcr:content/data");
+				String start1 = prop1.getProperty("start").getString();
+				String start2 = prop2.getProperty("start").getString();
+				return start1.compareTo(start2);
+			} catch(Exception e){
+				e.printStackTrace();
+				return 0;
+			}
+		}
+	}
+%>
+
 <%
 
 Boolean includeCart = false;
@@ -62,6 +90,12 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	<p>No event search results for &quot;<i class="error"><%= Text.escapeXml(q) %></i>&quot;.</p>
 <%
 	} else {
+		
+		long startTime = System.nanoTime();
+		Collections.sort(results, new DateComparator(resourceResolver));
+		long estimatedTime = System.nanoTime() - startTime;
+		System.out.println("Estimated Sort Time: " + (estimatedTime / 1000000) + "ms");
+		
 		for(String result: results) {
 			register = "";
 			GSDateTime evntComparison = null;
@@ -153,8 +187,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 					evntComparison = endDate;
 					boolean sameDay = startDate.year() == endDate.year() && startDate.dayOfYear() == endDate.dayOfYear();
-					endDateStr = dtfOutDate.print(endDate);
-					endTimeStr = dtfOutTime.print(endDate);
 					if (!sameDay) {
 						//dateStr += " - " + endDateStr +", " + endTimeStr;
 						formatedEndDateStr= " - " + endDateStr +", " + endTimeStr;
