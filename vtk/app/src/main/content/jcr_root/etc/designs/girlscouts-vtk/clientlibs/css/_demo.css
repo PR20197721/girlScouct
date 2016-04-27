@@ -165,7 +165,7 @@
 
 /* vtk-demo-login-form.css */
 .vtk-demo-form-box {
-  border: 1px solid #cccccc;
+  /*border: 1px solid #cccccc;*/
   padding: 20px;
   border-radius: 6px;
   margin: 40px 0;
@@ -188,6 +188,17 @@
 /* _vtk-demo-login-form.css */
 .vtk-demo-form-input input[type=submit] {
   text-align: center;
-  width: 100%;
+  width: 30%;
   margin:0;
+  text-transform: uppercase;
+  float:left;
+}
+
+
+
+
+.vtk-demo-form-input .vtk-forgot-link{
+  float: right;
+  font-size: 14px;
+  margin: 10px 38px 0 0;
 }

@@ -17,20 +17,23 @@
         </div>
   
         <div class="vtk-demo-login-form">
+        <h4 style="font-size: 20px;line-height: 22px;margin-bottom: 20px;">Welcome.</h4>
+
           <form action="/content/girlscouts-demo/en/jcr:content" method="POST">
-            
-            <div class="vtk-demo-form-input">
+                     <h4 style="font-size: 20px;line-height: 26px;">Please enter your council's password to access the Volunteer Toolkit Demo.</h4>
+<!--             <div class="vtk-demo-form-input">
               <div class="vtk-demo-form-label">Username</div>
               <input type="text" name="u" value=""/>
-            </div>
+            </div> -->
             
             <div class="vtk-demo-form-input">
-              <div class="vtk-demo-form-label">Password</div>
+              <!-- <div class="vtk-demo-form-label">Password</div> -->
               <input type="password" name="p" value=""/>
             </div>
             
             <div class="vtk-demo-form-input">
-              <input class="button tiny" type="submit" value="Login" name="login"/>
+              <input class="button tiny" type="submit" value="LOG IN" name="login"/>
+              <a class="vtk-forgot-link" href="#">Forgot password</a>
             </div>
        
         </form>
@@ -41,7 +44,7 @@
 
 <% 
 return;
-}//edn if
+}//end if
 
 
 
@@ -318,18 +321,62 @@ if( listOfFiles!=null )
 
 
 <div id="myModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-  <h2 id="modalTitle">Are You Sure?</h2>
-  <p>If you restart the demo, any changes you have made will be lost.</p>
-  <!-- <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p> -->
-  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    <h2 id="modalTitle">Are You Sure?</h2>
 
-  <a class="button radius success right tiny" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart</a>
-<a class="button secondary right tiny" onclick="$('a.close-reveal-modal').trigger('click');
-">Cancel</a>
+    <p>The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionaly.</p>
+  
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+
+    <a class="button radius success right tiny" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart</a>
+    <a class="button secondary right tiny" onclick="$('a.close-reveal-modal').trigger('click');">Cancel</a>
 </div>
 
+
+<div id="myModal-demo" class="reveal-modal medium" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle" style="font-size:18px; color:white;padding:10px 30px;background-color:green">VTK DEMO DETAILS</h2>
+
+  <div class="container-model">
+    <p>The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionally, certain features of the VTK have been disabled such as sending an email to parents/care</p>
+
+  <p>Information presented on this website is for demo purposes only. Any customizations you make will not be saved. The content presented is the property of GSUSA.</p>
+
+  <p>We hope you enjoy the demo.</p>
+
+
+  <br>
+ <br>
+ <br>
+  
+
+  </div>
+
+
+
+  <a class="close-reveal-modal" aria-label="Close"><i style="color:white" class="icon-button-circle-cross"></i></a>
+</div>
+
+
 <script>
-    $(document).foundation();
+    
+    $(function(){
+      $(document).foundation();
+      $('#myModal-demo').foundation('reveal', 'open');
+    })();
+
 </script>
 
+<style>
+#myModal-demo{
+ padding:0px; 
+ top:0px;
+}
 
+.container-model{
+  padding: 10px 30px;
+}
+
+.close-reveal-modal{
+  top:-5px !important;
+}
+
+</style>
