@@ -1,0 +1,37 @@
+Salesforce Connected Apps Notes
+
+UAT - test.salesforce.com	Prod - login.salesforce.com
+UAT Creds: alex_yakobovich@northps.com - Icruise12345
+Setup -> Build -> Create -> Manage Custom Apps -> Connected Apps
+
+Connected Apps are used for sso and oauth (3rd party connection to SF)
+SSO composed of SSO app and oauth app
+Login with sso -> returns access token.
+Maintain connection with oauth -> recognizes token
+
+Callback URL -> page that expects an access token after login.
+
+We don’t use refresh tokens. SSO handles the refresh.
+We use full oauth permissions when creating apps
+
+Consumer Key and Consumer Secret needed to communicate with app. Stored in configuration:
+/apps/girlscouts-vtk/config.{env}.publish/org.girlscouts.vtk.impl.helpers.ConfigManagerImpl.config
+*Changing this file can turn off publish momentarily. Don’t do it on prod unless it’s important, and have Elham supervise.*
+
+clientid is consumer key
+clientsecret is consumer secret
+Oauth is the same app for all SF uat. SSO varies for all our environments.
+SSOCertificate is created in command line (openssl?) and uploaded to app
+targetUrl is landing page after callbackurl
+baseUrl is for our use. We use it to dynamically generate urls
+gsNewYear used in code for new GS year
+gsCertificate is downloaded from their app to ours – on sso handshake, is used to generate request
+councilMapping is for council codes
+callbackUrl -> same as in app
+idpSsoTargetUrl part of the handshake, comes from app -> manage -> for communities -> idp-initiated login url
+vtkApi fields point to salesforce services used to get database info
+
+SalesforceDO.java should help us figure out the salesforce services
+
+Before we can use an app, we need to give it a profile
+Profiles are permissions we add to apps. We can not add profiles ourselves. John Adams does this. We ask him to add the profile to the connected app.
