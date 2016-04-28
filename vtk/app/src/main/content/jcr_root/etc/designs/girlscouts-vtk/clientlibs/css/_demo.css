@@ -157,8 +157,9 @@
 
 .vtk-vounteer-trainer{
       float: left;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: lighter;
+    /*margin-top: 20px;*/
 }
 
 
@@ -194,11 +195,81 @@
   float:left;
 }
 
-
-
-
 .vtk-demo-form-input .vtk-forgot-link{
   float: right;
   font-size: 14px;
   margin: 10px 38px 0 0;
+}
+
+
+
+/* Drop Down */
+
+.vtk-demo-dropdown{
+  background-color: white;
+  padding: 5px 15px;
+  color:#009447;
+  width:200px;
+  font-size: 12px;
+     text-align: left !important;
+       border:1px solid #009447 !important;
+       position: relative;
+
+}
+
+
+.vtk-demo-dropdown_main > .selected-option{
+   color:#009447 !important;
+   font-weight: bold !important;
+     text-align: left !important;
+       width:200px;
+         /*padding: 5px 15px;*/
+}
+
+.selected-option > span{
+  color:#009447 !important;
+  font-size: 10px !important;
+  font-weight: normal !important;
+  margin:-6px 0 0 6px;
+}
+
+
+.vtk-demo-dropdown_main{
+
+}
+
+.vtk-demo-dropdown_options{
+  position:absolute;
+  list-style: none;
+  margin:0;
+  padding: 0;
+  background-color: white;
+          top:22px;
+        left: -1px;
+         border:1px solid #009447 !important;
+         z-index:10 !important;
+         display: none;
+}
+
+.vtk-demo-dropdown_options li{
+    font-size: 12px !important;
+      padding: 5px 15px !important;
+        width:198px;
+  text-align: left !important;
+  font-weight: bold;
+  background-color: white;
+
+}
+
+
+.vtk-demo-dropdown_options li span{
+  color:#009447 !important;
+  font-size: 10px !important;
+  font-weight: normal !important;
+  margin:-6px 0 0 6px;
+}
+
+
+.vtk-demo-dropdown_options li:hover{
+  background-color:#e5f4ec !important;
 }
