@@ -25,7 +25,7 @@
                 <div class="placeholder"></div>
             </div>
             <div class="large-18 medium-15 hide-for-small columns topMessage">
-               <div> <!--  style="display:none;" -->
+               <div style="display:none;">
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
                         <li style="padding-top:3px; font-size: 14px">
