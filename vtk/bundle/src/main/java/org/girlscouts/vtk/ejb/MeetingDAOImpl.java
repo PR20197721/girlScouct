@@ -635,6 +635,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 			String rootPath = getSchoolYearDamPath() + "/local/" + typeString
 					+ "/meetings/" + meetingName;
+	//System.err.println("tata test aid :"+rootPath );		
 			if (session.nodeExists(rootPath)) {
 				assets.addAll(getAssetsFromPath(rootPath, type, session));
 			}

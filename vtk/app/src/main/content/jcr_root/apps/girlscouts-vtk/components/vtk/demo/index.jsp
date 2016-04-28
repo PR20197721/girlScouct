@@ -93,5 +93,13 @@ if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
     }
 session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
 
+if( request.getParameter("prefGradeLevel")!=null ){
+	//set prefTroop
+	Cookie cookie = new Cookie("vtk_prefTroop", request.getParameter("prefGradeLevel"));
+	cookie.setMaxAge(-1);
+	response.addCookie(cookie);
+}//edn if pref level
+
+
 response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 %>

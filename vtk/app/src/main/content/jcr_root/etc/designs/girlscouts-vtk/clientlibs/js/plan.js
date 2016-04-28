@@ -867,7 +867,7 @@ function councilRpt(troopId, cid){
 
 
 	function printRelogin(reloginSelect){
-		var reloginDiv= document.getElementById("relogin");
+		var reloginDiv = document.getElementById("relogin");
 		if( reloginDiv !=null && reloginDiv!=null ){
 			reloginDiv.innerHTML = reloginSelect;
 		}
