@@ -1,10 +1,14 @@
 
 <script>
-function checkAgeGroup(ageGroupElem){
+function checkAgeGroup( _url, ageGroupElem){
 	
 	var isSelected = isAgeGroupSelected(ageGroupElem);
 	if( !isSelected ){
 		alert("Please select grade first");
+	}else{
+		var e = document.getElementById(ageGroupElem);
+	    var ageGroup = e.options[e.selectedIndex].value; 
+	    self.location= _url + ageGroup;
 	}
 	return isSelected;
 }
@@ -226,7 +230,7 @@ function xyz(slc){
                       <%  }else if( container.get(user).equals("PA")){ %>
                                    <div class="vtk-demo-card columns  small-24  medium-8 end">
                                       <div class="vtk-header-box">
-                                        <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>"  onclick="return checkAgeGroup('age_group_parent')">Parents <span class="float-right icon-button-arrow-right"></a>
+                                        <a href="javascript:void(0)" onclick="return checkAgeGroup('/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>&prefGradeLevel=','age_group_parent')">Parents <span class="float-right icon-button-arrow-right"></a>
                                       </div>
                                       <p>Check in on the troop and see what your girl needs for meetings:</p>
                                       <ul>
@@ -235,7 +239,7 @@ function xyz(slc){
                                         <li>Find ways to help the troop.</li>
                                       </ul>
                                      
-                                     <select id="age_group_parent">   
+                                     <select  id="age_group_parent">   
                      <option value="">select grade</option>
  <option value="1-Daisy">DAISY grades k-1</option>
 
@@ -255,7 +259,7 @@ function xyz(slc){
                       <%  }else if( container.get(user).equals("DP")){ %>
                                 <div class="vtk-demo-card columns small-24 medium-8 end">
                                         <div class="vtk-header-box">
-                                          <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>" onclick="return checkAgeGroup('age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+                                          <a href="javascript:void(0)" onclick="return checkAgeGroup('/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>&prefGradeLevel=', 'age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
                                         </div>
                                 
                                         <p>Everything ready, right at your fingertips to save time:</p>
