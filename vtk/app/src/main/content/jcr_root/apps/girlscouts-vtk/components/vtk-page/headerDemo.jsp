@@ -25,11 +25,13 @@
                 <div class="placeholder"></div>
             </div>
             <div class="large-18 medium-15 hide-for-small columns topMessage">
-               <div> <!--  style="display:none;" -->
+               <div <%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"display:none;\" " : "" %>>
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
                         <li style="padding-top:3px; font-size: 14px">
-                            Troop Leader
+                            <%if(org.girlscouts.vtk.utils.VtkUtil.getTroop(session) !=null){ %>
+                                 <%= org.girlscouts.vtk.utils.VtkUtil.hasPermission(org.girlscouts.vtk.utils.VtkUtil.getTroop(session),  org.girlscouts.vtk.auth.permission.Permission.PERMISSION_EDIT_ACTIVITY_ID) ? "Troop Leader" : "Parent" %> 
+                            <%}//end if %>
                         </li>
                         <li>
                             <a class="button tiny" style="background-color:white; color:#009447; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
@@ -45,9 +47,9 @@
                        </div>
                         <ul class="vtk-demo-dropdown_options" >
                           <li data-value="">-----</li>
-                          <li data-value="1">DAISY <span>grades k-1</span></li>
-                          <li data-value="2">BROWNIE <span>grades 2-3</span></li>
-                          <li data-value="3">JUNIOR <span>grades 4-5</span></li>
+                          <li data-value="1-Daisy">DAISY <span>grades k-1</span></li>
+                          <li data-value="2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                          <li data-value="3-Junior">JUNIOR <span>grades 4-5</span></li>
                           <li data-value="4">CADETTE <span>grades 6-8</span></li>
                           <li data-value="5">SENIOR <span>grades 9-10</span></li>
                           <li data-value="6">AMBASSADOR <span>grades 11-12</span></li>
