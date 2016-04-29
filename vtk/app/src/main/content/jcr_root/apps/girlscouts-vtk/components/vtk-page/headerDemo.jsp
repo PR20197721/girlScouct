@@ -58,7 +58,7 @@
                         </ul>
                         -->
 <select id="reloginid" onchange="relogin()">   
-                    
+ <option value="" SELECTED>select grade</option>                
  <option value="1-Daisy">DAISY grades k-1</option>
 
  <option value="2-Brownie">BROWNIE grades 2-3</option>

@@ -377,14 +377,23 @@ public class TroopUtil {
 		session.setAttribute("USER_TROOP_LIST", troops);
 
 		org.girlscouts.vtk.salesforce.Troop newTroop = null;
-		for (int i = 0; i < troops.size(); i++) {
-			if (troops.get(i).getTroopId().equals(troopId)) {
+System.err.println("tata relogin 1 : "+ troopId );		
+		alex:for (int i = 0; i < troops.size(); i++) {
+System.err.println("tata relogin 2 : " + i+ " : "+ troops.get(i).getTroopId() +" : " + troopId +" : "+ troops.get(i).getGradeLevel());	
+			if ( troops.get(i).getTroopId().equals(troopId) || 
+					troops.get(i).getGradeLevel().equals(troopId) ) {
+System.err.println("tata relogin 3: found YES: "+ troopId);				
 				newTroop = troops.get(i);
+				troopId= troops.get(i).getTroopId(); // in demo env
+				break alex;
 			}
 		}
 
-		Troop new_troop = getTroop(user, newTroop.getCouncilCode() + "",
-				troopId);
+System.err.println("tata relogin: "+ (newTroop==null) );
+if( newTroop ==null ) return;
+
+
+	   Troop new_troop = getTroop(user, newTroop.getCouncilCode() + "", troopId);
 
 		if (new_troop == null) {
 			new_troop = createTroop(user, "" + newTroop.getCouncilCode(),
