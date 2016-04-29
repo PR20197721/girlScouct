@@ -190,14 +190,17 @@ function xyz(slc){
                                    roles.add( _troop.getRole() );
                                }
 
-                               if( User.isAdmin() ){ 
+                               if( false ){// ADMIN NOT USED IN THIS RELEASE  - User.isAdmin() ){ 
                                 container.put("3-"+userName,"Admin");
                                
                                }else if(roles.contains("DP")){
-                                   container.put("1-"+userName, "DP");
-                                   
+                            	   if(userName.toLowerCase().equals("lisa")){
+                            		    container.put("1-"+userName, "DP");
+                            	   }
                                 }else if(roles.contains("PA")){ 
-                                    container.put( "2-"+userName, "PA");
+                                	if( userName.toLowerCase().equals("eliza") || userName.toLowerCase().equals("eliza")  ){
+                                	    container.put( "2-"+userName, "PA");
+                                	}
                                     
                                  }           
                                
