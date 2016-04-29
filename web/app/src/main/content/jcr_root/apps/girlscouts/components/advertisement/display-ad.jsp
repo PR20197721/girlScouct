@@ -14,6 +14,9 @@ if (currentAd != null) {
 		adLink = genLink(resourceResolver, path);	
 	}
 	
+	// pbae - instead of using multifield.js, listing fields individually
+	// since multifield.js won't be compatible with CoralUI.
+	// Once we have better CoralUI solution, we should update this code so that it is more dynamic
 	String displayPage1 = currentAd.getProperties().get("text/displayPage1", "");
 	String displayPage2 = currentAd.getProperties().get("text/displayPage2", "");
 	String displayPage3 = currentAd.getProperties().get("text/displayPage3", "");

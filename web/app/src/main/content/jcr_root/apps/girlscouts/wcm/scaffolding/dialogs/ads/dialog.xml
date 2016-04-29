@@ -58,6 +58,11 @@
                     xtype="pathfield"/>
             </items>
         </tab3>
+<!--
+	// pbae - instead of using multifield.js, listing fields individually
+	// since multifield.js won't be compatible with CoralUI.
+	// Once we have better CoralUI solution, we should update this code so that it is more dynamic
+-->
        	<tab4
 	       	jcr:primaryType="cq:Panel"
 	        title="Pages to Display">
