@@ -45,15 +45,32 @@
                        <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;">
                        </span>
                        </div>
+                       <!-- 
                         <ul class="vtk-demo-dropdown_options" >
                           <li data-value="">-----</li>
                           <li data-value="1-Daisy">DAISY <span>grades k-1</span></li>
                           <li data-value="2-Brownie">BROWNIE <span>grades 2-3</span></li>
                           <li data-value="3-Junior">JUNIOR <span>grades 4-5</span></li>
-                          <li data-value="4">CADETTE <span>grades 6-8</span></li>
-                          <li data-value="5">SENIOR <span>grades 9-10</span></li>
-                          <li data-value="6">AMBASSADOR <span>grades 11-12</span></li>
+                          <li data-value="4-Cadette">CADETTE <span>grades 6-8</span></li>
+                          <li data-value="5-Senior">SENIOR <span>grades 9-10</span></li>
+                          <li data-value="6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
                         </ul>
+                        -->
+<select id="reloginid" onchange="relogin()">   
+                    
+ <option value="1-Daisy">DAISY grades k-1</option>
+
+ <option value="2-Brownie">BROWNIE grades 2-3</option>
+
+ <option value="3-Junior">JUNIOR grades 4-5</option>
+
+ <option value="4-Cadette">CADETTE grades 6-8</option>
+
+<option value="5-Senior">SENIOR  grades 9-10</option>
+
+<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
+ </select>                       
+                        
                   </div>
                </div> 
                <div class="row collapse">

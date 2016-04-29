@@ -1,5 +1,23 @@
 
+<script>
+function checkAgeGroup(ageGroupElem){
+	
+	var isSelected = isAgeGroupSelected(ageGroupElem);
+	if( !isSelected ){
+		alert("Please select grade first");
+	}
+	return isSelected;
+}
 
+function isAgeGroupSelected(ageGroupElem){
+	var e = document.getElementById(ageGroupElem);
+	var ageGroup = e.options[e.selectedIndex].value;
+	if( ageGroup ==null || ageGroup =='' ){
+		return false;
+	}
+	return true;
+}
+</script>
 
 <%@page import="java.util.HashMap"%>
 <% if( session== null || session.getAttribute("demoSiteUser")==null){ %>
@@ -190,7 +208,7 @@ function xyz(slc){
                       <%  }else if( container.get(user).equals("PA")){ %>
                                    <div class="vtk-demo-card columns  small-24  medium-8 end">
                                       <div class="vtk-header-box">
-                                        <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Parents <span class="float-right icon-button-arrow-right"></a>
+                                        <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>"  onclick="return checkAgeGroup('age_group_parent')">Parents <span class="float-right icon-button-arrow-right"></a>
                                       </div>
                                       <p>Check in on the troop and see what your girl needs for meetings:</p>
                                       <ul>
@@ -199,12 +217,27 @@ function xyz(slc){
                                         <li>Find ways to help the troop.</li>
                                       </ul>
                                      
+                                     <select id="age_group_parent">   
+                     <option value="">select grade</option>
+ <option value="1-Daisy">DAISY grades k-1</option>
+
+ <option value="2-Brownie">BROWNIE grades 2-3</option>
+
+ <option value="3-Junior">JUNIOR grades 4-5</option>
+
+ <option value="4-Cadette">CADETTE grades 6-8</option>
+
+<option value="5-Senior">SENIOR  grades 9-10</option>
+
+<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
+ </select>    
+ 
                                   </div>
                                   <!-- / Parents -->
                       <%  }else if( container.get(user).equals("DP")){ %>
                                 <div class="vtk-demo-card columns small-24 medium-8 end">
                                         <div class="vtk-header-box">
-                                          <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+                                          <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>" onclick="return checkAgeGroup('age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
                                         </div>
                                 
                                         <p>Everything ready, right at your fingertips to save time:</p>
@@ -214,8 +247,23 @@ function xyz(slc){
                                           <li>See your troop roster.</li>
                                           <li>Track girls achievements and attendance.</li>
                                         </ul>
-                                  </div>
+                                  <select id="age_group_dp">   
+                    <option value="">select grade</option>
+ <option value="1-Daisy">DAISY grades k-1</option>
+
+ <option value="2-Brownie">BROWNIE grades 2-3</option>
+
+ <option value="3-Junior">JUNIOR grades 4-5</option>
+
+ <option value="4-Cadette">CADETTE grades 6-8</option>
+
+<option value="5-Senior">SENIOR  grades 9-10</option>
+
+<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
+ </select>    
                                   
+                                  </div>
+                                       
                                   <!-- / Troop Leader -->
                                   <% 
                       }//end else
