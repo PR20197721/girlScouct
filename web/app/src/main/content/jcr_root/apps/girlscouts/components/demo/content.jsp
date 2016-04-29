@@ -25,7 +25,7 @@ function isAgeGroupSelected(ageGroupElem){
 function goToUrl(elem){
 	var e = document.getElementById(elem);
     var _url = e.options[e.selectedIndex].value;
-    alert( _url );
+   // alert( _url );
     self.location= _url;
 }
 </script>
@@ -252,23 +252,11 @@ function xyz(slc){
                                      <select  id="age_group_parent">   
                      <option value="">select grade</option>
  <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
- <option value="1-Daisy">DAISY grades k-1 *</option>
-
  <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
- <option value="2-Brownie">BROWNIE grades 2-3 *</option>
-
  <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
- <option value="3-Junior">JUNIOR grades 4-5*</option>
- 
  <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
- <option value="4-Cadette">CADETTE grades 6-8</option>
-
-
 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-<option value="5-Senior">SENIOR  grades 9-10</option>
-
 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
-<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
  </select>    
  
                                   </div>
@@ -276,7 +264,7 @@ function xyz(slc){
                       <%  }else if( container.get(user).equals("DP")){ %>
                                 <div class="vtk-demo-card columns small-24 medium-8 end">
                                         <div class="vtk-header-box">
-                                          <a href="javascript:void(0)" onclick="return checkAgeGroup('/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>&prefGradeLevel=', 'age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+                                          <a href="javascript:void(0)" onclick="return goToUrl('age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
                                         </div>
                                 
                                         <p>Everything ready, right at your fingertips to save time:</p>
@@ -288,16 +276,22 @@ function xyz(slc){
                                         </ul>
                                   <select id="age_group_dp">   
                     <option value="">select grade</option>
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
 
- <option value="2-Brownie">BROWNIE grades 2-3</option>
+ 
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
 
- <option value="3-Junior">JUNIOR grades 4-5</option>
 
- <option value="4-Cadette">CADETTE grades 6-8</option>
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
 
-<option value="5-Senior">SENIOR  grades 9-10</option>
 
-<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+
+
+
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+
  </select>    
                                   
                                   </div>

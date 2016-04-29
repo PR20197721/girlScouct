@@ -56,7 +56,7 @@
                           <li data-value="5-Senior">SENIOR <span>grades 9-10</span></li>
                           <li data-value="6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
                         </ul>
-                        -->
+                        
 <select id="reloginid" onchange="relogin()">   
  <option value="" SELECTED>select grade</option>                
  <option value="1-Daisy">DAISY grades k-1</option>
@@ -71,7 +71,46 @@
 
 <option value="6-Ambassador">AMBASSADOR grades 11-12</option>
  </select>                       
-                        
+                     -->   
+                     
+                     
+                     <select id="vtk_demo_troop" onchange="goToUrl('vtk_demo_troop')">   
+                        <option value="">select grade</option>
+                     <%if(org.girlscouts.vtk.utils.VtkUtil.getTroop(session) !=null){
+                           if( org.girlscouts.vtk.utils.VtkUtil.hasPermission(org.girlscouts.vtk.utils.VtkUtil.getTroop(session),  org.girlscouts.vtk.auth.permission.Permission.PERMISSION_EDIT_ACTIVITY_ID) ){
+                        	  %>
+                        	   
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
+					
+					            
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
+					
+					
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
+					
+					
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+					
+					
+					
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+					 
+					            <%   
+                           }else{
+                        	   %>
+                        	   <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
+								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
+								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
+								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+                        	   
+                        	   <% 
+                           }
+                     }//end if %>
+                     </select>
+                     
                   </div>
                </div> 
                <div class="row collapse">
@@ -280,3 +319,12 @@
         </div>
     </div>
 </div>
+
+<script>
+function goToUrl(elem){
+    var e = document.getElementById(elem);
+    var _url = e.options[e.selectedIndex].value;
+   // alert( _url );
+    self.location= _url;
+}
+</script>
