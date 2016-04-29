@@ -20,7 +20,25 @@ function isAgeGroupSelected(ageGroupElem){
 </script>
 
 <%@page import="java.util.HashMap"%>
-<% if( session== null || session.getAttribute("demoSiteUser")==null){ %>
+<%
+
+
+
+
+session.putValue("VTK_troop",null);
+session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
+session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
+session.putValue(org.girlscouts.vtk.models.User.class.getName(), null);
+      
+
+Cookie killMyCookie = new Cookie("girl-scout-name", null);
+killMyCookie.setMaxAge(0);
+killMyCookie.setPath("/");
+response.addCookie(killMyCookie);
+
+
+
+if( session== null || session.getAttribute("demoSiteUser")==null){ %>
 
 <div id="main" class="row content">
     
