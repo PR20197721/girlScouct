@@ -290,7 +290,7 @@ function xyz(slc){
 
 
 
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
 
  </select>    
                                   

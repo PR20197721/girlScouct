@@ -1,3 +1,16 @@
+<%
+boolean showExtra= false;
+boolean isDp= false;
+if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
+	showExtra= true;
+	if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session).getTroops().get(0).getPermissionTokens().contains(270) ){
+		isDp=true;
+    }
+}
+
+//.getTroops().get(0).getPermissionTokens().contains(270)
+%>
+
 
 <div class="header-wrapper row collapse hide-for-print">
     <div class="columns">
@@ -30,9 +43,8 @@
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
                         <li style="padding-top:3px; font-size: 14px">
-                            <%if(org.girlscouts.vtk.utils.VtkUtil.getTroop(session) !=null){ %>
-                                 <%= org.girlscouts.vtk.utils.VtkUtil.hasPermission(org.girlscouts.vtk.utils.VtkUtil.getTroop(session),  org.girlscouts.vtk.auth.permission.Permission.PERMISSION_EDIT_ACTIVITY_ID) ? "Troop Leader" : "Parent" %> 
-                            <%}//end if %>
+                           <%= isDp ? "Troop Leader" : "Parent" %> 
+                            
                         </li>
                         <li>
                             <a class="button tiny" style="background-color:white; color:#009447; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
@@ -73,12 +85,9 @@
  </select>                       
                      -->   
                      
-                     
                      <select id="vtk_demo_troop" onchange="goToUrl('vtk_demo_troop')">   
                         <option value="">select grade</option>
-                     <%if(org.girlscouts.vtk.utils.VtkUtil.getTroop(session) !=null){
-                           if( org.girlscouts.vtk.utils.VtkUtil.hasPermission(org.girlscouts.vtk.utils.VtkUtil.getTroop(session),  org.girlscouts.vtk.auth.permission.Permission.PERMISSION_EDIT_ACTIVITY_ID) ){
-                        	  %>
+                        <% if( isDp ){%>
                         	   
 					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
 					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
@@ -94,11 +103,11 @@
 					
 					
 					
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
 					 
-					            <%   
-                           }else{
-                        	   %>
+					              
+                           <% }else{%>
+                        	   
                         	   <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
 								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
 								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
@@ -106,9 +115,9 @@
 								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
 								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
                         	   
-                        	   <% 
-                           }
-                     }//end if %>
+                        	   
+                          <% }%>
+                   
                      </select>
                      
                   </div>
