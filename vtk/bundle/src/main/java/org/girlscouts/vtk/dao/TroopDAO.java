@@ -53,4 +53,6 @@ public interface TroopDAO {
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException;
 	
+	public void removeDemoTroops();
+	
 }

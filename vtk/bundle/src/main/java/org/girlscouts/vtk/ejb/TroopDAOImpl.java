@@ -21,6 +21,9 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.Row;
+import javax.jcr.query.RowIterator;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
@@ -34,6 +37,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.digester.DigesterMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -57,6 +61,7 @@ import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.MeetingE1;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -68,6 +73,7 @@ import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.traversal.NodeIterator;
 import org.apache.jackrabbit.util.Text;
 
 @Component
@@ -1452,6 +1458,47 @@ System.err.println("Saved!");
 		}
 
 		return isUpdated;
+	}
+	
+	
+	
+	public void removeDemoTroops() {
+
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			
+			String sql = "select * from nt:unstructured where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)+"%' and sfTroopId like 'SHARED_%' and ocm_classname='org.girlscouts.vtk.models.Troop'";
+			javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			
+			
+			//??? result.getNodes().remove();
+			
+			java.util.List<Node> nodes2Rm = new java.util.ArrayList();
+			javax.jcr.NodeIterator itr =  result.getNodes();
+		    while (itr.hasNext()) {
+		      Node node = itr.nextNode();
+		      nodes2Rm.add(node);		    
+		     }
+		    
+		    for(int i=0;i<nodes2Rm.size();i++)
+		    	nodes2Rm.get(i).remove();
+			session.save();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		
 	}
 }// ednclass
 
