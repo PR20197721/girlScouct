@@ -24,8 +24,10 @@ import javax.jcr.ValueFactory;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
+import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -76,6 +78,9 @@ import org.slf4j.LoggerFactory;
 import org.w3c.dom.traversal.NodeIterator;
 import org.apache.jackrabbit.util.Text;
 
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+
 @Component
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
@@ -97,6 +102,10 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private MeetingDAO meetingDAO;
 
+	@Reference
+	private MessageGatewayService messageGatewayService;
+
+	
 	@Activate
 	void activate() {
 	}
@@ -1487,6 +1496,8 @@ System.err.println("Saved!");
 		    	nodes2Rm.get(i).remove();
 			session.save();
 			
+			emailCronRpt();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -1497,8 +1508,25 @@ System.err.println("Saved!");
 				ex.printStackTrace();
 			}
 		}
+	}
+	
+	public void emailCronRpt(){
+		try {
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+					.getGateway(HtmlEmail.class);
 
-		
+			HtmlEmail email = new HtmlEmail();
+			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
+			toAddresses.add( new InternetAddress("vtk@girlscouts.org") );
+			email.setTo(toAddresses);
+			email.setSubject("Demo site cron report");
+			email.setTextMsg("removed all test nodes from database on "+  new java.util.Date() );
+			messageGateway.send(email);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }// ednclass
 
