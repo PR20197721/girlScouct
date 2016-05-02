@@ -47,6 +47,7 @@ import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.helpers.ConfigManager;
 
 import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
@@ -105,6 +106,8 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private MessageGatewayService messageGatewayService;
 
+	@Reference
+	ConfigManager configManager;
 	
 	@Activate
 	void activate() {
@@ -1496,10 +1499,11 @@ System.err.println("Saved!");
 		    	nodes2Rm.get(i).remove();
 			session.save();
 			
-			emailCronRpt();
+			emailCronRpt(null);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+			emailCronRpt(e.toString());
 		} finally {
 			try {
 				if (session != null)
@@ -1510,17 +1514,24 @@ System.err.println("Saved!");
 		}
 	}
 	
-	public void emailCronRpt(){
+	public void emailCronRpt(String msg){
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
 
+			String DEMO_CRON_EMAIL = (String) configManager.getConfig("DEMO_CRON_EMAIL");
+			
 			HtmlEmail email = new HtmlEmail();
 			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
-			toAddresses.add( new InternetAddress("vtk@girlscouts.org") );
+			toAddresses.add( new InternetAddress(DEMO_CRON_EMAIL) );
 			email.setTo(toAddresses);
-			email.setSubject("Demo site cron report");
-			email.setTextMsg("removed all test nodes from database on "+  new java.util.Date() );
+			if (msg != null) {
+				email.setSubject("GirlScouts VTK Demo Site Cron ERROR");
+				email.setTextMsg("Error removing test nodes from database on "+  new java.util.Date() + ":" + msg);
+			} else {
+				email.setSubject("GirlScouts VTK Demo Site Cron");
+				email.setTextMsg("Successfully removed all test nodes from database on "+  new java.util.Date() + ".");
+			}
 			messageGateway.send(email);
 			
 
