@@ -22,8 +22,7 @@ public class SessionFactory {
 
 	public Session getSession() throws RepositoryException, LoginException {
 		Session adminSession = repository.loginAdministrative(null);
-		Session session = adminSession.impersonate(new SimpleCredentials("vtk",
-				new char[0]));
+		Session session = adminSession.impersonate(new SimpleCredentials("admin","admin".toCharArray()));
 		adminSession.logout();
 		adminSession = null;
 		return session;

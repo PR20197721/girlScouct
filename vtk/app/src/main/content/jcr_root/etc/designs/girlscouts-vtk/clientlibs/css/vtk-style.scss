@@ -1621,7 +1621,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        & * { background: #f7f7f6 !important; }
+         background: #f7f7f6 !important;
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
@@ -1681,9 +1681,15 @@
     //paragraph after the address
     dd ul li {
       margin-bottom: 20px;
+      background-color: #f7f7f6 !important;
+
+      div.row{
+        background-color: #f7f7f6 !important;
+      }
+
       p {
         margin-bottom: 0;
-      }
+              }
     }
   }
   //Financial page
@@ -1978,6 +1984,22 @@
     margin: 40px 0;
     text-align: center;
   }
+
+  #mainContent .error {
+    ul {
+      list-style: none;
+      margin: 0;
+      li {
+        border: solid 1px red;
+        padding: 20px;
+        margin-bottom: 20px;
+      }
+      li p:first-child {
+        margin-bottom: 8px;
+      }
+    }
+  }
+
 } //end of vtk-body
 
 //overwrite of global
@@ -2282,4 +2304,8 @@ input[type="file"] {
       display:none !important;
       }
     }
+
 }
+
+
+@import 'vtk-button';

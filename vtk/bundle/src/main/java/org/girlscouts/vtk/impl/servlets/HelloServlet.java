@@ -22,6 +22,7 @@ public class HelloServlet extends SlingSafeMethodsServlet {
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		try {
+			response.setContentType("application/javascript");
 			PrintWriter out = response.getWriter();
 
 			HttpSession session = request.getSession(false);
@@ -37,11 +38,14 @@ public class HelloServlet extends SlingSafeMethodsServlet {
 					e.printStackTrace();
 				}
 
-				if (user == null) {
+				if (user == null && session.getAttribute("fatalError")==null) {
 					sayPleaseSignIn(out);
 				} else {
-					String name = user.getName();
-					
+
+					String name = "";
+					if( user!=null)
+						name= user.getName();
+
 					sayHello(out, name);
 				}
 			}

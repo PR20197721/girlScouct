@@ -19,22 +19,7 @@
 	          while( act.hasMoreTokens())
                   distinctGirl.add(act.nextToken() );
 	      } 
-	      /*
-	      if( _troop.getYearPlan().isAltered()!=null && _troop.getYearPlan().isAltered().equals("true") && 
-	    		  meeting.getMeetingInfo()!=null && meeting.getRefId().contains("/lib/")){
-	    	  
-	    	  
-	    	  String mid= meeting.getRefId();
-	    	  mid= mid.substring( mid.lastIndexOf("/") );
-	    	  mid= mid.substring( mid.indexOf("_"));
-	    	  
-	    	  String orgPath = "/content/girlscouts-vtk/meetings/myyearplan/"+ ageGroup +"/"+ mid ;
-	          Meeting orgMeeting = yearPlanUtil.getMeeting(user, orgPath );
-	    	  if(  meeting.getMeetingInfo().getActivities().size()!= orgMeeting.getActivities().size() )
-	    		  meeting.getMeetingInfo().getActivities().size() - orgMeeting.getActivities().size()
-	    		  
-	      }
-	      */
+	     
       }
 
       badges_earned += achievementCurrent;

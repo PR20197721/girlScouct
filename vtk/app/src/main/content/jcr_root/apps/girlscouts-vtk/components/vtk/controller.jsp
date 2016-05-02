@@ -1,13 +1,13 @@
 <%@page
-	import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
+
 	String vtkErr = "";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
@@ -50,7 +50,7 @@
 				}
 
 				meetingUtil.changeMeetingPositions(user, troop, x);
-				//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
+				
 				return;
 			case CreateActivity:
 				yearPlanUtil
@@ -115,9 +115,11 @@
 				return;
 			case SelectYearPlan:
 				try {
+System.err.println("caca syp: "+ new java.util.Date() );					
 					troopUtil.selectYearPlan(user, troop,
 							request.getParameter("addYearPlanUser"),
 							request.getParameter("addYearPlanName"));
+System.err.println("caca syp end: "+ new java.util.Date() );    	
 				} catch (VtkYearPlanChangeException e) {
 					System.err.println(e.getMessage());
 					e.printStackTrace();
@@ -203,7 +205,7 @@
 						request.getParameter("mid"));
 				return;
 			case EditAgendaDuration:
-				//request.getParameter("aid") +" : "+request.getParameter("mid"));
+				
 				meetingUtil.editAgendaDuration(user, troop, Integer
 						.parseInt(request
 								.getParameter("editAgendaDuration")),
@@ -311,6 +313,12 @@
 				meetingUtil.createCustomYearPlan(user, troop,
 						request.getParameter("mids"));
 				return;
+			case RemoveVtkErrorMsg:				
+				String vtkErrMsgId= request.getParameter("vtkErrMsgId");    
+			    if( vtkErrMsgId!=null && !vtkErrMsgId.equals("")){
+			             VtkUtil.rmVtkError(request,vtkErrMsgId );
+			    }
+				return;
 			default:
 				break;
 			}
@@ -323,25 +331,9 @@
 					session.putValue("VTK_ADMIN", u);
 			}
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
-/*
-		} else if (request.getParameter("sendMeetingReminderEmail_SF") != null) { //view SalesForce
-			String email_to_gp = request.getParameter("email_to_gp");
-			String email_to_sf = request.getParameter("email_to_sf");
-			String email_to_tv = request.getParameter("email_to_tv");
-			String cc = request.getParameter("email_to_cc");
-			String subj = request.getParameter("email_subj");
-			String html = request.getParameter("email_htm");
 
-			EmailMeetingReminder emr = new EmailMeetingReminder(null,
-					null, cc, subj, html);
-			emr.setEmailToGirlParent(email_to_gp);
-			emr.setEmailToSelf(email_to_sf);
-			emr.setEmailToTroopVolunteer(email_to_tv);
-			emailUtil.sendMeetingReminder(troop, emr);
-			*/
 		} else if (request.getParameter("previewMeetingReminderEmail") != null) {
 			String email_to_gp = request.getParameter("email_to_gp");
-			//String email_to_sf = request.getParameter("email_to_sf");
 			String email_to_tv = request.getParameter("email_to_tv");
 			String bcc = request.getParameter("email_cc");
 			String subj = request.getParameter("email_subj");
@@ -362,10 +354,10 @@
 
 			emr.setMeetingId(meetingId);
 			emr.setTemplate(template);
-			//if (email_to_sf.equals("true")) {
+			
 			emr.setEmailToSelf("true");
 			emr.setTo(user.getApiConfig().getUser().getEmail());
-			//}
+			
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 						troopDAO, connectionFactory).getContacts(
@@ -379,21 +371,21 @@
 						emails += ";" + contactEmail;
 				}
 				emr.addTo(emails);
-				//emr.setEmailToGirlParent(emails);
+				
 				emr.setEmailToGirlParent("true");
 
 			}
 
 			if (email_to_tv.equals("true")) {
-				//emr.setEmailToTroopVolunteer(email_to_tv);
+				
 				emr.setEmailToTroopVolunteer("true");
-				/*Troop Volunteers data needed */
+			
 			}
 
 			troop.setSendingEmail(emr);
 
-		} else if (request.getParameter("sendMeetingReminderEmail") != null) { //view smpt
-			// /gscontroller/vtk/action/sendMeetingReminderEmail parameters  
+		} else if (request.getParameter("sendMeetingReminderEmail") != null) { 
+			 
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
@@ -409,7 +401,7 @@
 				e.printStackTrace();
 			}
 			troop.setSendingEmail(null);
-
+/*
 		} else if (request.getParameter("testAB") != null) {
 
 			
@@ -423,7 +415,7 @@
 			if (!isUsrUpd)
 				vtkErr += vtkErr
 						.concat("Warning: You last change was not saved.");
-
+*/
 		} else if (request.getParameter("id") != null) {
 
 			java.util.List<MeetingE> meetings = troop.getYearPlan()
@@ -505,7 +497,6 @@
 
 			}
 
-			//yearPlanUtil.saveCouncilMilestones(milestones);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
@@ -514,7 +505,6 @@
 			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
 			String[] blurbs = request.getParameterValues("ms_blurb[]");
 			String[] dates = request.getParameterValues("ms_date[]");
-			//String[] shows2 = request.getParameterValues("show_ch[]");
 			String[] shows = request.getParameterValues("ms_show[]");
 			if (blurbs != null) {
 				for (int i = 0; i < blurbs.length; i++) {
@@ -644,8 +634,8 @@
 					request.getParameter("troopId"), session);
 			Troop x = (Troop) session.getAttribute("VTK_troop");
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
-		} else if (request.getParameter("addAsset") != null) { //not in switch?? not used?
-			//org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
+		} else if (request.getParameter("addAsset") != null) { 
+			
 			troopUtil.addAsset(
 					user,
 					troop,
@@ -697,7 +687,7 @@
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 
-				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
+				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); 
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
 				meetings.add(_meeting);
 				troop.getYearPlan().setMeetingEvents(meetings);
@@ -774,12 +764,16 @@
 
                     ObjectMapper mapper = new ObjectMapper();
                     try {
-                    out.println(mapper.writeValueAsString(troop)
+                    	
+
+                    out.println(mapper.writeValueAsString(troop)         		
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
+                         
                     } catch (Exception ee) {
                         // error message in logs
+                        ee.printStackTrace();
                     }
                     
                     troop.getYearPlan().setMeetingEvents(TMP_meetings);
@@ -883,7 +877,7 @@
 	}
 					}
  
-				ObjectMapper mapper = new ObjectMapper();
+				ObjectMapper mapper = new ObjectMapper(); 
 				out.println("{\"yearPlan\":\""
 						+ troop.getYearPlan().getName()
 						+ "\",\"schedule\":");
@@ -970,7 +964,7 @@
                 yearPlan.setActivities( _activities);
                 ObjectMapper mapper = new ObjectMapper();
                 out.println(mapper.writeValueAsString(yearPlan));
-                //orgi out.println(mapper.writeValueAsString(currentActivity));
+       
 
             }
 
@@ -1003,7 +997,7 @@
 				String troopId = (String) itr.next();
 				String troopName = (String) container.get(troopId);
 					%>$("#<%=troopId%>").html("<%=troopName%>");<%
-	}
+					   }
 		} else if (request.getParameter("getEventImg") != null) {
 
 
@@ -1222,7 +1216,7 @@
 	      <% 
 	      
 		
-
+		
 		} else {
 			//TODO throw ERROR CODE
 			

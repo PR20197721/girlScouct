@@ -18,7 +18,7 @@ public class Council implements Serializable {
 
 	@Field(path = true)
 	String path;
-
+/*
 	@Collection
 	private java.util.List<Troop> troops;
 	
@@ -29,7 +29,7 @@ public class Council implements Serializable {
 	public void setTroops(java.util.List<Troop> troops) {
 		this.troops = troops;
 	}
-	
+	*/
 	public String getPath() {
 		return path;
 	}

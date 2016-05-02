@@ -552,6 +552,7 @@ var displayCurrent = function(isUploaded){
 	        	submitCrop.disabled = true;
 	        	
 		        if(localMediaStream != null && localMediaStream != undefined){
+
 		        	try{
 		        		   localMediaStream.stop();
 		        	}catch(err){ cleanUp(); }
@@ -673,9 +674,11 @@ var dataURL = image_target.src;
 
 
 function cleanUp(){
+
 	if (localMediaStream.active) {
 	    var track = localMediaStream.getTracks()[0];
         track.stop();
 	}
 }
+
 </script>

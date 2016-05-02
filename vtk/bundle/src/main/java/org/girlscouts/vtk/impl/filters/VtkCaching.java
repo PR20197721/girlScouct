@@ -17,12 +17,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Modified;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.girlscouts.vtk.models.Troop;
@@ -32,17 +27,14 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(
-  
-    label = "Girl Scouts VTK Cache Filter",
-    description = "Filter iml caching page", 
-    metatype = true
-)
-@Service
+@Component(metatype = true, immediate = true)
 @Properties({ 
-    @Property(name = "sling.filter.scope", value = "REQUEST", propertyPrivate = true),
-    @Property(name = "service.ranking", intValue = -1000, propertyPrivate = true)
+	@Property(name = "sling.filter.scope", value = "REQUEST", propertyPrivate = true),
+	@Property(name = "service.ranking", intValue = -1000, propertyPrivate = true),
+	@Property(name="label", value="Girl Scouts VTK Cache Filter"),
+	@Property(name="description", value="Girl Scouts VTK Image Caching Page")
 })
+@Service
 public class VtkCaching implements javax.servlet.Filter {
 
     private static final Logger log = LoggerFactory.getLogger(VtkCaching.class);

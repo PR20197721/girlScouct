@@ -836,12 +836,15 @@ function councilRpt(troopId, cid){
 
 	}
 
-	function vtkInitTracker(tName, tId, uId){
+	function vtkInitTracker(tName, tId, uId, cId, tAge, ypn){
 		//var newTracker = ga.getByName('vtkTracker');
 		//vtkCreateTracker();
 		ga('vtkTracker.set', 'dimension1', tName);
 		ga('vtkTracker.set', 'dimension2', tId);
 		ga('vtkTracker.set', 'dimension3', uId);
+		ga('vtkTracker.set', 'dimension7', cId);
+		ga('vtkTracker.set', 'dimension8', tAge);
+		ga('vtkTracker.set', 'dimension9', ypn);
 	}
 
 	function vtkTrackerPushAction(vAction){
@@ -936,8 +939,7 @@ function councilRpt(troopId, cid){
 //		loadUNav(activeTab);
 	
 
-		setTimeout(function(){checkIsLoggedIn();}, 10000);
-		     
+		window.setTimeout(function(){checkIsLoggedIn();}, 10000);
 
 		if(activeTab!=null && activeTab=='myTroop'){
 			vtkTrackerPushAction('ViewTroop');
@@ -1007,15 +1009,63 @@ function councilRpt(troopId, cid){
 	  isLoggedIn=false;
   }
   
-  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; }
+  function setLoggedIn(){
+	  console.log("set login true"); 
+	  isLoggedIn=true; 
+  }
   function 	checkIsLoggedIn(){  
-	  if( document.getElementById("myframe")==null){return;}
+	  
+	  if(document.getElementById("myframe") == null){
+		  console.log("Skipping because iframe not ready.")
+		  return;
+	  }
 	  console.log("checking isLoggedin..."+ isLoggedIn);
 	  if( !isLoggedIn ){
+		  doVtkLogout();
+	  }
+  }
+  
+  function displayErrMsg(errMsgPlaceHldr){
+
+	  $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.vtkError.html",
+	        cache: false
+	    }).done(function( html ) {
+	        var vtkErrMsgHld = document.getElementById(errMsgPlaceHldr);
+	        if( vtkErrMsgHld !=null ){
+	        	vtkErrMsgHld.innerHTML =html;
+	        }
+	    })
+  }
+  
+  function doVtkLogout(){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
-		  //girlscouts.components.login.signOut();
-	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
-		  
-		 
-	  } 
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;  
+  }
+  
+  function rmVtkErrMsg(errMsgId){
+	
+	    $.ajax({
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+			type: 'POST',
+			data: {
+				    vtkErrMsgId:errMsgId,
+			        act:'RemoveVtkErrorMsg',
+			        a:Date.now()
+			},
+	    
+		success: function(result) {
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	    } 
+	    }),
+	   
+	    rmVtkErrMsg_disableView( errMsgId );
+  }
+
+  function rmVtkErrMsg_disableView( errMsgId ){
+	  var msgPlanceHldr = document.getElementById("_vtkErrMsgId_"+ errMsgId);
+	  if( msgPlanceHldr!=null ){
+		  msgPlanceHldr.style.display='none';
+	  }
   }

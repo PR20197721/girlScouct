@@ -3,37 +3,6 @@
 
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = planView.getMeeting();
-
-/*
-if( attendance !=null && attendance.getUsers()!=null ){
-    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
-    attendanceTotal= attendance.getTotal();
-}
-
-Achievement achievement = meetingUtil.getAchievement( user,  troop,  meeting.getPath()+"/achievement");
-int achievementCurrent=0;//, achievementTotal=0;
-
-if( achievement !=null && achievement.getUsers()!=null ){
-    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
-    //achievementTotal= achievement.getTotal();
-}
-
-
-Location loc = null;
-if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
-    for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-        if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-            loc = troop.getYearPlan().getLocations().get(k);
-        }
-    }
-}
-
-
-//pageContext.setAttribute("MEETING_achievement_TOTAL", achievementTotal);
-pageContext.setAttribute("MEETING_achievement_CURRENT", achievementCurrent);
-pageContext.setAttribute("MEETING_ATTENDANCE_TOTAL", attendanceTotal);
-pageContext.setAttribute("MEETING_ATTENDANCE_CURRENT", attendanceCurrent);
-*/
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
@@ -598,43 +567,40 @@ React.createElement(ActivityPlan),
 
 
     var CommentBox = React.createClass({displayName: "CommentBox",
-     loadCommentsFromServer: function( isFirst ) {
-        console.log("loading..");
+      loadCommentsFromServer: function( isFirst ) {
+console.log("loading..");
 
         this.dataWorker.getData();
+       
+        
       },
-
       forceReload: function() {
+console.log("forceREload..");
           this.dataWorker.getData(true);
       },
-
       getInitialState: function() {
+console.log("init");
         return {data: []};
       },
-      componentDidMount: function() {
+      componentDidMount: function() {	  
+console.log("commentDidMount..") ;	  
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
             this.setState({
                 data: data.yearPlan
-            });
+            });            
         }, 10000);
         this.dataWorker.start();
-        //this.loadCommentsFromServer(1);
-        //setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        //setInterval( this.checkLocalUpdate, 1000);
-
-
+        
       },
       checkLocalUpdate: function(){
+ console.log("checkLoaclUpdate...");   	  
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-
-
-
+  console.log("rendering...");  	  
           var x;
           var sched;
-
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
 
 
@@ -658,14 +624,8 @@ React.createElement(ActivityPlan),
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
 
-              x =  this.state.data.meetingEvents;//meetingCanceled;
+              x =  this.state.data.meetingEvents;
                   sched = this.state.data.schedule;
-
-                  /*
-                  if( this.state.data.locations!=null ){
-                      meetingLocation = this.state.data.locations[0];
-                  }
-                  */
                   locations= this.state.data.locations;
 
                   return (

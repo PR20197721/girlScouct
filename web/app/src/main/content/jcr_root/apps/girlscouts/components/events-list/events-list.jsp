@@ -8,7 +8,8 @@
             java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
             javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
             com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
-            org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset"%>
+            org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
+            java.util.ArrayDeque, java.util.Iterator"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -72,10 +73,10 @@
 					<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2">
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
-							Set<String> featureEvents = (HashSet) request.getAttribute("featureEvents");
+							ArrayDeque<String> featureEvents = (ArrayDeque) request.getAttribute("featureEvents");
 							Calendar cale =  Calendar.getInstance();
 							if (!featureEvents.isEmpty()) {
-								Iterator<String> itemUrl = featureEvents.iterator();
+								Iterator<String> itemUrl = featureEvents.descendingIterator();
 								Date currentDate = new Date();
 								while (itemUrl.hasNext()) {
 									Node node = resourceResolver.getResource(itemUrl.next()).adaptTo(Node.class);

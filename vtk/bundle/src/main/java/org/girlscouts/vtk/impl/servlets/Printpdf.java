@@ -42,12 +42,15 @@ import com.day.cq.commons.jcr.JcrUtil;
 
 
 
-@Component(label = "vtk upload tet", description = "vtk upload test", metatype = true, immediate = true)
+@Component(metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "pdf"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET") })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "pdf"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET"),
+        @Property(name="label", value="Girl Scouts VTK Print PDF Servlet"),
+        @Property(name="description", value="Girl Scouts VTK Print PDF Servlet")
+})
 public class Printpdf extends SlingSafeMethodsServlet {
 
 	@Reference

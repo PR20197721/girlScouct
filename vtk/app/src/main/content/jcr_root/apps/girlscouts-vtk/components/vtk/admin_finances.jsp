@@ -150,9 +150,4 @@
 
 	});
 </script>
-
-<!--
-
-//-->
-</script>
 <script>loadNav('financesadmin')</script>

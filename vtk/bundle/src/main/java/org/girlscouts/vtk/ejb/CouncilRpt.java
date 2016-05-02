@@ -232,10 +232,10 @@ public class CouncilRpt {
 		java.util.Map<String, String> container = new java.util.TreeMap<String, String>();
 		javax.jcr.Session s = null;
 		String sql = "select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) "
-				+ " where (isdescendantnode (parent, ['"
+				+ " where (isdescendantnode (parent, ["
 				+ VtkUtil.getYearPlanBase(null, null)
 				+ councilId
-				+ "/troops/']))  and "
+				+ "/troops/]))  and "
 				+ " parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"
 				+ yearPlanPath + "%'";
 		javax.jcr.query.QueryResult result = null;

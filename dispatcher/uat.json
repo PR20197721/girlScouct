@@ -1,0 +1,17 @@
+{
+	"authorRenderer": {
+		"ip": "10.1.29.43",
+		"hostname": "author-girlscouts-uat-aem61.adobecqms.net",
+		"alias": "author-uat.girlscouts.org"
+	},
+	"publishRenderer": {
+		"ip": "10.1.29.36",
+		"hostname": "girlscouts-uat-aem61.adobecqms.net"
+	},
+	"prefix": {
+		"www": "uat",
+		"prod": "uat",
+		"withDash": "-uat"
+	},
+	"dispatcherLogLevel": "3"
+}

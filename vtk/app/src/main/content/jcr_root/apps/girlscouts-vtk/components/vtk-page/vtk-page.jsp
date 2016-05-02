@@ -22,9 +22,25 @@
     
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);
-if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
-    org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
-	try{
+    
+  if (myUrl.trim().contains("/en/vtk.home.html") && session.getAttribute("fatalError")!=null)
+    	;
+    
+  else if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html") ){
+    
+	  org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+	    try{
+	        apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
+	            session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+	    } catch (ClassCastException exc) { 
+	        session.invalidate();
+	        apiConfig=null; 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+   /*
+    try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
 		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
 	} catch (ClassCastException exc) { 
@@ -33,9 +49,10 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 	} catch (Exception e) {
 		e.printStackTrace();
 	}
-	
-
+	*/
+    
 	if( apiConfig==null ){
+	 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
 	    // GSWS-190 Add refererCouncil
 	    String refererCouncil = request.getParameter("refererCouncil");
@@ -43,11 +60,26 @@ if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
 	        redirectTo = redirectTo + "&refererCouncil=" + refererCouncil;
 	    }
 
-	   
-	    		
+
 		response.sendRedirect(redirectTo);
-		return;
+		return;		
+		/*
+	} else if (apiConfig.isFail()) {
+		boolean thisIsHome = false;
+		for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
+			if ("home".equals(selectFragment)) {
+				thisIsHome = true;
+			}
+		}
+		if (!thisIsHome) {
+		    		// go to vtk.home.html w/ error message inside apiConfig.getErrorMessage()
+		}
+	} else {
+		   System.out.println("Unhandled ApiConfig State.");
+	   */
 	}
+   System.out.println("ApiConfig not null and not failed.");
+
 }
 
 	

@@ -2,7 +2,9 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
-public class YearPlanRpt implements Serializable {
+import org.apache.commons.collections4.Predicate;
+
+public class YearPlanRpt implements Serializable,  Predicate {
 
 	String council, troop, troopAge, troopName;
 
@@ -36,6 +38,11 @@ public class YearPlanRpt implements Serializable {
 
 	public void setTroopName(String troopName) {
 		this.troopName = troopName;
+	}
+
+	public boolean evaluate(Object arg0) {
+		return ((YearPlanRpt)arg0).getTroopAge().equals( this.getTroopAge() );
+		
 	}
 
 }

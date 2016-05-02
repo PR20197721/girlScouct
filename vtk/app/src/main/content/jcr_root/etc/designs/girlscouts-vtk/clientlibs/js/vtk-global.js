@@ -179,7 +179,6 @@ var VTKDataWorker;
     	this.that = that;
     	this.success = success;
     	this.interval = interval;
-    	
     	this.url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
     	this.shouldSkipFirst = _checkShouldSkipFirst();
     	this.eTag = null;
@@ -198,7 +197,7 @@ var VTKDataWorker;
         $.ajax({
             url: url,
             dataType: 'json',
-            success: function(data, textStatus, jqXHR){
+            success: function(data, textStatus, jqXHR){      	
                 var eTag = jqXHR.getResponseHeader("ETag");
                 if (eTag) {
                 	this.eTag = eTag;

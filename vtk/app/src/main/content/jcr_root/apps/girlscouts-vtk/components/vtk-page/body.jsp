@@ -41,6 +41,13 @@
    	// TODO: language
    	branch += "/en";
    	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
+   	System.err.println("***"+branch +" : "+ newCurrentPage); 
+   	
+   	if( newCurrentPage==null ){
+   		System.err.println("Error in body.jsp missing design for council: "+ branch);
+   		out.println("Missing council design on branch: "+ branch);
+   		return;
+   	}
    	
    	// Get design
 	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
@@ -140,4 +147,24 @@ if (thisFooterScript!= null) {
     out.println("");
 }
 %>
-	</body>
+
+
+
+    
+<script>
+  function chkFrame() {
+    try{ 
+    	var fr = document.getElementById("test4");
+    	if (fr.contentDocument.location){
+    		console.log("good. logged in.>>>>>>>");
+    	}
+    }catch(err){console.log( err ); doVtkLogout(); }
+  }
+  
+ function doAlex(){
+	  window.setTimeout(function(){chkFrame();}, 2000);
+ }
+</script>
+</body>
+	
+	

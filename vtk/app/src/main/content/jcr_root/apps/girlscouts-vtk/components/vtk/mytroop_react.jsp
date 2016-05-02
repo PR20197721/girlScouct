@@ -12,7 +12,8 @@
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
-
+		
+		
 		String emailTo=",";
 		try{
 			for(int i=0;i<contacts.size();i++)
@@ -27,7 +28,7 @@
 				emailTo= emailTo.substring(1, emailTo.length());
 			}
 		}catch(Exception e){e.printStackTrace();}
-		//if(true)return;
+		
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
 			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
@@ -36,12 +37,13 @@
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-//if(true)return;
+
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
 	
 		 
     
 	%> 
+	
 	<%@include file='myTroopImg.jsp' %>
 	
 	

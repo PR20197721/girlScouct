@@ -22,7 +22,6 @@
     }
     
     if( councilId==null || councilId.trim().equals("")){
-
         councilId = getCouncilCookie(request);
     }
 
@@ -37,22 +36,25 @@
     } 
  
     if( request.getParameter("isVtkLogin")!=null && request.getParameter("isVtkLogin").equals("true")){
-    
     	response.sendRedirect(configManager.getConfig("targetUrl"));
-    }else if( request.getParameter("isCommunityLogin")!=null && request.getParameter("isCommunityLogin").equals("true")){
-            
-            response.sendRedirect(configManager.getConfig("communityUrl"));
+    }else if( request.getParameter("isCommunityLogin")!=null && request.getParameter("isCommunityLogin").equals("true")){            
+        response.sendRedirect(configManager.getConfig("communityUrl"));
     }else{
         //String councilHomeUrl = configManager.getConfig("baseUrl") +  councilMapper.getCouncilUrl(councilId) +"en.html"; //baseUrl for local. no etc mapping
         String councilHomeUrl = "";
         try {
             Integer.parseInt(councilId);
+            
             councilHomeUrl = councilMapper.getCouncilUrl(councilId) +"en.html";
+            
         } catch (Exception e) {
             councilHomeUrl = resourceResolver.map("/content/" + councilId + "/en.html");
         }
-        response.sendRedirect(councilHomeUrl);
-    
+        if( councilHomeUrl!=null && councilHomeUrl.contains("uat.gswcf.org") ){
+        	
+        }else{
+                    response.sendRedirect(councilHomeUrl);
+        }
     	
     }
 

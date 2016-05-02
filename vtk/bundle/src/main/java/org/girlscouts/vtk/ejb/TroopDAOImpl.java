@@ -147,6 +147,7 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setRetrieveTime(new java.util.Date());
 
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
+			ec.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());
@@ -665,16 +666,17 @@ public class TroopDAOImpl implements TroopDAO {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException, VtkException {
-		
-System.err.println("tata updateTroop.....");
-	
-		modifyTroop(user, troop);
 
+		modifyTroop(user, troop);
+		System.err.println("caca updateTroop 2 " + new java.util.Date() );
 		if (troop.getYearPlan().getPath() == null
 				|| !troop.getYearPlan().getPath().startsWith(troop.getPath()))
 			troop.getYearPlan().setPath(troop.getPath() + "/yearPlan");
+		System.err.println("caca updateTroop 3 " + new java.util.Date() );
 		modifyYearPlan(user, troop);
+		System.err.println("caca updateTroop 4 " + new java.util.Date() );
 		modifySchedule(user, troop);
+		System.err.println("caca updateTroop 5 " + new java.util.Date() );
 
 		java.util.List<Location> locations = troop.getYearPlan().getLocations();
 		if (locations != null)
@@ -685,11 +687,12 @@ System.err.println("tata updateTroop.....");
 							+ "/locations/" + location.getUid());
 				modifyLocation(user, troop, locations.get(i));
 			}
+		System.err.println("caca updateTroop 6 " + new java.util.Date() );
 		if (troop.getYearPlan().getActivities() != null)
 			for (int i = 0; i < troop.getYearPlan().getActivities().size(); i++)
 				modifyActivity(user, troop, troop.getYearPlan().getActivities()
 						.get(i));
-
+		System.err.println("caca updateTroop 7 " + new java.util.Date() );
 		if (troop.getYearPlan().getMeetingEvents() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents()
@@ -700,7 +703,9 @@ System.err.println("tata updateTroop.....");
 								troop.getYearPlan().getPath()))
 					meeting.setPath(troop.getYearPlan().getPath()
 							+ "/meetingEvents/" + meeting.getUid());
+				System.err.println("caca updateTroop 7.1 " + new java.util.Date() );
 				modifyMeeting(user, troop, meeting);
+				System.err.println("caca updateTroop 7.2 " + new java.util.Date() );
 				java.util.List<Asset> assets = meeting.getAssets();
 				if (assets != null)
 					for (int y = 0; y < assets.size(); y++) {
@@ -708,10 +713,12 @@ System.err.println("tata updateTroop.....");
 						if (asset.getPath() == null)
 							asset.setPath(meeting.getPath() + "/assets/"
 									+ asset.getUid());
+						System.err.println("caca updateTroop 7.3 " + new java.util.Date() );
 						modifyAsset(user, troop, asset);
+						System.err.println("caca updateTroop 7.4 " + new java.util.Date() );
 					}
 			}
-
+		System.err.println("caca updateTroop 8 " + new java.util.Date() );
 		// canceled meeting
 		if (troop.getYearPlan().getMeetingCanceled() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingCanceled().size(); i++) {
@@ -734,6 +741,7 @@ System.err.println("tata updateTroop.....");
 						modifyAsset(user, troop, asset);
 					}
 			}
+		System.err.println("caca updateTroop 9 " + new java.util.Date() );
 
 		// modif
 		try {
@@ -742,6 +750,7 @@ System.err.println("tata updateTroop.....");
 		} catch (Exception em) {
 			em.printStackTrace();
 		}
+		System.err.println("caca updateTroop 10 " + new java.util.Date() );
 		return false;
 	}
 
@@ -825,117 +834,68 @@ System.err.println("tata updateTroop.....");
 
 		if (!meeting.isDbUpdate())
 			return true;
-
+System.err.println("caca modifMeeting 1 "+ new java.util.Date() );
 		Session mySession = null;
 		boolean isUpdated = false;
 		try {
 			mySession = sessionFactory.getSession();
 			
-			
+			System.err.println("caca modifMeeting 2 "+ new java.util.Date() );
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class );
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
-			
-			
-			
-			/*
-			String[] files = {
-				      "/Users/akobovich/allGit/girlscouts/vtk/alex.xml"
-				  };
-			//ObjectContentManager ocm = new ObjectContentManagerImpl(mySession, files);
-			Mapper mapper=new DigesterMapperImpl(files);  
-			ObjectContentManager ocm=new ObjectContentManagerImpl(mySession,mapper);  
-			*/
-			
-			
-			
-			
-			
+			System.err.println("caca modifMeeting 3 "+ new java.util.Date() );
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
 				// check council
+				System.err.println("caca modifMeeting 4 "+ new java.util.Date() );
 				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
 					throw new VtkException(
 							"Found no council when creating troop# "
 									+ troop.getTroopPath());
 				}
-
+				System.err.println("caca modifMeeting 5 "+ new java.util.Date() );
 				// check troop
 				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
 					throw new VtkException(
 							"Found no troop when creating sched# "
 									+ troop.getTroopPath());
 				}
-
+				System.err.println("caca modifMeeting 6 "+ new java.util.Date() );
 				if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
 					JcrUtils.getOrCreateByPath(troop.getPath()
 							+ "/yearPlan/meetingEvents", "nt:unstructured",
 							mySession);
 
 				}
-
+				System.err.println("caca modifMeeting 7 "+ new java.util.Date() );
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
 			
 			
 			
-			
-			/*
-			//meeting.getClass().getPackage().getName()
-			
-			System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[0].getName());
-			for(int y=0;y<meeting.getClass().getDeclaredFields().length;y++){
-				System.err.println(" testerx: "+ meeting.getClass().getDeclaredFields()[y].getName());
-				if("assets".equals(meeting.getClass().getDeclaredFields()[y].getName())){
-					try{ 
-						
-						
-						System.err.println(" testerxx: "+meeting.getClass().getDeclaredFields()[y].getAnnotations()[0]);
-						org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection collection = (org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection)meeting.getClass().getDeclaredFields()[y].getAnnotations()[0];
-						System.err.println( collection.collectionConverter() );
-					}catch(Exception e){e.printStackTrace();}
-				}
-			}
-			*/
+			System.err.println("caca modifMeeting 8 "+ new java.util.Date() );
 			
 			
-			System.err.println("YESSSS........"+ (ocm==null) +" : "+ meeting.getPath() +" : "+ meeting.getId() +" : "+ meeting.getUid());
 			
 			
-		
-	
 			if (!ocm.objectExists(meeting.getPath())) {
-	System.err.println("inserting...");		
-	
-				
+				System.err.println("caca modifMeeting 9 "+ new java.util.Date() );
 				ocm.insert(meeting);
+				System.err.println("caca modifMeeting 10 "+ new java.util.Date() );
 			} else {
-	System.err.println("Updating...");			
-/*
-	classes = new ArrayList<Class>();
-	classes.add(MeetingE1.class );
-	mapper = new AnnotationMapperImpl(classes);
-	ocm = new ObjectContentManagerImpl(mySession,	mapper);
-	
-    MeetingE1 asd= new MeetingE1(meeting);
-	ocm.update(asd);
-	
-	
-	*/
-	ocm.update(meeting);
+				System.err.println("caca modifMeeting 11 "+ new java.util.Date() );
+				ocm.update(meeting);
+				System.err.println("caca modifMeeting 12 "+ new java.util.Date() );
 			}
-	System.err.println("Saving...");		
+			System.err.println("caca modifMeeting 13 "+ new java.util.Date() );
 			ocm.save();
-System.err.println("Saved!");
-	
-
-
-
+			System.err.println("caca modifMeeting 14 "+ new java.util.Date() );
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
 			// org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:
@@ -958,7 +918,7 @@ System.err.println("Saved!");
 				es.printStackTrace();
 			}
 		}
-
+		System.err.println("caca modifMeeting 15 "+ new java.util.Date() );
 		return isUpdated;
 	}
 
@@ -1280,6 +1240,7 @@ System.err.println("Saved!");
 			}
 
 		} catch (VtkException ex) {
+			ex.printStackTrace();
 			throw new VtkException(
 					"Could not complete intended action due to a server error. Code: "
 							+ new java.util.Date().getTime());

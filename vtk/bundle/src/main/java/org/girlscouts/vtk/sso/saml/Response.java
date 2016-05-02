@@ -56,7 +56,7 @@ public class Response {
 		String decodedS = new String(decodedB);
 		
 
-
+System.err.println("Decoded resp: "+decodedS);
 	xmlDoc = Utils.loadXML(decodedS);
 
 		
@@ -65,33 +65,35 @@ public class Response {
 	
 	public boolean isValid(){
 		try{
-			
+		
+System.err.println("testB0");		
 			// Security Checks
 			rootElement = xmlDoc.getDocumentElement();		
 			assertions = xmlDoc.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");		
 			xmlDoc.getDocumentElement().normalize();
-			
+System.err.println("testB1");			
 			// Check SAML version			
 			if (!rootElement.getAttribute("Version").equals("2.0")) {
 				throw new Exception("Unsupported SAML Version.");
 			}
+			System.err.println("testB2");	
 			
 			// Check ID in the response	
 			if (!rootElement.hasAttribute("ID")) {
 				throw new Exception("Missing ID attribute on SAML Response.");
 			}
-			
+			System.err.println("testB3");	
 			checkStatus();
-						
+			System.err.println("testB4");	
 			if (assertions == null || assertions.getLength() != 1) {
 				throw new Exception("SAML Response must contain 1 Assertion.");
 			}
-	
+			System.err.println("testB5");	
 			NodeList nodes = xmlDoc.getElementsByTagNameNS("*", "Signature");
 			if (nodes == null || nodes.getLength() == 0) {
 				throw new Exception("Can't find signature in Document.");
 			}
-	
+			System.err.println("testB6");	
 			// Check destination
 			String destinationUrl = rootElement.getAttribute("Destination");
 			if (destinationUrl != null) {
@@ -99,7 +101,7 @@ public class Response {
 					throw new Exception("The response was received at " + currentUrl + " instead of " + destinationUrl);
 				}
 			}
-			
+			System.err.println("testB7");
 			// Check Audience 
 			NodeList nodeAudience = xmlDoc.getElementsByTagNameNS("*", "Audience");
 			String audienceUrl = nodeAudience.item(0).getChildNodes().item(0).getNodeValue();
@@ -110,7 +112,7 @@ public class Response {
 				}
 */
 			}
-			
+			System.err.println("testB8");
 			// Check SubjectConfirmation, at least one SubjectConfirmation must be valid
 			NodeList nodeSubConf = xmlDoc.getElementsByTagNameNS("*", "SubjectConfirmation");
 			boolean validSubjectConfirmation = true;
@@ -130,6 +132,7 @@ public class Response {
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
 
 							validSubjectConfirmation = false;
+							System.err.println("testB9");
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
 						if(notOnOrAfter != null){						
@@ -140,7 +143,7 @@ public class Response {
 							now.add(java.util.Calendar.MINUTE, -99);
 							
 							if(notOnOrAfterDate.before(now)){
-
+								System.err.println("testB10");
 								validSubjectConfirmation = false;
 							}
 						}
@@ -149,6 +152,7 @@ public class Response {
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
+								System.err.println("testb11");
 								validSubjectConfirmation = false;
 							}
 						}
@@ -164,12 +168,19 @@ public class Response {
 				tagIdAttributes(xmlDoc);
 			}
 	*/
+			System.err.println("testB12");
 			X509Certificate cert = certificate.getX509Cert();		
+			System.err.println("testB13");
 			DOMValidateContext ctx = new DOMValidateContext(cert.getPublicKey(), nodes.item(0));
-			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");		
+			System.err.println("testB14");
+			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");	
+			System.err.println("testB15");
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-			return xmlSignature.validate(ctx);
+			System.err.println("testB16 " + xmlSignature.validate(ctx));
+			return xmlSignature.validate(ctx); 
+			//return true;
 		}catch (Error e) {
+			e.printStackTrace();
 			error.append(e.getMessage());
 			return false;
 		}catch(Exception e){

@@ -24,11 +24,10 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
+import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.UserUtil;
+import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
@@ -37,9 +36,14 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.models.bean_resource;
 
 @Component(metatype = true, immediate = true)
 @Service(value = VtkUtil.class)
+@Properties ({
+        @Property(name="label", value="Girl Scouts VTK Utils"),
+        @Property(name="description", value="Girl Scouts VTK Utils")
+})
 public class VtkUtil  implements ConfigListener{
 	
 	@Reference
@@ -53,14 +57,11 @@ public class VtkUtil  implements ConfigListener{
 		gsNewYear = (String) configs.get("gsNewYear");
 		vtkHolidays= (String[]) configs.get("vtkHolidays");
 	}
-	
 
 	@Activate
 	public void init() {
 		configManager.register(this);
 	}
-	
-	//public void initMe(){configManager.register(this);}
 	
 	// do not use these objects explicitly as they are not thread safe
 	// use the two synchronized  parseDate and formatDate utility methods below
@@ -89,7 +90,6 @@ public class VtkUtil  implements ConfigListener{
 			}
 		}
 		return false;
-
 	}
 
 	public static double convertObjectToDouble(Object o) {
@@ -195,7 +195,6 @@ public class VtkUtil  implements ConfigListener{
     	Comparator<MeetingE> comp = new BeanComparator("id");
 		Collections.sort(meetings, comp);
 		return meetings;
-    	
     }
     
   public static final java.util.List<MeetingE> setToDbUpdate( java.util.List<MeetingE> meetings){
@@ -456,27 +455,44 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  return false;	
  }
  
- public static void logout(HttpServletRequest request, HttpServletResponse response){
-	 try{
-		 HttpSession session = request.getSession();
-	    session.putValue("VTK_troop",null);
-		session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
-		session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
-		session.putValue(org.girlscouts.vtk.models.User.class.getName(), null);
-				
-		
-		Cookie killMyCookie = new Cookie("girl-scout-name", null);
-		killMyCookie.setMaxAge(0);
-		killMyCookie.setPath("/");
-		response.addCookie(killMyCookie);
 
-	}catch(Exception e){e.printStackTrace();}
+ public static java.util.List<String> countResourseCategories( java.util.Collection<bean_resource> resources ) {
+	 java.util.List<String> categories = new java.util.ArrayList<String>();
+	 java.util.Iterator <bean_resource>itr = resources.iterator();
+	 while( itr.hasNext() ){
+		
+		 String resource_category = itr.next().getCategoryDisplay();
+		 if( !categories.contains(resource_category))
+			 categories.add(resource_category);
+	 }
+	 return categories;
  }
  
+ public static java.util.List<VtkError> getVtkErrors(HttpServletRequest request){
+	 java.util.List<VtkError> errors=new java.util.ArrayList<VtkError> (); 
+	 try{
+		 HttpSession session = request.getSession();
+		 if( session.getAttribute("fatalError")!=null ){
+	         org.girlscouts.vtk.ejb.VtkError err = null;
+	         try{ 
+	        	 err= (org.girlscouts.vtk.ejb.VtkError) session.getAttribute("fatalError");
+	         }catch(Exception e){
+	        	 e.printStackTrace();
+	         }
+	         if( err!=null )
+	        	 errors.add( err );
+		 }
+	   
+		 ApiConfig apiConfig= getApiConfig(session);
+		 if( apiConfig!=null && apiConfig.getErrors()!=null )
+	   		  errors.addAll(apiConfig.getErrors());
+	 }catch(Exception e){e.printStackTrace();}
+	 return errors;
+ }
  
-public static org.girlscouts.vtk.auth.models.ApiConfig getApiConfig( HttpSession session){
-	 
-	 org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+ public static ApiConfig getApiConfig( HttpSession session){
+	    org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+
 		try {
 			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
 				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
@@ -486,7 +502,35 @@ public static org.girlscouts.vtk.auth.models.ApiConfig getApiConfig( HttpSession
 		} catch (ClassCastException cce) {
 			return null;
 		} 
-		
-	 return apiConfig;
+
+	return apiConfig;
  }
+ 
+ 
+ public static void setVtkErrors(HttpServletRequest request, java.util.List<VtkError> errors){
+	try{
+		 HttpSession session = request.getSession();
+		 ApiConfig apiConfig= getApiConfig(session);
+		 if( apiConfig!=null && apiConfig.getErrors()!=null && errors!=null )
+	   		  apiConfig.setErrors( errors );
+	 }catch(Exception e){e.printStackTrace();}
+	 
+ }
+ 
+ public static void rmVtkError(HttpServletRequest request, String vtkErrId){
+		try{			
+			java.util.List<VtkError> errors =  getVtkErrors( request );
+			if( errors==null || errors.size()<=0 ) return;		
+			for(int i=0;i<errors.size();i++){	
+				VtkError  error = errors.get(i);
+				if( error!=null && error.getId()!=null && error.getId().equals(vtkErrId)){					
+					errors.remove(i);
+					ApiConfig apiConfig= getApiConfig(request.getSession());
+					apiConfig.setErrors( errors );
+					return;
+				}
+			}
+		}catch(Exception e){e.printStackTrace();}	 
+	 }
+
 }//end class

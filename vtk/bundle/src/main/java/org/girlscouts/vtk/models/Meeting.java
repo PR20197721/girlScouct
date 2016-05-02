@@ -9,6 +9,11 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node
 public class Meeting extends YearPlanComponent implements Serializable {
 
+	public Meeting() {
+		this.path = "/meeting";
+		this.position= 0;
+	}
+	
 	@Field(path = true)
 	String path;
 	@Field
@@ -76,9 +81,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.agenda = agenda;
 	}
 
-	public Meeting() {
-		this.path = "/meeting";
-	}
+	
 
 	public String getLevel() {
 		return level;
