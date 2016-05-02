@@ -20,7 +20,7 @@ description = "Saying Hello World everyday"
 @Properties({
 @Property(name = "service.description", value = "Girl Scouts DEM Demo Service for my dear Alex",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
-@Property( name = "scheduler.expression", label="scheduler.expression", value = "1 * * * * ?",description="cron expression"),
+@Property( name = "scheduler.expression", label="scheduler.expression", value = "0 4 * * * ?",description="cron expression"),
 //@Property(name = "scheduler.period", longValue=60),
 @Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 @Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true)
