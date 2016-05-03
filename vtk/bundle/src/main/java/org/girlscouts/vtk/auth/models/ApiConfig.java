@@ -223,6 +223,14 @@ public class ApiConfig implements Serializable {
 	public void setAccessTokenValid(boolean accessTokenValid) {
 		this.accessTokenValid = accessTokenValid;
 	}
+
+	public boolean isFail() {
+		return isFail;
+	}
+
+	public void setFail(boolean isFail) {
+		this.isFail = isFail;
+	}
 	
 
 }

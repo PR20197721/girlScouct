@@ -7,10 +7,5 @@ if [ -z $VERSION ]; then
     VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
 fi
 
-<<<<<<< HEAD
-curl -u "admin:@Q&W1iHzx(" -F file=@"app/target/girlscouts-vtk-app-$VERSION.zip" -F name="girlscoutsvtk-app" -F force=true -F install=true http://54.83.199.117:4502/crx/packmgr/service.jsp
-curl -u "admin:@Q&W1iHzx(" -F file=@"app/target/girlscouts-vtk-app-$VERSION.zip" -F name="girlscoutsvtk-app" -F force=true -F install=true http://54.83.199.118:4503/crx/packmgr/service.jsp
-=======
 curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://52.71.87.139:4502/crx/packmgr/service.jsp
 curl -u 'admin:e$Fz&rsBS.XZk$6F' -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://52.1.73.148:4503/crx/packmgr/service.jsp
->>>>>>> master61

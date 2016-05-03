@@ -15,6 +15,7 @@
     try{
          apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
+    
     if (apiConfig != null && !apiConfig.isFail()) {
 
 	    CouncilMapper mapper = sling.getService(CouncilMapper.class);
