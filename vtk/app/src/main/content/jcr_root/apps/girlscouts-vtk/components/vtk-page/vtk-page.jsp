@@ -10,7 +10,7 @@ System.err.println("isDemo chk: "+ request.getParameter("useAsDemo"));
     if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){
     		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
     }else{
-    	  //  session.removeAttribute("useAsDemo");
+    	    session.removeAttribute("useAsDemo");
     }
 System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+  request.getParameter("useAsDemo")  ); 
   
