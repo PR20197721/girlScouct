@@ -77,6 +77,7 @@
   margin-bottom: 10px;
   width: 100%;
   display: table;
+  text-align: center;
 }
 /* line 66, vtk-demo.scss */
 .vtk-header-box a {
@@ -102,7 +103,7 @@
   font-size: 13px;
 }
 /* line 86, vtk-demo.scss */
-.vtk-demo-card ul {
+.vtk-demo-card > ul {
   list-style-type: circle !important;
   font-size: 13px;
   padding-left: 15px;
@@ -240,7 +241,7 @@
 
 .vtk-demo-dropdown_options{
   position:absolute;
-  list-style: none;
+  list-style: none !important;
   margin:0;
   padding: 0;
   background-color: white;
@@ -249,12 +250,14 @@
          border:1px solid #009447 !important;
          z-index:10 !important;
          display: none;
+         width: inherit;
+         overflow: auto;
 }
 
 .vtk-demo-dropdown_options li{
     font-size: 12px !important;
       padding: 5px 15px !important;
-        width:198px;
+        width:inherit;
   text-align: left !important;
   font-weight: bold;
   background-color: white;

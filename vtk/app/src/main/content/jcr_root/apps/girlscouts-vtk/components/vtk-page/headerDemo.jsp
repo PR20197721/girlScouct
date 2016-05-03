@@ -47,7 +47,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             
                         </li>
                         <li>
-                            <a class="button tiny" style="background-color:white; color:#009447; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
+                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
                         </li>
                     </ul>
                   </div>
@@ -55,70 +55,32 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                    <div id="vtk-dropdown-1" class="vtk-demo-dropdown" data-input-name="value1" style="float: right; clear: both;">
                       <div class="vtk-demo-dropdown_main"><div class="selected-option">GIRL SCOUT GRADE LEVELS </div>
-                       <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;">
+                       <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px; font-size:14px">
                        </span>
                        </div>
-                       <!-- 
+
                         <ul class="vtk-demo-dropdown_options" >
                           <li data-value="">-----</li>
-                          <li data-value="1-Daisy">DAISY <span>grades k-1</span></li>
-                          <li data-value="2-Brownie">BROWNIE <span>grades 2-3</span></li>
-                          <li data-value="3-Junior">JUNIOR <span>grades 4-5</span></li>
-                          <li data-value="4-Cadette">CADETTE <span>grades 6-8</span></li>
-                          <li data-value="5-Senior">SENIOR <span>grades 9-10</span></li>
-                          <li data-value="6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+
+                          <% if( isDp ){%>
+                              <li data-value="content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Laura&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                          <% }else{%>
+
+                          <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Eliza&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Layla&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Brianna&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Alexandra&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                                                     <% }%>
+
+
                         </ul>
-                        
-<select id="reloginid" onchange="relogin()">   
- <option value="" SELECTED>select grade</option>                
- <option value="1-Daisy">DAISY grades k-1</option>
-
- <option value="2-Brownie">BROWNIE grades 2-3</option>
-
- <option value="3-Junior">JUNIOR grades 4-5</option>
-
- <option value="4-Cadette">CADETTE grades 6-8</option>
-
-<option value="5-Senior">SENIOR  grades 9-10</option>
-
-<option value="6-Ambassador">AMBASSADOR grades 11-12</option>
- </select>                       
-                     -->   
-                     
-                     <select id="vtk_demo_troop" onchange="goToUrl('vtk_demo_troop')">   
-                        <option value="">select grade</option>
-                        <% if( isDp ){%>
-                        	   
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
-					
-					            
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
-					
-					
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-					
-					
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-					
-					
-					
-					           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
-					 
-					              
-                           <% }else{%>
-                        	   
-                        	   <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
-								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
-								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
-								 <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-								<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
-                        	   
-                        	   
-                          <% }%>
-                   
-                     </select>
                      
                   </div>
                </div> 
@@ -167,6 +129,8 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                     // (Css Selector)
                     function dropDown(selector,callbackObject){
 
+
+
                         //Create a dropDown usisng the estructure below pas the selector, callbackObject if you want to execute a function
 
                         // component sample
@@ -196,11 +160,25 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                         //Toggle the Options box
                         function toggle(){
+                            // var grab = $element.children('.vtk-demo-dropdown_options');
+
+                            if($element.offset().top + $element.children('.vtk-demo-dropdown_options').height() > $(window).height()){
+                                
+                                var hei =  $(window).height()-$element.offset().top+$(window).scrollTop();
+                                    if(hei >203){ 
+                                        hei = 203;
+                                    }
+                                $element.children('.vtk-demo-dropdown_options').css('height',hei);
+                            }
+
+                            $('.vtk-demo-dropdown').not('#'+$element.attr('id')).children('.vtk-demo-dropdown_options').hide();
                             $element.children('.vtk-demo-dropdown_options').toggle();
                         }
 
                         //add event listinert to the Icon
-                        $element.children('.vtk-demo-dropdown_main').children('.icon-arrow-down3').click(toggle);
+                        $element.children('.vtk-demo-dropdown_main').children('.icon-arrow-down3').click(function(e){
+                            toggle();
+                        });
 
                         //add event listener to li inside options
                         $element.children('.vtk-demo-dropdown_options').children('li').click(function(){
@@ -208,10 +186,13 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             var value = $(this).data('value');
 
                             if(callbackObject){
-                                if(callbackObject[value]){
-                                    console.log( callbackObject[value]);
-                                    callbackObject[value]();
-                                }                                
+                                if(callbackObject.local){
+                                     window.location.assign(window.location.host + value);
+                                }else{
+                                    if(callbackObject[value]){
+                                        callbackObject[value]();
+                                    }
+                                }
                             }else{
                                 if($('input[name='+inputName+']')){
                                     $('input[name='+inputName+']').attr('value',value);
@@ -227,6 +208,21 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                            $element.children('.vtk-demo-dropdown_main').children('.selected-option').html(option);
                            toggle();
                         });
+
+
+
+
+
+                        $(document).keydown(function(e){
+
+                            var key  = e.keyCode;
+
+                            if(key == 27){
+                                 $('.vtk-demo-dropdown').children('.vtk-demo-dropdown_options').hide();
+                            }
+
+                        });
+
                     } 
 
                     return {
@@ -235,7 +231,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                 })();
 
                 //sample
-                gsusa.component.dropDown('#vtk-dropdown-1',{'1':function(){console.log(1)},'2':function(){console.log(2)}});
+                gsusa.component.dropDown('#vtk-dropdown-1',{local:true});
             </script>
 
             <!-- //Mobile -->
@@ -329,11 +325,3 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
     </div>
 </div>
 
-<script>
-function goToUrl(elem){
-    var e = document.getElementById(elem);
-    var _url = e.options[e.selectedIndex].value;
-   // alert( _url );
-    self.location= _url;
-}
-</script>
