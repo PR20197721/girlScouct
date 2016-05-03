@@ -19,7 +19,7 @@
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
         session.setAttribute("demoSiteUser", true);
-        %><script>self.location="/content/girlscouts-demo/en.html"</script><%
+        %><script>self.location="/content/girlscouts-demo/en.html?"</script><%
 
     }else{
         %><%@include file="content.jsp" %><%
