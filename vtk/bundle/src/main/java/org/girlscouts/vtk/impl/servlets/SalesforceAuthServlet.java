@@ -570,6 +570,16 @@ System.err.println("test17");
 		config.setVtkApiContactUri(vtkApiContactUri);
 		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
 		
+		
+		
+		boolean useAsDemo = false;
+		if( session.getAttribute("useAsDemo") !=null ){
+			useAsDemo=true;
+		}
+System.err.println("tata is demo : "+  useAsDemo);
+		config.setUseAsDemo( useAsDemo );
+		
+		
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
 		try {

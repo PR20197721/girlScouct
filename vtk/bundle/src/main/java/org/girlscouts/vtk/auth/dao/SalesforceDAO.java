@@ -164,7 +164,7 @@ System.err.println("tata00: "+ apiConfig.getTroops().size() );
 						user.setName(json.getString("FirstName"));
 						user.setFirstName(user.getName());
 						
-						
+System.err.println("Salesforce user isDemo: "+ apiConfig.isUseAsDemo());						
 						if(apiConfig.isUseAsDemo() ){
 							//writeToFile("/Users/akobovich/vtk/vtkUser_"+apiConfig.getUser().getName()+".json" , rsp);
 							writeToFile(vtkDemoPath +"/vtkUser_"+user.getName()+".json" , rsp);
