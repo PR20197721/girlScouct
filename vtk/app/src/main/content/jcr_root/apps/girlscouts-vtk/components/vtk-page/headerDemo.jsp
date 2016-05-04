@@ -49,6 +49,9 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                         <li>
                             <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
                         </li>
+                         <li style=" margin-left: 10px">
+                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="#">Log Out</a>
+                        </li>
                     </ul>
                   </div>
 
@@ -63,7 +66,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                           <li data-value="">-----</li>
 
                           <% if( isDp ){%>
-                              <li data-value="content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>

@@ -83,7 +83,7 @@ if( session== null || session.getAttribute("demoSiteUser")==null){ %>
             
             <div class="vtk-demo-form-input">
               <input class="button tiny" type="submit" value="LOG IN" name="login"/>
-              <a class="vtk-forgot-link" href="#">Forgot password</a>
+              <!-- <a class="vtk-forgot-link" href="#">Forgot password</a> -->
             </div>
        
         </form>
