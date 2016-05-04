@@ -390,7 +390,38 @@ System.err.println("tata002 : "+ apiConfig.getTroops().size() );
 				int statusCode = resp.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK) {
 					System.err.println("Method failed: " + resp.getStatusLine());
+					
+					try{
+
+						  VtkError err= new VtkError();
+
+						  err.setName("Found error(s) while getting Contacts ");
+
+						  err.setDescription("Error int SalesForceDAO.getContacts-: found error in response json from Salesforce. Exception sf response code: " +statusCode);
+
+						  err.setUserFormattedMsg("There appears to be an error in retrieving troop contacts.  Please notify support with error code VTK-" + sfTroopId + ".  Meanwhile, the application should still function correctly.");
+
+						  err.setErrorCode("VTK-"+ sfTroopId);
+
+						  errors.add(err);
+
+						 
+
+						  if( errors!=null && errors.size()>0 ){
+
+						apiConfig.setErrors(errors);
+
+						  }
+
+						 
+
+						  }catch(Exception e){e.printStackTrace();}
+
+						return contacts;
+
+						
 				}
+				apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
 				HttpEntity entity = null;
 			
 				try {
@@ -423,7 +454,32 @@ System.err.println("tata002 : "+ apiConfig.getTroops().size() );
 				log.debug("<<<<<Apex contacts reponse: " + response);
 System.err.println("RESP CONTACT 1: " + response);		
 
+
+java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
+
+JSONArray results1 = response.getJSONObject("records").getJSONArray("lstCM");
+
+for (int i = 0; i < results1.length(); i++) {
+
+try {
+
+try {
+
+renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
+
+} catch (Exception e) {
+
+}
+
+}catch(Exception ex){ex.printStackTrace();}
+
+}//edn for
+
+
+
+/*
 				JSONArray results = response.getJSONArray("records");
+				
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					Contact contact = new Contact();
@@ -559,12 +615,7 @@ System.err.println("RESP CONTACT 1: " + response);
 									.getString("Id"));
 						} catch (Exception e) {
 						}
-						/*
-						 * try{contactSub.setAccountId(results.getJSONObject(i)
-						 * .getJSONObject("Account").getString("Id"));
-						 * 
-						 * }catch(Exception e){}
-						 */
+						
 
 						contactSub.setType(1);// caregiver
 						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
@@ -574,7 +625,336 @@ System.err.println("RESP CONTACT 1: " + response);
 						e.printStackTrace();
 					}
 					contacts.add(contact);
+				}//edn for
+				*/
+
+JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
+				for (int i = 0; i < results.length(); i++) {
+
+				log.debug("_____ " + results.get(i));
+
+				Contact contact = new Contact();
+
+				try {
+
+				try {
+
+				contact.setFirstName(results.getJSONObject(i)
+
+				.getString("Name"));
+
+				} catch (Exception e) {
+
 				}
+
+
+
+				try {
+
+				contact.setEmail(results.getJSONObject(i)
+
+				.getString("Email"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setPhone(results.getJSONObject(i)
+
+				.getString("Phone"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setId(results.getJSONObject(i).getString(
+
+				"Id"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setAddress(results.getJSONObject(i)
+
+				.getString("MailingStreet"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setCity(results.getJSONObject(i).getString(
+
+				"MailingCity"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setState(results.getJSONObject(i)
+
+				.getString("MailingState"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setState(results.getJSONObject(i)
+
+				.getString("MailingPostalCode"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setCountry(results.getJSONObject(i)
+
+				.getString("MailingCountry"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setZip(results.getJSONObject(i).getString(
+
+				"MailingPostalCode"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setAge(results.getJSONObject(i).getInt(
+
+				"rC_Bios__Age__c"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setDob(results.getJSONObject(i).getString(
+
+				"Birthdate"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setRole(results.getJSONObject(i).getString(
+
+				"rC_Bios__Role__c"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setAccountId(results.getJSONObject(i)
+
+				.getString("AccountId"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contact.setContactId(results.getJSONObject(i)
+
+				.getString("Id"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				//renewal
+
+				try {
+
+				Boolean isRenewal = renewals.get( contact.getId() );
+
+				contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				contact.setType(0);
+
+				Contact contactSub = new Contact();
+
+				try {
+
+				contactSub.setEmail(results
+
+				.getJSONObject(i)
+
+				.getJSONObject("Account")
+
+				.getJSONObject(
+
+				"rC_Bios__Preferred_Contact__r")
+
+				.getString("Email"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contactSub.setFirstName(results
+
+				.getJSONObject(i)
+
+				.getJSONObject("Account")
+
+				.getJSONObject(
+
+				"rC_Bios__Preferred_Contact__r")
+
+				.getString("FirstName"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contactSub.setLastName(results
+
+				.getJSONObject(i)
+
+				.getJSONObject("Account")
+
+				.getJSONObject(
+
+				"rC_Bios__Preferred_Contact__r")
+
+				.getString("LastName"));
+
+				} catch (Exception e) {
+
+				}
+
+
+
+				try {
+
+				contactSub.setContactId(results
+
+				.getJSONObject(i)
+
+				.getJSONObject("Account")
+
+				.getJSONObject(
+
+				"rC_Bios__Preferred_Contact__r")
+
+				.getString("Id"));
+
+				} catch (Exception e) {
+
+				}
+
+				/*
+
+				* try{contactSub.setAccountId(results.getJSONObject(i)
+
+				* .getJSONObject("Account").getString("Id"));
+
+				* 
+
+				* }catch(Exception e){}
+
+				*/
+
+
+
+				contactSub.setType(1);// caregiver
+
+				java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
+
+				contactsSub.add(contactSub);
+
+				contact.setContacts(contactsSub);
+
+				} catch (Exception e) {
+
+				e.printStackTrace();
+
+				}
+
+				contacts.add(contact);
+
+				}
+
+
+				
+				
+				
+				
+				
+				
+				
+				
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
