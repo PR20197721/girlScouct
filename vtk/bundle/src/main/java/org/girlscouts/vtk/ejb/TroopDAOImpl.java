@@ -146,6 +146,33 @@ public class TroopDAOImpl implements TroopDAO {
 			if (troop != null)
 				troop.setRetrieveTime(new java.util.Date());
 
+try{
+	if( user.getApiConfig().isDemoUser() && user.getApiConfig().getTroops().get(0).getRole().equals("PA")){
+		
+		String DATES="";
+		
+		java.util.Calendar startDate = java.util.Calendar.getInstance();
+		startDate.setTime( new java.util.Date("4/1/2016") );
+		
+		Cal cal = troop.getYearPlan().getSchedule();
+		if( cal ==null ) cal= new org.girlscouts.vtk.models.Cal();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+	
+		for(int i=0;i<meetings.size();i++){
+			startDate.add( java.util.Calendar.DATE, 7);
+			DATES += startDate.getTime().getTime() + ",";
+		}
+		
+		cal.setDates(DATES);
+		
+		YearPlan yPlan= troop.getYearPlan();
+		yPlan.setSchedule(cal);
+		troop.setYearPlan(yPlan);
+	}
+}catch(Exception e){e.printStackTrace();}
+			
+
+
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
 			ec.printStackTrace();
 			throw new VtkException(

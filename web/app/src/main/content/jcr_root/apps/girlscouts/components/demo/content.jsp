@@ -1,4 +1,6 @@
 
+
+
 <script>
 function checkAgeGroup( _url, ageGroupElem){
 	
@@ -60,9 +62,9 @@ if( session== null || session.getAttribute("demoSiteUser")==null){ %>
         </div>
 
 
-        <div class="div-demo-form-message" style="display:none;">
+        <div class="div-demo-form-message" style="display:<%=request.getParameter("err") == null ? "none;" : request.getParameter("err") %>">
           <div data-alert class="alert-box alert ">
-                This is a warning alert that is rounded.
+                 <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
           </div>
         </div>
   
