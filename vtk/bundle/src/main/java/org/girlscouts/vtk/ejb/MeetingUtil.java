@@ -257,6 +257,7 @@ public class MeetingUtil {
 			if (plan.getSchedule() != null) {
 
 				String calMeeting = plan.getSchedule().getDates();
+	System.err.println("tata: cal : "+ calMeeting );			
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {

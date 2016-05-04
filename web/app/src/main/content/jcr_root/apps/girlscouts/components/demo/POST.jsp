@@ -15,7 +15,6 @@
 	letmein.add("VTKDemo110");
 	letmein.add("VTKDemo441");
 	letmein.add("VTKDemo1000");
-       System.err.println("tata demo: "+request.getParameter("p") +" : "+ letmein.contains( request.getParameter("p") ) );
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
         session.setAttribute("demoSiteUser", true);
