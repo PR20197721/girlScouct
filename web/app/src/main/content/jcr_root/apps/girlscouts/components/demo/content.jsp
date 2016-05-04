@@ -161,9 +161,9 @@ function xyz(slc){
     <!-- / Selected -->
 
     <div class="vtk-demo-wrap-top row">
-        <div class="columns small-24 end">
-                Plan quickly. Save Time. Stay Organized.<br>
-                Everyone benefits when they know how to use the volunteer Toolkit.
+        <div class="columns small-push-2 small-20 end">
+                Plan quickly. Save time. Stay organized.<br>
+                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo enviroment using any device - desktop, laptop, smart phone or tablet</p>
         </div>
     </div>
   <!-- / info -->
@@ -224,80 +224,120 @@ function xyz(slc){
                       String user= (String) _itr.next();
                       
                       if( container.get(user).equals("Admin")){%>
-                         <div class="vtk-demo-card columns  small-24  medium-8 end">
-                          <div class="vtk-header-box">
-                            <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
-                          </div>
-                    
-                          <p>Material and aids are organized to help everyone work together:</p>
-                          <ul>
-                            <li>Upload materials to support the troop Leaders.</li>
-                            <li>Report in troop finances.</li>
-                            <li>Stay organized across troops.</li>
-                          </ul>
-                         </div>
+                             <div class="vtk-demo-card columns  small-24  medium-8 end">
+                              <div class="vtk-header-box">
+                                <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
+                              </div>
+                        
+                              <p>Material and aids are organized to help everyone work together:</p>
+                              <ul>
+                                <li>Upload materials to support the troop Leaders.</li>
+                                <li>Report in troop finances.</li>
+                                <li>Stay organized across troops.</li>
+                              </ul>
+                             </div>
                   
                       <%  }else if( container.get(user).equals("PA")){ %>
-                                   <div class="vtk-demo-card columns  small-24  medium-8 end">
+                                   <div class="vtk-demo-card columns  small-24  medium-push-2 medium-10 end">
                                       <div class="vtk-header-box">
-                                        <a href="javascript:void(0)" onclick="return goToUrl('age_group_parent')">Parents <span class="float-right icon-button-arrow-right"></a>
+                                        <a href="javascript:void(0)" onclick="return goToUrl('age_group_parent')">Parents </a>
                                       </div>
-                                      <p>Check in on the troop and see what your girl needs for meetings:</p>
+                                      <p>Key Features:</p>
                                       <ul>
-                                        <li>View troop plans (easy-to use calendar)</li>
-                                        <li>Stay In touch with the troop leader and volunteers.</li>
-                                        <li>Find ways to help the troop.</li>
+                                        <li>View troop plans and content (read only)</li>
+                                        <li>See your girl's achievements.</li>
+                                        <li>Review your contact information.</li>
+                                        <li>Download meeting aids and resources.</li>
                                       </ul>
-                                     
-                                     <select  id="age_group_parent">   
-                     <option value="">select grade</option>
- <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
- <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
- <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
- <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
- </select>    
- 
-                                  </div>
+                                      <br />
+                                       <p style="margin-top:4px;font-weight:bold; font-size:14px;">Start the demo by selecting a grade level</p>
+
+                                      <div id="vtk-dropdown-2" class="vtk-demo-dropdown" data-input-name="value1" style="width:100%">
+                                          <div class="vtk-demo-dropdown_main"><div class="selected-option">GIRL SCOUT GRADE LEVELS </div>
+                                             <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
+                                         </div>
+                                          <ul class="vtk-demo-dropdown_options">
+                                            <li data-value="">-----</li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                                          </ul>
+                                      </div>
+
+
+
+
+           <!--                            <select  id="age_group_parent">   
+                                          <option value="">select grade</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+                                      </select>    -->
+                                   </div>
                                   <!-- / Parents -->
                       <%  }else if( container.get(user).equals("DP")){ %>
-                                <div class="vtk-demo-card columns small-24 medium-8 end">
+                                  <div class="vtk-demo-card columns small-24 medium-push-2 medium-10">
                                         <div class="vtk-header-box">
-                                          <a href="javascript:void(0)" onclick="return goToUrl('age_group_dp')">Troop Leader <span class="float-right icon-button-arrow-right"></a>
+                                          <a href="javascript:void(0)" onclick="return goToUrl('age_group_dp')">Troop Leader</a>
                                         </div>
                                 
-                                        <p>Everything ready, right at your fingertips to save time:</p>
+                                        <p>Key Features:</p>
                                         <ul>
-                                          <li>Pre-populated plans.</li>
-                                          <li>Add you own activities.</li>
-                                          <li>See your troop roster.</li>
-                                          <li>Track girls achievements and attendance.</li>
+                                          <li>Pre-populated Year Plans with meeting content.</li>
+                                          <li>Add you own troop activities our council event.</li>
+                                          <li>View your troop roster.</li>
+                                          <li>Email meeting reminders to parents.</li>
+                                          <li>Track girls' attendance and achievements.</li>
                                         </ul>
-                                  <select id="age_group_dp">   
-                    <option value="">select grade</option>
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
-
- 
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
 
 
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-
-
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+                                         <p style="font-weight:bold; font-size:14px;">Start the demo by selecting a grade level</p>
 
 
 
-<option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+                                        <div id="vtk-dropdown-3" class="vtk-demo-dropdown" data-input-name="value1" style="width:100%">
+                                          <div class="vtk-demo-dropdown_main"><div class="selected-option">GIRL SCOUT GRADE LEVELS </div>
+                                             <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
+                                         </div>
+                                          <ul class="vtk-demo-dropdown_options">
+                                            <li data-value="">-----</li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                                          </ul>
+                                      </div>
 
- </select>    
-                                  
+
+                                         <!-- <select id="age_group_dp">   
+                                            <option value="">select grade</option>
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
+
+                                             
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
+
+
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
+
+
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
+
+
+
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
+
+                                           </select>     -->
                                   </div>
-                                       
-                                  <!-- / Troop Leader -->
-                                  <% 
+                                  <!-- / Troop Leader -->    <% 
                       }//end else
                       
                   }//edn while
@@ -309,7 +349,7 @@ function xyz(slc){
 
     <div class="row">
         <div class="vtk-bottom-frase columns small-24">
-            > See for yourself! Phone, Tablet or Desktop, select a role and experience how easy troop planning can be.
+           <!--   See for yourself! Phone, Tablet or Desktop, select a role and experience how easy troop planning can be. -->
         </div>
     </div>
 
@@ -321,6 +361,9 @@ function xyz(slc){
 <div class="table-action-button">
   <a href="?showTroopPermDetails=ad&showDetails=true">show permission details</a> <br/><a href="/content/girlscouts-vtk/en/vtk.html?useAsDemo=true&showDetails=true">Add/Update User</a>
 </div>
+
+
+
 
 
 <table align="center">
@@ -444,7 +487,9 @@ if( listOfFiles!=null )
     $(function(){
       $(document).foundation();
       $('#myModal-demo').foundation('reveal', 'open');
-    })();
+      gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
+      gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
+    });
 
 </script>
 
