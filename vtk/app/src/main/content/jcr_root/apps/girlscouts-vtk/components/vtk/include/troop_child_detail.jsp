@@ -81,17 +81,24 @@
             
             <% 
              
-             if( apiConfig!=null && troop.getTroop().getRole().equals("PA") ){
+             if(  apiConfig!=null && !apiConfig.isDemoUser() ){
+              if( troop.getTroop().getRole().equals("PA")  ){
                %>
 	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
 	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 	       
-	        }else{
+	          }else{
 	        	%>
                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
                 <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 
-	        }
+	          }
+             }else{
+            	 %>
+            	 <a href="javascript:void(0)" class="button" disabled=true>RENEW NOW</a>
+                 <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
+                <% 
+             }
 	        %>
 	        </div> 
         </li>                        

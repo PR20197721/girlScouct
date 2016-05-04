@@ -35,7 +35,6 @@
           <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
         </dt>  
         
-        ****
                     <%@include file='troop_child_detail.jsp' %>
         
       </dl>
