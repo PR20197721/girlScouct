@@ -5,12 +5,15 @@
    String isDemoSite= configManager.getConfig("isDemoSite");
 //System.err.println("IsDemoSite: " + isDemoSite);  
 
+
+System.err.println("isDemo chk: "+ request.getParameter("useAsDemo"));
     if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){
     		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
     }else{
     	    session.removeAttribute("useAsDemo");
     }
-    
+System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+  request.getParameter("useAsDemo")  ); 
+  
     String myUrl = request.getRequestURL().toString();
        
     if(  myUrl.trim().contains("vtk.demo.index.html") ) {

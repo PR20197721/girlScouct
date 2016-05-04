@@ -445,6 +445,21 @@ System.err.println("test17");
 					config.setVtkApiContactUri(vtkApiContactUri);
 					config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
 					config.setAccessTokenValid(true);
+					
+					
+
+					
+					
+					boolean useAsDemo = false;
+					if( session.getAttribute("useAsDemo") !=null ){
+						useAsDemo=true;
+					}
+			System.err.println("tata is demo : "+  useAsDemo);
+					config.setUseAsDemo( useAsDemo );
+					
+					
+					
+					
 			System.err.println("test28");		
 					session.setAttribute(ApiConfig.class.getName(), config);
 			System.err.println("test29");		
@@ -569,6 +584,7 @@ System.err.println("test17");
 		config.setVtkApiUserUri( vtkApiUserUri );
 		config.setVtkApiContactUri(vtkApiContactUri);
 		config.setVtkApiTroopLeadersUri(vtkApiTroopLeadersUri);
+		
 		
 		session.setAttribute(ApiConfig.class.getName(), config);
 		User user = null;
