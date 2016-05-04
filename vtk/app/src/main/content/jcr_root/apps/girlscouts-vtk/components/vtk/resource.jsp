@@ -69,7 +69,7 @@
 
 
 	<div class="columns large-20 large-centered" style="overflow:hidden;">
-<a style="border:0; z-index: 100000000; position: absolute;height: 911px;width: 100%;" data-reveal-id="modal_popup_activity_MOTHERFIDE"></a>
+<!-- a style="border:0; z-index: 100000000; position: absolute;height: 911px;width: 100%;" data-reveal-id="modal_popup_activity_MOTHERFIDE"></a -->
 		<script>
 			var fixVerticalSizing = false;
 			$(function() {

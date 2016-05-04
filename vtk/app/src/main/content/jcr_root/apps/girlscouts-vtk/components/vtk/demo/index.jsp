@@ -72,11 +72,13 @@ System.err.println("tataDD: "+ apiConfig.getTroops().size() );
      }
 	    	
     java.util.Set perms = troop.getPermissionTokens();
+    
     perms.remove(304); //edit troop photo
     perms.remove(631); //PERMISSION_SEND_EMAIL_MT_ID
     perms.remove(641); //PERMISSION_SEND_EMAIL_act_ID
     perms.remove(642); //email all parents
    System.err.println("tata perms: "+ perms); 
+    
     troop.setPermissionTokens(perms);
     System.err.println("tata perms after: "+ troop.getPermissionTokens()); 
 	

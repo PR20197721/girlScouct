@@ -1,6 +1,7 @@
 <div class="row">
   <div class="column large-20 large-centered">
     <% 
+    
     if( contacts!=null)
     	 for(int i=0; i<contacts.size(); i++) { 
   
@@ -34,7 +35,7 @@
           <span class="column large-4"><%=contact.getPhone() ==null ? "" : contact.getPhone()%></span>
         </dt>  
         
-        
+        ****
                     <%@include file='troop_child_detail.jsp' %>
         
       </dl>

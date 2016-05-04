@@ -631,21 +631,21 @@ renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSO
 JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				for (int i = 0; i < results.length(); i++) {
 
-				log.debug("_____ " + results.get(i));
+				log.debug("___lstCon__ " + results.get(i));
 
 				Contact contact = new Contact();
 
 				try {
 
-				try {
-
-				contact.setFirstName(results.getJSONObject(i)
-
-				.getString("Name"));
-
-				} catch (Exception e) {
-
-				}
+					try {
+	
+					contact.setFirstName(results.getJSONObject(i)
+	
+					.getString("Name"));
+	System.err.println("Contact : "+ contact.getFirstName() );
+					} catch (Exception e) {
+	
+					}
 
 
 
@@ -829,7 +829,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
-
+System.err.println("renewal: "+ contact.isRenewalDue());
 
 				contact.setType(0);
 
@@ -848,7 +848,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				"rC_Bios__Preferred_Contact__r")
 
 				.getString("Email"));
-
+System.err.println("sub Email : "+ contactSub.getEmail());
 				} catch (Exception e) {
 
 				}
@@ -951,7 +951,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				
 				
 				
-				
+System.err.println("contacts size: "+ contacts.size() );
 				
 				
 				
