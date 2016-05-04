@@ -160,7 +160,7 @@
       float: left;
     font-size: 20px;
     font-weight: lighter;
-    /*margin-top: 20px;*/
+    margin-top: 50px;
 }
 
 
@@ -246,12 +246,14 @@
   padding: 0;
   background-color: white;
           top:22px;
-        left: -1px;
+        left: 0px;
          border:1px solid #009447 !important;
          z-index:10 !important;
          display: none;
          width: inherit;
-         overflow: auto;
+
+         overflow-y: auto;
+         overflow-x: hidden;
 }
 
 .vtk-demo-dropdown_options li{

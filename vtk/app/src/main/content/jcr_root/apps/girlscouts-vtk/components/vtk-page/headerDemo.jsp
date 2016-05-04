@@ -28,7 +28,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                     <nav class="column large-24 medium-24">
                         <link type="text/css" rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/_demo.css">
                         <div class="vtk-demo-logo" style="width:188,height:73">
-                            <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png" alt="Home" id="logoImg">
+                            <!-- <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png" alt="Home" id="logoImg"> -->
                             <a href="/content/gssjc/en.html">
                                 <img src="/content/dam/gssjc/sanj_green_logo.png" alt="Home" id="logoImg" width="188" height="73">
                             </a>
@@ -164,7 +164,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                             if($element.offset().top + $element.children('.vtk-demo-dropdown_options').height() > $(window).height()){
                                 
-                                var hei =  $(window).height()-$element.offset().top+$(window).scrollTop();
+                                var hei =  $(window).height()-$element.offset().top+$(window).scrollTop()-20;
                                     if(hei >203){ 
                                         hei = 203;
                                     }
@@ -188,7 +188,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                             if(callbackObject){
                                 if(callbackObject.local){
-                                     window.location.assign(window.location.host + value);
+                                     window.location.assign(value);
                                 }else{
                                     if(callbackObject[value]){
                                         callbackObject[value]();
