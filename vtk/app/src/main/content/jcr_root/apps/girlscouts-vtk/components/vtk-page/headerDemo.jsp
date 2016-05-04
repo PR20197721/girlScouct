@@ -86,7 +86,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                </div> 
                <div class="row collapse">
                     <div class="large-17 medium-17 small-24 columns">
-                        <div class="vtk-vounteer-trainer">
+                        <div class="vtk-vounteer-trainer"<%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"margin-top:50px;\" " : " style=\"margin-top:0px;\" " %> >
                             Volunteer Toolkit Demo
                         </div>
                     </div>
