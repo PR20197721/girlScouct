@@ -78,8 +78,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
-				
-				if( true ){
+		    	if( true){
                     %><cq:include script="headerDemo.jsp"/><% 
                 }else{
     				%><cq:include script="header.jsp"/><%
