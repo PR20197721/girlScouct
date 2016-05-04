@@ -34,8 +34,8 @@
 }
 
 /* line 35, vtk-demo.scss */
-.vtk-demo-info-footer h4 {
-  font-size: 18px;
+.vtk-demo-info-footer p {
+  font-size: 12px;
   font-weight: 100;
   color: white;
   margin: 0;

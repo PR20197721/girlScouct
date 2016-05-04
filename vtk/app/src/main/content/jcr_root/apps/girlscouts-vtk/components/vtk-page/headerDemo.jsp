@@ -87,7 +87,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                <div class="row collapse">
                     <div class="large-17 medium-17 small-24 columns">
                         <div class="vtk-vounteer-trainer">
-                            Volunteer Toolkit Training
+                            Volunteer Toolkit Demo
                         </div>
                     </div>
                 </div>
@@ -176,7 +176,8 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                         }
 
                         //add event listinert to the Icon
-                        $element.children('.vtk-demo-dropdown_main').children('.icon-arrow-down3').click(function(e){
+                        // $element.children('.vtk-demo-dropdown_main').children('.icon-arrow-down3').click(function(e){
+                          $('#'+$element.attr('id')).click(function(e){
                             toggle();
                         });
 
