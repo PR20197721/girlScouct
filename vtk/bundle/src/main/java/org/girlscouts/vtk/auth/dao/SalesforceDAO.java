@@ -721,15 +721,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 
 
-				try {
-
-				contact.setState(results.getJSONObject(i)
-
-				.getString("MailingPostalCode"));
-
-				} catch (Exception e) {
-
-				}
+				
 
 
 

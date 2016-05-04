@@ -50,7 +50,7 @@ response.addCookie(killMyCookie);
 
 
 if( session== null || session.getAttribute("demoSiteUser")==null){ %>
-
+       
 <div id="main" class="row content">
     
     <div class=" vtk-demo-form-box columns small-20 small-centered medium-10 medium-centered">
