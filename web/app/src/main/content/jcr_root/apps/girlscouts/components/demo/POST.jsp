@@ -1,4 +1,5 @@
 <%
+    String err="";
     java.util.List<String> letmein= new java.util.ArrayList<String>();
 	letmein.add("VTKDemo321");    
 	letmein.add("VTKDemo590");
@@ -19,7 +20,9 @@
 
         session.setAttribute("demoSiteUser", true);
 
+    }else{
+    	err+="Invalid password";
     }
 %>
- <script>self.location="/content/girlscouts-demo/en.html?"</script>
+ <script>self.location="/content/girlscouts-demo/en.html?err=<%=err%>"</script>
 
