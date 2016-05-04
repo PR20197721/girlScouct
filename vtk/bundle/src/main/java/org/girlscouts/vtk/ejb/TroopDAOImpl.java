@@ -147,7 +147,7 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setRetrieveTime(new java.util.Date());
 
 try{
-	if( user.getApiConfig().isDemoUser() && !VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_MEETING_ID) ){
+	if( user.getApiConfig().isDemoUser() && user.getApiConfig().getTroops().get(0).getRole().equals("PA")){
 		
 		String DATES="";
 		
