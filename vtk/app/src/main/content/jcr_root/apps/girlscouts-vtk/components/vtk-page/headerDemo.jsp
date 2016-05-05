@@ -161,9 +161,14 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
 
                         //state preprocess
-                        if(state !== undefined){
-                           selected = parseInt(state.split('-')[0]);
+                        if(typeof state == 'String'){
+                            if(state !== undefined && state.split('-').length > 1){
+                              selected = parseInt(state.split('-')[0]);
+
+                              selected = isNaN(selected) ? selected : undefined;
+                            }
                         }
+
                        
                                               
                         //get Default text
@@ -244,8 +249,6 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                     };
                 })();
 
-                //sample
-                // gsusa.component.dropDown('#vtk-dropdown-1',{local:true},);
             </script>
 
             <!-- //Mobile -->
