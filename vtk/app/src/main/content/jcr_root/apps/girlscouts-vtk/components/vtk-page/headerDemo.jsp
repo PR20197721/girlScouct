@@ -161,11 +161,11 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
 
                         //state preprocess
-                        if(typeof state == 'String'){
+                        if(typeof state == 'string'){
                             if(state !== undefined && state.split('-').length > 1){
                               selected = parseInt(state.split('-')[0]);
 
-                              selected = isNaN(selected) ? selected : undefined;
+                              selected = isNaN(selected) ? undefined : selected;
                             }
                         }
 
