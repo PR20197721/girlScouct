@@ -28,7 +28,7 @@ cd ..
 # Remove preview servers for stage.
 if [ "$env" != "stage" ] ; then
 cd $env
-    find . -name preview*.any -exec rm {} \;
+    find . -name preview*.any -exec rm -f {} \;
 cd ..
 fi
 
