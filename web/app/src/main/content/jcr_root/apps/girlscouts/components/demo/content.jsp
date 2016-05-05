@@ -495,6 +495,10 @@ if( listOfFiles!=null )
       showWelcomePop();
       gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
       gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
+      
+      //sample
+      gsusa.component.dropDown('#vtk-dropdown-3333',{local:true},'3-Junior');
+      
     });
 
     function showWelcomePop(){

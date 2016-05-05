@@ -327,12 +327,3 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
         </div>
     </div>
 </div>
-
-
-
-<script>
-
-function setCurrentDemoTroop(currentDemoTroop){
-	alert("CurrentDemoTroop: "+ currentDemoTroop);
-}
-</script>

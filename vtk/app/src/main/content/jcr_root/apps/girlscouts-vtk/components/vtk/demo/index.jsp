@@ -101,7 +101,8 @@ if( request.getParameter("prefGradeLevel")!=null ){
 	
 	%>
 	<script>
-	   setCurrentDemoTroop('<%=request.getParameter("prefGradeLevel")%>');
+	  
+	   gsusa.component.dropDown('#vtk-dropdown-3333',{local:true},'<%=request.getParameter("prefGradeLevel")%>');
 	</script>
 	<%
 	
