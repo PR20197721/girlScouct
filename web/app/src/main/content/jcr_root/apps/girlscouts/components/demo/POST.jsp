@@ -19,7 +19,15 @@
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
         session.setAttribute("demoSiteUser", true);
-
+        
+        %>
+        <script>
+	        if(typeof(Storage) !== "undefined") {
+	        	localStorage.setItem("isShowDemoWelcomePop", "true");
+	        } 
+        </script>
+        <%
+        
     }else{
     	err+="Invalid password";
     }

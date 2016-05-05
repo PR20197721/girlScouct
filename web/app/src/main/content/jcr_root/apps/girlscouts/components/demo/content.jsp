@@ -62,7 +62,7 @@ if( session== null || session.getAttribute("demoSiteUser")==null){ %>
         </div>
 
 
-        <div class="div-demo-form-message" style="display:<%=request.getParameter("err") == null ? "none;" : request.getParameter("err") %>">
+        <div class="div-demo-form-message" style="display:<%=request.getParameter("err") == null ? "none;" : "" %>">
           <div data-alert class="alert-box alert ">
                  <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
           </div>
@@ -460,6 +460,9 @@ if( listOfFiles!=null )
 </div>
 
 
+
+
+
 <div id="myModal-demo" class="reveal-modal medium" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
   <h2 id="modalTitle" style="font-size:18px; color:white;padding:10px 30px;background-color:green">VTK DEMO DETAILS</h2>
 
@@ -481,18 +484,30 @@ if( listOfFiles!=null )
 
 
   <a class="close-reveal-modal" aria-label="Close"><i style="color:white" class="icon-button-circle-cross"></i></a>
-</div>
+
+ </div>
 
 
 <script>
     
     $(function(){
       $(document).foundation();
-      $('#myModal-demo').foundation('reveal', 'open');
+      showWelcomePop();
       gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
       gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
     });
 
+    function showWelcomePop(){
+	    if(typeof(Storage) !== "undefined") {
+	        var isShowWecomePop = localStorage.getItem("isShowDemoWelcomePop");
+	        if( isShowWecomePop!=null && isShowWecomePop!='' && isShowWecomePop== 'true'){
+	            
+	            localStorage.setItem("isShowDemoWelcomePop", "false");
+	            $('#myModal-demo').foundation('reveal', 'open');
+	        }
+	    } 
+    }
+    
 </script>
 
 <style>
