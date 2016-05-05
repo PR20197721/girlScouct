@@ -1069,3 +1069,15 @@ function councilRpt(troopId, cid){
 		  msgPlanceHldr.style.display='none';
 	  }
   }
+
+  
+  function showSelectedDemoTroop(troopAge){
+	$(function(){
+		if(gsusa && gsusa.component && gsusa.component.dropDown && troopAge!=undefined && troopAge!=''){
+			gsusa.component.dropDown('#vtk-dropdown-1',{local:true}, troopAge );
+		}
+		
+	});
+	  
+	  
+  }
