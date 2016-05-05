@@ -129,7 +129,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                 gsusa.component = (function(){
                     // (Css Selector)
-                    function dropDown(selector,callbackObject){
+                    function dropDown(selector,callbackObject,state){
 
 
 
@@ -151,12 +151,21 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                                 </ul>
                           </div>*/
 
+                          var selected, option;
+
                         //get main element
                         var $element = $(selector);
 
                         //get target input form
                         var inputName = $element.data('input-name');
-                        
+
+
+                        //state preprocess
+                        if(state !== undefined){
+                           selected = parseInt(state.split('-')[0]);
+                        }
+                       
+                                              
                         //get Default text
                         var default_text = $element.children('.vtk-demo-dropdown_main').children('.selected-option').html();
 
@@ -185,7 +194,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
                         //add event listener to li inside options
                         $element.children('.vtk-demo-dropdown_options').children('li').click(function(){
-                            var option;
+                           
                             var value = $(this).data('value');
 
                             if(callbackObject){
@@ -203,6 +212,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                                 
                                 if(value !== ""){
                                     option = $(this).html();
+
                                 }else{
                                     option = default_text;
                                 }
@@ -213,9 +223,6 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                         });
 
 
-
-
-
                         $(document).keydown(function(e){
 
                             var key  = e.keyCode;
@@ -223,8 +230,12 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             if(key == 27){
                                  $('.vtk-demo-dropdown').children('.vtk-demo-dropdown_options').hide();
                             }
-
                         });
+
+                         if(selected){
+                            option = $element.children('.vtk-demo-dropdown_options').children('li').eq(selected).html();
+                            $element.children('.vtk-demo-dropdown_main').children('.selected-option').html(option);
+                         }
 
                     } 
 
@@ -234,7 +245,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                 })();
 
                 //sample
-                gsusa.component.dropDown('#vtk-dropdown-1',{local:true});
+                // gsusa.component.dropDown('#vtk-dropdown-1',{local:true},);
             </script>
 
             <!-- //Mobile -->
