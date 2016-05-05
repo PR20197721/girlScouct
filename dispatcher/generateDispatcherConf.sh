@@ -15,6 +15,18 @@ mkdir -p $env/conf
 
 cd template
 echo "Processing environment: $env"
+# Generate preview dispatcher conf. Only stage has a shared dispatcher among the publisher and preview.
+if [ $env!=stage ] ; then
+    cat conf/publish-farm.any | sed 's/publishfarm/previewfarm/' | sed 's/publish-/preview-/g' > conf/preview-farm.any
+fi
 find . -type f -exec env bash -c "target=../$env/{}; mustache ../$env.json {} > \$target && echo Processed {}" \;
 cd ..
+
+# Remove preview servers for stage.
+if [ $env!=stage ] ; then
+cd $env
+    find . -name preview*.any -exec rm {} \;
+cd ..
+fi
+
 echo "DONE! environment: $env"
