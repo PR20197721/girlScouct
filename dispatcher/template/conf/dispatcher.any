@@ -6,7 +6,7 @@
   {
 	$include "author-farm.any"
 	$include "publish-farm.any"
-	{{#hasPreview}}
-		$include "preview-farm.any"
-	{{/hasPreview}}
+	{{#previewRenderer}}
+	$include "preview-farm.any"
+	{{/previewRenderer}}
   }
