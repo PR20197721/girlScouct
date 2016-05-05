@@ -13,5 +13,10 @@
 		"prod": "stage",
 		"withDash": "-stage"
 	},
-	"dispatcherLogLevel": "3"
+	"dispatcherLogLevel": "3",
+	"previewRenderer": {
+		"ip": "8.8.8.8",
+		"hostname": "girlscouts-stage-aem61.adobecqms.net",
+		"alias": "vtkdemo-stage.girlscouts.org"
+	}
 }
