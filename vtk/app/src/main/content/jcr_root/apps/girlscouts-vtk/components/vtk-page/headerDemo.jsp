@@ -38,6 +38,11 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                 <div class="placeholder"></div>
             </div>
             <div class="large-18 medium-15 hide-for-small columns topMessage">
+            
+<% if(  session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ){ %>
+    <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px; <%=session.getAttribute("demoSiteUser")==null && session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " display:none; " : "" %>" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
+<%} %>       
+            
                <div <%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"display:none;\" " : "" %>>
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
