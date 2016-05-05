@@ -37,7 +37,7 @@ HttpSession session = request.getSession();
 	    	session.setAttribute("demoSiteUser", true);
 	}
 	
-    response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html");
+    response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html?");
     
 %>
  
