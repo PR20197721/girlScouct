@@ -1,4 +1,7 @@
 <%
+
+out.println("*** "+session.getAttribute("demoSiteUser"));
+
     String err="";
     java.util.List<String> letmein= new java.util.ArrayList<String>();
 	letmein.add("VTKDemo321");    

@@ -8,7 +8,6 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
     }
 }
 
-//.getTroops().get(0).getPermissionTokens().contains(270)
 %>
 
 
@@ -50,7 +49,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
                         </li>
                          <li style=" margin-left: 10px">
-                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="#">Log Out</a>
+                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
                         </li>
                     </ul>
                   </div>
@@ -329,3 +328,11 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
     </div>
 </div>
 
+
+
+<script>
+
+function setCurrentDemoTroop(currentDemoTroop){
+	alert("CurrentDemoTroop: "+ currentDemoTroop);
+}
+</script>

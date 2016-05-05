@@ -98,6 +98,13 @@ session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
 if( request.getParameter("prefGradeLevel")!=null ){
 	System.err.println("tata adding coolie: vtk_prefTroop" +request.getParameter("prefGradeLevel") );
 	
+	
+	%>
+	<script>
+	   setCurrentDemoTroop('<%=request.getParameter("prefGradeLevel")%>');
+	</script>
+	<%
+	
 	//set prefTroop
 	Cookie cookie = new Cookie("vtk_prefTroop", request.getParameter("prefGradeLevel"));
 	cookie.setMaxAge(-1);

@@ -31,8 +31,14 @@ HttpSession session = request.getSession();
 
 	}catch(Exception e){e.printStackTrace();}
 
-	session.setAttribute("demoSiteUser", true);
+	if( request.getParameter("isLogout")!=null ){
+		    session.setAttribute("demoSiteUser", null);
+	}else{
+	    	session.setAttribute("demoSiteUser", true);
+	}
+	
     response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html");
+    
 %>
  
 
