@@ -446,12 +446,7 @@ for (int i = 0; i < results1.length(); i++) {
 						} catch (Exception e) {
 						}
 
-						try {
-							contact.setState(results.getJSONObject(i)
-									.getString("MailingPostalCode"));
-						} catch (Exception e) {
-						}
-
+					
 						try {
 							contact.setCountry(results.getJSONObject(i)
 									.getString("MailingCountry"));
