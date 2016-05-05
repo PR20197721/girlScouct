@@ -292,7 +292,7 @@ System.err.println("tataGG:" +prefTroop.getCouncilCode()+ " : "+ prefTroop.getTr
 	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View');</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}else{
-		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
+		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('"+troop.getSfTroopAge()+"')</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
 
