@@ -101,7 +101,6 @@ if( request.getParameter("prefGradeLevel")!=null ){
 	
 	%>
 	<script>
-	  
 	   gsusa.component.dropDown('#vtk-dropdown-3333',{local:true},'<%=request.getParameter("prefGradeLevel")%>');
 	</script>
 	<%

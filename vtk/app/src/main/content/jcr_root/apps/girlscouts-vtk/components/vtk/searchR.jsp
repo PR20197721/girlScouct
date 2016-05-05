@@ -69,7 +69,7 @@ if (searchResults == null || searchResults.size() < 1) {
 		<p><%=search.getSubTitle() %></p>
 				</td>
 				<td width="40">
-				<%if(search.getAssetType().equals(AssetComponentType.AID)){ %>
+				<%if(search.getAssetType().equals(AssetComponentType.AID)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
 					 <input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>','<%=AssetComponentType.AID %>')" class="button linkButton"/>
 				<%}else{ %>
 <!--

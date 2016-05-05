@@ -49,8 +49,6 @@ killMyCookie.setMaxAge(0);
 killMyCookie.setPath("/");
 response.addCookie(killMyCookie);
 
-
-out.println("**************  "+ session.getAttribute("demoSiteUser") );
 if( session== null || session.getAttribute("demoSiteUser")==null){ %>
        
 <div id="main" class="row content">
