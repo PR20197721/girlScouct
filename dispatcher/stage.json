@@ -15,7 +15,7 @@
 	},
 	"dispatcherLogLevel": "3",
 	"previewRenderer": {
-		"ip": "8.8.8.8",
+		"ip": "10.1.29.33",
 		"hostname": "girlscouts-stage-aem61.adobecqms.net",
 		"alias": "vtkdemo-stage.girlscouts.org"
 	}
