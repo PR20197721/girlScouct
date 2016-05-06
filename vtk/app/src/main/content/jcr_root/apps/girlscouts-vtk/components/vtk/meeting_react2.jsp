@@ -584,12 +584,14 @@ console.log("init");
       componentDidMount: function() {	  
 console.log("commentDidMount..") ;	  
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
+console.log(144);        	
             this.setState({
                 data: data.yearPlan
             });            
         }, 10000);
+console.log(145);        
         this.dataWorker.start();
-        
+console.log(146);
       },
       checkLocalUpdate: function(){
  console.log("checkLoaclUpdate...");   	  

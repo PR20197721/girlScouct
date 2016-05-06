@@ -114,5 +114,12 @@ if( request.getParameter("prefGradeLevel")!=null ){
 }//edn if pref level
 //System.err.println("tata prefGradeLevel: "+ request.getParameter("prefGradeLevel"));
 
+
+String troopDataPath = sling.getService(org.girlscouts.vtk.helpers.TroopHashGenerator.class).hash(apiConfig.getTroops().get(0));
+Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+cookie.setPath("/");
+response.addCookie(cookie);
+
+
 response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 %>
