@@ -490,12 +490,11 @@ if( listOfFiles!=null )
     
     $(function(){
       $(document).foundation();
-      showWelcomePop();
-      gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
-      gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
-      
-      //sample
-      gsusa.component.dropDown('#vtk-dropdown-3333',{local:true},'3-Junior');
+
+      gsusa.component.dropDown('#vtk-dropdown-2',{local:true},undefined);
+      gsusa.component.dropDown('#vtk-dropdown-3',{local:true},undefined);
+            showWelcomePop();
+ 
       
     });
 
