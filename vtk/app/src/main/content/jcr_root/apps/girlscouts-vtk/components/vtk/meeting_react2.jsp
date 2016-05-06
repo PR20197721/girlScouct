@@ -568,10 +568,9 @@ React.createElement(ActivityPlan),
 
     var CommentBox = React.createClass({displayName: "CommentBox",
       loadCommentsFromServer: function( isFirst ) {
-console.log("loading..");
+console.log("loading.."+ isFirst);
 
         this.dataWorker.getData();
-       
         
       },
       forceReload: function() {
@@ -601,8 +600,13 @@ console.log("commentDidMount..") ;
   console.log("rendering...");  	  
           var x;
           var sched;
+          
+ console.log('<%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%>') 
+ console.log(  this.state.data.meetingEvents!=null);  
+ console.log('<%=planView.getYearPlanComponent().getType()%>');
+ console.log( this.state.data);
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
-
+console.log(11);
 
               helper= this.state.data.helper;
 
@@ -619,7 +623,8 @@ console.log("commentDidMount..") ;
                    React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
-              helper= this.state.data.helper;
+console.log(22); 
+        	  helper= this.state.data.helper;
 
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
@@ -632,6 +637,7 @@ console.log("commentDidMount..") ;
                        React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
                   );
           }else{
+console.log(33);       	  
               return React.createElement("div", null, "loading...");
           }
       }

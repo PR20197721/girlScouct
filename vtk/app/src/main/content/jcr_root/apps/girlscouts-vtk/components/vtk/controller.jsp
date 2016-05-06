@@ -643,7 +643,7 @@ System.err.println("caca syp end: "+ new java.util.Date() );
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
-
+try{
 			boolean isFirst = false;
 			if ((request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1")) ||
 			    (request.getAttribute("isFirst") != null && request.getAttribute("isFirst").equals("1"))) {
@@ -770,6 +770,10 @@ System.err.println("caca syp end: "+ new java.util.Date() );
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
+ System.err.println(mapper.writeValueAsString(troop)                
+         .replaceAll("mailto:", "")
+         .replaceAll("</a>\"</a>", "</a>")
+         .replaceAll("\"</a>\"", ""));                   
                          
                     } catch (Exception ee) {
                         // error message in logs
@@ -784,7 +788,7 @@ System.err.println("caca syp end: "+ new java.util.Date() );
 				}
 				
 			}
-
+}catch(Exception e){e.printStackTrace();}
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 
 			if (troop.getYearPlan() == null){
