@@ -174,14 +174,13 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             }
                         }
 
-                       
                                               
                         //get Default text
                         var default_text = $element.children('.vtk-demo-dropdown_main').children('.selected-option').html();
 
                         //Toggle the Options box
                         function toggle(){
-                            // var grab = $element.children('.vtk-demo-dropdown_options');
+                            $element.children('.vtk-demo-dropdown_options').css('height',203);
 
                             if($element.offset().top + $element.children('.vtk-demo-dropdown_options').height() > $(window).height()){
                                 
@@ -189,10 +188,13 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                                     if(hei >203){ 
                                         hei = 203;
                                     }
+                                    if(hei < 75){
+                                      hei = 75;
+                                    }
                                 $element.children('.vtk-demo-dropdown_options').css('height',hei);
                             }
 
-                            $('.vtk-demo-dropdown').not('#'+$element.attr('id')).children('.vtk-demo-dropdown_options').hide();
+                            // $('.vtk-demo-dropdown').not('#'+$element.attr('id')).children('.vtk-demo-dropdown_options').hide();
                             $element.children('.vtk-demo-dropdown_options').toggle();
                         }
 
@@ -240,6 +242,14 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             if(key == 27){
                                  $('.vtk-demo-dropdown').children('.vtk-demo-dropdown_options').hide();
                             }
+                        });
+
+
+                        $(document).click(function(e){
+                          // console.log('click',$(e.target).parent('.vtk-demo-dropdown')[0] ,$element[0],$(e.target).parent('.vtk-demo-dropdown')[0] === $element[0]);
+                          if($(e.target).parents('.vtk-demo-dropdown')[0] !== $element[0]){
+                            $element.children('.vtk-demo-dropdown_options').hide();
+                          }
                         });
 
                          if(selected){
