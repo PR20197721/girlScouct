@@ -57,6 +57,7 @@
     <dependency>
       <groupId>com.day.cq</groupId>
       <artifactId>cq-mailer</artifactId>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.apache.sling</groupId>
