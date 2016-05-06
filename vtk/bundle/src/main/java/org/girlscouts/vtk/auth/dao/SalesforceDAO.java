@@ -380,6 +380,9 @@ System.err.println("tata002 : "+ apiConfig.getTroops().size() );
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
+		
+System.err.println("test url: "+ url);		
+		
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		String rsp = null;

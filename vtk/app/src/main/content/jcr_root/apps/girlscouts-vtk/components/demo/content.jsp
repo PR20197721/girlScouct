@@ -255,12 +255,12 @@ function xyz(slc){
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                             <li data-value="">-----</li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jennifer&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Felicia&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
                                           </ul>
                                       </div>
 
