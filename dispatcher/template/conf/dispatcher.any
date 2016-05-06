@@ -5,7 +5,8 @@
 /farms
   {
 	$include "author-farm.any"
-
-
 	$include "publish-farm.any"
+	{{#previewRenderer}}
+	$include "preview-farm.any"
+	{{/previewRenderer}}
   }
