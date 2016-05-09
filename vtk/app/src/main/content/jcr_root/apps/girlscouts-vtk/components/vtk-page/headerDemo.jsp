@@ -39,7 +39,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
             </div>
             <div class="large-18 medium-15 hide-for-small columns topMessage">
             
-<% if(  session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ){ %>
+<% if(false){//  session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ){ %>
     <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px; <%=session.getAttribute("demoSiteUser")==null && session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " display:none; " : "" %>" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
 <%} %>       
             
@@ -54,7 +54,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
                         </li>
                          <li style=" margin-left: 10px">
-                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
+                           <!--  <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a> -->
                         </li>
                     </ul>
                   </div>
