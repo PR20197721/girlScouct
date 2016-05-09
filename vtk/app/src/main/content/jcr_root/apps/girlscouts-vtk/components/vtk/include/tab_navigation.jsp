@@ -390,8 +390,10 @@
 
 						<% if("plan".equals(activeTab)) {%>
 						<li><a
-							<% if(troop.getYearPlan() != null && planView !=null && planView.getSearchDate() != null
-                && planView.getSearchDate().after( new java.util.Date("1/1/1977")) ){
+							<%
+						   if(user.getApiConfig().isDemoUser()){
+							   ;
+						   }else if(troop.getYearPlan() != null && planView !=null && planView.getSearchDate() != null  && planView.getSearchDate().after( new java.util.Date("1/1/1977")) ){
              %>
 							onclick="vtkTrackerPushAction('DownloadCalendar');self.location = '/content/girlscouts-vtk/en/cal.ics'"
 							<%} else{
