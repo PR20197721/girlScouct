@@ -56,7 +56,8 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			java.util.Calendar today = java.util.Calendar.getInstance();
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
 					+ VtkUtil.getCurrentGSYear() + "/" + ageLevel + "/");
-
+System.err.println("tata YP: /content/girlscouts-vtk/yearPlanTemplates/yearplan"
+		+ VtkUtil.getCurrentGSYear() + "/" + ageLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			yearPlans = (List<YearPlan>) ocm.getObjects(query);
 
