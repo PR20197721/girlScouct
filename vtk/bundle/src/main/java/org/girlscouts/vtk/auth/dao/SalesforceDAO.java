@@ -87,6 +87,7 @@ public class SalesforceDAO {
 
 			String rsp = null;
 			if(  !apiConfig.isDemoUser() ){
+System.err.println("tata 1 ... ");				
 					connection = connectionFactory.getConnection();
 					CloseableHttpResponse resp = connection.execute(method);
 					int statusCode = resp.getStatusLine().getStatusCode();
@@ -114,16 +115,18 @@ public class SalesforceDAO {
 					
 					
 			}else{
+System.err.println("tata 2 ... ");	
 				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
 		       
 				String userJsonFile= vtkDemoPath +"/vtkUser_"+apiConfig.getDemoUserName()+".json";
+				
 				System.err.println(userJsonFile);
 				rsp = readFile(userJsonFile).toString();
 			}
 			
 			user = getUser_parse(user, apiConfig, rsp );
-System.err.println("tata00: "+ apiConfig.getTroops().size() );
+
 		
 		
 		} catch (HttpException e) {
@@ -148,6 +151,8 @@ System.err.println("tata00: "+ apiConfig.getTroops().size() );
 	public User getUser_parse(User user, ApiConfig apiConfig, String rsp) throws Exception{
 
 		try {
+			
+System.err.println("tata 3 ..." + rsp);			
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex user reponse: " + response);
 			JSONArray results = response.getJSONArray("users");
