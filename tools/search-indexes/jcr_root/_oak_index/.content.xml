@@ -74,7 +74,8 @@
         jcr:primaryType="oak:QueryIndexDefinition"
         aggregates="[ocm_classname,jcr:path]"
         async="async"
-        includedPaths="[/vtk2015]"
+        includedPaths="[/vtk2015,/vtk2016,/vtk2017,/vtk2018,/vtk2019,/vtk2020]"
+        queryPaths="[/vtk2015,/vtk2016,/vtk2017,/vtk2018,/vtk2019,/vtk2020]"
         reindex="{Boolean}false"
         reindexCount="{Long}3"
         type="lucene">
