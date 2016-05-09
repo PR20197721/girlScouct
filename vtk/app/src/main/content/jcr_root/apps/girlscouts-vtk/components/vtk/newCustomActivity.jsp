@@ -318,6 +318,7 @@
                   <% } %>
                 <ul>
               </ul>
+              <p class="changes-js">Council activities are not available in the demo at this time.</p>
             </div>
 
             <input type="button" value="View Activities" onclick='searchActivities()' class="button btn right"/>
