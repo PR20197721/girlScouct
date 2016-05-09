@@ -356,3 +356,78 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
         </div>
     </div>
 </div>
+
+
+<script>
+    
+    $(function(){
+      $(document).foundation();
+    //  showWelcomePop();
+      gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
+      gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
+      
+    });
+
+    function showWelcomePop(){
+        if(typeof(Storage) !== "undefined") {
+            var isShowWecomePop = localStorage.getItem("isShowDemoWelcomePop");
+            if( isShowWecomePop!=null && isShowWecomePop!='' && isShowWecomePop== 'true'){
+                
+                localStorage.setItem("isShowDemoWelcomePop", "false");
+                displayWelcomePop();
+            }
+        } 
+    }
+    
+    function displayWelcomePop(){
+         $('#myModal-demo').foundation('reveal', 'open');
+    }
+    
+</script>
+
+
+
+<div id="myModal-demo" class="reveal-modal medium" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle" style="font-size:18px; color:white;padding:10px 30px;background-color:green">VTK DEMO DETAILS</h2>
+
+  <div class="container-model">
+    <p>The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionally, certain features of the VTK have been disabled such as sending an email to parents/care</p>
+
+  <p>Information presented on this website is for demo purposes only. Any customizations you make will not be saved. The content presented is the property of GSUSA.</p>
+
+  <p>We hope you enjoy the demo.</p>
+
+
+  <br>
+ <br>
+ <br>
+  
+
+  </div>
+
+
+
+  <a class="close-reveal-modal" aria-label="Close"><i style="color:white" class="icon-button-circle-cross"></i></a>
+
+ </div>
+
+
+
+
+<style>
+#myModal-demo{
+ padding:0px; 
+ top:0px;
+}
+
+.container-model{
+  padding: 10px 30px;
+}
+
+.close-reveal-modal{
+  top:-5px !important;
+}
+
+
+
+</style>
