@@ -37,6 +37,7 @@ HttpSession session = request.getSession();
 	    	session.setAttribute("demoSiteUser", true);
 	}
 	
+	System.err.println("tata check baseUrl : "+ configManager.getConfig("baseUrl"));
     response.sendRedirect( configManager.getConfig("baseUrl") + "/content/girlscouts-demo/en.html?");
     
 %>
