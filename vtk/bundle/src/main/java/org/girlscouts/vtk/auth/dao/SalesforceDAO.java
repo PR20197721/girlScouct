@@ -1480,13 +1480,18 @@ System.err.println("tata13: "+ merged_troops);
 	@SuppressWarnings("deprecation") // For Node.setProperty
 	private void writeToFile( String fileName, String content) {
 		try {
+			String nodeName = fileName + "/jcr:content";
 			if (!session.nodeExists(vtkDemoPath)) {
 				JcrUtil.createPath(vtkDemoPath, "nt:unstructured", session);
 				session.save();
 			}
+			if (!session.nodeExists(nodeName)) {
+				JcrUtil.createPath(nodeName, false, "nt:file", "nt:resource", session, false);
+			}
 			InputStream is = IOUtils.toInputStream(content);
 			Node node = session.getNode(fileName + "/jcr:content");
 			node.setProperty("jcr:data", is);
+			session.save();
 		} catch (RepositoryException re) {
 			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
 		}
