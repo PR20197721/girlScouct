@@ -160,7 +160,7 @@ function xyz(slc){
     <div class="vtk-demo-wrap-top row">
         <div class="columns small-push-2 small-20 end">
                 Plan quickly. Save time. Stay organized.<br>
-                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo enviroment using any device - desktop, laptop, smart phone or tablet.</p>
+                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo environment using any device - desktop, laptop, smart phone or tablet.</p>
         </div>
     </div>
   <!-- / info -->
