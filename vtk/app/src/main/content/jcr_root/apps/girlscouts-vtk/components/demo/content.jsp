@@ -58,11 +58,7 @@ if( session== null || session.getAttribute("demoSiteUser")==null){ %>
         </div>
 
 
-        <div class="div-demo-form-message" style="display:<%=request.getParameter("err") == null ? "none;" : "" %>">
-          <div data-alert class="alert-box alert ">
-                 <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
-          </div>
-        </div>
+
   
         <div class="vtk-demo-login-form">
         <h4 style="font-size: 20px;line-height: 22px;margin-bottom: 20px;">Welcome.</h4>
@@ -77,6 +73,12 @@ if( session== null || session.getAttribute("demoSiteUser")==null){ %>
             <div class="vtk-demo-form-input">
               <!-- <div class="vtk-demo-form-label">Password</div> -->
               <input type="password" name="p" value=""/>
+            </div>
+
+            <div  style="display:<%=request.getParameter("err") == null ? "none;" : "" %>">
+              <div  style="color:red;">
+                     <%=request.getParameter("err") == null ? "" : request.getParameter("err") %>
+              </div>
             </div>
             
             <div class="vtk-demo-form-input">
