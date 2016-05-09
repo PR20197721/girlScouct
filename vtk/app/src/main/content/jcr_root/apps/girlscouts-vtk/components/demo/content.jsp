@@ -160,7 +160,7 @@ function xyz(slc){
     <div class="vtk-demo-wrap-top row">
         <div class="columns small-push-2 small-20 end">
                 Plan quickly. Save time. Stay organized.<br>
-                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo enviroment using any device - desktop, laptop, smart phone or tablet</p>
+                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo enviroment using any device - desktop, laptop, smart phone or tablet.</p>
         </div>
     </div>
   <!-- / info -->
@@ -255,7 +255,7 @@ function xyz(slc){
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                             <li data-value="">Please select...</li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
@@ -269,7 +269,7 @@ function xyz(slc){
 
            <!--                            <select  id="age_group_parent">   
                                           <option value="">select grade</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades K-1</option>
                                           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
                                           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
                                           <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
@@ -287,7 +287,7 @@ function xyz(slc){
                                         <p>Key Features:</p>
                                         <ul>
                                           <li>Pre-populated Year Plans with meeting content.</li>
-                                          <li>Add you own troop activities our council event.</li>
+                                          <li>Add you own troop activities or council event.</li>
                                           <li>View your troop roster.</li>
                                           <li>Email meeting reminders to parents.</li>
                                           <li>Track girls' attendance and achievements.</li>
@@ -304,7 +304,8 @@ function xyz(slc){
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                             <li data-value="">Please select...</li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
@@ -313,10 +314,9 @@ function xyz(slc){
                                           </ul>
                                       </div>
 
-
                                          <!-- <select id="age_group_dp">   
                                             <option value="">select grade</option>
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades k-1</option>
+                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades K-1</option>
                                             <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
 
                                              
@@ -346,7 +346,7 @@ function xyz(slc){
 
     <div class="row">
         <div class="vtk-bottom-frase columns small-24">
-           <!--   See for yourself! Phone, Tablet or Desktop, select a role and experience how easy troop planning can be. -->
+
         </div>
     </div>
 

@@ -46,7 +46,6 @@
   float: right;
   font-weight: 100;
   font-size: 15px !important;
-  text-decoration: underline;
 }
 
 /* line 53, vtk-demo.scss */
@@ -194,6 +193,7 @@
   margin:0;
   text-transform: uppercase;
   float:left;
+  font-size: 14px;
 }
 
 .vtk-demo-form-input .vtk-forgot-link{
