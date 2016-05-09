@@ -39,6 +39,7 @@ import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import com.google.common.io.CharStreams;
 
 // TODO: Need thread pool here
@@ -1428,11 +1429,13 @@ System.err.println("tata13: "+ merged_troops);
 			String content = CharStreams.toString(new InputStreamReader(is, "UTF-8"));
 			return new StringBuffer(content);
 		} catch (RepositoryException re) {
-			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
+			log.error("Cannot get file node: " + fileName + " due to RepositoryException.");
 		} catch (IOException ie) {
-			log.error("Cannot get file node: " + fileName + " due to IOException");
+			log.error("Cannot get file node: " + fileName + " due to IOException.");
+		} catch (NullPointerException npe) {
+			log.error("Cannot get file node: " + fileName + " due to NullPointerException.");
 		}
-		return null;
+		return new StringBuffer();
 		
 		// Per Alex's request, leave old code here. -Mike
 		/*
@@ -1474,8 +1477,13 @@ System.err.println("tata13: "+ merged_troops);
     */ 
 	}
 	
+	@SuppressWarnings("deprecation") // For Node.setProperty
 	private void writeToFile( String fileName, String content) {
 		try {
+			if (!session.nodeExists(vtkDemoPath)) {
+				JcrUtil.createPath(vtkDemoPath, "nt:unstructured", session);
+				session.save();
+			}
 			InputStream is = IOUtils.toInputStream(content);
 			Node node = session.getNode(fileName + "/jcr:content");
 			node.setProperty("jcr:data", is);
