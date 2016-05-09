@@ -29,7 +29,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                         <div class="vtk-demo-logo" style="width:188,height:73">
                             <!-- <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png" alt="Home" id="logoImg"> -->
                             <a href="/content/gssjc/en.html">
-                                <img src="/content/dam/gssjc/sanj_green_logo.png" alt="Home" id="logoImg" width="188" height="73">
+                                <img src="/content/dam/girlscouts-gsusa/images/logo/logo@2x.png" alt="Home" id="logoImg" width="188" height="73">
                             </a>
                         </div>
                     </nav>
@@ -47,7 +47,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
                         <li style="padding-top:3px; font-size: 14px">
-                           <%= isDp ? "Troop Leader" : "Parent" %> 
+                           Current view: <%= isDp ? "Troop Leader" : "Parent" %> 
                             
                         </li>
                         <li>
