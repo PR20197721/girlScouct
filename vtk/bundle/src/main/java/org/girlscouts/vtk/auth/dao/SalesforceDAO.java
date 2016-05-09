@@ -52,7 +52,7 @@ public class SalesforceDAO {
 	private ConnectionFactory connectionFactory;
 	private Session session;
 	private java.util.List<VtkError> errors;
-	private String vtkDemoPath ="/etc/vtk-demo";
+	private String vtkDemoPath ="/content/vtk-demo";
 	private String vtkDemoCouncil="999";
 	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
