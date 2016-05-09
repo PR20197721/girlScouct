@@ -40,7 +40,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
             <div class="large-18 medium-15 hide-for-small columns topMessage">
             
 <% if(false){//  session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ){ %>
-    <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px; <%=session.getAttribute("demoSiteUser")==null && session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " display:none; " : "" %>" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
+    <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin: 0 0 10px 0; padding: 5px 10px; <%=session.getAttribute("demoSiteUser")==null && session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " display:none; " : "" %>" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a>
 <%} %>       
             
                <div <%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"display:none;\" " : "" %>>
@@ -51,11 +51,11 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                             
                         </li>
                         <li>
-                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
+                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 20px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Start Over</a>
                         </li>
-                         <li style=" margin-left: 10px">
-                           <!--  <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a> -->
-                        </li>
+     <!--                     <li style=" margin-left: 10px">
+                            <a class="button tiny" style="background-color:white !important; color:#009447; font-size: 12px; margin-bottom: 10px; padding: 5px 10px;" href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html?isLogout=true">Log Out</a> 
+                        </li> -->
                     </ul>
                   </div>
 
@@ -70,7 +70,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                           <li data-value="">Please select...</li>
 
                           <% if( isDp ){%>
-                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
@@ -78,7 +78,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
                           <% }else{%>
 
-                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                              <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
@@ -93,7 +93,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                </div> 
                <div class="row collapse">
                     <div class="large-17 medium-17 small-24 columns">
-                        <div class="vtk-vounteer-trainer"<%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"margin-top:55px;\" " : " style=\"margin-top:0px;\" " %> >
+                        <div class="vtk-vounteer-trainer"<%=session.getAttribute(org.girlscouts.vtk.models.User.class.getName()) ==null ? " style=\"margin-top:55px;\" " : " style=\"margin-top:7px;\" " %> >
                             Volunteer Toolkit Demo
                         </div>
                     </div>
@@ -147,7 +147,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                                </div>
                                 <ul class="vtk-demo-dropdown_options">
                                   <li data-value="">-----</li>
-                                  <li data-value="1">DAISY <span>grades k-1</span></li>
+                                  <li data-value="1">DAISY <span>grades K-1</span></li>
                                   <li data-value="2">BROWNIE <span>grades 2-3</span></li>
                                   <li data-value="3">JUNIOR <span>grades 4-5</span></li>
                                   <li data-value="4">CADETTE <span>grades 6-8</span></li>

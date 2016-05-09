@@ -221,7 +221,7 @@
 
 .vtk-demo-dropdown_main > .selected-option{
    color:#009447 !important;
-   font-weight: bold !important;
+   /*font-weight: bold !important;*/
      text-align: left !important;
        width:200px;
          /*padding: 5px 15px;*/
