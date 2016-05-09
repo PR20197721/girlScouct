@@ -1,5 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -8,7 +9,7 @@
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
