@@ -47,7 +47,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                   <div class="eyebrow-nav navigation-bar eyebrow-navigation">
                     <ul class="inline-list eyebrow-fontsize">
                         <li style="padding-top:3px; font-size: 14px">
-                           <%= isDp ? "Troop Leader" : "Parent" %> 
+                           Current view: <%= isDp ? "Troop Leader" : "Parent" %> 
                             
                         </li>
                         <li>

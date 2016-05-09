@@ -169,73 +169,8 @@ function xyz(slc){
         <div class="columns small-24">
             <div class="row">
         
-            <% 
-              java.util.Map container= new java.util.TreeMap(); 
               
-              if( listOfFiles!=null ) {
-                for (int i = 0; i < listOfFiles.length; i++) {
-                  if (listOfFiles[i].isFile()) {
-                      String name= listOfFiles[i].getName();
-
-                      if( name!=null && name.startsWith("vtkUser")){
-                          String rsp=  sfDAO.readFile(path+"/"+name).toString();
-                          org.girlscouts.vtk.auth.models.User User = new org.girlscouts.vtk.auth.models.User();
-                          String userName= name.substring( name.indexOf("_")+1 , name.indexOf(".") );
-                          org.girlscouts.vtk.auth.models.ApiConfig apiConfig = new org.girlscouts.vtk.auth.models.ApiConfig();
-                          apiConfig.setDemoUser(true);
-                          apiConfig.setDemoUserName( userName );
-                          try{
-                               User= sfDAO.getUser_parse(User, apiConfig, rsp);
-                              
-                               java.util.Set<String> roles = new java.util.HashSet<String>();
-                               java.util.List<org.girlscouts.vtk.salesforce.Troop> troops= apiConfig.getTroops();
-                               for(int ii=0;ii<troops.size();ii++){
-                                   org.girlscouts.vtk.salesforce.Troop _troop = troops.get(ii);
-                                   roles.add( _troop.getRole() );
-                               }
-
-                               if( false ){// ADMIN NOT USED IN THIS RELEASE  - User.isAdmin() ){ 
-                                container.put("3-"+userName,"Admin");
-                               
-                               }else if(roles.contains("DP")){
-                            	   if(userName.toLowerCase().equals("lisa")){
-                            		    container.put("1-"+userName, "DP");
-                            	   }
-                                }else if(roles.contains("PA")){ 
-                                	if( userName.toLowerCase().equals("eliza") || userName.toLowerCase().equals("eliza")  ){
-                                	    container.put( "2-"+userName, "PA");
-                                	}
-                                    
-                                 }           
-                               
-                          }catch(Exception e){e.printStackTrace();}
-                      } //if
-                  } //if
-                } //for
-              }
-            
-              
-             
-                  java.util.Iterator _itr= container.keySet().iterator();
-                  while( _itr.hasNext() ){
-                      String user= (String) _itr.next();
-                      
-                      if( container.get(user).equals("Admin")){%>
-                             <div class="vtk-demo-card columns  small-24  medium-8 end">
-                              <div class="vtk-header-box">
-                                <a href="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=<%=user.substring(2)%>">Council Admin <span class="float-right icon-button-arrow-right"></a>
-                              </div>
-                        
-                              <p>Material and aids are organized to help everyone work together:</p>
-                              <ul>
-                                <li>Upload materials to support the troop Leaders.</li>
-                                <li>Report in troop finances.</li>
-                                <li>Stay organized across troops.</li>
-                              </ul>
-                             </div>
-                  
-                      <%  }else if( container.get(user).equals("PA")){ %>
-                                   <div class="vtk-demo-card columns  small-24  medium-push-2 medium-10 end">
+               <div class="vtk-demo-card columns  small-24  medium-push-2 medium-10 end">
                                       <div class="vtk-header-box">
                                         <a href="javascript:void(0)" onclick="return goToUrl('age_group_parent')">Parents </a>
                                       </div>
@@ -255,31 +190,26 @@ function xyz(slc){
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                             <li data-value="">Please select...</li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jennifer&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Felicia&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Luisa&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jennifer&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Felicia&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+
                                           </ul>
                                       </div>
 
 
-
-
-           <!--                            <select  id="age_group_parent">   
-                                          <option value="">select grade</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Eliza&prefGradeLevel=1-Daisy">DAISY grades K-1</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Layla&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Brianna&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Alexandra&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-                                          <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Mike&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
-                                      </select>    -->
                                    </div>
                                   <!-- / Parents -->
-                      <%  }else if( container.get(user).equals("DP")){ %>
-                                  <div class="vtk-demo-card columns small-24 medium-push-2 medium-10">
+              
+              
+              
+              
+              
+              <div class="vtk-demo-card columns small-24 medium-push-2 medium-10">
                                         <div class="vtk-header-box">
                                           <a href="javascript:void(0)" onclick="return goToUrl('age_group_dp')">Troop Leader</a>
                                         </div>
@@ -303,43 +233,25 @@ function xyz(slc){
                                              <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
-                                            <li data-value="">Please select...</li>
+                                          <li data-value="">Please select...</li>
 
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades K-1</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
-                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+                                            
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Victoria&prefGradeLevel=4-Cadette">CADETTE <span>grades 6-8</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Laura&prefGradeLevel=5-Senior">SENIOR <span>grades 9-10</span></li>
+                                            <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR <span>grades 11-12</span></li>
+
                                           </ul>
                                       </div>
 
-                                         <!-- <select id="age_group_dp">   
-                                            <option value="">select grade</option>
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY grades K-1</option>
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE grades 2-3</option>
 
-                                             
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR grades 4-5</option>
-
-
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Victoria&prefGradeLevel=4-Cadette">CADETTE grades 6-8</option>
-
-
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Laura&prefGradeLevel=5-Senior">SENIOR  grades 9-10</option>
-
-
-
-                                            <option value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Penelope&prefGradeLevel=6-Ambassador">AMBASSADOR grades 11-12</option>
-
-                                           </select>     -->
                                   </div>
-                                  <!-- / Troop Leader -->    <% 
-                      }//end else
-                      
-                  }//edn while
-            
-              %>
+                                  <!-- / Troop Leader --> 
+              
+              
+              
             </div>
         </div>
     </div>
