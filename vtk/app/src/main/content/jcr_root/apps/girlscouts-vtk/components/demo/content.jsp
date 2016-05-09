@@ -100,9 +100,6 @@ return;
 
 
 String vTroop = request.getParameter("vTroop") ==null ? "" : request.getParameter("vTroop");
-String path="/usr/local/vtk"; 
-java.io.File folder = new java.io.File(path);
-java.io.File[] listOfFiles = folder.listFiles();
 
 
 java.util.Map<String, String> permisDeff = new java.util.TreeMap<String, String>();
@@ -113,7 +110,7 @@ org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.da
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
 
-
+/*
 if( request.getParameter("rmUser")!=null){
    if( listOfFiles!=null ) 
      for (int i = 0; i < listOfFiles.length; i++) {
@@ -125,7 +122,7 @@ if( request.getParameter("rmUser")!=null){
           }//ednif
      }//end for
 }//end if
-
+*/
 
 %>
 <script>

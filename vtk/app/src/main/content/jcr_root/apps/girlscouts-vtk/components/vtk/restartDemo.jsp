@@ -12,11 +12,11 @@ HttpSession session = request.getSession();
 		
 		//org.girlscouts.vtk.auth.models.ApiConfig apiConfig= VtkUtil.getApiConfig(session);
 	   // if( apiConfig!=null && !apiConfig.isDemoUser() ){ out.println("No permission(s) to perform this operation. "); return; }
-		
+		/*
 	   if( configManager.getConfig("isDemoSite") ==null || !configManager.getConfig("isDemoSite").equals("true")){
     	   { out.println("No permission(s) to perform this operation. "); return; }
        }
-	   
+	   */
 	    Troop troop = VtkUtil.getTroop(session);
 	    try{ troopUtil.rmTroop( troop ); }catch(Exception e){e.printStackTrace();}
 		session.putValue("VTK_troop",null);

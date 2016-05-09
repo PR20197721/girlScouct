@@ -31,7 +31,7 @@
         <%
         
     }else{
-    	err+="Invalid password";
+    	err+="Your password was incorrect. Please try again.";
     }
 %>
  <script>self.location="/content/girlscouts-demo/en.html?err=<%=err%>"</script>
