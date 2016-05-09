@@ -40,7 +40,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
-import com.google.common.io.CharStreams;
 
 // TODO: Need thread pool here
 public class SalesforceDAO {
@@ -53,7 +52,7 @@ public class SalesforceDAO {
 	private ConnectionFactory connectionFactory;
 	private Session session;
 	private java.util.List<VtkError> errors;
-	private String vtkDemoPath ="/etc/vtk-demo";
+	private String vtkDemoPath ="/content/vtk-demo";
 	private String vtkDemoCouncil="999";
 	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
@@ -1431,7 +1430,7 @@ System.err.println("tata13: "+ merged_troops);
 	public StringBuffer readFile(String fileName){
 		try {
 			InputStream is = session.getNode(fileName + "/jcr:content").getProperty("jcr:data").getBinary().getStream();
-			String content = CharStreams.toString(new InputStreamReader(is, "UTF-8"));
+			String content = IOUtils.toString(new InputStreamReader(is, "UTF-8"));
 			return new StringBuffer(content);
 		} catch (RepositoryException re) {
 			log.error("Cannot get file node: " + fileName + " due to RepositoryException.");

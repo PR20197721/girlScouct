@@ -106,7 +106,7 @@ java.util.Map<String, String> permisDeff = new java.util.TreeMap<String, String>
 permisDeff.put("DP", "Troop Leader");
 permisDeff.put("PA", "Parent");
 
-org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null);
+org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class).getSession());
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
 

@@ -48,7 +48,7 @@ apiConfig.setDemoUserName(contactId);
 
 //getUser
 org.girlscouts.vtk.auth.models.User  user=  new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-        troopDAO, connectionFactory).getUser( apiConfig);
+        troopDAO, connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getUser( apiConfig);
 apiConfig.setUser(user);
 user.setName(contactId);
 session.setAttribute(org.girlscouts.vtk.auth.models.User.class.getName(), user);
