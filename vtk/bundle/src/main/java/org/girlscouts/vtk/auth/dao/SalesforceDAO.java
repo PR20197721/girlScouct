@@ -444,9 +444,12 @@ System.err.println("test url: "+ url);
 					resp.close();
 				}
 				rsp = "{\"records\":" + rsp + "}";
+	System.err.println("tata write :" + vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json");
+	System.err.println( rsp);
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
+				
 				
 			}else{
 			
