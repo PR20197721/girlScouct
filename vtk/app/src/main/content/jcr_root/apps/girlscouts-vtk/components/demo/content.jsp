@@ -254,7 +254,7 @@ function xyz(slc){
                                              <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
-                                            <li data-value="">-----</li>
+                                            <li data-value="">Please select...</li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Marcy&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Gina&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Meredith&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
@@ -303,7 +303,7 @@ function xyz(slc){
                                              <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
-                                            <li data-value="">-----</li>
+                                            <li data-value="">Please select...</li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Martha&prefGradeLevel=2-Brownie">BROWNIE <span>grades 2-3</span></li>
                                             <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=<%=vTroop %>&user=Jenny&prefGradeLevel=3-Junior">JUNIOR <span>grades 4-5</span></li>
@@ -487,7 +487,7 @@ if( listOfFiles!=null )
     
     $(function(){
       $(document).foundation();
-      showWelcomePop();
+    //  showWelcomePop();
       gsusa.component.dropDown('#vtk-dropdown-2',{local:true});
       gsusa.component.dropDown('#vtk-dropdown-3',{local:true});
       
@@ -502,9 +502,13 @@ if( listOfFiles!=null )
 	        if( isShowWecomePop!=null && isShowWecomePop!='' && isShowWecomePop== 'true'){
 	            
 	            localStorage.setItem("isShowDemoWelcomePop", "false");
-	            $('#myModal-demo').foundation('reveal', 'open');
+	            displayWelcomePop();
 	        }
 	    } 
+    }
+    
+    function displayWelcomePop(){
+    	 $('#myModal-demo').foundation('reveal', 'open');
     }
     
 </script>

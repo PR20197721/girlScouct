@@ -24,7 +24,7 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 			<p>&copy; 2016 Girl Scouts of the United States of America A501(c)(3) Organization. All Rights Reserved</p>
 		</div>
 		<div class="vtk-demo-reference-footer small-push-1 small-23  medium-push-1 medium-4 end columns">
-			<a href="#">Demo details</a> <!-- Link -->
+			<a href="#">Demo details **</a> <!-- Link -->
 		</div>
 	</div>
 	<!--logo for the mobile footer-->

@@ -67,7 +67,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                        </div>
 
                         <ul class="vtk-demo-dropdown_options" >
-                          <li data-value="">-----</li>
+                          <li data-value="">Please select...</li>
 
                           <% if( isDp ){%>
                               <li data-value="/content/girlscouts-vtk/controllers/vtk.demo.index.html?vTroop=&user=Lisa&prefGradeLevel=1-Daisy">DAISY <span>grades k-1</span></li>
