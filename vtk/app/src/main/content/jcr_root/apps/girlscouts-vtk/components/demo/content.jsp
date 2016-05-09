@@ -30,11 +30,12 @@ function goToUrl(elem){
 </script>
 
 <%@page import="java.util.HashMap"%>
+<%@include file="/libs/foundation/global.jsp" %>
 <%
 
 
 
-
+HttpSession session = request.getSession();
 session.putValue("VTK_troop",null);
 session.putValue(org.girlscouts.vtk.auth.models.User.class.getName(),null);
 session.putValue(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), null);
@@ -106,7 +107,7 @@ java.util.Map<String, String> permisDeff = new java.util.TreeMap<String, String>
 permisDeff.put("DP", "Troop Leader");
 permisDeff.put("PA", "Parent");
 
-org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class).getSession());
+org.girlscouts.vtk.auth.dao.SalesforceDAO sfDAO = new org.girlscouts.vtk.auth.dao.SalesforceDAO(null, null, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class));
 boolean  showTroopPermDetails  = request.getParameter("showTroopPermDetails") !=null ? true : false;
 HttpSession hsession = request.getSession();
 
