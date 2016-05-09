@@ -3,29 +3,24 @@ package org.girlscouts.vtk.auth.dao;
 //import org.json.simple.JSONObject;
 //import org.json.simple.parser.JSONParser;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.io.*;
-import org.apache.commons.codec.binary.Base64;
 
-import java.util.Dictionary;
-import java.util.Set;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.NameValuePair;
-import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.felix.scr.annotations.Activate;
-import org.apache.felix.scr.annotations.Reference;
+import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
 import org.girlscouts.vtk.auth.models.ApiConfig;
@@ -33,22 +28,18 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.ConnectionFactory;
+import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.ejb.VtkError;
-import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
-import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
-import org.girlscouts.vtk.sso.saml.OAuthRequest;
-import org.girlscouts.vtk.sso.saml.Utils;
-import org.girlscouts.vtk.utils.VtkException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
+
+import com.google.common.io.CharStreams;
 
 // TODO: Need thread pool here
 public class SalesforceDAO {
@@ -59,14 +50,24 @@ public class SalesforceDAO {
 	String callbackUrl;
 	private TroopDAO troopDAO;
 	private ConnectionFactory connectionFactory;
+	private Session session;
 	private java.util.List<VtkError> errors;
-	private String vtkDemoPath ="/usr/local/vtk";
+	private String vtkDemoPath ="/etc/vtk-demo";
 	private String vtkDemoCouncil="999";
 	
 	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory) {
 		this.troopDAO = troopDAO;
 		this.connectionFactory = connectionFactory;
 		this.errors = new java.util.ArrayList<VtkError>();
+	}
+	
+	public SalesforceDAO(TroopDAO troopDAO, ConnectionFactory connectionFactory, SessionFactory sessionFactory) {
+		this(troopDAO, connectionFactory);
+		try {
+			this.session = sessionFactory.getSession();
+		} catch (RepositoryException e) {
+			log.error("Cannot get session due to RepositoryException.");
+		}
 	}
 
 	public User getUser(ApiConfig apiConfig) throws IllegalAccessException {
@@ -1422,7 +1423,19 @@ System.err.println("tata13: "+ merged_troops);
 	
 	
 	public StringBuffer readFile(String fileName){
+		try {
+			InputStream is = session.getNode(fileName + "/jcr:content").getProperty("jcr:data").getBinary().getStream();
+			String content = CharStreams.toString(new InputStreamReader(is, "UTF-8"));
+			return new StringBuffer(content);
+		} catch (RepositoryException re) {
+			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
+		} catch (IOException ie) {
+			log.error("Cannot get file node: " + fileName + " due to IOException");
+		}
+		return null;
 		
+		// Per Alex's request, leave old code here. -Mike
+		/*
 		StringBuffer sf = new StringBuffer();
 
         // This will reference one line at a time
@@ -1458,9 +1471,19 @@ System.err.println("tata13: "+ merged_troops);
             // ex.printStackTrace();
         }
     return sf;
+    */ 
 	}
 	
 	private void writeToFile( String fileName, String content) {
+		try {
+			InputStream is = IOUtils.toInputStream(content);
+			Node node = session.getNode(fileName + "/jcr:content");
+			node.setProperty("jcr:data", is);
+		} catch (RepositoryException re) {
+			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
+		}
+		// Per Alex's request, leave old code here. -Mike
+		/*
 		try{
 		File file = new File(fileName);
 
@@ -1479,6 +1502,7 @@ System.err.println("tata13: "+ merged_troops);
 	} catch (IOException e) {
 		e.printStackTrace();
 	}
+	*/
 
 		
 	}

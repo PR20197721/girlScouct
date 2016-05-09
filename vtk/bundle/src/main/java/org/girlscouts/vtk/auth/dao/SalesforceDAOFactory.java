@@ -2,9 +2,15 @@ package org.girlscouts.vtk.auth.dao;
 
 import java.util.Dictionary;
 
-import org.apache.felix.scr.annotations.*;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.ConnectionFactory;
+import org.girlscouts.vtk.ejb.SessionFactory;
 //import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
@@ -24,6 +30,9 @@ public class SalesforceDAOFactory implements ConfigListener {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
+	
+	@Reference
+	private SessionFactory sessionFactory;
 
 	private String clientId;
 	private String clientSecret;
@@ -45,7 +54,7 @@ public class SalesforceDAOFactory implements ConfigListener {
 	}
 
 	public SalesforceDAO getInstance() {
-		SalesforceDAO dao = new SalesforceDAO(troopDAO, connectionFactory);
+		SalesforceDAO dao = new SalesforceDAO(troopDAO, connectionFactory, sessionFactory);
 		dao.clientId = clientId;
 		dao.clientSecret = clientSecret;
 		dao.OAuthUrl = OAuthUrl;
