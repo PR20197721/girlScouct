@@ -319,8 +319,11 @@ try{
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
-			ocm.remove(troop);
-			ocm.save();
+			
+			if (troop!=null && mySession.itemExists(troop.getPath())) {
+				ocm.remove(troop);
+				ocm.save();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

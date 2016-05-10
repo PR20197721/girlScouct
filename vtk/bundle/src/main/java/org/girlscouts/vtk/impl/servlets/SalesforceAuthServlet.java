@@ -454,49 +454,48 @@ System.err.println("test17");
 					if( session.getAttribute("useAsDemo") !=null ){
 						useAsDemo=true;
 					}
-			System.err.println("tata is demo : "+  useAsDemo);
+			
 					config.setUseAsDemo( useAsDemo );
 					
 					
 					
-					
-			System.err.println("test28");		
+							
 					session.setAttribute(ApiConfig.class.getName(), config);
-			System.err.println("test29");		
+					
 					User user = null;
 					try {
 						user = dao.getUser(config);
-			System.err.println("test30 "+ (user==null));			
+						
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 					if (user == null) {
-			System.err.println("test31 user is null");			
+						
 						response.setStatus(500);
 						return;
 					}
 					session.setAttribute(User.class.getName(), user);
 					config.setUser(user);
-			System.err.println("test32");		
+					
 					
 					
 					
 					org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 					vtkUser.setApiConfig(config);
-			System.err.println("test33");		
+					
 					if (config.getTroops() != null && config.getTroops().size() > 0) {
-			System.err.println("test34");
+			
 						
 						// load config
 						vtkUser.setCurrentYear(""+VtkUtil.getCurrentGSYear());
-						System.err.println("test35 "+ vtkUser.getCurrentYear());			
+									
 						}
 					session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 							vtkUser);
-			System.err.println("test36");
+			
 				    // Set cookie troopDataPath 
 					if (config.getTroops() != null && !config.getTroops().isEmpty()) {
-						System.err.println("test37");				
+										
 					    String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
 					    Cookie cookie = new Cookie("troopDataToken", troopDataPath);
 					    cookie.setPath("/");
@@ -505,7 +504,7 @@ System.err.println("test17");
 					
 			 }catch(Exception e4){
 				 e4.printStackTrace();
-				 System.err.println("test37");
+				 
 				 VtkError err= new VtkError();
 				 err.setName("Error logging in");
 				 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while getting oAuth token from Salesforce. Exception : " + e4.toString());
@@ -513,30 +512,30 @@ System.err.println("test17");
 				 err.setErrorCode("VTK-oAuth");
 				 err.addTarget("home");
 				 session.setAttribute("fatalError", err);
-				 System.err.println("test38");
+				
 				 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
 				 return;
 				 
 			 }
-				System.err.println("test39");
+				
 		}//end oAuthtoken
-			System.err.println("test40");
+		
 		if( request.getParameter("RelayState")!=null && (request.getParameter("RelayState").indexOf("http://")!=-1 || request.getParameter("RelayState").indexOf("https://")!=-1)) {
 			    redirect(response, request.getParameter("RelayState"));
-				System.err.println("test41");
+				
 		}else if(request.getParameter("RelayState")!=null){
-			System.err.println("test42");
+			
 				setCouncilInClient(response, request.getParameter("RelayState"));
 				redirect(response, targetUrl);
 		}else {
-			System.err.println("test43");
+	
 			    redirect(response, targetUrl);
 
 		}
-		System.err.println("test44");
+		
 	}catch(Exception e){
 		 e.printStackTrace();
-			System.err.println("test45");
+			
 		 VtkError err= new VtkError();
 		 err.setName("Error logging in");
 		 err.setDescription("Error int SalesForceOAuthServet.doPost: found error while SSO from Salesforce. Exception : " + e.toString());
@@ -544,7 +543,7 @@ System.err.println("test17");
 		 err.setErrorCode("VTK-SSO");
 		 err.addTarget("home");
 		 session.setAttribute("fatalError", err);
-			System.err.println("test46");
+			
 		 response.sendRedirect("/content/girlscouts-vtk/en/vtk.home.html");
 		 return;
 		 

@@ -60,7 +60,8 @@ System.err.println("tata YP: /content/girlscouts-vtk/yearPlanTemplates/yearplan"
 		+ VtkUtil.getCurrentGSYear() + "/" + ageLevel + "/");
 			Query query = queryManager.createQuery(filter);
 			yearPlans = (List<YearPlan>) ocm.getObjects(query);
-
+System.err.println("tata YP found: "+ (yearPlans==null));
+System.err.println("tata YP found: "+ (yearPlans.size()) );
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

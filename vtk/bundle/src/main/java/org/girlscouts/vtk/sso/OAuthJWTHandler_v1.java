@@ -69,7 +69,7 @@ public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String ac
 		      MessageFormat claims;
 		      claims = new MessageFormat(claimTemplate);
 		      String payload = claims.format(claimArray);
-		  System.err.println("tatatata msgTempl "+ payload);    
+		    
 		      //Add the encoded claims object
 		      token.append(Base64.encodeBase64URLSafeString(payload.getBytes("UTF-8")));
 
@@ -86,12 +86,12 @@ public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String ac
 		      Signature signature = Signature.getInstance("SHA256withRSA");
 		      signature.initSign(privateKey);
 		      signature.update(token.toString().getBytes("UTF-8"));
-	//System.err.println("tatatata: sign: "+ signature.sign());	      
+	     
 		      String signedPayload = Base64.encodeBase64URLSafeString(signature.sign());
-System.err.println("tatatata checkToken: "+ token.toString() );
+
 		      //Separate with a period
 		      token.append(".");
-System.err.println("tatatata1 checkToken: "+ token.toString() );
+
 		      //Add the encoded signature
 		      token.append(signedPayload);
 System.err.println("tatatata2 checkToken: "+ token.toString() );

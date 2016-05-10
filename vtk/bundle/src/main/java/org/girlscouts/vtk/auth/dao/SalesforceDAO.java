@@ -86,7 +86,7 @@ public class SalesforceDAO {
 
 			String rsp = null;
 			if(  !apiConfig.isDemoUser() ){
-System.err.println("tata 1 ... ");				
+			
 					connection = connectionFactory.getConnection();
 					CloseableHttpResponse resp = connection.execute(method);
 					int statusCode = resp.getStatusLine().getStatusCode();
@@ -114,7 +114,7 @@ System.err.println("tata 1 ... ");
 					
 					
 			}else{
-System.err.println("tata 2 ... ");	
+	
 				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
 				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
 		       
@@ -151,7 +151,7 @@ System.err.println("tata 2 ... ");
 
 		try {
 			
-System.err.println("tata 3 ..." + rsp);			
+			
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex user reponse: " + response);
 			JSONArray results = response.getJSONArray("users");
@@ -234,9 +234,8 @@ System.err.println("tata 3 ..." + rsp);
 				JSONArray parentTroops = response.getJSONArray("camps");
 				java.util.List<Troop> troops = getTroops_merged(user,
 						apiConfig, user.getSfUserId(), parentTroops);
-System.err.println("tata001: "+ troops.size() );				
-				apiConfig.setTroops(troops);
-System.err.println("tata002 : "+ apiConfig.getTroops().size() );				
+				
+				apiConfig.setTroops(troops);				
 				
 				java.util.List<VtkError> _errors = apiConfig.getErrors();
 				if( errors!=null && errors.size()>0 ){
@@ -387,8 +386,6 @@ System.err.println("tata002 : "+ apiConfig.getTroops().size() );
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
 		
-System.err.println("test url: "+ url);		
-		
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		String rsp = null;
@@ -444,8 +441,7 @@ System.err.println("test url: "+ url);
 					resp.close();
 				}
 				rsp = "{\"records\":" + rsp + "}";
-	System.err.println("tata write :" + vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json");
-	System.err.println( rsp);
+	
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
@@ -459,12 +455,10 @@ System.err.println("test url: "+ url);
 		    }
 			
 			log.debug(">>>>> " + rsp);
-	System.err.println("Contacts Troops API : "+ rsp);
 
 			try {
 				JSONObject response = new JSONObject(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
-System.err.println("RESP CONTACT 1: " + response);		
 
 
 java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
@@ -654,7 +648,6 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 					contact.setFirstName(results.getJSONObject(i)
 	
 					.getString("Name"));
-	System.err.println("Contact : "+ contact.getFirstName() );
 					} catch (Exception e) {
 	
 					}
@@ -832,7 +825,6 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
-System.err.println("renewal: "+ contact.isRenewalDue());
 
 				contact.setType(0);
 
@@ -851,7 +843,6 @@ System.err.println("renewal: "+ contact.isRenewalDue());
 				"rC_Bios__Preferred_Contact__r")
 
 				.getString("Email"));
-System.err.println("sub Email : "+ contactSub.getEmail());
 				} catch (Exception e) {
 
 				}
@@ -954,7 +945,6 @@ System.err.println("sub Email : "+ contactSub.getEmail());
 				
 				
 				
-System.err.println("contacts size: "+ contacts.size() );
 				
 				
 				
@@ -1048,7 +1038,7 @@ System.err.println("contacts size: "+ contacts.size() );
 	public java.util.List<Troop>  troopInfo_parse(User user, String rsp,ApiConfig apiConfig ) throws Exception{
 		
 		   java.util.List<Troop> troops = new java.util.ArrayList();
-System.err.println("xx: "+ rsp);			
+			
 			rsp = "{\"records\":" + rsp + "}";
 			JSONObject response = new JSONObject(rsp);
 			log.debug("<<<<<Apex resp: " + response);
@@ -1279,15 +1269,12 @@ System.err.println("xx: "+ rsp);
 		
 		
 		java.util.List<Troop> troops_withAssociation = troopInfo(user,
-				apiConfig, user.getSfUserId());
-System.err.println("tata11: "+ troops_withAssociation);		
+				apiConfig, user.getSfUserId());		
 		java.util.List<Troop> troops_withOutAssociation = parseParentTroops(user,
-				parentTroops, apiConfig);
-System.err.println("tata12: "+ troops_withOutAssociation);			
+				parentTroops, apiConfig);			
 		java.util.List<Troop> merged_troops = mergeTroops(
 				troops_withAssociation, troops_withOutAssociation);
-		
-System.err.println("tata13: "+ merged_troops);		
+				
 		return merged_troops;
 	}
 
