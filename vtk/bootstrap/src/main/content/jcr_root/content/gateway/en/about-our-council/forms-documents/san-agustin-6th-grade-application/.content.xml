@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-21T09:11:58.242-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:tags="[gateway:forms_documents/camping,gateway:forms_documents/trips-and-travel,gateway:forms_documents/registration]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="San Agustin 6th Grade Application"
+        jcr:uuid="16ef04d4-3c3a-4117-9e3b-a41683eec62a"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <embedded
+                        jcr:created="{Date}2014-07-18T13:13:12.910-04:00"
+                        jcr:createdBy="bsnyder"
+                        jcr:lastModified="{Date}2014-07-18T13:13:24.618-04:00"
+                        jcr:lastModifiedBy="bsnyder"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/embedded"
+                        html="&lt;iframe height=&quot;4489&quot; allowTransparency=&quot;true&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;width:100%;border:none&quot;  src=&quot;https://gsgc.wufoo.com/embed/s2ws5gg1a0mmt2/&quot;>&lt;a href=&quot;https://gsgc.wufoo.com/forms/s2ws5gg1a0mmt2/&quot;>Fill out my Wufoo form!&lt;/a>&lt;/iframe>"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-09-21T09:11:58.237-04:00"
+            jcr:lastModifiedBy="dpage"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

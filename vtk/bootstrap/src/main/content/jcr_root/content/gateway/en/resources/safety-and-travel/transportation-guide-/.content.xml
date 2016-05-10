@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-25T10:59:48.572-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-09-25T10:59:48.650-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:lastRolledout="{Date}2014-09-25T10:59:48.572-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveRelationship,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Transportation Guide "
+        jcr:uuid="939c21f0-f238-420b-a7da-463f3ac9d0dd"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <content
+            cq:lastRolledout="{Date}2014-09-25T10:59:48.529-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2014-09-25T10:59:48.535-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2014-09-25T10:59:48.539-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        cq:lastRolledout="{Date}2014-09-25T10:59:48.559-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-07T17:33:34.223-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:59:48.558-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"
+                        title="Transporting Girls"
+                        type="h4"/>
+                    <text
+                        cq:lastRolledout="{Date}2014-09-25T10:59:48.561-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-07T17:33:43.286-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:59:48.560-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>How parents/caregivers decide to transport girls between their homes and Girl Scout meeting places is each parent’s individual decision and responsibility.&lt;/p>&#xa;&lt;p>For planned Girl Scout field trips and other activities—outside the normal time and place—in which a group will be transported in private vehicles:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>Every driver must be an approved adult volunteer and have a good driving record, a valid license, and a registered/insured vehicle.&lt;/li>&#xa;&lt;li>Girls &lt;b>never&lt;/b> drive other girls.&lt;/li>&#xa;&lt;li>If a group is traveling in one vehicle, there must be at least two unrelated, approved adult volunteers in the vehicle, one of whom is female, and the girl-volunteer ratios [LINK TO RATIOS] must be followed.&lt;/li>&#xa;&lt;li>If a group is traveling in more than one vehicle, the entire group must consist of at least two unrelated, approved adult volunteers, one of whom is female, and the girl-volunteer ratios [LINK TO RATIOS] must be followed. Care should be taken so that a single car (with a single adult driver) is not separated from the group for an extended length of time.&lt;/li>&#xa;&lt;/ul>&#xa;"
+                        textIsRich="true"/>
+                    <title_0
+                        cq:lastRolledout="{Date}2014-09-25T10:59:48.565-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-07T17:34:35.522-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:59:48.562-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"
+                        title="Private Transportation"
+                        type="h4"/>
+                    <text_0
+                        cq:lastRolledout="{Date}2014-09-25T10:59:48.571-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-07T17:34:56.525-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:59:48.566-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>Private transportation includes private passenger vehicles, rental cars, limos, etc. Each driver of motorized private transportation must be at least 21 years old and hold a valid operator’s license appropriate to the vehicle—state laws must be followed, even if they are more stringent than the guidelines here. Anyone driving with more than 12 passengers must be a professional driver with a valid commercial driver’s license (CDL).&lt;/p>&#xa;&lt;p>Please keep in mind the following non-negotiable points regarding private transportation:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>You are &lt;i>not&lt;/i> authorized to sign an agreement or contract for rentals or charters—even if there is no cost associated with the rental. These must always be signed by the person designated by your council.&lt;/li>&#xa;&lt;li>Check with your council to make sure you are following accepted practices when using private transportation; this ensures that both you and your council are protected by liability insurance in the event of an accident.&lt;/li>&#xa;&lt;li>If your council has given permission to use a rented car, read all rental agreements to be sure you comply with their terms and avoid surprises. Note the minimum age of drivers (often 25), as well as the maximum age (often under 70). Be sure the car is adequately insured and ensure a good paper trail, with evidence that the vehicle rental is Girl Scout–related.&lt;/li>&#xa;&lt;li>Obtain parent/guardian permission for any use of transportation outside of the meeting place.&lt;/li>&#xa;&lt;/ul>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            cq:lastRolledout="{Date}2014-09-25T10:59:48.572-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2014-09-25T10:59:48.571-04:00"
+            jcr:lastModifiedBy="mgarg"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+    <driver-checklist-/>
+</jcr:root>

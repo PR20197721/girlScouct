@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-10-10T12:55:43.451-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-10-10T12:59:42.794-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/ags-&amp;-families,gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Annie"
+        jcr:uuid="e1cf5d5e-5a23-4a77-ad30-2509d6cd734e"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="300 Water St, Jacksonville, FL, US, 32202"
+            details="&lt;p>FSCJ Artist Series presents The Tony Award-Winning Production - ANNIE at the Times-Union Center, Moran Theater from October 21-26, 2014. &lt;/p>&#xa;&lt;p>A Special Scout Discount, including an ANNIE Girl Scout patch and post-show chat back with the cast, is available for the Wednesday, October 22 performance at 7:30 PM. Scout tickets are $27.50* in B section seating (FULL: $67.50) and $22.50* in C section seating (FULL: $57.50).&lt;/p>&#xa;&lt;p>For tickets, contact Cindy de Padua or Meredith Ramey at (904) 442-2947 or groupsales@fscj.edu. &lt;/p>&#xa;&lt;p>Visit &lt;a href=&quot;http://www.artseriesjax.org&quot; target=&quot;_blank&quot;>&lt;b>www.artseriesjax.org&lt;/b>&lt;/a> NEW website to learn more about the FSCJ Artist Series 2014-2015 Broadway Season Line-up. *Price is all-inclusive. &lt;/p>&#xa;&lt;p>Scout discount not valid on previously purchased tickets, facility usage fee and service charge not discounted. Offer subject to availability and may be withdrawn at any time.&lt;/p>&#xa;"
+            end="{Date}2014-10-22T21:30:00.000-04:00"
+            locationLabel="Times Union Center for the Performing Arts"
+            srchdisp="FSCJ Artist Series presents The Tony Award-Winning Production - ANNIE. A Special Scout Discount, including an ANNIE Girl Scout patch and post-show chat back with the cast, is available for the Wednesday, October 22 performance at 7:30 PM."
+            start="{Date}2014-10-22T19:30:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-10-10T12:55:43.445-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

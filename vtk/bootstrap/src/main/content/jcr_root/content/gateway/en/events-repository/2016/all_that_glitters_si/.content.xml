@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-22T10:55:51.966-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="All That Glitters – Silver – C – Jacksonville"
+        jcr:uuid="d9018095-5c56-4527-948e-f52b15c2b0e1"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>All that Glitters- C- Jacksonville&lt;br>&#xa;Grades: 6, 7&lt;/p>&#xa;&lt;p>All that Glitters is your one stop source for everything you need to know about the Bronze, Silver, and Gold Award. Did you know this year is the Gold Award Centennial Celebration – or – if you earn all three awards, you are eligible for college scholarships?&amp;nbsp; Just like that, you can find out more information about the Highest Awards by attending this interactive and hands on day of learning. Don’t forget to bring along a parent or adult that will be supporting you throughout your journey of earning your highest award. They too will have an opportunity to engage in learning. Cost includes lunch and take-a-ways.&lt;/p>&#xa;&lt;p>*This event is for 2016 registered Girl Scouts.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring siblings.&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&lt;br>&#xa;*Event registration closes Jan. 27&lt;/p>&#xa;&lt;p>$20/girl, $12/Adult&lt;br>&#xa;Contact: Jacquie Johnson 904.652.1364&lt;/p>&#xa;"
+            end="{Date}2016-01-30T12:30:00.000-05:00"
+            locationLabel="Jacksonville Service Center"
+            register=" http://girlscouts-gateway.doubleknot.com/event/all-that-glitters-silver-c-jacksonville/1848296"
+            start="{Date}2016-01-30T09:00:00.014-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-22T10:55:51.958-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

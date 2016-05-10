@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T11:21:49.694-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She's a Park Explorer at Little Talbot Island State Park- CSA"
+        jcr:uuid="42480b59-8e4e-4bc8-bec2-4fde9f20d16e"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="12157 Heckscher Drive, Jacksonville, FL 32226"
+            color="#EC008C"
+            details="&lt;p>She’s a Park Explorer at Little Talbot Island State Park - CSA&lt;br>&#xa;Grades: 6, 7, 8, 9, 10, 11, 12&lt;br>&#xa;&lt;br>&#xa;Each spring and summer, nesting shorebirds and sea turtles visit the beaches of Little Talbot Island State Park to lay their eggs and raise their young. Knowing the different species, their nesting habits and how to best protect them helps park rangers conserve precious wildlife for future generations. Educating the public about these sensitive nesting areas and the importance of the species is also key to preservation. Learn how rangers identify shorebird and sea turtle species, recognize nesting behaviors and enact protective measures. Hands-on activities will include making your own shorebird identification guide and building sea turtle nest stakes and screens, plus a turtle survey exercise and shorebird ID with a spotting scope on the beach. Fun patch provided. Park entrance fee included.&lt;br>&#xa;&lt;br>&#xa;*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;* For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&amp;nbsp;&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&amp;nbsp;&lt;br>&#xa;&lt;br>&#xa;$8/girl, $8/adult&amp;nbsp;&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-04-30T15:00:00.000-04:00"
+            locationLabel="Little Talbot Island State Park"
+            register="http://girlscouts-gateway.doubleknot.com/event/shes-a-park-explorer-at-little-talbot-island-state-park-csa/1826258"
+            start="{Date}2016-04-30T13:00:00.008-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T11:21:49.687-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

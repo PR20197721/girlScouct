@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-25T11:08:15.155-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-09-25T11:08:15.205-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:lastRolledout="{Date}2014-09-25T11:08:15.156-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveRelationship,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Sailing "
+        jcr:uuid="7ec6c90c-f23c-41ea-ae74-afdec1dd2ede"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <content
+            cq:lastRolledout="{Date}2014-09-25T11:08:15.128-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2014-09-25T11:08:15.132-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2014-09-25T11:08:15.136-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        cq:lastRolledout="{Date}2014-09-25T11:08:15.148-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T09:22:40.242-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T11:08:15.147-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"
+                        title="Sailing:  Safety Activity Checkpoints"
+                        type="h4"/>
+                    <image
+                        cq:lastRolledout="{Date}2014-09-25T11:08:15.151-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T09:23:06.311-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T11:08:15.150-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/volunteer-resources/Sailing image.jpg"
+                        imageCrop="0,0,843,492"
+                        imageRotate="0"/>
+                    <text
+                        cq:lastRolledout="{Date}2014-09-25T11:08:15.153-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T09:21:48.331-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T11:08:15.152-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>The sport of sailing has become very high-tech and competitive since its humble beginnings, but sailors and racers still must rely on the force of wind to push their boats. &amp;nbsp;&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/volunteer-resources/Sailing_Safety_Activity_Checkpoints_final.pdf&quot; target=&quot;_blank&quot;>Click here for Safety Activity Checkpoints&lt;/a>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            cq:lastRolledout="{Date}2014-09-25T11:08:15.156-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2014-09-25T11:08:15.155-04:00"
+            jcr:lastModifiedBy="mgarg"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

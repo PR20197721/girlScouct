@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-20T20:08:19.860-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events,gateway:categories/living-history]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Discover San Agustin Reenactment- Family, Troops, and Individuals"
+        jcr:uuid="28c2e242-4215-49ba-a7d7-ec003e19a427"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Discover San Agustin Reenactment&lt;br>&#xa;Family, Troops, and Individuals&lt;/p>&#xa;&lt;p>Come celebrate &amp;quot;Living History Day with Girl Scouts of Gateway Council&amp;quot; by bringing your families and Girl Scout troops to travel back in time and discover the 1740s at the Fountain of Youth in downtown St. Augustine! Some of our very own sixth and seventh grade Girl Scout docents were handpicked to serve as your tour guide for the day and will help you take a step back in time by demonstrating exactly how young ladies lived in 18th century St. Augustine.&lt;/p>&#xa;&lt;p>Take part in pastimes of another time period and imagine yourself in history by visiting over 15 hands on and listen and learn stations including: basket weaving, broom making, candle making, pottery, lucets, embroidery, games and so much more. You will even get to take part in a special cannon firing and musket demonstration.&lt;/p>&#xa;&lt;p>The event will take place between 9 a.m. and 4 p.m. but don’t be late, as the last admittance into the gate will be at 2 p.m. Activities will be complete just in time for the cannon firing and musket demonstration at 4 p.m. Don’t forget to check out the Ximenez Fatio House event description, as we encourage you to experience both St. Augustine Living History Day events on April 9&lt;sup>th&lt;/sup>.&amp;nbsp; Also, check out the combo package to receive a discount for purchasing tickets to both events in advance. Don’t delay, sign up today to receive discounted admission!&lt;/p>&#xa;&lt;p>$7/girl, $7/adult – advance purchase&lt;br>&#xa;$8/girl, $8/adult- day of event purchase&lt;br>&#xa;Children ages 4 and under: FREE&lt;/p>&#xa;&lt;p>Contact: Brittany McCallister,&amp;nbsp;&lt;a href=&quot;mailto:bmccallister@girlscouts-gateway.org&quot;>bmccallister@girlscouts-gateway.org&lt;/a>&lt;/p>&#xa;"
+            end="{Date}2016-04-09T16:00:00.000-04:00"
+            locationLabel="Downtown St. Augustine"
+            register="http://girlscouts-gateway.doubleknot.com/event/discover-san-agustin-reenactment-family-event/1855235"
+            start="{Date}2016-04-09T09:00:00.028-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-20T20:08:19.836-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

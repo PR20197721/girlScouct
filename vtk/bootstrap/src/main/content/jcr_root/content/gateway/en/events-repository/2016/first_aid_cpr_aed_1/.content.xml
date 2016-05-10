@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-27T12:18:25.761-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="First Aid/CPR/Adult/Pediatrics/AED"
+        jcr:uuid="85636f70-bd31-4e95-9f8f-2b79a19a1b4c"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Prerequisite: Participants must be Girl Scout Seniors/Ambassadors (9th-12th grade) or adults&lt;/p>&#xa;&lt;p>The Adult &amp;amp; Pediatric First Aid/CPR/AED course is required for all Level 1 and Level 2 First Aiders. This course contains step-by-step, hands-on training that allows participants to respond effectively in the event of an emergency or life threatening situation. Topics covered will include: response to cardiac and/or breathing emergencies; head, neck, and back injuries; wound management; handling thermal emergencies, and proper use of an Automated External Defibrillator (AED). Participants will receive an approved American Red Cross certification that is valid for two years.&amp;nbsp; Comfortable clothing and shoes are recommended for this course.&amp;nbsp;This course is OSHA compliant.&lt;/p>&#xa;&lt;p>*This event is for 2016 registered Girl Scouts.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&lt;br>&#xa;*Registration closes April 2&lt;/p>&#xa;&lt;p>$50/girl, $50/adult&lt;br>&#xa;Contact: Jacquie Johnson&amp;nbsp; 904.652.1364&lt;/p>&#xa;"
+            end="{Date}2016-04-16T15:00:00.000-04:00"
+            locationLabel="Jacksonville Service Center"
+            register="http://girlscouts-gateway.doubleknot.com/event/community-first-aidcpraed-apr-16-jacksonville-service-center/1841186"
+            start="{Date}2016-04-16T09:00:00.024-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-27T12:18:25.755-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/training.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

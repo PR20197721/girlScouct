@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-29T09:49:49.603-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Beth Osburn"
+        jcr:uuid="2324cee2-4231-4b25-bf00-0d246919dba5"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="bosburn@girlscouts-gateway.org"
+        hideInNav="{Boolean}true"
+        phone="904-421-3493"
+        title="Troop Support Specialist"/>
+</jcr:root>

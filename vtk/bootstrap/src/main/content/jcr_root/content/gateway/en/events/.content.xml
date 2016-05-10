@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-06-19T15:24:53.186-04:00"
+        cq:lastModifiedBy="mzou"
+        cq:lastReplicated="{Date}2014-09-25T23:37:41.517-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Events"
+        jcr:uuid="492e31e8-c4c8-4191-b3fe-6f57b42dc4ed"
+        sling:resourceType="girlscouts/components/placeholder-page"/>
+    <event-list/>
+    <event-calendar/>
+</jcr:root>

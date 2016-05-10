@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2015-10-29T11:27:24.735-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent"
+        newRendition="{Boolean}true">
+        <metadata
+            dam:Bitsperpixel="{Long}24"
+            dam:Comments="Raw profile type app12: &#xa;app12&#xa;      15&#xa;4475636b7900010004000000500000&#xa;&#xa;Raw profile type exif: &#xa;exif&#xa;      22&#xa;45786966000049492a00080000000000000000000000&#xa;&#xa;date:create: 2015-10-29T11:17:06-04:00&#xa;date:modify: 2015-10-22T09:46:53-04:00&#xa;Raw profile type xmp: &#xa;xmp&#xa;     780&#xa;3c3f787061636b657420626567696e3d22efbbbf222069643d2257354d304d7043656869&#xa;487a7265537a4e54637a6b633964223f3e203c783a786d706d65746120786d6c6e733a78&#xa;3d2261646f62653a6e733a6d6574612f2220783a786d70746b3d2241646f626520584d50&#xa;20436f726520352e302d633036302036312e3133343737372c20323031302f30322f3132&#xa;2d31373a33323a30302020202020202020223e203c7264663a52444620786d6c6e733a72&#xa;64663d22687474703a2f2f7777772e77332e6f72672f313939392f30322f32322d726466&#xa;2d73796e7461782d6e7323223e203c7264663a4465736372697074696f6e207264663a61&#xa;626f75743d222220786d6c6e733a786d703d22687474703a2f2f6e732e61646f62652e63&#xa;6f6d2f7861702f312e302f2220786d6c6e733a786d704d4d3d22687474703a2f2f6e732e&#xa;61646f62652e636f6d2f7861702f312e302f6d6d2f2220786d6c6e733a73745265663d22&#xa;687474703a2f2f6e732e61646f62652e636f6d2f7861702f312e302f73547970652f5265&#xa;736f75726365526566232220786d703a43726561746f72546f6f6c3d2241646f62652050&#xa;686f746f73686f7020435335204d6163696e746f73682220786d704d4d3a496e7374616e&#xa;636549443d22786d702e6969643a45443139303430424537343031314532423536394446&#xa;413435413838393734452220786d704d4d3a446f63756d656e7449443d22786d702e6469&#xa;643a4544313930343043453734303131453242353639444641343541383839373445223e&#xa;203c786d704d4d3a4465726976656446726f6d2073745265663a696e7374616e63654944&#xa;3d22786d702e6969643a4544313930343039453734303131453242353639444641343541&#xa;383839373445222073745265663a646f63756d656e7449443d22786d702e6469643a4544&#xa;313930343041453734303131453242353639444641343541383839373445222f3e203c2f&#xa;7264663a4465736372697074696f6e3e203c2f7264663a5244463e203c2f783a786d706d&#xa;6574613e203c3f787061636b657420656e643d2272223f3e&#xa;&#xa;"
+            dam:extracted="{Date}2015-10-29T11:27:22.567-04:00"
+            dam:Fileformat="PNG"
+            dam:MIMEtype="image/png"
+            dam:Numberofimages="{Long}1"
+            dam:Numberoftextualcomments="{Long}5"
+            dam:Physicalheightindpi="{Long}-1"
+            dam:Physicalheightininches="{Double}-1.0"
+            dam:Physicalwidthindpi="{Long}-1"
+            dam:Physicalwidthininches="{Double}-1.0"
+            dam:Progressive="no"
+            dam:sha1="06ba759744cef455aead0afb0a9feb9c9e398f1b"
+            dam:size="{Long}19450"
+            dc:format="image/png"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            tiff:ImageLength="{Long}100"
+            tiff:ImageWidth="{Long}100"/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>

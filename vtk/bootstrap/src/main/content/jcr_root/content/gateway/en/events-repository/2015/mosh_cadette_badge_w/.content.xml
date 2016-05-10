@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-08-14T09:57:20.958-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="MOSH Cadette Badge Workshop"
+        jcr:uuid="b3b0604e-fc0a-4cf6-a0d9-d112773129ef"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Explore the ways animals impact &amp;amp; help humans! Along the way you will meet some charming birds up close &amp;amp; discover the ties that bind humans to the amazing animals that live all around us. The workshop will take place from 9 to 11 a.m. &amp;amp; is $12 per scout.&lt;/p>&#xa;"
+            end="{Date}2015-12-05T11:00:00.000-05:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/education/scouts/girl-scout-workshops/"
+            start="{Date}2015-12-05T09:00:00.008-05:00">
+            <image
+                jcr:lastModified="{Date}2015-08-14T09:57:20.953-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

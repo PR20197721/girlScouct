@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-08-19T13:20:06.221-04:00"
+        cq:lastReplicatedBy="mage"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="John Burke"
+        jcr:uuid="152693f0-55a6-44ba-aa86-97c1c3e3a517"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="jburke@girlscouts-gateway.org"
+        phone="(352) 209-5855"
+        team="Camp Kateri/Seminole Springs"
+        title="Site Manager"/>
+</jcr:root>

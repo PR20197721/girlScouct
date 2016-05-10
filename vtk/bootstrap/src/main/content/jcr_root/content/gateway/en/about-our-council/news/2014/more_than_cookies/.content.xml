@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-11-25T10:42:41.551-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-11-25T10:42:55.921-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        cq:tags="[girlscouts:forms_documents/cookiesproduct-sales,girlscouts:program-level/volunteer]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="More than Cookies"
+        jcr:uuid="df6e7d3e-ca8d-4b90-876c-ee5066ba2883"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2014-11-25T10:33:00.000-05:00"
+        description="Being a Girl Scout volunteer doesn’t just mean endless hours of camping, cookies and crafting.">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:lastModified="{Date}2014-11-25T10:37:30.507-05:00"
+                    jcr:lastModifiedBy="bmoore"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/textimage"
+                    text="&lt;p>Being a Girl Scout volunteer doesn’t just mean endless hours of camping, cookies and crafting. How about chaperoning a trip to a science museum? Try canoeing on a warm summer day or helping eager girls learn archery.&lt;/p>&#xa;&lt;p>That’s the message the Girl Scouts is trying to get out in an attempt to recruit nontraditional volunteers. To make that goal easier, the scouts will launch a new online volunteer system in late November.&lt;/p>&#xa;&lt;p>“The majority of the volunteers are troop leaders. There’s a perception that that’s all there is,” said Mary Ann Jacobs, CEO of the Girl Scouts of Gateway Council.&lt;/p>&#xa;&lt;p>Gateway Council includes St. Johns and 15 other counties in Northeast Florida. There are about 5,000 registered adult volunteer Girl Scouts in this area, and 2,000 of them are troop leaders. They help 13,000 girls each year.&lt;/p>&#xa;&lt;p>“Girl Scouts has provided a safe, fun and engaging place for girls and adult volunteers for over 100 years,” she said.&lt;/p>&#xa;&lt;p>Nontraditional volunteers typically assist troop leaders and have responsibilities that span from a few hours to a few days. Some examples — lifeguards, chaperones, event planners, kayak instructors, and, yes, people skilled with a bow and arrow.&lt;/p>&#xa;&lt;p>“The need is ever-evolving,” Jacobs said of these helpers.&lt;/p>&#xa;&lt;p>The new online registration program is called the Volunteer Tool Kit, and it will be available around the holidays through the website at girlscouts.org/.&lt;/p>&#xa;&lt;p>The first step in volunteering on any level is to become a Girl Scout. The fee is $15 (that includes insurance coverage during participation at scouting events) and $3 for a background check. The Volunteer Tool Kit will walk volunteers through an entire year of scouting and will ask questions related to interests.&lt;/p>&#xa;&lt;p>The volunteers will be linked with the appropriate troop leaders and activities.&lt;/p>&#xa;&lt;p>There is an online registration in place now; the process is complicated though, she said.&lt;/p>&#xa;&lt;p>“In the past, it was not easy,” Jacobs said of linking volunteers with activities.&lt;/p>&#xa;&lt;p>The new Volunteer Tool Kit is great news for Beth Osburn. A full-time paralegal, wife and mother of two, she also supports and coaches 200 troop leaders in St. Johns County.&lt;/p>&#xa;&lt;p>“I’m very passionate about Girl Scouts,” said Osburn, whose 11-year-old daughter Jillian is an active scout in Julington Creek.&lt;/p>&#xa;&lt;p>Osburn is always looking for people with interesting skill sets to work with her troops. It can be something as simple as going on a field trip to an animal shelter to teaching the art of sewing or welding.&lt;/p>&#xa;&lt;p>Her husband Jeff is a nontraditional volunteer. He is canoe and archery trained and pitches in when needed.&lt;/p>&#xa;&lt;p>“We are all in,” Osburn joked about her family’s involvement in scouts.&lt;/p>&#xa;&lt;p>Results of a recent volunteer poll show the positive impact of the organization. Some 88 percent believe their life is better because they volunteer, and 95 percent are happy knowing they are making girls’ lives better.&lt;/p>&#xa;&lt;p>“It’s not so old fashioned. We are relevant,” Jacobs said.&lt;/p>&#xa;&lt;p>Jacobs also emphasized that the traditional scouting activities, like selling cookies, are key to the program.&lt;/p>&#xa;&lt;p>“We are the area’s largest girl-serving entity, besides the school system,” she said.&lt;/p>&#xa;&lt;p>The organization has to keep up with trends and meet the needs of the girls.&lt;/p>&#xa;&lt;p>“The national trend is membership is declining,” she said. “The Gateway council has held steady.”&lt;/p>&#xa;&lt;p>&lt;i>Source - The St. Augustine Record, Alexis McDaniel, Correspondent&lt;/i>&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-11-25T10:42:41.545-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/pageheroes/13906385.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

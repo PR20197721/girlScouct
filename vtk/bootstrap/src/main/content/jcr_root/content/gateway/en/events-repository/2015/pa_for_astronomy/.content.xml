@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-03-30T14:34:31.960-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-03-30T14:34:37.080-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="PA for Astronomy"
+        jcr:uuid="0c8b1b85-aaa5-468b-bb73-9ae84d7318df"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Increase your astronomical knowledge and help younger girls discover the mysteries above us! Helping to deliver the course material in the astronomy class is much easier if you have an understanding of what it is all about. Come see the new activities before anyone else. Get some personal time with some&amp;nbsp; real space rocks, and really learn what the individual activities we do are all about! You will even get to use telescopes to view the early crescent Moon, some dark sky objects and even our sun!&lt;/p>&#xa;"
+            locationLabel="North Fork Girl Scout Camp"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=1345064415"
+            srchdisp=" Increase your astronomical knowledge and help younger girls discover the mysteries above us! "
+            start="{Date}2015-04-10T18:00:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2015-03-30T14:34:31.956-04:00"
+                jcr:lastModifiedBy="drodgers"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-08-12T15:36:09.655-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="PA for Astronomy"
+        jcr:uuid="7da81ca7-93f2-4ffe-b025-4bbc516f0714"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Increase your astronomical knowledge and help younger girls discover the mysteries above us! Helping to deliver the course material in the astronomy class is much easier if you have an understanding of what it is all about. Come see the new activities before anyone else. Get some personal time with some&amp;nbsp; real space rocks, and really learn what the individual activities we do are all about! You will even get to use telescopes to view the early crescent Moon, some dark sky objects and even our sun!&lt;/p>&#xa;&lt;p>**Girls must be PA and PA Astronomy trained to register for this session.&amp;nbsp;&lt;/p>&#xa;&lt;p>** All attendees must be registered Girl Scouts for the 2016 Membership Year.&amp;nbsp; All adults must be registered and approved volunteers.&lt;/p>&#xa;&lt;p>Last day to register online - Oct 9, 2015&lt;/p>&#xa;"
+            end="{Date}2015-10-16T23:00:00.000-04:00"
+            locationLabel="North Fork"
+            register="http://girlscouts-gateway.doubleknot.com/event/pa-for-astronomy-csa-oct-16-north-fork/1778024"
+            start="{Date}2015-10-16T18:00:00.019-04:00">
+            <image
+                jcr:lastModified="{Date}2015-08-12T15:36:09.651-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

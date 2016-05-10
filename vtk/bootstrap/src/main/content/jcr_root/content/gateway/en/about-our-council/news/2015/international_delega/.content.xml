@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-04-30T12:54:38.188-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-04-30T12:54:47.796-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="International delegates visit Girl Scouts"
+        jcr:uuid="1944bf80-8716-44c3-add6-430cc1c2439e"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-04-29T12:00:00.000-04:00"
+        description="The Girl Scouts of Gateway Council welcomed an international contingent to its offices April 30. These community leaders were in Jacksonville as part of the Department of State's International Visitor Leadership Program. ">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>The Girl Scouts of Gateway Council welcomed an international contingent to its offices April 30. These community leaders were in Jacksonville as part of the Department of State's International Visitor Leadership Program. This multi-regional project is called&lt;br>&#xa;American Youth Inspiring Leadership and Civic Participation.&lt;br>&#xa;About 22 representatives from 20 countries applauded when hearing Council CEO Mary Anne Jacobs talk about the many American women leaders today who were Girl Scouts. They talked with several Girl Scouts and enjoyed some Girl Scout cookies. Their favorite? Thin mints, of course.&lt;br>&#xa;The objective of the program:&lt;br>&#xa;Examine the concepts of democracy, government, and citizenship, and their importance to U.S. civil society;&lt;br>&#xa;Explore advocacy and leadership strategies that facilitate social empowerment and justice, particularly for underserved communities, women, and youth;&lt;br>&#xa;Study model programs that promote civic awareness and youth leadership in a variety of contexts such as schools, colleges, associations, youth clubs, sports programs, arts programs, interfaith-initiatives, and political advocacy; and&lt;br>&#xa;Explore the importance of pluralism, tolerance, and volunteerism as components of civic life in the U.S.&lt;br>&#xa;The contingent represented such countries as Algeria, Bolivia, Croatia, Georgia, Jordan, Kenya, Liberia, Malaysia, Morocco, Nigeria, Palestinian Territories, People's Republic of China, Russia, Rwanda, Saudi Arabia, Singapore, South Africa, Trinidad and Tobago, Tunisia and Zimbabwe.&lt;br>&#xa;They represented professions such as teachers, government officials, civic leaders, political leaders, and youth and children’s organization leaders, and a TV news editor.&lt;br>&#xa;See more photos &lt;a href=&quot;https://www.flickr.com/photos/gsgc/sets/72157649943468364/&quot; adhocenable=&quot;false&quot;>here&lt;/a>.&lt;br>&#xa;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-04-30T12:54:38.184-04:00"
+                        jcr:lastModifiedBy="drodgers"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/newsImgs/intl 15.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

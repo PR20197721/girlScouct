@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-14T13:19:22.732-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-14T13:19:25.745-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts of Gateway Council select Feeding Northeast Florida as 2015 Gift of Caring recipient"
+        jcr:uuid="5927cb9f-acae-4cad-a174-a637873700fa"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-01-14T13:00:00.000-05:00">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:lastModified="{Date}2015-01-14T13:08:10.866-05:00"
+                    jcr:lastModifiedBy="bmoore"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>JACKSONVILLE, Fla. – With an estimated 84 percent of households in Northeast Florida deemed food insecure, &lt;a href=&quot;http://www.girlscouts-gateway.org/&quot;>Girl Scouts of Gateway Council&lt;/a> (GSGC) is taking action to take a bite out of hunger and make Northeast Florida a better place one cookie box at a time. This year, GSGC has officially designated &lt;a href=&quot;http://www.feedingnefl.org/&quot;>Feeding Northeast Florida&lt;/a> (FNEFL), which supports 150 food pantries across 17 counties in Northeast Florida, as the recipient of its annual Virtual Gift of Caring program.&lt;/p>&#xa;&lt;p>As a way to recognize hometown heroes and make a difference in the communities GSGC serves, the Council chooses an organization each year as a beneficiary to receive donated cookies. Through the Virtual Gift of Caring option, troops may ask customers to buy an extra box or two to be donated to the cause. Troops receive the money for donated cookies, girls receive credit for the sales and the cookies are delivered directly to the organization at the conclusion of the sales season in late April.&lt;/p>&#xa;&lt;p>“Hunger is an issue in our communities and one that no man, woman or child should face. We hope each box brings the same smiles and joy that we feel knowing that little things can make a huge impact on our world,” said Mary Anne Jacobs, CEO of GSGC. “We are excited to partner with such a dedicated organization that touches lives and helps others throughout all the counties we serve as well.”&lt;/p>&#xa;&lt;p>A study by Feeding Northeast Florida and Feeding America released in August 2014 shows that an estimated 322,300 people in 17 Northeast Florida counties turn to food pantries and meal service programs to feed themselves and their families. Of these, 29 percent are children under age 18 and 15 percent are seniors age 60 or older.&lt;/p>&#xa;&lt;p>“We, and our clients, are extremely grateful that the Girl Scouts of Gateway Council chose us as a beneficiary of this program,” said FNEFL President and CEO Bruce Ganger. “Given that Girl Scout Cookies are enjoyed by people young and old, they’ll be a welcome treat among those who need food assistance.&amp;nbsp; Also, with no trans fat, no preservatives and no artificial colors, we are happy to accept these donations because of their nutritional value.”&lt;/p>&#xa;&lt;p>Girl Scout cookie customers can participate by telling any Girl Scout they wish to purchase an extra box or two for the Gift of Caring project. For online Girl Scout Cookie customers purchasing through a girl’s new personalized Digital Cookie website, there will be a selection box that will allow the user to donate boxes of cookies. Aside from helping a great cause, the girls will also receive a Gift of Caring patch for selling at least 12 Virtual Gift of Caring boxes of cookies.&lt;/p>&#xa;&lt;p>More information on the Virtual Gift of Caring is on our website at &lt;a href=&quot;http://www.girlscouts-gateway.org&quot;>www.girlscouts-gateway.org&lt;/a>.&lt;/p>&#xa;&lt;p>&lt;b>About Girl Scouts of Gateway Council&lt;/b>&lt;br>&#xa;With offices in Jacksonville, Gainesville and Middleburg, Girl Scouts of Gateway Council serves approximately 18,800 girls in grades K- 12 and adults in Northeast Florida. Our service area includes Alachua, Baker, Bradford, Clay, Columbia, Dixie, Flagler, Gilchrist, Hamilton, Levy, Nassau, Putnam, St. Johns, Suwannee and Union counties. For information on how to join, volunteer, reconnect or donate to Girl Scouts of Gateway Council, visit: &lt;a href=&quot;http://www.girlscouts-gateway.org&quot;>www.girlscouts-gateway.org&lt;/a> or call 904-388-4653.&amp;nbsp;&lt;a name=&quot;_GoBack&quot;>&lt;/a>&lt;/p>&#xa;&lt;p>&lt;b>About Feeding Northeast Florida &lt;/b>&lt;br>&#xa;Feeding Northeast Florida (FNEFL) distributes food to people who struggle to feed themselves and their families across 17 Northeast Florida counties through a network of more than 150 nonprofit, faith-based and charitable organizations.&amp;nbsp; FNEFL is an affiliate of Feeding America, a nationwide network of more than 200 food banks that lead the fight against hunger in the United States.&amp;nbsp; &lt;a href=&quot;http://www.feedingnefl.org/hunger-in-america-fnefl-study/&quot;>The most recent localized survey&lt;/a> from the 2014 Hunger in America report shows that 38,000 people are served each week by programs supported by FNEFL.&amp;nbsp; To donate, volunteer or find out more about eliminating hunger in Northeast Florida, visit &lt;a href=&quot;http://www.feedingnefl.org&quot;>www.feedingnefl.org&lt;/a> or contact 904-513-1333.&lt;/p>&#xa;&lt;p>&lt;b>Contact:&lt;br>&#xa; &lt;/b>BeckyLynn Schroeder&lt;br>&#xa;904.798.3166&lt;br>&#xa;bschroeder@shepherdagency.com&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-01-14T13:19:22.728-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="GSGC select Feeding Northeast Florida"
+                        sling:resourceType="girlscouts/components/image"
+                        additionalCss="center "
+                        alt="GSGC select Feeding Northeast Florida"
+                        fileReference="/content/dam/gateway/newsImgs/feedingNEFL.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

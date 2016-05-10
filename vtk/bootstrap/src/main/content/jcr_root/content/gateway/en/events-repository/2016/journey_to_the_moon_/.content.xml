@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:14:09.320-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Journey to the Moon- JCSA &amp; PA- Session C"
+        jcr:uuid="84b339cc-6f9d-4cc1-b3bd-f4d0cafbbe82"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="510 Florida Blvd, Neptune Beach, FL 32266"
+            color="#EC008C"
+            details="&lt;p>Journey to the Moon- JCSA &amp;amp; PA- Session C&lt;br>&#xa;Grades: 4, 5, 6, 7, 8, 9, 10, 11, 12&lt;br>&#xa;&lt;br>&#xa;Our most popular visual astronomy program is back! Girl Scouts will learn why our view of the Moon changes from day to day and why there are dark spots on the Moon. We will demonstrate how lunar craters form and how the changing light on the Moon affects our view of those craters. We have a collection of rocks from Earth that are similar to moon rocks that we can touch and examine with hand lenses and microscopes. Girls will learn to use a telescope and can have the experience of 'flying' over the Moon's surface like an astronaut. Depending on how bright the Moon is, we will see constellations and tell stories about them! Are you a trained astronomy PA? Then, this event is for you, too! PAs will be able to increase their astronomical knowledge and have some fun helping younger Girl Scouts discover the mysteries of the Moon! Fun Patch Included.&lt;br>&#xa;&lt;br>&#xa;*This event is for PA’s and Girl Scouts. Please select which level you are during registration.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&amp;nbsp;&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&amp;nbsp;&lt;br>&#xa;*Telescopic viewing of the planets is weather permitting.&lt;br>&#xa;*Conditions can get windy and cool so make sure to dress in layers so you are comfortable!&lt;br>&#xa;*We encourage adults to participate in the fun of Journey to the Moon with us!&lt;br>&#xa;&lt;br>&#xa;$7/girl, $7/adult, no fee for PAs&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-04-15T22:30:00.000-04:00"
+            locationLabel="Beaches Little House"
+            register="http://girlscouts-gateway.doubleknot.com/event/journey-to-the-moon-jcsa-pa-session-c/1826710"
+            start="{Date}2016-04-15T20:00:00.010-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:14:09.312-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>
