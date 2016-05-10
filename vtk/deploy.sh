@@ -8,7 +8,7 @@ if [ -z $VERSION ]; then
 fi
 
 SERVER_LIST=(localhost)
-PORT_LIST=(4502 4503 4505 4506)
+PORT_LIST=(4502 4503 4504 4505 4506)
 
 for server in ${SERVER_LIST[@]}; do
 	echo "Trying server $server"
