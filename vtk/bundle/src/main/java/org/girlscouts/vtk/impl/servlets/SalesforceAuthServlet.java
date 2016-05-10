@@ -365,26 +365,26 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			log.debug("RESP SAML: "+ samlResponse);	
 
 			String requestURL = request.getRequestURL().toString();
-System.err.println("test7: "+ requestURL);			
+		
 			if (!requestURL.startsWith("http://my-local")) {
-System.err.println("test8 ");				
+				
 				requestURL = requestURL.replace("http://my", "https://my")
 						.replace("http://girlscouts-dev2","https://girlscouts-dev2");
-System.err.println("test9 "+requestURL);	
+	
 			}
-System.err.println("test10");
+
 			samlResponse.setDestinationUrl(requestURL);
-System.err.println("test11");			
+		
 			if (samlResponse.isValid()) {
-System.err.println("test12 valid");				
+			
 				token = samlResponse.getNameId();
-System.err.println("test13 "+ token);				
+				
 				userId = samlResponse.getUserId(request
 						.getParameter("SAMLResponse"));
-System.err.println("test14 "+ userId);				
+				
 			} else {
 				try {
-	System.err.println("test15 samlResponse.isValid()==false returnning ....." );				
+				
 					response.setStatus(500);
 					return;
 				} catch (Exception exx) {
@@ -395,7 +395,7 @@ System.err.println("test14 "+ userId);
 			// TODO Auto-generated catch block
 			try {
 				e.printStackTrace();
-System.err.println("test16: returning 500 err");				
+				
 				response.setStatus(500);
 				return;
 			} catch (Exception exx) {
@@ -405,37 +405,37 @@ System.err.println("test16: returning 500 err");
 			e.printStackTrace();
 		}
 		
-System.err.println("test17");
+
 			if( request.getParameter("RelayState")==null || (request.getParameter("RelayState")!=null && !request.getParameter("RelayState").contains("sfUserLanding") )){		
-				System.err.println("test18");
+				
 		
 				try{
 					SalesforceDAO dao = salesforceDAOFactory.getInstance();
-	System.err.println("test19 doa");				
+					
 					byte[] data = Base64.decodeBase64(configManager
 							.getConfig("gsCertificate"));
-	System.err.println("test20");				
+					
 					ByteArrayInputStream is = new ByteArrayInputStream(data);
-	System.err.println("test21");				
+					
 					config = new org.girlscouts.vtk.sso.OAuthJWTHandler_v1()
 							.getOAuthConfigs(is, token.substring(token.indexOf("@") + 1), clientId, configManager
 									.getConfig("communityUrl"));
-	System.err.println("test22");				
+					
 					config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));
 					config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));
 					String refreshTokenStr = null;
 					String id = userId;
-	System.err.println("test23  "+ id);				
+				
 					config.setId(id);
-	System.err.println("test24");				
+					
 					config.setUserId(id.substring(id.lastIndexOf("/") + 1));
-					System.err.println("test25 " +  config.getUserId());				
+									
 					if (refreshTokenStr != null) {
 						config.setRefreshToken(refreshTokenStr);
 					}
-					System.err.println("test26 "+ config.getRefreshToken());
+				
 					config.setCallbackUrl(callbackUrl);
-					System.err.println("test27: "+ callbackUrl);
+					
 					config.setClientId(clientId);
 					config.setOAuthUrl(OAuthUrl);
 					

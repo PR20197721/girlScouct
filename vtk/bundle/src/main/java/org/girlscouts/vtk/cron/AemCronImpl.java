@@ -18,7 +18,7 @@ description = "rm demo temp nodes from db"
 
 @Service(value = {Runnable.class, AemCron.class})
 @Properties({
-@Property(name = "service.description", value = "Girl Scouts DEM Demo Service for my dear Alex",propertyPrivate=true),
+@Property(name = "service.description", value = "Girl Scouts DEM Demo Service",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 @Property( name = "scheduler.expression", label="scheduler.expression", value = "0 4 * * * ?",description="cron expression"),
 //@Property(name = "scheduler.period", longValue=60),
