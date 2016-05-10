@@ -77,6 +77,7 @@
   width: 100%;
   display: table;
   text-align: center;
+  pointer-events: none;
 }
 /* line 66, vtk-demo.scss */
 .vtk-header-box a {
