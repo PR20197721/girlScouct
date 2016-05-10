@@ -953,15 +953,16 @@ function article_tiles() {
     var arrayElements = [];
 
     //Format the component.
-    var transform = function(obj,hover) {
+    var transform = function(obj) {
         if (!obj.adjusted && obj.content_height > obj.title_height) {
 
             var jqElement = $(obj.el);
 
             var title_height = parseInt($(obj.el).height());
 
-            if(hover){
-              jqElement.animate({"padding-top":(obj.content_height*0.33 - obj.title_height) /2 + 'px'});
+
+            if($(obj.el).parents('a').is(':hover')){
+                jqElement.animate({"padding-top":(obj.height_real*0.33 - obj.title_height) /2 + 'px'});
             } else {
               jqElement.animate({"padding-top":(obj.content_height - obj.title_height) / 2 + 'px'});
             } 
@@ -977,7 +978,8 @@ function article_tiles() {
             el: el,
             title_height: parseInt($(el).innerHeight()),
             content_height: $(el).parent().innerHeight(),
-            adjusted: $(el).data('adjusted')
+            adjusted: $(el).data('adjusted'),
+            height_real: $(el).parents('a').parent('section').parent('.article-tile').height()
         };
 
 
@@ -986,8 +988,7 @@ function article_tiles() {
 
     //Call the function Transoform
     arrayElements.forEach(function(elObj) {
-        var ishover = $(elObj.el).parents('a').is(':hover');
-        transform(elObj,ishover);
+        transform(elObj);
     });
 }
 
