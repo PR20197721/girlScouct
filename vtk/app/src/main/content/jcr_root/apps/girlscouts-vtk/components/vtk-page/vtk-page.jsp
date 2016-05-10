@@ -56,6 +56,10 @@ System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+
 	if( apiConfig==null ){
 	 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
+	    if( isDemoSite !=null && isDemoSite.equals("true") ){
+	        redirectTo = "/content/girlscouts-demo/en.html";    
+	    }
+	    
 	    // GSWS-190 Add refererCouncil
 	    String refererCouncil = request.getParameter("refererCouncil");
 	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
