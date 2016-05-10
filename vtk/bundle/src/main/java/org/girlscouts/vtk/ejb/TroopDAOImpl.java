@@ -698,15 +698,15 @@ try{
 			java.lang.IllegalAccessException, VtkException {
 
 		modifyTroop(user, troop);
-		System.err.println("caca updateTroop 2 " + new java.util.Date() );
+		
 		if (troop.getYearPlan().getPath() == null
 				|| !troop.getYearPlan().getPath().startsWith(troop.getPath()))
 			troop.getYearPlan().setPath(troop.getPath() + "/yearPlan");
-		System.err.println("caca updateTroop 3 " + new java.util.Date() );
+		
 		modifyYearPlan(user, troop);
-		System.err.println("caca updateTroop 4 " + new java.util.Date() );
+		
 		modifySchedule(user, troop);
-		System.err.println("caca updateTroop 5 " + new java.util.Date() );
+		
 
 		java.util.List<Location> locations = troop.getYearPlan().getLocations();
 		if (locations != null)
@@ -717,12 +717,12 @@ try{
 							+ "/locations/" + location.getUid());
 				modifyLocation(user, troop, locations.get(i));
 			}
-		System.err.println("caca updateTroop 6 " + new java.util.Date() );
+		
 		if (troop.getYearPlan().getActivities() != null)
 			for (int i = 0; i < troop.getYearPlan().getActivities().size(); i++)
 				modifyActivity(user, troop, troop.getYearPlan().getActivities()
 						.get(i));
-		System.err.println("caca updateTroop 7 " + new java.util.Date() );
+		
 		if (troop.getYearPlan().getMeetingEvents() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++) {
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents()
@@ -733,9 +733,9 @@ try{
 								troop.getYearPlan().getPath()))
 					meeting.setPath(troop.getYearPlan().getPath()
 							+ "/meetingEvents/" + meeting.getUid());
-				System.err.println("caca updateTroop 7.1 " + new java.util.Date() );
+				
 				modifyMeeting(user, troop, meeting);
-				System.err.println("caca updateTroop 7.2 " + new java.util.Date() );
+				
 				java.util.List<Asset> assets = meeting.getAssets();
 				if (assets != null)
 					for (int y = 0; y < assets.size(); y++) {
@@ -743,12 +743,12 @@ try{
 						if (asset.getPath() == null)
 							asset.setPath(meeting.getPath() + "/assets/"
 									+ asset.getUid());
-						System.err.println("caca updateTroop 7.3 " + new java.util.Date() );
+						
 						modifyAsset(user, troop, asset);
-						System.err.println("caca updateTroop 7.4 " + new java.util.Date() );
+						
 					}
 			}
-		System.err.println("caca updateTroop 8 " + new java.util.Date() );
+		
 		// canceled meeting
 		if (troop.getYearPlan().getMeetingCanceled() != null)
 			for (int i = 0; i < troop.getYearPlan().getMeetingCanceled().size(); i++) {
@@ -771,7 +771,7 @@ try{
 						modifyAsset(user, troop, asset);
 					}
 			}
-		System.err.println("caca updateTroop 9 " + new java.util.Date() );
+		
 
 		// modif
 		try {
@@ -780,7 +780,7 @@ try{
 		} catch (Exception em) {
 			em.printStackTrace();
 		}
-		System.err.println("caca updateTroop 10 " + new java.util.Date() );
+		
 		return false;
 	}
 
@@ -864,68 +864,68 @@ try{
 
 		if (!meeting.isDbUpdate())
 			return true;
-System.err.println("caca modifMeeting 1 "+ new java.util.Date() );
+
 		Session mySession = null;
 		boolean isUpdated = false;
 		try {
 			mySession = sessionFactory.getSession();
 			
-			System.err.println("caca modifMeeting 2 "+ new java.util.Date() );
+			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class );
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
-			System.err.println("caca modifMeeting 3 "+ new java.util.Date() );
+			
 			if (meeting.getPath() == null
 					|| !ocm.objectExists(troop.getPath()
 							+ "/yearPlan/meetingEvents")) {
 				// check council
-				System.err.println("caca modifMeeting 4 "+ new java.util.Date() );
+			
 				if (councilDAO.findCouncil(user, troop.getSfCouncil()) == null) {
 					throw new VtkException(
 							"Found no council when creating troop# "
 									+ troop.getTroopPath());
 				}
-				System.err.println("caca modifMeeting 5 "+ new java.util.Date() );
+				
 				// check troop
 				if (getTroop(user, troop.getSfCouncil(), troop.getSfTroopId()) == null) {
 					throw new VtkException(
 							"Found no troop when creating sched# "
 									+ troop.getTroopPath());
 				}
-				System.err.println("caca modifMeeting 6 "+ new java.util.Date() );
+				
 				if (mySession.itemExists(troop.getPath() + "/yearPlan")) {
 					JcrUtils.getOrCreateByPath(troop.getPath()
 							+ "/yearPlan/meetingEvents", "nt:unstructured",
 							mySession);
 
 				}
-				System.err.println("caca modifMeeting 7 "+ new java.util.Date() );
+				
 				meeting.setPath(troop.getYearPlan().getPath()
 						+ "/meetingEvents/" + meeting.getUid());
 			}
 			
 			
 			
-			System.err.println("caca modifMeeting 8 "+ new java.util.Date() );
+			
 			
 			
 			
 			
 			if (!ocm.objectExists(meeting.getPath())) {
-				System.err.println("caca modifMeeting 9 "+ new java.util.Date() );
+				
 				ocm.insert(meeting);
-				System.err.println("caca modifMeeting 10 "+ new java.util.Date() );
+				
 			} else {
-				System.err.println("caca modifMeeting 11 "+ new java.util.Date() );
+				
 				ocm.update(meeting);
-				System.err.println("caca modifMeeting 12 "+ new java.util.Date() );
+				
 			}
-			System.err.println("caca modifMeeting 13 "+ new java.util.Date() );
+			
 			ocm.save();
-			System.err.println("caca modifMeeting 14 "+ new java.util.Date() );
+			
 			isUpdated = true;
 		} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
 			// org.apache.jackrabbit.ocm.exception.ObjectContentManagerException:
@@ -948,7 +948,7 @@ System.err.println("caca modifMeeting 1 "+ new java.util.Date() );
 				es.printStackTrace();
 			}
 		}
-		System.err.println("caca modifMeeting 15 "+ new java.util.Date() );
+		
 		return isUpdated;
 	}
 

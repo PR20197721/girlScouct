@@ -188,7 +188,7 @@ public class TroopUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-System.err.println("caca syp 11.6");
+
 		YearPlan oldPlan = troop.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
 		try {
@@ -283,7 +283,7 @@ System.err.println("caca syp 11.6");
 				ew.printStackTrace();
 			}
 		}
-System.err.println("caca syp 11.7");
+
 		// remove all PAST custom activitites
 		if (troop.getYearPlan().getActivities() != null) {
 			java.util.List<Activity> activityToRm = new java.util.ArrayList();
@@ -297,11 +297,11 @@ System.err.println("caca syp 11.7");
 				troop.getYearPlan().getActivities().remove(activityToRm.get(i));
 		}// end if
 
-System.err.println("caca syp 11.8");	
+	
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
 		troopDAO.removeMeetings(user, troop);
-System.err.println("caca syp 11.9");	
+
 		if (troop.getYearPlan().getSchedule() != null) {
 			if (oldPlan.getMeetingEvents() != null
 					&& troop.getYearPlan().getMeetingEvents().size() > oldPlan
@@ -324,9 +324,8 @@ System.err.println("caca syp 11.9");
 			}
 			troop.getYearPlan().getSchedule().setDbUpdate(true);
 		}
-System.err.println("caca syp 11 "+ new java.util.Date());		
-		troopDAO.updateTroop(user, troop);
-System.err.println("caca syp 12 "+ new java.util.Date());		
+		
+		troopDAO.updateTroop(user, troop);		
 	}
 
 	public boolean updateTroop(User user, Troop troop)
@@ -653,12 +652,12 @@ if( newTroop ==null ) return;
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-System.err.println("caca syp 1 "+ new java.util.Date() );
+
 		YearPlan oldPlan = troop.getYearPlan();
 		String orgSchedDates = "";
 		if (oldPlan != null && oldPlan.getSchedule() != null)
 			orgSchedDates = oldPlan.getSchedule().getDates();
-System.err.println("caca syp 2 "+ new java.util.Date() );	
+	
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);
 		if (oldPlan != null) {
 			if (oldPlan.getName().equals(planName)) {// reset current yearplan
@@ -676,23 +675,23 @@ System.err.println("caca syp 2 "+ new java.util.Date() );
 		} else {
 			troop.setYearPlan(newYearPlan);
 		}
-System.err.println("caca syp 3 "+ new java.util.Date() );
+
 		if (yearPlanPath != null && !yearPlanPath.equals("")) {
 			troop.getYearPlan().setMeetingEvents(
 					selectYearPlan_newMeetingPlan(user, troop, newYearPlan));
-			System.err.println("caca syp 3.1 "+ new java.util.Date() );
+			
 		} else {
-			System.err.println("caca syp 3.2 "+ new java.util.Date() );
+			
 			java.util.List<MeetingE> futureMeetings = getFutureMeetings(user,
 					troop, orgSchedDates);
-			System.err.println("caca syp 3.4 "+ new java.util.Date() );
+			
 			java.util.List<MeetingE> pastMeetings = rmFutureMeetings(user,
 					troop, futureMeetings);
-			System.err.println("caca syp 3.5 "+ new java.util.Date() );
+			
 			troop.getYearPlan().setMeetingEvents(
 					VtkUtil.setToDbUpdate(pastMeetings));
 		}
-System.err.println("caca syp 4 "+ new java.util.Date() );
+
 		if (oldPlan != null) {
 			// rm activities
 			if (troop.getYearPlan().getActivities() != null)
@@ -700,7 +699,7 @@ System.err.println("caca syp 4 "+ new java.util.Date() );
 					troopDAO.removeActivity(user, troop, troop.getYearPlan()
 							.getActivities().get(i));
 		}
-		System.err.println("caca syp 5 "+ new java.util.Date() );
+		
 		if (yearPlanPath == null || yearPlanPath.trim().equals("")) // custom
 																	// year plan
 			troop.getYearPlan().setAltered("true");
@@ -709,11 +708,11 @@ System.err.println("caca syp 4 "+ new java.util.Date() );
 		troop.getYearPlan().setName(planName);
 		troop.getYearPlan().setRefId(yearPlanPath);
 		troop.getYearPlan().setDbUpdate(true);
-		System.err.println("caca syp 6 "+ new java.util.Date() );
+		
 		troopDAO.removeMeetings(user, troop);
-		System.err.println("caca syp 7 "+ new java.util.Date() );
+		
 		troopDAO.updateTroop(user, troop);
-		System.err.println("caca syp 8 "+ new java.util.Date() );
+		
 	}
 
 	private java.util.List<MeetingE> rmFutureMeetings(User user, Troop troop,

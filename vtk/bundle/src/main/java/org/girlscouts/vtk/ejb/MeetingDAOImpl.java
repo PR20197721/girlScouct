@@ -183,9 +183,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-System.err.println("caca **** "+ new java.util.Date() );			
+		
 			meeting = (Meeting) ocm.getObject(path);
-System.err.println("caca **2** "+ new java.util.Date() );	
+	
 
 			if (meeting != null && path != null
 					&& path.contains("/lib/meetings/")) {

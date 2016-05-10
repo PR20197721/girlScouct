@@ -115,11 +115,11 @@
 				return;
 			case SelectYearPlan:
 				try {
-System.err.println("caca syp: "+ new java.util.Date() );					
+					
 					troopUtil.selectYearPlan(user, troop,
 							request.getParameter("addYearPlanUser"),
 							request.getParameter("addYearPlanName"));
-System.err.println("caca syp end: "+ new java.util.Date() );    	
+  	
 				} catch (VtkYearPlanChangeException e) {
 					System.err.println(e.getMessage());
 					e.printStackTrace();
