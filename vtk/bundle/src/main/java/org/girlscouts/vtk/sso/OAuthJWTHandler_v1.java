@@ -94,7 +94,7 @@ public ApiConfig getOAuthConfigs(java.io.InputStream is, String email, String ac
 
 		      //Add the encoded signature
 		      token.append(signedPayload);
-System.err.println("tatatata2 checkToken: "+ token.toString() );
+
 		     /*
 		      //DefaultHttpClient client = new DefaultHttpClient();
 		     // private PoolingHttpClientConnectionManager connMrg;
@@ -126,17 +126,13 @@ System.err.println("tatatata2 checkToken: "+ token.toString() );
 		      List<BasicNameValuePair> parametersBody = new ArrayList<BasicNameValuePair>();
 		      parametersBody.add(new BasicNameValuePair("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"));
 		      parametersBody.add(new BasicNameValuePair("assertion", token.toString()));
-	System.err.println("tatatata: "+ token.toString());	    
 		      oauthPost.setEntity(new UrlEncodedFormEntity(parametersBody, HTTP.UTF_8));
 			
-	System.err.println("Token: "+ access_token +" : "+ email);		      			   
-	System.err.println("OAuth req: "+ parametersBody);		      
-	System.err.println("req: "+ oauthPost);		      
+	      
 			 
 		      HttpResponse response = client.execute(oauthPost);		      
 		      int code = response.getStatusLine().getStatusCode();
 		      JSONParser parser=new JSONParser();
-	//System.err.println("RESP: "+ code +"  : "   + EntityUtils.toString(response.getEntity()) );	      
 		      JSONObject jobj = (JSONObject) parser.parse(EntityUtils.toString(response.getEntity()));
 		      
 		   
