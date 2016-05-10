@@ -133,34 +133,81 @@ $(window).load(function(){
 });
 
 
+var CHECK;
 
+function closeAllAccordion() {
+    $('.accordion-navigation > .content').slideUp('slow');
+    $('[data-target]').removeClass('on');
+    $('[data-target]').children('h6').removeClass('on');
+}
 
+function toggleAccordion(target, that) {
+    if (CHECK !== that) {
 
-
+        $('#' + target).slideToggle('slow');
+        //Add the Class to give some formatt to the accordion
+        $(that).parents('dt').toggleClass('on');
+        $(that).toggleClass('on');
+        CHECK = that;
+        
+    }else{
+        CHECK=undefined;
+    }
+}
 
 function vtk_accordion() {
-  $('.accordion dt > :first-child').on('click', function(e) {
+    $('.accordion dt > :first-child').on('click', function(e) {
+        e.stopPropagation();
 
-    e.stopPropagation();
+        //Catch Elements
+        var target = $(this).parent().data('target');
+        var toggle = $(this);
 
-    var target = $(this).parent().data('target');
+        //Reset State
+        closeAllAccordion();
 
-    var toggle = $(this);
+        //Open/close  the Accordion 
+        toggleAccordion(target, this);
 
-    $('#' + target).slideToggle('slow');
+        //For Web Component. See main.js:toggleParsys
+        if (window[target].hasOwnProperty('toggle')) {
+            window[target].toggle();
+        }
 
-    $(toggle).toggleClass('on');
+    });
 
-    //For Web Component. See main.js:toggleParsys
-
-     if(window[ target ] != null){
-
-  	   window[ target ].toggle();
-
-     }
-
-      return false;
-
-  });
-
+    anchorCheck();
 }
+
+
+
+
+// function vtk_accordion() {
+//   $('.accordion dt > :first-child').on('click', function(e) {
+
+//     e.stopPropagation();
+
+//     var target = $(this).parent().data('target');
+
+//     var toggle = $(this);
+
+//     $('#' + target).slideToggle('slow');
+
+//     $(toggle).toggleClass('on');
+
+//       //For Web Component. See main.js:toggleParsys
+//         if (window[target].hasOwnProperty('toggle')) {
+//             window[target].toggle();
+//         }
+
+//      // if(window[ target ] != null){
+
+//   	  //  window[ target ].toggle();
+
+//      // }
+
+//       return false;
+
+//   });
+
+// }
