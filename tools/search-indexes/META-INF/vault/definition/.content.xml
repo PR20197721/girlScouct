@@ -24,11 +24,6 @@
         <f1
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/oak:index/GSLuceneIndex"
-            rules="[]"/>
-        <f2
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
             root="/oak:index/GSLucenePropertyIndex"
             rules="[]"/>
      </filter>
