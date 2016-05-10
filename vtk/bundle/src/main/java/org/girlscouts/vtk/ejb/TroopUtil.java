@@ -380,19 +380,16 @@ System.err.println("caca syp 12 "+ new java.util.Date());
 		session.setAttribute("USER_TROOP_LIST", troops);
 
 		org.girlscouts.vtk.salesforce.Troop newTroop = null;
-System.err.println("tata relogin 1 : "+ troopId );		
+	
 		alex:for (int i = 0; i < troops.size(); i++) {
-System.err.println("tata relogin 2 : " + i+ " : "+ troops.get(i).getTroopId() +" : " + troopId +" : "+ troops.get(i).getGradeLevel());	
 			if ( troops.get(i).getTroopId().equals(troopId) || 
 					troops.get(i).getGradeLevel().equals(troopId) ) {
-System.err.println("tata relogin 3: found YES: "+ troopId);				
 				newTroop = troops.get(i);
 				troopId= troops.get(i).getTroopId(); // in demo env
 				break alex;
 			}
 		}
 
-System.err.println("tata relogin: "+ (newTroop==null) );
 if( newTroop ==null ) return;
 
 

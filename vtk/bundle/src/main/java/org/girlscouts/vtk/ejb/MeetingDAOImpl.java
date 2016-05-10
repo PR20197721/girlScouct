@@ -2621,8 +2621,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 
 		}
 		
-		
-		System.err.println("tata getResourceData resource from SQL");				
+				
 		resourceCountMap.put(_path, dictionary.values());
 		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 

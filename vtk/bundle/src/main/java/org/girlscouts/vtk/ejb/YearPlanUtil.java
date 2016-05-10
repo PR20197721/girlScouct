@@ -105,13 +105,13 @@ public class YearPlanUtil {
 	public java.util.List<Asset> getAids(User user, Troop troop, String tags,
 			String meetingName, String uids, String path)
 			throws IllegalAccessException {
-System.err.println("tata aidTags getAids....");		
+	
 		java.util.List<Asset> container = new java.util.ArrayList();
-System.err.println("tata aidTags: start local....");		
+		
 		container.addAll(meetingDAO.getAidTag_local(user, troop, tags, meetingName, path));
-System.err.println("tata aidTags: start global...."+ container.size() );
+
 		container.addAll(meetingDAO.getAidTag(user, troop, tags, meetingName));
-System.err.println("tata aidTags: end getAids...."+ container.size() );
+
 
 		return container;
 	}

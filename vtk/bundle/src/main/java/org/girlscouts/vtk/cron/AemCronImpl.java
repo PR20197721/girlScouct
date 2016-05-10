@@ -12,8 +12,8 @@ import org.girlscouts.vtk.dao.TroopDAO;
 @Component(
 metatype = true, 
 immediate = true,
-label = "AEM Demo Cron Job for Alex", 
-description = "Saying Hello World everyday" 
+label = "AEM Demo Cron Job for VTK DEMO", 
+description = "rm demo temp nodes from db" 
 )
 
 @Service(value = {Runnable.class, AemCron.class})
@@ -33,7 +33,7 @@ public class AemCronImpl implements Runnable, AemCron  {
 	TroopDAO troopDAO;
 
 	public void run() {
-		System.out.println("test v2 caca hello World for Kia!");
+		
 		
 		//demo site remove temo "SHARED_"
 		troopDAO.removeDemoTroops();

@@ -278,7 +278,7 @@ public String getValue(Row r, String column) throws ItemNotFoundException, Repos
         }
         return  strVal.trim();
 
-    }catch(Exception exx){System.err.println("tata: "+column); exx.printStackTrace();}
+    }catch(Exception exx){ exx.printStackTrace();}
     return "";
 }
 %>

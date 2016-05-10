@@ -86,7 +86,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
-System.err.println("tata yes");			
+		
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -122,7 +122,7 @@ System.err.println("tata yes");
 		return;
 	}
 	
-System.err.println("tataCC: " + apiConfig.getTroops().size());			
+		
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		
@@ -186,15 +186,15 @@ System.err.println("tataCC: " + apiConfig.getTroops().size());
 		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
 			errMsg = troop.getErrCode();
 		}
-	System.err.println("tata x1");	
+		
 	    org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 		if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 		  prefTroop = apiConfig.getTroops().get(0);
 		}
-	System.err.println("tata x2");  
+	  
 		if( troop!=null){
 			
-	System.err.println("tata x3");  		
+	  		
 			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
 				if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
 					prefTroop = apiConfig.getTroops().get(ii);
@@ -202,19 +202,19 @@ System.err.println("tataCC: " + apiConfig.getTroops().size());
 				}
 			}
 	    }else{
-	System.err.println("tata x4");  
+
 	    
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				theCookie: for (int i = 0; i < cookies.length; i++) {
 					
-	System.err.println("tata x5 : "+ cookies[i].getName());  
+	
 					if (cookies[i].getName().equals("vtk_prefTroop")) {
 						
-	System.err.println("tata x6");  
+	 
 						for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 							String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
-	System.err.println("tata session gradeLevel : " + gradeLevel +" : " + cookies[i].getValue());						
+							
 							if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
 								prefTroop = apiConfig.getTroops().get(ii);
 								break theCookie;
@@ -229,7 +229,7 @@ System.err.println("tataCC: " + apiConfig.getTroops().size());
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
 
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-System.err.println("tataGG:" +prefTroop.getCouncilCode()+ " : "+ prefTroop.getTroopId() );   
+
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 %>

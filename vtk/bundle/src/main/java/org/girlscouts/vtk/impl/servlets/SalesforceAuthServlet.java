@@ -194,32 +194,32 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
 
-		System.err.println("testA1");
+		
 
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {
 			refererCouncil = "";
 		}
-		System.err.println("testA2");
+		
 		ApiConfig config = null;
 		try {
 			config = (ApiConfig) session
 					.getAttribute(ApiConfig.class.getName());
 		} catch (Exception e) {
 		}
-		System.err.println("testA3");
+		
 		AppSettings appSettings = new AppSettings();
 		appSettings.setAssertionConsumerServiceUrl(callbackUrl);
 		appSettings.setIssuer(configManager.getConfig("ssoIssuer"));// "https://gsusa--gsuat.cs11.my.salesforce.com");
-		System.err.println("testA4 "+ configManager.getConfig("ssoIssuer"));
+		
 		AccountSettings accSettings = new AccountSettings();
 		accSettings.setIdpSsoTargetUrl(configManager
 				.getConfig("idpSsoTargetUrl"));
-		System.err.println("testA5");
+		
 		AuthRequest authReq = new AuthRequest(appSettings, accSettings);
 		try {
-			System.err.println("testA6");
+			
 			String reqString = authReq.getSSOurl(refererCouncil);
 			response.sendRedirect(reqString);
 		} catch (Exception e) {
@@ -340,28 +340,28 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		HttpSession session = request.getSession();
 		session.setAttribute("fatalError", null);
 	try{	
-System.err.println("test1");	
+	
 		String certificateS = configManager.getConfig("ssoCertificate");
 		org.girlscouts.vtk.sso.AccountSettings accountSettings = new org.girlscouts.vtk.sso.AccountSettings();
 		accountSettings.setCertificate(certificateS);
 		org.girlscouts.vtk.sso.saml.Response samlResponse = null;
 		try {
-			System.err.println("test2");		
+					
 			samlResponse = new org.girlscouts.vtk.sso.saml.Response(
 					accountSettings);
-			System.err.println("test3");	
+				
 		} catch (CertificateException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		System.err.println("test4");	
+			
 		String token = null, userId = null;
 		try {
-			System.err.println("test5 RESP SAML param: "+ request.getParameter("SAMLResponse"));	
+				
 			log.debug("RESP SAML param: "+ request.getParameter("SAMLResponse"));
 			samlResponse
 					.loadXmlFromBase64(request.getParameter("SAMLResponse"));
-System.err.println("test6 RESP SAML: "+ samlResponse);
+
 			log.debug("RESP SAML: "+ samlResponse);	
 
 			String requestURL = request.getRequestURL().toString();
