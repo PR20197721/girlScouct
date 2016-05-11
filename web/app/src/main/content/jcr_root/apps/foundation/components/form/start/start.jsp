@@ -93,7 +93,7 @@
 		      actionPath = actionPath.substring(0, actionPath.length() - 1);
 		    }
 		    sb.append(FormsHelper.encodeValue(actionPath));
-		    sb.append("&initialSearch=true&contentMode=false&spc=true");
+		    sb.append("&initialSearch=true&contentMode=false&spc=true&hdelb=false");
 		    Iterator elements = FormsHelper.getFormElements(formStartResource);
 		    while (elements.hasNext()) {
 		      Resource element = (Resource)elements.next();
