@@ -36,5 +36,6 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 	</div>
 </div>
 
-<cq:include script="google-analytics.jsp" />
+<!-- <cq:include script="google-analytics.jsp" />
+ -->
 <cq:include script="footer-tracking.jsp" />
