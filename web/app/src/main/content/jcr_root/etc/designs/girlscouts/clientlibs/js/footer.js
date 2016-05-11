@@ -170,7 +170,7 @@ function vtk_accordion() {
         toggleAccordion(target, this);
 
         //For Web Component. See main.js:toggleParsys
-        if (window[target].hasOwnProperty('toggle')) {
+        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
             window[target].toggle();
         }
 
