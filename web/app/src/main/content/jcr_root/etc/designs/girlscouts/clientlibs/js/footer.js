@@ -30,6 +30,7 @@
         $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
       }
   }
+  
   function link_bg_square() {
     $(".meeting").each(function() {
     var test = $(this).find('.subtitle a').attr('href');
@@ -39,6 +40,7 @@
       })
     });
   }
+  
   function attendance_popup_width() {
     var modal = $(".modal-attendance").parent();
     modal.addClass('small');
@@ -68,7 +70,7 @@
 	            $(this).parent().addClass('on');
 	        }
 	    });
-	}
+  }
   
   
 $(document).ready(function(){
@@ -145,39 +147,3 @@ function vtk_accordion() {
     anchorCheck();
 }
 
-
-
-
-// function vtk_accordion() {
-//   $('.accordion dt > :first-child').on('click', function(e) {
-
-//     e.stopPropagation();
-
-//     var target = $(this).parent().data('target');
-
-//     var toggle = $(this);
-
-//     $('#' + target).slideToggle('slow');
-
-//     $(toggle).toggleClass('on');
-
-//       //For Web Component. See main.js:toggleParsys
-//         if (window[target].hasOwnProperty('toggle')) {
-//             window[target].toggle();
-//         }
-
-//      // if(window[ target ] != null){
-
-//   	  //  window[ target ].toggle();
-
-//      // }
-
-//       return false;
-
-//   });
-
-<<<<<<< HEAD
-// }
-=======
-}
->>>>>>> master61
