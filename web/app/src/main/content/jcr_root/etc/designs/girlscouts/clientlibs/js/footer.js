@@ -94,56 +94,32 @@ $(window).load(function(){
   }
 });
 
-        //For Web Component. See main.js:toggleParsys
-        /*if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
-            window[target].toggle();
-        }
-		*/
-
-var CHECK;
-
-function closeAllAccordion() {
-    $('.accordion-navigation > .content').slideUp('slow');
-    $('[data-target]').removeClass('on');
-    $('[data-target]').children('h6').removeClass('on');
-}
-
-function toggleAccordion(target, that) {
-    if (CHECK !== that) {
-
-        $('#' + target).slideToggle('slow');
-        //Add the Class to give some formatt to the accordion
-        $(that).parents('dt').toggleClass('on');
-        $(that).toggleClass('on');
-        CHECK = that;
-        
-    }else{
-        CHECK=undefined;
-    }
-}
-
 function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function(e) {
-        e.stopPropagation();
+	  $('.accordion dt > :first-child').on('click', function(e) {
 
-        //Catch Elements
-        var target = $(this).parent().data('target');
-        var toggle = $(this);
+	    e.stopPropagation();
 
-        //Reset State
-        closeAllAccordion();
+	    var target = $(this).parent().data('target');
 
-        //Open/close  the Accordion 
-        toggleAccordion(target, this);
+	    var toggle = $(this);
 
+	    $('#' + target).slideToggle('slow');
 
-        //For Web Component. See main.js:toggleParsys
-        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
-            window[target].toggle();
-        }
+	    $(toggle).toggleClass('on');
 
-    });
+	    //For Web Component. See main.js:toggleParsys
 
-    anchorCheck();
-}
+	     // In Koo/JC fix js error
+	     // if(window[ target ] != null){
+	     if(window[ target ] != null && window[target].hasOwnProperty('toggle')){
+
+	  	   window[ target ].toggle();
+
+	     }
+
+	      return false;
+
+	  });
+
+	}
 
