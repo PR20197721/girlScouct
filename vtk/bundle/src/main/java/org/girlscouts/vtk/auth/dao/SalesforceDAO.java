@@ -333,8 +333,12 @@ System.err.println(rsp);
 
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
-				+ "?troopId=" + sfTroopId;
-		HttpGet method = new HttpGet(url);
+				+ "?troopId=" + sfTroopId;		
+System.err.println("URL contact: "+ url);		
+//url= apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembersV2?troopId=" + sfTroopId;
+//System.err.println("Url contact v2: "+ url);
+
+HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 			connection = connectionFactory.getConnection();
@@ -378,7 +382,24 @@ System.err.println(rsp);
 				log.debug("<<<<<Apex contacts reponse: " + response);
 System.err.println("RESP CONTACT 1: " + response);		
 
-				JSONArray results = response.getJSONArray("records");
+java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
+JSONArray results1 = response.getJSONObject("records").getJSONArray("lstCM");
+for (int i = 0; i < results1.length(); i++) {
+	try {
+		try {
+			renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
+		} catch (Exception e) {
+		}
+	}catch(Exception ex){ex.printStackTrace();}
+}//edn for
+
+
+
+
+
+
+				JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
+				
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
 					Contact contact = new Contact();
@@ -425,12 +446,7 @@ System.err.println("RESP CONTACT 1: " + response);
 						} catch (Exception e) {
 						}
 
-						try {
-							contact.setState(results.getJSONObject(i)
-									.getString("MailingPostalCode"));
-						} catch (Exception e) {
-						}
-
+					
 						try {
 							contact.setCountry(results.getJSONObject(i)
 									.getString("MailingCountry"));
@@ -473,6 +489,14 @@ System.err.println("RESP CONTACT 1: " + response);
 						} catch (Exception e) {
 						}
 
+						//renewal
+						try {
+								Boolean isRenewal = renewals.get( contact.getId() );
+								contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
+						} catch (Exception e) {
+						}
+						
+						
 						contact.setType(0);
 						Contact contactSub = new Contact();
 						try {

@@ -860,6 +860,7 @@ public class MeetingUtil {
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 		return planView(user, troop, request, false);
+		
 	}
 	
 	public PlanView planView(User user, Troop troop,
@@ -917,7 +918,7 @@ System.err.println("tata aidTags: start: "+ isUpdateAssetInDb);
 System.err.println("tata aidTags: start 1.0 "+ meeting.getLastAssetUpdate());		
 System.err.println("tata aidTags: start1 "+ (meeting.getLastAssetUpdate() == null));
 //System.err.println("tata aidTags: start1.1 " + (meeting.getLastAssetUpdate().before(sysAssetLastLoad)));
-			if ( meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+			if (meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
 System.err.println("tata aidTags: start2 size:  "+ _aidTags);	
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
