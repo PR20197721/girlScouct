@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-19T10:21:41.826-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-19T10:21:49.047-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts take aim"
+        jcr:uuid="348a3b5a-aa22-4ca6-ac80-b2a05d6a712f"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-01-19T10:10:00.000-05:00"
+        description="Girl Scouts helps girls explore their world, introducing them to new experiences, places and activities. Girl Scouts from the Florida School for the Deaf and Blind experienced a couple of “firsts” in early January when they went camping and and received archery instruction at Camp Kateri."
+        external-url="http://staugustine.com/news/school-news/2015-01-17/fsdb-girl-scouts-take-aim-bows-and-arrows">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:lastModified="{Date}2015-01-19T10:21:18.421-05:00"
+                    jcr:lastModifiedBy="bmoore"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>Girl Scouts helps girls explore their world, introducing them to new experiences, places and activities. Girl Scouts from the Florida School for the Deaf and Blind experienced a couple of “firsts” in early January when they went camping and and received archery instruction at Camp Kateri. &lt;a target=&quot;_blank&quot; href=&quot;http://staugustine.com/news/school-news/2015-01-17/fsdb-girl-scouts-take-aim-bows-and-arrows&quot; adhocenable=&quot;false&quot;>&lt;b>Read more about their weekend here.&lt;/b>&lt;/a>&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-01-19T10:21:41.822-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/newsImgs/fsdbNews011915.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

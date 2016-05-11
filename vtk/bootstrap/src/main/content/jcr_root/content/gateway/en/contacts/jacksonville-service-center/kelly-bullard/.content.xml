@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-05T16:16:50.083-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-11-21T14:41:52.885-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Kelly Bullard"
+        jcr:uuid="c4c7d7be-eca2-476f-b15d-fcb4eb2be60f"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="kbullard@girlscouts-gateway.org"
+        phone="(904) 652-1362"
+        team="Jacksonville Service Center"
+        title="Community Programs Manager"/>
+</jcr:root>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-05-11T08:09:25.836-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-05-11T08:09:31.869-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Tina Tabbot"
+        jcr:uuid="b04dcb17-65bd-4ca9-a67a-dd30320ef5a7"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="ttabbot@girlscouts-gateway.org"
+        phone="(904) 407-3025"
+        team="Jacksonville Service Center"
+        title="Senior Product Sales Coordinator"/>
+</jcr:root>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-11-20T13:36:30.633-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/cookies]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Cookie Training hosted by Community 3"
+        jcr:uuid="9e51f5f0-b823-4195-809f-c4b9ae2458f4"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#00AAE5"
+            details="&lt;p>Come learn about the&amp;nbsp;Cookie Program!! You will receive everything you need to run a successful fundraising campaign.&amp;nbsp; We will highlight the exciting changes this year and help you prepare for the upcoming cookie season.&amp;nbsp; You will see this year’s Girl Rewards, learn about the new Troop Rewards, and be able to sample the cookies.&amp;nbsp; All Troop Product Sales Managers (cookie moms or dads) and any other interested Volunteers are invited to attend.&lt;/p>&#xa;&lt;p>Our Cookie Guru training will take place during the first 30 minutes of the program to notify you of the changes this year.&amp;nbsp; Cookie Gurus are welcome to attend the entire 90 minute training session, but are not required.&lt;/p>&#xa;&lt;p>&lt;b>Please note: This training is required for any Troop interested in participating in the&amp;nbsp;Cookie Program.&amp;nbsp;&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p>All communities are welcome to attend any Cookie Program training.&lt;/p>&#xa;&lt;p>Do you have questions?&amp;nbsp; Email:&amp;nbsp;&lt;a href=&quot;mailto:gsfallproduct@girlscouts-gateway.org&quot;>gscookies@girlscouts-gateway.org&lt;/a>&lt;/p>&#xa;"
+            end="{Date}2015-12-03T20:30:00.000-05:00"
+            locationLabel="St. Giles Presbyterian Church"
+            register="http://girlscouts-gateway.doubleknot.com/openrosters/ViewActivitySpaceAvailable.aspx?orgkey=2736&amp;activitykey=1818731"
+            start="{Date}2015-12-03T19:00:00.005-05:00">
+            <image
+                jcr:lastModified="{Date}2015-11-20T13:36:30.628-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/etc/designs/girlscouts-gateway"/>
+    <filter root="/content/dam/girlscouts-gsusa/images/logo"/>
+    <filter root="/content/gateway"/>
+    <filter root="/content/dam/girlscouts-shared/images/logo"/>
+    <filter root="/content/dam/girlscouts-vtk/local/icon"/>
+    <filter root="/content/girlscouts-vtk"/>
+    <filter root="/vtk2015/999"/>
+    <filter root="/etc/tags/girlscouts-vtk"/>
+    <filter root="/etc/tags/gateway"/>
+    <filter root="/content/dam/girlscouts-vtk/troop-data2015/999"/>
+</workspaceFilter>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-08T16:35:15.815-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-09-08T16:35:20.387-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/junior,gateway:program-level/cadettes,gateway:program-level/senior,gateway:program-level/ags-&amp;-families,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Astronomy: Solar"
+        jcr:uuid="b56ef3fe-2327-4357-8902-c5ea2eae5f9c"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="4499 Trefoil Trail, Middleburg, FL 32068"
+            details="&lt;p>Our newest visual astronomy program allows us to look at the star closest to Earth, our Sun! We will learn how to safely view the Sun in white light and see sunspots, magnetic storms on the suns surface. We will learn some of the properties of light, magnetism and how light can accomplish work. We will also dip into history a bit to see how the Sun's energy output has affected our history! Safe telescope use will also be emphasized. This event costs $7 per girl.&lt;/p>&#xa;"
+            end="{Date}2014-11-15T17:00:00.000-05:00"
+            locationLabel="North Fork Leadership Center"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=512665432"
+            srchdisp="Our newest visual astronomy program allows us to look at the star closest to Earth, our Sun! "
+            start="{Date}2014-11-15T14:00:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2014-09-08T16:35:15.810-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageheroes/astronomy.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

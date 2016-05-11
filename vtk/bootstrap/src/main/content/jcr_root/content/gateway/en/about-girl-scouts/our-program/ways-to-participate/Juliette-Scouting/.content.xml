@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-03T14:10:16.534-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Juliette Scouting"
+        jcr:uuid="68bb8e3f-3e22-4fea-8665-4487c1d44aa4"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="http://www.girlscouts-gateway.org:80/content/gateway/juliette">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2015-09-03T11:30:14.460-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-03T11:30:14.460-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"/>
+                    <text
+                        jcr:created="{Date}2015-09-03T11:30:25.418-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-03T11:30:39.101-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>Juliette Girl Scouts (formerly known as ZIP Scouting) are registered girl members, in grades K-12, who are busy, independent, self-confident girls and young women who want to be a part of something larger – Girl Scouts! Meeting in troops is one way to be part of the Girl Scout experience, but when there aren’t available troops in the area, a troop no longer meets, or a girl becomes too busy with extracurricular activities or sports, becoming a Juliette will allow her to continue her Girl Scout experience on an individual basis.&lt;/p>&#xa;&lt;p>As a Juliette, a girl won’t attend troop meetings; instead, she will work on Girl Scout programs with the guidance of a caregiver or another adult mentor. She would decide what activities to participate in and which earned recognitions/ awards you wish to complete. A Juliette may also attend community and council events. &lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_0
+                        jcr:created="{Date}2015-09-03T11:31:30.613-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-03T11:32:51.159-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>Why Should I Become a Juliette?&lt;/b>&lt;/p>&#xa;&lt;p>There are many advantages to participating in Girl Scouts as a Juliette. Juliettes:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>Gain leadership experience.&lt;/li>&#xa;&lt;li>Have the opportunity to participate in all Girl Scout activities individually, so they can tailor their experience.&lt;/li>&#xa;&lt;li>Create a well-rounded Girl Scout experience by completing the planning guide for their grade-level, on their own time.&lt;/li>&#xa;&lt;li>Serve their community through individual community service projects and Take Action projects.&lt;/li>&#xa;&lt;/ul>&#xa;"
+                        textIsRich="true"/>
+                    <text_1
+                        jcr:created="{Date}2015-09-03T11:33:15.010-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-03T11:49:21.527-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>What Can a Juliette Do?&lt;/b>&lt;/p>&#xa;&lt;p>Juliette Girl Scouts can do anything Girl Scouts in a troop can do. Juliettes learn to Discover, Connect, and Take Action when they:&lt;/p>&#xa;&lt;p>&lt;b>Complete Girl Scout Journeys + Badges&lt;/b>&lt;/p>&#xa;&lt;p>Girls can choose from three different Journey books at each program grade level. Journeys guide girls towards becoming a leader in their community. Juliettes can also earn badges, which include a variety of skill-building activities, many of which compliment the Journeys.&lt;/p>&#xa;&lt;p>&lt;b>Attend Girl Scout Events + Activities&lt;/b>&lt;/p>&#xa;&lt;p>Juliettes can meet other girls in their area while completing Journeys, earning badges, or learning more about the outdoors at&amp;nbsp;&lt;a href=&quot;https://www.girlscouts-gateway.org/en/events/event-list.html&quot; title=&quot;Girl Scouts River Valleys events&quot; adhocenable=&quot;false&quot;>council-sponsored events&lt;/a>. Communities also offer many events and service opportunities, which are great for Juliettes to meet other Girl Scouts in their area.&lt;/p>&#xa;&lt;p>&lt;b>Help Others Through Community Service&lt;/b>&lt;/p>&#xa;&lt;p>Part of the Girl Scout Law is to “make the world a better place”. Juliettes can work on their own or with their Girl Scout community to carry out this Girl Scout tradition. Juliettes can also pass along what they’ve learned, gain leadership skills, and earn special mentoring awards by helping younger Girl Scouts at troop meetings, events, camp, and more.&lt;/p>&#xa;&lt;p>&lt;b>Participate in the Cookie Program and Fall Product&lt;/b>&lt;/p>&#xa;&lt;p>Juliettes can fund their Girl Scout activities while learning great business skills including goal setting, decision making, money management, people skills, and business ethics. Learn more about&amp;nbsp;&lt;a href=&quot;https://www.girlscouts-gateway.org/en/cookies/about-girl-scout-cookies.html&quot; title=&quot;Cookies&quot; adhocenable=&quot;false&quot;>Cookies&lt;/a>&amp;nbsp;and&amp;nbsp;&lt;a href=&quot;https://www.girlscouts-gateway.org/en/cookies/fall-product-program.html&quot; title=&quot;Snacks + Magazines&quot; adhocenable=&quot;false&quot;>Snacks + Magazines&lt;/a>.&lt;/p>&#xa;&lt;p>&lt;b>Earn Girl Scouting’s Highest Awards&lt;/b>&lt;/p>&#xa;&lt;p>The&amp;nbsp;&lt;a href=&quot;https://www.girlscouts-gateway.org/en/about-girl-scouts/our-program/highest-awards.html&quot; title=&quot;Gold, Silver + Bronze Awards&quot; adhocenable=&quot;false&quot;>Gold, Silver, and Bronze Awards&lt;/a>&amp;nbsp;are the highest awards in Girl Scouting. Juliettes can earn these awards by leading a take-action project to improve their local community&lt;/p>&#xa;&lt;p>&lt;b>Travel with Girl Scout&amp;nbsp;destinations&lt;/b>&lt;/p>&#xa;&lt;p>Juliettes can experience leadership opportunities and cross-cultural understanding through regional, national, and international travel.&lt;/p>&#xa;&lt;p>&lt;b>What Resources Are Available for Juliettes?&lt;/b>&lt;/p>&#xa;&lt;p>&lt;b>&lt;a adhocenable=&quot;false&quot; href=&quot;https://www.girlscouts-gateway.org/en/for-volunteers/ways-to-volunteer.html&quot;>Volunteer Timelines&lt;/a>&lt;/b>&lt;/p>&#xa;&lt;p>These grade-based guides outline all Girl Scout Activities available and provide plans for creating a well-rounded Girl Scout experience.&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.girlscouts-gateway.org/en/for-volunteers/volunteer-essentials.html&quot; title=&quot;Volunteer Essentials&quot; adhocenable=&quot;false&quot;>&lt;b>Volunteer Essentials&lt;/b>&lt;/a>&lt;b>&lt;i>&lt;u>&lt;/u>&lt;/i>&lt;/b>&lt;/p>&#xa;&lt;p>Mentors will use this comprehensive guide to learn about all Gateway Council’s volunteer policies and procedures&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.girlscouts-gateway.org/en/for-volunteers/online-support-for-volunteers.html&quot; title=&quot;Online Trainings&quot; adhocenable=&quot;false&quot;>&lt;b>Online Trainings&lt;/b>&lt;/a>&lt;b>&lt;i>&lt;u>&lt;/u>&lt;/i>&lt;/b>&lt;/p>&#xa;&lt;p>We provide volunteers with convenient, online trainings to help them give girls the best experience possible.&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.girlscouts-gateway.org/en/events/event-calendar.html&quot; title=&quot;River Valleys' Events&quot; adhocenable=&quot;false&quot;>&lt;b>Girl Scouts of Gateway Council Events&lt;/b>&lt;/a>&lt;b>&lt;i>&lt;u>&lt;/u>&lt;/i>&lt;/b>&lt;/p>&#xa;&lt;p>Find all of Girl Scouts of Gateway Council events and camps, so you can connect with other Girl Scouts.&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.girlscouts-gateway.org/en/for-volunteers/volunteer-resources-.html&quot; title=&quot;Resources + Training&quot; adhocenable=&quot;false&quot;>&lt;b>Additional Volunteer Resources&lt;/b>&lt;/a>&lt;b>&lt;i>&lt;u>&lt;/u>&lt;/i>&lt;/b>&lt;/p>&#xa;&lt;p>Find other resources like field trip opportunities and equipment and tools you can check-out for your activities.&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://www.girlscouts-gateway.org/en/about-our-council/contact-us/staff-directory.html&quot; title=&quot;Troop Support&quot; adhocenable=&quot;false&quot;>&lt;b>Staff Support&lt;/b>&lt;/a>&lt;b>&lt;i>&lt;u>&lt;/u>&lt;/i>&lt;/b>&lt;/p>&#xa;&lt;p>Juliettes and their mentors can also reach out to our Juliette’s Staff Mentor, Karina Del Cid, to help you get started or grow along your way. She may be reached at (904) 652-1365 or via email kdelcid@girlscouts-gateway.org.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_2
+                        jcr:created="{Date}2015-09-03T11:39:17.371-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-03T14:10:16.532-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>What is a Juliette Girl Scout Mentor?&lt;/b>&lt;/p>&#xa;&lt;p>A Girl Scout Juliette Mentor is a parent or trusted adult who guides a Juliette through her experience. A Mentor should:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>Register as an adult member of Girl Scouts.&lt;/li>&#xa;&lt;li>Seek out and relay information and opportunities for their girl.&lt;/li>&#xa;&lt;li>Help their girl plan her Girl Scout year using the Planning Guides.&lt;/li>&#xa;&lt;li>Connect with their community team for wider opportunities for their girl.&lt;/li>&#xa;&lt;li>Follow&amp;nbsp;&lt;a href=&quot;/content/dam/gateway/forms-and-documents-/Volunteer%20Essentials%202015-16.doc&quot; title=&quot;Volunteer Essentials&quot; adhocenable=&quot;false&quot;>Volunteer Essentials&lt;/a>&amp;nbsp;and&amp;nbsp;&lt;u>&lt;a adhocenable=&quot;false&quot; href=&quot;http://www.girlscouts-gateway.org/content/dam/gateway/gateway-sections/SA_CHECK.pdf&quot;>Safety Activity Checkpoints&lt;/a>&lt;/u>&amp;nbsp;to keep their girl safe.&lt;/li>&#xa;&lt;li>Connect with other Mentors in their community.&lt;br>&#xa;&lt;br>&#xa;&lt;/li>&#xa;&lt;/ul>&#xa;&lt;p>&lt;b>How to begin your adventure as a Juliette Scout or Mentor?&lt;/b>&lt;/p>&#xa;&lt;p>A new Juliette Girl Scout can fill out the &lt;a href=&quot;https://www.girlscouts-gateway.org/en/about-our-council/forms-documents/juliette-girl-scout-registration-form.html&quot;>Juliette Girl Form&lt;/a> and the caregiver or adult mentor can sign up via the &lt;a href=&quot;https://www.girlscouts-gateway.org/en/about-our-council/forms-documents/jmgsRegistration.html&quot;>Juliette Mentor Form&lt;/a>. If you have any further questions, reach out to your Juliette’s Staff Mentor, Karina Del Cid, at (904) 652-1365 or via email kdelcid@girlscouts-gateway.org.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-09-03T11:53:38.857-04:00"
+            jcr:lastModifiedBy="dpage"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

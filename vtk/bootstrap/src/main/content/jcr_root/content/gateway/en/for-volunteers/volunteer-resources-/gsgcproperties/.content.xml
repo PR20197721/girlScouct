@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-10-02T10:03:16.963-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Council Properties"
+        jcr:uuid="ad8c6f0c-586e-4824-bfd9-22196fc6928d"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <hero_banner
+                        jcr:created="{Date}2014-08-22T16:47:33.648-04:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2014-08-22T16:47:42.453-04:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/hero-banner"
+                        slideshowcount="1">
+                        <Image_1
+                            jcr:lastModified="{Date}2014-08-22T16:47:54.612-04:00"
+                            jcr:lastModifiedBy="bmoore"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="girlscouts/components/hero-slideshow-images">
+                            <regular
+                                jcr:lastModified="{Date}2014-08-22T16:47:54.612-04:00"
+                                jcr:lastModifiedBy="bmoore"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="foundation/components/image"
+                                fileReference="/content/dam/girlscouts-shared/images/heroes/journeys-hero.jpg"
+                                imagesize="regular"/>
+                            <medium
+                                jcr:lastModified="{Date}2014-08-22T16:47:54.612-04:00"
+                                jcr:lastModifiedBy="bmoore"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="foundation/components/image"
+                                imagesize="medium"/>
+                            <small
+                                jcr:lastModified="{Date}2014-08-22T16:47:54.612-04:00"
+                                jcr:lastModifiedBy="bmoore"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="foundation/components/image"
+                                imagesize="small"/>
+                        </Image_1>
+                    </hero_banner>
+                    <text
+                        jcr:created="{Date}2014-08-22T16:42:01.217-04:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2014-08-22T16:42:06.689-04:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>Girl Scouts of Gateway Council owns several program facilities in order to provide a safe and affordable environment for girls to accomplish a variety of outcomes. Whether girls are enjoying their first overnight at one of our Little Houses, camping for the weekend at one of our properties or spending a week at Resident Camp, the ability to explore nature, learn to live and work cooperatively, and develop skills that foster self-reliance and a “I can do it” attitude are uniquely intensified in the out-of-doors. The variety of program facilities allows girls to have a progressively challenging experience in both day and overnight activities.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>

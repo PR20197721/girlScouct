@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-03-11T14:34:10.993-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2014-09-08T16:36:42.916-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/junior,gateway:program-level/cadettes,gateway:program-level/senior,gateway:program-level/ambassadors]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Astronomy: Stars"
+        jcr:uuid="6b88db63-c5c9-4d64-a700-a6daca0e51a2"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:lastModified="{Date}2014-08-12T12:13:01.104-04:00"
+            jcr:lastModifiedBy="bmoore"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="girlscouts/components/event"
+            address="4502 Trefoil Trail, Middleburg, FL 32068"
+            details="&lt;p>Girls will learn about the stars and other out-of-this-world objects! Practice using telescopes, learn your way around the sky, and find out why the constellations are the way they are! This event is $7 per person.&lt;br>&#xa;&lt;/p>&#xa;"
+            end="{Date}2015-02-13T22:30:00.000-05:00"
+            locationLabel="North Fork Leadership Center"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=515551738 "
+            srchdisp="Girls will learn about the stars and other out-of-this-world objects! Practice using telescopes, learn your way around the sky, and find out why the constellations are the way they are! This event is $7 per person."
+            start="{Date}2015-02-13T20:00:00.010-05:00">
+            <image
+                jcr:lastModified="{Date}2015-03-11T14:34:10.988-04:00"
+                jcr:lastModifiedBy="drodgers"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageheroes/astronomy.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_015/>
+</jcr:root>

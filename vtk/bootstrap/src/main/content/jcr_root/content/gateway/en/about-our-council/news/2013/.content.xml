@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-08-05T14:17:15.009-04:00"
+        cq:lastReplicatedBy="mage"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="2013"
+        jcr:uuid="66c9fd9b-6950-401f-a9b5-7c24f9384d7c"
+        hideInNav="{Boolean}true"
+        showCurrent="{Boolean}true"/>
+    <girl_scouts_to_host_/>
+    <girl_scouts_send_smi/>
+</jcr:root>

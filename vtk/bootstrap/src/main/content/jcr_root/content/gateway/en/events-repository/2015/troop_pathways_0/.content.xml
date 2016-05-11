@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-27T15:36:25.595-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-27T15:38:26.817-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop Pathways"
+        jcr:uuid="8bdcedbd-8607-46cf-8a08-6d79fab771e8"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Important information you will learn during this training includes, troop funds, health and safety, and troop organization. You will also have an understanding of where to find additional training opportunities and additional resources.&lt;br>&#xa;&lt;br>&#xa;Last day to register is Feb. 3, 2015.&lt;/p>&#xa;"
+            end="{Date}2015-02-04T21:00:00.000-05:00"
+            locationLabel=" Jacksonville Service Center"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=1377740159"
+            srchdisp="Important information you will learn during this training includes, troop funds, health and safety, and troop organization."
+            start="{Date}2015-02-04T18:00:00.012-05:00">
+            <image
+                jcr:lastModified="{Date}2015-01-27T15:36:25.591-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

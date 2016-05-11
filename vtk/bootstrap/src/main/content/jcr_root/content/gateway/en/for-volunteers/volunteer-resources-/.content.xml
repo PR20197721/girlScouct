@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-10-16T09:05:39.466-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:tags="[gateway:categories/volunteer,gateway:forms_documents/volunteer-resources]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Volunteer Resources"
+        jcr:uuid="c3c4c701-2c1a-435e-a0a7-90ea4ba7fc30"
+        sling:resourceType="girlscouts/components/three-column-page"
+        seoTitle="Volunteer Resources | Girl Scouts of Gateway Council">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-07-21T11:56:39.777-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2014-07-21T11:56:39.777-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"/>
+                    <text
+                        jcr:created="{Date}2014-07-21T11:56:42.740-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2015-10-16T09:05:39.463-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Volunteer%20Essentials%202015-16.pdf&quot;>Volunteer Essentials 2015-2016&lt;/a>&lt;/b>&lt;/p>&#xa;&lt;p>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Volunteer%20Handbook%202015-16.pdf&quot;>&lt;b>Volunteer Handbook 2015-2016&lt;/b>&lt;/a>&lt;/p>&#xa;&lt;p>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/All%20Safety%20Activity%20Checkpoints%20FINAL.pdf&quot;>&lt;b>Safety Activity Checkpoints&lt;/b>&lt;/a>&lt;/p>&#xa;&lt;p>&lt;a adhocenable=&quot;false&quot; href=&quot;http://gsuniversity.girlscouts.org/course/girl-scouting-101/&quot; target=&quot;_blank&quot;>&lt;b>GS101 - Girl Scouting 101 Online Training&lt;/b>&lt;/a>&lt;br>&#xa;&lt;/p>&#xa;&lt;p>&lt;b>Trips &amp;amp; Cruises&lt;/b>&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/gateway/en/for-volunteers/volunteer-resources-/intent-to-cruise-or-travel-globally.html?cq_ck=1406051235907&quot; target=&quot;_blank&quot;>Intent to Cruise or Travel Globally&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Intent-to-Cruise-or-Travel-Globally.pdf&quot; target=&quot;_blank&quot;>Intent to Cruise or Travel Globally&lt;/a> (pdf)&lt;/li>&#xa;&lt;li>&lt;a href=&quot;http://www.girlscouts-gateway.org/downloads/The_Girl_Scout_Adult_Guide_to_Global_Travel.pdf&quot; target=&quot;_blank&quot; adhocenable=&quot;false&quot;>Adult Guide to Global Travel&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a href=&quot;http://www.girlscouts-gateway.org/downloads/The_Girl_Scout_Girl_Guide_to_Global_Travel.pdf&quot; target=&quot;_blank&quot; adhocenable=&quot;false&quot;>Girl Guide to Global Travel&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Authorization_for_Medical_Treatment_Girls.pdf&quot; target=&quot;_blank&quot;>Authorization for Medical Treatment - Girls&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Authorization_for_Medical_Treatment_Adults.pdf&quot; target=&quot;_blank&quot;>Authorization for Medical Treatment - Adults&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Adult_Health_Form.pdf&quot; target=&quot;_blank&quot;>Adult Health Form&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/GSUSA_Girl_Health_Form.pdf&quot; target=&quot;_blank&quot;>Girl Health Form&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Girl_Permission_Slip_for_Global_travel.pdf&quot; target=&quot;_blank&quot;>Girl Permission Slip for Global Travel&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Girl_Scout_Girl_Travel_Log.pdf&quot; target=&quot;_blank&quot;>Girl Travel Log&lt;/a>&lt;/li>&#xa;&lt;/ul>&#xa;&lt;p>&lt;b>Bronze, Silver &amp;amp; Gold Awards&lt;/b>&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/HighestAwardsAAG.pdf&quot; target=&quot;_blank&quot;>Gold Silver Bronze At a Glance&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Girl_Scout_Gold_Award_Guidelines.pdf&quot; target=&quot;_blank&quot;>Gold Award Guidelines - Girls&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Gold_Girl_Guide_Spanish_7_13.pdf&quot; target=&quot;_blank&quot;>Gold Award Guidelines - Girls - Spanish&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/gold-adults_01.pdf&quot; target=&quot;_blank&quot;>Gold Award Guides - Adults&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Gold_Award_web_app_redirect_page.pdf&quot; target=&quot;_blank&quot;>Gold Award Proposal and Reports&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Silver_Award_Final_Report.pdf&quot; target=&quot;_blank&quot;>Silver Award Final Report&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/silver-girls_01.pdf&quot; target=&quot;_blank&quot;>Silver Award Guidelines - Girls&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Silver_Girls_Guide_Spanish_7_13.pdf&quot; target=&quot;_blank&quot;>Silver Award Guidelines - Girls - Spanish&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/silver-adults_01.pdf&quot; target=&quot;_blank&quot;>Silver Award Guides - Adults&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a target=&quot;_blank&quot; href=&quot;http://www.girlscouts-gateway.org/content/dam/girlscouts-sections/about-girl-scouts/bronze-girls_01.pdf&quot; adhocenable=&quot;false&quot;>Bronze Award Guidelines&lt;/a>&lt;/li>&#xa;&lt;li>&lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Bronze_Award_Final_Report.pdf&quot; target=&quot;_blank&quot;>Bronze Award Final Report&lt;/a>&lt;/li>&#xa;&lt;/ul>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+            <left jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys"/>
+            </left>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-04-07T09:12:45.572-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+    <san-agustin-6th-grade-application/>
+    <san-agustin-6th-grade-reference/>
+    <san-agustin-older-girl-application/>
+    <san-agustin-older-girl-reference/>
+    <smile-camp-counselor-application/>
+    <smile-camp-girl-reference-form/>
+    <intent-to-cruise-or-travel-globally/>
+    <gsgcproperties/>
+</jcr:root>

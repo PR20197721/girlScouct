@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-03-19T12:37:29.106-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-03-19T12:37:36.619-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="North Fork Girl Scout Camp"
+        jcr:uuid="ad3bb734-57d4-4e9a-9f8e-288e0c3c47bf">
+        <image
+            jcr:lastModified="{Date}2015-03-19T12:37:29.103-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+    <matt-mendenhall/>
+</jcr:root>

@@ -51,3 +51,8 @@ test.salesforce.com
 alex_yakobovich@northps.com
 icruise123
 
+
+
+BOOTSTRAP DATA
+==============
+The bootstrap sub project should be executed on a virgin instance of AEM to create basic data needed to run VTK.  DO NOT upload this package onto any production environment as it will overwrite production content.

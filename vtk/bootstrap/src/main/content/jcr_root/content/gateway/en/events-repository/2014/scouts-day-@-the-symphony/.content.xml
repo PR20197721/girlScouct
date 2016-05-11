@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:37.807-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/ags-&amp;-families,gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Scouts Day @ the Symphony"
+        jcr:uuid="0b036135-f6ea-4344-a684-48386a9a7614"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="300 Water St, Jacksonville, FL, US, 32202"
+            details="Experience the story of a mischievous ferret as his wild escapades wreak havoc in an old instrument shop in Gregory SmithÍs The Animated Orchestra. Be sure to practice your ñferret soundsî to help put this piece together, accompanied by a multitude of sound effects from the Jacksonville Symphony Orchestra. Pre-concert activities include the Symphony GuildÍs Instrument Zoo. This event costs $7 per person."
+            end="{Date}2014-02-22T17:00:00.000-05:00"
+            locationLabel="Times Union Center for the Performing Arts"
+            srchdisp="Experience the story of a mischievous ferret as his wild escapades wreak havoc in an old instrument shop in Gregory SmithÍs The Animated Orchestra. Be sure to practice your ñferret soundsî to help put this piece together, accompanied by a multitude of sound effects from the Jacksonville Symphony Orchestra. Pre-concert activities include the Symphony GuildÍs Instrument Zoo."
+            start="{Date}2014-02-22T14:00:00.000-05:00"/>
+    </jcr:content>
+</jcr:root>
