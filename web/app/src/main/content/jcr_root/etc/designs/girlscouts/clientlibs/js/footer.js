@@ -69,46 +69,6 @@
 	        }
 	    });
 	}
-  /*
-  function vtk_accordion() {
-	    $('.accordion dt > :first-child').on('click', function (e) {
-	        //close and remove classes first
-	        $('.accordion dd .content').slideUp('slow');
-	        $('.accordion dt > :first-child').removeClass('on');
-	        $('.accordion dt').removeClass('on');
-
-	    	$('.accordion dt > :first-child').each(function (i, value) {
-	    		var parsysID = $(value).parent().data('target');
-	    		//Necessary for authoring mode. See main.js:toggleParsys
-	            if(window[parsysID] != null && window[parsysID].hideParsys != undefined) {
-	         	      window[parsysID].hideParsys();
-	            }
-	    	});
-
-	        var target = $(this).parent().next().find('.content');
-	        var toggle = $(this);
-	        var parsysID = $(this).parent().data('target');
-
-	        if(target.is(':visible')) {
-	        toggle.removeClass('on');
-	        target.slideUp();
-	        $(this).parent().removeClass('on');
-	            if(window[parsysID] != null && window[parsysID].hideParsys != undefined){
-	            	   window[parsysID].hideParsys();
-	            }
-	        } else {
-	        toggle.addClass('on');
-	        target.slideDown();
-	        $(this).parent().addClass('on');
-	            if(window[parsysID] != null && window[parsysID].showParsys != undefined){
-	         	   window[parsysID].showParsys();
-	            }
-	        }
-	        return false;
-	    });
-	    anchorCheck();
-	}
-*/
   
   
 $(document).ready(function(){
@@ -132,6 +92,11 @@ $(window).load(function(){
   }
 });
 
+        //For Web Component. See main.js:toggleParsys
+        /*if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
+            window[target].toggle();
+        }
+		*/
 
 var CHECK;
 
@@ -168,6 +133,7 @@ function vtk_accordion() {
 
         //Open/close  the Accordion 
         toggleAccordion(target, this);
+
 
         //For Web Component. See main.js:toggleParsys
         if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
@@ -210,4 +176,8 @@ function vtk_accordion() {
 
 //   });
 
+<<<<<<< HEAD
 // }
+=======
+}
+>>>>>>> master61
