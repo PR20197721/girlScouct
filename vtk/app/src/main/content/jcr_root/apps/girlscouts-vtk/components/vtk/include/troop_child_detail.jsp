@@ -80,17 +80,24 @@
             <div style="float:right">
             
             <% 
+
              
              if(  apiConfig!=null && !apiConfig.isDemoUser() ){
               if( troop.getTroop().getRole().equals("PA")  ){
+
                %>
-	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
-	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
-                <% 	       
-	          }else{
+
+	                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+	            <%}//edn if %>
+	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Edit_Profile?flow=Membership_Troop_Renewal&CId=<%=contact.getId()%>" class="button">UPDATE CONTACT INFO</a>
+	            <% 	       
+	        }else{
+	        	 if( contact.isRenewalDue() ){
+
 	        	%>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
+                     <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+               <%}//edn if %>
+                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Edit_Profile?flow=Membership_Troop_Renewal&CId=<%=contact.getId()%>" class="button">UPDATE CONTACT INFO</a>
                 <% 
 	          }
              }else{
@@ -100,6 +107,7 @@
                 <% 
              }
 	        %>
+	            
 	        </div> 
         </li>                        
      </ul>

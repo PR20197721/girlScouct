@@ -861,6 +861,7 @@ public class MeetingUtil {
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 		return planView(user, troop, request, false);
+		
 	}
 	
 	public PlanView planView(User user, Troop troop,
@@ -915,7 +916,9 @@ public class MeetingUtil {
 			
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
+
 			if ( meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
 				// rm cachables
