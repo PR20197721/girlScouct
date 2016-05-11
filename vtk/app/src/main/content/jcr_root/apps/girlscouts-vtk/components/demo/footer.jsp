@@ -1,4 +1,6 @@
-<%@page import="com.day.cq.wcm.api.components.IncludeOptions"%>
+<%@page import="com.day.cq.wcm.api.components.IncludeOptions,
+					org.apache.sling.settings.SlingSettingsService,
+					java.util.Set"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/footer.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -35,7 +37,13 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 	</div>
 </div>
-
-<!-- <cq:include script="google-analytics.jsp" />
- -->
+<%
+			Set<String> set = sling.getService(SlingSettingsService.class).getRunModes();
+			Boolean isPreview = set.contains("gspreview");
+			//if this server is a preview, we do not use google analytics for VTK demo
+			if (!isPreview) {
+			%>
+				<cq:include script="google-analytics.jsp" />
+			<%
+			} %>
 <cq:include script="footer-tracking.jsp" />
