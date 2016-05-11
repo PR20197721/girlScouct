@@ -5,14 +5,14 @@
                             <%
                            
                             if( contact.getDob() != null ){
-                            	try{
-                            		
-                            	     %><%=  VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.FORMAT_yyyyMMdd,contact.getDob()) ) %><%
-                            	
-                            	}catch(Exception e){e.printStackTrace();}
+                                try{
+                                    
+                                     %><%=  VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.FORMAT_yyyyMMdd,contact.getDob()) ) %><%
+                                
+                                }catch(Exception e){e.printStackTrace();}
                                     
                             }else{
-                            	
+                                
                                 %>N/A<%
                             }
                             %>
@@ -31,18 +31,18 @@
      if( contact.getContacts()!=null )
       for(Contact contactSub: contact.getContacts()){ 
     
-	      if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
-	         <li class="row">                           
-	          <p><strong>Secondary Info:</strong></p>
-	          <div class="row">
-	            <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-	             <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
+          if( !VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_OWN_CHILD_DETAIL_TROOP_ID ) ){%>
+             <li class="row">                           
+              <p><strong>Secondary Info:</strong></p>
+              <div class="row">
+                <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
+                 <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
                            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
-	            <%} %>
-	            <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
-	          </div>
-	        </li>
-	         <%} %>
+                <%} %>
+                <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
+              </div>
+            </li>
+             <%} %>
          
          
          
@@ -80,35 +80,27 @@
             <div style="float:right">
             
             <% 
-
              
              if(  apiConfig!=null && !apiConfig.isDemoUser() ){
               if( troop.getTroop().getRole().equals("PA")  ){
-
                %>
-
-	                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
-	            <%}//edn if %>
-	            <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Edit_Profile?flow=Membership_Troop_Renewal&CId=<%=contact.getId()%>" class="button">UPDATE CONTACT INFO</a>
-	            <% 	       
-	        }else{
-	        	 if( contact.isRenewalDue() ){
-
-	        	%>
-                     <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
-               <%}//edn if %>
-                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Edit_Profile?flow=Membership_Troop_Renewal&CId=<%=contact.getId()%>" class="button">UPDATE CONTACT INFO</a>
+                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">RENEW NOW</a>
+                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Renewal" class="button">UPDATE CONTACT INFO</a>
+                <%         
+              }else{
+                %>
+                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">RENEW NOW</a>
+                <a href="<%=configManager.getConfig("communityUrl")%>/Membership_Troop_Renewal" class="button">UPDATE CONTACT INFO</a>
                 <% 
-	          }
+              }
              }else{
-            	 %>
-            	 <a href="javascript:void(0)" class="button" disabled=true>RENEW NOW</a>
+                 %>
+                 <a href="javascript:void(0)" class="button" disabled=true>RENEW NOW</a>
                  <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
                 <% 
              }
-	        %>
-	            
-	        </div> 
+            %>
+            </div> 
         </li>                        
      </ul>
   </div>
