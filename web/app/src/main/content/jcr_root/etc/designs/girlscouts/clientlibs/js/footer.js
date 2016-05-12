@@ -132,11 +132,15 @@ $(window).load(function(){
   }
 });
 
+        //For Web Component. See main.js:toggleParsys
+        if (window[target] !== null && window[target].hasOwnProperty('toggle')) {
+            window[target].toggle();
+        }
 
+    });
 
-
-
-
+    anchorCheck();
+}
 
 function vtk_accordion() {
   $('.accordion dt > :first-child').on('click', function(e) {
