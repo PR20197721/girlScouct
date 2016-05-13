@@ -1072,12 +1072,11 @@ function councilRpt(troopId, cid){
 
   
   function showSelectedDemoTroop(troopAge){
-console.log(1);	  
-	$(function(){
-		console.log(2);	 
-		if(gsusa && gsusa.component && gsusa.component.dropDown && troopAge!=undefined && troopAge!=''){
-			console.log(3);	 
-			gsusa.component.dropDown('#vtk-dropdown-1',{local:true}, troopAge );
+	$(function() {
+		if (typeof gsusa !== "undefined") {
+			if (gsusa.component && gsusa.component.dropDown && troopAge!=undefined && troopAge!='') {
+				gsusa.component.dropDown('#vtk-dropdown-1',{local:true}, troopAge );
+			}
 		}
 		
 	});
