@@ -108,7 +108,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 				
 				
 				if( apiConfig.isDemoUser() ){
-                    %><cq:include script="footer.jsp"/><% 
+                    %><cq:include script="footerDemo.jsp"/><% 
                 }else{
                     %><cq:include script="footer.jsp"/><%
                 }//end else
