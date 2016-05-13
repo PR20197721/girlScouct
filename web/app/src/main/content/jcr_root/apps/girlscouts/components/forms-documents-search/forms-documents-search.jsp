@@ -154,6 +154,9 @@ try{
 Session session = resourceResolver.adaptTo(Session.class);
 QueryManager qm = session.getWorkspace().getQueryManager();
 if( q.length()>3  ||  (set!=null && set.size()>0))
+	for(String s : set){
+		System.out.println("Set: " + s);
+	}
  for(int i=0;i<2;i++){  
 
 String query = "";
@@ -176,23 +179,27 @@ QueryResult result = q1.execute();
     alex:for (RowIterator it = result.getRows(); it.hasNext(); ) {
         try{       
    Row r = it.nextRow();
-
-
+	Node rowNode = resourceResolver.resolve(r.getPath()).adaptTo(Node.class);
 
 
   if( i!=2 && isTag ){
 
    boolean isFound= false; 
-   String _tags=  "";
-   if( i!=0 ) _tags = getValue(r,"/jcr:content/metadata/cq:tags");
-    else
-        _tags = getValue(r,"/jcr:content/cq:tags");
-
-       _tags= _tags +",";
-       StringTokenizer t= new StringTokenizer( _tags, ",");
-       while( t.hasMoreElements()){
-            String _tag= t.nextToken();
-            if( set.contains( _tag ) ){ isFound= true; }
+   Property tagProp;
+   if( i!=0 ){	   
+	   tagProp = rowNode.getProperty("jcr:content/metadata/cq:tags");
+   }
+    else{
+   		tagProp = rowNode.getProperty("jcr:content/cq:tags");
+    }
+		Value[] tagProps = tagProp.getValues();
+       for(Value v : tagProps){
+            String _tag= v.getString();
+            System.out.println("Tag found: " + _tag);
+            if( set.contains( _tag ) ){ 
+            	isFound= true; 
+            	System.out.println("Found tag for : " + r.getPath());
+            }
         }
 
     if( !isFound ){continue alex;}
