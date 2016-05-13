@@ -51,12 +51,6 @@ apiConfig.setUser(user);
 user.setName(contactId);
 session.setAttribute(org.girlscouts.vtk.auth.models.User.class.getName(), user);
 
-/*
-//getTroop
-java.util.List<org.girlscouts.vtk.salesforce.Troop> troops  = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-        troopDAO, connectionFactory).troopInfo( user,  apiConfig, contactId );
-*/
-
 
  //java.util.List<org.girlscouts.vtk.salesforce.Troop > _troops= new java.util.ArrayList();
  for(int i=0;i<apiConfig.getTroops().size();i++){

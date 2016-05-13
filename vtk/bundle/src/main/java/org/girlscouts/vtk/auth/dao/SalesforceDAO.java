@@ -387,6 +387,7 @@ public class SalesforceDAO {
 				+ "?troopId=" + sfTroopId;
 		
 		HttpGet method = new HttpGet(url);
+
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		String rsp = null;
 		try {
@@ -461,6 +462,7 @@ public class SalesforceDAO {
 				log.debug("<<<<<Apex contacts reponse: " + response);
 
 
+
 java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
 
 JSONArray results1 = response.getJSONObject("records").getJSONArray("lstCM");
@@ -485,6 +487,7 @@ renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSO
 
 /*
 				JSONArray results = response.getJSONArray("records");
+
 				
 				for (int i = 0; i < results.length(); i++) {
 					log.debug("_____ " + results.get(i));
@@ -532,12 +535,7 @@ renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSO
 						} catch (Exception e) {
 						}
 
-						try {
-							contact.setState(results.getJSONObject(i)
-									.getString("MailingPostalCode"));
-						} catch (Exception e) {
-						}
-
+					
 						try {
 							contact.setCountry(results.getJSONObject(i)
 									.getString("MailingCountry"));
@@ -580,6 +578,14 @@ renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSO
 						} catch (Exception e) {
 						}
 
+						//renewal
+						try {
+								Boolean isRenewal = renewals.get( contact.getId() );
+								contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
+						} catch (Exception e) {
+						}
+						
+						
 						contact.setType(0);
 						Contact contactSub = new Contact();
 						try {

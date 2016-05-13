@@ -3,7 +3,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
 <%

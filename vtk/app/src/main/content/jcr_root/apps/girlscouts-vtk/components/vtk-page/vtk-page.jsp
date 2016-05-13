@@ -2,17 +2,19 @@
 
    HttpSession session = request.getSession();
    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
-   String isDemoSite= configManager.getConfig("isDemoSite");
-//System.err.println("IsDemoSite: " + isDemoSite);  
+   boolean isDemoSite= false;
+   String _demoSite = configManager.getConfig("isDemoSite");
+   if( _demoSite!=null && _demoSite.equals("true") )
+    { isDemoSite=true;}
+  
 
 
-System.err.println("isDemo chk: "+ request.getParameter("useAsDemo"));
+
     if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){
     		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
     }else{
     	    session.removeAttribute("useAsDemo");
     }
-System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+  request.getParameter("useAsDemo")  ); 
   
     String myUrl = request.getRequestURL().toString();
        
@@ -41,22 +43,12 @@ System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+
 	        e.printStackTrace();
 	    }
 	    
-   /*
-    try{
-		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
-		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
-	} catch (ClassCastException exc) { 
-		session.invalidate();
-		apiConfig=null; 
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	*/
+  
     
 	if( apiConfig==null ){
 	 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
-	    if( isDemoSite !=null && isDemoSite.equals("true") ){
+	    if( isDemoSite ){
 	        redirectTo = "/content/girlscouts-demo/en.html";    
 	    }
 	    
@@ -69,20 +61,7 @@ System.err.println("check isDemo : "+ session.getAttribute("useAsDemo") + " : "+
 
 		response.sendRedirect(redirectTo);
 		return;		
-		/*
-	} else if (apiConfig.isFail()) {
-		boolean thisIsHome = false;
-		for (String selectFragment: slingRequest.getRequestPathInfo().getSelectors()) {
-			if ("home".equals(selectFragment)) {
-				thisIsHome = true;
-			}
-		}
-		if (!thisIsHome) {
-		    		// go to vtk.home.html w/ error message inside apiConfig.getErrorMessage()
-		}
-	} else {
-		   System.out.println("Unhandled ApiConfig State.");
-	   */
+		
 	}
    System.out.println("ApiConfig not null and not failed.");
 

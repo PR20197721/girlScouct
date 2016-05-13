@@ -206,7 +206,6 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	public void setRenewalDue(boolean renewalDue) {
 		this.renewalDue = renewalDue;
 	}
-	
-	
+
 	
 }
