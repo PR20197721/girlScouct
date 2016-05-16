@@ -1083,3 +1083,28 @@ function councilRpt(troopId, cid){
 	  
 	  
   }
+  
+  
+  
+  function cngYear(yr){
+  
+     $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYear="+ yr ,
+            cache: false
+        }).done(function( html ) {
+            relogin();
+            
+        });
+  }
+  
+  
+  function resetYear(){
+  
+     $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYearToCurrent=true" ,
+            cache: false
+        }).done(function( html ) {
+            relogin();
+            
+        });
+  }

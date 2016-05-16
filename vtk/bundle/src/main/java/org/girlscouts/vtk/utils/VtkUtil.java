@@ -255,23 +255,15 @@ public static String getCouncilInClient(HttpServletRequest request){
 
 public static String getYearPlanBase(User user, Troop troop){
 
-	/*
-	String ypBase= "/vtk";
-	java.util.Calendar now= java.util.Calendar.getInstance();
-	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
-		ypBase += now.get(java.util.Calendar.YEAR) +1;
-	else
-		ypBase += now.get(java.util.Calendar.YEAR);
+	if( user!=null && user.getCurrentYear() !=null ) 
+		return "/vtk"+ user.getCurrentYear() +"/";
 	
-	return ypBase+"/";
-	*/
-	
+		
 	int currentGSYear= getCurrentGSYear();
 	if( currentGSYear==2014)
 		return "/vtk/";
 	else
 		return "/vtk"+ currentGSYear +"/";
-	
 	
 }
 
@@ -532,5 +524,25 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 			}
 		}catch(Exception e){e.printStackTrace();}	 
 	 }
-
+ 
+ 
+public static void cngYear(HttpServletRequest request, User user, Troop troop){
+	
+	String yr = request.getParameter("cngYear");
+	
+	if( yr!=null && yr.equals( getCurrentGSYear()+"") ) 
+		return;
+	else if( yr==null && user.getCurrentYear().equals( getCurrentGSYear()+""))
+		return;
+	
+	String newYear = yr ==null ? user.getCurrentYear() : yr;	
+	user.setCurrentYear( newYear );
+	/*
+    java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);	      
+    System.err.println("test: perms; "+ (permis==null)); 
+    System.err.println("test: perms* "+ (permis.size() +" : " + permis)); 
+    troop.getTroop().setPermissionTokens(permis);
+    */
+    
+}
 }//end class

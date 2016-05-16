@@ -217,6 +217,12 @@
 						request.getParameter("mid"));
 				return;
 			case ReLogin:
+
+  			    VtkUtil.cngYear(request,  user,  troop);
+
+System.err.println("testX: "+ troop.getTroop().getPermissionTokens() );		
+
+	
 				troopUtil.reLogin(user, troop,
 						request.getParameter("loginAs"), session);
 				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
@@ -1219,8 +1225,13 @@ try{
 	      
 	      <% 
 	      
-		
-		
+		}else if( request.getParameter("cngYear") != null ){
+		      VtkUtil.cngYear(request,  user,  troop);
+        }else if( request.getParameter("cngYearToCurrent") != null ){
+             user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );	   
+             
+              
+             
 		} else {
 			//TODO throw ERROR CODE
 			

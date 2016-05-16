@@ -366,8 +366,7 @@ public class TroopUtil {
 
 	}
 
-	public void reLogin(User user, Troop troop, String troopId,
-			HttpSession session) throws IllegalAccessException, VtkException {
+	public void reLogin(User user, Troop troop, String troopId, HttpSession session) throws IllegalAccessException, VtkException {
 
 		if (troopId == null || troopId.trim().equals("")) {
 			log.error("loginAs invalid.abort");
@@ -399,13 +398,33 @@ if( newTroop ==null ) return;
 					troopId);
 
 		}
-		new_troop.setTroop(newTroop);
+		
+		
+		
+		//archive
+		if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+			 java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);	      
+			// System.err.println("test: perms; "+ (permis==null)); 
+			// System.err.println("test: perms* "+ (permis.size() +" : " + permis)); 
+			 org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(newTroop));
+			 newTroopCloned.setPermissionTokens( permis );
+			 new_troop.setTroop(newTroopCloned);
+		}else{
+			new_troop.setTroop(newTroop);
+		}
+		//end archive
+		
+		
 		new_troop.setSfTroopId(new_troop.getTroop().getTroopId());
 		new_troop.setSfUserId(user.getApiConfig().getUserId());
 		new_troop.setSfTroopName(new_troop.getTroop().getTroopName());
 		new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
 		new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode() + "");
 
+		
+		 
+		
+		
 		// logout multi troop
 		logout(user, troop);
 		session.setAttribute("VTK_troop", new_troop);

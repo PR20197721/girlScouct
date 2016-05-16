@@ -296,9 +296,9 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	    request.setAttribute("footerScript", footerScript);
 	}
 
-%>
-              
-                
+
+            
+%>                
                    
            
                 
