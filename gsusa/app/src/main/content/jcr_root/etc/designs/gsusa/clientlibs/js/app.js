@@ -960,12 +960,11 @@ function article_tiles() {
 
             var title_height = parseInt($(obj.el).height());
 
-
-            if($(obj.el).parents('a').is(':hover')){
-                jqElement.animate({"padding-top":(obj.height_real*0.33 - obj.title_height) /2 + 'px'});
-            } else {
-              jqElement.animate({"padding-top":(obj.content_height - obj.title_height) / 2 + 'px'});
-            } 
+            // if($(obj.el).parents('a').is(':hover')){
+               jqElement.animate({"padding-top":(obj.height_real*0.33 - obj.title_height) /2 + 'px'});
+            // } else {
+            //   jqElement.animate({"padding-top":(obj.content_height - obj.title_height) / 2 + 'px'});
+            // } 
             
             jqElement.attr('data-adjusted', 'true');
         } 
