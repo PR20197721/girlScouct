@@ -219,8 +219,7 @@
 			case ReLogin:
 
   			    VtkUtil.cngYear(request,  user,  troop);
-
-System.err.println("testX: "+ troop.getTroop().getPermissionTokens() );		
+	
 
 	
 				troopUtil.reLogin(user, troop,
@@ -683,7 +682,21 @@ try{
 				}
 
 				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-				troop.setTroop(prefTroop);
+				
+				//archive
+                VtkUtil.cngYear(request,  user,  troop);
+        
+                if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                     java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);          
+                     org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+                     newTroopCloned.setPermissionTokens( permis );
+                     troop.setTroop(newTroopCloned);
+                }else{
+                    troop.setTroop(prefTroop);
+                }
+                //end archive
+				
+				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
                 troop.setSfTroopName(troop.getTroop().getTroopName());
@@ -796,7 +809,7 @@ try{
 			}
 }catch(Exception e){e.printStackTrace();}
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
-
+try{
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
                 out.println("{\"yearPlan\":\"NYP\"}");
@@ -830,10 +843,33 @@ try{
 					}
 				}
 
-				troop = troopUtil.getTroop(user,
-						"" + prefTroop.getCouncilCode(),
-						prefTroop.getTroopId());
-				troop.setTroop(prefTroop);
+
+
+
+
+        troop = troopUtil.getTroop(user,
+                        "" + prefTroop.getCouncilCode(),
+                        prefTroop.getTroopId());
+        //archive
+        VtkUtil.cngYear(request,  user,  troop);
+
+        if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);          
+             org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(prefTroop));
+             newTroopCloned.setPermissionTokens( permis );
+             troop.setTroop(newTroopCloned);
+        }else{
+            troop.setTroop(prefTroop);
+        }
+        //end archive
+        
+        
+        
+        
+        
+        
+				
+				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
                 troop.setSfTroopName(troop.getTroop()
@@ -896,7 +932,7 @@ try{
 				out.println("}");
 				   
 			}
-
+}catch(Exception e){e.printStackTrace();}
 		} else if (request.getParameter("reactActivity") != null) {
 
             boolean isFirst = false;
@@ -1148,7 +1184,10 @@ try{
 			out.println(_dates.size());
 		} else if (request.getParameter("printTroopReloginids") != null) {
 			 %><select id="reloginid" onchange="relogin()"><% 
-			for (int i = 0; i < troops.size(); i++) { 
+			 
+			 
+			
+			 for (int i = 0; i < troops.size(); i++) { 
 			 
 			  %><option value="<%=troops.get(i).getTroopId()%>"
 	            <%=troop.getTroop().getTroopId()
