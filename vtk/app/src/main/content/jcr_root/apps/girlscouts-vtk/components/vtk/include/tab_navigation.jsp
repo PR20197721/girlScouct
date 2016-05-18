@@ -440,6 +440,8 @@
 						<%} %>
 
 						<% if("plan".equals(activeTab)) {%>
+						
+						<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")){%>
 						<li><a
 							<%
 						   if(user.getApiConfig().isDemoUser()){
@@ -452,9 +454,13 @@
 							onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
 							<% } %> title="download the calendar"><i
 								class="icon-download"></i></a></li>
+								
+							<%}//edn if archive%>	
+						
 						<li><a
 							onclick="javascript:window.print();vtkTrackerPushAction('Print');"
 							title="print"><i class="icon-printer"></i></a></li>
+							
 						<% } %>
 					</ul>
 				</div>

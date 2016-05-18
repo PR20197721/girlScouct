@@ -1,3 +1,5 @@
+<script>document.title="VTK Demo Site"</script>
+
 <%
 boolean showExtra= false;
 boolean isDp= false;

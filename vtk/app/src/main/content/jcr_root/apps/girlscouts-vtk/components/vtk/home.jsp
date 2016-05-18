@@ -113,7 +113,8 @@
                 userRole = apiConfig.getTroops().get(0).getRole();
             }
                         userRole= userRole ==null ? "" : userRole;
-                        if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                       //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                       if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
                             vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
                         }
                         }
