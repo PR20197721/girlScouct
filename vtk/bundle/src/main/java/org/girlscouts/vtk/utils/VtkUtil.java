@@ -255,8 +255,9 @@ public static String getCouncilInClient(HttpServletRequest request){
 
 public static String getYearPlanBase(User user, Troop troop){
 
-	if( user!=null && user.getCurrentYear() !=null ) 
-		return "/vtk"+ user.getCurrentYear() +"/";
+	if( user!=null && user.getCurrentYear() !=null ) {
+		return "/vtk"+ (user.getCurrentYear().equals("2014") ? "" : user.getCurrentYear()) +"/";
+	}
 	
 		
 	int currentGSYear= getCurrentGSYear();
@@ -266,6 +267,27 @@ public static String getYearPlanBase(User user, Troop troop){
 		return "/vtk"+ currentGSYear +"/";
 	
 }
+
+public static String getYearPlanBase_previous(User user, Troop troop){
+
+	if( user!=null && user.getCurrentYear() !=null ) {
+		int yr = Integer.parseInt(user.getCurrentYear())-1;
+		return "/vtk"+ (yr ==2014 ? "" : yr) +"/";
+		
+	}
+	
+		
+	int currentGSYear= getCurrentGSYear();
+	currentGSYear = currentGSYear-1;
+	
+	if( currentGSYear==2014)
+		return "/vtk/";
+	else
+		return "/vtk"+ currentGSYear +"/";
+	
+}
+
+
 
 /* TODO: this is used by ReplicationManager. By using this method instead of the static one,
  * ReplicationManager waits VtkUtil to start first.

@@ -1530,5 +1530,41 @@ try{
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public boolean isArchivedYearPlan( User user , Troop troop){
+		
+		
+		if( user==null || troop==null || troop.getYearPlan()==null) return false;
+		
+		boolean isArchived= true;
+		Session mySession = null;
+	
+		try {
+			mySession = sessionFactory.getSession();
+			
+			String yearPlanPath_curr = VtkUtil.getYearPlanBase( user, null);
+			String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
+			
+			
+			String yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
+			//String yearPlanPath = VtkUtil.getYearPlanBase(user, null);
+	System.err.println("testt: "+yearPlanPath +": "+ mySession.itemExists(yearPlanPath) );		;
+			if (!mySession.itemExists(yearPlanPath)) {
+				isArchived=false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return isArchived;
+		
+	}
 }// ednclass
 

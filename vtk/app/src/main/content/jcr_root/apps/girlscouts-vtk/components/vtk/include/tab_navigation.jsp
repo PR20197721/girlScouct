@@ -133,8 +133,13 @@
 				<ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 					
+					
+					<%if( troopDAO.isArchivedYearPlan(user, troop) ){%>
 					   <li><%=user.getCurrentYear()%> <input type="button" value="Archive" onclick="cngYear('<%=( Integer.parseInt(user.getCurrentYear())-1)%>')"/> </li>
-                            
+                    <%}%>
+                    
+                    
+                    
 					<li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
 						<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") &&
 						      troop.getYearPlan()!=null &&
@@ -413,8 +418,11 @@
 						<li>
 						
 						  <%= user.getCurrentYear()%>
-						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
-    						   <input type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+						      if( troopDAO.isArchivedYearPlan(user, troop) ){
+						  %>
+    						       <input type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+    					      <%}%>
     					  <%}else{%>
     					       <select name="" onchange="cngYear(this.options[this.selectedIndex].value)">
     					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>

@@ -778,5 +778,6 @@ if( newTroop ==null ) return;
 
 		return futureMeetings;
 	}
+	
 }// end class
 
