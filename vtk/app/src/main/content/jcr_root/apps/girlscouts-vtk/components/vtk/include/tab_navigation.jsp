@@ -34,7 +34,7 @@
 			    cookie.setMaxAge(-1);
 			    response.addCookie(cookie);
               %>
-			<select id="reloginid" onchange="relogin()">
+			<select id="reloginid" onchange="relogin()" <%=!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ? "disabled" : "" %>>
 				<%
 				
 			 if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
@@ -417,7 +417,7 @@
 						
 						<li>
 						
-						  <%= user.getCurrentYear()%>
+						  <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
 						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
 						      if( troopDAO.isArchivedYearPlan(user, troop) ){
 						  %>
@@ -432,6 +432,8 @@
     					          }%>
     					       </select>
     					       <input type="button" value="Back to Current Year" onclick="resetYear()"/>
+    					       
+    					       
     					  <%}%>
     					  	   
 						 </li>

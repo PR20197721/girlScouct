@@ -124,6 +124,7 @@
    	<form onsubmit="return false;">
 			<h3>Agenda Item: <%=_activity.getName()%></h3>
 			<div class="columns small-4">
+			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 					
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
@@ -145,7 +146,7 @@
 						<option value=""><%=_activity.getDuration() %></option>
 						<%} %>
 				</select>
-				
+				<%}//edn if%>
 			</div>
 		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 			<div class="columns small-20">

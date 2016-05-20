@@ -7,7 +7,6 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
-
 	String vtkErr = "";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
@@ -1267,9 +1266,16 @@ try{
 		}else if( request.getParameter("cngYear") != null ){
 		      VtkUtil.cngYear(request,  user,  troop);
         }else if( request.getParameter("cngYearToCurrent") != null ){
-             user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );	   
+                       user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );       
              
               
+             java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_LEADER_PERMISSIONS);          
+             org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(troop.getTroop()));
+             newTroopCloned.setPermissionTokens( permis );
+             troop.setTroop(newTroopCloned);
+             session.putValue("VTK_troop", troop);
+              
+             
              
 		} else {
 			//TODO throw ERROR CODE
