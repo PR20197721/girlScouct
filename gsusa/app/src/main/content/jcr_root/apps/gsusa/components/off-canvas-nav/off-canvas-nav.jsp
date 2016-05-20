@@ -18,6 +18,7 @@
     List<String[]> eyebrowNavs = new ArrayList<String[]>();
     
     int found = -1;
+    boolean[] rootLandingPageList = new boolean[headerNavValues.length];
     
     // find in global nav then
     for (int i = 0; i < headerNavValues.length; i++) {
@@ -37,22 +38,27 @@
         }
         nav[0] = label;
 
-        headerNavs.add(nav);
+	    rootLandingPageList[i] = nav.length >= 8 ? Boolean.parseBoolean(nav[7]) : false;
+		boolean hideInMobile = nav.length >= 7 ? Boolean.parseBoolean(nav[6]) : false;
+		if(!hideInMobile) {
+	       	headerNavs.add(nav);
         
-        String topPath = nav[1];
+    	    String topPath = nav[1];
         
-        //if external, then nav starts with http
-        if (nav[1].startsWith("http")) {
-        	continue;
-        } else {
-        	// rePath restrings nav[1] up to level 4 which is the top menu
-        	// /content/gsusa/en/topmenu
-        	topPath = rePath(nav[1],4);
-        }
+	        //if external, then nav starts with http
+    	    if (nav[1].startsWith("http")) {
+        		continue;
+	        } else {
+    	    	// rePath restrings nav[1] up to level 4 which is the top menu
+        		// /content/gsusa/en/topmenu
+	        	topPath = rePath(nav[1],4);
+    	    }
 
-        if (currentPage.getPath().startsWith(topPath) && found == -1) { // if current page belong to this branch
-            found = i;
+	        if (currentPage.getPath().startsWith(topPath) && found == -1) { // if current page belong to this branch
+    	        found = i;
+        	}
         }
+        
     }
     
     // eyebrow nav
@@ -63,8 +69,8 @@
 
     StringBuilder sb = new StringBuilder();
     sb.append("<nav class=\"right-off-canvas-menu\" tabindex=\"-1\">");
-    buildTopMenu(headerNavs, currentPage.getPath(), resourceResolver, sb, found);
-    buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1);
+    buildTopMenu(headerNavs, currentPage.getPath(), resourceResolver, sb, found, rootLandingPageList);
+    buildTopMenu(eyebrowNavs, currentPage.getPath(), resourceResolver, sb, -1, null);
     sb.append("</nav>");
 %>
 
@@ -74,7 +80,7 @@
     
 
 <%!
-    public void buildTopMenu(List<String[]> navs, String currentPath, ResourceResolver rr, StringBuilder sb, int found) {
+    public void buildTopMenu(List<String[]> navs, String currentPath, ResourceResolver rr, StringBuilder sb, int found, boolean[] rootLandingPageList) {
         int count = 0;
         sb.append("<ul class=\"off-canvas-list\">");
         for (String[] nav : navs) {
@@ -97,10 +103,12 @@
             } else {
                 sb.append("<a href=\"" + genLink(rr, nav[1]) + "\" title=\"" + nav[0] + "\" tabindex=\"-1\">" + nav[0] + "</a>");
             }
-            if (count == found) {            	
+            if (count == found) {
                 String topMenuPath = nav[1].substring(0,nav[1].lastIndexOf("/"));
+                if(rootLandingPageList != null && rootLandingPageList[count]) {
+            		topMenuPath = nav[1];	// if root page is landing page then no need to get one above
+            	}
                 Page topMenuPathPage = rr.resolve(topMenuPath).adaptTo(Page.class);
-                
                 buildMenu(topMenuPathPage, currentPath, sb);
             }
             sb.append("</li>");  
