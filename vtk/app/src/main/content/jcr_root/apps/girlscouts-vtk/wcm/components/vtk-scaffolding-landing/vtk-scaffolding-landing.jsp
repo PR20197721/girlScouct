@@ -7,8 +7,8 @@
 %>
 	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 <%
-	final String MEETING_BASE = "/content/girlscouts-vtk/meetings/myyearplan2015";
-	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2015";
+	final String MEETING_BASE = "/content/girlscouts-vtk/meetings/myyearplan2016";
+	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2016";
 	final String MEETING_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/meeting.html";
 	final String YEAR_PLAN_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/year-plan.html";
 	final Session session = resourceResolver.adaptTo(Session.class);
