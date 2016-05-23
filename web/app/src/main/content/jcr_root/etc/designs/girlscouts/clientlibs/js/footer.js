@@ -187,17 +187,17 @@ function vtk_accordion() {
     }
 
 function adjust_pdf_links() {
-	$('a').each(function(index, link){
-		var href = $(link).attr('href');
-		if (!href) {
-			return;
-		}
-		var SUFFIX = '.pdf?download=true';
-		var suffixIndex = href.indexOf(SUFFIX);
-		if (suffixIndex != -1 && suffixIndex == href.length - SUFFIX.length) {
-			var newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
-			$(link).attr('href', newHref);
-			$(link).attr('download', '');
-		}
-	});
+    $('a').each(function(index, link){
+        var href = $(link).attr('href');
+        if (!href) {
+            return;
+        }
+        var SUFFIX = '.pdf?download=true';
+        var suffixIndex = href.indexOf(SUFFIX);
+        if (suffixIndex != -1 && suffixIndex == href.length - SUFFIX.length) {
+            var newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
+            $(link).attr('href', newHref);
+            $(link).attr('download', '');
+        }
+    });
 }
