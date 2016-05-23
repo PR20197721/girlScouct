@@ -58,6 +58,7 @@ YEAR PLAN SETUP
 
 Every year in Spring, we are required to create new year plan templates for girl scouts. Here are the steps.
 
+** Data Changes **
 1. Go to Production and Down Sync all the current year plan templates and meetings to UAT. You can simply create a package and install on UAT. The path are listed here: 
   1. /content/girlscouts-vtk/meetings/myyearplan2015
   2. /content/girlscouts-vtk/yearPlanTemplates/yearplan2015
@@ -71,3 +72,6 @@ Every year in Spring, we are required to create new year plan templates for girl
 5. Replicate all the new data to UAT publish.
 6. Now we will need to change the configuration for the holidays and the girlscouts new year 
 7. Once everything is ready, we can create a package and move it to Production environment.
+
+** Code Change **
+Under the path vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/wcm/components/vtk-scaffolding-landing/vtk-scaffolding-landing.jsp, there are two variables for the year plan, MEETING_BASE and YEAR_PLAN_BASE. Change it from 2015 to 2016. Check in your code.
