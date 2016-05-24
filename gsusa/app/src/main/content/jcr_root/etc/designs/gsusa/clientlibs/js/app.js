@@ -1015,7 +1015,15 @@ $(function(){
   $(window).resize(function(){
       article_tiles();
   });
+
+
+  //this condition going to check if there is a Dynamic
+  //carrousel its going to hold until rum the Dynamic Carrousel 
+  //see dynamic-tag-carousel.js
+  if(!$(document).hasClass('.dynamic-tag-carousel')){
     article_tiles(); 
+  }
+    
 });
 
 
