@@ -964,7 +964,7 @@ function article_tiles() {
             var title_height = parseInt($(obj.el).height());
 
 
-            if($(window).width()-760){
+            if($(window).width()<760){
               c_height = obj.content_height;
             }else{
 
@@ -973,7 +973,7 @@ function article_tiles() {
                   ratio = 0.1585;
               }
 
-              if(ratio > 0.34){
+              if(ratio > 0.20){
                   ratio = 0.33;
               }
               c_height = obj.height_real*ratio 
