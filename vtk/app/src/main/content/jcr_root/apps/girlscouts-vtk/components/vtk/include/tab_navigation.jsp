@@ -150,8 +150,7 @@
 						<%} %>
 						<ul class="dropdown">
 							<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
-							<li><a data-reveal-id="modal_upload_image"
-								title="update photo" href="#">add/change a photo of your
+							<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your
 									troop</a></li>
 							<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove
 									troop photo</a></li>
@@ -406,6 +405,27 @@
                     }
                 }
             %>
+
+
+
+						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
+						  activeTab!=null  &&  "plan".equals(activeTab) ){
+						      if( troopDAO.isArchivedYearPlan(user, troop) ){
+						  %>
+    						       <input class="vtk-button" type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+    					      <%}%>
+    					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+    					       <select name="" onchange="cngYear(this.options[this.selectedIndex].value)">
+    					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
+    					               <option value="<%=i%>"><%=i%></option>
+    					          <%
+    					               if( i==2014 ) break;
+    					          }%>
+    					       </select>
+    					       <input type="button" value="Back to Current Year" onclick="resetYear()"/>
+    					       
+    					       
+    					  <%}%>
 					</ul>
 				</div>
 				<div class="columns small-6 medium-5">
@@ -418,6 +438,10 @@
 						<li>
 						
 						 SEP <%=( Integer.parseInt(user.getCurrentYear())-1)%> - JUL <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
+
+						<!----- REMOVE_ME
+						 
+
 						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
 						      if( troopDAO.isArchivedYearPlan(user, troop) ){
 						  %>
@@ -435,7 +459,7 @@
     					       
     					       
     					  <%}%>
-    					  	   
+    					  	 ---->  
 						 </li>
 						<li><a data-reveal-id="modal_help" title="help"><i
 								class="icon-questions-answers"></i></a></li>
