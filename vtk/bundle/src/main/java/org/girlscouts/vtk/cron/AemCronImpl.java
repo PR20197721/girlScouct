@@ -6,7 +6,10 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.runmode.RunMode;
+import org.apache.sling.settings.SlingSettingsService;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.ejb.SessionFactory;
 
 
 @Component(
@@ -32,11 +35,19 @@ public class AemCronImpl implements Runnable, AemCron  {
 	@Reference
 	TroopDAO troopDAO;
 
+	@Reference
+	private SlingSettingsService slingSettings;
+
+	
 	public void run() {
 		
 		
-		//demo site remove temo "SHARED_"
-		troopDAO.removeDemoTroops();
+		if(slingSettings.getRunModes().contains("preview")){ 
+		
+			//demo site remove temo "SHARED_"
+			troopDAO.removeDemoTroops();
+		}
+		
 	}
 }
 

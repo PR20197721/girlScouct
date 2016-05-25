@@ -1,5 +1,7 @@
-<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
+<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/>
 
+<%
+try{
    HttpSession session = request.getSession();
    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
    boolean isDemoSite= false;
@@ -124,5 +126,5 @@ request.setAttribute("altSearchPath", referer);
 
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
-
+<%}catch(Exception e){e.printStackTrace();}%>
 </html>
