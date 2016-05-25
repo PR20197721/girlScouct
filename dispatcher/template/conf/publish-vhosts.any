@@ -1,4 +1,5 @@
 "{{publishRenderer.hostname}}"
+"my{{prefix.withDash}}.girlscouts-gateway.org"
 "{{prefix.www}}.girlscouts-gateway.org"
 "{{prefix.www}}.girlscoutcsa.org"
 "{{prefix.www}}.gsnetx.org"
