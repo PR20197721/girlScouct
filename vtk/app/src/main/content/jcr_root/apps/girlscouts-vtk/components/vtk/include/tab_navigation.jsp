@@ -417,7 +417,7 @@
 						
 						<li>
 						
-						  <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
+						 SEP <%=( Integer.parseInt(user.getCurrentYear())-1)%> - JUL <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
 						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
 						      if( troopDAO.isArchivedYearPlan(user, troop) ){
 						  %>
