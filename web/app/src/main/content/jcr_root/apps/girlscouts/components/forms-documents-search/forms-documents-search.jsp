@@ -154,9 +154,6 @@ try{
 Session session = resourceResolver.adaptTo(Session.class);
 QueryManager qm = session.getWorkspace().getQueryManager();
 if( q.length()>3  ||  (set!=null && set.size()>0))
-	for(String s : set){
-		System.out.println("Set: " + s);
-	}
  for(int i=0;i<2;i++){  
 
 String query = "";
@@ -195,10 +192,8 @@ QueryResult result = q1.execute();
 		Value[] tagProps = tagProp.getValues();
        for(Value v : tagProps){
             String _tag= v.getString();
-            System.out.println("Tag found: " + _tag);
             if( set.contains( _tag ) ){ 
             	isFound= true; 
-            	System.out.println("Found tag for : " + r.getPath());
             }
         }
 
