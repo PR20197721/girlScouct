@@ -176,23 +176,25 @@ QueryResult result = q1.execute();
     alex:for (RowIterator it = result.getRows(); it.hasNext(); ) {
         try{       
    Row r = it.nextRow();
-
-
+	Node rowNode = resourceResolver.resolve(r.getPath()).adaptTo(Node.class);
 
 
   if( i!=2 && isTag ){
 
    boolean isFound= false; 
-   String _tags=  "";
-   if( i!=0 ) _tags = getValue(r,"/jcr:content/metadata/cq:tags");
-    else
-        _tags = getValue(r,"/jcr:content/cq:tags");
-
-       _tags= _tags +",";
-       StringTokenizer t= new StringTokenizer( _tags, ",");
-       while( t.hasMoreElements()){
-            String _tag= t.nextToken();
-            if( set.contains( _tag ) ){ isFound= true; }
+   Property tagProp;
+   if( i!=0 ){	   
+	   tagProp = rowNode.getProperty("jcr:content/metadata/cq:tags");
+   }
+    else{
+   		tagProp = rowNode.getProperty("jcr:content/cq:tags");
+    }
+		Value[] tagProps = tagProp.getValues();
+       for(Value v : tagProps){
+            String _tag= v.getString();
+            if( set.contains( _tag ) ){ 
+            	isFound= true; 
+            }
         }
 
     if( !isFound ){continue alex;}
