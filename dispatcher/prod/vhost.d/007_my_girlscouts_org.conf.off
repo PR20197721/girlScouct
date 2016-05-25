@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+        ServerName my.girlscouts.org
+        DocumentRoot /mnt/var/www/html
+        ErrorDocument 404 "404 GirlScouts"
+
+        RewriteEngine On
+        RewriteLog "logs/rewrite-my-girlscouts-org.log"
+        RewriteLogLevel 1
+
+        RewriteRule ^/content/girlscouts-vtk/(.*) /content/vtk-maintenance.html [R=301,L]
+
+        <Directory "/mnt/var/www/html">
+                        <IfModule disp_apache2.c>
+                                        SetHandler dispatcher-handler
+                                        ModMimeUsePathInfo On
+                        </IfModule>
+                        Options FollowSymLinks
+                        AllowOverride AuthConfig
+                        Order allow,deny
+                        Allow from all
+        </Directory>
+</VirtualHost>

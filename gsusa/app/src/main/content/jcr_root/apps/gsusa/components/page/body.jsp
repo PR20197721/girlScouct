@@ -22,7 +22,7 @@ if (isCookiePage(currentPage)) {
       <div class="inner-wrap<%= cookieClass%>">
           <section class="main-section">
           	  <%-- below print image logo is hard-coded since we cannot incorporate within existing components --%> 
-			  <img src="/content/dam/girlscouts-gsusa/images/logo/logo_print.png" data-at2x="/content/dam/girlscouts-gsusa/images/logo/logo_print@2x.png" id="mainGSLogoPrint" />
+			  <img src="/content/dam/girlscouts-gsusa/images/logo/logo_print.png" data-at2x="/content/dam/girlscouts-gsusa/images/logo/logo_print@2x.png" id="mainGSLogoPrint" style="display:none;"/>
               <div class="header">
                 <cq:include script="header.jsp"/>
               </div>
