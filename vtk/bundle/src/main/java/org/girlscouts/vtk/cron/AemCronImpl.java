@@ -42,7 +42,6 @@ public class AemCronImpl implements Runnable, AemCron  {
 	public void run() {
 		
 		
-System.err.println("test runmodels: "+ slingSettings.getRunModes());
 		if(slingSettings.getRunModes().contains("preview")){ 
 		
 			//demo site remove temo "SHARED_"
