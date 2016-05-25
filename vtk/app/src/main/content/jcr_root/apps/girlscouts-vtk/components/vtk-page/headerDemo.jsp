@@ -393,11 +393,11 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
   <h2 id="modalTitle" style="font-size:18px; color:white;padding:10px 30px;background-color:green">VTK DEMO DETAILS</h2>
 
   <div class="container-model">
-    <p>The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionally, certain features of the VTK have been disabled such as sending an email to parents/care</p>
+    <p>The Volunteer Toolkit Demo Site mirrors all of the current features and functionality live in the VTK. However, this site does not necessarily mirror the exact interface a user will experience once logged in off of their council site; the demo emphasis is on the features and functionality of the digital tool.</p>
 
-  <p>Information presented on this website is for demo purposes only. Any customizations you make will not be saved. The content presented is the property of GSUSA.</p>
+  <p>Please note this demo website does not contain real girl data, all troop tab data is prototypical. Additionally, certain features of the VTK have been disabled such as email functionality to “parents/caregivers” and the ability to download Year Plans and Meeting Aids, in order to protect proprietary information.</p>
 
-  <p>We hope you enjoy the demo.</p>
+  <p>Information presented on this website is for demo purposes only, your customizations will not be saved. Content presented is proprietary of Girl Scouts of the United States of America."</p>
 
 
   <br>
