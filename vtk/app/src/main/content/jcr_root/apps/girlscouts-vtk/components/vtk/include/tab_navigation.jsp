@@ -134,9 +134,8 @@
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 					
 					
-					<%if( troopDAO.isArchivedYearPlan(user, troop) ){%>
-					   <li><%=user.getCurrentYear()%> <input type="button" value="Archive" onclick="cngYear('<%=( Integer.parseInt(user.getCurrentYear())-1)%>')"/> </li>
-                    <%}%>
+					
+
                     
                     
                     
@@ -176,6 +175,10 @@
 										Meeting</a></li>
 								<%} %>
 								<li><a onclick="newActivity()">Add Activity</a></li>
+								
+								<li><a onclick="cngYear('<%=( Integer.parseInt(user.getCurrentYear())-1)%>')"> SEE PAST YEARS </li>
+                    </a></li>
+
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
 										Calendar</a></li>
@@ -408,11 +411,13 @@
 
 
 
-						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
+
+					</ul>
+											  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
 						  activeTab!=null  &&  "plan".equals(activeTab) ){
 						      if( troopDAO.isArchivedYearPlan(user, troop) ){
 						  %>
-    						       <input class="vtk-button" type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+    						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
     					      <%}%>
     					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
     					       <select name="" onchange="cngYear(this.options[this.selectedIndex].value)">
@@ -426,7 +431,6 @@
     					       
     					       
     					  <%}%>
-					</ul>
 				</div>
 				<div class="columns small-6 medium-5">
 					<ul class="inline-list" id="util-links">
@@ -436,10 +440,10 @@
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
 						
 						<li>
-						
+						<!----- REMOVE_ME
 						 SEP <%=( Integer.parseInt(user.getCurrentYear())-1)%> - JUL <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
 
-						<!----- REMOVE_ME
+						
 						 
 
 						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
