@@ -1507,6 +1507,7 @@ try{
 	
 	public void emailCronRpt(String msg){
 		try {
+	System.err.println("Sending demo cron ....." + new java.util.Date() );		
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
 
@@ -1515,12 +1516,15 @@ try{
 			HtmlEmail email = new HtmlEmail();
 			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
 			toAddresses.add( new InternetAddress(DEMO_CRON_EMAIL) );
+			toAddresses.add( new InternetAddress("alex.yakobovich@ey.com") );
 			email.setTo(toAddresses);
 			if (msg != null) {
-				email.setSubject("GirlScouts VTK Demo Site Cron ERROR");
+				email.setSubject("GirlScouts VTK Demo Site Cron ERROR");		
 				email.setTextMsg("Error removing test nodes from database on "+  new java.util.Date() + ":" + msg);
 			} else {
 				email.setSubject("GirlScouts VTK Demo Site Cron");
+				//email.setSubject("Hello at "+ new java.util.Date());
+				
 				email.setTextMsg("Successfully removed all test nodes from database on "+  new java.util.Date() + ".");
 			}
 			messageGateway.send(email);

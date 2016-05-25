@@ -160,7 +160,7 @@ function xyz(slc){
     <div class="vtk-demo-wrap-top row">
         <div class="columns small-push-2 small-20 end">
                 Plan quickly. Save time. Stay organized.<br>
-                <p>The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo environment using any device - desktop, laptop, smart phone or tablet.</p>
+                <p>5The Volunteer Toolkit (VTK) gives Troop Leaders the tools and features they need for troop management and program delivery. Parents have their own view of VTK as well. Go ahead and play around in our demo environment using any device - desktop, laptop, smart phone or tablet.</p>
         </div>
     </div>
   <!-- / info -->
@@ -274,7 +274,7 @@ function xyz(slc){
 <div id="myModal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <h2 id="modalTitle">Are You Sure?</h2>
 
-    <p>The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionaly.</p>
+    <p>6The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionaly.</p>
   
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
 
