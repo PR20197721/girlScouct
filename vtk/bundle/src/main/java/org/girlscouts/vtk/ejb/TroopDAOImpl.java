@@ -1539,20 +1539,23 @@ try{
 	public boolean isArchivedYearPlan( User user , Troop troop){
 		
 		
-		if( user==null || troop==null || troop.getYearPlan()==null) return false;
+		if( user==null || troop==null ) return false;
 		
 		boolean isArchived= true;
 		Session mySession = null;
 	
 		try {
 			mySession = sessionFactory.getSession();
+			String yearPlanPath ="";
 			
-			String yearPlanPath_curr = VtkUtil.getYearPlanBase( user, null);
-			String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
-			
-			
-			String yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
-			//String yearPlanPath = VtkUtil.getYearPlanBase(user, null);
+			if( troop.getYearPlan()==null ){
+				yearPlanPath= VtkUtil.getYearPlanBase_previous( user, null) +""+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan";
+				
+			}else{
+				String yearPlanPath_curr = VtkUtil.getYearPlanBase( user, null);
+				String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
+			    yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
+			}
 	System.err.println("testt: "+yearPlanPath +": "+ mySession.itemExists(yearPlanPath) );		;
 			if (!mySession.itemExists(yearPlanPath)) {
 				isArchived=false;

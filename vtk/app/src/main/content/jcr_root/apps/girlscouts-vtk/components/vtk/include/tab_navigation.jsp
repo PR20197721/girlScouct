@@ -412,31 +412,38 @@
 					<ul class="inline-list" id="util-links">
 					
 					
-					
+					    <%if( activeTab!=null  &&  "plan".equals(activeTab) ){%>
+					    <li>
+                       
+                         
+                          <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                              if( troopDAO.isArchivedYearPlan(user, troop) ){
+                          %>
+                                   <input type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+                              <%}%>
+                          <%}else{%>
+                              SEP <%=( Integer.parseInt(user.getCurrentYear())-1)%> - JUL <%= user.getCurrentYear()%>
+                                  
+                               <select name="" onchange="cngYear(this.options[this.selectedIndex].value)">
+                                  <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
+                                       <option value="<%=i%>"><%=i%></option>
+                                  <%
+                                       if( i==2014 ) break;
+                                  }%>
+                               </select>
+                               <input type="button" value="Back to Current Year" onclick="resetYear()"/>
+                               
+                               
+                          <%}%>
+                               
+                         </li>
+					    <%}%>
+					    
+					    
+					    
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
 						
-						<li>
 						
-						 SEP <%=( Integer.parseInt(user.getCurrentYear())-1)%> - JUL <%= user.getCurrentYear()%>** <%=troop.getTroop().getPermissionTokens()%>
-						  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
-						      if( troopDAO.isArchivedYearPlan(user, troop) ){
-						  %>
-    						       <input type="button" value="Archive" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
-    					      <%}%>
-    					  <%}else{%>
-    					       <select name="" onchange="cngYear(this.options[this.selectedIndex].value)">
-    					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
-    					               <option value="<%=i%>"><%=i%></option>
-    					          <%
-    					               if( i==2014 ) break;
-    					          }%>
-    					       </select>
-    					       <input type="button" value="Back to Current Year" onclick="resetYear()"/>
-    					       
-    					       
-    					  <%}%>
-    					  	   
-						 </li>
 						<li><a data-reveal-id="modal_help" title="help"><i
 								class="icon-questions-answers"></i></a></li>
 						<%} %>
