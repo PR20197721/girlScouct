@@ -46,9 +46,9 @@ function toggleParsys(s) {
 
 function anchorCheck() {
    //Take the Location
-   var hash = window.location.hash;
+   var hash = window.location.hash.replace('$$$','');
 
-   if($('.accordion') !== []){ // check is the class acordion exist in the page
+   if($('.accordion').length > 0){ // check is the class acordion exist in the page
         if(hash!=="" && $(hash).length > 0){ //check the hash exist
             setTimeout(function() {
                 $(hash).children('h6').trigger('click'); // open the accordion in the accordion

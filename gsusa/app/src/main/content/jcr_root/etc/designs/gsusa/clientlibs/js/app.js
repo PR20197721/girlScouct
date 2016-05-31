@@ -930,9 +930,6 @@ Handlebars.registerHelper('escapeDoubleQuotes', function(context) {
 	}
 	return '';
 });
-// $(window).load(article_tiles);
-
-
 
 function seeMoreScale(){
   $.each($('.article-slider .article-tile.last section'), function(index, value){
@@ -950,55 +947,83 @@ function seeMoreScale(){
 
 //This function could be refact but this is the way that the compoennt was built
 function article_tiles() {
-    var arrayElements = [];
+      var inProcess=false;
+  var arrayElements = [];
 
     //Format the component.
-    var transform = function(obj,hover) {
-        if (!obj.adjusted && obj.content_height > obj.title_height) {
+    var transform = function(obj) {
+
+
+        if (/* !obj.adjusted && */obj.content_height > obj.title_height) {
 
             var jqElement = $(obj.el);
+            var ratio,c_height;
+
+
 
             var title_height = parseInt($(obj.el).height());
 
-            if(hover){
-              jqElement.animate({"padding-top":(obj.content_height*0.33 - obj.title_height) /2 + 'px'});
-            } else {
-              jqElement.animate({"padding-top":(obj.content_height - obj.title_height) / 2 + 'px'});
-            } 
+
+            if($(window).width()<760){
+              c_height = obj.content_height;
+            }else{
+
+              ratio = obj.content_height/obj.height_real;
+              if (ratio < 0.20){
+                  ratio = 0.1585;
+              }
+
+              if(ratio > 0.20){
+                  ratio = 0.33;
+              }
+              c_height = obj.height_real*ratio 
+            }
+
+
+
+            jqElement.css({"padding-top":(c_height - title_height) /2 + 'px'});
             
-            jqElement.attr('data-adjusted', 'true');
-        } 
-    }
-
-    //Create an Array of object width information
-    $('.article-tile .text-content h3').each(function(index, el) {
-        var obj = {
-            index: index,
-            el: el,
-            title_height: parseInt($(el).innerHeight()),
-            content_height: $(el).parent().innerHeight(),
-            adjusted: $(el).data('adjusted')
-        };
+        }
+      
+  }
 
 
-        arrayElements.push(obj);
-    });
+      //Create an Array of object width information
 
-    //Call the function Transoform
-    arrayElements.forEach(function(elObj) {
-        var ishover = $(elObj.el).parents('a').is(':hover');
-        transform(elObj,ishover);
-    });
+      $('.article-tile .text-content h3').each(function(index, el) {
+          var obj = {
+              index: index,
+              el: el,
+              title_height: parseInt($(el).height()),
+              content_height: $(el).parent().height(),
+              adjusted: $(el).data('adjusted'),
+              height_real: $(el).parents('a').parent('section').parent('.article-tile').height()
+          };
+
+          arrayElements.push(obj);
+      });
+
+
+      //Call the function Transoform
+      arrayElements.forEach(function(elObj) {
+          transform(elObj);
+      });
 }
 
 
-$(document).ready(function(){
-  
-  $(window).on('resize',article_tiles);
-  $(window).load(function(){
-    article_tiles();
+$(function(){
+  $(window).resize(function(){
+      article_tiles();
   });
 
+
+  //this condition going to check if there is a Dynamic
+  //carrousel its going to hold until rum the Dynamic Carrousel 
+  //see dynamic-tag-carousel.js
+  if(!$(document).hasClass('.dynamic-tag-carousel')){
+    article_tiles(); 
+  }
+    
 });
 
 
