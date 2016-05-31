@@ -26,6 +26,7 @@
 			String label = split.length >= 1 ? split[0] : "";
 			String link = split.length >= 2 ? split[1] : "";
 			String mediumLabel = split.length >= 4 ? split[3] : label;
+			boolean hideInDesktop = split.length >= 6 ? Boolean.parseBoolean(split[5]) : false;
 			boolean openInNewWindow = false;
 			String target = "";
 			int headerNavTabindex = 40 + i;
@@ -54,7 +55,7 @@
 				}
 			}
 
-			if (!label.isEmpty()) {
+			if (!label.isEmpty() && !hideInDesktop) {
 				if (activeClass.equals("")) { %>
 					<li id="tag_topnav_<%= linkifyString(label, 25)%>">
 				<% } else {%>
