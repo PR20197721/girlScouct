@@ -1,6 +1,7 @@
 $font-size: 14px;
 $line-height: 1.2;
 $lines-to-show: 3;
+
 .article-tile {
     section {
         position: relative;
@@ -127,7 +128,7 @@ $lines-to-show: 3;
                 padding-right: rem-calc(16);
                 h3 {
                     font-size: rem-calc(20);
-                    // line-height: rem-calc(28);
+                    line-height: rem-calc(28);
                 }
             }
         }
@@ -168,11 +169,10 @@ $lines-to-show: 3;
 
           section .text-content h3 {
             font-size: rem-calc(14);
-            line-height: 1.25rem;
+            line-height: 1rem;
           }
           section .text-content {
-            line-height: 1rem;
-            padding-left: 0.8rem;
+             padding-left: 0.8rem;
             padding-right: 0.8rem;
           }
 
@@ -278,8 +278,7 @@ $lines-to-show: 3;
             .article-tile{
                 .text-content{
                     // padding: 0 1rem !important;
-                    // 
-
+         
                     h3{
                         line-height: 1.75rem;
                     }
