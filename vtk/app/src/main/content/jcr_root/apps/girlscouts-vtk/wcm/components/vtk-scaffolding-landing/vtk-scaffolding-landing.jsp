@@ -13,6 +13,7 @@
 	final String YEAR_PLAN_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/year-plan.html";
 	final Session session = resourceResolver.adaptTo(Session.class);
 %>	
+    <p><h1>Girl Scout VTk 2016 - 2017 Year Plan</h1></p>
 	<p><h1>New</h1></p>
 		<p>
 			<input type="button" value="New Year Plan" onclick="window.location.href='<%= YEAR_PLAN_SCAFFOLDING %>'"></input>
