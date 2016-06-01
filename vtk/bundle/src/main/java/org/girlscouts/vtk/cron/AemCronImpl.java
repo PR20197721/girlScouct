@@ -40,7 +40,7 @@ public class AemCronImpl implements Runnable, AemCron  {
 
 	
 	public void run() {
-		
+	System.err.println("test");	
 		
 		if(slingSettings.getRunModes().contains("preview")){ 
 		
