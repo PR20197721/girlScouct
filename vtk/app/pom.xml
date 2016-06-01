@@ -67,6 +67,8 @@
           <exclude>**/.vlt</exclude>
           <exclude>**/.vltignore</exclude>
           <exclude>**/*.scss</exclude>
+          <exclude>**/*.scssc</exclude>
+          <exclude>**/.sass-cache</exclude>
         </excludes>
       </resource>
       <resource>
