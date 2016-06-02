@@ -129,7 +129,7 @@
 			</dl>
 			<div class="dropdown hide-for-print hide-for-large-up">
 				<a id="vtk-main-menu-button"
-					onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
+					onclick="$('#vtk-main-menu').slideToggle('slow');$(this).toggleClass('collapse')" class="expand">Menu</a>
 				<ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 					

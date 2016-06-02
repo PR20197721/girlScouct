@@ -2047,6 +2047,17 @@
         margin-top:-3px;
       }
     }
+    a.collapse {
+
+
+      &:after {
+
+        border-color: transparent transparent #000 transparent;
+        content: "";
+
+        margin-top:-10px;
+      }
+    }
   }
   #vtk-main-menu li {
     padding-bottom: 5px;
