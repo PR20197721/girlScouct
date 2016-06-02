@@ -1,3 +1,4 @@
+
 .article-carousel {
   h4 {
     font-size: rem-calc(24);
@@ -12,19 +13,7 @@
     .article-tile {
       padding-right: rem-calc(5);
       padding-left: rem-calc(5);
-      // &.last section {
-      //   background: #cccccc;
-      //   text-align: center;
-      //   display: block;
-      //   a {
-      //     color: $white;
-      //     display: table-cell;
-      //     vertical-align: middle;
-      //     text-align: center;
-      //     font-size: rem-calc(24);
-      //     width: rem-calc(250);
-      //   }
-      // }
+     
     }
     section .text-content {
       @media #{$medium-up} {
@@ -32,8 +21,8 @@
         padding-right: 1.8rem;
       }
       @media #{$small-only} {
-        padding-left: 0.8rem;
-        padding-right: 0.8rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
       }
 
     }
