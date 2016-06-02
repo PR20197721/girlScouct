@@ -10953,39 +10953,39 @@ table tr td {
   }
 }
 
-/* line 2, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 3, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel h4 {
   font-size: 1.5rem;
 }
-/* line 4, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 5, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel h4 a {
   font-weight: 600;
 }
 
-/* line 10, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 11, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider.slick-slider {
   margin-left: 0;
 }
-/* line 12, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 13, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider.slick-slider .article-tile {
   padding-right: 0.3125rem;
   padding-left: 0.3125rem;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 29, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 18, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-carousel .article-slider.slick-slider section .text-content {
     padding-left: 1.8rem;
     padding-right: 1.8rem;
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 29, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 18, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-carousel .article-slider.slick-slider section .text-content {
-    padding-left: 0.8rem;
-    padding-right: 0.8rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
-/* line 41, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 30, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider .slick-prev,
 .article-carousel .article-slider .slick-next {
   height: 3.125rem;
@@ -10994,54 +10994,54 @@ table tr td {
   width: 1.5625rem;
   box-shadow: 0px 2px 7px -2px #000;
 }
-/* line 48, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 37, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider .slick-prev:hover, .article-carousel .article-slider .slick-prev:focus,
 .article-carousel .article-slider .slick-next:hover,
 .article-carousel .article-slider .slick-next:focus {
   background-color: rgba(104, 104, 104, 0.8) !important;
 }
-/* line 52, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 41, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider .slick-prev:before,
 .article-carousel .article-slider .slick-next:before {
   content: none;
 }
-/* line 56, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 45, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider .slick-prev {
   left: 0.3125rem;
   background: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, 0.8) !important;
 }
-/* line 63, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 52, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-carousel .article-slider .slick-next {
   right: 0.3125rem;
   background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") no-repeat 50% 50%/45% rgba(153, 153, 153, 0.8) !important;
 }
 
-/* line 72, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 61, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .dynamic-tag-carousel {
   width: 38.125rem;
   margin: 0 auto;
 }
 
-/* line 77, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 66, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile {
   padding: 0;
   height: 100%;
 }
-/* line 80, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 69, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile section {
   height: 100%;
   display: table;
   width: 100%;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 85, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 74, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-detail-carousel .article-slider .article-tile section .text-content {
     padding-left: 0.625rem !important;
     padding-right: 0.625rem !important;
     height: 2.5rem;
     max-height: 2.5rem;
   }
-  /* line 91, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 80, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-detail-carousel .article-slider .article-tile section h3 {
     font-size: 0.75rem;
     line-height: 0.875rem;
@@ -11049,48 +11049,48 @@ table tr td {
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 99, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 88, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-detail-carousel .article-slider .article-tile section .text-content {
     padding-left: 0.8rem !important;
     padding-right: 0.8rem !important;
     height: 2.5rem;
     max-height: 2.5rem;
   }
-  /* line 105, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+  /* line 94, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
   .article-detail-carousel .article-slider .article-tile section h3 {
     font-size: 0.875rem;
     line-height: 1rem;
     margin: 0 0 5px 0;
   }
 }
-/* line 111, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 100, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile section a {
   opacity: .5;
 }
-/* line 113, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 102, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile section a:hover {
   opacity: 1;
 }
-/* line 117, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 106, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile section p {
   display: none;
   opacity: 0;
   visibility: 0;
 }
-/* line 123, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 112, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile.last {
   background: #ccc;
   text-align: center;
   opacity: 1;
 }
-/* line 127, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 116, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile.last section {
   height: 100%;
   display: table;
   width: 100%;
   min-height: auto;
 }
-/* line 132, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 121, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .article-tile.last section a {
   font-size: 100%;
   opacity: 1;
@@ -11099,16 +11099,16 @@ table tr td {
   vertical-align: middle;
   text-align: center;
 }
-/* line 143, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 132, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-slide {
   margin: 0 0.625rem;
   height: 7.125rem;
 }
-/* line 146, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 135, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-slide .article-tile.current a {
   opacity: 1;
 }
-/* line 150, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 139, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-prev,
 .article-detail-carousel .article-slider .slick-next {
   margin: 0;
@@ -11117,46 +11117,46 @@ table tr td {
   box-shadow: none;
   width: 50px;
 }
-/* line 158, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 147, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-prev:before,
 .article-detail-carousel .article-slider .slick-next:before {
   content: none;
 }
-/* line 161, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 150, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-prev:hover, .article-detail-carousel .article-slider .slick-prev:focus,
 .article-detail-carousel .article-slider .slick-next:hover,
 .article-detail-carousel .article-slider .slick-next:focus {
   opacity: 1;
 }
-/* line 166, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 155, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-next {
   right: -70px;
   background: url("/etc/designs/gsusa/clientlibs/images/right-arrow.png") no-repeat 50% 50%/45% #adadad !important;
 }
-/* line 171, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
+/* line 160, ../../../../../../../theme/custom/scss/components/_article-carousel.scss */
 .article-detail-carousel .article-slider .slick-prev {
   left: -70px;
   background: url("/etc/designs/gsusa/clientlibs/images/left-arrow.png") no-repeat 50% 50%/45% #adadad !important;
 }
 
-/* line 5, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 6, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section {
   position: relative;
 }
-/* line 7, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 8, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section img {
   width: 100%;
 }
-/* line 9, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 10, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section img.last {
   height: auto;
 }
-/* line 13, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 14, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section .text-content {
   z-index: 15;
   bottom: 0;
   display: block;
-  padding: 0 1.125rem 0;
+  padding: 0 1rem 0;
   color: #fff;
   position: absolute;
   width: 100%;
@@ -11165,33 +11165,53 @@ table tr td {
   overflow: hidden;
   max-height: 34.5%;
 }
-/* line 25, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 26, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section .text-content * {
   color: #FFFFFF;
 }
-/* line 28, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 29, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section .text-content h3 {
   font-size: 1.125rem;
   line-height: 1.5rem;
   margin-bottom: 0.625rem;
   margin-top: 0;
 }
-/* line 34, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+@media only screen and (max-width: 48em) {
+  /* line 36, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tile section .text-content h3 {
+    line-height: 1.25rem;
+  }
+  /* line 39, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tile section .text-content p {
+    line-height: 1rem;
+  }
+}
+/* line 43, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section .text-content p {
   font-size: 0.875rem;
-  transition: opacity 1s linear;
-  -moz-transition: opacity 1s linear;
-  -webkit-transition: opacity 1s linear;
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.20rem;
   opacity: 0;
+  z-index: -10;
 }
-/* line 44, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+@media only screen and (max-width: 48em) {
+  /* line 56, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tile section .text-contect {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
+  /* line 59, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tile section .text-contect p {
+    line-height: 1rem !important;
+    font-size: 14px !important;
+  }
+}
+/* line 65, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section a {
   display: block;
   width: 100%;
 }
-/* line 47, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 68, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tile section a.video:after {
   z-index: 10;
   content: "";
@@ -11204,36 +11224,33 @@ table tr td {
   background-size: 25%;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 60, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 81, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .article-tile section a:hover .text-content {
     height: 100%;
     max-height: 100%;
   }
-  /* line 63, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 84, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .article-tile section a:hover .text-content p {
     opacity: 1;
-    transition: opacity .5s linear;
-    -moz-transition: opacity .5s linear;
-    -webkit-transition: opacity .5s linear;
   }
-  /* line 71, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 92, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .article-tile section a h3 {
     width: 100%;
   }
 }
 
-/* line 79, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 101, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles {
   margin: 0 auto;
   max-width: 60rem;
   width: 100%;
 }
-/* line 80, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 102, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles h4 {
   font-size: 1.5rem;
   font-weight: 700;
 }
-/* line 83, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 105, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles h4 * {
   font-weight: 600;
 }
@@ -11247,7 +11264,7 @@ table tr td {
   clear: both;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 88, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 110, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile {
     padding-left: 0;
     padding-right: 0;
@@ -11255,35 +11272,35 @@ table tr td {
     float: left;
     padding-right: 0.625rem;
   }
-  /* line 93, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 115, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile section .text-content {
     padding-left: 2.125rem;
     padding-right: 2.125rem;
   }
-  /* line 96, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 118, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile section .text-content h3 {
     font-size: 1.3125rem !important;
     line-height: 1.5rem !important;
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 88, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 110, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile {
     margin-bottom: 1.0625rem;
   }
-  /* line 104, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 126, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile section .text-content {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  /* line 107, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 129, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles > .article-tile section .text-content h3 {
-    font-size: 1.25rem !important;
-    line-height: 1.75rem !important;
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 114, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 136, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid {
     padding-left: 0;
     padding-right: 0;
@@ -11291,7 +11308,7 @@ table tr td {
     float: left;
     padding-left: 0.625rem;
   }
-  /* line 119, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 141, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11337,19 +11354,19 @@ table tr td {
     padding-left: 0.625rem;
     padding-right: 0rem;
   }
-  /* line 122, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 144, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul li {
     padding-bottom: 1.25rem;
   }
 }
 @media only screen and (min-width: 48.1225em) and (min-width: 48.1225em) {
-  /* line 122, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 144, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul li {
     padding-bottom: 1.0625rem;
   }
 }
 @media only screen and (min-width: 48.1225em) and (max-width: 48em) {
-  /* line 119, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 141, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11397,36 +11414,35 @@ table tr td {
   }
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 133, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 155, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid section .text-content h3 {
     font-size: 100%;
     line-height: 1.2rem;
   }
-  /* line 137, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 159, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid section .text-content {
     line-height: 1.2rem;
     padding-left: 0.8rem;
     padding-right: 0.8rem;
   }
-  /* line 142, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 164, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid section .text-content p {
     line-height: 1.2rem;
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 148, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 170, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid section .text-content h3 {
     font-size: 0.875rem;
     line-height: 1rem;
   }
-  /* line 152, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 174, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid section .text-content {
-    line-height: 1rem;
     padding-left: 0.8rem;
     padding-right: 0.8rem;
   }
 }
-/* line 159, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 180, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles .block-grid ul {
   display: block;
   padding: 0;
@@ -11472,18 +11488,18 @@ table tr td {
   padding-left: 0.625rem;
   padding-right: 0rem;
 }
-/* line 162, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 183, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles .block-grid ul li {
   padding-bottom: 1.25rem;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 162, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 183, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul li {
     padding-bottom: 1.0625rem;
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 159, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 180, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .featured-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11530,32 +11546,32 @@ table tr td {
     padding-right: 0rem;
   }
 }
-/* line 173, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 194, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .featured-articles .block-grid section .text-content p {
   line-height: 1.2rem;
 }
 
-/* line 180, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 201, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tag-listing {
   margin-top: 1.875rem;
 }
-/* line 182, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 203, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tag-listing .more-link {
   text-align: center;
 }
-/* line 184, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 205, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tag-listing .more-link #more {
   margin: 1.25rem 0;
   display: inline-block;
 }
-/* line 189, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 210, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-tag-listing h4 {
   font-weight: 700;
   font-size: 1.5rem;
   margin-bottom: 2.3125rem;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 196, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 217, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .article-tag-listing .block-grid ul {
     display: block;
     padding: 0;
@@ -11606,7 +11622,7 @@ table tr td {
     padding-left: 0.83333rem;
     padding-right: 0rem;
   }
-  /* line 199, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 220, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .three-cols #mainContent .article-tag-listing .block-grid ul {
     display: block;
     padding: 0;
@@ -11654,7 +11670,7 @@ table tr td {
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 206, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 227, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .article-tag-listing .block-grid ul {
     display: block;
     padding: 0;
@@ -11700,20 +11716,29 @@ table tr td {
     padding-left: 0.3125rem;
     padding-right: 0rem;
   }
+  /* line 232, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tag-listing .block-grid .article-tile .text-content {
+    padding: 0 0.8rem;
+  }
+  /* line 234, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .article-tag-listing .block-grid .article-tile .text-content h3 {
+    line-height: 1rem;
+    font-size: 14px;
+  }
 }
 
-/* line 213, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 250, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .related-articles {
   padding-top: 1.25rem;
 }
-/* line 216, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 253, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .related-articles h4 {
   font-weight: 700;
   font-size: 1.5rem;
   margin-bottom: 2.3125rem;
 }
 @media only screen and (min-width: 48.1225em) {
-  /* line 223, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 260, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .related-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11764,7 +11789,7 @@ table tr td {
     padding-left: 0.83333rem;
     padding-right: 0rem;
   }
-  /* line 226, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 263, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .three-cols #mainContent .related-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11812,7 +11837,7 @@ table tr td {
   }
 }
 @media only screen and (max-width: 48em) {
-  /* line 233, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  /* line 274, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
   .related-articles .block-grid ul {
     display: block;
     padding: 0;
@@ -11853,20 +11878,25 @@ table tr td {
     padding-left: 0rem;
     padding-right: 0rem;
   }
+  /* line 282, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+  .related-articles .block-grid .article-tile .text-content h3 {
+    line-height: 1.75rem;
+    font-size: 1.25rem;
+  }
 }
 
-/* line 240, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 296, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .reveal-modal {
   z-index: 9000;
 }
-/* line 242, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 298, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .reveal-modal .video-popup {
   position: relative;
   padding-bottom: 56.25%;
   height: 0;
   overflow: hidden;
 }
-/* line 247, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 303, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .reveal-modal .video-popup iframe {
   position: absolute;
   top: 0;
@@ -11874,38 +11904,38 @@ table tr td {
   width: 100%;
   height: 100%;
 }
-/* line 255, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 311, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .reveal-modal .close-reveal-modal {
   font-size: 16px !important;
 }
-/* line 258, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 314, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .reveal-modal .close {
   position: absolute;
   right: -27px;
   top: -29px;
 }
 
-/* line 272, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 328, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-hero {
   margin-bottom: 1.5625rem;
 }
-/* line 274, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 330, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-hero img,
 .article-hero iframe {
   width: 100%;
 }
 
-/* line 281, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 337, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-text i {
   padding-top: 10px;
   display: inline-block;
 }
-/* line 285, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 341, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .article-text p {
   font-size: 1rem;
 }
 
-/* line 290, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
+/* line 346, ../../../../../../../theme/custom/scss/components/_article-tile.scss */
 .clearboth {
   clear: both;
 }
@@ -12005,7 +12035,7 @@ table tr td {
 /* Slider */
 /* line 40, ../../../../../../../theme/bower_components/slick.js/slick/slick-theme.scss */
 .slick-loading .slick-list {
-  background: #fff url('../images/ajax-loader.gif?1462308291') center center no-repeat;
+  background: #fff url('../images/ajax-loader.gif?1464709286') center center no-repeat;
 }
 
 /* Icons */
@@ -16740,10 +16770,4 @@ blockquote .social-icons {
   font-weight: bold;
   font-size: 1.5625rem;
   color: #00AE58;
-}
-
-/* CSS code to accommodate print */
-/* line 73, ../../../../../../../theme/custom/scss/app.scss */
-img#mainGSLogoPrint {
-  display: none;
 }
