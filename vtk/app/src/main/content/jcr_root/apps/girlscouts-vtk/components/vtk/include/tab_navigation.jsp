@@ -71,7 +71,7 @@
 					<dd <%= "plan".equals(activeTab) ? "class='active'" : "class=''" %>>
 	
 						<a href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
-						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plan"%>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
 						</a>
 					</dd>
 				<% } %>
@@ -82,12 +82,12 @@
 							      ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
 									<a href='#'
 										onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>
-										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plan"%>
+										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
 										</a>
 						<%}else{ %>
 									<a
 										<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>
-										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plan"%>
+										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
 										</a>
 						<%} %>
 					</dd>
@@ -161,7 +161,7 @@
 					<li
 						class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a
 						href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
-						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plan"%>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
                        </a>
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
@@ -194,10 +194,10 @@
 	                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
 						<a href='#'
 						onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>
-						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plan"%>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
 						</a> <%}else{ %> <a
 						<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>
-						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plan"%>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
                         
 						</a> <%} %>
 
