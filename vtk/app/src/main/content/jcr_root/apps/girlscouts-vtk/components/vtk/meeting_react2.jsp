@@ -530,7 +530,7 @@ React.createElement(ActivityPlan),
       render: function() {
         return (
                 React.createElement("li", null,
-                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className:  "icon "+ this.props.extension}, this.props.title),
+                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension}, this.props.title),
                         React.createElement("p", {className: "info"}, this.props.description)
                       )
         );
