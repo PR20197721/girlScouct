@@ -6,15 +6,11 @@
 }
 
 
-.vtk-pastYear-plan{
-	ul{
-		li{
-			// pointer-events: none;
+.vtkDisableA{
+	pointer-events: none !important;
+	color:gray !important;
+}
 
-			.bg-square{
-				// background-color: gray !important;
-			}
-		}
-
-	}
+.vtkDisableP{
+	display: none !important;
 }

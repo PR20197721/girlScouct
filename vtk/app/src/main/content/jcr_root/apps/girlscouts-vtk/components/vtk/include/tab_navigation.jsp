@@ -183,8 +183,10 @@
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
 										Calendar</a></li>
 							<% } %>
+
+				
 						</ul></li>
-					<%}%>
+
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
 					<li
@@ -200,6 +202,21 @@
 						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
                         
 						</a> <%} %>
+						    					  <%if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+    					       <li><select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
+    					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
+    					               <option value="<%=i%>"><%=i%></option>
+    					          <%
+    					               if( i==2014 ) break;
+    					          }%>
+    					       </select></li>
+    					       
+    					       <li><a onclick="resetYear()">Back to Current Year</a></li>
+    					       
+    					       
+    					  <%}%>
+
+					<%}%>
 
 						<ul class="dropdown">
 							<% if("planView".equals(activeTab)) {
