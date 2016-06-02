@@ -20,8 +20,10 @@
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
-  <div id="yearPlanMeetings">
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+    
     <div id="thePlan">
+
       <script type="text/javascript">
 
  var isActivNew;

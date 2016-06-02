@@ -46,5 +46,8 @@ bin/
 /target
 
 vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css
-vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/.sass-cache/1f9e62270ec0eb2fbb2e82a816d3534161cdf5bf/vtk-demo.scssc
-vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/.sass-cache/1f9e62270ec0eb2fbb2e82a816d3534161cdf5bf/vtk-style.scssc
+vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/.sass-cache/
+
+
+
+gsusa/app/src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css
