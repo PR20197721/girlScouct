@@ -18,9 +18,10 @@
                         <redirect
                             jcr:primaryType="cq:Widget"
                             componentId="redirectField"
-                            fieldDescription="Leave empty to redisplay the form after submission"
+                            fieldDescription="Set a path to the page that this form redirects users to upon submission. You can use any page, but a thank you page is recommended."
                             fieldLabel="Thank You Page"
                             name="./redirect"
+                            allowBlank="{Boolean}false"
                             xtype="pathfield"/>
                         <workflowmodel
                             jcr:primaryType="cq:Widget"
