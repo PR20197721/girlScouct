@@ -71,6 +71,7 @@ Every year in Spring, we are required to create new year plan templates for girl
   4. For the following path, change the target path from 2015 to 2016.
     1. vtk/app/src/main/content/jcr_root/etc/scaffolding/girlscouts-vtk/meeting/.content.xml
     2. vtk/app/src/main/content/jcr_root/etc/scaffolding/girlscouts-vtk/year-plan/.content.xml
+    3. vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/clientlibs/js/VTKMeetingIdList.js
   5. Change the title in scaffolding in the file vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/wcm/components/vtk-scaffolding-landing/vtk-scaffolding-landing.jsp
 3. In vtk dam under the path /content/dam/girlscouts-vtk/local/icon/meetings, there are icons files. Copy a the set of the icons from year 15, and paste it to the same place with the new year prefix 16. For example, Copy B15B05.png and paste it under the same location, rename it to B16B05.png
 4. Check all the nodes in scaffolding /etc/scaffolding/girlscouts-vtk/landing.html. Make sure all the nodes are working properly
