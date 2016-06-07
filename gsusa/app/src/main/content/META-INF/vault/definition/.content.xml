@@ -18,7 +18,7 @@
         <f1
             jcr:primaryType="nt:folder"
             mode="replace"
-            root="/apps/cq/ui/widgets/source/widgets/form"
+            root="/apps/cq/ui/widgets/source/widgets"
             rules="[]"/>
         <f2
             jcr:primaryType="nt:folder"
