@@ -11,13 +11,13 @@
   display: block;
 }
 
-/* line 13, image-tool.scss */
+/* line 12, image-tool.scss */
 .resize-container:hover img,
 .resize-container:active img {
   /*outline: 2px dashed rgb(50, 125, 60);*/
 }
 
-/* line 20, image-tool.scss */
+/* line 17, image-tool.scss */
 .resize-handle-ne,
 .resize-handle-se,
 .resize-handle-nw,
@@ -71,7 +71,7 @@
   /*pointer-events: none;*/
 }
 
-/* line 66, image-tool.scss */
+/* line 65, image-tool.scss */
 .overlay:after,
 .overlay:before {
   content: '';
@@ -97,7 +97,7 @@
   margin-bottom: -40px;
 }
 
-/* line 89, image-tool.scss */
+/* line 88, image-tool.scss */
 .overlay-inner:after,
 .overlay-inner:before {
   content: '';
@@ -150,7 +150,7 @@
   margin-top: 20px;
   margin-bottom: 20px;
 }
-/* line 129, image-tool.scss */
+/* line 128, image-tool.scss */
 #upload-buttons .btn,
 #upload-buttons button {
   float: left;

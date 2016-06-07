@@ -1,3 +1,5 @@
+@import 'vtk_colors';
+
 .row .row {
   margin-left: -5px;
   margin-right: -5px;
@@ -141,7 +143,7 @@
         border-radius: 50%;
         margin: 0 0.5em;
         position: absolute;
-        background: #00ae58;
+        background: $green_light;
         width: 2.19rem;
         height: 2.19rem;
         top: 5px;
@@ -369,6 +371,7 @@
       text-transform:uppercase;
       margin-top: 10px;
       margin-bottom: 10px;
+      float: left;
       > li {
         border-right: solid 1px;
         margin-right: 5px;
@@ -444,7 +447,7 @@
   #main .meeting-detail {
     color:#393939;
     .meeting-navigation {
-      background: #00ae58;
+      background: $green_light;
       margin-bottom: 5%;
       * {
         color:#fff;
@@ -1009,7 +1012,7 @@
           position: absolute;
           margin-top: -5px;
           top: 50%;
-          border-color: transparent transparent transparent #00ae58;
+          border-color: transparent transparent transparent $green_light;
           right:0;
         }
       }
@@ -1196,7 +1199,7 @@
                 border-width: 13px;
                 margin-top: -13px;
                 top: 50%;
-                border-color: transparent transparent transparent #00ae58;
+                border-color: transparent transparent transparent $green_light;
                 margin-left: 5px;
                 width:13px;
                 height:13px;
@@ -1214,7 +1217,7 @@
               }
             }
             &.ui-datepicker-prev span {
-              border-color: transparent  #00ae58 transparent transparent;
+              border-color: transparent  $green_light transparent transparent;
               &:hover {
                 border-color: transparent #039d50 transparent transparent;
               }
@@ -1312,7 +1315,7 @@
       border-radius: 50%;
       margin: 0 0.5em;
       position: absolute;
-      background: #00ae58;
+      background: $green_light;
       width: 2.19rem;
       height: 2.19rem;
       top: 5px;
@@ -1578,7 +1581,7 @@
       }
     }
     > dt {
-      background: #00ae58;
+      background: $green_light;
       position: relative;
       padding: 13px 0 11px 25px;
       margin: 0;
@@ -1640,13 +1643,13 @@
               position: absolute;
               margin-top: -10px;
               top: 50%;
-              border-color: transparent transparent transparent #00ae58;
+              border-color: transparent transparent transparent $green_light;
               left:5px;
             }
             &.on {
               font-weight:700;
               &:before {
-                border-color:#00ae58 transparent transparent;
+                border-color:$green_light transparent transparent;
                 margin-top: -4px;
               }
             }
@@ -2044,6 +2047,17 @@
         margin-top:-3px;
       }
     }
+    a.collapse {
+
+
+      &:after {
+
+        border-color: transparent transparent #000 transparent;
+        content: "";
+
+        margin-top:-10px;
+      }
+    }
   }
   #vtk-main-menu li {
     padding-bottom: 5px;
@@ -2085,10 +2099,10 @@
 .ui-widget-content .tabs-content,
 .ui-state-default  {
   a {
-    color:#00ae58;
+    color:$green_light;
     &:link,
     &:visited {
-      color:#00ae58;
+      color:$green_light;
     }
   }
 }
@@ -2309,3 +2323,7 @@ input[type="file"] {
 
 
 @import 'vtk-button';
+@import 'vtk-archive';
+
+
+
