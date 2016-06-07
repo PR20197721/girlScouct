@@ -463,16 +463,7 @@ if( listOfFiles!=null )
   <h2 id="modalTitle" style="font-size:18px; color:white;padding:10px 30px;background-color:green">VTK DEMO DETAILS</h2>
 
   <div class="container-model">
-  <p>1The Volunteer Toolkit (VTK) mirrors the features and functionality available in the VTK. Please note this demo does not contain real girl data. Additionally, certain features of the VTK have been disabled such as sending an email to parents/care</p>
-  <p>Information presented on this website is for demo purposes only. Any customizations you make will not be saved. The content presented is the property of GSUSA.</p>
-  <p>We hope you enjoy the demo.</p>
-
-
-  <br>
- <br>
- <br>
-  
-
+ TEST
   </div>
 
 

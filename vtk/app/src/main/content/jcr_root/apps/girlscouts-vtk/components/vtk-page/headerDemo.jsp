@@ -397,7 +397,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
 
   <p>Please note this demo website does not contain real girl data, all troop tab data is prototypical. Additionally, certain features of the VTK have been disabled such as email functionality to “parents/caregivers” and the ability to download Year Plans and Meeting Aids, in order to protect proprietary information.</p>
 
-  <p>Information presented on this website is for demo purposes only, your customizations will not be saved. Content presented is proprietary of Girl Scouts of the United States of America."</p>
+  <p>Information presented on this website is for demo purposes only, your customizations will not be saved. Content presented is proprietary of Girl Scouts of the United States of America.</p>
 
 
   <br>
