@@ -135,7 +135,7 @@ if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		} else{
 			%> 
 			<div class="columns large-20 large-centered">
-				<p>Oh no! The Finance tab haven't been activated yet. We're working on it--please check back soon.
+				<p>Oh no! The Finances tab hasn't been activated yet. We're working on it--please check back soon.
 				 </p>
 			</div>
 			<% 
