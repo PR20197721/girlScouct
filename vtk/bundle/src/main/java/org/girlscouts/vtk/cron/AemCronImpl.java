@@ -19,6 +19,11 @@ label = "AEM Demo Cron Job for VTK DEMO",
 description = "rm demo temp nodes from db" 
 )
 
+
+
+//@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 54 4 * *  ?",description="cron expression"),
+
+
 @Service(value = {Runnable.class, AemCron.class})
 @Properties({
 @Property(name = "service.description", value = "Girl Scouts DEM Demo Service",propertyPrivate=true),
@@ -40,9 +45,10 @@ public class AemCronImpl implements Runnable, AemCron  {
 
 	
 	public void run() {
-	System.err.println("test");	
+	//System.err.println("test AemCron....");	
+	System.err.println("test: "+ slingSettings.getRunModes());	
 		
-		if(slingSettings.getRunModes().contains("preview")){ 
+		if(slingSettings.getRunModes().contains("gspreview")){ 
 		
 			//demo site remove temo "SHARED_"
 			troopDAO.removeDemoTroops();
