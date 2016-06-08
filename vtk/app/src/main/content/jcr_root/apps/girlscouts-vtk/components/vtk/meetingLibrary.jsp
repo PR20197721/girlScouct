@@ -20,7 +20,7 @@
 
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop, ageLevel);
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
 	String find="";
 %>
   <div class="header clearfix">
@@ -31,7 +31,8 @@
 
   <%
     boolean isWarning=false;
-    String instruction = "Select a meeting to add to your Year Plan";
+    String instruction = "****Select a meeting to add to your Year Plan";
+    
     if (isWarning) {
   %>
   <div class="small-4 medium-2 large-2 columns">
@@ -100,7 +101,46 @@
     <div class="content meeting-library row">
       <p class="instruction columns small-24"><%= instruction %></p>
       <div id="cngMeet"></div>
-      <table class="meetingSelect">
+      
+      <table>
+      <tr><th>Tags 1</th><th>Tags 2</th><th>Tags 3</th></tr>
+      <tr>
+      <td>
+      <div style='overflow:auto; width:250px;height:100px;'>
+      <%
+        java.util.List<String> uTags= new java.util.ArrayList<String>();
+        for(int i=0;i<meetings.size();i++){
+            Meeting meeting = meetings.get(i);
+            String tags =  meeting.getAidTags();
+            if( tags!=null){
+             java.util.StringTokenizer t= new java.util.StringTokenizer(tags, ";");
+             while( t.hasMoreElements() ){
+                String _tag = t.nextToken();
+                if( !uTags.contains( _tag ) ){
+                    uTags.add( _tag );
+                    %>
+                     <li> <input type="checkbox" name="_tag" value="<%=_tag%>" onclick="doFilter()"/> <%=_tag%> </li>
+                <%}//end if
+             }//edn while
+             }//edn if
+         }//edn for
+             %>
+      </div>
+      </td>
+      <td>
+        <div style='overflow:auto; width:250px;height:100px;'>
+         <li> <input type="radio" name="_tag" value="Daisy" onclick="doFilter()"/> Daisy </li>
+         <li> <input type="radio" name="_tag" value="Junior" onclick="doFilter()"/> Junior </li>
+         <li> <input type="radio" name="_tag" value="Brownie" onclick="doFilter()"/> Brownie </li>
+         </div>
+      </td>
+      <td></td>
+      </tr>
+      
+      
+      
+      
+      <table id="meetingSelect" class="meetingSelect">
       	<tbody>
           <%
           
@@ -116,10 +156,10 @@
           for(int i=0;i<meetings.size();i++){
           	Meeting meeting = meetings.get(i);
           %>
-          	<tr>
+          	<tr id="TR_TAGS_;<%=meeting.getLevel() %>;<%=meeting.getAidTags() %>;">
           		<td>
             			<p class="title"><%=meeting.getName()%></p>
-            			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
+            			 <p class="tags" style="color:red;"> <%=meeting.getAidTags() %> ** <%=meeting.getLevel() %></p> 
             			<p class="blurb"><%=meeting.getBlurb() %></p>
           		</td>
               <td>
@@ -152,3 +192,35 @@
       </table>
     </div>
   </div>
+<script>
+    function doFilter(){
+    
+        var els = document.getElementsByName("_tag");
+        //console.log( "tags size: "+ els.length);
+    
+       var tt = document.getElementById("meetingSelect");
+       var t= tt.getElementsByTagName("tr");
+       for(var i=0;i<t.length;i++){
+        var x= t[i];
+        //console.log("____________________ : "+ x.id);
+       
+           var isHide= false;
+           for(var y = 0; y < els.length; y++){
+     //console.log(y +" : "+ els[y].checked +" : "+ els[y].value );      
+               if( els[y].checked ){ 
+     //console.log(x.id +" : "+  els[y].value +" : "+ (x.id.indexOf( els[y].value )==-1) );          
+                  if( x.id.indexOf( els[y].value )==-1 ){
+     //console.log("not found... hidding");             
+                    x.style.display = "none";
+                    isHide= true;
+                    continue;
+                  }
+               
+               }
+           }
+           
+           if( !isHide ){ x.style.display = "inline"; }
+       }
+     
+    }
+</script>

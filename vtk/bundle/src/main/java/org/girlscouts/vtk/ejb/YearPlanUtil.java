@@ -251,6 +251,11 @@ In Koo removed for AEM 6.1 upgrade
 		return meetingDAO.getAllMeetings(user, troop, gradeLevel);
 	}
 
+	
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
+		return meetingDAO.getAllMeetings(user, troop);
+	}
+	
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			Troop troop, String yearPlanPath) throws IllegalAccessException {
 		return meetingDAO.getAllEventMeetings_byPath(user, troop,

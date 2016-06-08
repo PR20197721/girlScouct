@@ -2727,4 +2727,46 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 		return (int)count;
 	}
 	
+
+public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
+
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_VIEW_MEETING_ID))
+		throw new IllegalAccessException();
+
+	java.util.List<Meeting> meetings = null;
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(Meeting.class);
+		classes.add(Activity.class);
+		classes.add(JcrCollectionHoldString.class);
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Meeting.class);
+		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
+		Query query = queryManager.createQuery(filter);
+		meetings = (List<Meeting>) ocm.getObjects(query);
+
+		Comparator<Meeting> comp = new BeanComparator("position");
+
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return meetings;
+
+}
 }// edn class
