@@ -17,16 +17,11 @@
   request.setAttribute("headerPath", headerPath);
   String headerImagePath = currentSite.get("headerImagePath", "");
 %>
-
-<%  final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class); %>
-
-
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
 <div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
-
 <div class='columns'>
   <div id="header" class="row">
     <div class="large-6 medium-9 columns">
@@ -38,26 +33,8 @@
       <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
       <div class="row collapse">
-
-        <div class="large-17 medium-17 small-24 columns">
-        <% /*setCssClasses("large-17 medium-17 small-24 columns", request); */ %> 
-        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
-            <div class="vtk-vounteer-trainer">
-              Volunteer Toolkit Training
-            </div>
-
-        <% } %>
-        
+        <% setCssClasses("large-17 medium-17 small-24 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
-        <div class="demo">
-            <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a>
-           
-        </div>
-       
-        <% } %>
-
-        </div>
         <% if(currentSite.get("hideSearch","false").equals("false")){ %>
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
         <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
@@ -66,26 +43,8 @@
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
-        <% /* setCssClasses("small-19 columns", request); */%>
-        <div class="columns small-19">
-        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
-            <div class="vtk-vounteer-trainer">
-              Volunteer Toolkit Training
-            </div>
-             <div style="clear:both"></div>
-        <% } %>
-
+        <% setCssClasses("small-19 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-        <% if(configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")) { %>
-        <div class="demo">
-        
-          <a href="/content/girlscouts-vtk/controllers/vtk.restartDemo.html">Restart Demo</a> 
-        
-
-        </div>
-        
-          <% } %>
-                  </div>
         <div class="small-5 columns">
           <div class="small-search-hamburger">
              <% if(currentSite.get("hideSearch","false").equals("false")){ %>
@@ -106,10 +65,8 @@
   </div>
   <!--PAGE STRUCTURE: HEADER BAR-->
   <div id="headerBar" class="row collapse hide-for-small">
-    <% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
-
-      <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
-
+    <% setCssClasses("medium-23 small-24 columns", request); %>
+    <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
     <div class="small-search-hamburger show-for-medium medium-1 columns">
       <a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
     </div>
