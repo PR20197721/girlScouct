@@ -25,7 +25,7 @@
 	//String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 	%>
 
-
+**<%=VtkUtil.getCurrentGSYear()%>
 	<div id="troop" class="row">
 		<div class="columns large-7 medium-9 right">
 			<%

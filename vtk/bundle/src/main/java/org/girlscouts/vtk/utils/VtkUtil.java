@@ -301,7 +301,7 @@ public String _getYearPlanBase(User user, Troop troop) {
 /*GS Year starts Aug 1 */
 public static int getCurrentGSYear(){
 	String _gsNewYear = gsNewYear;
-	if( _gsNewYear==null )	_gsNewYear= "0801";
+	if( _gsNewYear==null )	_gsNewYear= "0701";
 	
 	int month = Integer.parseInt( _gsNewYear.substring(0, 2) );
 	int date=  Integer.parseInt( _gsNewYear.substring(2) );
