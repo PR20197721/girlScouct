@@ -44,7 +44,9 @@
                      this.isReordering = false;
                  }.bind(this),
              });
-         } else {
+         } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
+         
+         
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -53,6 +55,7 @@
                 }
 
              });
+             
          }
        },
         getInitialState: function() {

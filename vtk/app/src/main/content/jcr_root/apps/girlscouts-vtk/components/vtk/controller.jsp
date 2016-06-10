@@ -227,11 +227,13 @@
 				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
 				String troopId = newTroop.getTroop().getTroopId();
 				System.out.println("New Troop Id = " + troopId);
-				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
-				String token = generator.hash(troopId);
-				Cookie cookie = new Cookie("troopDataToken", token);
-				cookie.setPath("/");
-				response.addCookie(cookie);
+				
+    				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
+    				String token = generator.hash(troopId);
+    				Cookie cookie = new Cookie("troopDataToken", token);
+    				cookie.setPath("/");
+    				response.addCookie(cookie);
+			
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
@@ -1265,6 +1267,9 @@ try{
 	      
 		}else if( request.getParameter("cngYear") != null ){
 		      VtkUtil.cngYear(request,  user,  troop);
+		      
+		        
+                
         }else if( request.getParameter("cngYearToCurrent") != null ){
                        user.setCurrentYear( VtkUtil.getCurrentGSYear()+"" );       
              
