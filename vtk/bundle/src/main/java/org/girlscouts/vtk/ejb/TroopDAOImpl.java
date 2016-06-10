@@ -1556,9 +1556,60 @@ try{
 				String yearPlanPath_prev = VtkUtil.getYearPlanBase_previous( user, null);
 			    yearPlanPath = troop.getYearPlan().getPath().replace(yearPlanPath_curr , yearPlanPath_prev  );
 			}
-	System.err.println("testt: "+yearPlanPath +": "+ mySession.itemExists(yearPlanPath) );		;
+	
 			if (!mySession.itemExists(yearPlanPath)) {
 				isArchived=false;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return isArchived;
+		
+	}
+	
+	
+	
+public java.util.Map getArchivedYearPlans( User user , Troop troop){
+		
+	java.util.Map container= new java.util.TreeMap();
+	int currentGSYear  = VtkUtil.getCurrentGSYear();
+	for(int i = (currentGSYear-1); i> (currentGSYear-6);i-- ){
+System.err.println("Test: "+ i);	
+		if( i==2014){
+			if( isArchivedYearPlan(user, troop, "") ){
+System.err.println("test yes 2014 * "+ i);				
+				container.put( i, "/vtk/" );
+			}
+			//-return container;
+		}else{
+			if( isArchivedYearPlan(user, troop, i+"") ){
+System.err.println("test yes "+ i);		
+				container.put(i, "/vtk"+ currentGSYear +"/");
+			}
+		}
+	}
+	return container;
+}
+
+public boolean isArchivedYearPlan( User user , Troop troop, String year){
+		if( user==null || troop==null ) return false;
+		boolean isArchived= false;
+		Session mySession = null;
+	
+		try {
+			mySession = sessionFactory.getSession();
+			
+System.err.println("test: /vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan");
+			if (mySession.itemExists( "/vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan")) {
+				isArchived=true;
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

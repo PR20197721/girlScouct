@@ -202,7 +202,7 @@
 						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
                         
 						</a> <%} %>
-						    					  <%if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+						     <%if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
     					       <li><select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
     					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
     					               <option value="<%=i%>"><%=i%></option>
@@ -437,12 +437,18 @@
 						  %>
     						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
     					      <%}%>
-    					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+    					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+    					       java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+    					   %>
     					       <select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
-    					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
-    					               <option value="<%=i%>"><%=i%></option>
+    					          <option value="">Select Year</option>
+    					          <%java.util.Iterator itr= archivedPlans.keySet().iterator();
+    					           while( itr.hasNext()){
+    					               String yr= ((Integer) itr.next()).toString();
+    					          %>
+    					               <option value="<%=yr%>"><%=yr%></option>
     					          <%
-    					               if( i==2014 ) break;
+    					               //if( yr.equals("2014") ) break;
     					          }%>
     					       </select>
     					       <input  class="vtk-button" type="button" value="Back to Current Year" onclick="resetYear()"/>
