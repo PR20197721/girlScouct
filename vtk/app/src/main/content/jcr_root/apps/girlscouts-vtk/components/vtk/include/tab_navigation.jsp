@@ -176,9 +176,12 @@
 								<%} %>
 								<li><a onclick="newActivity()">Add Activity</a></li>
 								
-								<li><a onclick="cngYear('<%=( Integer.parseInt(user.getCurrentYear())-1)%>')"> SEE PAST YEARS </li>
-                    </a></li>
-
+								
+								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+                                if( archivedPlans!=null && archivedPlans.size()>0 ){%>
+								
+    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"> SEE PAST YEARS </a></li>
+                                <%}%>
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
 										Calendar</a></li>
@@ -433,9 +436,10 @@
 
 											  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
 						  activeTab!=null  &&  "plan".equals(activeTab) ){
-						      if( troopDAO.isArchivedYearPlan(user, troop) ){
+						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+						      if( archivedPlans!=null && archivedPlans.size()>0 ){
 						  %>
-    						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=(Integer.parseInt(user.getCurrentYear())-1)%>')"/>
+    						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
     					      <%}%>
     					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
     					       java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);

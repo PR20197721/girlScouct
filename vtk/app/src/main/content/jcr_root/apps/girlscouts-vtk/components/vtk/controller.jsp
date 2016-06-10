@@ -1273,6 +1273,10 @@ try{
              org.girlscouts.vtk.salesforce.Troop newTroopCloned = ((org.girlscouts.vtk.salesforce.Troop)VtkUtil.deepClone(troop.getTroop()));
              newTroopCloned.setPermissionTokens( permis );
              troop.setTroop(newTroopCloned);
+             
+             if( !troopDAO.isArchivedYearPlan(user, troop,  ""+VtkUtil.getCurrentGSYear()) ){troop.setYearPlan(null);}
+             
+             
              session.putValue("VTK_troop", troop);
               
              
@@ -1282,7 +1286,7 @@ try{
 			
 		}
 
-	} catch (java.lang.IllegalAccessException e) {
+	} catch (Exception e) {
 		e.printStackTrace();
 	}
 %>
