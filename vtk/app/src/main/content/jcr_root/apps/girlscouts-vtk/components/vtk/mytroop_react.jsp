@@ -83,7 +83,7 @@
 		        <h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
 		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
 		           <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
-		           <label><input type="checkbox" name="delimiter">Check this box to use ; as email separator</label>
+		           <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
 		         <%} %>
 		         
 		      </dt>
