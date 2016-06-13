@@ -4,7 +4,4 @@
     <event-cart
         jcr:primaryType="nt:unstructured"
         sling:resourceType="girlscouts/components/event-cart"/>
-    <demo
-        jcr:primaryType="nt:unstructured"
-        sling:resourceType="girlscouts/components/demo"/>
 </jcr:root>

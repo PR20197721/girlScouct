@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
-    <filter root="/content/girlscouts-demo" mode="merge"/>
     <filter root="/content/girlscouts-usa" mode="merge"/>
     <filter root="/content/dam/girlscouts-shared" mode="merge"/>
     <filter root="/etc/tags/girlscouts" mode="merge"/>
