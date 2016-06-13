@@ -450,7 +450,7 @@
     					           while( itr.hasNext()){
     					               String yr= ((Integer) itr.next()).toString();
     					          %>
-    					               <option value="<%=yr%>"><%=yr%></option>
+    					               <option value="<%=yr%>" <%=((user.getCurrentYear().equals(yr)) ? "SELECTED" : "")%>><%=yr%></option>
     					          <%
     					               //if( yr.equals("2014") ) break;
     					          }%>
