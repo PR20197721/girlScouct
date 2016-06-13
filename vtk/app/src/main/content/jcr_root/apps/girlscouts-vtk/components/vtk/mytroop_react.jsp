@@ -79,9 +79,11 @@
 		
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
-		      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
+		      <dt data-target="panel1">
+		        <h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
 		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
 		           <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		           <label><input type="checkbox" name="delimiter">Check this box to use ; as email separator</label>
 		         <%} %>
 		         
 		      </dt>
@@ -97,3 +99,20 @@
 
 
 <% } %>
+
+<script>
+	$('.accordion > dt > label > input:checkbox').change(
+		function() {
+			var mailToList = $('.accordion > dt > a').attr('href');
+			if ($(this).is(':checked')) {
+				$('.accordion > dt > label').addClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\,/g, ';'));
+			} else {
+				$('.accordion > dt > label').removeClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\;/g, ','));
+			}
+		}
+	);
+
+</script>
+
