@@ -286,8 +286,8 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	}
 
 	RunMode runModeService = sling.getService(RunMode.class);
-	String apps[] = new String[1] {"prod"}; 
-	String prodButDontTrack[] = new String[1]{"gspreview"};
+	String apps[] = new String[] {"prod"}; 
+	String prodButDontTrack[] = new String[]{"gspreview"};
 	
 	
 	
