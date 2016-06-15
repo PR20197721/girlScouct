@@ -15,6 +15,8 @@ for server in ${SERVER_LIST[@]}; do
 	if [ $? -ne 0 ]; then
 		echo "Server $server is down. Skipping..."
 	else
+                echo "Deleting existing package..."
+                curl -u "admin:M[R#Ezea'"'`Lb!94a'  -X POST http://$server/crx/packmgr/service/.json/etc/packages/Girl%20Scouts/girlscouts-vtk-app-$VERSION.zip?cmd=delete
 		echo "Deploying to http://$server"
 		curl -u "admin:M[R#Ezea'"'`Lb!94a' -F file=@"$HOME/.m2/repository/org/girlscouts/vtk/girlscouts-vtk-app/$VERSION/girlscouts-vtk-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server/crx/packmgr/service.jsp
 	fi
