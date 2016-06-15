@@ -2658,7 +2658,12 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 					javax.jcr.query.Query.SQL);
 			
 			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
+			//count = (int) result.getNodes().getSize();
+			Iterator itr= result.getNodes();
+			while( itr.hasNext() ){
+					itr.next();
+					count++;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
