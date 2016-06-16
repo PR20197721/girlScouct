@@ -286,11 +286,8 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	}
 
 	RunMode runModeService = sling.getService(RunMode.class);
-	String apps[] = new String[1]; // Why not just use a String dude
-	apps[0]="prod";
-	
-	String prodButDontTrack[] = new String[1];
-	prodButDontTrack[0] = "gspreview";
+	String apps[] = new String[] {"prod"}; 
+	String prodButDontTrack[] = new String[]{"gspreview"};
 	
 	if( runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)){ 
 	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('"+troop.getSfTroopAge()+"');</script>";
