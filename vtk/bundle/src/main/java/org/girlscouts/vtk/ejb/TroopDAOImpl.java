@@ -64,6 +64,7 @@ import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.MeetingE1;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -124,7 +125,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(MeetingCanceled.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
@@ -205,7 +206,7 @@ try{
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
 
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
 			classes.add(Asset.class);
@@ -265,7 +266,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
 
@@ -307,7 +308,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -1206,7 +1207,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -1329,7 +1330,7 @@ try{
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);

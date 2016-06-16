@@ -43,6 +43,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -100,7 +101,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			QueryManager queryManager = ocm.getQueryManager();
@@ -138,7 +139,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Achievement.class);
 			classes.add(Attendance.class);
 			session = sessionFactory.getSession();
@@ -240,7 +241,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -283,7 +284,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -336,7 +337,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -396,7 +397,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -1842,7 +1843,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
@@ -1989,7 +1990,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
@@ -2024,7 +2025,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class); 
 			classes.add(Activity.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Achievement.class);
 			classes.add(Asset.class);
 			classes.add(Attendance.class);

@@ -21,3 +21,7 @@ $(document).ready(function(){
   resizeWindow();
 }) 
 </script>
+
+
+
+<%@include file="include/notes.jsp"%>

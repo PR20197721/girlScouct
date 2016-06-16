@@ -54,6 +54,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	@Bean( autoUpdate = false) 
 	Achievement achievement;
 	
+	@Bean( autoUpdate = false)  
+	Note note;
+	
     private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
@@ -202,6 +205,14 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setAchievement(Achievement achievement) {
 		this.achievement = achievement;
+	}
+
+	public Note getNote() {
+		return note;
+	}
+
+	public void setNote(Note note) {
+		this.note = note;
 	}
 	
 	
