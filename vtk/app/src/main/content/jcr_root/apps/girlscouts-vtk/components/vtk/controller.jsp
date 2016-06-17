@@ -1,7 +1,7 @@
 <%@page
 	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:defineObjects />
@@ -790,10 +790,7 @@ try{
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
- System.err.println(mapper.writeValueAsString(troop)                
-         .replaceAll("mailto:", "")
-         .replaceAll("</a>\"</a>", "</a>")
-         .replaceAll("\"</a>\"", ""));                   
+                   
                          
                     } catch (Exception ee) {
                         // error message in logs
@@ -1285,7 +1282,24 @@ try{
              session.putValue("VTK_troop", troop);
               
              
-             
+        }else if( request.getParameter("editNote") != null ){
+            String message = request.getParameter("message");
+            String mid= request.getParameter("mid");
+            if( mid==null || message ==null){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
+            //System.err.println("test: "+ mid +" : "+ message);
+            java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+            for(int i=0;i<meetings.size();i++){
+                if( meetings.get(i).getUid().equals( mid ) ){
+                    Note note = meetings.get(i).getNote();
+                    if( note ==null ) note = new Note();
+                    note.setMessage( message );
+               //System.err.println( "Note: "+      meetings.get(i).getPath() +"/note");
+                    note.setPath( meetings.get(i).getPath() +"/note");
+                    meetings.get(i).setNote( note );
+                    troopUtil.updateTroop(user, troop);
+                    break;
+                }
+            }        
 		} else {
 			//TODO throw ERROR CODE
 			

@@ -15,6 +15,9 @@
 		%><%@include file="activity_react2.jsp"%><%
 	}
 %>
+
+
+
 <script>
 //need to call it again here.
 $(document).ready(function(){
@@ -24,4 +27,3 @@ $(document).ready(function(){
 
 
 
-<%@include file="include/notes.jsp"%>
