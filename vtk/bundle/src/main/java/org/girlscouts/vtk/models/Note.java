@@ -12,10 +12,15 @@ public class Note implements Serializable{
 	    @Field private String message;
 		@Field(path = true) String path;		
 		@Field(id = true) String uid;
+		@Field Long createTime;
+		@Field String createdByUserName;
+		@Field String createdByUserId;
+		
 		private boolean isDbUpdate=false;
 		
 		public Note() {
 			this.uid = "N" + new java.util.Date().getTime() + "_" + Math.random();
+			this.createTime = new java.util.Date().getTime();
 		}
 
 		public String getMessage() {
@@ -45,6 +50,30 @@ public class Note implements Serializable{
 
 		public boolean isDbUpdate() {
 			return isDbUpdate;
+		}
+
+		public long getCreateTime() {
+			return createTime;
+		}
+
+		public void setCreateTime(long createTime) {
+			this.createTime = createTime;
+		}
+
+		public String getCreatedByUserName() {
+			return createdByUserName;
+		}
+
+		public void setCreatedByUserName(String createdByUserName) {
+			this.createdByUserName = createdByUserName;
+		}
+
+		public String getCreatedByUserId() {
+			return createdByUserId;
+		}
+
+		public void setCreatedByUserId(String createdByUserId) {
+			this.createdByUserId = createdByUserId;
 		}
 
 	

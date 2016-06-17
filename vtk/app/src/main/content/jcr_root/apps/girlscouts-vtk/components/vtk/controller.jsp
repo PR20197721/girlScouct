@@ -1283,23 +1283,38 @@ try{
               
              
         }else if( request.getParameter("editNote") != null ){
+        
             String message = request.getParameter("message");
             String mid= request.getParameter("mid");
             if( mid==null || message ==null){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
             //System.err.println("test: "+ mid +" : "+ message);
+            
             java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
             for(int i=0;i<meetings.size();i++){
                 if( meetings.get(i).getUid().equals( mid ) ){
-                    Note note = meetings.get(i).getNote();
-                    if( note ==null ) note = new Note();
+       System.err.println("found_____________");         
+                
+                    java.util.List<Note> notes =  meetings.get(i).getNotes();
+                    if( notes ==null ) notes = new java.util.ArrayList<Note>();
+                    Note note = new Note();
                     note.setMessage( message );
-               //System.err.println( "Note: "+      meetings.get(i).getPath() +"/note");
-                    note.setPath( meetings.get(i).getPath() +"/note");
-                    meetings.get(i).setNote( note );
+                    note.setCreatedByUserId( user.getApiConfig().getUser().getSfUserId());
+                    note.setCreatedByUserName(user.getApiConfig().getUser().getName());
+                    note.setCreateTime( new java.util.Date().getTime() );
+                    
+               
+                    note.setPath( meetings.get(i).getPath() +"/note/"+ note.getUid());
+                    notes.add( note );
+               System.err.println( "Note: "+      note.getPath() );
+               
+                    meetings.get(i).setNotes( notes );
+               System.err.println("Test: "+ meetings.get(i).getNotes().size() );     
                     troopUtil.updateTroop(user, troop);
                     break;
+                    
                 }
-            }        
+            }     
+               
 		} else {
 			//TODO throw ERROR CODE
 			

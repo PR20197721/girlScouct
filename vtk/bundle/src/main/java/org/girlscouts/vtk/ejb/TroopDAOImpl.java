@@ -736,7 +736,7 @@ try{
 							+ "/meetingEvents/" + meeting.getUid());
 				
 				modifyMeeting(user, troop, meeting);
-				modifyNote( user,  troop,  meeting.getNote() );
+				modifyNotes( user,  troop,  meeting.getNotes() );
 				
 				java.util.List<Asset> assets = meeting.getAssets();
 				if (assets != null)
@@ -1649,6 +1649,12 @@ public boolean modifyNote(User user, Troop troop, Note note)
 		
 		
 		
+		if (!mySession.itemExists( note.getPath().substring(0, note.getPath().lastIndexOf("/") ) ) ){
+			JcrUtils.getOrCreateByPath(note.getPath().substring(0, note.getPath().lastIndexOf("/") ) , "nt:unstructured",
+					mySession);
+		}
+	
+		
 		if (!ocm.objectExists(note.getPath())) {
 			
 			ocm.insert(note);
@@ -1663,7 +1669,7 @@ public boolean modifyNote(User user, Troop troop, Note note)
 		
 		isUpdated = true;
 	} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
-	
+	iise.printStackTrace();
 		log.error(">>>> Skipping stale update for note " + note.getPath());
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -1677,6 +1683,17 @@ public boolean modifyNote(User user, Troop troop, Note note)
 	}
 	
 	return isUpdated;
+}
+
+
+
+public void modifyNotes(User user, Troop troop, java.util.List<Note> notes)
+		throws java.lang.IllegalAccessException {
+	
+	if( notes!=null)
+	 for(int i=0;i<notes.size();i++){
+		modifyNote(user, troop ,  notes.get(i) );
+	 }
 }
 }// ednclass
 

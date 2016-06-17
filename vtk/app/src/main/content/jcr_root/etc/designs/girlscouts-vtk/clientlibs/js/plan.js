@@ -1111,7 +1111,7 @@ function councilRpt(troopId, cid){
   
   
   function editNote(mid){
-  
+  console.log("editNote.........");
        var msg = document.getElementById("note").value;
  console.log("test: "+ mid +" : "+ msg); 
        $.ajax({
