@@ -26,10 +26,12 @@ function addClassGrid() {
     } else {
         $('.footer-navigation > div:nth-of-type(1) ul').removeClass('small-block-grid-2');
         $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
+
     }
 }
 
 function link_bg_square() {
+
     $(".meeting").each(function() {
         var test = $(this).find('.subtitle a').attr('href');
 
@@ -77,7 +79,9 @@ $(document).ready(function() {
     addClassGrid();
     vtk_accordion();
     attendance_popup_width();
+    adjust_pdf_links();
 });
+
 
 $(window).load(function() {
     var currentMainHeight = $('.inner-wrap').height();
@@ -161,19 +165,18 @@ function web_accordion_main() {
 
         anchorCheck();
 
-    }
+}
 
+/* ============
 
-    /* ============
+Girl Scouts: Web PlatformGSWP-542
+SUPPORT 5526-10047044 Accordion Module Issue
 
-    Girl Scouts: Web PlatformGSWP-542
-    SUPPORT 5526-10047044 Accordion Module Issue
+==============================================
+ Work Around to fix the Accordion problem.
+============================================== */
 
-    ==============================================
-    Work Around to fix the Accordion problem.
-    ============================================== */
-
-    function vtk_accordion() {
+function vtk_accordion() {
         if ($('.accordion').length) { //Check if there is any accordion in the page
             if ($('body').has('.vtk').length) { //check if the user is in VTK
                 vtk_accordion_main();
@@ -182,3 +185,19 @@ function web_accordion_main() {
             }
         }
     }
+
+function adjust_pdf_links() {
+    $('a').each(function(index, link){
+        var href = $(link).attr('href');
+        if (!href) {
+            return;
+        }
+        var SUFFIX = '.pdf?download=true';
+        var suffixIndex = href.indexOf(SUFFIX);
+        if (suffixIndex != -1 && suffixIndex == href.length - SUFFIX.length) {
+            var newHref = href.substring(0, href.length - SUFFIX.length + 4); // 4 = lengthOf('.pdf')
+            $(link).attr('href', newHref);
+            $(link).attr('download', '');
+        }
+    });
+}
