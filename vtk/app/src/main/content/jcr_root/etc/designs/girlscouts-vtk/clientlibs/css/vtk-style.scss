@@ -438,7 +438,7 @@
       position: relative;
       padding-left: 15px;
       line-height: 46px;
-      color: #484848;
+      color: $green_light;
       cursor:pointer;
       margin-bottom: 5px;
       display: table-cell;
@@ -450,7 +450,7 @@
         height: 0;
         display: inline-block;
         border-style: solid;
-        border-color: transparent transparent transparent #929292;
+        border-color: transparent transparent transparent $green_light;
         top: 2px;
         left: 8px;
         border-width: 7px;
@@ -458,7 +458,7 @@
       }
       &.open {
         &:after {
-          border-color: #929292 transparent transparent transparent;
+          border-color: $green_light transparent transparent transparent;
           top: 5px;
           left: 8px;
         }
