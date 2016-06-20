@@ -68,11 +68,41 @@
                     fieldLabel="Blurb"
                     allowBlank="{Boolean}false"
                     name="./blurb"/>
+                <meetingType
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Meeting Type"
+                    allowBlank="{Boolean}false"
+                    name="./meetingType"
+                    xtype="selection"
+                    type="radio">
+                    <options
+                        jcr:primaryType="cq:WidgetCollection">
+                        <brownie
+                            jcr:primaryType="nt:unstructured"
+                            text="Meeting Type 1"
+                            value="1"/>
+                        <daisy
+                            jcr:primaryType="nt:unstructured"
+                            text="Meeting Type 2"
+                            value="2"/>
+                        <junior
+                            jcr:primaryType="nt:unstructured"
+                            text="Meeting Type 3"
+                            value="3"/>
+                    </options>
+                </meetingType>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     allowBlank="{Boolean}false"
                     name="./cat"/>
+                <catTag
+	                jcr:primaryType="cq:Widget"
+	                allowBlank="{Boolean}false"
+	                fieldLabel="Catgetory (for filtering)"
+	                name="./catTags"
+	                namespaces="[girlscouts-vtk-category]"
+	                xtype="tags"/>
                 <aidTags
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Aid Tags"
