@@ -649,7 +649,7 @@
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
-try{
+         try{
 			boolean isFirst = false;
 			if ((request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1")) ||
 			    (request.getAttribute("isFirst") != null && request.getAttribute("isFirst").equals("1"))) {
@@ -707,7 +707,7 @@ try{
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 
-				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); 
+				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent(); 
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
 				meetings.add(_meeting);
 				troop.getYearPlan().setMeetingEvents(meetings);
@@ -790,8 +790,13 @@ try{
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
-                   
-                         
+                   /*
+  System.err.println("testtest: "+ mapper.writeValueAsString(troop)                 
+                            .replaceAll("mailto:", "")
+                            .replaceAll("</a>\"</a>", "</a>")
+                            .replaceAll("\"</a>\"", "")); 
+                            */
+                                                  
                     } catch (Exception ee) {
                         // error message in logs
                         ee.printStackTrace();
