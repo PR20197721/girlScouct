@@ -2789,38 +2789,24 @@ public java.util.List<Note> getNotes(User user, Troop troop, String path)
 	java.util.List<Note> notes= null;
 	Session session = null;
 	try {
-		session = sessionFactory.getSession();
 		List<Class> classes = new ArrayList<Class>();
-		classes.add(Meeting.class); 
-		classes.add(Activity.class);
-		classes.add(MeetingE.class);
-		classes.add(Note.class);
+		classes.add(MeetingE.class);classes.add(Note.class);
 		classes.add(Achievement.class);
-		classes.add(Asset.class);
 		classes.add(Attendance.class);
-		classes.add(SentEmail.class);
-		
-		classes.add(JcrCollectionHoldString.class);
+		session = sessionFactory.getSession();
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
-
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
-System.err.println("qrr: " + path  );		
-		filter.setScope("/vtk2015/452/troops//");//path +"/note/");
+System.err.println("TEST QR: " + path);
+		//filter.addContains("jcr:path", path);
+filter.addEqualTo("refId", path );
 		Query query = queryManager.createQuery(filter);
 		notes = (List<Note>) ocm.getObjects(query);
-System.err.println("test: "+ (notes==null) );
 
-System.err.println("test: "+ (notes.size()) );
-
-
-	} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
-		ec.printStackTrace();
-		throw new VtkException(
-				"Could not complete intended action due to a server error. Code: "
-						+ new java.util.Date().getTime());
+		System.err.println( "TEST: "+ notes==null);
+		System.err.println( "TEST: "+ notes.size() );
 
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -2834,4 +2820,5 @@ System.err.println("test: "+ (notes.size()) );
 	}
 	return notes;
 }
+
 }// edn class

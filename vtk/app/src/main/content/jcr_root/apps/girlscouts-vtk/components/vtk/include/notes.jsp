@@ -6,7 +6,7 @@
 //-java.util.List <org.girlscouts.vtk.models.Note> notes = meeting.getNotes();
 
 final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
-java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  troop,  meeting.getPath() );
+java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  troop, meeting.getUid());// meeting.getPath() );
 %>
 
  <form>
@@ -19,7 +19,7 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
   for(int nt = 0; nt < notes.size(); nt++){
     Note note = notes.get(nt);
     %>
-        <li><%=note.getMessage()%></li>
+        <li><%=new java.util.Date(note.getCreateTime())%> :: <%=note.getCreatedByUserName()%>:: <%=note.getCreatedByUserId()%> :: <%=note.getMessage()%></li>
     <%
   }//edn for
  %>

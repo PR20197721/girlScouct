@@ -15,6 +15,7 @@ public class Note implements Serializable{
 		@Field Long createTime;
 		@Field String createdByUserName;
 		@Field String createdByUserId;
+		@Field String refId; //meetingId, activity, anything else
 		
 		private boolean isDbUpdate=false;
 		
@@ -74,6 +75,14 @@ public class Note implements Serializable{
 
 		public void setCreatedByUserId(String createdByUserId) {
 			this.createdByUserId = createdByUserId;
+		}
+
+		public String getRefId() {
+			return refId;
+		}
+
+		public void setRefId(String refId) {
+			this.refId = refId;
 		}
 
 	
