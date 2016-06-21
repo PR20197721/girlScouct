@@ -252,7 +252,7 @@ function yesPlan(){
   if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';
     document.getElementById('yearPlanSelection').style.display='none';
-    document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
+    document.getElementById('showHideReveal').innerHTML='SEE YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9660;';
     $('#showHideReveal').toggleClass('open').addClass('close');
     $("#empty-yp-directions").show();

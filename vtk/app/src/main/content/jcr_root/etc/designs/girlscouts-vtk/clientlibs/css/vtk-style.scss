@@ -1,4 +1,5 @@
 @import 'vtk_colors';
+@import 'vtk-icons';
 
 .row .row {
   margin-left: -5px;
@@ -414,35 +415,52 @@
     > div.column {
       background-color:#f6f6f6;
     }
+
+    .vkt-book-icon{
+      height: 46px;
+      width: 92px;
+      background-color: $green_light;
+      display: table-cell;
+      background-size:c;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-image: $book_icon_40;
+    }
+    
     #showHideReveal {
       position: relative;
-      padding-left: 45px;
+      padding-left: 15px;
       line-height: 46px;
-      color: #484848;
+      color: $green_light;
       cursor:pointer;
       margin-bottom: 5px;
-      &:before {
-        position: absolute;
+      display: table-cell;
+      vertical-align: middle;
+      &:after {
+        position: relative;
         content: "";
         width: 0;
         height: 0;
-        display: block;
+        display: inline-block;
         border-style: solid;
-        border-color: transparent transparent transparent #929292;
-        top: 50%;
-        left: 15px;
-        border-width: 12px;
-        margin-top: -12px;
+        border-color: transparent transparent transparent $green_light;
+        top: 2px;
+        left: 8px;
+        border-width: 7px;
+
       }
       &.open {
-        &:before {
-          border-color: #929292 transparent transparent transparent;
-          margin-top: -3px;
-          left: 6px;
+        &:after {
+          border-color: $green_light transparent transparent transparent;
+          top: 5px;
+          left: 8px;
         }
       }
     }
   }
+
+
+
   //meeting tab page
   #main .meeting-detail {
     color:#393939;
