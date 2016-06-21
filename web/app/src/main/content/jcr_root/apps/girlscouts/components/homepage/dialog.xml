@@ -79,6 +79,10 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Google Analytics ID "
                             name="./googleAnalyticsId"/>
+                        <google-tag-manager-id
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Google Tag Manager ID"
+                        	name="./gtmId"/>
                         <tracking
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
