@@ -790,13 +790,7 @@
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
-                   /*
-  System.err.println("testtest: "+ mapper.writeValueAsString(troop)                 
-                            .replaceAll("mailto:", "")
-                            .replaceAll("</a>\"</a>", "</a>")
-                            .replaceAll("\"</a>\"", "")); 
-                            */
-                                                  
+
                     } catch (Exception ee) {
                         // error message in logs
                         ee.printStackTrace();
@@ -1298,7 +1292,7 @@ try{
             java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
             for(int i=0;i<meetings.size();i++){
                 if( meetings.get(i).getUid().equals( mid ) ){
-       System.err.println("found_____________");         
+       //System.err.println("found_____________");         
                 
                     java.util.List<Note> notes =  meetings.get(i).getNotes();
                     if( notes ==null ) notes = new java.util.ArrayList<Note>();
@@ -1311,10 +1305,10 @@ try{
                     note.setRefId( meetings.get(i).getUid() );
                     note.setPath( meetings.get(i).getPath() +"/note/"+ note.getUid());
                     notes.add( note );
-               System.err.println( "Note: "+      note.getPath() );
+               //System.err.println( "Note: "+      note.getPath() );
                
                     meetings.get(i).setNotes( notes );
-               System.err.println("Test: "+ meetings.get(i).getNotes().size() );     
+               //System.err.println("Test: "+ meetings.get(i).getNotes().size() );     
                     troopUtil.updateTroop(user, troop);
                     break;
                     

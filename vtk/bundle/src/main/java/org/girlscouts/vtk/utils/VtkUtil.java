@@ -256,7 +256,7 @@ public static String getCouncilInClient(HttpServletRequest request){
 public static String getYearPlanBase(User user, Troop troop){
 
 	if( user!=null && user.getCurrentYear() !=null ) {
-		return "/vtk"+ (user.getCurrentYear().equals("2014") ? "" : user.getCurrentYear()) +"/";
+		return "/vtk"+ ("2014".equals(user.getCurrentYear()) ? "" : user.getCurrentYear()) +"/";
 	}
 	
 		

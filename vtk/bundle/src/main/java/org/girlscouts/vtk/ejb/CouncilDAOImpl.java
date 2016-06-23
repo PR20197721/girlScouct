@@ -225,13 +225,18 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
 			throws IllegalAccessException{
 		//TODO Permission.PERMISSION_VIEW_MILESTONE_ID
-		CouncilInfo list = getCouncilInfo(councilCode);
+		CouncilInfo list = getCouncilInfo(user, councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
 		return milestones;
 	}
 
-	private CouncilInfo getCouncilInfo(String councilCode) {
+	// TODO: Alex - deprecate this method after full testing of method removal
+    private CouncilInfo getCouncilInfo(String councilCode) {
+		return getCouncilInfo(null, councilCode);
+	}
+
+	private CouncilInfo getCouncilInfo(User user, String councilCode) {
 
 		Session session = null;
 		CouncilInfo cinfo = null;
@@ -247,7 +252,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = VtkUtil.getYearPlanBase(null, null) + councilCode + "/councilInfo";
+			String path = VtkUtil.getYearPlanBase(user, null) + councilCode + "/councilInfo";
 			if (session.itemExists(path)) {
 				cinfo = (CouncilInfo) ocm.getObject(path);
 				if (cinfo == null)
@@ -297,7 +302,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			CouncilInfo list = getCouncilInfo(cid);
+			CouncilInfo list = getCouncilInfo(user, cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
 			sortMilestonesByDate(oldMilestones);
 			int i = 0;
