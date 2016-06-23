@@ -790,10 +790,12 @@ try{
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
+ /*
  System.err.println(mapper.writeValueAsString(troop)                
          .replaceAll("mailto:", "")
          .replaceAll("</a>\"</a>", "</a>")
-         .replaceAll("\"</a>\"", ""));                   
+         .replaceAll("\"</a>\"", ""));     
+         */              
                          
                     } catch (Exception ee) {
                         // error message in logs
