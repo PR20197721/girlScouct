@@ -1510,7 +1510,7 @@ padding: 40px 0px 40px 0;
 .accordion.section .content {
 //    padding: 25px 15px 0;
 }
-.accordion.section dd p {
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
     font-size: 14px;
 }
 
