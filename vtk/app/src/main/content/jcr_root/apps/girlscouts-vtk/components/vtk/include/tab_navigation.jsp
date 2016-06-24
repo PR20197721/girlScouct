@@ -437,10 +437,8 @@
 						<%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
 						  activeTab!=null  &&  "plan".equals(activeTab) ){
 						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
-
 						     
 						      if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
-
 						  %>
     						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
     					      <%}%>

@@ -15,15 +15,9 @@
 		%><%@include file="activity_react2.jsp"%><%
 	}
 %>
-
-
-
 <script>
 //need to call it again here.
 $(document).ready(function(){
   resizeWindow();
 }) 
 </script>
-
-
-

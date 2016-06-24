@@ -888,6 +888,5 @@ console.log(33);
 
       </script>
   </div>
-<%@include file="include/notes.jsp"%>
 <%@include file="include/bodyBottom.jsp" %>
 <div id="modal_popup" class="reveal-modal" data-reveal></div>

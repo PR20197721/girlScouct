@@ -289,6 +289,8 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	String apps[] = new String[] {"prod"}; 
 	String prodButDontTrack[] = new String[]{"gspreview"};
 	
+	
+	
 	if( runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)){ 
 	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('"+troop.getSfTroopAge()+"');</script>";
 	    request.setAttribute("footerScript", footerScript);
