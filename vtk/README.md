@@ -52,7 +52,6 @@ alex_yakobovich@northps.com
 icruise123
 
 
-
 YEAR PLAN SETUP
 ===============
 
@@ -84,3 +83,7 @@ Every year in Spring, we are required to create new year plan templates for girl
 **Code Change**
 
 Under the path vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/wcm/components/vtk-scaffolding-landing/vtk-scaffolding-landing.jsp, there are two variables for the year plan, MEETING_BASE and YEAR_PLAN_BASE. Change it from 2015 to 2016. Check in your code.
+=======
+BOOTSTRAP DATA
+==============
+The bootstrap sub project should be executed on a virgin instance of AEM to create basic data needed to run VTK.  DO NOT upload this package onto any production environment as it will overwrite production content.

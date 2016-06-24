@@ -19,6 +19,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
@@ -254,25 +255,39 @@ public static String getCouncilInClient(HttpServletRequest request){
 
 public static String getYearPlanBase(User user, Troop troop){
 
-	/*
-	String ypBase= "/vtk";
-	java.util.Calendar now= java.util.Calendar.getInstance();
-	if( now.get(java.util.Calendar.MONTH ) >= java.util.Calendar.AUGUST ) //after Aug 1 -> NEXT YEAR
-		ypBase += now.get(java.util.Calendar.YEAR) +1;
-	else
-		ypBase += now.get(java.util.Calendar.YEAR);
+	if( user!=null && user.getCurrentYear() !=null ) {
+		return "/vtk"+ ("2014".equals(user.getCurrentYear()) ? "" : user.getCurrentYear()) +"/";
+	}
 	
-	return ypBase+"/";
-	*/
-	
+		
 	int currentGSYear= getCurrentGSYear();
 	if( currentGSYear==2014)
 		return "/vtk/";
 	else
 		return "/vtk"+ currentGSYear +"/";
 	
+}
+
+public static String getYearPlanBase_previous(User user, Troop troop){
+
+	if( user!=null && user.getCurrentYear() !=null ) {
+		int yr = Integer.parseInt(user.getCurrentYear())-1;
+		return "/vtk"+ (yr ==2014 ? "" : yr) +"/";
+		
+	}
+	
+		
+	int currentGSYear= getCurrentGSYear();
+	currentGSYear = currentGSYear-1;
+	
+	if( currentGSYear==2014)
+		return "/vtk/";
+	else
+		return "/vtk"+ currentGSYear +"/";
 	
 }
+
+
 
 /* TODO: this is used by ReplicationManager. By using this method instead of the static one,
  * ReplicationManager waits VtkUtil to start first.
@@ -286,7 +301,7 @@ public String _getYearPlanBase(User user, Troop troop) {
 /*GS Year starts Aug 1 */
 public static int getCurrentGSYear(){
 	String _gsNewYear = gsNewYear;
-	//-if( _gsNewYear==null )	_gsNewYear= "0801";
+	if( _gsNewYear==null )	_gsNewYear= "0701";
 	
 	int month = Integer.parseInt( _gsNewYear.substring(0, 2) );
 	int date=  Integer.parseInt( _gsNewYear.substring(2) );
@@ -385,6 +400,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 			return null;
 		} 
 	 
+		
 	return ((org.girlscouts.vtk.models.User) session
  			.getAttribute(org.girlscouts.vtk.models.User.class
  					.getName()));
@@ -453,6 +469,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  return false;	
  }
  
+
  public static java.util.List<String> countResourseCategories( java.util.Collection<bean_resource> resources ) {
 	 java.util.List<String> categories = new java.util.ArrayList<String>();
 	 java.util.Iterator <bean_resource>itr = resources.iterator();
@@ -489,6 +506,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
  
  public static ApiConfig getApiConfig( HttpSession session){
 	    org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
+
 		try {
 			if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
 				apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
@@ -498,6 +516,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 		} catch (ClassCastException cce) {
 			return null;
 		} 
+
 	return apiConfig;
  }
  
@@ -527,4 +546,27 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 			}
 		}catch(Exception e){e.printStackTrace();}	 
 	 }
+ 
+ 
+public static void cngYear(HttpServletRequest request, User user, Troop troop){
+	
+	String yr = request.getParameter("cngYear");
+	
+	if( yr!=null && yr.equals( getCurrentGSYear()+"") ) 
+		return;
+	else if( yr==null && user.getCurrentYear().equals( getCurrentGSYear()+""))
+		return;
+	
+	String newYear = yr ==null ? user.getCurrentYear() : yr;	
+	user.setCurrentYear( newYear );
+	/*
+    java.util.Set permis= org.girlscouts.vtk.auth.permission.Permission.getPermissionTokens(org.girlscouts.vtk.auth.permission.Permission.GROUP_MEMBER_1G_PERMISSIONS);	      
+    System.err.println("test: perms; "+ (permis==null)); 
+    System.err.println("test: perms* "+ (permis.size() +" : " + permis)); 
+    troop.getTroop().setPermissionTokens(permis);
+    */
+    
+}
+
+
 }//end class

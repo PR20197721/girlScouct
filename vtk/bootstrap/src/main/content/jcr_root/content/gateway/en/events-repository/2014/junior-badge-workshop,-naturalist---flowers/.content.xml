@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:33.301-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/junior,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Junior Badge Workshop, Naturalist - Flowers"
+        jcr:uuid="bd123f81-4d06-489b-9928-a7896d87bba6"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            details="Flower Power! In this workshop girl scouts will uncover the amazing way that plants are able to multiply. In spring time we can see and smell these beautiful blooms, and now it is time to take a closer look at flowers. Our juniors will dissect a flower and examine it under a microscope, all while learning how important they are to people. Through hands on activities girls will be having an adventure and discovering new facts about flowers. This event costs $12 per girl."
+            end="{Date}2014-11-15T11:00:00.000-05:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/"
+            srchdisp="Flower Power! In this workshop girl scouts will uncover the amazing way that plants are able to multiply. Through hands on activities girls will be having an adventure and discovering new facts about flowers."
+            start="{Date}2014-11-15T09:00:00.000-05:00"/>
+    </jcr:content>
+</jcr:root>

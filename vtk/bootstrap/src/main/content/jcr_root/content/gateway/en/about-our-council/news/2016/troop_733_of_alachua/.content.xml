@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-13T16:04:30.204-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop 733 of Alachua recognized by Santa Fe College"
+        jcr:uuid="e3b7b372-a305-4543-9c27-2f60a8b97511"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2016-01-13T16:03:00.000-05:00">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>Girl Scouts of Gateway Council Troop 733 of Gainesville, Florida was recognized for their project “Mission Possible: Keep Girls in School. Period.” for girls in Kenya who could not attend school due to lack of feminine hygiene supplies. Read more &lt;a adhocenable=&quot;false&quot; href=&quot;http://news.sfcollege.edu/2016/01/13/sf-is-number-one-around-the-world/&quot;>here&lt;/a>!&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2016-01-13T16:04:30.196-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

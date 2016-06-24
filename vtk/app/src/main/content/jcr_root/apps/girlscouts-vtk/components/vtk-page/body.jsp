@@ -78,16 +78,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
-				%>
-				<cq:include script="header.jsp"/>
-				<%
+		    	if( apiConfig.isDemoUser() ){
+                    %><cq:include script="headerDemo.jsp"/><% 
+                }else{
+    				%><cq:include script="header.jsp"/><%
+    			}//end else
+				
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}
 					if (newCurrentDesign != null) {
 					    request.removeAttribute("newCurrentDesign");
 					}
+				
+				
+				
+				
 				%>
+				
+				
 				<cq:include script="content.jsp"/>
 				<%
 					if (newCurrentPage != null) {
@@ -96,9 +105,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
-				%>
-				<cq:include script="footer.jsp"/>
-				<%
+				
+				
+				if( apiConfig.isDemoUser() ){
+                    %><cq:include script="footerDemo.jsp"/><% 
+                }else{
+                    %><cq:include script="footer.jsp"/><%
+                }//end else
+				
+				
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}

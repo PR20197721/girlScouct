@@ -124,4 +124,5 @@ public interface MeetingDAO {
 			throws IllegalAccessException ;
 	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException;
 	public int	getVtkAssetCount(User user, Troop troop, String path)throws IllegalAccessException;
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException;
 }

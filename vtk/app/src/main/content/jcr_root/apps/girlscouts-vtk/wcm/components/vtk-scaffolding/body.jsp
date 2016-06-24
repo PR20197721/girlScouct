@@ -296,7 +296,7 @@
             }
         });
         myForm.addButton({
-            text: isUpdate ? CQ.I18n.getMessage("Update") : CQ.I18n.getMessage("Create"),
+            text: isUpdate ? CQ.I18n.getMessage("Save") : CQ.I18n.getMessage("Create"),
             handler: function() {
                 var frm = myForm.getForm();
                 var title;

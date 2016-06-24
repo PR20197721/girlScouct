@@ -37,6 +37,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
+
     <script type="text/javascript">
 
 
@@ -300,7 +301,7 @@ React.createElement(ActivityPlan),
 
 
                 /*communication*/
-         <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
+         <% if( !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") || VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID) ){ %>
 
 ,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
 
@@ -333,7 +334,7 @@ React.createElement(ActivityPlan),
 
     var EmailMeetingReminder = React.createClass({displayName: "Meeting Reminder Email",
         render: function() {
-                    if(helper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>')!=-1 ) {
+                    if( <%= user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")%> && helper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>')!=-1 ) {
                         return (React.createElement(EmailMeetingReminderWithSched))
                     } else{
                        return (React.createElement(EmailMeetingReminderWithOutSched))
@@ -392,9 +393,9 @@ React.createElement(ActivityPlan),
 
                return(
                        React.createElement("li", null,
-                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
+                         React.createElement("a", {href: "#",className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>", title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
                           React.createElement("span",null, " (", sentEmails, " sent -",
-                            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
+                            React.createElement("a", {href: "#", title: "view sent emails", className: "<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "view" : "vtkDisableA"%>", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
                           )
                        )
                 )
@@ -402,11 +403,12 @@ React.createElement(ActivityPlan),
 
                 return (
                    React.createElement("li", null,
-                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
+                         React.createElement("a", {href: "#",title: "view sent emails", className: "<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>", "data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
                             React.createElement("span",null, "")
                    )
                )
             }else{
+
                 return React.createElement("li", null);
             }
         }
@@ -451,7 +453,8 @@ React.createElement(ActivityPlan),
     var AttendanceAchievement = React.createClass({displayName: "Attendance and Achievement",
         render: function() {
 
-            if( this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
+            if( <%=!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") %> ||
+                this.props.data.type != '<%=YearPlanComponentType.MEETINGCANCELED%>'
                         && helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_ATTENDANCE_ID%>')!=-1){
 
                 var isArch = (this.props.data.type == '<%=YearPlanComponentType.MEETING%>') ? this.props.data.meetingInfo.isAchievement : "false" ;
@@ -477,7 +480,7 @@ React.createElement(ActivityPlan),
                 }
              return (
                    React.createElement("li", null,
-                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
+                    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%>",  href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
                       React.createElement("li", null, "(",txt,")")
                   )
                 );
@@ -527,7 +530,7 @@ React.createElement(ActivityPlan),
       render: function() {
         return (
                 React.createElement("li", null,
-                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className:  "icon "+ this.props.extension}, this.props.title),
+                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension}, this.props.title),
                         React.createElement("p", {className: "info"}, this.props.description)
                       )
         );
@@ -568,10 +571,9 @@ React.createElement(ActivityPlan),
 
     var CommentBox = React.createClass({displayName: "CommentBox",
       loadCommentsFromServer: function( isFirst ) {
-console.log("loading..");
+console.log("loading.."+ isFirst);
 
         this.dataWorker.getData();
-       
         
       },
       forceReload: function() {
@@ -585,12 +587,14 @@ console.log("init");
       componentDidMount: function() {	  
 console.log("commentDidMount..") ;	  
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
+console.log(144);        	
             this.setState({
                 data: data.yearPlan
             });            
         }, 10000);
+console.log(145);        
         this.dataWorker.start();
-        
+console.log(146);
       },
       checkLocalUpdate: function(){
  console.log("checkLoaclUpdate...");   	  
@@ -601,8 +605,13 @@ console.log("commentDidMount..") ;
   console.log("rendering...");  	  
           var x;
           var sched;
+          
+ console.log('<%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%>') 
+ console.log(  this.state.data.meetingEvents!=null);  
+ console.log('<%=planView.getYearPlanComponent().getType()%>');
+ console.log( this.state.data);
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
-
+console.log(11);
 
               helper= this.state.data.helper;
 
@@ -619,7 +628,8 @@ console.log("commentDidMount..") ;
                    React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
-              helper= this.state.data.helper;
+console.log(22); 
+        	  helper= this.state.data.helper;
 
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
@@ -632,6 +642,7 @@ console.log("commentDidMount..") ;
                        React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
                   );
           }else{
+console.log(33);       	  
               return React.createElement("div", null, "loading...");
           }
       }
@@ -653,7 +664,7 @@ console.log("commentDidMount..") ;
         render: function () {
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
         React.createElement("h6", null, "meeting agenda"),
-                React.createElement("p", null, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."),
+                React.createElement("p", {className: "vtkDisableP"}, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."),
         React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}),
                 React.createElement(AgendaTotal, {data: this.props.data}),
                 React.createElement(AgendaItemAdd)

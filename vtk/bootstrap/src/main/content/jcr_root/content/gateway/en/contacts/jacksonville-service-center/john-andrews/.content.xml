@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-12-02T11:05:50.281-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="John Andrews"
+        jcr:uuid="f3f92540-c0a2-4273-8f2b-fc40a4d55458"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="jandrews@girlscouts-gateway.org"
+        phone="(904) 652-1363"
+        team="Jacksonville Service Center"
+        title="Chief Operating Officer"/>
+</jcr:root>

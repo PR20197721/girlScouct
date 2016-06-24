@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-12-15T13:32:34.323-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-12-15T13:33:06.338-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Cookie Kickoff in the news"
+        jcr:uuid="f2461c9c-783d-46ab-95d2-49048fc3a778"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2014-12-15T12:17:00.000-05:00">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>Nearly 1,000 Girl Scouts, family members and volunteers huddled at EverBank Field Dec. 7 for our third annual Cookie Kickoff. We got the best of the weather that day, allowing girls to visit learning stations, hear tips from last year’s top cookie bosses, enjoy picnic lunch with family members and have fun together. Jaxson de Ville paid us a visit at lunch. Dan Hicken, sports anchor for Action News, shot a live spot for his pre-game show with Girl Scouts and stumped us with a football question! Laura Caso of First Coast News interviewed Brownie Elizabeth and showed all of North Florida what cookie kickoff and Girl Scout fun is all about! Afterward, we braved the wind, cold and rain to cheer on the Jacksonville Jaguars.&lt;/p>&#xa;&lt;p>&lt;a target=&quot;_blank&quot; href=&quot;http://www.firstcoastnews.com/story/life/people/2014/12/07/local-girl-scouts-sell-cookies-online/20050703/&quot; adhocenable=&quot;false&quot;>&lt;b>Click here to see First Coast News coverage from the Cookie Kickoff!&lt;/b>&lt;/a>&lt;br>&#xa;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-12-15T13:32:34.316-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Cookie Kickoff in the news"
+                        sling:resourceType="foundation/components/image"
+                        additionalCss="center"
+                        fileReference="/content/dam/gateway/pageheroes/ckMedia2014.jpg"
+                        imageRotate="0"
+                        width="450"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

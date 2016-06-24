@@ -105,13 +105,13 @@ public class YearPlanUtil {
 	public java.util.List<Asset> getAids(User user, Troop troop, String tags,
 			String meetingName, String uids, String path)
 			throws IllegalAccessException {
-System.err.println("tata aidTags getAids....");		
+	
 		java.util.List<Asset> container = new java.util.ArrayList();
-System.err.println("tata aidTags: start local....");		
+		
 		container.addAll(meetingDAO.getAidTag_local(user, troop, tags, meetingName, path));
-System.err.println("tata aidTags: start global...."+ container.size() );
+
 		container.addAll(meetingDAO.getAidTag(user, troop, tags, meetingName));
-System.err.println("tata aidTags: end getAids...."+ container.size() );
+
 
 		return container;
 	}
@@ -251,6 +251,11 @@ In Koo removed for AEM 6.1 upgrade
 		return meetingDAO.getAllMeetings(user, troop, gradeLevel);
 	}
 
+	
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
+		return meetingDAO.getAllMeetings(user, troop);
+	}
+	
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			Troop troop, String yearPlanPath) throws IllegalAccessException {
 		return meetingDAO.getAllEventMeetings_byPath(user, troop,

@@ -20,8 +20,10 @@
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
-  <div id="yearPlanMeetings">
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+    
     <div id="thePlan">
+
       <script type="text/javascript">
 
  var isActivNew;
@@ -42,7 +44,9 @@
                      this.isReordering = false;
                  }.bind(this),
              });
-         } else {
+         } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
+         
+         
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -51,6 +55,7 @@
                 }
 
              });
+             
          }
        },
         getInitialState: function() {

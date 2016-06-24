@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-04-10T14:36:42.194-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-04-10T14:36:47.606-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level,gateway:program-level/ags-&amp;-families]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Kateri Open House"
+        jcr:uuid="f66263aa-6262-4c35-b353-ae33748f95ef"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1031 South State Road 21, Orange Springs, FL 32182"
+            details="&lt;p>Open House at Camp Kateri on Sunday, April 26 from 2:00pm-5:00pm. This is an opportunity for you and your daughter to see camp, meet some of the staff and learn more about our sessions.&amp;nbsp; Camp’s mission will continue building girls of courage, confidence, and character who make the world a better place.&amp;nbsp; Interested in learning the benefits a girl develops when experiencing Summer Resident Camp?&amp;nbsp; Have questions about what a normal day looks like at camp, want to check out the housing, and learn a couple camp songs?&lt;br>&#xa;&amp;nbsp;&lt;br>&#xa;Come join us as we celebrate together and learn about Camp Kateri!! Resources for guardians for what to expect when your girl is at camp will be provided to set her up for success.&amp;nbsp; Dinner will not be provided, however for those of you who want to indulge in that sweet tooth, S'mores and Stories will be provided after a tour of camp where we can learn together about the spirit of Camp Kateri.&amp;nbsp; There is no cost for the Open House, though we ask for you to RSVP by calling 1-877-764-5237 so we know how many people to expect and of course… not run out of S’mores! Hope to see you there!&lt;/p>&#xa;"
+            end="{Date}2015-04-26T17:00:00.000-04:00"
+            locationLabel="Camp Kateri"
+            register="http://girlscouts-gateway.doubleknot.com/openrosters/ViewActivitySpaceAvailable.aspx?orgkey=2736&amp;activitykey=1682993"
+            srchdisp="This is an opportunity for you and your daughter to see Camp Kateri, meet some of the staff and learn more about our sessions. "
+            start="{Date}2015-04-26T14:00:00.012-04:00">
+            <image
+                jcr:lastModified="{Date}2015-04-10T14:36:42.190-04:00"
+                jcr:lastModifiedBy="drodgers"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

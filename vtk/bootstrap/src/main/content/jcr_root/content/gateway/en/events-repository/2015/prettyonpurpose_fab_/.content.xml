@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-29T16:35:07.961-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-29T16:35:12.626-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[girlscouts:program-level/daisy,girlscouts:program-level/brownie,gateway:program-level/brownie]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Prettyonpurpose Fab Labs (Daisy &amp; Brownie Sessions)"
+        jcr:uuid="30cc7c35-d2a3-458d-9083-72c66c26d75a"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1000 Shearer Avenue, Jacksonville, FL  32205"
+            details="&lt;p>Ever wondered about the math and science behind some of your favorite beauty products? Here’s your chance to make your own beauty products, learn the “how and why” behind them and have fun! During this session you’ll be making (and taking home) the following products: Lip Balm, Bath Bombs, Bar Soap and Butterfly Mist (Daisies &amp;amp; Brownies) or Perfume (Juniors and up). You’ll learn about: solutions, mixtures, solids, liquids, olfaction, chemical reactions and sustainability.&lt;/p>&#xa;&lt;p>Pretty&lt;b>onpurpose&lt;/b>™ is very excited to offer FAB LABS to Girl Scouts of Gateway Council. FAB LABS require 1 troop leader, volunteer, helper, OR parent per every 5 girls. All pretty&lt;b>onpurpose&lt;/b>™ products are made with natural and organic ingredients and packaged in recyclable and/or sustainable packaging. &lt;i>Hurry, only 40 spots available per session!&lt;/i>&lt;/p>&#xa;&lt;p>&lt;b>Last day to register is&amp;nbsp;6 February 2015&lt;/b>&lt;/p>&#xa;"
+            end="{Date}2015-02-14T12:00:00.000-05:00"
+            locationLabel="Jacksonvile Service Center"
+            register="http://gsusa.ebiz.uapps.net/vp/SearchResults.aspx?Search=pretty"
+            srchdisp="Ever wondered about the math and science behind some of your favorite beauty products? Here’s your chance to make your own beauty products, learn the “how and why” behind them and have fun! "
+            start="{Date}2015-02-14T10:00:00.008-05:00">
+            <image
+                jcr:lastModified="{Date}2015-01-29T16:35:07.957-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-18T10:36:47.327-04:00"
+        cq:lastModifiedBy="mkaufman"
+        cq:lastReplicated="{Date}2014-07-30T01:49:45.334-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts to host second annual Unity Day in Columbia County on October 9 at Lake City Mall"
+        jcr:uuid="f1da9712-3c3f-472f-b1cb-d3d5ad7a62cf"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2013-08-27T14:00:00.000-04:00">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/textimage"
+                    text="&lt;p>October is National Bullying Awareness Month.&lt;/p>&#xa;&lt;p>The second annual Unity Day in Columbia County, hosted by Girl Scouts of Columbia Service Unit, will be in the Lake City Mall on Wednesday, October 9, from 5 to 7 p.m., with pre event activities beginning at 3:30 p.m.&lt;/p>&#xa;&lt;p>&amp;quot;This event will hit home for many parents, students and teachers on the subject of bullying.&amp;nbsp; You may not think that this issue relates to you, but everyone should be concerned and prepared to deal with situations regarding this subject,&amp;quot; said Unity Day organizer Crystal Curran.&amp;nbsp;&lt;/p>&#xa;&lt;p>&amp;quot;Bullying affects so many of our community's children, parents and teachers as well.&amp;quot;&lt;/p>&#xa;&lt;p>This event encourages adults and children to get involved to help make a difference and spread the word to help other kids stand up for each other!&lt;/p>&#xa;&lt;p>The event begins at 3:30 p.m. with a bounce house, face painting, balloons, and more.&lt;/p>&#xa;&lt;p>Speakers, musicians and performers will take the stage from 5 to 7 p.m.&lt;/p>&#xa;&lt;p>&amp;quot;We are partnering with Columbia County School Board to include an art show by inviting students and faculty to submit artwork with Unity Day related themes, such as anti-bullying, friendship, community and peace-building,&amp;quot; Curran said.&lt;/p>&#xa;&lt;p>Artwork will be displayed in the Lake City Mall October 9th through October 18th.&amp;nbsp; All artwork will be returned to the schools after the close of the exhibition to be returned to the artists.&amp;nbsp; For more details contact Crystal Curran: (386) 853-5013&amp;nbsp;&lt;a href=&quot;mailto:crystal.l.curran@gmail.com&quot;>crystal.l.curran@gmail.com&lt;/a>.&lt;/p>&#xa;&lt;p>They are still looking for volunteers to help on the day of the event.&amp;nbsp; For more information please contact Crystal Curran: (386) 853-5013 or&amp;nbsp;&lt;a href=&quot;mailto:crystal.l.curran@gmail.com&quot;>crystal.l.curran@gmail.com&lt;/a>&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-07-18T10:36:47.321-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

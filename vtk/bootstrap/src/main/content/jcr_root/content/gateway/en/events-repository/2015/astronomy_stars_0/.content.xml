@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-08-12T15:26:48.417-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Astronomy: Stars"
+        jcr:uuid="17817243-0361-413b-bf21-ac79de2b32c9"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>More details to come!&lt;/p>&#xa;&lt;p>** All attendees must be registered Girl Scouts for the 2016 Membership Year.&amp;nbsp; All adults must be registered &amp;amp; approved volunteers.&lt;/p>&#xa;&lt;p>&lt;b>Last day to register online or receive a refund - Oct 9, 2015&lt;/b>&lt;/p>&#xa;"
+            end="{Date}2015-10-16T22:30:00.000-04:00"
+            locationLabel="North Fork"
+            register="http://girlscouts-gateway.doubleknot.com/event/astronomy-stars-jcsa-oct-16-north-fork/1778033"
+            start="{Date}2015-10-16T20:00:00.010-04:00">
+            <image
+                jcr:lastModified="{Date}2015-08-12T15:26:48.413-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

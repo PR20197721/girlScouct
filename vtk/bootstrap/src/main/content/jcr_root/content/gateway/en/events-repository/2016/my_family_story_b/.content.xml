@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:02:24.134-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="My Family Story- B"
+        jcr:uuid="400cf89c-5b14-4123-86c0-4e1f6689ed69"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="3886 Atlantic Boulevard, Jacksonville, FL 32207"
+            color="#EC008C"
+            details="&lt;p>My Family Story (B)&lt;br>&#xa;Grades: 2, 3&lt;br>&#xa;&lt;br>&#xa;Every family has stories. It's good to share them so you know who helped make you who you are. Find out more about the people you love and who love you. That's your family! My Family Story badge included.&lt;br>&#xa;&lt;br>&#xa;*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;* For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&amp;nbsp;&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&amp;nbsp;&lt;br>&#xa;&lt;br>&#xa;$15/girl, $1/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-01-16T11:30:00.000-05:00"
+            locationLabel="Hope at Hand"
+            register="http://girlscouts-gateway.doubleknot.com/event/my-family-story-b/1831963"
+            start="{Date}2016-01-16T10:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:02:24.127-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

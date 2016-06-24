@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-02-24T10:53:51.780-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-02-24T10:53:57.952-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/daisy,gateway:program-level/brownie]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Science of Senses Badge Workshop: 1st grade Daisies &amp; Brownies"
+        jcr:uuid="edad3f7c-f282-46fa-82ce-917975662814"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:lastModified="{Date}2015-02-24T10:51:03.751-05:00"
+            jcr:lastModifiedBy="bmoore"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="girlscouts/components/event"
+            address="2803 NW 6th St., Gainesville, FL"
+            details="&lt;p>Smell, taste, hear, feel and see the world around you as you learn about a few of your five amazing senses! Participants will have the opportunity to accomplish the steps needed for the Senses Badge (Fun patch included). This activity is for Daisies (ready to bridge to Brownies) and Brownies and will be held at the Gainesville Nutty Scientists Lab located at 2803 NW 6th St., Gainesville, FL. Registration begins 2/4/15 and ends 3/4/15. Max of 20 spaces. To register go to:&lt;/p>&#xa;&lt;p>&lt;a target=&quot;_blank&quot; href=&quot;https://nuttyscientists.com/northflorida/event/girls-scouts-science-senses/&quot; adhocenable=&quot;false&quot;>https://nuttyscientists.com/northflorida/event/girls-scouts-science-senses/&lt;/a>&lt;/p>&#xa;"
+            locationLabel="Gainesville Nutty Scientists Lab"
+            register="https://nuttyscientists.com/northflorida/event/girls-scouts-science-senses/"
+            start="{Date}2015-03-07T09:00:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2015-02-24T10:53:51.774-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

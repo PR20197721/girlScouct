@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-12-08T13:49:51.816-05:00"
+        cq:lastModifiedBy="dlubin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Thank You"
+        jcr:uuid="40fbf179-8e84-4dc1-a737-08f6b9c99db4"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="{Boolean}true"
+        seoTitle="Thank You | Web-to-case Template">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <image
+                        jcr:created="{Date}2015-12-08T13:26:48.916-05:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2015-12-08T13:27:20.077-05:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/girlscouts-shared/images/heroes/renew.jpg"/>
+                    <text
+                        jcr:lastModified="{Date}2015-12-08T13:26:37.717-05:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;h5>Thank you for contacting us, we have received your inquiry and will be in touch shortly!&lt;/h5>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>
