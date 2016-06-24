@@ -14,6 +14,8 @@
   }
 }
 .top-bar-section {
+     display: flex;
+     justify-content: center;
   li  {
     > a {
       position: relative;
