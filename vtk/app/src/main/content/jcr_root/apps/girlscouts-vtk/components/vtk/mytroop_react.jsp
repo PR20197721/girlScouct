@@ -1,5 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -8,7 +9,7 @@
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
@@ -79,9 +80,10 @@
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
 		      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){ %>
-		            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
+		           <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
 		         <%} %>
+		         
 		      </dt>
 		      <dd class="accordion-navigation">
 		        <div class="content active" id="panel1">

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-11-05T14:43:20.555-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Dental Fun Day"
+        jcr:uuid="240d3bb4-5c06-472c-a42a-4cdff2410697"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Ever wonder how to keep your teeth sparkly white? Join the UF College of Dentistry for a fun filled day of activities on fun ways to brush, floss, and maintain a beautiful smile. Plus, we will develop a strong sense of self, gain life skills and learn to seek challenges. All registered girls receive a dental goodie bag and an awesome Dental Health Fun Patch for your uniform.&lt;/p>&#xa;&lt;p>$5/Girl Scout, $1/adult&lt;/p>&#xa;&lt;p>** All attendees must be registered Girl Scouts for the 2016 Membership Year.&amp;nbsp; All adults must be registered and approved volunteers.&lt;/p>&#xa;&lt;p>** A chaperone needs to remain onsite throughout the program.&amp;nbsp; Please see Safety Activity Checkpoints for the ratios.&lt;/p>&#xa;&lt;p>** We are not able to accomodate tag-a-longs during this session&lt;/p>&#xa;"
+            end="{Date}2015-11-15T14:30:00.000-05:00"
+            locationLabel="Dental Tower at the University of Florida"
+            register="http://girlscouts-gateway.doubleknot.com/openrosters/ViewActivitySpaceAvailable.aspx?orgkey=2736&amp;activitykey=1807399"
+            start="{Date}2015-11-15T13:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2015-11-05T14:43:20.550-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/images/DentalHealthpatch.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

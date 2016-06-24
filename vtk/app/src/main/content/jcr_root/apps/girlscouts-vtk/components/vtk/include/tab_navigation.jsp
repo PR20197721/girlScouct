@@ -34,8 +34,12 @@
 			    cookie.setMaxAge(-1);
 			    response.addCookie(cookie);
               %>
-			<select id="reloginid" onchange="relogin()">
+			<select id="reloginid" onchange="relogin()" <%=!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ? "disabled" : "" %>>
 				<%
+				
+			 if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                 %><option value="" SELECTED>Viewing ARCHIVED <%=troop.getTroop().getTroopName()%> : <%=troop.getTroop().getGradeLevel()%></opton><%
+             }else 
 			        for (int i = 0; i < troops.size(); i++) {
 			      %>
 				<option value="<%=troops.get(i).getTroopId()%>"
@@ -53,10 +57,10 @@
 		</div>
 		<div class="columns large-4 medium-4"></div>
 	</div>
-	<div class="hide-for-print tab-wrapper row">
+	<div class="hide-for-print tab-wrapper <%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear" : "vtk-pastYear" %> row">
 		<div class="columns large-22 large-centered small-24">
 			<dl class="tabs show-for-large-up">
-				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+				<% if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") && VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
 				<dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
 					<a
 						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My
@@ -64,30 +68,37 @@
 				</dd>
 				<%} %>
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
-					<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
+					<dd <%= "plan".equals(activeTab) ? "class='active'" : "class=''" %>>
 	
-						<a href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
-							Plan</a>
+						<a href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
+						</a>
 					</dd>
 				<% } %>
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
-					<dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
+					<dd <%= "planView".equals(activeTab) ? "class='active'" : "class=''" %>>
 						<%if(troop.getYearPlan()!=null &&
 							    (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
 							      ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
 									<a href='#'
-										onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting
-										Plan</a>
+										onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>
+										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
+										</a>
 						<%}else{ %>
 									<a
-										<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting
-										Plan</a>
+										<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>
+										<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
+										</a>
 						<%} %>
 					</dd>
 				<%  } %>
+				
+				
+		<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
 					<a href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%= troop.getSfCouncil() %>/vtk.resource.html">Resources</a>
 				</dd>
+				
 
 				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID) ){ %>
 					<dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
@@ -114,14 +125,23 @@
 							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 					</dd>
 				<% } %>
+		  <%}%>
 			</dl>
 			<div class="dropdown hide-for-print hide-for-large-up">
 				<a id="vtk-main-menu-button"
-					onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
+					onclick="$('#vtk-main-menu').slideToggle('slow');$(this).toggleClass('collapse')" class="expand">Menu</a>
 				<ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+					
+					
+					
+
+                    
+                    
+                    
 					<li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
-						<%if(troop.getYearPlan()!=null &&
+						<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") &&
+						      troop.getYearPlan()!=null &&
 							     (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
 						          <a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
 						<%}else{ %> 
@@ -129,8 +149,7 @@
 						<%} %>
 						<ul class="dropdown">
 							<% if("myTroop".equals(activeTab) &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_IMG_ID) ) { %>
-							<li><a data-reveal-id="modal_upload_image"
-								title="update photo" href="#">add/change a photo of your
+							<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your
 									troop</a></li>
 							<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove
 									troop photo</a></li>
@@ -141,8 +160,9 @@
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
 					<li
 						class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a
-						href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">Year
-							Plan</a>
+						href="<%=relayUrl %>/content/girlscouts-vtk/en<%=vtk_cache_uri %>/vtk.html">
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Year Plan" : "Past Year Plans"%>
+                       </a>
 						<ul class="dropdown">
 							<% if("plan".equals(activeTab)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
 
@@ -155,12 +175,21 @@
 										Meeting</a></li>
 								<%} %>
 								<li><a onclick="newActivity()">Add Activity</a></li>
+								
+								
+								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+                                if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
+								
+    								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"> SEE PAST YEARS </a></li>
+                                <%}%>
 								<li><a
 									onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download
 										Calendar</a></li>
 							<% } %>
+
+				
 						</ul></li>
-					<%}%>
+
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
 					<li
@@ -169,10 +198,28 @@
 	                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
 	                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
 						<a href='#'
-						onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting
-							Plan</a> <%}else{ %> <a
-						<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting
-							Plan</a> <%} %>
+						onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
+						</a> <%}else{ %> <a
+						<%= troop.getYearPlan() != null ? "href='"+relayUrl+"/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>
+						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
+                        
+						</a> <%} %>
+						     <%if( activeTab!=null  &&  "plan".equals(activeTab) && !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+    					       <li><select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
+    					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
+    					               <option value="<%=i%>"><%=i%></option>
+    					          <%
+    					               if( i==2014 ) break;
+    					          }%>
+    					       </select></li>
+    					       
+    					       <li><a onclick="resetYear()">Back to Current Year</a></li>
+    					       
+    					       
+    					  <%}%>
+
+					<%}%>
 
 						<ul class="dropdown">
 							<% if("planView".equals(activeTab)) {
@@ -217,7 +264,7 @@
 						</ul>
 					</li>
 					<%  } %>
-
+<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
 					<li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a
 						href="<%=relayUrl %>/content/girlscouts-vtk/en/myvtk/<%=troop.getSfCouncil() %>/vtk.resource.html">Resources</a></li>
 
@@ -271,6 +318,7 @@
 						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 					</li>
 					<% } %>
+				<%}%>	
 				</ul>
 			</div>
 
@@ -308,6 +356,7 @@
 						<% } %>
 						<li><a href="#" onclick="newActivity()" title="Add Activity">Add
 								Activity</a></li>
+						
 						<% }
              %>
 
@@ -379,19 +428,62 @@
                     }
                 }
             %>
+
+
+
+
 					</ul>
+
+						<%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
+						  activeTab!=null  &&  "plan".equals(activeTab) ){
+						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+						     
+						      if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
+						  %>
+    						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
+    					      <%}%>
+    					  <%}else if( activeTab!=null  &&  "plan".equals(activeTab) && !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+    					       java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
+    					   %>
+    					       <select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
+    					          <option value="">Select Year</option>
+    					          <%java.util.Iterator itr= archivedPlans.keySet().iterator();
+    					           while( itr.hasNext()){
+    					               String yr= ((Integer) itr.next()).toString();
+    					          %>
+    					               <option value="<%=yr%>" <%=((user.getCurrentYear().equals(yr)) ? "SELECTED" : "")%>><%=yr%></option>
+    					          <%
+    					               //if( yr.equals("2014") ) break;
+    					          }%>
+    					       </select>
+    					       <input  class="vtk-button" type="button" value="Back to Current Year" onclick="resetYear()"/>
+    					       
+    					       
+    					  <%}%>
+
 				</div>
 				<div class="columns small-6 medium-5">
 					<ul class="inline-list" id="util-links">
+					
+					
+
+					
 						<%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
+						
+			
+
 						<li><a data-reveal-id="modal_help" title="help"><i
 								class="icon-questions-answers"></i></a></li>
 						<%} %>
 
 						<% if("plan".equals(activeTab)) {%>
+						
+						<%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")){%>
 						<li><a
-							<% if(troop.getYearPlan() != null && planView !=null && planView.getSearchDate() != null
-                && planView.getSearchDate().after( new java.util.Date("1/1/1977")) ){
+							<%
+						   if(user.getApiConfig().isDemoUser()){
+							   ;
+						   }else if(troop.getYearPlan() != null && planView !=null && planView.getSearchDate() != null  && planView.getSearchDate().after( new java.util.Date("1/1/1977")) ){
              %>
 							onclick="vtkTrackerPushAction('DownloadCalendar');self.location = '/content/girlscouts-vtk/en/cal.ics'"
 							<%} else{
@@ -399,9 +491,13 @@
 							onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
 							<% } %> title="download the calendar"><i
 								class="icon-download"></i></a></li>
+								
+							<%}//edn if archive%>	
+						
 						<li><a
 							onclick="javascript:window.print();vtkTrackerPushAction('Print');"
 							title="print"><i class="icon-printer"></i></a></li>
+							
 						<% } %>
 					</ul>
 				</div>

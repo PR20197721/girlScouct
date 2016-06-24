@@ -29,13 +29,35 @@ public class ApiConfig implements Serializable {
 	private boolean isFail, accessTokenValid;
 	
 	
+	private boolean demoUser, useAsDemo;
+	private String demoUserName;
 	
-	public boolean isFail() {
-		return isFail;
+	
+	
+	
+	public String getDemoUserName() {
+		return demoUserName;
 	}
 
-	public void setFail(boolean isFail) {
-		this.isFail = isFail;
+	public void setDemoUserName(String demoUserName) {
+		this.demoUserName = demoUserName;
+	}
+
+	public boolean isUseAsDemo() {
+		return useAsDemo;
+	}
+
+	public void setUseAsDemo(boolean useAsDemo) {
+		this.useAsDemo = useAsDemo;
+	}
+
+	public boolean isDemoUser() {
+		return demoUser;
+	}
+
+	public void setDemoUser(boolean demoUser) {
+		this.demoUser = demoUser;
+
 	}
 
 	public String getVtkApiTroopLeadersUri() {
@@ -200,6 +222,14 @@ public class ApiConfig implements Serializable {
 
 	public void setAccessTokenValid(boolean accessTokenValid) {
 		this.accessTokenValid = accessTokenValid;
+	}
+
+	public boolean isFail() {
+		return isFail;
+	}
+
+	public void setFail(boolean isFail) {
+		this.isFail = isFail;
 	}
 	
 

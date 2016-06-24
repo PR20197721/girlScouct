@@ -36,9 +36,9 @@
     int meetingAidCount = yearPlanUtil.getCountLocalMeetingAidsByLevel(user, troop, levelMeetingsRootPath);
     meetingAidCount += yearPlanUtil.getAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
     */
- System.err.println("tata b4");   
+ 
     int meetingAidCount = yearPlanUtil.getVtkAssetCount(user, troop, GLOBAL_MEETING_AID_PATH);
- System.err.println("tata after");   
+   
     //int countLocalMeetingsAidsByLevel = yearPlanUtil.getAllResourcesCount(user, troop, LOCAL_MEETING_AID_PATH+"/"); 
                                 
    String path = getMeetingsRootPath(troop);
@@ -48,11 +48,28 @@
 %>
 
 
+
+
 <div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
 <%@include file="include/bodyTop.jsp" %>
-	<div class="columns large-20 large-centered">
+
+
+
+<div id="modal_popup_activity_MOTHERFIDE" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+  <h2 id="modalTitle">Awesome. I have it.</h2>
+  <p class="lead">Your couch.  It is mine.</p>
+  <p>I'm a cool paragraph that lives inside of an even cooler modal. Wins!</p>
+  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+</div>
+
+
+
+
+
+	<div class="columns large-20 large-centered" style="overflow:hidden;">
+<!-- a style="border:0; z-index: 100000000; position: absolute;height: 911px;width: 100%;" data-reveal-id="modal_popup_activity_MOTHERFIDE"></a -->
 		<script>
 			var fixVerticalSizing = false;
 			$(function() {
@@ -105,6 +122,7 @@
 
 
 		<h1>Search For Resources</h1>
+	
 		<div class="ui-widget">
 			<input type="text" id="resourceSearchField" name="q"
 				placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="vtkSearchField" />
@@ -117,6 +135,7 @@
 
 
 <%
+
 
     final PageManager manager = (PageManager) resourceResolver.adaptTo(PageManager.class);
     final String RESOURCES_PATH = "resources";
@@ -174,10 +193,13 @@
 	   <%@include file="resource_display_aids.jsp" %>
 	<%} %>
  </div>
+
 <%@include file="include/bodyBottom.jsp" %>
 <script>
 	loadNav('resource');
 </script>
+
+
 <%!private long countAllChildren(Page page) {   
 		// TODO: Need an efficient way.
 		long count = 1;

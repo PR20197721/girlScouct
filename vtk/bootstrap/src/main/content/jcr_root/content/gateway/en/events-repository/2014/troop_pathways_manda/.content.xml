@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-12T19:54:14.597-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-09-12T19:54:34.207-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop Pathways - Mandarin Presbyterian"
+        jcr:uuid="249ee677-cd08-49ff-aaa5-d32c1bc225d1"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="11844 Mandarin Road, Jacksonville, FL 32223 "
+            details="&lt;p>Troop Pathways is Part Two of the required training for all new Girl Scout Troop Leaders and Co-Leaders.&amp;nbsp; It is a continuation of the GS 101 online training. There are 25 spots available. Breakfast &amp;amp; childcare provided &lt;b>- NEW&lt;/b>&lt;/p>&#xa;"
+            end="{Date}2014-09-20T12:00:00.000-04:00"
+            region="Mandarin Presbyterian, East Campus "
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=632617594"
+            start="{Date}2014-09-20T08:30:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-09-12T19:54:14.592-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageheroes/pathways.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

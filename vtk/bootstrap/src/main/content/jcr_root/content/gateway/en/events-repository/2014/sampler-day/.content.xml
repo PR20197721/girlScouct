@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:38.278-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/ags,gateway:categories/sampler-days]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Sampler Day"
+        jcr:uuid="36ddecb8-3399-471c-9486-ca929c753c26"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="4502 Trefoil Trail, Middleburg, FL 32068"
+            details="Explore, learn, have fun! Try the challenge course, archery or canoeing. Choose your adventure from these and more! The day is yours to try something new or perfect a skill you already know! Come with your troop or explore something that interests just you! This event costs $125 per girl and $105 per adult."
+            end="{Date}2014-03-14T15:00:00.000-04:00"
+            locationLabel="North Fork Leadership Center"
+            srchdisp="Explore, learn, have fun! Try the challenge course, archery or canoeing. Choose your adventure from these and more! The day is yours to try something new or perfect a skill you already know! Come with your troop or explore something that interests just you!"
+            start="{Date}2014-03-14T10:00:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

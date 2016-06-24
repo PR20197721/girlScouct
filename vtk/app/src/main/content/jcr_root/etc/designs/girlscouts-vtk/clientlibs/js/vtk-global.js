@@ -70,9 +70,10 @@ var $ = jQuery.noConflict();
 		   var $input =  $this.find('input[type="file"]').val();
 		 if($input == '') {
 		   alert ("you must choose a image");
-		   return false;
+		  
 		   e.preventDefault();
-		  }
+		   return false; 
+		 }
 		});
 	}
 	//used if using select instead of tabs for small, screens was removed.

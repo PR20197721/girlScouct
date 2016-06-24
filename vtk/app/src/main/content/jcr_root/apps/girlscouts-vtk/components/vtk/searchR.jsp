@@ -63,23 +63,28 @@ if (searchResults == null || searchResults.size() < 1) {
 	<li class="searchResultsItem1">
 		<table width="100%">
 			<tr>
-				<td width="34"><span class="docType"><img width="40" height="40" src="<%=docTypeImage%>"/></span></td>
-				<td><h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
-		<p><%=search.getContent() %></p>
-		<p><%=search.getSubTitle() %></p>
-				</td>
+				<td width="34">
+				    <span class="docType">
+				        <img width="40" height="40" src="<%=docTypeImage%>"/>
+				    </span>
+				</td> <!--  end 1 -->
+				<td>
+				    <h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
+					<p><%=search.getContent() %></p>
+					<p><%=search.getSubTitle() %></p>
+				</td><!--  end 2 -->
 				<td width="40">
-				<%if(search.getAssetType().equals(AssetComponentType.AID)){ %>
-					 <input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>','<%=AssetComponentType.AID %>')" class="button linkButton"/>
-				<%}else{ %>
-<!--
-					<input type="button" value="Add to Meeting" onclick="applyResource('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>
--->
-				<%} %>
-				<td/>
-			</tr>
-		</table>
-	</li>
+					<%if(!apiConfig.isDemoUser() && search.getAssetType().equals(AssetComponentType.AID)  && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){ %>
+						 <input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>','<%=AssetComponentType.AID %>')" class="button linkButton"/>
+					<%}else{ %>
+	                      <!--
+						<input type="button" value="Add to Meeting" onclick="applyResource('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>
+	                       -->
+					<%} %>
+				<td/><!-- end 3-->
+			</tr> <!-- end tr -->
+		</table> <!-- end table -->
+	</li> <!--  end of record -->
 <%
 	}
 }

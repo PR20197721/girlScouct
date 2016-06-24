@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-07T13:25:00.168-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Building Tomorrows Leaders - DBJC"
+        jcr:uuid="7a7e224c-eab0-4666-ac47-44b6e9db01d3"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="14780 Mandarin Road, Jacksonville, FL 32223"
+            color="#EC008C"
+            details="&lt;p>Building Tomorrows Leaders - DBJC&lt;br>&#xa;Grades: K, 1, 2, 3, 4, 5, 6, 7, 8&lt;br>&#xa;&lt;br>&#xa;Join Chase Women’s Interactive Network of leaders for a fun and interactive day of activities centered around leadership. The opportunity awaits to explore leadership, through hands on activities, and apply the skills you learn while having fun and building relationships. There will be something for all Girl Scout ages at this event, so what are you waiting for? Become a great leader now! Also, don’t miss out on the opportunity to earn 3 FUN PATCHES!!&amp;nbsp; Put your best leadership skills to work by bringing a canned good to donate to the Community Food Drive to earn your Canned Goods patch; prove how much “Girls Rock” at the event to earn your Girls Rock patch; and learn how to become a future Chase leader to earn your one-of-a-kind Chase patch.&amp;nbsp; Light snacks and drinks will be provided. Fun patches included.&lt;br>&#xa;*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;* For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&amp;nbsp;&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&amp;nbsp;&lt;br>&#xa;&lt;br>&#xa;$3/girl, $1/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-03-19T12:00:00.000-04:00"
+            locationLabel="Mandarin Park"
+            register="http://girlscouts-gateway.doubleknot.com/event/building-tomorrows-leaders-all/1826242"
+            start="{Date}2016-03-19T09:00:00.012-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-07T13:25:00.161-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

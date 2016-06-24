@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-02-05T10:03:16.625-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-02-05T10:03:36.717-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scout Cookies help hungry"
+        jcr:uuid="f7dfa910-443c-4352-95fa-80008fa3e5db"
+        sling:resourceType="girlscouts/components/news-page"
+        description="Mary Anne Jacobs and Ambassador Girl Scout Jessica Banachsingh were featured today on WJXT Channel 4’s The Morning Show. ">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>Mary Anne Jacobs and Ambassador Girl Scout Jessica Banachsingh were featured today on WJXT Channel 4’s The Morning Show. Talking with anchor Jennifer Waugh, Mary Anne and Jessica shared information about Digital Cookie, new cookie flavors, and Gift of Caring. Jessica has been a Girl Scout for 12 years, and plans to use her cookie proceeds to buy her lifetime Girl Scout membership. Mary Anne shared her newly discovered Girl Scout cookie recipe. Watch the segment to learn what she does with Thin Mints!&lt;/p>&#xa;&lt;p>&lt;b>&lt;a adhocenable=&quot;false&quot; href=&quot;http://www.news4jax.com/news/girl-scout-cookies-help-hungry/30920718&quot; target=&quot;_blank&quot;>Check out the recording here.&lt;/a>&lt;/b>&lt;br>&#xa;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-02-05T10:03:16.619-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/newsImgs/wjxt4012015.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

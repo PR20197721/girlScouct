@@ -1,7 +1,9 @@
 <%@page import="org.girlscouts.vtk.helpers.ConfigManager,
                 org.girlscouts.vtk.helpers.CouncilMapper,
                 org.girlscouts.vtk.utils.VtkUtil" %>
+
 <%@include file="/libs/foundation/global.jsp" %> 
+
 <%
     HttpSession session = request.getSession();
     org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
@@ -13,6 +15,7 @@
     try{
          apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
     }catch(Exception e){e.printStackTrace();}
+    
     if (apiConfig != null && !apiConfig.isFail()) {
 
 	    CouncilMapper mapper = sling.getService(CouncilMapper.class);
@@ -110,7 +113,8 @@
                 userRole = apiConfig.getTroops().get(0).getRole();
             }
                         userRole= userRole ==null ? "" : userRole;
-                        if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                       //if( apiConfig!=null && (userRole.equals("PA") || apiConfig.getUser().isAdmin() )){
+                       if( apiConfig!=null &&  apiConfig.getUser().isAdmin() ){
                             vtkLanding="/content/girlscouts-vtk/en/myvtk/" + councilId + "/vtk.resource.html";   
                         }
                         }

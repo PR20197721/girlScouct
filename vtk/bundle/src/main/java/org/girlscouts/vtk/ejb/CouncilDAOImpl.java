@@ -72,7 +72,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Session session = null;
 		try {
 			//TODO Permission.PERMISSION_LOGIN_ID
-System.err.println("caca findCouncil 1 "+ new java.util.Date() );
+
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
@@ -91,15 +91,15 @@ System.err.println("caca findCouncil 1 "+ new java.util.Date() );
 			classes.add(Achievement.class);
 			classes.add(org.girlscouts.vtk.models.MeetingCanceled.class);
 			*/
-			System.err.println("caca findCouncil 2 "+ new java.util.Date() );
+			
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			System.err.println("caca findCouncil 3 "+ new java.util.Date() );
+			
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
-			System.err.println("caca findCouncil 4 "+ new java.util.Date() );
+			
 String p= VtkUtil.getYearPlanBase(user, null) + councilId; 
-System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
+
 			council = (Council) ocm.getObject(p);
-			System.err.println("caca findCouncil 5 "+ new java.util.Date() );
+			
 			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
@@ -114,7 +114,7 @@ System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
 				ex.printStackTrace();
 			}
 		}
-		System.err.println("caca findCouncil 7 "+ new java.util.Date() );
+		
 		return council;
 	}
 
@@ -225,13 +225,18 @@ System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
 	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
 			throws IllegalAccessException{
 		//TODO Permission.PERMISSION_VIEW_MILESTONE_ID
-		CouncilInfo list = getCouncilInfo(councilCode);
+		CouncilInfo list = getCouncilInfo(user, councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
 		return milestones;
 	}
 
-	private CouncilInfo getCouncilInfo(String councilCode) {
+	// TODO: Alex - deprecate this method after full testing of method removal
+    private CouncilInfo getCouncilInfo(String councilCode) {
+		return getCouncilInfo(null, councilCode);
+	}
+
+	private CouncilInfo getCouncilInfo(User user, String councilCode) {
 
 		Session session = null;
 		CouncilInfo cinfo = null;
@@ -247,7 +252,7 @@ System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
 			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = VtkUtil.getYearPlanBase(null, null) + councilCode + "/councilInfo";
+			String path = VtkUtil.getYearPlanBase(user, null) + councilCode + "/councilInfo";
 			if (session.itemExists(path)) {
 				cinfo = (CouncilInfo) ocm.getObject(path);
 				if (cinfo == null)
@@ -297,7 +302,7 @@ System.err.println("caca findCouncil 444 "+ new java.util.Date() +" : "+ p );
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			CouncilInfo list = getCouncilInfo(cid);
+			CouncilInfo list = getCouncilInfo(user, cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
 			sortMilestonesByDate(oldMilestones);
 			int i = 0;

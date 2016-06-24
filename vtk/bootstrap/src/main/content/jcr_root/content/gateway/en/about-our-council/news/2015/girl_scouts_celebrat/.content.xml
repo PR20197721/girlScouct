@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-03-16T13:27:03.567-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-03-16T13:27:19.915-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        cq:tags="[girlscouts:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts celebrate 103 years"
+        jcr:uuid="c1857d14-4d3c-407e-8e02-5c9db84c55ca"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-03-12T13:24:00.000-04:00"
+        description="Girl Scouts celebrated their birthday with dancing, a science experience from MOSH, a birthday cake and a friendship circle."
+        external-url="https://www.flickr.com/photos/gsgc/sets/72157651322379301/">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>Girl Scouts celebrated their birthday with dancing, a science experience from MOSH, a birthday cake and a friendship circle.&lt;/p>&#xa;&lt;p>See more photos &lt;a adhocenable=&quot;false&quot; href=&quot;https://www.flickr.com/photos/gsgc/sets/72157651322379301/&quot; target=&quot;_blank&quot;>here&lt;/a>.&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-03-16T13:27:03.559-04:00"
+                        jcr:lastModifiedBy="drodgers"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/newsImgs/DSC06175 wkd for web.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

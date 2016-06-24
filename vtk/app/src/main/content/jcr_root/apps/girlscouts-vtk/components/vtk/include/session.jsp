@@ -7,7 +7,7 @@
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.apache.sling.runmode.RunMode"%>
 <%!
-// put all static in util classes
+    // put all static in util classes
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
     
@@ -32,7 +32,9 @@
 
 
 <% 
+
 String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
+
 
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
@@ -84,6 +86,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+		
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -119,12 +122,10 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		return;
 	}
 	
-			
+		
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
-		
-		
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
@@ -139,6 +140,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 			</div>
 			
 			<%
+
 				return;
 			
 	}
@@ -184,12 +186,15 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
 			errMsg = troop.getErrCode();
 		}
+		
 	    org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 		if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 		  prefTroop = apiConfig.getTroops().get(0);
 		}
 	  
 		if( troop!=null){
+			
+	  		
 			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
 				if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
 					prefTroop = apiConfig.getTroops().get(ii);
@@ -197,12 +202,19 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 				}
 			}
 	    }else{
+
+	    
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				theCookie: for (int i = 0; i < cookies.length; i++) {
+					
+	
 					if (cookies[i].getName().equals("vtk_prefTroop")) {
+						
+	 
 						for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 							String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
+							
 							if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
 								prefTroop = apiConfig.getTroops().get(ii);
 								break theCookie;
@@ -217,6 +229,7 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
 
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 %>
@@ -237,7 +250,6 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 		
 	    if (troop == null ) {
 	        try{
-	        	 	
 	        
 	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
             }catch(org.girlscouts.vtk.utils.VtkException e){
@@ -274,52 +286,22 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	}
 
 	RunMode runModeService = sling.getService(RunMode.class);
-	String apps[] = new String[1]; // Why not just use a String dude
-	apps[0]="prod";
-	if( runModeService.isActive(apps) ){ 
-	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View');</script>";
+	String apps[] = new String[] {"prod"}; 
+	String prodButDontTrack[] = new String[]{"gspreview"};
+	
+	
+	
+	if( runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)){ 
+	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('"+troop.getSfTroopAge()+"');</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}else{
-		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
+		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('"+troop.getSfTroopAge()+"')</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-	
-	
-	/* moved
-	 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
-	 System.err.println("LOGIN CHECK: "+_isValidOAthToken);  
-	 if( !_isValidOAthToken )  {           
-		  System.err.println("token not valid .....logging outt........"+  sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true");         
-		  //response.sendRedirect( sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl") + "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin=true"); 
-		  %><script>doVtkLogout();</script><% 
-		  return;
-	}
-	*/
-	 
-	 
-	
-	if( !apiConfig.isAccessTokenValid() ){
-		 %><script>doVtkLogout();</script><% 
-		 return;
-	 }
-	 
-	 long lastTimeCheckValidOAuthToken = apiConfig.getLastTimeTokenRefreshed();
-System.err.println("...............yyy....Checking token >> "+  lastTimeCheckValidOAuthToken +" : "+ (new java.util.Date().getTime() - lastTimeCheckValidOAuthToken));	 
-	 if( lastTimeCheckValidOAuthToken <=0 || ((java.util.Calendar.getInstance().getTimeInMillis()  - lastTimeCheckValidOAuthToken) > 20000) ){
-System.err.println("..............yyy........Checking token.....................");
-		 boolean _isValidOAthToken = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).isValidOAuthToken( apiConfig);
-System.err.println("yyy.... isValid: "+ _isValidOAthToken);		 
-		 if( !_isValidOAthToken )  {			 
-System.err.println("yyy.....token not valid .....logging outt........");		 
-			 %><script>doVtkLogout();</script><% 
-			 return;
-		 }
-		
-	 }
-	 
-%>
-              
-                
+
+
+            
+%>                
                    
            
                 

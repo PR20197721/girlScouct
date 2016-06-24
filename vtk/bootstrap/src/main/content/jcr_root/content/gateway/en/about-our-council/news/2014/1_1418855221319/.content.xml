@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-12-17T17:27:01.326-05:00"
+        cq:lastModifiedBy="gs-test-reviewer"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="girlscouts/components/news-page">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-12-17T17:27:01.322-05:00"
+                        jcr:lastModifiedBy="gs-test-reviewer"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

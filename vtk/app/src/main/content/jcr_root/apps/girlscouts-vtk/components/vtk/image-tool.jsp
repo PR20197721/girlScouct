@@ -50,7 +50,13 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png" %>";
+<%
+    String _troopId= troop.getTroop().getTroopId();
+    if( _troopId!=null && _troopId.indexOf("_")!=-1 ){
+        _troopId= _troopId.substring( _troopId.lastIndexOf("_")+1);
+    }
+%>
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data"+VtkUtil.getCurrentGSYear()+"/"+ troop.getTroop().getCouncilCode() +"/" + _troopId + "/imgLib/troop_pic.png" %>";
 
 var displayCurrent = function(isUploaded){
 	
@@ -552,9 +558,10 @@ var displayCurrent = function(isUploaded){
 	        	submitCrop.disabled = true;
 	        	
 		        if(localMediaStream != null && localMediaStream != undefined){
-		        	 try{
-                         localMediaStream.stop();
-                  }catch(err){ cleanUp(); }
+
+		        	try{
+		        		   localMediaStream.stop();
+		        	}catch(err){ cleanUp(); }
 		        }
 				$('#upload-tool').remove();
 		
@@ -674,15 +681,10 @@ var dataURL = image_target.src;
 
 function cleanUp(){
 
-		if (localMediaStream.active) {
-	
-		    var track = localMediaStream.getTracks()[0];
-	
-		        track.stop();
-	
-		}
-
+	if (localMediaStream.active) {
+	    var track = localMediaStream.getTracks()[0];
+        track.stop();
 	}
-
+}
 
 </script>

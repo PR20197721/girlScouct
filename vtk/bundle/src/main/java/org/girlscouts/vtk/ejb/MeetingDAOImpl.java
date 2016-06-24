@@ -91,12 +91,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 	// by planId
 	public java.util.List<MeetingE> getAllEventMeetings(User user, Troop troop,
 			String yearPlanId) throws IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
-
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
@@ -104,8 +102,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
@@ -186,9 +183,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-System.err.println("caca **** "+ new java.util.Date() );			
+		
 			meeting = (Meeting) ocm.getObject(path);
-System.err.println("caca **2** "+ new java.util.Date() );	
+	
 
 			if (meeting != null && path != null
 					&& path.contains("/lib/meetings/")) {
@@ -513,12 +510,12 @@ System.err.println("caca **2** "+ new java.util.Date() );
 
 	public List<Asset> getAidTag(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
-System.err.println("tata aidTags: getAidTag : 1 : "+ tags +" : "+ meetingName);
+
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-System.err.println("tata aidTags: getAidTag : 2");
+
 		List<Asset> matched = new ArrayList<Asset>();
 
 
@@ -528,7 +525,7 @@ System.err.println("tata aidTags: getAidTag : 2");
 			session = sessionFactory.getSession();
 			if (tags == null || tags.trim().equals(""))
 				return matched;
-System.err.println("tata aidTags: getAidTag : 3");
+
 			String sql_tag = "";
 			java.util.StringTokenizer t = new java.util.StringTokenizer(tags,
 					";");
@@ -543,7 +540,7 @@ System.err.println("tata aidTags: getAidTag : 3");
 			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
-System.err.println("SQL: "+ sql );
+
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -630,7 +627,7 @@ System.err.println("SQL: "+ sql );
 				for (int i = 0; i < assetPaths.length; i++) {
 					String assetPath = assetPaths[i].getString();
 					log.debug("Asset Path = " + assetPath);
-	System.err.println("tata aidTags: 1st try: "+ assetPath );				
+					
 					assets.addAll(getAssetsFromPath(assetPath, type, session));
 				}
 			}
@@ -650,7 +647,7 @@ System.err.println("SQL: "+ sql );
 			}
 			String rootPath = getSchoolYearDamPath() + "/local/" + typeString
 					+ "/meetings/" + meetingName;
-	System.err.println("tata aidTags path: "+ rootPath);		
+
 			if (session.nodeExists(rootPath)) {
 				assets.addAll(getAssetsFromPath(rootPath, type, session));
 			}
@@ -713,12 +710,12 @@ System.err.println("SQL: "+ sql );
 
 	public List<Asset> getResource_global(User user, Troop troop, String tags,
 			String meetingName) throws IllegalAccessException {
-System.err.println("tata aidTags 11");
+
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-System.err.println("tata aidTags 12");
+
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -729,19 +726,18 @@ System.err.println("tata aidTags 12");
 			String sql_tag = "";
 			java.util.StringTokenizer t = new java.util.StringTokenizer(tags,
 					";");
-System.err.println("tata aidTags 13");		
+		
 			while (t.hasMoreElements()) {
 				String tag = t.nextToken();
-System.err.println("tata aidTags 14");
 				sql_tag += "cq:tags like '%" + tag + "%'";
 				if (t.hasMoreElements())
 					sql_tag += " or ";
 			}
-System.err.println("tata aidTags 15");
+
 			String sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
-System.err.println("tata aidTags: sql : "+ sql);
+
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -760,7 +756,7 @@ System.err.println("tata aidTags: sql : "+ sql);
 				search.setRefId(path);
 				search.setIsCachable(true);
 				search.setType(AssetComponentType.RESOURCE);
-System.err.println("tata aidTags- found asset global: "+ path );			
+			
 				try {
 					search.setDescription(r.getValue("dc:description")
 							.getString());
@@ -1309,7 +1305,7 @@ System.err.println("tata aidTags- found asset global: "+ path );
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-System.err.println("tata11: "+ sql );			
+;			
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1655,7 +1651,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 			sql += regionSql;
 			sql += sqlTags;
 			sql += sqlCat;
-System.err.println("	 sql: "+ sql);			
+			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1670,7 +1666,7 @@ System.err.println("	 sql: "+ sql);
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
 				activity.setContent(r.getValue("child.details").getString());
-System.err.println("SearchA1 details: "+activity.getContent() );
+
 				// convert to EST
 				// TODO: All VTK date is based on server time zone, which is
 				// eastern now.
@@ -1698,7 +1694,7 @@ System.err.println("SearchA1 details: "+activity.getContent() );
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
 								.getEndDate().before(new java.util.Date()))) {
-System.err.println("SearchA1 ... abort: "+ activity.getDate() +" : "+ activity.getEndDate()  +" : "+ new java.util.Date() );					
+					
 					continue;
 				}
 				activity.setLocationName(r.getValue("child.locationLabel")
@@ -1740,14 +1736,13 @@ System.err.println("SearchA1 ... abort: "+ activity.getDate() +" : "+ activity.g
 							&& activity.getDate().before(endDate))
 						;
 					else {
-System.err.println("searchA1 exiting this activity...." + activity.getDate()  +" : "+ startDate +" :" + endDate);						
 						continue;
 					}
 				}
-System.err.println("SearchA1 adding: "+ i);
+
 				toRet.add(activity);
 				i++;
-System.err.println("SearchA1 added activity: "+ i);				
+			
 			}
 
 		} catch (Exception e) {
@@ -1760,7 +1755,7 @@ System.err.println("SearchA1 added activity: "+ i);
 				ex.printStackTrace();
 			}
 		}
-System.err.println("SearchA1 return"+ toRet.size() );		
+		
 		return toRet;
 	}
 
@@ -2138,7 +2133,7 @@ System.err.println("SearchA1 return"+ toRet.size() );
 	public List<org.girlscouts.vtk.models.Search> getDataItem_old020316(User user,
 
 	Troop troop, String _query, String PATH) throws IllegalAccessException {
-System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
+
 		if (user != null
 
 		&& !userUtil.hasPermission(troop,
@@ -2173,10 +2168,9 @@ System.err.println("tataSearch getDataItem: "+ _query +" : "+ PATH);
 			map.put("fulltext", _query);
 			map.put("path", PATH);
 			//map.put("p.limit", "1");
-System.err.println("tataSearch path: "+ PATH+" : "+ _query +" : "+ new java.util.Date());
 
-//if( true)return matched;
-//System.err.println("tataSearch ending ");
+
+
 
 	com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
@@ -2186,7 +2180,7 @@ System.err.println("tataSearch path: "+ PATH+" : "+ _query +" : "+ new java.util
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 
 			SearchResult result = query.getResult();
-System.err.println("tataSearch end query  : "+ new java.util.Date());
+
 
 			for (Hit hit : result.getHits()) {
 
@@ -2286,7 +2280,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 	public List<org.girlscouts.vtk.models.Search> getDataItem(User user,
 
 			Troop troop, String _query, String PATH) throws IllegalAccessException {
-		System.err.println("tataSearch _*__ getDataItem: "+ _query +" : "+ PATH);
+		
 				if (user != null
 
 				&& !userUtil.hasPermission(troop,
@@ -2312,7 +2306,6 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					PATH = resourceRootPath;
 				}
 				matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-				System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");System.err.println("tataSearch ** ");
 				try {
 
 					session = sessionFactory.getSession();
@@ -2322,11 +2315,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					map.put("path", PATH);
 					map.put("type", "dam:Asset");
 					//map.put("p.limit", "1");
-		System.err.println("tataSearch ** path: "+ PATH+" : "+ _query +" : "+ new java.util.Date());
-
-		//if( true)return matched;
-		//System.err.println("tataSearch ending ");
-
+		
 			com.day.cq.search.Query query = qBuilder.createQuery(
 							PredicateGroup.create(map), session);
 			
@@ -2335,8 +2324,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 
 					SearchResult result = query.getResult();
-		System.err.println("tataSearch end query  : "+ new java.util.Date() +" : " + result.getHits().size());
-
+		
 					for (Hit hit : result.getHits()) {
 
 						try {
@@ -2447,7 +2435,7 @@ System.err.println("tataSearch end query  : "+ new java.util.Date());
 					+ " (isdescendantnode (s, ["
 					+ path
 					+ "]))";
-System.err.println("tata sql: "+ sql);
+
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2460,7 +2448,7 @@ System.err.println("tata sql: "+ sql);
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				itr.next() ;
-System.err.println("tata count: " + count);			
+			
 				count++;
 			}
 			
@@ -2500,7 +2488,7 @@ System.err.println("tata count: " + count);
 					+ " (isdescendantnode (parent, ["
 					+ _path
 					+ "])) and [cq:tags] is not null";
-System.err.println("tata sql: "+ sql);
+
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -2512,7 +2500,7 @@ System.err.println("tata sql: "+ sql);
 			NodeIterator itr = result.getNodes();
 			while(itr.hasNext()){
 				Node node = (Node)itr.next() ;
-System.err.println("tata -- "+ node.getPath() +" : "+ count);			
+			
 				if( node.getPath().toLowerCase().contains( ("meetings/" + level.charAt(0)).toLowerCase() ) ) 
 						count++;
 			}
@@ -2542,7 +2530,7 @@ System.err.println("tata -- "+ node.getPath() +" : "+ count);
 			// it contains the key
 			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
 				// return cache
-System.err.println("tata getResourceData resource from cache");				
+				
 				return (java.util.Collection<bean_resource>)resourceCountMap.get(_path);
 			}
 		}
@@ -2633,8 +2621,7 @@ System.err.println("tata getResourceData resource from cache");
 
 		}
 		
-		
-		System.err.println("tata getResourceData resource from SQL");				
+				
 		resourceCountMap.put(_path, dictionary.values());
 		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 
@@ -2653,7 +2640,7 @@ System.err.println("tata getResourceData resource from cache");
 			// it contains the key
 			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
 				// return cache
-System.err.println("tata meetingCount from cache");				
+			
 				return ((Integer)resourceCountMap.get(path)).intValue();
 			}
 		}
@@ -2671,7 +2658,12 @@ System.err.println("tata meetingCount from cache");
 					javax.jcr.query.Query.SQL);
 			
 			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
+			//count = (int) result.getNodes().getSize();
+			Iterator itr= result.getNodes();
+			while( itr.hasNext() ){
+					itr.next();
+					count++;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2686,7 +2678,7 @@ System.err.println("tata meetingCount from cache");
 
 		}
 		
-		System.err.println("tata meetingCount from SQL");				
+				
 		resourceCountMap.put(path, count);
 		resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 		return count;
@@ -2699,7 +2691,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 			// it contains the key
 			if(System.currentTimeMillis() - ((Long)resourceCountMap.get(RESOURCE_COUNT_MAP_AGE)).longValue() < MAX_CACHE_AGE_MS) {
 				// return cache
-System.err.println("tata resource from cache");				
+			
 				return ((Long)resourceCountMap.get(path)).intValue();
 			}
 		}
@@ -2721,7 +2713,7 @@ System.err.println("tata resource from cache");
 			
 			QueryResult result = q.execute();
 			count = (long) result.getNodes().getSize();
-System.err.println("tata resource from SQL");				
+				
 			resourceCountMap.put(path, count);
 			resourceCountMap.put(RESOURCE_COUNT_MAP_AGE, System.currentTimeMillis());
 			
@@ -2740,4 +2732,46 @@ System.err.println("tata resource from SQL");
 		return (int)count;
 	}
 	
+
+public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
+
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_VIEW_MEETING_ID))
+		throw new IllegalAccessException();
+
+	java.util.List<Meeting> meetings = null;
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(Meeting.class);
+		classes.add(Activity.class);
+		classes.add(JcrCollectionHoldString.class);
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Meeting.class);
+		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
+		Query query = queryManager.createQuery(filter);
+		meetings = (List<Meeting>) ocm.getObjects(query);
+
+		Comparator<Meeting> comp = new BeanComparator("position");
+
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return meetings;
+
+}
 }// edn class
