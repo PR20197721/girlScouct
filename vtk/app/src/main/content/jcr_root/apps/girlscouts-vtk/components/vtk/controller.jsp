@@ -1,7 +1,7 @@
 <%@page
 	import="java.util.Comparator, org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
                 org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
-                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString, org.girlscouts.vtk.ejb.CouncilRpt"%>
+                org.girlscouts.vtk.helpers.TroopHashGenerator, org.girlscouts.vtk.models.JcrCollectionHoldString"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:defineObjects />
@@ -649,7 +649,7 @@
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null || request.getAttribute("reactjs") != null) {
-         try{
+try{
 			boolean isFirst = false;
 			if ((request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1")) ||
 			    (request.getAttribute("isFirst") != null && request.getAttribute("isFirst").equals("1"))) {
@@ -707,7 +707,7 @@
 
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 
-				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent(); 
+				MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); 
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
 				meetings.add(_meeting);
 				troop.getYearPlan().setMeetingEvents(meetings);
@@ -790,7 +790,13 @@
                             .replaceAll("mailto:", "")
                             .replaceAll("</a>\"</a>", "</a>")
                             .replaceAll("\"</a>\"", ""));
-
+ /*
+ System.err.println(mapper.writeValueAsString(troop)                
+         .replaceAll("mailto:", "")
+         .replaceAll("</a>\"</a>", "</a>")
+         .replaceAll("\"</a>\"", ""));     
+         */              
+                         
                     } catch (Exception ee) {
                         // error message in logs
                         ee.printStackTrace();
@@ -1281,40 +1287,7 @@ try{
              session.putValue("VTK_troop", troop);
               
              
-        }else if( request.getParameter("editNote") != null ){
-        
-            String message = request.getParameter("message");
-            String mid= request.getParameter("mid");
-            
-            if( mid==null || message ==null || message.trim().equals("")){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
-            //System.err.println("test: "+ mid +" : "+ message);
-            
-            java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
-            for(int i=0;i<meetings.size();i++){
-                if( meetings.get(i).getUid().equals( mid ) ){
-       //System.err.println("found_____________");         
-                
-                    java.util.List<Note> notes =  meetings.get(i).getNotes();
-                    if( notes ==null ) notes = new java.util.ArrayList<Note>();
-                    Note note = new Note();
-                    note.setMessage( message );
-                    note.setCreatedByUserId( user.getApiConfig().getUser().getSfUserId());
-                    note.setCreatedByUserName(user.getApiConfig().getUser().getName());
-                    note.setCreateTime( new java.util.Date().getTime() );
-                    
-                    note.setRefId( meetings.get(i).getUid() );
-                    note.setPath( meetings.get(i).getPath() +"/note/"+ note.getUid());
-                    notes.add( note );
-               //System.err.println( "Note: "+      note.getPath() );
-               
-                    meetings.get(i).setNotes( notes );
-               //System.err.println("Test: "+ meetings.get(i).getNotes().size() );     
-                    troopUtil.updateTroop(user, troop);
-                    break;
-                    
-                }
-            }     
-               
+             
 		} else {
 			//TODO throw ERROR CODE
 			

@@ -30,9 +30,7 @@ if( org.girlscouts.vtk.utils.VtkUtil.getApiConfig(session) !=null ){
                         <link type="text/css" rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/_demo.css">
                         <div class="vtk-demo-logo" style="width:188,height:73">
                             <!-- <img class="vtk-demo-logo-img" src="/etc/designs/girlscouts-vtk/images/log_demo.png" alt="Home" id="logoImg"> -->
-                            <a href="/content/gssjc/en.html">
-                                <img src="/content/dam/girlscouts-gsusa/images/logo/logo@2x.png" alt="Home" id="logoImg" width="188" height="73">
-                            </a>
+                            <img src="/content/dam/girlscouts-gsusa/images/logo/logo@2x.png" alt="Home" id="logoImg" width="188" height="73">
                         </div>
                     </nav>
                     <!--<![endif]-->

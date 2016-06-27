@@ -12,9 +12,10 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <count
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Specify a limit for how many images will appear. Will default to 20 if left blank"
+                        fieldDescription="Specify a limit for how many images will appear. Will default to 19 if left blank"
                         fieldLabel="Picture Count"
                         minValue="1"
+                        maxValue="19"
                         name="./count"
                         xtype="numberfield"/>
                     <pin-id
