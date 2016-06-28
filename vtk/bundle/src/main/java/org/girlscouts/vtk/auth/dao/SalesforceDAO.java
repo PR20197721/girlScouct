@@ -1000,7 +1000,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-				
+System.err.println("test: "+ rsp );				
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
