@@ -85,21 +85,23 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 		System.err.println("tester 2 ");   
 		//troops SQL
 		sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCounci from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
+System.err.println("test sq: "+ sql );		
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		int count=0 ;
 		
 		java.util.HashSet councilIds = new java.util.HashSet<String>();
 		java.util.List <org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
 		javax.jcr.query.QueryResult result = q.execute();
-		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
+		tr:for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 			javax.jcr.query.Row r = it.nextRow();
 			String path = r.getValue("jcr:path").getString() ;
 			String sfCouncil = null, sfTroopAge=null;
-			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}			
+			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){ System.err.println("Found err in getting fCouncil "+ path); continue tr; }			
 		    try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
 
 		    org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
 		    ypr.setCouncil(sfCouncil);
+		    
 		    ypr.setTroop( r.getValue("sfTroopId").getString() );
 		    ypr.setTroopName( r.getValue("sfTroopName").getString() );
 		    ypr.setTroopAge(sfTroopAge);
