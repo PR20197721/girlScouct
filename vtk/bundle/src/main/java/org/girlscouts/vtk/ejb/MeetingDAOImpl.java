@@ -2779,7 +2779,7 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 }
 
 
-/*
+
 public java.util.List<Note> getNotes(User user, Troop troop, String path)
 		throws IllegalAccessException, VtkException {
 	
@@ -2822,9 +2822,9 @@ filter.addEqualTo("refId", path );
 	}
 	return notes;
 }
-*/
 
 
+/*
 public java.util.List<Note> getNotes(User user, Troop troop, String meetingId) throws IllegalAccessException {
 
 	if (user != null
@@ -2854,7 +2854,12 @@ public java.util.List<Note> getNotes(User user, Troop troop, String meetingId) t
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
 		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
-		filter.setScope( meeting.getPath() +"//");
+		
+	//System.err.println("test: getNotes:: " + meeting.getPath() );	
+		//-good filter.setScope( meeting.getPath() +"//");
+		
+	//filter.setScope("/vtk2015/\"999\"/troops/X701G0000000uQzUIAU/yearPlan/meetingEvents/M1466455260744_0.8256174981425711//");
+		
 		Query query = queryManager.createQuery(filter);
 		notes = (List<Note>) ocm.getObjects(query);
 		Comparator<Note> comp = new BeanComparator("createTime");
@@ -2872,7 +2877,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String meetingId) t
 	}
 	return notes;
 }
-
+*/
 
 
 
