@@ -2801,7 +2801,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String path)
 				mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
-System.err.println("TEST QR: " + path);
+//System.err.println("TEST QR: " + path);
 		//filter.addContains("jcr:path", path);
 filter.addEqualTo("refId", path );
 		Query query = queryManager.createQuery(filter);
@@ -2896,7 +2896,7 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 				mapper);
 		
 		if (!session.itemExists(note.getPath()))
-			ocm.insert(note);
+			ocm.insert(note); // y ??
 		else
 			ocm.update(note);
 		ocm.save();
@@ -2929,10 +2929,10 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
-		
-		if (session.itemExists(note.getPath())){
+System.err.println("from rmNote: "+ note.getPath() );		
+		if (true){//session.itemExists(note.getPath())){
 			
-			ocm.update(note);
+			ocm.remove(note);
 			ocm.save();
 		}
 
@@ -2949,5 +2949,60 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 	
 	
 }
+
+
+public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
+
+System.err.println("from MeetingDAO : "+ noteId);	
+	Note note= getNote(user, troop, noteId);
+System.err.println("from rmNote: "+ (note==null) );	
+	if( note!=null )
+		rmNote(user, troop, note );
+}
+
+
+
+
+public Note getNote(User user, Troop troop, String nid)
+		throws IllegalAccessException {
+	
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_VIEW_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	Note note= null;
+	Session session = null;
+	try {
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class);classes.add(Note.class);
+		classes.add(Achievement.class);
+		classes.add(Attendance.class);
+		session = sessionFactory.getSession();
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Note.class);
+//System.err.println("TEST QR: " + path);
+		//filter.addContains("jcr:path", path);
+filter.addEqualTo("uid", nid );
+		Query query = queryManager.createQuery(filter);
+		note = (Note) ocm.getObject(query);
+
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return note;
+}
+
 
 }// edn class

@@ -1110,18 +1110,59 @@ function councilRpt(troopId, cid){
   }
   
   
-  function editNote(mid){
-  console.log("editNote.........");
+  function addNote(mid){
+
        var msg = document.getElementById("note").value;
- console.log("test: "+ mid +" : "+ msg); 
+
+       $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html" ,
+            cache: false,
+            type: 'POST',
+            data: {
+                addNote:"true",
+                message:msg,
+                mid:mid,
+                a:Date.now()
+             }
+  
+        }).done(function( html ) {
+           
+            
+        });
+  }
+  
+  
+  
+  
+   function rmNote(nid){
+      console.log("NID: "+ nid);
+       $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html" ,
+            cache: false,
+            type: 'POST',
+            data: {
+                rmNote:"true",
+                nid:nid,
+                a:Date.now()
+             }
+        }).done(function( html ) {
+           
+            
+        });
+  }
+  
+  
+  
+  function editNote(nid){
+       var msg = document.getElementById("note"+nid).value;
        $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html" ,
             cache: false,
             type: 'POST',
             data: {
                 editNote:"true",
-                message:msg,
-                mid:mid,
+                nid:nid,
+                msg:msg,
                 a:Date.now()
              }
   

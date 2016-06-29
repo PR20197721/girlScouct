@@ -1281,7 +1281,7 @@ try{
              session.putValue("VTK_troop", troop);
               
              
-        }else if( request.getParameter("editNote") != null ){
+        }else if( request.getParameter("addNote") != null ){
         
             String message = request.getParameter("message");
             String mid= request.getParameter("mid");
@@ -1314,7 +1314,21 @@ try{
                     
                 }
             }     
-               
+        }else if( request.getParameter("rmNote") != null ){
+            
+            String noteId= request.getParameter("nid");
+           
+             meetingUtil.rmNote(user, troop, noteId);
+        }else if( request.getParameter("editNote") != null ){
+            
+            String noteId= request.getParameter("nid");
+            String msg = request.getParameter("msg");
+       System.err.println("from controller: "+ noteId);  
+               Note note= meetingUtil.getNote(user, troop, noteId);
+               if( note!=null && msg!=null && !msg.equals("") ){      
+                     note.setMessage( msg );
+                     meetingUtil.updateNote(user, troop, note);
+                }//edn if     
 		} else {
 			//TODO throw ERROR CODE
 			

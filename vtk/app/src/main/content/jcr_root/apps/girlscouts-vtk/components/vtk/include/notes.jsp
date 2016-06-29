@@ -19,7 +19,17 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
   for(int nt = 0; nt < notes.size(); nt++){
     Note note = notes.get(nt);
     %>
-        <li><%=new java.util.Date(note.getCreateTime())%> :: <%=note.getCreatedByUserName()%>:: <%=note.getCreatedByUserId()%> :: <%=note.getMessage()%></li>
+        <li>
+            <%=new java.util.Date(note.getCreateTime())%> :: <%=note.getCreatedByUserName()%>:: <%=note.getCreatedByUserId()%> :: 
+            
+            <%if(note.getCreatedByUserId().equals(user.getApiConfig().getUser().getSfUserId()) ){%>
+                <input type="text" name="" value="<%=note.getMessage()%>" id="note<%=note.getUid()%>"/>
+                <a href="javascript:void(0)" onclick="rmNote('<%=note.getUid()%>')">delete</a> || 
+                <a href="javascript:void(0)" onclick="editNote('<%=note.getUid()%>')">edit</a>
+            <%}else{%>
+                <%=note.getMessage()%>
+            <%}//end else%>
+        </li>
     <%
   }//edn for
  %>
@@ -27,5 +37,5 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
  
  <br/><b>Create new Note:</b>
  <br/><input type="text" id="note" value=""/>
- <br/><input type="button" value="Save" onclick="editNote('<%=meeting.getUid()%>')"/>
+ <br/><input type="button" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/>
  </form>

@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.PlanView;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -1410,4 +1411,23 @@ public class MeetingUtil {
 
 		return meetingDAO.getMeetingE(user, troop, meetingEpath);
 	}
+	
+	
+	
+	public java.util.List<Note> getNotes(User user, Troop troop, String path)
+			throws IllegalAccessException, VtkException{
+		return meetingDAO.getNotes( user, troop, path);
+	}
+	public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{
+		meetingDAO.updateNote( user, troop, note);
+	}
+	
+	public Note getNote(User user, Troop troop, String noteId)
+			throws IllegalAccessException, VtkException{
+		return meetingDAO.getNote( user, troop, noteId);
+	}
+	public void rmNote(User user, Troop troop,String  noteId) throws IllegalAccessException, VtkException{
+		meetingDAO.rmNote(user, troop, noteId);
+	}
+	
 }// edn class
