@@ -35,7 +35,11 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
  %>
  </ul>
  
- <br/><b>Create new Note:</b>
- <br/><input type="text" id="note" value=""/>
- <br/><input type="button" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/>
+ <%if(notes.size()>25){%>
+     <br/><b>Create new Note:</b>
+     <br/><input type="text" id="note" value=""/>
+     <br/><input type="button" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/>
+ <%}else{%>
+    Max number of notes 25
+ <%}//edn else%>
  </form>
