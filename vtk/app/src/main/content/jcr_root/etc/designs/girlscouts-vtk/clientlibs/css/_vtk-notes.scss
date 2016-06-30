@@ -1,0 +1,32 @@
+
+
+
+.vtk-notes_item{
+	padding:0 0px 10px !important;
+	border: 0.5px solid lightgray !important;	
+	border-radius: 4px;
+
+	&_header{
+		min-height: 10px;
+		background-color: $green_light;
+		padding: 5px;
+		position: relative;
+		p{
+			margin:0;
+			padding: 0px 0px 0px 10px;
+			color: white;
+		}
+		&_actions{
+			float: right;
+			line-height: normal;
+			button{
+				padding: 1px 7px;
+				font-size: 10px;
+				background-color:#009447;
+			}
+		}
+	}
+
+}
+
+
