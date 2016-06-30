@@ -1332,12 +1332,16 @@ try{
         }else if( request.getParameter("getNotes") != null ){ 
          
                 String mid = request.getParameter("mid");
+            System.err.println("test:" + mid);    
                 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
                 for(int i=0;i<meetings.size();i++){
                     if( meetings.get(i).getUid().equals( mid ) ){
+                    System.err.println("test found meeting");
                         java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getPath());
+                  System.err.println("test: notes found? "+ notes.size() );      
                         ObjectMapper mapper = new ObjectMapper();
                         out.println(mapper.writeValueAsString(notes));
+                        
                         break;
                     }
                 }
