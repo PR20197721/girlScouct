@@ -1323,12 +1323,24 @@ try{
             
             String noteId= request.getParameter("nid");
             String msg = request.getParameter("msg");
-       System.err.println("from controller: "+ noteId);  
+        
                Note note= meetingUtil.getNote(user, troop, noteId);
                if( note!=null && msg!=null && !msg.equals("") ){      
                      note.setMessage( msg );
                      meetingUtil.updateNote(user, troop, note);
-                }//edn if     
+                }//edn if   
+        }else if( request.getParameter("getNotes") != null ){ 
+         
+                String mid = request.getParmater("mid");
+                java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+                for(int i=0;i<meetings.size();i++){
+                    if( meetings.get(i).getUid().equals( mid ) ){
+                        java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getPath());
+                        ObjectMapper mapper = new ObjectMapper();
+                        out.println(mapper.writeValueAsString(notes));
+                        break;
+                    }
+                }
 		} else {
 			//TODO throw ERROR CODE
 			
