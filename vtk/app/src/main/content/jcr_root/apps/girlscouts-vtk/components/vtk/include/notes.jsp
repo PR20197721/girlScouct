@@ -1,10 +1,4 @@
 <%
-//final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
-//MeetingE xx= gg.getMeetingE( user,  troop,  meeting.getPath());
-//java.util.List <org.girlscouts.vtk.models.Note> notes = xx.getNotes();
-
-//-java.util.List <org.girlscouts.vtk.models.Note> notes = meeting.getNotes();
-
 final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
 java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  troop, meeting.getUid());// meeting.getPath() );
 %>
@@ -14,9 +8,13 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
     getNotes('<%=meeting.getUid()%>');
 </script>
 
+if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)){
+    %>No permission to view, edit, remove Notes <%
+    return;
+}
 
  <form>
- <%=meeting.getPath()%>
+
  ***<%=notes==null  ? "No notes found." : "Found: "+notes.size() +" notes."%>
  
  <ul>
