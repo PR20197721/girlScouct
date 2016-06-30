@@ -1109,6 +1109,8 @@ function councilRpt(troopId, cid){
         });
   }
   
+
+  //Notes
   
   function addNote(mid){
 
@@ -1131,8 +1133,7 @@ function councilRpt(troopId, cid){
         });
   }
   
-  
-  
+   
   
    function rmNote(nid){
       console.log("NID: "+ nid);
@@ -1171,3 +1172,31 @@ function councilRpt(troopId, cid){
             
         });
   }
+
+
+
+  function getNotes(mid){
+        $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html" ,
+            cache: false,
+            type: 'GET',
+            dataType: 'json',
+
+            data: {
+                getNotes:"true",
+                mid:mid,
+                
+                a:Date.now()
+             }
+  
+        }).success(function(json){
+        	console.log('data',json)
+        }).done(function( html ) {
+           
+            
+        });
+  }
+
+
+getNotes('M1464880570906_0.690358950683451');
+
