@@ -1331,7 +1331,7 @@ try{
                 }//edn if   
         }else if( request.getParameter("getNotes") != null ){ 
          
-                String mid = request.getParamater("mid");
+                String mid = request.getParameter("mid");
                 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
                 for(int i=0;i<meetings.size();i++){
                     if( meetings.get(i).getUid().equals( mid ) ){
