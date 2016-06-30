@@ -1416,6 +1416,7 @@ public class MeetingUtil {
 	
 	public java.util.List<Note> getNotes(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException{
+System.err.println("test rrr: "+ path );		
 		return meetingDAO.getNotes( user, troop, path);
 	}
 	public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{

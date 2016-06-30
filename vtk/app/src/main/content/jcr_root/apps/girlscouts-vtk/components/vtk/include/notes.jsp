@@ -9,6 +9,12 @@ final org.girlscouts.vtk.dao.MeetingDAO gg = sling.getService(org.girlscouts.vtk
 java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  troop, meeting.getUid());// meeting.getPath() );
 %>
 
+
+<script>
+    getNotes('<%=meeting.getUid()%>');
+</script>
+
+
  <form>
  <%=meeting.getPath()%>
  ***<%=notes==null  ? "No notes found." : "Found: "+notes.size() +" notes."%>

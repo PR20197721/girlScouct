@@ -2782,12 +2782,12 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 
 public java.util.List<Note> getNotes(User user, Troop troop, String path)
 		throws IllegalAccessException, VtkException {
-	
+System.err.println("x testing getNotes in MeetingDAOImpl..." + path);	
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
 		throw new IllegalAccessException();
-	
+	System.err.println("test 21 ");
 	java.util.List<Note> notes= null;
 	Session session = null;
 	try {
@@ -2799,17 +2799,25 @@ public java.util.List<Note> getNotes(User user, Troop troop, String path)
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
+		
+		System.err.println("test 22 ");
+		
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
 //System.err.println("TEST QR: " + path);
 		//filter.addContains("jcr:path", path);
 filter.addEqualTo("refId", path );
+
+System.err.println("test 24 ");
 		Query query = queryManager.createQuery(filter);
+		
+		System.err.println("test 25 ");
 		notes = (List<Note>) ocm.getObjects(query);
-
-		System.err.println( "TEST: "+ notes==null);
+		System.err.println("test 26 ");
+		System.err.println( "TEST: "+ (notes==null));
+		System.err.println("test 27 ");
 		System.err.println( "TEST: "+ notes.size() );
-
+		System.err.println("test 28 ");
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2820,6 +2828,8 @@ filter.addEqualTo("refId", path );
 			ex.printStackTrace();
 		}
 	}
+	
+	System.err.println("test 30 ");
 	return notes;
 }
 

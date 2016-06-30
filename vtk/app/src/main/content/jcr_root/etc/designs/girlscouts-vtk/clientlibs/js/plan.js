@@ -1198,5 +1198,5 @@ function councilRpt(troopId, cid){
   }
 
 
-getNotes('M1464880570906_0.690358950683451');
+
 
