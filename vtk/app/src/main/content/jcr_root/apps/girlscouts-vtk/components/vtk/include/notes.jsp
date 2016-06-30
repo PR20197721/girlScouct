@@ -30,8 +30,11 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
             
             <%if(note.getCreatedByUserId().equals(user.getApiConfig().getUser().getSfUserId()) ){%>
                 <input type="text" name="" value="<%=note.getMessage()%>" id="note<%=note.getUid()%>"/>
-                <a href="javascript:void(0)" onclick="rmNote('<%=note.getUid()%>')">delete</a> || 
-                <a href="javascript:void(0)" onclick="editNote('<%=note.getUid()%>')">edit</a>
+                
+                <%if(!user.getApiConfig().isDemoUser(){%>
+                    <a href="javascript:void(0)" onclick="rmNote('<%=note.getUid()%>')">delete</a> || 
+                    <a href="javascript:void(0)" onclick="editNote('<%=note.getUid()%>')">edit</a>
+                <%}%>
             <%}else{%>
                 <%=note.getMessage()%>
             <%}//end else%>
@@ -41,7 +44,7 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
  %>
  </ul>
  
- <%if(notes.size()<=25){%>
+ <%if( !user.getApiConfig().isDemoUser() && notes.size()<=25){%>
      <br/><b>Create new Note:</b>
      <br/><input type="text" id="note" value=""/>
      <br/><input type="button" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/>
