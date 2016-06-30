@@ -105,7 +105,6 @@ public class ReplicationReceiverImpl
 	  log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
     }
     this.durboImporter.setTempFileThreshold(this.tmpfileThreshold);
-    */
     /* Girl Scouts Customization END */
   }
 
