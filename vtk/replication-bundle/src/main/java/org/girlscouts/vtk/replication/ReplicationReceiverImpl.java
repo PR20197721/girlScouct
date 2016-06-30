@@ -97,13 +97,15 @@ public class ReplicationReceiverImpl
   {
     /* Girl Scouts Customization BEGIN */
     //update(props);
-    DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), false, -1);
+   /*
+	DurboImportConfiguration conf = new DurboImportConfiguration(null, null, new ArrayList<String>(), false, -1);
     this.durboImporter = new DurboImporter(conf);
     this.tmpfileThreshold = 100000L;
     if (log.isInfoEnabled()) {
 	  log.info("Receiver started. threshold set to {}", Long.valueOf(this.tmpfileThreshold));
     }
     this.durboImporter.setTempFileThreshold(this.tmpfileThreshold);
+    */
     /* Girl Scouts Customization END */
   }
 
