@@ -7,11 +7,13 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
 <script>
     getNotes('<%=meeting.getUid()%>');
 </script>
-
-if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID)){
+<%
+if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){
     %>No permission to view, edit, remove Notes <%
     return;
 }
+%>
+
 
  <form>
 
