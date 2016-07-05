@@ -2783,10 +2783,11 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 public java.util.List<Note> getNotes(User user, Troop troop, String path)
 		throws IllegalAccessException, VtkException {
 System.err.println("x testing getNotes in MeetingDAOImpl..." + path);	
-	if (user != null
-			&& !userUtil.hasPermission(troop,
-					Permission.PERMISSION_VIEW_MEETING_ID))
-		throw new IllegalAccessException();
+
+if (user != null && !userUtil.hasPermission(troop,
+		Permission.PERMISSION_CREATE_MEETING_ID))
+throw new IllegalAccessException();
+
 	System.err.println("test 21 ");
 	java.util.List<Note> notes= null;
 	Session session = null;
@@ -2800,24 +2801,22 @@ System.err.println("x testing getNotes in MeetingDAOImpl..." + path);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
 		
-		System.err.println("test 22 ");
+		
 		
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
 //System.err.println("TEST QR: " + path);
 		//filter.addContains("jcr:path", path);
+		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
 filter.addEqualTo("refId", path );
 
-System.err.println("test 24 ");
+
 		Query query = queryManager.createQuery(filter);
 		
-		System.err.println("test 25 ");
+		
 		notes = (List<Note>) ocm.getObjects(query);
-		System.err.println("test 26 ");
-		System.err.println( "TEST: "+ (notes==null));
-		System.err.println("test 27 ");
-		System.err.println( "TEST: "+ notes.size() );
-		System.err.println("test 28 ");
+		
+		
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2892,7 +2891,10 @@ public java.util.List<Note> getNotes(User user, Troop troop, String meetingId) t
 
 
 public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException {
-
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
 	
 	Session session = null;
 	try {
@@ -2928,6 +2930,10 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 
 public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessException {
 
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
 	
 	Session session = null;
 	try {
@@ -2939,7 +2945,7 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
-System.err.println("from rmNote: "+ note.getPath() );		
+		
 		if (true){//session.itemExists(note.getPath())){
 			
 			ocm.remove(note);
@@ -2963,9 +2969,12 @@ System.err.println("from rmNote: "+ note.getPath() );
 
 public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
 
-System.err.println("from MeetingDAO : "+ noteId);	
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
 	Note note= getNote(user, troop, noteId);
-System.err.println("from rmNote: "+ (note==null) );	
 	if( note!=null )
 		rmNote(user, troop, note );
 }
@@ -2978,7 +2987,7 @@ public Note getNote(User user, Troop troop, String nid)
 	
 	if (user != null
 			&& !userUtil.hasPermission(troop,
-					Permission.PERMISSION_VIEW_MEETING_ID))
+					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
 	
 	Note note= null;
