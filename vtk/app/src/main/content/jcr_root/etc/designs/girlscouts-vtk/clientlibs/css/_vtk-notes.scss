@@ -2,9 +2,10 @@
 
 
 .vtk-notes_item{
-	padding:0 0px 10px !important;
+	padding:0 0px 0px !important;
 	border: 0.5px solid lightgray !important;	
 	border-radius: 4px;
+	margin-bottom: 10px;
 
 	&_header{
 		min-height: 10px;
@@ -15,18 +16,42 @@
 			margin:0;
 			padding: 0px 0px 0px 10px;
 			color: white;
+			line-height: normal;
 		}
 		&_actions{
 			float: right;
-			line-height: normal;
+			line-height: normal !important;
 			button{
 				padding: 1px 7px;
-				font-size: 10px;
+				font-size: 12px;
 				background-color:#009447;
+				i{
+					font-size: 15px !important;
+				}
+				margin-right: 5px;
 			}
 		}
 	}
 
+	&_content{
+		padding: 10px;
+		margin:0;
+		position: relative;
+		
+
+
+
+
+	}
 }
 
 
+.save-note{
+	position: absolute;
+	bottom: 5px;
+	right: 5px;
+	padding: 5px 10px;
+	border-radius: 10px;
+	font-size: 10px;
+	display: none;
+}
