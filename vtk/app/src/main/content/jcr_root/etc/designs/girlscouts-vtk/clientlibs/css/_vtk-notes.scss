@@ -1,57 +1,49 @@
-
-
-
-.vtk-notes_item{
-	padding:0 0px 0px !important;
-	border: 0.5px solid lightgray !important;	
-	border-radius: 4px;
-	margin-bottom: 10px;
-
-	&_header{
-		min-height: 10px;
-		background-color: $green_light;
-		padding: 5px;
-		position: relative;
-		p{
-			margin:0;
-			padding: 0px 0px 0px 10px;
-			color: white;
-			line-height: normal;
-		}
-		&_actions{
-			float: right;
-			line-height: normal !important;
-			button{
-				padding: 1px 7px;
-				font-size: 12px;
-				background-color:#009447;
-				i{
-					font-size: 15px !important;
-				}
-				margin-right: 5px;
-			}
-		}
-	}
-
-	&_content{
-		padding: 10px;
-		margin:0;
-		position: relative;
-		
-
-
-
-
-	}
+.vtk-notes_item {
+    padding: 0 0px 0px !important;
+    border: 0.5px solid lightgray !important;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
+.vtk-notes_item_header {
+    min-height: 10px;
+    background-color: $green_light;
+    padding: 5px;
+    position: relative;
+    p {
+        margin: 0;
+        padding: 0px 0px 0px 10px;
+        color: white;
+        line-height: normal;
+    }
+}
 
-.save-note{
-	position: absolute;
-	bottom: 5px;
-	right: 5px;
-	padding: 5px 10px;
-	border-radius: 10px;
-	font-size: 10px;
-	display: none;
+.vtk-notes_item_actions {
+    float: right;
+    line-height: normal !important;
+    button {
+        padding: 1px 7px;
+        font-size: 12px;
+        background-color: #009447;
+        i {
+            font-size: 15px !important;
+        }
+        margin-right: 5px;
+    }
+}
+
+.vtk-notes_item_content {
+    padding: 10px;
+    margin: 0;
+    position: relative;
+}
+
+.save-note {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    display: none;
 }
