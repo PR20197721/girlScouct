@@ -2782,13 +2782,12 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 
 public java.util.List<Note> getNotes(User user, Troop troop, String path)
 		throws IllegalAccessException, VtkException {
-System.err.println("x testing getNotes in MeetingDAOImpl..." + path);	
 
 if (user != null && !userUtil.hasPermission(troop,
 		Permission.PERMISSION_CREATE_MEETING_ID))
 throw new IllegalAccessException();
 
-	System.err.println("test 21 ");
+	
 	java.util.List<Note> notes= null;
 	Session session = null;
 	try {
@@ -2800,21 +2799,20 @@ throw new IllegalAccessException();
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
-		
-		
-		
+
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
-//System.err.println("TEST QR: " + path);
-		//filter.addContains("jcr:path", path);
 		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
-filter.addEqualTo("refId", path );
-
-
+		filter.addEqualTo("refId", path );
 		Query query = queryManager.createQuery(filter);
-		
-		
 		notes = (List<Note>) ocm.getObjects(query);
+			
+		
+		//sort
+		java.util.Comparator<Note> comp = new org.apache.commons.beanutils.BeanComparator(
+				"createTime");
+		Collections.sort(notes, comp);
+		Collections.reverse(notes);
 		
 		
 	} catch (Exception e) {
@@ -2828,67 +2826,9 @@ filter.addEqualTo("refId", path );
 		}
 	}
 	
-	System.err.println("test 30 ");
+
 	return notes;
 }
-
-
-/*
-public java.util.List<Note> getNotes(User user, Troop troop, String meetingId) throws IllegalAccessException {
-
-	if (user != null
-			&& !userUtil.hasPermission(troop,
-					Permission.PERMISSION_VIEW_MEETING_ID))
-		throw new IllegalAccessException();
-
-	MeetingE meeting = null;
-	for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
-		if( troop.getYearPlan().getMeetingEvents().get(i).getUid().equals( meetingId ) ){
-			meeting = troop.getYearPlan().getMeetingEvents().get(i);
-			break;
-		}
-	}
-	
-	
-	java.util.List<Note> notes = null;
-	Session session = null;
-	try {
-		session = sessionFactory.getSession();
-		List<Class> classes = new ArrayList<Class>();
-		classes.add(MeetingE.class);
-		classes.add(Note.class);
-		Mapper mapper = new AnnotationMapperImpl(classes);
-		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-				mapper);
-		QueryManager queryManager = ocm.getQueryManager();
-		Filter filter = queryManager.createFilter(Note.class);
-		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
-		
-	//System.err.println("test: getNotes:: " + meeting.getPath() );	
-		//-good filter.setScope( meeting.getPath() +"//");
-		
-	//filter.setScope("/vtk2015/\"999\"/troops/X701G0000000uQzUIAU/yearPlan/meetingEvents/M1466455260744_0.8256174981425711//");
-		
-		Query query = queryManager.createQuery(filter);
-		notes = (List<Note>) ocm.getObjects(query);
-		Comparator<Note> comp = new BeanComparator("createTime");
-		if (notes != null)
-			Collections.sort(notes, comp);
-	} catch (Exception e) {
-		e.printStackTrace();
-	} finally {
-		try {
-			if (session != null)
-				sessionFactory.closeSession(session);
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
-	}
-	return notes;
-}
-*/
-
-
 
 public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException {
 	if (user != null
@@ -3003,9 +2943,8 @@ public Note getNote(User user, Troop troop, String nid)
 				mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
-//System.err.println("TEST QR: " + path);
-		//filter.addContains("jcr:path", path);
-filter.addEqualTo("uid", nid );
+		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
+		filter.addEqualTo("uid", nid );
 		Query query = queryManager.createQuery(filter);
 		note = (Note) ocm.getObject(query);
 
