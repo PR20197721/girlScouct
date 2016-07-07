@@ -1141,22 +1141,24 @@ function resetYear() {
 }
 
 
-//Notes
+//Notes ===
+//
+//
 
 function ajaxConnection(ajaxOptions) {
     return $.ajax(ajaxOptions);
 }
 
 function addNote(mid) {
-    var msg = document.getElementById("note").value;
+    var msg = $('.input-content').html();
 
     var data = {
-            addNote: "true",
-            message: msg,
-            mid: mid,
-            a: Date.now()
-        }
-    
+        addNote: "true",
+        message: msg,
+        mid: mid,
+        a: Date.now()
+    }
+
 
     ajaxConnection({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
@@ -1165,18 +1167,16 @@ function addNote(mid) {
         data: data
     })
 
-   	.success(function(d){
-    	getNotes(data.mid);
+    .success(function(d) {
+        getNotes(data.mid);
+        $('.input-content').html('');
+        $('.add-note-detail').slideUp();
     })
 
     .done(function(html) {
-    
+
     });
-
-
 }
-
-
 
 function rmNote(nid) {
 
@@ -1227,6 +1227,18 @@ var utility = {
                 domElement.appendChild(document.createTextNode(detail.text));
             }
 
+            if (detail.style) {
+                var style = "";
+                for (var sty in detail.style) {
+                    if (sty && detail.style[sty]) {
+                        style += sty + ':' + detail.style[sty] + ';'
+                    }
+
+                }
+
+                domElement.setAttribute('style', style);
+            }
+
 
 
             if (detail.events) {
@@ -1275,9 +1287,9 @@ var utility = {
 }
 
 var view = {
+	state:'',
     deleteNote: function(e) {
         e.preventDefault();
-        console.log('delete', e, e.target.parentNode.parentNode.parentNode.parentNode);
 
         utility.alertButton("Are you sure you want to delete this note", function() {
             rmNote($(e.target).parents('li').data('uid'))
@@ -1286,44 +1298,45 @@ var view = {
                 })
                 .success(function() {
                     $(e.target).parents('li').remove();
+                    checkQuantityNotes($('.vtk-notes_item').length)
+
                 });
         }, function() {
 
         })
     },
     editNotelocal: function(e) {
-
         e.preventDefault();
 
         var nid = $(e.target).parents('li').data('uid');
         var element = $(e.target).parents('li');
-        var originalMessage = element.children('.vtk-notes_item_content').html();
-        var saveButton = $(e.target).parents('li').children('.save-note');
+        var originalMessage = element.children('.vtk-note_content').html();
+        this.state = originalMessage;
+        var saveButton = $('li[data-uid="'+nid+'"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
 
         saveButton.show();
 
-        element.children('.vtk-notes_item_content')
+        element.children('.vtk-note_content')
             .attr({
                 'contenteditable': true,
                 'style': 'background-color:lightgray'
             })
             .focus();
 
-
-        element.children('.vtk-notes_item_content').on('focusout', function(e) {
+        element.children('.vtk-note_content').on('focusout', function(e) {
 
             if (!$(e.relatedTarget).hasClass('save-note')) {
-                element.children('.vtk-notes_item_content')
+                element.children('.vtk-note_content')
                     .attr({
                         'contenteditable': false,
                         'style': 'background-color:white'
                     })
 
                 utility.alertButton('Changes in Notes will be Erase', function() {
-                    element.children('.vtk-notes_item_content').off('focusout').html(originalMessage);
+                    element.children('.vtk-note_content').off('focusout').html(originalMessage);
                     saveButton.hide();
                 }, function() {
-                    element.children('.vtk-notes_item_content')
+                    element.children('.vtk-note_content')
                         .attr({
                             'contenteditable': true,
                             'style': 'background-color:lightgray'
@@ -1333,28 +1346,39 @@ var view = {
                 });
             }
         });
-
-        saveButton.click(function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            var message = $(e.target).siblings('p').html();
-            editNote(nid, message).fail(function(err) {
-                console.log(err);
-            }).success(function() {
-                alert("Your Note Was Edited");
-                element.children('.vtk-notes_item_content')
-                    .attr({
-                        'contenteditable': false,
-                        'style': 'background-color:white'
-                    })
-                saveButton.hide();
-            })
-        })
     },
-    note: function(note) {
+    updateNote: function(e) {
+    	e.preventDefault();
+        e.stopPropagation();
+        var nid = $(e.target).parents('li').data('uid');
+        var message = $(e.target).parents('li').children('.vtk-note_content').html();
+
+        var saveButton = $('li[data-uid="'+nid+'"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
+
+        if(this.state !== message){
+        	editNote(nid, message)
+	        .fail(function(err) {
+	                console.log(err);
+	        })
+	        .success(function() {
+	                alert("Your Note Was Edited");
+	                $(e.target).parents('li').children('.vtk-note_content')
+	                    .attr({
+	                        'contenteditable': false,
+	                        'style': 'background-color:white'
+	                    })
+	                saveButton.hide();
+	        })
+        }else{
+        	alert('Need to make a change in order to save')
+        }
+
+    },
+    newNote: function(note) {
         var date = new Date(note.createTime);
         var dateArray = date.toString().split(' ');
-        var dateString = dateArray[1] + ' ' + dateArray[2] + ', ' + dateArray[3];
+        var dateString = dateArray[1] + '/' + dateArray[2] + '/' + dateArray[3];
+        var timeString = dateArray[4]+" "+dateArray[6];
 
 
         var template = {
@@ -1362,89 +1386,70 @@ var view = {
                 data: {
                     uid: note.uid
                 },
-                class: 'vtk-notes_item columns small-24',
+                class: 'vtk-note_item',
                 child: {
                     div: {
-                        class: 'vtk-notes_item_header',
+                        class: "vtk-note_content small-24 medium-18 columns",
+                        text: note.message
+                    },
+                    'div-0': {
+                        class: "vtk-note_detail small-24 medium-6  columns",
+                        // text: note.createdByUserName +'<br>'+ dateString +'<br>',
                         child: {
-                            p: {
-                                text: note.createdByUserName + ' - ' + dateString,
+                            'p': {
+                                class: '',
                                 child: {
-                                    span: {
-                                        class: 'vtk-notes_item_header_actions',
-                                        child: {
-                                            'button': {
-                                                child: {
-                                                    i: {
-                                                        class: "icon-pencil"
-                                                    }
-                                                },
-                                                text: 'Edit ',
-
-                                                events: {
-                                                    click: this.editNotelocal
-                                                }
-
-                                            },
-
-                                            'button-1': {
-                                                child: {
-                                                    i: {
-                                                        class: "icon-crosshair"
-                                                    }
-                                                },
-
-
-                                                data: {
-                                                    uid: note.uid
-                                                        // path: note.path,
-                                                        // refId: note.refId
-                                                },
-
-
-
-                                                text: 'Delete ',
-
-                                                events: {
-                                                    click: this.deleteNote
-                                                }
-                                            }
-                                        }
+                                    strong: {
+                                        text: note.createdByUserName
                                     }
                                 }
 
+                            },
+                            'p-1': {
+                                class: '',
+                                text: dateString
+                            },
+                            'p-2': {
+                                class: '',
+                                text: timeString
+                            },
+                            'span': {
+                                class: 'vtk-note_actions',
+                                child: this.actions(note)
                             }
                         }
-                    },
-                    p: {
-                        text: note.message,
-                        class: 'vtk-notes_item_content',
-                        // child: {
-                        //     button: {
-                        //         class: 'save-note',
-                        //         text: 'Save'
-                        //     }
-                        // }
-                    },
-                    button: {
-                        class: 'save-note',
-                        text: 'Save'
                     }
                 }
             }
         }
 
+
         return template;
     }
 }
 
-function interateNotes(notes) {
 
-    var node = $('.vtk-notes_list');
-    node.children('.row').html('')
+function checkQuantityNotes(number) {
+    if (number <= 25) {
+        $('.add-notes-area').show();
+        $('.you-reach-25').hide();
+    } else {
+        $('.add-notes-area').hide();
+        $('.you-reach-25').show();
+    }
+}
+
+function interateNotes(notes) {
+    var node = $('.vtk-notes_list_container');
+
+    node.html('');
+
     notes.forEach(function(note, idx) {
-        node.children('.row').append(utility.compileTemplate(view.note(note)))
+        node.append(utility.compileTemplate(view.newNote(note)))
     });
+
+
+    checkQuantityNotes(notes.length);
 }
 
 function getNotes(mid) {
@@ -1474,3 +1479,10 @@ function getNotes(mid) {
 
     });
 }
+
+$(function() {
+    $('.add-note').on('click', function(e) {
+        console.log(e)
+        $('.add-note-detail').stop().slideToggle();
+    })
+})
