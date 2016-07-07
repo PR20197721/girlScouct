@@ -2836,6 +2836,9 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
 	
+	if ( !user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  ))
+		throw new IllegalAccessException();
+	
 	Session session = null;
 	try {
 		session = sessionFactory.getSession();
@@ -2847,6 +2850,7 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
 		
+			
 		if (!session.itemExists(note.getPath()))
 			ocm.insert(note); // y ??
 		else
@@ -2886,11 +2890,12 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
 		
-		if (true){//session.itemExists(note.getPath())){
+		if ( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  )){//session.itemExists(note.getPath())){
 			
 			ocm.remove(note);
 			ocm.save();
-		}
+		}else
+			throw new IllegalAccessException();
 
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -2914,9 +2919,15 @@ public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessE
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
 	
+	
 	Note note= getNote(user, troop, noteId);
-	if( note!=null )
-		rmNote(user, troop, note );
+	if( note!=null ){
+		//check if note belongs to logged-in user
+		if( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId() )  )
+			rmNote(user, troop, note );
+		else
+			throw new IllegalAccessException();
+	}
 }
 
 
