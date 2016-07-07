@@ -69,8 +69,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
 	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
-//	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
-	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
+//	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
 
 	@Reference
 	private SessionFactory sessionFactory;
