@@ -1288,6 +1288,30 @@ var utility = {
 
 var view = {
 	state:'',
+    // noteFocus: function(e){
+    //     console.log(e,this);
+    //     $(this).animate({
+    //         borderColor:'black',
+    //         borderSize:'3px'
+    //     })
+    // },
+    noteEditable:function (element,boolean){
+
+        if(boolean){
+             element.children('.vtk-note_content')
+                .attr({
+                    'contenteditable': true,
+                    'style': 'background-color:lightgray'
+                })
+                .focus();  
+        }else{
+             element.children('.vtk-note_content')
+                .attr({
+                    'contenteditable': false,
+                    'style': 'background-color:white'
+                })
+        }
+    },
     deleteNote: function(e) {
         e.preventDefault();
 
@@ -1311,37 +1335,23 @@ var view = {
         var nid = $(e.target).parents('li').data('uid');
         var element = $(e.target).parents('li');
         var originalMessage = element.children('.vtk-note_content').html();
-        this.state = originalMessage;
+        view.state = originalMessage;
         var saveButton = $('li[data-uid="'+nid+'"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
 
         saveButton.show();
 
-        element.children('.vtk-note_content')
-            .attr({
-                'contenteditable': true,
-                'style': 'background-color:lightgray'
-            })
-            .focus();
+        view.noteEditable(element,true);
 
         element.children('.vtk-note_content').on('focusout', function(e) {
 
             if (!$(e.relatedTarget).hasClass('save-note')) {
-                element.children('.vtk-note_content')
-                    .attr({
-                        'contenteditable': false,
-                        'style': 'background-color:white'
-                    })
+                view.noteEditable(element,false);
 
                 utility.alertButton('Changes in Notes will be Erase', function() {
                     element.children('.vtk-note_content').off('focusout').html(originalMessage);
                     saveButton.hide();
                 }, function() {
-                    element.children('.vtk-note_content')
-                        .attr({
-                            'contenteditable': true,
-                            'style': 'background-color:lightgray'
-                        })
-                        .focus();
+                    view.noteEditable(element, true);
                     saveButton.show();
                 });
             }
@@ -1355,7 +1365,7 @@ var view = {
 
         var saveButton = $('li[data-uid="'+nid+'"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
 
-        if(this.state !== message){
+        if(view.state !== message){
         	editNote(nid, message)
 	        .fail(function(err) {
 	                console.log(err);
@@ -1372,7 +1382,6 @@ var view = {
         }else{
         	alert('Need to make a change in order to save')
         }
-
     },
     newNote: function(note) {
         var date = new Date(note.createTime);
@@ -1386,6 +1395,9 @@ var view = {
                 data: {
                     uid: note.uid
                 },
+                // events:{
+                //     click: this.noteFocus
+                // },
                 class: 'vtk-note_item',
                 child: {
                     div: {
@@ -1428,6 +1440,19 @@ var view = {
     }
 }
 
+
+// var counter = {
+//     teplate:function(counter){
+//         return {
+//             div:{
+//                 text:counter
+//             }
+//         }
+//     },
+//     counterChanges: function(){
+
+//     }
+// }
 
 function checkQuantityNotes(number) {
     if (number <= 25) {
@@ -1480,9 +1505,17 @@ function getNotes(mid) {
     });
 }
 
+
+
+
+
+
 $(function() {
     $('.add-note').on('click', function(e) {
-        console.log(e)
         $('.add-note-detail').stop().slideToggle();
-    })
+    });
+
+
+
+
 })

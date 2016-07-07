@@ -87,7 +87,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
         <script>
 
-          window.view['actions'] = function(note){
+         window.view['actions'] = function(note){
             return {
                   'button': {
                        child: {
@@ -96,6 +96,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
                            }
                        },
                        text: 'Edit ',
+                       class:'vtk-note-edit-button',
 
                        events: {
                            click: this.editNotelocal
@@ -108,6 +109,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
                                class: "icon-crosshair"
                            }
                        },
+
 
 
                        data: {
@@ -167,6 +169,8 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
         //   };
         // };
         </script>
+
+
 
   </div>
 </div>

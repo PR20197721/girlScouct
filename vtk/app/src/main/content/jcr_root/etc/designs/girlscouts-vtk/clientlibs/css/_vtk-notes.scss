@@ -14,45 +14,45 @@
 
 }
 
-.vtk-notes_item {
-    padding: 0 0px 0px !important;
-    border: 0.5px solid lightgray !important;
-    border-radius: 4px;
-    margin-bottom: 10px;
-}
+// .vtk-notes_item {
+//     padding: 0 0px 0px !important;
+//     border: 0.5px solid lightgray !important;
+//     border-radius: 4px;
+//     margin-bottom: 10px;
+// }
 
-.vtk-notes_item_header {
-    min-height: 10px;
-    background-color: $green_light;
-    padding: 5px;
-    position: relative;
-    p {
-        margin: 0;
-        padding: 0px 0px 0px 10px;
-        color: white;
-        line-height: normal;
-    }
-}
+// .vtk-notes_item_header {
+//     min-height: 10px;
+//     background-color: $green_light;
+//     padding: 5px;
+//     position: relative;
+//     p {
+//         margin: 0;
+//         padding: 0px 0px 0px 10px;
+//         color: white;
+//         line-height: normal;
+//     }
+// }
 
-.vtk-notes_item_header_actions {
-    float: right;
-    line-height: normal !important;
-    button {
-        padding: 1px 7px;
-        font-size: 12px;
-        background-color: #009447;
-        i {
-            font-size: 15px !important;
-        }
-        margin-right: 5px;
-    }
-}
+// .vtk-notes_item_header_actions {
+//     float: right;
+//     line-height: normal !important;
+//     button {
+//         padding: 1px 7px;
+//         font-size: 12px;
+//         background-color: #009447;
+//         i {
+//             font-size: 15px !important;
+//         }
+//         margin-right: 5px;
+//     }
+// }
 
-.vtk-notes_item_content {
-    padding: 10px;
-    margin: 0;
-    position: relative;
-}
+// .vtk-notes_item_content {
+//     padding: 10px;
+//     margin: 0;
+//     position: relative;
+// }
 
 .add-note{
 	font-weight: 700;
@@ -118,9 +118,13 @@
 	}
 }
 
+
 .vtk-notes_list_container{
 	font-size: 14px;
 	margin: 0px;
+	padding:10px 5px !important;
+	max-height: 500px;
+	overflow-y:auto; 
 
 
 	.vtk-note_item{
@@ -130,24 +134,26 @@
 		display:table;
 		width:100%;
 		position: relative;
-		// display: flex;
 
 
-		 // justify-content: space-between;
-		 align-items: stretch;
+		&.shadow{
+			box-shadow: 0 0 8px 1px #666;
+		}
 
 
 		.vtk-note_content{
-			min-height:102px;
-
+			min-height:129px;
 			min-width: 300px;
+			font-size: 14px;
+			line-height: 16px;
+			padding:10px !important;
 
 		}
 
 
 		.vtk-note_detail{
 			padding: 10px 0 0 10px !important;
-			min-height:80px;
+			min-height:130px;
 			 background-color:#e5f6ee;
 
 			 min-width: 135px;
@@ -175,3 +181,5 @@
 		}
 	}
 }
+
+
