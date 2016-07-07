@@ -87,8 +87,7 @@ if (null==searchIn){
     searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-q = q.replaceAll("[^a-zA-Z0-9]","");
-final String query = java.net.URLEncoder.encode(q != null ? q : "","UTF-8");
+final String query = java.net.URLEncoder.encode(q != null ? q.replaceAll("[^a-zA-Z0-9]"," ") : "","UTF-8");
 final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 
