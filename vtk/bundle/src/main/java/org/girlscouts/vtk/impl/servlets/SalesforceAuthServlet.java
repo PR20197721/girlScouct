@@ -248,10 +248,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 					.getPermissionTokens());
 
 			// load config
+			/*
 			vtkUser.setCurrentYear(getCurrentYear(
 					request.getResourceResolver(), vtkUser.getApiConfig()
 							.getTroops().get(0).getCouncilCode()));
-		
+		*/
+			vtkUser.setCurrentYear( VtkUtil.getCurrentGSYear() +"");
+			
+			
 		// Set cookie troopDataPath 
 		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
 		Cookie cookie = new Cookie("troopDataToken", troopDataPath);
@@ -345,7 +349,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return isSucc;
 	}
-
+/* use VTKUTIL.getCurrentYear
 	private String getCurrentYear(ResourceResolver resourceResolver,
 			int councilId) {
 		String elem = null;
@@ -376,7 +380,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return elem;
 	}
-
+*/
 	public void setCouncilInClient(
 			org.apache.sling.api.SlingHttpServletResponse response,
 			String councilCode) {
