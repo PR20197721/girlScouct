@@ -16,24 +16,24 @@
 <div id="errInfo"></div>
 
 <%
-    String sectionClassDefinition="";
     String activeTab = "finances";
     boolean showVtkNav = true;
     int qtr = 1;
     boolean isQuarterly = true;
+    String sectionClassDefinition="";
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());    
 %>
 <%@include file="include/bodyTop.jsp" %>
 <%
 if( troop!=null && troop.getYearPlan()==null ){
-    %>
-    <p class="small-20 small-centered column">
-       Your Finance Tab cannot be accessed until you have created your Troop Year Plan. Please visit this section once that has been completed.
-    </p>
-    <%@include file="include/bodyBottom.jsp" %>
-    <script>loadNav('finances');</script>
-    <% 
-    return;
+	%>
+	<p class="small-20 small-centered column">
+	   Your Finance Tab cannot be accessed until you have created your Troop Year Plan. Please visit this section once that has been completed.
+	</p>
+	<%@include file="include/bodyBottom.jsp" %>
+	<script>loadNav('finances');</script>
+	<% 
+	return;
 }
 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		
@@ -135,7 +135,7 @@ if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){
 		} else{
 			%> 
 			<div class="columns large-20 large-centered">
-				<p>Oh no! The Finance tab haven't been activated yet. We're working on it--please check back soon.
+				<p>Oh no! The Finances tab hasn't been activated yet. We're working on it--please check back soon.
 				 </p>
 			</div>
 			<% 

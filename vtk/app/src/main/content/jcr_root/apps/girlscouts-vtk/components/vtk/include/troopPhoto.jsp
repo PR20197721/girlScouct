@@ -11,6 +11,7 @@
 
 	String troopId= troop.getTroop().getTroopId();
 	if( troopId ==null || troopId.trim().equals("") ){
+	  
 		%>
 			<span class="error">Warning: no troop is specified.</span>
 		<% 

@@ -1,0 +1,6 @@
+/0
+  {
+  /hostname "{{authorRenderer.ip}}"
+  /port "4502"
+  /timeout "10000"
+  }

@@ -7,9 +7,10 @@ import org.girlscouts.vtk.salesforce.Troop;
 
 public class ApiConfig implements Serializable {
 
+	
 	/**
 	 * 
-	 */
+	*/
 	private static final long serialVersionUID = 7310414085726791761L;
 	private String accessToken, instanceUrl, tokenType, id, refreshToken,
 			userId, webServicesUrl; /* userId should be moved out.User obj exists* */
@@ -25,8 +26,40 @@ public class ApiConfig implements Serializable {
 	
 	//error msg
 	java.util.List<VtkError> errors;
+	private boolean isFail, accessTokenValid;
 	
 	
+	private boolean demoUser, useAsDemo;
+	private String demoUserName;
+	
+	
+	
+	
+	public String getDemoUserName() {
+		return demoUserName;
+	}
+
+	public void setDemoUserName(String demoUserName) {
+		this.demoUserName = demoUserName;
+	}
+
+	public boolean isUseAsDemo() {
+		return useAsDemo;
+	}
+
+	public void setUseAsDemo(boolean useAsDemo) {
+		this.useAsDemo = useAsDemo;
+	}
+
+	public boolean isDemoUser() {
+		return demoUser;
+	}
+
+	public void setDemoUser(boolean demoUser) {
+		this.demoUser = demoUser;
+
+	}
+
 	public String getVtkApiTroopLeadersUri() {
 		return vtkApiTroopLeadersUri;
 	}
@@ -100,6 +133,7 @@ public class ApiConfig implements Serializable {
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
 		this.lastTimeTokenRefreshed = new java.util.Date().getTime();
+		
 	}
 
 	public String getInstanceUrl() {
@@ -180,6 +214,22 @@ public class ApiConfig implements Serializable {
 
 	public void setErrors(java.util.List<VtkError> errors) {
 		this.errors = errors;
+	}
+
+	public boolean isAccessTokenValid() {
+		return accessTokenValid;
+	}
+
+	public void setAccessTokenValid(boolean accessTokenValid) {
+		this.accessTokenValid = accessTokenValid;
+	}
+
+	public boolean isFail() {
+		return isFail;
+	}
+
+	public void setFail(boolean isFail) {
+		this.isFail = isFail;
 	}
 	
 

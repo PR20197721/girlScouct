@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-10-02T16:32:54.207-04:00"
+        cq:lastModifiedBy="smendez"
+        cq:lastReplicated="{Date}2014-08-28T10:47:18.989-04:00"
+        cq:lastReplicatedBy="mage"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Search | Girl Scouts of Gateway Council"
+        jcr:uuid="f5a64050-860a-4507-b4ae-6022af8eb84f"
+        sling:resourceType="girlscouts/components/three-column-page"
+        seoTitle="Search | Girl Scouts of Gateway Council">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <search
+                        jcr:lastModified="{Date}2014-10-02T16:32:54.205-04:00"
+                        jcr:lastModifiedBy="smendez"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/search"
+                        docusrchpath="/content/dam/gateway/forms-and-documents-"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2014-08-28T10:47:00.984-04:00"
+            jcr:lastModifiedBy="mage"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

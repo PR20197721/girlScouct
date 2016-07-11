@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.HttpSession;
+/*
+In Koo removed for AEM 6.1 upgrade
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
@@ -11,6 +13,7 @@ import net.fortuna.ical4j.model.property.Description;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
+*/
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -30,6 +33,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 
@@ -58,6 +62,7 @@ public class YearPlanUtil {
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws java.lang.IllegalAccessException, VtkException,
 			IllegalStateException {
+	
 		activity.setDbUpdate(true);
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
@@ -100,13 +105,18 @@ public class YearPlanUtil {
 	public java.util.List<Asset> getAids(User user, Troop troop, String tags,
 			String meetingName, String uids, String path)
 			throws IllegalAccessException {
+	
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(user, troop, tags,
-				meetingName, path));
+		
+		container.addAll(meetingDAO.getAidTag_local(user, troop, tags, meetingName, path));
+
 		container.addAll(meetingDAO.getAidTag(user, troop, tags, meetingName));
+
 
 		return container;
 	}
+/*
+In Koo removed for AEM 6.1 upgrade
 
 	@SuppressWarnings("unchecked")
 	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user, Troop troop)
@@ -178,6 +188,7 @@ public class YearPlanUtil {
 		return calendar;
 	}
 
+*/
 	private String getLocation(Troop user, String locationId) {
 
 		String fmtLocation = "";
@@ -211,7 +222,7 @@ public class YearPlanUtil {
 			String tags, String meetingName, String uids, String meetingPath)
 			throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(user, troop, tags,
+		container.addAll(meetingDAO.getResource_local(user, troop, 
 				meetingName, meetingPath));
 		container.addAll(meetingDAO.getResource_global(user, troop, tags,
 				meetingName));
@@ -226,7 +237,6 @@ public class YearPlanUtil {
 
 	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-System.err.println("tatattx YearPlanUtil.getMeeting..");
 		Meeting meeting = meetingDAO.getMeeting(user, troop, path);
 		return meeting;
 	}
@@ -241,6 +251,11 @@ System.err.println("tatattx YearPlanUtil.getMeeting..");
 		return meetingDAO.getAllMeetings(user, troop, gradeLevel);
 	}
 
+	
+	public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
+		return meetingDAO.getAllMeetings(user, troop);
+	}
+	
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user,
 			Troop troop, String yearPlanPath) throws IllegalAccessException {
 		return meetingDAO.getAllEventMeetings_byPath(user, troop,
@@ -346,5 +361,30 @@ System.err.println("tatattx YearPlanUtil.getMeeting..");
 	public int getAllResourcesCount(User user, Troop troop, String path)
 			throws IllegalAccessException {
 		return meetingDAO.getAllResourcesCount(user, troop, path);
+	}
+	
+	
+	public int getAssetCount(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+				return meetingDAO.getAssetCount(user, troop, _path);
+		}
+	
+	
+	public int getCountLocalMeetingAidsByLevel(User user, Troop troop, String _path)
+			throws IllegalAccessException { 
+				return meetingDAO.getCountLocalMeetingAidsByLevel(user, troop, _path);
+		}
+	
+	public java.util.Collection<bean_resource> getResourceData(User user, Troop troop, String _path)
+			throws IllegalAccessException {
+		return meetingDAO.getResourceData( user,  troop,  _path);
+	}
+	
+	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException{
+		return meetingDAO.getMeetingCount(user, troop, path);
+	}
+	
+	public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException{
+		return meetingDAO.getVtkAssetCount(user, troop, path);
 	}
 }// edn class

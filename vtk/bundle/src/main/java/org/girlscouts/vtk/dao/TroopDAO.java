@@ -53,4 +53,9 @@ public interface TroopDAO {
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException;
 	
+	public void removeDemoTroops();
+	public boolean isArchivedYearPlan( User user , Troop troop);
+	public java.util.Map getArchivedYearPlans( User user , Troop troop);
+	public boolean isArchivedYearPlan( User user , Troop troop, String year);
+	
 }

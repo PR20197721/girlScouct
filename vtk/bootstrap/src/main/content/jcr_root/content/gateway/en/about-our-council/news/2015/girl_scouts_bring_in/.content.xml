@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-12T11:29:21.601-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-12T11:29:25.623-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts bring in new cookies with New Year"
+        jcr:uuid="2ceb278e-92b2-4a06-937c-fed7737a5afb"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-01-12T11:02:00.000-05:00"
+        description="Word is out about our new Girl Scout Cookie flavors and Digital Cookie. Presley Huish, Cadette with Troop 1293, is ready to make her cookie goal! The St. Augustine Record shared tips from St. Johns County’s top cookie seller from 2014.">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>For the past five years, Presley Huish has been a Girl Scout. Each year during cookie season, she sets a goal and pursues it with the help of her parents through door-to-door sales.&lt;/p>&#xa;&lt;p>Her biggest seller, she says, are Thin Mints and the 11-year-old has sold more than 1,700 packages of Girl Scout cookies.&lt;/p>&#xa;&lt;p>“I set a lot of goals,” she said.&lt;/p>&#xa;&lt;p>That number could greatly increase this cookie season with the introduction of two brand new cookie flavors and a revolutionary way to buy them.&lt;/p>&#xa;&lt;p>For the first time in Girl Scout history, local Girl Scouts will have cookies for sale online through a Web-based platform called Digital Cookie.&lt;/p>&#xa;&lt;p>It allows the scouts to create a Web page that is protected and personalized with their own order form, sales goals, progress indicator, plans for using proceeds for sales and even their lessons learned from selling cookies.&lt;/p>&#xa;&lt;p>The online sales are on a scout-by-scout basis, meaning that it’s up to the Girl Scout and her family to decide if they want to offer cookies online.&lt;/p>&#xa;&lt;p>Mary Anne Jacobs is the chief executive officer for the Girl Scouts Gateway Council.&lt;/p>&#xa;&lt;p>Last year, the Girl Scouts of Gateway Council sold 1.2 million packages of cookies with the top five being Thin Mints, Samoas, Tagalongs, Trefoils and Do-si-do, but Jacobs says sales have been flat.&lt;/p>&#xa;&lt;p>“The cookie program has either remained flat or in some markets we see a decrease in cookie sales,” she said.&lt;/p>&#xa;&lt;p>However, she believes the online tool will turn that around because it offers a modern twist to classic Girl Scout cookie sales.&lt;/p>&#xa;&lt;p>Traditionally, Girl Scouts sold cookies using door-to-door and cookie booth sales but adding an online presence could increase volume.&lt;/p>&#xa;&lt;p>“It’s creating some relevancy to a very successful program,” Jacob said.&lt;/p>&#xa;&lt;p>Although the online sales only last as long as the cookie season, the digital cookie sales offer the familiar assortment of cookies as well as the new flavors Toffee-Tastic and Rah-Rah Raisin.&lt;/p>&#xa;&lt;p>Toffee-Tastic is a gluten-free friendly cookie that’s rich and buttery while packed with bits of toffee. Rah-Rah-Rah Raisin is the traditional oatmeal cookie with raisins and Greek yogurt-flavored chunks.&lt;/p>&#xa;&lt;p>Through the program that started Jan. 5, the girls learn some important skills in addition to their five essential skills of goal setting, decision making, money management, people skills and business ethics.&lt;/p>&#xa;&lt;p>Digital Cookie enables the girls to market their cookie business online. From there, the girls can send emails and digital marketing materials from their personal site, track and monitor their sales, and activate cookie shipments directly to their customers.&lt;/p>&#xa;&lt;p>Jacobs says the online tool is just that — a tool that lets the girls incorporate modern sale strategies with traditional ones and teaches website development and online marketing.&lt;/p>&#xa;&lt;p>“(It incorporates) things that are really relevant to today’s business world,” Jacobs said.&lt;/p>&#xa;&lt;p>For those wanting to order cookies through Digital Cookie, contact your local Girl Scout. The scouts send out a link where online customers can view each girl’s personal website and order cookies. Cookie booths will begin on Feb. 13.&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-01-12T11:29:21.596-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="New 2015 Girl Scout Cookies"
+                        sling:resourceType="foundation/components/image"
+                        additionalCss="center"
+                        alt="New 2015 Girl Scout Cookies"
+                        fileReference="/content/dam/gateway/newsImgs/newcookies2015.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

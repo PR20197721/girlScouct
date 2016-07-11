@@ -42,20 +42,13 @@ import org.slf4j.LoggerFactory;
 @Component(label = "Girl Scouts VTK Salesforce Authentication Servlet", description = "Handles OAuth Authentication with Salesforce", metatype = true, immediate = true)
 @Service
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sso"),
-		//@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "null"),
-		//@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "null") })
-	
-		
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = {
-				"html", "xml", "saml", "res", "jsp" }),
-		
-		
-		
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = {
-		"POST", "GET" })
-		 })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sso"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = { "html", "xml", "saml", "res", "jsp" }),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = { "POST", "GET" }),
+        @Property(name="label", value="Girl Scouts VTK Salesforce SSO"),
+        @Property(name="description", value="Girl Scouts VTK Salesforce SSO")
+})
 		
 
 public class SSO extends SlingAllMethodsServlet{

@@ -20,8 +20,10 @@
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
-  <div id="yearPlanMeetings">
+  <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+    
     <div id="thePlan">
+
       <script type="text/javascript">
 
  var isActivNew;
@@ -42,7 +44,9 @@
                      this.isReordering = false;
                  }.bind(this),
              });
-         } else {
+         } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
+         
+         
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -51,6 +55,7 @@
                 }
 
              });
+             
          }
        },
         getInitialState: function() {
@@ -325,7 +330,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           if (date.toString() == 'NaN') {
               date = new Date(this.props.date).getTime();
           }
-            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+            var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
               React.createElement("a", {href: src}, this.props.name)
           );

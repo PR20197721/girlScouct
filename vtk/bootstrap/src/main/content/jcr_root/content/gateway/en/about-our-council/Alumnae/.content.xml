@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-27T13:49:24.145-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Alumnae"
+        jcr:uuid="f2872f78-9c35-4de7-8209-8be9843a6858"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="http://www.girlscouts-gateway.org:80/content/gateway/alumnae">
+        <image
+            jcr:lastModified="{Date}2015-09-09T14:28:58.178-04:00"
+            jcr:lastModifiedBy="dpage"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2015-09-09T16:36:37.385-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-09T16:36:49.018-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"
+                        title="Alumnae Association"/>
+                    <text
+                        jcr:created="{Date}2015-09-09T16:36:53.558-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-09T16:39:15.107-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>The GSGC Alumnae Association provides a platform for women to network, contribute, learn, mentor and have fun both professionally and personally. Membership is open to all adult Girl Scouts, regardless of where your Girl Scout Troop was located, or the level you achieved. Some of the benefits of the GSGC Alumnae association include:&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_0
+                        jcr:created="{Date}2015-09-09T16:37:09.441-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2016-01-15T14:10:04.447-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;ul>&#xa;&lt;li>Girl Scout Alumnae Pin, membership card and access to GSGC Alumnae functions&lt;/li>&#xa;&lt;li>Special pricing and discounts from GSGC and GSGC partners: 50% off of Women of Distinction and Women Who Make a Difference individual tickets, 15% off at the GSGC store and other incentives&lt;/li>&#xa;&lt;li>Inclusion in and access to the GSGC Alumnae Directory&lt;/li>&#xa;&lt;li>Newsletter subscriptions, which include Girl Scout programming opportunities&lt;/li>&#xa;&lt;li>Educational events, financial literacy workshops, social functions and outdoor activities&lt;/li>&#xa;&lt;li>Networking opportunities with other Girl Scout Alumnae, volunteers and the local community&lt;/li>&#xa;&lt;li>Opportunity to be a part of the largest women’s networking organization in the world&lt;/li>&#xa;&lt;li>The chance to continue supporting the mission of the Girl Scouts to build girls of courage, confidence and character who make the world a better place&lt;/li>&#xa;&lt;/ul>&#xa;"
+                        textIsRich="true"/>
+                    <text_2
+                        jcr:created="{Date}2015-09-14T13:54:10.830-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-14T13:55:12.515-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>Girl Scouting Works: &lt;a adhocenable=&quot;false&quot; href=&quot;http://www.girlscouts.org/content/dam/girlscouts-gsusa/forms-and-documents/about-girl-scouts/research/girl_scouting_works_the_alumnae_impact_study.pdf&quot;>The Alumnae Impact Study&lt;/a> is a national research report investigating the effects of Girl Scouting on its alumnae population of women. The study was designed to explore questions such as:&lt;/p>&#xa;&lt;p>Does Girl Scout participation result in positive life outcomes?&lt;br>&#xa;What are the benefits of the Girl Scout experience?&lt;br>&#xa;Does participation benefit certain demographic groups more than others?&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_1
+                        jcr:created="{Date}2015-09-09T16:37:40.020-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2016-01-27T13:49:24.142-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>Membership begins January 1&lt;sup>st&lt;/sup> and extends until December 31&lt;sup>st&lt;/sup>, 2016. A donation of $100 or more will allow you to secure the membership benefits listed above.&amp;nbsp;&lt;/p>&#xa;&lt;p>Are you a current alumnae or thinking about joining?&lt;/p>&#xa;&lt;p>Visit our &lt;a adhocenable=&quot;false&quot; href=&quot;http://dpage81.wix.com/alumnae&quot;>Alumnae Portal&lt;/a> for more information or fill out the membership form below!&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <embedded
+                        jcr:created="{Date}2015-09-09T16:37:59.240-04:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-09-09T16:38:07.488-04:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/embedded"
+                        html="&lt;div id=&quot;wufoo-zckaoqc1hx2jbb&quot;>&#xa;Fill out my &lt;a href=&quot;https://gsgc.wufoo.com/forms/zckaoqc1hx2jbb&quot;>online form&lt;/a>.&#xa;&lt;/div>&#xa;&lt;script type=&quot;text/javascript&quot;>var zckaoqc1hx2jbb;(function(d, t) {&#xa;var s = d.createElement(t), options = {&#xa;'userName':'gsgc',&#xa;'formHash':'zckaoqc1hx2jbb',&#xa;'autoResize':true,&#xa;'height':'825',&#xa;'async':true,&#xa;'host':'wufoo.com',&#xa;'header':'show',&#xa;'ssl':true};&#xa;s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';&#xa;s.onload = s.onreadystatechange = function() {&#xa;var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;&#xa;try { zckaoqc1hx2jbb = new WufooForm();zckaoqc1hx2jbb.initialize(options);zckaoqc1hx2jbb.display(); } catch (e) {}};&#xa;var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);&#xa;})(document, 'script');&lt;/script>&#xa;"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>

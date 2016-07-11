@@ -1,0 +1,281 @@
+/* line 1, vtk-demo.scss */
+.vtk-table-container {
+  text-align: center;
+}
+
+/* line 7, vtk-demo.scss */
+.table-action-button a {
+  color: red !important;
+}
+
+/* line 12, vtk-demo.scss */
+.vtk-empty-bar {
+  width: 100%;
+  height: 25px;
+}
+
+/* line 17, vtk-demo.scss */
+.vtk-toolkit-title {
+  float: left;
+}
+/* line 19, vtk-demo.scss */
+.vtk-toolkit-title h4 {
+  color: white !important;
+  font-weight: 100;
+  font-size: 20px;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 1px;
+}
+
+/* line 30, vtk-demo.scss */
+.vtk-demo-info-footer, .vtk-demo-reference-footer {
+  margin: 25px 0;
+}
+
+/* line 35, vtk-demo.scss */
+.vtk-demo-info-footer p {
+  font-size: 12px;
+  font-weight: 100;
+  color: white;
+  margin: 0;
+}
+
+/* line 45, vtk-demo.scss */
+.vtk-demo-reference-footer a {
+  float: right;
+  font-weight: 100;
+  font-size: 15px !important;
+}
+
+/* line 53, vtk-demo.scss */
+.vtk-demo-wrap-top {
+  padding: 15px 0 30px;
+}
+
+.vtk-demo-wrap-top {
+  font-size: 28px;
+    margin-left: 5px;
+    line-height: 43px;
+}
+
+.vtk-bottom-frase{
+    padding: 30px 0;
+    font-size: 18px;
+    margin-left: 5px;
+
+    text-align: center;
+}
+
+
+/* line 57, vtk-demo.scss */
+.vtk-header-box {
+  background-color: #009447;
+  color: white;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  width: 100%;
+  display: table;
+  text-align: center;
+  pointer-events: none;
+}
+/* line 66, vtk-demo.scss */
+.vtk-header-box a {
+  display: table-cell;
+  width: 100%;
+  height: inherit;
+  vertical-align: center;
+  padding: 15px;
+  color: white;
+}
+/* line 73, vtk-demo.scss */
+.vtk-header-box a:hover {
+  color: white;
+}
+
+/* line 79, vtk-demo.scss */
+.vtk-demo-card {
+  margin-bottom: 15px;
+}
+/* line 81, vtk-demo.scss */
+.vtk-demo-card p {
+  padding: 0 15px;
+  font-size: 13px;
+}
+/* line 86, vtk-demo.scss */
+.vtk-demo-card > ul {
+  list-style-type: circle !important;
+  font-size: 13px;
+  padding-left: 15px;
+}
+
+/* line 94, vtk-demo.scss */
+.vtk-demo-select select {
+  width: auto;
+  float: right;
+  background-color: #009447;
+  color: white;
+  margin: 10px 10px 0 0;
+  line-height: 19px;
+  border-radius: 20px;
+}
+
+/* line 103, vtk-demo.scss */
+.vtk-demo-select_ {
+  text-align: center;
+  background-color: #FFFFE0;
+  padding: 10px;
+  color: green;
+  margin-bottom: 40px;
+}
+
+/* line 112, vtk-demo.scss */
+.vtk-demo-restart {
+  position: relative;
+}
+/* line 114, vtk-demo.scss */
+.vtk-demo-restart a {
+  float: right;
+  margin: 5px 10px 5px 0;
+  color: white;
+  text-decoration: underline;
+  font-size: 12px;
+}
+
+/* line 123, vtk-demo.scss */
+.float-right {
+  position: absolute;
+  top: 8px;
+  right: 22px;
+}
+
+/* line 129, vtk-demo.scss */
+.vtk-demo-logo-img {
+  position: absolute;
+  z-index: 10;
+}
+
+
+.vtk-vounteer-trainer{
+      float: left;
+    font-size: 20px;
+    font-weight: lighter;
+    /*margin-top: 50px;*/
+}
+
+
+
+/* vtk-demo-login-form.css */
+.vtk-demo-form-box {
+  /*border: 1px solid #cccccc;*/
+  padding: 20px;
+  border-radius: 6px;
+  margin: 40px 0;
+}
+
+.vtk-demo-form-top{
+  text-align: center;
+}
+
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-label {
+  font-size: 12px;
+  margin-bottom: 3px;
+}
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-input input[type=text], .vtk-demo-form-input input[type=password],{
+  padding: 15px 10px;
+  font-size: 12px;
+}
+/* _vtk-demo-login-form.css */
+.vtk-demo-form-input input[type=submit] {
+  text-align: center;
+  width: 30%;
+  margin:0;
+  text-transform: uppercase;
+  float:left;
+  font-size: 14px;
+}
+
+.vtk-demo-form-input .vtk-forgot-link{
+  float: right;
+  font-size: 14px;
+  margin: 10px 38px 0 0;
+}
+
+
+
+/* Drop Down */
+
+.vtk-demo-dropdown{
+  background-color: white;
+  padding: 5px 15px;
+  color:#009447;
+  width:200px;
+  font-size: 12px;
+     text-align: left !important;
+       border:1px solid #009447 !important;
+       position: relative;
+
+}
+
+
+.vtk-demo-dropdown_main > .selected-option{
+   color:#009447 !important;
+   /*font-weight: bold !important;*/
+     text-align: left !important;
+       width:200px;
+         /*padding: 5px 15px;*/
+}
+
+.selected-option > span{
+  color:#009447 !important;
+  font-size: 10px !important;
+  font-weight: normal !important;
+  margin:-6px 0 0 6px;
+}
+
+
+.vtk-demo-dropdown_main{
+
+}
+
+.vtk-demo-dropdown_options{
+  position:absolute;
+  list-style: none !important;
+  margin:0;
+  padding: 0;
+  background-color: white;
+          top:22px;
+        left: 0px;
+         border:1px solid #009447 !important;
+         z-index:10 !important;
+         display: none;
+         width: inherit;
+
+         overflow-y: auto;
+         overflow-x: hidden;
+}
+
+.vtk-demo-dropdown_options li{
+    font-size: 12px !important;
+      padding: 5px 15px !important;
+        width:inherit;
+  text-align: left !important;
+  font-weight: bold;
+  background-color: white;
+
+}
+
+
+.vtk-demo-dropdown_options li span{
+  color:#009447 !important;
+  font-size: 10px !important;
+  font-weight: normal !important;
+  margin:-6px 0 0 6px;
+}
+
+
+.vtk-demo-dropdown_options li:hover{
+  background-color:#e5f4ec !important;
+}

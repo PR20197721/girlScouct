@@ -32,7 +32,7 @@
 	<% if(!act.isEmpty()) { %>
 		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
 	<% } %>
-	<%  if (request.getParameter("isAgenda") == null) {%>
+	<%  if (request.getParameter("isAgenda") == null &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ) {%>
 		<a id="print-link" class="icon-printer right" title="print"></a>
 	<% } %>
 		<div class="setupCalendar row">
@@ -124,6 +124,7 @@
    	<form onsubmit="return false;">
 			<h3>Agenda Item: <%=_activity.getName()%></h3>
 			<div class="columns small-4">
+			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 					
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
@@ -145,7 +146,7 @@
 						<option value=""><%=_activity.getDuration() %></option>
 						<%} %>
 				</select>
-				
+				<%}//edn if%>
 			</div>
 		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 			<div class="columns small-20">

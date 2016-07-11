@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-10-19T13:55:35.730-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/volunteer]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scout Leadership Experience (GSLE) Training hosted by Community 7"
+        jcr:uuid="0fa98fc7-a9a5-473a-86b1-2641177998f1"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#AB218E"
+            details="&lt;p>An in-person introduction to leading a troop of girls in a unique Girl Led environment that incorporates the 3 Keys to Leadership (what girls do), the Girl Scout Processes ( how they do it), and the Leadership Experience (what they get).&amp;nbsp; The training handbook is available online and printed copy is given to each volunteer that attends the training.&lt;/p>&#xa;&lt;p>All communities are welcome to attend any GSLE training.&amp;nbsp;&lt;/p>&#xa;"
+            end="{Date}2015-11-07T10:30:00.000-05:00"
+            locationLabel="Argyle Church of Christ"
+            register="http://girlscouts-gateway.doubleknot.com/event/girl-scout-leadership-experience-gsle-training-nov-7-argyle-church-of-christ-community-7/1769633"
+            start="{Date}2015-11-07T09:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2015-10-19T13:55:35.723-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

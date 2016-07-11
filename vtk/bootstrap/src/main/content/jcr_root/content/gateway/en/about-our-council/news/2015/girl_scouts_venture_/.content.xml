@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-03-30T15:35:51.713-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-03-30T15:35:55.386-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        cq:tags="[girlscouts:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts venture back in time"
+        jcr:uuid="d3ac873f-f4d7-4513-ac73-d2ec2cb18e05"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2015-03-28T15:31:00.000-04:00"
+        description="These Girl Scouts traveled back in time and discovered how young ladies lived in 18th century St. Augustine. ">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/textimage"
+                    text="&lt;p>These Girl Scouts traveled back in time and discovered how young ladies lived in 18th century St. Augustine. Imagine being among Florida's first tourists in a fashionable boarding house (known today as hotels); before any modern luxuries 150 years ago (1845-1860). The girls reenacted the time period in this program sponsored by The National Society of The Colonial Dames of America in The State of Florida. See more photos &lt;a adhocenable=&quot;false&quot; href=&quot;https://www.flickr.com/photos/gsgc/sets/72157649325465614/&quot;>here&lt;/a>.&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2015-03-30T15:35:51.708-04:00"
+                        jcr:lastModifiedBy="drodgers"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/gateway/forms-and-documents-/san augustin 2015.jpg"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

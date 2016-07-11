@@ -252,7 +252,7 @@ function yesPlan(){
   if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';
     document.getElementById('yearPlanSelection').style.display='none';
-    document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
+    document.getElementById('showHideReveal').innerHTML='SEE YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9660;';
     $('#showHideReveal').toggleClass('open').addClass('close');
     $("#empty-yp-directions").show();
@@ -365,14 +365,9 @@ function buildSched(){
 
 	if( new Date(dt) <= minExpDate )
 	{
-
 			alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future.");
 			return;
 	}
-
-
-
-
 
 	var _level="";
 	var levels = document.getElementsByName('exclDt');
@@ -435,7 +430,7 @@ function viewProposedSched( calStartDt, calAP, z, calTime, _level, orgDt){
 	 		{alert('All of the scheduled meetings fall outside of the current troop year.  Please change the meeting date and/or frequency and try again.');return;}
 			
 //			 toRet= confirm("One or more of the meetings fall outside of the troop year. Changing meeting frequency will result in "+ $.trim(result)+" schedule meetings. Are you sure you would like to continue");
-			 toRet= confirm("This meeting selection will result in "+ $.trim(result)+" scheduled meetings. Are you sure you would like to continue?");
+			 toRet= confirm("The Year Plan for a troop ends on June 30th. The date you selected will result in "+ $.trim(result)+" meetings. Would you like to continue?");
 			 //console.log(toRet);
 			 	
 			 
@@ -841,12 +836,15 @@ function councilRpt(troopId, cid){
 
 	}
 
-	function vtkInitTracker(tName, tId, uId){
+	function vtkInitTracker(tName, tId, uId, cId, tAge, ypn){
 		//var newTracker = ga.getByName('vtkTracker');
 		//vtkCreateTracker();
 		ga('vtkTracker.set', 'dimension1', tName);
 		ga('vtkTracker.set', 'dimension2', tId);
 		ga('vtkTracker.set', 'dimension3', uId);
+		ga('vtkTracker.set', 'dimension7', cId);
+		ga('vtkTracker.set', 'dimension8', tAge);
+		ga('vtkTracker.set', 'dimension9', ypn);
 	}
 
 	function vtkTrackerPushAction(vAction){
@@ -872,7 +870,7 @@ function councilRpt(troopId, cid){
 
 
 	function printRelogin(reloginSelect){
-		var reloginDiv= document.getElementById("relogin");
+		var reloginDiv = document.getElementById("relogin");
 		if( reloginDiv !=null && reloginDiv!=null ){
 			reloginDiv.innerHTML = reloginSelect;
 		}
@@ -941,8 +939,7 @@ function councilRpt(troopId, cid){
 //		loadUNav(activeTab);
 	
 
-		setTimeout(function(){checkIsLoggedIn();}, 10000);
-		     
+		window.setTimeout(function(){checkIsLoggedIn();}, 10000);
 
 		if(activeTab!=null && activeTab=='myTroop'){
 			vtkTrackerPushAction('ViewTroop');
@@ -1012,15 +1009,102 @@ function councilRpt(troopId, cid){
 	  isLoggedIn=false;
   }
   
-  function setLoggedIn(){console.log("set login true"); isLoggedIn=true; }
+  function setLoggedIn(){
+	  console.log("set login true"); 
+	  isLoggedIn=true; 
+  }
   function 	checkIsLoggedIn(){  
-	  if( document.getElementById("myframe")==null){return;}
+	  
+	  if(document.getElementById("myframe") == null){
+		  console.log("Skipping because iframe not ready.")
+		  return;
+	  }
 	  console.log("checking isLoggedin..."+ isLoggedIn);
 	  if( !isLoggedIn ){
+		  doVtkLogout();
+	  }
+  }
+  
+  function displayErrMsg(errMsgPlaceHldr){
+
+	  $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.vtkError.html",
+	        cache: false
+	    }).done(function( html ) {
+	        var vtkErrMsgHld = document.getElementById(errMsgPlaceHldr);
+	        if( vtkErrMsgHld !=null ){
+	        	vtkErrMsgHld.innerHTML =html;
+	        }
+	    })
+  }
+  
+  function doVtkLogout(){
 		  var isLoginAgain = confirm("Your session has expired. Would you like to login again?") ;
-		  //girlscouts.components.login.signOut();
-	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;
-		  
-		 
-	  } 
+	      window.parent.location= "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout&isVtkLogin="+isLoginAgain;  
+  }
+  
+  function rmVtkErrMsg(errMsgId){
+	
+	    $.ajax({
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+			type: 'POST',
+			data: {
+				    vtkErrMsgId:errMsgId,
+			        act:'RemoveVtkErrorMsg',
+			        a:Date.now()
+			},
+	    
+		success: function(result) {
+		},
+		error: function(XMLHttpRequest, textStatus, errorThrown) { 
+	    } 
+	    }),
+	   
+	    rmVtkErrMsg_disableView( errMsgId );
+  }
+
+  function rmVtkErrMsg_disableView( errMsgId ){
+	  var msgPlanceHldr = document.getElementById("_vtkErrMsgId_"+ errMsgId);
+	  if( msgPlanceHldr!=null ){
+		  msgPlanceHldr.style.display='none';
+	  }
+  }
+
+  
+  function showSelectedDemoTroop(troopAge){
+	$(function() {
+		if (typeof gsusa !== "undefined") {
+			if (gsusa.component && gsusa.component.dropDown && troopAge!=undefined && troopAge!='') {
+				gsusa.component.dropDown('#vtk-dropdown-1',{local:true}, troopAge );
+			}
+		}
+		
+	});
+	  
+	  
+  }
+  
+  
+  
+  function cngYear(yr){
+  
+     $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYear="+ yr ,
+            cache: false
+        }).done(function( html ) {
+            relogin();
+            
+        });
+  }
+  
+  
+  function resetYear(){
+  
+     $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYearToCurrent=true" ,
+            cache: false
+        }).done(function( html ) {
+            relogin();
+            
+        });
   }

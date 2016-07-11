@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-08T15:53:31.624-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-09-08T15:53:35.070-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level,gateway:program-level/leaders]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop Pathways - Pablo Creek"
+        jcr:uuid="664f81dc-18f0-4fe8-ab8f-5ceb70adc3ba"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="13295 Beach Blvd Jacksonville, FL 32246"
+            details="&lt;p>Troop Pathways is Part Two of the required training for all new Girl Scout Troop Leaders and Co-Leaders.&amp;nbsp; It is a continuation of the GS 101 online training. There are 25 spots available.&lt;br>&#xa;&lt;/p>&#xa;&lt;p>&lt;a href=&quot;http://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=612471855&quot; target=&quot;_blank&quot;>&lt;b>Click here to register.&lt;/b>&lt;/a>&lt;/p>&#xa;&lt;p>Last day to register ONLINE is September 8, 2014.&amp;nbsp; Please contact the Service Center after this date to be registered for this session.&lt;br>&#xa;&lt;/p>&#xa;"
+            end="{Date}2014-09-11T20:30:00.000-04:00"
+            locationLabel="Pablo Creek Library"
+            start="{Date}2014-09-11T17:30:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-09-08T15:53:31.620-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageheroes/pathways.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

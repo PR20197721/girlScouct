@@ -4,10 +4,7 @@
     <filter root="/apps/foundation"/>
     <filter root="/apps/wcm"/>
     <filter root="/etc/council-rollout"/>
-    <filter root="/etc/ftp-event-trigger"/>
     <filter root="/etc/map.author"/>
-    <filter root="/etc/map.publish"/>
-    <filter root="/etc/map.publish.dev"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import/girlscouts/csv"/>
     <filter root="/etc/replication-checker"/>
@@ -71,4 +68,6 @@
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
+       <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
+    
 </workspaceFilter>

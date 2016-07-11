@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-11-19T10:53:54.638-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-11-21T09:02:15.846-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/junior,gateway:program-level/cadettes,gateway:program-level/senior,gateway:program-level/ambassadors]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="All That Glitters"
+        jcr:uuid="6bc4cd34-0e0e-45ec-88e4-ac31c97938f7"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>“THE source for everything Bronze, Silver, and Gold. Find out important information about the Highest Awards, network with local community organizations. This event costs $5 per person and includes take homes.&lt;/p>&#xa;"
+            end="{Date}2014-11-22T12:00:00.000-05:00"
+            locationLabel="TBA"
+            register=" https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=506355521"
+            srchdisp="THE source for everything Bronze, Silver, and Gold. Find out important information about the Highest Awards, network with local community organizations."
+            start="{Date}2014-11-22T09:00:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2014-11-19T10:53:54.633-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_014/>
+</jcr:root>

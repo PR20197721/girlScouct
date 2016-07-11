@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-12-16T12:35:45.010-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:lastRolledout="{Date}2015-05-08T13:23:57.139-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:propertyInheritanceCancelled="[seoTitle]"
+        cq:tags="[gateway:categories/cookies]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveSync,cq:PropertyLiveSyncCancelled,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="About Girl Scout Cookies"
+        jcr:uuid="e5609fba-9d75-43a7-a462-dbc976bc80d4"
+        sling:redirect="true"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="/content/gateway/gscookies"
+        seoTitle="About Girl Scout Cookies | Girl Scouts of Gateway Council">
+        <content
+            cq:lastRolledout="{Date}2015-05-08T13:23:56.950-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2015-05-08T13:23:56.991-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2015-05-08T13:23:57.007-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <video
+                        cq:lastRolledout="{Date}2015-05-08T13:23:57.094-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T17:58:28.370-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2015-05-08T13:23:57.092-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/video"
+                        html="&lt;iframe width=&quot;530&quot; height=&quot;315&quot; src=&quot;//www.youtube.com/embed/86YCDeQNTFE?rel=0&quot; frameborder=&quot;0&quot; allowfullscreen>&lt;/iframe>"/>
+                    <title
+                        cq:lastRolledout="{Date}2015-05-08T13:23:57.097-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-26T08:07:21.371-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2015-05-08T13:23:57.096-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <text
+                        cq:lastRolledout="{Date}2015-05-08T13:23:57.100-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-26T08:07:01.530-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2015-05-08T13:23:57.099-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>When you buy Girl Scout Cookies, you &lt;b>make adventures possible&lt;/b> with every box.&lt;/p>&#xa;&lt;p>Will your Girl Scout Cookie Professional help the local animal shelter across town? Cross the country to see the Washington Monument or the Grand Canyon? Cross an ocean to fly through the rainforest on a zip line? It’s up to her and her troop.&lt;/p>&#xa;&lt;p>When girls participate in the Girl Scout Cookie Program, they get more than new adventures. They &lt;b>develop important life skills&lt;/b>—goal setting, decision making, money management, people skills, and business ethics—that will &lt;b>set them up for success&lt;/b> beyond anything they can imagine.&lt;/p>&#xa;&lt;p>That’s why we ask you to buy the delicious cookies you crave all year from your local Girl Scout Cookie Professional—not from her parents. You will enjoy your favorite cookie even more knowing you helped her do all the amazing things she’s got planned for this year.&lt;/p>&#xa;&lt;p>&lt;a target=&quot;_blank&quot; href=&quot;http://www.girlscouts.org/program/gs_cookies/find_cookies.asp&quot; adhocenable=&quot;false&quot;>&amp;nbsp; &lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/jolly-icons-32/microscope_32.png&quot;>View Nutrition Facts&lt;/a>&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_0
+                        cq:lastRolledout="{Date}2015-05-08T13:23:57.104-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T14:03:41.055-04:00"
+                        jcr:createdBy="ctruett"
+                        jcr:lastModified="{Date}2015-05-08T13:23:57.102-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p style=&quot;text-align: center;&quot;>&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot; target=&quot;_blank&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/buttons/btn_find_cookies.png&quot;>&lt;/a>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot;>&amp;nbsp;&lt;/a>&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot;>&lt;/a>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_4ed
+                        jcr:created="{Date}2015-12-16T12:35:37.950-05:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-12-16T12:35:45.007-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;p>&lt;b>The Girl Scout Cookie Program Has Gone Digital!&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p>Yes, the Girl Scout Cookie Program you know and love is going beyond the booth and offering more ways to buy cookies and support girls’ learning than ever before.&amp;nbsp;&lt;/p>&#xa;&lt;p>And the best part is that Digital Cookie helps take the essential skills girls learn through the traditional cookie program to a whole new level – introducing critical lessons about online marketing and e-commerce to more than one million excited Girl scouts, in real-time.&amp;nbsp;&lt;/p>&#xa;&lt;p>So how does it work? In true girl-led style, a Girl Scout always handles the cookie sale.&amp;nbsp;&lt;/p>&#xa;&lt;p>&lt;b>So if you know a Girl Scout&lt;/b>, tell her you’re interested in becoming a Digital Cookie customer. Oh, and credit cards are more than welcome.&lt;/p>&#xa;&lt;p>&lt;b>Don’t know a Girl Scout?&lt;/b>&amp;nbsp; That’s OK! You can still support girls and all of the amazing things they learn and do by buying cookies at your local cookie booth.&amp;nbsp;&lt;a href=&quot;http://www.girlscouts.org/program/gs_cookies/find_cookies.asp&quot;>Find cookies now&lt;/a>.&lt;/p>&#xa;&lt;/p>&#xa;&lt;p>&lt;p>Are you participating in the Girl Scout Cookie Program this year?&amp;nbsp;Learn more&amp;nbsp;about how Digital Cookie works for you.&lt;/p>&#xa;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+            <left jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys"/>
+            </left>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-04-07T09:05:06.279-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <cq:LiveSyncConfig
+            cq:isDeep="{Boolean}true"
+            cq:master="/content/girlscouts-template/en/cookies/about-girl-scout-cookies"
+            cq:rolloutConfigs="[]"
+            jcr:primaryType="cq:LiveSyncConfig"/>
+    </jcr:content>
+    <meet-our-cookies-lbb/>
+    <meet-the-cookies-abc/>
+</jcr:root>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-11-05T14:42:49.129-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Thankful Hearts, Helpful Hands"
+        jcr:uuid="721f716f-0385-4d66-9948-f53ff1e077f4"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>What are you thankful for? It might be a beloved pet, a special relative, your troop, the community you live in, how much you’re learning in school, your athletic ability, or your creative talent. You might be thankful that you live in a time where girls can do and be anything! Join the University of North Florida Kappa Delta Sorority to share what you are thankful for, do some fun activities, and lend a helpful hand around the UNF campus!&amp;nbsp; All registered girls will receive a goodie bag and festive fun patch.&lt;/p>&#xa;&lt;p>$4/Girl Scout, $1/adult&lt;/p>&#xa;&lt;p>** All attendees must be registered Girl Scouts for the 2016 Membership Year.&amp;nbsp; All adults must be registered and approved volunteers.&lt;/p>&#xa;&lt;p>** A chaperone needs to remain onsite throughout the program.&amp;nbsp; Please see Safety Activity Checkpoints for the ratios.&lt;/p>&#xa;&lt;p>** We are not able to accommodate tag-a-longs during this session&lt;/p>&#xa;"
+            end="{Date}2015-11-20T19:30:00.000-05:00"
+            locationLabel="University of North Florida"
+            register="http://girlscouts-gateway.doubleknot.com/openrosters/ViewActivitySpaceAvailable.aspx?orgkey=2736&amp;activitykey=1807437"
+            start="{Date}2015-11-20T18:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2015-11-05T14:42:49.124-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/images/ThankfulHeartspatch.jpeg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

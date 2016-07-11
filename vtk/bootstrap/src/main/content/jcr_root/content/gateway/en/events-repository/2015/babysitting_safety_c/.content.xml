@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-10-23T16:57:31.159-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Babysitting Safety Class"
+        jcr:uuid="11ccae51-49ba-417a-9321-e3cfe9d67dfb"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>This class is designed to familiarize and to provide youth approx. ages 11 - 16&amp;nbsp;with the basic knowledge and skills needed to care for infants and children.&amp;nbsp; It is fun and fast paced with hands on activities, exciting video, role-plays and lively discussions. You will learn to be the best babysitter on the block! Plus you will gain the confidence to make smart decisions and stay safe in any babysitting situation.&lt;/p>&#xa;&lt;p>You will learn how to:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>Supervise children and infants&lt;/li>&#xa;&lt;li>Perform basic child care-skills such as diapering and feeding&lt;/li>&#xa;&lt;li>Handle bedtime and discipline issues&lt;/li>&#xa;&lt;li>Identify safety hazards and prevent injuries&lt;br>&#xa;&lt;/li>&#xa;&lt;li>Care for common injuries and emergencies such as choking, burns, cuts and bee stings&lt;br>&#xa;&lt;/li>&#xa;&lt;li>Communicate effectively with parents&lt;/li>&#xa;&lt;li>Find and interview for babysitting jobs&lt;/li>&#xa;&lt;li>Leadership skills&lt;/li>&#xa;&lt;/ul>&#xa;&lt;div>The instructors who teach this course have two&amp;nbsp;young daughters of their own and they know from life experience the characteristics and skills that parents are looking for in babysitters. This is a 5 hour course and upon successful completion, students will receive official certification cards from the American Safety and Health Institute. *&lt;/div>&#xa;"
+            end="{Date}2015-11-07T14:30:00.000-05:00"
+            locationLabel="Girl Scouts of Gateway Council"
+            register="http://girlscouts-gateway.doubleknot.com/openrosters/ViewActivitySpaceAvailable.aspx?orgkey=2736&amp;activitykey=1805018"
+            start="{Date}2015-11-07T09:30:00.020-05:00">
+            <image
+                jcr:lastModified="{Date}2015-10-23T16:57:31.153-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

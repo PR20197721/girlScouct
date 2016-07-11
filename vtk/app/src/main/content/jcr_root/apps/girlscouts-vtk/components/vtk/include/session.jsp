@@ -7,7 +7,7 @@
                 org.apache.commons.lang3.time.FastDateFormat,
                 org.apache.sling.runmode.RunMode"%>
 <%!
-// put all static in util classes
+    // put all static in util classes
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
     java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
     
@@ -30,7 +30,11 @@
 %>
 
 
+
 <% 
+
+String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
+
 
 	boolean isMultiUserFullBlock = true;
 // Why so heavy?  Do we need to load all services here or maybe on demand is better?
@@ -82,10 +86,30 @@
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
+		
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-			out.println("Your session has timed out.  Please refresh this page and login.");
+		    
+		    if( session.getAttribute("fatalError")!=null ){
+		    	%><div id="panelWrapper" class="row meeting-detail content">
+                 <div class="columns large-20 large-centered">
+                	<%@include file="vtkError.jsp" %>
+		    	 </div>
+		    	</div><%
+		    }else{
+		    
+		    
+				    %>
+				    <div id="panelWrapper" class="row meeting-detail content">
+		             <div class="columns large-20 large-centered">
+		                <p>
+		                   Your session has timed out.  Please refresh this page and login.
+		                 </p>
+		             </div>
+		            </div>
+					<% 
+		    }
 			return;
 		}
 	} catch (ClassCastException cce) {
@@ -98,15 +122,14 @@
 		return;
 	}
 	
-			
+		
 	if((apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
-			|| (apiConfig.getTroops().get(0).getType() == 1)) ){
-		
-		
+			|| (apiConfig.getTroops().get(0).getType() == 1)) ){		
 			%>
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
+			    <%@include file="vtkError.jsp" %>
 			    <p>
 			    The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
 			     </p>
@@ -117,7 +140,9 @@
 			</div>
 			
 			<%
-		    return;
+
+				return;
+			
 	}
 
 	
@@ -161,12 +186,15 @@
 		if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals("")) {
 			errMsg = troop.getErrCode();
 		}
+		
 	    org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 		if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
 		  prefTroop = apiConfig.getTroops().get(0);
 		}
 	  
 		if( troop!=null){
+			
+	  		
 			for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
 				if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
 					prefTroop = apiConfig.getTroops().get(ii);
@@ -174,12 +202,19 @@
 				}
 			}
 	    }else{
+
+	    
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				theCookie: for (int i = 0; i < cookies.length; i++) {
+					
+	
 					if (cookies[i].getName().equals("vtk_prefTroop")) {
+						
+	 
 						for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
 							String gradeLevel = apiConfig.getTroops().get(ii).getGradeLevel();
+							
 							if (gradeLevel != null && gradeLevel.equals(cookies[i].getValue())) {
 								prefTroop = apiConfig.getTroops().get(ii);
 								break theCookie;
@@ -192,8 +227,9 @@
 
 		try{
 		   if(!(apiConfig.getUser().isAdmin() && prefTroop.getTroopId().equals("none"))) {
-System.err.println("tata session1");
+
 			   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+
 		   }
 		} catch (org.girlscouts.vtk.utils.VtkException ec ){
 %>
@@ -214,7 +250,6 @@ System.err.println("tata session1");
 		
 	    if (troop == null ) {
 	        try{
-	        	System.err.println("tata session2"); 	
 	        
 	            troop = troopUtil.createTroop(user,  "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
             }catch(org.girlscouts.vtk.utils.VtkException e){
@@ -238,7 +273,7 @@ System.err.println("tata session1");
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 		session.setAttribute("VTK_troop", troop);
 	}
-	System.err.println("tata session3");
+	
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
 		troops = user.getApiConfig().getTroops();
@@ -251,14 +286,22 @@ System.err.println("tata session1");
 	}
 
 	RunMode runModeService = sling.getService(RunMode.class);
-	String apps[] = new String[1]; // Why not just use a String dude
-	apps[0]="prod";
-	if( runModeService.isActive(apps) ){ 
-	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
+	String apps[] = new String[] {"prod"}; 
+	String prodButDontTrack[] = new String[]{"gspreview"};
+	
+	
+	
+	if( runModeService.isActive(apps) && !runModeService.isActive(prodButDontTrack)){ 
+	    String footerScript ="<script>window['ga-disable-UA-2646810-36'] = false; vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"', '"+ troop.getSfCouncil() +"', '"+ troop.getSfTroopAge()+"', '" + (troop.getYearPlan() == null ? "" : troop.getYearPlan().getName()) + "'); vtkTrackerPushAction('View'); showSelectedDemoTroop('"+troop.getSfTroopAge()+"');</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}else{
-		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true;</script>";
+		String footerScript ="<script>window['ga-disable-UA-2646810-36'] = true; showSelectedDemoTroop('"+troop.getSfTroopAge()+"')</script>";
 	    request.setAttribute("footerScript", footerScript);
 	}
-	System.err.println("tata session4");
-%>
+
+
+            
+%>                
+                   
+           
+                

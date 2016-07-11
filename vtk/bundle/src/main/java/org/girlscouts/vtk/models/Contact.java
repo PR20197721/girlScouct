@@ -21,7 +21,7 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	
 	private java.util.List <Contact>contacts;
 	private String accountId;
-	
+	private boolean renewalDue;
 	
 	
 	public Integer getType() {
@@ -198,5 +198,14 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	public void setContactId(String contactId) {
 		this.contactId = contactId;
 	}
+
+	public boolean isRenewalDue() {
+		return renewalDue;
+	}
+
+	public void setRenewalDue(boolean renewalDue) {
+		this.renewalDue = renewalDue;
+	}
+
 	
 }

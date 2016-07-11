@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:35.557-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/ags,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She's a Park Explorer (DBJ)"
+        jcr:uuid="46c7deab-a517-4907-b6a3-0cfb8f63b2d7"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="13802 Pumpkin Hill Rd, Jacksonville, FL 32226"
+            details="Welcome to the wet and wild world of Pumpkin Hill Creek Preserve State Park. Learn about the importance of this upland area as a wetland buffer preserve for JacksonvilleÍs water. Over 4,000 acres of forest, swamps and marsh are protected as a filter for our fresh water. Rangers protect the conservation area and work to restore and maintain habitats. Learn about the different methods that are used, including wetland monitoring and prescribed fire. Hands-on activities will include water conservation games, water sampling and a fire engine demonstration. This event costs $7 per person."
+            end="{Date}2014-01-10T12:00:00.000-05:00"
+            locationLabel="Pumpkin Hill Creek Preserve State Park"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=506279307"
+            srchdisp="Welcome to the wet and wild world of Pumpkin Hill Creek Preserve State Park. Learn about the different methods that are used, including wetland monitoring and prescribed fire. Hands-on activities will include water conservation games, water sampling and a fire engine demonstration."
+            start="{Date}2014-01-10T10:00:00.000-05:00"/>
+    </jcr:content>
+</jcr:root>

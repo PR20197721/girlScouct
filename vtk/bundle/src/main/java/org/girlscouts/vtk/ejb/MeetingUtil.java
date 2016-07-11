@@ -257,6 +257,7 @@ public class MeetingUtil {
 			if (plan.getSchedule() != null) {
 
 				String calMeeting = plan.getSchedule().getDates();
+				
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
@@ -860,21 +861,22 @@ public class MeetingUtil {
 	public PlanView planView(User user, Troop troop,
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 		return planView(user, troop, request, false);
+		
 	}
 	
 	public PlanView planView(User user, Troop troop,
-			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {
-System.err.println("tatattx meetingUtil planView START....");	
+			javax.servlet.http.HttpServletRequest request, boolean isUpdateAssetInDb) throws Exception {	
 		PlanView planView = planView1(user, troop, request);
+		
 		if (planView == null) {
 			return null;
 		}
-
+	
 		YearPlanComponent _comp = planView.getYearPlanComponent();
 		if (_comp == null) {
 			return null;
 		}
-
+	
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
@@ -914,34 +916,48 @@ System.err.println("tatattx meetingUtil planView START....");
 			
 			java.util.Date sysAssetLastLoad = dataImportTimestamper
 					.getTimestamp();
-			if (meeting.getLastAssetUpdate() == null
-					|| meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
-			
+
+			if ( meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
+
 				_aidTags = _aidTags == null ? new java.util.ArrayList()
 						: _aidTags;
-
 				// rm cachables
 				java.util.List aidToRm = new java.util.ArrayList();
 				for (int i = 0; i < _aidTags.size(); i++) {
 					if (_aidTags.get(i).getIsCachable())
 						aidToRm.add(_aidTags.get(i));
 				}
+				
+
 
 				for (int i = 0; i < aidToRm.size(); i++)
 					_aidTags.remove(aidToRm.get(i));
+
+				
 
 				// query aids cachables
 				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
 						meetingInfo.getAidTags(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
 
+				
 				// merge lists aids
 				_aidTags.addAll(__aidTags);
 
 				// query resources cachables
+
+
+/*
 				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
 						meetingInfo.getResources(), meetingInfo.getId(),
 						meeting.getUid(), meetingInfo.getPath());
+*/
+				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
+						meetingInfo.getAidTags(), meetingInfo.getId(),
+						meeting.getUid(), meetingInfo.getPath());
+
+
+
 
 				// merge lists resources
 				_aidTags.addAll(__resources);
@@ -966,8 +982,7 @@ System.err.println("tatattx meetingUtil planView START....");
 		if (meeting != null)
 			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
-		planView.setAidTags(_aidTags);
-System.err.println("tata meetingUtil planView end....");		
+		planView.setAidTags(_aidTags);		
 		return planView;
 	}
 

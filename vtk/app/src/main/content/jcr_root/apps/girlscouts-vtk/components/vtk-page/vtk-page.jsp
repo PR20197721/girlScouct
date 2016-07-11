@@ -1,36 +1,72 @@
-<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
+<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/>
+
+<%
+try{
+   HttpSession session = request.getSession();
+   final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
+   boolean isDemoSite= false;
+   String _demoSite = configManager.getConfig("isDemoSite");
+   if( _demoSite!=null && _demoSite.equals("true") )
+    { isDemoSite=true;}
+  
 
 
 
-    HttpSession session = request.getSession();
+    if( request.getParameter("useAsDemo")!=null && !request.getParameter("useAsDemo").trim().equals("") ){
+    		session.setAttribute("useAsDemo", request.getParameter("useAsDemo"));
+    }else{
+    	    session.removeAttribute("useAsDemo");
+    }
+  
     String myUrl = request.getRequestURL().toString();
+       
+    if(  myUrl.trim().contains("vtk.demo.index.html") ) {
+        
+        org.girlscouts.vtk.auth.models.ApiConfig apiConfig=  new org.girlscouts.vtk.auth.models.ApiConfig();
+        session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), apiConfig);
+    }
     
     if( myUrl!=null)
     	myUrl= java.net.URLDecoder.decode( myUrl);
-if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html")  ){
-    org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
-	try{
-		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
-		    session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
-	} catch (ClassCastException exc) { 
-		session.invalidate();
-		apiConfig=null; 
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	
-
+    
+  if (myUrl.trim().contains("/en/vtk.home.html") && session.getAttribute("fatalError")!=null)
+    	;
+    
+  else if( myUrl==null || !myUrl.trim().contains("/controllers/vtk.logout.html") ){
+    
+	  org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+	    try{
+	        apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
+	            session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+	    } catch (ClassCastException exc) { 
+	        session.invalidate();
+	        apiConfig=null; 
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    
+  
+    
 	if( apiConfig==null ){
+	 
 	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
+	    if( isDemoSite ){
+	        redirectTo = "/content/girlscouts-demo/en.html";    
+	    }
+	    
 	    // GSWS-190 Add refererCouncil
 	    String refererCouncil = request.getParameter("refererCouncil");
 	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
 	        redirectTo = redirectTo + "&refererCouncil=" + refererCouncil;
 	    }
 
+
 		response.sendRedirect(redirectTo);
-		return;
+		return;		
+		
 	}
+   System.out.println("ApiConfig not null and not failed.");
+
 }
 
 	
@@ -90,5 +126,5 @@ request.setAttribute("altSearchPath", referer);
 
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
-
+<%}catch(Exception e){e.printStackTrace();}%>
 </html>

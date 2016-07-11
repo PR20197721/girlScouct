@@ -4,17 +4,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
-
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
-
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 <script>
 
   function doChkSubmitValid(){
@@ -306,7 +295,7 @@
                     String str=(String) itr1.next();
                     %>
                     <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
-                    <label for="sch_lvl_<%=i %>"><p><span><%= str %></span></p></label></li>
+                    <label for="sch_lvl_<%=i %>"><p><span><%= levels.get(str) %></span></p></label></li>
                   <% } %>
                 </ul>
               </div>
@@ -329,6 +318,11 @@
                   <% } %>
                 <ul>
               </ul>
+            
+            <%if(apiConfig.isDemoUser()){%>  
+              <p style="color:orange;text-align: right; width:100%">Council activities are not available in the demo at this time.</p>
+            <%}%>
+            
             </div>
 
             <input type="button" value="View Activities" onclick='searchActivities()' class="button btn right"/>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-18T10:38:30.767-04:00"
+        cq:lastModifiedBy="mkaufman"
+        cq:lastReplicated="{Date}2014-07-30T01:49:45.506-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts send smiles, cookies to Second Harvest"
+        jcr:uuid="4a8c32bc-528c-486e-8b7e-d1f525680310"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2013-05-13T13:15:00.000-04:00"
+        description="First came a pallet full of Do-Si-Dos and Trefoils rolling into Second Harvest North Florida’s Jessie Street warehouse Monday in Jacksonville.">
+        <middle jcr:primaryType="nt:unstructured">
+            <par jcr:primaryType="nt:unstructured">
+                <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/textimage"
+                    text="&lt;p>First came a pallet full of Do-Si-Dos and Trefoils rolling into Second Harvest North Florida’s Jessie Street warehouse Monday in Jacksonville.&lt;/p>&#xa;&lt;p>Then assistant warehouse manager Isadore Celestine unloaded more pallets, each at least 6 feet high with donated cookies picked up from the Girl Scouts of Gateway Council warehouse.&lt;/p>&#xa;&lt;p>The bad news — no Thin Mints since they always sell out.&lt;/p>&#xa;&lt;p>The good news — the 1,200-box donation from the Girl Scouts will be a special treat combined with the regular food donations Second Harvest sends out to the nonprofit agencies it helps every day. Some cookies will also go into the children’s backpacks Second Harvest gives away when school starts in August.&lt;/p>&#xa;&lt;p>“Our clients are not likely to be able to afford something like that,” Second Harvest community engagement director Kimberly Mariani said.&lt;/p>&#xa;&lt;p>The Girl Scouts sold 1,251,137 boxes in 2012 in the Gateway Council’s 16-county area vs. 1,190,424 the year before. They usually give away about 300 cases to Jacksonville Naval Air Station for overseas sailor care packages.&lt;/p>&#xa;&lt;p>“Since we had a few more leftover this year, Second Harvest was the natural choice,” Gateway Council spokeswoman Nancy White said.&lt;/p>&#xa;&lt;p>Second Harvest serves about 450 member agencies in a 17-county area in North Florida, including church pantries, senior citizen centers, after-school and summer programs and shelters from Alachua to Union County.&lt;/p>&#xa;&lt;p>“We get cookies, but not Girl Scout cookies, and there is something about a Girl Scout cookie that puts a smile on your face,” Mariani said.&lt;/p>&#xa;&lt;p>dan.scanlan@jacksonville.com, (904) 359-4549&lt;/p>&#xa;"
+                    textIsRich="true">
+                    <image
+                        jcr:lastModified="{Date}2014-07-18T10:38:30.762-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        imageRotate="0"/>
+                </text>
+            </par>
+        </middle>
+    </jcr:content>
+</jcr:root>

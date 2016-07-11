@@ -41,6 +41,13 @@
    	// TODO: language
    	branch += "/en";
    	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
+   	System.err.println("***"+branch +" : "+ newCurrentPage); 
+   	
+   	if( newCurrentPage==null ){
+   		System.err.println("Error in body.jsp missing design for council: "+ branch);
+   		out.println("Missing council design on branch: "+ branch);
+   		return;
+   	}
    	
    	// Get design
 	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
@@ -71,16 +78,25 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
-				%>
-				<cq:include script="header.jsp"/>
-				<%
+		    	if( apiConfig.isDemoUser() ){
+                    %><cq:include script="headerDemo.jsp"/><% 
+                }else{
+    				%><cq:include script="header.jsp"/><%
+    			}//end else
+				
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}
 					if (newCurrentDesign != null) {
 					    request.removeAttribute("newCurrentDesign");
 					}
+				
+				
+				
+				
 				%>
+				
+				
 				<cq:include script="content.jsp"/>
 				<%
 					if (newCurrentPage != null) {
@@ -89,9 +105,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
-				%>
-				<cq:include script="footer.jsp"/>
-				<%
+				
+				
+				if( apiConfig.isDemoUser() ){
+                    %><cq:include script="footerDemo.jsp"/><% 
+                }else{
+                    %><cq:include script="footer.jsp"/><%
+                }//end else
+				
+				
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}
@@ -136,4 +158,24 @@ if (thisFooterScript!= null) {
     out.println("");
 }
 %>
-	</body>
+
+
+
+    
+<script>
+  function chkFrame() {
+    try{ 
+    	var fr = document.getElementById("test4");
+    	if (fr.contentDocument.location){
+    		console.log("good. logged in.>>>>>>>");
+    	}
+    }catch(err){console.log( err ); doVtkLogout(); }
+  }
+  
+ function doAlex(){
+	  window.setTimeout(function(){chkFrame();}, 2000);
+ }
+</script>
+</body>
+	
+	

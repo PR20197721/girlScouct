@@ -3,19 +3,12 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%	
-  	String startAlterDate = request.getParameter("alterYPStartDate") == null ? "" : request.getParameter("alterYPStartDate");
-%>
-
-
-
-
-
-<%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
+  String startAlterDate = request.getParameter("alterYPStartDate") == null ? "" : request.getParameter("alterYPStartDate");
+  if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
 <%} %>
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
-
     <div class="small-5 columns date">
       <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
@@ -50,66 +43,70 @@
       <%
       String exlDates = troop.getYearPlan().getCalExclWeeksOf();
       exlDates= exlDates==null ? "" : exlDates.trim();
-    
-     
-      //UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
       String[] split_exclDates = exlDates.split(",");
+
       java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
     
       //sort
       holidays= new java.util.TreeMap(holidays);
+
       %>
       
-      
-     
     <ul class="small-block-grid-3">
-     
-     
      <%
-     java.util.Iterator itr= holidays.keySet().iterator();
-     int holidayCount=0;
-     
-    if( exlDates.equals("") ){ //pull from default config
-     while(itr.hasNext()){
-    	 holidayCount++;
-    	 Long holidayDate= (Long)itr.next();
-    	 String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(holidayDate));
-    	 String holidayTitle = holidays.get(holidayDate);   	 
-      %>  
-      <li>
-      <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
-      </li>
-     <%}
-     }else{ //pull from db %>
-     
-     
-    
-       <%for(int i=0;i<split_exclDates.length;i++){
-    	  try{
-    	   holidayCount++;
-    	   String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(split_exclDates[i]));
-           String holidayTitle = holidays.get(new java.util.Date(holidayDateFmt).getTime()) ;
-    	   
-    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
-       %>
-         <li>
-            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
-         </li>
-      <%}catch(Exception e){e.printStackTrace();}
-       }
+        java.util.Iterator itr= holidays.keySet().iterator();
+        int holidayCount=0;
+	    if( exlDates.equals("") ){ //pull from default config
+	     while(itr.hasNext()){
+	    	 holidayCount++;
+	    	 Long holidayDate= (Long)itr.next();
+	    	 String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(holidayDate));
+	    	 String holidayTitle = holidays.get(holidayDate);   	 
+	      %>  
+	      <li>
+	         <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+	      </li>
+	     <%}
+	     }else{ //pull from db %>
+	       <%
+	       java.util.List<Long> storedHolidayDates = new java.util.ArrayList<Long>();       
+	       for(int i=0;i<split_exclDates.length;i++){
+	    	  try{
+	    	   holidayCount++;
+	    	   String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(split_exclDates[i]));
+	           String holidayTitle = holidays.get(new java.util.Date(holidayDateFmt).getTime()) ;
+	           storedHolidayDates.add(new java.util.Date(holidayDateFmt).getTime());    	   
+	    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
+		       %>
+		         <li>
+		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
+		         </li>   
+		      <%
+	    	  }catch(Exception e){e.printStackTrace();}
+	       }
+	       if( itr!=null )      
+	        while( itr.hasNext()){ 
+	           try{	
+		           long holidayDate = (Long) itr.next();
+		           if( storedHolidayDates!=null && !storedHolidayDates.contains(holidayDate) ){
+		        	   holidayCount++;
+		               String holidayDateFmt= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY ,new java.util.Date(holidayDate));
+		               String holidayTitle = holidays.get(holidayDate); 
+		               %>
+		                <li>
+		                    <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+		                </li>
+		               <%
+		           }//end if
+	           }catch(Exception e){e.printStackTrace();}
+		    }//end while
      }//end else
        %>
       
     </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
-
-
-
-
-<div id="calView"></div>
-<script>
-
-   $( "#calStartDt" ).datepicker();
- 
-</script>
+  <div id="calView"></div>
+  <script>
+	   $( "#calStartDt" ).datepicker();
+  </script>

@@ -3,6 +3,6 @@
     jcr:description="An Image"
     jcr:primaryType="cq:Component"
     jcr:title="Image"
-    sling:resourceSuperType="foundation/components/parbase"
+    sling:resourceSuperType="girlscouts/components/parbase"
     allowedParents="[*/parsys]"
     componentGroup="Girl Scouts"/>

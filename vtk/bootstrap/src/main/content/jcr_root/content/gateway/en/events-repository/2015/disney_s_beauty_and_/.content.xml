@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-30T12:24:16.977-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Disney's Beauty and the Beast"
+        jcr:uuid="cecfaf75-a4ce-4e80-86aa-678ce59d3704"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>&lt;p>Tale as old as time..&lt;/p>&#xa;&lt;/p>&#xa;&lt;p>&lt;p>Be our guest as we watch to see if Belle will capture the heart of the Beast before the last petal falls! Meet Belle, the Beast, Mrs. Potts, and more of our friends from the cast immediately following the performance!&amp;nbsp;&lt;/p>&#xa;&lt;/p>&#xa;"
+            end="{Date}2015-10-09T22:00:00.000-04:00"
+            locationLabel="Times-Union Center"
+            start="{Date}2015-10-09T20:00:00.008-04:00">
+            <image
+                jcr:lastModified="{Date}2015-09-30T12:24:16.973-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/images/BeautyBeast.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

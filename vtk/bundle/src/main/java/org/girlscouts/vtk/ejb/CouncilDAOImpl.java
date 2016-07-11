@@ -76,6 +76,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
+			/*
 			classes.add(YearPlan.class);
 			classes.add(MeetingE.class);
 			classes.add(Location.class);
@@ -89,11 +90,17 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Attendance.class);
 			classes.add(Achievement.class);
 			classes.add(org.girlscouts.vtk.models.MeetingCanceled.class);
+			*/
+			
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			council = (Council) ocm.getObject(VtkUtil.getYearPlanBase(user, null) + councilId);
-	
+			
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
+			
+String p= VtkUtil.getYearPlanBase(user, null) + councilId; 
+
+			council = (Council) ocm.getObject(p);
+			
+			
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec ){
 			throw new VtkException("Could not complete intended action due to a server error. Code: "+ new java.util.Date().getTime());
 		
@@ -107,6 +114,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				ex.printStackTrace();
 			}
 		}
+		
 		return council;
 	}
 
@@ -217,13 +225,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
 			throws IllegalAccessException{
 		//TODO Permission.PERMISSION_VIEW_MILESTONE_ID
-		CouncilInfo list = getCouncilInfo(councilCode);
+		CouncilInfo list = getCouncilInfo(user, councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
 		return milestones;
 	}
 
-	private CouncilInfo getCouncilInfo(String councilCode) {
+	// TODO: Alex - deprecate this method after full testing of method removal
+    private CouncilInfo getCouncilInfo(String councilCode) {
+		return getCouncilInfo(null, councilCode);
+	}
+
+	private CouncilInfo getCouncilInfo(User user, String councilCode) {
 
 		Session session = null;
 		CouncilInfo cinfo = null;
@@ -239,7 +252,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = VtkUtil.getYearPlanBase(null, null) + councilCode + "/councilInfo";
+			String path = VtkUtil.getYearPlanBase(user, null) + councilCode + "/councilInfo";
 			if (session.itemExists(path)) {
 				cinfo = (CouncilInfo) ocm.getObject(path);
 				if (cinfo == null)
@@ -289,7 +302,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			CouncilInfo list = getCouncilInfo(cid);
+			CouncilInfo list = getCouncilInfo(user, cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
 			sortMilestonesByDate(oldMilestones);
 			int i = 0;

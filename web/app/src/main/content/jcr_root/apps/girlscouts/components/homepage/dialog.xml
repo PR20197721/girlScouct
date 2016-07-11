@@ -83,6 +83,7 @@
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
                             fieldLabel="Tracking"
+                            xtype="textarea"
                             name="./footerTracking"/>
                         <event-cart
                         	jcr:primaryType="cq:Widget"

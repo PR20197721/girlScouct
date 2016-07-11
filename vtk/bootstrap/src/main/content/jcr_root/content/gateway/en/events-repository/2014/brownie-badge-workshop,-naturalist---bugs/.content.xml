@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:31.266-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/brownie,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Brownie Badge Workshop, Naturalist - Bugs"
+        jcr:uuid="38d5988d-c798-456e-97af-3b926649cc72"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            details="Through hands-on crafts and activities, and through classroom discussion, scouts will learn about the little bugs around us and where they live. Scouts will go out on a bug hunt to see the bugs in action. This event costs $12 per girl."
+            end="{Date}2014-10-18T11:00:00.000-04:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/"
+            srchdisp="Through hands-on crafts and activities, and through classroom discussion, scouts will learn about the little bugs around us and where they live. Scouts will go out on a bug hunt to see the bugs in action. "
+            start="{Date}2014-10-18T09:00:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

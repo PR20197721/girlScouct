@@ -56,7 +56,7 @@ public class Response {
 		String decodedS = new String(decodedB);
 		
 
-
+System.err.println("Decoded resp: "+decodedS);
 	xmlDoc = Utils.loadXML(decodedS);
 
 		
@@ -65,33 +65,35 @@ public class Response {
 	
 	public boolean isValid(){
 		try{
-			
+		
+	
 			// Security Checks
 			rootElement = xmlDoc.getDocumentElement();		
 			assertions = xmlDoc.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");		
 			xmlDoc.getDocumentElement().normalize();
-			
+		
 			// Check SAML version			
 			if (!rootElement.getAttribute("Version").equals("2.0")) {
 				throw new Exception("Unsupported SAML Version.");
 			}
+				
 			
 			// Check ID in the response	
 			if (!rootElement.hasAttribute("ID")) {
 				throw new Exception("Missing ID attribute on SAML Response.");
 			}
-			
+				
 			checkStatus();
-						
+				
 			if (assertions == null || assertions.getLength() != 1) {
 				throw new Exception("SAML Response must contain 1 Assertion.");
 			}
-	
+				
 			NodeList nodes = xmlDoc.getElementsByTagNameNS("*", "Signature");
 			if (nodes == null || nodes.getLength() == 0) {
 				throw new Exception("Can't find signature in Document.");
 			}
-	
+			
 			// Check destination
 			String destinationUrl = rootElement.getAttribute("Destination");
 			if (destinationUrl != null) {
@@ -130,6 +132,7 @@ public class Response {
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
 
 							validSubjectConfirmation = false;
+							
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
 						if(notOnOrAfter != null){						
@@ -140,7 +143,7 @@ public class Response {
 							now.add(java.util.Calendar.MINUTE, -99);
 							
 							if(notOnOrAfterDate.before(now)){
-
+								
 								validSubjectConfirmation = false;
 							}
 						}
@@ -149,6 +152,7 @@ public class Response {
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
+								
 								validSubjectConfirmation = false;
 							}
 						}
@@ -164,12 +168,19 @@ public class Response {
 				tagIdAttributes(xmlDoc);
 			}
 	*/
+			
 			X509Certificate cert = certificate.getX509Cert();		
+			
 			DOMValidateContext ctx = new DOMValidateContext(cert.getPublicKey(), nodes.item(0));
-			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");		
+			
+			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");	
+	
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-			return xmlSignature.validate(ctx);
+		
+			return xmlSignature.validate(ctx); 
+			//return true;
 		}catch (Error e) {
+			e.printStackTrace();
 			error.append(e.getMessage());
 			return false;
 		}catch(Exception e){

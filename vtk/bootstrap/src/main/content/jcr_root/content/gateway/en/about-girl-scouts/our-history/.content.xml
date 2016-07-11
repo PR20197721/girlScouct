@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-05-10T15:40:44.140-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastRolledout="{Date}2016-05-10T15:40:44.141-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:propertyInheritanceCancelled="[seoTitle]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveSync,cq:PropertyLiveSyncCancelled,mix:lockable,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Our History"
+        jcr:uuid="5444b38b-992d-4357-b902-f73e5929fb5b"
+        sling:resourceType="girlscouts/components/three-column-page"
+        seoTitle="Our History | Girl Scouts of Gateway Council">
+        <content
+            cq:lastRolledout="{Date}2016-05-10T15:40:43.983-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2016-05-10T15:40:44.002-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2016-05-10T15:40:44.025-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <image
+                        cq:lastRolledout="{Date}2016-05-10T15:40:44.130-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-27T14:38:42.118-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2016-05-10T15:40:44.128-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/girlscouts-shared/images/heroes/history-hero.jpg"
+                        imageRotate="0"/>
+                    <title
+                        cq:lastRolledout="{Date}2016-05-10T15:40:44.133-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-21T09:56:50.792-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2016-05-10T15:40:44.131-04:00"
+                        jcr:lastModifiedBy="dlubin"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Our History - Test Update"
+                        sling:resourceType="foundation/components/title"/>
+                    <text
+                        cq:lastRolledout="{Date}2016-05-10T15:40:44.137-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-21T09:56:55.106-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2016-05-10T15:40:44.135-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>Juliette Gordon Low had a dream.&lt;/b>&lt;/p>&#xa;&lt;p>When she brought that first group of girls together in Savannah, Georgia in early March 1912, she wanted them to explore new possibilities and the wonders of the world around them—and she wanted them to do it together.&lt;/p>&#xa;&lt;p>Along with Juliette Gordon Low—also known as Daisy, these first Girl Scouts blazed trails and redefined what was possible for themselves—and for girls everywhere. They played basketball. They hiked, swam, and they camped. They learned to tell time by the stars. But most importantly, they shared a sense of adventure and a belief that they could do anything. And just like Girl Scouts do across the country and around the world today, they offered a helping hand to those in need and worked together to make their corner of the world a better place.&amp;nbsp;&lt;/p>&#xa;&lt;p>Over the past century, Daisy's small circle of girls has grown to include more than 59 million Girl Scout alumnae—united across distance and decades by lifelong friendships, shared adventures, and the desire to do big things to make the world a better place.&amp;nbsp;&lt;/p>&#xa;&lt;p>&lt;a adhocenable=&quot;false&quot; href=&quot;http://www.girlscouts.org/who_we_are/history/&quot; target=&quot;_blank&quot;>Read more&lt;/a> about Juliette Gordon Low and Girl Scout history.&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;br>&#xa;&lt;i>&lt;b>“Truly, ours is circle of friendships, united by our ideals.”&amp;nbsp;&lt;/b>&lt;/i>&lt;br>&#xa;—&lt;i>&amp;nbsp;Juliette Gordon Low&amp;nbsp;&lt;/i>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;br>&#xa;&lt;img src=&quot;/content/dam/girlscouts-shared/template/images/about/JGL.jpg&quot;>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&amp;nbsp;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_0
+                        cq:lastRolledout="{Date}2016-05-10T15:40:44.141-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-08-06T10:06:59.461-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2016-05-10T15:40:44.138-04:00"
+                        jcr:lastModifiedBy="mzou"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p style=&quot;text-align: center;&quot;>&lt;a href=&quot;/content/gateway/en/about-girl-scouts/join.html&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/buttons/btn_join_white_small.png&quot;>&lt;/a>&amp;nbsp;&lt;a href=&quot;/content/gateway/en/for-volunteers/why-volunteer.html&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/buttons/btn_vol_white_small.png&quot;>&lt;/a>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-04-06T11:40:19.085-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <cq:LiveSyncConfig
+            cq:isDeep="{Boolean}true"
+            cq:master="/content/girlscouts-template/en/about-girl-scouts/our-history"
+            cq:rolloutConfigs="[]"
+            jcr:primaryType="cq:LiveSyncConfig"/>
+    </jcr:content>
+</jcr:root>

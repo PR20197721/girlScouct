@@ -3,8 +3,8 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-07-02T13:25:52.344-04:00"
-        cq:lastModifiedBy="admin"
+        cq:lastModified="{Date}2016-04-05T18:11:14.666-04:00"
+        cq:lastModifiedBy="dlubin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
@@ -118,10 +118,10 @@
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>
                     <and
-                        jcr:created="{Date}2014-06-13T12:06:07.418-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-06-13T12:06:07.418-04:00"
-                        jcr:lastModifiedBy="admin"
+                        jcr:created="{Date}2016-04-05T18:10:27.967-04:00"
+                        jcr:createdBy="dlubin"
+                        jcr:lastModified="{Date}2016-04-05T18:10:27.967-04:00"
+                        jcr:lastModifiedBy="dlubin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="cq/workflow/components/model/and"
                         branches="2">
@@ -129,13 +129,13 @@
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="cq/flow/components/parsys">
                             <process
-                                jcr:created="{Date}2014-06-13T12:06:56.521-04:00"
-                                jcr:createdBy="admin"
+                                jcr:created="{Date}2016-04-05T18:11:09.766-04:00"
+                                jcr:createdBy="dlubin"
                                 jcr:description="Activates the page on Publish1"
-                                jcr:lastModified="{Date}2014-06-19T09:47:30.911-04:00"
-                                jcr:lastModifiedBy="admin"
+                                jcr:lastModified="{Date}2016-04-05T18:11:09.766-04:00"
+                                jcr:lastModifiedBy="dlubin"
                                 jcr:primaryType="nt:unstructured"
-                                jcr:title="Approve and Activate Page on Publish1"
+                                jcr:title="Double click to enter title."
                                 sling:resourceType="cq/workflow/components/model/process">
                                 <metaData
                                     jcr:primaryType="nt:unstructured"
@@ -143,49 +143,18 @@
                                     PROCESS_ARGS="agent:publish1useast1"
                                     PROCESS_AUTO_ADVANCE="true"/>
                             </process>
-                            <process_0
-                                jcr:created="{Date}2014-07-01T15:51:21.806-04:00"
-                                jcr:createdBy="admin"
-                                jcr:description="Roll out the source page and activate the target page."
-                                jcr:lastModified="{Date}2014-07-02T13:25:52.340-04:00"
-                                jcr:lastModifiedBy="admin"
-                                jcr:primaryType="nt:unstructured"
-                                jcr:title="Roll Out and Activate"
-                                sling:resourceType="cq/workflow/components/model/process">
-                                <metaData
-                                    jcr:primaryType="nt:unstructured"
-                                    PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
-                                    PROCESS_AUTO_ADVANCE="true"/>
-                            </process_0>
-                            <customsendemailproce
-                                jcr:created="{Date}2014-06-17T22:48:04.051-04:00"
-                                jcr:createdBy="admin"
-                                jcr:description="Sends an approval email back to the individual who initiated the workflow."
-                                jcr:lastModified="{Date}2014-06-19T09:48:05.518-04:00"
-                                jcr:lastModifiedBy="admin"
-                                jcr:primaryType="nt:unstructured"
-                                jcr:title="Send Email to Initiator"
-                                sling:resourceType="girlscouts/components/customsendemailprocess"
-                                PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
-                                PROCESS_AUTO_ADVANCE="true">
-                                <metaData
-                                    jcr:primaryType="nt:unstructured"
-                                    PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
-                                    PROCESS_AUTO_ADVANCE="true"
-                                    templatePath="/etc/workflow/notification/email/default/approval.txt"/>
-                            </customsendemailproce>
                         </_x0031_>
                         <_x0032_
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="cq/flow/components/parsys">
                             <process
-                                jcr:created="{Date}2014-06-13T12:06:58.363-04:00"
-                                jcr:createdBy="admin"
+                                jcr:created="{Date}2016-04-05T18:11:14.642-04:00"
+                                jcr:createdBy="dlubin"
                                 jcr:description="Activates the page on Publish2"
-                                jcr:lastModified="{Date}2014-06-19T09:47:40.696-04:00"
-                                jcr:lastModifiedBy="admin"
+                                jcr:lastModified="{Date}2016-04-05T18:11:14.642-04:00"
+                                jcr:lastModifiedBy="dlubin"
                                 jcr:primaryType="nt:unstructured"
-                                jcr:title="Publish2"
+                                jcr:title="Double click to enter title."
                                 sling:resourceType="cq/workflow/components/model/process">
                                 <metaData
                                     jcr:primaryType="nt:unstructured"
@@ -195,6 +164,37 @@
                             </process>
                         </_x0032_>
                     </and>
+                    <process_1847258135
+                        jcr:created="{Date}2016-04-05T18:06:59.310-04:00"
+                        jcr:createdBy="dlubin"
+                        jcr:description="Roll out the source page and activate the target page."
+                        jcr:lastModified="{Date}2016-04-05T18:08:13.060-04:00"
+                        jcr:lastModifiedBy="dlubin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Rollout page content"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process_1847258135>
+                    <customsendemailproce
+                        jcr:created="{Date}2016-04-05T18:07:01.854-04:00"
+                        jcr:createdBy="dlubin"
+                        jcr:description="Sends an email based on an email template"
+                        jcr:lastModified="{Date}2016-04-05T18:07:01.854-04:00"
+                        jcr:lastModifiedBy="dlubin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Send Email to Initiator"
+                        sling:resourceType="girlscouts/components/customsendemailprocess"
+                        PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                        PROCESS_AUTO_ADVANCE="true">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
+                            PROCESS_AUTO_ADVANCE="true"
+                            templatePath="/etc/workflow/notification/email/default/approval.txt"/>
+                    </customsendemailproce>
                 </_x0031_>
                 <_x0032_
                     jcr:primaryType="nt:unstructured"

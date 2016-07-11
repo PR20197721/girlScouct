@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-11T16:00:17.195-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="GSI Camporee"
+        jcr:uuid="58dc3afb-b31c-46ec-9cab-8f8fe5fe9b18"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Join us for the weekend or just for the day as we become Girl Scout Investigators.&amp;nbsp; Learn how to follow clues and solve mysteries.&amp;nbsp; Junior and Cadette leaders: &amp;nbsp;Bring your badge books as the girls will meet some of the requirements for the Detective and Special Agent badges.&lt;/p>&#xa;&lt;p>** the Saturday only session runs from 8:30am to 6:30pm and includes lunch and supper&lt;/p>&#xa;&lt;p>** Camporees are open to all Girl Scouts of Gateway Council who are registered for the 2016 Membership year.&amp;nbsp; All adults must be registered and approved volunteers for the 2016 membership year.&lt;/p>&#xa;&lt;p>** Adult spots are limited, please follow&amp;nbsp;the adult to girl ratios&amp;nbsp;in Safety Activity Checkpoints.&amp;nbsp;&amp;nbsp;&lt;b>&lt;i>Note&lt;/i>&lt;/b>: Daisies must have a one to one ratio.&lt;/p>&#xa;"
+            end="{Date}2015-11-08T11:00:00.000-05:00"
+            locationLabel="Camp Kateri"
+            register="http://girlscouts-gateway.doubleknot.com/event/gsi-camporee-nov-6-8-camp-kateri-community-3/1784766"
+            start="{Date}2015-11-06T17:00:00.168-05:00">
+            <image
+                jcr:lastModified="{Date}2015-09-11T16:00:17.190-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

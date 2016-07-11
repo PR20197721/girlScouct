@@ -1,0 +1,17 @@
+{
+	"authorRenderer": {
+		"ip": "10.1.29.49",
+		"hostname": "author-girlscouts-stage-aem61.adobecqms.net",
+		"alias": "author-stage.girlscouts.org"
+	},
+	"publishRenderer": {
+		"ip": "10.1.29.62",
+		"hostname": "girlscouts-stage-aem61.adobecqms.net"
+	},
+	"prefix": {
+		"www": "stage",
+		"prod": "stage",
+		"withDash": "-stage"
+	},
+	"dispatcherLogLevel": "3"
+}

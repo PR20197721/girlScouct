@@ -20,4 +20,7 @@
     <filter root="/etc/map.publish.prod.preview/vtk-data"/>
     <filter root="/etc/map.publish.prod.preview/myvtk"/>
     <filter root="/content/vtk-maintenance"/>
+    <filter root="/content/girlscouts-demo"/>
+    <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
+    <!-- <filter root="/content/vtk-demo"/> -->
 </workspaceFilter>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-12-16T15:14:03.084-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:lastRolledout="{Date}2015-05-08T13:29:10.171-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:propertyInheritanceCancelled="[seoTitle]"
+        cq:tags="[gateway:categories/cookies]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveSync,cq:PropertyLiveSyncCancelled,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Virtual Gift of Caring "
+        jcr:uuid="94520556-528e-44ff-b1c7-5e5af7d6d30b"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="http://www.girlscouts-gateway.org:80/content/gateway/vgoc"
+        seoTitle="Gift of Caring | Girl Scouts of Gateway Council">
+        <content
+            cq:lastRolledout="{Date}2015-05-08T13:29:09.975-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2015-05-08T13:29:10.006-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2015-05-08T13:29:10.036-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        cq:lastRolledout="{Date}2015-05-08T13:29:10.149-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-05-30T15:04:29.430-04:00"
+                        jcr:createdBy="bsnyder"
+                        jcr:lastModified="{Date}2015-05-08T13:29:10.148-04:00"
+                        jcr:lastModifiedBy="bsnyder"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <text_17d5
+                        jcr:created="{Date}2014-07-18T11:19:04.092-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2015-12-16T15:13:51.771-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>This year, Girl Scouts of Gateway Council is partnering with the local &lt;a adhocenable=&quot;false&quot; href=&quot;http://jaxuso.org&quot;>USO&lt;/a> office for our Virtual Gift of Caring Program. During the 2016 cookie sale Girl Scouts will ask customers to purchase additional boxes of cookies to be donated to the local USO. The USO will then distribute them to the troops stationed locally and overseas.&amp;nbsp;&lt;/p>&#xa;&lt;p>&lt;b>How does Virtual Gift of Caring work?&lt;br>&#xa;&lt;/b>Through the Virtual Gift of Caring (VGOC) option in eBudde, troops receive the money; girls receive credit for their sales; but neither will take possession of the donated cookies. The cookies will be allocated from the Council’s inventory and delivered to the USO at the end of the 2016 Cookie Program.&lt;/p>&#xa;&lt;p>Girls receive a Gift of Caring Patch for selling 15 or more Virtual Gift of Caring - Operation USO cookies and will also receive a pink camo cinch sack for selling 30 or more Virtual Gift of Caring - Operation USO cookies.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text
+                        cq:lastRolledout="{Date}2015-05-08T13:29:10.169-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-10T14:11:38.104-04:00"
+                        jcr:createdBy="ctruett"
+                        jcr:lastModified="{Date}2015-05-08T13:29:10.167-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:mixinTypes="[cq:LiveSyncCancelled]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="wcm/msm/components/ghost"
+                        initialSlingResourceType="girlscouts/components/text"
+                        text="&lt;p style=&quot;text-align: center;&quot;>&lt;br>&#xa;&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot; target=&quot;_blank&quot;>&lt;img src=&quot;/content/dam/girlscouts-shared/images/buttons/btn_find_cookies.png&quot;>&lt;/a>&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot;>&amp;nbsp;&lt;/a>&lt;a href=&quot;http://girlscouts.org/program/gs_cookies/&quot; adhocenable=&quot;false&quot;>&lt;/a>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_d143
+                        jcr:created="{Date}2015-12-16T15:10:34.582-05:00"
+                        jcr:createdBy="dpage"
+                        jcr:lastModified="{Date}2015-12-16T15:14:03.081-05:00"
+                        jcr:lastModifiedBy="dpage"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p>&lt;b>VGOC Activities&lt;/b>&lt;br>&#xa;Decorate your donation can for the USO with this fun &lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Operation%20USO%20Pringles%20Can%20Wrap.pdf&quot;>wrap&lt;/a>!&lt;br>&#xa;&lt;br>&#xa;Print out and sticker this &lt;a adhocenable=&quot;false&quot; href=&quot;/content/dam/gateway/forms-and-documents-/Operation%20USO%20Goal%20Chart.pdf&quot;>Operation USO Goal Chart&lt;/a> to keep track of all of your goals!&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            cq:lastRolledout="{Date}2015-05-08T13:29:10.171-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2015-11-16T15:14:25.877-05:00"
+            jcr:lastModifiedBy="dpage"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <cq:LiveSyncConfig
+            cq:isDeep="{Boolean}true"
+            cq:master="/content/girlscouts-template/en/cookies/for-cookie-sellers/donation-programs"
+            cq:rolloutConfigs="[\0]"
+            jcr:mixinTypes="[cq:LcPathFilter]"
+            jcr:primaryType="cq:LiveSyncConfig"/>
+    </jcr:content>
+</jcr:root>

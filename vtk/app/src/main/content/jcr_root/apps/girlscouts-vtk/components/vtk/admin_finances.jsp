@@ -6,6 +6,7 @@
 <%@include file="include/session.jsp"%>
 <%
   String sectionClassDefinition = "finances";
+String activeTab = "finances";
 %>
 <%@include file="include/bodyTop.jsp" %>
 <% if(!VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID) ){
@@ -33,7 +34,7 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
 <%
-	String activeTab = "finances";
+	//String activeTab = "finances";
 	pageContext.setAttribute("activeSubTab", "editFinances");
 	boolean showVtkNav = true;
 
@@ -149,10 +150,5 @@
 		});
 
 	});
-</script>
-
-<!--
-
-//-->
 </script>
 <script>loadNav('financesadmin')</script>

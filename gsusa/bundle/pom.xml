@@ -1,163 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
-    <modelVersion>4.0.0</modelVersion>
-    <!-- ====================================================================== -->
-    <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
-    <!-- ====================================================================== -->
-    <parent>
-        <groupId>org.girlscouts.web</groupId>
-        <artifactId>gsusa</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
-    <!-- ====================================================================== -->
-    <!-- P R O J E C T D E S C R I P T I O N -->
-    <!-- ====================================================================== -->
-
-    <artifactId>gsusa-bundle</artifactId>
-    <packaging>bundle</packaging>
-    <name>Girl Scouts USA Bundle</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>com.day.cq.wcm</groupId>
-            <artifactId>cq-wcm-foundation</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-commons</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq.dam</groupId>
-            <artifactId>cq-dam-api</artifactId>
-            <version>5.6.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr.annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>biz.aQute</groupId>
-            <artifactId>bndlib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.jcr</groupId>
-            <artifactId>jcr</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.jcr.api</artifactId>
-        </dependency>
-<dependency>
-        <groupId>com.day.cq.dam</groupId>
-        <artifactId>cq-dam-api</artifactId>
-</dependency>
-<dependency>
-        <groupId>com.day.commons</groupId>
-        <artifactId>day-commons-gfx</artifactId>
-</dependency>
-<dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-</dependency>
-<dependency>
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- ====================================================================== -->
+  <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
+  <!-- ====================================================================== -->
+  <parent>
+    <groupId>org.girlscouts.web</groupId>
+    <artifactId>gsusa</artifactId>
+    <version>2.0-SNAPSHOT</version>
+  </parent>
+  <!-- ====================================================================== -->
+  <!-- P R O J E C T D E S C R I P T I O N -->
+  <!-- ====================================================================== -->
+  <artifactId>gsusa-bundle</artifactId>
+  <packaging>bundle</packaging>
+  <name>Girl Scouts USA Bundle</name>
+  <dependencies>
+    <dependency>
+      <groupId>com.adobe.aem</groupId>
+      <artifactId>uber-jar</artifactId>
+      <classifier>apis</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.compendium</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.felix</groupId>
+      <artifactId>org.apache.felix.scr.annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>biz.aQute</groupId>
+      <artifactId>bndlib</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.day.commons.osgi.wrapper</groupId>
+      <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+    </dependency>
+  </dependencies>
+  <!-- ====================================================================== -->
+  <!-- B U I L D D E F I N I T I O N -->
+  <!-- ====================================================================== -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-scr-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-scr-descriptor</id>
+            <goals>
+              <goal>scr</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>org.girlscouts.web.gsusa-bundle</Bundle-SymbolicName>
+            <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+            <Import-Package>
+                *
+            </Import-Package>
+            <!-- Recursively embed dependency jars -->
+            <Embed-Transitive>true</Embed-Transitive>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.sling</groupId>
-        <artifactId>org.apache.sling.commons.mime</artifactId>
-</dependency>
-<dependency>
-        <groupId>com.day.cq.workflow</groupId>
-        <artifactId>cq-workflow-api</artifactId>
-</dependency>
-<dependency>
-        <groupId>com.day.cq.dam</groupId>
-        <artifactId>cq-dam-commons</artifactId>
-</dependency>
-<dependency>
-        <groupId>com.adobe.granite.sling</groupId>
-        <artifactId>org.apache.sling.jcr.resource</artifactId>
-</dependency>
-    </dependencies>
-
-    <!-- ====================================================================== -->
-    <!-- B U I L D D E F I N I T I O N -->
-    <!-- ====================================================================== -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-scr-descriptor</id>
-                        <goals>
-                            <goal>scr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>org.girlscouts.web.gsusa-bundle</Bundle-SymbolicName>
-			<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-			<Import-Package>
-				*
-			</Import-Package>
-			<!-- Recursively embed dependency jars -->
-			<Embed-Transitive>true</Embed-Transitive>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.sling</groupId>
-                <artifactId>maven-sling-plugin</artifactId>
-                <configuration>
-                    <slingUrl>http://${crx.host}:${crx.port}/apps/gsusa/install</slingUrl>
-                    <usePut>true</usePut>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                 <configuration>
-                    <excludePackageNames>
+        <artifactId>maven-sling-plugin</artifactId>
+        <configuration>
+          <slingUrl>http://${crx.host}:${crx.port}/apps/gsusa/install</slingUrl>
+          <usePut>true</usePut>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <excludePackageNames>
                         *.impl
                     </excludePackageNames>
-                 </configuration>
-            </plugin>
-        </plugins>
-    </build>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
