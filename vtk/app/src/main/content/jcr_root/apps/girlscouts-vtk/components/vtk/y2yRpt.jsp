@@ -33,6 +33,7 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             <br/><br/>
             <% 
         }
+        
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
         StringBuffer buffer = new StringBuffer("2015 GS Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
