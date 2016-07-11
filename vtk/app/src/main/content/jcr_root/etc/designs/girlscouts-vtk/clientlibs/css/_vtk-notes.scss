@@ -144,11 +144,14 @@
 			 .vtk-note_actions {
 
 			    button {
-			    	color:white;
-			    	margin: 10px 0;
-			        padding: 1px 7px;
-			        font-size: 10px;
-			        background-color: #009447;
+			    	    color: white;
+					margin: 10px 0;
+					padding: 8px 8px;
+					font-size: 10px;
+					background-color: #009447;
+					margin-right: 5px;
+					border-radius: 100%;
+
 			        i {
 			            font-size: 15px !important;
 			        }

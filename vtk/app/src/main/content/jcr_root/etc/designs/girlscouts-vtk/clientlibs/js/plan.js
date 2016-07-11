@@ -1615,7 +1615,7 @@ var initNotes = (function (global, ModalVtk, $) {
                             class: "icon-pencil"
                         }
                     },
-                    text: 'Edit ',
+                    // text: 'Edit ',
                     class: 'vtk-note-edit-button',
 
                     events: {
@@ -1626,7 +1626,7 @@ var initNotes = (function (global, ModalVtk, $) {
                 'button-1': {
                     child: {
                         i: {
-                            class: "icon-crosshair"
+                            class: "icon-trash-delete-remove"
                         }
                     },
 
@@ -1640,7 +1640,7 @@ var initNotes = (function (global, ModalVtk, $) {
 
 
 
-                    text: 'Delete ',
+                    // text: 'Delete ',
 
                     events: {
                         click: this.deleteNote
@@ -1650,7 +1650,7 @@ var initNotes = (function (global, ModalVtk, $) {
                 'button-2': {
                     child: {
                         i: {
-                            class: "icon-crosshair"
+                            class: "icon-save-floppy"
                         }
                     },
 
@@ -1670,7 +1670,7 @@ var initNotes = (function (global, ModalVtk, $) {
 
 
 
-                    text: 'Save ',
+                    // text: 'Save ',
 
                     events: {
                         click: this.updateNote
