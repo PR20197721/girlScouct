@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
    
-public class ConnectionHelper
+public class Alex
 {
 	/*
   private String url;
@@ -22,6 +22,7 @@ public class ConnectionHelper
   */
   public Connection getConnection(){
   Connection conn = null;
+  System.err.println ("test mysql conn...");
 
   try {
 	  
@@ -30,8 +31,8 @@ public class ConnectionHelper
 	  //Class.forName("com.mysql.jdbc.Driver").newInstance();
 	  Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
 	  
-      //conn =DriverManager.getConnection("jdbc:mysql://localhost/test?user=alex&password=alex");
-	  conn =DriverManager.getConnection("jdbc:mysql://localhost/test", "alex" , "alex");
+      conn =DriverManager.getConnection("jdbc:mysql://localhost:3306/test?user=alex&password=alex&serverTimezone=UTC");
+	  //conn =DriverManager.getConnection("jdbc:mysql://localhost/test", "alex" , "alex");
 
      
 
@@ -40,16 +41,12 @@ public class ConnectionHelper
       System.out.println("SQLException: " + ex.getMessage());
       System.out.println("SQLState: " + ex.getSQLState());
       System.out.println("VendorError: " + ex.getErrorCode());
-  } catch (InstantiationException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-} catch (IllegalAccessException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
-} catch (ClassNotFoundException e) {
-	// TODO Auto-generated catch block
-	e.printStackTrace();
+     // ex.printStackTrace();
+  } catch (Exception ex) {
+  
+	  ex.printStackTrace();
 }
+
   return conn;
 }//edn 
   
