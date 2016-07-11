@@ -52,7 +52,14 @@
 			        }
 			      %>
 			</select>
-			<%} %>
+			<%}else if(troops != null && troops.size() == 1){ 
+			
+    			if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                     %><input type="hidden" id="reloginid" name="" value=""/><%
+                 }else {
+			         %><input type="hidden" id="reloginid" name="reloginid" value="<%=troops.get(0).getTroopId()%>"/><%
+			     }//edn else
+			}%>
 
 		</div>
 		<div class="columns large-4 medium-4"></div>
