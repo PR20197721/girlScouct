@@ -6,8 +6,7 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
 
 <script>
   $(function(){
-    getNotes('<%=meeting.getUid()%>');
-
+    initNotes('<%=meeting.getUid()%>');
   })
 </script>
 <%
@@ -87,87 +86,78 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
         <script>
 
-         window.view['actions'] = function(note){
-            return {
-                  'button': {
-                       child: {
-                           i: {
-                               class: "icon-pencil"
-                           }
-                       },
-                       text: 'Edit ',
-                       class:'vtk-note-edit-button',
+        //  window['actionsddd'] = function(note){
+        //     return {
+        //           'button': {
+        //                child: {
+        //                    i: {
+        //                        class: "icon-pencil"
+        //                    }
+        //                },
+        //                text: 'Edit ',
+        //                class:'vtk-note-edit-button',
 
-                       events: {
-                           click: this.editNotelocal
-                       }
-                   },
+        //                events: {
+        //                    click: this.editNotelocal
+        //                }
+        //            },
 
-                   'button-1': {
-                       child: {
-                           i: {
-                               class: "icon-crosshair"
-                           }
-                       },
-
-
-
-                       data: {
-                           uid: note.uid
-
-                       },
+        //            'button-1': {
+        //                child: {
+        //                    i: {
+        //                        class: "icon-crosshair"
+        //                    }
+        //                },
 
 
 
+        //                data: {
+        //                    uid: note.uid
 
-                       text: 'Delete ',
-
-                       events: {
-                           click: this.deleteNote
-                       }
-                   },
-
-                   'button-2': {
-                       child: {
-                           i: {
-                               class: "icon-crosshair"
-                           }
-                       },
-
-
-                       data: {
-                           uid: note.uid
-
-                       },
-
-                       class: 'save-note',
-
-
-                       style: {
-                           display: 'none'
-                       },
+        //                },
 
 
 
 
-                       text: 'Save ',
+        //                text: 'Delete ',
 
-                       events: {
-                           click: this.updateNote
-                       }
-                   }
-                 }
-         }
+        //                events: {
+        //                    click: this.deleteNote
+        //                }
+        //            },
 
-        // window.view['actions'] = function(note){
-        //   return {
-        //     div:{
-        //       style:{
-        //         'min-height':'38px'
-        //       }
-        //     }
-        //   };
-        // };
+        //            'button-2': {
+        //                child: {
+        //                    i: {
+        //                        class: "icon-crosshair"
+        //                    }
+        //                },
+
+
+        //                data: {
+        //                    uid: note.uid
+
+        //                },
+
+        //                class: 'save-note',
+
+
+        //                style: {
+        //                    display: 'none'
+        //                },
+
+
+
+
+        //                text: 'Save ',
+
+        //                events: {
+        //                    click: this.updateNote
+        //                }
+        //            }
+        //          }
+        //  }
+
         </script>
 
 

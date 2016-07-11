@@ -425,7 +425,7 @@
       background-repeat: no-repeat;
       background-image: $book_icon_40;
     }
-    
+
     #showHideReveal {
       position: relative;
       padding-left: 15px;
@@ -2342,5 +2342,6 @@ input[type="file"] {
 @import 'vtk-button';
 @import 'vtk-archive';
 @import 'vtk-notes';
+@import 'vtk-modal';
 
 
