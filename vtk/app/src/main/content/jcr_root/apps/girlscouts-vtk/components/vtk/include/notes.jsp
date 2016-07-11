@@ -5,8 +5,11 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
 
 
 <script>
+    var appVtk;
   $(function(){
-    initNotes('<%=meeting.getUid()%>');
+
+    appVTK = initNotes;
+    appVTK.getNotes('<%=meeting.getUid()%>');
   })
 </script>
 <%
@@ -46,14 +49,13 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
           </div>
 
-            <div class="input-save" onclick="addNote('<%=meeting.getUid()%>')">
+            <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
                           Save
             </div>
           </div>
 
 
-        <!--  <input type="text" id="note"  value=""/>
-         <input type="button" class="input-save" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/> -->
+
       </div>
     </div>
 

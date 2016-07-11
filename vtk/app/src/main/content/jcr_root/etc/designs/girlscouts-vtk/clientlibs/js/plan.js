@@ -1271,10 +1271,10 @@ function addNote(mid) {
         cache: false,
         type: 'POST',
         data: data
-    })
-
-        .success(function (d) {
-            getNotes(data.mid);
+    }).fail(function (err) {
+        console.log(err)
+    }).success(function (d) {
+            initNotes.getNotes(data.mid);
             $('.input-content').html('');
             $('.add-note-detail').slideUp();
         })
@@ -2049,7 +2049,10 @@ var initNotes = (function (global, ModalVtk, $) {
     });
 
 
-    return getNotes;
+    return {
+        getNotes: getNotes,
+        addNote: addNote
+    };
 
 
 })(this, ModalVtk, $);

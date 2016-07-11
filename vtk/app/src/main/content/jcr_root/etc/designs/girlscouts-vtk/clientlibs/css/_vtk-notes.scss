@@ -40,9 +40,29 @@
 .input-content{
 		min-height: 100px;
 		padding: 5px;
-			&:blur{
-		border:none;
-	}
+		font-size: 12px;
+		i{
+				font-family: serif;
+
+			}
+
+			b{
+
+			}
+
+			p{
+				font-size: inherit;
+				margin:0px 0px 5px;
+			}
+
+			h1{
+				font-size: 20px;
+				margin:0px 0px 5px;
+			}
+
+			h2{
+				font-size: 16px;
+			}
 
 }
 
@@ -57,6 +77,7 @@
 	color: white;
 	padding: 10px;
 	cursor: pointer;
+	    z-index: 1000;
 
 	&:hover{
 		background-color: green;
