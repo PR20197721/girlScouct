@@ -1261,28 +1261,31 @@ function addNote(mid) {
         a: Date.now()
     }
 
-    if (msgl <= 500) {
-        ajaxConnection({
-            url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-            cache: false,
-            type: 'POST',
-            data: data
-        })
-            .fail(function (err) {
-                console.log(err)
+    if ($('.vtk-note_item').length < 25) {
+        if (msgl <= 500) {
+            ajaxConnection({
+                url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+                cache: false,
+                type: 'POST',
+                data: data
             })
-            .success(function (d) {
-                initNotes.getNotes(data.mid);
-                $('.input-content').html('');
-                $('.add-note-detail').slideUp();
-            })
+                .fail(function (err) {
+                    console.log(err)
+                })
+                .success(function (d) {
+                    initNotes.getNotes(data.mid);
+                    $('.input-content').html('');
+                    $('.add-note-detail').slideUp();
+                })
 
-            .done(function (html) {
-            });
+                .done(function (html) {
+                });
+        } else {
+            modal.alert('warning', 'Message should be less 500 characters')
+        }
     } else {
-        modal.alert('warning', 'Message should be less 500 characters')
+        modal.alert('warnign', 'you can not add more notes due you reach the max notes ')
     }
-
 
 }
 
@@ -1779,7 +1782,6 @@ var initNotes = (function (global, modal, $) {
     }
     var editor = {
         $el: '',
-
         applyFormat: function (e) {
             console.log(e);
             e.preventDefault();
@@ -1885,7 +1887,6 @@ var initNotes = (function (global, modal, $) {
 
 
         },
-
         destroy: function () {
             editor.$el.remove();
         }
@@ -1970,10 +1971,12 @@ var initNotes = (function (global, modal, $) {
     }
 
     function checkQuantityNotes(number) {
-        if (number <= 25) {
+        if (number < 25) {
             $('.add-notes-area').show();
             $('.you-reach-25').hide();
         } else {
+            modal.alert('warning', 'This meeting reach the max of notes');
+
             $('.add-notes-area').hide();
             $('.you-reach-25').show();
         }
