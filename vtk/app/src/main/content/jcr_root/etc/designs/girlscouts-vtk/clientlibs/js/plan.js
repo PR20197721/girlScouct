@@ -1272,7 +1272,7 @@ function addNote(mid) {
                 console.log(err)
             })
             .success(function (d) {
-                initNotes.getNotes(data.mid);
+                initNotes.getNotes(data.mid,userLoginId);
                 $('.input-content').html('');
                 $('.add-note-detail').slideUp();
             })
@@ -1995,7 +1995,10 @@ var initNotes = (function (global, modal, $) {
     function getNotes(mid,auid) {
 
         globalMid = mid;
-        userLoginId = auid;
+        if (auid) {
+            userLoginId = auid;
+        }
+
 
         $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
