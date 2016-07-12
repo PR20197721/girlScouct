@@ -1317,7 +1317,7 @@ function editNote(nid, msg) {
 
 var initNotes = (function (global, modal, $) {
 
-
+    var globalMid;
 
     var utility = {
         compileTemplate: function (template) {
@@ -1587,10 +1587,12 @@ var initNotes = (function (global, modal, $) {
                         .success(function () {
                             modal.alert("Warning", "Your Note Was Edited");
 
+                            getNotes(globalMid);
 
-                            view.noteEditable($(e.target).parents('li'), false)
 
-                            saveButton.hide();
+                            // view.noteEditable($(e.target).parents('li'), false)
+
+                            // saveButton.hide();
 
                         }).done(function () {
                             editor.destroy();
@@ -2005,6 +2007,9 @@ var initNotes = (function (global, modal, $) {
     }
 
     function getNotes(mid) {
+
+        globalMid = mid;
+
         $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
