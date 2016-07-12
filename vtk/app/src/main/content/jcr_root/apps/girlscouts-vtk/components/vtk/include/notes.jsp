@@ -5,9 +5,11 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
 
 
 <script>
+    var appVtk;
   $(function(){
-    getNotes('<%=meeting.getUid()%>');
 
+    appVTK = initNotes;
+    appVTK.getNotes('<%=meeting.getUid()%>');
   })
 </script>
 <%
@@ -43,18 +45,15 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
           <div class="input-note">
 
-          <div class="input-content" contenteditable="true">
+          <div class="input-content" contenteditable="true"></div>
 
-          </div>
-
-            <div class="input-save" onclick="addNote('<%=meeting.getUid()%>')">
+            <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
                           Save
             </div>
           </div>
 
 
-        <!--  <input type="text" id="note"  value=""/>
-         <input type="button" class="input-save" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/> -->
+
       </div>
     </div>
 
@@ -66,107 +65,12 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
     </div>
 
 
-    <ul class="vtk-notes_list_container mall-24 columns">
-
-    </ul>
-
-    <!-- <ul class="small-24 columns " style="margin:0px;list-style-type:none;font-size:14px;">
-      <li class="" style="border: 1px solid lightgray; min-height:80px; margin-bottom:10px; display:table;width:100%;">
-        <div class="small-24 medium-18 columns" style="min-height:80px;">
-          context
-        </div>
-        <div class="small-24 medium-6  columns" style="min-height:80px; background-color:green; color: white;">
-          detail
-        </div>
-      </li>
-    </ul> -->
+    <ul class="vtk-notes_list_container small-24 columns"></ul>
 
     <ul class="vtk-notes_list  small-24 columns ">
         <!-- Notes Here -->
     </ul>
 
-        <script>
-
-          window.view['actions'] = function(note){
-            return {
-                  'button': {
-                       child: {
-                           i: {
-                               class: "icon-pencil"
-                           }
-                       },
-                       text: 'Edit ',
-
-                       events: {
-                           click: this.editNotelocal
-                       }
-                   },
-
-                   'button-1': {
-                       child: {
-                           i: {
-                               class: "icon-crosshair"
-                           }
-                       },
-
-
-                       data: {
-                           uid: note.uid
-
-                       },
-
-
-
-
-                       text: 'Delete ',
-
-                       events: {
-                           click: this.deleteNote
-                       }
-                   },
-
-                   'button-2': {
-                       child: {
-                           i: {
-                               class: "icon-crosshair"
-                           }
-                       },
-
-
-                       data: {
-                           uid: note.uid
-
-                       },
-
-                       class: 'save-note',
-
-
-                       style: {
-                           display: 'none'
-                       },
-
-
-
-
-                       text: 'Save ',
-
-                       events: {
-                           click: this.updateNote
-                       }
-                   }
-                 }
-         }
-
-        // window.view['actions'] = function(note){
-        //   return {
-        //     div:{
-        //       style:{
-        //         'min-height':'38px'
-        //       }
-        //     }
-        //   };
-        // };
-        </script>
 
   </div>
 </div>
