@@ -1446,10 +1446,8 @@ var initNotes = (function (global, modal, $) {
                         console.log('error', err)
                     })
                     .success(function () {
-                        $(e.target).parents('li').remove();
                         checkQuantityNotes($('.vtk-notes_item').length)
-
-
+                        getNotes(globalMid);
                     }).done(function () {
                         modal.close();
                     });
