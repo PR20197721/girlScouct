@@ -670,26 +670,50 @@ input.form-btn, a.form-btn {
   /*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);*/
 }
 .fcr-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-left: 12px solid #00A850;
   height: 0;
   width: 0;
-  font-size: 0;
+  font-size: 1px;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcr-text-arrow::after { 
+  content:"\25BA"; 
 }
 .fcl-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-right: 12px solid #00A850;
   height: 0;
   font-size: 0;
   width: 0;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcl-text-arrow::before { 
+  content:"\25C4"; 
 }
 .fcr-text-arrow:hover {
+/*
   border-left: 12px solid #008000;
+*/
+  color: #008000;
 }
 .fcl-text-arrow:hover {
+/*
   border-right: 12px solid #008000;
+*/  
+  color: #008000;
 }
 td.fc-header-right {
   padding-top: 12px;
