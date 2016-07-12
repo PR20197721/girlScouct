@@ -1244,7 +1244,7 @@ var ModalVtk = (function () {
     return Modal;
 })();
 
-    var modal = new ModalVtk();
+var modal = new ModalVtk();
 
 function ajaxConnection(ajaxOptions) {
     return $.ajax(ajaxOptions);
@@ -1272,7 +1272,7 @@ function addNote(mid) {
                 console.log(err)
             })
             .success(function (d) {
-                initNotes.getNotes(data.mid,userLoginId);
+                initNotes.getNotes(data.mid);
                 $('.input-content').html('');
                 $('.add-note-detail').slideUp();
             })
@@ -1984,7 +1984,10 @@ var initNotes = (function (global, modal, $) {
 
         node.html('');
 
-        notes.forEach(function (note, idx) {
+
+        notes.sort(function(a, b) {
+            return a.createTime - b.createTime;
+        }).reverse().forEach(function (note, idx) {
             node.append(utility.compileTemplate(view.newNote(note)))
         });
 
