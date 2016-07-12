@@ -95,17 +95,17 @@
 .vtk-notes_list_container{
 	font-size: 14px;
 	margin: 0px;
-	padding:10px 5px !important;
+	// padding:10px 5px !important;
 	max-height: 500px;
 	overflow-y:auto;
 
 
 	.vtk-note_item{
 		border: 1px solid lightgray;
-    	height: 178px;
-    	margin-bottom: 10px;
+    	min-height: 178px;
+    	margin-bottom: 10px !important;
+		width: 100%;
 
-    	width: 100%;
     	position: relative;
 
 
@@ -245,4 +245,15 @@
     bottom: 14px;
     left: 0px;
     height: 30px;
+
+	.vtk-word-counter{
+		bottom: -5px !important;
+    	right: 69px !important;
+	}
+
+	.format{
+		a{
+			padding-top: 3px;
+		}
+	}
 }

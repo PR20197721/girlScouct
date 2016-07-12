@@ -1141,15 +1141,11 @@ function resetYear() {
 
 
 //Notes ===
-
-
-
-
 var ModalVtk = (function () {
 
     function Modal() {
 
-        var $main_modal_wrap ,$main_modal,$gray_modal = [];
+        var $main_modal_wrap, $main_modal, $gray_modal = [];
 
         function init() {
             var $a = $('<div class="vtk-js-modal_wrap"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
@@ -1157,9 +1153,9 @@ var ModalVtk = (function () {
             $('body').append($a, $b);
 
 
-         $main_modal_wrap = $('.vtk-js-modal_wrap');
-         $main_modal = $('.vtk-js-modal');
-         $gray_modal = $('.vtk-gray-modal');
+            $main_modal_wrap = $('.vtk-js-modal_wrap');
+            $main_modal = $('.vtk-js-modal');
+            $gray_modal = $('.vtk-gray-modal');
 
         }
         //<div class="vtk-js-modal_description"></div><div vtk-js-modal_body_actions></div>
@@ -1182,7 +1178,7 @@ var ModalVtk = (function () {
         function _preOpen(open) {
             if (open) {
 
-                 _applySize();
+                _applySize();
                 $main_modal.show();
                 $gray_modal.show();
 
@@ -1248,8 +1244,7 @@ var ModalVtk = (function () {
     return Modal;
 })();
 
-
-
+    var modal = new ModalVtk();
 
 function ajaxConnection(ajaxOptions) {
     return $.ajax(ajaxOptions);
@@ -1257,6 +1252,7 @@ function ajaxConnection(ajaxOptions) {
 
 function addNote(mid) {
     var msg = $('.input-content').html();
+    var msgl = $('.input-content').text().length;
 
     var data = {
         addNote: "true",
@@ -1265,23 +1261,29 @@ function addNote(mid) {
         a: Date.now()
     }
 
-
-    ajaxConnection({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-        cache: false,
-        type: 'POST',
-        data: data
-    }).fail(function (err) {
-        console.log(err)
-    }).success(function (d) {
-            initNotes.getNotes(data.mid);
-            $('.input-content').html('');
-            $('.add-note-detail').slideUp();
+    if (msgl <= 500) {
+        ajaxConnection({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+            cache: false,
+            type: 'POST',
+            data: data
         })
+            .fail(function (err) {
+                console.log(err)
+            })
+            .success(function (d) {
+                initNotes.getNotes(data.mid);
+                $('.input-content').html('');
+                $('.add-note-detail').slideUp();
+            })
 
-        .done(function (html) {
+            .done(function (html) {
+            });
+    } else {
+        modal.alert('warning', 'Message should be less 500 characters')
+    }
 
-        });
+
 }
 
 function rmNote(nid) {
@@ -1313,12 +1315,9 @@ function editNote(nid, msg) {
     });
 }
 
-var initNotes = (function (global, ModalVtk, $) {
-
-    var modal = new ModalVtk();
+var initNotes = (function (global, modal, $) {
 
 
-    // modal.alert('This is the Message', 'Descriptions');
 
     var utility = {
         compileTemplate: function (template) {
@@ -1495,7 +1494,7 @@ var initNotes = (function (global, ModalVtk, $) {
                 memory = element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content')[0].innerHTML;
                 l = memory.length;
 
-                 counter.methods.textChange(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'));
+                counter.methods.textChange(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'));
             });
 
             view.state = originalMessage;
@@ -1537,7 +1536,7 @@ var initNotes = (function (global, ModalVtk, $) {
             $(document).on('click', function (e) {
                 e.stopPropagation();
 
-                modal.confirm('Warning','Changes in Notes will be Erase', function () {
+                modal.confirm('Warning', 'Changes in Notes will be Erase', function () {
                     element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html(originalMessage);
                     counter.methods.destroy();
                     view.noteEditable(element, false);
@@ -1580,24 +1579,24 @@ var initNotes = (function (global, ModalVtk, $) {
 
 
             if (view.state !== message) {
-                if (character.length<500){
+                if (character.length < 500) {
                     editNote(nid, message)
-                    .fail(function (err) {
-                        console.log(err);
-                    })
-                    .success(function () {
-                        modal.alert("Warning", "Your Note Was Edited");
+                        .fail(function (err) {
+                            console.log(err);
+                        })
+                        .success(function () {
+                            modal.alert("Warning", "Your Note Was Edited");
 
 
-                        view.noteEditable($(e.target).parents('li'), false)
+                            view.noteEditable($(e.target).parents('li'), false)
 
-                        saveButton.hide();
+                            saveButton.hide();
 
-                    }).done(function () {
-                        editor.destroy();
-                        counter.methods.destroy();
-                    })
-                } else{
+                        }).done(function () {
+                            editor.destroy();
+                            counter.methods.destroy();
+                        })
+                } else {
                     modal.alert('Warning', 'Need to Write a text less than 500 chacracter')
                 }
             } else {
@@ -1693,7 +1692,7 @@ var initNotes = (function (global, ModalVtk, $) {
                     events: {
                         click: this.noteFocus
                     },
-                    class: 'vtk-note_item',
+                    class: 'vtk-note_item row',
                     child: {
 
                         div: {
@@ -1961,9 +1960,16 @@ var initNotes = (function (global, ModalVtk, $) {
                 return l;
             },
             render: function (element) {
-                counter.methods.el = utility.compileTemplate(counter.template.counter(''));
-                element.append(counter.methods.el);
-                counter.methods.textChange(element.parents('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'))
+                 counter.methods.el = utility.compileTemplate(counter.template.counter(''));
+                if (element) {
+                 element.append(counter.methods.el);
+                 counter.methods.textChange(element.parents('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'))
+                } else {
+                    return counter.methods.el;
+
+                }
+
+
 
             },
             textChange: function (element) {
@@ -2025,40 +2031,45 @@ var initNotes = (function (global, ModalVtk, $) {
         });
     }
 
-
-
-
     $(function () {
         var editormain = Object.create(editor);
+        var countermain = Object.create(counter);
+
+
         $('.add-note-detail').append(utility.compileTemplate({
             div: {
                 class: 'container',
                 component: {
-                    editor: editormain
-                }
+                    editor: editormain,
+                    counter:countermain.methods
+                },
+                // html: countermain.methods.reder()
+
             }
         }))
 
+        countermain.methods.textChange($('.input-content'));
+
+            $('.input-content').on('keyup', function (e) {
+                var l, memory;
+                memory = $(this)[0].innerHTML;
+                l = memory.length;
+
+                countermain.methods.textChange($('.input-content'));
+            });
 
 
         $('.add-note').on('click', function (e) {
-
-
             $('.add-note-detail').stop().slideToggle();
         });
     });
-
 
     return {
         getNotes: getNotes,
         addNote: addNote
     };
 
-
-})(this, ModalVtk, $);
-
-
-// initNotes.getNotes();
+})(this, modal, $);
 
 
 
