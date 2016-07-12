@@ -9,7 +9,7 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
   $(function(){
 
     appVTK = initNotes;
-    appVTK.getNotes('<%=meeting.getUid()%>');
+    appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>');
   })
 </script>
 <%
