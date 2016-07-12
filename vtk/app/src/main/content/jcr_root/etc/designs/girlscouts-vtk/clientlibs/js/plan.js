@@ -2031,7 +2031,7 @@ var initNotes = (function (global, modal, $) {
 
         }).done(function (html) {
 
-            modal.init();
+
 
         });
     }
@@ -2066,7 +2066,10 @@ var initNotes = (function (global, modal, $) {
 
         $('.add-note').on('click', function (e) {
             $('.add-note-detail').stop().slideToggle();
-        });
+            });
+
+
+         modal.init();
     });
 
     return {
