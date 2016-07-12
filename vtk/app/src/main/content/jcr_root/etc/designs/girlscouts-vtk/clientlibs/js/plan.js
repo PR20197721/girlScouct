@@ -1316,8 +1316,7 @@ function editNote(nid, msg) {
 }
 
 var initNotes = (function (global, modal, $) {
-
-    var globalMid;
+    var globalMid,userLoginId;
 
     var utility = {
         compileTemplate: function (template) {
@@ -1414,7 +1413,6 @@ var initNotes = (function (global, modal, $) {
             }
         }
     }
-
     var view = {
         actions: global.actions,
         state: '',
@@ -1447,27 +1445,13 @@ var initNotes = (function (global, modal, $) {
                     })
                     .success(function () {
                         checkQuantityNotes($('.vtk-notes_item').length)
-                        getNotes(globalMid);
+                        getNotes(globalMid,userLoginId);
                     }).done(function () {
                         modal.close();
                     });
             }, function () {
                 modal.close();
             })
-
-            // utility.alertButton("Are you sure you want to delete this note", function () {
-            //     rmNote($(e.target).parents('li').data('uid'))
-            //         .fail(function (err) {
-            //             console.log('error', err)
-            //         })
-            //         .success(function () {
-            //             $(e.target).parents('li').remove();
-            //             checkQuantityNotes($('.vtk-notes_item').length)
-
-            //         });
-            // }, function () {
-
-            // })
         },
         editNotelocal: function (e) {
             e.preventDefault();
@@ -1585,7 +1569,7 @@ var initNotes = (function (global, modal, $) {
                         .success(function () {
                             modal.alert("Warning", "Your Note Was Edited");
 
-                            getNotes(globalMid);
+                            getNotes(globalMid,userLoginId);
 
 
                             // view.noteEditable($(e.target).parents('li'), false)
@@ -1607,74 +1591,79 @@ var initNotes = (function (global, modal, $) {
 
         },
         getPermisionOfEdit: function (note) {
-            return {
-                'button': {
-                    child: {
-                        i: {
-                            class: "icon-pencil"
-                        }
-                    },
-                    // text: 'Edit ',
-                    class: 'vtk-note-edit-button',
 
-                    events: {
-                        click: this.editNotelocal
-                    }
-                },
+            if (userLoginId === note.createdByUserId) {
+                return {
+                    'button': {
+                        child: {
+                            i: {
+                                class: "icon-pencil"
+                            }
+                        },
+                        // text: 'Edit ',
+                        class: 'vtk-note-edit-button',
 
-                'button-1': {
-                    child: {
-                        i: {
-                            class: "icon-trash-delete-remove"
+                        events: {
+                            click: this.editNotelocal
                         }
                     },
 
+                    'button-1': {
+                        child: {
+                            i: {
+                                class: "icon-trash-delete-remove"
+                            }
+                        },
 
 
-                    data: {
-                        uid: note.uid
 
-                    },
+                        data: {
+                            uid: note.uid
+
+                        },
 
 
 
 
-                    // text: 'Delete ',
+                        // text: 'Delete ',
 
-                    events: {
-                        click: this.deleteNote
-                    }
-                },
-
-                'button-2': {
-                    child: {
-                        i: {
-                            class: "icon-save-floppy"
+                        events: {
+                            click: this.deleteNote
                         }
                     },
 
-
-                    data: {
-                        uid: note.uid
-
-                    },
-
-                    class: 'save-note',
-
-
-                    style: {
-                        display: 'none'
-                    },
+                    'button-2': {
+                        child: {
+                            i: {
+                                class: "icon-save-floppy"
+                            }
+                        },
 
 
+                        data: {
+                            uid: note.uid
+
+                        },
+
+                        class: 'save-note',
 
 
-                    // text: 'Save ',
+                        style: {
+                            display: 'none'
+                        },
 
-                    events: {
-                        click: this.updateNote
+
+
+
+                        // text: 'Save ',
+
+                        events: {
+                            click: this.updateNote
+                        }
                     }
                 }
+            } else {
+                return {}
             }
         },
         newNote: function (note) {
@@ -1902,7 +1891,6 @@ var initNotes = (function (global, modal, $) {
         }
 
     }
-
     var counter = {
         template: {
             counter: function (number) {
@@ -2004,9 +1992,10 @@ var initNotes = (function (global, modal, $) {
         checkQuantityNotes(notes.length);
     }
 
-    function getNotes(mid) {
+    function getNotes(mid,auid) {
 
         globalMid = mid;
+        userLoginId = auid;
 
         $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
