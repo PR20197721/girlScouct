@@ -1975,10 +1975,15 @@ var initNotes = (function (global, modal, $) {
             $('.add-notes-area').show();
             $('.you-reach-25').hide();
         } else {
-            modal.alert('warning', 'This meeting reach the max of notes');
+
 
             $('.add-notes-area').hide();
             $('.you-reach-25').show();
+        }
+
+
+        if (number > 25) {
+             modal.alert('warning', 'This meeting reach the max of notes');
         }
     }
 
