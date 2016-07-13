@@ -1141,6 +1141,103 @@ function resetYear() {
 
 
 //Notes ===
+
+    var utility = {
+        compileTemplate: function (template) {
+            //Create the Dom Element assing the the class and event
+            function createElement(element, detail) {
+                var domElement = document.createElement(element);
+
+
+                if (detail.data) {
+                    for (var data in detail.data) {
+                        domElement.setAttribute('data-' + data, detail.data[data]);
+                    }
+                }
+
+                if (detail.class) {
+                    domElement.className = detail.class;
+                }
+                if (detail.text) {
+                    domElement.appendChild(document.createTextNode(detail.text));
+                }
+
+                if (detail.html) {
+                    domElement.innerHTML = detail.html;
+                }
+
+                if (detail.component) {
+                    for (var component in detail.component) {
+                        domElement.appendChild(detail.component[component].render());
+                    }
+                }
+
+                if (detail.style) {
+                    var style = "";
+                    for (var sty in detail.style) {
+                        if (sty && detail.style[sty]) {
+                            style += sty + ':' + detail.style[sty] + ';'
+                        }
+
+                    }
+
+                    domElement.setAttribute('style', style);
+                }
+
+
+                if (detail.attr) {
+                    for (var attr in detail.attr) {
+                        domElement.setAttribute(attr, detail.attr[attr]);
+                    }
+                }
+
+
+
+                if (detail.events) {
+                    for (var event in detail.events) {
+                        domElement.addEventListener(event, detail.events[event]);
+                    }
+                }
+
+
+
+                return domElement;
+            }
+            //recursive function that interate the Json object
+            function interator(object, parentDom) {
+                var objElem;
+                for (var element in object) {
+
+                    if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
+                        objElem = element.split('-')[0]
+                    } else {
+                        objElem = element;
+                    }
+
+                    var currentElement = createElement(objElem, object[element]);
+                    if (object[element].child) {
+                        interator(object[element].child, currentElement);
+                    }
+
+                    if (parentDom) {
+                        parentDom.appendChild(currentElement);
+                    }
+                }
+                return currentElement;
+            }
+            //return the dom with child and event listerners
+            return interator(template);
+        },
+        alertButton: function (msg, okCallback, cancelCallback) {
+            var x;
+            if (confirm(msg) == true) {
+                x = okCallback();
+            } else {
+                x = cancelCallback();
+            }
+        }
+    }
+
 var ModalVtk = (function () {
 
     function Modal() {
@@ -1274,11 +1371,22 @@ function addNote(mid) {
 
             req.then(
                 function (d, e) {
-                    console.log(d, e);
 
-                    initNotes.getNotes(data.mid);
-                    $('.input-content').html('');
-                    $('.add-note-detail').slideUp();
+                    var reqS = initNotes.getNotes(data.mid, undefined);
+
+                    reqS.done(function (json) {
+                        initNotes.interateNotes(json);
+                        $('.input-content').html('');
+                        $('.add-note-detail').slideUp();
+                    })
+
+                    reqS.fail(function (err) {
+                        console.log(err);
+                    })
+
+
+
+
                 } ,function (err) {
                     console.log(err)
                 });
@@ -1324,101 +1432,6 @@ function editNote(nid, msg) {
 var initNotes = (function (global, modal, $) {
     var globalMid, userLoginId;
 
-    var utility = {
-        compileTemplate: function (template) {
-            //Create the Dom Element assing the the class and event
-            function createElement(element, detail) {
-                var domElement = document.createElement(element);
-
-
-                if (detail.data) {
-                    for (var data in detail.data) {
-                        domElement.setAttribute('data-' + data, detail.data[data]);
-                    }
-                }
-
-                if (detail.class) {
-                    domElement.className = detail.class;
-                }
-                if (detail.text) {
-                    domElement.appendChild(document.createTextNode(detail.text));
-                }
-
-                if (detail.html) {
-                    domElement.innerHTML = detail.html;
-                }
-
-                if (detail.component) {
-                    for (var component in detail.component) {
-                        domElement.appendChild(detail.component[component].render());
-                    }
-                }
-
-                if (detail.style) {
-                    var style = "";
-                    for (var sty in detail.style) {
-                        if (sty && detail.style[sty]) {
-                            style += sty + ':' + detail.style[sty] + ';'
-                        }
-
-                    }
-
-                    domElement.setAttribute('style', style);
-                }
-
-
-                if (detail.attr) {
-                    for (var attr in detail.attr) {
-                        domElement.setAttribute(attr, detail.attr[attr]);
-                    }
-                }
-
-
-
-                if (detail.events) {
-                    for (var event in detail.events) {
-                        domElement.addEventListener(event, detail.events[event]);
-                    }
-                }
-
-
-
-                return domElement;
-            }
-            //recursive function that interate the Json object
-            function interator(object, parentDom) {
-                var objElem;
-                for (var element in object) {
-
-                    if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
-                        objElem = element.split('-')[0]
-                    } else {
-                        objElem = element;
-                    }
-
-                    var currentElement = createElement(objElem, object[element]);
-                    if (object[element].child) {
-                        interator(object[element].child, currentElement);
-                    }
-
-                    if (parentDom) {
-                        parentDom.appendChild(currentElement);
-                    }
-                }
-                return currentElement;
-            }
-            //return the dom with child and event listerners
-            return interator(template);
-        },
-        alertButton: function (msg, okCallback, cancelCallback) {
-            var x;
-            if (confirm(msg) == true) {
-                x = okCallback();
-            } else {
-                x = cancelCallback();
-            }
-        }
-    }
     var view = {
         actions: global.actions,
         state: '',
@@ -1451,7 +1464,14 @@ var initNotes = (function (global, modal, $) {
                     })
                     .success(function () {
                         checkQuantityNotes($('.vtk-notes_item').length)
-                        getNotes(globalMid, userLoginId);
+                        var req = getNotes(globalMid, userLoginId);
+                        req.then(
+                            function (json) {
+                                 interateNotes(json);
+                        },
+                            function (err) {
+                                console.log(err);
+                            })
                     }).done(function () {
                         modal.close();
                     });
@@ -1575,9 +1595,16 @@ var initNotes = (function (global, modal, $) {
                         .success(function () {
                             modal.alert("Warning", "Your Note Was Edited");
 
-                            getNotes(globalMid, userLoginId);
+                            var req = getNotes(globalMid, userLoginId);
+
+                            req.done(function (json) {
+                                 interateNotes(json);
+                            })
 
 
+                            req.fail(function (err) {
+                                console.log(err);
+                            })
                             // view.noteEditable($(e.target).parents('li'), false)
 
                             // saveButton.hide();
@@ -1598,7 +1625,7 @@ var initNotes = (function (global, modal, $) {
         },
         getPermisionOfEdit: function (note) {
 
-            if (userLoginId === note.createdByUserId) {
+            if (userLoginId === note.createdByUserId || note.createdByUserId === true) {
                 return {
                     'button': {
                         child: {
@@ -2010,35 +2037,55 @@ var initNotes = (function (global, modal, $) {
 
         globalMid = mid;
         if (auid) {
-            userLoginId = auid;
+                userLoginId = auid;
         }
 
 
-        $.ajax({
+        var ajaxOptions = {
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
             type: 'GET',
             dataType: 'json',
-
             data: {
                 getNotes: "true",
                 mid: mid,
-
                 a: Date.now()
             }
-
-        }).success(function (json) {
-
-            interateNotes(json);
-
-        }).fail(function (err) {
-
-        }).done(function (html) {
+        }
 
 
 
-        });
+        return ajaxConnection(ajaxOptions);
+
+
+
+
+        // $.ajax({
+        //     url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+        //     cache: false,
+        //     type: 'GET',
+        //     dataType: 'json',
+
+        //     data: {
+        //         getNotes: "true",
+        //         mid: mid,
+        //         a: Date.now()
+        //     }
+
+        // }).success(function (json) {
+
+        //     interateNotes(json);
+
+        // }).fail(function (err) {
+
+        // }).done(function (html) {
+
+
+
+        // });
     }
+
+
 
     $(function () {
         var editormain = Object.create(editor);
@@ -2078,7 +2125,11 @@ var initNotes = (function (global, modal, $) {
 
     return {
         getNotes: getNotes,
-        addNote: addNote
+        addNote: addNote,
+        view: view,
+        userLoginId: userLoginId,
+        interateNotes: interateNotes,
+         globalMid: globalMid
     };
 
 })(this, modal, $);
