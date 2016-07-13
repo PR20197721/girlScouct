@@ -3,6 +3,8 @@ target/
 
 /.settings/
 
+/gsusa/app/src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css
+
 /web/bundle/.classpath
 
 /web/content/src/main/content/jcr_root/apps/girlscouts/install/

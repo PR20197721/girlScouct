@@ -189,6 +189,9 @@ a:hover {
     visibility: hidden !important;
     display: none !important;
   }
+  .medium-23 {
+  	width: none;
+  }
 }
 a.menu {
   color: #C1EAD4;
@@ -286,7 +289,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 20px;
+  padding-left: 52px;
 }
 #headerBar ul.inline-list li {
   line-height: 31px;

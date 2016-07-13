@@ -1247,6 +1247,8 @@ var ModalVtk = (function () {
 var modal = new ModalVtk();
 
 function ajaxConnection(ajaxOptions) {
+
+    ajaxOptions.cache = false;
     return $.ajax(ajaxOptions);
 }
 
@@ -1277,8 +1279,8 @@ function addNote(mid) {
                     $('.input-content').html('');
                     $('.add-note-detail').slideUp();
                 })
-
                 .done(function (html) {
+                    console.log(html);
                 });
         } else {
             modal.alert('warning', 'Message should be less 500 characters')
