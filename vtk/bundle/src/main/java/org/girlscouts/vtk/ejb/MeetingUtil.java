@@ -1416,19 +1416,23 @@ public class MeetingUtil {
 	
 	public java.util.List<Note> getNotes(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException{
-System.err.println("test rrr: "+ path );		
+
+		
+		
 		return meetingDAO.getNotes( user, troop, path);
 	}
-	public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{
-		meetingDAO.updateNote( user, troop, note);
+	public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{
+		
+		return meetingDAO.updateNote( user, troop, note);
 	}
 	
 	public Note getNote(User user, Troop troop, String noteId)
 			throws IllegalAccessException, VtkException{
 		return meetingDAO.getNote( user, troop, noteId);
 	}
-	public void rmNote(User user, Troop troop,String  noteId) throws IllegalAccessException, VtkException{
-		meetingDAO.rmNote(user, troop, noteId);
+	public boolean rmNote(User user, Troop troop,String  noteId) throws IllegalAccessException, VtkException{
+		
+		return meetingDAO.rmNote(user, troop, noteId);
 	}
 	
 }// edn class

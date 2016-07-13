@@ -2830,7 +2830,9 @@ throw new IllegalAccessException();
 	return notes;
 }
 
-public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessException {
+public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException {
+	
+	boolean isRm= false;
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
@@ -2856,7 +2858,7 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 		else
 			ocm.update(note);
 		ocm.save();
-
+		isRm=true;
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2867,13 +2869,14 @@ public void updateNote(User user, Troop troop,Note  note) throws IllegalAccessEx
 			ex.printStackTrace();
 		}
 	}
-	
+	return isRm;
 	
 }
 
 
-public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessException {
+public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessException {
 
+	boolean isRm= false;
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
@@ -2894,6 +2897,7 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 			
 			ocm.remove(note);
 			ocm.save();
+			isRm= true;
 		}else
 			throw new IllegalAccessException();
 
@@ -2907,13 +2911,14 @@ public void rmNote(User user, Troop troop,Note  note) throws IllegalAccessExcept
 			ex.printStackTrace();
 		}
 	}
-	
+	return isRm;
 	
 }
 
 
-public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
+public boolean rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
 
+	boolean isRm= false;
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
@@ -2923,11 +2928,13 @@ public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessE
 	Note note= getNote(user, troop, noteId);
 	if( note!=null ){
 		//check if note belongs to logged-in user
-		if( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId() )  )
+		if( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId() )  ){
 			rmNote(user, troop, note );
-		else
+			isRm=true;
+		}else
 			throw new IllegalAccessException();
 	}
+	return isRm;
 }
 
 

@@ -1282,7 +1282,7 @@ try{
               
              
         }else if( request.getParameter("addNote") != null ){
-        
+            boolean isAdded= false;
             String message = request.getParameter("message");
             String mid= request.getParameter("mid");
             
@@ -1310,25 +1310,31 @@ try{
                     meetings.get(i).setNotes( notes );
                //System.err.println("Test: "+ meetings.get(i).getNotes().size() );     
                     troopUtil.updateTroop(user, troop);
+                    isAdded= true;
                     break;
                     
                 }
+                out.println("{vtkresp:"+ isAdded+"}");
             }     
         }else if( request.getParameter("rmNote") != null ){
-            
+            boolean isRm= false;
             String noteId= request.getParameter("nid");
            
-             meetingUtil.rmNote(user, troop, noteId);
+             isRm=  meetingUtil.rmNote(user, troop, noteId);
+             out.println("{vtkresp:"+ isRm+"}");
+          
         }else if( request.getParameter("editNote") != null ){
-            
+            boolean isEdit= false;
             String noteId= request.getParameter("nid");
             String msg = request.getParameter("msg");
         
                Note note= meetingUtil.getNote(user, troop, noteId);
                if( note!=null && msg!=null && !msg.equals("") ){      
                      note.setMessage( msg );
-                     meetingUtil.updateNote(user, troop, note);
+                     isEdit= meetingUtil.updateNote(user, troop, note);
                 }//edn if   
+                
+                out.println("{vtkresp:"+ isEdit+"}");
         }else if( request.getParameter("getNotes") != null ){ 
          
                 String mid = request.getParameter("mid");
