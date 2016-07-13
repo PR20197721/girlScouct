@@ -2,8 +2,6 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
 
-<cq:include script="google-tag-manager.jsp" />
-
 <%
   // Force currentPage and currentDesign from request
   Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
