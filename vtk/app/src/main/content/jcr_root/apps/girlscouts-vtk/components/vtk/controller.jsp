@@ -1314,8 +1314,9 @@ try{
                     break;
                     
                 }
-                out.println("{vtkresp:"+ isAdded+"}");
-            }     
+                
+            }   
+            out.println("{vtkresp:"+ isAdded+"}");  
         }else if( request.getParameter("rmNote") != null ){
             boolean isRm= false;
             String noteId= request.getParameter("nid");
