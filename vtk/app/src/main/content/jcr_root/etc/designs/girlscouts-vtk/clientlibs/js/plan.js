@@ -1272,17 +1272,14 @@ function addNote(mid) {
                 data: data
             });
 
-            req.done(
+            req.then(
                 function (d, e) {
                     console.log(d, e);
 
                     initNotes.getNotes(data.mid);
                     $('.input-content').html('');
                     $('.add-note-detail').slideUp();
-                });
-
-
-                req.fail(function (err) {
+                } ,function (err) {
                     console.log(err)
                 });
 
