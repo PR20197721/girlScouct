@@ -2779,8 +2779,8 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 }
 
 
-
-public java.util.List<Note> getNotes(User user, Troop troop, String path)
+//changed to SQL . problem could be with performance. A. cant use path in the filter. Path contains nodes starting with numeric value ex: council 999. Solution need to impl new indexes. Could be problem. Temp solution impl sql see getNotes 
+public java.util.List<Note> getNotes_OCM(User user, Troop troop, String path)
 		throws IllegalAccessException, VtkException {
 
 if (user != null && !userUtil.hasPermission(troop,
@@ -2991,7 +2991,7 @@ public Note getNote(User user, Troop troop, String nid)
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
 		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/note/"+nid+"'";
-System.err.println("SQL: "+ sql);		
+//System.err.println("SQL: "+ sql);		
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
 		String str[] = result.getColumnNames();
@@ -3000,7 +3000,7 @@ System.err.println("SQL: "+ sql);
 			note = new Note();
 			Value excerpt = r.getValue("jcr:path");
 			String path = excerpt.getString();
-		System.err.println("path : "+ path );	
+		//System.err.println("path : "+ path );	
 			note.setPath(path);
 			note.setMessage( r.getValue("message").getString() );
 			note.setUid(  r.getValue("uid").getString()  );
@@ -3021,6 +3021,59 @@ System.err.println("SQL: "+ sql);
 		}
 	}
 	return note;
+}
+
+
+
+//see comments from method getNotes_OCM
+public java.util.List<Note> getNotes(User user, Troop troop, String refId)
+		throws IllegalAccessException {
+//System.err.println( refId);
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	java.util.List<Note> notes = new java.util.ArrayList<Note>();
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		javax.jcr.query.QueryManager qm = session.getWorkspace()
+				.getQueryManager();
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and jcr:path like '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%'";
+//System.err.println("SQL: "+ sql);		
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+		QueryResult result = q.execute();
+		String str[] = result.getColumnNames();
+		for (RowIterator it = result.getRows(); it.hasNext();) {
+		  try{
+			Row r = it.nextRow();
+			Note note = new Note();
+			Value excerpt = r.getValue("jcr:path");
+			String path = excerpt.getString();
+		//System.err.println("path : "+ path );	
+			note.setPath(path);
+			note.setMessage( r.getValue("message").getString() );
+			note.setUid(  r.getValue("uid").getString()  );
+			note.setCreateTime( r.getValue("createTime").getLong() );
+			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
+			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
+			note.setRefId( r.getValue("refId").getString() );
+			notes.add( note );
+		  }catch(Exception e){e.printStackTrace();}
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return notes;
 }
 	
 }// edn class

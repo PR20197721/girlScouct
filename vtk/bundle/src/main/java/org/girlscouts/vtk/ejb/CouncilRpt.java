@@ -403,6 +403,12 @@ public class CouncilRpt {
 				email.setSubject("GS Monthly Report");		
 				email.setTextMsg("Report as of  "+  new java.util.Date() + ":" + msg);
 			
+				/*
+				email.attach(new ByteArrayDataSource(pdfBytes, "application/pdf"),
+					      "document.pdf", "Document description",
+					       EmailAttachment.ATTACHMENT);
+				*/
+				
 			messageGateway.send(email);
 			
 
