@@ -1265,23 +1265,27 @@ function addNote(mid) {
 
     if ($('.vtk-note_item').length < 25) {
         if (msgl <= 500) {
-            ajaxConnection({
+            var req = ajaxConnection({
                 url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
                 cache: false,
                 type: 'POST',
                 data: data
-            })
-                .fail(function (err) {
-                    console.log(err)
-                })
-                .success(function (d) {
+            });
+
+            req.done(
+                function (d, e) {
+                    console.log(d, e);
+
                     initNotes.getNotes(data.mid);
                     $('.input-content').html('');
                     $('.add-note-detail').slideUp();
-                })
-                .done(function (html) {
-                    console.log(html);
                 });
+
+
+                req.fail(function (err) {
+                    console.log(err)
+                });
+
         } else {
             modal.alert('warning', 'Message should be less 500 characters')
         }
@@ -1321,7 +1325,7 @@ function editNote(nid, msg) {
 }
 
 var initNotes = (function (global, modal, $) {
-    var globalMid,userLoginId;
+    var globalMid, userLoginId;
 
     var utility = {
         compileTemplate: function (template) {
@@ -1450,7 +1454,7 @@ var initNotes = (function (global, modal, $) {
                     })
                     .success(function () {
                         checkQuantityNotes($('.vtk-notes_item').length)
-                        getNotes(globalMid,userLoginId);
+                        getNotes(globalMid, userLoginId);
                     }).done(function () {
                         modal.close();
                     });
@@ -1574,7 +1578,7 @@ var initNotes = (function (global, modal, $) {
                         .success(function () {
                             modal.alert("Warning", "Your Note Was Edited");
 
-                            getNotes(globalMid,userLoginId);
+                            getNotes(globalMid, userLoginId);
 
 
                             // view.noteEditable($(e.target).parents('li'), false)
@@ -1951,10 +1955,10 @@ var initNotes = (function (global, modal, $) {
                 return l;
             },
             render: function (element) {
-                 counter.methods.el = utility.compileTemplate(counter.template.counter(''));
+                counter.methods.el = utility.compileTemplate(counter.template.counter(''));
                 if (element) {
-                 element.append(counter.methods.el);
-                 counter.methods.textChange(element.parents('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'))
+                    element.append(counter.methods.el);
+                    counter.methods.textChange(element.parents('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'))
                 } else {
                     return counter.methods.el;
 
@@ -1985,7 +1989,7 @@ var initNotes = (function (global, modal, $) {
 
 
         if (number > 25) {
-             modal.alert('warning', 'This meeting reach the max of notes');
+            modal.alert('warning', 'This meeting reach the max of notes');
         }
     }
 
@@ -1995,7 +1999,7 @@ var initNotes = (function (global, modal, $) {
         node.html('');
 
 
-        notes.sort(function(a, b) {
+        notes.sort(function (a, b) {
             return a.createTime - b.createTime;
         }).reverse().forEach(function (note, idx) {
             node.append(utility.compileTemplate(view.newNote(note)))
@@ -2005,7 +2009,7 @@ var initNotes = (function (global, modal, $) {
         checkQuantityNotes(notes.length);
     }
 
-    function getNotes(mid,auid) {
+    function getNotes(mid, auid) {
 
         globalMid = mid;
         if (auid) {
@@ -2049,7 +2053,7 @@ var initNotes = (function (global, modal, $) {
                 class: 'container',
                 component: {
                     editor: editormain,
-                    counter:countermain.methods
+                    counter: countermain.methods
                 },
                 // html: countermain.methods.reder()
 
@@ -2058,21 +2062,21 @@ var initNotes = (function (global, modal, $) {
 
         countermain.methods.textChange($('.input-content'));
 
-            $('.input-content').on('keyup', function (e) {
-                var l, memory;
-                memory = $(this)[0].innerHTML;
-                l = memory.length;
+        $('.input-content').on('keyup', function (e) {
+            var l, memory;
+            memory = $(this)[0].innerHTML;
+            l = memory.length;
 
-                countermain.methods.textChange($('.input-content'));
-            });
+            countermain.methods.textChange($('.input-content'));
+        });
 
 
         $('.add-note').on('click', function (e) {
             $('.add-note-detail').stop().slideToggle();
-            });
+        });
 
 
-         modal.init();
+        modal.init();
     });
 
     return {
