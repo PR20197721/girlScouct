@@ -2932,8 +2932,9 @@ public void rmNote(User user, Troop troop, String  noteId) throws IllegalAccessE
 
 
 
-
-public Note getNote(User user, Troop troop, String nid)
+// method to get meeting note. Issue with using jcr:path. path starts with numeric such as /council 999, which creates conflict.
+//Solution: need to create indexes. for now temp create method using SQL
+public Note getNote_OCM(User user, Troop troop, String nid)
 		throws IllegalAccessException {
 	
 	if (user != null
@@ -2974,4 +2975,52 @@ public Note getNote(User user, Troop troop, String nid)
 }
 
 
+//see comments from method getNote_OCM
+public Note getNote(User user, Troop troop, String nid)
+		throws IllegalAccessException {
+	
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	Note note= null;
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		javax.jcr.query.QueryManager qm = session.getWorkspace()
+				.getQueryManager();
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/note/"+nid+"'";
+System.err.println("SQL: "+ sql);		
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+		QueryResult result = q.execute();
+		String str[] = result.getColumnNames();
+		for (RowIterator it = result.getRows(); it.hasNext();) {
+			Row r = it.nextRow();
+			note = new Note();
+			Value excerpt = r.getValue("jcr:path");
+			String path = excerpt.getString();
+		System.err.println("path : "+ path );	
+			note.setPath(path);
+			note.setMessage( r.getValue("message").getString() );
+			note.setUid(  r.getValue("uid").getString()  );
+			note.setCreateTime( r.getValue("createTime").getLong() );
+			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
+			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
+			note.setRefId( r.getValue("refId").getString() );
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return note;
+}
+	
 }// edn class
