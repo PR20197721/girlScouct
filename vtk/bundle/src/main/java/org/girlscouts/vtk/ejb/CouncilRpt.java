@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -402,7 +404,7 @@ public class CouncilRpt {
 	public void emailRpt(String msg){
 		try {
 	
-			MessageGateway<MimeMessage> messageGateway = messageGatewayService.getGateway(MimeMessage.class);
+			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
 			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
 			toAddresses.add( new InternetAddress("Dimitry.Nemirovsky@ey.com" ) );
 			toAddresses.add( new InternetAddress("alex.yakobovich@ey.com") );
@@ -439,7 +441,10 @@ public class CouncilRpt {
 			DataSource ds = new ByteArrayDataSource(data, "application/x-any");
 			email.setDataHandler( new DataHandler(ds) );
 		    */
+	
 			
+			
+			/*
 			 // Get system properties
 	        Properties properties = System.getProperties();
 	 
@@ -462,7 +467,29 @@ public class CouncilRpt {
 			    message.setContent( mp );
 			
 			messageGateway.send(message);
+			*/
 			
+			
+			
+			// create the mail
+			MultiPartEmail email = new MultiPartEmail();
+			//email.setHostName("mail.myserver.com");
+			email.addTo("alex.yakobovich@ey.com", "Alejandro");
+			email.setFrom("alex.yakobovich@ey.com", "Me");
+			email.setSubject("Alex is z best");
+			email.setMsg("GS Monthly Report");
+
+			// get your inputstream from your db
+			//InputStream is = new BufferedInputStream(msg);  
+			DataSource source = new ByteArrayDataSource(msg, "application/text");  
+
+			// add the attachment
+			email.attach(source, "rpt.csv", "rpt");
+
+			// send the email
+			//email.send();
+			
+			messageGateway.send(email);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
