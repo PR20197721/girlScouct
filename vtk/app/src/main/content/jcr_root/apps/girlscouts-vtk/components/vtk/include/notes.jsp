@@ -45,12 +45,14 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
       <div class="add-note-detail" style="display:none">
 
           <div class="input-note">
+                <div class="input-content" contenteditable="true"></div>
 
-          <div class="input-content" contenteditable="true"></div>
+                <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
+                    Save
+                </div>
+                <div class="note-loading">
 
-            <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
-                          Save
-            </div>
+                </div>
           </div>
 
 
@@ -79,49 +81,6 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 </div>
 
 </div>
-<!--
-
- <%=meeting.getPath()%>
-
- ***<%=notes==null  ? "No notes found." : "Found: "+notes.size() +" notes."%>
-
- <ul>
- <%
- if( notes!=null)
-  for(int nt = 0; nt < notes.size(); nt++){
-    Note note = notes.get(nt);
-    %>
-        <li>
-            <%=new java.util.Date(note.getCreateTime())%> :: <%=note.getCreatedByUserName()%>:: <%=note.getCreatedByUserId()%> ::
-
-            <%if(note.getCreatedByUserId().equals(user.getApiConfig().getUser().getSfUserId()) ){%>
-                <input type="text" name="" value="<%=note.getMessage()%>" id="note<%=note.getUid()%>"/>
-
-                <%if(user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
-                    <a href="javascript:void(0)" onclick="rmNote('<%=note.getUid()%>')">delete</a> ||
-                    <a href="javascript:void(0)" onclick="editNote('<%=note.getUid()%>')">edit</a>
-                <%}%>
-
-            <%}else{%>
-                <%=note.getMessage()%>
-            <%}//end else%>
-        </li>
-    <%
-  }//edn for
-
- %>
- </ul>
-
-
-
-<%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") &&  notes.size()<=25) {%>
-
-     <br/><b>Create new Note:</b>
-     <br/><input type="text" id="note" value=""/>
-     <br/><input type="button" value="Save" onclick="addNote('<%=meeting.getUid()%>')"/>
- <%}else{%>
-    Max number of notes 25
- <%}//edn else%>-->
  </form>
 
 

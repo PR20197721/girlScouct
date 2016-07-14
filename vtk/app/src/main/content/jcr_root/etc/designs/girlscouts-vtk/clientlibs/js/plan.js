@@ -984,27 +984,10 @@ function loadNav(activeTab) {
     if (activeTab != null && activeTab == 'finances') {
         vtkTrackerPushAction('ViewFinances');
     }
-
-
 }
 
-/*
-
-	function loadUNav(activeTab){
-
-	    $.ajax({
-	        url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab="+activeTab+ getElem(),
-	        cache: false
-	    }).done(function( html ) {
-	        var vtkNav = document.getElementById("vtkNav");
-	        vtkNav.innerHTML =html;
-	    })
-	}
-
-*/
 
 function loadTabNav(activeTab) {
-
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=" + activeTab + getElem(),
         cache: false
@@ -1016,7 +999,6 @@ function loadTabNav(activeTab) {
         if ($('.tabs dd').length == 6) {
             $('.tabs dd').css('width', '100%');
         }
-
     })
 }
 
@@ -1031,7 +1013,6 @@ function getElem() {
     var elem = getParameterByName('elem');
     if (elem != null && elem != '')
         return "&elem=" + elem;
-
     return "";
 }
 
@@ -1142,101 +1123,101 @@ function resetYear() {
 
 //Notes ===
 
-    var utility = {
-        compileTemplate: function (template) {
-            //Create the Dom Element assing the the class and event
-            function createElement(element, detail) {
-                var domElement = document.createElement(element);
+var utility = {
+    compileTemplate: function (template) {
+        //Create the Dom Element assing the the class and event
+        function createElement(element, detail) {
+            var domElement = document.createElement(element);
 
 
-                if (detail.data) {
-                    for (var data in detail.data) {
-                        domElement.setAttribute('data-' + data, detail.data[data]);
-                    }
+            if (detail.data) {
+                for (var data in detail.data) {
+                    domElement.setAttribute('data-' + data, detail.data[data]);
                 }
-
-                if (detail.class) {
-                    domElement.className = detail.class;
-                }
-                if (detail.text) {
-                    domElement.appendChild(document.createTextNode(detail.text));
-                }
-
-                if (detail.html) {
-                    domElement.innerHTML = detail.html;
-                }
-
-                if (detail.component) {
-                    for (var component in detail.component) {
-                        domElement.appendChild(detail.component[component].render());
-                    }
-                }
-
-                if (detail.style) {
-                    var style = "";
-                    for (var sty in detail.style) {
-                        if (sty && detail.style[sty]) {
-                            style += sty + ':' + detail.style[sty] + ';'
-                        }
-
-                    }
-
-                    domElement.setAttribute('style', style);
-                }
-
-
-                if (detail.attr) {
-                    for (var attr in detail.attr) {
-                        domElement.setAttribute(attr, detail.attr[attr]);
-                    }
-                }
-
-
-
-                if (detail.events) {
-                    for (var event in detail.events) {
-                        domElement.addEventListener(event, detail.events[event]);
-                    }
-                }
-
-
-
-                return domElement;
             }
-            //recursive function that interate the Json object
-            function interator(object, parentDom) {
-                var objElem;
-                for (var element in object) {
 
-                    if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
-                        objElem = element.split('-')[0]
-                    } else {
-                        objElem = element;
-                    }
+            if (detail.class) {
+                domElement.className = detail.class;
+            }
+            if (detail.text) {
+                domElement.appendChild(document.createTextNode(detail.text));
+            }
 
-                    var currentElement = createElement(objElem, object[element]);
-                    if (object[element].child) {
-                        interator(object[element].child, currentElement);
-                    }
+            if (detail.html) {
+                domElement.innerHTML = detail.html;
+            }
 
-                    if (parentDom) {
-                        parentDom.appendChild(currentElement);
-                    }
+            if (detail.component) {
+                for (var component in detail.component) {
+                    domElement.appendChild(detail.component[component].render());
                 }
-                return currentElement;
             }
-            //return the dom with child and event listerners
-            return interator(template);
-        },
-        alertButton: function (msg, okCallback, cancelCallback) {
-            var x;
-            if (confirm(msg) == true) {
-                x = okCallback();
-            } else {
-                x = cancelCallback();
+
+            if (detail.style) {
+                var style = "";
+                for (var sty in detail.style) {
+                    if (sty && detail.style[sty]) {
+                        style += sty + ':' + detail.style[sty] + ';'
+                    }
+
+                }
+
+                domElement.setAttribute('style', style);
             }
+
+
+            if (detail.attr) {
+                for (var attr in detail.attr) {
+                    domElement.setAttribute(attr, detail.attr[attr]);
+                }
+            }
+
+
+
+            if (detail.events) {
+                for (var event in detail.events) {
+                    domElement.addEventListener(event, detail.events[event]);
+                }
+            }
+
+
+
+            return domElement;
+        }
+        //recursive function that interate the Json object
+        function interator(object, parentDom) {
+            var objElem;
+            for (var element in object) {
+
+                if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
+                    objElem = element.split('-')[0]
+                } else {
+                    objElem = element;
+                }
+
+                var currentElement = createElement(objElem, object[element]);
+                if (object[element].child) {
+                    interator(object[element].child, currentElement);
+                }
+
+                if (parentDom) {
+                    parentDom.appendChild(currentElement);
+                }
+            }
+            return currentElement;
+        }
+        //return the dom with child and event listerners
+        return interator(template);
+    },
+    alertButton: function (msg, okCallback, cancelCallback) {
+        var x;
+        if (confirm(msg) == true) {
+            x = okCallback();
+        } else {
+            x = cancelCallback();
         }
     }
+}
 
 var ModalVtk = (function () {
 
@@ -1341,95 +1322,10 @@ var ModalVtk = (function () {
     return Modal;
 })();
 
-var modal = new ModalVtk();
-
-function ajaxConnection(ajaxOptions) {
-
-    ajaxOptions.cache = false;
-    return $.ajax(ajaxOptions);
-}
-
-function addNote(mid) {
-    var msg = $('.input-content').html();
-    var msgl = $('.input-content').text().length;
-
-    var data = {
-        addNote: "true",
-        message: msg,
-        mid: mid,
-        a: Date.now()
-    }
-
-    if ($('.vtk-note_item').length < 25) {
-        if (msgl <= 500) {
-            var req = ajaxConnection({
-                url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-                cache: false,
-                type: 'POST',
-                data: data
-            });
-
-            req.then(
-                function (d, e) {
-
-                    var reqS = initNotes.getNotes(data.mid, undefined);
-
-                    reqS.done(function (json) {
-                        initNotes.interateNotes(json);
-                        $('.input-content').html('');
-                        $('.add-note-detail').slideUp();
-                    })
-
-                    reqS.fail(function (err) {
-                        console.log(err);
-                    })
 
 
-
-
-                } ,function (err) {
-                    console.log(err)
-                });
-
-        } else {
-            modal.alert('warning', 'Message should be less 500 characters')
-        }
-    } else {
-        modal.alert('warnign', 'you can not add more notes due you reach the max notes ')
-    }
-
-}
-
-function rmNote(nid) {
-
-    return ajaxConnection({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-        cache: false,
-        type: 'POST',
-        data: {
-            rmNote: "true",
-            nid: nid,
-            a: Date.now()
-        }
-    });
-}
-
-function editNote(nid, msg) {
-
-    return ajaxConnection({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-        cache: false,
-        type: 'POST',
-        data: {
-            editNote: "true",
-            nid: nid,
-            msg: msg,
-            a: Date.now()
-        }
-    });
-}
-
-var initNotes = (function (global, modal, $) {
+var initNotes = (function (global, ModalVtk, $) {
+    var modal = new ModalVtk();
     var globalMid, userLoginId;
 
     var view = {
@@ -1467,8 +1363,8 @@ var initNotes = (function (global, modal, $) {
                         var req = getNotes(globalMid, userLoginId);
                         req.then(
                             function (json) {
-                                 interateNotes(json);
-                        },
+                                interateNotes(json);
+                            },
                             function (err) {
                                 console.log(err);
                             })
@@ -1598,16 +1494,17 @@ var initNotes = (function (global, modal, $) {
                             var req = getNotes(globalMid, userLoginId);
 
                             req.done(function (json) {
-                                 interateNotes(json);
+                                interateNotes(json);
+                                // view.noteEditable($(e.target).parents('li'), false)
+
+                                // saveButton.hide();
                             })
 
 
                             req.fail(function (err) {
                                 console.log(err);
                             })
-                            // view.noteEditable($(e.target).parents('li'), false)
 
-                            // saveButton.hide();
 
                         }).done(function () {
                             editor.destroy();
@@ -2000,13 +1897,103 @@ var initNotes = (function (global, modal, $) {
         }
     }
 
+    function ajaxConnection(ajaxOptions) {
+        ajaxOptions.cache = false;
+        return $.ajax(ajaxOptions);
+    }
+
+    function addNote(mid) {
+        var msg = $('.input-content').html();
+        var msgl = $('.input-content').text().length;
+
+        var data = {
+            addNote: "true",
+            message: msg,
+            mid: mid,
+            a: Date.now()
+        }
+
+        if ($('.vtk-note_item').length < 25) {
+            if (msgl <= 500) {
+                if (msgl > 0) {
+                    var req = ajaxConnection({
+                        url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+                        cache: false,
+                        type: 'POST',
+                        data: data
+                    });
+
+                    $('.note-loading').show();
+
+                    req.then(
+                        function (d, e) {
+
+                            var reqS = initNotes.getNotes(data.mid, undefined);
+
+                            reqS.done(function (json) {
+                                initNotes.interateNotes(json);
+                                $('.input-content').html('');
+                                $('.add-note-detail').slideUp();
+                                $('.note-loading').hide();
+
+                            })
+
+                            reqS.fail(function (err) {
+                                console.log(err);
+                            })
+
+
+
+
+                        }, function (err) {
+                            console.log(err)
+                        });
+                } else {
+                    modal.alert('Warning', 'Message Should not be empty');
+                }
+            } else {
+                modal.alert('warning', 'Message should be less 500 characters')
+            }
+        } else {
+            modal.alert('warnign', 'you can not add more notes due you reach the max notes ')
+        }
+
+    }
+
+    function rmNote(nid) {
+
+        return ajaxConnection({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+            cache: false,
+            type: 'POST',
+            data: {
+                rmNote: "true",
+                nid: nid,
+                a: Date.now()
+            }
+        });
+    }
+
+    function editNote(nid, msg) {
+
+        return ajaxConnection({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+            cache: false,
+            type: 'POST',
+            data: {
+                editNote: "true",
+                nid: nid,
+                msg: msg,
+                a: Date.now()
+            }
+        });
+    }
+
     function checkQuantityNotes(number) {
         if (number < 25) {
             $('.add-notes-area').show();
             $('.you-reach-25').hide();
         } else {
-
-
             $('.add-notes-area').hide();
             $('.you-reach-25').show();
         }
@@ -2037,7 +2024,7 @@ var initNotes = (function (global, modal, $) {
 
         globalMid = mid;
         if (auid) {
-                userLoginId = auid;
+            userLoginId = auid;
         }
 
 
@@ -2053,39 +2040,8 @@ var initNotes = (function (global, modal, $) {
             }
         }
 
-
-
         return ajaxConnection(ajaxOptions);
-
-
-
-
-        // $.ajax({
-        //     url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-        //     cache: false,
-        //     type: 'GET',
-        //     dataType: 'json',
-
-        //     data: {
-        //         getNotes: "true",
-        //         mid: mid,
-        //         a: Date.now()
-        //     }
-
-        // }).success(function (json) {
-
-        //     interateNotes(json);
-
-        // }).fail(function (err) {
-
-        // }).done(function (html) {
-
-
-
-        // });
     }
-
-
 
     $(function () {
         var editormain = Object.create(editor);
@@ -2129,12 +2085,7 @@ var initNotes = (function (global, modal, $) {
         view: view,
         userLoginId: userLoginId,
         interateNotes: interateNotes,
-         globalMid: globalMid
+        globalMid: globalMid
     };
 
-})(this, modal, $);
-
-
-
-
-
+})(this, ModalVtk, $);
