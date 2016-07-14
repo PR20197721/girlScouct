@@ -1313,9 +1313,9 @@ try{
                     isAdded= true;
                     
                     //Per Juan return new notes
-                    java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getUid());
+                    java.util.List <org.girlscouts.vtk.models.Note> _notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getUid());
                     ObjectMapper mapper = new ObjectMapper();
-                    out.println(mapper.writeValueAsString(notes));
+                    out.println(mapper.writeValueAsString(_notes));
                     
                     break;
 
