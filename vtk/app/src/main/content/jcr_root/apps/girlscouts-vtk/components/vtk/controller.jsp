@@ -1311,11 +1311,28 @@ try{
                //System.err.println("Test: "+ meetings.get(i).getNotes().size() );
                     troopUtil.updateTroop(user, troop);
                     isAdded= true;
+             System.err.println("Carlos created new Note: "+  message);      
                     
+                 
+                 ObjectMapper mapper = new ObjectMapper();
+                 out.println(mapper.writeValueAsString(note));
+                 
+                 /*
                     //Per Juan return new notes
                     java.util.List <org.girlscouts.vtk.models.Note> _notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getUid());
+                    if( _notes!=null && _notes.size()>0){    
+                     
+                      System.err.println("Carlos is gettting new set of notes: "+ _notes.size() ); 
+                      for(int t=0;t<_notes.size();t++){
+                          Note _caca = _notes.get(t);
+                          System.err.println(i +" : "+  _caca.getMessage() );
+                      }     
                     ObjectMapper mapper = new ObjectMapper();
                     out.println(mapper.writeValueAsString(_notes));
+                    }//edn if
+                    */
+                    
+                    
                     
                     break;
 
