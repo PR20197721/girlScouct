@@ -1123,101 +1123,6 @@ function resetYear() {
 
 //Notes ===
 
-var utility = {
-    compileTemplate: function (template) {
-        //Create the Dom Element assing the the class and event
-        function createElement(element, detail) {
-            var domElement = document.createElement(element);
-
-
-            if (detail.data) {
-                for (var data in detail.data) {
-                    domElement.setAttribute('data-' + data, detail.data[data]);
-                }
-            }
-
-            if (detail.class) {
-                domElement.className = detail.class;
-            }
-            if (detail.text) {
-                domElement.appendChild(document.createTextNode(detail.text));
-            }
-
-            if (detail.html) {
-                domElement.innerHTML = detail.html;
-            }
-
-            if (detail.component) {
-                for (var component in detail.component) {
-                    domElement.appendChild(detail.component[component].render());
-                }
-            }
-
-            if (detail.style) {
-                var style = "";
-                for (var sty in detail.style) {
-                    if (sty && detail.style[sty]) {
-                        style += sty + ':' + detail.style[sty] + ';'
-                    }
-
-                }
-
-                domElement.setAttribute('style', style);
-            }
-
-
-            if (detail.attr) {
-                for (var attr in detail.attr) {
-                    domElement.setAttribute(attr, detail.attr[attr]);
-                }
-            }
-
-
-
-            if (detail.events) {
-                for (var event in detail.events) {
-                    domElement.addEventListener(event, detail.events[event]);
-                }
-            }
-
-
-
-            return domElement;
-        }
-        //recursive function that interate the Json object
-        function interator(object, parentDom) {
-            var objElem;
-            for (var element in object) {
-
-                if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
-                    objElem = element.split('-')[0]
-                } else {
-                    objElem = element;
-                }
-
-                var currentElement = createElement(objElem, object[element]);
-                if (object[element].child) {
-                    interator(object[element].child, currentElement);
-                }
-
-                if (parentDom) {
-                    parentDom.appendChild(currentElement);
-                }
-            }
-            return currentElement;
-        }
-        //return the dom with child and event listerners
-        return interator(template);
-    },
-    alertButton: function (msg, okCallback, cancelCallback) {
-        var x;
-        if (confirm(msg) == true) {
-            x = okCallback();
-        } else {
-            x = cancelCallback();
-        }
-    }
-}
 
 var ModalVtk = (function () {
 
@@ -1332,6 +1237,8 @@ var initNotes = (function (global, ModalVtk, $) {
         actions: global.actions,
         state: '',
         noteFocus: function (e) {
+            //  $('li.vtk-note_item').removeClass('shadow');
+            // $(this).addClass('shadow');
         },
         noteEditable: function (element, boolean) {
 
@@ -1353,7 +1260,7 @@ var initNotes = (function (global, ModalVtk, $) {
         deleteNote: function (e) {
             e.preventDefault();
 
-            modal.confirm('Warning', 'Are you sure you want to delete this note', function () {
+            modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
                 rmNote($(e.target).parents('li').data('uid'))
                     .fail(function (err) {
                         console.log('error', err)
@@ -1384,22 +1291,16 @@ var initNotes = (function (global, ModalVtk, $) {
 
             editor.render(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_container'));
 
-            $('li.vtk-note_item').removeClass('shadow');
-            element.addClass('shadow');
+            // $('li.vtk-note_item').removeClass('shadow');
+            // element.addClass('shadow');
 
             var originalMessage = element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html();
 
             counter.methods.render(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_container'));
 
-            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keyup', function (e) {
 
-
-                var l, memory;
-                memory = element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content')[0].innerHTML;
-                l = memory.length;
-
-                counter.methods.textChange(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content'));
-            });
+            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keyup', function (e) { check_charcount($(this), e, counter); });
+            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keydown', function (e) { check_charcount($(this), e, counter); });
 
             view.state = originalMessage;
             var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
@@ -1480,42 +1381,34 @@ var initNotes = (function (global, ModalVtk, $) {
             var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
 
 
+            if (character.length < 501) {
+                editNote(nid, message)
+                    .fail(function (err) {
+                        console.log(err);
+                    })
+                    .success(function () {
+
+                        var req = getNotes(globalMid, userLoginId);
+
+                        req.done(function (json) {
+                            interateNotes(json);
+
+                        })
 
 
-            if (view.state !== message) {
-                if (character.length < 500) {
-                    editNote(nid, message)
-                        .fail(function (err) {
+                        req.fail(function (err) {
                             console.log(err);
                         })
-                        .success(function () {
-                            modal.alert("Warning", "Your Note Was Edited");
-
-                            var req = getNotes(globalMid, userLoginId);
-
-                            req.done(function (json) {
-                                interateNotes(json);
-                                // view.noteEditable($(e.target).parents('li'), false)
-
-                                // saveButton.hide();
-                            })
 
 
-                            req.fail(function (err) {
-                                console.log(err);
-                            })
-
-
-                        }).done(function () {
-                            editor.destroy();
-                            counter.methods.destroy();
-                        })
-                } else {
-                    modal.alert('Warning', 'Need to Write a text less than 500 chacracter')
-                }
+                    }).done(function () {
+                        editor.destroy();
+                        counter.methods.destroy();
+                    })
             } else {
-                modal.alert("Warning", 'Need to make a change in order to save');
+                modal.alert('Warning', 'Need to Write a text less than 500 chacracter')
             }
+
 
 
 
@@ -1541,7 +1434,7 @@ var initNotes = (function (global, ModalVtk, $) {
                     'button-1': {
                         child: {
                             i: {
-                                class: "icon-trash-delete-remove"
+                                class: "icon-button-circle-cross"
                             }
                         },
 
@@ -1597,11 +1490,12 @@ var initNotes = (function (global, ModalVtk, $) {
             }
         },
         newNote: function (note) {
-            var date = new Date(note.createTime);
-            var dateArray = date.toString().split(' ');
-            var dateString = dateArray[1] + '/' + dateArray[2] + '/' + dateArray[3];
-            var timeString = dateArray[4] + " " + dateArray[6];
+            var date = moment(note.createTime);
 
+            // var dateString = date.month()+ 1 + '/' + date.date() + '/' + date.year();
+            var dateString = date.format('MM/DD/YYYY');
+            var timeString = date.format('LTS') + ' ' + date.format('Z');
+            // var tz = " " + dateArray[6];
 
             var template = {
                 li: {
@@ -1615,7 +1509,7 @@ var initNotes = (function (global, ModalVtk, $) {
                     child: {
 
                         div: {
-                            class: 'vtk-note_wrap_content small-24 medium-18 columns',
+                            class: 'vtk-note_wrap_content small-24 medium-20 columns',
                             child: {
                                 div: {
                                     class: 'row',
@@ -1638,7 +1532,7 @@ var initNotes = (function (global, ModalVtk, $) {
                             }
                         },
                         'div-1': {
-                            class: "vtk-note_detail small-24 medium-6  columns",
+                            class: "vtk-note_detail small-24 medium-4  columns",
 
                             child: {
                                 'p': {
@@ -1897,7 +1791,112 @@ var initNotes = (function (global, ModalVtk, $) {
         }
     }
 
+    var utility = {
+        compileTemplate: function (template) {
+            //Create the Dom Element assing the the class and event
+            function createElement(element, detail) {
+                var domElement = document.createElement(element);
+
+
+                if (detail.data) {
+                    for (var data in detail.data) {
+                        domElement.setAttribute('data-' + data, detail.data[data]);
+                    }
+                }
+
+                if (detail.class) {
+                    domElement.className = detail.class;
+                }
+                if (detail.text) {
+                    domElement.appendChild(document.createTextNode(detail.text));
+                }
+
+                if (detail.html) {
+                    domElement.innerHTML = detail.html;
+                }
+
+                if (detail.component) {
+                    for (var component in detail.component) {
+                        domElement.appendChild(detail.component[component].render());
+                    }
+                }
+
+                if (detail.style) {
+                    var style = "";
+                    for (var sty in detail.style) {
+                        if (sty && detail.style[sty]) {
+                            style += sty + ':' + detail.style[sty] + ';'
+                        }
+
+                    }
+
+                    domElement.setAttribute('style', style);
+                }
+
+
+                if (detail.attr) {
+                    for (var attr in detail.attr) {
+                        domElement.setAttribute(attr, detail.attr[attr]);
+                    }
+                }
+
+
+
+                if (detail.events) {
+                    for (var event in detail.events) {
+                        domElement.addEventListener(event, detail.events[event]);
+                    }
+                }
+
+
+
+                return domElement;
+            }
+            //recursive function that interate the Json object
+            function interator(object, parentDom) {
+                var objElem;
+                for (var element in object) {
+
+                    if (/[a-zA-Z]*-[0-9]*/g.test(element)) {
+                        objElem = element.split('-')[0]
+                    } else {
+                        objElem = element;
+                    }
+
+                    var currentElement = createElement(objElem, object[element]);
+                    if (object[element].child) {
+                        interator(object[element].child, currentElement);
+                    }
+
+                    if (parentDom) {
+                        parentDom.appendChild(currentElement);
+                    }
+                }
+                return currentElement;
+            }
+            //return the dom with child and event listerners
+            return interator(template);
+        },
+        alertButton: function (msg, okCallback, cancelCallback) {
+            var x;
+            if (confirm(msg) == true) {
+                x = okCallback();
+            } else {
+                x = cancelCallback();
+            }
+        }
+    }
+
+
+    function check_charcount(element, e, counter) {
+        counter.methods.textChange(element);
+        if (e.which != 8 && element.text().length > 499) {
+            e.preventDefault();
+        }
+    }
+
     function ajaxConnection(ajaxOptions) {
+
         ajaxOptions.cache = false;
         return $.ajax(ajaxOptions);
     }
@@ -1915,42 +1914,30 @@ var initNotes = (function (global, ModalVtk, $) {
 
         if ($('.vtk-note_item').length < 25) {
             if (msgl <= 500) {
-                if (msgl > 0) {
-                    var req = ajaxConnection({
-                        url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-                        cache: false,
-                        type: 'POST',
-                        data: data
+
+                var req = ajaxConnection({
+                    url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
+                    cache: false,
+                    type: 'POST',
+                    data: data,
+                    dataType: 'json'
+                });
+
+                $('.note-loading').show();
+
+                req.then(
+                    function (json, e) {
+                        $('.vtk-notes_list_container').prepend(utility.compileTemplate(view.newNote(json)));
+
+                        $('.input-content').html('');
+                        $('.add-note-detail').slideUp();
+                        $('.note-loading').hide();
+                    }, function (err) {
+
+                        console.log(err)
+                        $('.note-loading').hide();
                     });
 
-                    $('.note-loading').show();
-
-                    req.then(
-                        function (d, e) {
-
-                            var reqS = initNotes.getNotes(data.mid, undefined);
-
-                            reqS.done(function (json) {
-                                initNotes.interateNotes(json);
-                                $('.input-content').html('');
-                                $('.add-note-detail').slideUp();
-                                $('.note-loading').hide();
-
-                            })
-
-                            reqS.fail(function (err) {
-                                console.log(err);
-                            })
-
-
-
-
-                        }, function (err) {
-                            console.log(err)
-                        });
-                } else {
-                    modal.alert('Warning', 'Message Should not be empty');
-                }
             } else {
                 modal.alert('warning', 'Message should be less 500 characters')
             }
@@ -2062,14 +2049,10 @@ var initNotes = (function (global, ModalVtk, $) {
 
         countermain.methods.textChange($('.input-content'));
 
-        $('.input-content').on('keyup', function (e) {
-            var l, memory;
-            memory = $(this)[0].innerHTML;
-            l = memory.length;
 
-            countermain.methods.textChange($('.input-content'));
-        });
 
+        $('.input-content').keyup(function (e) { check_charcount($(this), e, countermain); });
+        $('.input-content').keydown(function (e) { check_charcount($(this), e, countermain); });
 
         $('.add-note').on('click', function (e) {
             $('.add-note-detail').stop().slideToggle();

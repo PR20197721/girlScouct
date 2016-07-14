@@ -37,28 +37,27 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
       <!--   <%=meeting.getPath()%>
      ***<%=notes==null  ? "No notes found." : "Found: "+notes.size() +" notes."%> -->
 
+     <div class="row">
 
-      <div class="add-notes-area small-24 columns" style="display:none">
-        <div class="add-note">
-          <i class="icon-speech-bubbles"></i> Add A Note
-        </div>
-      <div class="add-note-detail" style="display:none">
 
-          <div class="input-note">
-                <div class="input-content" contenteditable="true"></div>
+        <div class="add-notes-area small-24 columns" style="display:none">
+            <div class="add-note">
+                <i class="icon-speech-bubbles"></i> Add A Note
+            </div>
+            <div class="add-note-detail" style="display:none">
+                <div class="input-note">
+                    <div class="input-content" contenteditable="true"></div>
 
-                <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
+                    <div class="note-loading">
+
+                    </div>
+                </div>
+                 <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
                     Save
-                </div>
-                <div class="note-loading">
-
-                </div>
-          </div>
-
-
-
-      </div>
-    </div>
+                 </div>
+            </div>
+         </div>
+        </div>
 
 
     <div class="you-reach-25 small-24 columns" style="display:none">
@@ -67,14 +66,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
       </h4>
     </div>
 
-
     <ul class="vtk-notes_list_container small-24 columns"></ul>
-
-    <ul class="vtk-notes_list  small-24 columns ">
-        <!-- Notes Here -->
-    </ul>
-
-
   </div>
 </div>
 
