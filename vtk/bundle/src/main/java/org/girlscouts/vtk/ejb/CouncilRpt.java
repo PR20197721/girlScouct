@@ -477,7 +477,7 @@ public class CouncilRpt {
 			email.addTo("alex.yakobovich@ey.com", "Alejandro");
 			email.setFrom("alex.yakobovich@ey.com", "Me");
 			email.setSubject("Alex is z best");
-			email.setMsg("GS Monthly Report");
+			email.setMsg("see attached GS Monthly Report attached");
 
 			// get your inputstream from your db
 			//InputStream is = new BufferedInputStream(msg);  
