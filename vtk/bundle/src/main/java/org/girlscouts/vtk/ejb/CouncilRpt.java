@@ -3,16 +3,27 @@ package org.girlscouts.vtk.ejb;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.TreeMap;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.jcr.Node;
 import javax.jcr.Session;
+import javax.mail.Message;
+import javax.mail.Multipart;
 import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
+import org.apache.commons.mail.ByteArrayDataSource;
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.HtmlEmail;
+import org.apache.commons.mail.MultiPartEmail;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -391,27 +402,67 @@ public class CouncilRpt {
 	public void emailRpt(String msg){
 		try {
 	
-			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-
-			
-			HtmlEmail email = new HtmlEmail();
+			MessageGateway<MimeMessage> messageGateway = messageGatewayService.getGateway(MimeMessage.class);
 			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
 			toAddresses.add( new InternetAddress("Dimitry.Nemirovsky@ey.com" ) );
 			toAddresses.add( new InternetAddress("alex.yakobovich@ey.com") );
-			email.setTo(toAddresses);
 			
-				email.setSubject("GS Monthly Report");		
-				email.setTextMsg("Report as of  "+  new java.util.Date() + ":" + msg);
+			/*
+			HtmlEmail email = new HtmlEmail();
 			
-				/*
-				email.attach(new ByteArrayDataSource(pdfBytes, "application/pdf"),
-					      "document.pdf", "Document description",
-					       EmailAttachment.ATTACHMENT);
-				*/
-				
+			email.setTo(toAddresses);		
+    		email.setSubject("GS Monthly Report");		
+			email.setTextMsg("Report as of  "+  new java.util.Date() + ":" + msg);
 			messageGateway.send(email);
-			
+			*/
 
+			/*
+			MultiPartEmail email = new MultiPartEmail();
+			email.setTo(toAddresses);		
+    		email.setSubject("GS Monthly Report");		
+			email.setMsg("Report as of  "+  new java.util.Date() + ":" + msg);
+			*/
+			
+			 /*
+			 // add the attachment
+			 EmailAttachment attachment = new EmailAttachment();
+			 attachment.setDisposition(EmailAttachment.ATTACHMENT);
+			 attachment.setDescription("GS report");
+			 attachment.setName("report.xls");
+			 email.attach(attachment);
+			 */
+			
+			
+			/*
+			MimeBodyPart mbp = new MimeBodyPart();
+			String data = "any ASCII data";
+			DataSource ds = new ByteArrayDataSource(data, "application/x-any");
+			email.setDataHandler( new DataHandler(ds) );
+		    */
+			
+			 // Get system properties
+	        Properties properties = System.getProperties();
+	 
+	        // Setup mail server (Depending upon your
+	        // Mail server - you may need more props here
+	        properties.setProperty("mail.smtp.host", "localhost");
+	        //properties.setProperty("mail.smtp.user", "<valid SMTP user>");
+	 
+	        // Get the default Session object.
+	        javax.mail.Session mailSession = null;//session.getDefaultInstance(properties);
+			
+			MimeMessage message = new MimeMessage( mailSession );
+			Multipart mp = new MimeMultipart();
+			 
+			    MimeBodyPart attachment = new MimeBodyPart();
+			    attachment.setFileName("report.csv");
+			    attachment.setContent(msg, "text/comma-separated-values");
+			    mp.addBodyPart(attachment);
+
+			    message.setContent( mp );
+			
+			messageGateway.send(message);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
