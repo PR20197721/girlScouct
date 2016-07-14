@@ -517,27 +517,14 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		StringBuffer sb= new StringBuffer();
 		try{
 			session = sessionFactory.getSession();
-			
-		if( false){//!allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
-		    //System.err.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
-		    //return;
-		} else {
-
-		       
-		        }
-		        
-		        //StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-		        sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
-		        
-		       
-		        
-		        String limitRptToCouncil= null;//request.getParameter("limitRptToCouncil");
+		    sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+		        String limitRptToCouncil= null;
 		        limitRptToCouncil= limitRptToCouncil==null ? "" :  limitRptToCouncil.trim() ;
-		  System.err.println("check: "+ (limitRptToCouncil.equals("")));      
+		      
 		        java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
-		       // javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
+		      
 		        String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
-		  System.err.println(sql);     
+		      
 		        javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		        java.util.Map container= new java.util.TreeMap();
@@ -559,14 +546,13 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            else
 		                container.put(sfCouncil+"|"+sfTroopAge , new Integer( counter.intValue() +1 ) );
 		        }
-		        //out.println("Report Generated on "+ format1.format( new java.util.Date() ) );
+		        
 		        java.util.Iterator itr = container.keySet().iterator();
 		        while( itr.hasNext() ){
 		           String key = (String) itr.next();
 		           String councilId= key.substring(0, key.indexOf("|"));
 		           String ageGroup = key.substring(key.indexOf("|") +1 );
 		           Integer count= (Integer) container.get(key);
-		           //out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + count );          
 		           sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + count );          
 		          
 		         }

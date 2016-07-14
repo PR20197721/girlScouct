@@ -1287,12 +1287,11 @@ try{
             String mid= request.getParameter("mid");
 
             if( mid==null || message ==null || message.trim().equals("")){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
-            //System.err.println("test: "+ mid +" : "+ message);
-
+           
             java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
             for(int i=0;i<meetings.size();i++){
                 if( meetings.get(i).getUid().equals( mid ) ){
-       //System.err.println("found_____________");
+       
 
                     java.util.List<Note> notes =  meetings.get(i).getNotes();
                     if( notes ==null ) notes = new java.util.ArrayList<Note>();
@@ -1305,41 +1304,24 @@ try{
                     note.setRefId( meetings.get(i).getUid() );
                     note.setPath( meetings.get(i).getPath() +"/note/"+ note.getUid());
                     notes.add( note );
-               //System.err.println( "Note: "+      note.getPath() );
+               
 
                     meetings.get(i).setNotes( notes );
-               //System.err.println("Test: "+ meetings.get(i).getNotes().size() );
+              
                     troopUtil.updateTroop(user, troop);
                     isAdded= true;
-             System.err.println("Carlos created new Note: "+  message);      
+                  
                     
                  
                  ObjectMapper mapper = new ObjectMapper();
                  out.println(mapper.writeValueAsString(note));
                  
-                 /*
-                    //Per Juan return new notes
-                    java.util.List <org.girlscouts.vtk.models.Note> _notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getUid());
-                    if( _notes!=null && _notes.size()>0){    
-                     
-                      System.err.println("Carlos is gettting new set of notes: "+ _notes.size() ); 
-                      for(int t=0;t<_notes.size();t++){
-                          Note _caca = _notes.get(t);
-                          System.err.println(i +" : "+  _caca.getMessage() );
-                      }     
-                    ObjectMapper mapper = new ObjectMapper();
-                    out.println(mapper.writeValueAsString(_notes));
-                    }//edn if
-                    */
-                    
-                    
-                    
                     break;
 
                 }
 
             }
-            //out.println("{vtkresp:"+ isAdded+"}");
+            
              
             
             
