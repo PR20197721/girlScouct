@@ -403,93 +403,23 @@ public class CouncilRpt {
 	
 	public void emailRpt(String msg){
 		try {
-	
 			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
-			java.util.List<InternetAddress> toAddresses = new java.util.ArrayList();
-			toAddresses.add( new InternetAddress("Dimitry.Nemirovsky@ey.com" ) );
-			toAddresses.add( new InternetAddress("alex.yakobovich@ey.com") );
-			
-			/*
-			HtmlEmail email = new HtmlEmail();
-			
-			email.setTo(toAddresses);		
-    		email.setSubject("GS Monthly Report");		
-			email.setTextMsg("Report as of  "+  new java.util.Date() + ":" + msg);
-			messageGateway.send(email);
-			*/
-
-			/*
-			MultiPartEmail email = new MultiPartEmail();
-			email.setTo(toAddresses);		
-    		email.setSubject("GS Monthly Report");		
-			email.setMsg("Report as of  "+  new java.util.Date() + ":" + msg);
-			*/
-			
-			 /*
-			 // add the attachment
-			 EmailAttachment attachment = new EmailAttachment();
-			 attachment.setDisposition(EmailAttachment.ATTACHMENT);
-			 attachment.setDescription("GS report");
-			 attachment.setName("report.xls");
-			 email.attach(attachment);
-			 */
-			
-			
-			/*
-			MimeBodyPart mbp = new MimeBodyPart();
-			String data = "any ASCII data";
-			DataSource ds = new ByteArrayDataSource(data, "application/x-any");
-			email.setDataHandler( new DataHandler(ds) );
-		    */
-	
-			
-			
-			/*
-			 // Get system properties
-	        Properties properties = System.getProperties();
-	 
-	        // Setup mail server (Depending upon your
-	        // Mail server - you may need more props here
-	        properties.setProperty("mail.smtp.host", "localhost");
-	        //properties.setProperty("mail.smtp.user", "<valid SMTP user>");
-	 
-	        // Get the default Session object.
-	        javax.mail.Session mailSession = null;//session.getDefaultInstance(properties);
-			
-			MimeMessage message = new MimeMessage( mailSession );
-			Multipart mp = new MimeMultipart();
-			 
-			    MimeBodyPart attachment = new MimeBodyPart();
-			    attachment.setFileName("report.csv");
-			    attachment.setContent(msg, "text/comma-separated-values");
-			    mp.addBodyPart(attachment);
-
-			    message.setContent( mp );
-			
-			messageGateway.send(message);
-			*/
-			
-			
 			
 			// create the mail
 			MultiPartEmail email = new MultiPartEmail();
-			//email.setHostName("mail.myserver.com");
+			
 			email.addTo("alex.yakobovich@ey.com", "Alejandro");
 			email.setFrom("alex.yakobovich@ey.com", "Me");
-			email.setSubject("Alex is z best");
-			email.setMsg("see attached GS Monthly Report attached");
+			email.setSubject("GS Monthly Report");
+			email.setMsg("Please find attached GS Monthly Report attached as of "+ new java.util.Date());
 
-			// get your inputstream from your db
-			//InputStream is = new BufferedInputStream(msg);  
 			DataSource source = new ByteArrayDataSource(msg, "application/text");  
 
 			// add the attachment
 			email.attach(source, "rpt.csv", "rpt");
 
-			// send the email
-			//email.send();
-			
 			messageGateway.send(email);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
