@@ -1311,12 +1311,21 @@ try{
                //System.err.println("Test: "+ meetings.get(i).getNotes().size() );
                     troopUtil.updateTroop(user, troop);
                     isAdded= true;
+                    
+                    //Per Juan return new notes
+                    java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotes(  user,  troop, meetings.get(i).getUid());
+                    ObjectMapper mapper = new ObjectMapper();
+                    out.println(mapper.writeValueAsString(notes));
+                    
                     break;
 
                 }
 
             }
-            out.println("{vtkresp:"+ isAdded+"}");
+            //out.println("{vtkresp:"+ isAdded+"}");
+             
+            
+            
         }else if( request.getParameter("rmNote") != null ){
             boolean isRm= false;
             String noteId= request.getParameter("nid");
