@@ -17,7 +17,7 @@
 	request.setAttribute("fromHeaderNav", "true");
 	if (navs != null) {
 %>
-	<nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
+	<nav class="top-bar show-for-medium-up columns small-24" data-topbar role="navigation">
 		<section class="top-bar-section">
 			<ul>
 <%
