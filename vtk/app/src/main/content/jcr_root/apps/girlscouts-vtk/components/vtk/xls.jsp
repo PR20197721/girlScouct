@@ -150,5 +150,5 @@ final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 String rptId= councilRpt.saveRpt( sb );
 
 //email rpt
-councilRpt.emailRpt(sb.toString());"//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
+councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
     %>
