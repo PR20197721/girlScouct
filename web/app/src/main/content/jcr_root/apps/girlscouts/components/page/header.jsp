@@ -1,6 +1,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
+
 <%
   // Force currentPage and currentDesign from request
   Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");

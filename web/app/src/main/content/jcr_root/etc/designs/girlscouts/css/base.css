@@ -189,6 +189,9 @@ a:hover {
     visibility: hidden !important;
     display: none !important;
   }
+  .medium-23 {
+  	width: none;
+  }
 }
 a.menu {
   color: #C1EAD4;
@@ -270,6 +273,8 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list {
   margin: 0 auto;
   overflow: visible;
+  display: flex;
+  justify-content: center;
 }
 #headerBar .inline-list > li {
   margin: 0 20px 0 0;
@@ -284,7 +289,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 20px;
+  padding-left: 52px;
 }
 #headerBar ul.inline-list li {
   line-height: 31px;
@@ -668,26 +673,50 @@ input.form-btn, a.form-btn {
   /*box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);*/
 }
 .fcr-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-left: 12px solid #00A850;
   height: 0;
   width: 0;
-  font-size: 0;
+  font-size: 1px;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcr-text-arrow::after { 
+  content:"\25BA"; 
 }
 .fcl-text-arrow {
+/* using UTF-8 Geometric Shape Pointer instead of 3D CSS arrow since it doesn't work in iOS/Safari
   border-top: 12px solid transparent;
   border-bottom: 12px solid transparent;
   border-right: 12px solid #00A850;
   height: 0;
   font-size: 0;
   width: 0;
+*/  
+  color: #00A850;
+  display:inline-block;
+  font-size: 18px;
+  transform : scale(1,1.8);
+}
+.fcl-text-arrow::before { 
+  content:"\25C4"; 
 }
 .fcr-text-arrow:hover {
+/*
   border-left: 12px solid #008000;
+*/
+  color: #008000;
 }
 .fcl-text-arrow:hover {
+/*
   border-right: 12px solid #008000;
+*/  
+  color: #008000;
 }
 td.fc-header-right {
   padding-top: 12px;
@@ -1491,9 +1520,8 @@ padding: 40px 0px 40px 0;
   border-width: 5px;
   margin-top: -2px;
 }
-.accordion.section dt h6.on:before {
-  border-color: transparent transparent transparent #000;
-  margin-top: -5px;
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd ul, .accordion.section dd li {
+    font-size: 14px;
 }
 
 

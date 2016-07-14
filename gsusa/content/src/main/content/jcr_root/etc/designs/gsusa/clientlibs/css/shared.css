@@ -120,7 +120,7 @@ div.wrapper .row:nth-child(2) {
 .accordion.section .content {
     padding: 25px 15px 0 15px;
 }
-.accordion.section dd p {
+.accordion.section dd p, .accordion.section dd ol, .accordion.section dd li, .accordion.section dd ul {
   font-size: 14px;
 }
 /*form group*/
