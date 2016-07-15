@@ -572,6 +572,6 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		String rptId= councilRpt.saveRpt( sb );
 
 		//email rpt
-		councilRpt.emailRpt("/vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
+		councilRpt.emailRpt( sb.toString() ); //"/vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
 	}
 }
