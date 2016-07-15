@@ -1492,10 +1492,8 @@ var initNotes = (function (global, ModalVtk, $) {
         newNote: function (note) {
             var date = moment(note.createTime);
 
-            // var dateString = date.month()+ 1 + '/' + date.date() + '/' + date.year();
             var dateString = date.format('MM/DD/YYYY');
-            var timeString = date.format('LTS') + ' ' + date.format('Z');
-            // var tz = " " + dateArray[6];
+            var timeString = date.format('LTS');
 
             var template = {
                 li: {
