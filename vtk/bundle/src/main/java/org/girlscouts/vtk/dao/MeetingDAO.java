@@ -133,4 +133,6 @@ public interface MeetingDAO {
 	public boolean rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException;
 	public Note getNote(User user, Troop troop, String nid)
 			throws IllegalAccessException ;
+	
+	public java.util.List<Meeting> getMeetings(int gsYear);
 }

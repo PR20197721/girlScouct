@@ -3082,5 +3082,46 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	}
 	return notes;
 }
+
+
+public java.util.List<Meeting> getMeetings(int gsYear)  {
+		
+	
+		java.util.List<Meeting> meetings =new java.util.ArrayList();
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			String sql ="select cat, level from nt:unstructured where ocm_classname='org.girlscouts.vtk.models.Meeting' and jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+gsYear+"%'";
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			String str[] = result.getColumnNames();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				Value excerpt = r.getValue("jcr:path");
+				String path = excerpt.getString();
+				Meeting meeting  = new Meeting();
+				meeting.setCat(r.getValue("cat").getString());
+				meeting.setLevel(r.getValue("level").getString());
+				meeting.setMeetingType("THE_TYPE");
+				
+				meetings.add(meeting);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return meetings;
+	
+
+}
 	
 }// edn class

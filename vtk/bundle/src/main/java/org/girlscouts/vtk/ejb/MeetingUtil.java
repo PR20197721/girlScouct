@@ -1435,4 +1435,7 @@ public class MeetingUtil {
 		return meetingDAO.rmNote(user, troop, noteId);
 	}
 	
+	public java.util.List<Meeting> getMeetings(int gsYear){
+		return meetingDAO.getMeetings(gsYear);
+		}
 }// edn class

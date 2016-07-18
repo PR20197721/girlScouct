@@ -12,7 +12,6 @@ import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.ejb.SessionFactory;
 
-
 @Component(
 metatype = true, 
 immediate = true,
@@ -20,19 +19,14 @@ label = "GS Monthly Report ",
 description = "Gs monthly rpt" 
 )
 
-
-
-
 @Service(value = {Runnable.class, AemCron.class})
 @Properties({
 @Property(name = "service.description", value = "GS Monthly Report",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 @Property( name = "scheduler.expression", label="scheduler.expression", value = "0 1 1 * *  ?",description="cron expression"),
-
 @Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 @Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true)
 })
-
 
 public class GSMonthlyRptImpl implements Runnable, AemCron  {
 	
