@@ -19,11 +19,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field
 	private String id, name;
 	@Field
-	private String level, blurb, cat, meetingType;
+	private String level, blurb, cat;
 	@Field
 	private String aidTags, resources, agenda;
 	@Field
-	private Integer position;
+	private Integer position=0;
 	@Field private Boolean isAchievement; 
 
 	
@@ -33,8 +33,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Collection
 	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
+	
+	@Field
+	private String catTags, meetingPlanType;
 	public Integer getPosition() {
-		return position;
+		return position ==null ? 0 : position;
 	}
 
 	public void setPosition(Integer position) {
@@ -140,13 +143,23 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
-	public String getMeetingType() {
-		return meetingType;
+	public String getCatTags() {
+		return catTags;
 	}
 
-	public void setMeetingType(String meetingType) {
-		this.meetingType = meetingType;
+	public void setCatTags(String catTags) {
+		this.catTags = catTags;
 	}
+
+	public String getMeetingPlanType() {
+		return meetingPlanType;
+	}
+
+	public void setMeetingPlanType(String meetingPlanType) {
+		this.meetingPlanType = meetingPlanType;
+	}
+
+	
 
 	
 	

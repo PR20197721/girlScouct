@@ -1366,12 +1366,13 @@ try{
                         break;
                     }//edn if
                 }//end for
-                
+                /*
         }else if( request.getParameter("getAllMeetings") != null ){
         	
         	 java.util.List<Meeting> meetings = meetingUtil.getMeetings(2016);
         	 ObjectMapper mapper = new ObjectMapper();
              out.println(mapper.writeValueAsString(meetings));
+             */
 		} else {
 			//TODO throw ERROR CODE
 

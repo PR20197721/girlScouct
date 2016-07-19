@@ -102,49 +102,79 @@
       <p class="instruction columns small-24"><%= instruction %></p>
       <div id="cngMeet"></div>
       
+      
+      <input type="button" value="reset" onclick="resetVtkFilters()"/>
+      
       <table>
-      <tr><th>Tags 1</th><th>Tags 2</th><th>Tags 3</th></tr>
+      <tr><th>Level-<%=troop.getSfTroopAge()%></th><th>Type</th><th>Category</th></tr>
       <tr>
+      <%
+        java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
+        java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>();
+        java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
+      
+        
+        if( meetings!=null)
+         for(int i=0;i<meetings.size();i++){
+            Meeting meeting = meetings.get(i);
+            
+            if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
+                mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
+            }
+            
+            if(  meeting.getCatTags()!=null && !"".equals( meeting.getCatTags() ) && !mCats.containsKey( meeting.getCatTags() ) ){
+                mCats.put(meeting.getCatTags(),  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
+            }
+            
+            if( meeting.getMeetingPlanType()!=null && !mTypes.containsKey( meeting.getMeetingPlanType() ) ){
+            	mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
+	        }//edn if
+            
+          }//end for
+       %>
+     
       
       <td width="30%">
         <div style='overflow:auto; width:250px;height:100px;'>
-         <li> <input type="radio" name="_tag" value="Daisy" onclick="doFilter()"/> Daisy </li>
-         <li> <input type="radio" name="_tag" value="Junior" onclick="doFilter()"/> Junior </li>
-         <li> <input type="radio" name="_tag" value="Brownie" onclick="doFilter()"/> Brownie </li>
+        <% 
+        java.util.Iterator itrLevel= mLevel.keySet().iterator();
+        while( itrLevel.hasNext()){
+        	String level =  (String)itrLevel.next();
+        	String id= (String) mLevel.get(level);
+        	%><li> <input type="checkbox" name="_tag" id="<%= id%>" value="<%=level %>"  onclick="doFilter()"/> <%=level %> </li><%
+        }
+        %>
          </div>
       </td>
+     
+
+
       <td width="30%">
-          <li> <input type="radio" name="_mtype" value="Outdoors" onclick="document.getElementById('TAG21').style.display='inline';document.getElementById('TAG20').style.display='none';"/> Outdoors </li>
-          <li> <input type="radio" name="_mtype" value="STEM"  onclick="document.getElementById('TAG20').style.display='inline';document.getElementById('TAG21').style.display='none';"/> STEM </li>
-        
+        <div style='overflow:auto; width:250px;height:100px;'>
+        <% 
+        java.util.Iterator itrTypes= mTypes.keySet().iterator();
+        while( itrTypes.hasNext()){
+            String type =  (String)itrTypes.next();
+            String id= (String) mLevel.get(type);
+            %><li> <input type="radio" name="_tag" id="<%= id%>" value="<%=type %>"  onclick="doFilter()"/> <%=type %> </li><%
+        }
+        %>
+         </div>
       </td>
       
-      <td width="30%">
-      <div style='overflow:auto; width:250px;height:100px;'>
-      <%
-        java.util.List<String> uTags= new java.util.ArrayList<String>();
-        int temp= 0;
-        if( meetings!=null)
-         for(int i=0;i<meetings.size();i++){
-            if( i > (meetings.size() /2) ){ temp=1;}
-            Meeting meeting = meetings.get(i);
-            String tags =  meeting.getAidTags();
-            if( tags!=null){
-             java.util.StringTokenizer t= new java.util.StringTokenizer(tags, ";");
-             while( t.hasMoreElements() ){
-                String _tag = t.nextToken();
-                if( !uTags.contains( _tag ) ){
-                    uTags.add( _tag );
-                    %>
-                     <li id="TAG2<%=temp%>" style="display:<%=temp==1 ? "none" : "" %>;"> <input type="checkbox" name="_tag"  value="<%=_tag%>" onclick="doFilter()"  /> <%=_tag%> </li>
-                <%}//end if
-             }//edn while
-             }//edn if
-         }//edn for
-             %>
-      </div>
-      </td>
       
+      <td width="30%">
+       <div style='overflow:auto; width:250px;height:100px;'>
+        <% 
+        java.util.Iterator itrCats= mCats.keySet().iterator();
+        while( itrCats.hasNext()){
+            String cat =  (String)itrCats.next();
+            String id= (String) mLevel.get(cat);
+            %><li> <input type="checkbox" name="_tag" id="<%= id%>" value="<%=cat %>"  onclick="doFilter()"/> <%=cat %> </li><%
+        }
+        %>
+         </div>
+      </td>
       </tr>
       
       
@@ -166,10 +196,10 @@
           for(int i=0;i<meetings.size();i++){
             Meeting meeting = meetings.get(i);
           %>
-            <tr id="TR_TAGS_;<%=meeting.getLevel() %>;<%=meeting.getAidTags() %>;">
+            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;TYPE_HERE;CATS_HERE;">
                 <td>
                         <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> <%=meeting.getAidTags() %> ** <%=meeting.getLevel() %></p> 
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %></p> 
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                 </td>
               <td>
@@ -205,32 +235,56 @@
 <script>
     function doFilter(){
     
+    	
+    	clearResults();
+    	
         var els = document.getElementsByName("_tag");
         //console.log( "tags size: "+ els.length);
     
        var tt = document.getElementById("meetingSelect");
        var t= tt.getElementsByTagName("tr");
-       for(var i=0;i<t.length;i++){
+       for(var i=0;i<t.length;i++){ //each meeting
         var x= t[i];
-        //console.log("____________________ : "+ x.id);
        
            var isHide= false;
-           for(var y = 0; y < els.length; y++){
-     //console.log(y +" : "+ els[y].checked +" : "+ els[y].value );      
-               if( els[y].checked ){ 
-     //console.log(x.id +" : "+  els[y].value +" : "+ (x.id.indexOf( els[y].value )==-1) );          
-                  if( x.id.indexOf( els[y].value )==-1 ){
-     //console.log("not found... hidding");             
-                    x.style.display = "none";
-                    isHide= true;
+           for(var y = 0; y < els.length; y++){ //each filter
+          
+               if( els[y].checked ){ //filter checked
+               
+                  if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
+                  
+                    x.style.display = "inline";
+                    isHide= false;
                     continue;
                   }
-               
                }
+             
            }
            
-           if( !isHide ){ x.style.display = "inline"; }
+          // if( !isHide ){ x.style.display = "none"; }
        }
      
     }
+    
+    function resetVtkFilters(){
+    	 var els= document.getElementsByName("_tag");
+    	 for(var y = 0; y < els.length; y++){
+    		 els[y].checked = false;
+    	 }
+    }
+    
+    
+   
+    
+    function clearResults(){
+    	
+    	var tt = document.getElementById("meetingSelect");
+        var t= tt.getElementsByTagName("tr");
+        for(var i=0;i<t.length;i++){ //each meeting
+         var x= t[i];
+         x.style.display = "none";
+        }
+    }
+    
+    doFilter();
 </script>
