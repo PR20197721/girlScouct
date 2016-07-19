@@ -90,6 +90,7 @@ if (null==searchIn){
 final String query = java.net.URLEncoder.encode(q != null ? q.replaceAll("[^a-zA-Z0-9]"," ") : "","UTF-8");
 final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
+escapedQuery.replace("{","").replace("}","");
 
 pageContext.setAttribute("escapedQuery", java.net.URLDecoder.decode(escapedQuery, "UTF-8"));
 pageContext.setAttribute("escapedQueryForAttr", java.net.URLDecoder.decode(escapedQueryForAttr, "UTF-8"));
