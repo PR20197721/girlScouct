@@ -68,41 +68,63 @@
                     fieldLabel="Blurb"
                     allowBlank="{Boolean}false"
                     name="./blurb"/>
-                <meetingType
+                <meetingPlanType
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Meeting Type"
-                    allowBlank="{Boolean}false"
-                    name="./meetingType"
-                    xtype="selection"
-                    type="radio">
-                    <options
-                        jcr:primaryType="cq:WidgetCollection">
-                        <brownie
+                    fieldLabel="Meeting Plan Type"
+                    name="./meetingPlanType"
+                    type="radiogroup"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <badges_petals
                             jcr:primaryType="nt:unstructured"
-                            text="Meeting Type 1"
+                            text="Badges/Petals"
                             value="1"/>
-                        <daisy
+                        <journey
                             jcr:primaryType="nt:unstructured"
-                            text="Meeting Type 2"
+                            text="Journey"
                             value="2"/>
-                        <junior
+                        <award_earning
                             jcr:primaryType="nt:unstructured"
-                            text="Meeting Type 3"
+                            text="Award Earning"
                             value="3"/>
+                        <intro
+                            jcr:primaryType="nt:unstructured"
+                            text="Intro"
+                            value="4"/>
+                        <closing
+                            jcr:primaryType="nt:unstructured"
+                            text="Closing"
+                            value="5"/>
+                        <bridging
+                            jcr:primaryType="nt:unstructured"
+                            text="Bridging"
+                            value="6"/>
                     </options>
-                </meetingType>
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+						selectionchanged="function(me, val, isChecked) { console.info('testpleas'); var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('tagsField1'); console.info(tagsField1); var tagsField2 = panel.getComponent('tagsField2'); if (val === '1') { tagsField1.show();tagsField2.hide(); console.info(tagsField1.getTags().length); var i=0; )} else if (val === '2') {tagsField1.hide();tagsField2.show(); } else {tagsField1.hide();tagsField2.hide();}}"/>                	
+                </meetingPlanType>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     allowBlank="{Boolean}false"
                     name="./cat"/>
-                <catTag
+                <catTags1
 	                jcr:primaryType="cq:Widget"
-	                allowBlank="{Boolean}false"
+	                allowBlank="{Boolean}true"
 	                fieldLabel="Catgetory (for filtering)"
 	                name="./catTags"
-	                namespaces="[girlscouts-vtk-category]"
-	                xtype="tags"/>
+	                xtype="tags"
+	                itemId="tagsField1"
+	                namespaces="[girlscouts-vtk-meeting-badge-petal]"/>
+	            <catTags2
+	                jcr:primaryType="cq:Widget"
+	                allowBlank="{Boolean}true"
+	                fieldLabel="Catgetory (for filtering)"
+	                name="./catTags"
+	                xtype="tags"
+	                itemId="tagsField2"
+	                namespaces="[girlscouts-vtk-meeting-journey]"/>
                 <aidTags
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Aid Tags"
