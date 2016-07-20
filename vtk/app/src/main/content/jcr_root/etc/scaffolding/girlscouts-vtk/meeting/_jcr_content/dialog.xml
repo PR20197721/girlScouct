@@ -102,7 +102,7 @@
                     </options>
                     <listeners
                         jcr:primaryType="nt:unstructured"
-						selectionchanged="function(me, val, isChecked) { console.info('testpleas'); var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('tagsField1'); console.info(tagsField1); var tagsField2 = panel.getComponent('tagsField2'); if (val === '1') { tagsField1.show();tagsField2.hide(); console.info(tagsField1.getTags().length); var i=0; )} else if (val === '2') {tagsField1.hide();tagsField2.show(); } else {tagsField1.hide();tagsField2.hide();}}"/>                	
+                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('tagsField1'); console.info(tagsField1); var tagsField2 = panel.getComponent('tagsField2'); if (val === '1') { tagsField1.show();tagsField1.enable(); var currentTags2 = tagsField2.getTags(); for(var i =0;i &lt; currentTags2.length;i++) {tagsField2.removeTag(currentTags2[i].tagID); }tagsField2.disable(); } else if (val === '2') {tagsField2.show();tagsField2.enable(); var currentTags1 = tagsField1.getTags(); for(var i =0;i &lt; currentTags1.length;i++) {tagsField1.removeTag(currentTags1[i].tagID); } tagsField1.disable(); } else {tagsField1.hide();tagsField2.hide();}}"/>
                 </meetingPlanType>
                 <cat
                     jcr:primaryType="cq:Widget"
@@ -112,7 +112,7 @@
                 <catTags1
 	                jcr:primaryType="cq:Widget"
 	                allowBlank="{Boolean}true"
-	                fieldLabel="Catgetory (for filtering)"
+	                fieldLabel="Catgetory (Badges/Petal)"
 	                name="./catTags"
 	                xtype="tags"
 	                itemId="tagsField1"
@@ -120,7 +120,7 @@
 	            <catTags2
 	                jcr:primaryType="cq:Widget"
 	                allowBlank="{Boolean}true"
-	                fieldLabel="Catgetory (for filtering)"
+	                fieldLabel="Catgetory (Journey)"
 	                name="./catTags"
 	                xtype="tags"
 	                itemId="tagsField2"
