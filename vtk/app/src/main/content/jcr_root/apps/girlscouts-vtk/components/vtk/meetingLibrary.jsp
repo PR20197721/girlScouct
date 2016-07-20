@@ -155,7 +155,7 @@
         java.util.Iterator itrTypes= mTypes.keySet().iterator();
         while( itrTypes.hasNext()){
             String type =  (String)itrTypes.next();
-            String id= (String) mLevel.get(type);
+            String id= (String) mTypes.get(type);
             %><li> <input type="radio" name="_tag" id="<%= id%>" value="<%=type %>"  onclick="doFilter()"/> <%=type %> </li><%
         }
         %>
@@ -169,7 +169,7 @@
         java.util.Iterator itrCats= mCats.keySet().iterator();
         while( itrCats.hasNext()){
             String cat =  (String)itrCats.next();
-            String id= (String) mLevel.get(cat);
+            String id= (String) mCats.get(cat);
             %><li> <input type="checkbox" name="_tag" id="<%= id%>" value="<%=cat %>"  onclick="doFilter()"/> <%=cat %> </li><%
         }
         %>
@@ -271,6 +271,9 @@
     	 for(var y = 0; y < els.length; y++){
     		 els[y].checked = false;
     	 }
+    	 clearFilterTypes();
+    	 clearFilterCats();
+    	 clearResults();
     }
     
     
@@ -281,9 +284,32 @@
     	var tt = document.getElementById("meetingSelect");
         var t= tt.getElementsByTagName("tr");
         for(var i=0;i<t.length;i++){ //each meeting
-         var x= t[i];
-         x.style.display = "none";
+           var x= t[i];
+           x.style.display = "none";
         }
+    }
+    
+    
+    function clearFilterTypes(){
+    	<% 
+        itrTypes= mTypes.keySet().iterator();
+        while( itrTypes.hasNext()){
+            String type =  (String)itrTypes.next();
+            String id= (String) mTypes.get(type);
+            %>document.getElementById("<%= id%>").style.display='none';<%
+        }
+        %>
+    }
+    
+    function clearFilterCats(){
+    	<% 
+        itrCats= mCats.keySet().iterator();
+        while( itrCats.hasNext()){
+            String cat =  (String)itrCats.next();
+            String id= (String) mCats.get(cat);
+            %>document.getElementById("<%= id%>").style.display='none';<%
+        }
+        %>
     }
     
     doFilter();
