@@ -96,6 +96,63 @@
       <%}%>
     });
   }
+  
+  
+  <%
+  java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
+  java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>();
+  java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
+
+  java.util.Map<String, java.util.Set> mTylesPerLevel = new java.util.TreeMap();
+  if( meetings!=null)
+   for(int i=0;i<meetings.size();i++){
+      Meeting meeting = meetings.get(i);
+      
+      if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
+          mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
+          mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
+      }
+      
+      if(  meeting.getCatTags()!=null && !"".equals( meeting.getCatTags() ) && !mCats.containsKey( meeting.getCatTags() ) ){
+          mCats.put(meeting.getCatTags(),  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
+      }
+      
+      if( meeting.getMeetingPlanType()!=null && !mTypes.containsKey( meeting.getMeetingPlanType() ) ){
+          mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
+      }//edn if
+      
+      System.err.println(0 );
+      if( meeting.getMeetingPlanType()!=null && !mTylesPerLevel.get( meeting.getLevel() ).contains( meeting.getMeetingPlanType() ) ){
+    	  System.err.println(11 );
+    	   mTylesPerLevel.get( meeting.getLevel() ).add(meeting.getMeetingPlanType());
+    	   System.err.println(13);
+       }
+    }//end for
+   
+   System.err.println(14);
+  java.util.Iterator itr_mTylesPerLevel = mTylesPerLevel.keySet().iterator();
+  while( itr_mTylesPerLevel.hasNext() ){
+	  System.err.println(2);
+	  String level = (String) itr_mTylesPerLevel.next();
+	  System.err.println(3 +" : "+ level);
+	  %> var <%=level%> = [<%
+	                       System.err.println(4);
+	  java.util.Set types = (java.util.Set ) mTylesPerLevel.get(level);
+	  System.err.println(5);
+	  java.util.Iterator itrTypes = types.iterator();
+	  System.err.println(6);
+	  while( itrTypes.hasNext()){
+		  System.err.println(7 );
+		  String x = (String) itrTypes.next();
+		  System.err.println( 8 +" : "+ x );
+		  %> "<%= mTypes.get(x)%>" <%=itrTypes.hasNext() ? "," : ""%><%
+				  System.err.println(8 );
+	  }
+	  %>];<%
+	  
+  }
+ %>
+    
   </script>
   <div class="scroll">
     <div class="content meeting-library row">
@@ -108,30 +165,7 @@
       <table>
       <tr><th>Level-<%=troop.getSfTroopAge()%></th><th>Type</th><th>Category</th></tr>
       <tr>
-      <%
-        java.util.Map<String, String> mLevel= new java.util.TreeMap<String, String>();
-        java.util.Map<String, String> mTypes= new java.util.TreeMap<String, String>();
-        java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
       
-        
-        if( meetings!=null)
-         for(int i=0;i<meetings.size();i++){
-            Meeting meeting = meetings.get(i);
-            
-            if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
-                mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
-            }
-            
-            if(  meeting.getCatTags()!=null && !"".equals( meeting.getCatTags() ) && !mCats.containsKey( meeting.getCatTags() ) ){
-                mCats.put(meeting.getCatTags(),  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
-            }
-            
-            if( meeting.getMeetingPlanType()!=null && !mTypes.containsKey( meeting.getMeetingPlanType() ) ){
-            	mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
-	        }//edn if
-            
-          }//end for
-       %>
      
       
       <td width="30%">
@@ -141,7 +175,7 @@
         while( itrLevel.hasNext()){
         	String level =  (String)itrLevel.next();
         	String id= (String) mLevel.get(level);
-        	%><li> <input type="checkbox" name="_tag" id="<%= id%>" value="<%=level %>"  onclick="doFilter()"/> <%=level %> </li><%
+        	%><li> <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  onclick="doFilter(1)"/> <%=level %> </li><%
         }
         %>
          </div>
@@ -156,7 +190,7 @@
         while( itrTypes.hasNext()){
             String type =  (String)itrTypes.next();
             String id= (String) mTypes.get(type);
-            %><li> <input type="radio" name="_tag" id="<%= id%>" value="<%=type %>"  onclick="doFilter()"/> <%=type %> </li><%
+            %><li> <input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"  onclick="doFilter(2)"/> <%=type %> </li><%
         }
         %>
          </div>
@@ -170,7 +204,7 @@
         while( itrCats.hasNext()){
             String cat =  (String)itrCats.next();
             String id= (String) mCats.get(cat);
-            %><li> <input type="checkbox" name="_tag" id="<%= id%>" value="<%=cat %>"  onclick="doFilter()"/> <%=cat %> </li><%
+            %><li> <input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/> <%=cat %> </li><%
         }
         %>
          </div>
@@ -196,7 +230,7 @@
           for(int i=0;i<meetings.size();i++){
             Meeting meeting = meetings.get(i);
           %>
-            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;TYPE_HERE;CATS_HERE;">
+            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;CATS_HERE;">
                 <td>
                         <p class="title"><%=meeting.getName()%></p>
                          <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %></p> 
@@ -233,19 +267,45 @@
     </div>
   </div>
 <script>
-    function doFilter(){
+    function doFilter(clickSrc){
     
-    	
+    	if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
     	clearResults();
+    	runFilterType();
     	
-        var els = document.getElementsByName("_tag");
-        //console.log( "tags size: "+ els.length);
+        var _levels = document.getElementsByName("_tag_m");
+        var _types = document.getElementsByName("_tag_t");
+        var _cats = document.getElementsByName("_tag_c");
     
        var tt = document.getElementById("meetingSelect");
        var t= tt.getElementsByTagName("tr");
        for(var i=0;i<t.length;i++){ //each meeting
         var x= t[i];
        
+         var isShowLevel = isShowMeeting( _levels, x, false);
+         
+         console.log("checking types...................");
+         var isShowType = false;
+         if( _types ==null || _types.length<=0) {
+        	 isShowType= true;
+         }else{
+        	 isShowType = isShowMeeting( _types, x, true);
+         }
+         
+         console.log("checking cats...................");
+         var isShowCats = false;
+         if( _cats==null || _cats.length<=0){
+        	isShowCats= true;
+         }else{
+        	 isShowCats = isShowMeeting( _cats, x, true); 
+         }
+         
+         console.log( isShowLevel +" : "+ isShowType +" : "+ isShowCats );
+         if( isShowLevel && isShowType && isShowCats ){
+        	 x.style.display = "inline";
+         }
+         
+       /*
            var isHide= false;
            for(var y = 0; y < els.length; y++){ //each filter
           
@@ -260,14 +320,35 @@
                }
              
            }
-           
-          // if( !isHide ){ x.style.display = "none"; }
+           */
        }
      
     }
     
+    
+    function isShowMeeting(els, x, isAllEmptyOk){
+    	var countChecked= 0;
+    	for(var y = 0; y < els.length; y++){ //each filter
+            
+            if( els[y].checked ){ //filter checked
+            	countChecked++;
+            
+            console.log("Checking mId "+ x.id +" : " + els[y].id );
+               if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
+               
+                 //x.style.display = "inline";
+                 //isHide= false;
+                 //continue;
+                 return true;
+               }
+            }
+        }
+    	if( countChecked==0 && isAllEmptyOk ) return true;
+    	return false;
+    }
+    
     function resetVtkFilters(){
-    	 var els= document.getElementsByName("_tag");
+    	 var els= document.getElementsByName("_tag_m");
     	 for(var y = 0; y < els.length; y++){
     		 els[y].checked = false;
     	 }
@@ -286,6 +367,7 @@
         for(var i=0;i<t.length;i++){ //each meeting
            var x= t[i];
            x.style.display = "none";
+          
         }
     }
     
@@ -296,7 +378,10 @@
         while( itrTypes.hasNext()){
             String type =  (String)itrTypes.next();
             String id= (String) mTypes.get(type);
-            %>document.getElementById("<%= id%>").style.display='none';<%
+            %>
+            document.getElementById("<%= id%>").style.display='none';
+            document.getElementById("<%= id%>").checked= false;
+            <%
         }
         %>
     }
@@ -307,8 +392,35 @@
         while( itrCats.hasNext()){
             String cat =  (String)itrCats.next();
             String id= (String) mCats.get(cat);
-            %>document.getElementById("<%= id%>").style.display='none';<%
+            %>
+            document.getElementById("<%= id%>").style.display='none';
+            document.getElementById("<%= id%>").checked=false;
+            <%
         }
+        %>
+    }
+    
+    function runFilterType(){
+    	
+    	//clearFilterTypes();
+    	
+    	//var checkedLevels= [];
+    	//var addedCount=0;
+    	<% 
+    	
+        itrLevel= mLevel.keySet().iterator();
+        while( itrLevel.hasNext()){
+            String level =  (String)itrLevel.next();
+            String id= (String) mLevel.get(level);
+            %>
+            if( document.getElementById("<%= id%>").checked ){ 
+            	
+            	for(var y = 0; y < <%=level%>.length; y++){
+            		document.getElementById(<%=level%>[y]).style.display ='inline';
+            	}
+            }
+            <%
+        }//edn while
         %>
     }
     
