@@ -78,7 +78,7 @@
                         <badges_petals
                             jcr:primaryType="nt:unstructured"
                             text="Badges/Petals"
-                            value="Badges/Petals"/>
+                            value="BadgesPetals"/>
                         <journey
                             jcr:primaryType="nt:unstructured"
                             text="Journey"
@@ -86,7 +86,7 @@
                         <award_earning
                             jcr:primaryType="nt:unstructured"
                             text="Award Earning"
-                            value="Award Earning"/>
+                            value="AwardEarning"/>
                         <intro
                             jcr:primaryType="nt:unstructured"
                             text="Intro"
