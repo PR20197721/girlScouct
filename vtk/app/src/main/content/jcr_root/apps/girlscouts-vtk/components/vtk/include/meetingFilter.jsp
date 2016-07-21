@@ -5,11 +5,11 @@
 	    <span class="vtk-green-box" style="">
 	    	<span class="icon-search-magnifying-glass" style=""></span>
 	    </span> 
-	      <p id="showHideReveal" onclick="" class="hide-for-print">FILTER MEETINGS BY TOPIC</p>
+	      <p id="showHideReveal" onclick="" class="hide-for-print close">FILTER MEETINGS BY TOPIC</p>
 	    </div>
   	</div>
 
-	 <div class="column small-22 small-centered" style="display:table; padding-left:0;">
+	 <div class="main-filter column small-22 small-centered" style="display:none; padding-left:0;">
 	 <div class="row">
 	 	<div class="column small-24 medium-12">
 	 		<div class="vtk-meeting-filter_title"><span>1.</span> Select your Girl Scout Level(s)</div>
@@ -65,7 +65,7 @@
 	 </div>
 	 </div>
 
-	<div class="column small-22 small-centered" style="display:table; padding-left:0;">
+	<div class="list-of-categories column small-22 small-centered" style="display:none; padding-left:0;">
 		 <div class="row">
 		 	<div class="column small-24">
 		 		<div class="vtk-meeting-filter_title"><span>3.</span> Select your badge categories</div>
@@ -103,14 +103,90 @@
 	</div>
 
 
-	<div class="column small-22 small-centered" style="display:table; padding-left:0;">
+	<div class="list-of-buttons column small-22 small-centered" style="display:none; padding-left:0;">
 		<div class="row">
-			<div class="column small-24" style="padding:40px 0 30px 0;">
-				<div class="button tiny">CANCEL</div>
-				<div class="button tiny inactive-button">VIEW MEETING PLANS</div>
+			<div id="vtk-meeting-group-button" class="column small-24" style="padding:40px 0 30px 0;">
+				<div id="vtk-meeting-group-button_cancel" class="button tiny ">CANCEL</div>
+				<div id="vtk-meeting-group-button_ok" class="button tiny inactive-button">VIEW MEETING PLANS</div>
 			</div>
 		</div>
 	</div>
 
 </div>
 
+<script type="text/javascript">
+
+
+
+
+
+	var age = $('#vtk-meeting-group-age');
+	var type = $('#vtk-meeting-group-type');
+	var categories = $('#vtk-meeting-group-categories');
+
+	var button ={
+		ok: $('#vtk-meeting-group-button_ok'),
+		cancel: $('#vtk-meeting-group-button_cancel')
+	}
+
+	function doThis(e){
+		console.log('-->',e);
+	}
+
+	function onChangeDo(e){
+		var ageLength = age.find('input[type="checkbox"]:checked').length;
+		var typeLength = type.find('input[type="radio"]:checked').length;
+		var categoriesLength = categories.find('input[type="checkbox"]:checked').length;
+
+		if( ageLength > 0 &&  typeLength > 0){
+			$('.list-of-categories').slideDown();
+			$('.list-of-buttons').slideDown();
+
+			if(categoriesLength > 0){
+				button.ok.removeClass('inactive-button');
+			}else{
+				button.ok.addClass('inactive-button');
+			}
+		}
+	}
+
+
+	$(function(){
+
+		$('#vtk-meeting-filter').find('#showHideReveal').stop().click(function(e){
+
+
+			$(this).toggleClass('open')
+			console.log(e)
+			$('.main-filter').slideToggle();
+
+
+
+
+
+		})
+		age.find('input[type="checkbox"]').on('change', onChangeDo);
+		type.find('input[type="radio"]').on('change', onChangeDo);
+		categories.find('input[type="checkbox"]').on('change', onChangeDo);
+		button.ok.on('click',function(e){
+			console.log('-', e, $(this));
+			if(!$(this).hasClass('inactive-button')){
+				doThis(e);
+			}
+		});
+
+		button.cancel.on('click',function(e){
+
+			console.log('clean',e)
+			$('#vtk-meeting-filter').find('input')
+			 .not(':button, :submit, :reset, :hidden')
+			 .val('')
+			 .removeAttr('checked')
+			 .removeAttr('selected');
+		});
+
+	});
+
+
+	                                                    
+</script>
