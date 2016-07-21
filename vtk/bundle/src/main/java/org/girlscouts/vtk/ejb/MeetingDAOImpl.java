@@ -2757,19 +2757,12 @@ System.err.println("test start " + new java.util.Date());
 		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
 filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
 //filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");
-	System.err.println("test sql: "+  "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//")	;	
+	//System.err.println("test sql: "+  "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//")	;	
 		Query query = queryManager.createQuery(filter);
 		meetings = (List<Meeting>) ocm.getObjects(query);
-		System.err.println("test end " + new java.util.Date() +" : "+ meetings.size() );
+		//System.err.println("test end " + new java.util.Date() +" : "+ meetings.size() );
 		
-		//TEST !@!!!!! temp to be rm
-		for(int i=0;i<meetings.size();i++){
-			if( meetings.get(i).getMeetingPlanType()!=null && meetings.get(i).getMeetingPlanType().equals("1") )
-				meetings.get(i).setCatTags("citizen");
-			else
-				meetings.get(i).setCatTags("");
-		}
-		//END TEST!!!!!!!!!!
+		
 		
 		
 		

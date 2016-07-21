@@ -104,6 +104,7 @@
   java.util.Map<String, String> mCats= new java.util.TreeMap<String, String>();
 
   java.util.Map<String, java.util.Set> mTylesPerLevel = new java.util.TreeMap();
+  java.util.Map<String, java.util.Set> mCatsPerType  = new java.util.TreeMap();
   if( meetings!=null)
    for(int i=0;i<meetings.size();i++){
       Meeting meeting = meetings.get(i);
@@ -113,40 +114,65 @@
           mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
       }
       
-      if(  meeting.getCatTags()!=null && !"".equals( meeting.getCatTags() ) && !mCats.containsKey( meeting.getCatTags() ) ){
-          mCats.put(meeting.getCatTags(),  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
-      }
+      System.err.println(1);
+      String cats= meeting.getCatTags();
+      if( cats!=null ){
+    	  cats= cats+",";
+	      StringTokenizer t = new StringTokenizer(cats, ",");
+	      System.err.println(2);
+	      while( t.hasMoreElements() ){
+	    	  System.err.println(2.1);
+	    	  String theCat= (String) t.nextToken();
+	    	  System.err.println(3);
+	    	  mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
+	    	  
+	    	  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){// && !mCatsPerType.get(meeting.getMeetingPlanType()).contains(theCat) ){
+	    		  java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
+	    		  if( _x!=null && !_x.contains(theCat)){
+	    		   mCatsPerType.get( meeting.getMeetingPlanType() ).add( theCat );
+	    		  }
+	    	  }//end if
+	    	  System.err.println(6);
+	      }//edn whle
+      }//end if
+    		   
+      
+      
       
       if( meeting.getMeetingPlanType()!=null && !mTypes.containsKey( meeting.getMeetingPlanType() ) ){
           mTypes.put(meeting.getMeetingPlanType(),  "MT_"+new java.util.Date().getTime() +"_"+ Math.random());
       }//edn if
       
-      System.err.println(0 );
       if( meeting.getMeetingPlanType()!=null && !mTylesPerLevel.get( meeting.getLevel() ).contains( meeting.getMeetingPlanType() ) ){
-    	  System.err.println(11 );
     	   mTylesPerLevel.get( meeting.getLevel() ).add(meeting.getMeetingPlanType());
-    	   System.err.println(13);
        }
+      
     }//end for
    
-   System.err.println(14);
+   /*
+   java.util.Iterator itr_mCatsPerType = mCatsPerType.keySet().iterator();
+   while( itr_mCatsPerType.hasNext() ){
+	   String tp = (String) itr_mCatsPerType.next();
+	   %>var <%=tp%> = [ <%
+	   java.util.Set cats = (java.util.Set) mCatsPerType.get(tp);
+	   java.util.Iterator itrCat = cats.iterator();
+	   while( itrCat.hasNext() ){
+		   String x = (String) itrCat.next();
+		   %> "<%= mCats.get(x)%>" <%=itrCat.hasNext() ? "," : ""%> <%
+	   }
+	   %>];<%
+   }
+   
+   */
   java.util.Iterator itr_mTylesPerLevel = mTylesPerLevel.keySet().iterator();
   while( itr_mTylesPerLevel.hasNext() ){
-	  System.err.println(2);
 	  String level = (String) itr_mTylesPerLevel.next();
-	  System.err.println(3 +" : "+ level);
 	  %> var <%=level%> = [<%
-	                       System.err.println(4);
 	  java.util.Set types = (java.util.Set ) mTylesPerLevel.get(level);
-	  System.err.println(5);
 	  java.util.Iterator itrTypes = types.iterator();
-	  System.err.println(6);
 	  while( itrTypes.hasNext()){
-		  System.err.println(7 );
 		  String x = (String) itrTypes.next();
-		  System.err.println( 8 +" : "+ x );
 		  %> "<%= mTypes.get(x)%>" <%=itrTypes.hasNext() ? "," : ""%><%
-				  System.err.println(8 );
 	  }
 	  %>];<%
 	  
@@ -230,10 +256,11 @@
           for(int i=0;i<meetings.size();i++){
             Meeting meeting = meetings.get(i);
           %>
-            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;CATS_HERE;">
+            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;">
                 <td>
                         <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %></p> 
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                          </p> 
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                 </td>
               <td>
@@ -266,6 +293,7 @@
       </table>
     </div>
   </div>
+  
 <script>
     function doFilter(clickSrc){
     
@@ -283,8 +311,7 @@
         var x= t[i];
        
          var isShowLevel = isShowMeeting( _levels, x, false);
-         
-         console.log("checking types...................");
+
          var isShowType = false;
          if( _types ==null || _types.length<=0) {
         	 isShowType= true;
@@ -292,7 +319,6 @@
         	 isShowType = isShowMeeting( _types, x, true);
          }
          
-         console.log("checking cats...................");
          var isShowCats = false;
          if( _cats==null || _cats.length<=0){
         	isShowCats= true;
@@ -300,29 +326,10 @@
         	 isShowCats = isShowMeeting( _cats, x, true); 
          }
          
-         console.log( isShowLevel +" : "+ isShowType +" : "+ isShowCats );
          if( isShowLevel && isShowType && isShowCats ){
         	 x.style.display = "inline";
          }
-         
-       /*
-           var isHide= false;
-           for(var y = 0; y < els.length; y++){ //each filter
-          
-               if( els[y].checked ){ //filter checked
-               
-                  if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-                  
-                    x.style.display = "inline";
-                    isHide= false;
-                    continue;
-                  }
-               }
-             
-           }
-           */
-       }
-     
+       }     
     }
     
     
@@ -332,13 +339,8 @@
             
             if( els[y].checked ){ //filter checked
             	countChecked++;
-            
-            console.log("Checking mId "+ x.id +" : " + els[y].id );
+
                if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-               
-                 //x.style.display = "inline";
-                 //isHide= false;
-                 //continue;
                  return true;
                }
             }
@@ -401,13 +403,7 @@
     }
     
     function runFilterType(){
-    	
-    	//clearFilterTypes();
-    	
-    	//var checkedLevels= [];
-    	//var addedCount=0;
     	<% 
-    	
         itrLevel= mLevel.keySet().iterator();
         while( itrLevel.hasNext()){
             String level =  (String)itrLevel.next();

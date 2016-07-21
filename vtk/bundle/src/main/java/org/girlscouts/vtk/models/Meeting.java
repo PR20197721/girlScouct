@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -35,7 +36,15 @@ public class Meeting extends YearPlanComponent implements Serializable {
 
 	
 	@Field
-	private String catTags, meetingPlanType;
+	private String meetingPlanType;
+	
+	
+	@Field
+	private String catTags;
+	
+	
+	
+	
 	public Integer getPosition() {
 		return position ==null ? 0 : position;
 	}
@@ -143,13 +152,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
-	public String getCatTags() {
-		return catTags;
-	}
-
-	public void setCatTags(String catTags) {
-		this.catTags = catTags;
-	}
+	
 
 	public String getMeetingPlanType() {
 		return meetingPlanType;
@@ -158,6 +161,40 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	public void setMeetingPlanType(String meetingPlanType) {
 		this.meetingPlanType = meetingPlanType;
 	}
+
+	public String getCatTags() {
+		return catTags;
+	}
+
+	public void setCatTags(String catTags) {
+		this.catTags = catTags;
+	}
+
+
+
+
+
+	
+	
+
+	
+	
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 
