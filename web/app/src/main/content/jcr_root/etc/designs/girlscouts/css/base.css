@@ -55,7 +55,7 @@ html {
   font-size: 1em; /* or can be 100% since it's browser's default size 16px*/
 }
 body {
-  background-color: #6b6b6b;
+  background-color: #EEEEEF;
   font-family: "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
