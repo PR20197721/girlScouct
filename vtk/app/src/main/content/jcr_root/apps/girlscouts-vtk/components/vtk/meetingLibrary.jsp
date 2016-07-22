@@ -269,17 +269,15 @@
             Meeting meeting = meetings.get(i);
           %>
             <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
-            
-           
-   
             <%
-            if(meeting.getMeetingPlanType()!=null){
+            if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
             	java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
             	if( cats!=null){
 	                java.util.Iterator itrCat = cats.iterator();
 	                while( itrCat.hasNext() ){
 	                    String x = (String) itrCat.next();
-	                    %> <%= mCats.get(x)%> <%=itrCat.hasNext() ? ";" : ""%> <%
+	                    if(!meeting.getCatTags().contains( x ) )continue;
+	                    %><%= mCats.get(x)%><%=itrCat.hasNext() ? ";" : ""%><%
 	                }
             	}
             }
@@ -339,22 +337,26 @@
        for(var i=0;i<t.length;i++){ //each meeting
         var x= t[i];
        
-         var isShowLevel = isShowMeeting( _levels, x, false);
+         var isShowLevel = isShowMeeting( _levels, x, false, 'level');
 
          var isShowType = false;
          if( _types ==null || _types.length<=0) {
         	 isShowType= true;
          }else{
-        	 isShowType = isShowMeeting( _types, x, true);
+        	 isShowType = isShowMeeting( _types, x, true,'type');
          }
          
          var isShowCats = false;
+    // console.log("chkCats....");    
          if( _cats==null || _cats.length<=0){
         	isShowCats= true;
          }else{
-        	 isShowCats = isShowMeeting( _cats, x, true); 
+        	 
+    //console.log("_____________chkCatssss: "+ x.id);
+        	 isShowCats = isShowMeeting( _cats, x, true,'cats'); 
          }
          
+         console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
          if( isShowLevel && isShowType && isShowCats ){
         	 x.style.display = "inline";
          }
@@ -362,14 +364,18 @@
     }
     
     
-    function isShowMeeting(els, x, isAllEmptyOk){
+    function isShowMeeting(els, x, isAllEmptyOk, catTest){
     	var countChecked= 0;
+    	
+    //console.log("* size: "+ els.length);	
     	for(var y = 0; y < els.length; y++){ //each filter
-            
+    //console.log("IsChecked: "+ els[y].checked);        
             if( els[y].checked ){ //filter checked
             	countChecked++;
-
+    if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
                if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
+    if( catTest=='cats'){console.log( "found...");    }    	   
+               
                  return true;
                }
             }
@@ -456,11 +462,12 @@
             String id= (String) mTypes.get(tp);
             %>
             if( document.getElementById("<%= id%>").checked ){ 
-                
+              if(typeof <%=tp%> != 'undefined'){ 
                 for(var y = 0; y < <%=tp%>.length; y++){
                     document.getElementById(<%=tp%>[y]).style.display ='inline';
-                }
-            }
+                }//end for
+               }//end if
+            }//edn if
             <%
         }//edn while
         %>
