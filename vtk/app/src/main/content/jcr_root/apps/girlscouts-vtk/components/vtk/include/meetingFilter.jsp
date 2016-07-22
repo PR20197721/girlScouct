@@ -317,7 +317,8 @@ $(function(){
 
 	Swaper.prototype.swapDown = function(){
 			this.originElement.html('');
-			age.find('input').on('change', onChangeDo);
+
+
 
 			var renderString='';
 
@@ -325,13 +326,16 @@ $(function(){
 				renderString += '<li>'+/*$(this.newArrayElements[i][0]).html()*/this.newArrayElements[i]+'</li>';
 			}
 			this.targerElement.html(renderString);
+			this.targerElement.find('input').on('change', onChangeDo);
 		}
 
-		Swaper.prototype.swapUp = function(){
+	Swaper.prototype.swapUp = function(){
 
 			this.targerElement.html('');
 			this.originElement.html('');
 			this.originElement.append(this.original);
+
+			this.originElement.find('input').on('change', onChangeDo);
 		}
 
 
