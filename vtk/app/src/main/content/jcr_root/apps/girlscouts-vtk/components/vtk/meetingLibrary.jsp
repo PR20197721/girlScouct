@@ -412,6 +412,7 @@
     
     
     function clearFilterTypes(){
+   if(true)return; //D Kia 	
     	<% 
         itrTypes= mTypes.keySet().iterator();
         while( itrTypes.hasNext()){
