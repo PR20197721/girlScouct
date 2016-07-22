@@ -6,6 +6,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
+
 <%
   boolean showVtkNav = true;
   String activeTab = "resource";
@@ -28,6 +29,10 @@
     <span class="column small-11">HINT: meeting overviews are available under resources</span>
     <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
   </div>
+
+<!--  -->
+<%@include file="include/meetingFilter.jsp"%>
+<!--  -->
 
   <%
     boolean isWarning=false;

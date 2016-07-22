@@ -1,0 +1,124 @@
+.vtk-body {
+    #vtk-meeting-filter {
+        margin: 20px 0;
+        .sectionHeader {
+            padding: 10px 0;
+        }
+    }
+}
+
+.vtk-green-box {
+    height: 46px;
+    width: 79px;
+    background-color: #00ae58;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    span {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 30px !important;
+        color: white;
+    }
+}
+
+.vtk-meeting-filter_title {
+	padding:20px 0;
+    font-weight: bold;
+    font-size: 14px;
+    span {
+        font-size: 18px !important;
+    }
+}
+
+#vtk-meeting-group-age, #vtk-meeting-group-categories {
+    input[type="checkbox"] {
+        display: none;
+    }
+
+
+    input[type="checkbox"] + label {
+    	min-height: 42px;
+    	display: table;
+    }
+
+    input[type="checkbox"] + label span {
+     display:table-cell;
+    width:30px;
+    height:30px;
+    margin:-1px 6px 0 0;
+    vertical-align:middle;
+
+    cursor:pointer;
+
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) left top no-repeat;
+    }
+
+	
+	input[type="checkbox"] + label p{
+		margin: 0;
+    	max-width: 90px;
+
+	    min-height: 42px;
+	    display: table-cell;
+	    padding: 3px 0 0 5px;
+	}
+   
+
+
+    input[type="checkbox"]:checked + label span {
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -30px top no-repeat;
+    }
+}
+
+
+
+#vtk-meeting-group-type {
+    input[type="radio"] {
+        display: none;
+    }
+
+    input[type="radio"] + label {
+    	min-height: 42px;
+    	display: table;
+    }
+
+    input[type="radio"] + label span {
+     // display:inline-block;
+    width:30px;
+    height:30px;
+    margin:-1px 5px 0 0;
+    vertical-align:middle;
+    display: table-cell;
+
+    cursor:pointer;
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -60px top no-repeat;
+    }
+
+
+	input[type="radio"] + label p{
+		margin: 0;
+    	max-width: 90px;
+	    // display: inline-block;
+	    min-height: 42px;
+	    display: table-cell;
+	    padding: 3px 0 0 5px;
+	}
+
+
+    input[type="radio"]:checked + label span {
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -90px top no-repeat;
+    }
+}
+
+
+.main-report-search{
+    padding-bottom: 15px;
+    border-bottom: 2px solid black;
+    margin-bottom: 15px;
+}
+
+
+.inactive-button{
+	background-color: gray !important;
+}
