@@ -114,36 +114,35 @@
           mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
       }
       
-      System.err.println(1);
+      
       String cats= meeting.getCatTags();
       if( cats!=null ){
     	  cats= cats+",";
 	      StringTokenizer t = new StringTokenizer(cats, ",");
-	      System.err.println(2);
+	      
 	      while( t.hasMoreElements() ){
-	    	  System.err.println(2.1);
+	    	 
 	    	  String theCat= (String) t.nextToken();
-	    	  System.err.println(3);
+	    	  
 	    	  mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
 	    	  
 	    	  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){// && !mCatsPerType.get(meeting.getMeetingPlanType()).contains(theCat) ){
-	  System.err.println("tataaa: ");  		  
+	   		  
 	    		  java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
-	  System.err.println("tata _x " + (_x==null) );  		  
+	   		  
 	    		  if( _x==null ){
-	    			  System.err.println("tata:  creating "+ theCat +" to catsPerType" + meeting.getMeetingPlanType() );           
+	    			  
 	    			  java.util.Set _y =new java.util.HashSet();
 	    			  _y.add(theCat);
 	    			  mCatsPerType.put( meeting.getMeetingPlanType(), _y );
 	    		  
 	    		  }else if( _x!=null && !_x.contains(theCat)  ){
 	    		  
-	    			  
-	  System.err.println("tata:  adding "+ theCat +" to catsPerType");  		  
+ 		  
 	    		   mCatsPerType.get( meeting.getMeetingPlanType() ).add( theCat );
 	    		  }
 	    	  }//end if
-	    	  System.err.println(6);
+	    	  
 	      }//edn whle
       }//end if
     		   
@@ -160,11 +159,9 @@
       
     }//end for
    
-    System.err.println("tata: iter size:"+mCatsPerType.size() );
    java.util.Iterator itr_mCatsPerType = mCatsPerType.keySet().iterator();
    while( itr_mCatsPerType.hasNext() ){
 	   String tp = (String) itr_mCatsPerType.next();
-	   System.err.println("tata: tp: "+ tp);
 	   %>var <%=tp%> = [ <%
 	   java.util.Set cats = (java.util.Set) mCatsPerType.get(tp);
 	   java.util.Iterator itrCat = cats.iterator();
@@ -356,7 +353,7 @@
         	 isShowCats = isShowMeeting( _cats, x, true,'cats'); 
          }
          
-         console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
+         //console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
          if( isShowLevel && isShowType && isShowCats ){
         	 x.style.display = "inline";
          }
@@ -372,9 +369,9 @@
     //console.log("IsChecked: "+ els[y].checked);        
             if( els[y].checked ){ //filter checked
             	countChecked++;
-    if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
+    //if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
                if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-    if( catTest=='cats'){console.log( "found...");    }    	   
+    //if( catTest=='cats'){console.log( "found...");    }    	   
                
                  return true;
                }
