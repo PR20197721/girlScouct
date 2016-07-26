@@ -17,6 +17,9 @@
  * Math functions will be used extensively, so it's convenient to make a few
  * shortcuts
  */    
+	
+$.event.special.tap.tapholdThreshold = 250;
+$.event.special.tap.emitTapOnTaphold = false;
 var abs = Math.abs,
     max = Math.max,
     min = Math.min,
@@ -122,6 +125,8 @@ $.imgAreaSelect = function (img, options) {
 
         /* Various helper variables used throughout the code */ 
         $p, d, i, o, w, h, adjusted;
+    
+    	$("body").on("contextmenu", $img, function() { return false; });
 
     /*
      * Translate selection coordinates (relative to scaled image) to viewport
@@ -823,6 +828,7 @@ $.imgAreaSelect = function (img, options) {
      * @return false
      */
     function imgMouseDown(event) {
+    	event.preventDefault();
         /* Ignore the event if animation is in progress */
         if (event.type == 'mousedown' && event.which != 1 ||
                 $outer.is(':animated'))
@@ -1051,7 +1057,7 @@ $.imgAreaSelect = function (img, options) {
         /* Calculate the aspect ratio factor */
         aspectRatio = (d = (options.aspectRatio || '').split(/:/))[0] / d[1];
 
-        $img.add($outer).off('mousedown touchstart', imgMouseDown);
+        $img.add($outer).off('mousedown taphold', imgMouseDown);
         
         if (options.disable || options.enable === false) {
             /* Disable the plugin */
@@ -1064,8 +1070,7 @@ $.imgAreaSelect = function (img, options) {
                 /* Enable the plugin */
                 if (options.resizable || options.movable)
                 	$box.on({'mousemove touchmove': areaMouseMove, 
-                		'mousedown taphold' : areaMouseDown, 
-                		'dragstart' : function(event){ event.preventDefault(); } });
+                		'mousedown touchstart' : areaMouseDown });
  
                 $(window).resize(windowResize);
             }
