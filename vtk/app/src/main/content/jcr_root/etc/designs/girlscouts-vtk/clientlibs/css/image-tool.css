@@ -1,4 +1,3 @@
-/* line 1, image-tool.scss */
 .resize-container {
   position: relative;
   display: inline-block;
@@ -6,18 +5,20 @@
   margin: 0 auto;
 }
 
-/* line 8, image-tool.scss */
 .resize-container img {
   display: block;
 }
 
-/* line 12, image-tool.scss */
+#cropping-tool img {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
 .resize-container:hover img,
 .resize-container:active img {
   /*outline: 2px dashed rgb(50, 125, 60);*/
 }
 
-/* line 17, image-tool.scss */
 .resize-handle-ne,
 .resize-handle-se,
 .resize-handle-nw,
@@ -30,35 +31,30 @@
   z-index: 1000;
 }
 
-/* line 29, image-tool.scss */
 .resize-handle-nw {
   top: -5px;
   left: -5px;
   cursor: nw-resize;
 }
 
-/* line 35, image-tool.scss */
 .resize-handle-sw {
   bottom: -5px;
   left: -5px;
   cursor: sw-resize;
 }
 
-/* line 41, image-tool.scss */
 .resize-handle-ne {
   top: -5px;
   right: -5px;
   cursor: ne-resize;
 }
 
-/* line 47, image-tool.scss */
 .resize-handle-se {
   bottom: -5px;
   right: -5px;
   cursor: se-resize;
 }
 
-/* line 53, image-tool.scss */
 .overlay {
   position: absolute;
   	/*left: 50%;
@@ -71,7 +67,6 @@
   /*pointer-events: none;*/
 }
 
-/* line 65, image-tool.scss */
 .overlay:after,
 .overlay:before {
   content: '';
@@ -83,21 +78,18 @@
   border-right: dashed 2px #8c41d7;
 }
 
-/* line 76, image-tool.scss */
 .overlay:before {
   top: 0;
   margin-left: -2px;
   margin-top: -40px;
 }
 
-/* line 82, image-tool.scss */
 .overlay:after {
   bottom: 0;
   margin-left: -2px;
   margin-bottom: -40px;
 }
 
-/* line 88, image-tool.scss */
 .overlay-inner:after,
 .overlay-inner:before {
   content: '';
@@ -109,61 +101,51 @@
   border-bottom: dashed 2px #8c41d7;
 }
 
-/* line 99, image-tool.scss */
 .overlay-inner:before {
   left: 0;
   margin-left: -40px;
   margin-top: -2px;
 }
 
-/* line 105, image-tool.scss */
 .overlay-inner:after {
   right: 0;
   margin-right: -40px;
   margin-top: -2px;
 }
 
-/* line 111, image-tool.scss */
 .cancel {
   background-color: #c33c3c;
 }
 
-/* line 114, image-tool.scss */
 #crop-buttons {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-/* line 118, image-tool.scss */
 .btn-wrap {
   margin-bottom: 20px;
 }
 
-/* line 121, image-tool.scss */
 #upload-tool {
   margin: 0 auto;
   max-width: 960px;
 }
 
-/* line 125, image-tool.scss */
 #upload-buttons {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-/* line 128, image-tool.scss */
 #upload-buttons .btn,
 #upload-buttons button {
   float: left;
   margin-right: 5px;
 }
-/* line 132, image-tool.scss */
 #upload-buttons .btn:last-child,
 #upload-buttons button:last-child {
   margin: 0;
 }
 
 @media only screen and (min-width: 60.063em) {
-  /* line 138, image-tool.scss */
   #modal_upload_image {
     margin-left: -40%;
     width: 80%;
