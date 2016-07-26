@@ -18,8 +18,6 @@
  * shortcuts
  */    
 	
-$.event.special.tap.tapholdThreshold = 250;
-$.event.special.tap.emitTapOnTaphold = false;
 var abs = Math.abs,
     max = Math.max,
     min = Math.min,
@@ -43,6 +41,18 @@ function div() {
  *            An options object
  */
 $.imgAreaSelect = function (img, options) {
+	$.event.special.tap.tapholdThreshold = 250;
+	
+	$(document).on('vmousedown', function(event){
+	    holdCoords.holdX = event.pageX;
+	    holdCoords.holdY = event.pageY;
+	});
+
+	var holdCoords = {
+	    holdX : 0,
+	    holdY : 0
+	}
+	
     var 
         /* jQuery object representing the image */ 
         $img = $(img),
@@ -196,7 +206,7 @@ $.imgAreaSelect = function (img, options) {
     function evX(event) {
         var coords = touchCoords(event) || event, x;
 
-        if (x = parseInt(coords.pageX))
+        if (x = coords.pageX ? parseInt(coords.pageX) : parseInt(coords.holdX))
             return x - parOfs.left;
     }
 
@@ -210,7 +220,7 @@ $.imgAreaSelect = function (img, options) {
     function evY(event) {
         var coords = touchCoords(event) || event, y;
 
-        if (y = parseInt(coords.pageY))
+        if (y = coords.pageY ? parseInt(coords.pageY) : parseInt(coords.holdY))
             return y - parOfs.top;
     }
     
@@ -225,7 +235,7 @@ $.imgAreaSelect = function (img, options) {
     function touchCoords(event) {
         var oev = event.originalEvent || {};
         
-        return oev.touches && oev.touches.length ? oev.touches[0] : false;
+        return oev.touches && oev.touches.length ? oev.touches[0] : holdCoords;
     }
 
     /**
