@@ -554,7 +554,7 @@ $.imgAreaSelect = function (img, options) {
     function areaMouseDown(event) {
         if (event.type == 'mousedown' && event.which != 1) return false;
         
-        if (event.type == 'touchstart') {
+        if (event.type == 'taphold') {
             /*
              * Android Chrome often does not produce a touchend event
              * (https://code.google.com/p/chromium/issues/detail?id=152913), so
@@ -774,7 +774,7 @@ $.imgAreaSelect = function (img, options) {
     /**
      * Start selection
      */
-    function startSelection() {
+    function startSelection(e) {
         $(document).off('mousemove touchmove', startSelection);
         adjust();
 
@@ -829,7 +829,7 @@ $.imgAreaSelect = function (img, options) {
             return false;
 
         /* If it's a touch action, set the touch flag */
-        touch = event.type == 'touchstart';
+        touch = event.type == 'taphold';
 
         adjust();
         startX = x1 = evX(event);
@@ -1063,14 +1063,16 @@ $.imgAreaSelect = function (img, options) {
             if (options.enable || options.disable === false) {
                 /* Enable the plugin */
                 if (options.resizable || options.movable)
-                    $box.on({ 'mousemove touchmove': areaMouseMove,
-                        'mousedown touchstart': areaMouseDown });
-    
+                	$box.on({'mousemove touchmove': areaMouseMove, 
+                		'mousedown taphold' : areaMouseDown, 
+                		'dragstart' : function(event){ event.preventDefault(); } });
+ 
                 $(window).resize(windowResize);
             }
 
             if (!options.persistent)
-                $img.add($outer).on('mousedown touchstart', imgMouseDown);
+            	$img.add($outer).on({'mousedown taphold' : imgMouseDown, 
+            		'dragstart' : function(event){ event.preventDefault(); } });   
         }
         
         options.enable = options.disable = undefined;
