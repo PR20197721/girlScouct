@@ -238,6 +238,11 @@
           		console.log(e);
           	})
 
+          	$(document).click(function(e){
+          		if(!$element.find($(e.target)).length){
+          			 $element.children('.vtk-dropdown_options').hide();
+          		}
+          	})
 
            }
 
@@ -265,6 +270,10 @@ $(function(){
 	}
 
 	function doThis(e){
+	}
+
+	function onChangeBack(e){
+		console.log(e)
 	}
 
 	function onChangeDo(e){
@@ -318,15 +327,13 @@ $(function(){
 	Swaper.prototype.swapDown = function(){
 			this.originElement.html('');
 
-
-
 			var renderString='';
 
 			for (var i = this.newArrayElements.length - 1; i >= 0; i--) {
 				renderString += '<li>'+/*$(this.newArrayElements[i][0]).html()*/this.newArrayElements[i]+'</li>';
 			}
 			this.targerElement.html(renderString);
-			this.targerElement.find('input').on('change', onChangeDo);
+			this.targerElement.find('input').on('change', onChangeBack);
 		}
 
 	Swaper.prototype.swapUp = function(){
