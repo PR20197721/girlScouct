@@ -21,8 +21,6 @@ description = "rm demo temp nodes from db"
 
 
 
-//@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 54 4 * *  ?",description="cron expression"),
-
 
 @Service(value = {Runnable.class, AemCron.class})
 @Properties({
@@ -45,8 +43,6 @@ public class AemCronImpl implements Runnable, AemCron  {
 
 	
 	public void run() {
-	//System.err.println("test AemCron....");	
-	System.err.println("test: "+ slingSettings.getRunModes());	
 		
 		if(slingSettings.getRunModes().contains("gspreview")){ 
 		

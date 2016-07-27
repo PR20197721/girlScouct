@@ -43,6 +43,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -68,8 +69,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 	//public static Map<String,Long> resourceCountMap = new HashMap<String,Long>();
 	public static Map resourceCountMap = new HashMap();
 	public static final String RESOURCE_COUNT_MAP_AGE = "RESOURCE_COUNT_MAP_AGE";
-//	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
-	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
+	public static final long MAX_CACHE_AGE_MS = 3600000; // 1 hour in ms
+//	public static final long MAX_CACHE_AGE_MS = 60000; // 1 minute in ms
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -100,7 +101,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			QueryManager queryManager = ocm.getQueryManager();
@@ -138,7 +139,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Achievement.class);
 			classes.add(Attendance.class);
 			session = sessionFactory.getSession();
@@ -240,7 +241,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -283,7 +284,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -336,7 +337,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -396,7 +397,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Meeting.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
@@ -1842,7 +1843,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
@@ -1989,7 +1990,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
@@ -2024,7 +2025,7 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Meeting.class); 
 			classes.add(Activity.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Achievement.class);
 			classes.add(Asset.class);
 			classes.add(Attendance.class);
@@ -2658,7 +2659,12 @@ System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate 
 					javax.jcr.query.Query.SQL);
 			
 			QueryResult result = q.execute();
-			count = (int) result.getNodes().getSize();
+			//count = (int) result.getNodes().getSize();
+			Iterator itr= result.getNodes();
+			while( itr.hasNext() ){
+					itr.next();
+					count++;
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -2749,6 +2755,8 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Meeting.class);
 		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
+		filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
+		
 		Query query = queryManager.createQuery(filter);
 		meetings = (List<Meeting>) ocm.getObjects(query);
 
@@ -2769,4 +2777,351 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 	return meetings;
 
 }
+
+
+//changed to SQL . problem could be with performance. A. cant use path in the filter. Path contains nodes starting with numeric value ex: council 999. Solution need to impl new indexes. Could be problem. Temp solution impl sql see getNotes 
+public java.util.List<Note> getNotes_OCM(User user, Troop troop, String path)
+		throws IllegalAccessException, VtkException {
+
+if (user != null && !userUtil.hasPermission(troop,
+		Permission.PERMISSION_CREATE_MEETING_ID))
+throw new IllegalAccessException();
+
+	
+	java.util.List<Note> notes= null;
+	Session session = null;
+	try {
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class);classes.add(Note.class);
+		classes.add(Achievement.class);
+		classes.add(Attendance.class);
+		session = sessionFactory.getSession();
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Note.class);
+		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
+		filter.addEqualTo("refId", path );
+		Query query = queryManager.createQuery(filter);
+		notes = (List<Note>) ocm.getObjects(query);
+			
+		
+		//sort
+		java.util.Comparator<Note> comp = new org.apache.commons.beanutils.BeanComparator(
+				"createTime");
+		Collections.sort(notes, comp);
+		Collections.reverse(notes);
+		
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+
+	return notes;
+}
+
+public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException {
+	
+	boolean isRm= false;
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	if ( !user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  ))
+		throw new IllegalAccessException();
+	
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class);
+		classes.add(Note.class);
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		
+			
+		if (!session.itemExists(note.getPath()))
+			ocm.insert(note); // y ??
+		else
+			ocm.update(note);
+		ocm.save();
+		isRm=true;
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return isRm;
+	
+}
+
+
+public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessException {
+
+	boolean isRm= false;
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class);
+		classes.add(Note.class);
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		
+		if ( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  )){//session.itemExists(note.getPath())){
+			
+			ocm.remove(note);
+			ocm.save();
+			isRm= true;
+		}else
+			throw new IllegalAccessException();
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return isRm;
+	
+}
+
+
+public boolean rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
+
+	boolean isRm= false;
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	
+	Note note= getNote(user, troop, noteId);
+	if( note!=null ){
+		//check if note belongs to logged-in user
+		if( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId() )  ){
+			rmNote(user, troop, note );
+			isRm=true;
+		}else
+			throw new IllegalAccessException();
+	}
+	return isRm;
+}
+
+
+
+// method to get meeting note. Issue with using jcr:path. path starts with numeric such as /council 999, which creates conflict.
+//Solution: need to create indexes. for now temp create method using SQL
+public Note getNote_OCM(User user, Troop troop, String nid)
+		throws IllegalAccessException {
+	
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	Note note= null;
+	Session session = null;
+	try {
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class);classes.add(Note.class);
+		classes.add(Achievement.class);
+		classes.add(Attendance.class);
+		session = sessionFactory.getSession();
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+				mapper);
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Note.class);
+		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
+		filter.addEqualTo("uid", nid );
+		Query query = queryManager.createQuery(filter);
+		note = (Note) ocm.getObject(query);
+
+
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return note;
+}
+
+
+//see comments from method getNote_OCM
+public Note getNote(User user, Troop troop, String nid)
+		throws IllegalAccessException {
+	
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	Note note= null;
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		javax.jcr.query.QueryManager qm = session.getWorkspace()
+				.getQueryManager();
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/note/"+nid+"'";
+//System.err.println("SQL: "+ sql);		
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+		QueryResult result = q.execute();
+		String str[] = result.getColumnNames();
+		for (RowIterator it = result.getRows(); it.hasNext();) {
+			Row r = it.nextRow();
+			note = new Note();
+			Value excerpt = r.getValue("jcr:path");
+			String path = excerpt.getString();
+		//System.err.println("path : "+ path );	
+			note.setPath(path);
+			note.setMessage( r.getValue("message").getString() );
+			note.setUid(  r.getValue("uid").getString()  );
+			note.setCreateTime( r.getValue("createTime").getLong() );
+			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
+			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
+			note.setRefId( r.getValue("refId").getString() );
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return note;
+}
+
+
+
+//see comments from method getNotes_OCM
+public java.util.List<Note> getNotes(User user, Troop troop, String refId)
+		throws IllegalAccessException {
+//System.err.println( refId);
+	if (user != null
+			&& !userUtil.hasPermission(troop,
+					Permission.PERMISSION_CREATE_MEETING_ID))
+		throw new IllegalAccessException();
+	
+	java.util.List<Note> notes = new java.util.ArrayList<Note>();
+	Session session = null;
+	try {
+		session = sessionFactory.getSession();
+		javax.jcr.query.QueryManager qm = session.getWorkspace()
+				.getQueryManager();
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and jcr:path like '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%'";
+//System.err.println("SQL: "+ sql);		
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+		QueryResult result = q.execute();
+		String str[] = result.getColumnNames();
+		for (RowIterator it = result.getRows(); it.hasNext();) {
+		  try{
+			Row r = it.nextRow();
+			Note note = new Note();
+			Value excerpt = r.getValue("jcr:path");
+			String path = excerpt.getString();
+		//System.err.println("path : "+ path );	
+			note.setPath(path);
+			note.setMessage( r.getValue("message").getString() );
+			note.setUid(  r.getValue("uid").getString()  );
+			note.setCreateTime( r.getValue("createTime").getLong() );
+			note.setCreatedByUserName( r.getValue("createdByUserName").getString() );
+			note.setCreatedByUserId( r.getValue("createdByUserId").getString() );
+			note.setRefId( r.getValue("refId").getString() );
+			notes.add( note );
+		  }catch(Exception e){e.printStackTrace();}
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (session != null)
+				sessionFactory.closeSession(session);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+	return notes;
+}
+
+
+public java.util.List<Meeting> getMeetings(int gsYear)  {
+		
+	
+		java.util.List<Meeting> meetings =new java.util.ArrayList();
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			String sql ="select cat, level from nt:unstructured where ocm_classname='org.girlscouts.vtk.models.Meeting' and jcr:path like '/content/girlscouts-vtk/meetings/myyearplan"+gsYear+"%'";
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			String str[] = result.getColumnNames();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				Value excerpt = r.getValue("jcr:path");
+				String path = excerpt.getString();
+				Meeting meeting  = new Meeting();
+				meeting.setCat(r.getValue("cat").getString());
+				meeting.setLevel(r.getValue("level").getString());
+				meeting.setMeetingType("THE_TYPE");
+				
+				meetings.add(meeting);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return meetings;
+	
+
+}
+	
 }// edn class

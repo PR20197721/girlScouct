@@ -64,6 +64,7 @@ import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.MeetingE1;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -124,7 +125,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(MeetingCanceled.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
@@ -205,7 +206,7 @@ try{
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
 
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
 			classes.add(Asset.class);
@@ -265,7 +266,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
 
@@ -307,7 +308,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -735,6 +736,7 @@ try{
 							+ "/meetingEvents/" + meeting.getUid());
 				
 				modifyMeeting(user, troop, meeting);
+				modifyNotes( user,  troop,  meeting.getNotes() );
 				
 				java.util.List<Asset> assets = meeting.getAssets();
 				if (assets != null)
@@ -873,6 +875,7 @@ try{
 			
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class );
+			classes.add(Note.class );
 			classes.add(Asset.class);
 			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -1206,7 +1209,7 @@ try{
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -1329,7 +1332,7 @@ try{
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(MeetingE.class);
+			classes.add(MeetingE.class);classes.add(Note.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
@@ -1581,16 +1584,16 @@ public java.util.Map getArchivedYearPlans( User user , Troop troop){
 	java.util.Map container= new java.util.TreeMap();
 	int currentGSYear  = VtkUtil.getCurrentGSYear();
 	for(int i = (currentGSYear-1); i> (currentGSYear-6);i-- ){
-System.err.println("Test: "+ i);	
+
 		if( i==2014){
 			if( isArchivedYearPlan(user, troop, "") ){
-System.err.println("test yes 2014 * "+ i);				
+			
 				container.put( i, "/vtk/" );
 			}
 			//-return container;
 		}else{
 			if( isArchivedYearPlan(user, troop, i+"") ){
-System.err.println("test yes "+ i);		
+	
 				container.put(i, "/vtk"+ currentGSYear +"/");
 			}
 		}
@@ -1606,7 +1609,6 @@ public boolean isArchivedYearPlan( User user , Troop troop, String year){
 		try {
 			mySession = sessionFactory.getSession();
 			
-System.err.println("test: /vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan");
 			if (mySession.itemExists( "/vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan")) {
 				isArchived=true;
 				
@@ -1624,5 +1626,74 @@ System.err.println("test: /vtk"+year+"/"+ troop.getSfCouncil()+"/troops/"+ troop
 		return isArchived;
 		
 	}
+
+
+public boolean modifyNote(User user, Troop troop, Note note)
+		throws java.lang.IllegalAccessException {
+
+	if (note ==null || !note.isDbUpdate())
+		return true;
+
+	Session mySession = null;
+	boolean isUpdated = false;
+	try {
+		mySession = sessionFactory.getSession();
+		
+		
+		List<Class> classes = new ArrayList<Class>();
+		classes.add(MeetingE.class );
+		classes.add(Note.class );
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,	mapper);
+		
+		
+		
+		if (!mySession.itemExists( note.getPath().substring(0, note.getPath().lastIndexOf("/") ) ) ){
+			JcrUtils.getOrCreateByPath(note.getPath().substring(0, note.getPath().lastIndexOf("/") ) , "nt:unstructured",
+					mySession);
+		}
+	
+		
+		if (!ocm.objectExists(note.getPath())) {
+			
+			ocm.insert(note);
+			
+		} else {
+			
+			ocm.update(note);
+			
+		}
+		
+		ocm.save();
+		
+		isUpdated = true;
+	} catch (org.apache.jackrabbit.ocm.exception.ObjectContentManagerException iise) {
+	iise.printStackTrace();
+		log.error(">>>> Skipping stale update for note " + note.getPath());
+	} catch (Exception e) {
+		e.printStackTrace();
+	} finally {
+		try {
+			if (mySession != null)
+				sessionFactory.closeSession(mySession);
+		} catch (Exception es) {
+			es.printStackTrace();
+		}
+	}
+	
+	return isUpdated;
+}
+
+
+
+public void modifyNotes(User user, Troop troop, java.util.List<Note> notes)
+		throws java.lang.IllegalAccessException {
+	
+	if( notes!=null)
+	 for(int i=0;i<notes.size();i++){
+		modifyNote(user, troop ,  notes.get(i) );
+	 }
+}
 }// ednclass
 

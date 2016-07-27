@@ -1,0 +1,5 @@
+/0
+  {
+  /glob "{{previewRenderer.ip}}"
+  /type "allow"
+  }

@@ -78,11 +78,11 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
                     <ul id="drop1" class="f-dropdown right" data-options="right_align:true" data-dropdown-content aria-hidden="true" tabindex="-1">
                       <li><a href="<%= currentPage.getAbsoluteParent(1).getPath() + "/en.html" %>">Home</a></li>
                        <%if( configManager.getConfig("isDemoSite")!=null && configManager.getConfig("isDemoSite").equals("true")){ %>
-                         <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)">Member Profile</a></li>
+                         <li style="opacity:0.5;"><a href="#" onclick="javascript:void(0)" disabled="true">Member Profile</a></li>
                          <li><a href="/content/girlscouts-demo/en.html">Demo</a></li>
                          
                       <%}else{ %>
-                         <li><a href="<%= configManager.getConfig("communityUrl")%>" disabled="true">Member Profile</a></li>
+                         <li><a href="<%= configManager.getConfig("communityUrl")%>">Member Profile</a></li>
                          <li><a href="<%= path %>">Volunteer Toolkit</a></li>
                       <%} %>
                     </ul>

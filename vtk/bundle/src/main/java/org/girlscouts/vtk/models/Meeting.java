@@ -19,13 +19,14 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field
 	private String id, name;
 	@Field
-	private String level, blurb, cat;
+	private String level, blurb, cat, meetingType;
 	@Field
 	private String aidTags, resources, agenda;
 	@Field
 	private Integer position;
 	@Field private Boolean isAchievement; 
 
+	
 	@Collection
 	private java.util.List<Activity> activities;
 
@@ -139,4 +140,14 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
+	public String getMeetingType() {
+		return meetingType;
+	}
+
+	public void setMeetingType(String meetingType) {
+		this.meetingType = meetingType;
+	}
+
+	
+	
 }

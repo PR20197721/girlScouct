@@ -12,6 +12,7 @@ import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Note;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -125,4 +126,13 @@ public interface MeetingDAO {
 	public int getMeetingCount(User user, Troop troop, String path) throws IllegalAccessException;
 	public int	getVtkAssetCount(User user, Troop troop, String path)throws IllegalAccessException;
 	public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException;
+	public java.util.List<Note> getNotes(User user, Troop troop, String path)
+			throws IllegalAccessException, VtkException;
+	public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException;
+	public boolean  rmNote(User user, Troop troop, Note  note) throws IllegalAccessException;
+	public boolean rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException;
+	public Note getNote(User user, Troop troop, String nid)
+			throws IllegalAccessException ;
+	
+	public java.util.List<Meeting> getMeetings(int gsYear);
 }

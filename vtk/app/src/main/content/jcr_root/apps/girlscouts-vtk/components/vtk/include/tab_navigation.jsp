@@ -25,7 +25,7 @@
 	//String relayUrl=sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("idpSsoTargetUrl") +"&RelayState="+sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("baseUrl");
 	%>
 
-**<%=VtkUtil.getCurrentGSYear()%>
+
 	<div id="troop" class="row">
 		<div class="columns large-7 medium-9 right">
 			<%
@@ -52,7 +52,14 @@
 			        }
 			      %>
 			</select>
-			<%} %>
+			<%}else if(troops != null && troops.size() == 1){ 
+			
+    			if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+                     %><input type="hidden" id="reloginid" name="" value=""/><%
+                 }else {
+			         %><input type="hidden" id="reloginid" name="reloginid" value="<%=troops.get(0).getTroopId()%>"/><%
+			     }//edn else
+			}%>
 
 		</div>
 		<div class="columns large-4 medium-4"></div>
@@ -178,7 +185,7 @@
 								
 								
 								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
-                                if( archivedPlans!=null && archivedPlans.size()>0 ){%>
+                                if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
 								
     								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"> SEE PAST YEARS </a></li>
                                 <%}%>
@@ -205,7 +212,7 @@
 						<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "Meeting Plan" : "Past Meeting Plans"%>
                         
 						</a> <%} %>
-						     <%if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
+						     <%if( activeTab!=null  &&  "plan".equals(activeTab) && !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){%>
     					       <li><select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
     					          <%for(int i=VtkUtil.getCurrentGSYear()-1;i>(VtkUtil.getCurrentGSYear()-6);i--){%>
     					               <option value="<%=i%>"><%=i%></option>
@@ -434,14 +441,17 @@
 
 					</ul>
 
-											  <%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
+						<%if( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")  &&
 						  activeTab!=null  &&  "plan".equals(activeTab) ){
 						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
-						      if( archivedPlans!=null && archivedPlans.size()>0 ){
+
+						     
+						      if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
+
 						  %>
     						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
     					      <%}%>
-    					  <%}else if(!user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
+    					  <%}else if( activeTab!=null  &&  "plan".equals(activeTab) && !user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ){
     					       java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
     					   %>
     					       <select class="vtk-dropdown" name="" onchange="cngYear(this.options[this.selectedIndex].value)">
@@ -450,7 +460,7 @@
     					           while( itr.hasNext()){
     					               String yr= ((Integer) itr.next()).toString();
     					          %>
-    					               <option value="<%=yr%>"><%=yr%></option>
+    					               <option value="<%=yr%>" <%=((user.getCurrentYear().equals(yr)) ? "SELECTED" : "")%>><%=yr%></option>
     					          <%
     					               //if( yr.equals("2014") ) break;
     					          }%>

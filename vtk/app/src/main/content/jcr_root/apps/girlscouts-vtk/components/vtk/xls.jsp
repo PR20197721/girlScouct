@@ -17,6 +17,8 @@ allowedReportUsers.add("005g0000002apMT");
 allowedReportUsers.add("005G0000006oEkZ");
 allowedReportUsers.add("005G0000006oBVG");
 allowedReportUsers.add("005g0000002G004");
+
+StringBuffer sb= new StringBuffer();
 if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
     out.println("You do not have no access to this page [" + user.getApiConfig().getUserId() + "].");
     return;
@@ -35,7 +37,9 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         }
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
-        StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+        //StringBuffer buffer = new StringBuffer("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+        sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+        
         java.util.Map<String, String> cTrans = new java.util.TreeMap();     
         cTrans.put("597", "Girl Scouts of Northeast Texas"); 
         cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
@@ -137,6 +141,14 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
            String ageGroup = key.substring(key.indexOf("|") +1 );
            Integer count= (Integer) container.get(key);
            out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + count );          
+           sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + count );          
+          
          }
 }
+
+final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
+String rptId= councilRpt.saveRpt( sb );
+
+//email rpt
+councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
     %>

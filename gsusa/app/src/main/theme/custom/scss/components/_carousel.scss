@@ -280,7 +280,7 @@ div.carousel {
       text-transform: uppercase;
       position: relative;
       display: inline-block;
-      line-height: 1.2;
+      line-height: 0.9;
       width: rem-calc(200);
       // @include single-transition(opacity, .25s, ease-in-out);
       &:after {
@@ -297,7 +297,7 @@ div.carousel {
     }
     section {
       position: relative;
-      display: none;
+      /*display: none;*/
       .wrapper {
         position: absolute;
       }

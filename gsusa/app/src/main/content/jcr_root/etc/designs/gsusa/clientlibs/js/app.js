@@ -58,12 +58,14 @@
         $("body").css('overflow', '');
         $(".featured-stories").css('position', '');
       }
+      /* Join Now fades out but still appears 
       if (target.closest('.join .wrapper').length === 0
           && target.closest(".join section").css('display') !== 'none') {
         $('.join section').fadeOut('500', function () {
           $('.join a').fadeIn('slow');
         });
       }
+     */
       // if (target.closest('.hero-feature').length === 0
       //     && target.closest(".hero-feature").css('display') !== 'none') {
       //   $('.position').animate({
@@ -258,6 +260,7 @@
     }
   });
   //home page join now link will open the email form.
+  /*
   function join_now() {
     $('.zip-council > .join a').on('click', function (e) {
       e.preventDefault();
@@ -267,6 +270,7 @@
       });
     });
   }
+  */
 
   $('.shop-slider').slick({
     dots: false,
@@ -756,7 +760,7 @@
   show_hide_features();
   document_close_all();
   explore_button();
-  join_now();
+  //join_now();
   scroll_feeds();
   shop_rotator();
   welcome_cookie_slider();

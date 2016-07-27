@@ -15,7 +15,9 @@
 	printProperty(info, "Name", "name");
 	printProperty(info, "Meeting Short Description", "meetingInfo/meeting short description/str");
 	printProperty(info, "Blurb", "blurb");
+	printProperty(info, "Meeting Plan Type", "meetingPlanType");
 	printProperty(info, "Category", "cat");
+	printProperty(info, "Category Tags", "catTags");
 	printProperty(info, "Aid Tags", "aidTags");
 	printProperty(info, "Resources", "resources");
 	printProperty(info, "Overview", "meetingInfo/overview/str");
