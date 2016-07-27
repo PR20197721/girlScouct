@@ -80,7 +80,6 @@
 
 	  # Girl Scouts
 	  /0101 { /type "allow" /glob "GET /content/gsusa/sitemap.xml *" } # allow sitmap.xml
-	  /0102 { /type "allow" /glob "GET */news/*.feed.xml*" } # allow news rss feed
 	  /0111 { /type "allow" /glob "GET /content/girlscouts-vtk/en/vtk.expiredcheck.json*" } # VTK Ex-pire check
 	  /0112 { /type "allow" /glob "GET /vtk-data/*.json*" } # VTK cached data
 	  /0113 { /type "allow" /glob "GET /myvtk/*" } # VTK parent cache
@@ -132,7 +131,7 @@
 		  }
 		/0002
                   {
-                  /glob "*.xml"
+                  /glob "*.feed"
                   /type "allow"
                   }
 		}
