@@ -124,7 +124,6 @@ var displayCurrent = function(isUploaded){
 	    imageLoader.id = "imageLoader";
 	    imageLoader.type = "file";
 	    imageLoader.accept = "image/*";
-	    imageLoader.setAttribute("capture","camera");
 	
 		var video = document.createElement("video");
 	    video.autoplay = true;

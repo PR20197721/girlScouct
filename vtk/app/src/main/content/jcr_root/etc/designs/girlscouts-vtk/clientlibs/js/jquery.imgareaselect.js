@@ -131,7 +131,7 @@ $.imgAreaSelect = function (img, options) {
         ua = navigator.userAgent,
         
         /* Is the user performing a touch action? */
-        touch,
+        touch = false,
 
         /* Various helper variables used throughout the code */ 
         $p, d, i, o, w, h, adjusted;
@@ -205,8 +205,8 @@ $.imgAreaSelect = function (img, options) {
      */
     function evX(event) {
         var coords = touchCoords(event) || event, x;
-
-        if (x = coords.pageX ? parseInt(coords.pageX) : parseInt(coords.holdX))
+        x = (coords.pageX ? parseInt(coords.pageX) : parseInt(coords.holdX));
+        if (x)
             return x - parOfs.left;
     }
 
@@ -219,8 +219,8 @@ $.imgAreaSelect = function (img, options) {
      */
     function evY(event) {
         var coords = touchCoords(event) || event, y;
-
-        if (y = coords.pageY ? parseInt(coords.pageY) : parseInt(coords.holdY))
+        y = (coords.pageY ? parseInt(coords.pageY) : parseInt(coords.holdY));
+        if (y)
             return y - parOfs.top;
     }
     
@@ -234,8 +234,12 @@ $.imgAreaSelect = function (img, options) {
      */
     function touchCoords(event) {
         var oev = event.originalEvent || {};
-        
-        return oev.touches && oev.touches.length ? oev.touches[0] : holdCoords;
+        if(touch){
+        	return oev.touches && oev.touches.length ? oev.touches[0] : holdCoords;
+        }
+        else{
+        	return false;
+        }
     }
 
     /**
@@ -569,7 +573,7 @@ $.imgAreaSelect = function (img, options) {
     function areaMouseDown(event) {
         if (event.type == 'mousedown' && event.which != 1) return false;
         
-        if (event.type == 'taphold') {
+        if (event.type == 'touchstart') {
             /*
              * Android Chrome often does not produce a touchend event
              * (https://code.google.com/p/chromium/issues/detail?id=152913), so
@@ -1081,6 +1085,7 @@ $.imgAreaSelect = function (img, options) {
                 if (options.resizable || options.movable)
                 	$box.on({'mousemove touchmove': areaMouseMove, 
                 		'mousedown touchstart' : areaMouseDown });
+                	$box.add($outer).on('tap', function() { $box.add($outer).hide(); });
  
                 $(window).resize(windowResize);
             }
