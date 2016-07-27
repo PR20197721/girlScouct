@@ -1341,7 +1341,7 @@ var initNotes = (function (global, ModalVtk, $) {
             $(document).on('click', function (e) {
                 e.stopPropagation();
 
-                modal.confirm('Warning', 'Changes in Notes will be Erase', function () {
+                modal.confirm('Warning', 'Changes have not been saved and will be lost.', function () {
                     element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html(originalMessage);
                     counter.methods.destroy();
                     view.noteEditable(element, false);
@@ -1363,8 +1363,10 @@ var initNotes = (function (global, ModalVtk, $) {
                     modal.close();
 
                 }, function () {
+
                     view.noteEditable(element, true);
                     saveButton.show();
+
 
                     modal.close();
 
@@ -1379,7 +1381,7 @@ var initNotes = (function (global, ModalVtk, $) {
             var message = $(e.target).parents('li').children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html();
             var character = $(e.target).parents('li').children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').text();
             var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
-
+            // var notes  =  $('li[data-uid]');
 
             if (character.length < 501) {
                 editNote(nid, message)
@@ -1409,6 +1411,8 @@ var initNotes = (function (global, ModalVtk, $) {
                 modal.alert('Warning', 'Need to Write a text less than 500 chacracter')
             }
 
+            
+            $(document).off('click');
 
 
 
@@ -1930,6 +1934,7 @@ var initNotes = (function (global, ModalVtk, $) {
                         $('.input-content').html('');
                         $('.add-note-detail').slideUp();
                         $('.note-loading').hide();
+                        checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
                     }, function (err) {
 
                         console.log(err)
@@ -2051,7 +2056,7 @@ var initNotes = (function (global, ModalVtk, $) {
 
         $('.input-content').keyup(function (e) { check_charcount($(this), e, countermain); });
         $('.input-content').keydown(function (e) { check_charcount($(this), e, countermain); });
-
+        $('.input-content').on('paste', function (e) { check_charcount($(this), e, countermain); });
         $('.add-note').on('click', function (e) {
             $('.add-note-detail').stop().slideToggle();
         });
