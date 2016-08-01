@@ -31,9 +31,12 @@
     }
 }
 
-#vtk-meeting-group-age, #vtk-meeting-group-categories {
+#vtk-meeting-group-age, #vtk-meeting-group-categories, .vtk-dropdown_options {
     input[type="checkbox"] {
         display: none;
+        visibility: hidden;
+        margin: 0;
+        position: absolute;
     }
 
 
@@ -76,6 +79,9 @@
 #vtk-meeting-group-type {
     input[type="radio"] {
         display: none;
+                visibility: hidden;
+        margin: 0;
+        position: absolute;
     }
 
     input[type="radio"] + label {
