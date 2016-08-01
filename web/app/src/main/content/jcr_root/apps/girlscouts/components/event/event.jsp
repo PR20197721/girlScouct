@@ -84,7 +84,9 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
-			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+			System.out.println("Millis: " + startDate.getMillis());
+			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
+			System.out.println("Short label: " + timeZoneShortLabel);
 			startDateStr = dtfOutDate.print(startDate);
 			startTimeStr = dtfOutTime.print(startDate);
 		}catch(Exception e){

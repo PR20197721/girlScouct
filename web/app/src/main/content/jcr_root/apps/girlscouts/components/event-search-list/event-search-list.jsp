@@ -133,7 +133,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					try{
 						dtz = GSDateTimeZone.forID(timeZoneLabel);
 						startDate = startDate.withZone(dtz);
-						timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+						timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 						startDateStr = dtfOutDate.print(startDate);
 						startTimeStr = dtfOutTime.print(startDate);
 					}catch(Exception e){

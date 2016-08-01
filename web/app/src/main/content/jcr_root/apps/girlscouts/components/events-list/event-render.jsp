@@ -42,7 +42,7 @@ try{
 		try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
-			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 			startDateStr = dateFormat.print(startDate);
 			startTimeStr = timeFormat.print(startDate) + " " + timeZoneShortLabel;
 		}catch(Exception e){
