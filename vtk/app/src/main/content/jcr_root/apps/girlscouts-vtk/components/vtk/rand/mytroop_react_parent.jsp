@@ -64,6 +64,7 @@
       
       <%if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ){ %>
          <a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+          <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
       <%} %>
       </dt>
       <dd class="accordion-navigation">
@@ -141,3 +142,19 @@ for(int y=0;y<infos.size();y++){
       </dd>
     </dl>
   </div>
+  
+  <script>
+	$('.accordion > dt > label > input:checkbox').change(
+		function() {
+			var mailToList = $('.accordion > dt > a').attr('href');
+			if ($(this).is(':checked')) {
+				$('.accordion > dt > label').addClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\,/g, ';'));
+			} else {
+				$('.accordion > dt > label').removeClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\;/g, ','));
+			}
+		}
+	);
+
+</script>

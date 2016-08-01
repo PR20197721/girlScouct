@@ -133,7 +133,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					try{
 						dtz = GSDateTimeZone.forID(timeZoneLabel);
 						startDate = startDate.withZone(dtz);
-						timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+						timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 						startDateStr = dtfOutDate.print(startDate);
 						startTimeStr = dtfOutTime.print(startDate);
 					}catch(Exception e){
@@ -162,11 +162,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				String href = result+".html";
 				String time = "";
 				String locationLabel = "";
+				String region = "";
 
 				String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 				if(propNode.hasProperty("locationLabel")){
 					locationLabel=propNode.getProperty("locationLabel").getString();
+				}
+				
+				if(propNode.hasProperty("region")){
+					region=propNode.getProperty("region").getString();
 				}
 
 				String formatedEndDateStr="";
@@ -252,6 +257,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
                      }catch(Exception eDateStr){eDateStr.printStackTrace();}
                     %>
 				</p>
+<% if(!region.isEmpty()){ %>
+				<p class="bold" itemprop="region" itemscope itemptype="http://schema.org/Place">Region: <span itempropr="name"><%= region %></span></p>
+<% } %>				
 <%if(!locationLabel.isEmpty()){ %>
 				<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
 <% } %>

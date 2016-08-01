@@ -44,11 +44,12 @@
       String exlDates = troop.getYearPlan().getCalExclWeeksOf();
       exlDates= exlDates==null ? "" : exlDates.trim();
       String[] split_exclDates = exlDates.split(",");
-      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop); 
-      
+
+      java.util.Map<Long, String> holidays = VtkUtil.getVtkHolidays(user, troop);
+    
       //sort
       holidays= new java.util.TreeMap(holidays);
-      
+
       %>
       
     <ul class="small-block-grid-3">

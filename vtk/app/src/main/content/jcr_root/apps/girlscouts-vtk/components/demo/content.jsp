@@ -190,7 +190,7 @@ function xyz(slc){
 
                                         <div id="vtk-dropdown-3" class="vtk-demo-dropdown" data-input-name="value1" style="width:100%">
                                           <div class="vtk-demo-dropdown_main"><div class="selected-option">GIRL SCOUT GRADE LEVELS </div>
-                                             <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
+                                             <span class="vtk-icon-arrow" style=""></span>
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                           <li data-value="">Please select...</li>
@@ -227,7 +227,7 @@ function xyz(slc){
 
                                       <div id="vtk-dropdown-2" class="vtk-demo-dropdown" data-input-name="value1" style="width:100%">
                                           <div class="vtk-demo-dropdown_main"><div class="selected-option">GIRL SCOUT GRADE LEVELS </div>
-                                             <span class="icon-arrow-down3" style="color:#009447;position: absolute; top: 6px; right: 6px;font-size:14px"></span>
+                                             <span class="vtk-icon-arrow" style=""></span>
                                          </div>
                                           <ul class="vtk-demo-dropdown_options">
                                             <li data-value="">Please select...</li>

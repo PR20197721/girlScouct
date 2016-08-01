@@ -57,7 +57,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
     <div class="you-reach-25 small-24 columns" style="display:none">
       <h4>
-        You Reach the Maximun amount of notes
+        Maximum amount of notes has been reached.
       </h4>
     </div>
 

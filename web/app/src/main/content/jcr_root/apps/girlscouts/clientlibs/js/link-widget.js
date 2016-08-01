@@ -79,7 +79,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.smallLabel);
 
-        this.add(new CQ.Ext.form.Label({text: "Path"}));
+        this.add(new CQ.Ext.form.Label({text: "Parent Directory"}));
         this.pathField = new CQ.form.PathField({
             listeners: {
                 change: {

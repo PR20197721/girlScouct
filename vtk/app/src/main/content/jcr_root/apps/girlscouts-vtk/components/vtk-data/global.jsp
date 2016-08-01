@@ -49,7 +49,21 @@
 	    JspWriter out = info.out;
     	try {
     	    printTitle(info, key, level);
-			String value = info.rr.resolve(info.basePath + "/" + path).adaptTo(Property.class).getString();
+    	    String value = "";
+    	    Property prop = info.rr.resolve(info.basePath + "/" + path).adaptTo(Property.class);
+    	    if (prop.isMultiple()) {
+    	    	 Value[] values = prop.getValues();  
+    	         for (int i = 0; i < values.length; i++) {
+    	        	if (i != values.length - 1) {
+    	        		value += values[i] + ", ";
+    	        	} else {
+    	        		value += values[i];
+    	        	}
+    	        	
+    	         }
+    	    } else {
+    	    	value = prop.getString();
+    	    }
     		out.println("<p>");
 	    	out.println(value);
     		out.println("</p>");

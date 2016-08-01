@@ -4,6 +4,7 @@ jquery-ui.js
 jquery.dialogOptions.js
 jquery.ui.touch-punch.min.js
 jquery.custombox.js 
+jquery.mobile.custom.min.js
 calendar.js
 locationManager.js
 meeting.js

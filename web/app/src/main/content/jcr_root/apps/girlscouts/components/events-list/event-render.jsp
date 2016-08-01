@@ -6,10 +6,16 @@
 try{
 	Node propNode = (Node)request.getAttribute("propNode");
 	Node node = (Node)request.getAttribute("node");
-	GSDateTime startDate = null; 
+	
+	GSDateTime startDate = null;
+	GSDateTime endDate = null;
+	String dateStart = "";
+	String dateEnd = "";
 	String startDateStr = "";
 	String startTimeStr = "";
-	String time = "";
+	String endDateStr = "";
+	String endTimeStr = "";
+
 	String locationLabel = "";
 	String imgPath="";
 	String iconPath="";
@@ -19,6 +25,7 @@ try{
 	
 	startDate = GSDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
 	GSLocalDateTime localStartDate = null;
+	GSLocalDateTime localEndDate = null;
 	
     //Add time zone label to date string if event has one
    	String timeZoneLabel = null;
@@ -26,7 +33,6 @@ try{
 	GSDateTimeZone dtz = null;
     if(propNode.hasProperty("timezone")){
     	timeZoneLabel = propNode.getProperty("timezone").getString();
-		//dateStr = dateStr + " " + timeZoneLabel;
 		int openParen1 = timeZoneLabel.indexOf("(");
 		int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
 		int closeParen = timeZoneLabel.indexOf(")",openParen2);
@@ -36,9 +42,9 @@ try{
 		try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
-			timeZoneShortLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
+			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 			startDateStr = dateFormat.print(startDate);
-			startTimeStr = timeFormat.print(startDate);
+			startTimeStr = timeFormat.print(startDate) + " " + timeZoneShortLabel;
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -47,29 +53,28 @@ try{
 		startDateStr = dateFormat.print(localStartDate);
 		startTimeStr = timeFormat.print(localStartDate);
     }
+	
+	dateStart = startDateStr + ", " + startTimeStr;	
+	
+	if (propNode.hasProperty("end")){
+		endDate = GSDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+		if(dtz != null){
+			endDate = endDate.withZone(dtz);
+			endDateStr = dateFormat.print(endDate);
+			endTimeStr = timeFormat.print(endDate) + " " + timeZoneShortLabel;
+		}else{
+			localEndDate = GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
+			endDateStr = dateFormat.print(localEndDate);
+			endTimeStr = timeFormat.print(localEndDate);
+		}		
+ 	}
+	
+	dateEnd = endDateStr + ", " + endTimeStr;
 
-	
-	
-	String dateStr="";
-	dateStr = startDateStr + ", " +startTimeStr;
-	time = startTimeStr;
-	
 	if(propNode.hasProperty("locationLabel")){
 		locationLabel=propNode.getProperty("locationLabel").getString();
 	}
-	if (propNode.hasProperty("end")){
-		GSDateTime endDate = GSDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
-		GSLocalDateTime localEndDate = null;
-		if(dtz != null){
-			endDate = endDate.withZone(dtz);
-			dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr,timeZoneShortLabel);
-		}else{
-			localEndDate = GSLocalDateTime.parse(propNode.getProperty("end").getString(),fromFormat);
-			dateStr = getDateTime(localStartDate,localEndDate,dateFormat,timeFormat,dateStr,timeZoneShortLabel);
-		}
-		
- 	}
- 
+	
 	boolean hasImage = false;
 	String fileReference = null;
 	imgPath = node.getPath()+"/jcr:content/data/image";
@@ -97,7 +102,10 @@ try{
     </div>
     <div class="medium-16 large-16 columns small-15">
        <p><a href="<%= href %>" title="<%= title %>"><%= title %></a></p>
-       <p>Date: <%= dateStr %></p>
+       <p>Start: <%= dateStart %></p>
+       <% if (propNode.hasProperty("end")) { %>
+       <p>End: <%= dateEnd %></p>
+       <% } %>
        <p>Location: <%= locationLabel %></p>
     </div>
   </div>

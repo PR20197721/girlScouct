@@ -5,7 +5,7 @@
 %>
 	<div class="join">
 		<div class="wrapper">
-			<a id="tag_explore-join-now" href="#" title="join" tabindex="55">Join now</a>
+			<!-- <a id="tag_explore-join-now" href="#" title="join" tabindex="55">Join now</a> -->
 			<section>
 				<form class="bottom-overlay-join" id="findCouncilByZip">
 					<span>FIND YOUR LOCAL COUNCIL</span>
