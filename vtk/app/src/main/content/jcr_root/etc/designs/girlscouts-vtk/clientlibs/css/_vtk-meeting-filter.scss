@@ -26,6 +26,7 @@
 	padding:15px 0;
     font-weight: bold;
     font-size: 14px;
+    margin: 10px 0;
     span {
         font-size: 18px !important;
     }
@@ -127,4 +128,9 @@
 
 .inactive-button{
 	background-color: gray !important;
+}
+
+
+.meetingSelect{
+    min-height: 400px;
 }

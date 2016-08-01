@@ -192,7 +192,7 @@
  %>
 
   </script>
-  <div class="scroll" style="min-height="500px">
+  <div class="" style="">
     <div class="content meeting-library row">
       <p class="instruction columns small-24"><%= instruction %></p>
       <div id="cngMeet"></div>
@@ -275,7 +275,7 @@
             <div class="row">
                 <div class="column small-24">
                     <div class="vtk-meeting-filter_title"><span>3.</span> Select your badge categories</div>
-                    <div id="vtk-meeting-group-categories">
+                    <div id="vtk-meeting-group-categories" class="row">
 
       <!--  end carlos 3  -->
         <%
@@ -593,74 +593,18 @@
 
       <!--  carlos 4 end  -->
 
+      <div id="meetingSelect" class="meetingSelect">
+
+          <div class="meeting-age-separator">
+                Browning
+          </div>
+
+          <div class="meeting-item">
+
+          </div>
+      </div>
 
 
-<!--  start results here  -->
-      <table id="meetingSelect" class="meetingSelect">
-        <tbody>
-          <%
-
-          //sort meetings by meeting name
-          if( meetings !=null ){
-              Collections.sort(meetings, new Comparator<Meeting>() {
-                  public int compare(Meeting o1, Meeting o2) {
-                      return o1.getName().compareTo(o2.getName());
-                  }
-              });
-          }
-
-          for(int i=0;i<meetings.size();i++){
-            Meeting meeting = meetings.get(i);
-          %>
-            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
-            <%
-            if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
-            	java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
-            	if( cats!=null){
-	                java.util.Iterator itrCat = cats.iterator();
-	                while( itrCat.hasNext() ){
-	                    String x = (String) itrCat.next();
-	                    if(!meeting.getCatTags().contains( x ) )continue;
-	                    %><%= mCats.get(x)%><%=itrCat.hasNext() ? ";" : ""%><%
-	                }
-            	}
-            }
-            %>
-            ">
-                <td>
-                        <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
-                          </p>
-                        <p class="blurb"><%=meeting.getBlurb() %></p>
-                </td>
-              <td>
-                <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
-                <% } else {%>
-                  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
-
-                    <%
-                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
-                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
-                    <%} %>
-                <% }%>
-              </td>
-                <td>
-              <%
-                try {
-                    String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
-                    if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-                %>
-                    <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-                  <% } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                %>
-              </td>
-            </tr>
-          <% } %>
-        </tbody>
-      </table>
     </div>
   </div>
 
