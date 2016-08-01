@@ -304,7 +304,7 @@
 
         <div class="list-of-buttons column small-22 small-centered" style="display:none; padding-left:0;">
             <div class="row">
-                <div id="vtk-meeting-group-button" class="column small-24" style="padding:40px 0 30px 0;">
+                <div id="vtk-meeting-group-button" class="column small-24" style="padding:25px 0 25px 0;">
                     <div id="vtk-meeting-group-button_cancel" class="button tiny ">CANCEL</div>
                     <div id="vtk-meeting-group-button_ok" class="button tiny inactive-button">VIEW MEETING PLANS</div>
                 </div>
