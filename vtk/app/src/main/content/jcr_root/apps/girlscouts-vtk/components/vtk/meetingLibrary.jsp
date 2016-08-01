@@ -332,7 +332,7 @@
                 <div class="no-plans column small-24 medium-8">
 
                 </div>
-                <div class="column small-24 medium-8">
+                <div class="column small-12 medium-8">
 
                     <div id="vtk-dropdown-filter-1" class="vtk-dropdown-check-box" data-input-name="value1">
                         <div class="vtk-dropdown_main">
@@ -347,7 +347,7 @@
                     </div>
 
                 </div>
-                <div class="column small-24 medium-8">
+                <div class="column small-12 medium-8">
 
                     <div id="vtk-dropdown-filter-2" class="vtk-dropdown-check-box" data-input-name="value1">
                         <div class="vtk-dropdown_main">
@@ -592,20 +592,151 @@
 </script>
 
       <!--  carlos 4 end  -->
+      <div id="meetingSelect" class="meetingSelect column small-22 small-centered" >
+          <!--<div class="row">-->
+            <div class="meeting-age-separator">
+                    Browning
+            </div>
 
-      <div id="meetingSelect" class="meetingSelect">
+          <%
 
-          <div class="meeting-age-separator">
-                Browning
+          //sort meetings by meeting name
+          if( meetings !=null ){
+              Collections.sort(meetings, new Comparator<Meeting>() {
+                  public int compare(Meeting o1, Meeting o2) {
+                      return o1.getName().compareTo(o2.getName());
+                  }
+              });
+          }
+
+          for(int i=0;i<meetings.size();i++){
+            Meeting meeting = meetings.get(i);
+          %>
+            <div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
+            <%
+            if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
+            	java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
+            	if( cats!=null){
+	                java.util.Iterator itrCat = cats.iterator();
+	                while( itrCat.hasNext() ){
+	                    String x = (String) itrCat.next();
+	                    if(!meeting.getCatTags().contains( x ) )continue;
+	                    %><%= mCats.get(x)%><%=itrCat.hasNext() ? ";" : ""%><%
+	                }
+            	}
+            }
+            %>
+            ">
+                <div class="row">
+                    <div class="column small-24 medium-16">
+                          <p class="title"><%=meeting.getName()%></p>
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                          </p>
+                        <p class="blurb"><%=meeting.getBlurb() %></p>
+                    </div>
+                     <div class="column small-24 medium-4">
+                          <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% } else {%>
+                  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+
+                    <%
+                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
+                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
+                    <%} %>
+                <% }%>
+                    </div>
+                     <div class="column small-24 medium-4">
+                         <%
+                try {
+                    String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
+                    if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+                %>
+                    <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+                  <% } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                %>
+
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
           </div>
 
-          <div class="meeting-item">
-
-          </div>
       </div>
 
 
-    </div>
+
+            <!--<table id="meetingSelect" class="meetingSelect">
+        <tbody>
+          <%
+
+          //sort meetings by meeting name
+          if( meetings !=null ){
+              Collections.sort(meetings, new Comparator<Meeting>() {
+                  public int compare(Meeting o1, Meeting o2) {
+                      return o1.getName().compareTo(o2.getName());
+                  }
+              });
+          }
+
+          for(int i=0;i<meetings.size();i++){
+            Meeting meeting = meetings.get(i);
+          %>
+            <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
+            <%
+            if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
+            	java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
+            	if( cats!=null){
+	                java.util.Iterator itrCat = cats.iterator();
+	                while( itrCat.hasNext() ){
+	                    String x = (String) itrCat.next();
+	                    if(!meeting.getCatTags().contains( x ) )continue;
+	                    %><%= mCats.get(x)%><%=itrCat.hasNext() ? ";" : ""%><%
+	                }
+            	}
+            }
+            %>
+            ">
+                <td>
+                        <p class="title"><%=meeting.getName()%></p>
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                          </p>
+                        <p class="blurb"><%=meeting.getBlurb() %></p>
+                </td>
+              <td>
+                <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% } else {%>
+                  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+
+                    <%
+                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
+                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
+                    <%} %>
+                <% }%>
+              </td>
+                <td>
+              <%
+                try {
+                    String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
+                    if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+                %>
+                    <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+                  <% } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                %>
+              </td>
+            </tr>
+          <% } %>
+        </tbody>
+      </table>-->
+
+
+    <!--</div>-->
   </div>
 
 <script>
@@ -623,9 +754,14 @@
         var _cats = document.getElementsByName("_tag_c");
 
        var tt = document.getElementById("meetingSelect");
-       var t= tt.getElementsByTagName("tr");
+    //    var t= tt.getElementsByTagName("tr");
+        var t = $(tt).find('.meeting-item');
+
+
        for(var i=0;i<t.length;i++){ //each meeting
-        var x= t[i];
+        // var x= t[i];
+
+        var x = t.eq(i)[0];
 
          var isShowLevel = isShowMeeting( _levels, x, false, 'level');
 
@@ -690,10 +826,13 @@
     function clearResults(){
 
     	var tt = document.getElementById("meetingSelect");
-        var t= tt.getElementsByTagName("tr");
+        // var t= tt.getElementsByTagName("tr");
+        var t = $(tt).find('.meeting-item');
         for(var i=0;i<t.length;i++){ //each meeting
-           var x= t[i];
-           x.style.display = "none";
+        //    var x= t[i];
+        var x = t.eq(i);
+        //    x.style.display = "none"
+        x.hide();
         //    x.parentElement.style.display = 'none';
 
         }

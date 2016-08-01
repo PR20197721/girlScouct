@@ -133,4 +133,25 @@
 
 .meetingSelect{
     min-height: 400px;
+
+    overflow: auto;
+}
+
+.meeting-age-separator{
+    background-color: gray;
+    color:white;
+    font-weight: bold;
+    padding: 6px 3px;
+    margin-bottom: 5px;
+}
+
+.meeting-item{
+    background-color: #f6f6f6;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.no-plans{
+margin-bottom:20px;
+text-align: center;
 }
