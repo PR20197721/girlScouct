@@ -129,6 +129,11 @@
 		  /glob "*.html"
 		  /type "allow"
 		  }
+		/0002
+                  {
+                  /glob "*.feed"
+                  /type "allow"
+                  }
 		}
 	  /allowedClients
 		{
