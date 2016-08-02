@@ -82,12 +82,7 @@ var displayCurrent = function(isUploaded){
     	$('.icon-photo-camera').css("display","auto"); 
     	$('#current-picture').css("width", "100%");
     }
-    if(isUploaded==true){
-    	currentPic.src = imgPath + "?pid=" + Date.now();
-    }
-    else{
-    	currentPic.src = imgPath;
-    }
+   	currentPic.src = imgPath + "?pid=" + Date.now();
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");
@@ -198,7 +193,7 @@ var displayCurrent = function(isUploaded){
 	    uploadButtons.appendChild(retakeShot);
 	    uploadButtons.appendChild(submitShot);      
 	    
-	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
+	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\".\nMobile users: Please swipe to scroll the screen, press and hold down on the image to start cropping. Please be patient. High-resolution images take time to process.";
 	
 	    function handleImage(){
 	    	var file = this.files[0];
@@ -370,7 +365,7 @@ var displayCurrent = function(isUploaded){
 	
 		//website requests permission to use your webcam
 	       	if (navigator.getUserMedia) {
-	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
+	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\".\nMobile users: Please swipe to scroll the screen, press and hold down on the image to start cropping. Please be patient. High-resolution images take time to process.";
 				videoLoader.style.display = "block";
 	    	}else {
 	            console.log("getUserMedia not supported");
