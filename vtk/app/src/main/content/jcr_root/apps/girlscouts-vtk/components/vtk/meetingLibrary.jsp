@@ -31,7 +31,6 @@
   </div>
 
 
-
   <%
     boolean isWarning=false;
     String instruction = "****Select a meeting to add to your Year Plan";
@@ -192,7 +191,7 @@
  %>
 
   </script>
-  <div class="" style="">
+  <div class="scroll" style="">
     <div class="content meeting-library row">
       <p class="instruction columns small-24"><%= instruction %></p>
       <div id="cngMeet"></div>
@@ -568,7 +567,7 @@
 
                 eachList(ageList);
                 eachList(categoriesList);
-                var noPlans = ($('#meetingSelect').children('tbody').children('tr').not(':hidden').length) ? $('#meetingSelect').children('tbody').children('tr').not(':hidden').length + ' Meeting Plan' : '0 Meeting Plan';
+                var noPlans = ($('#meetingSelect').children('.meeting-item').not(':hidden').length) ? $('#meetingSelect').children('.meeting-item').not(':hidden').length + ' Meeting Plan' : '0 Meeting Plan';
                  $('.no-plans').html(noPlans);
                 $('#vtk-meeting-report').slideDown();
                 $('.vtk-meeting-group').slideUp();
@@ -594,9 +593,7 @@
       <!--  carlos 4 end  -->
       <div id="meetingSelect" class="meetingSelect column small-22 small-centered" >
           <!--<div class="row">-->
-            <div class="meeting-age-separator">
-                    Browning
-            </div>
+
 
           <%
 
@@ -604,14 +601,24 @@
           if( meetings !=null ){
               Collections.sort(meetings, new Comparator<Meeting>() {
                   public int compare(Meeting o1, Meeting o2) {
-                      return o1.getName().compareTo(o2.getName());
+                      return o1.getLevel().compareTo(o2.getLevel());
                   }
               });
           }
 
+          String currentLevel = "";
+
           for(int i=0;i<meetings.size();i++){
             Meeting meeting = meetings.get(i);
-          %>
+            if(!meeting.getLevel().equals(currentLevel)){
+                currentLevel=meeting.getLevel();
+%>
+                <div class="meeting-age-separator small-24 column">
+                    <%= meeting.getLevel() %>
+                </div>
+<%
+            }
+%>
             <div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
             <%
             if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
