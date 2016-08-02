@@ -39,8 +39,8 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	private String meetingPlanType;
 	
 	
-	@Field
-	private String catTags;
+	@Collection
+	private java.util.List<com.day.cq.tagging.Tag> catTags;
 	
 	
 	
@@ -162,11 +162,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.meetingPlanType = meetingPlanType;
 	}
 
-	public String getCatTags() {
+	public java.util.List<com.day.cq.tagging.Tag> getCatTags() {
 		return catTags;
 	}
 
-	public void setCatTags(String catTags) {
+	public void setCatTags(java.util.List<com.day.cq.tagging.Tag> catTags) {
 		this.catTags = catTags;
 	}
 

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.cq.tagging.Tag,java.util.List" %>
 <%@ page
   import="com.google.common.collect .*"%>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -117,10 +117,15 @@
           mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
       }
       
-      
-      String cats= meeting.getCatTags();
-      if( cats!=null ){
-    	  cats= cats+",";
+      String cats = "";
+      List<Tag> catList= meeting.getCatTags();
+      if( catList!=null ){
+    	  ListIterator<Tag> li = catList.listIterator();
+    	  while (li.hasNext()) {
+    		  Tag temp = li.next();
+    		  cats += temp.getName() + ",";
+    	  }
+    	  
 	      StringTokenizer t = new StringTokenizer(cats, ",");
 	      
 	      while( t.hasMoreElements() ){
@@ -614,17 +619,17 @@ $(function(){
                       return o1.getName().compareTo(o2.getName());
                   }
               });
-          } 
          
-          for(int i=0;i<meetings.size();i++){
-            Meeting meeting = meetings.get(i);
+         
+              for(int i=0;i<meetings.size();i++){
+                  Meeting meeting = meetings.get(i);
           %>
             <tr style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
             <%
             if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
-            	java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
+            	Set<String> cats = mCatsPerType.get(meeting.getMeetingPlanType());
             	if( cats!=null){
-	                java.util.Iterator itrCat = cats.iterator();
+	                Iterator itrCat = cats.iterator();
 	                while( itrCat.hasNext() ){
 	                    String x = (String) itrCat.next();
 	                    if(!meeting.getCatTags().contains( x ) )continue;
@@ -632,11 +637,21 @@ $(function(){
 	                }
             	}
             }
+            
+            
+            String catsString = "";
+            if (meeting.getCatTags() !=null) {
+	            ListIterator<Tag> lii = meeting.getCatTags().listIterator();
+		      	while (lii.hasNext()) {
+		      		catsString += lii.next().getName() + ",";
+		      	}
+            }
+      	  
             %>
             ">
                 <td>
                         <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=catsString %>
                           </p> 
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                 </td>
@@ -665,7 +680,8 @@ $(function(){
                 %>
               </td>
             </tr>
-          <% } %>
+          <% } 
+          }%>
         </tbody>
       </table>
     </div>
