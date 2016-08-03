@@ -75,7 +75,6 @@ try{
 		locationLabel=propNode.getProperty("locationLabel").getString();
 	}
 	
-	boolean hasImage = false;
 	String fileReference = null;
 	imgPath = node.getPath()+"/jcr:content/data/image";
 	boolean hasThumb = false;
