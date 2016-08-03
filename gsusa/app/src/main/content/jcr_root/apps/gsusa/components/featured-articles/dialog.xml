@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}500"
+    width="{Long}750"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Articles">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Component Title"
+                        name="./title"
+                        xtype="textfield"/>
+                    <listingPage
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Listing Page"
+                        name="./listingPage"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <articletags
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Select One Tag"
+                        fieldLabel="Article Tag"
+                        name="./tag"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
+                    <sortByPriority
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Sort By Priority"
+                        name="./sortByPriority"
+                        type="checkbox"
+                        xtype="selection"/>
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>

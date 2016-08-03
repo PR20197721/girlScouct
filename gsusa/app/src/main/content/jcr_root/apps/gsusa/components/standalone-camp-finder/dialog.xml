@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <maincontent
+                jcr:primaryType="cq:Panel"
+                title="Main Content">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<text
+                		jcr:primaryType="cq:Widget"
+                        fieldLabel="Text to be displayed"
+                        xtype="textfield"
+                        name="./text"/>
+                	<resultspath
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Results Page"
+	                    allowBlank="false"
+	                    name="./results"
+	                    rootPath="/content/gsusa"
+	                    xtype="pathfield"/>
+                </items>
+            </maincontent>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thumbnail/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./image/fileName"
+                fileReferenceParameter="./image/fileReference"
+                mapParameter="./image/imageMap"
+                name="./file"
+                requestSuffix="/image.img.png"
+                rotateParameter="./image/imageRotate"
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./image/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
+        </items>
+    </items>
+</jcr:root>

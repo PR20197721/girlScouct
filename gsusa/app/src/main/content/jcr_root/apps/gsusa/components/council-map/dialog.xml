@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+        	<properties
+                jcr:primaryType="cq:Panel"
+                title="Properties">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<path
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Path to Results Page"
+                		name="./path"
+                		xtype="pathfield"/>
+                	<imgPath
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Path to Map Image"
+                		fieldDescription="Defaults to /content/dam/girlscouts-gsusa/images/misc/council-map.gif"
+                		name="./imgPath"
+                		xtype="pathfield"/>
+		        </items>
+			</properties>
+        </items>
+    </items>
+</jcr:root>

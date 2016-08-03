@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Join"
+    width="{Long}1000"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Join Now Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <outerBtnName
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Join Now"
+                        fieldLabel="Call To Action Name"
+                        name="./callToActionName"
+                        xtype="textfield"/>
+                    <searchBtnName
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="GO"
+                        fieldLabel="Search Button Name"
+                        name="./searchBtnName"
+                        xtype="textfield"/>
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="Find Your Local Council"
+                        fieldLabel="Title"
+                        name="./title"
+                        xtype="textfield"/>
+                    <mainTitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Main Title"
+                        name="./mainTitle"
+                        xtype="textfield"/>
+                    <showverticalrule
+                    	jcr:primaryType="cq:Widget"
+                        fieldLabel="Show Vertical Rule"
+                        name="./showverticalrule"
+                        fieldDescription="Default: false"
+                        type="checkbox"
+                		xtype="selection">
+                    </showverticalrule>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Content"
+                        name="./text"
+                        xtype="richtext">
+                        <rtePlugins jcr:primaryType="nt:unstructured">
+                            <links jcr:primaryType="nt:unstructured">
+                                <linkDialogConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    height="{Long}316">
+                                    <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                        <linkAdvanced
+                                            jcr:primaryType="cq:Widget"
+                                            collapsed="{Boolean}true"
+                                            collapsible="{Boolean}true"
+                                            inputValue="advanced"
+                                            name="./linkdialog/cq:adhocLinkTrackingTab"
+                                            title="Link tracking"
+                                            xtype="dialogfieldset">
+                                            <items jcr:primaryType="cq:WidgetCollection">
+                                                <enable
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="enabletracking"
+                                                    fieldDescription="override analytics framework settings"
+                                                    fieldLabel="Custom link tracking"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                    xtype="checkbox">
+                                                    <listeners
+                                                        jcr:primaryType="nt:unstructured"
+                                                        check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                                </enable>
+                                                <events
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevents"
+                                                    fieldDescription="e.g.: event2, event7"
+                                                    fieldLabel="Include SiteCatalyst events"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                    xtype="textfield"/>
+                                                <evars
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevars"
+                                                    fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                    fieldLabel="Include SiteCatalyst variables"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                    xtype="textfield"/>
+                                            </items>
+                                        </linkAdvanced>
+                                    </linkAttributes>
+                                </linkDialogConfig>
+                            </links>
+                            <misctools
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <edit
+	                            jcr:primaryType="nt:unstructured"
+	                            features="[paste-plaintext,paste-wordhtml]"/>
+	                        <findreplace
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <format
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <image
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <keys
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <justify
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <lists
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h1
+                                	jcr:primaryType="nt:unstructured"
+                                	description="Header 1"
+                                	tag="h1"/>
+								<h2
+                                	jcr:primaryType="nt:unstructured"
+                                	description="Header 2"
+                                	tag="h2"/>
+                                <h3
+                                	jcr:primaryType="nt:unstructured"
+                                	description="Header 3"
+                                	tag="h3"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        </rtePlugins>
+                    </text>
+                    <isRichTextFlag
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./textIsRich"
+                        value="true"
+                        xtype="hidden"/>
+                </items>
+            </tab1>
+            <background-image
+                jcr:primaryType="cq:Widget"
+                allowUpload="{Boolean}false"
+                cropParameter="./bg/imageCrop"
+                ddGroups="[media]"
+                fileNameParameter="./bg/fileName"
+                fileReferenceParameter="./bg/fileReference"
+                name="./bg/file"
+                requestSuffix="/bg.img.png"
+                title="Background Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./bg/sling:resourceType"
+                        value="gsusa/components/image"
+                        xtype="hidden"/>
+                </items>
+            </background-image>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Advanced Settings">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<max-width
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Max Width (in px)"
+                		fieldDescription="Default is 210px"
+                		name="./maxWidth"
+                		minValue="{Long}0"
+                		xtype="numberfield"/>
+                    <source
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="not_set"
+                        fieldLabel="Source"
+                        name="./source"
+                        value="not_set"
+                        maxLength="25"
+                        maxLengthText="The source cannot be longer than 25 characters"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>

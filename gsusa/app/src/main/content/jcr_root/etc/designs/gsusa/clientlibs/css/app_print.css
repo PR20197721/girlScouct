@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+img#mainGSLogoPrint { display: block !important; margin-bottom: 20px;}
+div.header { display: none; }
+div.left-col { display: none; }
+div.right-col { display: none; }
+footer { display: none; }
+.three-cols .right-wrapper { width: 100%; }
+.three-cols .middle-col { width: 100%; }
+.standalone-cookie-header { display: none; }
+.dynamic-tag-carousel { display: none; }
+.related-articles { display: none; }
+.article-social-bar { display: none; }

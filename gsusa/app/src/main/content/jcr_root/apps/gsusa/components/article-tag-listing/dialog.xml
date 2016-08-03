@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    width="{Long}1000"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Tag Listing">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <articletags
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Select Tags"
+                        fieldLabel="Article Tag"
+                        name="./tags"
+                        suggestMinChars="1"
+                        xtype="tags">
+                        <namespaces jcr:primaryType="cq:WidgetCollection">
+                            <ns1
+                                jcr:primaryType="nt:unstructured"
+                                maximum="3"
+                                name="gsusa"/>
+                        </namespaces>
+                    </articletags>
+                    <number
+                        jcr:primaryType="cq:Widget"
+                        allowDecimals="{Boolean}false"
+                        defaultValue="{Long}9"
+                        fieldLabel="Number of Tiles"
+                        maxValue="{Long}100"
+                        minValue="{Long}1"
+                        name="./num"
+                        value="9"
+                        xtype="numberfield"/>
+                    <titleLink
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Listing Page"
+                        name="./titleLink"
+                        rootPath="/content/gsusa/en"
+                        xtype="pathfield"/>
+                    <priority
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="Sort By Priority"
+                        name="./priority"
+                        type="checkbox"
+                        xtype="selection"/>
+                    <borderLine
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        defaultValue="off"
+                        fieldLabel="Border Line"
+                        name="./borderLine"
+                        type="radio"
+                        value="off"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <on
+                                jcr:primaryType="nt:unstructured"
+                                text="On"
+                                value="on"/>
+                            <off
+                                jcr:primaryType="nt:unstructured"
+                                text="Off"
+                                value="off"/>
+                        </options>
+                    </borderLine>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

@@ -1,0 +1,31 @@
+.news-article {
+  h1 {
+    color: $primary-color;
+    font-weight: bold;
+    font-size: rem-calc(18);
+    margin-bottom: rem-calc(15);
+  }
+  .description{
+    color: $primary-color;
+    font-style: italic;
+    font-weight: bold;
+  }
+  .contact-field{
+    margin-bottom: 0;
+    p {
+        margin-bottom: 0;
+    }
+  }
+  .release-state{
+    color: $primary-color;
+    font-size: rem-calc(14);
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  .news-end{
+    text-align: center;
+  }
+  div{
+    margin-bottom: rem-calc(15);
+  }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Breadcrumb Details">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <hidden
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="false"
+                        fieldLabel="Hide Breadcrumb?"
+                        name="./isHidden"
+                        xtype="selection"
+                        type="checkbox">
+                    </hidden>
+                    <breadcrumb-root
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="This field will determine the first item of the breadcrumb for this page"
+                        fieldLabel="Breadcrumb Root"
+                        name="./breadcrumbRoot"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <root
+                                jcr:primaryType="nt:unstructured"
+                                text="GSUSA root"
+                                value="root"/>
+                            <topic
+                                jcr:primaryType="nt:unstructured"
+                                text="Topic"
+                                value="topic"/>
+                            <sub-topic
+                                jcr:primaryType="nt:unstructured"
+                                text="Sub Topic"
+                                value="subTopic"/>
+                        </options>
+                    </breadcrumb-root>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

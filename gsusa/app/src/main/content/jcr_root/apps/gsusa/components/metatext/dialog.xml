@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Metatext"
+    width="{Long}1000"
+    height="{Long}500"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <meta-property
+                        allowBlank="{Boolean}false"
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Metadata Property Name"
+                        fieldDescription="The metadata properties to be displayed, separated by comma. Properties listed here will be inspected one by one, until a non-empty value is found."
+                        name="./metaProperty"/>
+                    <tagName
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Tag Name"
+                        fieldDescription="Default to 'p' tag. Override the surrounding HTML tag here. e.g. h1"
+                        name="./tagName"/>
+                    <dateFormat
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Date Format"
+                        fieldDescription="The display format of dates. e.g. MMMM dd, yyyy. Leave this field blank of this is not a date property."
+                        name="./dateFormat"/>
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Override Text"
+                        fieldDescription="This text will be displayed if not empty. However, updating this field will not update the metadata of this page. Go to scaffolding mode to update page metadata."
+                        name="./text"
+                        xtype="richtext">
+                        <rtePlugins jcr:primaryType="nt:unstructured">
+                            <links jcr:primaryType="nt:unstructured">
+                                <linkDialogConfig
+                                    jcr:primaryType="nt:unstructured"
+                                    height="{Long}316">
+                                    <linkAttributes jcr:primaryType="cq:WidgetCollection">
+                                        <linkAdvanced
+                                            jcr:primaryType="cq:Widget"
+                                            collapsed="{Boolean}true"
+                                            collapsible="{Boolean}true"
+                                            inputValue="advanced"
+                                            name="./linkdialog/cq:adhocLinkTrackingTab"
+                                            title="Link tracking"
+                                            xtype="dialogfieldset">
+                                            <items jcr:primaryType="cq:WidgetCollection">
+                                                <enable
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="enabletracking"
+                                                    fieldDescription="override analytics framework settings"
+                                                    fieldLabel="Custom link tracking"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+                                                    xtype="checkbox">
+                                                    <listeners
+                                                        jcr:primaryType="nt:unstructured"
+                                                        check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+                                                </enable>
+                                                <events
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevents"
+                                                    fieldDescription="e.g.: event2, event7"
+                                                    fieldLabel="Include SiteCatalyst events"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvents"
+                                                    xtype="textfield"/>
+                                                <evars
+                                                    jcr:primaryType="nt:unstructured"
+                                                    attribute="adhocevars"
+                                                    fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+                                                    fieldLabel="Include SiteCatalyst variables"
+                                                    name="./linkdialog/cq:adhocLinkTrackingEvars"
+                                                    xtype="textfield"/>
+                                            </items>
+                                        </linkAdvanced>
+                                    </linkAttributes>
+                                </linkDialogConfig>
+                            </links>
+                            <justify
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                                <h3
+                                	jcr:primaryType="nt:unstructured"
+                                	description="Header 3"
+                                	tag="h3"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        </rtePlugins>
+                    </text>
+                    <isRichTextFlag
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./textIsRich"
+                        value="true"
+                        xtype="hidden"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

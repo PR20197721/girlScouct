@@ -1,0 +1,48 @@
+.search.section {
+  form {
+    margin: rem-calc(20 0);
+    input[type="text"] {
+      @include grid-column(20);
+    }
+    .button {
+      padding-top: rem-calc(7);
+      padding-bottom: rem-calc(8);
+      @include grid-column(3, $float:right);
+    }
+  }
+  .search-row {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    h5 {
+      margin: 0;
+    }
+    .icon {
+      float: left;
+      display: inline-block;
+      width: rem-calc(16);
+      height: rem-calc(16);
+      margin-top: rem-calc(3);
+      margin-right: rem-calc(5);
+    }
+  }
+
+  .search-page {
+    list-style: none;
+    text-align: center;
+    margin-left: 0;
+    li {
+      display: inline-block;
+      vertical-align: -20%;
+      padding: rem-calc(6);
+      @media #{$small-only} {
+      	padding: rem-calc(1);
+      }
+    }
+    .currentPageNo {
+      font-weight: bold;
+      font-size: rem-calc(25);
+      color: $primary-color;
+    }
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="sling:Folder"
+    jcr:title="Max Length 2000"
+    sling:resourceType="foundation/components/form/constraint"
+    constraintMessage="The maximum characters of this field is 2000."
+    hint="Validates the field to have a max length of 2000"/>
