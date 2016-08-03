@@ -123,8 +123,9 @@
     		  Tag temp = li.next();
     		  cats += temp.getName() + ",";
     	  }
-
-	      StringTokenizer t = new StringTokenizer(cats, ",");
+       %>
+       <p>Hello, <%= cats %></p>
+	 <%     StringTokenizer t = new StringTokenizer(cats, ",");
 
 	      while( t.hasMoreElements() ){
 
@@ -246,7 +247,7 @@
                     </div>
                 </div>
                 <div class="column small-24 medium-12">
-                    <div class="vtk-meeting-filter_title"><span>2.</span> Select the type of meeting plan you want</div>
+                    <div class="vtk-meeting-filter_title"><span>2.</span> Select the type of meeting plan you want </div>
                     <div id="vtk-meeting-group-type" class="row">
 
     <!--  carlos 2 end  -->
@@ -281,6 +282,7 @@
                     <div id="vtk-meeting-group-categories" class="row">
 
       <!--  end carlos 3  -->
+
         <%
         java.util.Iterator itrCats= mCats.keySet().iterator();
         while( itrCats.hasNext()){
@@ -617,11 +619,11 @@
             if(!meeting.getLevel().equals(currentLevel)){
                 currentLevel=meeting.getLevel();
 %>
-                <div class="meeting-age-separator small-24 column">
+                <!--<div class="meeting-age-separator small-24 column">
                     <%= meeting.getLevel() %>
-                </div>
+                </div>-->
 <%
-            }
+           }
 %>
             <div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
             <%
@@ -640,12 +642,24 @@
             ">
                 <div class="row">
                     <div class="column small-24 medium-16">
+                                            <div style="display:table;min-height:110px">
+
+
+                       <div style="display:table-cell;height:inherit;vertical-align:middle;">
                           <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
-                          </p>
+                         <!--<p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                          </p>-->
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                     </div>
+                    </div>
+                    </div>
                      <div class="column small-24 medium-4">
+                       <div style="display:table;min-height:110px">
+
+
+                       <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
+
+
                           <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
                   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
@@ -656,8 +670,14 @@
                          <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
                     <%} %>
                 <% }%>
+
+                          </div>
+                         </div>
                     </div>
                      <div class="column small-24 medium-4">
+                                    <div style="display:table;;min-height:110px">
+                       <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
+
                          <%
                 try {
                     String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
@@ -668,6 +688,8 @@
                         e.printStackTrace();
                     }
                 %>
+                </div>
+                                    </div>
 
                     </div>
                 </div>
