@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:keywords="[would like you to join us]"
+        cq:lastModified="{Date}2014-04-03T09:28:11.379-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T15:03:27.545-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Cookie Skills Translate to Life Skills"
+        jcr:uuid="3f30001f-2483-4064-976f-0ee2e6e8cc2f"
+        sling:resourceType="girlscouts/components/news-page"
+        date="{Date}2014-04-02T16:39:23.876-04:00"
+        description="Almost everyone knows Girl Scouts Cookies, but some don't realize that the Girl Scout Cookie Program is the largest girl-run business in the world. Through learning by earning, Girl Scouting aims...">
+        <image
+            jcr:lastModified="{Date}2014-04-03T09:13:39.345-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/image"
+            fileReference="/content/dam/girlscouts-shared/en/news/2013/small-scout.png"
+            imageRotate="0"/>
+        <title
+            jcr:lastModified="{Date}2014-04-03T09:16:57.172-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Title"
+            sling:resourceType="foundation/components/title"/>
+        <text
+            jcr:lastModified="{Date}2014-04-03T09:28:11.348-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/text"
+            text="&lt;p>&lt;p>&lt;p>&lt;p>&lt;p>The theme for 2014 is Discover, Connect, Take Action: Girls Change the World, and we’re looking forward to coming together in beautiful Salt Lake City for what promises to be an amazing time of learning, reconnecting, and rebuilding. We would like you to join us.&lt;/p>&#xa;&lt;p>Imagine, as a delegate, returning home from Salt Lake City with a unified vision of the Girl Scout Movement that you helped shape! Returning with an understanding of the tools and techniques we can all use to advance our Movement; and with the goal of continuing the national dialogue throughout your elected term to build future convention experiences. &lt;/p>&#xa;&lt;/p>&#xa;&lt;/p>&#xa;&lt;/p>&#xa;&lt;/p>&#xa;"
+            textIsRich="true"/>
+    </jcr:content>
+</jcr:root>

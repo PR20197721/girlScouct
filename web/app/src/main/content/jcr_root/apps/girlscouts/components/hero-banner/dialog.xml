@@ -88,7 +88,7 @@
             </tab1>
             <first-spring-board
                 jcr:primaryType="cq:Panel"
-                title="First Spring Broad Component">
+                title="First Spring Board Component">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <first-sb-title
                         jcr:primaryType="cq:Widget"
@@ -122,7 +122,7 @@
             </first-spring-board>
             <second-spring-board
                 jcr:primaryType="cq:Panel"
-                title="Second Spring Broad Component">
+                title="Second Spring Board Component">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <second-sb-title
                         jcr:primaryType="cq:Widget"

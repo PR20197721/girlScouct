@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:created="{Date}2014-04-02T13:15:16.782-04:00"
+    jcr:createdBy="admin"
+    jcr:description="Maven Multimodule project for Girl Scouts USA."
+    jcr:lastModified="{Date}2014-04-02T13:15:16.782-04:00"
+    jcr:lastModifiedBy="admin"
+    jcr:primaryType="vlt:PackageDefinition"
+    buildCount="1"
+    builtWith="Adobe CQ-5.6.0.20130125"
+    group="GirlScouts"
+    lastUnwrapped="{Date}2014-04-02T13:15:16.782-04:00"
+    lastUnwrappedBy="admin"
+    lastWrapped="{Date}2014-04-02T13:15:16.782-04:00"
+    lastWrappedBy="admin"
+    name="girlscouts-content"
+    version="2.0-SNAPSHOT">
+    <thumbnail.png/>
+    <filter jcr:primaryType="nt:unstructured">
+        <f0
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/content/girlscouts-usa"
+            rules="[]"/>
+        <f1
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/content/dam/girlscouts-shared"
+            rules="[]"/>
+        <f2
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/etc/tags/girlscouts"
+            rules="[]"/>
+        <f3
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/etc/projects/girlscouts"
+            rules="[]"/>
+        <f4
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/home/groups/c/content-authors"
+            rules="[]"/>
+        <f5
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/home/users/girlscouts"
+            rules="[]"/>
+        <f6
+            jcr:primaryType="rep:AuthorizableFolder"
+            mode="merge"
+            root="/home/groups/girlscouts-usa/girlscouts-usa-reviewers"
+            rules="[]"/>
+    </filter>
+</jcr:root>

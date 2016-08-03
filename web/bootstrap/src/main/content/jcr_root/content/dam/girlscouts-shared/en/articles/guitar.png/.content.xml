@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}true"
+    jcr:mixinTypes="[mix:versionable]"
+    jcr:primaryType="dam:Asset"
+    jcr:uuid="cc358e4f-b894-4c14-b017-3e85a40df541">
+    <jcr:content
+        cq:name="guitar.png"
+        cq:parentPath="/content/dam/girlscouts-shared/en/articles"
+        jcr:lastModified="{Date}2014-04-24T18:47:18.296-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent"
+        restored="{Boolean}true">
+        <metadata
+            dam:Bitsperpixel="{Long}32"
+            dam:Comments="Software: Adobe ImageReady&#xa;XML:com.adobe.xmp: &lt;?xpacket begin=&quot;﻿&quot; id=&quot;W5M0MpCehiHzreSzNTczkc9d&quot;?> &lt;x:xmpmeta xmlns:x=&quot;adobe:ns:meta/&quot; x:xmptk=&quot;Adobe XMP Core 5.3-c011 66.145661, 2012/02/06-14:56:27        &quot;> &lt;rdf:RDF xmlns:rdf=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#&quot;> &lt;rdf:Description rdf:about=&quot;&quot; xmlns:xmpMM=&quot;http://ns.adobe.com/xap/1.0/mm/&quot; xmlns:stRef=&quot;http://ns.adobe.com/xap/1.0/sType/ResourceRef#&quot; xmlns:xmp=&quot;http://ns.adobe.com/xap/1.0/&quot; xmpMM:DocumentID=&quot;xmp.did:7E722E7CAF7D11E3B2FDCD405E5B35FE&quot; xmpMM:InstanceID=&quot;xmp.iid:7E722E7BAF7D11E3B2FDCD405E5B35FE&quot; xmp:CreatorTool=&quot;Adobe Acrobat 11.0.6&quot;> &lt;xmpMM:DerivedFrom stRef:instanceID=&quot;uuid:1d49f39c-4abe-d44d-9a04-af3c3e2ee008&quot; stRef:documentID=&quot;uuid:1584eb7a-ea3f-8f43-9640-08d8e01dbcb2&quot;/> &lt;/rdf:Description> &lt;/rdf:RDF> &lt;/x:xmpmeta> &lt;?xpacket end=&quot;r&quot;?>&#xa;"
+            dam:extracted="{Date}2014-04-24T18:47:12.409-04:00"
+            dam:Fileformat="PNG"
+            dam:MIMEtype="image/png"
+            dam:Numberofimages="{Long}1"
+            dam:Numberoftextualcomments="{Long}2"
+            dam:Physicalheightindpi="{Long}-1"
+            dam:Physicalheightininches="{Double}-1.0"
+            dam:Physicalwidthindpi="{Long}-1"
+            dam:Physicalwidthininches="{Double}-1.0"
+            dam:Progressive="no"
+            dam:sha1="ce55f5c1dcea9737c95f292d6f8f75d3e3e3e7a7"
+            dam:size="{Long}702522"
+            dc:format="image/png"
+            dc:modified="{Date}2014-04-24T18:47:12.045-04:00"
+            jcr:lastModified="{Date}2014-04-24T18:47:12.044-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            tiff:ImageLength="{Long}566"
+            tiff:ImageWidth="{Long}1000"
+            xmp:CreatorTool="Adobe Acrobat 11.0.6"
+            xmpMM:DocumentID="xmp.did:7E722E7CAF7D11E3B2FDCD405E5B35FE"
+            xmpMM:InstanceID="xmp.iid:7E722E7BAF7D11E3B2FDCD405E5B35FE">
+            <xmpMM:DerivedFrom
+                jcr:primaryType="nt:unstructured"
+                stRef:documentID="uuid:1584eb7a-ea3f-8f43-9640-08d8e01dbcb2"
+                stRef:instanceID="uuid:1d49f39c-4abe-d44d-9a04-af3c3e2ee008"
+                newRendition="{Boolean}true"/>
+        </metadata>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>

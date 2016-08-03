@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+    cq:lastModified="{Date}2014-05-08T15:33:36.196-04:00"
+    cq:lastModifiedBy="admin"
+    jcr:mixinTypes="[rep:AccessControllable]"
+    jcr:primaryType="rep:User"
+    jcr:uuid="7b82af3d-654c-38db-85b0-713616ead761"
+    rep:password="\{SHA-256}c09b989036553278-1000-b2a937c34deeea14c616d9efbd72404c28d5f2b4360671675f7c1f2b22831af6"
+    rep:principalName="mzou">
+    <preferences
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq:Preferences"/>
+    <profile
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq/security/components/profile"
+        email="mzou@northps.com"
+        familyName="Zou"
+        givenName="Mike"/>
+</jcr:root>

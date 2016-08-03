@@ -140,8 +140,9 @@ function toggleWhiteArrow() {
 	   <div class="title"> By Program Level </div>
 	    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 	        <%
-	         List programLevel = facetsAndTags.get("program-level");
+	         
 	        try {
+		        List programLevel = facetsAndTags.get("program-level");
 		        for(int pi=0; pi<programLevel.size(); pi++){
 		            FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
 		            %> 
@@ -160,8 +161,9 @@ function toggleWhiteArrow() {
 		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 	<%
 	    // Get the categories
-		List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+		
 		try{
+			List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
 			for (FacetsInfo facetsInfo: facetsInfoList) {
 	%>
 	    	<li>

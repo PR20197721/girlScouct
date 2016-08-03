@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Freda Bradstreet"
+        email="name@council.org"
+        hideInNav="{Boolean}true"
+        phone="789-901-1234"
+        team="Girl &amp; Adult Development"
+        title="Adult Education Assistant"/>
+</jcr:root>

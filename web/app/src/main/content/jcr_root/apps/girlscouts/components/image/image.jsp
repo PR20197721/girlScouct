@@ -17,7 +17,7 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
+    org.girlscouts.web.gsusa.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
     Image image = new Image(resource);
     image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
@@ -27,7 +27,7 @@
     image.loadStyleData(currentStyle);
     image.setSelector(".img"); // use image script
     image.setDoctype(Doctype.fromRequest(request));
-
+    
 	Boolean newWindow = properties.get("./newWindow", false);
 
     // add design information if not default (i.e. for reference paras)

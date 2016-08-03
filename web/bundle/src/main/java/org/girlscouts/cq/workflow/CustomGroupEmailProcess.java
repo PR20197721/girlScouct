@@ -33,10 +33,10 @@ import com.day.cq.commons.Externalizer;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
-import com.day.cq.security.Authorizable;
-import com.day.cq.security.User;
-import com.day.cq.security.UserManager;
-import com.day.cq.security.Group;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+import org.apache.jackrabbit.api.security.user.User;
+import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.jackrabbit.api.security.user.Group;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
@@ -240,17 +240,16 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 		try {
 			UserManager manager = (UserManager) resolver
 					.adaptTo(UserManager.class);
-			Group group = (Group) manager.findByHome("/home/groups/"
-					+ councilGroup + "/" + reviewerGroup);
+			Group group = (Group) manager.getAuthorizable(reviewerGroup);
 			log.error("/home/groups/" + councilGroup + "/" + reviewerGroup);
 			if (group == null) {
 				log.error("Reviewer group does not exist under correct naming conventions."
 						+ " Cannot send emails to reviewers");
 			} else {
-				Iterator<Authorizable> iter = group.members();
+				Iterator<Authorizable> iter = group.getMembers();
 				while (iter.hasNext()) {
 					User user = (User) iter.next();
-					emailAddresses.add(user.getProperty("profile/email"));
+					emailAddresses.add(user.getProperty("profile/email")[0].getString());
 				}
 			}
 		} catch (Exception e) {

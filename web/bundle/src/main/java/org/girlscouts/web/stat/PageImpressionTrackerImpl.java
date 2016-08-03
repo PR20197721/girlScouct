@@ -27,7 +27,7 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.cq.social.commons.AsyncReverseReplicator;
+//import com.adobe.cq.social.commons.AsyncReverseReplicator;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.statistics.StatisticsService;
 import com.day.cq.wcm.api.PageManager;
@@ -73,8 +73,8 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     @Reference
     private SlingSettingsService settingsService;
     
-    @Reference
-    private AsyncReverseReplicator replicator;
+   // @Reference
+    //private AsyncReverseReplicator replicator;
     
     @Reference
     private StatisticsService statisticsService;
@@ -144,7 +144,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		    Node statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
 		    statNode.setProperty(STAT_PROPERTY, mapValueStr); 
 		    session.save();
-		    replicator.reverseReplicate(statNodePath);
+		    //replicator.reverseReplicate(statNodePath);
 		}
 	    } else {
 		// Authoring
