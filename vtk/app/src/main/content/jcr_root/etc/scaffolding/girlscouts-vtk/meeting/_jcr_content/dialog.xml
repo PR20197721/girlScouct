@@ -68,11 +68,63 @@
                     fieldLabel="Blurb"
                     allowBlank="{Boolean}false"
                     name="./blurb"/>
+                <meetingPlanType
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Meeting Plan Type"
+                    name="./meetingPlanType"
+                    type="radiogroup"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <badges_petals
+                            jcr:primaryType="nt:unstructured"
+                            text="Badges/Petals"
+                            value="BadgesPetals"/>
+                        <journey
+                            jcr:primaryType="nt:unstructured"
+                            text="Journey"
+                            value="Journey"/>
+                        <award_earning
+                            jcr:primaryType="nt:unstructured"
+                            text="Award Earning"
+                            value="AwardEarning"/>
+                        <intro
+                            jcr:primaryType="nt:unstructured"
+                            text="Intro"
+                            value="Intro"/>
+                        <closing
+                            jcr:primaryType="nt:unstructured"
+                            text="Closing"
+                            value="Closing"/>
+                        <bridging
+                            jcr:primaryType="nt:unstructured"
+                            text="Bridging"
+                            value="Bridging"/>
+                    </options>
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('tagsField1'); console.info(tagsField1); var tagsField2 = panel.getComponent('tagsField2'); if (val === 'BadgesPetals') { tagsField1.show();tagsField1.enable(); var currentTags2 = tagsField2.getTags(); for(var i =0;i &lt; currentTags2.length;i++) {tagsField2.removeTag(currentTags2[i].tagID); }tagsField2.disable(); } else if (val === 'Journey') {tagsField2.show();tagsField2.enable(); var currentTags1 = tagsField1.getTags(); for(var i =0;i &lt; currentTags1.length;i++) {tagsField1.removeTag(currentTags1[i].tagID); } tagsField1.disable(); } else {tagsField1.disable();tagsField2.disable(); var currentTags1 = tagsField1.getTags(); var currentTags2 = tagsField2.getTags();for(var i =0;i &lt; currentTags1.length;i++) {tagsField1.removeTag(currentTags1[i].tagID); } for(var i =0;i &lt; currentTags2.length;i++) {tagsField2.removeTag(currentTags2[i].tagID); }}}"/>
+                </meetingPlanType>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     allowBlank="{Boolean}false"
                     name="./cat"/>
+                <catTags1
+	                jcr:primaryType="cq:Widget"
+	                allowBlank="{Boolean}true"
+	                fieldLabel="Catgetory (Badges/Petal)"
+	                name="./catTags"
+	                xtype="tags"
+	                itemId="tagsField1"
+	                namespaces="[girlscouts-vtk-meeting-badge-petal]"/>
+	            <catTags2
+	                jcr:primaryType="cq:Widget"
+	                allowBlank="{Boolean}true"
+	                fieldLabel="Catgetory (Journey)"
+	                name="./catTags"
+	                xtype="tags"
+	                itemId="tagsField2"
+	                namespaces="[girlscouts-vtk-meeting-journey]"/>
                 <aidTags
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Aid Tags"

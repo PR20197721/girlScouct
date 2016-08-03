@@ -55,7 +55,7 @@ html {
   font-size: 1em; /* or can be 100% since it's browser's default size 16px*/
 }
 body {
-  background-color: #6b6b6b;
+  background-color: #EEEEEF;
   font-family: "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
@@ -1576,4 +1576,25 @@ div.textimage div.image {
 
 .breaking-news .inner-wrapper a {
     color: white;
+}
+
+.search-page {
+    list-style: outside none none;
+    margin-left: 0;
+    text-align: center;
+}
+.search-page li {
+    display: inline-block;
+    padding: 0.375rem;
+    vertical-align: -20%;
+}
+.search-page .currentPageNo {
+    color: #00ae58;
+    font-size: 1.5625rem;
+    font-weight: bold;
+}
+@media only screen and (max-width: 48em) {
+	.search-page li {
+	    padding: 0.0625rem;
+	}
 }
