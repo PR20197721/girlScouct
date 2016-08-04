@@ -11,11 +11,11 @@ java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.r
 <cq:setContentBundle source="page" />
 
 <%!
-public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
+public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
     Map mapFullText = new HashMap();
     //-mapFullText.put("group.p.or","true");
     mapFullText.put("fulltext", escapedQuery);
-    mapFullText.put("type", pType);//"dam:Asset");//
+    //mapFullText.put("type", pType);//"dam:Asset");//
     mapFullText.put("path",path);
     mapFullText.put("group.1_fulltext.relPath", "jcr:content");
     mapFullText.put("p.limit","-1");
@@ -23,45 +23,9 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
     mapFullText.put("boolproperty.value","false");
 
 
-    //-mapFullText.put("type","cq:Page");
-    /*mapFullText.put("group.2_fulltext", escapedQuery);
-    mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
-    mapFullText.put("group.3_fulltext", escapedQuery);
-    mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
-    mapFullText.put("group.4_fulltext", escapedQuery);
-    mapFullText.put("group.4_fulltext.relPath", "jcr:content/@cq:name");
-    mapFullText.put("group.5_fulltext", escapedQuery);
-    mapFullText.put("group.5_fulltext.relPath", "jcr:content/metadata/@dc:title");
-    mapFullText.put("group.6_fulltext", escapedQuery);
-    mapFullText.put("group.6_fulltext.relPath", "jcr:content/metadata/@pdf:Title");
-    mapFullText.put("group.7_fulltext", escapedQuery);
-  mapFullText.put("group.7_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description*/
-
-  
-  /* good
-    PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-    Map master = new HashMap();
-    
-System.err.println("test path 1 : "+ path); 
-    master.put("path",path);
-    master.put("type","nt:hierarchyNode" );
-    master.put("boolproperty","jcr:content/hideInNav");
-    master.put("boolproperty.value","false");
-    //mapFullText.put("type","cq:Page");
-    //--master.put("p.limit","-1");
-    //---master.put("orderby","type");
-    PredicateGroup pg=PredicateGroup.create(master);
-    pg.add(predicateFullText);
-    Query query = queryBuilder.createQuery(pg,session);
-System.out.println("test: "+pg.toString());
-*/
-
 PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 Query query = queryBuilder.createQuery(predicateFullText,session);
 System.out.println("test: "+predicateFullText.toString());
-
-
-
 
     query.setExcerpt(true);
     return query.getResult().getHits(); 
@@ -105,8 +69,8 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8")));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 %>
