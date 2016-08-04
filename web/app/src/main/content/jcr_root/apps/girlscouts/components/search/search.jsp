@@ -11,11 +11,11 @@ java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.r
 <cq:setContentBundle source="page" />
 
 <%!
-public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
+public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
     Map mapFullText = new HashMap();
     //-mapFullText.put("group.p.or","true");
     mapFullText.put("fulltext", escapedQuery);
-    mapFullText.put("type", pType);//"dam:Asset");//
+    //mapFullText.put("type", pType);//"dam:Asset");//
     mapFullText.put("path",path);
     mapFullText.put("group.1_fulltext.relPath", "jcr:content");
     mapFullText.put("p.limit","-1");
@@ -90,8 +90,8 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8")));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
 
 
