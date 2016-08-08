@@ -11,21 +11,58 @@ java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.r
 <cq:setContentBundle source="page" />
 
 <%!
-public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery){
+public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
     Map mapFullText = new HashMap();
     //-mapFullText.put("group.p.or","true");
     mapFullText.put("fulltext", escapedQuery);
-    //mapFullText.put("type", pType);//"dam:Asset");//
+    mapFullText.put("type", pType);//"dam:Asset");//
     mapFullText.put("path",path);
     mapFullText.put("group.1_fulltext.relPath", "jcr:content");
     mapFullText.put("p.limit","-1");
     mapFullText.put("boolproperty","jcr:content/hideInNav");
     mapFullText.put("boolproperty.value","false");
 
-	PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-	Query query = queryBuilder.createQuery(predicateFullText,session);
-	System.out.println("test: "+predicateFullText.toString());
-	
+
+    //-mapFullText.put("type","cq:Page");
+    /*mapFullText.put("group.2_fulltext", escapedQuery);
+    mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
+    mapFullText.put("group.3_fulltext", escapedQuery);
+    mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
+    mapFullText.put("group.4_fulltext", escapedQuery);
+    mapFullText.put("group.4_fulltext.relPath", "jcr:content/@cq:name");
+    mapFullText.put("group.5_fulltext", escapedQuery);
+    mapFullText.put("group.5_fulltext.relPath", "jcr:content/metadata/@dc:title");
+    mapFullText.put("group.6_fulltext", escapedQuery);
+    mapFullText.put("group.6_fulltext.relPath", "jcr:content/metadata/@pdf:Title");
+    mapFullText.put("group.7_fulltext", escapedQuery);
+  mapFullText.put("group.7_fulltext.relPath", "jcr:content/metadata/@dc:description"); // search description*/
+
+  
+  /* good
+    PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+    Map master = new HashMap();
+    
+System.err.println("test path 1 : "+ path); 
+    master.put("path",path);
+    master.put("type","nt:hierarchyNode" );
+    master.put("boolproperty","jcr:content/hideInNav");
+    master.put("boolproperty.value","false");
+    //mapFullText.put("type","cq:Page");
+    //--master.put("p.limit","-1");
+    //---master.put("orderby","type");
+    PredicateGroup pg=PredicateGroup.create(master);
+    pg.add(predicateFullText);
+    Query query = queryBuilder.createQuery(pg,session);
+System.out.println("test: "+pg.toString());
+*/
+
+PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+Query query = queryBuilder.createQuery(predicateFullText,session);
+System.out.println("test: "+predicateFullText.toString());
+
+
+
+
     query.setExcerpt(true);
     return query.getResult().getHits(); 
 }
@@ -50,28 +87,6 @@ if (null==searchIn){
     searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-
-if(q == null) q = "[[empty search criteria]]";
-if(q.length() <= 2) q = "[[too short search criteria]]";
-
-// pagination init
-String start = request.getParameter("start");
-if (start == null) start = "1";
-if (start.length() == 0) start = "1";
-if (Integer.parseInt(start) < 0) start = "1";
-int pageSize = 10;
-int endIdx = pageSize; //this may change for the last page
-double totalPage = 0;
-int startIdx = 0;
-try {
-	startIdx = Integer.parseInt(start); 
-} catch (NumberFormatException e) {
-	startIdx = 0;
-} 
-int currentPageNo = startIdx/pageSize;
-
-
-
 final String query = java.net.URLEncoder.encode(q != null ? q.replaceAll("[^a-zA-Z0-9]"," ") : "","UTF-8");
 final String escapedQuery = xssAPI.encodeForHTML(q != null ? q.replaceAll("%","%25") : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q.replaceAll("%","%25") : "");
@@ -90,18 +105,9 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8")));
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8")));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 //hits.addAll(getHits(queryBuilder,session,documentLocation,java.net.URLDecoder.decode(escapedQuery, "UTF-8")));
-
-
-String numberOfResults = String.valueOf(hits.size());
-if (startIdx + pageSize > hits.size()) {
-	endIdx = hits.size(); //last page
-} else {
-	endIdx = startIdx + pageSize; //all other page
-}
-totalPage = Math.ceil((double)hits.size()/pageSize);
 
 %>
 <center>
@@ -118,9 +124,9 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-	for(int i = startIdx; i < endIdx ; i++) {
+    for(Hit hit: hits){
         try{
-            DocHit docHit = new DocHit(hits.get(i));
+            DocHit docHit = new DocHit(hit);
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
@@ -149,24 +155,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     }   
 }
 %>
-
-<ul class="search-page">
-    	<%if (currentPageNo != 0) {  %>
-    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
-    	<%}  %>
-    <%for (int i = 0; i < totalPage; i++ ) { 
-    	if (currentPageNo == i) {%>
-    		<li class="currentPageNo"><%= i+1 %></li>
-    	<%} else {%>
-    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li>
-    <%	}
-    }%>
-    <%if (currentPageNo != totalPage-1) {  %>
-    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
-    	<%}  %>
-    </ul>
-    
-    
 <script>
 jQuery('#searchForm').bind('submit', function(event){
     if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === ''){
