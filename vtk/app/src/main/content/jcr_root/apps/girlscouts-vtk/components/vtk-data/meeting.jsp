@@ -17,7 +17,7 @@
 	printProperty(info, "Blurb", "blurb");
 	printProperty(info, "Meeting Plan Type", "meetingPlanType");
 	printProperty(info, "Category", "cat");
-	printProperty(info, "Category (for filter)", "catString");
+	printProperty(info, "Category (for filter)", "catTags");
 	printProperty(info, "Aid Tags", "aidTags");
 	printProperty(info, "Resources", "resources");
 	printProperty(info, "Overview", "meetingInfo/overview/str");
