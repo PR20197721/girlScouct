@@ -102,7 +102,7 @@
                     </options>
                     <listeners
                         jcr:primaryType="nt:unstructured"
-                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('fieldset1'); console.info(tagsField1); var tagsField2 = panel.getComponent('fieldset2'); if (val === 'BadgesPetals') { tagsField1.show();tagsField1.enable(); tagsField2.disable(); } else if (val === 'Journey') {tagsField2.show();tagsField2.enable(); tagsField1.disable(); } else {tagsField1.disable();tagsField2.disable(); }}"/>
+                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('fieldset1'); console.info(tagsField1); var tagsField2 = panel.getComponent('fieldset2'); if (val === 'BadgesPetals') { tagsField1.show();tagsField1.enable(); for(var i =9;i &lt; 11;i++) {tagsField2.getComponent('tagsField' + i).setValue(false); } tagsField2.disable(); } else if (val === 'Journey') {tagsField2.show();tagsField2.enable(); for(var i =0;i &lt; 9;i++) {tagsField1.getComponent('tagsField' + i).setValue(false); } tagsField1.disable(); } else { for(var i =0;i &lt; 9;i++) {tagsField1.getComponent('tagsField' + i).setValue(false); } for(var i =9;i &lt; 11;i++) {tagsField2.getComponent('tagsField' + i).setValue(false); } tagsField1.disable();tagsField2.disable(); }}"/>
                 </meetingPlanType>
                 <cat
                     jcr:primaryType="cq:Widget"
