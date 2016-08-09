@@ -15,7 +15,6 @@
 	}else if( planView.getYearPlanComponent().getType() == YearPlanComponentType.ACTIVITY ){
 		%><%@include file="activity_react2.jsp"%><%
 	}
-	
 %>
 
 

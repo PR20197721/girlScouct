@@ -484,6 +484,7 @@ public class MeetingUtil {
 		// create custom meeting
 		MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(),
 				meetingPath);
+		/*
 		if (meetingE.getRefId().contains("_"))
 			meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
 		else
@@ -491,6 +492,8 @@ public class MeetingUtil {
 
 		troop.getYearPlan().setAltered("true");
 		troopUtil.updateTroop(user, troop);
+		*/
+		createOrUpdateCustomMeeting( user, troop, meetingE, meetingInfo );
 	}
 
 	public MeetingE getMeeting(java.util.List<MeetingE> meetings,
@@ -1439,4 +1442,36 @@ public class MeetingUtil {
 		return meetingDAO.getMeetings(gsYear);
 		}
 		*/
+	
+	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE ) throws IllegalAccessException, VtkException{
+		createOrUpdateCustomMeeting( user, troop, meetingE, meetingE.getMeetingInfo());
+	}
+	
+	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE , Meeting meetingInfo) throws IllegalAccessException, VtkException{
+				
+				/*
+				MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(),
+						meetingPath);
+						*/
+				if (meetingE.getRefId().contains("_"))
+					meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
+				else
+					meetingDAO.createCustomMeeting(user, troop, meetingE, meetingInfo);
+
+				troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
+	}
+	
+	public boolean updateActivityOutdoorStatus(User user, Troop troop, MeetingE meetingE, Activity activity, boolean isOutdoor) throws IllegalAccessException, VtkException{
+		boolean isUpdated= false;
+		for(int i=0;i<meetingE.getMeetingInfo().getActivities().size();i++){
+			if( activity.getUid().equals( meetingE.getMeetingInfo().getActivities().get(i).getUid()) ){
+				meetingE.getMeetingInfo().getActivities().get(i).setIsOutdoor(isOutdoor);
+				createOrUpdateCustomMeeting(user, troop, meetingE );
+				isUpdated=true;
+			}
+		}	
+		return isUpdated;
+	}
+	
 }// edn class

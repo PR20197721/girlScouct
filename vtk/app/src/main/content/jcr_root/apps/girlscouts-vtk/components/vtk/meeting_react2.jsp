@@ -690,7 +690,10 @@ console.log(33);
 
 
                       React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"},
+                    		  React.createElement(Outdoor,{item:item}),
                         React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
+                        
+                        
                       ),
                         React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"},
                         React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
@@ -830,6 +833,32 @@ console.log(33);
            }
        }
      });
+
+   
+
+   var Outdoor = React.createClass({displayName: "Outdoor",
+       
+                  render: function() {
+                      
+                   if( this.props.item.isOutdoor ){  
+                   
+                        return (
+                            React.createElement('a',{ href:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'}, "Outdoor")
+                            
+                        );
+                    }else if(this.props.item.isOutdoorAvailable){
+                        
+                        return (
+                                React.createElement('a', { href:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'}, "OutdoorAvailable")
+                            );
+                    }else{
+                        
+                        return (
+                                React.createElement("span", "")
+                            );
+                    }
+                  }
+                });
 
 
   function getAgendaTotalTime(x){

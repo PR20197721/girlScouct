@@ -197,6 +197,12 @@
  %>
 
   </script>
+  
+  
+  
+  <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+      <input type="hidden" name="addMeetings" value="true" />
+      
   <div class="scroll" style="">
     <div class="content meeting-library row">
       <p class="instruction columns small-24"><%= instruction %></p>
@@ -662,6 +668,7 @@
 
 
                           <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                           <div style="background-color:yellow;"><input type="checkbox" name="addMeetingMulti" value="<%=meeting.getPath()%>"/>Add</div>
                   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
@@ -748,6 +755,7 @@
                 </td>
               <td>
                 <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+               <div style="background-color:yellow;"><input type="checkbox" name="addMeetingMulti" value="<%=meeting.getPath()%>"/>Add</div>
                   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
@@ -780,6 +788,9 @@
     <!--</div>-->
   </div>
 
+ <input type="submit" value="Add multi meetings"/>
+      <br/><br/><br/><br/><br/>
+</form>
 <script>
     function doFilter(clickSrc){
 
