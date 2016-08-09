@@ -1,13 +1,10 @@
 package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
+import javax.persistence.*;
 
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-
-@Node
+@Entity
+@Table(name="Meeting")
 public class Meeting extends YearPlanComponent implements Serializable {
 
 	public Meeting() {
@@ -15,32 +12,24 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.position= 0;
 	}
 	
-	@Field(path = true)
+	@Transient
 	String path;
-	@Field
-	private String id, name;
-	@Field
-	private String level, blurb, cat;
-	@Field
-	private String aidTags, resources, agenda;
-	@Field
-	private Integer position=0;
-	@Field private Boolean isAchievement; 
-
 	
-	@Collection
+	@Column
+	private String id, name, level, blurb, cat, aidTags, resources, agenda, meetingPlanType,catTags;
+	
+	@Column
+	private Integer position=0;
+	
+	@Column private Boolean isAchievement; 
+	
+	@OneToMany
 	private java.util.List<Activity> activities;
 
-	@Collection
+	@OneToMany
 	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
-	
-	@Field
-	private String meetingPlanType;
-	
-	
-	@Field
-	private String catTags;
+
 	
 	
 	
@@ -169,15 +158,6 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	public void setCatTags(String catTags) {
 		this.catTags = catTags;
 	}
-
-	
-
-	
-	
-
-	
-
-	
 
 
 

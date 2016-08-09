@@ -115,7 +115,9 @@
           mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
           mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
       }
-      String cats = "";
+      String cats = meeting.getCatTags();
+      if( cats!=null){
+      /*
       List<Tag> catList= meeting.getCatTags();
       if( catList!=null ){
     	  ListIterator<Tag> li = catList.listIterator();
@@ -123,9 +125,8 @@
     		  Tag temp = li.next();
     		  cats += temp.getName() + ",";
     	  }
-       %>
-       <p>Hello, <%= cats %></p>
-	 <%     StringTokenizer t = new StringTokenizer(cats, ",");
+    	  */
+       StringTokenizer t = new StringTokenizer(cats, ",");
 
 	      while( t.hasMoreElements() ){
 
@@ -647,8 +648,8 @@
 
                        <div style="display:table-cell;height:inherit;vertical-align:middle;">
                           <p class="title"><%=meeting.getName()%></p>
-                         <!--<p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
-                          </p>-->
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                          </p>
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                     </div>
                     </div>
@@ -734,20 +735,14 @@
             }
 
 
-            String catsString = "";
-            if (meeting.getCatTags() !=null) {
-	            ListIterator<Tag> lii = meeting.getCatTags().listIterator();
-		      	while (lii.hasNext()) {
-		      		catsString += lii.next().getName() + ",";
-		      	}
-            }
+            
 
             %>
             ">
                 <td>
                         <p class="title"><%=meeting.getName()%></p>
 
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=catsString %>
+                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
                           </p>
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                 </td>
