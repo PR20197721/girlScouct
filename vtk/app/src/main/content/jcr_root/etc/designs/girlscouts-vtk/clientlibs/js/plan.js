@@ -1657,46 +1657,59 @@ var initNotes = (function (global, ModalVtk, $) {
                             },
                             text: 'i'
                         },
+                        'a-2': {
+                            attr: {
+                                href: '#'
+                            },
+                            class: 'format-buttom format-underline',
+                            data: {
+                                command: 'underline'
+                            },
+                            events: {
+                                click: editor.applyFormat
+                            },
+                            text: 'U'
+                        },
 
-                        'a-3': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-p',
-                            data: {
-                                command: 'p'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'P'
-                        },
-                        'a-4': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-h',
-                            data: {
-                                command: 'h1'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'H1'
-                        },
-                        'a-5': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-h',
-                            data: {
-                                command: 'h2'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'H2'
-                        }
+                        // 'a-3': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-p',
+                        //     data: {
+                        //         command: 'p'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'P'
+                        // },
+                        // 'a-4': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-h',
+                        //     data: {
+                        //         command: 'h1'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'H1'
+                        // },
+                        // 'a-5': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-h',
+                        //     data: {
+                        //         command: 'h2'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'H2'
+                        // }
                     }
 
                 }

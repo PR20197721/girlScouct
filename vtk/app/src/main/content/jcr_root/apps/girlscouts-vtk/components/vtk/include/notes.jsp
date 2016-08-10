@@ -39,18 +39,46 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
             <div class="add-note">
                 <i class="icon-speech-bubbles"></i> Add A Note
             </div>
-            <div class="add-note-detail" style="display:none">
-                <div class="input-note">
-                    <div class="input-content" contenteditable="true"></div>
-
-                    <div class="note-loading">
-
+            
+              <div class="add-note-detail" style="display:none">
+                  <div class="row">
+                  <div class="small-24 medium-19 columns">
+           
+                    <div class="input-note">
+                        <div class="input-content" contenteditable="true"></div>
+                        <div class="note-loading"></div>
                     </div>
-                </div>
-                 <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
-                    Save
-                 </div>
-            </div>
+                  </div>
+                  <div class="small-24 medium-5 columns">
+                        <p><strong>
+                          <!-- Name -->
+                          <%=user.getApiConfig().getUser().getFirstName()%>
+                        </strong><br>
+                        
+                        <span class="date-here">
+                          --
+                        </span>
+
+
+                        <script>
+                        $(function(){
+                          $('.date-here').html(moment().format('MM/DD/YYYY')) 
+                        })
+
+                        </script>
+                       
+
+                       <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
+                       <i class="icon-save-floppy"></i>
+                     </div>
+                  </div>
+                  </div>
+                    
+              </div>
+
+
+
+            
          </div>
         </div>
 

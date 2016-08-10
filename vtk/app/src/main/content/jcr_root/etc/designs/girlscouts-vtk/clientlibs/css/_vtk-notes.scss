@@ -23,7 +23,7 @@
 .add-note-detail{
 	position: relative;
 
-	border: 1px solid lightgray;
+	// border: 1px solid lightgray;
 	    margin: 0 0px 10px 0px;
 }
 
@@ -44,6 +44,8 @@
 		padding: 5px;
 		font-size: 12px;
 		position: relative;
+		border: 1px solid lightgray;
+		line-height: 16px;
 
 
 		&:focus{
@@ -72,24 +74,23 @@
 			h2{
 				font-size: 16px;
 			}
-
 }
 
 .input-save{
-	position: absolute;
-	bottom:5px;
-	right: 5px;
-	padding: 5px;
+	// position: absolute;
+	// bottom:5px;
+	// right: 5px;
+	// padding: 5px;
 
-	background-color: $green_light;
+	// background-color: $green_light;
 
-	color: white;
-	padding: 10px;
+	color: $green_light;
+	// padding: 10px;
 	cursor: pointer;
 	    z-index: 1000;
 
 	&:hover{
-		background-color: green;
+		color: green;
 	}
 }
 
@@ -258,6 +259,12 @@
 	font-style: italic;
 }
 
+
+.format-underline{
+	text-decoration: underline;
+}
+
+
 .container{
 	    position: relative;
     width: 100%;
@@ -267,7 +274,7 @@
 
 	.vtk-word-counter{
 		bottom: -5px !important;
-    	right: 69px !important;
+    	right: 178px !important;
 	}
 
 	.format{
