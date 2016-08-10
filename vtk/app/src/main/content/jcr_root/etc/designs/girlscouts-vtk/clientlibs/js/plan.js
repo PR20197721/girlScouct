@@ -2058,7 +2058,7 @@ var initNotes = (function (global, ModalVtk, $) {
         var countermain = Object.create(counter);
 
 
-        $('.add-note-detail').append(utility.compileTemplate({
+        $('.add-note-detail_main').append(utility.compileTemplate({
             div: {
                 class: 'container',
                 component: {

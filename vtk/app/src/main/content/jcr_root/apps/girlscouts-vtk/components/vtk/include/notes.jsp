@@ -42,8 +42,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
             
               <div class="add-note-detail" style="display:none">
                   <div class="row">
-                  <div class="small-24 medium-19 columns">
-           
+                  <div class="add-note-detail_main small-24 medium-19 columns" style=" border: 1px solid lightgray;">
                     <div class="input-note">
                         <div class="input-content" contenteditable="true"></div>
                         <div class="note-loading"></div>
