@@ -654,7 +654,7 @@
 
                        <div style="display:table-cell;height:inherit;vertical-align:middle;">
                           <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;">  <%=meeting.getCatTags() %>
+                         <p class="tags" style="color:red;">  <%=meeting.getCatTags()==null ? "" : meeting.getCatTags() %>
                           </p>
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                     </div>
