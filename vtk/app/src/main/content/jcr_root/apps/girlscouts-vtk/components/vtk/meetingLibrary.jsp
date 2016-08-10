@@ -648,7 +648,7 @@
 
                        <div style="display:table-cell;height:inherit;vertical-align:middle;">
                           <p class="title"><%=meeting.getName()%></p>
-                         <p class="tags" style="color:red;"> LEVEL:<%=meeting.getLevel() %> TYPE: <%=meeting.getMeetingPlanType() %> CATS: <%=meeting.getCatTags() %>
+                         <p class="tags" style="color:red;">  <%=meeting.getCatTags() %>
                           </p>
                         <p class="blurb"><%=meeting.getBlurb() %></p>
                     </div>
