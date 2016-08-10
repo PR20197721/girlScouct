@@ -348,7 +348,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 	}
 
 	public Boolean getIsOutdoorAvailable() {
-		return isOutdoorAvailable;
+		return isOutdoorAvailable ==null ? false : isOutdoorAvailable;
 	}
 
 	public void setIsOutdoorAvailable(Boolean isOutdoorAvailable) {

@@ -908,7 +908,13 @@ try{
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
-							((MeetingE) tmp[i]).getMeetingInfo()
+			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
+			  
+			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+			   
+			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setMeetingInfo(null);
@@ -916,7 +922,7 @@ try{
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
-						} catch (Exception e) {
+						} catch (Exception e) {e.printStackTrace();
 	}
 					}
 

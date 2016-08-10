@@ -30,6 +30,7 @@ import org.girlscouts.vtk.ejb.UserUtil;
 import org.girlscouts.vtk.ejb.VtkError;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
@@ -568,5 +569,34 @@ public static void cngYear(HttpServletRequest request, User user, Troop troop){
     
 }
 
+
+public static boolean isAnyOutdoorActivitiesInMeeting(Meeting meeting){
+	if( meeting ==null || meeting.getActivities()==null  ){
+		return false;
+	}
+	
+	java.util.List<Activity> activities = meeting.getActivities();
+	for(int i=0;i<activities.size();i++){
+		if( activities.get(i).getIsOutdoor() )
+			return true;
+	}
+	
+	return false;
+}
+
+
+public static boolean isAnyOutdoorActivitiesInMeetingAvailable(Meeting meeting){
+	if( meeting ==null || meeting.getActivities()==null  ){
+		return false;
+	}
+	
+	java.util.List<Activity> activities = meeting.getActivities();
+	for(int i=0;i<activities.size();i++){
+		if( activities.get(i).getIsOutdoorAvailable())
+			return true;
+	}
+	
+	return false;
+}
 
 }//end class
