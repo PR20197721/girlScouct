@@ -44,7 +44,10 @@
       <% } %>
       <%
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
-        java.util.List<MeetingE> myMeetings = troop.getYearPlan().getMeetingEvents();
+        java.util.List<MeetingE> myMeetings = new java.util.ArrayList();
+        if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null )
+        	myMeetings= troop.getYearPlan().getMeetingEvents();
+        
         java.util.List<String> futureMeetings = new java.util.ArrayList<String>();
         java.util.List<String> reAddMeetings = new java.util.ArrayList<String>();
 
@@ -201,8 +204,12 @@
   
   
   <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
-      <input type="hidden" name="addMeetings" value="true" />
       
+      <%if( request.getParameter("newCustYr")!=null){ %>
+          <input type="hidden" name="act" value="CreateCustomYearPlan" />
+      <%}else{ %>
+          <input type="hidden" name="addMeetings" value="true" />
+       <%}//end else %>  
   <div class="scroll" style="">
     <div class="content meeting-library row">
       <p class="instruction columns small-24"><%= instruction %></p>
@@ -668,8 +675,15 @@
 
 
                           <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                           <div style="background-color:yellow;"><input type="checkbox" name="addMeetingMulti" value="<%=meeting.getPath()%>"/>Add</div>
-                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                           <div style="background-color:yellow;"><input style="display:block;" type="checkbox" name="addMeetingMulti" value="<%=meeting.getPath()%>"/>Add<br/><br/></div><br/><br/>
+                            
+                             
+                              <%if( request.getParameter("newCustYr")!=null){ %>
+                                   <a onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</a>
+						      <%}else{ %>
+						           <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+						      <%}//end else %>
+                            
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
 
@@ -788,7 +802,12 @@
     <!--</div>-->
   </div>
 
- <input type="submit" value="Add multi meetings"/>
+      <%if( request.getParameter("newCustYr")!=null){ %>
+           <input type="button" value="Add multi meetings" onclick="createCustPlan(null)"/>
+      <%}else{ %>
+           <input type="submit" value="Add multi meetings"/>
+      <%}//end else %> 
+
       <br/><br/><br/><br/><br/>
 </form>
 <script>
@@ -973,6 +992,35 @@
 
     }
 
+    
+    function createCustPlan(singleMeetingAdd) {
+         var sortedIDs="";
+         if( singleMeetingAdd==null) {
+	         var els= document.getElementsByName("addMeetingMulti");
+	         for(var y = 0; y < els.length; y++){
+	             if( els[y].checked == true )
+	                sortedIDs= sortedIDs +els[y].value+ ",";
+	         }
+        }else{
+        	sortedIDs = sortedIDs + singleMeetingAdd +",";
+        }
+        
+        
+        $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
+            cache: false
+        }).done(function( html ) {
+        	
+       
+          vtkTrackerPushAction('CreateCustomYearPlan');
+          location.reload();
+        });
+      }
+    
+    
+    
+    
+    
     initMeetings();
 
 
