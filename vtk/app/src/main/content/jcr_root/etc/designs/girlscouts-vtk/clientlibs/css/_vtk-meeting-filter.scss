@@ -32,7 +32,8 @@
     }
 }
 
-#vtk-meeting-group-age, #vtk-meeting-group-categories, .vtk-dropdown_options {
+#vtk-meeting-group-age, #vtk-meeting-group-categories, .vtk-dropdown_options, .meeting-item {
+
     input[type="checkbox"] {
         display: none;
         visibility: hidden;
@@ -44,6 +45,14 @@
     input[type="checkbox"] + label {
     	min-height: 42px;
     	display: table;
+
+
+        &:before{
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+
+        }
     }
 
     input[type="checkbox"] + label span {
@@ -78,6 +87,9 @@
 
 
 #vtk-meeting-group-type {
+
+
+
     input[type="radio"] {
         display: none;
                 visibility: hidden;
@@ -120,9 +132,9 @@
 
 
 .main-report-search{
-    padding-bottom: 15px;
+    // padding: 15px 0;
     border-bottom: 2px solid black;
-    margin-bottom: 15px;
+    // margin-bottom: 15px;
 }
 
 
@@ -133,9 +145,12 @@
 
 .meetingSelect{
     min-height: 400px;
-
+    padding-bottom: 100px;
+    position: relative;
     overflow: auto;
+        overflow-x: hidden;
 }
+
 
 .meeting-age-separator{
     background-color: gray;
@@ -149,9 +164,53 @@
     background-color: #f6f6f6;
     padding: 10px;
     margin-bottom: 10px;
+
+    .tags{
+        span{
+            color: orange;
+        }
+        
+    }
+
+    label{
+        margin: 0 auto !important;
+     p{
+        max-width: none !important;
+    }
+}
 }
 
 .no-plans{
-margin-bottom:20px;
+margin-bottom:10px;
 text-align: center;
+}
+
+#vtk-meeting-report{
+    margin-bottom: 10px;
+}
+
+.vtk-float-submit{
+    width:246px;
+    text-align: center;
+    min-height: 80px;
+    position: fixed;
+    left:50%;
+    bottom:40px;
+    margin-left: -123px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid lightgray;
+    z-index:1;
+
+
+}
+
+.list-of-categories,.main-filter{
+    background-color: white;
+    z-index: 10;
+}
+
+.list-of-buttons,.vtk-meeting-group{
+    background-color: white;
+    z-index: 10;
 }
