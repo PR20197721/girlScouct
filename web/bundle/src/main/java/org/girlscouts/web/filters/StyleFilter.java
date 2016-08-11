@@ -25,7 +25,7 @@ import com.day.cq.wcm.api.components.IncludeOptions;
 @Component
 @Service
 @Properties({ @Property(name = "sling.filter.scope", value = "COMPONENT"),
-        @Property(name = "service.ranking", intValue = 300) })
+        @Property(name = "service.ranking", intValue = 100) })
 /**
  * 
  * @author mike
