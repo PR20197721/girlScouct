@@ -68,8 +68,8 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
+hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
