@@ -57,7 +57,7 @@ if(theseDamDocuments.equals("")){
     String regexStr = "/(content)/([^/]*)/(en)$";
     Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
     Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
-	String[] councils = new String[]{"gssjc", "gateway","NE_Texas","gssem" };
+	String[] councils = new String[]{"gssjc", "gateway","gssem" };
 	
     if (matcher.find()) {
         theseDamDocuments = "/" + matcher.group(1) + "/dam/girlscouts-" +  matcher.group(2) + "/documents";
