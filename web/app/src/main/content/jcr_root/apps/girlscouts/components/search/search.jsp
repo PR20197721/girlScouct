@@ -6,7 +6,8 @@ java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*" %>
+java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, 
+java.util.Arrays, java.util.regex.*, java.text.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 
@@ -56,9 +57,11 @@ if(theseDamDocuments.equals("")){
     String regexStr = "/(content)/([^/]*)/(en)$";
     Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
     Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
+	String[] councils = new String[]{"gssjc", "gateway","NE_Texas","gssem" };
+	
     if (matcher.find()) {
         theseDamDocuments = "/" + matcher.group(1) + "/dam/girlscouts-" +  matcher.group(2) + "/documents";
-        if (matcher.group(2).equals("gssjc")){
+		if (Arrays.asList(councils).contains(matcher.group(2))){
             theseDamDocuments = "/" + matcher.group(1) + "/dam/" +  matcher.group(2) + "/documents";
         }
 
