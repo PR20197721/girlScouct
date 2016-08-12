@@ -1,0 +1,216 @@
+.vtk-body {
+    #vtk-meeting-filter {
+        margin: 20px 0;
+        .sectionHeader {
+            padding: 10px 0;
+        }
+    }
+}
+
+.vtk-green-box {
+    height: 46px;
+    width: 79px;
+    background-color: #00ae58;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    span {
+        text-align: center;
+        vertical-align: middle;
+        font-size: 30px !important;
+        color: white;
+    }
+}
+
+.vtk-meeting-filter_title {
+	padding:15px 0;
+    font-weight: bold;
+    font-size: 14px;
+    margin: 10px 0;
+    span {
+        font-size: 18px !important;
+    }
+}
+
+#vtk-meeting-group-age, #vtk-meeting-group-categories, .vtk-dropdown_options, .meeting-item {
+
+    input[type="checkbox"] {
+        display: none;
+        visibility: hidden;
+        margin: 0;
+        position: absolute;
+    }
+
+
+    input[type="checkbox"] + label {
+    	min-height: 42px;
+    	display: table;
+
+
+        &:before{
+            visibility: hidden;
+            width: 0px;
+            height: 0px;
+
+        }
+    }
+
+    input[type="checkbox"] + label span {
+     display:table-cell;
+    width:30px;
+    height:30px;
+    margin:-1px 6px 0 0;
+    vertical-align:middle;
+
+    cursor:pointer;
+
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) left top no-repeat;
+    }
+
+
+	input[type="checkbox"] + label p{
+		margin: 0;
+    	max-width: 90px;
+
+	    min-height: 42px;
+	    display: table-cell;
+	    padding: 3px 0 0 5px;
+	}
+
+
+
+    input[type="checkbox"]:checked + label span {
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -30px top no-repeat;
+    }
+}
+
+
+
+#vtk-meeting-group-type {
+
+
+
+    input[type="radio"] {
+        display: none;
+                visibility: hidden;
+        margin: 0;
+        position: absolute;
+    }
+
+    input[type="radio"] + label {
+    	min-height: 42px;
+    	display: table;
+    }
+
+    input[type="radio"] + label span {
+     // display:inline-block;
+    width:30px;
+    height:30px;
+    margin:-1px 5px 0 0;
+    vertical-align:middle;
+    display: table-cell;
+
+    cursor:pointer;
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -60px top no-repeat;
+    }
+
+
+	input[type="radio"] + label p{
+		margin: 0 0 0 3px;
+    	max-width: 90px;
+	    // display: inline-block;
+	    min-height: 42px;
+	    display: table-cell;
+	    padding: 3px 0 0 2px;
+	}
+
+
+    input[type="radio"]:checked + label span {
+        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -90px top no-repeat;
+    }
+}
+
+
+.main-report-search{
+    // padding: 15px 0;
+    border-bottom: 2px solid black;
+    // margin-bottom: 15px;
+}
+
+
+.inactive-button{
+	background-color: gray !important;
+}
+
+
+.meetingSelect{
+    min-height: 400px;
+    padding-bottom: 100px;
+    position: relative;
+    overflow: auto;
+        overflow-x: hidden;
+}
+
+
+.meeting-age-separator{
+    background-color: gray;
+    color:white;
+    font-weight: bold;
+    padding: 6px 3px;
+    margin-bottom: 5px;
+}
+
+.meeting-item{
+    background-color: #f6f6f6;
+    padding: 10px;
+    margin-bottom: 10px;
+
+    .tags{
+        span{
+            color: orange;
+        }
+        
+    }
+
+    label{
+        margin: 0 auto !important;
+     p{
+        max-width: none !important;
+    }
+}
+}
+
+.no-plans{
+margin-bottom:10px;
+text-align: center;
+}
+
+#vtk-meeting-report{
+    margin-bottom: 10px;
+}
+
+.vtk-float-submit{
+    width:246px;
+    text-align: center;
+    min-height: 80px;
+    position: fixed;
+    left:50%;
+    bottom:40px;
+    margin-left: -123px;
+    padding: 20px;
+    background-color: white;
+    border: 1px solid lightgray;
+    z-index:1;
+
+
+}
+
+.list-of-categories,.main-filter{
+    background-color: white;
+    z-index: 10;
+}
+
+.list-of-buttons,.vtk-meeting-group{
+    background-color: white;
+    z-index: 10;
+}

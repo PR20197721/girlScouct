@@ -57,7 +57,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	//@Bean( autoUpdate = false)  
 	@Collection(autoRetrieve =true, autoInsert =true) java.util.List<Note> notes;
 	
-    private boolean isDbUpdate=false;
+	boolean isAnyOutdoorActivityInMeeting = false, isAnyOutdoorActivityInMeetingAvailable= false;
+    
+	private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
 	}
@@ -213,6 +215,22 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setNotes(java.util.List<Note> notes) {
 		this.notes = notes;
+	}
+
+	public boolean isAnyOutdoorActivityInMeeting() {
+		return isAnyOutdoorActivityInMeeting;
+	}
+
+	public void setAnyOutdoorActivityInMeeting(boolean isAnyOutdoorActivityInMeeting) {
+		this.isAnyOutdoorActivityInMeeting = isAnyOutdoorActivityInMeeting;
+	}
+
+	public boolean isAnyOutdoorActivityInMeetingAvailable() {
+		return isAnyOutdoorActivityInMeetingAvailable;
+	}
+
+	public void setAnyOutdoorActivityInMeetingAvailable(boolean isAnyOutdoorActivityInMeetingAvailable) {
+		this.isAnyOutdoorActivityInMeetingAvailable = isAnyOutdoorActivityInMeetingAvailable;
 	}
 
 

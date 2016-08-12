@@ -102,29 +102,175 @@
                     </options>
                     <listeners
                         jcr:primaryType="nt:unstructured"
-                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('tagsField1'); console.info(tagsField1); var tagsField2 = panel.getComponent('tagsField2'); if (val === 'BadgesPetals') { tagsField1.show();tagsField1.enable(); var currentTags2 = tagsField2.getTags(); for(var i =0;i &lt; currentTags2.length;i++) {tagsField2.removeTag(currentTags2[i].tagID); }tagsField2.disable(); } else if (val === 'Journey') {tagsField2.show();tagsField2.enable(); var currentTags1 = tagsField1.getTags(); for(var i =0;i &lt; currentTags1.length;i++) {tagsField1.removeTag(currentTags1[i].tagID); } tagsField1.disable(); } else {tagsField1.disable();tagsField2.disable(); var currentTags1 = tagsField1.getTags(); var currentTags2 = tagsField2.getTags();for(var i =0;i &lt; currentTags1.length;i++) {tagsField1.removeTag(currentTags1[i].tagID); } for(var i =0;i &lt; currentTags2.length;i++) {tagsField2.removeTag(currentTags2[i].tagID); }}}"/>
+                        selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel'); var tagsField1 = panel.getComponent('fieldset1'); console.info(tagsField1); var tagsField2 = panel.getComponent('fieldset2'); if (val === 'BadgesPetals') { tagsField1.show();tagsField1.enable(); for(var i =9;i &lt; 11;i++) {tagsField2.getComponent('tagsField' + i).setValue(false); } tagsField2.disable(); } else if (val === 'Journey') {tagsField2.show();tagsField2.enable(); for(var i =0;i &lt; 9;i++) {tagsField1.getComponent('tagsField' + i).setValue(false); } tagsField1.disable(); } else { for(var i =0;i &lt; 9;i++) {tagsField1.getComponent('tagsField' + i).setValue(false); } for(var i =9;i &lt; 11;i++) {tagsField2.getComponent('tagsField' + i).setValue(false); } tagsField1.disable();tagsField2.disable(); }}"/>
                 </meetingPlanType>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     allowBlank="{Boolean}false"
                     name="./cat"/>
-                <catTags1
-	                jcr:primaryType="cq:Widget"
-	                allowBlank="{Boolean}true"
-	                fieldLabel="Catgetory (Badges/Petal)"
-	                name="./catTags"
-	                xtype="tags"
-	                itemId="tagsField1"
-	                namespaces="[girlscouts-vtk-meeting-badge-petal]"/>
-	            <catTags2
+                <fieldset1
+                	jcr:primaryType="cq:Widget"
+                	xtype="dialogfieldset"
+                	fieldLabel="Catgetory (Badges/Petal)"
+                	itemId="fieldset1">
+                	<items jcr:primaryType="cq:WidgetCollection">
+		                <catTags0
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Citizenship"
+			                xtype="selection"
+			                type="checkbox"
+			                 name="./Citizenship"
+			                itemId="tagsField0">
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Citizenship,'); } else { catTagsField.setValue(curVal.replace(/Citizenship,/g,'')); } }"/>
+			            </catTags0>   
+			            <catTags1
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Cookie Business"
+			                name="./cookiebusiness"
+			                xtype="selection"
+			                type="checkbox"
+			                itemId="tagsField1">
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'CookieBusiness,'); } else { catTagsField.setValue(curVal.replace(/CookieBusiness,/g,'')); } }"/>
+			            	</catTags1>
+			            <catTags2
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Creativity And The Arts"
+			                name="./creativityAndTheArts"
+			                xtype="selection"
+			                type="checkbox"
+			                itemId="tagsField2">
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'CreativityAndTheArts,'); } else { catTagsField.setValue(curVal.replace(/CreativityAndTheArts,/g,'')); } }"/>
+			            	</catTags2>
+			            <catTags3
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Entrepreneurship"
+			                name="./entrepreneurship"
+							xtype="selection"
+			                type="checkbox"
+		                	itemId="tagsField3" >
+		                	<listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Entrepreneurship,'); } else { catTagsField.setValue(curVal.replace(/Entrepreneurship,/g,'')); } }"/>
+			            </catTags3>
+			            <catTags4
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Healthy Living"
+			                name="./healthyliving"
+			                xtype="selection"
+			                type="checkbox"
+			                itemId="tagsField4" >
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'HealthyLiving,'); } else { catTagsField.setValue(curVal.replace(/HealthyLiving,/g,'')); } }"/>
+			            </catTags4>
+			            <catTags5
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Life Skills"
+			                name="./lifeskills"
+			                xtype="selection"
+			                type="checkbox"
+			                itemId="tagsField5" >
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'LifeSkills,'); } else { catTagsField.setValue(curVal.replace(/LifeSkills,/g,'')); } }"/>
+			             </catTags5>
+			             <catTags6
+			                jcr:primaryType="cq:Widget"
+			                allowBlank="{Boolean}true"
+			                fieldLabel="Outdoor"
+			                name="./outdoor"
+			                xtype="selection"
+			                type="checkbox"
+			                itemId="tagsField6" >
+			                <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Outdoor,'); } else { catTagsField.setValue(curVal.replace(/Outdoor,/g,'')); } }"/>
+			             </catTags6>
+			             <catTags7
+			                 jcr:primaryType="cq:Widget"
+			                 allowBlank="{Boolean}true"
+			                 fieldLabel="STEM"
+			                 name="./stem"
+			                 xtype="selection"
+			                 type="checkbox"
+			                 itemId="tagsField7">
+			                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'STEM,'); } else { catTagsField.setValue(curVal.replace(/STEM,/g,'')); } }"/>
+			             </catTags7>
+			             <catTags8
+			                 jcr:primaryType="cq:Widget"
+			                 allowBlank="{Boolean}true"
+			                 fieldLabel="Other"
+			                 name="./other"
+			                 xtype="selection"
+			                 type="checkbox"
+			                 itemId="tagsField8">
+			                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Other,'); } else { catTagsField.setValue(curVal.replace(/Other,/g,'')); } }"/>
+			             </catTags8>
+			             </items>
+			         </fieldset1>
+			         <fieldset2
+	                	jcr:primaryType="cq:Widget"
+	                	xtype="dialogfieldset"
+	                	fieldLabel="Catgetory (Journey)"
+	                	itemId="fieldset2">
+                		<items jcr:primaryType="cq:WidgetCollection">
+				             <catTags9
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your Planet - Love It!"
+				                 name="./itsYourPlanet"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField9" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'ItsYourPlanetLoveIt,'); } else { catTagsField.setValue(curVal.replace(/ItsYourPlanetLoveIt,/g,'')); } }"/>
+				             </catTags9>
+				             <catTags10
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your Story - Tell It!"
+				                 name="./itsYourStory"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField10" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'ItsYourStoryTellIt,'); } else { catTagsField.setValue(curVal.replace(/ItsYourStoryTellIt,/g,'')); } }"/>
+				              </catTags10>
+				                 
+			            </items>
+	               </fieldset2>
+	                <catTags
+	                    jcr:primaryType="cq:Widget"
+	                    xtype="hidden"
+	                    itemId="catTags"
+	                    name="./catTags"/>
+	   <!--          <catTags2
 	                jcr:primaryType="cq:Widget"
 	                allowBlank="{Boolean}true"
 	                fieldLabel="Catgetory (Journey)"
 	                name="./catTags"
 	                xtype="tags"
 	                itemId="tagsField2"
-	                namespaces="[girlscouts-vtk-meeting-journey]"/>
+	                namespaces="[girlscouts-vtk-meeting-journey]"/>   -->  
                 <aidTags
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Aid Tags"

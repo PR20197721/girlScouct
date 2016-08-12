@@ -2735,7 +2735,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 	
 
 public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
-
+System.err.println("test start " + new java.util.Date());
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
@@ -2755,15 +2755,21 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Meeting.class);
 		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
-		filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
-		
+filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
+//filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");
+	//System.err.println("test sql: "+  "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//")	;	
 		Query query = queryManager.createQuery(filter);
 		meetings = (List<Meeting>) ocm.getObjects(query);
-
+		//System.err.println("test end " + new java.util.Date() +" : "+ meetings.size() );
+		
+		
+		
+		
+		
 		Comparator<Meeting> comp = new BeanComparator("position");
-
 		if (meetings != null)
 			Collections.sort(meetings, comp);
+		System.err.println("test done " + new java.util.Date());
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -3083,7 +3089,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 	return notes;
 }
 
-
+/*
 public java.util.List<Meeting> getMeetings(int gsYear)  {
 		
 	
@@ -3123,5 +3129,5 @@ public java.util.List<Meeting> getMeetings(int gsYear)  {
 	
 
 }
-	
+*/	
 }// edn class

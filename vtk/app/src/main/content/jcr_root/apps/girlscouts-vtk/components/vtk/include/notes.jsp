@@ -34,13 +34,7 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
 
 <div id="vtk-notes" class=" small-24 columns ">
   <div class="row">
-      <!--   <%=meeting.getPath()%>
-     ***<%=notes==null  ? "No notes found." : "Found: "+notes.size() +" notes."%> -->
-
      <div class="row">
-
-
-
         <div class="add-notes-area small-24 columns" style="display:none">
             <div class="add-note">
                 <i class="icon-speech-bubbles"></i> Add A Note

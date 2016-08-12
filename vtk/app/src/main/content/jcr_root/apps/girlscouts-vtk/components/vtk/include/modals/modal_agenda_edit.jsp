@@ -161,9 +161,11 @@
 		</div>
 		<section class="row">
 			<%
-				if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
+				if (!_activity.getIsOutdoor() && _activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
 					out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-				}
+				}else if (_activity.getIsOutdoor() && _activity.getActivityDescription_outdoor() != null && !_activity.getActivityDescription_outdoor().isEmpty()) {
+                    out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription_outdoor() + "</div>");
+                }
 			%>
 		</section>
 		<%}%>

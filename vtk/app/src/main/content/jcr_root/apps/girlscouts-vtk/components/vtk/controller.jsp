@@ -908,7 +908,13 @@ try{
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
-							((MeetingE) tmp[i]).getMeetingInfo()
+			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
+			  
+			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+			   
+			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setMeetingInfo(null);
@@ -916,7 +922,7 @@ try{
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
-						} catch (Exception e) {
+						} catch (Exception e) {e.printStackTrace();
 	}
 					}
 
@@ -1366,12 +1372,39 @@ try{
                         break;
                     }//edn if
                 }//end for
-                
+                /*
         }else if( request.getParameter("getAllMeetings") != null ){
         	
         	 java.util.List<Meeting> meetings = meetingUtil.getMeetings(2016);
         	 ObjectMapper mapper = new ObjectMapper();
              out.println(mapper.writeValueAsString(meetings));
+             */
+        }else if(request.getParameter("addMeetings") != null){
+            String meetings[] = request.getParameterValues("addMeetingMulti");
+            for(int i=0;i<meetings.length;i++){
+                
+                meetingUtil.addMeetings(user, troop, meetings[i] );
+            }
+            %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
+
+        }else if(request.getParameter("cngOutdoor") != null){
+        	String mid= request.getParameter("mid");
+        	String aid= request.getParameter("aid");
+        	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
+        	
+        	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+             zz:for(int i=0;i<meetings.size();i++){
+            	 if( meetings.get(i).getUid().equals( mid ) ){
+            		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
+            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getUid().equals(aid)){
+            			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
+            			      break zz;
+            			 }
+            		 }
+            	 }
+             }
+        	
+            
 		} else {
 			//TODO throw ERROR CODE
 
