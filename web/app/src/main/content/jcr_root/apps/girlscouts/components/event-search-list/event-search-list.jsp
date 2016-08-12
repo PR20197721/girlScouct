@@ -237,7 +237,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				} else{
 					imgPath = propNode.getPath() + "/image";
 %>
-<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.240.240") %>
 <% } %>
 			</div>
 			<div class="rightCol">

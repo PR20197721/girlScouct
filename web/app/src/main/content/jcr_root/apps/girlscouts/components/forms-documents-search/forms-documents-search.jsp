@@ -16,7 +16,7 @@
         }
 
 
-        if( x.length <4 ){
+        if( x.length <3 ){
 
             var isTag=0;
             var coffee = document.frm.tags;
@@ -26,7 +26,7 @@
               }
             }
             if( isTag>0 ){return true;}
-            alert("Search queries must be greater than 3 characters.");
+            alert("Search queries must be greater than 2 characters.");
             return false;
         }
         return true;
@@ -153,7 +153,7 @@ try{
 
 Session session = resourceResolver.adaptTo(Session.class);
 QueryManager qm = session.getWorkspace().getQueryManager();
-if( q.length()>3  ||  (set!=null && set.size()>0))
+if( q.length()>2  ||  (set!=null && set.size()>0))
  for(int i=0;i<2;i++){  
 
 String query = "";
