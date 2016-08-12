@@ -33,7 +33,13 @@
               Meeting Library
        <%}//end else %> 
     </h3>
-    <span class="column small-11">HINT: meeting overviews are available under resources</span>
+    <span class="column small-11">
+    <%if( request.getParameter("newCustYr")!=null){ %>
+          
+      <%}else{ %>
+              HINT: meeting overviews are available under resources
+       <%}//end else %>
+    </span>
     <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
 
   </div>
