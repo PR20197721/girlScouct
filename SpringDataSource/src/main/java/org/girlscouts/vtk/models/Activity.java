@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -64,6 +66,10 @@ public class Activity extends YearPlanComponent implements Serializable {
 	
 	private boolean isDbUpdate=false;
 	@Column String img;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "yearplan_id", nullable = false)
+	private YearPlan yearPlan;
 	
 	public String getRegisterUrl() {
 		return registerUrl;
@@ -336,4 +342,14 @@ public class Activity extends YearPlanComponent implements Serializable {
 	public void setImg(String img) {
 		this.img = img;
 	}
+
+	public YearPlan getYearPlan() {
+		return yearPlan;
+	}
+
+	public void setYearPlan(YearPlan yearPlan) {
+		this.yearPlan = yearPlan;
+	}
+	
+	
 }

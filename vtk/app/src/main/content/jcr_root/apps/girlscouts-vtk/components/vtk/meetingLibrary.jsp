@@ -25,7 +25,13 @@
     String find="";
 %>
   <div class="header clearfix">
-    <h3 class="columns small-10">Meeting Library</h3>
+    <h3 class="columns small-10">
+    <%if( request.getParameter("newCustYr")!=null){ %>
+          Create Your Own Year Plan
+      <%}else{ %>
+              Meeting Library
+       <%}//end else %> 
+    </h3>
     <span class="column small-11">HINT: meeting overviews are available under resources</span>
     <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
   </div>
@@ -33,8 +39,14 @@
 
   <%
     boolean isWarning=false;
-    String instruction = "****Select a meeting to add to your Year Plan";
+    String instruction ="";
 
+    if( request.getParameter("newCustYr")!=null){ 
+    	instruction="Look through the meeting library and pick the ones that best complete your multi-level Year Plan";
+    }else{ 
+        instruction="Select a meeting to add to your Year Plan";
+    }//end else 
+    
     if (isWarning) {
   %>
   <div class="small-4 medium-2 large-2 columns">

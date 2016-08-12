@@ -53,28 +53,28 @@
         <property name="dataSource" ref="myDataSource"/>
         <property name="mappingResources">
             <list>
-                <value>Product.hbm.xml</value>
+                <!-- value>Product.hbm.xml</value -->
             </list>
         </property>
         <property name="annotatedClasses">
             <list>
-                <value>com.gs.vtk.Player</value>
-                <value>org.girlscouts.vtk.models.Achievement</value>
+                <!-- value>com.gs.vtk.Player</value -->
+                <!-- value>org.girlscouts.vtk.models.Achievement</value -->
                 <value>org.girlscouts.vtk.models.Activity</value>
-                <value>org.girlscouts.vtk.models.Asset</value>
-                <value>org.girlscouts.vtk.models.Attendance</value>
+                <!-- value>org.girlscouts.vtk.models.Asset</value -->
+                <!-- value>org.girlscouts.vtk.models.Attendance</value -->
                 <!--  value>org.girlscouts.vtk.models.Cal</value -->
-                <value>org.girlscouts.vtk.models.Contact</value>
+                <!-- value>org.girlscouts.vtk.models.Contact</value -->
                 <!-- value>org.girlscouts.vtk.models.CouncilInfo</value -->
                 <value>org.girlscouts.vtk.models.Council</value>
-                <value>org.girlscouts.vtk.models.Finance</value>
-                <value>org.girlscouts.vtk.models.Location</value>
+                <!-- value>org.girlscouts.vtk.models.Finance</value -->
+                <!-- value>org.girlscouts.vtk.models.Location</value -->
                 <!-- value>org.girlscouts.vtk.models.Meeting</value -->
                 <!--  value>org.girlscouts.vtk.models.MeetingCanceled</value -->
-                <!-- value>org.girlscouts.vtk.models.MeetingE</value -->
+                <value>org.girlscouts.vtk.models.MeetingE</value>
                 <value>org.girlscouts.vtk.models.Milestone</value>
-                <value>org.girlscouts.vtk.models.Note</value>
-                <value>org.girlscouts.vtk.models.SentEmail</value>
+                <!-- value>org.girlscouts.vtk.models.Note</value -->
+                <!-- value>org.girlscouts.vtk.models.SentEmail</value -->
                 <value>org.girlscouts.vtk.models.Troop</value>
                 <value>org.girlscouts.vtk.models.YearPlan</value>
             </list>

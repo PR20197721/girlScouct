@@ -18,6 +18,8 @@ public class YearPlan implements Serializable {
 	private String name, description, refId, altered, resources;
 	@Transient String path;
 	
+
+	//@OneToMany(fetch = FetchType.LAZY, mappedBy = "yearplan", cascade=CascadeType.ALL)
 	@Transient //@OneToMany //Collection(autoUpdate = false)
 	private java.util.List<MeetingE> meetingEvents;
 	

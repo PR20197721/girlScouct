@@ -63,6 +63,15 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	java.util.List<Note> notes;
 	
     private boolean isDbUpdate=false;
+    
+    
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "yearplan_id", nullable = false)
+	private YearPlan yearPlan;
+    
+    
+    
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
 	}
@@ -219,6 +228,15 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setNotes(java.util.List<Note> notes) {
 		this.notes = notes;
 	}
+
+	public YearPlan getYearPlan() {
+		return yearPlan;
+	}
+
+	public void setYearPlan(YearPlan yearPlan) {
+		this.yearPlan = yearPlan;
+	}
+
 
 
 	
