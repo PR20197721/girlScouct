@@ -87,10 +87,9 @@ if (null==searchIn){
     searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
-final String query = java.net.URLEncoder.encode(q != null ? q : "","UTF-8");
-final String escapedQuery = xssAPI.encodeForHTML(q != null ? q : "");
-final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
-escapedQuery.replace("{","").replace("}","");
+final String query = java.net.URLEncoder.encode(q != null ? q.replaceAll("[^a-zA-Z0-9]"," ") : "","UTF-8");
+final String escapedQuery = xssAPI.encodeForHTML(q != null ? q.replaceAll("%","%25") : "");
+final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q.replaceAll("%","%25") : "");
 
 pageContext.setAttribute("escapedQuery", java.net.URLDecoder.decode(escapedQuery, "UTF-8"));
 pageContext.setAttribute("escapedQueryForAttr", java.net.URLDecoder.decode(escapedQueryForAttr, "UTF-8"));
