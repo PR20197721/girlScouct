@@ -3,7 +3,7 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
 <div id="right-canvas-menu"> 
-	<ul class="side-nav" style="padding:0px"> 
+   <ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
 <%
 final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
 String[] links = properties.get("links", String[].class);

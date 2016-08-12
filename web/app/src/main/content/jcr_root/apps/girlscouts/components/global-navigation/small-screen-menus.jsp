@@ -96,7 +96,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 %>
 
 <div id="right-canvas-menu"> 
- <ul class="side-nav" style="padding:0px"> 
+  <ul class="side-nav" style="padding:0px; background-color:#6b6b6b;"> 
  
 <% 
 // Replace currentPage
