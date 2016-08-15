@@ -143,6 +143,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	durationField: null,
 	descriptionField: null,
 	nodeName: null,
+	outdoorCheckboxField: null,
+	outdoorDescriptionField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -182,6 +184,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(new CQ.Ext.form.Label({text: "Duration"}));
         this.durationField = new CQ.Ext.form.NumberField({
         	maxValue: 30,
+        	width: 30,
         	maxText: 'Duration should not exceed 30 minutes',
             listeners: {
                 change: {
@@ -195,6 +198,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(new CQ.Ext.form.Label({text: "Description"}));
         this.descriptionField = new CQ.form.RichText({
         	rtePlugins: this.RTE_PLUGIN_CONF,
+        	width: 400,
         	specialCharsConfig: {
         		chars: {
         			"em-dash": {
@@ -223,6 +227,62 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.descriptionField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Outdoor Section?"}));
+        this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({
+        	listeners: {
+        		check: {
+                    scope: this,
+                    fn: function(me, val) {
+                    	console.info(val);
+                    	var panel = me.findParentByType('panel');
+                    	console.info(panel);
+                    	var panelParent = panel.findParentByType('panel');
+                    	//it will find the first disabled item and enable it
+                    	if (val) {
+                    		panelParent.find("gstag", "gs")[0].enable();
+                    	} else {
+                    		panelParent.find("gstag", "gs")[0].disable();
+                    	}
+                    }
+                }
+            }
+        });
+        this.add(this.outdoorCheckboxField);
+        
+        this.outdoorDescriptionField = new CQ.form.RichText({
+        	rtePlugins: this.RTE_PLUGIN_CONF,
+        	disabled: true,
+        	gstag: "gs",
+        	specialCharsConfig: {
+        		chars: {
+        			"em-dash": {
+        				"entity": "&#8212;"
+        			},
+        			"copyright": {
+        				"entity": "&#169;"
+        			},
+        			"registerd": {
+        				"entity": "&#174;",
+        			},
+        			"trademark": {
+        				"entity": "&#8482;",
+        			},
+        			"horizontal-rule": {
+        				"entity": "<hr>"
+        			}	
+        		}
+        	},
+
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.outdoorDescriptionField);
+        
     },
 
     // overriding CQ.form.CompositeField#setValue
