@@ -250,11 +250,11 @@
 			<span class="vtk-green-box" style="">
 			<span class="icon-search-magnifying-glass" style=""></span>
 			</span>
-			<p id="showHideReveal" onclick="" class="hide-for-print close">FILTER MEETINGS BY TOPIC</p>
+			<p id="showHideReveal" class="hide-for-print close">FILTER MEETINGS BY TOPIC</p>
 		</div>
 	</div>
 
-	<div class="vtk-meeting-group" style="display:none">
+	<div class="vtk-meeting-group" style="">
 		<div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;">
 			<div class="row">
 				<div class="column small-24 medium-12">
@@ -669,6 +669,11 @@
 	</div>  
 	</div>
 
+ 
+	<div class="meeting-age-separator column small-24">
+	brownie 
+	</div>
+
 		  <%
 
 		  //sort meetings by meeting name
@@ -712,7 +717,7 @@
 						  <p class="title"><%=meeting.getName()%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
-						<p class="tags"><i class="icon-ticket"></i> <span><%=meeting.getCatTags()==null ? "" : meeting.getCatTags() %></span>
+						<p class="tags"> <span><%=meeting.getCatTags()==null ? "" : meeting.getCatTags() %></span>
 						  </p>
 					</div>
 					</div>
@@ -726,20 +731,25 @@
 
 						  <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
-						 	<div style="text-align:center;">
+						 	<div class="middle-checkbox" style="text-align:center;">
 							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
 							value="<%=meeting.getPath()%>"/>
-							<label for="<%=meeting.getPath()%>"><span></span><p>Select Meeting</p></label>
+							<label for="<%=meeting.getPath()%>"><span></span>
+
+							<%if( request.getParameter("newCustYr")!=null){ %>
+								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
+							  <%}else{ %>
+								   <p onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</p>
+							  <%}//end else %>
+
+
+							</label>
 							</div>
 						   
 
 							
 							 
-							  <%if( request.getParameter("newCustYr")!=null){ %>
-								   <a onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</a>
-							  <%}else{ %>
-								   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
-							  <%}//end else %>
+				
 							
 				<% } else {%>
 				  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>

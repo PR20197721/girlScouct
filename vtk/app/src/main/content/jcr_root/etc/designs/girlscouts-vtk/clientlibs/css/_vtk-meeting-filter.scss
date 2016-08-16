@@ -156,7 +156,7 @@
     background-color: gray;
     color:white;
     font-weight: bold;
-    padding: 6px 3px;
+    padding: 6px 10px;
     margin-bottom: 5px;
 }
 
@@ -167,7 +167,9 @@
 
     .tags{
         span{
-            color: orange;
+            // color: orange;
+            font-weight: bold;
+            font-size: 12px;
         }
         
     }
@@ -213,4 +215,15 @@ text-align: center;
 .list-of-buttons,.vtk-meeting-group{
     background-color: white;
     z-index: 10;
+}
+
+.middle-checkbox{
+    span{
+        padding-left: 30px;
+    }
+    p{
+        color: $green_light;
+        white-space: nowrap;
+        text-transform: uppercase;
+    }
 }
