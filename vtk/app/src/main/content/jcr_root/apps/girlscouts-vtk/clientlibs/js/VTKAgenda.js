@@ -151,7 +151,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         var defaults = {
             "border": false,
             "layout": "table",
-            "columns":3
+            "columns":8
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.VTKAgenda.superclass.constructor.call(this, config);
@@ -230,7 +230,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.descriptionField);
         
         this.add(new CQ.Ext.form.Label({text: "Outdoor?"}));
-        this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({
+        this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({        
         	listeners: {
         		check: {
                     scope: this,
@@ -245,6 +245,10 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
                     		panelParent.find("gstag", "gs")[0].disable();
                     	}
                     }
+                },
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
                 }
             }
         });
@@ -275,7 +279,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         		}
         	},
 
-            listeners: {
+        	listeners: {
                 change: {
                     scope:this,
                     fn:this.updateHidden
@@ -292,6 +296,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     	this.nameField.setValue(value.name);
     	this.durationField.setValue(value.duration);
     	this.descriptionField.setValue(value.description);
+    	this.outdoorCheckboxField.setValue(value.isAvailable);
+    	this.outdoorDescriptionField.setValue(value.outdoorDescription);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -305,7 +311,9 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     		"nodeName": this.nodeName,
     		"name": this.nameField.getValue(),
     		"duration": this.durationField.getValue(),
-    		"description": this.descriptionField.getValue()
+    		"description": this.descriptionField.getValue(),
+    		"isAvailable": this.outdoorCheckboxField.getValue(),
+    		"outdoorDescription": this.outdoorDescriptionField.getValue()
     	};
     	return agenda;
     },
