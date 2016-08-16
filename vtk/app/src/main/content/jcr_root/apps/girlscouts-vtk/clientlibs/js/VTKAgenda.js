@@ -171,6 +171,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 
         this.add(new CQ.Ext.form.Label({text: "Name"}));
         this.nameField = new CQ.Ext.form.TextField({
+        	width: 100,
         	allowBlank: false,
             listeners: {
                 change: {
@@ -198,7 +199,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(new CQ.Ext.form.Label({text: "Description"}));
         this.descriptionField = new CQ.form.RichText({
         	rtePlugins: this.RTE_PLUGIN_CONF,
-        	width: 400,
+        	width: 300,
         	specialCharsConfig: {
         		chars: {
         			"em-dash": {
@@ -228,7 +229,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.descriptionField);
         
-        this.add(new CQ.Ext.form.Label({text: "Outdoor Section?"}));
+        this.add(new CQ.Ext.form.Label({text: "Outdoor?"}));
         this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({
         	listeners: {
         		check: {
@@ -238,7 +239,6 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
                     	var panel = me.findParentByType('panel');
                     	console.info(panel);
                     	var panelParent = panel.findParentByType('panel');
-                    	//it will find the first disabled item and enable it
                     	if (val) {
                     		panelParent.find("gstag", "gs")[0].enable();
                     	} else {
@@ -251,6 +251,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.outdoorCheckboxField);
         
         this.outdoorDescriptionField = new CQ.form.RichText({
+        	width: 300,
         	rtePlugins: this.RTE_PLUGIN_CONF,
         	disabled: true,
         	gstag: "gs",
