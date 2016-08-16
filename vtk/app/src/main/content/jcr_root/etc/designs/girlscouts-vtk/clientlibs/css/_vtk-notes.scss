@@ -18,6 +18,7 @@
 	color:#00ae58;
 	cursor:pointer;
 	padding: 10px 5px;
+	font-size: 14px;
 }
 
 .add-note-detail{
@@ -77,20 +78,20 @@
 }
 
 .input-save{
-	// position: absolute;
-	// bottom:5px;
-	// right: 5px;
-	// padding: 5px;
+	position: absolute;
+	bottom:5px;
+	right: 5px;
+	padding: 5px;
 
-	// background-color: $green_light;
+	background-color: $green_light;
 
-	color: $green_light;
-	// padding: 10px;
+	color: white;
+	padding: 10px;
 	cursor: pointer;
 	    z-index: 1000;
 
 	&:hover{
-		color: green;
+		background-color: green;
 	}
 }
 
@@ -113,9 +114,10 @@
 
 	.vtk-note_item{
 		// border: 1px solid lightgray;
-    	min-height: 178px;
+    	min-height: 82px;
     	margin-bottom: 10px !important;
 		width: 100%;
+
 
     	position: relative;
 
@@ -126,7 +128,7 @@
 
 
 	.vtk-note_content{
-		height: 148px;
+		height: 82px;
 		// max-width: 581px;
 		font-size: 12px;
 		line-height: 16px;
@@ -166,7 +168,7 @@
 
 		.vtk-note_detail{
 			padding: 10px 0 0 10px !important;
-			min-height:176px;
+			min-height:82px;
 			//  background-color:#e5f6ee;
 
 			//  min-width: 135px;
@@ -274,7 +276,7 @@
 
 	.vtk-word-counter{
 		bottom: -5px !important;
-    	right: 5px !important;
+    	right: 100px !important;
 	}
 
 	.format{
@@ -294,4 +296,24 @@
     z-index: 6000;
     opacity: 0.2;
 	display: none;
+}
+
+.vtk-note-edit-button[disabled="disabled"]{
+	i{
+		&:hover{
+			color:$green_light;
+		}
+	}
+}
+
+.save-note{
+	    position: absolute;
+    bottom: 32px;
+    right: 5px;
+    padding: 5px;
+    background-color: #00ae58;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
 }

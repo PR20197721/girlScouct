@@ -41,16 +41,19 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
             </div>
             
               <div class="add-note-detail" style="display:none">
-                  <div class="row">
-                  <div class="add-note-detail_main small-24 medium-19 columns" style=" border: 1px solid lightgray;">
+                  <div class="">
+                  <div class="add-note-detail_main" style=" border: 1px solid lightgray;">
                     <div class="input-note">
                         <div class="input-content" contenteditable="true"></div>
                         <div class="note-loading"></div>
+                                       <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
+                          Save
+                     </div>
                     </div>
                   </div>
                   <div class="small-24 medium-5 columns">
-                        <p><strong>
-                          <!-- Name -->
+                    <!--     <p><strong>
+                
                           <%=user.getApiConfig().getUser().getFirstName()%>
                         </strong><br>
                         
@@ -64,12 +67,10 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
                           $('.date-here').html(moment().format('MM/DD/YYYY')) 
                         })
 
-                        </script>
+                        </script> -->
                        
 
-                       <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
-                       <i class="icon-save-floppy"></i>
-                     </div>
+        
                   </div>
                   </div>
                     
