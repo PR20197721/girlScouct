@@ -51,27 +51,6 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
                      </div>
                     </div>
                   </div>
-                  <div class="small-24 medium-5 columns">
-                    <!--     <p><strong>
-                
-                          <%=user.getApiConfig().getUser().getFirstName()%>
-                        </strong><br>
-                        
-                        <span class="date-here">
-                          --
-                        </span>
-
-
-                        <script>
-                        $(function(){
-                          $('.date-here').html(moment().format('MM/DD/YYYY')) 
-                        })
-
-                        </script> -->
-                       
-
-        
-                  </div>
                   </div>
                     
               </div>
