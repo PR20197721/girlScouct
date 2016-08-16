@@ -242,6 +242,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
                     	if (val) {
                     		panelParent.find("gstag", "gs")[0].enable();
                     	} else {
+                    		panelParent.find("gstag", "gs")[0].setValue('');
                     		panelParent.find("gstag", "gs")[0].disable();
                     	}
                     }
@@ -296,8 +297,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     	this.nameField.setValue(value.name);
     	this.durationField.setValue(value.duration);
     	this.descriptionField.setValue(value.description);
-    	this.outdoorCheckboxField.setValue(value.isAvailable);
-    	this.outdoorDescriptionField.setValue(value.outdoorDescription);
+    	this.outdoorCheckboxField.setValue(value.isOutdoorAvailable);
+    	this.outdoorDescriptionField.setValue(value.activityDescription_outdoor);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -312,8 +313,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     		"name": this.nameField.getValue(),
     		"duration": this.durationField.getValue(),
     		"description": this.descriptionField.getValue(),
-    		"isAvailable": this.outdoorCheckboxField.getValue(),
-    		"outdoorDescription": this.outdoorDescriptionField.getValue()
+    		"isOutdoorAvailable": this.outdoorCheckboxField.getValue(),
+    		"activityDescription_outdoor": this.outdoorDescriptionField.getValue()
     	};
     	return agenda;
     },

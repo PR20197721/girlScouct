@@ -65,8 +65,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	field.durationField.el.dom.name = path + 'duration';
 			    	field.descriptionField.el.dom.name = path + 'activityDescription';
 			    	field.numberField.el.dom.name = path + 'activityNumber';
-			    	field.outdoorCheckboxField.el.dom.name = path + 'isAvailable';
-			    	field.outdoorDescriptionField.el.dom.name = path + 'outdoorDescription';
+			    	field.outdoorCheckboxField.el.dom.name = path + 'isOutdoorAvailable';
+			    	field.outdoorDescriptionField.el.dom.name = path + 'activityDescription_outdoor';
                 	field.numberField.setValue(index++);
                 }
             }, this);
@@ -111,8 +111,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        			"name": child.name,
 	        			"duration": child.duration,
 	        			"description": child.activityDescription,
-	        			"isAvailable": child.isAvailable,
-	        			"outdoorDescription": child.outdoorDescription
+	        			"isOutdoorAvailable": child.isOutdoorAvailable,
+	        			"activityDescription_outdoor": child.activityDescription_outdoor
 	        		});
 	        	}
 	        }
