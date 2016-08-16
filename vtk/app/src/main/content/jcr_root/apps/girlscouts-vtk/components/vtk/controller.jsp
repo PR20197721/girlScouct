@@ -1241,8 +1241,11 @@ try{
 
 	        <div class="row">
 	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-	           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
-	            <label for="r_0"></label>
+	            <%if(troop!=null  && troop.getSfTroopAge()!=null &&
+                         !troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
+		            <label for="r_0"></label>
+	            <%} %>
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
 	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
@@ -1250,6 +1253,9 @@ try{
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
                         Customize Your Troop Year
+                 <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
+                         troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                       Create Your Milti-Level Troop Year Plan
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
@@ -1258,6 +1264,12 @@ try{
 		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
 		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
 		                Select this option to create activities or add council activities to your calendar.
+		            
+		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
+                            troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                            All Girls Scouts plan have been orga,,,,,,,,,,,,,,,,,,,
+                            
+                            <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')"/>
 		            <%}else{ %>
 	    	            Choose this option to create your own year plan using meetings from  our meeting library
 		           <%} %>
