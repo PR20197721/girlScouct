@@ -201,3 +201,12 @@ function adjust_pdf_links() {
         }
     });
 }
+
+
+
+
+$(function(){
+    $(window).on('hashchange', function(){
+        $(location.hash).children('h6').trigger('click');
+    });
+});
