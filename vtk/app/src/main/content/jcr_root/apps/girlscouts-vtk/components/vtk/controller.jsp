@@ -1240,22 +1240,29 @@ try{
 
 
 	        <div class="row">
-	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-	            <%if(troop!=null  && troop.getSfTroopAge()!=null &&
-                         !troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
-		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
-		            <label for="r_0"></label>
-	            <%} %>
-	        </div>
-	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
 
+	        	<div class="small-20 small-centered columns">
+
+	        	<div class="row">
+
+	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
+                         !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
+	     
+	            <%if(condition){ %>   
+                    <div class="columns  small-2">
+		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
+		            <label for="r_0"></label> </div>
+	            <%} %>
+	       
+	        <div class="small-18 columns end" style="<%= condition ? "padding-left:16px" : ""  %>"  >
+	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
                         Customize Your Troop Year
                  <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
                          troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
-                       Create Your Milti-Level Troop Year Plan
+                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Milti-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
@@ -1267,13 +1274,23 @@ try{
 		            
 		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
                             troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
-                            All Girls Scouts plan have been orga,,,,,,,,,,,,,,,,,,,
+
+                            <p style="margin-bottom:15px !important;">
+                             All Girls Scouts plan have been organized so you can easily filter through the set to select the right ones for your multi-level troop.. Once your meeting selections are made you'll be able to arrange and finalize the dates in the Year Plan view.
+                            </p>
+
+                            <p style="margin-bottom:15px !important;">
+                            	You will begin by selecting the Girl Scout Levels and types of meetings you want to see.
+                            </p>
+                           
                             
                             <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')"/>
 		            <%}else{ %>
 	    	            Choose this option to create your own year plan using meetings from  our meeting library
 		           <%} %>
 	            </p>
+	        </div>
+	        </div>
 	        </div>
 	      </div><!--/row-->
 
