@@ -66,6 +66,9 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	field.descriptionField.el.dom.name = path + 'activityDescription';
 			    	field.numberField.el.dom.name = path + 'activityNumber';
 			    	field.outdoorCheckboxField.el.dom.name = path + 'isOutdoorAvailable';
+			    	field.hiddenSlingBooleanField.el.dom.name = path + 'isOutdoorAvailable@TypeHint';
+			    	field.hiddenSlingDeleteField.el.dom.name = path + 'isOutdoorAvailable@Delete';
+			    	
 			    	field.outdoorDescriptionField.el.dom.name = path + 'activityDescription_outdoor';
                 	field.numberField.setValue(index++);
                 }

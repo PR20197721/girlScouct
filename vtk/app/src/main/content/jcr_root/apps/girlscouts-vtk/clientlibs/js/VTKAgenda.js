@@ -165,6 +165,12 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 
         this.hiddenField = new CQ.Ext.form.Hidden({});
         this.add(this.hiddenField);
+        
+        this.hiddenSlingBooleanField = new CQ.Ext.form.Hidden({value: "Boolean"});
+        this.add(this.hiddenSlingBooleanField);
+        
+        this.hiddenSlingDeleteField = new CQ.Ext.form.Hidden({});
+        this.add(this.hiddenSlingDeleteField);
 
         this.numberField = new CQ.Ext.form.Hidden({});
         this.add(this.numberField);
@@ -230,7 +236,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.descriptionField);
         
         this.add(new CQ.Ext.form.Label({text: "Outdoor?"}));
-        this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({        
+        this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({  
+        	inputValue: true,
         	listeners: {
         		check: {
                     scope: this,
