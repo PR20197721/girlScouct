@@ -18,8 +18,16 @@
 <!--<![endif]-->
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />
-<% } %>
-<% currentDesign.writeCssIncludes(pageContext); %>
+<% } 
+
+Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+if (newCurrentDesign != null) {
+  %><link rel="stylesheet" href="<%= newCurrentDesign.getPath() + ".css" %>" type="text/css"/><%
+}else{
+  currentDesign.writeCssIncludes(pageContext);
+  System.out.println("Request not found");
+}
+%>
 <!-- End: Include Girl Scout clientlibs -->
 
 <!-- Begin: login logic -->
