@@ -36,6 +36,11 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
+
+<a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isMaterials&mid=<%=mid%>')">print materials</a>
+|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isActivity&mid=<%=mid%>')">print activity</a>
+|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isOverview&mid=<%=mid%>')">print overview</a>
+|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isAgenda&mid=<%=mid%>')">print agenda</a>
   <div id="theMeeting">
 
     <script type="text/javascript">
