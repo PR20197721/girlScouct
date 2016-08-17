@@ -242,9 +242,9 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         		check: {
                     scope: this,
                     fn: function(me, val) {
-                    	console.info(val);
+                    	//console.info(val);
                     	var panel = me.findParentByType('panel');
-                    	console.info(panel);
+                    	//console.info(panel);
                     	var panelParent = panel.findParentByType('panel');
                     	if (val) {
                     		panelParent.find("gstag", "gs")[0].enable();
