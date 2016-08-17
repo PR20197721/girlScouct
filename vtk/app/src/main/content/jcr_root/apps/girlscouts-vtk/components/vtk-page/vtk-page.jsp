@@ -1,4 +1,8 @@
-<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/>
+<%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator,
+org.girlscouts.vtk.helpers.CouncilMapper,
+org.girlscouts.vtk.auth.models.ApiConfig" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/>
 
 <%
 try{
@@ -121,6 +125,66 @@ final org.girlscouts.vtk.ejb.UserUtil userUtilHead = sling.getService(org.girlsc
 String referer= userUtilHead.getCouncilUrlPath((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()), request);
 referer= referer +"en/site-search";
 request.setAttribute("altSearchPath", referer);
+%>
+
+<%
+
+	CouncilMapper mapper = sling.getService(CouncilMapper.class);
+	request.setAttribute("mapper",mapper);
+	ApiConfig apiConfig = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
+	request.setAttribute("apiconfig",apiConfig);
+	Page newCurrentPage = null;
+	Design newCurrentDesign = null;
+
+	String councilId = null;
+
+	String branch = "";
+	try {
+	    councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+   		branch = mapper.getCouncilBranch(councilId);
+	} catch (Exception e) {
+	    Cookie[] cookies = request.getCookies();
+	    String refererCouncil = null;
+	    if (cookies != null) {
+	    	for (Cookie cookie : cookies) {
+	    	    if (cookie.getName().equals("vtk_referer_council")) {
+	    	        refererCouncil = cookie.getValue();
+	    	    }
+	    	}
+	    }
+
+	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
+	        branch = "/content/" + refererCouncil;
+	    } else {
+	        branch = mapper.getCouncilBranch();
+	    }
+	}
+	    
+
+   	// TODO: language
+   	branch += "/en";
+   	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
+   	System.err.println("***"+branch +" : "+ newCurrentPage); 
+   	
+   	if( newCurrentPage==null ){
+   		System.err.println("Error in body.jsp missing design for council: "+ branch);
+   		out.println("Missing council design on branch: "+ branch);
+   		return;
+   	}
+   	
+   	// Get design
+	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
+   	if (!designPath.isEmpty()) {
+   	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
+   	}
+   	
+	// Override currentPage and currentDesign according to councilId
+	if (newCurrentPage != null) {
+		request.setAttribute("newCurrentPage", newCurrentPage);
+	}
+	if (newCurrentDesign != null) {
+		request.setAttribute("newCurrentDesign", newCurrentDesign);
+	}
 %>
 
 
