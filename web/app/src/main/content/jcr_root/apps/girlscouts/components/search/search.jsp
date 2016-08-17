@@ -151,11 +151,12 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%for (int i = 0; i < totalPage; i++ ) { 
     	if (currentPageNo == i) {%>
     		<li class="currentPageNo"><%= i+1 %></li>
-    	<%} else {%>
+    	<%} else { 
+			if (i < 10) { %>
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li>
-    <%	}
+    	<%}}
     }%>
-    <%if (currentPageNo != totalPage-1) {  %>
+    <%if (currentPageNo != totalPage-1 && currentPageNo<11) {  %>
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
     	<%}  %>
 </ul>
