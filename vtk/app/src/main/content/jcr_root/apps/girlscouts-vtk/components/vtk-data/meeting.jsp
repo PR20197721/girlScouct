@@ -45,6 +45,8 @@
 	    printProperty(info1, "Name", "name", "h3");
 	    printProperty(info1, "Duration", "duration", "h3");
 	    printProperty(info1, "Description", "activityDescription", "h3");
+	    printProperty(info1, "Outdoor?", "isOutdoorAvailable", "h3");
+	    printProperty(info1, "Outdoor Description", "activityDescription_outdoor", "h3");
 	}
 %>
 </body>
