@@ -396,7 +396,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
             var obj = this.props.obj;
             var comment= this.props.comment;
-var src="javascript:doMeetingLib(true)";
+var src="javascript:newLocCal()";
 
       return (
     		  React.createElement("a", {href: src}, 
