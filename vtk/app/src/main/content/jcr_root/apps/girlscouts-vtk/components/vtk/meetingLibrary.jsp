@@ -670,9 +670,7 @@
 	</div>
 
  
-	<div class="meeting-age-separator column small-24">
-	brownie 
-	</div>
+	
 
 		  <%
 
@@ -691,6 +689,11 @@
 			Meeting meeting = meetings.get(i);
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
+				%>
+				<div class="meeting-age-separator column small-24">
+                    <%= currentLevel %>
+                </div>
+				<% 
 		   }
 %>
 			<div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
@@ -708,6 +711,8 @@
 			}
 			%>
 			">
+			
+    
 				<div class="row">
 					<div class="column small-24 medium-14">
 											<div style="display:table;min-height:110px">
@@ -717,8 +722,19 @@
 						  <p class="title"><%=meeting.getName()%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
-						<p class="tags"> <span><%=meeting.getCatTags()==null ? "" : meeting.getCatTags() %></span>
-						  </p>
+						<p class="tags"> 
+						 <span>
+						  <%
+						  if(meeting.getCatTags()!=null){
+							  
+							  java.util.StringTokenizer t= new StringTokenizer(meeting.getCatTags(), ",");
+							  while( t.hasMoreElements()){
+							     %><%=t.nextToken()%><%=t.hasMoreElements() ? "," : "" %> <% 
+							  }
+						  }
+						  %>
+						 </span>
+						</p>
 					</div>
 					</div>
 					</div>
