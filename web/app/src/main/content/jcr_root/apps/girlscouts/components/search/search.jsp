@@ -156,6 +156,10 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
         	first = currentPageNo -10;
         	last = currentPageNo;
 		}
+		
+		if (totalPage<last) {
+    		last = (int)totalPage -1;
+		}
 
     	for (int i = first; i < last; i++ ) { 
                 System.out.println("**** i is : " + i);
