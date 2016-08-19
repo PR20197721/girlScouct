@@ -147,9 +147,9 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				email.setSubject("GSUSA Rollout Notification");
 				String html = (String)configs.get("emlTemplate");
 				//html+="<p><b>National page URL:</b> <a href='http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) + "'>http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) +" </a></p>";
-				html+="<p><b>National page URL:</b> http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) +"</p>";
+				html+="<p><b>National page URL:</b> http://girlscouts-prod-aem61.adobecqms.net"+getURL(nationalPage) +"</p>";
 				html+="<p><b>Your page URL:</b> "+getURL(councilPage).replaceFirst("/content/([^/]+)","https://www.$1.org")+"</p>";
-				html+="<p>Click <a href='http://author-girlscouts-prod.adobecqms.net"+getURL(councilPage)+"'>here</a> to edit your page.</p>";
+				html+="<p>Click <a href='http://girlscouts-prod-aem61.adobecqms.net"+getURL(councilPage)+"'>here</a> to edit your page.</p>";
 				email.setHtmlMsg(html);
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
