@@ -39,18 +39,25 @@ if (user != null  && !userUtil.hasPermission(troop, Permission.PERMISSION_CREATE
             <div class="add-note">
                 <i class="icon-speech-bubbles"></i> Add A Note
             </div>
-            <div class="add-note-detail" style="display:none">
-                <div class="input-note">
-                    <div class="input-content" contenteditable="true"></div>
-
-                    <div class="note-loading">
-
+            
+              <div class="add-note-detail" style="display:none">
+                  <div class="">
+                  <div class="add-note-detail_main" style=" border: 1px solid lightgray;">
+                    <div class="input-note">
+                        <div class="input-content" contenteditable="true"></div>
+                        <div class="note-loading"></div>
+                                       <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
+                          Save
+                     </div>
                     </div>
-                </div>
-                 <div class="input-save" onclick="appVTK.addNote('<%=meeting.getUid()%>')">
-                    Save
-                 </div>
-            </div>
+                  </div>
+                  </div>
+                    
+              </div>
+
+
+
+            
          </div>
         </div>
 

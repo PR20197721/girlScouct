@@ -45,6 +45,25 @@ if (null==searchIn){
     searchIn = currentPage.getAbsoluteParent(2).getPath();
 }
 
+if(q == null) q = "[[empty search criteria]]";
+if(q.length() <= 2) q = "[[too short search criteria]]";
+// pagination init
+String start = request.getParameter("start");
+if (start == null) start = "1";
+if (start.length() == 0) start = "1";
+if (Integer.parseInt(start) < 0) start = "1";
+int pageSize = 10;
+int endIdx = pageSize; //this may change for the last page
+double totalPage = 0;
+int startIdx = 0;
+try {
+	startIdx = Integer.parseInt(start); 
+} catch (NumberFormatException e) {
+	startIdx = 0;
+} 
+int currentPageNo = startIdx/pageSize;
+
+
 final String query = java.net.URLEncoder.encode(q != null ? q.replaceAll("[^a-zA-Z0-9]"," ") : "","UTF-8");
 final String escapedQuery = xssAPI.encodeForHTML(q != null ? q.replaceAll("%","%25") : "");
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q.replaceAll("%","%25") : "");
@@ -70,6 +89,14 @@ if(theseDamDocuments.equals("")){
 
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
+
+String numberOfResults = String.valueOf(hits.size());
+if (startIdx + pageSize > hits.size()) {
+	endIdx = hits.size(); //last page
+} else {
+	endIdx = startIdx + pageSize; //all other page
+}
+totalPage = Math.ceil((double)hits.size()/pageSize);
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
@@ -85,9 +112,9 @@ hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(que
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-    for(Hit hit: hits){
+	for(int i = startIdx; i < endIdx ; i++) {
         try{
-            DocHit docHit = new DocHit(hit);
+            DocHit docHit = new DocHit(hits.get(i));
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
@@ -116,6 +143,23 @@ hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(que
     }   
 }
 %>
+	
+<ul class="search-page">
+    	<%if (currentPageNo != 0) {  %>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
+    	<%}  %>
+    <%for (int i = 0; i < totalPage; i++ ) { 
+    	if (currentPageNo == i) {%>
+    		<li class="currentPageNo"><%= i+1 %></li>
+    	<%} else {%>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li>
+    <%	}
+    }%>
+    <%if (currentPageNo != totalPage-1) {  %>
+    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
+    	<%}  %>
+</ul>
+	
 <script>
 jQuery('#searchForm').bind('submit', function(event){
     if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === ''){

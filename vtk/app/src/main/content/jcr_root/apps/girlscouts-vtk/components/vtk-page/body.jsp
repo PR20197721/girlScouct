@@ -4,58 +4,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
     
-<%
-
-        HttpSession session = request.getSession(true);
-
-	CouncilMapper mapper = sling.getService(CouncilMapper.class);
-	ApiConfig apiConfig = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
-	Page newCurrentPage = null;
-	Design newCurrentDesign = null;
-
-	String councilId = null;
-
-	String branch = "";
-	try {
-	    councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-   		branch = mapper.getCouncilBranch(councilId);
-	} catch (Exception e) {
-	    Cookie[] cookies = request.getCookies();
-	    String refererCouncil = null;
-	    if (cookies != null) {
-	    	for (Cookie cookie : cookies) {
-	    	    if (cookie.getName().equals("vtk_referer_council")) {
-	    	        refererCouncil = cookie.getValue();
-	    	    }
-	    	}
-	    }
-
-	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
-	        branch = "/content/" + refererCouncil;
-	    } else {
-	        branch = mapper.getCouncilBranch();
-	    }
-	}
-	    
-
-   	// TODO: language
-   	branch += "/en";
-   	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
-   	System.err.println("***"+branch +" : "+ newCurrentPage); 
-   	
-   	if( newCurrentPage==null ){
-   		System.err.println("Error in body.jsp missing design for council: "+ branch);
-   		out.println("Missing council design on branch: "+ branch);
-   		return;
-   	}
-   	
-   	// Get design
-	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
-   	if (!designPath.isEmpty()) {
-   	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
-   	}
-%>
-	<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
+<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
 
 <!-- Google Tag Manager -->
 <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PV9D8H"
@@ -67,17 +16,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 })(window,document,'script','dataLayer','GTM-PV9D8H');</script>
 <!-- End Google Tag Manager -->
 
+<%
+  ApiConfig apiConfig = (ApiConfig)request.getAttribute("apiconfig");
+  CouncilMapper mapper = (CouncilMapper)request.getAttribute("mapper");
+  Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+  Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+  %>
 		
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">
 				<%
-					// Override currentPage and currentDesign according to councilId
-					if (newCurrentPage != null) {
-						request.setAttribute("newCurrentPage", newCurrentPage);
-					}
-					if (newCurrentDesign != null) {
-						request.setAttribute("newCurrentDesign", newCurrentDesign);
-					}
 		    	if( apiConfig.isDemoUser() ){
                     %><cq:include script="headerDemo.jsp"/><% 
                 }else{

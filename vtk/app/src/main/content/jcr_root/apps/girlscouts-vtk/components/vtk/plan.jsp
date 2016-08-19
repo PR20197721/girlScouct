@@ -245,7 +245,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       },
       componentDidMount: function() {
         resizeWindow();
-        link_bg_square();
+        //--link_bg_square();
         //loadNav('plan');
 
        if (Modernizr.touch) {
@@ -332,6 +332,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           }
             var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
+        		  
               React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)
           );
         }
@@ -395,16 +396,21 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
             var obj = this.props.obj;
             var comment= this.props.comment;
+var src="javascript:newLocCal()";
 
       return (
-        React.createElement("div", {className: bgcolor(obj, comment, 1)},
-        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
-        React.createElement("div", {className: "date"},
-          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment,"America/New_York").format('MMM')),
-          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
-          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
-        )
+    		  React.createElement("a", {href: src}, 
+    	         
+			        React.createElement("div", {className: bgcolor(obj, comment, 1)},
+			        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
+			        React.createElement("div", {className: "date"},
+			          React.createElement("p", {className: "month"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "meeting" : moment.tz(comment,"America/New_York").format('MMM')),
+			          React.createElement("p", {className: "day"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? (obj[comment].id)+1 : moment.tz(comment,"America/New_York").format('DD')),
+			          React.createElement("p", {className: "hour"},  moment.tz(comment,"America/New_York").get('year') < 1978 ? "" : moment.tz(comment,"America/New_York").format('hh:mm a'))
+			        )
+			      )
       )
+      
            );
         }
       });
