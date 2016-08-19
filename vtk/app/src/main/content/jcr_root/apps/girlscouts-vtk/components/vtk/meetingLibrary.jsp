@@ -250,11 +250,11 @@
 			<span class="vtk-green-box" style="">
 			<span class="icon-search-magnifying-glass" style=""></span>
 			</span>
-			<p id="showHideReveal" onclick="" class="hide-for-print close">FILTER MEETINGS BY TOPIC</p>
+			<p id="showHideReveal" class="hide-for-print close">FILTER MEETINGS BY TOPIC</p>
 		</div>
 	</div>
 
-	<div class="vtk-meeting-group" style="display:none">
+	<div class="vtk-meeting-group" style="">
 		<div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;">
 			<div class="row">
 				<div class="column small-24 medium-12">
@@ -271,9 +271,13 @@
 			String level =  (String)itrLevel.next();
 			String id= (String) mLevel.get(level);
 			%>
+			<div class="container" style="clear:both;">
+			<div class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 large-8 column">
 			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  onclick="doFilter(1)"/>
 			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
+			</div>
+			</div>
 			</div>
 			<%
 		}
@@ -669,6 +673,9 @@
 	</div>  
 	</div>
 
+ 
+	
+
 		  <%
 
 		  //sort meetings by meeting name
@@ -686,6 +693,11 @@
 			Meeting meeting = meetings.get(i);
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
+				%>
+				<div class="meeting-age-separator column small-24">
+                    <%= currentLevel %>
+                </div>
+				<% 
 		   }
 %>
 			<div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
@@ -703,6 +715,8 @@
 			}
 			%>
 			">
+			
+    
 				<div class="row">
 					<div class="column small-24 medium-14">
 											<div style="display:table;min-height:110px">
@@ -712,8 +726,19 @@
 						  <p class="title"><%=meeting.getName()%></p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
-						<p class="tags"><i class="icon-ticket"></i> <span><%=meeting.getCatTags()==null ? "" : meeting.getCatTags() %></span>
-						  </p>
+						<p class="tags"> 
+						 <span>
+						  <%
+						  if(meeting.getCatTags()!=null){
+							  
+							  java.util.StringTokenizer t= new StringTokenizer(meeting.getCatTags(), ",");
+							  while( t.hasMoreElements()){
+							     %><%=t.nextToken()%><%=t.hasMoreElements() ? "," : "" %> <% 
+							  }
+						  }
+						  %>
+						 </span>
+						</p>
 					</div>
 					</div>
 					</div>
@@ -726,20 +751,25 @@
 
 						  <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
-						 	<div style="text-align:center;">
+						 	<div class="middle-checkbox" style="text-align:center;">
 							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
 							value="<%=meeting.getPath()%>"/>
-							<label for="<%=meeting.getPath()%>"><span></span><p>Select Meeting</p></label>
+							<label for="<%=meeting.getPath()%>"><span></span>
+
+							<%if( request.getParameter("newCustYr")!=null){ %>
+								   <p onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</p>
+							  <%}else{ %>
+								   <p onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</p>
+							  <%}//end else %>
+
+
+							</label>
 							</div>
 						   
 
 							
 							 
-							  <%if( request.getParameter("newCustYr")!=null){ %>
-								   <a onclick="createCustPlan('<%=meeting.getPath()%>')">Select Meeting</a>
-							  <%}else{ %>
-								   <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
-							  <%}//end else %>
+				
 							
 				<% } else {%>
 				  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
@@ -1002,7 +1032,11 @@
 	
 	initMeetings();
 
-
+	$('.container').sort(function (a, b) {
+		  return $(a).find('.terminal').data('price') - $(b).find('.terminal').data('price');
+		}).each(function (_, container) {
+		  $(container).parent().append(container);
+		});
 
 
 
