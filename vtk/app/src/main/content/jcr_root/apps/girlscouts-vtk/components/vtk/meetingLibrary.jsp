@@ -301,7 +301,7 @@
 			%>
 			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>">
 					<input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"  onclick="doFilter(2)"/>
-					<label for="<%= id%>"><span></span><p> <%=type %> </p></label>
+					<label for="<%= id%>"><span></span><p> <%=type.replaceAll("_", " ") %> </p></label>
 		   </div>
 			<%
 		}
@@ -333,7 +333,7 @@
 			%>
 			<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>">
 			<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-			<label for="<%= id%>"><span></span><p> <%=cat %></p></label>
+			<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
 			</div>
 			<%
 		}
@@ -694,13 +694,13 @@
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
 				%>
-				<div class="meeting-age-separator column small-24">
+				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
                     <%= currentLevel %>
                 </div>
 				<% 
 		   }
 %>
-			<div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;
+			<div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;<%= meeting.getLevel()%>;
 			<%
 			if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){
 				java.util.Set cats = mCatsPerType.get(meeting.getMeetingPlanType());
@@ -709,7 +709,7 @@
 					while( itrCat.hasNext() ){
 						String x = (String) itrCat.next();
 						if(!meeting.getCatTags().contains( x ) )continue;
-						%><%= mCats.get(x)%><%=itrCat.hasNext() ? ";" : ""%><%
+						%><%= mCats.get(x).replaceAll("_", " ") %><%=itrCat.hasNext() ? ";" : ""%><%
 					}
 				}
 			}
@@ -859,6 +859,10 @@
 		 //console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
+			 
+			 
+			//console.log("****:"+ x.id.split(';')[3] );
+			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
 	}
@@ -910,6 +914,18 @@
 		//    x.parentElement.style.display = 'none';
 
 		}
+		
+		clearLevelHeader();
+	}
+	
+	function clearLevelHeader(){
+		
+		<%
+		  java.util.Iterator itr44= mLevel.keySet().iterator();
+		  while( itr44.hasNext() ){
+			 %> document.getElementById("levelNav_<%=itr44.next()%>" ).style.display ='none'; <%
+		  }
+		%>
 	}
 
 
