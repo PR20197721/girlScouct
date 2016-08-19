@@ -143,8 +143,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	durationField: null,
 	descriptionField: null,
 	nodeName: null,
-	outdoorCheckboxField: null,
-	outdoorDescriptionField: null,
+	//outdoorCheckboxField: null,
+	//outdoorDescriptionField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -166,11 +166,11 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.hiddenField = new CQ.Ext.form.Hidden({});
         this.add(this.hiddenField);
         
-        this.hiddenSlingBooleanField = new CQ.Ext.form.Hidden({value: "Boolean"});
+        /*this.hiddenSlingBooleanField = new CQ.Ext.form.Hidden({value: "Boolean"});
         this.add(this.hiddenSlingBooleanField);
         
         this.hiddenSlingDeleteField = new CQ.Ext.form.Hidden({});
-        this.add(this.hiddenSlingDeleteField);
+        this.add(this.hiddenSlingDeleteField);*/
 
         this.numberField = new CQ.Ext.form.Hidden({});
         this.add(this.numberField);
@@ -205,7 +205,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(new CQ.Ext.form.Label({text: "Description"}));
         this.descriptionField = new CQ.form.RichText({
         	rtePlugins: this.RTE_PLUGIN_CONF,
-        	width: 300,
+        	width: 600,
         	specialCharsConfig: {
         		chars: {
         			"em-dash": {
@@ -235,7 +235,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.descriptionField);
         
-        this.add(new CQ.Ext.form.Label({text: "Outdoor?"}));
+        /*this.add(new CQ.Ext.form.Label({text: "Outdoor?"}));
         this.outdoorCheckboxField = new CQ.Ext.form.Checkbox({  
         	inputValue: true,
         	listeners: {
@@ -294,7 +294,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
                 }
             }
         });
-        this.add(this.outdoorDescriptionField);
+        this.add(this.outdoorDescriptionField);*/
         
     },
 
@@ -304,8 +304,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     	this.nameField.setValue(value.name);
     	this.durationField.setValue(value.duration);
     	this.descriptionField.setValue(value.description);
-    	this.outdoorCheckboxField.setValue(value.isOutdoorAvailable);
-    	this.outdoorDescriptionField.setValue(value.activityDescription_outdoor);
+    	//this.outdoorCheckboxField.setValue(value.isOutdoorAvailable);
+    	//this.outdoorDescriptionField.setValue(value.activityDescription_outdoor);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -319,9 +319,10 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     		"nodeName": this.nodeName,
     		"name": this.nameField.getValue(),
     		"duration": this.durationField.getValue(),
-    		"description": this.descriptionField.getValue(),
-    		"isOutdoorAvailable": this.outdoorCheckboxField.getValue(),
-    		"activityDescription_outdoor": this.outdoorDescriptionField.getValue()
+    		"description": this.descriptionField.getValue()
+    		//,
+    		//"isOutdoorAvailable": this.outdoorCheckboxField.getValue(),
+    		//"activityDescription_outdoor": this.outdoorDescriptionField.getValue()
     	};
     	return agenda;
     },
