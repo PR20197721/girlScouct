@@ -35,7 +35,7 @@
 				<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")) { %>
 					<span class="alert">(Cancelled)</span>
 				<% } %></span></td>
-		  <td><%= (_meeting.getLevel() ==null && _meeting.getLevel().length()>0) ? "" : _meeting.getLevel().charAt(0) %></td>
+		  <td class="vtk_age_level <%= _meeting.getLevel() %>"><%= (_meeting.getLevel() ==null && _meeting.getLevel().length()>0) ? "" : _meeting.getLevel().charAt(0) %></td>
 		  <td>
 		  <% if( date!=null && date.after( new java.util.Date() ) ){%>
 		 	 <a onclick="showAlterYearPlanStartDate('<%= date.getTime() %>', '<%= (sched.size() +1 - currentMeeting) %>')" title="settings"><i class="icon-gear"></i></a>
