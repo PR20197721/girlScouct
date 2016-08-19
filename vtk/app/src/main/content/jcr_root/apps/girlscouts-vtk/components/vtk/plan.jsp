@@ -144,7 +144,7 @@
     		   var isOutdoorAvailable = this.props.isOutdoorAvailable,
     		       isOutdoor = this.props.isOutdoor;
     		   if (isOutdoorAvailable) {
-    			   if (isOutdoor) {//TODO: at least one of the agenda is selected as outdoor
+    			   if (isOutdoor) {
     		   			return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Green.png"}));
     			   } else {
     				   return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Yellow.png"}));
