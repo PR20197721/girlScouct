@@ -1,3 +1,12 @@
 .vtk-meeting-calendar-head,.vtk-meeting-calendar-body,.vtk-meeting-calendar-footer{
 	margin-bottom: 20px;
 }
+
+[data-default="false"]{
+	display: none !important;
+}
+
+[data-default="true"]{
+	display: block;
+}
+

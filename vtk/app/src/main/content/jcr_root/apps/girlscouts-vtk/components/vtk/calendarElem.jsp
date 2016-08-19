@@ -31,23 +31,23 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			<div class="row">
 
 				<div class="column small-24 medium-12 large-8">
-					<input type="radio" value="change" id="cngRadio" CHECKED name="change" /><label for="cngRadio"><p>Change Date / Time</p></label>
+					<input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
 				</div>
 
 				<div class="column small-24 medium-12 large-8">
-					<input type="radio" value="cancel" id="cclRadio" name="cancel" /><label for="cclRadio"><p>Cancel Meeting</p></label>
+					<input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto" /><label for="cclRadio"><p>Cancel Meeting</p></label>
 				</div>
 
 
 				<div class="column small-24 medium-12 large-8 end">
-					<input type="radio" value="cancel" id="cmlRadio" name="cancel" /><label for="cmlRadio"><p>Combine Meeting</p></label>
+					<input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
 				</div>
 				
 			</div>
 		</div>
 
 
-		<div data-parent="main" data-name="calendar-meeting" data-default="true"  class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-fetch="" class="vtk-meeting-calendar-body column small-24">
 			 <div class="row">
 
 			 	<div class="small-24 medium-8 column">
@@ -83,39 +83,172 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 					</form>
 					<span  id="cngDate0ErrMsg"></span>
 			 	</div>
+
+
+			 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
 		 	
 			 </div>
 		</div>
 
-		<div data-parent="main" data-name="cancel-meeting" data-default="false"   class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="main" data-name="cancel-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+			</div>
+
+						 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+		</div>
+
+		<div data-parent="main" data-name="combine-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+				combine   <button onclick="tabsVtk.goto('select-meeting')">clic</button>
+
+									 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+			</div>
+		</div>
+
+		<div data-parent="combine-meeting" data-name="select-meeting" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
 			</div>
 		</div>
 
-		<div data-parent="main" data-name="combine-meeting" data-default="false"   class="vtk-meeting-calendar-body column small-24">
-			<div class="row">
-			</div>
-		</div>
 
 
-		<div class="vtk-meeting-calendar-foot column small-24 column">
-			<div class="row">
-				<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
-				<div id="dialog-confirm"></div>
-			</div>
-		</div>	
 
 		
 
 <script>
 
-$(function(){
+var tabsVtk = (function(){
+
+	var ObjTree = {};
+	var tree =[];
+
+	$(function(){
+		//Create object checker
+		 tree = $.map($('[data-parent]'),function(value,idx){
+			var parent, name, defaultD, fetch, $element;
+
+			parent = $(value).data('parent');
+			name = $(value).data('name');
+			defaultD = $(value).data('default');
+			fetch = $(value).data('fetch');
+			$element = $(value);
+
+			return {
+				parent: parent,
+				visible:defaultD,
+				fetch: fetch,
+				idx:idx,
+				name:name,
+				$el:$element,
+				child:[]
+			}
+		});
+
+		tree.forEach(function(o){
+			// ObjTree[o.name] = o;
+
+			if(ObjTree.hasOwnProperty(o.parent) ){
+				ObjTree[o.parent]['child'].push(o);
+			}else{
+				ObjTree[o.name] =o;
+			}
+		});
+
+
+	});
+
+	console.log(tree,ObjTree);
 
 
 
+	function goto(id){
+		$('[data-parent]').attr('data-default',false);
+
+		var el = tree.filter(function(item){ return item.name == id})
 
 
-});
+		if(el[0].fetch !== '' || el[0].fetch ){
+			el[0].$el.children('.row').load(el[0].fetch)
+		}
+		el[0].$el.attr('data-default',true);
+	}
+
+	
+
+
+
+	return {
+		goto:goto
+	}
+
+
+})();
+
+
 
 </script>
 
