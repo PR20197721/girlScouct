@@ -138,6 +138,22 @@
         } //end of render
       });
 
+       var outdoorIcon = React.createClass({
+    	   displayName:"outdoorIcon",
+    	   render:function(){
+    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,
+    		       isOutdoor = this.props.isOutdoor;
+    		   if (isOutdoorAvailable) {
+    			   if (isOutdoor) {
+    		   			return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Green.png"}));
+    			   } else {
+    				   return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Yellow.png"}));
+    			   }
+    		   } 
+			   return null;
+    	   }
+    	})
+       
 
        var MeetingComponent = React.createClass({displayName: "MeetingComponent",
         render: function() {
@@ -151,11 +167,11 @@
 
                                      return (
 
-
              React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled'},
                      React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},
                      React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                      React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
+                         React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}),
                          React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, dateRaw:comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                          React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                          React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
@@ -166,7 +182,6 @@
                      )
                      )
                  )
-
 
 
                                      );
@@ -180,6 +195,7 @@
                         React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
                         React.createElement("div", {}, React.createElement(DateBox, {comment: comment, obj: obj})),
                         React.createElement("div", {className: "large-22 medium-22 small-24 columns"},
+                            React.createElement(outdoorIcon, {isOutdoorAvailable: obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor: obj[comment].anyOutdoorActivityInMeeting}),
                             React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {isOutdoorAvailable:  obj[comment].anyOutdoorActivityInMeetingAvailable, isOutdoor:  obj[comment].anyOutdoorActivityInMeeting, dateRaw: comment, date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})),
                             React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat),
                             React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
