@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.Email;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
@@ -48,6 +49,10 @@ import javax.servlet.ServletException;
 import java.io.IOException;
 import java.util.*;
 
+import org.apache.sling.api.resource.ResourceResolver;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 /**
  * This mail servlet accepts POSTs to a form begin paragraph
  * but only if the selector "mail" and the extension "html" is used.
@@ -72,6 +77,7 @@ public class GSMailServlet
     protected static final String BCC_PROPERTY = "bcc";
     protected static final String SUBJECT_PROPERTY = "subject";
     protected static final String FROM_PROPERTY = "from";
+    protected static final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
     protected static final String DISABLE_CONFIRMATION_PROPERTY = "disableConfirmation";
     protected static final String CONFIRMATION_SUBJECT_PROPERTY = "confirmationSubject";
     protected static final String CONFIRMATION_FROM_PROPERTY = "confirmationFrom";
@@ -244,6 +250,7 @@ public class GSMailServlet
                 // now add form fields to message
                 // and uploads as attachments
                 final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
+                Map<String, List<String>> formFields = new HashMap<String,List<String>>();
                 for (final String name : namesList) {
                     final RequestParameter rp = request.getRequestParameter(name);
                     if (rp == null) {
@@ -254,6 +261,13 @@ public class GSMailServlet
                         buffer.append(" : \n");
                         final String[] pValues = request.getParameterValues(name);
                         for (final String v : pValues) {
+                        	if(null == formFields.get(name)){
+                        		List<String> formField = new ArrayList<String>();
+                        		formField.add(v);
+                        		formFields.put(name, formField);
+                        	}else{
+                        		formFields.get(name).add(v);
+                        	}
                             buffer.append(v);
                             buffer.append("\n");
                         }
@@ -323,14 +337,18 @@ public class GSMailServlet
                 //Ensure that override is off
                 if(!disableConfirmations){
                 	final Email confEmail;
-                	confEmail = new SimpleEmail();
+                	confEmail = new HtmlEmail();
                     confEmail.setCharset("utf-8");
-                    String confBody = getTemplate(request, values);
+                    String confBody = getTemplate(request, values, formFields, confEmail);
                     if(!("").equals(confBody)){
 	                    confEmail.setMsg(confBody);
 	                    // mailto
 	                    for(String confEmailAddress : confirmationEmailAddresses){
 	                        confEmail.addTo(confEmailAddress);
+	                    }
+	                    final String confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, "");
+	                    if(!("").equals(confMailTo)) {
+	                    	confEmail.addTo(confMailTo);
 	                    }
 	
 	                    // subject and from address
@@ -376,14 +394,43 @@ public class GSMailServlet
         response.setStatus(status);
     }
 
-    public String getTemplate(SlingHttpServletRequest request, ValueMap values){
+    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, Email confEmail){
     	try{
-    		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/email-template");
-    		return "TEST EMAIL - SUCCESS";
+    		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
+    		ResourceResolver resourceResolver = request.getResourceResolver();
+    		Resource templateResource = resourceResolver.resolve(templatePath);
+    		Resource dataResource = templateResource.getChild("jcr:content/data");
+    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
+    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail);
+    		String html = "<html><body>" + parsed + "</body></html>";
+    		return html;
     	}catch(Exception e){
     		logger.error("No valid template found for " + request.getResource().getPath());
+    		e.printStackTrace();
     		return "";
     	}
+    }
+    
+    public String parseHtml(String html, Map<String,List<String>> fields, Email confEmail){
+    	//Part 1: Insert field variables whenever %%{field_id}%% is found
+    	final Pattern pattern = Pattern.compile("%%(.*?)%%");
+    	final Matcher matcher = pattern.matcher(html);
+    	final StringBuffer sb = new StringBuffer();
+    	while(matcher.find()){
+    		List<String> matched = fields.get(matcher.group(1));
+    		if(matched != null){
+    			if(matched.size() > 1) {
+    				matcher.appendReplacement(sb, matched.toString());
+    			} else if(matched.toString().length() >= 1){
+    				matcher.appendReplacement(sb, matched.toString().substring(1, matched.toString().length()-1));
+    			}
+    		}
+    	}
+    	matcher.appendTail(sb);
+    	html = sb.toString();
+    	
+    	//Part 2: Find images and replace them with embeds, embed the image file in the email
+    	return html;
     }
 
 }

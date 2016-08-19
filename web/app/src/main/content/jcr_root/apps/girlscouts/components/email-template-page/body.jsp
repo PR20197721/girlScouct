@@ -3,4 +3,8 @@
 <%
 // To properly reflect the contents of an html email, all CSS and Javascript are removed from this page type
 %>
-<%= properties.get("content","") %>
+<body>
+<%= properties.get("data/content","") %>
+<hr>
+Please use <a href="<%= currentPage.getPath() + ".scaffolding.html" %>">scaffolding</a> to edit
+</body>

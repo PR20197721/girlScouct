@@ -8,6 +8,11 @@
             jcr:primaryType="cq:Panel"
             title="Email Content">
             <items jcr:primaryType="cq:WidgetCollection">
+                <title
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
+                    fieldLabel="Title"
+                    name="./jcr:content/jcr:title"/>
                 <content
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"

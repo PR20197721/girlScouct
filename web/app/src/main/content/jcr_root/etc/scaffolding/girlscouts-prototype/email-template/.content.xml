@@ -5,12 +5,12 @@
         dialogPath="/apps/girlscouts/wcm/scaffolding/dialogs/confirmation-email/dialog"
         cq:lastModified="{Date}2016-08-16T11:18:03.571-04:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/girlscouts-prototype/en/confirmation-emails"
+        cq:targetPath="/content/girlscouts-prototype/en/email-templates"
         cq:targetTemplate="/apps/girlscouts/templates/email-template-page"
         cq:template="/libs/wcm/scaffolding/templates/scaffolding"
-        jcr:description="Girl Scouts Confirmation Email Scaffolding"
+        jcr:description="Girl Scouts Email Template Scaffolding"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Confirmation Email"
+        jcr:title="Email Template"
         sling:resourceType="wcm/scaffolding/components/scaffolding">
     </jcr:content>
 </jcr:root>

@@ -6,7 +6,9 @@
     <cc/>
     <bcc/>
     <subject/>
+    <confirmationmailto/>
     <confirmationfrom/>
     <confirmationsubject/>
+    <templatepath/>
     <disableconfirmation/>
 </jcr:root>
