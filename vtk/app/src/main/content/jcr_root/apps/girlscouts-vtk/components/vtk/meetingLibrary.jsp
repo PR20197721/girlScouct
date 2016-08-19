@@ -271,14 +271,14 @@
 			String level =  (String)itrLevel.next();
 			String id= (String) mLevel.get(level);
 			%>
-			<div class="container" style="clear:both;">
-			<div class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
+			<span class="container" style="clear:both;">
+			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 large-8 column">
 			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  onclick="doFilter(1)"/>
 			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
 			</div>
-			</div>
-			</div>
+			</span>
+			</span>
 			<%
 		}
 		%>
