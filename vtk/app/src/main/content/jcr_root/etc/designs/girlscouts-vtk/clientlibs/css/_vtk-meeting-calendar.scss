@@ -1,0 +1,33 @@
+.vtk-meeting-calendar-head,.vtk-meeting-calendar-body,.vtk-meeting-calendar-footer{
+	margin-bottom: 20px;
+}
+
+[data-default="false"]{
+	display: none !important;
+}
+
+[data-default="true"]{
+	display: block;
+}
+
+
+.vtk_age_level {
+
+	font-size: 30px;
+	padding: 5px 20px !important;
+
+	text-transform: lowercase;
+
+
+}
+
+
+.vtk_age_level.Daisy{
+		color:$daisy;
+	}
+	.vtk_age_level.Brownie{
+		color:$brownie;
+	}
+	.vtk_age_level.Junior{
+		color:$junior;		
+	}
