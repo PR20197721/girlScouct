@@ -94,8 +94,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			<div class="row">
 			 	<div class="small-24 column">
 					<%@include file="include/cancelMeeting.jsp"%>
-				</div>
-				
+				</div>				
 			</div>	
 		</div>
 
@@ -105,10 +104,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 						 <%@include file="include/combineMeetings.jsp"%>
 					</div>
 
-					<div class="small-24 column">
-						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
-						<div id="dialog-confirm"></div>
-					</div>
+					
 				</div>	
 			</div>
 		</div>

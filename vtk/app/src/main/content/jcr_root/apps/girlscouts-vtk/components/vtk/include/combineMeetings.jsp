@@ -1,10 +1,15 @@
 
              
-             <table>
+             <table class="list-of-meeting-calendar combine-meeting">
              <%
                         for(int i=0;i<meetingsToCancel.size();i++) {%>
                            <tr>
-                           <td><input type="checkbox"  name="meeting_combine" value="<%=meetingsToCancel.get(i).getUid()%>" <%=i==0 ? "SELECTED" : "" %>/></td>
+                           <td>
+
+                        <!--    <input type="checkbox"  name="meeting_combine" value="<%=meetingsToCancel.get(i).getUid()%>" <%=i==0 ? "SELECTED" : "" %>/></td> -->
+                             <input type="checkbox" name="_tag_m" id="y" value="later">
+                            <label for="y"><span></span><p></p></label>
+
                            <td>
                            <%
                             java.util.Iterator ii= sched.keySet().iterator();
@@ -23,9 +28,19 @@
                         <% }
               %>
               </table>   
+
+
+
+              <div class="row">
+
+              <div class="small-24 column">
+            <input type="button" value="save" id="saveCalElem" class="button btn right">  <input ttype="button" onclick="doCombine()" value="Combine Meetings"  class="button btn right"> 
+            <div id="dialog-confirm"></div>
+          </div>
+             </div>
        
         
-        <input type="button" onclick="doCombine()" value="Combine Meetings"/>
+        <!-- <input type="button" onclick="doCombine()" value="Combine Meetings"/> -->
         
         <script>
         function doCombine(){

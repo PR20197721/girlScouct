@@ -6,7 +6,11 @@
                            <td>
 
 
-                             <input type="radio" value="<%=meetingsToCancel.get(i).getRefId()%>" id="x" name="meeting_select" /><label for="x"><p> </p></label>
+                            <input type="radio" name="_tag_t" id="x" value="<%=meetingsToCancel.get(i).getRefId()%>"  onclick=""/>
+                                 <label for="x"><span></span><p> </p></label>
+
+
+                     <!--         <input type="radio" value="<%=meetingsToCancel.get(i).getRefId()%>" id="x" name="meeting_select" /><label for="x"><p> </p></label> -->
 
                             <!--  <input type="radio" id="meeting_select" name="meeting_select" value="<%=meetingsToCancel.get(i).getRefId()%>"/> -->
 
