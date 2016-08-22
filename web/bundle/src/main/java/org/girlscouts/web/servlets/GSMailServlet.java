@@ -354,9 +354,11 @@ public class GSMailServlet
 	                    for(String confEmailAddress : confirmationEmailAddresses){
 	                        confEmail.addTo(confEmailAddress);
 	                    }
-	                    final String confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, "");
-	                    if(!("").equals(confMailTo)) {
-	                    	confEmail.addTo(confMailTo);
+	                    final String[] confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, String[].class);
+	                    if(confMailTo != null) {
+	                        for (final String rec : confMailTo) {
+	                            email.addBcc(rec);
+	                        }
 	                    }
 	
 	                    // subject and from address

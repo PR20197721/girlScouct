@@ -17,6 +17,7 @@
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
                     fieldLabel="Text"
+                    fieldDescription="To include the information from a field into the email, enter '%%{field-id}%%', e.g. Dear %%first-name%% %%last-name%%,..."
                     name="./jcr:content/data/content"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
