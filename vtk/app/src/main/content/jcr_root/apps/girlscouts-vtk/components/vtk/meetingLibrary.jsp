@@ -709,7 +709,7 @@
 					while( itrCat.hasNext() ){
 						String x = (String) itrCat.next();
 						if(!meeting.getCatTags().contains( x ) )continue;
-						%><%= mCats.get(x).replaceAll("_", " ") %><%=itrCat.hasNext() ? ";" : ""%><%
+						%><%= mCats.get(x) %><%=itrCat.hasNext() ? ";" : ""%><%
 					}
 				}
 			}
@@ -733,7 +733,7 @@
 							  
 							  java.util.StringTokenizer t= new StringTokenizer(meeting.getCatTags(), ",");
 							  while( t.hasMoreElements()){
-							     %><%=t.nextToken()%><%=t.hasMoreElements() ? "," : "" %> <% 
+							     %><%=t.nextToken().replace("_", " ")%><%=t.hasMoreElements() ? "," : "" %> <% 
 							  }
 						  }
 						  %>
