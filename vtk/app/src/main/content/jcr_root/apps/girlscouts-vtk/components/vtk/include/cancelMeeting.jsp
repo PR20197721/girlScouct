@@ -1,6 +1,6 @@
-<div class="column small-24 large-10 medium-10">
-            <input type="radio" value="cancel" id="cclRadio" name="cancel" /><label for="cclRadio"><p>Cancel Meeting</p></label>
-            <p>Select meeting plan you would like to cancel:</p>
+<div class="column small-24 medium-12 large-8">
+                    <input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto" /><label for="cclRadio"><p>Cancel Meeting</p></label>
+      <p>Select meeting plan you would like to cancel:</p>
             
              
              <table>

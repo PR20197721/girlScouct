@@ -26,16 +26,241 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 <div id="locMsg"></div>
 
 	<div class="modifyCalendarDate clearfix">
-		<%@include file="include/yearPlanCal.jsp"%>
 
-		<%@include file="include/cancelMeeting.jsp"%>
 		
-		<%@include file="include/combineMeetings.jsp"%>
+
+
+		<div class="vtk-meeting-calendar-head column small-24">
+			<div class="row">
+                <%@include file="include/yearPlanCal.jsp"%>
+				
+                <%@include file="include/cancelMeeting.jsp"%>
+				
+
+                <%@include file="include/combineMeetings.jsp"%>
+				
+				
+			</div>
+		</div>
+
+
+
+		
+		
+		
 		
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right">
 	<div id="dialog-confirm"></div>
 
+
+		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-fetch="" class="vtk-meeting-calendar-body column small-24">
+			 <div class="row">
+
+			 	<div class="small-24 medium-8 column">
+			 		<p>
+			 			Current Date: <-Date: Pending -><br />
+			 			<strong>new Date:</strong>
+			 		</p>
+
+			 		<p>
+			 			Select a <strong>new date or time</strong> for this meeting and "Save" your choice	
+			 		</p>
+			 	</div>
+
+
+			 	<div class="small-24 medium-12 column end">
+			 		<form id="frmCalElem">
+						<!-- <p><strong>Change Date:</strong></p>
+						<span>Select today's date or any future date</span> -->
+						<div id="datepicker"></div>
+						<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
+						<p><strong>Change Time:</strong></p>
+						<section class='row clearfix'>
+							<div class="column small-6">
+								<input type="text" id="cngTime0" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm,date) %>" name="cngDate0"  />
+							</div>
+							<div class="columm small-6 left">
+								<select id="cngAP0" name="cngAP0" class="ampm">
+									<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
+									<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
+								</select>
+							</div>
+						</section>
+					</form>
+					<span  id="cngDate0ErrMsg"></span>
+			 	</div>
+
+
+			 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+		 	
+			 </div>
+		</div>
+
+		<div data-parent="main" data-name="cancel-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+			</div>
+
+						 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+		</div>
+
+		<div data-parent="main" data-name="combine-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+				combine   <button onclick="tabsVtk.goto('select-meeting')">clic</button>
+
+									 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+			</div>
+		</div>
+
+		<div data-parent="combine-meeting" data-name="select-meeting" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+			</div>
+		</div>
+
+
+
+
+		
+
+<script>
+
+var tabsVtk = (function(){
+
+	var ObjTree = {};
+	var tree =[];
+
+	$(function(){
+		//Create object checker
+		 tree = $.map($('[data-parent]'),function(value,idx){
+			var parent, name, defaultD, fetch, $element;
+
+			parent = $(value).data('parent');
+			name = $(value).data('name');
+			defaultD = $(value).data('default');
+			fetch = $(value).data('fetch');
+			$element = $(value);
+
+			return {
+				parent: parent,
+				visible:defaultD,
+				fetch: fetch,
+				idx:idx,
+				name:name,
+				$el:$element,
+				child:[]
+			}
+		});
+
+		tree.forEach(function(o){
+			// ObjTree[o.name] = o;
+
+			if(ObjTree.hasOwnProperty(o.parent) ){
+				ObjTree[o.parent]['child'].push(o);
+			}else{
+				ObjTree[o.name] =o;
+			}
+		});
+
+
+	});
+
+	console.log(tree,ObjTree);
+
+
+
+	function goto(id){
+		$('[data-parent]').attr('data-default',false);
+
+		var el = tree.filter(function(item){ return item.name == id})
+
+
+		if(el[0].fetch !== '' || el[0].fetch ){
+			el[0].$el.children('.row').load(el[0].fetch)
+		}
+		el[0].$el.attr('data-default',true);
+	}
+
+	
+
+
+
+	return {
+		goto:goto
+	}
+
+
+})();
+
+
+
+</script>
+
+
+		
 <script>
 $(function() {
 	$( "#datepicker" ).datepicker({

@@ -1,6 +1,6 @@
-<div class="column large-10 medium-10 small-24">
-            <input type="radio" value="change" id="cngRadio" CHECKED name="change" /><label for="cngRadio"><p>Change Date / Time</p></label>
-            <form id="frmCalElem">
+<div class="column small-24 medium-12 large-8">
+                    <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
+   <form id="frmCalElem">
                 <p><strong>Change Date:</strong></p>
                 <span>Select today's date or any future date</span>
                 <div id="datepicker"></div>

@@ -1,8 +1,6 @@
-
-
-   <div id="combineMeetings" class="column small-24 large-10 medium-10">
-            <input type="radio" value="cancel" id="cclRadio" name="combine" /><label for="cclRadio"><p>Combine</p></label>
-            
+<div class="column small-24 medium-12 large-8 end">
+                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
+          
             
              
              <table>
