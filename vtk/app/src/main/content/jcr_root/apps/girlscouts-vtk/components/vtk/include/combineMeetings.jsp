@@ -1,0 +1,47 @@
+
+
+   <div class="column small-24 large-10 medium-10">
+            <input type="radio" value="cancel" id="cclRadio" name="combine" /><label for="cclRadio"><p>Combine</p></label>
+            
+            
+             
+             <table>
+             <%
+                        for(int i=0;i<meetingsToCancel.size();i++) {%>
+                           <tr>
+                           <td><input type="checkbox"  name="meeting_combine" value="<%=meetingsToCancel.get(i).getRefId()%>" <%=i==0 ? "SELECTED" : "" %>/></td>
+                           <td>
+                           <%
+                            java.util.Iterator ii= sched.keySet().iterator();
+                            while( ii.hasNext()){
+                                java.util.Date dt = (java.util.Date) ii.next();
+                                MeetingE me = (MeetingE)sched.get(dt);
+                                if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
+                                    %> <%=dt%> <% 
+                                }
+                            }
+                           %>
+                           </td>
+                           
+                           <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
+                           </tr>                           
+                        <% }
+              %>
+              </table>   
+        </div>
+        
+        <input type="button" onclick="doCombine()" value="Combine Meetings"/>
+        
+        <script>
+        function doCombine(){
+        	var checkboxes = document.getElementsByName("meeting_combine");
+        	  var checkboxesChecked = [];
+        	 
+        	  for (var i=0; i<checkboxes.length; i++) {
+        	     
+        	     if (checkboxes[i].checked) {
+        	        console.log(checkboxes[i].value);
+        	     }
+        	  }
+        }
+        </script>
