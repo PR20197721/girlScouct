@@ -17,6 +17,8 @@ import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 import com.google.common.collect.Lists;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
@@ -52,6 +54,7 @@ import java.util.*;
 import org.apache.sling.api.resource.ResourceResolver;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -407,7 +410,12 @@ public class GSMailServlet
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
     		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail, rr);
-    		String html = "<html><body>" + parsed + "</body></html>";
+    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
+    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
+    				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
+    				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
+    				"<title>Girl Scouts</title></head>";
+    		String html = head + "<body>" + parsed + "</body></html>";
     		return html;
     	}catch(Exception e){
     		logger.error("No valid template found for " + request.getResource().getPath());
@@ -439,32 +447,52 @@ public class GSMailServlet
     	final Matcher imgMatcher = imgPattern.matcher(html);
     	final StringBuffer imgSb = new StringBuffer();
     	while(imgMatcher.find()){
-    		Resource imgRes = rr.resolve(imgMatcher.group(1));
-    		Node imgNode = imgRes.adaptTo(Node.class);
-    		InputStream in = null;
-			FileDataSource png = null;
+    		byte[] result = null;
     		try {
-    			OutputStream out = png.getOutputStream();
-				in = imgNode.getNode("jcr:content").getProperty("jcr:data").getStream();
-				byte[] buffer = new byte[1024];
-				int bytesRead;
-				while((bytesRead = in.read(buffer)) != -1){
-					out.write(buffer,0,bytesRead);
-				}
+    			String renditionPath = getRenditionPath(imgMatcher.group(1));
+        		Resource imgRes = rr.resolve(renditionPath);
+        		if(ResourceUtil.isNonExistingResource(imgRes)) {
+        			imgRes = rr.resolve(renditionPath.replaceAll("%20"," "));
+        			if(ResourceUtil.isNonExistingResource(imgRes)){
+        				throw(new Exception("Cannot find resource: " + renditionPath));
+        			}
+        		}
+        		Node ntFileNode = imgRes.adaptTo(Node.class);
+        		Node ntResourceNode = ntFileNode.getNode("jcr:content");
+        		InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
+        		BufferedInputStream bin = new BufferedInputStream(is);
+        		result = IOUtils.toByteArray(bin);
+        		bin.close();
+        		is.close();
 			} catch (Exception e) {
 				logger.error("Input Stream Failed");
 				System.out.println("Input Stream Failed");
 				e.printStackTrace();
 			}
     		try {
-				imgMatcher.appendReplacement(imgSb, "cid:" + (confEmail.embed(png,imgMatcher.group(1)) + ">"));
-			} catch (EmailException e) {
+    			String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
+    			File imgFile = new File(fileName);
+    			FileUtils.writeByteArrayToFile(imgFile,result);
+				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (confEmail.embed(imgFile,fileName)));
+		    	imgMatcher.appendTail(imgSb);
+		    	html = imgSb.toString();
+			} catch (Exception e) {
 				logger.error("Failed to embed image");
 				e.printStackTrace();
 			}
     	}
     	
     	return html;
+    }
+    
+    public String getRenditionPath(String imgPath){
+    	final Pattern pattern = Pattern.compile("/jcr:content/renditions/");
+    	final Matcher matcher = pattern.matcher(imgPath);
+    	if(matcher.find()){
+    		return imgPath;
+    	}else{
+    		return imgPath + "/jcr:content/renditions/original";
+    	}
     }
 
 }
