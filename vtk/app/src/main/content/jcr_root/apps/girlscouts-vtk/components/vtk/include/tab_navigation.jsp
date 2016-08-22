@@ -483,6 +483,13 @@
 
 						<li><a data-reveal-id="modal_help" title="help"><i
 								class="icon-questions-answers"></i></a></li>
+						
+						<%if("planView".equals(activeTab)){%>
+						   <li style="margin-right:15px"><a
+							onclick="callPrintModal()"
+							title="print"><i class="icon-printer"></i></a></li>
+                        <%}%>
+
 						<%} %>
 
 						<% if("plan".equals(activeTab)) {%>

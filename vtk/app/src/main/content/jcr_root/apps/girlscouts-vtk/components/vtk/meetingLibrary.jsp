@@ -254,7 +254,7 @@
 		</div>
 	</div>
 
-	<div class="vtk-meeting-group" style="display:none">
+	<div class="vtk-meeting-group" style="">
 		<div class="main-filter column small-22 small-centered" style="display:table; padding-left:0;">
 			<div class="row">
 				<div class="column small-24 medium-12">
