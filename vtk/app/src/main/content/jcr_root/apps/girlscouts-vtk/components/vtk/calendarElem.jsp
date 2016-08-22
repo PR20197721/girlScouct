@@ -32,12 +32,28 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 		<div class="vtk-meeting-calendar-head column small-24">
 			<div class="row">
-                <%@include file="include/yearPlanCal.jsp"%>
+			
+			
+			    <div class="column small-24 medium-12 large-8">
+                     <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
+                </div>
+
+                <div class="column small-24 medium-12 large-8">
+                    <input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto" /><label for="cclRadio"><p>Cancel Meeting</p></label>
+                </div>
+
+
+                <div class="column small-24 medium-12 large-8 end">
+                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
+                </div>
+                
+                
+                <!--  %@include file="include/yearPlanCal.jsp"% -->
 				
-                <%@include file="include/cancelMeeting.jsp"%>
+                <!--  %@include file="include/cancelMeeting.jsp"% -->
 				
 
-                <%@include file="include/combineMeetings.jsp"%>
+                <!-- %@include file="include/combineMeetings.jsp"% -->
 				
 				
 			</div>
@@ -104,54 +120,9 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 		<div data-parent="main" data-name="cancel-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-				 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-				 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-				 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-				 consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-				 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-				 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+			
+			<%@include file="include/cancelMeeting.jsp"%>
+				
 
 			</div>
 
@@ -350,7 +321,9 @@ function fnOpenNormalDialog() {
         buttons: {
         "Go ahead, cancel the meeting": function () {
             $(this).dialog('close');
-            var r = $("#meeting_select option:selected").val();
+            //var r = $("#meeting_select option:selected").val();
+            var r = document.querySelector('input[name = "meeting_select"]:checked').value;
+            console.log("BABABA: "+ r );
             rmMeeting('<%=date.getTime()%>',r);
         },
             "Return to Specify Dates and Locations": function () {
