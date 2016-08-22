@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.cq.tagging.Tag,java.util.List" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.cq.tagging.Tag,java.util.List,java.lang.Character" %>
 <%@ page
   import="com.google.common.collect .*"%>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -678,11 +678,12 @@
 
 		  <%
 
-		  //sort meetings by meeting name
-		  if( meetings !=null ){
+		  //sort meetings by this specific order: dAisy > bRownie > jUnior
+		  if (meetings != null) {
 			  Collections.sort(meetings, new Comparator<Meeting>() {
 				  public int compare(Meeting o1, Meeting o2) {
-					  return o1.getLevel().compareTo(o2.getLevel());
+					  //return o1.getLevel().compareTo(o2.getLevel());
+					  return Character.compare(o1.getLevel().charAt(1), o2.getLevel().charAt(1)); 
 				  }
 			  });
 		  }
