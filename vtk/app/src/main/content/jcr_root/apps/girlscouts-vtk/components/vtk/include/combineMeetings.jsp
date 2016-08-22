@@ -1,6 +1,6 @@
 
 
-   <div class="column small-24 large-10 medium-10">
+   <div id="combineMeetings" class="column small-24 large-10 medium-10">
             <input type="radio" value="cancel" id="cclRadio" name="combine" /><label for="cclRadio"><p>Combine</p></label>
             
             
@@ -9,7 +9,7 @@
              <%
                         for(int i=0;i<meetingsToCancel.size();i++) {%>
                            <tr>
-                           <td><input type="checkbox"  name="meeting_combine" value="<%=meetingsToCancel.get(i).getRefId()%>" <%=i==0 ? "SELECTED" : "" %>/></td>
+                           <td><input type="checkbox"  name="meeting_combine" value="<%=meetingsToCancel.get(i).getUid()%>" <%=i==0 ? "SELECTED" : "" %>/></td>
                            <td>
                            <%
                             java.util.Iterator ii= sched.keySet().iterator();
@@ -34,6 +34,7 @@
         
         <script>
         function doCombine(){
+        	var mids = "";
         	var checkboxes = document.getElementsByName("meeting_combine");
         	  var checkboxesChecked = [];
         	 
@@ -41,7 +42,28 @@
         	     
         	     if (checkboxes[i].checked) {
         	        console.log(checkboxes[i].value);
+        	        mids += checkboxes[i].value;
         	     }
         	  }
+        	  console.log("mids: "+ mids);
+        	  addCalendar(mids);
+        }
+        
+        
+        function addCalendar(mids){
+        	console.log("addCalendar....");
+        	$.ajax({
+                url: '/content/girlscouts-vtk/controllers/vtk.include.combineMeetingsAddCal.html',
+                type: 'GET',
+                data: {
+                    
+                    mids: mids,
+                    a: Date.now()
+                },
+                success: function(result) {
+                	console.log("succ "+ result);
+                    document.getElementById("combineMeetings").innerHtml=result;
+                }
+            });
         }
         </script>
