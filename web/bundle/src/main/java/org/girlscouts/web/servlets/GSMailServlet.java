@@ -357,7 +357,7 @@ public class GSMailServlet
 	                    final String[] confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, String[].class);
 	                    if(confMailTo != null) {
 	                        for (final String rec : confMailTo) {
-	                            email.addBcc(rec);
+	                            confEmail.addBcc(rec);
 	                        }
 	                    }
 	
