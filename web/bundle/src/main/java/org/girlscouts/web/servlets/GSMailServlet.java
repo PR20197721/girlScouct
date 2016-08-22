@@ -52,6 +52,11 @@ import java.util.*;
 import org.apache.sling.api.resource.ResourceResolver;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.jcr.Node;
+import javax.activation.FileDataSource;
 
 /**
  * This mail servlet accepts POSTs to a form begin paragraph
@@ -336,12 +341,12 @@ public class GSMailServlet
                 boolean disableConfirmations = values.get("disableConfirmationEmails", false);
                 //Ensure that override is off
                 if(!disableConfirmations){
-                	final Email confEmail;
+                	final HtmlEmail confEmail;
                 	confEmail = new HtmlEmail();
                     confEmail.setCharset("utf-8");
-                    String confBody = getTemplate(request, values, formFields, confEmail);
+                    String confBody = getTemplate(request, values, formFields, confEmail, request.getResourceResolver());
                     if(!("").equals(confBody)){
-	                    confEmail.setMsg(confBody);
+	                    confEmail.setHtmlMsg(confBody);
 	                    // mailto
 	                    for(String confEmailAddress : confirmationEmailAddresses){
 	                        confEmail.addTo(confEmailAddress);
@@ -394,14 +399,14 @@ public class GSMailServlet
         response.setStatus(status);
     }
 
-    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, Email confEmail){
+    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr){
     	try{
     		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
     		ResourceResolver resourceResolver = request.getResourceResolver();
     		Resource templateResource = resourceResolver.resolve(templatePath);
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail);
+    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail, rr);
     		String html = "<html><body>" + parsed + "</body></html>";
     		return html;
     	}catch(Exception e){
@@ -411,7 +416,7 @@ public class GSMailServlet
     	}
     }
     
-    public String parseHtml(String html, Map<String,List<String>> fields, Email confEmail){
+    public String parseHtml(String html, Map<String,List<String>> fields, HtmlEmail confEmail, ResourceResolver rr){
     	//Part 1: Insert field variables whenever %%{field_id}%% is found
     	final Pattern pattern = Pattern.compile("%%(.*?)%%");
     	final Matcher matcher = pattern.matcher(html);
@@ -430,6 +435,35 @@ public class GSMailServlet
     	html = sb.toString();
     	
     	//Part 2: Find images and replace them with embeds, embed the image file in the email
+    	final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
+    	final Matcher imgMatcher = imgPattern.matcher(html);
+    	final StringBuffer imgSb = new StringBuffer();
+    	while(imgMatcher.find()){
+    		Resource imgRes = rr.resolve(imgMatcher.group(1));
+    		Node imgNode = imgRes.adaptTo(Node.class);
+    		InputStream in = null;
+			FileDataSource png = null;
+    		try {
+    			OutputStream out = png.getOutputStream();
+				in = imgNode.getNode("jcr:content").getProperty("jcr:data").getStream();
+				byte[] buffer = new byte[1024];
+				int bytesRead;
+				while((bytesRead = in.read(buffer)) != -1){
+					out.write(buffer,0,bytesRead);
+				}
+			} catch (Exception e) {
+				logger.error("Input Stream Failed");
+				System.out.println("Input Stream Failed");
+				e.printStackTrace();
+			}
+    		try {
+				imgMatcher.appendReplacement(imgSb, "cid:" + (confEmail.embed(png,imgMatcher.group(1)) + ">"));
+			} catch (EmailException e) {
+				logger.error("Failed to embed image");
+				e.printStackTrace();
+			}
+    	}
+    	
     	return html;
     }
 
