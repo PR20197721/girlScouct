@@ -4,6 +4,26 @@
     
         <input type="hidden" name="midsToCombine" value="<%=request.getParameter("mids")%>"/>
         
+        <%
+        String mids = request.getParameter("mids");
+        java.util.List <org.girlscouts.vtk.models.MeetingE>meetingsToCancel = org.girlscouts.vtk.ejb.meetingUtil.getMeetingToCancel(user, troop);
+        for(int i=0;i<meetingsToCancel.size();i++) {
+         
+         java.util.StringTokenizer t= new java.util.StringTokenizer(mids, ",");
+         while( t.hasMoreElements()){
+	         String mid= t.nextToken();
+	         if( mid.equals(meetingsToCancel.get(i).getUid())){
+	            %> <%= meetingsToCancel.get(i).getMeetingInfo().getName()%> <% 
+	         }//end if
+         }//edn wihle
+                                
+         }//edne for
+        
+        
+        %>
+        
+        
+        
         **<%=request.getParameter("mids")%>
         
         <input type="button" value="Cancel" />

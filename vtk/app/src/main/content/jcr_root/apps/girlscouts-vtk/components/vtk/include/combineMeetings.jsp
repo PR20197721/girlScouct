@@ -42,7 +42,7 @@
         	     
         	     if (checkboxes[i].checked) {
         	        console.log(checkboxes[i].value);
-        	        mids += checkboxes[i].value;
+        	        mids += checkboxes[i].value+",";
         	     }
         	  }
         	  console.log("mids: "+ mids);
