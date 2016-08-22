@@ -749,7 +749,7 @@
 					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
 
 
-						  <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
 						 	<div class="middle-checkbox" style="text-align:center;">
 							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 
