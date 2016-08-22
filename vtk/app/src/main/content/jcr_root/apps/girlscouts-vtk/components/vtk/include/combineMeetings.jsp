@@ -1,7 +1,4 @@
-<div class="column small-24 medium-12 large-8 end">
-                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
-          
-            
+
              
              <table>
              <%
@@ -26,7 +23,7 @@
                         <% }
               %>
               </table>   
-        </div>
+       
         
         <input type="button" onclick="doCombine()" value="Combine Meetings"/>
         

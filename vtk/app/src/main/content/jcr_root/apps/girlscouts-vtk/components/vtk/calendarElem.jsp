@@ -138,7 +138,9 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			<div class="row">
 				combine   <button onclick="tabsVtk.goto('select-meeting')">clic</button>
 
-									 	<div class="vtk-meeting-calendar-foot column small-24 column">
+				<div class="vtk-meeting-calendar-foot column small-24 column">
+				
+				    <%@include file="include/combineMeetings.jsp"%>
 					<div class="row">
 						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
 						<div id="dialog-confirm"></div>
