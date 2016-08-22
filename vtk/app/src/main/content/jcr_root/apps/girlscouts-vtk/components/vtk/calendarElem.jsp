@@ -25,54 +25,27 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 <div id="locMsg"></div>
 
-	<div class="modifyCalendarDate clearfix">
-
-		
-
-
-		<div class="vtk-meeting-calendar-head column small-24">
-			<div class="row">
-			
-			
-			    <div class="column small-24 medium-12 large-8">
-                     <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
+<div class="modifyCalendarDate clearfix">
+	<div class="vtk-meeting-calendar-head column small-24">
+		<div class="row">
+		    <div class="column small-24 medium-12 large-8">
+                <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
                 </div>
 
                 <div class="column small-24 medium-12 large-8">
                     <input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto" /><label for="cclRadio"><p>Cancel Meeting</p></label>
                 </div>
 
-
                 <div class="column small-24 medium-12 large-8 end">
                     <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
                 </div>
-                
-                
-                <!--  %@include file="include/yearPlanCal.jsp"% -->
-				
-                <!--  %@include file="include/cancelMeeting.jsp"% -->
-				
-
-                <!-- %@include file="include/combineMeetings.jsp"% -->
-				
-				
 			</div>
 		</div>
-
-
-
-		
-		
-		
-		
 	</div>
-	<input type="button" value="save" id="saveCalElem" class="button btn right">
+
 	<div id="dialog-confirm"></div>
-
-
-		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-fetch="" class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-title="" data-fetch="" class="vtk-meeting-calendar-body column small-24">
 			 <div class="row">
-
 			 	<div class="small-24 medium-8 column">
 			 		<p>
 			 			Current Date: <-Date: Pending -><br />
@@ -83,7 +56,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 			Select a <strong>new date or time</strong> for this meeting and "Save" your choice	
 			 		</p>
 			 	</div>
-
 
 			 	<div class="small-24 medium-12 column end">
 			 		<form id="frmCalElem">
@@ -118,30 +90,22 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 </div>
 		</div>
 
-		<div data-parent="main" data-name="cancel-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
-			
-			<%@include file="include/cancelMeeting.jsp"%>
+			 	<div class="small-24 column">
+					<%@include file="include/cancelMeeting.jsp"%>
+				</div>
 				
-
-			</div>
-
-						 	<div class="vtk-meeting-calendar-foot column small-24 column">
-					<div class="row">
-						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
-						<div id="dialog-confirm"></div>
-					</div>
-				</div>	
+			</div>	
 		</div>
 
-		<div data-parent="main" data-name="combine-meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="main" data-name="combine-meeting" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
-				combine   <button onclick="tabsVtk.goto('select-meeting')">clic</button>
+					<div class="small-24 column">
+						 <%@include file="include/combineMeetings.jsp"%>
+					</div>
 
-				<div class="vtk-meeting-calendar-foot column small-24 column">
-				
-				    <%@include file="include/combineMeetings.jsp"%>
-					<div class="row">
+					<div class="small-24 column">
 						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
 						<div id="dialog-confirm"></div>
 					</div>
@@ -149,7 +113,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			</div>
 		</div>
 
-		<div data-parent="combine-meeting" data-name="select-meeting" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="combine-meeting" data-name="select-meeting" data-title="" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
 			</div>
 		</div>
@@ -160,76 +124,74 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		
 
 <script>
+	var tabsVtk = (function(){
 
-var tabsVtk = (function(){
+		var ObjTree = {};
+		var tree =[];
 
-	var ObjTree = {};
-	var tree =[];
+		$(function(){
+			//Create object checker
+			 tree = $.map($('[data-parent]'),function(value,idx){
+				var parent, name, defaultD, fetch, $element;
 
-	$(function(){
-		//Create object checker
-		 tree = $.map($('[data-parent]'),function(value,idx){
-			var parent, name, defaultD, fetch, $element;
+				parent = $(value).data('parent');
+				name = $(value).data('name');
+				defaultD = $(value).data('default');
+				fetch = $(value).data('fetch');
+				$element = $(value);
 
-			parent = $(value).data('parent');
-			name = $(value).data('name');
-			defaultD = $(value).data('default');
-			fetch = $(value).data('fetch');
-			$element = $(value);
+				return {
+					parent: parent,
+					visible:defaultD,
+					fetch: fetch,
+					idx:idx,
+					name:name,
+					$el:$element,
+					child:[]
+				}
+			});
 
-			return {
-				parent: parent,
-				visible:defaultD,
-				fetch: fetch,
-				idx:idx,
-				name:name,
-				$el:$element,
-				child:[]
-			}
+			tree.forEach(function(o){
+				// ObjTree[o.name] = o;
+
+				if(ObjTree.hasOwnProperty(o.parent) ){
+					ObjTree[o.parent]['child'].push(o);
+				}else{
+					ObjTree[o.name] =o;
+				}
+			});
+
+
 		});
 
-		tree.forEach(function(o){
-			// ObjTree[o.name] = o;
+		console.log(tree,ObjTree);
 
-			if(ObjTree.hasOwnProperty(o.parent) ){
-				ObjTree[o.parent]['child'].push(o);
-			}else{
-				ObjTree[o.name] =o;
+
+
+		function goto(id){
+			$('[data-parent]').attr('data-default',false);
+
+			var el = tree.filter(function(item){ return item.name == id})
+
+
+			if(el[0].fetch !== '' || el[0].fetch ){
+				el[0].$el.children('.row').load(el[0].fetch)
 			}
-		});
-
-
-	});
-
-	console.log(tree,ObjTree);
-
-
-
-	function goto(id){
-		$('[data-parent]').attr('data-default',false);
-
-		var el = tree.filter(function(item){ return item.name == id})
-
-
-		if(el[0].fetch !== '' || el[0].fetch ){
-			el[0].$el.children('.row').load(el[0].fetch)
+			el[0].$el.attr('data-default',true);
 		}
-		el[0].$el.attr('data-default',true);
-	}
 
-	
+		function goBack(){
+			goto($('[data-default="true"]').data('parent'));
+		}
 
-
-
-	return {
-		goto:goto
-	}
-
-
-})();
+		
 
 
 
+		return {
+			goto:goto
+		}
+	})();
 </script>
 
 
