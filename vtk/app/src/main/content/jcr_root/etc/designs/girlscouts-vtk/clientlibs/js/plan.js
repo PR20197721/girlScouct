@@ -1132,21 +1132,36 @@ function resetYear() {
 
 var ModalVtk = (function() {
 
-    function Modal() {
+    function Modal(name) {
+
+        var modalName = name || new Date().getTime();
 
         var $main_modal_wrap, $main_modal, $gray_modal = [];
 
         function init() {
-            var $a = $('<div class="vtk-js-modal_wrap"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
+            var $a = $('<div class="vtk-js-modal_wrap '+modalName+'"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
             var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
-            $('body').append($a, $b);
 
 
-            $main_modal_wrap = $('.vtk-js-modal_wrap');
-            $main_modal = $('.vtk-js-modal');
+            if(!$('.vtk-gray-modal').length>0){
+                var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
+                $('body').append($b);
+            }
+
+
+            $('body').append($a);
+
+            $main_modal_wrap = $('.vtk-js-modal_wrap.'+modalName);
+            $main_modal = $main_modal_wrap.children('.vtk-js-modal');
             $gray_modal = $('.vtk-gray-modal');
 
         }
+
+
+
+           
+
+
         //<div class="vtk-js-modal_description"></div><div vtk-js-modal_body_actions></div>
 
         function _getDimensions() {
@@ -1161,7 +1176,7 @@ var ModalVtk = (function() {
         };
 
         function _centerModal() {
-            $('.vtk-js-modal_wrap').animate({ 'top': ($(window).innerHeight() / 2) - 150 + 'px' });
+            $main_modal_wrap.animate({ 'top': ($(window).innerHeight() / 2) - 150 + 'px' });
         }
 
         function _preOpen(open) {
@@ -1179,8 +1194,8 @@ var ModalVtk = (function() {
         }
 
         function _clean() {
-            $('.vtk-js-modal_title').html('');
-            $('.vtk-js-modal_body').html('');
+            $main_modal.find('.vtk-js-modal_title').html('');
+            $main_modal.find('.vtk-js-modal_body').html('');
         }
 
         function close() {
@@ -1194,11 +1209,11 @@ var ModalVtk = (function() {
             _preOpen(true);
             _centerModal();
 
-            $('.vtk-js-modal_title').html(msg);
+            $main_modal.find('.vtk-js-modal_title').html(msg);
 
-            $('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action" >Ok</div></div>')
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action" >Ok</div></div>')
 
-            $('.vtk-js-modal_ok_action').on('click', close);
+            $main_modal.find('.vtk-js-modal_ok_action').on('click', close);
 
         }
 
@@ -1206,17 +1221,32 @@ var ModalVtk = (function() {
             _preOpen(true);
             _centerModal();
 
+            $main_modal.find('.vtk-js-modal_title').html(msg);
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
+
+            $main_modal.find('.vtk-js-modal_ok_action').on('click', okCallBack);
+            $main_modal.find('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
 
 
 
-            $('.vtk-js-modal_title').html(msg);
-            $('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
-
-            $('.vtk-js-modal_ok_action').on('click', okCallBack);
-            $('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
+        }
 
 
+        function fillWidth(msg,html, callBack){
+                   _preOpen(true);
+            _centerModal();
 
+
+            $main_modal.css({maxWidth:'420px'});
+
+            $main_modal.find('.vtk-js-modal_title').html(msg);
+
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + html + '</div>')
+
+            if(callBack){
+                callBack();
+            }
+           
         }
 
         $(window).resize(function() {
@@ -1226,7 +1256,8 @@ var ModalVtk = (function() {
             init: init,
             close: close,
             alert: alert,
-            confirm: confirm
+            confirm: confirm,
+            fillWith: fillWidth
         }
     }
 

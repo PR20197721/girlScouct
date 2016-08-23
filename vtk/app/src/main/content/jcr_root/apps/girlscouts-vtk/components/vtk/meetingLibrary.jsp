@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.cq.tagging.Tag,java.util.List" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.cq.tagging.Tag,java.util.List,java.lang.Character" %>
 <%@ page
   import="com.google.common.collect .*"%>
 <%@include file="/libs/foundation/global.jsp" %>
@@ -666,9 +666,9 @@
 	<div style="position: absolute;width: 100%;height: inherit;top: 0;bottom: 0; overflow: hidden;">
 		<div class="vtk-float-submit">
 	  <%if( request.getParameter("newCustYr")!=null){ %>
-		   <input class="button tiny" type="button" value="Add multi meetings" onclick="createCustPlan(null)"/>
+		   <input class="button tiny" type="button" value="ADD TO YEAR PLAN" onclick="createCustPlan(null)"/>
 	  <%}else{ %>
-		   <input class="button tiny" type="submit" value="Add multi meetings"/>
+		   <input class="button tiny" type="submit" value="ADD TO YEAR PLAN"/>
 	  <%}//end else %> 
 	</div>  
 	</div>
@@ -678,11 +678,12 @@
 
 		  <%
 
-		  //sort meetings by meeting name
-		  if( meetings !=null ){
+		  //sort meetings by this specific order: dAisy > bRownie > jUnior
+		  if (meetings != null) {
 			  Collections.sort(meetings, new Comparator<Meeting>() {
 				  public int compare(Meeting o1, Meeting o2) {
-					  return o1.getLevel().compareTo(o2.getLevel());
+					  //return o1.getLevel().compareTo(o2.getLevel());
+					  return Character.compare(o1.getLevel().charAt(1), o2.getLevel().charAt(1)); 
 				  }
 			  });
 		  }
@@ -709,7 +710,7 @@
 					while( itrCat.hasNext() ){
 						String x = (String) itrCat.next();
 						if(!meeting.getCatTags().contains( x ) )continue;
-						%><%= mCats.get(x).replaceAll("_", " ") %><%=itrCat.hasNext() ? ";" : ""%><%
+						%><%= mCats.get(x) %><%=itrCat.hasNext() ? ";" : ""%><%
 					}
 				}
 			}
@@ -733,7 +734,7 @@
 							  
 							  java.util.StringTokenizer t= new StringTokenizer(meeting.getCatTags(), ",");
 							  while( t.hasMoreElements()){
-							     %><%=t.nextToken()%><%=t.hasMoreElements() ? "," : "" %> <% 
+							     %><%=t.nextToken().replace("_", " ")%><%=t.hasMoreElements() ? "," : "" %> <% 
 							  }
 						  }
 						  %>
@@ -749,7 +750,7 @@
 					   <div style="display:table-cell;height:inherit;vertical-align:middle; text-align:center;">
 
 
-						  <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+				<% if( request.getParameter("newCustYr")!=null || !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
 
 						 	<div class="middle-checkbox" style="text-align:center;">
 							<input type="checkbox" name="addMeetingMulti" id="<%=meeting.getPath()%>" 

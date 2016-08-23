@@ -37,13 +37,61 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
 
-<a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isMaterials&mid=<%=mid%>')">print materials</a>
-|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isActivity&mid=<%=mid%>')">print activity</a>
-|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isOverview&mid=<%=mid%>')">print overview</a>
-|| <a href="javascript:void(0)" onclick="window.open('/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isAgenda&mid=<%=mid%>')">print agenda</a>
   <div id="theMeeting">
 
+
+
+
+
+
+
+
     <script type="text/javascript">
+
+    var printModal = new ModalVtk('print-modal');
+
+    printModal.init();
+
+    var cll = '<form class="print-modal" style="font-size:14px;padding:10px 20px 10px 20px;"><div style="" class="column small-24 medium-12"><input type="radio" name="whatToPrint" value="agenda"> Agenda <br /><input type="radio" name="whatToPrint" value="activity"> Activity Plan <br /></div><div  style="" class="column small-24 medium-12"><input type="radio" name="whatToPrint" value="meeting"> Meeting Overview <br /><input type="radio" name="whatToPrint" value="material"> Material List <br /></div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action  button tiny" style="margin-top:20px">Cancel</div><div class="vtk-js-modal_button_action vtk-js-modal_ok_action button tiny" style="margin-top:20px">Print</div></form>';
+
+   
+
+    function callPrintModal(){
+        
+        printModal.fillWith('What you would like to print?',cll, function(){
+
+          var listPrintAdress = {
+            agenda:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isAgenda&mid=<%=mid%>',
+            activity:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isActivity&mid=<%=mid%>',
+            meeting:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isOverview&mid=<%=mid%>',
+            material:'/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=isMaterials&mid=<%=mid%>'
+          }
+
+           function openWindow(open){
+              if(open.length){
+                window.open(listPrintAdress[open[0].value]);
+                printModal.close();
+              }
+           }  
+
+
+           function printCallBack(){
+            openWindow($('.print-modal').serializeArray());
+            
+
+           }
+
+           function cancelCallBack(){
+              printModal.close();
+           }
+
+            $('.vtk-js-modal_ok_action').on('click', printCallBack);
+            $('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
+        })
+    }
+
+
+
 
 
 
