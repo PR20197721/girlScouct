@@ -666,9 +666,9 @@
 	<div style="position: absolute;width: 100%;height: inherit;top: 0;bottom: 0; overflow: hidden;">
 		<div class="vtk-float-submit">
 	  <%if( request.getParameter("newCustYr")!=null){ %>
-		   <input class="button tiny" type="button" value="Add multi meetings" onclick="createCustPlan(null)"/>
+		   <input class="button tiny" type="button" value="ADD TO YEAR PLAN" onclick="createCustPlan(null)"/>
 	  <%}else{ %>
-		   <input class="button tiny" type="submit" value="Add multi meetings"/>
+		   <input class="button tiny" type="submit" value="ADD TO YEAR PLAN"/>
 	  <%}//end else %> 
 	</div>  
 	</div>
