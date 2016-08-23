@@ -97,6 +97,14 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 				</div>				
 			</div>	
 		</div>
+		
+		<div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+            <div class="row">
+                <div class="small-24 column">
+                    <%@include file="include/cancelMeeting.jsp"%>
+                </div>              
+            </div>  
+        </div>
 
 		<div data-parent="main" data-name="combine-meeting" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
@@ -108,6 +116,14 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 				</div>	
 			</div>
 		</div>
+		
+		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine 2" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+            <div class="row">
+                <div class="small-24 column">
+                    <%@include file="include/combineMeetingsAddCal.jsp"%>
+                </div>              
+            </div>  
+        </div>
 
 		<div data-parent="combine-meeting" data-name="select-meeting" data-title="" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
 			<div class="row">
