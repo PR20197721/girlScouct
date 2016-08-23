@@ -4,6 +4,9 @@
     usesWorkflow="{Boolean}true">
     <action/>
     <report/>
+    <confirmationmailto/>
+    <confirmationfrom/>
     <confirmationsubject/>
+    <templatepath/>
     <disableconfirmation/>
 </jcr:root>

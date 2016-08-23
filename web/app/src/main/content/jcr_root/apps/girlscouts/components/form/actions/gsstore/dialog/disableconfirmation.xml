@@ -3,6 +3,6 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="Disable Confirmation Emails"
     fieldDescription="By default, confirmation emails will be sent to email addresses entered into any fields starting with 'email-confirmation'. You can add a number at the end for multiple confirmation fields."
-    name="./confirmation"
+    name="./disableConfirmation"
     type="checkbox"
     xtype="selection"/>

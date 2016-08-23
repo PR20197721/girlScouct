@@ -134,6 +134,7 @@
         request.setAttribute(FormsConstants.REQUEST_ATTR_WORKFLOW_PATH, model);
     }
 
-    FormsHelper.setForwardPath(slingRequest, path, true);
+    slingRequest.setAttribute("contentPath",path);
+    FormsHelper.setForwardPath(slingRequest, resource.getPath() + ".gsstore.html");
     FormsHelper.setRedirectToReferrer(request, true);
 %>
