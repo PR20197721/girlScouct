@@ -51,7 +51,7 @@
 		str="";
 		for(int z=0;z<_activities.size();z++){
 			
-			str+="<div style=\"background-color:yellow;\">Name:"+_activities.get(z).getName() +"</div>"+
+			str+="<div style=\"background-color:yellow;\"><br/><br/><br/><b>Activity# "+(z+1)+" Name:"+_activities.get(z).getName() +"</b></div>"+
 			    "<div style=\"background-red;\">Duration:"+_activities.get(z).getDuration()+"</div>"+
 			    "<div>"; 			 
 			 if( _activities.get(z).getIsOutdoor() ){ 
