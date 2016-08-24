@@ -490,47 +490,109 @@
 	})();
 
 	var categoryCollections = [];
+	var categoryCollectionsObj = {};
 	window['categoryCollections '] =  categoryCollections;
 
 
-	function queryDown(){
-			
-		return $('.meeting-item').map(function(e,i){
-			console.log($(this))
-			return categoryCollections.indexOf($(this).attr('id'));
-		});
+
+	var queryDown ={
+		age: function(list){
+
+
+
+			var x = list.map(function(e,i){
+				var element = $(i);
+
+				for (var ia = categoryCollectionsObj['age'].length - 1; ia >= 0; ia--) {
+					var xy = element.attr('id').indexOf(categoryCollectionsObj['age'][ia]);
+					if(xy>-1){
+						return element;
+					}
+				};
+
+			});
+
+			 return x;
+		},
+		cat: function(list){
+			var y = list.map(function(e,i){
+				var element = $(i);
+
+				for (var ib = categoryCollectionsObj['cat'].length - 1; ib >= 0; ib--) {
+					var xyx = element.attr('id').indexOf(categoryCollectionsObj['cat'][ib]);
+					if(xyx>-1){
+						return element;
+					}
+				};
+			});
+
+			 return y;
+		}		
 	}
 
- 	function diplay($Collections){
- 		$Collections.show();
- 	}
 
-	
 	function triggerOriginal(e){
+		var type;
+
+		var $type = $(this).parents('.vtk-dropdown-check-box');
+
+		if($type.attr('id') === 'vtk-dropdown-filter-1'){
+			type='age';
+		}else{
+			type ='cat';
+		}
 		
 		var ide = $(this).data('id');
-		var indxC = categoryCollections.indexOf(ide);
-
+		var indxC = categoryCollectionsObj[type].indexOf(ide);
 
 		if(indxC === -1){
 			document.getElementById(ide).checked = true;
-			categoryCollections.push(ide);
+			categoryCollectionsObj[type].push(ide);
 		}else{
 			document.getElementById(ide).checked = false;
 			document.getElementById(ide).removeAttribute('checked');
-			categoryCollections.splice(indxC, 1);
+			categoryCollectionsObj[type].splice(indxC, 1);
 			
 		}
 
-		console.log(categoryCollections)
+		$('.meeting-item').hide();
+		$('.no-content').hide();
+		$('#meetingSelect').show();
 
-		console.log(queryDown());
+
+
+		if(type == 'age'){
+
+
+
+			queryDown['age'](queryDown['cat']($('.meeting-item'))).each(function(){
+				$(this).show();
+			})
+
+
+
+		}else{
+			queryDown['cat'](queryDown['age']($('.meeting-item'))).each(function(){
+				$(this).show();
+			})
+		}
+
+
+		if($('.meeting-item:visible').length){
+			$('.no-plans').html($('.meeting-item:visible').length + " Meeting Plan");
+		}else{
+			$('.no-plans').html("0  Meeting Plan");
+			$('.no-content').show();
+			$('#meetingSelect').hide();
+
+		}
 		
 	}
 
 	function createElement(el){
 		var $input = $(el).find('input');
 		var $complement = $(el).find('label');
+
 
 		var $li = $('<li data-id="'+$input.attr('id') +'" ></li>');
 
@@ -573,16 +635,15 @@
 		function onChangeBack(e){
 		}
 
-		function eachList(which){
-	
+		function eachList(which,name){
+				categoryCollectionsObj[name] =[];
 			$.each(which, function(i,e){
 				
 				if($(this)[0].checked){
 					$('input[data-id="'+$(this).attr('id')+'"]')[0].checked = true;
 					$('input[data-id="'+$(this).attr('id')+'"]').parent().show();
-					categoryCollections.push($(this).attr('id'));
+					categoryCollectionsObj[name].push($(this).attr('id'));
 				}else{
-
 					$('input[data-id="'+$(this).attr('id')+'"]')[0].checked =false;
 					$('input[data-id="'+$(this).attr('id')+'"]')[0].removeAttribute('checked');
 					$('input[data-id="'+$(this).attr('id')+'"]').parent().hide();
@@ -639,12 +700,13 @@
 
 		button.ok.on('click',function(e){
 			if(!$(this).hasClass('inactive-button')){
-				eachList(ageList);
-				eachList(categoriesList);
+				eachList(ageList,'age');
+				eachList(categoriesList,'cat');
 				var noPlans = ($('#meetingSelect').children('.meeting-item').filter(function() { return $(this).css("display") == "block" }).length) ? $('#meetingSelect').children('.meeting-item').filter(function() { return $(this).css("display") == "block" }).length + ' Meeting Plan' : '0 Meeting Plan';
 
 
 				 $('.no-plans').html(noPlans);
+				 		$('.no-content').hide();
 				$('#vtk-meeting-report').slideDown();
 
 				$('.vtk-meeting-group').slideUp();
@@ -681,9 +743,18 @@
 	});
 </script>
 
+
+				
+						  	 <div class="no-content column small-24" style="display:none;text-align:center; padding:80px 0" >
+		  		<h4>Unfortunately we didn't find any Meeting matching your criteria</h4>
+		  		</div>
 	  <!--  carlos 4 end  -->
 	  <div id="meetingSelect" class="meetingSelect column small-22 small-centered" style="display:none;">
 		  <!--<div class="row">-->
+
+
+
+
 
 	<div style="position: absolute;width: 100%;height: inherit;top: 0;bottom: 0; overflow: hidden;">
 		<div class="vtk-float-submit">
@@ -695,7 +766,11 @@
 	</div>  
 	</div>
 
- 
+
+		
+
+
+ 		
 	
 
 		  <%
@@ -710,7 +785,16 @@
 			  });
 		  }
 
+		  
+
+
+
+
 		  String currentLevel = "";
+
+
+
+
 
 		  for(int i=0;i<meetings.size();i++){
 			Meeting meeting = meetings.get(i);
@@ -720,9 +804,17 @@
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
                     <%= currentLevel %>
                 </div>
+
+
+
+	
+	
+
 				<% 
 		   }
 %>
+
+
 			<div class="meeting-item column small-24" style="display:none;" id="TR_TAGS_;<%=mLevel.get(meeting.getLevel()) %>;<%=meeting.getMeetingPlanType()==null ? "" : mTypes.get(meeting.getMeetingPlanType()) %>;<%= meeting.getLevel()%>;
 			<%
 			if(meeting.getMeetingPlanType()!=null  && meeting.getCatTags()!=null){

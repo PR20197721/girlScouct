@@ -147,7 +147,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
         $("#gsModal").html(response);
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
     }).fail(function(response, status, xhr){
-       $("#error").html(msg + xhr.status + " " + xhr.statusText);
+       $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
 
 
