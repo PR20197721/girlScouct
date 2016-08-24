@@ -419,7 +419,7 @@
 
 <script type="text/javascript">
 
-// top-level namespace being assigned an object literal
+	// top-level namespace being assigned an object literal
 	var gsusa = gsusa || {};
 
 	// a convenience function for parsing string namespaces and
@@ -445,6 +445,7 @@
 
 		return parent;
 	}
+	
 	// Add the name space;
 	extendNS(gsusa,'gsusa.component');
 
@@ -488,23 +489,46 @@
 		};
 	})();
 
-	function triggerOriginal(e){
+	var categoryCollections = [];
+	window['categoryCollections '] =  categoryCollections;
 
 
-			$(document.getElementById($(this).data('id'))).trigger('click');
-
-			if($(this).find('input')[0].checked){
-				document.getElementById($(this).data('id')).checked = true;
-				}else{
-					document.getElementById($(this).data('id')).checked = false;
-				document.getElementById($(this).data('id')).removeAttribute('checked');
-
-
-			}
-
+	function queryDown(){
+			
+		return $('.meeting-item').map(function(e,i){
+			console.log($(this))
+			return categoryCollections.indexOf($(this).attr('id'));
+		});
 	}
 
-	function createElement(el,filter){
+ 	function diplay($Collections){
+ 		$Collections.show();
+ 	}
+
+	
+	function triggerOriginal(e){
+		
+		var ide = $(this).data('id');
+		var indxC = categoryCollections.indexOf(ide);
+
+
+		if(indxC === -1){
+			document.getElementById(ide).checked = true;
+			categoryCollections.push(ide);
+		}else{
+			document.getElementById(ide).checked = false;
+			document.getElementById(ide).removeAttribute('checked');
+			categoryCollections.splice(indxC, 1);
+			
+		}
+
+		console.log(categoryCollections)
+
+		console.log(queryDown());
+		
+	}
+
+	function createElement(el){
 		var $input = $(el).find('input');
 		var $complement = $(el).find('label');
 
@@ -513,19 +537,20 @@
 		var $newInput = $('<input id="__'+$input.attr('id')+'" data-id="'+$input.attr('id')+'" type="checkbox">');
 		var $newComplement =  $('<label for="__'+$input.attr('id')+'"><span></span><p>'+ $complement.text() +'</p></label>')
 
-		$li.click(triggerOriginal)
+		$newInput.click(triggerOriginal)
 		$li.append($newInput,$newComplement);
+
+		// categoryCollections.push($input.attr('id'));
 
 		return $li;
 	}
 
-	function renderElement(origin,target,filter){
+	function renderElement(origin,target){
 		var node = $(target).find('.vtk-dropdown_options');
 		 $.each($(origin).children(), function(indx,el){
-			node.append(createElement(el,filter));
+			node.append(createElement(el));
 		})
 	}
-
 
 	gsusa.component.dropDownCheckBox('#vtk-dropdown-filter-1');
 	gsusa.component.dropDownCheckBox('#vtk-dropdown-filter-2');
@@ -549,11 +574,13 @@
 		}
 
 		function eachList(which){
+	
 			$.each(which, function(i,e){
 				
 				if($(this)[0].checked){
 					$('input[data-id="'+$(this).attr('id')+'"]')[0].checked = true;
 					$('input[data-id="'+$(this).attr('id')+'"]').parent().show();
+					categoryCollections.push($(this).attr('id'));
 				}else{
 
 					$('input[data-id="'+$(this).attr('id')+'"]')[0].checked =false;
@@ -564,9 +591,6 @@
 		}
 
 		function onChangeDo(e){
-		  console.log('ss',e)
-
-		  
 		  // 
 		  $('#vtk-dropdown-filter-2').show();
  
@@ -615,7 +639,6 @@
 
 		button.ok.on('click',function(e){
 			if(!$(this).hasClass('inactive-button')){
-
 				eachList(ageList);
 				eachList(categoriesList);
 				var noPlans = ($('#meetingSelect').children('.meeting-item').filter(function() { return $(this).css("display") == "block" }).length) ? $('#meetingSelect').children('.meeting-item').filter(function() { return $(this).css("display") == "block" }).length + ' Meeting Plan' : '0 Meeting Plan';
@@ -653,10 +676,9 @@
 			$("#meetingSelect").slideUp();
 		});
 
-		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1',1);
-		renderElement('#vtk-meeting-group-categories','#vtk-dropdown-filter-2',3);
+		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1');
+		renderElement('#vtk-meeting-group-categories','#vtk-dropdown-filter-2');
 	});
-
 </script>
 
 	  <!--  carlos 4 end  -->
@@ -931,7 +953,7 @@
 
 
 	function clearFilterTypes(){
-   if(true)return; //D Kia
+
 		<%
 		itrTypes= mTypes.keySet().iterator();
 		while( itrTypes.hasNext()){
