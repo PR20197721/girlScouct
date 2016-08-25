@@ -176,8 +176,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 		});
 
-		console.log(tree,ObjTree);
-
 
 
 		function goto(id){
@@ -201,7 +199,8 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 
 		return {
-			goto:goto
+			goto:goto,
+			goBack: goBack
 		}
 	})();
 </script>
