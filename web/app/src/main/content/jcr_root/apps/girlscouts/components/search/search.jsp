@@ -148,6 +148,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     	<%if (currentPageNo != 0) {  %>
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
     	<%}  %>
+<<<<<<< HEAD
     <%for (int i = 0; i < totalPage; i++ ) { 
     	if (currentPageNo == i) {%>
     		<li class="currentPageNo"><%= i+1 %></li>
@@ -156,6 +157,36 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%	}
     }%>
     <%if (currentPageNo != totalPage-1) {  %>
+=======
+
+    	<%
+        int first =0;
+		int last =10;
+    	if (currentPageNo>10){
+        	first = currentPageNo -10;
+        	last = currentPageNo;
+		}
+		
+		if (totalPage<last) {
+    		last = (int)totalPage -1;
+		}
+
+    	for (int i = first; i < last; i++ ) { 
+                System.out.println("**** i is : " + i);
+    System.out.println("**** currentPageNo is : " + currentPageNo);
+    		if (currentPageNo == i) {
+            	%><li class="currentPageNo"><%= i+1 %></li><%
+        	} else {
+            	if (((last-i)==1 && last >10 ) || (currentPageNo==10 &&i==9) ){
+                	%><li class="currentPageNo"><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
+            	} else {
+                	%><li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
+            	}
+       	 	}
+    	}%>
+
+    	<%if (currentPageNo != totalPage-1 ) {  %>
+>>>>>>> master
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
     	<%}  %>
 </ul>
