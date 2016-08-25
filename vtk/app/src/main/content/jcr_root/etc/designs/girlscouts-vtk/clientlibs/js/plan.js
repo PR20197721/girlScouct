@@ -134,21 +134,34 @@ function resetModalPage() {
     $("#gsModal").css({ overflow: 'inherit' });
 }
 
-function loadModalPage(link, showTitle, title, fullPageScroll, print) {
+function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
 
     resetModalPage();
+    var dataP = data || {};
 
-    $("#gsModal").load(link, function(response, status, xhr) {
+    $.ajax({
+        url: link,
+        data: dataP,
+        cache: false,
+    }).done(function(response){
+        $("#gsModal").html(response);
+        loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+    }).fail(function(response, status, xhr){
+       $("#error").html(response + xhr.status + " " + xhr.statusText);
+    })
 
-        if (status == "error") {
 
-            var msg = "Sorry but there was an error: ";
-            $("#error").html(msg + xhr.status + " " + xhr.statusText);
-        } else {
+    // $("#gsModal").load(link, function(response, status, xhr) {
 
-            loadModal("#gsModal", showTitle, title, fullPageScroll, print);
-        }
-    });
+    //     if (status == "error") {
+
+    //         var msg = "Sorry but there was an error: ";
+    //         $("#error").html(msg + xhr.status + " " + xhr.statusText);
+    //     } else {
+
+    //         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+    //     }
+    // });
 }
 
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
@@ -925,19 +938,21 @@ function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yea
         }
     }
 
-    //doMeetingLib(false);
+    // doMeetingLib(false);
     //"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
-    $('#modal_custom_year_plan').foundation('reveal', 'open', {
-        url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
-        data: {
-            newCustYr: true
-        },
+    // $('#gsModal').foundation('reveal', 'open', {
+    //     url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
+    //     data: {
+    //         newCustYr: true
+    //     },
 
-        success: function(data) {
-            var min_height = $('#sortable1').height() - 71;
-            $("#sortable2").css('min-height', min_height);
-        }
-    });
+    //     success: function(data) {
+    //         var min_height = $('#sortable1').height() - 71;
+    //         $("#sortable2").css('min-height', min_height);
+    //     }
+    // });
+    
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
 
 };
 
