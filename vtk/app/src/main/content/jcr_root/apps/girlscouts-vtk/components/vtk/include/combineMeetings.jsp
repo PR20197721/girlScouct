@@ -50,13 +50,10 @@
             var _selectedTime;
   
             function set(value){
-            debugger;
                 _selectedTime = value;
             }
 
             function get(){
-                  debugger;
-
               return _selectedTime || '1476722888234';
             }
 
