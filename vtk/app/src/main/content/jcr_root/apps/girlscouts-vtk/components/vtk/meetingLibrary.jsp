@@ -746,7 +746,7 @@
 
 				
 						  	 <div class="no-content column small-24" style="display:none;text-align:center; padding:80px 0" >
-		  		<h4>Unfortunately we didn't find any Meeting matching your criteria</h4>
+		  		<h4>No Meetings match your filter criteria</h4>
 		  		</div>
 	  <!--  carlos 4 end  -->
 	  <div id="meetingSelect" class="meetingSelect column small-22 small-centered" style="display:none;">
