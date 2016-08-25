@@ -94,7 +94,7 @@ try{
       	if(hasThumb){
       		%> <img src="<%= iconPath %>"/> <%
       	} else if(!iconPath.isEmpty()) { /*if there is image*/ %>
-        <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+        <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.240.240") %>
       <%} else { /*if there is no image*/ %>
         <img src="/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/events_icon.jpg" alt="events icon"/>
       <% } %>
