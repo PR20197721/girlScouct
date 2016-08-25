@@ -29,17 +29,15 @@
 
                 <div class="vtk-meeting-calendar-foot column small-24 column">
                     <div class="row">
-                               ??
+                        <input class="button tiny right" type="button"  value="Cancel" />
+                        <input class="button tiny right" type="button" onclick="tabsVtk.goBack()" value="Back" />
+                        <input  class="button tiny right" type="button" value="Save" onclick="doCombine()"/>
                     </div>
                 </div>  
             
              
    
-   
-   
-        <input type="button"  value="Cancel" />
-        <input type="button" onclick="tabsVtk.goBack()" value="Back" />
-        <input type="button" value="Save" onclick="doCombine()"/>
+
         
         <script>
         $(function() {
@@ -47,8 +45,13 @@
                   defaultDate: new Date ('<%=date%>'),
                   minDate: 0,
                   onSelect: function(dateText, inst) { 
+                    
                       var dateAsString = dateText; 
                       var dateAsObject = $(this).datepicker( 'getDate' ); 
+
+                      console.log(dateAsString, dateAsObject)
+
+                      selectedTime.set(new Date(dateAsObject).getTime())
                       
                       document.getElementById("cngDate0").value =dateAsString;
                       

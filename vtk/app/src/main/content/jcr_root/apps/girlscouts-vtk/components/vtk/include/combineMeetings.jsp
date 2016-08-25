@@ -44,6 +44,25 @@
         <!-- <input type="button" onclick="doCombine()" value="Combine Meetings"/> -->
         
         <script>
+
+        var selectedTime = (function(){
+          
+            var _selectedTime;
+  
+            function set(value){
+                _selectedTime = value;
+            }
+
+            function get(){
+              return _selectedTime || '1476722888234';
+            }
+
+            return {
+              set: set,
+              get: get
+            }
+        })(); 
+
         function doCombine(){
         	var mids = "";
         	var checkboxes = document.getElementsByName("_tag_m");
@@ -59,16 +78,22 @@
         	  console.log("mids: "+ mids);
         	  addCalendar(mids);
         }
+
+
+
         
+
         
         function addCalendar(mids){
+
+
         	console.log("addCalendar....");
         	$.ajax({
                 url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
                 type: 'GET',
                 data: {
                 	act:'combineCal',
-                    dt:'1476722888234',
+                    dt:selectedTime.get(),
                     mids: mids,
                     a: Date.now()
                 },
