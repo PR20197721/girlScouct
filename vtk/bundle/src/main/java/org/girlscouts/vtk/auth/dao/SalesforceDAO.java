@@ -459,7 +459,7 @@ public class SalesforceDAO {
 
 			try {
 				JSONObject response = new JSONObject(rsp);
-				log.debug("<<<<<Apex contacts reponse: " + response);
+System.err.println("<<<<<Apex contacts reponse: " + response);
 
 
 

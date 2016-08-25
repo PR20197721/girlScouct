@@ -1,5 +1,10 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.InputStream;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -15,6 +20,7 @@ import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.io.IOUtils;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -41,6 +47,7 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.Meeting2;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Note;
@@ -2735,7 +2742,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 	
 
 public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
-System.err.println("test start " + new java.util.Date());
+System.err.println("test qr start " + new java.util.Date());
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
@@ -2747,20 +2754,66 @@ System.err.println("test start " + new java.util.Date());
 		session = sessionFactory.getSession();
 		List<Class> classes = new ArrayList<Class>();
 		classes.add(Meeting.class);
-		classes.add(Activity.class);
-		classes.add(JcrCollectionHoldString.class);
+		//classes.add(Activity.class);
+		//classes.add(Meeting2.class);
+		//classes.add(JcrCollectionHoldString.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
-		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-				mapper);
+		
+		
+		
+		
+String xmlDescriptor = 
+
+
+"<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+
+		"<!DOCTYPE jackrabbit-ocm PUBLIC \"-//The Apache Software Foundation//DTD Jackrabbit OCM 1.5//EN\" "+
+		"\"http://jackrabbit.apache.org/dtd/jackrabbit-ocm-1.5.dtd\">"+
+"<jackrabbit-ocm>"+
+"<class-descriptor className=\"org.girlscouts.vtk.models.Meeting\" jcrType=\"nt:unstructured\">"+
+"<field-descriptor fieldName=\"path\" path=\"true\" />"+
+"<field-descriptor fieldName=\"id\" jcrName=\"id\" />"+
+"<field-descriptor fieldName=\"level\" jcrName=\"level\"/>"+
+"<field-descriptor fieldName=\"position\" jcrName=\"position\"/>"+
+"<field-descriptor fieldName=\"name\" jcrName=\"name\"/>"+
+"<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>"+
+"<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>"+
+"<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>"+
+"<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>"+
+
+
+"</class-descriptor></jackrabbit-ocm>";
+InputStream[] in = new InputStream[1];
+in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
+		 
+		 
+		 
+		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
+		
+		
+		Field field = new Meeting().getClass().getDeclaredField("activities");
+		org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection anno = field.getAnnotation(org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection.class);
+        System.out.println(String.format("Old properties:"+ anno.proxy()));
+        
+        
+       
+
+
+		
 		Filter filter = queryManager.createFilter(Meeting.class);
+
 		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
-filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
+//-filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
 //filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");
 	//System.err.println("test sql: "+  "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//")	;	
-		Query query = queryManager.createQuery(filter);
+//filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");		
+//-filter.addNotNull("level");
+
+System.err.println("Node: "+filter.getNodeName());
+Query query = queryManager.createQuery(filter);
+
 		meetings = (List<Meeting>) ocm.getObjects(query);
-		//System.err.println("test end " + new java.util.Date() +" : "+ meetings.size() );
+System.err.println("test qr end " + new java.util.Date() +" : "+ meetings.size() );
 		
 		
 		
@@ -2781,6 +2834,7 @@ filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurren
 		}
 	}
 	return meetings;
+	
 
 }
 

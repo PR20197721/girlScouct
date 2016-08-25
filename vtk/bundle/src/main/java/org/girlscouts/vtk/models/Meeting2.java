@@ -7,10 +7,10 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
-public class Meeting extends YearPlanComponent implements Serializable {
+@Node( extend = Meeting.class)
+public class Meeting2  implements Serializable {
 
-	public Meeting() {
+	public Meeting2() {
 		this.path = "/meeting";
 		this.position= 0;
 	}
@@ -28,10 +28,10 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field private Boolean isAchievement; 
 
 	
-	@Collection
+	@Collection(proxy=true)
 	private java.util.List<Activity> activities;
 
-	@Collection
+	@Collection(proxy=true)
 	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
 	
@@ -173,17 +173,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	
 
 	
-	public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException,
-    IllegalArgumentException, IllegalAccessException {
-
-// Get the private field
-final  java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
-// Allow modification on the field
-field.setAccessible(true);
-// Return the Obect corresponding to the field
-return field.get(Class.forName(className));
-}
-
+	
 
 	
 
