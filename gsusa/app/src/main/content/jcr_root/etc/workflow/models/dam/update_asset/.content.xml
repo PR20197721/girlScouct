@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2016-03-15T17:17:27.128-04:00"
+        cq:lastModified="{Date}2016-08-26T11:30:35.545-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -522,20 +522,24 @@
                     PROCESS="com.day.cq.dam.indd.process.INDDPageExtractProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process6>
-            <videoproxyprocess
-                jcr:created="{Date}2016-03-15T17:16:20.076-04:00"
+            <videoproxyprocess_831204867
+                jcr:created="{Date}2016-08-26T11:30:29.754-04:00"
                 jcr:createdBy="admin"
                 jcr:description="Uploads and processes videos through the Adobe Dynamic Media Video Service."
-                jcr:lastModified="{Date}2016-03-15T17:16:20.076-04:00"
+                jcr:lastModified="{Date}2016-08-26T11:30:29.754-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Dynamic Media Video Service Process"
                 sling:resourceType="dam/components/s7dam/videoproxyprocess">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </videoproxyprocess>
+                    advanceOnTimeout="true"
+                    EXTERNAL_PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
+                    period="30"
+                    PROCESS_ARGS="test"
+                    PROCESS_AUTO_ADVANCE="true"
+                    timeout="3600"/>
+            </videoproxyprocess_831204867>
             <thumbnailprocess
                 jcr:created="{Date}2016-03-15T17:17:03.177-04:00"
                 jcr:createdBy="admin"
