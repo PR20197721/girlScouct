@@ -24,6 +24,7 @@ girlscouts.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     hiddenField: null,
     nameField: null,
 	anchorField: null,
+	idField: null,
 
     constructor: function(config) {
         config = config || { };
@@ -66,6 +67,22 @@ girlscouts.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             } 
         });
         this.add(this.anchorField);
+        
+        this.idField = new CQ.Ext.form.TextField({
+        	hidden: "{Boolean}true",
+            listeners: {
+            	added: {
+            		scope:this,
+            		fn:this.createID
+            	},
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            } 
+        });
+
+        this.add(this.idField);
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -73,6 +90,7 @@ girlscouts.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         var parts = value.split("|||");
         this.nameField.setValue(parts[0]);
         this.anchorField.setValue(parts[1]);
+        this.idField.setValue(parts[2]);
         this.hiddenField.setValue(value);
     },
 
@@ -84,13 +102,25 @@ girlscouts.components.AccordionWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     // overriding CQ.form.CompositeField#getRawValue
     getRawValue: function() {
         return this.nameField.getValue() + "|||" 
-        	+ this.anchorField.getValue();
+        	+ this.anchorField.getValue() + "|||"
+        	+ this.idField.getValue();
     },
 
     // private
     updateHidden: function() {
         this.hiddenField.setValue(this.getValue());
-    } 
+    },
+    
+    //private
+    createID: function() {
+    	    var text = "";
+    	    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    	    for( var i=0; i < 8; i++ )
+    	        text += possible.charAt(Math.floor(Math.random() * possible.length));
+            this.idField.value = text;
+            this.idField.defaultValue = text;
+    }
 
 });
 

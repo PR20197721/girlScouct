@@ -17,13 +17,16 @@
 	String[] namesAndAnchors = properties.get("children", String[].class);
 	String[] children = null;
 	String[] anchors = null;
+	String[] accIds = null;
 	if(namesAndAnchors != null && namesAndAnchors.length > 0){
 		children = new String[namesAndAnchors.length];
 		anchors = new String[namesAndAnchors.length];
+		accIds = new String[namesAndAnchors.length];
 		for(int i =0; i < namesAndAnchors.length; i++){
 			String[] split = namesAndAnchors[i].split("\\|\\|\\|");
 			children[i] = split.length >= 1 ? split[0] : "";
             anchors[i] = split.length >= 2 ? split[1] : "";
+            accIds[i] = split.length >= 3 ? split[2] : "";
 		}
 	}
 	if(children == null){
@@ -34,7 +37,7 @@
         %>
             <dl class="accordion" data-accordion><%
             for (int i=0; i<children.length; i++){
-            	String parsys = resource.getName() + "_parsys_" + i;
+            	String parsys = resource.getName() + "_parsys_" + accIds[i];
             	ids[i] = parsys;
             	%><dt style="clear:both" id="<%=anchors[i]%>" data-target="<%=parsys%>"><h6><%=children[i]%></dt>
             	<dd class="accordion-navigation">
