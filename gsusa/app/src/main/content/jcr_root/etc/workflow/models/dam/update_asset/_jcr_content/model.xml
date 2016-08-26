@@ -7,9 +7,10 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1459890347125"
+        cq:lastModified="{Long}1472225439048"
         cq:lastModifiedBy="admin"
-        jcr:primaryType="nt:unstructured"/>
+        jcr:primaryType="nt:unstructured"
+        tags="dam"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
@@ -409,11 +410,15 @@
             jcr:primaryType="cq:WorkflowNode"
             description="Uploads and processes videos through the Adobe Dynamic Media Video Service."
             title="Dynamic Media Video Service Process"
-            type="PROCESS">
+            type="EXTERNAL_PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
+                advanceOnTimeout="true"
+                EXTERNAL_PROCESS="com.day.cq.dam.s7dam.common.process.VideoProxyServiceProcess"
+                period="30"
+                PROCESS_ARGS="test"
+                PROCESS_AUTO_ADVANCE="true"
+                timeout="3600"/>
         </node37>
         <node38
             jcr:primaryType="cq:WorkflowNode"
