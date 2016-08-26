@@ -225,7 +225,8 @@
   
   
   
-  <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+  <form id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+
 	  
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		  <input type="hidden" name="act" value="CreateCustomYearPlan" />
@@ -489,11 +490,13 @@
 		};
 	})();
 
-	var categoryCollections = [];
 	var categoryCollectionsObj = {};
-	window['categoryCollections '] =  categoryCollections;
 
 
+	var meetingLibraryModal = new ModalVtk('meeting-library-modal');
+
+
+	meetingLibraryModal.init();
 
 	var queryDown ={
 		age: function(list){
@@ -761,17 +764,10 @@
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny" type="button" value="ADD TO YEAR PLAN" onclick="createCustPlan(null)"/>
 	  <%}else{ %>
-		   <input class="button tiny" type="submit" value="ADD TO YEAR PLAN"/>
+		   <input class="button tiny" type="submit"  value="ADD TO YEAR PLAN" onclick="preAddYearPlan(event)"/>
 	  <%}//end else %> 
 	</div>  
 	</div>
-
-
-		
-
-
- 		
-	
 
 		  <%
 
@@ -785,16 +781,7 @@
 			  });
 		  }
 
-		  
-
-
-
-
 		  String currentLevel = "";
-
-
-
-
 
 		  for(int i=0;i<meetings.size();i++){
 			Meeting meeting = meetings.get(i);
@@ -804,11 +791,6 @@
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
                     <%= currentLevel %>
                 </div>
-
-
-
-	
-	
 
 				<% 
 		   }
@@ -929,6 +911,24 @@
 	  
 </form>
 <script>
+
+
+	function preAddYearPlan(event){
+
+
+		event.preventDefault();
+
+		checkIfOnWasClickedX({
+			yes:function(){
+				document.getElementById("form-meeting-library").submit()
+			},
+			no:function(){
+				meetingLibraryModal.alert('',"Need to select at least one meeting")
+			}
+		})
+	}
+
+
 	function doFilter(clickSrc){
 
 	$(this).attr('checked', true);
@@ -1132,17 +1132,34 @@
 
 	}
 
+
+
 	
 	function createCustPlan(singleMeetingAdd) {
-		 var sortedIDs="";
-		 if( singleMeetingAdd==null) {
-			 var els= document.getElementsByName("addMeetingMulti");
-			 for(var y = 0; y < els.length; y++){
-				 if( els[y].checked == true )
-					sortedIDs= sortedIDs +els[y].value+ ",";
-			 }
+
+		var sortedIDs="";
+		
+		if( singleMeetingAdd==null) {
+		 
+			var els= document.getElementsByName("addMeetingMulti");
+
+			checkIfOnWasClickedX({
+				no: function(){
+					meetingLibraryModal.alert('',"Need to select at least one meeting");
+				},
+				yes: function(){
+					for(var y = 0; y < els.length; y++){
+						if( els[y].checked == true ){
+							sortedIDs= sortedIDs +els[y].value+ ",";
+						}
+					}
+				}
+			})
+
 		}else{
+
 			sortedIDs = sortedIDs + singleMeetingAdd +",";
+		
 		}
 		
 		
@@ -1150,15 +1167,30 @@
 			url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
 			cache: false
 		}).done(function( html ) {
-			
-	   
 		  vtkTrackerPushAction('CreateCustomYearPlan');
 		  location.reload();
 		});
-	  }
+	}
 	
 	
-	
+	function checkIfOnWasClickedX(configObject){
+
+		var  _arrayList = [], v, _hasOne;
+		var nodelist = document.getElementsByName("addMeetingMulti");;
+
+		_arrayList = Array.prototype.slice.call(nodelist);
+
+		_hasOne = _arrayList.some(function(el){
+			return el.checked;
+		})
+
+		if(_hasOne){
+			configObject.yes();
+		}else{
+			configObject.no();
+		}
+	}
+
 	
 	
 	initMeetings();
@@ -1167,7 +1199,7 @@
 		  return $(a).find('.terminal').data('price') - $(b).find('.terminal').data('price');
 		}).each(function (_, container) {
 		  $(container).parent().append(container);
-		});
+	});
 
 
 
