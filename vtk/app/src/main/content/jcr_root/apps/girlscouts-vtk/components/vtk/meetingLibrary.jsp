@@ -138,6 +138,11 @@ try{
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
 
+if( meeting!=null && meeting.getCatTags()!=null)
+	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
+if( meeting!=null && meeting.getMeetingPlanType()!=null)
+	meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ","_"));
+
 	  if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
 		  mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
 		  mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
@@ -174,7 +179,7 @@ try{
 				  }else if( _x!=null && !_x.contains(theCat)  ){
 
 
-				   mCatsPerType.get( meeting.getMeetingPlanType() ).add( theCat );
+				   mCatsPerType.get( meeting.getMeetingPlanType()).add( theCat );
 				  }
 			  }//end if
 
