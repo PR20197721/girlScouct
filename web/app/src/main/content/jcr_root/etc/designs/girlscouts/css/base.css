@@ -1193,7 +1193,7 @@ form#contact-us textarea {
 .eventsList .leftCol {
   float: left;
   background: #ffffff;
-  width: 140px;
+  width: 160px;
 }
 .eventsList .rightCol {
   width: 100%;
@@ -1201,6 +1201,9 @@ form#contact-us textarea {
 }
 .horizontalRule {
   background: url('/etc/designs/girlscouts/images/horizontal-stripe.png') repeat-x center center;
+}
+.eventsList img {
+	max-width: 140px;
 }
 .checkbox-grid span {
   display: block;
