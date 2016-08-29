@@ -25,6 +25,7 @@
                            
                            
                            <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
+                          <td><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
                            </tr>                           
                         <% }
               %>

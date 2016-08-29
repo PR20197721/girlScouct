@@ -48,7 +48,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 <div class="row">
 			 	<div class="small-24 medium-8 column">
 			 		<p>
-			 			Current Date: <-Date: Pending -><br />
+			 			Current Date: <%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %><br />
 			 			<strong>new Date:</strong>
 			 		</p>
 
