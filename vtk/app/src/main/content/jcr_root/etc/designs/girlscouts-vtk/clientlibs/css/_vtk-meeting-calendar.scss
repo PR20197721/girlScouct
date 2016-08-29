@@ -16,18 +16,15 @@
     font-size: 30px;
     padding: 5px 20px !important;
     text-transform: lowercase;
-}
 
-.vtk_age_level.Daisy {
-    color: $daisy;
-}
+    &.Daisy, &.daisy{
+         color: $daisy;
+    }
+    
+    &.Brownie, &.brownie{
+         color: $brownie;
+    }
 
-.vtk_age_level.Brownie {
-    color: $brownie;
-}
-
-.vtk_age_level.Junior {
-    color: $junior;
 }
 
 .list-of-meeting-calendar {
