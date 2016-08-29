@@ -1079,10 +1079,12 @@ System.err.println("test: "+ rsp );
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
-
+if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 					
 
 					try {
+						
+						
 						troop.setRole(results.getJSONObject(i).getString(
 								"Job_Code__c"));
 

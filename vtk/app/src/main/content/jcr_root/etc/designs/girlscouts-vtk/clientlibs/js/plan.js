@@ -17,7 +17,7 @@ function x(planId, planPath, confirmMsg, planName) {
         $.ajax({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=isAltered&isAltered=chk",
             cache: false
-        }).done(function (html) {
+        }).done(function(html) {
             html = $.trim(html)
             if (html == 'true') {
                 if (!confirm("Are You Sure? You will lose customizations that you have made")) {
@@ -33,14 +33,14 @@ function x(planId, planPath, confirmMsg, planName) {
 
     }
     /*
-    console.log(4);
+    check_charcount.log(4);
 
     $.ajax({
-    	url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
-    	cache: false
+        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
+        cache: false
     }).done(function( html ) {
-    	//loadMeetings();
-    	location.reload();
+        //loadMeetings();
+        location.reload();
     });
     */
 }
@@ -49,7 +49,7 @@ function x1_1(planPath, planName) {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser=" + planPath + "&addYearPlanName=" + planName,
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         //loadMeetings();
         if (html != null && $.trim(html) != "") {
             alert($.trim(html));
@@ -86,7 +86,7 @@ function doUpdMeeting(newVals) {
 
         dataType: 'html', // Choosing a JSON datatype
 
-    }).done(function (html) {
+    }).done(function(html) {
 
         vtkTrackerPushAction('ChangeMeetingPosition');
         loadMeetings();
@@ -99,8 +99,8 @@ function reloadMeeting() {
         url: '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html?isRefresh=true', // JQuery loads serverside.php
         data: '', // Send value of the clicked button
         dataType: 'html', // Choosing a JSON datatype
-        success: function (data) { },
-        error: function (data) { }
+        success: function(data) {},
+        error: function(data) {}
     });
 }
 
@@ -125,7 +125,8 @@ function closeModalPage() {
     try {
         $("#gsModal").dialog("close");
     } catch (e) {
-        console.log(e);
+        check_charcount.log(e);
+
     }
 }
 
@@ -133,21 +134,34 @@ function resetModalPage() {
     $("#gsModal").css({ overflow: 'inherit' });
 }
 
-function loadModalPage(link, showTitle, title, fullPageScroll, print) {
+function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
 
     resetModalPage();
+    var dataP = data || {};
 
-    $("#gsModal").load(link, function (response, status, xhr) {
+    $.ajax({
+        url: link,
+        data: dataP,
+        cache: false,
+    }).done(function(response){
+        $("#gsModal").html(response);
+        loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+    }).fail(function(response, status, xhr){
+       $("#error").html(response + xhr.status + " " + xhr.statusText);
+    })
 
-        if (status == "error") {
 
-            var msg = "Sorry but there was an error: ";
-            $("#error").html(msg + xhr.status + " " + xhr.statusText);
-        } else {
+    // $("#gsModal").load(link, function(response, status, xhr) {
 
-            loadModal("#gsModal", showTitle, title, fullPageScroll, print);
-        }
-    });
+    //     if (status == "error") {
+
+    //         var msg = "Sorry but there was an error: ";
+    //         $("#error").html(msg + xhr.status + " " + xhr.statusText);
+    //     } else {
+
+    //         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+    //     }
+    // });
 }
 
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
@@ -172,13 +186,13 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             minWidth: dWidth,
             maxWidth: '920px',
             width: '100%',
-            open: function () {
+            open: function() {
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
                 $("body").css({ overflow: 'hidden' });
                 // $(".modalWrap").css({
-                // 	'max-height': $(window).height() + 'px !important',
-                // 	'height': $(window).height() + 'px !important'
-                // 	});
+                //  'max-height': $(window).height() + 'px !important',
+                //  'height': $(window).height() + 'px !important'
+                //  });
                 if (!showTitle) {
                     $(".ui-dialog-titlebar").hide();
                 } else {
@@ -192,7 +206,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                     }
                 }
             },
-            close: function () {
+            close: function() {
                 $("body").css({ overflow: 'inherit' });
             }
         });
@@ -202,7 +216,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             dialogClass: "modalWrap",
             show: 375,
             maxWidth: dWidth,
-            open: function () {
+            open: function() {
                 if ($(window).width() > 920) {
                     $('.vtk-body .ui-dialog.modalWrap').css({ 'max-width': $(window).width() / 2, 'width': '100%', 'left': ($(window).width() - dWidth) / 2 });
                 } else {
@@ -217,7 +231,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
                 $("body").css({ overflow: 'hidden' });
                 placeholder_IE9();
             },
-            close: function () {
+            close: function() {
                 $("body").css({ overflow: 'inherit' });
             }
         });
@@ -246,7 +260,7 @@ function placeholder_IE9() {
         $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
 
         // Remove the placeholder text before the form is submitted
-        $('form').submit(function () {
+        $('form').submit(function() {
             $(this).find('input[placeholder], textarea[placeholder]').each(remove);
         });
     }
@@ -300,7 +314,7 @@ function addLocation() {
             zip: zip,
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             if ($.trim(result) != '') { alert($.trim(result)); }
             loadLocMng();
             //document.getElementById("err").innerHtml=result;
@@ -322,8 +336,8 @@ function updSched(i, meetingPath, currDt) {
         "&currDt=" + currDt +
         "&isCancelledMeeting=" + isCancelled;
 
-    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=UpdateSched&updSched=true&" + urlParam, function (response, status, xhr) {
-        if (status != "error") { vtkTrackerPushAction('UpdateSched'); } else { }
+    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=UpdateSched&updSched=true&" + urlParam, function(response, status, xhr) {
+        if (status != "error") { vtkTrackerPushAction('UpdateSched'); } else {}
     });
 
 }
@@ -366,8 +380,8 @@ function buildSched() {
     maxExpDate.setDate ( maxExpDate.getDate() +  730);
 
     if( dt > maxExpDate ){
-    	alert("You cannot select a date after "+moment(maxExpDate).format('MM/DD/YYYY h:mm a')+" since the YP won't fit into the actual calendar year");
-    	return;
+        alert("You cannot select a date after "+moment(maxExpDate).format('MM/DD/YYYY h:mm a')+" since the YP won't fit into the actual calendar year");
+        return;
     }
     */
 
@@ -404,9 +418,9 @@ function buildSchedContr(calStartDt, calAP, z, calTime, _level, orgDt) {
             exclDt: _level,
             orgDt: orgDt
         },
-        success: function (result) {
+        success: function(result) {
             //-loadCalMng();
-            //	location.reload();
+            //  location.reload();
             vtkTrackerPushAction('CreateSchedule');
             location.reload(true);
         }
@@ -430,7 +444,7 @@ function viewProposedSched(calStartDt, calAP, z, calTime, _level, orgDt) {
             orgDt: orgDt
 
         },
-        success: function (result) {
+        success: function(result) {
             //console.log( $.trim(result) );
             //proposedSchedConfirm($.trim(result));
 
@@ -439,7 +453,7 @@ function viewProposedSched(calStartDt, calAP, z, calTime, _level, orgDt) {
                 return;
             }
 
-            //			 toRet= confirm("One or more of the meetings fall outside of the troop year. Changing meeting frequency will result in "+ $.trim(result)+" schedule meetings. Are you sure you would like to continue");
+            //           toRet= confirm("One or more of the meetings fall outside of the troop year. Changing meeting frequency will result in "+ $.trim(result)+" schedule meetings. Are you sure you would like to continue");
             toRet = confirm("The Year Plan for a troop ends on June 30th. The date you selected will result in " + $.trim(result) + " meetings. Would you like to continue?");
             //console.log(toRet);
 
@@ -464,16 +478,16 @@ function proposedSchedConfirm(numberOfMeetings) {
         height: 250,
         width: 400,
         buttons: {
-            "Go ahead, reschedule": function () {
+            "Go ahead, reschedule": function() {
                 $(this).dialog('close');
 
             },
-            "Cancel": function () {
+            "Cancel": function() {
                 $(this).dialog('close');
 
             }
         },
-        create: function (event, ui) {
+        create: function(event, ui) {
             $(".ui-dialog-titlebar.ui-widget-header").hide();
         }
 
@@ -482,7 +496,7 @@ function proposedSchedConfirm(numberOfMeetings) {
 
 function rmCustActivity(x) {
 
-    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function (response, status, xhr) {
+    $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity=" + x, function(response, status, xhr) {
         if (status != "error") {
             location.reload();
         } else {
@@ -554,7 +568,7 @@ function createNewCustActivity() {
             newCustActivity_cost: newCustActivity_cost,
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             location.reload();
             vtkTrackerPushAction('CreateActivity');
         }
@@ -598,7 +612,7 @@ function editNewCustActivity(activityUid) {
 
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             //location.reload();
             //var x= new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP);
             //alert(x);
@@ -639,7 +653,7 @@ function searchActivity() {
 
 }
 
-$('#plan_hlp_hrf').click(function () {
+$('#plan_hlp_hrf').click(function() {
     $('#plan_hlp').dialog();
     return false;
 });
@@ -667,7 +681,7 @@ function relogin() {
             loginAs: elem,
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             vtkTrackerPushAction('ChangeTroop');
             document.location = "/content/girlscouts-vtk/en/vtk.plan.html";
         }
@@ -697,7 +711,7 @@ function bindAssetToYPC(assetId, ypcId) {
             assetDesc: assetDesc,
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             vtkTrackerPushAction('AddAsset');
         }
     });
@@ -706,6 +720,7 @@ function bindAssetToYPC(assetId, ypcId) {
 
 
 function doMeetingLib(isMsgConf) {
+	
     if (!isMsgConf) {
 
         if (!confirm("This action will create a meeting outside of the current GirlScouts school year. Would you like to proceed?")) {
@@ -746,7 +761,7 @@ function expiredcheck(ssId, ypId) {
         url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=" + ssId + "&ypid=" + ypId + "&d=",
         dataType: 'json',
         cache: false
-    }).done(function (obj) {
+    }).done(function(obj) {
         //console.log("**"+html+"**");
         //var obj = jQuery.parseJSON(html );
         console.log("/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=" + ssId + "&ypid=" + ypId + "&d=");
@@ -756,8 +771,7 @@ function expiredcheck(ssId, ypId) {
             //alert("reloading...");
 
             var myUrl = window.location.href;
-            if (window.location.href.indexOf("reload=data") != -1) {
-                ;
+            if (window.location.href.indexOf("reload=data") != -1) {;
             } else if (window.location.href.indexOf("?") != -1) {
                 //window.location.replace(window.location.href + "&reload=data")
                 myUrl = window.location.href + "&reload=data";
@@ -771,7 +785,7 @@ function expiredcheck(ssId, ypId) {
             window.location.href = myUrl;
 
         }
-        setTimeout(function () { expiredcheck(ssId, ypId); }, 20000);
+        setTimeout(function() { expiredcheck(ssId, ypId); }, 20000);
 
     });
 
@@ -782,7 +796,7 @@ function expiredcheck(ssId, ypId) {
 
 
 //tmp need to replace with original
-function showError(x, y) { }
+function showError(x, y) {}
 
 function rmTroopInfo() {
 
@@ -793,7 +807,7 @@ function rmTroopInfo() {
             isRmTroopImg: 'true',
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
             location.reload();
         }
     });
@@ -814,7 +828,7 @@ function rmMeeting(rmDate, mid) {
             mid: mid,
             a: Date.now()
         },
-        success: function (result) {
+        success: function(result) {
 
             vtkTrackerPushAction('RemoveMeeting');
             location.reload();
@@ -828,7 +842,7 @@ function councilRpt(troopId, cid) {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAdminRpt=true&cid=" + cid + "&ypPath=" + troopId,
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         councilRpt_updateTroopName(html);
     });
 }
@@ -838,7 +852,7 @@ function councilRpt_updateTroopName(input) {
 
     var lines = input.split('\n');
     var output = '';
-    $.each(lines, function (key, line) {
+    $.each(lines, function(key, line) {
         var parts = line.split(';');
         for (var i = 0; i < parts.length; i++) {
             output += parts[i] + '; \n';
@@ -853,9 +867,9 @@ function councilRpt_updateTroopName(input) {
 //loaded in vtkFooter jsp
 function vtkCreateTracker() {
 
-    (function (i, s, o, g, r, a, m) {
+    (function(i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
-        i[r] = i[r] || function () {
+        i[r] = i[r] || function() {
             (i[r].q = i[r].q || []).push(arguments)
         }, i[r].l = 1 * new Date();
         a = s.createElement(o), m = s.getElementsByTagName(o)[0];
@@ -863,7 +877,7 @@ function vtkCreateTracker() {
         a.src = g;
         m.parentNode.insertBefore(a, m)
     })
-        (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
     ga('create', 'UA-2646810-36', 'auto', { 'name': 'vtkTracker' });
 
 }
@@ -880,7 +894,7 @@ function vtkInitTracker(tName, tId, uId, cId, tAge, ypn) {
 }
 
 function vtkTrackerPushAction(vAction) {
-    $(document).ready(function () {
+    $(document).ready(function() {
         ga('vtkTracker.send', 'pageview', {
             dimension4: vAction
         });
@@ -895,7 +909,7 @@ function getRelogin() {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printTroopReloginids=true",
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         printRelogin(html);
     });
 }
@@ -924,22 +938,29 @@ function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yea
         }
     }
 
+    // doMeetingLib(false);
+    //"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
+    // $('#gsModal').foundation('reveal', 'open', {
+    //     url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
+    //     data: {
+    //         newCustYr: true
+    //     },
 
-    $('#modal_custom_year_plan').foundation('reveal', 'open', {
-        url: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
+    //     success: function(data) {
+    //         var min_height = $('#sortable1').height() - 71;
+    //         $("#sortable2").css('min-height', min_height);
+    //     }
+    // });
+    
+    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
 
-        success: function (data) {
-            var min_height = $('#sortable1').height() - 71;
-            $("#sortable2").css('min-height', min_height);
-        }
-    });
 };
 
 function getCngYearPlan() {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printCngYearPlans=true",
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         printYearPlans(html);
     });
 }
@@ -968,10 +989,10 @@ function replaceMeetingHref(mPath, mDate) {
 
 function loadNav(activeTab) {
     loadTabNav(activeTab);
-    //		loadUNav(activeTab);
+    //      loadUNav(activeTab);
 
 
-    window.setTimeout(function () { checkIsLoggedIn(); }, 10000);
+    window.setTimeout(function() { checkIsLoggedIn(); }, 10000);
 
     if (activeTab != null && activeTab == 'myTroop') {
         vtkTrackerPushAction('ViewTroop');
@@ -991,7 +1012,7 @@ function loadTabNav(activeTab) {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=" + activeTab + getElem(),
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         var vtkNav = document.getElementById("fullNav");
         vtkNav.innerHTML = html;
         getRelogin();
@@ -1045,7 +1066,7 @@ function displayErrMsg(errMsgPlaceHldr) {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.include.vtkError.html",
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         var vtkErrMsgHld = document.getElementById(errMsgPlaceHldr);
         if (vtkErrMsgHld != null) {
             vtkErrMsgHld.innerHTML = html;
@@ -1061,17 +1082,17 @@ function doVtkLogout() {
 function rmVtkErrMsg(errMsgId) {
 
     $.ajax({
-        url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-        type: 'POST',
-        data: {
-            vtkErrMsgId: errMsgId,
-            act: 'RemoveVtkErrorMsg',
-            a: Date.now()
-        },
+            url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+            type: 'POST',
+            data: {
+                vtkErrMsgId: errMsgId,
+                act: 'RemoveVtkErrorMsg',
+                a: Date.now()
+            },
 
-        success: function (result) { },
-        error: function (XMLHttpRequest, textStatus, errorThrown) { }
-    }),
+            success: function(result) {},
+            error: function(XMLHttpRequest, textStatus, errorThrown) {}
+        }),
 
         rmVtkErrMsg_disableView(errMsgId);
 }
@@ -1085,7 +1106,7 @@ function rmVtkErrMsg_disableView(errMsgId) {
 
 
 function showSelectedDemoTroop(troopAge) {
-    $(function () {
+    $(function() {
         if (typeof gsusa !== "undefined") {
             if (gsusa.component && gsusa.component.dropDown && troopAge != undefined && troopAge != '') {
                 gsusa.component.dropDown('#vtk-dropdown-1', { local: true }, troopAge);
@@ -1102,7 +1123,7 @@ function cngYear(yr) {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYear=" + yr,
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         relogin();
 
     });
@@ -1114,7 +1135,7 @@ function resetYear() {
     $.ajax({
         url: "/content/girlscouts-vtk/controllers/vtk.controller.html?cngYearToCurrent=true",
         cache: false
-    }).done(function (html) {
+    }).done(function(html) {
         relogin();
 
     });
@@ -1124,23 +1145,38 @@ function resetYear() {
 //Notes ===
 
 
-var ModalVtk = (function () {
+var ModalVtk = (function() {
 
-    function Modal() {
+    function Modal(name) {
+
+        var modalName = name || new Date().getTime();
 
         var $main_modal_wrap, $main_modal, $gray_modal = [];
 
         function init() {
-            var $a = $('<div class="vtk-js-modal_wrap"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
+            var $a = $('<div class="vtk-js-modal_wrap '+modalName+'"><div class="vtk-js-modal" style=""><div class="vtk-js-modal_head"><div class="vtk-js-modal_title"></div></div><div class="vtk-js-modal_body"></div></div>');
             var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
-            $('body').append($a, $b);
 
 
-            $main_modal_wrap = $('.vtk-js-modal_wrap');
-            $main_modal = $('.vtk-js-modal');
+            if(!$('.vtk-gray-modal').length>0){
+                var $b = $('<div class="vtk-gray-modal" style=""></div></div>');
+                $('body').append($b);
+            }
+
+
+            $('body').append($a);
+
+            $main_modal_wrap = $('.vtk-js-modal_wrap.'+modalName);
+            $main_modal = $main_modal_wrap.children('.vtk-js-modal');
             $gray_modal = $('.vtk-gray-modal');
 
         }
+
+
+
+           
+
+
         //<div class="vtk-js-modal_description"></div><div vtk-js-modal_body_actions></div>
 
         function _getDimensions() {
@@ -1155,7 +1191,7 @@ var ModalVtk = (function () {
         };
 
         function _centerModal() {
-            $('.vtk-js-modal_wrap').animate({ 'top': ($(window).innerHeight() / 2) - 150 + 'px' });
+            $main_modal_wrap.animate({ 'top': ($(window).innerHeight() / 2) - 150 + 'px' });
         }
 
         function _preOpen(open) {
@@ -1173,8 +1209,8 @@ var ModalVtk = (function () {
         }
 
         function _clean() {
-            $('.vtk-js-modal_title').html('');
-            $('.vtk-js-modal_body').html('');
+            $main_modal.find('.vtk-js-modal_title').html('');
+            $main_modal.find('.vtk-js-modal_body').html('');
         }
 
         function close() {
@@ -1188,11 +1224,11 @@ var ModalVtk = (function () {
             _preOpen(true);
             _centerModal();
 
-            $('.vtk-js-modal_title').html(msg);
+            $main_modal.find('.vtk-js-modal_title').html(msg);
 
-            $('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action" >Ok</div></div>')
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action" >Ok</div></div>')
 
-            $('.vtk-js-modal_ok_action').on('click', close);
+            $main_modal.find('.vtk-js-modal_ok_action').on('click', close);
 
         }
 
@@ -1200,27 +1236,43 @@ var ModalVtk = (function () {
             _preOpen(true);
             _centerModal();
 
+            $main_modal.find('.vtk-js-modal_title').html(msg);
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
 
-
-
-            $('.vtk-js-modal_title').html(msg);
-            $('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + desc + '</div><div class="vtk-js-modal_body_actions"><div class="vtk-js-modal_button_action vtk-js-modal_ok_action">Ok</div><div class="vtk-js-modal_button_action vtk-js-modal_cancel_action">Cancel</div></div>')
-
-            $('.vtk-js-modal_ok_action').on('click', okCallBack);
-            $('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
+            $main_modal.find('.vtk-js-modal_ok_action').on('click', okCallBack);
+            $main_modal.find('.vtk-js-modal_cancel_action').on('click', cancelCallBack);
 
 
 
         }
 
-        $(window).resize(function () {
+
+        function fillWidth(msg,html, callBack){
+                   _preOpen(true);
+            _centerModal();
+
+
+            $main_modal.css({maxWidth:'420px'});
+
+            $main_modal.find('.vtk-js-modal_title').html(msg);
+
+            $main_modal.find('.vtk-js-modal_body').html('<div class="vtk-js-modal_description">' + html + '</div>')
+
+            if(callBack){
+                callBack();
+            }
+           
+        }
+
+        $(window).resize(function() {
             _applySize();
         })
         return {
             init: init,
             close: close,
             alert: alert,
-            confirm: confirm
+            confirm: confirm,
+            fillWith: fillWidth
         }
     }
 
@@ -1229,18 +1281,18 @@ var ModalVtk = (function () {
 
 
 
-var initNotes = (function (global, ModalVtk, $) {
+var initNotes = (function(global, ModalVtk, $) {
     var modal = new ModalVtk();
     var globalMid, userLoginId;
 
     var view = {
         actions: global.actions,
         state: '',
-        noteFocus: function (e) {
+        noteFocus: function(e) {
             //  $('li.vtk-note_item').removeClass('shadow');
             // $(this).addClass('shadow');
         },
-        noteEditable: function (element, boolean) {
+        noteEditable: function(element, boolean) {
 
             if (boolean) {
                 element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content')
@@ -1257,34 +1309,40 @@ var initNotes = (function (global, ModalVtk, $) {
                     })
             }
         },
-        deleteNote: function (e) {
+        deleteNote: function(e) {
             e.preventDefault();
 
-            modal.confirm('Warning', 'Are you sure you want to delete this note?', function () {
+            modal.confirm('Warning', 'Are you sure you want to delete this note?', function() {
                 rmNote($(e.target).parents('li').data('uid'))
-                    .fail(function (err) {
+                    .fail(function(err) {
                         console.log('error', err)
                     })
-                    .success(function () {
+                    .success(function() {
                         checkQuantityNotes($('.vtk-notes_item').length)
                         var req = getNotes(globalMid, userLoginId);
                         req.then(
-                            function (json) {
+                            function(json) {
                                 interateNotes(json);
                             },
-                            function (err) {
+                            function(err) {
                                 console.log(err);
                             })
-                    }).done(function () {
+                    }).done(function() {
                         modal.close();
                     });
-            }, function () {
+            }, function() {
                 modal.close();
             })
         },
-        editNotelocal: function (e) {
+        editNotelocal: function(e) {
             e.preventDefault();
             e.stopPropagation();
+
+            $('.add-note-detail').slideUp();
+
+            var editButton = $(this);
+
+            editButton.attr('disabled', true);
 
             var nid = $(e.target).parents('li').data('uid');
             var element = $(e.target).parents('li');
@@ -1294,54 +1352,63 @@ var initNotes = (function (global, ModalVtk, $) {
             // $('li.vtk-note_item').removeClass('shadow');
             // element.addClass('shadow');
 
+
+
             var originalMessage = element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html();
 
             counter.methods.render(element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_container'));
 
 
-            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keyup', function (e) { check_charcount($(this), e, counter); });
-            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keydown', function (e) { check_charcount($(this), e, counter); });
 
+            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keyup', function(e) { check_charcount_x($(this), e, counter); });
+            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('keydown', function(e) { check_charcount_x($(this), e, counter); });
+            element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').on('paste', function(e) { check_charcount_x($(this), e, counter); });
             view.state = originalMessage;
-            var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
+            // var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_detail').children('.vtk-note_actions').children('.save-note');
+            var saveButton = $('li[data-uid="' + nid + '"]').children('.vtk-note_wrap_content').find('.save-note');
 
             saveButton.show();
 
             view.noteEditable(element, true);
 
-            element.children('.row').children('.vtk-note_content').on('click', function (e) {
+            counter.methods.textChange(element.find('.vtk-note_content'), element.find('.vtk-word-counter'))
+
+            element.children('.row').children('.vtk-note_content').on('click', function(e) {
                 e.stopPropagation();
             });
 
-            $('.save-note').on('click', function (e) {
+            $('.save-note').on('click', function(e) {
                 e.stopPropagation();
 
             });
 
-            $('.format-buttom').on('click', function (e) {
+            $('.format-buttom').on('click', function(e) {
                 e.stopPropagation();
             })
 
-            $('.vtk-js-modal_wrap').on('click', function (e) {
+            $('.vtk-js-modal_wrap').on('click', function(e) {
                 e.stopPropagation();
             });
 
-            $('.vtk-gray-modal').on('click', function (e) {
+            $('.vtk-gray-modal').on('click', function(e) {
                 e.stopPropagation();
             })
 
-            $('.vtk-js-modal_button_action').on('click', function (e) {
+            $('.vtk-js-modal_button_action').on('click', function(e) {
                 e.stopPropagation();
             })
 
-            $(this).parents('li').children('.vtk-note_wrap_content').on('click', function (e) {
+
+
+
+            $(this).parents('li').children('.vtk-note_wrap_content').on('click', function(e) {
                 e.stopPropagation();
             })
 
-            $(document).on('click', function (e) {
+            $(document).on('click', function(e) {
                 e.stopPropagation();
 
-                modal.confirm('Warning', 'Changes have not been saved and will be lost.', function () {
+                modal.confirm('Warning', 'Changes have not been saved and will be lost.', function() {
                     element.children('.vtk-note_wrap_content').children('.row').children('.vtk-note_content').html(originalMessage);
                     counter.methods.destroy();
                     view.noteEditable(element, false);
@@ -1360,9 +1427,11 @@ var initNotes = (function (global, ModalVtk, $) {
 
                     editor.destroy();
 
+                    editButton.removeAttr('disabled')
+
                     modal.close();
 
-                }, function () {
+                }, function() {
 
                     view.noteEditable(element, true);
                     saveButton.show();
@@ -1374,7 +1443,7 @@ var initNotes = (function (global, ModalVtk, $) {
 
             })
         },
-        updateNote: function (e) {
+        updateNote: function(e) {
             e.preventDefault();
             e.stopPropagation();
             var nid = $(e.target).parents('li').data('uid');
@@ -1385,25 +1454,26 @@ var initNotes = (function (global, ModalVtk, $) {
 
             if (character.length < 501) {
                 editNote(nid, message)
-                    .fail(function (err) {
+                    .fail(function(err) {
                         console.log(err);
                     })
-                    .success(function () {
+                    .success(function() {
 
                         var req = getNotes(globalMid, userLoginId);
 
-                        req.done(function (json) {
+                        req.done(function(json) {
                             interateNotes(json);
 
                         })
 
 
-                        req.fail(function (err) {
+                        req.fail(function(err) {
                             console.log(err);
                         })
 
 
-                    }).done(function () {
+                    }).done(function() {
+
                         editor.destroy();
                         counter.methods.destroy();
                     })
@@ -1411,13 +1481,10 @@ var initNotes = (function (global, ModalVtk, $) {
                 modal.alert('Warning', 'Need to Write a text less than 500 chacracter')
             }
 
-            
+
             $(document).off('click');
-
-
-
         },
-        getPermisionOfEdit: function (note) {
+        getPermisionOfEdit: function(note) {
 
             if (userLoginId === note.createdByUserId || note.createdByUserId === true) {
                 return {
@@ -1434,70 +1501,63 @@ var initNotes = (function (global, ModalVtk, $) {
                             click: this.editNotelocal
                         }
                     },
-
                     'button-1': {
                         child: {
                             i: {
                                 class: "icon-button-circle-cross"
                             }
                         },
-
-
-
                         data: {
                             uid: note.uid
-
                         },
-
-
-
-
-                        // text: 'Delete ',
 
                         events: {
                             click: this.deleteNote
                         }
-                    },
-
-                    'button-2': {
-                        child: {
-                            i: {
-                                class: "icon-save-floppy"
-                            }
-                        },
-
-
-                        data: {
-                            uid: note.uid
-
-                        },
-
-                        class: 'save-note',
-
-
-                        style: {
-                            display: 'none'
-                        },
-
-
-
-
-                        // text: 'Save ',
-
-                        events: {
-                            click: this.updateNote
-                        }
                     }
                 }
+
+                //     'button-2': {
+                //         child: {
+                //             i: {
+                //                 class: "icon-save-floppy"
+                //             }
+                //         },
+
+
+                //         data: {
+                //             uid: note.uid
+
+                //         },
+
+                //         class: 'save-note',
+
+
+                //         style: {
+                //             display: 'none'
+                //         },
+
+
+
+
+                //         // text: 'Save ',
+
+                //         events: {
+                //             click: this.updateNote
+                //         }
+                //     }
+
             } else {
                 return {}
             }
         },
-        newNote: function (note) {
+
+
+        newNote: function(note) {
             var date = moment(note.createTime);
 
             var dateString = date.format('MM/DD/YYYY');
-            var timeString = date.format('LTS');
+            var timeString = date.format('LT');
 
             var template = {
                 li: {
@@ -1518,7 +1578,24 @@ var initNotes = (function (global, ModalVtk, $) {
                                     child: {
                                         div: {
                                             class: "vtk-note_content small-24 columns",
-                                            html: note.message
+                                            html: note.message,
+                                            child: {
+
+                                            }
+                                        },
+                                        'div-1': {
+                                            text: 'Save',
+                                            data: {
+                                                uid: note.uid
+                                            },
+
+                                            class: 'save-note',
+                                            style: {
+                                                display: 'none'
+                                            },
+                                            events: {
+                                                click: this.updateNote
+                                            }
                                         }
                                     }
                                 },
@@ -1599,14 +1676,13 @@ var initNotes = (function (global, ModalVtk, $) {
                 }
             }
 
-
             return template;
         }
     }
     var editor = {
         $el: '',
-        applyFormat: function (e) {
-            console.log(e);
+        applyFormat: function(e) {
+
             e.preventDefault();
             var command = $(this).data('command');
 
@@ -1621,7 +1697,7 @@ var initNotes = (function (global, ModalVtk, $) {
                 document.execCommand($(this).data('command'), false, url);
             } else document.execCommand($(this).data('command'), false, null);
         },
-        template: function () {
+        template: function() {
             return {
                 div: {
                     class: 'format',
@@ -1652,52 +1728,65 @@ var initNotes = (function (global, ModalVtk, $) {
                             },
                             text: 'i'
                         },
+                        'a-2': {
+                            attr: {
+                                href: '#'
+                            },
+                            class: 'format-buttom format-underline',
+                            data: {
+                                command: 'underline'
+                            },
+                            events: {
+                                click: editor.applyFormat
+                            },
+                            text: 'U'
+                        },
 
-                        'a-3': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-p',
-                            data: {
-                                command: 'p'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'P'
-                        },
-                        'a-4': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-h',
-                            data: {
-                                command: 'h1'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'H1'
-                        },
-                        'a-5': {
-                            attr: {
-                                href: '#'
-                            },
-                            class: 'format-buttom format-h',
-                            data: {
-                                command: 'h2'
-                            },
-                            events: {
-                                click: editor.applyFormat
-                            },
-                            text: 'H2'
-                        }
+                        // 'a-3': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-p',
+                        //     data: {
+                        //         command: 'p'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'P'
+                        // },
+                        // 'a-4': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-h',
+                        //     data: {
+                        //         command: 'h1'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'H1'
+                        // },
+                        // 'a-5': {
+                        //     attr: {
+                        //         href: '#'
+                        //     },
+                        //     class: 'format-buttom format-h',
+                        //     data: {
+                        //         command: 'h2'
+                        //     },
+                        //     events: {
+                        //         click: editor.applyFormat
+                        //     },
+                        //     text: 'H2'
+                        // }
                     }
 
                 }
             }
         },
-        render: function (element) {
+        render: function(element) {
 
             var el = utility.compileTemplate(editor.template());
 
@@ -1710,14 +1799,14 @@ var initNotes = (function (global, ModalVtk, $) {
 
 
         },
-        destroy: function () {
+        destroy: function() {
             editor.$el.remove();
         }
 
     }
     var counter = {
         template: {
-            counter: function (number) {
+            counter: function(number) {
                 return {
                     div: {
                         class: 'vtk-word-counter',
@@ -1744,7 +1833,12 @@ var initNotes = (function (global, ModalVtk, $) {
         methods: {
             el: '',
 
-            checkerF: function (element) {
+            restart: function() {
+                $(counter.methods.el).text('500')
+            },
+
+            checkerF: function(element) {
+
                 var l = 500 - element.text().length;
                 var style = {};
                 var element;
@@ -1771,7 +1865,7 @@ var initNotes = (function (global, ModalVtk, $) {
                 $(counter.methods.el).css(style);
                 return l;
             },
-            render: function (element) {
+            render: function(element) {
                 counter.methods.el = utility.compileTemplate(counter.template.counter(''));
                 if (element) {
                     element.append(counter.methods.el);
@@ -1780,21 +1874,18 @@ var initNotes = (function (global, ModalVtk, $) {
                     return counter.methods.el;
 
                 }
-
-
-
             },
-            textChange: function (element) {
-                $(counter.methods.el).text(counter.methods.checkerF(element));
+            textChange: function(element, target) {
+                $(target).parent().parent().find('.vtk-word-counter').text(counter.methods.checkerF(element));
             },
-            destroy: function () {
+            destroy: function() {
                 $(counter.methods.el).remove();
             }
         }
     }
 
     var utility = {
-        compileTemplate: function (template) {
+        compileTemplate: function(template) {
             //Create the Dom Element assing the the class and event
             function createElement(element, detail) {
                 var domElement = document.createElement(element);
@@ -1879,7 +1970,7 @@ var initNotes = (function (global, ModalVtk, $) {
             //return the dom with child and event listerners
             return interator(template);
         },
-        alertButton: function (msg, okCallback, cancelCallback) {
+        alertButton: function(msg, okCallback, cancelCallback) {
             var x;
             if (confirm(msg) == true) {
                 x = okCallback();
@@ -1889,9 +1980,8 @@ var initNotes = (function (global, ModalVtk, $) {
         }
     }
 
-
-    function check_charcount(element, e, counter) {
-        counter.methods.textChange(element);
+    function check_charcount_x(element, e, counter) {
+        counter.methods.textChange(element, e.target);
         if (e.which != 8 && element.text().length > 499) {
             e.preventDefault();
         }
@@ -1906,6 +1996,7 @@ var initNotes = (function (global, ModalVtk, $) {
     function addNote(mid) {
         var msg = $('.input-content').html();
         var msgl = $('.input-content').text().length;
+
 
         var data = {
             addNote: "true",
@@ -1928,14 +2019,16 @@ var initNotes = (function (global, ModalVtk, $) {
                 $('.note-loading').show();
 
                 req.then(
-                    function (json, e) {
+                    function(json, e) {
                         $('.vtk-notes_list_container').prepend(utility.compileTemplate(view.newNote(json)));
 
                         $('.input-content').html('');
+                        $('.vtk-word-counter').html('500');
                         $('.add-note-detail').slideUp();
                         $('.note-loading').hide();
                         checkQuantityNotes($('.vtk-notes_list_container').children('li').length);
-                    }, function (err) {
+                    },
+                    function(err) {
 
                         console.log(err)
                         $('.note-loading').hide();
@@ -1947,11 +2040,9 @@ var initNotes = (function (global, ModalVtk, $) {
         } else {
             modal.alert('warnign', 'you can not add more notes due you reach the max notes ')
         }
-
     }
 
     function rmNote(nid) {
-
         return ajaxConnection({
             url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
             cache: false,
@@ -2000,9 +2091,9 @@ var initNotes = (function (global, ModalVtk, $) {
         node.html('');
 
 
-        notes.sort(function (a, b) {
+        notes.sort(function(a, b) {
             return a.createTime - b.createTime;
-        }).reverse().forEach(function (note, idx) {
+        }).reverse().forEach(function(note, idx) {
             node.append(utility.compileTemplate(view.newNote(note)))
         });
 
@@ -2033,12 +2124,12 @@ var initNotes = (function (global, ModalVtk, $) {
         return ajaxConnection(ajaxOptions);
     }
 
-    $(function () {
+    $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);
 
 
-        $('.add-note-detail').append(utility.compileTemplate({
+        $('.add-note-detail_main').append(utility.compileTemplate({
             div: {
                 class: 'container',
                 component: {
@@ -2050,14 +2141,12 @@ var initNotes = (function (global, ModalVtk, $) {
             }
         }))
 
-        countermain.methods.textChange($('.input-content'));
+        countermain.methods.textChange($('.add-note-detail_main').find('.input-content'), $('.add-note-detail_main').find('.vtk-word-counter')[0]);
 
-
-
-        $('.input-content').keyup(function (e) { check_charcount($(this), e, countermain); });
-        $('.input-content').keydown(function (e) { check_charcount($(this), e, countermain); });
-        $('.input-content').on('paste', function (e) { check_charcount($(this), e, countermain); });
-        $('.add-note').on('click', function (e) {
+        $('.input-content').keyup(function(e) { check_charcount_x($(this), e, countermain); });
+        $('.input-content').keydown(function(e) { check_charcount_x($(this), e, countermain); });
+        $('.input-content').on('paste', function(e) { check_charcount_x($(this), e, countermain); });
+        $('.add-note').on('click', function(e) {
             $('.add-note-detail').stop().slideToggle();
         });
 

@@ -302,9 +302,11 @@
 						request.getParameterMap());
 				return;
 			case RmMeeting:
+				/*
 				meetingUtil.createMeetingCanceled(user, troop,
 						request.getParameter("mid"),
 						Long.parseLong(request.getParameter("rmDate")));
+				*/
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
 				meetingUtil.rmSchedDate(user, troop,
@@ -908,7 +910,13 @@ try{
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{
-							((MeetingE) tmp[i]).getMeetingInfo()
+			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
+			  
+			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
+			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
+			   
+			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setMeetingInfo(null);
@@ -916,7 +924,7 @@ try{
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
-						} catch (Exception e) {
+						} catch (Exception e) {e.printStackTrace();
 	}
 					}
 
@@ -1234,16 +1242,29 @@ try{
 
 
 	        <div class="row">
-	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-	           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
-	            <label for="r_0"></label>
-	        </div>
-	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
 
+	        	<div class="small-20 small-centered columns">
+
+	        	<div class="row">
+
+	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
+                         !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
+	     
+	            <%if(condition){ %>   
+                    <div class="columns  small-2">
+		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
+		            <label for="r_0"></label> </div>
+	            <%} %>
+	       
+	        <div class="small-18 columns end" style="<%= condition ? "padding-left:16px" : ""  %>"  >
+	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
+	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
                         Customize Your Troop Year
+                 <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
+                         troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Milti-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
@@ -1252,10 +1273,26 @@ try{
 		            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
 		            		   (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
 		                Select this option to create activities or add council activities to your calendar.
+		            
+		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
+                            troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+
+                            <p style="margin-bottom:15px !important;">
+                             All Girls Scouts plan have been organized so you can easily filter through the set to select the right ones for your multi-level troop.. Once your meeting selections are made you'll be able to arrange and finalize the dates in the Year Plan view.
+                            </p>
+
+                            <p style="margin-bottom:15px !important;">
+                            	You will begin by selecting the Girl Scout Levels and types of meetings you want to see.
+                            </p>
+                           
+                            
+                            <br/><input type="button" class="button" value="Create Your Year Plan" onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')"/>
 		            <%}else{ %>
 	    	            Choose this option to create your own year plan using meetings from  our meeting library
 		           <%} %>
 	            </p>
+	        </div>
+	        </div>
 	        </div>
 	      </div><!--/row-->
 
@@ -1366,12 +1403,39 @@ try{
                         break;
                     }//edn if
                 }//end for
-                
+                /*
         }else if( request.getParameter("getAllMeetings") != null ){
         	
         	 java.util.List<Meeting> meetings = meetingUtil.getMeetings(2016);
         	 ObjectMapper mapper = new ObjectMapper();
              out.println(mapper.writeValueAsString(meetings));
+             */
+        }else if(request.getParameter("addMeetings") != null){
+            String meetings[] = request.getParameterValues("addMeetingMulti");
+            for(int i=0;i<meetings.length;i++){
+                
+                meetingUtil.addMeetings(user, troop, meetings[i] );
+            }
+            %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
+
+        }else if(request.getParameter("cngOutdoor") != null){
+        	String mid= request.getParameter("mid");
+        	String aid= request.getParameter("aid");
+        	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
+        	
+        	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+             zz:for(int i=0;i<meetings.size();i++){
+            	 if( meetings.get(i).getUid().equals( mid ) ){
+            		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
+            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getUid().equals(aid)){
+            			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
+            			      break zz;
+            			 }
+            		 }
+            	 }
+             }
+        	
+        
 		} else {
 			//TODO throw ERROR CODE
 

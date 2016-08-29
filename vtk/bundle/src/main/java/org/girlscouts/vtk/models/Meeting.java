@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -19,11 +20,11 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field
 	private String id, name;
 	@Field
-	private String level, blurb, cat, meetingType;
+	private String level, blurb, cat;
 	@Field
 	private String aidTags, resources, agenda;
 	@Field
-	private Integer position;
+	private Integer position=0;
 	@Field private Boolean isAchievement; 
 
 	
@@ -33,8 +34,19 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Collection
 	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
+	
+	@Field
+	private String meetingPlanType;
+	
+	
+	@Field
+	private String catTags;
+	
+	
+	
+	
 	public Integer getPosition() {
-		return position;
+		return position ==null ? 0 : position;
 	}
 
 	public void setPosition(Integer position) {
@@ -140,13 +152,60 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
-	public String getMeetingType() {
-		return meetingType;
+	
+
+	public String getMeetingPlanType() {
+		return meetingPlanType;
 	}
 
-	public void setMeetingType(String meetingType) {
-		this.meetingType = meetingType;
+	public void setMeetingPlanType(String meetingPlanType) {
+		this.meetingPlanType = meetingPlanType;
 	}
+
+	public String getCatTags() {
+		return catTags;
+	}
+
+	public void setCatTags(String catTags) {
+		this.catTags = catTags;
+	}
+
+	
+
+	
+	
+
+	
+
+	
+
+
+
+
+
+	
+	
+
+	
+	
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
 
 	
 	

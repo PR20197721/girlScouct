@@ -17,7 +17,7 @@
 	printProperty(info, "Blurb", "blurb");
 	printProperty(info, "Meeting Plan Type", "meetingPlanType");
 	printProperty(info, "Category", "cat");
-	printProperty(info, "Category Tags", "catTags");
+	printProperty(info, "Category (for filter)", "catTags");
 	printProperty(info, "Aid Tags", "aidTags");
 	printProperty(info, "Resources", "resources");
 	printProperty(info, "Overview", "meetingInfo/overview/str");
@@ -45,6 +45,8 @@
 	    printProperty(info1, "Name", "name", "h3");
 	    printProperty(info1, "Duration", "duration", "h3");
 	    printProperty(info1, "Description", "activityDescription", "h3");
+	    //printProperty(info1, "Outdoor?", "isOutdoorAvailable", "h3");
+	    //printProperty(info1, "Outdoor Description", "activityDescription_outdoor", "h3");
 	}
 %>
 </body>
