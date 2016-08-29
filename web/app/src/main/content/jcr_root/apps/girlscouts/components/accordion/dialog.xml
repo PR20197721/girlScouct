@@ -17,9 +17,13 @@
                         fieldLabel="Titles"
                         name="./children"
                         xtype="multifield">
+                        <listeners
+                            jcr:primaryType="nt:unstructured"
+                            removeditem="function(field){girlscouts.functions.deleteaccordion(field)}"/>
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
-                            xtype="accordionfield"/>
+                            xtype="accordionfield">
+                       </fieldConfig>
                     </children>
                 </items>
             </tab1>

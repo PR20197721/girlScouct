@@ -26,7 +26,7 @@
 			String[] split = namesAndAnchors[i].split("\\|\\|\\|");
 			children[i] = split.length >= 1 ? split[0] : "";
             anchors[i] = split.length >= 2 ? split[1] : "";
-            accIds[i] = split.length >= 3 ? split[2] : "";
+            accIds[i] = split.length >= 3 ? split[2] : "" + i;
 		}
 	}
 	if(children == null){
