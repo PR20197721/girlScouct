@@ -117,7 +117,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			</div>
 		</div>
 		
-		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="CCombine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
             <div class="row">
                 <div class="small-24 column">
                     <%@include file="include/combineMeetingsAddCal.jsp"%>
