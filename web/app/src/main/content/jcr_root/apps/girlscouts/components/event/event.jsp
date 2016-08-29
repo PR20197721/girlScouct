@@ -167,10 +167,10 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     String title = currentPage.getTitle();
     String details = properties.get("details", " ");
 
-   // address
-   String address = properties.get("address", "");
-   address = address.replaceAll("[\\n\\r]", " ");
-
+    // address
+    String address = properties.get("address", "");
+    address = address.replaceAll("[\\n\\r]", " ");
+    
     //Region
     String region = properties.get("region", "");
 
@@ -224,29 +224,36 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	<div class="small-24 medium-12 large-12 columns">
 		<div class="row">
 			<div class="small-8 medium-8 large-8 columns">
-             <b>Date:</b>
+            	<b>Date:</b>
 			</div>
-                        <div class="small-16 medium-16 large-16 columns">
-           <b>
-           <%try{%>
-                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(startDate)%>"><%=formatedStartDateStr%></span>
+            <div class="small-16 medium-16 large-16 columns">
+			<b>
+				<%try{%>
+						<span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(startDate)%>"><%=formatedStartDateStr%></span>
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
                             <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(endDate))%>"><%=formatedEndDateStr %></span>
                         <%
                         }
-                     }catch(Exception eDateStr){eDateStr.printStackTrace();}
+					}catch(Exception eDateStr){eDateStr.printStackTrace();}
                     %>
-           </b>
-                        </div>
+			</b>
+			</div>
 		</div>
-                <div class="row">
-                        <div class="small-8 medium-8 large-8 columns">
-             <b>Location:</b>
-                        </div>
-                        <div class="small-16 medium-16 large-16 columns" itemprop="location" itemscope itemtype="http://schema.org/Place">
-           <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
-                        </div>
-                </div>
+		<div class="row">
+			<div class="small-8 medium-8 large-8 columns">
+				<b>Location:</b>
+			</div>
+			<div class="small-16 medium-16 large-16 columns" itemprop="location" itemscope itemtype="http://schema.org/Place">
+				<b><%= locationLabel %></b> <%--if(address!=null && !address.isEmpty()){--%>
+				<%-- Not all addresses are valid addresses. We use Google Maps API to validate and show "maps" link on event list
+    				but however there's a quota of 2500/day. If there are two commas, it's likely a valid address and check
+    				otherwise do not show "map" link --%>
+					<% if ((address.indexOf(",") != -1) && (address.indexOf(",") != address.lastIndexOf(","))) {%>
+						<a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a>
+					<%} %>
+			</div>
+		</div>
+		
 <%String priceRange = properties.get("priceRange","");
 	if (!"".equals(priceRange)) {%>                
                 <div class="row">
@@ -320,6 +327,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 
 <script>
 function showMap(address){
-	window.open('/en/map.html?address='+address);
+	//window.open('/en/map.html?address='+address);
+	window.open('http://www.google.com/maps/search/' + address);
 }
 </script>

@@ -232,7 +232,8 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
   
   
   
-  <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+  <form id="form-meeting-library" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
+
 	  
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		  <input type="hidden" name="act" value="CreateCustomYearPlan" />
@@ -496,11 +497,10 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		};
 	})();
 
-	var categoryCollections = [];
 	var categoryCollectionsObj = {};
-	window['categoryCollections '] =  categoryCollections;
 
 
+	
 
 	var queryDown ={
 		age: function(list){
@@ -748,6 +748,12 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1');
 		renderElement('#vtk-meeting-group-categories','#vtk-dropdown-filter-2');
 	});
+
+
+var meetingLibraryModal = new ModalVtk('meeting-library-modal');
+
+
+	meetingLibraryModal.init();
 </script>
 
 
@@ -768,17 +774,10 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  <%if( request.getParameter("newCustYr")!=null){ %>
 		   <input class="button tiny" type="button" value="ADD TO YEAR PLAN" onclick="createCustPlan(null)"/>
 	  <%}else{ %>
-		   <input class="button tiny" type="submit" value="ADD TO YEAR PLAN"/>
+		   <input class="button tiny" type="submit"  value="ADD TO YEAR PLAN" onclick="preAddYearPlan(event)"/>
 	  <%}//end else %> 
 	</div>  
 	</div>
-
-
-		
-
-
- 		
-	
 
 		  <%
 
@@ -792,16 +791,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			  });
 		  }
 
-		  
-
-
-
-
 		  String currentLevel = "";
-
-
-
-
 
 		  for(int i=0;i<meetings.size();i++){
 			Meeting meeting = meetings.get(i);
@@ -811,11 +801,6 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
                     <%= currentLevel %>
                 </div>
-
-
-
-	
-	
 
 				<% 
 		   }
@@ -936,6 +921,24 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  
 </form>
 <script>
+
+
+	function preAddYearPlan(event){
+
+
+		event.preventDefault();
+
+		checkIfOnWasClickedX({
+			yes:function(){
+				document.getElementById("form-meeting-library").submit()
+			},
+			no:function(){
+				meetingLibraryModal.alert('',"Need to select at least one meeting")
+			}
+		})
+	}
+
+
 	function doFilter(clickSrc){
 
 	$(this).attr('checked', true);
@@ -1139,33 +1142,72 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 	}
 
+
+
 	
 	function createCustPlan(singleMeetingAdd) {
-		 var sortedIDs="";
-		 if( singleMeetingAdd==null) {
-			 var els= document.getElementsByName("addMeetingMulti");
-			 for(var y = 0; y < els.length; y++){
-				 if( els[y].checked == true )
-					sortedIDs= sortedIDs +els[y].value+ ",";
-			 }
+
+		var sortedIDs="";
+		
+		if( singleMeetingAdd==null) {
+		 
+			var els = document.getElementsByName("addMeetingMulti");
+
+			checkIfOnWasClickedX({
+				no: function(){
+					meetingLibraryModal.close();
+					meetingLibraryModal.alert('',"Need to select at least one meeting");
+				},
+				yes: function(){
+					for(var y = 0; y < els.length; y++){
+						if( els[y].checked == true ){
+							sortedIDs= sortedIDs +els[y].value+ ",";
+						}
+					}
+
+					makeTheCall();
+				}
+			})
+
 		}else{
+
 			sortedIDs = sortedIDs + singleMeetingAdd +",";
+			makeTheCall();
+		
+		}
+		
+		function makeTheCall(){
+			$.ajax({
+					url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
+					cache: false
+					}).done(function( html ) {
+		  				vtkTrackerPushAction('CreateCustomYearPlan');
+		  				location.reload();
+					});
 		}
 		
 		
-		$.ajax({
-			url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
-			cache: false
-		}).done(function( html ) {
-			
-	   
-		  vtkTrackerPushAction('CreateCustomYearPlan');
-		  location.reload();
-		});
-	  }
+	}
 	
 	
-	
+	function checkIfOnWasClickedX(configObject){
+
+		var  _arrayList = [], v, _hasOne;
+		var nodelist = document.getElementsByName("addMeetingMulti");;
+
+		_arrayList = Array.prototype.slice.call(nodelist);
+
+		_hasOne = _arrayList.some(function(el){
+			return el.checked;
+		})
+
+		if(_hasOne){
+			configObject.yes();
+		}else{
+			configObject.no();
+		}
+	}
+
 	
 	
 	initMeetings();
@@ -1174,7 +1216,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		  return $(a).find('.terminal').data('price') - $(b).find('.terminal').data('price');
 		}).each(function (_, container) {
 		  $(container).parent().append(container);
-		});
+	});
 
 
 
