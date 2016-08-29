@@ -6,7 +6,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <div id="right-canvas-menu-bottom">
-    <ul class="side-nav" style="background-color:#6b6b6b;">
+  <ul class="side-nav">
 <%
 String currPath = currentPage.getPath();
 String[] links = (String[])(request.getAttribute("links"));
