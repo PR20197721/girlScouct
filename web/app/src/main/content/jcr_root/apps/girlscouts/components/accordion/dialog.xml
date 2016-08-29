@@ -21,8 +21,19 @@
                             jcr:primaryType="nt:unstructured"
                             removeditem="function(field){girlscouts.functions.deleteaccordion(field)}"/>
                         <fieldConfig
-                            jcr:primaryType="nt:unstructured"
-                            xtype="accordionfield">
+                            jcr:primaryType="cq:Widget"
+                            border="false"
+                            xtype="accordionpanel">
+                            <items jcr:primaryType="cq:WidgetCollection">
+                            	<accordion
+                            		jcr:primaryType="cq:Widget"
+                            		dName="acc"
+                            		xtype="accordionfield">
+                            		<listeners
+                            			jcr:primaryType="nt:unstructured"
+                            			loadcontent="console.log('test');"/>
+                            	</accordion>
+                            </items>
                        </fieldConfig>
                     </children>
                 </items>
