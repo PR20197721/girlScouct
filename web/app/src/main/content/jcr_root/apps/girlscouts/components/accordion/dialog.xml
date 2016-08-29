@@ -19,21 +19,11 @@
                         xtype="multifield">
                         <listeners
                             jcr:primaryType="nt:unstructured"
+                            beforeloadcontent="function(){ accIndex = 0; }"
                             removeditem="function(field){girlscouts.functions.deleteaccordion(field)}"/>
                         <fieldConfig
-                            jcr:primaryType="cq:Widget"
-                            border="false"
-                            xtype="accordionpanel">
-                            <items jcr:primaryType="cq:WidgetCollection">
-                            	<accordion
-                            		jcr:primaryType="cq:Widget"
-                            		dName="acc"
-                            		xtype="accordionfield">
-                            		<listeners
-                            			jcr:primaryType="nt:unstructured"
-                            			loadcontent="console.log('test');"/>
-                            	</accordion>
-                            </items>
+                            jcr:primaryType="nt:unstructured"
+                            xtype="accordionfield">
                        </fieldConfig>
                     </children>
                 </items>
