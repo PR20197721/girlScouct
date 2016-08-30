@@ -51,24 +51,33 @@
 
           <div class="row">
             <div class="small-24 column">
-            <input type="button" value="save" id="saveCalElem" onclick="checkListIsOneIsChecked('_tag_t',{no:function(){modalCalendar.close();modalCalendar.alert('','Need to select a meeting to save')},yes:function(){saveCalElem()}})" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="fnOpenNormalDialog()" class="button btn right"> 
+            <input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="cancel-meetings-button inactive-button button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="fnOpenNormalDialog()" class="button btn right"> 
             <div id="dialog-confirm"></div>
         </div>
           </div>
 <script>
-function checkListIsOneIsChecked(name, action){
-    var _hasChecked = false; 
-    var $_inputs = $('input[name="'+name+'"]');
 
-    _hasChecked = $_inputs.toArray().some(function(el){
-      return el.checked;
-    });
+function checkSaveButton(name,className){
+  function changeButton(){
+      
+      var _array = [].slice.call(document.getElementsByName(name));
+    
+      var _if = _array.some(function(e){
+        return e.checked;
+      })
 
-    if(_hasChecked){ 
-      action.yes()
-    } else {
-      action.no();
-    } 
-     
+      if(_if){
+        $(className).removeClass('inactive-button');
+      }else{
+         $(className).addClass('inactive-button');
+      } 
+  }  
+
+  $('[name='+name+']').on('change',changeButton)     
 }
+
+checkSaveButton('_tag_t','.cancel-meetings-button')
+
+
+
 </script>

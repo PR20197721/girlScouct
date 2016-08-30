@@ -39,7 +39,8 @@
 
               <div class="small-24 column">
           
-            <div id="dialog-confirm"></div>  <input ttype="button" onclick="checkListIsOneIsChecked('_tag_m',{yes: function(){tabsVtk.goto('combine-meeting-time')},no:function(){ modalCalendar.alert('','Need to select a least one field to continue') }})" value="Continue"  class="button btn right"> 
+            <div id="dialog-confirm"></div>  
+            <input type="button" onclick="tabsVtk.goto('combine-meeting-time')" value="Continue"  class="combine-meetings-button inactive-button button btn right"> 
             <input type="button" value="cancel" onclick="cancelModal()" class="button btn right"> 
             <div id="dialog-confirm"></div>
           </div>
@@ -49,6 +50,9 @@
         <!-- <input type="button" onclick="doCombine()" value="Combine Meetings"/> -->
         
         <script>
+
+
+        checkSaveButton('_tag_m','.combine-meetings-button')
 
         var selectedTime = (function(){
           

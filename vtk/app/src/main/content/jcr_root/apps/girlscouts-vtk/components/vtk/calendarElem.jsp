@@ -37,7 +37,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
                 </div>
 
                 <div class="column small-24 medium-12 large-8 end">
-                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
+                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meetings</p></label>
                 </div>
 			</div>
 		</div>
@@ -175,8 +175,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			});
 
 			tree.forEach(function(o){
-				// ObjTree[o.name] = o;
-
 				if(ObjTree.hasOwnProperty(o.parent) ){
 					ObjTree[o.parent]['child'].push(o);
 				}else{
@@ -207,9 +205,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		}
 
 		
-
-
-
 		return {
 			goto:goto,
 			goBack: goBack
