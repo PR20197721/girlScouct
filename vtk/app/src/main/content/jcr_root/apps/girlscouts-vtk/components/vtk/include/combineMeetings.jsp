@@ -1,6 +1,8 @@
-
+              <p>
+                Select the mmeting you'd like to schedule for the same day
+              </p>
              
-             <table class="list-of-meeting-calendar combine-meeting">
+             <table class="list-of-meeting-calendar combine-meeting yearMeetingList">
              <%
                         for(int i=0;i<meetingsToCancel.size();i++) {%>
                            <tr>
@@ -25,7 +27,7 @@
                            
                            
                            <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
-                          <td><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
+                          <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
                            </tr>                           
                         <% }
               %>
@@ -36,7 +38,9 @@
               <div class="row">
 
               <div class="small-24 column">
-            <input type="button" value="save" id="saveCalElem" class="button btn right">  <input ttype="button" onclick="tabsVtk.goto('combine-meeting-time')" value="Combine Meetings"  class="button btn right"> 
+          
+            <div id="dialog-confirm"></div>  <input ttype="button" onclick="checkListIsOneIsChecked('_tag_m',{yes: function(){tabsVtk.goto('combine-meeting-time')},no:function(){ modalCalendar.alert('','Need to select a least one field to continue') }})" value="Continue"  class="button btn right"> 
+            <input type="button" value="cancel" onclick="cancelModal()" class="button btn right"> 
             <div id="dialog-confirm"></div>
           </div>
              </div>

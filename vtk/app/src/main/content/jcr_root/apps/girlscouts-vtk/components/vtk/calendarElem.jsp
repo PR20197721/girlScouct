@@ -82,7 +82,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 			 	<div class="vtk-meeting-calendar-foot column small-24 column">
 					<div class="row">
-						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right"> 
 						<div id="dialog-confirm"></div>
 					</div>
 				</div>	
@@ -117,7 +117,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			</div>
 		</div>
 		
-		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine 2" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
             <div class="row">
                 <div class="small-24 column">
                     <%@include file="include/combineMeetingsAddCal.jsp"%>
@@ -136,21 +136,31 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		
 
 <script>
+	var modalCalendar = new ModalVtk('modal-calendar');
+
+	function cancelModal(){
+		$('#gsModal').children('.header').children('a').children('i').trigger('click');
+	}	
+
 	var tabsVtk = (function(){
 
 		var ObjTree = {};
 		var tree =[];
 
+		$('[data-title=""]').data('title', $('#calMng').children('h5').children('strong').text());
+
+
 		$(function(){
 			//Create object checker
 			 tree = $.map($('[data-parent]'),function(value,idx){
-				var parent, name, defaultD, fetch, $element;
+				var parent, name, defaultD, fetch, $element, title;
 
 				parent = $(value).data('parent');
 				name = $(value).data('name');
 				defaultD = $(value).data('default');
 				fetch = $(value).data('fetch');
 				$element = $(value);
+				title = $(value).data('title');
 
 				return {
 					parent: parent,
@@ -159,7 +169,8 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 					idx:idx,
 					name:name,
 					$el:$element,
-					child:[]
+					child:[],
+					title:title
 				}
 			});
 
@@ -183,6 +194,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 			var el = tree.filter(function(item){ return item.name == id})
 
+			$('#calMng').children('h5').children('strong').text(el[0].title);
 
 			if(el[0].fetch !== '' || el[0].fetch ){
 				el[0].$el.children('.row').load(el[0].fetch)
@@ -208,6 +220,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 		
 <script>
+
 $(function() {
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
@@ -220,7 +233,12 @@ $(function() {
 		      
 		   }
 	});
+
+	modalCalendar.init();
 });
+
+
+
 function doChkSubmitValid(){
 	if ($('#frmCalElem').valid()) {	
 		if(!timeDiff()){ return false;}	
@@ -244,22 +262,21 @@ $.validator.addMethod('time', function(value, element, param) {
 
 
 $().ready(function() {
-		$('#cclRadio').change(function(){
-			if($('#cclRadio').prop('checked')){
-				$("#cngRadio").prop('checked', false);
-				}
-		});
-		$('#cngRadio').change(function(){
-			if($('#cngRadio').prop('checked')){
-				$("#cclRadio").prop('checked', false);
-				}
-		});
+	$('#cclRadio').change(function(){
+		if($('#cclRadio').prop('checked')){
+			$("#cngRadio").prop('checked', false);
+			}
+	});
+	$('#cngRadio').change(function(){
+		if($('#cngRadio').prop('checked')){
+			$("#cclRadio").prop('checked', false);
+			}
+	});
 
 });
 
 
-$('#saveCalElem').click(function() {
-
+function saveCalElem() {
 	if($('#cclRadio').prop('checked')){
 		   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
@@ -278,11 +295,12 @@ $('#saveCalElem').click(function() {
 	function timeDiff(){
 		return true;
 	}
-});
+};
 
 if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
   $('select').css('background-image', 'none');
 }
+
 function fnOpenNormalDialog() {
     $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
 
@@ -311,4 +329,7 @@ function fnOpenNormalDialog() {
     		}
     });
 }
+
+
+
 </script> 

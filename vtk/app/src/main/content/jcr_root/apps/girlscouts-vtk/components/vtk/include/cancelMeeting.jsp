@@ -1,12 +1,15 @@
+            <p>
+              Select the meeting you want to cancel and "Save" your choice.
+            </p>
 
-             <table class="list-of-meeting-calendar cancel-meeting">
+             <table class="list-of-meeting-calendar cancel-meeting yearMeetingList">
              <%
                         for(int i=0;i<meetingsToCancel.size();i++) {%>
                            <tr>
                            <td>
 
 
-                            <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getRefId()%>"  onclick=""/>
+                            <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getRefId()%>"  />
                                  <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span><p> </p></label>
 
 
@@ -16,7 +19,7 @@
 
 
                            </td>
-                           <td><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
+                        
                           
                            <td>
                            
@@ -35,21 +38,37 @@
                            </td>
                            
                            <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
-                            <td><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
+                            <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
                           
                            </tr>                           
                         <% }
               %>
               </table>   
        
-        <!-- <input type="button" onclick="fnOpenNormalDialog()" value="Cancel"/> -->
+
 
 
 
           <div class="row">
             <div class="small-24 column">
-            <input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="fnOpenNormalDialog()" class="button btn right"> 
+            <input type="button" value="save" id="saveCalElem" onclick="checkListIsOneIsChecked('_tag_t',{no:function(){modalCalendar.close();modalCalendar.alert('','Need to select a meeting to save')},yes:function(){saveCalElem()}})" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="fnOpenNormalDialog()" class="button btn right"> 
             <div id="dialog-confirm"></div>
         </div>
           </div>
+<script>
+function checkListIsOneIsChecked(name, action){
+    var _hasChecked = false; 
+    var $_inputs = $('input[name="'+name+'"]');
 
+    _hasChecked = $_inputs.toArray().some(function(el){
+      return el.checked;
+    });
+
+    if(_hasChecked){ 
+      action.yes()
+    } else {
+      action.no();
+    } 
+     
+}
+</script>
