@@ -164,7 +164,7 @@ request.setAttribute("altSearchPath", referer);
    	// TODO: language
    	branch += "/en";
    	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
-   	System.err.println("***"+branch +" : "+ newCurrentPage); 
+   	
    	
    	if( newCurrentPage==null ){
    		System.err.println("Error in body.jsp missing design for council: "+ branch);

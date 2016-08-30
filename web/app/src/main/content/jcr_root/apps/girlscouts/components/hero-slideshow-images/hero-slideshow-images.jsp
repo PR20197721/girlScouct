@@ -17,6 +17,13 @@ org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONExcept
    String smallPath ="";
    String mediumPath ="";
    Asset assets=null;
+   String newWindow = "";
+   if(imageNode.hasProperty("newWindow")){
+   	 newWindow = imageNode.getProperty("newWindow").getString();
+   }
+   if(null==newWindow || "".equals(newWindow)){
+	 newWindow = "false";
+   }
    Resource rendition=null;
   
 if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -72,7 +79,11 @@ else if(imageNode!=null){
                 	imgTag=displayRendition(resourceResolver, largePath, "cq5dam.web.960.420",classes, BREAKPOINT_MAX_LARGE,alt,null); 
             	}
             	if(imgTag!=null && !imgTag.isEmpty()){
-                	%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+                		if("true".equals(newWindow)){
+                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+                        } else{
+							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+                        }
             	}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
                 %><%=getPlaceHolderText("Not able to find the image: "+largePath,classes)%>
                 <%}%>
@@ -91,7 +102,12 @@ else if(imageNode!=null){
 			<div>    
 					<%imgTag = displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", classes, BREAKPOINT_MAX_MEDIUM,alt,null);
                     if(imgTag!=null && !imgTag.isEmpty()){
-                        %><a href="<%=linkUrl%>"><%=imgTag%></a><%
+
+                        if("true".equals(newWindow)){
+                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+                        } else{
+							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+                        }
             		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
                         %><%=getPlaceHolderText("Not able to find the image: "+mediumPath,classes)%>
                     <%}%>
@@ -110,7 +126,11 @@ else if(imageNode!=null){
 			 <div>
 					<%imgTag = displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", classes, BREAKPOINT_MAX_SMALL,alt,null);
                     if(imgTag!=null && !imgTag.isEmpty()){
-                    	%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+                        if("true".equals(newWindow)){
+                            %><a href="<%=linkUrl%>" target="_new"><%=imgTag%></a><%
+                        } else{
+							%><a href="<%=linkUrl%>"><%=imgTag%></a><%
+                        }
             		}else if(WCMMode.fromRequest(request) == WCMMode.EDIT){
                         %><%=getPlaceHolderText("Not able to find the image: "+smallPath, classes)%>
                     <%}%>

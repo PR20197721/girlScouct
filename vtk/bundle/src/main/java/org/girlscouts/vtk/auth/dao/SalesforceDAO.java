@@ -110,17 +110,14 @@ public class SalesforceDAO {
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-					System.err.println("getUSER resp: " + rsp);	
+					
 					
 					
 			}else{
 	
-				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
-				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
-		       
+				
 				String userJsonFile= vtkDemoPath +"/vtkUser_"+apiConfig.getDemoUserName()+".json";
 				
-				System.err.println(userJsonFile);
 				rsp = readFile(userJsonFile).toString();
 			}
 			
@@ -451,7 +448,7 @@ public class SalesforceDAO {
 			}else{
 			
 				String userJsonFile=vtkDemoPath +"/vtkContact_"+apiConfig.getDemoUserName()+".json";
-				System.err.println(userJsonFile);
+				
 				rsp = readFile(userJsonFile).toString();
 		    }
 			
@@ -459,7 +456,7 @@ public class SalesforceDAO {
 
 			try {
 				JSONObject response = new JSONObject(rsp);
-				log.debug("<<<<<Apex contacts reponse: " + response);
+
 
 
 
@@ -1000,7 +997,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-System.err.println("test: "+ rsp );				
+			
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
@@ -1079,7 +1076,7 @@ System.err.println("test: "+ rsp );
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
-if( i==0){ troop.setGradeLevel("7-Multilevel"); }
+//if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 					
 
 					try {

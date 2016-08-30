@@ -66,7 +66,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 	    java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
-	System.err.println("tester start");	
+	
 		//year plans SQL
 		java.util.Map <String, String> yearPlans = new java.util.TreeMap<String, String>();
 		String sql="select name,jcr:path from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.YearPlan') ";
@@ -82,10 +82,10 @@ java.util.Map,java.util.HashMap,java.util.List" %>
             yearPlans.put(troopId, name);
         }
 		
-		System.err.println("tester 2 ");   
+		  
 		//troops SQL
 		sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCounci from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+"%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
-System.err.println("test sq: "+ sql );		
+		
 		q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		int count=0 ;
 		
@@ -112,26 +112,25 @@ System.err.println("test sq: "+ sql );
 		    count++;
 		}
 		
-		System.err.println("tester 3");   
+		  
 		out.println("Report Generated on "+ format1.format( new java.util.Date() ) +" ,total results found: "+count +" ,Total council(s): "+ councilIds.size());
 	    java.util.Iterator itr= councilIds.iterator();
-	    System.err.println("tester: "+ 3.1);
+	   
 	    while( itr.hasNext() ){
-	       System.err.println("tester:  3.1.1");
+	      
 		   final String councilId= (String) itr.next();
 		   
-		   System.err.println("tester: "+ 3.2);
 		   java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container = (java.util.List<org.girlscouts.vtk.models.YearPlanRpt>) org.apache.commons.collections4.CollectionUtils
 		                   .select(yprs, new  org.apache.commons.collections4.Predicate<org.girlscouts.vtk.models.YearPlanRpt>() {
 		                         public boolean evaluate(org.girlscouts.vtk.models.YearPlanRpt o) {
-		                         System.err.println("tester : 3.2.1.1: " + (o==null) +" :" + councilId);
+		                        
 		                             return 
 		                            		 o.getCouncil().equals( councilId);
 		                         }
 		         });
-		          System.err.println("tester:  3.2.1");
+		          
 		    out.println((isHtml ? "<br/>" : "\n")+ councilId +"," +cTrans.get(councilId) +","+container.size() );
-	System.err.println("TEST: "+ container.size() );
+	
 	
 	
 	try{	    
