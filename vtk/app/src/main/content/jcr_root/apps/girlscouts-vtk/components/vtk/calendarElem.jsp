@@ -25,47 +25,188 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 <div id="locMsg"></div>
 
-	<div class="modifyCalendarDate clearfix">
-		<div class="column large-10 medium-10 small-24">
-			<input type="radio" value="change" id="cngRadio" CHECKED name="change" /><label for="cngRadio"><p>Change Date / Time</p></label>
-			<form id="frmCalElem">
-				<p><strong>Change Date:</strong></p>
-				<span>Select today's date or any future date</span>
-				<div id="datepicker"></div>
-				<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
-				<p><strong>Change Time:</strong></p>
-				<section class='row clearfix'>
-					<div class="column small-6">
-						<input type="text" id="cngTime0" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm,date) %>" name="cngDate0"  />
-					</div>
-					<div class="columm small-6 left">
-						<select id="cngAP0" name="cngAP0" class="ampm">
-							<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
-							<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
-						</select>
-					</div>
-				</section>
-			</form>
-			<span  id="cngDate0ErrMsg"></span>
-		</div>
+<div class="modifyCalendarDate clearfix">
+	<div class="vtk-meeting-calendar-head column small-24">
+		<div class="row">
+		    <div class="column small-24 medium-12 large-8">
+                <input type="radio" value="change" id="cngRadio" CHECKED onchange="tabsVtk.goto('calendar-meeting')" name="goto" /><label for="cngRadio"><p>Change Date / Time</p></label>
+                </div>
 
-		<div class="column small-24 large-10 medium-10">
-			<input type="radio" value="cancel" id="cclRadio" name="cancel" /><label for="cclRadio"><p>Cancel Meeting</p></label>
-			<p>Select meeting plan you would like to cancel:</p>
-			<form id="frmCalElem_1">
-				<select id="meeting_select">	
-				 	<%
-				 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
-						 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
-						<% }
-				 	%>	 	
-			 	</select>
-			 </form>
+                <div class="column small-24 medium-12 large-8">
+                    <input type="radio" value="cancel" id="cclRadio" onchange="tabsVtk.goto('cancel-meeting')" name="goto" /><label for="cclRadio"><p>Cancel Meeting</p></label>
+                </div>
+
+                <div class="column small-24 medium-12 large-8 end">
+                    <input type="radio" value="combine" id="cmlRadio"  onchange="tabsVtk.goto('combine-meeting')" name="goto" /><label for="cmlRadio"><p>Combine Meeting</p></label>
+                </div>
+			</div>
 		</div>
 	</div>
-	<input type="button" value="save" id="saveCalElem" class="button btn right">
-	<div id="dialog-confirm"></div>
 
+	<div id="dialog-confirm"></div>
+		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-title="" data-fetch="" class="vtk-meeting-calendar-body column small-24">
+			 <div class="row">
+			 	<div class="small-24 medium-8 column">
+			 		<p>
+			 			Current Date: <%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %><br />
+			 			<strong>new Date:</strong>
+			 		</p>
+
+			 		<p>
+			 			Select a <strong>new date or time</strong> for this meeting and "Save" your choice	
+			 		</p>
+			 	</div>
+
+			 	<div class="small-24 medium-12 column end">
+			 		<form id="frmCalElem">
+						<!-- <p><strong>Change Date:</strong></p>
+						<span>Select today's date or any future date</span> -->
+						<div id="datepicker"></div>
+						<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
+						<p><strong>Change Time:</strong></p>
+						<section class='row clearfix'>
+							<div class="column small-6">
+								<input type="text" id="cngTime0" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm,date) %>" name="cngDate0"  />
+							</div>
+							<div class="columm small-6 left">
+								<select id="cngAP0" name="cngAP0" class="ampm">
+									<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
+									<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
+								</select>
+							</div>
+						</section>
+					</form>
+					<span  id="cngDate0ErrMsg"></span>
+			 	</div>
+
+
+			 	<div class="vtk-meeting-calendar-foot column small-24 column">
+					<div class="row">
+						<input type="button" value="save" id="saveCalElem" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" class="button btn right"> 
+						<div id="dialog-confirm"></div>
+					</div>
+				</div>	
+		 	
+			 </div>
+		</div>
+
+		<div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+			 	<div class="small-24 column">
+					<%@include file="include/cancelMeeting.jsp"%>
+				</div>				
+			</div>	
+		</div>
+		
+		<div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+            <div class="row">
+                <div class="small-24 column">
+                    <%@include file="include/cancelMeeting.jsp"%>
+                </div>              
+            </div>  
+        </div>
+
+		<div data-parent="main" data-name="combine-meeting" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+					<div class="small-24 column">
+						 <%@include file="include/combineMeetings.jsp"%>
+					</div>
+
+					
+				</div>	
+			</div>
+		</div>
+		
+		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine 2" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
+            <div class="row">
+                <div class="small-24 column">
+                    <%@include file="include/combineMeetingsAddCal.jsp"%>
+                </div>              
+            </div>  
+        </div>
+
+		<div data-parent="combine-meeting" data-name="select-meeting" data-title="" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
+			<div class="row">
+			</div>
+		</div>
+
+
+
+
+		
+
+<script>
+	var tabsVtk = (function(){
+
+		var ObjTree = {};
+		var tree =[];
+
+		$(function(){
+			//Create object checker
+			 tree = $.map($('[data-parent]'),function(value,idx){
+				var parent, name, defaultD, fetch, $element;
+
+				parent = $(value).data('parent');
+				name = $(value).data('name');
+				defaultD = $(value).data('default');
+				fetch = $(value).data('fetch');
+				$element = $(value);
+
+				return {
+					parent: parent,
+					visible:defaultD,
+					fetch: fetch,
+					idx:idx,
+					name:name,
+					$el:$element,
+					child:[]
+				}
+			});
+
+			tree.forEach(function(o){
+				// ObjTree[o.name] = o;
+
+				if(ObjTree.hasOwnProperty(o.parent) ){
+					ObjTree[o.parent]['child'].push(o);
+				}else{
+					ObjTree[o.name] =o;
+				}
+			});
+
+
+		});
+
+
+
+		function goto(id){
+			$('[data-parent]').attr('data-default',false);
+
+			var el = tree.filter(function(item){ return item.name == id})
+
+
+			if(el[0].fetch !== '' || el[0].fetch ){
+				el[0].$el.children('.row').load(el[0].fetch)
+			}
+			el[0].$el.attr('data-default',true);
+		}
+
+		function goBack(){
+			goto($('[data-default="true"]').data('parent'));
+		}
+
+		
+
+
+
+		return {
+			goto:goto,
+			goBack: goBack
+		}
+	})();
+</script>
+
+
+		
 <script>
 $(function() {
 	$( "#datepicker" ).datepicker({
@@ -155,7 +296,9 @@ function fnOpenNormalDialog() {
         buttons: {
         "Go ahead, cancel the meeting": function () {
             $(this).dialog('close');
-            var r = $("#meeting_select option:selected").val();
+       
+            var r = document.querySelector('input[name = "meeting_select"]:checked').value;
+            
             rmMeeting('<%=date.getTime()%>',r);
         },
             "Return to Specify Dates and Locations": function () {

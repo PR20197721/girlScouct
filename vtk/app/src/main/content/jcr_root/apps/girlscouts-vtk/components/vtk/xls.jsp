@@ -107,11 +107,11 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         
         String limitRptToCouncil= request.getParameter("limitRptToCouncil");
         limitRptToCouncil= limitRptToCouncil==null ? "" :  limitRptToCouncil.trim() ;
-  System.err.println("check: "+ (limitRptToCouncil.equals("")));      
+      
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
         String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
-  System.err.println(sql);     
+      
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
         java.util.Map container= new java.util.TreeMap();

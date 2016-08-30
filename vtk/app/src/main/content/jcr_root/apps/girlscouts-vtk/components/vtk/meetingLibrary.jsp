@@ -8,6 +8,7 @@
 <!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
 
 <%
+try{
   boolean showVtkNav = true;
   String activeTab = "resource";
   String meetingPath = request.getParameter("mpath");
@@ -22,6 +23,7 @@
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
+	
 	String find="";
 %>
   <div class="header clearfix">
@@ -136,6 +138,11 @@
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
 
+if( meeting!=null && meeting.getCatTags()!=null)
+	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
+if( meeting!=null && meeting.getMeetingPlanType()!=null)
+	meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ","_"));
+
 	  if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
 		  mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
 		  mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
@@ -172,7 +179,7 @@
 				  }else if( _x!=null && !_x.contains(theCat)  ){
 
 
-				   mCatsPerType.get( meeting.getMeetingPlanType() ).add( theCat );
+				   mCatsPerType.get( meeting.getMeetingPlanType()).add( theCat );
 				  }
 			  }//end if
 
@@ -275,7 +282,7 @@
 			<span class="container" style="clear:both;">
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
-			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  onclick="doFilter(1)"/>
+			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
 			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
 			</div>
 			</span>
@@ -473,7 +480,7 @@
 
 			$element.children('.vtk-dropdown_options').find('input[type="checkbox"]').on('change', function(e){
 				setTimeout(toggle,300);
-				// console.log(e);
+				
 			})
 
 			$(document).click(function(e){
@@ -965,21 +972,21 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 }
 
 		 var isShowCats = false;
-	// console.log("chkCats....");
+	
 		 if( _cats==null || _cats.length<=0){
 			isShowCats= true;
 		 }else{
 
-	//console.log("_____________chkCatssss: "+ x.id);
+	
 			 isShowCats = isShowMeeting( _cats, x, true,'cats');
 		 }
 
-		 //console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
+		 
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
 			 
 			 
-			//console.log("****:"+ x.id.split(';')[3] );
+			
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
@@ -989,14 +996,14 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	function isShowMeeting(els, x, isAllEmptyOk, catTest){
 		var countChecked= 0;
 
-	//console.log("* size: "+ els.length);
+	
 		for(var y = 0; y < els.length; y++){ //each filter
-	//console.log("IsChecked: "+ els[y].checked);
+	
 			if( els[y].checked ){ //filter checked
 				countChecked++;
-	//if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
+	
 			   if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-	//if( catTest=='cats'){console.log( "found...");    }
+	
 
 				 return true;
 			   }
@@ -1215,3 +1222,6 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 	// })
 </script>
+
+
+<%}catch(Exception e){e.printStackTrace();}%>

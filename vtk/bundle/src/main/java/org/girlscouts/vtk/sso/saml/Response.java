@@ -56,7 +56,6 @@ public class Response {
 		String decodedS = new String(decodedB);
 		
 
-System.err.println("Decoded resp: "+decodedS);
 	xmlDoc = Utils.loadXML(decodedS);
 
 		

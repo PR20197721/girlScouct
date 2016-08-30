@@ -85,17 +85,13 @@ $(document).ready(function() {
         
         onsubmit    : function(value, settings) {alert(1);},
         "submitdata": function (value, settings) {
-           console.log(22);
-           alert(2);
+           
+           
        },
         callback : function(value, settings) {
         
         	
-        console.log(2);
-            console.log(this);
-            console.log(value);
-            console.log(settings);
-            alert(1);
+        
         }
     });
    

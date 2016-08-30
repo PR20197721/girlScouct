@@ -196,21 +196,21 @@
     function doFilter(){
     
         var els = document.getElementsByName("_tag");
-        //console.log( "tags size: "+ els.length);
+
     
        var tt = document.getElementById("meetingSelect");
        var t= tt.getElementsByTagName("tr");
        for(var i=0;i<t.length;i++){
         var x= t[i];
-        //console.log("____________________ : "+ x.id);
+     
        
            var isHide= false;
            for(var y = 0; y < els.length; y++){
-     //console.log(y +" : "+ els[y].checked +" : "+ els[y].value );      
+           
                if( els[y].checked ){ 
-     //console.log(x.id +" : "+  els[y].value +" : "+ (x.id.indexOf( els[y].value )==-1) );          
+              
                   if( x.id.indexOf( els[y].value )==-1 ){
-     //console.log("not found... hidding");             
+            
                     x.style.display = "none";
                     isHide= true;
                     continue;

@@ -235,7 +235,7 @@
 
             $element.children('.vtk-dropdown_options').find('input[type="checkbox"]').on('change', function(e){
             	setTimeout(toggle,300);
-          		console.log(e);
+          		
           	})
 
           	$(document).click(function(e){
@@ -273,11 +273,11 @@ $(function(){
 	}
 
 	function onChangeBack(e){
-		console.log(e)
+		
 	}
 
 	function onChangeDo(e){
-		console.log(this);
+		
 
 		var ageList = age.find('input[type="checkbox"]');
 		var typeList = type.find('input[type="radio"]');
@@ -287,7 +287,7 @@ $(function(){
 		var typeLength = type.find('input[type="radio"]:checked').length;
 		var categoriesLength = categories.find('input[type="checkbox"]:checked').length;
 
-		console.log(ageLength,typeLength, categoriesLength);
+		
 
 		if( ageLength > 0 &&  typeLength > 0){
 			$('.list-of-categories').slideDown();

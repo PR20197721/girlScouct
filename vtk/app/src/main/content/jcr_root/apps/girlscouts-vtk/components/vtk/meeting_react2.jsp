@@ -624,47 +624,45 @@ React.createElement(ActivityPlan),
 
     var CommentBox = React.createClass({displayName: "CommentBox",
       loadCommentsFromServer: function( isFirst ) {
-console.log("loading.."+ isFirst);
+
 
         this.dataWorker.getData();
         
       },
       forceReload: function() {
-console.log("forceREload..");
+
           this.dataWorker.getData(true);
       },
       getInitialState: function() {
-console.log("init");
+
         return {data: []};
       },
       componentDidMount: function() {	  
-console.log("commentDidMount..") ;	  
+  
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
-console.log(144);        	
+
+        	
             this.setState({
                 data: data.yearPlan
             });            
         }, 10000);
-console.log(145);        
+      
         this.dataWorker.start();
-console.log(146);
+
       },
       checkLocalUpdate: function(){
- console.log("checkLoaclUpdate...");   	  
+   	  
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-  console.log("rendering...");  	  
+  	  
           var x;
           var sched;
           
- console.log('<%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%>') 
- console.log(  this.state.data.meetingEvents!=null);  
- console.log('<%=planView.getYearPlanComponent().getType()%>');
- console.log( this.state.data);
+
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
-console.log(11);
+
 
               helper= this.state.data.helper;
 
@@ -681,7 +679,7 @@ console.log(11);
                    React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
-console.log(22); 
+
         	  helper= this.state.data.helper;
 
               thisMeetingDate= helper.currentDate;
@@ -695,7 +693,7 @@ console.log(22);
                        React.createElement(MeetingList, {data: x, schedule: sched, forceReload: this.forceReload})
                   );
           }else{
-console.log(33);       	  
+       	  
               return React.createElement("div", null, "loading...");
           }
       }
