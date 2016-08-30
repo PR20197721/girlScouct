@@ -6,8 +6,8 @@ java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, 
-java.util.Arrays, java.util.regex.*, java.text.*" %>
+java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*,
+java.util.Arrays, org.girlscouts.web.events.search.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 
@@ -87,8 +87,8 @@ if(theseDamDocuments.equals("")){
     }
 }
 
-hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
+hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 
 String numberOfResults = String.valueOf(hits.size());
 if (startIdx + pageSize > hits.size()) {
@@ -112,14 +112,22 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-	for(int i = startIdx; i < endIdx ; i++) {
+	GSDateTime today = new GSDateTime();
+    GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    for(Hit hit: hits){
         try{
             DocHit docHit = new DocHit(hits.get(i));
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
             String description = docHit.getDescription();
-
+            if(null != docHit.getProperties().get("data/visibleDate")){
+				String visibleDate = (String)docHit.getProperties().get("data/visibleDate");
+				GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+				if(vis.isAfter(today)){
+					continue;
+				}
+            }
             %>
             <br/>
         <%
@@ -148,16 +156,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     	<%if (currentPageNo != 0) {  %>
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo - 1)*10%>"><</a></li>
     	<%}  %>
-<<<<<<< HEAD
-    <%for (int i = 0; i < totalPage; i++ ) { 
-    	if (currentPageNo == i) {%>
-    		<li class="currentPageNo"><%= i+1 %></li>
-    	<%} else {%>
-    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li>
-    <%	}
-    }%>
-    <%if (currentPageNo != totalPage-1) {  %>
-=======
 
     	<%
         int first =0;
@@ -186,7 +184,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     	}%>
 
     	<%if (currentPageNo != totalPage-1 ) {  %>
->>>>>>> master
     		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
     	<%}  %>
 </ul>
