@@ -1264,7 +1264,7 @@ try{
                         Customize Your Troop Year
                  <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
                          troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
-                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Milti-Level Troop Year Plan </h4>
+                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Multi-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
