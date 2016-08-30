@@ -115,7 +115,7 @@ if (thisFooterScript!= null) {
     try{ 
     	var fr = document.getElementById("test4");
     	if (fr.contentDocument.location){
-    		console.log("good. logged in.>>>>>>>");
+    		
     	}
     }catch(err){console.log( err ); doVtkLogout(); }
   }
