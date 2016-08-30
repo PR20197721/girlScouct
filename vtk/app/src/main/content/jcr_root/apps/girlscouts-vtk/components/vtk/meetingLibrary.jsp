@@ -480,7 +480,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 			$element.children('.vtk-dropdown_options').find('input[type="checkbox"]').on('change', function(e){
 				setTimeout(toggle,300);
-				// console.log(e);
+				
 			})
 
 			$(document).click(function(e){
@@ -972,21 +972,21 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 }
 
 		 var isShowCats = false;
-	// console.log("chkCats....");
+	
 		 if( _cats==null || _cats.length<=0){
 			isShowCats= true;
 		 }else{
 
-	//console.log("_____________chkCatssss: "+ x.id);
+	
 			 isShowCats = isShowMeeting( _cats, x, true,'cats');
 		 }
 
-		 //console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
+		 
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
 			 
 			 
-			//console.log("****:"+ x.id.split(';')[3] );
+			
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
@@ -996,14 +996,14 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	function isShowMeeting(els, x, isAllEmptyOk, catTest){
 		var countChecked= 0;
 
-	//console.log("* size: "+ els.length);
+	
 		for(var y = 0; y < els.length; y++){ //each filter
-	//console.log("IsChecked: "+ els[y].checked);
+	
 			if( els[y].checked ){ //filter checked
 				countChecked++;
-	//if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
+	
 			   if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-	//if( catTest=='cats'){console.log( "found...");    }
+	
 
 				 return true;
 			   }

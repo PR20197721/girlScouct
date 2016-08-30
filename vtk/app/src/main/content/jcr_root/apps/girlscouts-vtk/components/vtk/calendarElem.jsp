@@ -296,9 +296,9 @@ function fnOpenNormalDialog() {
         buttons: {
         "Go ahead, cancel the meeting": function () {
             $(this).dialog('close');
-            //var r = $("#meeting_select option:selected").val();
+       
             var r = document.querySelector('input[name = "meeting_select"]:checked').value;
-            console.log("BABABA: "+ r );
+            
             rmMeeting('<%=date.getTime()%>',r);
         },
             "Return to Specify Dates and Locations": function () {
