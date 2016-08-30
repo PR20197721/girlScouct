@@ -27,8 +27,8 @@ girlscouts.functions.deleteaccordion=function(field, event){
 		deleteAccordionFlag = true;
 		CQ.Ext.Msg.show({
 			title: "Warning", 
-			msg: "If you delete this field, all content contained within will be lost as well. You can restore it at a later point ON THIS PAGE ONLY by using the same identifier. " +
-			" If you do not want to delete this field, click 'Cancel' below to undo all changes",
+			msg: "If you delete this field, all content contained within will be removed as well. You can RESTORE the content at a later point ON THIS PAGE ONLY by using the same identifier. " +
+			"If you do not want to delete this field, click 'Cancel' below to undo all changes",
 			buttons: CQ.Ext.Msg.OK
 			});
 	}
