@@ -192,19 +192,19 @@ text-align: center;
 }
 
 .vtk-float-submit{
-    width:246px;
+    min-width:246px;
     text-align: center;
     min-height: 80px;
     position: fixed;
     left:50%;
     bottom:40px;
-    margin-left: -123px;
+    margin-left: -225px;
     padding: 20px;
     background-color: white;
     border: 1px solid lightgray;
     z-index:1;
 
-
+    
 }
 
 .list-of-categories,.main-filter{
