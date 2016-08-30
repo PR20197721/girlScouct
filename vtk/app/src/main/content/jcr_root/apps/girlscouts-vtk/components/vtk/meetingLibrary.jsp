@@ -506,9 +506,6 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 	var categoryCollectionsObj = {};
 
-
-	
-
 	var queryDown ={
 		age: function(list){
 
@@ -543,7 +540,6 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			 return y;
 		}		
 	}
-
 
 	function triggerOriginal(e){
 		var type;
@@ -600,7 +596,6 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			$('#meetingSelect').hide();
 
 		}
-		
 	}
 
 	function createElement(el){
@@ -958,12 +953,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			element.removeAttribute('checked');
 			element.checked=false;
 		})
+
+		checkAddMeetingMulti();
 	}
 
-
-
-
-	$('[name=addMeetingMulti]').on('change',function(e){
+	function checkAddMeetingMulti(){
 		var _dd = [].slice.call(document.getElementsByName('addMeetingMulti'));
 
 		var _hasOneCheck = _dd.some(function(el){
@@ -975,7 +969,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		}else{
 			$('.add-to-year-plan').addClass('inactive-button');
 		}
-	})
+	}
+
+	$('[name=addMeetingMulti]').on('change',checkAddMeetingMulti)
 
 
 
