@@ -310,7 +310,7 @@ function fnOpenNormalDialog() {
         "Go ahead, cancel the meeting": function () {
             $(this).dialog('close');
        
-            var r = document.querySelector('input[name = "meeting_select"]:checked').value;
+            var r = document.querySelector('input[name = "_tag_t"]:checked').value;
             
             rmMeeting('<%=date.getTime()%>',r);
         },
