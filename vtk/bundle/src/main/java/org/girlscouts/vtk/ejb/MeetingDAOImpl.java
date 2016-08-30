@@ -2792,6 +2792,7 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		Field field = new Meeting().getClass().getDeclaredField("activities");
 		org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection anno = field.getAnnotation(org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection.class);
 		Filter filter = queryManager.createFilter(Meeting.class);
+		filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");
 		Query query = queryManager.createQuery(filter);
 		meetings = (List<Meeting>) ocm.getObjects(query);
 		Comparator<Meeting> comp = new BeanComparator("position");
