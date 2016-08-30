@@ -1559,7 +1559,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			java.util.Date endDate, String region)
 			throws IllegalAccessException, IllegalStateException {
 		
-System.err.println("searchA1 start : "+ keywrd +" : "+ startDate+" : "+ endDate +" : "+ region +" : "+ tags +" : " + cat);		
+	
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
 
@@ -2742,7 +2742,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 	
 
 public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
-System.err.println("test qr start " + new java.util.Date());
+
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
@@ -2789,40 +2789,15 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
-		
-		
 		Field field = new Meeting().getClass().getDeclaredField("activities");
 		org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection anno = field.getAnnotation(org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection.class);
-        System.out.println(String.format("Old properties:"+ anno.proxy()));
-        
-        
-       
-
-
-		
 		Filter filter = queryManager.createFilter(Meeting.class);
-
-		//filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "/" + gradeLevel + "/");
-//-filter.setScope("/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//");// + gradeLevel + "/");
-//filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");
-	//System.err.println("test sql: "+  "/content/girlscouts-vtk/meetings/myyearplan"+ VtkUtil.getCurrentGSYear() + "//")	;	
-//filter.addEqualTo("ocm_classname", "org.girlscouts.vtk.models.Meeting");		
-//-filter.addNotNull("level");
-
-System.err.println("Node: "+filter.getNodeName());
-Query query = queryManager.createQuery(filter);
-
+		Query query = queryManager.createQuery(filter);
 		meetings = (List<Meeting>) ocm.getObjects(query);
-System.err.println("test qr end " + new java.util.Date() +" : "+ meetings.size() );
-		
-		
-		
-		
-		
 		Comparator<Meeting> comp = new BeanComparator("position");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
-		System.err.println("test done " + new java.util.Date());
+	
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -3058,7 +3033,7 @@ public Note getNote(User user, Troop troop, String nid)
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
 		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/note/"+nid+"'";
-//System.err.println("SQL: "+ sql);		
+		
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
 		String str[] = result.getColumnNames();
@@ -3067,7 +3042,7 @@ public Note getNote(User user, Troop troop, String nid)
 			note = new Note();
 			Value excerpt = r.getValue("jcr:path");
 			String path = excerpt.getString();
-		//System.err.println("path : "+ path );	
+	
 			note.setPath(path);
 			note.setMessage( r.getValue("message").getString() );
 			note.setUid(  r.getValue("uid").getString()  );
@@ -3095,7 +3070,7 @@ public Note getNote(User user, Troop troop, String nid)
 //see comments from method getNotes_OCM
 public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 		throws IllegalAccessException {
-//System.err.println( refId);
+
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
@@ -3107,8 +3082,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 		session = sessionFactory.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and jcr:path like '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%'";
-//System.err.println("SQL: "+ sql);		
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note'  and jcr:path like '"+ troop.getYearPlan().getPath() +"/meetingEvents/"+ refId +"%'";	
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();
 		String str[] = result.getColumnNames();
@@ -3118,7 +3092,7 @@ public java.util.List<Note> getNotes(User user, Troop troop, String refId)
 			Note note = new Note();
 			Value excerpt = r.getValue("jcr:path");
 			String path = excerpt.getString();
-		//System.err.println("path : "+ path );	
+
 			note.setPath(path);
 			note.setMessage( r.getValue("message").getString() );
 			note.setUid(  r.getValue("uid").getString()  );

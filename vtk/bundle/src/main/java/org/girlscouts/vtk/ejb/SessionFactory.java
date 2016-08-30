@@ -23,24 +23,8 @@ public class SessionFactory {
 
 	@Reference
 	private SlingRepository repository;
-/*
-	 @Reference(target = "(&(objectclass=javax.sql.DataSource)(datasource.name=alex))")
-	 private DataSource dataSource;
-	 
-	 
-	 public java.sql.Connection getConnection() throws SQLException{
-		 return dataSource.getConnection();
-	 }
-	 */
 	public Session getSession() throws RepositoryException, LoginException {
-	/*
-		try{
-			System.err.println( "test Connection: " );
-			System.err.println( "test: "+ getConnection() );
-		}catch(Exception e){
-			e.printStackTrace();
-		}
-		*/
+	
 		
 		Session adminSession = repository.loginAdministrative(null);
 		Session session = adminSession.impersonate(new SimpleCredentials("admin","admin".toCharArray()));

@@ -1510,7 +1510,7 @@ try{
 	
 	public void emailCronRpt(String msg){
 		try {
-	System.err.println("Sending demo cron ....." + new java.util.Date() );		
+		
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
 
