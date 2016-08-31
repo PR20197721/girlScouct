@@ -1263,7 +1263,7 @@ try{
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
                         Customize Your Troop Year
                  <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
-                         troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                         troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
                       <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Multi-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
@@ -1275,7 +1275,7 @@ try{
 		                Select this option to create activities or add council activities to your calendar.
 		            
 		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
-                            troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                            troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
 
                             <p style="margin-bottom:15px !important;">
                              All Girls Scouts plan have been organized so you can easily filter through the set to select the right ones for your multi-level troop.. Once your meeting selections are made you'll be able to arrange and finalize the dates in the Year Plan view.
