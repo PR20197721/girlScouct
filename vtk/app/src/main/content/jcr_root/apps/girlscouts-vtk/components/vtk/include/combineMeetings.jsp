@@ -1,5 +1,5 @@
-              <p>
-                Select the mmeting you'd like to schedule for the same day
+              <p style="font-weight:bold;">
+                Select the meeting you'd like to schedule for the same day
               </p>
              
              <table class="list-of-meeting-calendar combine-meeting yearMeetingList">
@@ -40,16 +40,50 @@
               <div class="small-24 column">
           
             <div id="dialog-confirm"></div>  
-            <input type="button" onclick="tabsVtk.goto('combine-meeting-time')" value="Continue"  class="combine-meetings-button inactive-button button btn right"> 
+            <input type="button" onclick="continueCombine()" value="Continue"  class="combine-meetings-button inactive-button button btn right"> 
             <input type="button" value="cancel" onclick="cancelModal()" class="button btn right"> 
             <div id="dialog-confirm"></div>
           </div>
              </div>
        
         
-        <!-- <input type="button" onclick="doCombine()" value="Combine Meetings"/> -->
         
         <script>
+
+
+        function tableToJson(table,orden){
+            var finalObject = {};
+            var $table = $(table);
+            var $tr = $table.children('tbody').children('tr');
+
+
+            $tr.each(function(idx, el){
+              finalObject[idx] = {}
+              
+              $(el).children('td').each(function(idx2,el2){
+                  if(orden[idx2] !== null){
+                    finalObject[idx][orden[idx2]] = $(el2).text();
+                  }
+              })
+
+            
+            })
+                
+            return finalObject;
+        }
+
+
+        function continueCombine(){
+           
+          $('.meetings-to-combine-list').html('');
+
+          var objectInfo = tableToJson('.combine-meeting',[null,'time','name','level']);
+          for (var lineX in objectInfo){
+               $('.meetings-to-combine-list').append('<li>'+objectInfo[lineX].name+'</li>')
+          }
+
+          tabsVtk.goto('combine-meeting-time');
+        }
 
 
         checkSaveButton('_tag_m','.combine-meetings-button')
@@ -63,7 +97,7 @@
             }
 
             function get(){
-              return _selectedTime || '1476722888234';
+              return _selectedTime;
             }
 
             return {
@@ -72,46 +106,60 @@
             }
         })(); 
 
+
+
         function doCombine(){
         	var mids = "";
         	var checkboxes = document.getElementsByName("_tag_m");
+
+        
+
+
         	  var checkboxesChecked = [];
         	 
         	  for (var i=0; i<checkboxes.length; i++) {
         	     
         	     if (checkboxes[i].checked) {
-        	       
+
         	        mids += checkboxes[i].value+",";
         	     }
         	  }
+
         	  addCalendar(mids);
         }
-
-
-
-        
+ 
 
         
         function addCalendar(mids){
+              
+              var hour = $('#cngTime0X').val() +' '+  $('#cngAP0X').val(); 
 
+              var x = moment(selectedTime.get());
+              var x1 = moment(x.format('MM-DD-YYYY')+' '+hour);
 
-        	console.log("addCalendar....");
-        	$.ajax({
-                url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-                type: 'GET',
-                data: {
-                	act:'combineCal',
-                    dt:selectedTime.get(),
-                    mids: mids,
-                    a: Date.now()
-                },
-                success: function(result) {
-                	//console.log("succ "+ result);
-                    //document.getElementById("combineMeetings").innerHtml=result;
-                    
-                    //close window
-                    alert("done..");
-                }
-            });
+              if(x1.isValid()){
+                  $.ajax({
+                      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+                      type: 'GET',
+                      data: {
+                        act:'combineCal',
+                          dt:parseInt(x1.format('x')),
+                          mids: mids,
+                          a: Date.now()
+                      },
+                      success: function(result) {
+                        //console.log("succ "+ result);
+                          //document.getElementById("combineMeetings").innerHtml=result;
+                          
+                          //close window
+                          cancelModal();
+                      }
+                  });
+              }else{
+                $('.alert-error-display').show();
+              }  
+
+        
+       
         }
         </script>

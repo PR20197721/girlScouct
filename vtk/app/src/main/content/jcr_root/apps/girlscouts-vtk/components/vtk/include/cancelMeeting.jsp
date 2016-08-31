@@ -1,4 +1,4 @@
-            <p>
+            <p style="font-weight:bold;">
               Select the meeting you want to cancel and "Save" your choice.
             </p>
 
@@ -51,7 +51,7 @@
 
           <div class="row">
             <div class="small-24 column">
-            <input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="cancel-meetings-button inactive-button button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="fnOpenNormalDialog()" class="button btn right"> 
+            <input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="cancel-meetings-button inactive-button button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right"> 
             <div id="dialog-confirm"></div>
         </div>
           </div>

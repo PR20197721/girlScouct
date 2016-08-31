@@ -49,7 +49,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 	<div class="small-24 medium-8 column">
 			 		<p>
 			 			Current Date: <%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %><br />
-			 			<strong>new Date:</strong>
+			 			<strong  id="change-new-time" class="hide">New Date: <span></span></strong>
 			 		</p>
 
 			 		<p>
@@ -62,6 +62,10 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 						<!-- <p><strong>Change Date:</strong></p>
 						<span>Select today's date or any future date</span> -->
 						<div id="datepicker"></div>
+
+						 <div class="alert-error-display-cancel hide">
+                                Enter a valid time
+                         </div>
 						<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
 						<p><strong>Change Time:</strong></p>
 						<section class='row clearfix'>
@@ -136,7 +140,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		
 
 <script>
-	var modalCalendar = new ModalVtk('modal-calendar');
+
 
 	function cancelModal(){
 		$('#gsModal').children('.header').children('a').children('i').trigger('click');
@@ -223,13 +227,15 @@ $(function() {
 		  onSelect: function(dateText, inst) { 
 		      var dateAsString = dateText; //the first parameter of this function
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
+
+		      $('#change-new-time').show().children('span').text(dateAsString);
 		      
 		      document.getElementById("cngDate0").value =dateAsString;
 		      
 		   }
 	});
 
-	modalCalendar.init();
+
 });
 
 
