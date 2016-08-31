@@ -61,8 +61,10 @@
               finalObject[idx] = {}
               
               $(el).children('td').each(function(idx2,el2){
-                  if(orden[idx2] !== null){
+                  if(orden[idx2] !== 'input'){
                     finalObject[idx][orden[idx2]] = $(el2).text();
+                  }else{
+                    finalObject[idx][orden[idx2]] = $(el2).children('input');
                   }
               })
 
@@ -77,18 +79,20 @@
            
           $('.meetings-to-combine-list').html('');
 
-          var objectInfo = tableToJson('.combine-meeting',[null,'time','name','level']);
+          var objectInfo = tableToJson('.combine-meeting',['input','time','name','level']);
           for (var lineX in objectInfo){
+              if(objectInfo[lineX].input[0].checked){
                $('.meetings-to-combine-list').append('<li>'+objectInfo[lineX].name+'</li>')
+              }
           }
 
           tabsVtk.goto('combine-meeting-time');
         }
 
 
-        checkSaveButton('_tag_m','.combine-meetings-button')
+        checkSaveButton('_tag_m','.combine-meetings-button', 1)
 
-        var selectedTime = (function(){
+        var selectedTime = function(){
           
             var _selectedTime;
   
@@ -104,7 +108,10 @@
               set: set,
               get: get
             }
-        })(); 
+        }; 
+
+
+        var sTimeCombine = new selectedTime();
 
 
 
@@ -112,20 +119,15 @@
         	var mids = "";
         	var checkboxes = document.getElementsByName("_tag_m");
 
-        
-
-
-        	  var checkboxesChecked = [];
+          var checkboxesChecked = [];
         	 
-        	  for (var i=0; i<checkboxes.length; i++) {
-        	     
-        	     if (checkboxes[i].checked) {
+      	  for (var i=0; i<checkboxes.length; i++) {
+      	     if (checkboxes[i].checked) {
+       	        mids += checkboxes[i].value+",";
+      	     }
+      	  }
 
-        	        mids += checkboxes[i].value+",";
-        	     }
-        	  }
-
-        	  addCalendar(mids);
+      	  addCalendar(mids);
         }
  
 
@@ -134,7 +136,7 @@
               
               var hour = $('#cngTime0X').val() +' '+  $('#cngAP0X').val(); 
 
-              var x = moment(selectedTime.get());
+              var x = moment(sTimeCombine.get());
               var x1 = moment(x.format('MM-DD-YYYY')+' '+hour);
 
               if(x1.isValid()){

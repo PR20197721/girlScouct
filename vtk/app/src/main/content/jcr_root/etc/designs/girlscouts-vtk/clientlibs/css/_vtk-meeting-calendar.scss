@@ -25,6 +25,10 @@
          color: $brownie;
     }
 
+    &.Junior, &.junior{
+         color: $junior;
+    }
+
 }
 
 .list-of-meeting-calendar {
@@ -124,11 +128,16 @@ ul.meetings-to-combine-list{
 }
 
 
-.alert-error-display{
+.alert-error-display, .alert-error-display-cancel{
     background-color: red;
     border-radius: 5px;
     padding: 10px;
     color:white;
     width: 100%;
     font-weight: bold;
+}
+
+
+.inactive-button{
+    pointer-events: none;
 }

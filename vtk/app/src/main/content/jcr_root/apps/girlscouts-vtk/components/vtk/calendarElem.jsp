@@ -220,6 +220,8 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		
 <script>
 
+var sTimeCancel = selectedTime()
+
 $(function() {
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
@@ -229,6 +231,8 @@ $(function() {
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
 
 		      $('#change-new-time').show().children('span').text(dateAsString);
+
+		      	sTimeCancel.set(new Date(dateAsString).getTime())
 		      
 		      document.getElementById("cngDate0").value =dateAsString;
 		      
@@ -242,7 +246,7 @@ $(function() {
 
 function doChkSubmitValid(){
 	if ($('#frmCalElem').valid()) {	
-		if(!timeDiff()){ return false;}	
+
 		document.getElementById("newCustActivity").disabled=false;
 		}		
 }
@@ -279,22 +283,20 @@ $().ready(function() {
 
 function saveCalElem() {
 	if($('#cclRadio').prop('checked')){
-		   fnOpenNormalDialog();
+	   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
+		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val(); 
 
-		if ($('#frmCalElem').valid()) {
-		
-			if(!timeDiff()){ return false;}
-			
-			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
-			}
-			else {
-				showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
-			}
+        var x = moment(sTimeCancel.get());
+        var x1 = moment(x.format('MM-DD-YYYY')+' '+hour);
 
-	}
-	function timeDiff(){
-		return true;
+        if (x1.isValid()) {
+			updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
+		} else {
+
+			$('.alert-error-display-cancel').show();
+			// showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
+		}
 	}
 };
 
