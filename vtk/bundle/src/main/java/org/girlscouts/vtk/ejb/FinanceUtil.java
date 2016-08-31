@@ -194,7 +194,7 @@ public class FinanceUtil {
 			email.attach(new ByteArrayDataSource(csvContents.getBytes(),
 					"text/csv"), "finances.csv", "Finances Data");
 			if (messageGateway == null) {
-				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
+				
 			} else {
 
 				messageGateway.send(email);

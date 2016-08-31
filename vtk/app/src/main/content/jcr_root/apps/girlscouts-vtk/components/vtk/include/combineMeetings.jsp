@@ -1,5 +1,5 @@
               <p style="font-weight:bold;">
-                Select the meeting you'd like to schedule for the same day
+                Select the meetings you'd like to schedule for the same day
               </p>
              
              <table class="list-of-meeting-calendar combine-meeting yearMeetingList">

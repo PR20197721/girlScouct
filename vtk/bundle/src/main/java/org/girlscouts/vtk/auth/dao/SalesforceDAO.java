@@ -91,7 +91,7 @@ public class SalesforceDAO {
 					CloseableHttpResponse resp = connection.execute(method);
 					int statusCode = resp.getStatusLine().getStatusCode();
 					if (statusCode != HttpStatus.SC_OK) {
-						System.err.println("Method failed: " + resp.getStatusLine());
+						
 						throw new IllegalAccessException();
 					}
 		
@@ -126,13 +126,13 @@ public class SalesforceDAO {
 		
 		
 		} catch (HttpException e) {
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (Exception eG) {
-			System.err.println("Fatal transport error: " + eG.getMessage());
+			
 			eG.printStackTrace();
 		} finally {
 			if (method != null)
@@ -393,7 +393,7 @@ public class SalesforceDAO {
 				CloseableHttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK) {
-					System.err.println("Method failed: " + resp.getStatusLine());
+					
 					
 					try{
 
@@ -955,13 +955,13 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				e.printStackTrace();
 			}
 		} catch (HttpException e) {
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (Exception eG) {
-			System.err.println("Fatal transport error: " + eG.getMessage());
+			
 			eG.printStackTrace();
 		} finally {
 			if (method != null)
@@ -991,7 +991,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				int statusCode = resp.getStatusLine().getStatusCode();
 	
 				if (statusCode != HttpStatus.SC_OK) {
-					System.err.println("Method failed: " + resp.getStatusLine());
+					
 					throw new IllegalAccessException();
 				}
 				HttpEntity entity = resp.getEntity();
@@ -1169,7 +1169,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 			if (statusCode != HttpStatus.SC_OK) {
 
-				System.err.println("Method failed: " + resp.getStatusLine());
+				
 
 			}
 			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
@@ -1241,19 +1241,19 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 		} catch (HttpException e) {
 
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 
 			e.printStackTrace();
 
 		} catch (IOException e) {
 
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 
 			e.printStackTrace();
 
 		} catch (Exception eG) {
 
-			System.err.println("Fatal transport error: " + eG.getMessage());
+		
 
 			eG.printStackTrace();
 
@@ -1346,7 +1346,6 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				troops.add(troop);
 			
 		  }catch(Exception ex){
-			  System.err.println("Error int SalesForceDAO.parseTroops: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
 			  ex.printStackTrace();
 			  try{
 				  VtkError err= new VtkError();
@@ -1436,44 +1435,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 		}
 		return new StringBuffer();
 		
-		// Per Alex's request, leave old code here. -Mike
-		/*
-		StringBuffer sf = new StringBuffer();
-
-        // This will reference one line at a time
-        String line = null;
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader = 
-                new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = 
-                new BufferedReader(fileReader);
-
-            while((line = bufferedReader.readLine()) != null) {
-                //System.out.println(line);
-                sf.append(line);
-            }   
-
-            // Always close files.
-            bufferedReader.close();         
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + fileName + "'");                  
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
-    return sf;
-    */ 
+		
 	}
 	
 	@SuppressWarnings("deprecation") // For Node.setProperty
@@ -1494,27 +1456,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 		} catch (RepositoryException re) {
 			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
 		}
-		// Per Alex's request, leave old code here. -Mike
-		/*
-		try{
-		File file = new File(fileName);
-
-		// if file doesnt exists, then create it
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(content);
-		bw.close();
-
-		System.out.println("Done");
-
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	*/
+		
 
 		
 	}

@@ -120,7 +120,7 @@
 							request.getParameter("addYearPlanName"));
 
 				} catch (VtkYearPlanChangeException e) {
-					System.err.println(e.getMessage());
+					
 					e.printStackTrace();
 					out.println(e.getMessage());
 				}
@@ -226,7 +226,7 @@
 				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
 				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
 				String troopId = newTroop.getTroop().getTroopId();
-				System.out.println("New Troop Id = " + troopId);
+				
 
     				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
     				String token = generator.hash(troopId);
@@ -398,7 +398,7 @@
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
 			} else {
-				System.out.println("emr does not exit!");
+				
 			}
 
 			org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
@@ -1323,7 +1323,9 @@ try{
             String message = request.getParameter("message");
             String mid= request.getParameter("mid");
 
-            if( mid==null || message ==null || message.trim().equals("")){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
+            if( mid==null || message ==null || message.trim().equals("")){
+            	
+            	return;}
            
             java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
             for(int i=0;i<meetings.size();i++){

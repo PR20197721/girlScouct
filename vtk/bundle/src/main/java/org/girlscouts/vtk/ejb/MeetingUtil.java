@@ -1002,7 +1002,7 @@ public class MeetingUtil {
 			sched = getYearPlanSched(user, troop, troop.getYearPlan(), false, false);
 
 		if (sched == null || (sched.size() == 0)) {
-			System.err.println("You must first select a year plan.");
+			
 			return null;
 		}
 		java.util.List<java.util.Date> dates = new java.util.ArrayList<java.util.Date>(

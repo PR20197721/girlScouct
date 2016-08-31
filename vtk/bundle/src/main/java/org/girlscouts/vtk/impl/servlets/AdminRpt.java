@@ -56,8 +56,6 @@ public class AdminRpt extends SlingSafeMethodsServlet {
 			if (!(user.getApiConfig().getUser().isAdmin() && user
 					.getApiConfig().getUser().getAdminCouncilId() > 0)) {
 
-				System.err
-						.println("Admin report download : Sorry! You currently don't have permission to view this tab. For questions, click Contact Us at the top of the page.");
 				try {
 					outputStream.close();
 				} catch (Exception eee) {

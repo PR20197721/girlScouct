@@ -14,7 +14,7 @@ String fileName = request.getParameter("fileName");
 43
         }
 44
-        System.out.println("File location on server::"+file.getAbsolutePath());
+        
 45
         ServletContext ctx = getServletContext();
 46
@@ -48,4 +48,4 @@ String fileName = request.getParameter("fileName");
 60
         fis.close();
 61
-        System.out.println("File downloaded at client successfully");
+        

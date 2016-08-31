@@ -96,7 +96,9 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 			javax.jcr.query.Row r = it.nextRow();
 			String path = r.getValue("jcr:path").getString() ;
 			String sfCouncil = null, sfTroopAge=null;
-			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){ System.err.println("Found err in getting fCouncil "+ path); continue tr; }			
+			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){
+				
+				continue tr; }			
 		    try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
 
 		    org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
