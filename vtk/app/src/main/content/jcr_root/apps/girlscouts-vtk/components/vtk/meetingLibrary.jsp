@@ -307,7 +307,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			String type =  (String)itrTypes.next();
 			String id= (String) mTypes.get(type);
 			%>
-			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>">
+			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>" style="min-height:60px;">
 					<input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"  onclick="doFilter(2)"/>
 					<label for="<%= id%>"><span></span><p> <%=type.replaceAll("_", " ") %> </p></label>
 		   </div>
