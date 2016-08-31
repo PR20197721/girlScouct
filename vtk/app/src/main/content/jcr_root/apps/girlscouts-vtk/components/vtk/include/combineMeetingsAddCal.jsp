@@ -52,7 +52,7 @@
                       <div class="row">
                           <input  class="button tiny right" type="button" value="Save" onclick="doCombine()"/>
                            <input class="button tiny right" type="button" onclick="tabsVtk.goBack()" value="Back" />
-                           <input class="button tiny right"  onclick="closeModal()" type="button"  value="Cancel" />
+                           <input class="button tiny right"  onclick="cancelModal()" type="button"  value="Cancel" />
                           
                       </div>
                    </div>  
