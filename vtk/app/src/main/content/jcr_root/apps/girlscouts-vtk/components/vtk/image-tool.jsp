@@ -525,7 +525,7 @@ var displayCurrent = function(isUploaded){
 	    var x1, x2, y1, y2, width, height;
 	
 	    storeCoords = function(img, selection){
-	    	//console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
+	    	
 	    	x1 = selection.x1;
 	    	x2 = selection.x2;
 	    	y1 = selection.y1;

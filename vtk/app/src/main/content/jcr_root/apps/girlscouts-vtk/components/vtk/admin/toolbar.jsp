@@ -83,7 +83,7 @@ $(document).ready(function() {
         id   : 'editMtLogo',
         name : 'newvalue',
         
-        onsubmit    : function(value, settings) {alert(1);},
+        onsubmit    : function(value, settings) {},
         "submitdata": function (value, settings) {
            
            

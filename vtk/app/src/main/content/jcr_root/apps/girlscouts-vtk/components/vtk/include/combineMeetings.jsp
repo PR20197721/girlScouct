@@ -150,10 +150,7 @@
                           a: Date.now()
                       },
                       success: function(result) {
-                        //console.log("succ "+ result);
-                          //document.getElementById("combineMeetings").innerHtml=result;
-                          
-                          //close window
+                        
                           cancelModal();
                       }
                   });

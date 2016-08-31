@@ -257,7 +257,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         },
       onReorder: function(order) {
         isActivNew=1;
-        alert(1);
+        
       },
       componentDidMount: function() {
         resizeWindow();
