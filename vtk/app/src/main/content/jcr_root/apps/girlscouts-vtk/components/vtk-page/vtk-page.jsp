@@ -69,7 +69,7 @@ try{
 		return;		
 		
 	}
-   System.out.println("ApiConfig not null and not failed.");
+
 
 }
 
@@ -167,7 +167,7 @@ request.setAttribute("altSearchPath", referer);
    	
    	
    	if( newCurrentPage==null ){
-   		System.err.println("Error in body.jsp missing design for council: "+ branch);
+   		
    		out.println("Missing council design on branch: "+ branch);
    		return;
    	}

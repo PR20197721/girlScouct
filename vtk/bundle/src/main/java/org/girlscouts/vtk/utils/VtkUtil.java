@@ -350,8 +350,7 @@ public static java.util.Map<Long, String> getVtkHolidays( User user, Troop troop
 					councilMap.put( Long.valueOf( FORMAT_YYYYMMdd.parse( configRecord[0] ).getTime() ), configRecord[1]);
 				}catch(Exception e){e.printStackTrace();}
 			} else {
-				System.err.println("Malformatted vtkHoliday mapping record: "
-						+ mappings[i]);
+				
 			}
 		}
 	}
