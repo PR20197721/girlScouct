@@ -78,7 +78,7 @@
                       $('#combine-new-time').show().children('span').html(dateAsString);
 
           
-                      selectedTime.set(new Date(dateAsString).getTime())
+                      sTimeCombine.set(new Date(dateAsString).getTime())
                       
                       document.getElementById("cngDate0").value = dateAsString;
                       

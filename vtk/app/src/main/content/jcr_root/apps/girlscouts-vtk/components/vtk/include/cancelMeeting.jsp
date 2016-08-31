@@ -57,16 +57,24 @@
           </div>
 <script>
 
-function checkSaveButton(name,className){
+function checkSaveButton(name,className,number){
+
   function changeButton(){
       
       var _array = [].slice.call(document.getElementsByName(name));
+      var _state = 0;
+      
+      var _arrayOfChecked = _array.filter(function(e){
+          if(e.checked){
+              return e;
+          }
+      });
     
-      var _if = _array.some(function(e){
-        return e.checked;
-      })
+      if(number){
+          _state = number;
+      }
 
-      if(_if){
+      if(_arrayOfChecked.length > _state){
         $(className).removeClass('inactive-button');
       }else{
          $(className).addClass('inactive-button');
