@@ -13,7 +13,8 @@
                             while( ii.hasNext()){
                                 java.util.Date dt = (java.util.Date) ii.next();
                                 MeetingE me = (MeetingE)sched.get(dt);
-                                if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
+                                if( me.getType() ==org.girlscouts.vtk.dao.YearPlanComponentType.MEETING )
+                                 if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
                                     %>
                                      <td>
 			                             <input type="checkbox" name="_tag_m" id="y<%=meetingsToCancel.get(i).getUid() %>" value="<%=dt.getTime()%>">
