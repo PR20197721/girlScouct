@@ -4,45 +4,40 @@
 
              <table class="list-of-meeting-calendar cancel-meeting yearMeetingList">
              <%
-                        for(int i=0;i<meetingsToCancel.size();i++) {%>
-                           <tr>
-                           <td>
-
-
-                            <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getRefId()%>"  />
-                                 <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span><p> </p></label>
-
-
-                     <!--         <input type="radio" value="<%=meetingsToCancel.get(i).getRefId()%>" id="x" name="meeting_select" /><label for="x"><p> </p></label> -->
-
-                            <!--  <input type="radio" id="meeting_select" name="meeting_select" value="<%=meetingsToCancel.get(i).getRefId()%>"/> -->
-
-
-                           </td>
-                        
-                          
-                           <td>
-                           
-
-
-                           <%
+                        for(int i=0;i<meetingsToCancel.size();i++) {
                             java.util.Iterator ii= sched.keySet().iterator();
                             while( ii.hasNext()){
-                            	java.util.Date dt = (java.util.Date) ii.next();
-                            	MeetingE me = (MeetingE)sched.get(dt);
-                            	if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
-                            		%> <%=dt%> <% 
-                            	}
+                                java.util.Date dt = (java.util.Date) ii.next();
+                                
+                                MeetingE me = (MeetingE)sched.get(dt);
+                                if( me.getType() ==org.girlscouts.vtk.dao.YearPlanComponentType.MEETING )                                     
+                                 if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
+                                     %>
+                                      <tr>
+                                      <td>
+
+
+                                       <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getRefId()%>"  />
+                                            <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span><p> </p></label>
+
+
+
+                                      </td>
+                                   
+                                     
+                                      <td> 
+                                     <%=dt%> 
+                                     </td>
+                                    
+                                    <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
+                                     <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
+                                   
+                                    </tr>
+                                    <% 
+                                }
                             }
-                           %>
-                           </td>
                            
-                           <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
-                            <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
-                          
-                           </tr>                           
-                        <% }
-              %>
+                        }  %>
               </table>   
        
 

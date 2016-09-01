@@ -4,11 +4,7 @@
              
              <table class="list-of-meeting-calendar combine-meeting yearMeetingList">
              <%
-                        for(int i=0;i<meetingsToCancel.size();i++) {%>
-                           <tr>
-                          
-                         
-                           <%
+                        for(int i=0;i<meetingsToCancel.size();i++) {
                             java.util.Iterator ii= sched.keySet().iterator();
                             while( ii.hasNext()){
                                 java.util.Date dt = (java.util.Date) ii.next();
@@ -16,21 +12,19 @@
                                 if( me.getType() ==org.girlscouts.vtk.dao.YearPlanComponentType.MEETING )
                                  if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
                                     %>
+                                     <tr>
                                      <td>
 			                             <input type="checkbox" name="_tag_m" id="y<%=meetingsToCancel.get(i).getUid() %>" value="<%=dt.getTime()%>">
 			                             <label for="y<%=meetingsToCancel.get(i).getUid() %>"><span></span><p></p></label>
                                      </td>
                                      <td> <%=dt%> </td>
+                                      <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
+			                          <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
+			                           </tr>  
                                    <% 
                                 }
                             }
-                           %>
-                           
-                           
-                           <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
-                          <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
-                           </tr>                           
-                        <% }
+                           }
               %>
               </table>   
 
