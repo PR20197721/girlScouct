@@ -116,7 +116,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     for(Hit hit: hits){
         try{
-            DocHit docHit = new DocHit(hits.get(i));
+            DocHit docHit = new DocHit(hit);
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
