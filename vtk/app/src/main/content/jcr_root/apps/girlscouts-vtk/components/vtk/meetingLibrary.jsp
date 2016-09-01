@@ -309,7 +309,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			%>
 			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>" style="min-height:60px;">
 					<input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"  onclick="doFilter(2)"/>
-					<label for="<%= id%>"><span></span><p> <%=type.replaceAll("_", " ") %> </p></label>
+					<label for="<%= id%>"><span></span><p> <%=type.equals("Badges_Petals") ? "Badges/Petals" : type.replaceAll("_", " ") %> </p></label>
 		   </div>
 			<%
 		}

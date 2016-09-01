@@ -113,6 +113,7 @@ function addExistActivity(activityId) {
 }
 
 function newLocCal() {
+
     loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true, false);
 }
 
@@ -146,6 +147,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     }).done(function(response){
         $("#gsModal").html(response);
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+        $('#gsModal').children('.scroll').css('maxHeight','601px');
     }).fail(function(response, status, xhr){
        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
