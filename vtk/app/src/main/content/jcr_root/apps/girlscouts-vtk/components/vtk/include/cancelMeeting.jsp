@@ -8,7 +8,8 @@
                             java.util.Iterator ii= sched.keySet().iterator();
                             while( ii.hasNext()){
                                 java.util.Date dt = (java.util.Date) ii.next();
-                                
+                                if( org.girlscouts.vtk.models.Activity.class.isInstance(sched.get(dt)) ) 
+                                    {continue;}
                                 MeetingE me = (MeetingE)sched.get(dt);
                                 if( me.getType() ==org.girlscouts.vtk.dao.YearPlanComponentType.MEETING )                                     
                                  if( me.getRefId().equals( meetingsToCancel.get(i).getRefId())){
