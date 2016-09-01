@@ -41,7 +41,7 @@ function toggleSection(section) {
 		href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><i
 		class="icon-button-circle-cross"></i></a>
 </div>
-<div class="scroll">
+<div class="scroll" style="max-height:601px">
 	<div class="tabs-wrapper">
 		<dl class="tabs" data-tab>
 			<dd id="manageCalendarTab" class="active manageCalendarTab">
