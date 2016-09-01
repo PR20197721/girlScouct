@@ -43,7 +43,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 	</div>
 
-	<div id="dialog-confirm"></div>
+	
 		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-title="" data-fetch="" class="vtk-meeting-calendar-body column small-24">
 			 <div class="row">
 			 	<div class="small-24 medium-8 column">
@@ -87,9 +87,11 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 	<div class="vtk-meeting-calendar-foot column small-24 column">
 					<div class="row">
 						<input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right"> 
-						<div id="dialog-confirm"></div>
 					</div>
 				</div>	
+
+
+				<div id="dialog-confirm"></div>
 		 	
 			 </div>
 		</div>
@@ -135,8 +137,8 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 
 
-
-
+					
+	
 		
 
 <script>
@@ -304,8 +306,16 @@ if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
   $('select').css('background-image', 'none');
 }
 
+
+
+
 function fnOpenNormalDialog() {
+    
     $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
+
+
+
+
 
     // Define the Dialog and its properties.
     $("#dialog-confirm").dialog({
@@ -314,22 +324,23 @@ function fnOpenNormalDialog() {
         title: false,
         height: 250,
         width: 400,
-        buttons: {
-        "Go ahead, cancel the meeting": function () {
-            $(this).dialog('close');
-       
-            var r = document.querySelector('input[name = "_tag_t"]:checked').value;
-            
-            rmMeeting('<%=date.getTime()%>',r);
+        "buttons": {
+    	    "Go ahead, cancel the meeting": function () {
+	            $(this).dialog('close');
+	            var r = document.querySelector('input[name = "_tag_t"]:checked').value;
+	            rmMeeting('<%=date.getTime()%>',r);
+ 	    	},
+           	"Return to Specify Dates and Locations": function () {
+	            $(this).dialog('close');
+	            newLocCal();
+	            
+        	}
         },
-            "Return to Specify Dates and Locations": function () {
-            $(this).dialog('close');
-            newLocCal();
-        }
-        },
-        create: function (event, ui) {
+
+        "create": function (event, ui) {
+
         	$(".ui-dialog-titlebar.ui-widget-header").hide();
-    		}
+    	}
     });
 }
 
