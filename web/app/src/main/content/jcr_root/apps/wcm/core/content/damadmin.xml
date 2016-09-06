@@ -69,6 +69,7 @@
                     xtype="gridcolumn"/>
                 <workflow
                     jcr:primaryType="nt:unstructured"
+                    hidden="{Boolean}true"
                     usePredefined="workflow"
                     xtype="gridcolumn"/>
                 <width
@@ -553,19 +554,10 @@
                 </tools>
             </actions>
             <columns jcr:primaryType="cq:WidgetCollection">
-                <numberer
-                    jcr:primaryType="nt:unstructured"
-                    usePredefined="numberer"
-                    xtype="gridcolumn"/>
                 <thumbnail
                     jcr:primaryType="nt:unstructured"
                     hidden="{Boolean}false"
                     usePredefined="thumbnail"
-                    xtype="gridcolumn"/>
-                <title
-                    jcr:primaryType="nt:unstructured"
-                    hidden="{Boolean}true"
-                    usePredefined="title"
                     xtype="gridcolumn"/>
                 <name
                     jcr:primaryType="nt:unstructured"
@@ -582,10 +574,6 @@
                 <modified
                     jcr:primaryType="nt:unstructured"
                     usePredefined="modified"
-                    xtype="gridcolumn"/>
-                <status
-                    jcr:primaryType="nt:unstructured"
-                    usePredefined="status"
                     xtype="gridcolumn"/>
                 <width
                     jcr:primaryType="nt:unstructured"
