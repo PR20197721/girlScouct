@@ -98,7 +98,7 @@ String token= null;
 	// TODO Auto-generated catch block
 	e.printStackTrace();
 }
-System.out.println("Saml token: " + token);
+
 response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.html");
 	}
 

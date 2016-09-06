@@ -91,7 +91,7 @@ public class SalesforceDAO {
 					CloseableHttpResponse resp = connection.execute(method);
 					int statusCode = resp.getStatusLine().getStatusCode();
 					if (statusCode != HttpStatus.SC_OK) {
-						System.err.println("Method failed: " + resp.getStatusLine());
+						
 						throw new IllegalAccessException();
 					}
 		
@@ -110,17 +110,14 @@ public class SalesforceDAO {
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-					System.err.println("getUSER resp: " + rsp);	
+					
 					
 					
 			}else{
 	
-				//org.json.simple.parser.JSONParser parser = new org.json.simple.parser.JSONParser();
-				//Object obj = parser.parse(new java.io.FileReader("/Users/akobovich/vtk/vtkUser.json"));
-		       
+				
 				String userJsonFile= vtkDemoPath +"/vtkUser_"+apiConfig.getDemoUserName()+".json";
 				
-				System.err.println(userJsonFile);
 				rsp = readFile(userJsonFile).toString();
 			}
 			
@@ -129,13 +126,13 @@ public class SalesforceDAO {
 		
 		
 		} catch (HttpException e) {
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (Exception eG) {
-			System.err.println("Fatal transport error: " + eG.getMessage());
+			
 			eG.printStackTrace();
 		} finally {
 			if (method != null)
@@ -396,7 +393,7 @@ public class SalesforceDAO {
 				CloseableHttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
 				if (statusCode != HttpStatus.SC_OK) {
-					System.err.println("Method failed: " + resp.getStatusLine());
+					
 					
 					try{
 
@@ -451,7 +448,7 @@ public class SalesforceDAO {
 			}else{
 			
 				String userJsonFile=vtkDemoPath +"/vtkContact_"+apiConfig.getDemoUserName()+".json";
-				System.err.println(userJsonFile);
+				
 				rsp = readFile(userJsonFile).toString();
 		    }
 			
@@ -459,7 +456,7 @@ public class SalesforceDAO {
 
 			try {
 				JSONObject response = new JSONObject(rsp);
-				log.debug("<<<<<Apex contacts reponse: " + response);
+
 
 
 
@@ -958,13 +955,13 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				e.printStackTrace();
 			}
 		} catch (HttpException e) {
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (IOException e) {
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 			e.printStackTrace();
 		} catch (Exception eG) {
-			System.err.println("Fatal transport error: " + eG.getMessage());
+			
 			eG.printStackTrace();
 		} finally {
 			if (method != null)
@@ -994,13 +991,13 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				int statusCode = resp.getStatusLine().getStatusCode();
 	
 				if (statusCode != HttpStatus.SC_OK) {
-					System.err.println("Method failed: " + resp.getStatusLine());
+					
 					throw new IllegalAccessException();
 				}
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-System.err.println("test: "+ rsp );				
+			
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
@@ -1079,7 +1076,7 @@ System.err.println("test: "+ rsp );
 					troop.setGradeLevel(results.getJSONObject(i)
 							.getJSONObject("Parent")
 							.getString("Program_Grade_Level__c"));
-if( i==0){ troop.setGradeLevel("7-Multilevel"); }
+//if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 					
 
 					try {
@@ -1172,7 +1169,7 @@ if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 
 			if (statusCode != HttpStatus.SC_OK) {
 
-				System.err.println("Method failed: " + resp.getStatusLine());
+				
 
 			}
 			apiConfig.setLastTimeTokenRefreshed(java.util.Calendar.getInstance().getTimeInMillis() );
@@ -1244,19 +1241,19 @@ if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 
 		} catch (HttpException e) {
 
-			System.err.println("Fatal protocol violation: " + e.getMessage());
+			
 
 			e.printStackTrace();
 
 		} catch (IOException e) {
 
-			System.err.println("Fatal transport error: " + e.getMessage());
+			
 
 			e.printStackTrace();
 
 		} catch (Exception eG) {
 
-			System.err.println("Fatal transport error: " + eG.getMessage());
+		
 
 			eG.printStackTrace();
 
@@ -1349,7 +1346,6 @@ if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 				troops.add(troop);
 			
 		  }catch(Exception ex){
-			  System.err.println("Error int SalesForceDAO.parseTroops: found error while parsing troop response json from Salesforce. Ignoring this troop... ");
 			  ex.printStackTrace();
 			  try{
 				  VtkError err= new VtkError();
@@ -1439,44 +1435,7 @@ if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 		}
 		return new StringBuffer();
 		
-		// Per Alex's request, leave old code here. -Mike
-		/*
-		StringBuffer sf = new StringBuffer();
-
-        // This will reference one line at a time
-        String line = null;
-
-        try {
-            // FileReader reads text files in the default encoding.
-            FileReader fileReader = 
-                new FileReader(fileName);
-
-            // Always wrap FileReader in BufferedReader.
-            BufferedReader bufferedReader = 
-                new BufferedReader(fileReader);
-
-            while((line = bufferedReader.readLine()) != null) {
-                //System.out.println(line);
-                sf.append(line);
-            }   
-
-            // Always close files.
-            bufferedReader.close();         
-        }
-        catch(FileNotFoundException ex) {
-            System.out.println(
-                "Unable to open file '" + 
-                fileName + "'");                
-        }
-        catch(IOException ex) {
-            System.out.println(
-                "Error reading file '" 
-                + fileName + "'");                  
-            // Or we could just do this: 
-            // ex.printStackTrace();
-        }
-    return sf;
-    */ 
+		
 	}
 	
 	@SuppressWarnings("deprecation") // For Node.setProperty
@@ -1497,27 +1456,7 @@ if( i==0){ troop.setGradeLevel("7-Multilevel"); }
 		} catch (RepositoryException re) {
 			log.error("Cannot get file node: " + fileName + " due to RepositoryException");
 		}
-		// Per Alex's request, leave old code here. -Mike
-		/*
-		try{
-		File file = new File(fileName);
-
-		// if file doesnt exists, then create it
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-
-		FileWriter fw = new FileWriter(file.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(content);
-		bw.close();
-
-		System.out.println("Done");
-
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-	*/
+		
 
 		
 	}

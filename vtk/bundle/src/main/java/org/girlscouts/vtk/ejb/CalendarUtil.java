@@ -446,5 +446,35 @@ public class CalendarUtil {
 		return isPast;
 
 	}
+	
+	public boolean updateDate(User user, Troop troop, long currDate, long newDate) throws java.lang.IllegalAccessException,
+			VtkException {
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_MEETING_ID))
+			throw new IllegalAccessException();
+
+		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
+				"MM/dd/yyyy hh:mm a");
+		YearPlan plan = troop.getYearPlan();
+		Cal cal = plan.getSchedule();		
+		String sched = cal.getDates();
+		
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate);
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTimeInMillis();
+			}
+		}
+		sched = sched.replace("" + currDate, newDate + "");
+		cal.setDates(sched);
+		cal.setDbUpdate(true);
+		troopUtil.updateTroop(user, troop);
+		return true;
+	}
+
 
 }

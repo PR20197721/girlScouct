@@ -120,7 +120,7 @@
 							request.getParameter("addYearPlanName"));
 
 				} catch (VtkYearPlanChangeException e) {
-					System.err.println(e.getMessage());
+					
 					e.printStackTrace();
 					out.println(e.getMessage());
 				}
@@ -226,7 +226,7 @@
 				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
 				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
 				String troopId = newTroop.getTroop().getTroopId();
-				System.out.println("New Troop Id = " + troopId);
+				
 
     				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
     				String token = generator.hash(troopId);
@@ -398,7 +398,7 @@
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
 			} else {
-				System.out.println("emr does not exit!");
+				
 			}
 
 			org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
@@ -1263,8 +1263,8 @@ try{
                            (troop.getSfTroopAge().toLowerCase().contains("senior") || troop.getSfTroopAge().toLowerCase().contains("cadette") || troop.getSfTroopAge().toLowerCase().contains("ambassador") )){%>
                         Customize Your Troop Year
                  <%}else if(troop!=null  && troop.getSfTroopAge()!=null &&
-                         troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
-                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Milti-Level Troop Year Plan </h4>
+                         troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
+                      <h4 style="color:#18aa51;margin-bottom:15px !important;"> Create Your Multi-Level Troop Year Plan </h4>
                  <%}else{ %>
                        Create Your Own Year Plan
                  <%} %>
@@ -1275,7 +1275,7 @@ try{
 		                Select this option to create activities or add council activities to your calendar.
 		            
 		            <%}else  if( troop!=null  && troop.getSfTroopAge()!=null &&
-                            troop.getSfTroopAge().toLowerCase().contains("multilevel")){ %>
+                            troop.getSfTroopAge().toLowerCase().contains("multi-level")){ %>
 
                             <p style="margin-bottom:15px !important;">
                              All Girls Scouts plan have been organized so you can easily filter through the set to select the right ones for your multi-level troop.. Once your meeting selections are made you'll be able to arrange and finalize the dates in the Year Plan view.
@@ -1323,7 +1323,9 @@ try{
             String message = request.getParameter("message");
             String mid= request.getParameter("mid");
 
-            if( mid==null || message ==null || message.trim().equals("")){System.err.println("Found null in controllers.jsp editNote. One or more values is null" );return;}
+            if( mid==null || message ==null || message.trim().equals("")){
+            	
+            	return;}
            
             java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
             for(int i=0;i<meetings.size();i++){
@@ -1435,8 +1437,17 @@ try{
             	 }
              }
         	
-        
-		} else {
+        }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
+       	
+        	String currDates = request.getParameter("mids");
+
+        	java.util.StringTokenizer t= new java.util.StringTokenizer( currDates, ",");
+        	while( t.hasMoreElements()){
+        		   long currDate = Long.parseLong(t.nextToken());
+        		   calendarUtil.updateDate( user,  troop,  currDate,  Long.parseLong( request.getParameter("dt")));
+	   
+        	}
+        } else {
 			//TODO throw ERROR CODE
 
 		}

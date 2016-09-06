@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:description="Displays the content of an email template."
+    jcr:primaryType="cq:Template"
+    jcr:title="Email Template"
+    allowedPaths="[]"
+    ranking="{Long}60">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        sling:resourceType="girlscouts/components/email-template-page"
+        hideInNav="{Boolean}true"/>
+</jcr:root>

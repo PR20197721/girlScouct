@@ -6,8 +6,8 @@ java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
 java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
-java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, 
-java.util.Arrays, java.util.regex.*, java.text.*" %>
+java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*,
+java.util.Arrays, org.girlscouts.web.events.search.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 
@@ -112,14 +112,22 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-	for(int i = startIdx; i < endIdx ; i++) {
+	GSDateTime today = new GSDateTime();
+    GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    for(Hit hit: hits){
         try{
-            DocHit docHit = new DocHit(hits.get(i));
+            DocHit docHit = new DocHit(hit);
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
             String description = docHit.getDescription();
-
+            if(null != docHit.getProperties().get("data/visibleDate")){
+				String visibleDate = (String)docHit.getProperties().get("data/visibleDate");
+				GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+				if(vis.isAfter(today)){
+					continue;
+				}
+            }
             %>
             <br/>
         <%

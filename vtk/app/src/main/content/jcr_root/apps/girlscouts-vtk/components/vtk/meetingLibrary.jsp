@@ -8,6 +8,7 @@
 <!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
 
 <%
+try{
   boolean showVtkNav = true;
   String activeTab = "resource";
   String meetingPath = request.getParameter("mpath");
@@ -22,6 +23,7 @@
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
+	
 	String find="";
 %>
   <div class="header clearfix">
@@ -136,6 +138,11 @@
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
 
+if( meeting!=null && meeting.getCatTags()!=null)
+	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
+if( meeting!=null && meeting.getMeetingPlanType()!=null)
+	meeting.setMeetingPlanType(meeting.getMeetingPlanType().replaceAll(" ","_"));
+
 	  if( meeting.getLevel()!=null && !mLevel.containsKey( meeting.getLevel() ) ){
 		  mLevel.put(meeting.getLevel(), "ML_"+new java.util.Date().getTime() +"_"+ Math.random());
 		  mTylesPerLevel.put(meeting.getLevel(), new java.util.HashSet<String>() );
@@ -172,7 +179,7 @@
 				  }else if( _x!=null && !_x.contains(theCat)  ){
 
 
-				   mCatsPerType.get( meeting.getMeetingPlanType() ).add( theCat );
+				   mCatsPerType.get( meeting.getMeetingPlanType()).add( theCat );
 				  }
 			  }//end if
 
@@ -275,7 +282,7 @@
 			<span class="container" style="clear:both;">
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
-			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  onclick="doFilter(1)"/>
+			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
 			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
 			</div>
 			</span>
@@ -300,9 +307,9 @@
 			String type =  (String)itrTypes.next();
 			String id= (String) mTypes.get(type);
 			%>
-			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>">
+			<div class="small-24 medium-12 column <%= !itrTypes.hasNext() ? "end" : "" %>" style="min-height:60px;">
 					<input type="radio" name="_tag_t" id="<%= id%>" value="<%=type %>"  onclick="doFilter(2)"/>
-					<label for="<%= id%>"><span></span><p> <%=type.replaceAll("_", " ") %> </p></label>
+					<label for="<%= id%>"><span></span><p> <%=type.equals("Badges_Petals") ? "Badges/Petals" : type.replaceAll("_", " ") %> </p></label>
 		   </div>
 			<%
 		}
@@ -328,17 +335,24 @@
 
 		<%
 		java.util.Iterator itrCats= mCats.keySet().iterator();
+		int index = 1;
+
 		while( itrCats.hasNext()){
 			String cat =  (String)itrCats.next();
 			String id= (String) mCats.get(cat);
 			%>
-			<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>">
-			<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-			<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
-			</div>
-			<%
-		}
-		%>
+				
+
+
+				<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>"  style="min-height:70px">
+					<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
+					<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
+				</div>
+
+
+			
+		
+			<%  } %>
 
 
 	  <!--  carlos 4 start  -->
@@ -473,7 +487,7 @@
 
 			$element.children('.vtk-dropdown_options').find('input[type="checkbox"]').on('change', function(e){
 				setTimeout(toggle,300);
-				// console.log(e);
+
 			})
 
 			$(document).click(function(e){
@@ -491,9 +505,6 @@
 	})();
 
 	var categoryCollectionsObj = {};
-
-
-	
 
 	var queryDown ={
 		age: function(list){
@@ -529,7 +540,6 @@
 			 return y;
 		}		
 	}
-
 
 	function triggerOriginal(e){
 		var type;
@@ -586,7 +596,6 @@
 			$('#meetingSelect').hide();
 
 		}
-		
 	}
 
 	function createElement(el){
@@ -607,11 +616,26 @@
 		return $li;
 	}
 
-	function renderElement(origin,target){
+	function renderElement(origin,target,sort){
+
 		var node = $(target).find('.vtk-dropdown_options');
-		 $.each($(origin).children(), function(indx,el){
-			node.append(createElement(el));
+		var listNodes;
+	
+		if(sort){
+			var orden =  ['Daisy', 'Brownie', 'Junior']
+			listNodes =[];
+
+			$.each($(origin).children(), function(indx,el){
+				listNodes[orden.indexOf($(el).find('input').val())] = el;
+			})
+		}else{
+			listNodes = $(origin).children();
+		}
+
+		$.each(listNodes, function(indx,el){
+				node.append(createElement(el));
 		})
+		
 	}
 
 	gsusa.component.dropDownCheckBox('#vtk-dropdown-filter-1');
@@ -629,14 +653,13 @@
 			cancel: $('#vtk-meeting-group-button_cancel')
 		}
 
-		function doThis(e){
-		}
 
-		function onChangeBack(e){
-		}
+
+
 
 		function eachList(which,name){
 				categoryCollectionsObj[name] =[];
+
 			$.each(which, function(i,e){
 				
 				if($(this)[0].checked){
@@ -738,8 +761,8 @@
 			$("#meetingSelect").slideUp();
 		});
 
-		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1');
-		renderElement('#vtk-meeting-group-categories','#vtk-dropdown-filter-2');
+		renderElement('#vtk-meeting-group-age','#vtk-dropdown-filter-1',true);
+		renderElement('#vtk-meeting-group-categories','#vtk-dropdown-filter-2',false);
 	});
 
 
@@ -751,9 +774,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 				
-						  	 <div class="no-content column small-24" style="display:none;text-align:center; padding:80px 0" >
-		  		<h4>No Meetings match your filter criteria</h4>
-		  		</div>
+		<div class="no-content column small-24" style="display:none;text-align:center; padding:80px 0" >
+		  	<h4>No Meetings match your filter criteria</h4>
+		</div>
 	  <!--  carlos 4 end  -->
 	  <div id="meetingSelect" class="meetingSelect column small-22 small-centered" style="display:none;">
 		  <!--<div class="row">-->
@@ -764,10 +787,14 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 	<div style="position: absolute;width: 100%;height: inherit;top: 0;bottom: 0; overflow: hidden;">
 		<div class="vtk-float-submit">
+		<input class="button tiny" type="button" value="CANCEL" onclick="closeModal()"/>
+
+		<input class="button tiny" type="button" value="CLEAR" onclick="clearList()" />
+
 	  <%if( request.getParameter("newCustYr")!=null){ %>
-		   <input class="button tiny" type="button" value="ADD TO YEAR PLAN" onclick="createCustPlan(null)"/>
+		   <input class="button tiny inactive-button add-to-year-plan" type="button" value="ADD TO YEAR PLAN"  onclick="createCustPlan(null)"/>
 	  <%}else{ %>
-		   <input class="button tiny" type="submit"  value="ADD TO YEAR PLAN" onclick="preAddYearPlan(event)"/>
+		   <input class="button tiny inactive-button add-to-year-plan" type="submit"  value="ADD TO YEAR PLAN" />
 	  <%}//end else %> 
 	</div>  
 	</div>
@@ -914,28 +941,45 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	  
 </form>
 <script>
-
-
-	function preAddYearPlan(event){
-
-
-		event.preventDefault();
-
-		checkIfOnWasClickedX({
-			yes:function(){
-				document.getElementById("form-meeting-library").submit()
-			},
-			no:function(){
-				meetingLibraryModal.alert('',"Need to select at least one meeting")
-			}
-		})
+	function closeModal(){
+		$('#gsModal').find('a').children('i').trigger('click');
 	}
+
+
+	function clearList(){
+		var arraylist =  Array.prototype.slice.call(document.getElementsByName('addMeetingMulti'))
+
+		arraylist.forEach(function(element){
+			element.removeAttribute('checked');
+			element.checked=false;
+		})
+
+		checkAddMeetingMulti();
+	}
+
+	function checkAddMeetingMulti(){
+		var _dd = [].slice.call(document.getElementsByName('addMeetingMulti'));
+
+		var _hasOneCheck = _dd.some(function(el){
+			return el.checked;
+		});
+	
+		if(_hasOneCheck){
+			$('.add-to-year-plan').removeClass('inactive-button');
+		}else{
+			$('.add-to-year-plan').addClass('inactive-button');
+		}
+	}
+
+	$('[name=addMeetingMulti]').on('change',checkAddMeetingMulti)
+
 
 
 	function doFilter(clickSrc){
 
-	$(this).attr('checked', true);
+		$(this).attr('checked', true);
 
+		
 		if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
 		if( clickSrc==2 ){ clearFilterCats();}
 		clearResults();
@@ -965,21 +1009,23 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		 }
 
 		 var isShowCats = false;
-	// console.log("chkCats....");
+
 		 if( _cats==null || _cats.length<=0){
 			isShowCats= true;
 		 }else{
 
-	//console.log("_____________chkCatssss: "+ x.id);
+
+	
 			 isShowCats = isShowMeeting( _cats, x, true,'cats');
 		 }
 
-		 //console.log("test: "+ isShowLevel +":"+ isShowType +":"+ isShowCats );
+		 
 		 if( isShowLevel && isShowType && isShowCats ){
 			 x.style.display = "inline";
 			 
 			 
-			//console.log("****:"+ x.id.split(';')[3] );
+			
+
 			document.getElementById("levelNav_"+ x.id.split(';')[3]).style.display = "inline";
 		 }
 	   }
@@ -989,14 +1035,13 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 	function isShowMeeting(els, x, isAllEmptyOk, catTest){
 		var countChecked= 0;
 
-	//console.log("* size: "+ els.length);
+
 		for(var y = 0; y < els.length; y++){ //each filter
-	//console.log("IsChecked: "+ els[y].checked);
+	
 			if( els[y].checked ){ //filter checked
 				countChecked++;
-	//if( catTest=='cats'){console.log( "compared: "+x.id+" : " +els[y].id);}
+	
 			   if( x.id.indexOf( els[y].id )!=-1 ){ //filter id found in meeting
-	//if( catTest=='cats'){console.log( "found...");    }
 
 				 return true;
 			   }
@@ -1143,41 +1188,31 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		var sortedIDs="";
 		
 		if( singleMeetingAdd==null) {
-		 
 			var els = document.getElementsByName("addMeetingMulti");
 
-			checkIfOnWasClickedX({
-				no: function(){
-					meetingLibraryModal.close();
-					meetingLibraryModal.alert('',"Need to select at least one meeting");
-				},
-				yes: function(){
-					for(var y = 0; y < els.length; y++){
-						if( els[y].checked == true ){
-							sortedIDs= sortedIDs +els[y].value+ ",";
-						}
-					}
-
-					makeTheCall();
+			for(var y = 0; y < els.length; y++){
+				if( els[y].checked == true ){
+					sortedIDs= sortedIDs +els[y].value+ ",";
 				}
-			})
+			}
+
 
 		}else{
 
 			sortedIDs = sortedIDs + singleMeetingAdd +",";
-			makeTheCall();
-		
+
 		}
 		
-		function makeTheCall(){
+
 			$.ajax({
-					url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
-					cache: false
-					}).done(function( html ) {
+				url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
+				cache: false
+					})
+				.done(function( html ) {
 		  				vtkTrackerPushAction('CreateCustomYearPlan');
 		  				location.reload();
-					});
-		}
+			});
+
 		
 		
 	}
@@ -1215,3 +1250,6 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 	// })
 </script>
+
+
+<%}catch(Exception e){e.printStackTrace();}%>

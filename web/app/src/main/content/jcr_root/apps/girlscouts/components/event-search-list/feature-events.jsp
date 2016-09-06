@@ -1,13 +1,15 @@
 <%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date,
                  java.util.Locale,java.util.Map,java.util.Arrays,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult,
-                 java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
-                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
+                 java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,
+                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.*,java.util.Calendar,java.util.TimeZone" %>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- apps/girlscouts/components/event-search-list/feature-events.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
+  GSDateTime today = new GSDateTime();
+  GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
   DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
   fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
   DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
@@ -44,6 +46,14 @@
 	
 	 Node node = resourceResolver.getResource(value).adaptTo(Node.class);
 	 Node propNode = node.getNode("jcr:content/data");
+		if(propNode.hasProperty("visibleDate")){
+			String visibleDate = propNode.getProperty("visibleDate").getString();
+
+			GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+			if(vis.isAfter(today)){
+				continue;
+			}
+		}
      String title = propNode.getProperty("jcr:title").getString();
      String href = value+".html";
      String fromdate = propNode.getProperty("start").getString();

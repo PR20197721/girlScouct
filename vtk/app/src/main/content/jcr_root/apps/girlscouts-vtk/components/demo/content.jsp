@@ -24,7 +24,7 @@ function isAgeGroupSelected(ageGroupElem){
 function goToUrl(elem){
 	var e = document.getElementById(elem);
     var _url = e.options[e.selectedIndex].value;
-   // alert( _url );
+  
     self.location= _url;
 }
 </script>

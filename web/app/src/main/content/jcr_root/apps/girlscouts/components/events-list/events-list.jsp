@@ -8,7 +8,7 @@
             java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
             javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
             com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
-            org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
+            org.girlscouts.web.events.search.*,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset,
             java.util.ArrayDeque, java.util.Iterator"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -115,7 +115,9 @@
 						%>
 						<%
                             // need to look for the event starting/ending date is great then TODAYS date, if end date is not there, else start >= todays date.
-							int count = 0;
+							GSDateTime gsToday = new GSDateTime();
+							GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+                            int count = 0;
 							if (eventcounts > 0) {
                                 if (daysofevents > 0) {
 										Calendar cal1 = Calendar.getInstance();
@@ -130,7 +132,14 @@
 									try {
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
+											if(propNode.hasProperty("visibleDate")){
+												String visibleDate = propNode.getProperty("visibleDate").getString();
 
+												GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+												if(vis.isAfter(gsToday)){
+													continue;
+												}
+											}
 											if (propNode.hasProperty(filterProp)) {
 												cale.setTime(fromFormat.parse(propNode.getProperty(filterProp).getString()));
 												fromdate = cale.getTime();

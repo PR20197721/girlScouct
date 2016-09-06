@@ -86,10 +86,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
 
          myPhotobooth.onImage = function( dataUrl ){
 
-        	 //alert(1);
-        	 //container.style.display="none";
-         //}
-        //	 function test(){
+        	
 
         	 myImage = document.createElement( "img" );
          	myImage.src = dataUrl;

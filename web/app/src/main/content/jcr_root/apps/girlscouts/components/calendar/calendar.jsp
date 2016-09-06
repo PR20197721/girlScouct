@@ -12,6 +12,7 @@ org.girlscouts.web.events.search.*"%>
   
   private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
     List<JSONObject> eventList = new ArrayList<JSONObject>();
+    GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     GSDateTimeFormatter dateFormat = GSDateTimeFormat.forPattern("EEE, MMM d, yyyy");
     GSDateTimeFormatter timeFormat = GSDateTimeFormat.forPattern("h:mm a");
     GSDateTimeFormatter fromFormat = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");   
@@ -40,6 +41,14 @@ org.girlscouts.web.events.search.*"%>
 			Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
 			if(node.hasNode("jcr:content/data")) {
 				Node propNode = node.getNode("jcr:content/data");
+				if(propNode.hasProperty("visibleDate")){
+					String visibleDate = propNode.getProperty("visibleDate").getString();
+
+					GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+					if(vis.isAfter(today)){
+						continue;
+					}
+				}
 
 				//End should never be null. If end is null, the event may be stretched
                 if(!propNode.hasProperty("end")){
