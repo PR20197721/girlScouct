@@ -18,24 +18,28 @@ org.apache.sling.commons.json.JSONArray,org.apache.sling.commons.json.JSONExcept
    String mediumPath ="";
    Asset assets=null;
    String newWindow = "";
-   if(imageNode.hasProperty("newWindow")){
-   	 newWindow = imageNode.getProperty("newWindow").getString();
-   }
-   if(null==newWindow || "".equals(newWindow)){
-	 newWindow = "false";
-   }
+   
    Resource rendition=null;
   
 if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %><%=getPlaceHolderText("Click edit above and select number of slides. Then click here to add images to slides.","")%>
    <% }
 else if(imageNode!=null){
+	
 	String spplacement = (String)request.getAttribute("sbplacement");
 
 	Iterator<Resource> images = resource.listChildren();
 	String alt = "";
 	String linkUrl = "";
 	String sortOrder = "";
+	
+	if(imageNode.hasProperty("newWindow")){
+		newWindow = imageNode.getProperty("newWindow").getString();
+	}
+	if(null==newWindow || "".equals(newWindow)){
+		newWindow = "false";
+	}
+	
 	if(imageNode.hasProperty("alt")){
 			alt = imageNode.getProperty("alt").getString();
 	}
