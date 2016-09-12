@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     activeTab="{Long}0"
     helpPath="en/cq/current/wcm/default_components.html#Image"
@@ -120,13 +120,12 @@
                             jcr:primaryType="nt:unstructured"
                             text="7"
                             value="7"/>
-                         <eight
+                        <eight
                             jcr:primaryType="nt:unstructured"
                             text="8"
                             value="8"/>
                     </options>
                 </sort-order>
-
                 <alt
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(Leave empty to use the title defined above)"
@@ -157,6 +156,12 @@
                     heightParameter="./medium/height"
                     widthParameter="./medium/width"
                     xtype="sizefield"/>
+                <newWindow
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Open In New Window"
+                    name="./newWindow"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </advanced>
     </items>

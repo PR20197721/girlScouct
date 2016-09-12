@@ -5,9 +5,12 @@ import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.MultiPartEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.apache.felix.scr.annotations.Component;
@@ -21,6 +24,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.request.RequestParameter;
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.OptingServlet;
@@ -29,16 +33,24 @@ import org.apache.sling.auth.core.AuthUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jcr.Node;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
+import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component(metatype = false)
 @Service(Servlet.class)
@@ -58,6 +70,11 @@ implements OptingServlet {
     protected static final String BCC_PROPERTY = "bcc";
     protected static final String SUBJECT_PROPERTY = "subject";
     protected static final String FROM_PROPERTY = "from";
+    protected static final String CONFIRM_MAILTO_PROPERTY = "confirmationmailto";
+    protected static final String DISABLE_CONFIRMATION_PROPERTY = "disableConfirmation";
+    protected static final String CONFIRMATION_SUBJECT_PROPERTY = "confirmationSubject";
+    protected static final String CONFIRMATION_FROM_PROPERTY = "confirmationFrom";
+    protected static final String TEMPLATE_PATH_PROPERTY = "templatePath";
     protected final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL_UNARY)
@@ -127,6 +144,7 @@ implements OptingServlet {
                 }
                 Collections.sort(contentNamesList);
 
+                List<String> confirmationEmailAddresses = new ArrayList<String>();
                 final List<String> namesList = new ArrayList<String>();
                 final Iterator<Resource> fields = FormsHelper.getFormElements(request.getResource());
                 while (fields.hasNext()) {
@@ -138,6 +156,13 @@ implements OptingServlet {
                         if (!desc.isPrivate()) {
                             namesList.add(desc.getName());
                         }
+                        ValueMap childProperties = ResourceUtil.getValueMap(field);
+                    	if(childProperties.get("confirmationemail",false)){
+                    		final String[] pValues = request.getParameterValues(desc.getName());
+                            for (final String v : pValues) {
+                            	confirmationEmailAddresses.add(v);
+                            }
+                		}
                     }
                 }
                 namesList.addAll(contentNamesList);
@@ -155,6 +180,7 @@ implements OptingServlet {
                 // now add form fields to message
                 // and uploads as attachments
                 final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
+                Map<String, List<String>> formFields = new HashMap<String,List<String>>();
                 
                 if(request.getParameterValues("comments") != null){
                 	final String[] commentValues = request.getParameterValues("comments");
@@ -214,6 +240,13 @@ implements OptingServlet {
                         	else if(!name.equals("comments") && !name.equals("Submit")){
                         		buffer.append(v);
                         		buffer.append("\n");
+                        	}
+                        	if(null == formFields.get(name)){
+                        		List<String> formField = new ArrayList<String>();
+                        		formField.add(v);
+                        		formFields.put(name, formField);
+                        	}else{
+                        		formFields.get(name).add(v);
                         	}
                         }
                     } else if (rp.getSize() > 0) {
@@ -287,7 +320,45 @@ implements OptingServlet {
                 }
                 localService.sendEmail(email);
 
-            } catch (EmailException e) {
+                //confirmation emails
+                boolean disableConfirmations = values.get("disableConfirmationEmails", false);
+                //Ensure that override is off
+                if(!disableConfirmations){
+                	final HtmlEmail confEmail;
+                	confEmail = new HtmlEmail();
+                    confEmail.setCharset("utf-8");
+                    String confBody = getTemplate(request, values, formFields, confEmail, request.getResourceResolver());
+                    if(!("").equals(confBody)){
+	                    confEmail.setHtmlMsg(confBody);
+	                    // mailto
+	                    for(String confEmailAddress : confirmationEmailAddresses){
+	                        confEmail.addTo(confEmailAddress);
+	                    }
+	                    final String[] confMailTo = values.get(CONFIRM_MAILTO_PROPERTY, String[].class);
+	                    if(confMailTo != null) {
+	                        for (final String rec : confMailTo) {
+	                            confEmail.addBcc(rec);
+	                        }
+	                    }
+	
+	                    // subject and from address
+	                    final String confSubject = values.get(CONFIRMATION_SUBJECT_PROPERTY, resBundle.getString("Form Submission Received"));
+	                    confEmail.setSubject(confSubject);
+	                    final String confFromAddress = values.get(CONFIRMATION_FROM_PROPERTY, values.get(FROM_PROPERTY, ""));
+	                    if (confFromAddress.length() > 0) {
+	                        confEmail.setFrom(confFromAddress);
+	                    }
+	                    if (this.logger.isDebugEnabled()) {
+	                        this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
+	                                new Object[]{confFromAddress, confirmationEmailAddresses, confSubject, confBody});
+	                    }
+	                    localService.sendEmail(confEmail);
+                    }else{
+                    	logger.debug("Email body null for " + request.getResource().getPath());
+                    }
+                }
+
+            } catch (Exception e) {
                 logger.error("Error sending email: " + e.getMessage(), e);
                 status = 500;
             }
@@ -313,5 +384,98 @@ implements OptingServlet {
         response.setStatus(status);
     }
 
+    public String getTemplate(SlingHttpServletRequest request, ValueMap values, Map<String,List<String>> formFields, HtmlEmail confEmail, ResourceResolver rr){
+    	try{
+    		String templatePath = values.get(TEMPLATE_PATH_PROPERTY, "/content/girlscouts-template/en/email-templates/default-template");
+    		ResourceResolver resourceResolver = request.getResourceResolver();
+    		Resource templateResource = resourceResolver.resolve(templatePath);
+    		Resource dataResource = templateResource.getChild("jcr:content/data");
+    		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
+    		String parsed = parseHtml(templateProps.get("content",""), formFields, confEmail, rr);
+    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
+    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
+    				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
+    				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
+    				"<title>Girl Scouts</title></head>";
+    		String html = head + "<body>" + parsed + "</body></html>";
+    		return html;
+    	}catch(Exception e){
+    		logger.error("No valid template found for " + request.getResource().getPath());
+    		e.printStackTrace();
+    		return "";
+    	}
+    }
+    
+    public String parseHtml(String html, Map<String,List<String>> fields, HtmlEmail confEmail, ResourceResolver rr){
+    	//Part 1: Insert field variables whenever %%{field_id}%% is found
+    	final Pattern pattern = Pattern.compile("%%(.*?)%%");
+    	final Matcher matcher = pattern.matcher(html);
+    	final StringBuffer sb = new StringBuffer();
+    	while(matcher.find()){
+    		List<String> matched = fields.get(matcher.group(1));
+    		if(matched != null){
+    			if(matched.size() > 1) {
+    				matcher.appendReplacement(sb, matched.toString());
+    			} else if(matched.toString().length() >= 1){
+    				matcher.appendReplacement(sb, matched.toString().substring(1, matched.toString().length()-1));
+    			}
+    		}
+    	}
+    	matcher.appendTail(sb);
+    	html = sb.toString();
+    	
+    	//Part 2: Find images and replace them with embeds, embed the image file in the email
+    	final Pattern imgPattern = Pattern.compile("<img src=\"(.*?)\"");
+    	final Matcher imgMatcher = imgPattern.matcher(html);
+    	final StringBuffer imgSb = new StringBuffer();
+    	while(imgMatcher.find()){
+    		byte[] result = null;
+    		try {
+    			String renditionPath = getRenditionPath(imgMatcher.group(1));
+        		Resource imgRes = rr.resolve(renditionPath);
+        		if(ResourceUtil.isNonExistingResource(imgRes)) {
+        			imgRes = rr.resolve(renditionPath.replaceAll("%20"," "));
+        			if(ResourceUtil.isNonExistingResource(imgRes)){
+        				throw(new Exception("Cannot find resource: " + renditionPath));
+        			}
+        		}
+        		Node ntFileNode = imgRes.adaptTo(Node.class);
+        		Node ntResourceNode = ntFileNode.getNode("jcr:content");
+        		InputStream is = ntResourceNode.getProperty("jcr:data").getBinary().getStream();
+        		BufferedInputStream bin = new BufferedInputStream(is);
+        		result = IOUtils.toByteArray(bin);
+        		bin.close();
+        		is.close();
+			} catch (Exception e) {
+				logger.error("Input Stream Failed");
+				System.out.println("Input Stream Failed");
+				e.printStackTrace();
+			}
+    		try {
+    			String fileName = imgMatcher.group(1).substring(imgMatcher.group(1).lastIndexOf('/') + 1);
+    			File imgFile = new File(fileName);
+    			FileUtils.writeByteArrayToFile(imgFile,result);
+				imgMatcher.appendReplacement(imgSb, "<img src=cid:" + (confEmail.embed(imgFile,fileName)));
+		    	imgMatcher.appendTail(imgSb);
+		    	html = imgSb.toString();
+			} catch (Exception e) {
+				logger.error("Failed to embed image");
+				e.printStackTrace();
+			}
+    	}
+    	
+    	return html;
+    }
+    
+    public String getRenditionPath(String imgPath){
+    	final Pattern pattern = Pattern.compile("/jcr:content/renditions/");
+    	final Matcher matcher = pattern.matcher(imgPath);
+    	if(matcher.find()){
+    		return imgPath;
+    	}else{
+    		return imgPath + "/jcr:content/renditions/original";
+    	}
+    }
 
 }
+
