@@ -50,7 +50,7 @@
                 <div class="row">
                     <div class="vtk-meeting-calendar-foot column small-24 column">
                       <div class="row">
-                          <input  class="button tiny right" type="button" value="Save" onclick="doCombine()"/>
+                          <input id="save-button-combine-calendar"  class="inactive-button button tiny right" type="button" value="Save" onclick="doCombine()" />
                            <input class="button tiny right" type="button" onclick="tabsVtk.goBack()" value="Back" />
                            <input class="button tiny right"  onclick="cancelModal()" type="button"  value="Cancel" />
                           
@@ -66,10 +66,16 @@
         
         <script>
         $(function() {
+
+            
+
             $( "#datepicker2" ).datepicker({
                   defaultDate: new Date ('<%=date%>'),
                   minDate: 0,
                   onSelect: function(dateText, inst) { 
+
+
+                      $('#save-button-combine-calendar').removeClass('inactive-button')
                     
                       var dateAsString = dateText; 
                       var dateAsObject = $(this).datepicker( 'getDate' ); 
