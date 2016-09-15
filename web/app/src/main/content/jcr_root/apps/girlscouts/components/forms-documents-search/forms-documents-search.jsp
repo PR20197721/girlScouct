@@ -166,8 +166,6 @@ String query = "";
     else if( i==2 )
         query ="SELECT  [excerpt(/renditions/original/jcr:content/jcr:data)],[jcr:content/renditions/original/jcr:content/jcr:data], [jcr:path],[jcr:content/metadata/dc:title],[jcr:content/jcr:title],[jcr:content/metadata/dc:description] from [dam:Asset] WHERE ISDESCENDANTNODE([/content/dam/girlscouts-shared/documents])  "+ ((q.length() > 0 ) ? " AND contains(*, '"+q+"')" : "");
 
-        out.println("<!-- "+ query +" -->" ); 
-
 
 
     Query q1 = qm.createQuery(query, Query.JCR_SQL2);
