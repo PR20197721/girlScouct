@@ -37,7 +37,7 @@ final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
 Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-String q = slingRequest.getParameter("q");
+String q = slingRequest.getParameter("q").trim();
 //String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 List<Hit> hits = new ArrayList<Hit>();
@@ -178,13 +178,13 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
             	if (((last-i)==1 && last >10 ) || (currentPageNo==10 &&i==9) ){
                 	%><li class="currentPageNo"><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
             	} else {
-                	%><li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
+                	%><li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=i*10%>"><%= i+1 %></a></li><%
             	}
        	 	}
     	}%>
 
     	<%if (currentPageNo != totalPage-1 ) {  %>
-    		<li><a href="${currentPage.path}.html?q=<%= q%>&start=<%=(currentPageNo + 1)*10%>">></a></li>
+    		<li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=(currentPageNo + 1)*10%>">></a></li>
     	<%}  %>
 </ul>
 	
