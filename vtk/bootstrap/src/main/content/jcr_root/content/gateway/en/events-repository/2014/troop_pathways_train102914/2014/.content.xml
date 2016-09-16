@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:primaryType="cq:Page">
-    <jcr:content
-        cq:lastModified="{Date}2014-10-16T16:48:27.751-04:00"
-        cq:lastModifiedBy="bmoore"
-        jcr:primaryType="cq:PageContent"/>
-</jcr:root>
