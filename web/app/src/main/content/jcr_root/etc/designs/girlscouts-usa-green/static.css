@@ -278,6 +278,8 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list {
   margin: 0 auto;
   overflow: visible;
+  display: flex;
+  justify-content: center;
 }
 
 #headerBar .inline-list > li {
@@ -293,7 +295,7 @@ a:hover.menuHighlight {
   /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-  padding-left: 20px;
+  padding-left: 52px;
 }
 #headerBar ul.inline-list li {
   line-height: 31px;
