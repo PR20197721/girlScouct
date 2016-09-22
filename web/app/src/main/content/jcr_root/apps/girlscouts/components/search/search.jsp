@@ -62,7 +62,6 @@ try {
 	startIdx = 0;
 }
 
-System.out.println("Start Index is: " + startIdx);
 int currentPageNo = startIdx/pageSize;
 
 
@@ -93,8 +92,6 @@ hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(que
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 
 String numberOfResults = String.valueOf(hits.size());
-
-System.out.println("Number of results: " + numberOfResults);
 
 if (startIdx + pageSize > hits.size()) {
 	endIdx = hits.size(); //last page
@@ -176,8 +173,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
 		}
 
     	for (int i = first; i < last; i++ ) { 
-                System.out.println("**** i is : " + i);
-    System.out.println("**** currentPageNo is : " + currentPageNo);
     		if (currentPageNo == i) {
             	%><li class="currentPageNo"><%= i+1 %></li><%
         	} else {
