@@ -49,7 +49,7 @@ if(q == null) q = "[[empty search criteria]]";
 if(q.length() <= 2) q = "[[too short search criteria]]";
 // pagination init
 String start = request.getParameter("start");
-if (start == null) start = "1";
+if (start == null) start = "0";
 if (start.length() == 0) start = "1";
 if (Integer.parseInt(start) < 0) start = "1";
 int pageSize = 10;
@@ -60,7 +60,8 @@ try {
 	startIdx = Integer.parseInt(start); 
 } catch (NumberFormatException e) {
 	startIdx = 0;
-} 
+}
+
 int currentPageNo = startIdx/pageSize;
 
 
@@ -91,6 +92,7 @@ hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(que
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 
 String numberOfResults = String.valueOf(hits.size());
+
 if (startIdx + pageSize > hits.size()) {
 	endIdx = hits.size(); //last page
 } else {
@@ -114,9 +116,10 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
 <%
 	GSDateTime today = new GSDateTime();
     GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
-    for(Hit hit: hits){
+    int pathIndex = startIdx;
+    for(int i = startIdx; i < endIdx ; i++) {
         try{
-            DocHit docHit = new DocHit(hit);
+            DocHit docHit = new DocHit(hits.get(i));
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
@@ -170,8 +173,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
 		}
 
     	for (int i = first; i < last; i++ ) { 
-                System.out.println("**** i is : " + i);
-    System.out.println("**** currentPageNo is : " + currentPageNo);
     		if (currentPageNo == i) {
             	%><li class="currentPageNo"><%= i+1 %></li><%
         	} else {
