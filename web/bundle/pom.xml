@@ -90,6 +90,11 @@
       <groupId>org.joda</groupId>
       <artifactId>joda-convert</artifactId>
     </dependency>
+    <dependency>
+      <groupId>commons-validator</groupId>
+      <artifactId>commons-validator</artifactId>
+      <version>1.5.1</version>
+    </dependency>
   </dependencies>
   <!-- ====================================================================== -->
   <!-- B U I L D D E F I N I T I O N -->
@@ -118,6 +123,8 @@
             <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
             <Import-Package>
               !com.google.common.reflect,
+	      !org.apache.avalon.framework.logger,
+	      !org.apache.log,
               *
             </Import-Package>
             <!-- Recursively embed dependency jars -->
