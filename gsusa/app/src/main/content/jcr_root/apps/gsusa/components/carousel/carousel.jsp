@@ -165,8 +165,8 @@ public  String readUrlFile(String urlString) throws Exception {
 						function attachListenerToVideoSlider () {
 							for (var k = 0; k < $('.main-slider iframe').length; k ++) {
 								var iframe = $('.main-slider iframe')[k], 
-									player,
-									vPlayerId = 'vimeoPlayer' + (i-1);
+									player, 
+									vPlayerId = $(iframe).attr('id');
 								if (iframe.id != undefined) {
 									player = new Vimeo.Player(vPlayerId);
 									player.ready().then( function() {
