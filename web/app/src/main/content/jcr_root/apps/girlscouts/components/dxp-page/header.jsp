@@ -51,7 +51,7 @@
 		<div class='columns'>
 			<!--PAGE STRUCTURE: HEADER BAR-->
 			<div id="headerBar" class="row collapse hide-for-small">
-				<% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
+				<% setCssClasses("medium-23 small-24 columns", request); %>
 				<cq:include path="<%= headerPath + "/global-nav" %>"
 					resourceType="girlscouts/components/global-navigation" />
                 <!-- top nav medium window hamburger -->

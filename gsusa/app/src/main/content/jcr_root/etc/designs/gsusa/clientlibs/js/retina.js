@@ -75,7 +75,7 @@ function retina(forceful){
 	                image = images[i];
 	                if (!!!image.getAttributeNode('data-no-retina')) {
 	                    // inkoo added: only if src cq5dam.npd
-	                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && image.src.indexOf("image.img.") > -1)) {
+	                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && null != image.src.match(/image_?\d*.img/g))) {
 			            // added: only if width < 768 pixels (mobile only)
 						    if ($(window).width() >= 768 && !isiPad) {	
 							    retinaImages.push(new RetinaImage(image));
@@ -94,7 +94,7 @@ function retina(forceful){
                 image = images[i];
                 if (!!!image.getAttributeNode('data-no-retina')) {
                     // inkoo added: only if src cq5dam.npd
-                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && image.src.indexOf("image.img.") > -1)) {
+                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && null != image.src.match(/image_?\d*.img/g))) {
 		            // added: only if width < 768 pixels (mobile only)
 					    if ($(window).width() >= 768 && !isiPad) {	
 						    retinaImages.push(new RetinaImage(image));

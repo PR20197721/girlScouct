@@ -128,9 +128,9 @@ public  String readUrlFile(String urlString) throws Exception {
 		
 		function pauseVideoSliderVideosVimeo(){
 			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				if(typeof($f) !== "undefined"){
-					$f(val).api('pause');
-				}
+				// if(typeof($f) !== "undefined"){
+				// 	$f(val).api('pause');
+				// }
 			});
 		}
 		
@@ -147,28 +147,46 @@ public  String readUrlFile(String urlString) throws Exception {
 				slick.slick('slickSetOption', 'autoplay', false, false);
 				slick.slick('autoPlay',$.noop);
 			}
+		};
+
+		startSlider = function() {
+			var slick = $('.main-slider');
+			if (slick != undefined && slick.slick != undefined) {
+				slick.slick('slickPlay');
+				// slick.slick('slickSetOption', 'autoplay', true, false);
+				// slick.slick('autoPlay',$.noop);
+			}
 		}
 
 		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
 			if ($('#vimeoPlayer' + i).length > 0) {
 				$('#vimeoPlayer' + i).load(function() {
-					$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-							function attachListenerToVideoSlider () {
-								for (var k = 0; k < $('.main-slider iframe').length; k ++) {
-								
-									var iframe = $('.main-slider iframe')[k],
-										player;
-									if (iframe.id != undefined) {
-										player = $f(iframe);
-										player.addEvent('playProgress', function() {
-											$(".zip-council").slideUp();
-											stopSlider();
-										}); 
-									}
+					$.getScript('https://player.vimeo.com/api/player.js', function() {
+						function attachListenerToVideoSlider () {
+							for (var k = 0; k < $('.main-slider iframe').length; k ++) {
+								var iframe = $('.main-slider iframe')[k], 
+									player,
+									vPlayerId = 'vimeoPlayer' + (i-1);
+								if (iframe.id != undefined) {
+									player = new Vimeo.Player(vPlayerId);
+									player.ready().then( function() {
+										player.playbar(false);
+									});
+									player.on('play', function() {
+										stopSlider();
+										$('.zip-council').css('display','none');
+									});
+									player.on('pause', function() {
+										$('.zip-council').css('display','block');
+									});
+									$('.main-slider button').click( function() {
+										player.pause();
+										startSlider();
+									});
 								}
 							}
-							
-							attachListenerToVideoSlider();
+						}
+						attachListenerToVideoSlider();
 					});
 				});
 			}

@@ -45,6 +45,7 @@
                 <address
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Address"
+					fieldDescription="Enter a valid address with commas for Map link to show (e.g. 420 5th Avenue, New York, NY 10018)"
                     name="./jcr:content/data/address"
                     xtype="textfield"/>
                 <details
