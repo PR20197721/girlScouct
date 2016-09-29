@@ -169,9 +169,6 @@ public  String readUrlFile(String urlString) throws Exception {
 									vPlayerId = $(iframe).attr('id');
 								if (iframe.id != undefined) {
 									player = new Vimeo.Player(vPlayerId);
-									player.ready().then( function() {
-										player.playbar(false);
-									});
 									player.on('play', function() {
 										stopSlider();
 										$('.zip-council').css('display','none');
