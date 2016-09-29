@@ -105,7 +105,7 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 					ValueMap valuemap = homepage.getProperties();
 					String email1=(String)valuemap.get("email1");
 					String email2=(String)valuemap.get("email2");
-					send(sourcePath,targetPath,email1,email2);
+					send(sourcePath,targetPath,email1,email2,valuemap);
 				}else{
 					throw new WCMException("Email template configuration was not found under /etc/msm/rolloutconfigs/gsdefault/jcr:content/gsNotification");
 				}
@@ -124,7 +124,7 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
             }
         }
         //send email using cq email service
-		public void send(String nationalPage, String councilPage,String email1, String email2) 
+		public void send(String nationalPage, String councilPage,String email1, String email2, ValueMap vm) 
 				throws WCMException{
 			try {
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
@@ -148,12 +148,13 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				String html = (String)configs.get("emlTemplate");
 				//html+="<p><b>National page URL:</b> <a href='http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) + "'>http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) +" </a></p>";
 				html+="<p><b>National page URL:</b> http://girlscouts-prod-aem61.adobecqms.net"+getURL(nationalPage) +"</p>";
-				html+="<p><b>Your page URL:</b> "+getURL(councilPage).replaceFirst("/content/([^/]+)","https://www.$1.org")+"</p>";
+				html+="<p><b>Your page URL:</b> "+getRealUrl(councilPage,vm)+"</p>";
+				System.out.println(getRealUrl(councilPage,vm));
 				html+="<p>Click <a href='http://authornew.girlscouts.org"+getURL(councilPage)+"'>here</a> to edit your page.</p>";
 				email.setHtmlMsg(html);
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
-					messageGateway.send(email);
+					//messageGateway.send(email);
 				}else{
 					log.error("No email address found for council :" + getBranch(councilPage));
 				}
@@ -168,6 +169,21 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
                 path = path.substring(0, path.lastIndexOf('/'));
             }
 			return path+".html";
+		}
+		
+		public String getRealUrl(String path, ValueMap vm){
+			if (path.endsWith("/jcr:content")) {
+                path = path.substring(0, path.lastIndexOf('/'));
+			}
+			if(vm.containsKey("domain") && !vm.get("domain").equals("")){
+				try{
+					String pagePath = path.substring(path.indexOf("/", path.indexOf("/", path.indexOf("/") + 1) +1), path.length());
+					return vm.get("domain") + pagePath + ".html";
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			return (path+".html").replaceFirst("/content/([^/]+)","https://www.$1.org");
 		}
 
 		public String getName() {

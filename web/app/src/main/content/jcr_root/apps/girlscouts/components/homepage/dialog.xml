@@ -160,6 +160,12 @@
                             name="./headerImagePath"
                             rootPath="/content/dam"
                             xtype="pathfield"/>
+                        <domain
+                        	jcr:primaryType="cq:Widget"
+                        	fieldLabel="Site Domain"
+                        	fieldDescription="Use if council's domain differs from their path in AEM. Example: https://www.girlscouts.org"
+                        	name="./domain"
+                        	xtype="textfield"/>
                         <primary-email
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Primary email address to receive the rollout notification."
