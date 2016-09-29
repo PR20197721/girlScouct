@@ -149,7 +149,6 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				//html+="<p><b>National page URL:</b> <a href='http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) + "'>http://girlscouts-prod.adobecqms.net"+getURL(nationalPage) +" </a></p>";
 				html+="<p><b>National page URL:</b> http://girlscouts-prod-aem61.adobecqms.net"+getURL(nationalPage) +"</p>";
 				html+="<p><b>Your page URL:</b> "+getRealUrl(councilPage,vm)+"</p>";
-				System.out.println(getRealUrl(councilPage,vm));
 				html+="<p>Click <a href='http://authornew.girlscouts.org"+getURL(councilPage)+"'>here</a> to edit your page.</p>";
 				email.setHtmlMsg(html);
 				if(!emailRecipients.isEmpty()){
