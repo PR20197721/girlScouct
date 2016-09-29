@@ -34,6 +34,7 @@ $lines-to-show: 3;
             }
             @media #{$small-only} {   
                 h3{
+                   font-size: rem-calc(14);
                    line-height: 1.25rem;   
                 }
                 p{

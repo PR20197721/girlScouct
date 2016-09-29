@@ -170,6 +170,11 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     // address
     String address = properties.get("address", "");
     address = address.replaceAll("[\\n\\r]", " ");
+	if(address.indexOf("'",0) > 0) {
+    	if(address.indexOf("\\'",0) <= 0) {
+	   		address = address.replace("'","\\'");
+    	}
+    }
     
     //Region
     String region = properties.get("region", "");
