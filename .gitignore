@@ -32,6 +32,17 @@ target/
 
 /web/app/bin/
 
+/vtk/app/bin/
+
+/vtk/ical4j-wrapper/target
+
+/vtk/ical4j-wrapper/bin
+
+/vtk/content/
+
+/vtk/api-bundle/bin/
+
+/vtk/replication-bundle/bin/
 
 bin/
 /target
