@@ -32,8 +32,6 @@ target/
 
 /web/app/bin/
 
-/vtk/
-
 
 bin/
 /target
