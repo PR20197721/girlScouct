@@ -4,6 +4,7 @@ jquery-ui.js
 jquery.dialogOptions.js
 jquery.ui.touch-punch.min.js
 jquery.custombox.js 
+jquery.mobile.custom.min.js
 calendar.js
 locationManager.js
 meeting.js
@@ -20,6 +21,15 @@ vtk-global.js
 jquery.imgareaselect.js
 binaryajax.js
 exif.js
+inputmask.js
+inputmask.extensions.js
+inputmask.custom.extensions.js
+inputmask.date.extensions.js
+jquery.maskedinput.js
+jquery.ui.touch-punch.min.js
+jquery.maskMoney.js
+jquery.ui.datepicker.validation.js
+jquery.validate.js
 
 ## use for prod
   react-with-addons-0.12.2.min.js

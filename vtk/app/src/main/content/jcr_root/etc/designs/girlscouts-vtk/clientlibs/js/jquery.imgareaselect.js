@@ -17,6 +17,7 @@
  * Math functions will be used extensively, so it's convenient to make a few
  * shortcuts
  */    
+	
 var abs = Math.abs,
     max = Math.max,
     min = Math.min,
@@ -40,6 +41,18 @@ function div() {
  *            An options object
  */
 $.imgAreaSelect = function (img, options) {
+	$.event.special.tap.tapholdThreshold = 250;
+	
+	$(document).on('vmousedown', function(event){
+	    holdCoords.holdX = event.pageX;
+	    holdCoords.holdY = event.pageY;
+	});
+
+	var holdCoords = {
+	    holdX : 0,
+	    holdY : 0
+	}
+	
     var 
         /* jQuery object representing the image */ 
         $img = $(img),
@@ -118,10 +131,12 @@ $.imgAreaSelect = function (img, options) {
         ua = navigator.userAgent,
         
         /* Is the user performing a touch action? */
-        touch,
+        touch = false,
 
         /* Various helper variables used throughout the code */ 
         $p, d, i, o, w, h, adjusted;
+    
+    	$("body").on("contextmenu", $img, function() { return false; });
 
     /*
      * Translate selection coordinates (relative to scaled image) to viewport
@@ -190,8 +205,8 @@ $.imgAreaSelect = function (img, options) {
      */
     function evX(event) {
         var coords = touchCoords(event) || event, x;
-
-        if (x = parseInt(coords.pageX))
+        x = (coords.pageX ? parseInt(coords.pageX) : parseInt(coords.holdX));
+        if (x)
             return x - parOfs.left;
     }
 
@@ -204,8 +219,8 @@ $.imgAreaSelect = function (img, options) {
      */
     function evY(event) {
         var coords = touchCoords(event) || event, y;
-
-        if (y = parseInt(coords.pageY))
+        y = (coords.pageY ? parseInt(coords.pageY) : parseInt(coords.holdY));
+        if (y)
             return y - parOfs.top;
     }
     
@@ -219,8 +234,12 @@ $.imgAreaSelect = function (img, options) {
      */
     function touchCoords(event) {
         var oev = event.originalEvent || {};
-        
-        return oev.touches && oev.touches.length ? oev.touches[0] : false;
+        if(touch){
+        	return oev.touches && oev.touches.length ? oev.touches[0] : holdCoords;
+        }
+        else{
+        	return false;
+        }
     }
 
     /**
@@ -774,7 +793,7 @@ $.imgAreaSelect = function (img, options) {
     /**
      * Start selection
      */
-    function startSelection() {
+    function startSelection(e) {
         $(document).off('mousemove touchmove', startSelection);
         adjust();
 
@@ -823,13 +842,14 @@ $.imgAreaSelect = function (img, options) {
      * @return false
      */
     function imgMouseDown(event) {
+    	event.preventDefault();
         /* Ignore the event if animation is in progress */
         if (event.type == 'mousedown' && event.which != 1 ||
                 $outer.is(':animated'))
             return false;
 
         /* If it's a touch action, set the touch flag */
-        touch = event.type == 'touchstart';
+        touch = event.type == 'taphold';
 
         adjust();
         startX = x1 = evX(event);
@@ -1051,7 +1071,7 @@ $.imgAreaSelect = function (img, options) {
         /* Calculate the aspect ratio factor */
         aspectRatio = (d = (options.aspectRatio || '').split(/:/))[0] / d[1];
 
-        $img.add($outer).off('mousedown touchstart', imgMouseDown);
+        $img.add($outer).off('mousedown taphold', imgMouseDown);
         
         if (options.disable || options.enable === false) {
             /* Disable the plugin */
@@ -1063,14 +1083,16 @@ $.imgAreaSelect = function (img, options) {
             if (options.enable || options.disable === false) {
                 /* Enable the plugin */
                 if (options.resizable || options.movable)
-                    $box.on({ 'mousemove touchmove': areaMouseMove,
-                        'mousedown touchstart': areaMouseDown });
-    
+                	$box.on({'mousemove touchmove': areaMouseMove, 
+                		'mousedown touchstart' : areaMouseDown });
+                	$box.add($outer).on('tap', function() { $box.add($outer).hide(); });
+ 
                 $(window).resize(windowResize);
             }
 
             if (!options.persistent)
-                $img.add($outer).on('mousedown touchstart', imgMouseDown);
+            	$img.add($outer).on({'mousedown taphold' : imgMouseDown, 
+            		'dragstart' : function(event){ event.preventDefault(); } });   
         }
         
         options.enable = options.disable = undefined;

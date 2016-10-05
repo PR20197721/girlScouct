@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-29T11:18:17.227-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-29T11:18:21.610-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/ags-&amp;-families]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Scouts Day @ the Symphony"
+        jcr:uuid="b3b8691e-1070-4716-9058-6be58dd99413"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="300 Water St, Jacksonville, FL, US, 32202"
+            details="&lt;p>Experience the story of a mischievous ferret as his wild escapades wreak havoc in an old instrument shop in Gregory Smith’s The Animated Orchestra. Be sure to practice your “ferret sounds” to help put this piece together, accompanied by a multitude of sound effects from the Jacksonville Symphony Orchestra. Pre-concert activities include the Symphony Guild’s Instrument Zoo. This events costs $7 per person. Please call (904) 354-5547 to register.&lt;/p>&#xa;"
+            end="{Date}2015-02-22T17:00:00.000-05:00"
+            locationLabel="Times Union Center for the Performing Arts"
+            srchdisp="Experience the story of a mischievous ferret as his wild escapades wreak havoc in an old instrument shop in Gregory Smith’s The Animated Orchestra. "
+            start="{Date}2015-02-22T14:00:00.012-05:00">
+            <image
+                jcr:lastModified="{Date}2015-01-29T11:18:17.223-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

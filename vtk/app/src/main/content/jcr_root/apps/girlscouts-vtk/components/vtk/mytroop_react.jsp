@@ -1,5 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
     java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -8,11 +9,12 @@
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory, sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class)).getContacts( user.getApiConfig(), troop.getSfTroopId());
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
-
+		
+		
 		String emailTo=",";
 		try{
 			for(int i=0;i<contacts.size();i++)
@@ -27,7 +29,7 @@
 				emailTo= emailTo.substring(1, emailTo.length());
 			}
 		}catch(Exception e){e.printStackTrace();}
-		//if(true)return;
+		
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
 			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
@@ -36,12 +38,13 @@
 
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-//if(true)return;
+
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
 	
 		 
     
 	%> 
+	
 	<%@include file='myTroopImg.jsp' %>
 	
 	
@@ -76,10 +79,13 @@
 		
 		  <div class="column large-24 large-centered mytroop">
 		    <dl class="accordion" data-accordion>
-		      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
-		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID)){ %>
-		            <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		      <dt data-target="panel1">
+		        <h3 class="on"><%=troop.getSfTroopName() %> INFO</h3>
+		        <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
+		           <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+		           <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
 		         <%} %>
+		         
 		      </dt>
 		      <dd class="accordion-navigation">
 		        <div class="content active" id="panel1">
@@ -93,3 +99,20 @@
 
 
 <% } %>
+
+<script>
+	$('.accordion > dt > label > input:checkbox').change(
+		function() {
+			var mailToList = $('.accordion > dt > a').attr('href');
+			if ($(this).is(':checked')) {
+				$('.accordion > dt > label').addClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\,/g, ';'));
+			} else {
+				$('.accordion > dt > label').removeClass("checked");
+				$('.accordion > dt > a').attr('href', mailToList.replace(/\;/g, ','));
+			}
+		}
+	);
+
+</script>
+

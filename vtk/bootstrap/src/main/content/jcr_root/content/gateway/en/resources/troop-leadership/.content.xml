@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-29T13:23:29.324-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-09-29T13:23:29.360-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:lastRolledout="{Date}2014-09-29T13:23:29.334-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveRelationship,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop Leadership"
+        jcr:uuid="e1fc97df-3ee4-46a6-870d-5d7e9733beb5"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <image
+            cq:lastRolledout="{Date}2014-09-29T13:23:29.333-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2014-09-29T13:23:19.336-04:00"
+            jcr:lastModifiedBy="mgarg"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+    <working-with-girls-/>
+    <working-with-parents-/>
+    <managing-troop-money-/>
+</jcr:root>

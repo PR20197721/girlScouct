@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:42.116-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/brownie,gateway:program-level/junior,gateway:program-level/cadettes,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Overnight Adventure @ Kennedy Space Center"
+        jcr:uuid="b3297c5f-587b-4ffb-8141-9527ff93b974"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="State Road 405 Between Range Road And Ea, Cape Canaveral, FL 32920"
+            details="Get ready for a night of excitement and exploration at the Scout Overnight Adventure. Scouts get nose-to-nose with Space Shuttle Atlantis, meet a veteran NASA astronaut and solve the Great Rocket Scavenger Hunt, led by our Overnight Adventure instructor team. This event costs $125 per girl and 105 per adult."
+            end="{Date}2015-04-12T09:00:00.000-04:00"
+            locationLabel="Kennedy Space Center"
+            register="https://www.kennedyspacecenter.com/education/overnight-adventure/overnight-adventure-scouts.aspx"
+            srchdisp="Get ready for a night of excitement and exploration at the Scout Overnight Adventure. Scouts get nose-to-nose with Space Shuttle Atlantis, meet a veteran NASA astronaut and solve the Great Rocket Scavenger Hunt, led by our Overnight Adventure instructor team."
+            start="{Date}2015-04-11T16:15:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-04-22T15:22:27.960-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2015-04-22T15:22:40.879-04:00"
+        cq:lastReplicatedBy="dlubin"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Visit Girl Scouts at Alachua County Libraries"
+        jcr:uuid="1afb3fb3-5390-4f42-9182-300d13e28b97"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>You’re invited to join in the fun with Girl Scouts at your local library to learn more about the exciting adventures that await. Come see how you can experience all the cool stuff you’ve ever imagined, explore new things and make tons of good friends along the way!&lt;br>&#xa;&lt;br>&#xa;We will be at the following locations:&lt;/p>&#xa;&lt;ul>&#xa;&lt;li>&lt;b>Newberry Library Branch | Alachua County Library District&lt;/b> - &lt;a href=&quot;https://www.google.com/maps/place/110+S+Seaboard+Dr,+Newberry,+FL+32669/@29.6451326,-82.6107851,17z/data=%213m1%214b1%214m2%213m1%211s0x88e8c11b8b759849:0xa3b37ba2eb45763b&quot;>MAP&lt;/a>&lt;br>&#xa;110 S Seaboard Dr&lt;br>&#xa;Newberry, FL 32669&lt;/li>&#xa;&lt;/ul>&#xa;&lt;ul>&#xa;&lt;li>&lt;b>Alachua County Library District&lt;/b> - &lt;a href=&quot;https://www.google.com/maps/place/Alachua+County+Library+District/@29.6515108,-82.3214201,17z/data=%213m1%214b1%214m2%213m1%211s0x88e8a3f3147a05ef:0xd889249f5e77d367&quot;>MAP&lt;/a>&lt;br>&#xa;401 E University Ave&lt;br>&#xa;Gainesville, FL 32601&lt;/li>&#xa;&lt;/ul>&#xa;&lt;ul>&#xa;&lt;li>&lt;b>High Springs Library Branch | Alachua County Library District&lt;/b> - &lt;a href=&quot;https://www.google.com/maps/place/135+NW+1st+Ave,+High+Springs,+FL+32643/@29.8274562,-82.5988871,17z/data=%213m1%214b1%214m2%213m1%211s0x88e8c9a5cd2b8321:0x2550b493f25229b2&quot;>MAP&lt;/a>&lt;br>&#xa;135 NW 1st Ave&lt;br>&#xa;High Springs, FL 32643&lt;/li>&#xa;&lt;/ul>&#xa;&lt;ul>&#xa;&lt;li>&lt;b>Millhopper Library Branch | Alachua County Library District&lt;/b> - &lt;a href=&quot;https://www.google.com/maps/place/3145+NW+43rd+St,+Gainesville,+FL+32606/@29.682241,-82.387544,17z/data=%213m1%214b1%214m2%213m1%211s0x88e8a4b4c3614691:0xfec21f3ffa202d74&quot;>MAP&lt;/a>&lt;br>&#xa;3145 NW 43rd St&lt;br>&#xa;Gainesville, FL 32606&lt;/li>&#xa;&lt;/ul>&#xa;&lt;ul>&#xa;&lt;li>&lt;b>Tower Road Branch Library&lt;/b> - &lt;a href=&quot;https://www.google.com/maps/search/Tower+Road+Branch+Library+3020+SW+75th+St+Gainesville,+FL+32608/@29.6259485,-82.423102,17z/data=%213m1%214b1&quot;>MAP&lt;/a>&lt;br>&#xa;3020 SW 75th St&lt;br>&#xa;Gainesville, FL 32608&lt;/li>&#xa;&lt;/ul>&#xa;&lt;p>We can’t wait to see you there!&lt;/p>&#xa;"
+            end="{Date}2014-08-24T17:00:00.000-04:00"
+            locationLabel="Please see locations below"
+            region="Alachua County"
+            start="{Date}2014-08-24T14:00:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-08-21T17:04:41.868-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/girlscouts-shared/images/heroes/about_camp.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,7 +1,8 @@
 <section class="yp-wrapper">
   <div class="sectionHeader">
-    <div class="column large-20 medium-20 large-centered medium-centered">
-      <p id="showHideReveal" onclick="yesPlan()" class="hide-for-print">VIEW YEAR PLAN LIBRARY</p>
+    <div class="column large-20 medium-20 large-centered medium-centered" style="display:table; padding-left:0;">
+    <span class="vkt-book-icon"></span> 
+      <p id="showHideReveal" onclick="yesPlan()" class="hide-for-print">SEE YEAR PLAN LIBRARY</p>
     </div>
   </div>
 

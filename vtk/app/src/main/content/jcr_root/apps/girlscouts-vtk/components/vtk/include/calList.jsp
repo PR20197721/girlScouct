@@ -4,8 +4,10 @@
 	<%
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	%>
-<div id="locMsg"></div>
-	<p>Select the <i class="icon-calendar"></i> to change the date, time, or cancel an individual meeting. Or select the <i class="icon-gear"></i> to use the planning wizard to reconfigure the calendar from that date forward.</p>
+    <div id="locMsg"></div>
+	<p>Select the <i class="icon-calendar"></i> to change the date, time, or cancel an individual meeting. 
+	You can also group multiple  meetings to a single date. 
+	Select the <i class="icon-gear"></i> to use the planning wizard to reconfigure the calendar from that date forward.</p>
 	<table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">
 		<%
 		int currentMeeting=0;
@@ -18,6 +20,7 @@
 			}
 			MeetingE meeting = (MeetingE)sched.get(date);
 			currentMeeting++;
+			Meeting _meeting= yearPlanUtil.getMeeting( user, troop, meeting.getRefId() ); 
 		%>
 		<tr>
 		  <td>
@@ -27,10 +30,12 @@
 		   </td>
 		  <td><span><%=currentMeeting %></span></td>
 		  <td><span><%= VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE,  date ) %></span></td>
-		  <td><span><%= yearPlanUtil.getMeeting( user, troop, meeting.getRefId() ).getName() %>
+		  
+		  <td><span><%= _meeting.getName() %>
 				<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")) { %>
 					<span class="alert">(Cancelled)</span>
 				<% } %></span></td>
+		  <td class="vtk_age_level <%= _meeting.getLevel() %>"><%= (_meeting.getLevel() ==null && _meeting.getLevel().length()>0) ? "" : _meeting.getLevel().charAt(0) %></td>
 		  <td>
 		  <% if( date!=null && date.after( new java.util.Date() ) ){%>
 		 	 <a onclick="showAlterYearPlanStartDate('<%= date.getTime() %>', '<%= (sched.size() +1 - currentMeeting) %>')" title="settings"><i class="icon-gear"></i></a>

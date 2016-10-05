@@ -255,6 +255,7 @@ public class CalendarUtil {
 			plan.setCalStartDate(Long.parseLong(dates.substring(0,
 					dates.indexOf(","))));
 		plan.setCalExclWeeksOf(exclDate);
+		
 		Cal calendar = plan.getSchedule();
 		if (calendar == null)
 			calendar = new Cal();
@@ -274,9 +275,9 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate,
-				oldFromDate);
+		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate, oldFromDate);
 		troop.setYearPlan(plan);
+		
 		// if sched dates > meetings = rm last N meetings
 		meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
 		troopUtil.updateTroop(user, troop);
@@ -445,5 +446,35 @@ public class CalendarUtil {
 		return isPast;
 
 	}
+	
+	public boolean updateDate(User user, Troop troop, long currDate, long newDate) throws java.lang.IllegalAccessException,
+			VtkException {
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_MEETING_ID))
+			throw new IllegalAccessException();
+
+		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
+				"MM/dd/yyyy hh:mm a");
+		YearPlan plan = troop.getYearPlan();
+		Cal cal = plan.getSchedule();		
+		String sched = cal.getDates();
+		
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate);
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTimeInMillis();
+			}
+		}
+		sched = sched.replace("" + currDate, newDate + "");
+		cal.setDates(sched);
+		cal.setDbUpdate(true);
+		troopUtil.updateTroop(user, troop);
+		return true;
+	}
+
 
 }

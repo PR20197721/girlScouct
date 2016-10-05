@@ -785,3 +785,6 @@ input[type=checkbox] + label {
 input[type="submit"].button {
   padding: 7px 10px;
 }
+
+  .vtkDisableA {pointer-events:none;}
+  .vtkDisableP {display:none;}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-04-06T14:45:47.558-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-02-23T14:51:32.292-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:categories/camp]"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Food Service"
+        jcr:uuid="96bf5944-866c-4c74-9aec-43f7f81de0e1"
+        sling:resourceType="girlscouts/components/three-column-page"
+        seoTitle="Food Service | Girl Scouts of Gateway Council">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-06-10T13:36:25.857-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2014-06-10T13:36:25.857-04:00"
+                        jcr:lastModifiedBy="mkaufman"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"/>
+                    <image
+                        jcr:created="{Date}2015-02-23T14:51:16.376-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-23T14:51:22.208-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/gateway/pageImgs/camp3.png"/>
+                    <text
+                        jcr:created="{Date}2014-06-10T13:36:29.895-04:00"
+                        jcr:createdBy="mkaufman"
+                        jcr:lastModified="{Date}2014-07-17T15:29:58.033-04:00"
+                        jcr:lastModifiedBy="ctruett"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;h5>&lt;b>For Summer Resident Camp&lt;/b>&lt;/h5>&#xa;&lt;p>All meals are prepared by a state-certified cook. Most meals are served family style in the dining hall. A snack is provided every day, and at least once a week girls will cook out in their unit. If your camper has special dietary needs, please contact the Camp Director at least two weeks prior to your session to discuss reasonable accommodations. Kateri can provide basic staple substitutions for vegetarian, gluten-free, and lactose-free diets with prior notice.&lt;/p>&#xa;&lt;p>Below is a sample of foods that may be served at meals. Menus vary each week.&lt;/p>&#xa;&lt;p>&lt;b>Breakfast&lt;br>&#xa; &lt;/b>Fruit bar — Pancakes — Eggs — Sausage — Bacon — Pancakes on a stick&amp;nbsp;— Cereal bar — Bagels — Fruit turnovers — Hashbrowns — Juice — Milk&lt;/p>&#xa;&lt;p>&lt;b>Lunch&lt;br>&#xa; &lt;/b>Salad bar — Sandwiches — Hamburgers — Chicken nuggets — Pizza —Tacos — Gatorade&lt;/p>&#xa;&lt;p>&lt;b>Dinner&lt;br>&#xa; &lt;/b>Lasagna — Turkey — Mashed potatoes — Vegetables — Ham — Chicken alfredo — Baked ziti — Bread/rolls — Dessert — Gatorade&lt;/p>&#xa;&lt;p>&lt;b>Snack&lt;br>&#xa; &lt;/b>Fruit —&amp;nbsp;Chex mix — Granola bars — Popsicles&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2015-04-06T14:45:47.552-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

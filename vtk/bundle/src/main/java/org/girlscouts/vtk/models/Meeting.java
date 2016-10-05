@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -9,6 +10,11 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node
 public class Meeting extends YearPlanComponent implements Serializable {
 
+	public Meeting() {
+		this.path = "/meeting";
+		this.position= 0;
+	}
+	
 	@Field(path = true)
 	String path;
 	@Field
@@ -18,17 +24,29 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	@Field
 	private String aidTags, resources, agenda;
 	@Field
-	private Integer position;
+	private Integer position=0;
 	@Field private Boolean isAchievement; 
 
+	
 	@Collection
 	private java.util.List<Activity> activities;
 
 	@Collection
 	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
+	
+	@Field
+	private String meetingPlanType;
+	
+	
+	@Field
+	private String catTags;
+	
+	
+	
+	
 	public Integer getPosition() {
-		return position;
+		return position ==null ? 0 : position;
 	}
 
 	public void setPosition(Integer position) {
@@ -76,9 +94,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.agenda = agenda;
 	}
 
-	public Meeting() {
-		this.path = "/meeting";
-	}
+	
 
 	public String getLevel() {
 		return level;
@@ -136,4 +152,71 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.isAchievement = isAchievement;
 	}
 
+	
+
+	public String getMeetingPlanType() {
+		return meetingPlanType;
+	}
+
+	public void setMeetingPlanType(String meetingPlanType) {
+		this.meetingPlanType = meetingPlanType;
+	}
+
+	public String getCatTags() {
+		return catTags;
+	}
+
+	public void setCatTags(String catTags) {
+		this.catTags = catTags;
+	}
+
+	
+
+	
+	public static Object getStaticValue(final String className, final String fieldName) throws SecurityException, NoSuchFieldException, ClassNotFoundException,
+    IllegalArgumentException, IllegalAccessException {
+
+// Get the private field
+final  java.lang.reflect.Field field = Class.forName(className).getDeclaredField(fieldName);
+// Allow modification on the field
+field.setAccessible(true);
+// Return the Obect corresponding to the field
+return field.get(Class.forName(className));
+}
+
+
+	
+
+	
+
+
+
+
+
+	
+	
+
+	
+	
+
+
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+
+	
+	
 }

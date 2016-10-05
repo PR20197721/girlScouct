@@ -23,5 +23,7 @@ public interface CouncilDAO {
 			throws IllegalAccessException;	
 	public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String councilCode)
 			throws IllegalAccessException;
+	
+	public void GSMonthlyRpt();
 
 }

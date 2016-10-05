@@ -30,6 +30,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 		this.uid = "A" + new java.util.Date().getTime() + "_" + Math.random();
 		this.cost = cost;
 		this.isEditable = true;
+		
 	}
 
 	@Field(path = true)	String path;
@@ -48,9 +49,14 @@ public class Activity extends YearPlanComponent implements Serializable {
 	@Field private String registerUrl;
 	@Field private String emlTemplate;
 	@Collection java.util.List<SentEmail> sentEmails;
-	
 	private boolean isDbUpdate=false;
 	@Field String img;
+	
+	//outdoor info
+	@Field Boolean isOutdoor= false, isOutdoorAvailable=false;
+	@Field String activityDescription_outdoor;
+	
+	
 	
 	public String getRegisterUrl() {
 		return registerUrl;
@@ -323,4 +329,31 @@ public class Activity extends YearPlanComponent implements Serializable {
 	public void setImg(String img) {
 		this.img = img;
 	}
+
+	public Boolean getIsOutdoor() {
+		
+		return isOutdoor ==null ? false : isOutdoor;
+	}
+
+	public void setIsOutdoor(Boolean isOutdoor) {
+		this.isOutdoor = isOutdoor;
+	}
+
+	public String getActivityDescription_outdoor() {
+		return activityDescription_outdoor;
+	}
+
+	public void setActivityDescription_outdoor(String activityDescription_outdoor) {
+		this.activityDescription_outdoor = activityDescription_outdoor;
+	}
+
+	public Boolean getIsOutdoorAvailable() {
+		return isOutdoorAvailable ==null ? false : isOutdoorAvailable;
+	}
+
+	public void setIsOutdoorAvailable(Boolean isOutdoorAvailable) {
+		this.isOutdoorAvailable = isOutdoorAvailable;
+	}
+	
+	
 }

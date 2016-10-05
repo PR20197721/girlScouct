@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-22T11:07:32.681-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Spread the Love- DBJ"
+        jcr:uuid="11b64393-14bf-48c0-99d7-01fe86874e46"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="3886 Atlantic Boulevard, Jacksonville, FL 32207"
+            color="#EC008C"
+            details="&lt;p>Spread the Love (DBJ)&lt;br>&#xa;Grades: K, 1, 2, 3, 4, 5&lt;br>&#xa;&lt;br>&#xa;Learn how to best love yourself and spread your love and kindness to others in this fun Valentine’s Day themed workshop. Discuss topics and work with your hands to discover how important it is to express yourself through YOUR personality. After all its yours to express!&amp;nbsp; Fun crafts, cool creations and maybe even a poem are in a must during this program!&amp;nbsp;Fun patch included.&lt;br>&#xa;&lt;br>&#xa;*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;* For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&amp;nbsp;&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&amp;nbsp;&lt;br>&#xa;*Event registration closes Feb. 8&lt;br>&#xa;&lt;br>&#xa;$15/girl, $1/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-02-13T11:30:00.000-05:00"
+            locationLabel="Hope at Hand"
+            register="http://girlscouts-gateway.doubleknot.com/event/spread-the-love-dbj/1831919"
+            start="{Date}2016-02-13T10:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-22T11:07:32.676-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

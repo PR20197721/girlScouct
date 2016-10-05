@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:36.432-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/cadettes]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="PA Weekend"
+        jcr:uuid="1c698730-7a68-47d4-99dc-efd184653e56"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="4499 Trefoil Trail, Middleburg, FL 32068"
+            details="Program Aides, also known as PAs, are Girl Scouts who plan and lead activities and events for younger girls. On Saturday night, girls will elect an Event Director and work in committees to plan an event for younger Girl Scouts. On Sunday, girls will be using their newly acquired leadership skills and event expertise to host a Daisy Fun Day or a Brownie Play Day. Note: In order for girls to participate and be certified for the Program Aide training, girls must attend the entire weekend. If you believe a girl cannot attend the complete weekend from Friday to Sunday, we kindly ask you to reschedule for a weekend when she can. This event costs $40 per girl and $25 per parent."
+            end="{Date}2014-01-25T14:00:00.000-05:00"
+            locationLabel="North Fork Leadership Center"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=503636783"
+            srchdisp="Program Aides, also known as PAs, are Girl Scouts who plan and lead activities and events for younger girls. This training weekend enables girls to explore their leadership through participation in hands-on activities, skill building, and reflection."
+            start="{Date}2014-01-23T18:30:00.000-05:00"/>
+    </jcr:content>
+</jcr:root>

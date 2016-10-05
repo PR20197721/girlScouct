@@ -4,11 +4,11 @@ VERSION=$1
 
 # Get the current version if version number is not specified
 if [ -z $VERSION ]; then
-    VERSION=`sed '10q;d' pom.xml | sed 's/.*<version>\(.*\)<\/version>/\1/'`
+    VERSION=`head -1 ../VERSIONS.txt | cut -d ' ' -f 1`
 fi
 
 SERVER_LIST=(localhost)
-PORT_LIST=(4502 4503 4505 4506)
+PORT_LIST=(4502 4503 4504 4505 4506)
 
 for server in ${SERVER_LIST[@]}; do
 	echo "Trying server $server"

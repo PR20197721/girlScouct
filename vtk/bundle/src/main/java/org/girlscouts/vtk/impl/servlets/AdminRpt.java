@@ -6,11 +6,7 @@ import java.io.OutputStream;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpSession;
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Properties;
-import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.*;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
@@ -24,12 +20,15 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.ejb.CouncilRpt;
 import org.girlscouts.vtk.ejb.YearPlanUtil;
 
-@Component(label = "admin rpt download", description = "admin rpt download", metatype = true, immediate = true)
-@Service
+@Component(metatype = true, immediate = true)
 @Properties({
-		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "csv"),
-		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET") })
+	@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+	@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "csv"),
+	@Property(name="label", value="Girl Scouts VTK Admin Report"),
+	@Property(name="description", value="Girl Scouts VTK Admin Report Download"),
+	@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET")
+})
+@Service
 public class AdminRpt extends SlingSafeMethodsServlet {
 
 	@Reference
@@ -57,8 +56,6 @@ public class AdminRpt extends SlingSafeMethodsServlet {
 			if (!(user.getApiConfig().getUser().isAdmin() && user
 					.getApiConfig().getUser().getAdminCouncilId() > 0)) {
 
-				System.err
-						.println("Admin report download : Sorry! You currently don't have permission to view this tab. For questions, click Contact Us at the top of the page.");
 				try {
 					outputStream.close();
 				} catch (Exception eee) {

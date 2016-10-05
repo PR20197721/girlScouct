@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-22T15:57:18.814-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Brownie and Junior Girl Scout Series for Coppergate Elementary"
+        jcr:uuid="34ae6a56-2886-4d5d-83c1-1fcbcbf862bc"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="3460 Copper Colts Court, Middleburg, FL 32068 "
+            color="#EC008C"
+            details="&lt;p>Girls from &lt;b>Coppergate Elementary&lt;/b> can participate in this program to test out the Girl Scout Experience and learn how fun and beneficial Girl Scouts can be!&amp;nbsp; Series programs focus on a single Journey allowing girls to dig deep into a subject during this 6 week program:&lt;br>&#xa;&lt;br>&#xa;&lt;b>Brownies (2-3)&lt;/b>—In&amp;nbsp;&lt;i>A World of Girls&lt;/i>, Brownies discover different cultures around the world and see how storytelling can inspire us to help others. Then girls may team up to tell their own stories through theater, crafts, painting, or even by developing their own advertising.&lt;/p>&#xa;&lt;p>&lt;b>Juniors (4-5)&lt;/b>—Exploring new roles and busting stereotypes are just two of the activities Juniors enjoy on the&amp;nbsp;&lt;i>aMUSE&lt;/i>&amp;nbsp;Journey. Whether it’s role-playing, speaking to actors about their characters, or starting a “mix-it-up” day to meet new classmates, girls develop increased confidence and inspire others.&lt;br>&#xa;&lt;br>&#xa;$25/girl&lt;br>&#xa;Contact: Heather Persampieri, (904) 652-0086&amp;nbsp;or&amp;nbsp;&lt;a href=&quot;mailto:hpersampieri@girlscouts-gateway.org&quot;>hpersampieri@girlscouts-gateway.org&lt;/a>&lt;/p>&#xa;"
+            end="{Date}2016-02-02T17:00:00.000-05:00"
+            locationLabel="Coppergate Elementary"
+            register="http://girlscouts-gateway.doubleknot.com/event/brownie-and-junior-series-for-coppergate-elementary/1856630"
+            start="{Date}2016-02-02T16:00:00.004-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-22T15:57:18.808-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

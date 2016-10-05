@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-07-30T01:49:32.584-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:tags="[gateway:program-level/ags,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She's a Park Explorer (CSA)"
+        jcr:uuid="dcf2ef6e-da7b-4fa5-b294-8af9d20fea27"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="100 Savannah Blvd, Micanopy, FL, US, 32667"
+            details="Paynes Prairie is home to many plants and animals, including alligators and horses.  As a wetland, it also has a very important role in cleaning and protecting our drinking water.  Come explore La Chua Trail and learn how millions of gallons of water per day makes a journey into Paynes Prairie, down Alachua Sink, and eventually becomes your drinking water.  Help rangers determine the quality of water in different habitats and discover what you can do to help keep water clean and wetland habitats healthy.  This event costs $7 per person."
+            end="{Date}2014-10-25T15:00:00.000-04:00"
+            locationLabel="Paynes Prairie Preserve State Park"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=506276610"
+            srchdisp="Help rangers determine the quality of water in different habitats and discover what you can do to help keep water clean and wetland habitats healthy."
+            start="{Date}2014-10-25T13:00:00.000-04:00"/>
+    </jcr:content>
+</jcr:root>

@@ -9,7 +9,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.*;
 import org.apache.felix.scr.annotations.sling.SlingFilter;
 import org.apache.felix.scr.annotations.sling.SlingFilterScope;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -21,6 +21,10 @@ import org.slf4j.LoggerFactory;
  */
 @SlingFilter(generateComponent = false, generateService = true, order = -700, scope = SlingFilterScope.REQUEST)
 @Component(immediate = true, metatype = false)
+@Properties ({
+        @Property(name="label", value="Girl Scouts Logging Filter"),
+        @Property(name="description", value="Girl Scouts Logging Filter")
+})
 public class LoggingFilter implements Filter {
 
 	private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
