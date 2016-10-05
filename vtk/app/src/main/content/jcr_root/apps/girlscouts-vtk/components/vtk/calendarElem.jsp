@@ -288,7 +288,6 @@ function saveCalElem() {
 	   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
 		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val();
-					debugger;
         var x = moment(sTimeCancel.get());
         var x1 = moment(x.format('MM/DD/YYYY')+' '+hour);
 
