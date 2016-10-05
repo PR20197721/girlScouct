@@ -127,8 +127,6 @@
       	  addCalendar(mids);
         }
 
-
-
         function addCalendar(mids){
 
               var hour = $('#cngTime0X').val() +' '+  $('#cngAP0X').val();

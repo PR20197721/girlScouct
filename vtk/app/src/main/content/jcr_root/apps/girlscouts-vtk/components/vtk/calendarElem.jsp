@@ -288,7 +288,7 @@ function saveCalElem() {
 	   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
 		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val();
-
+					debugger;
         var x = moment(sTimeCancel.get());
         var x1 = moment(x.format('MM/DD/YYYY')+' '+hour);
 
@@ -302,8 +302,10 @@ function saveCalElem() {
 	}
 };
 
-if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
-  $('select').css('background-image', 'none');
+if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)) {
+	if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+	  $('select').css('background-image', 'none');
+	}
 }
 
 
