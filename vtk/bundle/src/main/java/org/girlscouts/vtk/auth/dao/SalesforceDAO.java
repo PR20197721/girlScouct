@@ -989,7 +989,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				connection = connectionFactory.getConnection();
 				HttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
-System.err.println("test troop rspcode: " + statusCode );	
+System.err.println("test rrt troop rspcode: " + statusCode );	
 				if (statusCode != HttpStatus.SC_OK) {
 					
 					throw new IllegalAccessException();

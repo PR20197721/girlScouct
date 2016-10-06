@@ -909,7 +909,9 @@ try{
 
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
-		try{
+		try{ 
+			
+			   if( !tmp[i].getClass().isInstance( YearPlanComponentType.MEETING)) continue;
 			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
 			  
