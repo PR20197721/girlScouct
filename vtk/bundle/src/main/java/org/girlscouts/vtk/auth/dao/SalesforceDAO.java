@@ -110,7 +110,7 @@ public class SalesforceDAO {
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-					
+System.err.println(">>>>> " + rsp);	
 					
 					
 			}else{
@@ -989,7 +989,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				connection = connectionFactory.getConnection();
 				HttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
-	
+System.err.println("test troop rspcode: " + statusCode );	
 				if (statusCode != HttpStatus.SC_OK) {
 					
 					throw new IllegalAccessException();
@@ -1004,7 +1004,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				String troopJsonFile= vtkDemoPath +"/vtkTroop_"+apiConfig.getDemoUserName()+".json";
 				rsp= readFile(troopJsonFile).toString();
 			}
-			
+System.err.println("test troop: "+ rsp);			
 		troops= troopInfo_parse(user, rsp, apiConfig);
 		
 		} catch (Exception e) {

@@ -16,11 +16,34 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
+   
+ 
+     <div id="vtk_banner2234" style="border:5px solid yellow"></div>
+    <script>
+    
+    $.ajax({
+        url: '/content/girlscouts-vtk/en/myvtk/999/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        type: 'GET',
+        data: {    
+            a: Date.now()
+        },
+        success: function(result) {
+            document.getElementById("vtk_banner2234").innerHTML=result;
+        }
+    });
+    
+    </script>
+    
+    
+    
    <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
-
+   
+    
+    
   <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
+   
     
     <div id="thePlan">
 

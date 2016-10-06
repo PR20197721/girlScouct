@@ -1018,11 +1018,43 @@ function loadTabNav(activeTab) {
         var vtkNav = document.getElementById("fullNav");
         vtkNav.innerHTML = html;
         getRelogin();
+        //loadVtkBanner();
 
         if ($('.tabs dd').length == 6) {
             $('.tabs dd').css('width', '100%');
         }
     })
+}
+
+
+function loadVtkBanner(){
+console.log("loading banner...");	
+	$.ajax({
+        url: '/content/girlscouts-vtk/en/myvtk/999/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        type: 'GET',
+        data: {    
+            a: Date.now()
+        },
+        success: function(result) {
+      console.log(1);
+      //console.log(document.getElementById("vtk_banner").innerHtml);
+      vtkBanner("result");
+        	 //document.getElementById("vtk_banner").innerHtml=result;
+        }
+    });
+}
+
+function vtkBanner(result__){
+	console.log( "vtkBanner..."+ result__);
+	if(document.getElementById("vtk_banner2234")){
+		console.log("yes...");
+console.log("checking b4: "+ document.getElementById("vtk_banner2234").innerHtml);
+		document.getElementById("vtk_banner2234").innerHtml=result__;
+console.log("checking after: "+ document.getElementById("vtk_banner2234").innerHtml);
+	}else{
+		console.log("no...");
+		window.setTimeout(function() { vtkBanner(result__); }, 1);
+	}
 }
 
 function getParameterByName(name) {
@@ -2126,6 +2158,9 @@ var initNotes = (function(global, ModalVtk, $) {
         return ajaxConnection(ajaxOptions);
     }
 
+    
+
+    
     $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);

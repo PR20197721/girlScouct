@@ -32,6 +32,23 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 %>
 <%@include file="include/bodyTop.jsp"%>
 <%@include file="include/modals/modal_help.jsp"%>
+
+ <div id="vtk_banner2234"  style="border:5px solid yellow"></div>
+    <script>
+    
+    $.ajax({
+        url: '/content/girlscouts-vtk/controllers/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        type: 'GET',
+        data: {    
+            a: Date.now()
+        },
+        success: function(result) {
+            document.getElementById("vtk_banner2234").innerHTML=result;
+        }
+    });
+    
+    </script>
+
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
