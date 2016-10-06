@@ -19,8 +19,8 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 }
 java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
 
-%>     
- 
+%>
+
 <h5><strong><%=yearPlanUtil.getMeeting(user, troop, meeting.getRefId() ).getName() %></strong></h5>
 
 <div id="locMsg"></div>
@@ -43,7 +43,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 	</div>
 
-	
+
 		<div data-parent="main" data-name="calendar-meeting" data-default="true"  data-title="" data-fetch="" class="vtk-meeting-calendar-body column small-24">
 			 <div class="row">
 			 	<div class="small-24 medium-8 column">
@@ -53,7 +53,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 		</p>
 
 			 		<p>
-			 			Select a <strong>new date or time</strong> for this meeting and "Save" your choice	
+			 			Select a <strong>new date or time</strong> for this meeting and "Save" your choice
 			 		</p>
 			 	</div>
 
@@ -74,7 +74,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 							</div>
 							<div class="columm small-6 left">
 								<select id="cngAP0" name="cngAP0" class="ampm">
-									<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
+									<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option>
 									<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
 								</select>
 							</div>
@@ -86,13 +86,13 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 			 	<div class="vtk-meeting-calendar-foot column small-24 column">
 					<div class="row">
-						<input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right"> 
+						<input type="button" value="save" id="saveCalElem" onclick="saveCalElem()" class="button btn right">  <input type="button" value="cancel" id="cancelCalElem" onclick="cancelModal()" class="button btn right">
 					</div>
-				</div>	
+				</div>
 
 
 				<div id="dialog-confirm"></div>
-		 	
+
 			 </div>
 		</div>
 
@@ -100,16 +100,16 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			<div class="row">
 			 	<div class="small-24 column">
 					<%@include file="include/cancelMeeting.jsp"%>
-				</div>				
-			</div>	
+				</div>
+			</div>
 		</div>
-		
+
 		<div data-parent="main" data-name="cancel-meeting" data-title="Cancel Meeting" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
             <div class="row">
                 <div class="small-24 column">
                     <%@include file="include/cancelMeeting.jsp"%>
-                </div>              
-            </div>  
+                </div>
+            </div>
         </div>
 
 		<div data-parent="main" data-name="combine-meeting" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
@@ -118,17 +118,17 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 						 <%@include file="include/combineMeetings.jsp"%>
 					</div>
 
-					
-				</div>	
+
+				</div>
 			</div>
 		</div>
-		
+
 		<div data-parent="combine-meeting" data-name="combine-meeting-time" data-title="Combine Meeting Dates" data-default="false" data-fetch=""  class="vtk-meeting-calendar-body column small-24">
             <div class="row">
                 <div class="small-24 column">
                     <%@include file="include/combineMeetingsAddCal.jsp"%>
-                </div>              
-            </div>  
+                </div>
+            </div>
         </div>
 
 		<div data-parent="combine-meeting" data-name="select-meeting" data-title="" data-default="false" data-fetch="http//localhost:4503"   class="vtk-meeting-calendar-body column small-24">
@@ -137,16 +137,16 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 
 
-					
-	
-		
+
+
+
 
 <script>
 
 
 	function cancelModal(){
 		$('#gsModal').children('.header').children('a').children('i').trigger('click');
-	}	
+	}
 
 	var tabsVtk = (function(){
 
@@ -210,7 +210,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			goto($('[data-default="true"]').data('parent'));
 		}
 
-		
+
 		return {
 			goto:goto,
 			goBack: goBack
@@ -219,7 +219,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 </script>
 
 
-		
+
 <script>
 
 var sTimeCancel = selectedTime()
@@ -228,16 +228,16 @@ $(function() {
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
 		  minDate: 0,
-		  onSelect: function(dateText, inst) { 
+		  onSelect: function(dateText, inst) {
 		      var dateAsString = dateText; //the first parameter of this function
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
 
 		      $('#change-new-time').show().children('span').text(dateAsString);
 
 		      	sTimeCancel.set(new Date(dateAsString).getTime())
-		      
+
 		      document.getElementById("cngDate0").value =dateAsString;
-		      
+
 		   }
 	});
 
@@ -247,10 +247,10 @@ $(function() {
 
 
 function doChkSubmitValid(){
-	if ($('#frmCalElem').valid()) {	
+	if ($('#frmCalElem').valid()) {
 
 		document.getElementById("newCustActivity").disabled=false;
-		}		
+		}
 }
 
 $(function() {
@@ -259,7 +259,7 @@ $(function() {
 
 		$("#newCustActivity_startTime").inputmask("h:s", {});
 		$("#newCustActivity_endTime").inputmask("h:s", {});
-		
+
 });
 
 $.validator.addMethod('time', function(value, element, param) {
@@ -287,10 +287,9 @@ function saveCalElem() {
 	if($('#cclRadio').prop('checked')){
 	   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
-		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val(); 
-
+		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val();
         var x = moment(sTimeCancel.get());
-        var x1 = moment(x.format('MM-DD-YYYY')+' '+hour);
+        var x1 = moment(x.format('MM/DD/YYYY')+' '+hour);
 
         if (x1.isValid()) {
 			updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
@@ -302,15 +301,17 @@ function saveCalElem() {
 	}
 };
 
-if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
-  $('select').css('background-image', 'none');
+if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)) {
+	if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+	  $('select').css('background-image', 'none');
+	}
 }
 
 
 
 
 function fnOpenNormalDialog() {
-    
+
     $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
 
 
@@ -333,7 +334,7 @@ function fnOpenNormalDialog() {
            	"Return to Specify Dates and Locations": function () {
 	            $(this).dialog('close');
 	            newLocCal();
-	            
+
         	}
         },
 
@@ -346,4 +347,4 @@ function fnOpenNormalDialog() {
 
 
 
-</script> 
+</script>
