@@ -22,7 +22,7 @@
     <script>
     
     $.ajax({
-        url: '/content/girlscouts-vtk/en/myvtk/999/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        url: '/content/gateway/en/kai-test.simple.html',
         type: 'GET',
         data: {    
             a: Date.now()
