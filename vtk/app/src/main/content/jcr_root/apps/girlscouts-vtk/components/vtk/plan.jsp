@@ -16,35 +16,35 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
-   
- 
+
+
      <div id="vtk_banner2234" style="border:5px solid yellow"></div>
     <script>
-    
+
     $.ajax({
         url: '/content/gateway/en/kai-test.simple.html',
         type: 'GET',
-        data: {    
+        data: {
             a: Date.now()
         },
         success: function(result) {
             document.getElementById("vtk_banner2234").innerHTML=result;
         }
     });
-    
+
     </script>
-    
-    
-    
+
+
+
    <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
-   
-    
-    
+
+
+
   <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
-   
-    
+
+
     <div id="thePlan">
 
       <script type="text/javascript">
@@ -68,8 +68,8 @@
                  }.bind(this),
              });
          } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
-         
-         
+
+
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -78,7 +78,7 @@
                 }
 
              });
-             
+
          }
        },
         getInitialState: function() {
@@ -164,19 +164,29 @@
        var outdoorIcon = React.createClass({
     	   displayName:"outdoorIcon",
     	   render:function(){
-    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,
-    		       isOutdoor = this.props.isOutdoor;
+    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,imgName;
+
+               if (this.props.isOutdoor) {
+                 imgName =  "outdoor.png";
+              } else {
+                  imgName = "indoor.png";
+              }
+
+               var options = {
+                 className: 'outdoor-icon',
+                 src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
+                 style:{
+                    width:'45px'
+                 }
+               }
+
     		   if (isOutdoorAvailable) {
-    			   if (isOutdoor) {
-    		   			return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Green.png"}));
-    			   } else {
-    				   return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Yellow.png"}));
-    			   }
-    		   } 
+    				   return (React.createElement("img", options));
+    		   }
 			   return null;
     	   }
     	})
-       
+
 
        var MeetingComponent = React.createClass({displayName: "MeetingComponent",
         render: function() {
@@ -280,7 +290,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         },
       onReorder: function(order) {
         isActivNew=1;
-        
+
       },
       componentDidMount: function() {
         resizeWindow();
@@ -371,10 +381,10 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           }
             var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
-        		  
+
               //React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)
               React.createElement("a", {href: src}, this.props.name)
-              
+
           );
         }
       });
@@ -440,8 +450,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 var src="javascript:newLocCal()";
 
       return (
-    		  React.createElement("a", {href: src}, 
-    	         
+    		  React.createElement("a", {href: src},
+
 			        React.createElement("div", {className: bgcolor(obj, comment, 1)},
 			        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
 			        React.createElement("div", {className: "date"},
@@ -451,7 +461,7 @@ var src="javascript:newLocCal()";
 			        )
 			      )
       )
-      
+
            );
         }
       });
