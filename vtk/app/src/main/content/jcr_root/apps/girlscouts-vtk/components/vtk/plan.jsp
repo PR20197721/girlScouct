@@ -22,7 +22,7 @@
     <script>
 
     $.ajax({
-        url: '/content/gateway/en/kai-test.simple.html',
+        url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
         data: {
             a: Date.now()
