@@ -269,7 +269,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	<%if(includeCart && register!=null && !register.isEmpty() && !eventID.equals("-1")){%>
         <div class="eventDetailsRegisterLink">
     	 	<a href="<%=genLink(resourceResolver, register)%>">Register Now</a>
-    	 	<a onclick="addToCart('<%= title.replace("'","\\'") %>', '<%= eventID %>', '<%= href %>'); return false;">Add to MyActivities</a>
+    	 	<a onclick="addToCart('<%= title.replaceAll("'","\\\\'").replaceAll("\"","&quot") %>', '<%= eventID %>', '<%= href %>'); return false;">Add to MyActivities</a>
     	</div>
      <%} %>
 
@@ -279,6 +279,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 				}
 					} catch(Exception e){
+						e.printStackTrace();
 			}
 		}
 	}
