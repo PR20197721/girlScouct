@@ -928,9 +928,9 @@ React.createElement(ActivityPlan),
 
                     var _style = {
                         position: "absolute",
-                        width: "40px",
-                        top: "-13px",
-                        left: "-42px",
+                        width: "30px",
+                        top: "-8px",
+                        left: "-38px",
                         cursor: 'pointer'
                     }
 
