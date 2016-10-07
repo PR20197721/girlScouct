@@ -29,6 +29,7 @@
 				String start2 = prop2.getProperty("start").getString();
 				return start1.compareTo(start2);
 			} catch(Exception e){
+				e.printStackTrace();
 				return 0;
 			}
 		}
