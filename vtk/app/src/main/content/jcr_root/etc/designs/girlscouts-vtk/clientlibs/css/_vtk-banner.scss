@@ -1,0 +1,48 @@
+#vtk_banner2234{
+	margin-top: -20px;
+	#main{
+
+		//<< Hack solution to the wrap done  by the CMS AEM
+		&.row{
+			&.content{
+				padding-top:0px !important;
+			}
+			&.row{
+				margin-left: 0px !important;
+				margin-right: 0px !important;
+				&.columns{
+					padding-left: 0px !important;
+					padding-right: 0px !important;
+				}
+			}
+			.columns{
+				padding-left: 0px !important;
+				padding-right: 0px !important;
+			}
+		}
+	}
+	//>>
+
+
+}
+
+
+.vtk-banner-image{
+		img{
+			width: 100%;
+			height: auto;
+		}
+}
+
+.vtk-banner-button{
+	color: white;
+	width:30px;
+	height: 30px;
+	position: absolute;
+	top:0px;
+	right:7px;
+	z-index: 95;
+	i{
+		font-size: 37px !important;
+	}
+}

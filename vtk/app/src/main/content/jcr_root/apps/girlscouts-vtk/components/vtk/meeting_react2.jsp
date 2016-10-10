@@ -33,11 +33,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/bodyTop.jsp"%>
 <%@include file="include/modals/modal_help.jsp"%>
 
-  <div class="row">
-      <div class="column small-24">
-        <div id="vtk_banner2234"  style=""></div>
-      </div>
-  </div>
+
+    <div id="vtk_banner2234"  style=""></div>
 
 
 
@@ -52,6 +49,11 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
         },
         success: function(result) {
             document.getElementById("vtk_banner2234").innerHTML=result;
+            $(function(){
+              $('.vtk-banner-button').click(function(){
+                $('.vtk-banner-image').slideUp();
+              });
+            });
         }
     });
 
