@@ -48,7 +48,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
             a: Date.now()
         },
         success: function(result) {
-            document.getElementById("vtk_banner2234").innerHTML=result;
+          // document.getElementById("vtk_banner2234").innerHTML=result;
+          $("#vtk_banner2234").html(result);
             $(function(){
               $('.vtk-banner-button').click(function(){
                 $('.vtk-banner-image').slideUp();
