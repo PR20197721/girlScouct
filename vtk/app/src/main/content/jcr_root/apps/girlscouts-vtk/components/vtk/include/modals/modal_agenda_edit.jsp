@@ -160,7 +160,7 @@
 
 		<!-- Title -->
 		<div class="row">
-			<div class="column small-24">
+			<div class="column small-20 small-centered">
 					<h3>Agenda Item: <%=_activity.getName()%></h3>
 			</div>
 		</div>
@@ -168,7 +168,7 @@
 
 		<!-- Outdoor options-->
 			<div id="outdoor" class="row">
-				<div class="column small-24">
+				<div class="column small-20 small-centered">
 						<form class="">
 
 									<div class="" style="display:inline-block; margin-right:20px;" >
