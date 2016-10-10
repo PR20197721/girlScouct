@@ -123,7 +123,7 @@
 	<div class="row">
    	<form onsubmit="return false;">
 
-			<div class="columns small-4 small-offset-8">
+			<div class="columns small-4 small-offset-9">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 
@@ -149,7 +149,7 @@
 				<%}//edn if%>
 			</div>
 		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-			<div class="columns small-12">
+			<div class="columns small-11">
 				<button onclick="location.reload();" class="tiny" style="color:white;">Save and Back to meeting</button>
 				<button class="tiny" style="color:white;" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
