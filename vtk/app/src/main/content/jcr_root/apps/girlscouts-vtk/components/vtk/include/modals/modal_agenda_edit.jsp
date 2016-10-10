@@ -123,7 +123,7 @@
 	<div class="row">
    	<form onsubmit="return false;">
 
-			<div class="columns small-4 small-offset-9">
+			<div class="columns large-4 large-offset-10 medium-6 medium-offset-4 small-6">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 
@@ -149,7 +149,7 @@
 				<%}//edn if%>
 			</div>
 		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-			<div class="columns small-11">
+			<div class="columns large-10 medium-14 small-18 ">
 				<button onclick="location.reload();" class="tiny" style="color:white;">Save and Back to meeting</button>
 				<button class="tiny" style="color:white;" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
@@ -165,6 +165,25 @@
 			</div>
 		</div>
 		<!-- End: Title -->
+
+		<!-- Outdoor options-->
+			<div id="outdoor" class="row">
+				<div class="column small-24">
+						<form class="">
+
+									<div class="" style="display:inline-block; margin-right:20px;" >
+										<input type="radio" name="isoutdoor" value="no" id="isoutdoor_no" checked>
+										<label for="isoutdoor_no"><span></span><p> INDOORS </p></label>
+									</div>
+									<div class=""  style="display:inline-block">
+										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes">
+										<label for="isoutdoor_yes"><span></span><p> GET OUTDOORS! </p></label>
+									</div>
+
+						</form>
+				</div>
+			</div>
+		<!--end: Outdoor options-->
 
 		</div>
 		<section class="row">
