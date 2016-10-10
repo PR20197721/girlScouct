@@ -18,12 +18,18 @@
   <%@include file="include/modals/modal_help.jsp"%>
 
 
-     <div id="vtk_banner2234" style="border:5px solid yellow"></div>
+  <div class="row">
+      <div class="column small-24">
+        <div id="vtk_banner2234"  style="border:5px solid yellow"></div>
+      </div>
+  </div>
+
     <script>
 
     $.ajax({
         url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
+        dataType:'html',
         data: {
             a: Date.now()
         },

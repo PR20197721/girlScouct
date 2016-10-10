@@ -33,12 +33,20 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/bodyTop.jsp"%>
 <%@include file="include/modals/modal_help.jsp"%>
 
- <div id="vtk_banner2234"  style="border:5px solid yellow"></div>
+  <div class="row">
+      <div class="column small-24">
+        <div id="vtk_banner2234"  style="border:5px solid yellow"></div>
+      </div>
+  </div>
+
+
+
     <script>
 
     $.ajax({
         url: '/content/girlscouts-vtk/controllers/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
         type: 'GET',
+        dataType:'html',
         data: {
             a: Date.now()
         },
