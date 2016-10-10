@@ -1030,7 +1030,7 @@ function loadTabNav(activeTab) {
 function loadVtkBanner(){
 console.log("loading banner...");	
 	$.ajax({
-        url: '/content/girlscouts-vtk/en/myvtk/999/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
         data: {    
             a: Date.now()

@@ -41,7 +41,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     <script>
 
     $.ajax({
-        url: '/content/girlscouts-vtk/controllers/vtk.resource.content___gateway___en___resources___troop-leadership___managing-troop-money-.html',
+        url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
         dataType:'html',
         data: {

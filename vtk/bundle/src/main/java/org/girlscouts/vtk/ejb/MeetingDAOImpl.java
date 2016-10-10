@@ -1660,6 +1660,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			sql += sqlTags;
 			sql += sqlCat;
 			
+//select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/girlscoutshh/en/sf-events-repository])) and child.start is not null and parent.[jcr:title] is not null  and ( child.* like '%Earth Day%'  or parent.* like '%Earth Day%'  )
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
