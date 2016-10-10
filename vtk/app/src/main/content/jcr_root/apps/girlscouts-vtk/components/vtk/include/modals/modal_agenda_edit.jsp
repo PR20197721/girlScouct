@@ -7,9 +7,9 @@
 
 
 <div class="modal_agenda_edit">
-	<div class="header clearfix">	
+	<div class="header clearfix">
 		<h3 class="columns large-22">
-		<% 
+		<%
 		  String act="";
 			if (request.getParameter("isOverview") != null) {
 					out.println("Overview");
@@ -27,7 +27,7 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	
+
 	<div class="scroll content">
 	<% if(!act.isEmpty()) { %>
 		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
@@ -45,7 +45,7 @@
 					meeting = meetings.get(i);
 					break;
 				}
-			
+
 			if( meeting==null ){
 			    java.util.List<MeetingCanceled> cmeetings = troop.getYearPlan().getMeetingCanceled();
 	            for (int i = 0; i < cmeetings.size(); i++)
@@ -54,10 +54,10 @@
 	                    meeting = cmeetings.get(i);
 	                    break;
 	                }
-	            
+
 			}
-			
-			
+
+
 			Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
 					meeting.getRefId());
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
@@ -122,13 +122,13 @@
 <% if (request.getParameter("isAgenda") != null) {%>
 	<div class="row">
    	<form onsubmit="return false;">
-			<h3>Agenda Item: <%=_activity.getName()%></h3>
-			<div class="columns small-4">
+
+			<div class="columns small-4 small-offset-8">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
-					
+
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-        
+
 					<option value="0" selected>Time Allotment</option>
 					<option value="5"
 						<%=(_activity.getDuration() == 5)  ? "SELECTED" : ""%>>5</option>
@@ -149,15 +149,23 @@
 				<%}//edn if%>
 			</div>
 		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-			<div class="columns small-20">
-				<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
-				<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
-			
+			<div class="columns small-12">
+				<button onclick="location.reload();" class="tiny" style="color:white;">Save and Back to meeting</button>
+				<button class="tiny" style="color:white;" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
 		 <%} %>
 		</form>
 		</div>
-				
+
+
+		<!-- Title -->
+		<div class="row">
+			<div class="column small-24">
+					<h3>Agenda Item: <%=_activity.getName()%></h3>
+			</div>
+		</div>
+		<!-- End: Title -->
+
 		</div>
 		<section class="row">
 			<%

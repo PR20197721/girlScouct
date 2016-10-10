@@ -20,7 +20,7 @@
 
   <div class="row">
       <div class="column small-24">
-        <div id="vtk_banner2234"  style="border:5px solid yellow"></div>
+        <div id="vtk_banner2234"  style=""></div>
       </div>
   </div>
 
