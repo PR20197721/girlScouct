@@ -37,6 +37,9 @@
 	<div class="scroll content">
 
 		<div><%=text %></div>
+
+
+		<p style="text-align: center; font-size: 10px;"><img src="" alt="" /> Get Outdoors! is made possible by the <a target="_blank" href="http://fdnweb.org/rkmf/">Richard King Mellon Foundation.</a></p>
 	</div>
 
 

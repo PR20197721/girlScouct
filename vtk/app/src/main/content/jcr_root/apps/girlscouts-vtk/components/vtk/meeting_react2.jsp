@@ -34,7 +34,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_help.jsp"%>
 
 
-    <div id="vtk_banner2234"  style=""></div>
+    <div id="vtk_banner2234"  class="column small-20 small-centered" style=""></div>
 
 
 
@@ -955,23 +955,48 @@ React.createElement(ActivityPlan),
                               style:_style,
                               onClick: this._click
                             })
+
 // API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
 //'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'}, "OutdoorAvailable")
                         );
                     }else if(this.state.isOutdoorAvailable){
 
                         return (
-                          React.createElement('img',
-                          {
-                            src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png',
-                            style:_style,
-                            onClick: this._click
-                          }
-                        )
+                            React.createElement(
+                              'div',
+                              { style: {
+                                  position: "absolute",
+                                  top: "-12px",
+                                  left: "-38px",
+                                  cursor: 'pointer'
+                                },
+                                  onClick: this._click
+                            },
+                              React.createElement('img',
+                                {
+                                  src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png',
+                                  style:{
+                                    width: "30px"
+                                  }
 
+                                }
+                              ),
+                              React.createElement(
+                                  "p",
+                                  {
+                                    style:{
+
+                                      color:"green",
+                                      "text-align":"center",
+                                      "font-size":'11px',
+                                    },
+                                    onClick: this._click
+                                  },
+                                  "Select"
+                                )
+                              )
                             );
                     }else{
-
                         return (
                                 React.createElement("span", "")
                             );
