@@ -34,7 +34,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_help.jsp"%>
 
 
-    <div id="vtk_banner2234"  style=""></div>
+    <div id="vtk_banner2234"  class="column small-20 small-centered" style=""></div>
 
 
 
