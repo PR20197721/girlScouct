@@ -160,7 +160,7 @@ public  String readUrlFile(String urlString) throws Exception {
 
 		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
 			if ($('#vimeoPlayer' + i).length > 0) {
-				$('#vimeoPlayer' + i).load(function() {
+				// $('#vimeoPlayer' + i).load(function() {
 					$.getScript('https://player.vimeo.com/api/player.js', function() {
 						function attachListenerToVideoSlider () {
 							for (var k = 0; k < $('.main-slider iframe').length; k ++) {
@@ -188,7 +188,7 @@ public  String readUrlFile(String urlString) throws Exception {
 						}
 						attachListenerToVideoSlider();
 					});
-				});
+				// });
 			}
 		}
 		
