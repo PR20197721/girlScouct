@@ -920,7 +920,7 @@ React.createElement(ActivityPlan),
                   _click:function(r){
                       _this = this;
                       $.ajax({
-                        url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'
+                        url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=true'
                       }).done(
                         function(e){
                           _this.setState({isOutdoor:true});
