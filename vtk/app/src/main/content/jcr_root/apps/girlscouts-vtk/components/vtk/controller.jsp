@@ -1423,15 +1423,21 @@ try{
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
 
         }else if(request.getParameter("cngOutdoor") != null){
+//System.err.println("test outdoor: ");   	
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
-        	
+      
+//System.err.println("test outdoor: " +mid +" : "+ aid+" :" + isOutdoor);    	
         	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
              zz:for(int i=0;i<meetings.size();i++){
+//System.err.println("test outdoor i=:"+ i );            	 
             	 if( meetings.get(i).getUid().equals( mid ) ){
+//System.err.println("test outdoor this meeting" );            		 
             		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
+//System.err.println("test outdoor y=" + y + " :" + meetings.get(i).getMeetingInfo().getActivities().get(y).getPath() );   
             			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
+//System.err.println("test outdoor yes path --- update" );        				 
             			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
             			      break zz;
             			 }
