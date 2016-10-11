@@ -1431,7 +1431,7 @@ try{
              zz:for(int i=0;i<meetings.size();i++){
             	 if( meetings.get(i).getUid().equals( mid ) ){
             		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
-            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getUid().equals(aid)){
+            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
             			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
             			      break zz;
             			 }

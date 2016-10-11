@@ -166,17 +166,18 @@
 		</div>
 		<!-- End: Title -->
 
+        <%if(_activity.getIsOutdoorAvailable()){ %>
 		<!-- Outdoor options-->
 			<div id="outdoor" class="row">
 				<div class="column small-20 small-centered">
 						<form class="">
 
 									<div class="" style="display:inline-block; margin-right:20px;" >
-										<input type="radio" name="isoutdoor" value="no" id="isoutdoor_no" checked>
+										<input type="radio" name="isoutdoor" value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? " checked " : "" %> onchange="cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'false')">
 										<label for="isoutdoor_no"><span></span><p> INDOORS </p></label>
 									</div>
 									<div class=""  style="display:inline-block">
-										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes">
+										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? "" : " checked " %> onchange="cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'true')">
 										<label for="isoutdoor_yes"><span></span><p> GET OUTDOORS! </p></label>
 									</div>
 
@@ -184,6 +185,7 @@
 				</div>
 			</div>
 		<!--end: Outdoor options-->
+        <%}//edn if %>
 
 		</div>
 		<section class="row">
@@ -204,4 +206,24 @@
 			$('.modal_agenda_edit .scroll.content').print();
 		});
 	});
+	 
+
+	 function cngAgendaOutdoor(mid, aPath, isOutdoor){
+	         
+	         $.ajax({
+	              url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+	                 cache: false,
+	                 type: 'GET',
+	                 dataType: 'json',
+	                 data: {
+	                     aid:aPath,
+	                     isOutdoor:isOutdoor,
+	                     mid: mid,
+	                     cngOutdoor:true,
+	                     a: Date.now()
+	                 }
+	         }).done(function(html) {
+	            
+	         });
+	 }
 	</script>
