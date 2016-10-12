@@ -408,8 +408,9 @@ public class CouncilRpt {
 			// create the mail
 			MultiPartEmail email = new MultiPartEmail();
 			
-			email.addTo("alex.yakobovich@ey.com", "Alejandro");
-			email.setFrom("alex.yakobovich@ey.com", "Me");
+			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
+			email.setFrom("alex.yakobovich@ey.com", "VTK");
+			
 			email.setSubject("GS Monthly Report");
 			email.setMsg("Please find attached GS Monthly Report attached as of "+ new java.util.Date());
 
