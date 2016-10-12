@@ -110,18 +110,22 @@
 
 	if(tags != null && tags.length > 0){
 		String primaryTagId = tags[0].getString();
-       	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
-        Tag primaryTag = tagManager.resolve(primaryTagId);
-
-        Node primaryNode = primaryTag.adaptTo(Node.class);
-        if(primaryNode.hasProperty("color")){
-			hexColor = primaryNode.getProperty("color").getString();
-            int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
-            int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
-            int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
-			rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
-
-      	}
+		try{
+	       	TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
+	        Tag primaryTag = tagManager.resolve(primaryTagId);
+	
+	        Node primaryNode = primaryTag.adaptTo(Node.class);
+	        if(primaryNode.hasProperty("color")){
+				hexColor = primaryNode.getProperty("color").getString();
+	            int rPart = Integer.parseInt(hexColor.substring(0,2), 16);
+	            int gPart = Integer.parseInt(hexColor.substring(2,4), 16);
+	            int bPart = Integer.parseInt(hexColor.substring(4,6), 16);
+				rgba = "rgba("+ rPart +", "+ gPart +", "+ bPart +", 0.8)";
+	
+	      	}
+		}catch(Exception e){
+			System.err.println("Tag: " + primaryTagId + " is not found for article: " + articlePath);
+		}
 	}
 	if(linkTagAnchors != null){
 		linkToArticle += linkTagAnchors;
