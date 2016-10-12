@@ -28,7 +28,7 @@
 
 
 
-<div id="vtk-banner-modal" class="reveal-modal tiny" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
@@ -39,7 +39,9 @@
 		<div><%=text %></div>
 
 
-		<p style="text-align: center; font-size: 10px;"><img src="" alt="" /> Get Outdoors! is made possible by the <a target="_blank" href="http://fdnweb.org/rkmf/">Richard King Mellon Foundation.</a></p>
+		<p style="text-align: center; font-size: 12px; ">
+			<img src="/content/dam/girlscouts-vtkcontent/images/logo/medium/rkmf.png" style="margin-right:5px" align="middle" width="50px" alt="Richard King Mellon Foundation" /> Get Outdoors! is made possible by the
+			<a target="_blank" href="http://fdnweb.org/rkmf/">Richard King Mellon Foundation.</a></p>
 	</div>
 
 
