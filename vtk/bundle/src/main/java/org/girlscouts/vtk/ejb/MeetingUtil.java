@@ -914,65 +914,73 @@ public class MeetingUtil {
 				isCanceled = true;
 			}
 			_aidTags = meeting.getAssets();
+		
+			//start
 			
 			
-		if( isUpdateAssetInDb ) {
+		if( _aidTags==null )
+			_aidTags= new java.util.ArrayList<Asset>();
+		
+	
+		// query aids cachables
+		java.util.List <Asset>__aidTags = yearPlanUtil.getAids(user, troop, 
+				meetingInfo.getAidTags(), meetingInfo.getId(),
+				meeting.getUid(), meetingInfo.getPath());
+
+
+		java.util.List <Asset>__resources = yearPlanUtil.getResources(user, troop, 
+				meetingInfo.getAidTags(), meetingInfo.getId(),
+				meeting.getUid(), meetingInfo.getPath());
+		
+		
+
+		if( _aidTags ==null ) _aidTags= new java.util.ArrayList();
+		if( __aidTags!=null ){ //add aid tags
+		
+			aa:for(int y=0;y<__aidTags.size();y++){
+
+				for(int x=0;x< _aidTags.size();x++){
+	
+					if( _aidTags.get(x).getRefId().equals(__aidTags.get(y).getRefId())){
+	
+						continue aa;
+					}//edn if
+				}//end x
+				
+				_aidTags.add(__aidTags.get(y));
+			}//edn y
+				
 			
-			java.util.Date sysAssetLastLoad = dataImportTimestamper
-					.getTimestamp();
-
-			if ( meeting.getLastAssetUpdate() == null || meeting.getLastAssetUpdate().before(sysAssetLastLoad)) {
-
-				_aidTags = _aidTags == null ? new java.util.ArrayList()
-						: _aidTags;
-				// rm cachables
-				java.util.List aidToRm = new java.util.ArrayList();
-				for (int i = 0; i < _aidTags.size(); i++) {
-					if (_aidTags.get(i).getIsCachable())
-						aidToRm.add(_aidTags.get(i));
-				}
-				
-
-
-				for (int i = 0; i < aidToRm.size(); i++)
-					_aidTags.remove(aidToRm.get(i));
-
-				
-
-				// query aids cachables
-				java.util.List __aidTags = yearPlanUtil.getAids(user, troop, 
-						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid(), meetingInfo.getPath());
-
-				
-				// merge lists aids
-				_aidTags.addAll(__aidTags);
-
-				// query resources cachables
-
-
-/*
-				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
-						meetingInfo.getResources(), meetingInfo.getId(),
-						meeting.getUid(), meetingInfo.getPath());
-*/
-				java.util.List __resources = yearPlanUtil.getResources(user, troop, 
-						meetingInfo.getAidTags(), meetingInfo.getId(),
-						meeting.getUid(), meetingInfo.getPath());
-
-
-
-
-				// merge lists resources
-				_aidTags.addAll(__resources);
-				
-				meeting.setLastAssetUpdate(new java.util.Date());
-
-				meeting.setAssets(_aidTags);					
-				 troopUtil.updateTroop(user, troop);
-				
-			}
 		}
+		
+		
+
+		if(__resources!=null) //add resources
+			aad:for(int y=0;y<__resources.size();y++){
+					for(int x=0;x< _aidTags.size();x++){
+						if( _aidTags.get(x).getRefId().equals(__resources.get(y).getRefId()))
+							continue aad;
+					}
+				_aidTags.add(__resources.get(y));
+
+			}
+				
+				
+			
+		
+		
+		
+		meeting.setLastAssetUpdate(new java.util.Date());
+		meeting.setAssets(_aidTags);	
+		
+		
+		
+		
+		
+		
+			//end
+			
+			
 			int meetingLength = 0;
 			for (Activity _agenda : _activities) {
 				meetingLength += _agenda.getDuration();
