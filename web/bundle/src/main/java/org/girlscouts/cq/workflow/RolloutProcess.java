@@ -86,23 +86,21 @@ public class RolloutProcess implements WorkflowProcess {
         try {
             Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
             for (LiveRelationship relation : relations) {
-            	if(relation.getStatus().isTargetExisting()){
-	                rolloutManager.rollout(resourceResolver, relation, false);
-	                session.save();
-	                String targetPath = relation.getTargetPath();
-	                // Remove jcr:content
-	                /*if (targetPath.endsWith("/jcr:content")) {
-	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-	                }
-	                replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);*/
-            	}
+                rolloutManager.rollout(resourceResolver, relation, false);
+                session.save();
+                String targetPath = relation.getTargetPath();
+                // Remove jcr:content
+                if (targetPath.endsWith("/jcr:content")) {
+                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+                }
+                replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             }
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
             log.error("RepositoryException for LiveRelationshipManager");
-        }/* catch (ReplicationException e) {
+        } catch (ReplicationException e) {
             log.error("ReplicationException for LiveRelationshipManager");
-        }*/
+        }
     }
 }
