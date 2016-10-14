@@ -38,10 +38,6 @@
 
 		<div><%=text %></div>
 
-
-		<p style="text-align: center; font-size: 12px; ">
-			<img src="/content/dam/girlscouts-vtkcontent/images/logo/medium/rkmf.png" style="margin-right:5px" align="middle" width="50px" alt="Richard King Mellon Foundation" /> Get Outdoors! is made possible by the
-			<a target="_blank" href="http://fdnweb.org/rkmf/">Richard King Mellon Foundation.</a></p>
 	</div>
 
 
