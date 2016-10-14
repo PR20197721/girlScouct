@@ -25,7 +25,6 @@ if (newCurrentDesign != null) {
   %><link rel="stylesheet" href="<%= newCurrentDesign.getPath() + ".css" %>" type="text/css"/><%
 }else{
   currentDesign.writeCssIncludes(pageContext);
-  System.out.println("Request not found");
 }
 %>
 <!-- End: Include Girl Scout clientlibs -->
