@@ -1451,10 +1451,14 @@ try{
 
         	java.util.StringTokenizer t= new java.util.StringTokenizer( currDates, ",");
         	while( t.hasMoreElements()){
+        		
         		   long currDate = Long.parseLong(t.nextToken());
         		   calendarUtil.updateDate( user,  troop,  currDate,  Long.parseLong( request.getParameter("dt")));
 	   
         	}
+        }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){
+       
+            session.setAttribute("isHideVtkBanner", "true");
         } else {
 			//TODO throw ERROR CODE
 
