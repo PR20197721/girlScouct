@@ -1336,9 +1336,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 				} catch (Exception e) {
 				}
 				try {
-					String t = r.getPath().substring(r.getPath().indexOf("."));
-					t = t.substring(1, t.indexOf("/"));
-					search.setDocType(t);
+		
+					if( r.getPath().indexOf(".")!=-1 ){
+						String t = r.getPath().substring(r.getPath().indexOf("."));
+						t = t.substring(1, t.indexOf("/"));
+						search.setDocType(t);
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

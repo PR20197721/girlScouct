@@ -29,6 +29,8 @@
 	String activeTab = "resource";
     boolean showVtkNav = true;
     String levelMeetingsRootPath = getMeetingsRootPath(troop);
+//System.err.println("testerX path levelMeetingsRootPath: "+ levelMeetingsRootPath);    
+
     Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
     String sectionClassDefinition ="";
 
