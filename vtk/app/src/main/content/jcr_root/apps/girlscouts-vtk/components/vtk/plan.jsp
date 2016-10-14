@@ -33,11 +33,22 @@
             // document.getElementById("vtk_banner2234").innerHTML=result;
             $("#vtk_banner2234").html(result);
 
-            	$(function(){
-            		$('.vtk-banner-button').click(function(){
-            			$('.vtk-banner-image').slideUp();
-            		});
-            	});
+            $(function(){
+              $('.vtk-banner-button').click(function(){
+                //====================
+                // close
+                // =====> alex <======
+                // $.ajax({
+                //   url:'',
+                //   dataType:'html',
+                // }).done(function(){
+                  //====> $('.vtk-banner-image').slideUp();
+                //})
+
+                $('.vtk-banner-image').slideUp();
+              });
+            });
+
 
         }
     });
@@ -59,10 +70,12 @@
 
       <script type="text/javascript">
 
- var isActivNew;
+      var isActivNew;
       var isFirst=1;
       var meetingPassed=true;
       var scrollTarget = "";
+
+
 
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
@@ -141,10 +154,7 @@
 
         }
       });
-
-
-
-       var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
+      var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
             // Reordering
             var parent = this.props.parentComponent;
@@ -171,9 +181,12 @@
         } //end of render
       });
 
-       var outdoorIcon = React.createClass({
+      var outdoorIcon = React.createClass({
     	   displayName:"outdoorIcon",
+
     	   render:function(){
+
+
     		   var isOutdoorAvailable = this.props.isOutdoorAvailable,imgName;
 
                if (this.props.isOutdoor) {

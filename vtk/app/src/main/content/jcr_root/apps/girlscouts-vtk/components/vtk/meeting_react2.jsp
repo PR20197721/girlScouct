@@ -26,6 +26,56 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 <script>
     var thisMeetingPath = "";
+
+
+          //===== POLYFILL OLD BROwSER ====
+          if (!Array.prototype.findIndex) {
+              Array.prototype.findIndex = function(predicate) {
+                'use strict';
+                if (this == null) {
+                  throw new TypeError('Array.prototype.findIndex called on null or undefined');
+                }
+                if (typeof predicate !== 'function') {
+                  throw new TypeError('predicate must be a function');
+                }
+                var list = Object(this);
+                var length = list.length >>> 0;
+                var thisArg = arguments[1];
+                var value;
+
+                for (var i = 0; i < length; i++) {
+                  value = list[i];
+                  if (predicate.call(thisArg, value, i, list)) {
+                    return i;
+                  }
+                }
+                return -1;
+              };
+          }
+
+          function collectionComponent(){
+            var list = [];
+
+
+            function add(id,item,component) {
+              list.push({
+                id:id,
+                item:item,
+                component:component
+              })
+
+              };
+          function get(id,property) {
+
+              return list[list.findIndex(function(e){return e.item[property] === id })];
+            };
+
+            return {
+              add:add,
+              get:get
+            }
+          }
+          var outDoorIconList = new collectionComponent();
 </script>
 <%
   String sectionClassDefinition = "";
@@ -34,7 +84,10 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 <%@include file="include/modals/modal_help.jsp"%>
 
 
-    <div id="vtk_banner2234"  class="column small-20 small-centered" style=""></div>
+
+      <div id="vtk_banner2234"  class="column small-20 small-centered" style="">
+      </div>
+
 
 
 
@@ -48,13 +101,24 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
             a: Date.now()
         },
         success: function(result) {
-          // document.getElementById("vtk_banner2234").innerHTML=result;
           $("#vtk_banner2234").html(result);
+
             $(function(){
               $('.vtk-banner-button').click(function(){
+                //====================
+                // close
+                // =====> alex <======
+                // $.ajax({
+                //   url:'',
+                //   dataType:'html',
+                // }).done(function(){
+                  //====> $('.vtk-banner-image').slideUp();
+                //})
+
                 $('.vtk-banner-image').slideUp();
               });
             });
+
         }
     });
 
@@ -755,11 +819,16 @@ React.createElement(ActivityPlan),
       render: function() {
         if( this.props.data!=null ){
           agendaSched=null;
+
+
+            var _that = this;
           return (
 
 
                React.createElement("ul", null,
+
                   this.props.data.map((function(item, i) {
+
                   return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber},
                     React.createElement("div", {className: "wrapper clearfix"},
 
@@ -928,7 +997,19 @@ React.createElement(ActivityPlan),
                       );
 
                   },
+                  _clickfalse:function(r){
+                      _this = this;
+                      $.ajax({
+                        url:'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.path+'&isOutdoor=false'
+                      }).done(
+                        function(e){
+                          _this.setState({isOutdoor:false});
+                        }
+                      );
+
+                  },
                   getInitialState: function(){
+
                     return {
                               isOutdoor: this.props.item.isOutdoor,
                               isOutdoorAvailable: this.props.item.isOutdoorAvailable
@@ -936,6 +1017,7 @@ React.createElement(ActivityPlan),
                     },
                   render: function() {
 
+                    outDoorIconList.add(this.props.item.path,this.props.item,this);
 
                     var _style = {
                         position: "absolute",
@@ -957,7 +1039,7 @@ React.createElement(ActivityPlan),
                             })
 
 // API for toggle :'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=false'
-//'/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'}, "OutdoorAvailable")
+//                 '/content/girlscouts-vtk/controllers/vtk.controller.html?cngOutdoor=true&mid='+mid+'&aid='+this.props.item.uid+'&isOutdoor=true'
                         );
                     }else if(this.state.isOutdoorAvailable){
 
