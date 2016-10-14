@@ -18,9 +18,11 @@
                                 Iterator<Resource> iter = levelMeetingsRoot.listChildren();
                                 while (iter.hasNext()) {                 	
                                     Resource meetingResource = iter.next();
-                                    
+                     //System.err.println("TESTERX: "+ meetingResource.getPath());             
                                     String meetingId= meetingResource.getPath().substring( meetingResource.getPath().lastIndexOf("/"));
+                     //System.err.println("TESTERX: "+ meetingId);              
                                     meetingId= meetingId.replace("/","");
+                     //System.err.println("TESTERXY: "+ meetingId);             
                                     java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user, troop, LOCAL_MEETING_AID_PATH+"/"+meetingId);//meeting.getId());                            
                                     for(int i=0;i<lresources.size();i++){      
                                         org.girlscouts.vtk.models.Asset la = lresources.get(i);

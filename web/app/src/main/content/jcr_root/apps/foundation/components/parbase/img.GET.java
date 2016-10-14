@@ -60,7 +60,6 @@ public class img_GET extends AbstractImageServlet {
                               ImageContext c, Layer layer)
             throws IOException, RepositoryException {
 
-        System.out.println("### We are definetly in apps");
         Image image = new Image(c.resource);
        
         if (!image.hasContent()) {
