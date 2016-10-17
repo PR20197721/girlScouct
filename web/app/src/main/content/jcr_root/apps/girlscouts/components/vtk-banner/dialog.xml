@@ -203,6 +203,190 @@
                         xtype="hidden"/>
                 </items>
             </image>
+            <sponsors
+                jcr:primaryType="cq:Panel"
+                title="Sponsors">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<image-title
+	                    jcr:primaryType="cq:Widget"
+	                    fieldDescription="Sponsor Image title"
+	                    fieldLabel="Sponsor Image title"
+	                    name="./sponsorImageTitle"
+	                    xtype="textfield"/>
+                    <image-alt
+	                    jcr:primaryType="cq:Widget"
+	                    fieldDescription="Sponsor Image alt"
+	                    fieldLabel="Sponsor Image alt"
+	                    name="./sponsorImageAlt"
+	                    xtype="textfield"/>
+	                <text
+	                    jcr:primaryType="cq:Widget"
+	                    hideLabel="{Boolean}true"
+	                    fieldLabel="Text"
+	                    name="./sponsorText"
+	                    xtype="richtext">
+	                    <rtePlugins jcr:primaryType="nt:unstructured">
+	                        <links jcr:primaryType="nt:unstructured">
+	                            <linkDialogConfig
+	                                jcr:primaryType="nt:unstructured"
+	                                height="{Long}316">
+	                                <linkAttributes jcr:primaryType="cq:WidgetCollection">
+	                                    <linkAdvanced
+	                                        jcr:primaryType="cq:Widget"
+	                                        collapsed="{Boolean}true"
+	                                        collapsible="{Boolean}true"
+	                                        inputValue="advanced"
+	                                        name="./linkdialog/cq:adhocLinkTrackingTab"
+	                                        title="Link tracking"
+	                                        xtype="dialogfieldset">
+	                                        <items jcr:primaryType="cq:WidgetCollection">
+	                                            <enable
+	                                                jcr:primaryType="nt:unstructured"
+	                                                attribute="enabletracking"
+	                                                fieldDescription="override analytics framework settings"
+	                                                fieldLabel="Custom link tracking"
+	                                                name="./linkdialog/cq:adhocLinkTrackingEnableTracking"
+	                                                xtype="checkbox">
+	                                                <listeners
+	                                                    jcr:primaryType="nt:unstructured"
+	                                                    check="function(component){var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked);}"/>
+	                                            </enable>
+	                                            <events
+	                                                jcr:primaryType="nt:unstructured"
+	                                                attribute="adhocevents"
+	                                                fieldDescription="e.g.: event2, event7"
+	                                                fieldLabel="Include SiteCatalyst events"
+	                                                name="./linkdialog/cq:adhocLinkTrackingEvents"
+	                                                xtype="textfield"/>
+	                                            <evars
+	                                                jcr:primaryType="nt:unstructured"
+	                                                attribute="adhocevars"
+	                                                fieldDescription="e.g.: eVar1: pagedata.url, prop4: 'const'"
+	                                                fieldLabel="Include SiteCatalyst variables"
+	                                                name="./linkdialog/cq:adhocLinkTrackingEvars"
+	                                                xtype="textfield"/>
+	                                        </items>
+	                                    </linkAdvanced>
+	                                </linkAttributes>
+	                            </linkDialogConfig>
+	                        </links>
+	                        <misctools
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <edit
+	                            jcr:primaryType="nt:unstructured"
+	                            features="[paste-plaintext,paste-wordhtml]"/>
+	                        <findreplace
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <format
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <image
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <keys
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <justify
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <lists
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <paraformat
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*">
+	                            <formats jcr:primaryType="cq:WidgetCollection">
+	                                <p
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Paragraph"
+	                                    tag="p"/>
+	                                <h1
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 1"
+	                                    tag="h1"/>
+	                                <h2
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 2"
+	                                    tag="h2"/>
+	                                <h3
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 3"
+	                                    tag="h3"/>
+	                                <h4
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 4"
+	                                    tag="h4"/>
+	                                <h5
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 5"
+	                                    tag="h5"/>
+	                                <h6
+	                                    jcr:primaryType="nt:unstructured"
+	                                    description="Header 6"
+	                                    tag="h6"/>
+	                            </formats>
+	                        </paraformat>
+	                        <spellcheck
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <styles
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <subsuperscript
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <table
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                        <undo
+	                            jcr:primaryType="nt:unstructured"
+	                            features="*"/>
+	                    </rtePlugins>
+	                    <specialCharsConfig jcr:primaryType="nt:unstructured">
+	                        <chars jcr:primaryType="nt:unstructured">
+	                            <em-dash
+	                                jcr:primaryType="nt:unstructured"
+	                                entity="&amp;#8212;"/>
+	                            <copyright
+	                                jcr:primaryType="nt:unstructured"
+	                                entity="&amp;#169;"/>
+	                            <registered
+	                                jcr:primaryType="nt:unstructured"
+	                                entity="&amp;#174;"/>
+	                            <trademark
+	                                jcr:primaryType="nt:unstructured"
+	                                entity="&amp;#8482;"/>
+	                            <horizontal-rule
+	                                jcr:primaryType="nt:unstructured"
+	                                displayEntity="HR"
+	                                entity="&lt;hr>"/>
+	                        </chars>
+	                    </specialCharsConfig>
+	                </text>
+                </items>
+            </sponsors>
+            <sponsor-image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./sponsor-image/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./sponsor-image/fileName"
+                fileReferenceParameter="./sponsor-image/fileReference"
+                mapParameter="./sponsor-image/imageMap"
+                name="./file"
+                requestSuffix="/sponsor-image.img.png"
+                rotateParameter="./sponsor-image/imageRotate"
+                title="Sponsor Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./sponsor-image/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </sponsor-image>
         </items>
     </items>
 </jcr:root>

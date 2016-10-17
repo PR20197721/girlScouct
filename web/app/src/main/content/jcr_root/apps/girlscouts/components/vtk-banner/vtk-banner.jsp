@@ -4,11 +4,20 @@
     String modalTitle = properties.get("modalTitle","");
 	String imageAlt = properties.get("imageAlt","");
 	String imageTitle = properties.get("imageTitle","");
+	String sponsorImageTitle = properties.get("sponsorImageTitle","");
+	String sponsorImageAlt = properties.get("sponsorImageAlt","");
 	Resource thumbnail = resource.getChild("thumbnail");
 	String filePath = "";
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
+	
+	Resource sponsorImage = resource.getChild("sponsor-image");
+	String sponsorImagePath = "";
+	if(thumbnail != null) {
+		sponsorImagePath = ((ValueMap)sponsorImage.adaptTo(ValueMap.class)).get("fileReference", "");
+	}
+	String sponsorText = properties.get("sponsorText", "");
 
 %>
 
@@ -37,7 +46,10 @@
 	<div class="scroll content">
 
 		<div><%=text %></div>
-
+		
+		<div class="sponsor">
+			<p style="text-align: center; font-size: 12px;"><img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px" alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>"><%=sponsorText %></p>
+		</div>
 	</div>
 
 
