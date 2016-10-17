@@ -111,10 +111,9 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
       
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
-        //String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
- String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+"/vtk2015/"+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
-
- System.err.println("test1 " + sql);     
+        String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
+ 
+     
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
         java.util.Map container= new java.util.TreeMap();
@@ -122,14 +121,14 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
      
         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
- System.err.println("test2");
-                javax.jcr.Node n = r.getNode();
-                javax.jcr.Node n1 = n.getNode("yearPlan");
-                String yearPlanName=n1.getProperty("name").getValue().getString();
-                System.err.println("test3");
+
+            javax.jcr.Node n = r.getNode();
+            javax.jcr.Node n1 = n.getNode("yearPlan");
+            String yearPlanName=n1.getProperty("name").getValue().getString();
+               
             String path = r.getValue("jcr:path").getString() ;
             String sfCouncil = null, sfTroopAge=null, sfTroopName=null, sfTroopId=null;
-            System.err.println("test4");
+            
             try{ sfTroopId   = r.getValue("sfTroopId").getString() ;}catch(Exception e){}
             try{ sfTroopName = r.getValue("sfTroopName").getString() ;}catch(Exception e){}
             try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
@@ -139,37 +138,19 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
                     continue;
                     }
             }catch(Exception e){}
-            System.err.println("test5");
+            
             
             
             out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
             sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
            
             
-            System.err.println("test end");
+           
             
-            /*
-            Integer counter = (Integer)container.get( sfCouncil+"|"+sfTroopAge );
-            if( counter ==null )
-                container.put(sfCouncil+"|"+sfTroopAge , new Integer(0));
-            else
-                container.put(sfCouncil+"|"+sfTroopAge , new Integer( counter.intValue() +1 ) );
-            */
+           
         }
         
-        /*
-        out.println("Report Generated on "+ format1.format( new java.util.Date() ) );
-        java.util.Iterator itr = container.keySet().iterator();
-        while( itr.hasNext() ){
-           String key = (String) itr.next();
-           String councilId= key.substring(0, key.indexOf("|"));
-           String ageGroup = key.substring(key.indexOf("|") +1 );
-           Integer count= (Integer) container.get(key);
-           out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + yearPlanName );          
-           sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"," + ageGroup+ "," + yearPlanName );          
-          
-         }
-        */
+       
 }
 
 final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
