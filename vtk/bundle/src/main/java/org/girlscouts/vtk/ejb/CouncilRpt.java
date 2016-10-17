@@ -76,6 +76,9 @@ public class CouncilRpt {
 			for (javax.jcr.query.RowIterator it = result.getRows(); it
 					.hasNext();) {
 				javax.jcr.query.Row r = it.nextRow();
+				
+				
+				
 				String path = r.getValue("jcr:path").getString();
 				if (path.indexOf("/yearPlan") != -1) {
 					String yp = path
