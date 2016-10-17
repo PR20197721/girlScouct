@@ -173,11 +173,11 @@
 						<form class="">
 
 									<div class="" style="display:inline-block; margin-right:20px;" >
-										<input type="radio"  name="isoutdoor" value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? "" : " checked " %> onclick="cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'false')">
+										<input type="radio"  name="isoutdoor"  value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? "" : " checked " %> onchange="showIndoor();cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'false')">
 										<label for="isoutdoor_no"><span></span><p> INDOORS </p></label>
 									</div>
 									<div class=""  style="display:inline-block">
-										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? " checked " : "" %> onclick="cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'true')">
+										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? " checked " : "" %> onchange="showOutdoor();cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'true')">
 										<label for="isoutdoor_yes"><span></span><p> GET OUTDOORS! </p></label>
 									</div>
 
@@ -189,13 +189,12 @@
 
 		</div>
 		<section class="row">
-			<%
-				if (!_activity.getIsOutdoor() && _activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-					out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-				}else if (_activity.getIsOutdoor() && _activity.getActivityDescription_outdoor() != null && !_activity.getActivityDescription_outdoor().isEmpty()) {
-                    out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription_outdoor() + "</div>");
-                }
-			%>
+
+
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-20 small-centered" style="display:none;">indoor<%= _activity.getActivityDescription() %></div>
+
+			    <div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-20 small-centered" style="display:none;">outdoor<%= _activity.getActivityDescription_outdoor() %></div>
+
 		</section>
 		<%}%>
 		</div>
@@ -209,10 +208,23 @@
 		$('#print-link').on('click',function() {
 			$('.modal_agenda_edit .scroll.content').print();
 		});
+
+		<%=_activity.getIsOutdoor() ? " showOutdoor() " : "showIndoor()" %>
 	});
 
+function showIndoor(){
+	document.getElementById('__outdoor').style.display='none';
+	document.getElementById('__indoor').style.display='inline';
+}
+
+function showOutdoor(){
+	document.getElementById('__outdoor').style.display='inline';
+	document.getElementById('__indoor').style.display='none';
+}
 
 	 function cngAgendaOutdoor(mid, aPath, isOutdoor){
+
+
 		 	 var cc = window['ccc'] = outDoorIconList.get(aPath,'path').component;
 
 	         var ajax = $.ajax({
@@ -232,7 +244,7 @@
 
 					 ajax.complete(function(html) {
 
-			
+
 						 cc.setState({
 								"isOutdoor":isOutdoor=="true"? true:false,
 							});
