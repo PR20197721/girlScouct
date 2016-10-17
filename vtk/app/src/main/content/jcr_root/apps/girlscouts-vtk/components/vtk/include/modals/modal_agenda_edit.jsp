@@ -123,9 +123,9 @@
 	<div class="row">
    	<form onsubmit="return false;">
 
-			<div class="columns large-3 large-offset-11 medium-6 medium-offset-4 small-6">
+			<div class="columns small-24  text-right">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
+				<select style="width:100px;" onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 
@@ -146,12 +146,12 @@
 						<option value=""><%=_activity.getDuration() %></option>
 						<%} %>
 				</select>
-				<%}//edn if%>
+				<!-- <%//}//edn if%>
 			</div>
-		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-			<div class="columns large-10 medium-14 small-18 ">
-				<button onclick="location.reload();" class="tiny" style="color:white;text-transform:uppercase;font-weight:bold">Save</button>
-				<button class="tiny" style="color:white;text-transform:uppercase;font-weight:bold" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
+		<% //if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+			<div class="columns large-10 medium-14 small-18 "> -->
+				<button  onclick="location.reload();" class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top">Save</button>
+				<button class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
 		 <%} %>
 		</form>
@@ -160,7 +160,7 @@
 
 		<!-- Title -->
 		<div class="row">
-			<div class="column small-20 small-centered">
+			<div class="column small-24 small-centered">
 					<h3>Agenda Item: <%=_activity.getName()%></h3>
 			</div>
 		</div>
@@ -169,7 +169,7 @@
         <%if(_activity.getIsOutdoorAvailable()){ %>
 		<!-- Outdoor options-->
 			<div id="outdoor" class="row">
-				<div class="column small-20 small-centered">
+				<div class="column small-24 small-centered">
 						<form class="">
 
 									<div class="" style="display:inline-block; margin-right:20px;" >
@@ -189,12 +189,8 @@
 
 		</div>
 		<section class="row">
-
-
-					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-20 small-centered" style="display:none;">indoor<%= _activity.getActivityDescription() %></div>
-
-			    <div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-20 small-centered" style="display:none;">outdoor<%= _activity.getActivityDescription_outdoor() %></div>
-
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;">indoor<%= _activity.getActivityDescription() %></div>
+			    <div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;">outdoor<%= _activity.getActivityDescription_outdoor() %></div>
 		</section>
 		<%}%>
 		</div>
