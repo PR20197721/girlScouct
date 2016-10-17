@@ -5,12 +5,15 @@
 <cq:defineObjects />
 
 
-<%!public void buildMenu(Iterator<Page> iterPage, String rootPath,
+<%!public void buildMenu(Iterator<Page> iterPage, String rootPath, int rootDepth,
 			String gs_us_path, StringBuilder menuBuilder, int levelDepth,
 			String ndePath, boolean levelFlag, String eventLeftNavRoot,
 			String currPath, String currTitle, String eventDispUnder,
 			String showCurrent) throws RepositoryException {
 		levelDepth++;
+    	System.out.println("Root Path is " + rootPath);
+    	System.out.println("Level Depth is" + rootDepth);
+
 		if (iterPage.hasNext()) {
 			if (levelDepth == 1) {
 				menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
@@ -24,7 +27,7 @@
 				showCurrent = page.getParent().getProperties().get("showCurrent", "false");
 				
 				// Check to see if the current path startsWith the node which we are traversing
-				if (rootPath.startsWith(nodePath)) {
+				if (rootPath.startsWith(nodePath) && (rootDepth != page.getDepth() || rootPath.equals(nodePath))) {
 					/**** Check to see if the current folder hideInNav is not set to true, if it's set ********** 
 					***** set to true, we don't display is but look to the next node, this is necessary to highlighting the**** 
 					***** special form condition.******/
@@ -32,6 +35,8 @@
 					// This string buffer properly closes dangling li elements
 					StringBuffer remainderStrings = new StringBuffer();
 					if (!page.isHideInNav()) {
+                        System.out.println("Cascading Pace is: " + createHref(page));
+                        System.out.println("Level Depth is" + rootDepth + " Node depth is " + page.getDepth());
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
 							menuBuilder.append("<li class=\"active current\">");
 							menuBuilder.append("<div>");
@@ -61,7 +66,7 @@
 					}
 					Iterator<Page> p = page.listChildren();
 					if (p.hasNext()) {
-						buildMenu(p, rootPath, gs_us_path, menuBuilder,
+						buildMenu(p, rootPath, rootDepth, gs_us_path, menuBuilder,
 								levelDepth, nodePath, levelFlag,
 								eventLeftNavRoot, currPath, currTitle,
 								eventDispUnder, showCurrent);
@@ -113,7 +118,8 @@
   StringBuilder menuBuilder = new StringBuilder();
   // from this path get to the parent
   String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
-  String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
+  String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());
+  int rootDepth = currentPage.getDepth();
   String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
   String showCurrent = "false";
   
@@ -133,7 +139,7 @@
      iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
   
  }
- buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
+ buildMenu(iterPage, rootPath, rootDepth, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
  
  
  %>
