@@ -809,6 +809,7 @@
 }catch(Exception e){e.printStackTrace();}
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 try{
+	System.err.println("tata start");
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
                 out.println("{\"yearPlan\":\"NYP\"}");
@@ -828,7 +829,7 @@ try{
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-
+			System.err.println("tata xx");
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
@@ -910,14 +911,14 @@ try{
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
 		try{ 
-			
-			   if( !tmp[i].getClass().isInstance( YearPlanComponentType.MEETING)) continue;
+		
+			   if( ! ( tmp[i] instanceof   MeetingE)  ) continue;
+			   
 			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
-			  
 			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
-			   
+
 			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
