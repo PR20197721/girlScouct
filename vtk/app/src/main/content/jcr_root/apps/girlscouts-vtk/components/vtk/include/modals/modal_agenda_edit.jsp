@@ -125,7 +125,7 @@
 
 			<div class="columns small-24  text-right">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-				<select style="width:100px;" onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
+				<select class="select-time-meeting" style="width:100px;">
 
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 
@@ -150,7 +150,7 @@
 			</div>
 		<% //if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
 			<div class="columns large-10 medium-14 small-18 "> -->
-				<button  onclick="location.reload();" class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top">Save</button>
+				<button  onclick="save()" class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top">Save</button>
 				<button class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
 		 <%} %>
@@ -173,12 +173,12 @@
 						<form class="">
 
 									<div class="" style="display:inline-block; margin-right:20px;" >
-										<input type="radio"  name="isoutdoor"  value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? "" : " checked " %> onchange="showIndoor();cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'false')">
-										<label for="isoutdoor_no"><span></span><p> INDOORS </p></label>
+										<input type="radio"  name="isoutdoor"  value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? "" : " checked " %> onchange="showIndoor();">
+										<label for="isoutdoor_no"><span></span><p> INSIDE </p></label>
 									</div>
 									<div class=""  style="display:inline-block">
-										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? " checked " : "" %> onchange="showOutdoor();cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', 'true')">
-										<label for="isoutdoor_yes"><span></span><p> GET OUTDOORS! </p></label>
+										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? " checked " : "" %> onchange="showOutdoor();">
+										<label for="isoutdoor_yes"><span></span><p> GET GIRLS OUTSIDE! </p></label>
 									</div>
 
 						</form>
@@ -188,9 +188,9 @@
         <%}//edn if %>
 
 		</div>
-		<section class="row">
-					<div id="__indoor" data-outdoor="isoutdoor_no" class="reset clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
-			    <div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="reset clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
+		<section class="row reset">
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
+			    	<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
 		</section>
 		<%}%>
 		</div>
@@ -220,9 +220,6 @@ function showOutdoor(){
 
 	 function cngAgendaOutdoor(mid, aPath, isOutdoor){
 
-
-		 	 var cc = window['ccc'] = outDoorIconList.get(aPath,'path').component;
-
 	         var ajax = $.ajax({
 	              url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 	                 cache: false,
@@ -237,20 +234,22 @@ function showOutdoor(){
 	                 }
 	         })
 
+			 return ajax;
 
-					 ajax.complete(function(html) {
-
-
-						 cc.setState({
-								"isOutdoor":isOutdoor=="true"? true:false,
-							});
-
-	         });
+	 }
 
 
-
-
-
-
+	 function save(){
+	 	var inorout;
+	 	if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
+	 		inorout = 'true';
+	 	}else{
+	 		inorout = 'false';
+	 	}
+	 	
+	 	cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
+	 	.complete(function(){
+	 	 	durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+	 	})
 	 }
 	</script>
