@@ -60,7 +60,6 @@ var $ = jQuery.noConflict();
   	var window_h = $(window).height();
   	var popup_h = (window_h - 75);
 		$('.scroll').css('max-height' , popup_h + 'px');
-		console.log('here');
 		$('.modalWrap').css('max-height' , $(window).height()+'px');
 		//adding a heights to popups with two scrollable content.
 		$('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
