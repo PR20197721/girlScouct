@@ -59,14 +59,39 @@
 <script>
 $(function(){
 
-	function setHeightSS(){
+
+
+	function setHeightSS(p){
+
+
+		function sandbox($element,fn) {
+					debugger;
+		    var element = $element.clone(), result;
+		    // make the element take space in the page but invisible
+		    element.css({visibility: 'hidden', display: 'block'}).insertAfter($element);
+		    // to override any display: none !important you may have been using
+		    element.attr('style', element.attr('style').replace('block', 'block !important'));
+		    result = fn.apply(element);
+		    element.remove();
+		    return result;
+		}
+
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
+		var imageHeight;
+
+		if(p){
+			imageHeight = sandbox(image,function(){return this.height() });
+		}else{
+			imageHeight = image.height();
+		}
+
+
 
 		scroll.css(
 			{
-				'maxHeight':$(window).height()-image.height()-75+'px',
+				'maxHeight':$(window).height()-imageHeight-75+'px',
 				'overflow-y':'auto'
 			}
 		);
@@ -74,7 +99,7 @@ $(function(){
 	}
 
 
-	setHeightSS();
+	setHeightSS(true);
 
 
 	$(window).on('resize',function(){
