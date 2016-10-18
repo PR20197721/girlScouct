@@ -39,7 +39,7 @@
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	<div class="scroll-banner content">
 
 		<div class="reset"><%=text %></div>
@@ -57,16 +57,34 @@
 
 
 <script>
+
+
+
 $(function(){
 
-	function setHeightSS(){
+
+
+	function setHeightSS(p){
+		debugger;
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
+		var imageHeight;
+		var modalwidth = $('#vtk-banner-modal').innerWidth();
+		var realimgheight = document.getElementById('banner-image').height;
+		var realimgwidth = document.getElementById('banner-image').width;
+
+		if(p){
+			imageHeight = (modalwidth*realimgheight)/realimgwidth + 90;
+		}else{
+			imageHeight = image.height();
+		}
+
+
 
 		scroll.css(
 			{
-				'maxHeight':$(window).height()-image.height()-75+'px',
+				'maxHeight':$(window).height()-imageHeight-75+'px',
 				'overflow-y':'auto'
 			}
 		);
@@ -74,7 +92,7 @@ $(function(){
 	}
 
 
-	setHeightSS();
+	setHeightSS(true);
 
 
 	$(window).on('resize',function(){
