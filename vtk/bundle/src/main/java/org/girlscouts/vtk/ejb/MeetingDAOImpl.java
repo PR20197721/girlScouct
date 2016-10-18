@@ -210,10 +210,23 @@ public class MeetingDAOImpl implements MeetingDAO {
 					meeting.setMeetingInfo(globalMeetingInfo.getMeetingInfo());
 					meeting.setIsAchievement(globalMeetingInfo
 							.getIsAchievement());
-
 				}
-			}
-
+				
+			try{	
+				//check agenda chn to outdoor
+				for(int i=0;i< globalMeetingInfo.getActivities().size();i++){
+					Activity gActivity = globalMeetingInfo.getActivities().get(i);
+					if( gActivity.getIsOutdoorAvailable() )
+					 for(int y=0;y<meeting.getActivities().size();y++){
+						Activity activity = meeting.getActivities().get(y);
+						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
+							activity.setIsOutdoorAvailable(true);
+						}
+					}//edn y
+				}//edn i
+			}catch(Exception e){e.printStackTrace();}
+			}//edn if
+		
 		} catch (org.apache.jackrabbit.ocm.exception.IncorrectPersistentClassException ec) {
 			ec.printStackTrace();
 			throw new VtkException(
