@@ -18,7 +18,7 @@
   <%@include file="include/modals/modal_help.jsp"%>
 
 
-        <div id="vtk_banner2234"  class="column small-20 small-centered"  style="<%=session.getAttribute("isHideVtkBanner")!=null ? " display:none; " : "" %>"></div>
+        <div id="vtk_banner2234"  class="column small-20 small-centered" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"   style="<%=session.getAttribute("isHideVtkBanner")!=null ? " display:none; " : "" %>"></div>
 
     <script>
 
@@ -35,7 +35,7 @@
 
             $(function(){
               $('.vtk-banner-button').click(function(){
-               
+
                  $.ajax({
                    url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
                    dataType:'html',
