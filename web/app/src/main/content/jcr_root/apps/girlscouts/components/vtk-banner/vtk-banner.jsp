@@ -39,7 +39,7 @@
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	<div class="scroll-banner content">
 
 		<div class="reset"><%=text %></div>
@@ -57,16 +57,7 @@
 
 
 <script>
-$.fn.sandbox = function(fn) {
-    var element = $(this).clone(), result;
-    // make the element take space in the page but invisible
-    element.css({visibility: 'hidden', display: 'block'}).insertAfter(this);
-    // to override any display: none !important you may have been using
-    element.attr('style', element.attr('style').replace('block', 'block !important'));
-    result = fn.apply(element);
-    element.remove();
-    return result;
-};
+
 
 
 $(function(){
@@ -74,17 +65,17 @@ $(function(){
 
 
 	function setHeightSS(p){
-
-
-debugger;
-
+		debugger;
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
 		var imageHeight;
+		var modalwidth = $('#vtk-banner-modal').innerWidth();
+		var realimgheight = document.getElementById('banner-image').height;
+		var realimgwidth = document.getElementById('banner-image').width;
 
 		if(p){
-			imageHeight = image[0].height//image.sandbox(function(){return this.height() });
+			imageHeight = (modalwidth*realimgheight)/realimgwidth + 90;
 		}else{
 			imageHeight = image.height();
 		}
