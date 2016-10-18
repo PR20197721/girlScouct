@@ -309,8 +309,7 @@
 				*/
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
-				meetingUtil.rmSchedDate(user, troop,
-						Long.parseLong(request.getParameter("rmDate")));
+				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
