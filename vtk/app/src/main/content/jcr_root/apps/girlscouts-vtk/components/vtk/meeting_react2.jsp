@@ -85,7 +85,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-      <div id="vtk_banner2234"  class="column small-20 small-centered" style="">
+      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "No" %>"  class="column small-20 small-centered" style="<%=session.getAttribute("isHideVtkBanner")!=null ? " display:none; " : "" %>">
       </div>
 
 
@@ -105,7 +105,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
             $(function(){
               $('.vtk-banner-button').click(function(){
-            	  
+
                   $.ajax({
                     url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
                     dataType:'html',

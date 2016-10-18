@@ -11,7 +11,7 @@
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
-	
+
 	Resource sponsorImage = resource.getChild("sponsor-image");
 	String sponsorImagePath = "";
 	if(thumbnail != null) {
@@ -34,26 +34,57 @@
 </div>
 
 
-
-
-
 <div id="vtk-banner-modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
-	<div class="scroll content">
+	<img class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<div class="scroll-banner content">
 
-		<div><%=text %></div>
-		
+		<div class="reset"><%=text %></div>
+
+<% if (!"".equals(sponsorImagePath) || !"".equals(sponsorImageTitle)) { %>
 		<div class="sponsor">
-			<p style="text-align: center; font-size: 12px;"><img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px" alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>"><%=sponsorText %></p>
+			<p style="text-align: center; font-size: 12px;">
+				<img src="<%=sponsorImagePath %>" style="margin-right: 5px;" align="middle" width="50px" alt="<%=sponsorImageAlt %>" title="<%= sponsorImageTitle%>">
+				<%=sponsorText %>
+			</p>
 		</div>
+<%} %>
 	</div>
-
-
-
-
-
 </div>
+
+
+<script>
+$(function(){
+
+	function setHeightSS(){
+		var image = $('.banner-image');
+		var scroll = $('.scroll-banner');
+		var height = $(window).height();
+
+		scroll.css(
+			{
+				'maxHeight':$(window).height()-image.height()-75+'px',
+				'overflow-y':'auto'
+			}
+		);
+
+	}
+
+
+	setHeightSS();
+
+
+	$(window).on('resize',function(){
+		setHeightSS();
+	})
+		
+
+
+
+});
+</script>
+
+

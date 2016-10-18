@@ -136,7 +136,7 @@ function resetModalPage() {
 }
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
-
+        
     resetModalPage();
     var dataP = data || {};
 
@@ -147,7 +147,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print, data) {
     }).done(function(response){
         $("#gsModal").html(response);
         loadModal("#gsModal", showTitle, title, fullPageScroll, print);
-        $('#gsModal').children('.scroll').css('maxHeight','601px');
+                  $('#gsModal').children('.scroll').css('maxHeight','601px');
     }).fail(function(response, status, xhr){
        $("#error").html(response + xhr.status + " " + xhr.statusText);
     })
@@ -189,7 +189,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
             maxWidth: '920px',
             width: '100%',
             open: function() {
+
                 $('.scroll').css('max-height', ($(window).height() - 75) + 'px');
+                
+
+
                 $("body").css({ overflow: 'hidden' });
                 // $(".modalWrap").css({
                 //  'max-height': $(window).height() + 'px !important',
