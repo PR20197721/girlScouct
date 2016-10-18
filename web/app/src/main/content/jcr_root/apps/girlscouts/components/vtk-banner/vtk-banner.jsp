@@ -57,6 +57,18 @@
 
 
 <script>
+$.fn.sandbox = function(fn) {
+    var element = $(this).clone(), result;
+    // make the element take space in the page but invisible
+    element.css({visibility: 'hidden', display: 'block'}).insertAfter(this);
+    // to override any display: none !important you may have been using
+    element.attr('style', element.attr('style').replace('block', 'block !important'));
+    result = fn.apply(element);
+    element.remove();
+    return result;
+};
+
+
 $(function(){
 
 
@@ -64,17 +76,7 @@ $(function(){
 	function setHeightSS(p){
 
 
-		function sandbox($element,fn) {
-					debugger;
-		    var element = $element.clone(), result;
-		    // make the element take space in the page but invisible
-		    element.css({visibility: 'hidden', display: 'block'}).insertAfter($element);
-		    // to override any display: none !important you may have been using
-		    element.attr('style', element.attr('style').replace('block', 'block !important'));
-		    result = fn.apply(element);
-		    element.remove();
-		    return result;
-		}
+debugger;
 
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
@@ -82,7 +84,7 @@ $(function(){
 		var imageHeight;
 
 		if(p){
-			imageHeight = sandbox(image,function(){return this.height() });
+			imageHeight = image[0].height//image.sandbox(function(){return this.height() });
 		}else{
 			imageHeight = image.height();
 		}
