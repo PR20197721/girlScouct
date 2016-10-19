@@ -77,6 +77,7 @@ CQ.form.rte.plugins.LinkDialog = CQ.Ext.extend(CQ.form.rte.ui.BaseWindow, {
         path = CQ.HTTP.encodePath(path);
         // encodePath will not encode '&', so we're doing it here, as other callees of
         // encodePath might rely on that documented behaviour - see bug #30206
+        // EY - spaces and parentheses encoded as well
         path = path.replace(/&/g, "%26").replace(/ /g, "%20").replace(/\(/g, "%28").replace(/\)/g, "%29");
         if (anchor && (anchor.length > 0)) {
             path += ".html#" + anchor;
@@ -105,6 +106,7 @@ CQ.form.rte.plugins.LinkDialog = CQ.Ext.extend(CQ.form.rte.ui.BaseWindow, {
                             var path = record.get("path");
                             path = CQ.HTTP.encodePath(path);
                             // again, '&' needs to be encoded explicitly - see bug #30206
+                            // EY - spaces and parentheses encoded as well
                             path = path.replace(/&/g, "%26").replace(/ /g, "%20").replace(/\(/g, "%28").replace(/\)/g, "%29");
                             field.setValue(path);
                             evt.stopEvent();
