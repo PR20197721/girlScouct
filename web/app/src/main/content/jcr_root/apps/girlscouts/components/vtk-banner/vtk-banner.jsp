@@ -62,10 +62,10 @@
 
 $(function(){
 
-
+	overFlowY = false;
 
 	function setHeightSS(p){
-		debugger;
+		
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
@@ -79,8 +79,13 @@ $(function(){
 		}else{
 			imageHeight = image.height();
 		}
-
-
+debugger;
+		if($(window).height() < imageHeight){
+			overFlowY = true;
+			$('body').css('overflow-y','auto');
+		}else{
+			$('body').css('overflow-y','hidden');
+		}
 
 		scroll.css(
 			{
@@ -89,15 +94,28 @@ $(function(){
 			}
 		);
 
+
+
+
 	}
 
+	var reizeEvent;
 
-	setHeightSS(true);
+	$('#vtk-banner-modal').bind('open', function() {
+  		setHeightSS(true);
+  		reizeEvent = $(window).on('resize',function(){
+			setHeightSS();
+		})	
+	});
+
+	$('#vtk-banner-modal').bind('close', function() {
+		reizeEvent.off('resize');
+			
+	});
+	
 
 
-	$(window).on('resize',function(){
-		setHeightSS();
-	})
+	
 		
 
 
