@@ -9,14 +9,14 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <properties
                 jcr:primaryType="cq:Panel"
-                title="Settings">
+                title="Modal">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <modal-title
 	                    jcr:primaryType="cq:Widget"
 	                    fieldDescription="Modal title"
 	                    fieldLabel="Modal title"
 	                    name="./modalTitle"
-	                    xtype="textfield"/>s
+	                    xtype="textfield"/>
                 	<isRichTextFlag
 	                    jcr:primaryType="cq:Widget"
 	                    ignoreData="{Boolean}true"
@@ -193,7 +193,7 @@
                 name="./file"
                 requestSuffix="/thumbnail.img.png"
                 rotateParameter="./thumbnail/imageRotate"
-                title="Image"
+                title="Banner Image"
                 xtype="html5smartimage">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <resource-type
@@ -203,6 +203,26 @@
                         xtype="hidden"/>
                 </items>
             </image>
+            <modal-image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./modal-image/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./modal-image/fileName"
+                fileReferenceParameter="./modal-image/fileReference"
+                mapParameter="./modal-image/imageMap"
+                name="./file"
+                requestSuffix="/modal-image.img.png"
+                rotateParameter="./modal-image/imageRotate"
+                title="Modal Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./modal-image/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </modal-image>
             <sponsors
                 jcr:primaryType="cq:Panel"
                 title="Sponsors">

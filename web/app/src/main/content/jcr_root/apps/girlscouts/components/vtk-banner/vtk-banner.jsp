@@ -11,6 +11,12 @@
 	if(thumbnail != null) {
 		filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 	}
+	
+	Resource modalImage = resource.getChild("modal-image");
+	String modalImagePath = "";
+	if(modalImage != null) {
+		modalImagePath = ((ValueMap)modalImage.adaptTo(ValueMap.class)).get("fileReference", "");
+	}
 
 	Resource sponsorImage = resource.getChild("sponsor-image");
 	String sponsorImagePath = "";
@@ -39,7 +45,7 @@
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= modalImagePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	<div class="scroll-banner content">
 
 		<div class="reset"><%=text %></div>
