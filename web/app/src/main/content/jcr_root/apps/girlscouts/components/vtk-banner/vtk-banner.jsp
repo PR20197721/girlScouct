@@ -42,7 +42,7 @@
 
 <div id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
-		<h3 id="modalTitle"><%=modalTitle %></h2>
+		<h3 id="modalTitle"><%=modalTitle %></h3>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div>

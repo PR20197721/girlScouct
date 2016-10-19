@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -458,8 +459,11 @@ public class CalendarUtil {
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
 		Cal cal = plan.getSchedule();		
-		String sched = cal.getDates();
+		String sched = VtkUtil.sortDates(cal.getDates());
 		
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata0: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
 		
 		for(int i=0;i<100;i++){
 			if ((sched == null || sched.contains(newDate +""))) {
@@ -470,11 +474,69 @@ public class CalendarUtil {
 			}
 		}
 		sched = sched.replace("" + currDate, newDate + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate );
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata1: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
+		
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata2: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
+		
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != i ){
+				meetings.get(i).setId(i);
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("tata3: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
+		
+		
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
 		return true;
 	}
-
-
+	
+	
+private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> meetings, long currDate, long newDate ){
+	for(int i=0;i<meetings.size();i++){
+	
+		if( meetings.get(i).getDate().getTime()== currDate )
+			meetings.get(i).setDate( new java.util.Date( newDate) );
+	}
+	return meetings;
 }
+
+
+private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
+	System.err.println("tata: "+ sched);
+	
+	//sort meetings by Date
+	Comparator<MeetingE> comp = new BeanComparator("id");
+			if (meetings != null)
+				Collections.sort(meetings, comp);
+	
+	int count=0;
+	java.util.StringTokenizer t= new StringTokenizer( sched, ",");
+	while( t.hasMoreElements()){
+	
+		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
+		meetings.get(count).setDate(date);
+		count ++;
+	}
+	
+	return meetings;
+}
+
+}//edn class

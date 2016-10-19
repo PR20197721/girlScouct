@@ -174,7 +174,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Meeting getMeeting(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException {
-System.err.println("Kaca testssss "+ path);
+
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_VIEW_MEETING_ID))
@@ -194,10 +194,10 @@ System.err.println("Kaca testssss "+ path);
 		
 			meeting = (Meeting) ocm.getObject(path);
 	
-System.err.println("Kaca vvPath+"+ path);
+
 			if (meeting != null && path != null
 					&& path.contains("/lib/meetings/")) {
-System.err.println("Kaca vv");
+
 				Meeting globalMeetingInfo = getMeeting(
 						user,
 						troop,
@@ -205,27 +205,27 @@ System.err.println("Kaca vv");
 								+ VtkUtil.getCurrentGSYear() + "/"
 								+ meeting.getLevel().toLowerCase().trim() + "/"
 								+ meeting.getId());
-System.err.println("Kaca gg: "+ (globalMeetingInfo != null));
+
 				if (globalMeetingInfo != null) {
 					meeting.setMeetingInfo(globalMeetingInfo.getMeetingInfo());
 					meeting.setIsAchievement(globalMeetingInfo
 							.getIsAchievement());
 				}
-System.err.println("Kaca 1");	
-System.err.println("Kaca 2: "+ globalMeetingInfo.getActivities().size());	
+	
+	
 			try{	
 				//check agenda chn to outdoor
 				for(int i=0;i< globalMeetingInfo.getActivities().size();i++){
 					Activity gActivity = globalMeetingInfo.getActivities().get(i);
-System.err.println("Kaca 3: "+ gActivity.getIsOutdoorAvailable()+" : "+ gActivity.getName());
+
 					if( gActivity.getIsOutdoorAvailable() )
 					 for(int y=0;y<meeting.getActivities().size();y++){
 						Activity activity = meeting.getActivities().get(y);
-System.err.println("Kaca 4: "+ (!activity.getIsOutdoorAvailable())	+": "+activity.getName().equals(gActivity.getName()));			
+
 						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
-System.err.println("Kaca 5: "+activity.getIsOutdoorAvailable());			
+			
 							activity.setIsOutdoorAvailable(true);
-System.err.println("Kaca 6: "+activity.getIsOutdoorAvailable());
+							activity.setActivityDescription_outdoor( gActivity.getActivityDescription_outdoor() );
 						}
 					}//edn y
 				}//edn i
