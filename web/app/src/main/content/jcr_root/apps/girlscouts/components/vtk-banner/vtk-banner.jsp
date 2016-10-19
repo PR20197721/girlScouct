@@ -34,7 +34,7 @@
 </div>
 
 
-<div id="vtk-banner-modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal" data-reveal-id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
@@ -62,10 +62,10 @@
 
 $(function(){
 
-
+	overFlowY = false;
 
 	function setHeightSS(p){
-		debugger;
+		
 		var image = $('.banner-image');
 		var scroll = $('.scroll-banner');
 		var height = $(window).height();
@@ -80,7 +80,12 @@ $(function(){
 			imageHeight = image.height();
 		}
 
-
+		if($(window).height() < imageHeight){
+			overFlowY = true;
+			$('body').css('overflow-y','auto');
+		}else{
+			$('body').css('overflow-y','hidden');
+		}
 
 		scroll.css(
 			{
@@ -89,15 +94,25 @@ $(function(){
 			}
 		);
 
+
+
+
 	}
 
-
-	setHeightSS(true);
-
-
 	$(window).on('resize',function(){
-		setHeightSS();
-	})
+			setHeightSS();
+		})	
+
+
+
+	$('#vtk-banner-modal').bind('opened', function() {
+  		setHeightSS(true);
+  	
+	});
+
+
+
+	
 		
 
 
