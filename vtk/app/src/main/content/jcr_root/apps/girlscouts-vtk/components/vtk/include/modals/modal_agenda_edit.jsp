@@ -240,9 +240,7 @@ function showOutdoor(){
 
 
 	 function save(){
-	 	debugger;
-
-	 	if($('#indoor').lenght){
+	 	if($('#outdoor').length){
 
 		 	var inorout;
 		 	if($('#outdoor').find($('input:checked'))[0].value === 'yes'){

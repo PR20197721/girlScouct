@@ -41,7 +41,9 @@
                    dataType:'html',
                  }).done(function(){
                   $('.vtk-banner-image').slideUp();
-               })
+
+
+                  })
 
                // $('.vtk-banner-image').slideUp();
               });
@@ -51,6 +53,8 @@
         }
     });
 
+
+  $(document).foundation('reflow');
     </script>
 
 
