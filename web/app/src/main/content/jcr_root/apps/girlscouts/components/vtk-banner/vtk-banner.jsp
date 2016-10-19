@@ -34,7 +34,7 @@
 </div>
 
 
-<div id="vtk-banner-modal" data-reveal-id="vtk-banner-modal" class="reveal-modal" data-reveal data-options="close_on_background_click: false;" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal" data-reveal-id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>

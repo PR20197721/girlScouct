@@ -241,7 +241,6 @@ function showOutdoor(){
 
 	 function save(){
 	 	debugger;
-
 	 	if($('#indoor').lenght){
 
 		 	var inorout;
