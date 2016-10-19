@@ -18,7 +18,12 @@
   <%@include file="include/modals/modal_help.jsp"%>
 
 
-        <div id="vtk_banner2234"  class="column small-20 small-centered" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"   style="<%=session.getAttribute("isHideVtkBanner")!=null ? " display:none; " : "" %>"></div>
+        
+
+      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column small-20 small-centered" style="display:none;">
+      </div>
+
+
 
     <script>
 
@@ -34,6 +39,12 @@
             $("#vtk_banner2234").html(result);
 
             $(function(){
+              // if($("#vtk_banner2234").data('cached') === 'no'){
+              //   $("#vtk_banner2234").show();
+              // }
+
+
+
               $('.vtk-banner-button').click(function(){
 
                  $.ajax({
@@ -42,10 +53,10 @@
                  }).done(function(){
                   $('.vtk-banner-image').slideUp();
 
-
+                    $(document).foundation('reflow');
                   })
 
-               // $('.vtk-banner-image').slideUp();
+
               });
             });
 
@@ -54,7 +65,6 @@
     });
 
 
-  $(document).foundation('reflow');
     </script>
 
 
@@ -80,6 +90,7 @@
 
 
       var CommentBox = React.createClass({displayName: "CommentBox",
+
        loadCommentsFromServer: function( isFirst ) {
          if (isFirst) {
              $.ajax({
@@ -114,6 +125,10 @@
         isReordering: false,
         componentDidMount: function() {
             loadNav('plan');
+
+         if($("#vtk_banner2234").data('cached') === 'no'){
+            $("#vtk_banner2234").show();
+          }
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);

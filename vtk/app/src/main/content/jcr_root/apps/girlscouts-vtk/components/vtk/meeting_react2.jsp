@@ -85,7 +85,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "No" %>"  class="column small-20 small-centered" style="<%=session.getAttribute("isHideVtkBanner")!=null ? " display:none; " : "" %>">
+      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column small-20 small-centered" style="display:none;">
       </div>
 
 
@@ -104,6 +104,12 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
           $("#vtk_banner2234").html(result);
 
             $(function(){
+
+              if($("#vtk_banner2234").data('cached') === 'no'){
+                $("#vtk_banner2234").show();
+              }
+
+
               $('.vtk-banner-button').click(function(){
 
                   $.ajax({
