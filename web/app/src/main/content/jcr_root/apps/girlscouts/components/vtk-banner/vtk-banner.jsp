@@ -40,12 +40,15 @@
 </div>
 
 
-<div id="vtk-banner-modal" data-reveal-id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h2>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= modalImagePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<div>
+			<img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	</div>
+
 	<div class="scroll-banner content">
 
 		<div class="reset"><%=text %></div>
@@ -83,12 +86,6 @@ $(function(){
 
 			imageHeight = image.height();
 
-		if($(window).height() < imageHeight){
-			overFlowY = true;
-			$('body').css('overflow-y','auto');
-		}else{
-			$('body').css('overflow-y','hidden');
-		}
 
 		scroll.css(
 			{

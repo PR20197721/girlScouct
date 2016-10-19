@@ -126,9 +126,8 @@
         componentDidMount: function() {
             loadNav('plan');
 
-         if($("#vtk_banner2234").data('cached') === 'no'){
-            $("#vtk_banner2234").show();
-          }
+
+     
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -343,6 +342,16 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
 
        }
+
+
+       
+        //Hack for give some time that calls from React get picked    
+        setTimeout(function(){
+            // get if the there is a vtk cached
+            if($("#vtk_banner2234").data('cached') === 'no'){
+              $("#vtk_banner2234").show();
+            }
+        },600)
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
