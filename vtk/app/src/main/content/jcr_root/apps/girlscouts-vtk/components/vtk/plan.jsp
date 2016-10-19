@@ -29,7 +29,19 @@
 
     <script>
 
-    $.ajax({
+
+
+  $(function(){
+   
+  })
+
+
+
+    $(function(){
+
+
+
+      $.ajax({
         url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
         dataType:'html',
@@ -55,10 +67,7 @@
                  }).done(function(){
                   $('.vtk-banner-image').slideUp();
 
-                    $(document).foundation('reveal');
-
-
-                     //Hack for give some time that calls from React get picked    
+                   
        
                   })
 
@@ -67,37 +76,21 @@
             });
 
 
-             $(function(){
-          setTimeout(function(){
             // get if the there is a vtk cached
             if($("#vtk_banner2234").data('cached') === 'no'){
               $("#vtk_banner2234").show();
             }
-          },1000);
-        })
-
+       
 
         }
-    });
+      });
 
 
-    $("#vtk_banner2234").data('reveal-init', {
-    animation: 'fadeAndPop',
-    close_on_esc: false,
-    dismiss_modal_class: 'close-reveal-modal',
-    css : {
-        open : {
-            'opacity': 0,
-            'visibility': 'visible',
-            'display' : 'block'
-        },
-        close : {
-            'opacity': 1,
-            'visibility': 'hidden',
-            'display': 'none'
-        }
-    }
-});
+
+     });
+
+
+   
 
 
     </script>
