@@ -240,16 +240,26 @@ function showOutdoor(){
 
 
 	 function save(){
-	 	var inorout;
-	 	if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
-	 		inorout = 'true';
+	 	debugger;
+
+	 	if($('#indoor').lenght){
+
+		 	var inorout;
+		 	if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
+		 		inorout = 'true';
+		 	}else{
+		 		inorout = 'false';
+		 	}
+		 	
+		 	cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
+		 	.complete(function(){
+		 	 	durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+		 	})
 	 	}else{
-	 		inorout = 'false';
+
+	 		durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
 	 	}
-	 	
-	 	cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
-	 	.complete(function(){
-	 	 	durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
-	 	})
+
+	 
 	 }
 	</script>
