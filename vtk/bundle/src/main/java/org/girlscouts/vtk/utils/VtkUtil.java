@@ -593,4 +593,20 @@ public static boolean isAnyOutdoorActivitiesInMeetingAvailable(Meeting meeting){
 	return false;
 }
 
+public static String sortDates(String dates){
+	java.util.List<Date> container = new java.util.ArrayList();
+	java.util.StringTokenizer t= new StringTokenizer( dates, ",");
+	while( t.hasMoreElements()){
+	
+		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
+		container.add( date );
+	}
+	
+	java.util.Collections.sort(container);
+	String toRet = "";
+	for(int i=0;i<container.size();i++){
+		toRet += container.get(i).getTime() +",";
+	}
+	return toRet;
+}
 }//end class

@@ -225,7 +225,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 						if( !activity.getIsOutdoorAvailable() && activity.getName().equals(gActivity.getName()) ){
 			
 							activity.setIsOutdoorAvailable(true);
-
+							activity.setActivityDescription_outdoor( gActivity.getActivityDescription_outdoor() );
 						}
 					}//edn y
 				}//edn i
