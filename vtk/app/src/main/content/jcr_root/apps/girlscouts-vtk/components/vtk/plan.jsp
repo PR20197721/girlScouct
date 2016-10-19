@@ -16,12 +16,14 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
-
-
-        
-
-      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column small-20 small-centered" style="display:none;">
-      </div>
+       
+  <div 
+    id="vtk_banner2234" 
+    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
+    class="column small-20 small-centered" 
+    style="display:none;"
+  >
+  </div>
 
 
 
@@ -77,6 +79,25 @@
 
         }
     });
+
+
+    $("#vtk_banner2234").data('reveal-init', {
+    animation: 'fadeAndPop',
+    close_on_esc: false,
+    dismiss_modal_class: 'close-reveal-modal',
+    css : {
+        open : {
+            'opacity': 0,
+            'visibility': 'visible',
+            'display' : 'block'
+        },
+        close : {
+            'opacity': 1,
+            'visibility': 'hidden',
+            'display': 'none'
+        }
+    }
+});
 
 
     </script>
