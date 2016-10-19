@@ -99,20 +99,17 @@ $(function(){
 
 	}
 
-	var reizeEvent;
-
-	$('#vtk-banner-modal').bind('open', function() {
-  		setHeightSS(true);
-  		reizeEvent = $(window).on('resize',function(){
+	$(window).on('resize',function(){
 			setHeightSS();
 		})	
+
+
+
+	$('#vtk-banner-modal').bind('opened', function() {
+  		setHeightSS(true);
+  	
 	});
 
-	$('#vtk-banner-modal').bind('close', function() {
-		reizeEvent.off('resize');
-			
-	});
-	
 
 
 	
