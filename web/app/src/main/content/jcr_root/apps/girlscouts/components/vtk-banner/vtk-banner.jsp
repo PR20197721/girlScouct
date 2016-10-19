@@ -74,11 +74,8 @@ $(function(){
 		var realimgheight = document.getElementById('banner-image').height;
 		var realimgwidth = document.getElementById('banner-image').width;
 
-		if(p){
-			imageHeight = (modalwidth*realimgheight)/realimgwidth + 90;
-		}else{
+
 			imageHeight = image.height();
-		}
 
 		if($(window).height() < imageHeight){
 			overFlowY = true;

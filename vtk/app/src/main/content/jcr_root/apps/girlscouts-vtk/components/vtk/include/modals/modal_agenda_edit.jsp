@@ -240,7 +240,6 @@ function showOutdoor(){
 
 
 	 function save(){
-	 	debugger;
 	 	if($('#outdoor').length){
 
 		 	var inorout;
