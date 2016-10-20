@@ -16,18 +16,32 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
-
-
-        
-
-      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column small-20 small-centered" style="display:none;">
-      </div>
+       
+  <div 
+    id="vtk_banner2234" 
+    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
+    class="column small-20 small-centered" 
+    style="display:none;"
+  >
+  </div>
 
 
 
     <script>
 
-    $.ajax({
+
+
+  $(function(){
+   
+  })
+
+
+
+    $(function(){
+
+
+
+      $.ajax({
         url: '/content/vtkcontent/en/vtk-banner.simple.html',
         type: 'GET',
         dataType:'html',
@@ -53,7 +67,8 @@
                  }).done(function(){
                   $('.vtk-banner-image').slideUp();
 
-                    $(document).foundation('reflow');
+                   
+       
                   })
 
 
@@ -61,8 +76,21 @@
             });
 
 
+            // get if the there is a vtk cached
+            if($("#vtk_banner2234").data('cached') === 'no'){
+              $("#vtk_banner2234").show();
+            }
+       
+
         }
-    });
+      });
+
+
+
+     });
+
+
+   
 
 
     </script>
@@ -126,9 +154,8 @@
         componentDidMount: function() {
             loadNav('plan');
 
-         if($("#vtk_banner2234").data('cached') === 'no'){
-            $("#vtk_banner2234").show();
-          }
+
+     
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -343,6 +370,11 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
 
        }
+
+
+
+       
+
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;

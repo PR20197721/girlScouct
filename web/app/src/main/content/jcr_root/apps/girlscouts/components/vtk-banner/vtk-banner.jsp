@@ -29,7 +29,7 @@
 
 
 <div class="vtk-banner-image">
-	<a href="#" data-reveal-id="vtk-banner-modal">
+	<a href="#" data-reveal-id="vtk-banner-modal" data-effect="modal" data-reveal-init data-options="animation:'none'" >
 		<img src="<%= filePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
 	</a>
 
@@ -40,12 +40,15 @@
 </div>
 
 
-<div id="vtk-banner-modal" data-reveal-id="vtk-banner-modal" data-reveal  class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+<div id="vtk-banner-modal" data-reveal data-options="close_on_background_click:false; close_on_esc: false;" class="reveal-modal" aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 	<div class="header clearfix">
 		<h3 id="modalTitle"><%=modalTitle %></h3>
 			 <a class="close-reveal-modal" aria-label="Close"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<img id="banner-image" class="banner-image" style="width:100%;height:auto;" src="<%= modalImagePath %>" alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	<div>
+			<img id="banner-image" class="banner-image" draggable="false" style="width:100%;height:auto;pointer-events: none" src="<%= modalImagePath %>"   alt="<%=imageAlt %>" title="<%=imageTitle %>" >
+	</div>
+
 	<div class="scroll-banner content">
 
 		<div class="reset"><%=text %></div>
@@ -68,6 +71,31 @@
 
 $(function(){
 
+	$('#vtk-banner-modal').data('reveal-init', {
+        animation: 'fadeAndPop',
+        animation_speed: 50,
+        close_on_background_click: false,
+        close_on_esc: false,
+        dismiss_modal_class: 'close-reveal-modal',
+        bg_class: 'reveal-modal-bg',
+        bg : $('.reveal-modal-bg'),
+        css : {
+            open : {
+                'opacity': 0,
+                'visibility': 'visible',
+                'display' : 'block'
+            },
+            close : {
+                'opacity': 1,
+                'visibility': 'hidden',
+                'display': 'none'
+            }
+        }
+    });
+
+
+
+
 	overFlowY = false;
 
 	function setHeightSS(p){
@@ -83,12 +111,6 @@ $(function(){
 
 			imageHeight = image.height();
 
-		if($(window).height() < imageHeight){
-			overFlowY = true;
-			$('body').css('overflow-y','auto');
-		}else{
-			$('body').css('overflow-y','hidden');
-		}
 
 		scroll.css(
 			{

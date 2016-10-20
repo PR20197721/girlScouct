@@ -117,7 +117,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                     dataType:'html',
                   }).done(function(){
                    $('.vtk-banner-image').slideUp();
-                     $(document).foundation('reflow');
+
                 })
 
                 // $('.vtk-banner-image').slideUp();
