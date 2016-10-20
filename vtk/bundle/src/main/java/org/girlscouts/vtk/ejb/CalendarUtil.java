@@ -130,7 +130,8 @@ public class CalendarUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String sched = cal.getDates();
+		//String sched = cal.getDates();
+		String sched = VtkUtil.sortDates(cal.getDates());
 		if ((sched == null || sched.contains(newDate.getTime() + ""))
 				&& !(("" + currDate).equals(newDate.getTime() + ""))) {
 			log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal");
@@ -149,7 +150,7 @@ public class CalendarUtil {
 		
 		
 		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 0 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+			System.err.println("Kaca 0 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
 		
 		
 		for(int i=0;i<100;i++){
@@ -160,13 +161,14 @@ public class CalendarUtil {
 				newDate= c.getTime();
 			}
 		}
+		
 		sched = sched.replace("" + currDate, newDate.getTime() + "");
 		
 		
 		updateSchedMeetings( meetings, currDate, newDate.getTime() );
 		
 		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 0.1 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+			System.err.println("Kaca 0.1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
 		
 		
 		//sort meetings by Date
@@ -176,23 +178,25 @@ public class CalendarUtil {
 		
 		
 		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 1 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+			System.err.println("Kaca 1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
 		
 		for(int i=0;i<meetings.size();i++){
-			if( meetings.get(i).getId() != i ){
-				meetings.get(i).setId(i);
+			if( meetings.get(i).getId() != (i+1) ){
+				meetings.get(i).setId((i+1));
 				meetings.get(i).setDbUpdate(true);
 			}
 		}
 		
 		
+		
 		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 2 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+			System.err.println("Kaca 2 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
 		
 		
 		
 		
-		
+		/* GOOD
 		
 		
 		for (int i = 0; i < meetings.size(); i++) {
@@ -202,11 +206,11 @@ public class CalendarUtil {
 				troop.getYearPlan().setAltered("true");
 			}
 		}
-		
+		*/
 		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 3 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+			System.err.println("Kaca 3 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
 		
-		
+		//troop.getYearPlan().setMeetingEvents(meetings);
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
