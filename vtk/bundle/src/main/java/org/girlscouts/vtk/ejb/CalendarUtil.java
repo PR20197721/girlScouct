@@ -136,10 +136,65 @@ public class CalendarUtil {
 			log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal");
 			return false;
 		}
+		/*
 		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		cal.setDates(sched);
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		
+
+		
+		//-java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		
+		*/
+		
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 0 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate.getTime() +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate.getTime());
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTime();
+			}
+		}
+		sched = sched.replace("" + currDate, newDate.getTime() + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate.getTime() );
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 0.1 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 1 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != i ){
+				meetings.get(i).setId(i);
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 2 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		
+		
+		
+		
+		
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getPath().equals(meetingPath)) {
@@ -147,6 +202,13 @@ public class CalendarUtil {
 				troop.getYearPlan().setAltered("true");
 			}
 		}
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 3 : "+ meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		cal.setDates(sched);
+		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
 		return true;
 	}
@@ -462,8 +524,6 @@ public class CalendarUtil {
 		String sched = VtkUtil.sortDates(cal.getDates());
 		
 		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata0: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
 		
 		for(int i=0;i<100;i++){
 			if ((sched == null || sched.contains(newDate +""))) {
@@ -478,8 +538,6 @@ public class CalendarUtil {
 		
 		updateSchedMeetings( meetings, currDate, newDate );
 		
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata1: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
 		
 		
 		//sort meetings by Date
@@ -488,8 +546,6 @@ public class CalendarUtil {
 			Collections.sort(meetings, comp);
 		
 		
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata2: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
 		
 		
 		for(int i=0;i<meetings.size();i++){
@@ -498,8 +554,6 @@ public class CalendarUtil {
 				meetings.get(i).setDbUpdate(true);
 			}
 		}
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("tata3: "+ i+" : "+ meetings.get(i).getId()+ " :" +  meetings.get(i).getMeetingInfo().getName() +" : "+ meetings.get(i).getDate() );
 		
 		
 		cal.setDates(sched);
@@ -520,7 +574,7 @@ private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> m
 
 
 private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
-	System.err.println("tata: "+ sched);
+
 	
 	//sort meetings by Date
 	Comparator<MeetingE> comp = new BeanComparator("id");
