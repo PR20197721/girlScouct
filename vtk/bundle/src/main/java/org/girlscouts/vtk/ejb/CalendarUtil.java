@@ -182,8 +182,8 @@ public class CalendarUtil {
 		
 		
 		for(int i=0;i<meetings.size();i++){
-			if( meetings.get(i).getId() != (i+1) ){
-				meetings.get(i).setId((i+1));
+			if( meetings.get(i).getId() != (i) ){
+				meetings.get(i).setId((i));
 				meetings.get(i).setDbUpdate(true);
 			}
 		}
