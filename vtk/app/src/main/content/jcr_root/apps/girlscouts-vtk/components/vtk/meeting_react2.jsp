@@ -844,7 +844,9 @@ React.createElement(ActivityPlan),
 
                       React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"},
                     		  React.createElement(Outdoor,{item:item}),
-                        React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration ), "America/New_York").format("h:mm"), " ")
+                    		  
+                    		  
+                        React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment.tz(getAgendaTime( item.duration ), "America/New_York").format("h:mm"), " ")
 
 
                       ),
