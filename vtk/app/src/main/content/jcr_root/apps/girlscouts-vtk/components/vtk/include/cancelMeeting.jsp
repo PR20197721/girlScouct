@@ -27,7 +27,7 @@
                                    
                                      
                                       <td> 
-                                     <%=dt%> 
+                                    <%=VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE,  dt )%>
                                      </td>
                                     
                                     <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>

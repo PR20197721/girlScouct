@@ -19,7 +19,7 @@
 			                             <input type="checkbox" name="_tag_m" id="y<%=meetingsToCancel.get(i).getUid() %>" value="<%=dt.getTime()%>">
 			                             <label for="y<%=meetingsToCancel.get(i).getUid() %>"><span></span><p></p></label>
                                      </td>
-                                     <td> <%=dt%> </td>
+                                     <td> <%=VtkUtil.formatDate(VtkUtil.FORMAT_CALENDAR_DATE,  dt )%> </td>
                                       <td><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></td>
 			                          <td class="vtk_age_level <%= meetingsToCancel.get(i).getMeetingInfo().getLevel() %>"><%= meetingsToCancel.get(i).getMeetingInfo().getLevel().charAt(0) %></td>
 			                           </tr>
