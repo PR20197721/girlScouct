@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:08:57.012-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She’s a Park Explorer at Stephen Foster State Park- CSA"
+        jcr:uuid="66e2f3f5-9560-4d91-8d62-ec1671dadb1c"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="11016 Lillian Sanders Dr, White Springs, FL 32096"
+            color="#EC008C"
+            details="&lt;p>She’s a Park Explorer at Stephen Foster State Park- CSA&lt;br>&#xa;Grades: 6, 7, 8, 9, 10, 11, 12&lt;/p>&#xa;&lt;p>Explore, discover, make a difference! Participate in hands-on activities to discover what it takes to safeguard beaches for sea turtles and shorebirds, keep water and forests healthy, and take care of cool places that showcase the history of Florida. Things might even get a little adventurous. It’s always exciting when exploring state parks!&lt;/p>&#xa;&lt;p>More information to come about this wonderful program opportunity!&lt;/p>&#xa;&lt;p>*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&lt;/p>&#xa;&lt;p>&lt;br>&#xa;$8/girl, $8/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-01-09T15:00:00.000-05:00"
+            locationLabel="Stephen Foster Folk Culture Center State Park"
+            register="http://girlscouts-gateway.doubleknot.com/event/shes-a-park-explorer-at-stephen-foster-state-park-csa/1831905"
+            start="{Date}2016-01-09T13:00:00.008-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:08:57.005-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

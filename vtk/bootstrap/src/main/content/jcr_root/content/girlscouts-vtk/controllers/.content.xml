@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-19T18:17:22.399-04:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts VTK"
+        sling:resourceType="girlscouts/components/page"/>
+    <auth jcr:primaryType="nt:unstructured"/>
+    <hello jcr:primaryType="nt:unstructured"/>
+    <vtk
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="girlscouts-vtk/components/vtk"/>
+    <vtk-maintenance-skipper
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="girlscouts-vtk/components/maintenance-skipper"/>
+</jcr:root>

@@ -1,0 +1,39 @@
+For VTK to work with Salesforce, we need to create a client self signed public key certificate and upload it into the Salesforce server keystore.
+
+Reference: https://partners.salesforce.com/partnerNews?id=a033000000C80qRAAR
+
+To create a new client certificate keystore with client certificate:
+keytool -keysize 2048 -genkey -alias mycert -keyalg RSA -validity 3650 -keystore mycert.jks -dname "CN=my.girlscouts.org, OU=gsusa, O=Girl Scouts of the United States of America, L=New York, ST=New York, C=US"
+
+Or exclude the -dname flag and enter information:
+Enter keystore password: icruise123
+Re-enter new password: icruise123
+What is your first and last name? my.girlscouts.org
+What is the name of your organizational unit? gsusa
+What is the name of your organization? Girl Scouts of the United States of America
+What is the name of your City or Locality? New York
+What is the name of your State or Province? New York
+What is the two-letter country code for this unit? US
+Is CN=my.girlscouts.org, OU=gsusa, O=Girl Scouts of the United States of America, L=New York, ST=New York, C=US correct? yes
+Enter key password for <client> (RETURN if same as keystore password): <empty>
+
+Convert keystore to pkcs12 format:
+keytool -importkeystore -srckeystore mycert.jks -destkeystore mycert.p12 -deststoretype PKCS12
+
+Convert pkcs12 keystore to pem format:
+openssl pkcs12 -nocerts -in mycert.p12 -out key.pem -nodes
+
+Export certificate from keystore:
+keytool -export -alias mycert -file mycert.crt -keystore mycert.jks -rfc
+
+Convert the keystore to base64 format:
+openssl base64 -in mycert.jks -out mycert.base64.jks
+
+After this, you need to add the keystore to each of the VTK platforms. e.g. on stage:
+/usr/local/src/git/girlscouts/vtk/app/src/main/content/jcr_root/apps/girlscouts-vtk/config.stage.publish/org.girlscouts.vtk.impl.helpers.ConfigManagerImpl.config
+gsCertificate="<contents of mycert.base64.jks>"
+You will need to remove white padding and linebreaks. You should use a text editor like VI to do this or there may be some inconsitent effects like hidden linebreaks.
+
+Next got to the corresponding Salesforce Oauth page:
+https://test.salesforce.com alex_yakobovich@northps.com,icruise123
+Go to Setup->Create->Manage your custom apps->VTK Local->Edit->Use digital signatures-> Upload your mycert.crt file here.

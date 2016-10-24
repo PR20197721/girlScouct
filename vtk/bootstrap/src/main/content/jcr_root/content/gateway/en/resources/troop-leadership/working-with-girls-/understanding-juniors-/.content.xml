@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-09-25T10:58:13.791-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-09-25T10:58:13.842-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:lastRolledout="{Date}2014-09-25T10:58:13.798-04:00"
+        cq:lastRolledoutBy="admin"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[cq:LiveRelationship,mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Understanding Juniors "
+        jcr:uuid="43e3ab26-b812-42e3-8f8b-e21b2209141e"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <content
+            cq:lastRolledout="{Date}2014-09-25T10:58:13.741-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured">
+            <middle
+                cq:lastRolledout="{Date}2014-09-25T10:58:13.749-04:00"
+                cq:lastRolledoutBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship]"
+                jcr:primaryType="nt:unstructured">
+                <par
+                    cq:lastRolledout="{Date}2014-09-25T10:58:13.766-04:00"
+                    cq:lastRolledoutBy="admin"
+                    jcr:mixinTypes="[cq:LiveRelationship]"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        cq:lastRolledout="{Date}2014-09-25T10:58:13.788-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-08T18:33:22.000-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:58:13.787-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"
+                        title="Understanding Healthy Development"
+                        type="h4"/>
+                    <image
+                        cq:lastRolledout="{Date}2014-09-25T10:58:13.790-04:00"
+                        cq:lastRolledoutBy="admin"
+                        jcr:created="{Date}2014-07-08T18:33:34.752-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-09-25T10:58:13.789-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:mixinTypes="[cq:LiveRelationship]"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/volunteer-resources/safety guidelines junior table image.png"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            cq:lastRolledout="{Date}2014-09-25T10:58:13.792-04:00"
+            cq:lastRolledoutBy="admin"
+            jcr:lastModified="{Date}2014-09-25T10:58:13.791-04:00"
+            jcr:lastModifiedBy="mgarg"
+            jcr:mixinTypes="[cq:LiveRelationship]"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

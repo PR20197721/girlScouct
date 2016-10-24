@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:08:41.653-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="It’s Your Cookie Business-Run It!- CSA- Session A"
+        jcr:uuid="833779be-6144-46ff-8e5c-ab3a8efe5bbe"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1000 Shearer Avenue, Jacksonville, FL 32205"
+            color="#EC008C"
+            details="&lt;p>It’s Your Cookie Business-Run It!- CSA- Session A&lt;br>&#xa;Grades: 6, 7, 8, 9, 10, 11, 12&lt;/p>&#xa;&lt;p>Want to know what it takes to become a successful businesswoman? This is your chance to learn from the best! This interactive workshop will set you up for success this cookie season as you discover your brand, set your goals, learn how to appreciate your customers, and explore business ethics. Fun patch included.&lt;/p>&#xa;&lt;p>*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&lt;/p>&#xa;&lt;p>$15/girl, $1/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-01-09T11:00:00.000-05:00"
+            locationLabel="Girl Scouts Service Center- Jacksonville"
+            register="http://girlscouts-gateway.doubleknot.com/event/its-your-cookie-business-run-it-csa-session-a/1831909"
+            start="{Date}2016-01-09T09:00:00.008-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:08:41.646-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/training.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-23T18:19:00.859-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-07-23T13:42:37.056-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/libs/cq/replication/templates/agent"
+        jcr:description="Agent that replicates VTK content."
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:lastModified="{Date}2014-07-23T18:19:00.855-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:mixinTypes="[cq:ReplicationStatus,mix:versionable]"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="VTK Agent"
+        jcr:uuid="63f05f50-ee3f-49dd-8c0f-47bc36046b16"
+        sling:resourceType="cq/replication/components/agent"
+        logLevel="info"
+        retryDelay="60000"
+        serializationType="durbo"
+        transportPassword="\{480cd40fe869267663e03d8619466e144358d07cb79208e6458ce0156851e0c8}"
+        transportUri="http://localhost:4505/bin/vtk-receive?sling:authRequestLogin=1"
+        transportUser="admin"
+        triggerSpecific="true"/>
+</jcr:root>

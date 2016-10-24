@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-05-07T17:11:48.459-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2015-05-07T17:11:49.991-04:00"
+        cq:lastReplicatedBy="mkaufman"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="2015 Annual Meeting"
+        jcr:uuid="1811d4ad-3346-4701-90d9-6e3966af295c"
+        sling:resourceType="girlscouts/components/three-column-page"
+        sling:vanityPath="/content/gateway/annualmtg"
+        seoTitle="2015 Annual Meeting | Girl Scouts of Gateway Council">
+        <image
+            jcr:lastModified="{Date}2015-04-06T12:32:27.310-04:00"
+            jcr:lastModifiedBy="drodgers"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2015-02-07T12:21:06.412-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T12:21:06.412-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/title"/>
+                    <image
+                        jcr:created="{Date}2015-02-07T13:28:35.211-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T13:29:59.559-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Annual Meeting Recap"
+                        sling:resourceType="girlscouts/components/image"
+                        fileReference="/content/dam/gateway/newsImgs/annMtg2015.jpg"
+                        imageRotate="0"
+                        linkURL="https://www.flickr.com/photos/gsgc/sets/72157650683609411/"/>
+                    <text_2
+                        jcr:created="{Date}2015-02-07T13:43:13.936-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T14:26:04.828-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;p style=&quot;text-align: center;&quot;>Girl Scouts of Gateway Council thanks all of you who joined us for our 2015 Annual Meeting on Saturday, February 7 at the Schultz Center. We hope you had a wonderful morning full of girl leadership, excitement and celebrating our wonderful volunteers. Our hats go off to all girl participants, you made us PROUD!&lt;/p>&#xa;&lt;p style=&quot;text-align: center;&quot;>Congratulations to all of our award recipients listed below.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <text_1
+                        jcr:created="{Date}2015-02-07T13:41:29.547-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T13:59:49.264-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;table width=&quot;531&quot; cellspacing=&quot;0&quot; cellpadding=&quot;1&quot; border=&quot;1&quot; height=&quot;75&quot;>&#xa;&lt;tbody>&lt;tr>&lt;td>&lt;u>&lt;b>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Tenure&lt;/b>&lt;/u>&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>15 Years - Angela Cookston&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;15&amp;nbsp;Years - Anissa Minor&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;15&amp;nbsp;Years - Sharon Pass &amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;15&amp;nbsp;Years - Audrey Pridgen&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;15&amp;nbsp;Years - Tia Pridgen&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;15&amp;nbsp;Years - Natalie Rohman&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;20&amp;nbsp;Years - Gwendolyn Osbourne&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;30&amp;nbsp;Years - Nancy Bucknell&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;35&amp;nbsp;Years - Lisa Seymour&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;40&amp;nbsp;Years - JoAnne Wyman&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;49&amp;nbsp;Years - Margarete Henschel&amp;nbsp;&amp;nbsp;&amp;nbsp;&lt;br>&#xa;55&amp;nbsp;Years - Pauline Carter&lt;br>&#xa;&lt;/td>&#xa;&lt;/tr>&lt;/tbody>&lt;/table>&#xa;"
+                        textIsRich="true"/>
+                    <text_4
+                        jcr:created="{Date}2015-02-07T13:45:46.920-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T14:00:41.065-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;table width=&quot;531&quot; cellspacing=&quot;0&quot; cellpadding=&quot;1&quot; border=&quot;1&quot; height=&quot;75&quot;>&#xa;&lt;tbody>&lt;tr>&lt;td>&lt;b>&lt;u>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Thanks Badge&lt;/u>&lt;/b>&lt;br>&#xa;&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>Darlene Wallace-Weston&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>&lt;b>&lt;u>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Gateway Council Badge&lt;/u>&lt;/b>&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>Shelley Whetstone&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>&lt;b>&lt;u>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Exceptional Leader&lt;/u>&lt;/b>&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>Jennifer Bangert&lt;br>&#xa;Angela LaPete&lt;br>&#xa;Debbie Thornton&lt;/td>&#xa;&lt;/tr>&lt;/tbody>&lt;/table>&#xa;"
+                        textIsRich="true"/>
+                    <text_3
+                        jcr:created="{Date}2015-02-07T13:43:28.718-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T14:01:21.403-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;table width=&quot;531&quot; cellspacing=&quot;0&quot; cellpadding=&quot;1&quot; border=&quot;1&quot; height=&quot;75&quot;>&#xa;&lt;tbody>&lt;tr>&lt;td>&lt;u>&lt;b>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Appreciation Pin&lt;/b>&lt;/u>&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>Lisa Fields&lt;br>&#xa;Tonia Lee&lt;br>&#xa;Kim Parker&lt;br>&#xa;Amy Cimmerer&lt;br>&#xa;Barbara Moseley&lt;br>&#xa;Eilene Pancrazio&lt;br>&#xa;Kimberly Renee Parker&lt;br>&#xa;Sharon Pass&lt;br>&#xa;Tonya Mayo&lt;br>&#xa;Gwendolyn Osborne&lt;br>&#xa;Karen Richardson&lt;/td>&#xa;&lt;/tr>&lt;/tbody>&lt;/table>&#xa;"
+                        textIsRich="true"/>
+                    <text_0
+                        jcr:created="{Date}2015-02-07T13:37:19.036-05:00"
+                        jcr:createdBy="bmoore"
+                        jcr:lastModified="{Date}2015-02-07T14:01:30.831-05:00"
+                        jcr:lastModifiedBy="bmoore"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/text"
+                        text="&lt;table width=&quot;531&quot; cellspacing=&quot;0&quot; cellpadding=&quot;1&quot; border=&quot;1&quot; height=&quot;75&quot;>&#xa;&lt;tbody>&lt;tr>&lt;td colspan=&quot;2&quot;>&lt;b>&lt;u>&lt;img src=&quot;/content/dam/girlscouts-shared/images/Icons/modified-icons/trefoil_icon.png&quot;>Volunteer of Excellence&lt;/u>&lt;/b>&lt;/td>&#xa;&lt;/tr>&lt;tr>&lt;td>Melissa Ayers&lt;br>&#xa;Kianna Boyette&lt;br>&#xa;Cheryl Brugna&lt;br>&#xa;Katie Davis&lt;br>&#xa;Maqueitha Davis&lt;br>&#xa;Ragan Dupuis&lt;br>&#xa;Michelle Gallo&lt;br>&#xa;Denise Garvey&lt;br>&#xa;Samantha Hanner&lt;br>&#xa;Adrienne Herndon&lt;br>&#xa;Traci Janschutz&lt;br>&#xa;Maxine Johnston&lt;br>&#xa;Danielle Jolley&lt;br>&#xa;Pati Lash&lt;br>&#xa;Markayla Lewis&lt;br>&#xa;April Madison&lt;br>&#xa;Eugenia Moore&lt;br>&#xa;&lt;/td>&#xa;&lt;td>Leslie Noel&lt;br>&#xa;Leslie O'Dell&lt;br>&#xa;Ernestine Randolph&lt;br>&#xa;April Ritz&lt;br>&#xa;Roger Romedy Sr.&lt;br>&#xa;Jennifer Ross&lt;br>&#xa;Jessica Skiner&lt;br>&#xa;Colleen Smith&lt;br>&#xa;Christine St. Jean&lt;br>&#xa;Melody Stallings-Mann&lt;br>&#xa;LeVonne Stansberry&lt;br>&#xa;Christine Troskey&lt;br>&#xa;Carol Wakefield&lt;br>&#xa;Dominic Williams&lt;br>&#xa;Hope Wilson&lt;br>&#xa;Angela Winternheimer&lt;/td>&#xa;&lt;/tr>&lt;/tbody>&lt;/table>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>

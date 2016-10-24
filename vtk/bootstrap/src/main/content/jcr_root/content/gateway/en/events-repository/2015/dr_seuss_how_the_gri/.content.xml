@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-09-30T12:25:01.514-04:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Dr. Seuss' How the Grinch Stole Christmas"
+        jcr:uuid="14c36292-1546-48d4-9e09-abebb15d2488"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>&lt;p>Join the Girl Scouts of Gateway Council to see the Grinch’s heart grow three sizes as we witness the magic of Christmas. PLUS, we’ll be chatting with the cast immediately following the performance! Don’t miss out on a chance to meet Cindy Lou and others from Whoville!&lt;/p>&#xa;&lt;/p>&#xa;&lt;p>&lt;p>&amp;quot;Maybe Christmas he thought, doesn’t come from a store. Maybe Christmas, perhaps, means a little bit more.&amp;quot;&lt;/p>&#xa;&lt;/p>&#xa;"
+            locationLabel="Times-Union Center"
+            start="{Date}2015-12-02T19:30:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2015-09-30T12:25:01.510-04:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/images/Grinch.jpg"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

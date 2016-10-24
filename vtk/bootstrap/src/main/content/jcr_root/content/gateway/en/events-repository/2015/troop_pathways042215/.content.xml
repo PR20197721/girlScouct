@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-05T12:45:16.558-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-05T12:45:26.798-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Troop Pathways"
+        jcr:uuid="1b20255a-1908-465b-bafa-31f6ba05642d"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Important information you will learn during this training includes, troop funds, health and safety, and troop organization. You will also have an understanding of where to find additional training opportunities and additional resources.&lt;/p>&#xa;"
+            end="{Date}2015-03-11T12:00:00.000-04:00"
+            locationLabel="Jacksonville Service Center"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=1147741912"
+            srchdisp="Important information you will learn during this training includes, troop funds, health and safety, and troop organization."
+            start="{Date}2015-03-11T09:00:00.012-04:00">
+            <image
+                jcr:lastModified="{Date}2015-01-05T12:45:16.554-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

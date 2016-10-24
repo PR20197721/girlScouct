@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastReplicated="{Date}2014-08-05T14:17:17.073-04:00"
+        cq:lastReplicatedBy="mage"
+        cq:lastReplicationAction="Activate"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="2014"
+        jcr:uuid="e095cd69-89ca-4af8-b177-3ff300cced5a"
+        sling:resourceType="girlscouts/components/placeholder-page"
+        hideInNav="{Boolean}true"
+        showCurrent="{Boolean}true"/>
+    <girl_scouts_honor_ja/>
+    <changing_the_world_o/>
+    <girl_scout_cookies_o/>
+    <comcast_donation_hel/>
+    <new_administrative_m/>
+    <see_how_a_local_girl/>
+    <more_than_cookies/>
+    <cookie_kickoff_in_th/>
+    <_x0031__1418855221319/>
+</jcr:root>

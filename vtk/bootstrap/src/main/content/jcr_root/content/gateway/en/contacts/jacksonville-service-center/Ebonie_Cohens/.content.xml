@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-28T14:00:07.681-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/contact"
+        cq:template="/apps/girlscouts/templates/contact-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Marcie Carmichael"
+        jcr:uuid="983230fd-9a5f-41f8-8947-5dbad088df17"
+        sling:resourceType="girlscouts/components/contact-page"
+        email="mcarmichael@girlscouts-gateway.org"
+        hideInNav="true"
+        phone="(904) 421-3489"
+        team="Jacksonville Service Center"
+        title="Community Engagement Specialist">
+        <image
+            jcr:lastModified="{Date}2014-11-21T08:22:16.131-05:00"
+            jcr:lastModifiedBy="bmoore"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

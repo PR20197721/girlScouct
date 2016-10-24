@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-01-20T15:39:15.336-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-01-20T15:39:18.312-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/brownie]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Brownie Badge Workshop,  Investigation - Senses (SOLD OUT)"
+        jcr:uuid="b29b342e-077b-4075-a688-0d5903320bcd"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            details="&lt;p>Scouts will come to their senses in this multi-disciplinary workshop that teaches the biology of the five senses through hands-on science experiments. This workshop will help the scouts understand the difference between their five senses. This event costs $12 per girl.&lt;/p>&#xa;&lt;p>&lt;b>This event has been sold out.&lt;/b>&lt;/p>&#xa;"
+            end="{Date}2015-03-07T11:00:00.000-05:00"
+            locationLabel="MOSH"
+            srchdisp="Scouts will come to their senses in this multi-disciplinary workshop that teaches the biology of the five senses through hands-on science experiments. This workshop will help the scouts understand the difference between their five senses. This event costs $12 per girl."
+            start="{Date}2015-03-07T09:00:00.008-05:00">
+            <image
+                jcr:lastModified="{Date}2015-01-20T15:39:15.332-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

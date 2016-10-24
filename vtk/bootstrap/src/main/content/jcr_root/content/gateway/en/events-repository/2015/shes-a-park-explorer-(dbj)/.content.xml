@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-04-10T13:59:27.894-04:00"
+        cq:lastModifiedBy="drodgers"
+        cq:lastReplicated="{Date}2015-04-10T13:59:33.247-04:00"
+        cq:lastReplicatedBy="drodgers"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:program-level/ags,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="She's a Park Explorer (DBJ)"
+        jcr:uuid="950b1f28-568c-40ac-bfc4-e08ac9efdb40"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="12157 Heckscher Dr, Jacksonville, FL 32226"
+            details="&lt;p>The white sandy beaches of Little Talbot Island State Park are a nursery for baby shorebirds and sea turtles each spring and summer. Rangers work hard to protect these little ones and their parents to ensure happy and healthy families for generations to come. Learn about beach habitat and the different types of birds and turtles, how they nest and care for their young and what we do to protect them. Hands-on activities will include making a shorebird identification field book, a bird beaks game (Daisy _ Junior), building sea turtle nest stakes and screens (Cadette-Ambassador) and a sea turtle survey exercise on the beach. This event costs $7 per person. Limited to 40 people per session.&lt;/p>&#xa;"
+            end="{Date}2015-05-16T12:00:00.000-04:00"
+            locationLabel="Little Talbot Island State Park"
+            register="http://girlscouts-gateway.doubleknot.com/event/shes-a-park-explorer-dbj-05-16-15-little-talbot-island/1683357"
+            srchdisp="Learn about beach habitat and the different types of birds and turtles, how they nest and care for their young and what we do to protect them. Hands-on activities will include making a shorebird identification field book, a bird beaks game (Daisy _ Junior), building sea turtle nest stakes and screens (Cadette-Ambassador) and a sea turtle survey exercise on the beach."
+            start="{Date}2015-05-16T10:00:00.008-04:00">
+            <image
+                jcr:lastModified="{Date}2015-04-10T13:59:27.890-04:00"
+                jcr:lastModifiedBy="drodgers"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+    <_x0032_015/>
+</jcr:root>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-02-04T11:05:58.818-05:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2015-02-04T11:06:04.723-05:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Chef Training"
+        jcr:uuid="199dac3c-5be3-40a3-abd1-52dadb63c225"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Would you like to become Chef Trained? This course certifies you to use the kitchen facilities at Camp Kateri.&lt;br>&#xa;&lt;br>&#xa;Rate: $15.00 payable at check-in.&lt;/p>&#xa;&lt;p>Last day to register is Fri. March 6, 2015.&lt;/p>&#xa;"
+            end="{Date}2015-03-15T12:00:00.000-04:00"
+            locationLabel="Camp Kateri"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=1385320452"
+            srchdisp="Would you like to become Chef Trained? This course certifies you to use the kitchen facilities at Camp Kateri. "
+            start="{Date}2015-03-13T19:00:00.164-04:00">
+            <image
+                jcr:lastModified="{Date}2015-02-04T11:05:58.812-05:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

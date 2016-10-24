@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-10-30T09:37:53.225-04:00"
+        cq:lastModifiedBy="bmoore"
+        cq:lastReplicated="{Date}2014-10-30T09:38:09.998-04:00"
+        cq:lastReplicatedBy="bmoore"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="CHEF Training"
+        jcr:uuid="d95c9741-2de3-4562-aed0-1274978515d5"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="183 Shalom Camp Trail Hawthorne, FL 32640"
+            details="&lt;p>Course completion qualifies you to use the kitchen facilities at the Camp Kateri and Seminole prings.&lt;/p>&#xa;&lt;p>&lt;b>Fee of $15.00 is payable at check in.&lt;/b>&lt;/p>&#xa;"
+            end="{Date}2015-01-25T12:00:00.000-05:00"
+            locationLabel="Camp Kateri"
+            register="https://gsusa.ebiz.uapps.net/vp/FamilyManagement/ProductDetail.aspx?ProductId=883471075"
+            start="{Date}2015-01-23T19:00:00.000-05:00">
+            <image
+                jcr:lastModified="{Date}2014-10-30T09:37:53.221-04:00"
+                jcr:lastModifiedBy="bmoore"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

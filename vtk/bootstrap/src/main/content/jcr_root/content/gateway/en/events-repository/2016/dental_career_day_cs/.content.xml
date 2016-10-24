@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:08:17.413-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Dental Career Day - CSA"
+        jcr:uuid="f91ca15a-e2fa-4e59-bd57-19204cbc1efa"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1395 Center Drive, Gainesville, FL 32610"
+            color="#EC008C"
+            details="&lt;p>Dental Career Day - CSA&lt;br>&#xa;Grades:&amp;nbsp; 6, 7, 8, 9, 10, 11, 12&lt;/p>&#xa;&lt;p>Come join us to learn about a day in the life of a dentist! We will hear from the UF College of Dentistry and the American Association of Women Dentists on the ins and outs of a career in dental! Dental careers are so much more than just brushing and flossing and we can’t wait to share this experience with you!&lt;/p>&#xa;&lt;p>*This event is for 2016 registered Girl Scouts, and registered &amp;amp; approved adult volunteers.&lt;br>&#xa;*For safety and supervision reasons, troops and individuals are not permitted to bring non-Girl Scouts or siblings.&lt;br>&#xa;*Girl/adult ratios must be followed and adults are expected to stay on the premises during the event.&lt;/p>&#xa;&lt;p>$3/girl, $1/adult&lt;br>&#xa;Contact: Brittany McCallister 904.389.3071&lt;/p>&#xa;"
+            end="{Date}2016-03-12T14:30:00.000-05:00"
+            locationLabel="Dental Tower at the University of Florida"
+            register="http://girlscouts-gateway.doubleknot.com/event/dental-career-day-csa/1831911  "
+            start="{Date}2016-03-12T13:00:00.006-05:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:08:17.406-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

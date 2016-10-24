@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-07-23T12:40:40.937-04:00"
+        cq:lastModifiedBy="bsnyder"
+        cq:lastReplicated="{Date}2014-07-30T01:49:48.761-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Member Record Change/Update"
+        jcr:uuid="093e2ca1-3269-4c7f-afb6-3fd2432b048f"
+        sling:resourceType="girlscouts/components/three-column-page"
+        hideInNav="true">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <embedded
+                        jcr:created="{Date}2014-07-18T13:59:04.193-04:00"
+                        jcr:createdBy="bsnyder"
+                        jcr:lastModified="{Date}2014-07-18T13:59:09.811-04:00"
+                        jcr:lastModifiedBy="bsnyder"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="girlscouts/components/embedded"
+                        html="&lt;iframe height=&quot;1752&quot; allowTransparency=&quot;true&quot; frameborder=&quot;0&quot; scrolling=&quot;no&quot; style=&quot;width:100%;border:none&quot;  src=&quot;https://gsgc.wufoo.com/embed/q304f5p1wfuzss/&quot;>&lt;a href=&quot;https://gsgc.wufoo.com/forms/q304f5p1wfuzss/&quot;>Fill out my Wufoo form!&lt;/a>&lt;/iframe>"/>
+                </par>
+            </middle>
+        </content>
+        <image
+            jcr:lastModified="{Date}2014-07-23T12:40:40.932-04:00"
+            jcr:lastModifiedBy="bsnyder"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

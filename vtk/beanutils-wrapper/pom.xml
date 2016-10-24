@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+  <modelVersion>4.0.0</modelVersion>
+  <!-- ====================================================================== -->
+  <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
+  <!-- ====================================================================== -->
+  <parent>
+    <groupId>org.girlscouts.vtk</groupId>
+    <artifactId>girlscouts-vtk</artifactId>
+    <version>2.0-SNAPSHOT</version>
+  </parent>
+  <!-- ====================================================================== -->
+  <!-- P R O J E C T D E S C R I P T I O N -->
+  <!-- ====================================================================== -->
+  <artifactId>beanutils-wrapper</artifactId>
+  <packaging>bundle</packaging>
+  <name>Girl Scouts BeanUtils Wrapper</name>
+  <dependencies>
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.9.2</version>
+    </dependency>
+  </dependencies>
+  <!-- ====================================================================== -->
+  <!-- B U I L D D E F I N I T I O N -->
+  <!-- ====================================================================== -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>org.girlscouts.vtk.beanutils-wrapper</Bundle-SymbolicName>
+            <Import-Package>
+                            javax.servlet,
+                            org.apache.avalon.framework.logger;resolution:=optional,
+                            org.apache.log;resolution:=optional,
+                            org.apache.log4j
+                        </Import-Package>
+            <Export-Package>org.apache.commons.beanutils.*</Export-Package>
+            <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+            <!-- Recursively embed dependency jars -->
+            <Embed-Transitive>true</Embed-Transitive>
+          </instructions>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

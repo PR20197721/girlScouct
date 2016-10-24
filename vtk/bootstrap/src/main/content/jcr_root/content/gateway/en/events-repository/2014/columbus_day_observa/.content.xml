@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-07-15T16:37:52.406-04:00"
+        cq:lastModifiedBy="dlubin"
+        cq:lastReplicated="{Date}2015-07-15T16:38:01.768-04:00"
+        cq:lastReplicatedBy="dlubin"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Columbus Day Observance"
+        jcr:uuid="a68db63a-e28f-4702-850c-718074dcc30c"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Girl Scouts of Gateway Council will observe Columbus Day Monday. All offices will be closed and will reopen October 14.&lt;br>&#xa;&lt;br>&#xa;&lt;/p>&#xa;"
+            end="{Date}2014-10-13T17:00:00.000-04:00"
+            locationLabel="Holidays"
+            start="{Date}2014-10-13T08:00:00.036-04:00">
+            <image
+                jcr:lastModified="{Date}2015-07-15T16:37:52.402-04:00"
+                jcr:lastModifiedBy="dlubin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2015-11-17T16:53:45.090-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Blast from the Past Camporee hosted by Community 4"
+        jcr:uuid="497c73b0-ce90-4b16-919d-2a4abf35238a"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            color="#EC008C"
+            details="&lt;p>Blast from the Past Community&amp;nbsp;4 Camporee&lt;/p>&#xa;&lt;p>Join us for a fun-filled weekend as we explore different decades including the Roaring 20’s, Rosie the River’s 40’s, Psychedelic Tie-Dye 70’s &amp;amp; much more!!&amp;nbsp; Be sure you’re not “Chopped” from the SWAPs Challenge and wear your best poodle skirt or 50’s attire for the Saturday night Sock Hop!&amp;nbsp; Fee includes a Camp Souvenir T-Shirt &amp;amp; Patch.&lt;/p>&#xa;&lt;p>** Camporees are open to all registered Girl Scouts of Gateway Council.&amp;nbsp; All adults must be registered and approved volunteers.&amp;nbsp; Safety Activity Checkpoints&amp;nbsp;girl to adult ratios must be met to attend this event.&lt;/p>&#xa;&lt;p>** Last day to register: November 27, 2015&lt;/p>&#xa;&lt;p>$15.00 per Saturday - 9am to 5pm - adult&lt;br>&#xa;$15.00 per Saturday - 9am to 5pm - girl&lt;br>&#xa;$20.00 per Saturday - 9am to 9pm - adult&lt;br>&#xa;$20.00 per Saturday - 9am to 9pm - girl&lt;br>&#xa;$35.00 per Saturday to Sunday - adult&lt;br>&#xa;$35.00 per Saturday to Sunday - girl&lt;br>&#xa;$40.00 per weekend - adult&lt;br>&#xa;$40.00 per weekend - girl&lt;/p>&#xa;"
+            end="{Date}2015-12-06T17:00:00.000-05:00"
+            locationLabel="Camp Kateri"
+            register="http://girlscouts-gateway.doubleknot.com/event/blast-from-the-past-camporee-dec-4-6-camp-kateri-hosted-by-community-4/1784777"
+            start="{Date}2015-12-04T09:00:00.223-05:00">
+            <image
+                jcr:lastModified="{Date}2015-11-17T16:53:45.085-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

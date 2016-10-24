@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2016-01-06T14:17:07.777-05:00"
+        cq:lastModifiedBy="dpage"
+        cq:scaffolding="/etc/scaffolding/gateway/event"
+        cq:tags="[gateway:categories/girl-events,gateway:categories/stem]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scout Workshop &quot;Cadettes Trees&quot;"
+        jcr:uuid="b13f88b3-c428-449c-856c-9a95d94a2d6a"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            address="1025 Museum Cir, Jacksonville, FL 32207"
+            color="#EC008C"
+            details="&lt;p>Scouts will learn to identify the age, leaves, &amp;amp; fruit of different trees through investigation &amp;amp; discussion. They will understand the importance of trees &amp;amp; what they mean to humans.&lt;/p>&#xa;"
+            end="{Date}2016-04-23T11:00:00.000-04:00"
+            locationLabel="MOSH"
+            register="http://www.themosh.org/education/scouts/girl-scout-workshops/"
+            start="{Date}2016-04-23T09:00:00.008-04:00">
+            <image
+                jcr:lastModified="{Date}2016-01-06T14:17:07.770-05:00"
+                jcr:lastModifiedBy="dpage"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/gateway/pageImgs/Council Program Event.png"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

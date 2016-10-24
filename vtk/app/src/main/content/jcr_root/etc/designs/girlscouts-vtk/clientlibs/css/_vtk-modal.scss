@@ -1,0 +1,96 @@
+.vtk-gray-modal{
+    position: fixed;
+    top:0;
+    left: 0;
+    background-color: black;
+    opacity: 0.6;
+    z-index: 5000;
+    display: none;
+}
+
+
+
+.vtk-js-modal_wrap{
+    position:  fixed;
+    top:0px;
+    width:100%;
+    padding: 0px 10px;
+    z-index: 5010;
+
+}
+
+.vtk-js-modal{
+    display: none;
+    max-width: 500px;
+    position: relative;
+    min-height: 200px;
+    background-color: white;
+    box-shadow: 0px 0px 10px 0 #333;
+
+    z-index: 5010;
+    margin: 0px auto;
+
+    .vtk-js-modal_head{
+        background-color: $green_light;
+        height: 40px;
+        width: inherit;
+        .vtk-js-modal_title{
+             color: white;
+
+
+             padding: 10px 10px 5px 10px;
+             width:99%;
+             height: 20px;
+
+        }
+        .vtk-js-modal_x{
+            width: 10px;
+            height: 10px;
+            padding: 10px 10px 5px 10px;
+            position: absolute;
+            top: -5px;
+            right: 26px;
+            color:white;
+            cursor:pointer;
+        }
+    }
+
+    .vtk-js-modal_body{
+        font-size: 12px;
+        width: inherit;
+
+        .vtk-js-modal_description{
+            padding: 10px 20px;
+            position: relative;
+
+        }
+
+        .vtk-js-modal_body_actions{
+            padding: 5px 10px 5px 10px;
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            // min-width:100px;
+
+            .vtk-js-modal_button_action{
+                display: inline-block;
+                padding: 8px 15px;
+                background-color: $green_light;
+                color: white;
+                text-align: center;
+                margin-right:5px;
+
+                &:last-of-type{
+                    margin-right: 0px;
+                }
+
+                &:hover{
+                    background-color: green;
+                }
+
+
+
+            }
+        }
+    }
+}

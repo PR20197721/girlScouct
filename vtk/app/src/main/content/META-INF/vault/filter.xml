@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/girlscouts-vtk"/>
+    <filter root="/content/girlscouts-vtk/controllers"/>
+    <filter root="/content/girlscouts-vtk/en"/>
+    <filter root="/etc/designs/girlscouts-vtk"/>
+    <filter root="/etc/scaffolding/girlscouts-vtk"/>
+    <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
+    <!-- <filter root="/etc/replication/agents.publish/vtk-publish"/> -->
+    <filter root="/etc/map.publish/vtk-data"/>
+    <filter root="/etc/map.publish/myvtk"/>
+    <filter root="/etc/map.publish.dev/vtk-data"/>
+    <filter root="/etc/map.publish.dev/myvtk"/>
+    <filter root="/etc/map.publish.stage/vtk-data"/>
+    <filter root="/etc/map.publish.stage/myvtk"/>
+    <filter root="/etc/map.publish.uat/vtk-data"/>
+    <filter root="/etc/map.publish.uat/myvtk"/>
+    <filter root="/etc/map.publish.prod/vtk-data"/>
+    <filter root="/etc/map.publish.prod/myvtk"/>
+    <filter root="/etc/map.publish.prod.preview/vtk-data"/>
+    <filter root="/etc/map.publish.prod.preview/myvtk"/>
+    <filter root="/content/vtk-maintenance"/>
+    <filter root="/content/girlscouts-demo"/>
+    <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
+    <!-- <filter root="/content/vtk-demo"/> -->
+</workspaceFilter>
