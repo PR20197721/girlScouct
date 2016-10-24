@@ -1443,7 +1443,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		return meetingDAO.getNote( user, troop, noteId);
 	}
 	public boolean rmNote(User user, Troop troop,String  noteId) throws IllegalAccessException, VtkException{
-		
+		System.err.println("inRmNote MeetingUtil: " +noteId ); 
 		return meetingDAO.rmNote(user, troop, noteId);
 	}
 	/*

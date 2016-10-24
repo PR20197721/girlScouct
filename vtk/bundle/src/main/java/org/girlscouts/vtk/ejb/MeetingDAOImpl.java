@@ -2933,7 +2933,7 @@ public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAcces
 
 
 public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessException {
-
+System.err.println("inRmNote start " );
 	boolean isRm= false;
 	if (user != null
 			&& !userUtil.hasPermission(troop,
@@ -2950,15 +2950,16 @@ public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessExc
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 				mapper);
-		
+System.err.println("inRmNote chking..." );	
 		if ( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId()  )){//session.itemExists(note.getPath())){
-			
+System.err.println("inRmNote yes" );
 			ocm.remove(note);
 			ocm.save();
 			isRm= true;
-		}else
+		}else{
+System.err.println("inRmNote no" );	
 			throw new IllegalAccessException();
-
+		}
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2976,21 +2977,26 @@ public boolean rmNote(User user, Troop troop,Note  note) throws IllegalAccessExc
 
 public boolean rmNote(User user, Troop troop, String  noteId) throws IllegalAccessException {
 
+	System.err.println("inRmNote x1 : "+ noteId);
 	boolean isRm= false;
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_CREATE_MEETING_ID))
 		throw new IllegalAccessException();
 	
-	
+	System.err.println("inRmNote x2 : "+ noteId);
 	Note note= getNote(user, troop, noteId);
+	System.err.println("inRmNote x3 : "+ (note==null) );
 	if( note!=null ){
+		System.err.println("inRmNote x4 : found note : "+ user.getApiConfig().getUser().getSfUserId() +" : "+ note.getCreatedByUserId());
 		//check if note belongs to logged-in user
 		if( user.getApiConfig().getUser().getSfUserId().equals( note.getCreatedByUserId() )  ){
+			System.err.println("inRmNote x4 : same user");
 			rmNote(user, troop, note );
 			isRm=true;
-		}else
+		}else{
 			throw new IllegalAccessException();
+		}
 	}
 	return isRm;
 }
@@ -3021,6 +3027,7 @@ public Note getNote_OCM(User user, Troop troop, String nid)
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Note.class);
 		filter.setScope(VtkUtil.getYearPlanBase(user, troop) +"/" );
+	
 		filter.addEqualTo("uid", nid );
 		Query query = queryManager.createQuery(filter);
 		note = (Note) ocm.getObject(query);
@@ -3055,7 +3062,7 @@ public Note getNote(User user, Troop troop, String nid)
 		session = sessionFactory.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace()
 				.getQueryManager();
-		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/note/"+nid+"'";
+		String sql ="select message,createTime,createdByUserId,createdByUserName,refId,uid from nt:unstructured where  ocm_classname='org.girlscouts.vtk.models.Note' and jcr:path like '"+ troop.getYearPlan().getPath() +"%/notes/"+nid+"'";
 		
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 		QueryResult result = q.execute();

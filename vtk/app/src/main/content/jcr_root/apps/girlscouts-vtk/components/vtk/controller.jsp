@@ -1369,10 +1369,12 @@ try{
             
             
         }else if( request.getParameter("rmNote") != null ){
+      System.err.println("inRmNote contr: "+request.getParameter("nid") );  	
             boolean isRm= false;
             String noteId= request.getParameter("nid");
-
+     System.err.println("inRmNote contr b4: "+request.getParameter("nid") ); 
              isRm=  meetingUtil.rmNote(user, troop, noteId);
+    System.err.println("inRmNote contr after : "+request.getParameter("nid") ); 
              out.println("{vtkresp:"+ isRm+"}");
 
         }else if( request.getParameter("editNote") != null ){
