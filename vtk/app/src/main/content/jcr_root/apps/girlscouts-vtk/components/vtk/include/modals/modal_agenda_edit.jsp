@@ -32,9 +32,12 @@
 	<% if(!act.isEmpty()) { %>
 		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
 	<% } %>
+	
 	<%  if (request.getParameter("isAgenda") == null &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ) {%>
 		<a id="print-link" class="icon-printer right" title="print"></a>
 	<% } %>
+	
+	
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
@@ -192,72 +195,76 @@
 					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
 			    	<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
 		</section>
+		
+		
+		<script>
+
+		function showIndoor(){
+		    document.getElementById('__outdoor').style.display='none';
+		    document.getElementById('__indoor').style.display='inline';
+		}
+
+		function showOutdoor(){
+		    document.getElementById('__outdoor').style.display='inline';
+		    document.getElementById('__indoor').style.display='none';
+		}
+
+		     function cngAgendaOutdoor(mid, aPath, isOutdoor){
+
+		             var ajax = $.ajax({
+		                  url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		                     cache: false,
+		                     type: 'GET',
+		                     dataType: 'json',
+		                     data: {
+		                         aid:aPath,
+		                         isOutdoor:isOutdoor,
+		                         mid: mid,
+		                         cngOutdoor:true,
+		                         a: Date.now()
+		                     }
+		             })
+
+		             return ajax;
+
+		     }
+
+
+		     function save(){
+		        if($('#outdoor').length){
+
+		            var inorout;
+		            if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
+		                inorout = 'true';
+		            }else{
+		                inorout = 'false';
+		            }
+		            
+		            cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
+		            .complete(function(){
+		                durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+		            })
+		        }else{
+
+		            durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+		        }
+
+		     
+		     }
+		     <%=(_activity!=null && _activity.getIsOutdoor()) ? " showOutdoor() " : "showIndoor()" %>
+		</script>
+		
 		<%}%>
 		</div>
 	</div>
 	<script type="text/javascript">
-
-
-
 
 	 $(document).ready(function() {
 		$('#print-link').on('click',function() {
 			$('.modal_agenda_edit .scroll.content').print();
 		});
 
-		<%=_activity.getIsOutdoor() ? " showOutdoor() " : "showIndoor()" %>
+		
 	});
 
-function showIndoor(){
-	document.getElementById('__outdoor').style.display='none';
-	document.getElementById('__indoor').style.display='inline';
-}
-
-function showOutdoor(){
-	document.getElementById('__outdoor').style.display='inline';
-	document.getElementById('__indoor').style.display='none';
-}
-
-	 function cngAgendaOutdoor(mid, aPath, isOutdoor){
-
-	         var ajax = $.ajax({
-	              url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-	                 cache: false,
-	                 type: 'GET',
-	                 dataType: 'json',
-	                 data: {
-	                     aid:aPath,
-	                     isOutdoor:isOutdoor,
-	                     mid: mid,
-	                     cngOutdoor:true,
-	                     a: Date.now()
-	                 }
-	         })
-
-			 return ajax;
-
-	 }
-
-
-	 function save(){
-	 	if($('#outdoor').length){
-
-		 	var inorout;
-		 	if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
-		 		inorout = 'true';
-		 	}else{
-		 		inorout = 'false';
-		 	}
-		 	
-		 	cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
-		 	.complete(function(){
-		 	 	durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
-		 	})
-	 	}else{
-
-	 		durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
-	 	}
-
-	 
-	 }
 	</script>
