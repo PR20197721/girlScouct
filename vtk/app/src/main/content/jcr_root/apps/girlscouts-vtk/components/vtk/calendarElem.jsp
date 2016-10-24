@@ -288,8 +288,8 @@ function saveCalElem() {
 	   fnOpenNormalDialog();
 	}else if($("#cngRadio").prop("checked")){
 		var hour = $('#cngTime0').val() +' '+  $('#cngAP0').val();
-        var x = moment(sTimeCancel.get());
-        var x1 = moment(x.format('MM/DD/YYYY')+' '+hour);
+        var x = moment.tz(sTimeCancel.get(), "America/New_York");
+        var x1 = moment.tz( (x.format('MM/DD/YYYY')+' '+hour), "America/New_York");
 
         if (x1.isValid()) {
 			updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');

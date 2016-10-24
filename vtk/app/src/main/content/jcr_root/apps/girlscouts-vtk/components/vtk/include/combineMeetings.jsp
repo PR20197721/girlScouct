@@ -128,19 +128,17 @@
         }
 
         function addCalendar(mids){
+        	var hour = $('#cngTime0X').val() +' '+  $('#cngAP0X').val();
+            var my= moment( moment( sTimeCombine.get()).format("MM/DD/YYYY") + " " + hour , "MM/DD/YYYY HH:mm a");
+            var dt = my.format('l') +" "+ hour;
 
-              var hour = $('#cngTime0X').val() +' '+  $('#cngAP0X').val();
-
-              var x = moment(sTimeCombine.get());
-              var x1 = moment(x.format('MM/DD/YYYY')+' '+hour);
-
-              if(x1.isValid()){
+              if(my.isValid()){
                   $.ajax({
                       url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
                       type: 'GET',
                       data: {
                         act:'combineCal',
-                          dt:parseInt(x1.format('x')),
+                          dt:dt,
                           mids: mids,
                           a: Date.now()
                       },

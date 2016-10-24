@@ -1455,7 +1455,10 @@ try{
         	while( t.hasMoreElements()){
         		
         		   long currDate = Long.parseLong(t.nextToken());
-        		   calendarUtil.updateDate( user,  troop,  currDate,  Long.parseLong( request.getParameter("dt")));
+        		   java.util.Date dt = VtkUtil.parseDate(
+                           VtkUtil.FORMAT_FULL,
+                           request.getParameter("dt"));
+        		   calendarUtil.updateDate( user,  troop,  currDate,  dt.getTime() );
 	   
         	}
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){
