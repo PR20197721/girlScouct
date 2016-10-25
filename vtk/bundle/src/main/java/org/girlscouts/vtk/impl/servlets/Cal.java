@@ -37,23 +37,25 @@ public class Cal extends SlingSafeMethodsServlet {
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
+
 		User user = ((org.girlscouts.vtk.models.User) request.getSession()
 				.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+		
+		
 		Troop troop = (Troop) request.getSession().getValue("VTK_troop");
+		
 		response.setHeader("Content-Disposition", "attachment;filename=\""
 				+ troop.getYearPlan().getName() + ".ics\"");
 		response.setContentType("text/calendar");
 
 		try {
-/*
-In Koo comment out for AEM 6.1 upgrade
-			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil
-					.yearPlanCal(user, troop);
+			
+			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop);
 			ServletOutputStream fout = response.getOutputStream();
 			net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();
 			outputter.output(calendar, fout);
 			fout.flush();
-*/
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,9 +7,9 @@
 
 
 <div class="modal_agenda_edit">
-	<div class="header clearfix">	
+	<div class="header clearfix">
 		<h3 class="columns large-22">
-		<% 
+		<%
 		  String act="";
 			if (request.getParameter("isOverview") != null) {
 					out.println("Overview");
@@ -27,14 +27,17 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	
+
 	<div class="scroll content">
 	<% if(!act.isEmpty()) { %>
 		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
 	<% } %>
+	
 	<%  if (request.getParameter("isAgenda") == null &&  VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID) ) {%>
 		<a id="print-link" class="icon-printer right" title="print"></a>
 	<% } %>
+	
+	
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
@@ -45,7 +48,7 @@
 					meeting = meetings.get(i);
 					break;
 				}
-			
+
 			if( meeting==null ){
 			    java.util.List<MeetingCanceled> cmeetings = troop.getYearPlan().getMeetingCanceled();
 	            for (int i = 0; i < cmeetings.size(); i++)
@@ -54,10 +57,10 @@
 	                    meeting = cmeetings.get(i);
 	                    break;
 	                }
-	            
+
 			}
-			
-			
+
+
 			Meeting meetingInfo = yearPlanUtil.getMeeting(user,troop,
 					meeting.getRefId());
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
@@ -122,13 +125,13 @@
 <% if (request.getParameter("isAgenda") != null) {%>
 	<div class="row">
    	<form onsubmit="return false;">
-			<h3>Agenda Item: <%=_activity.getName()%></h3>
-			<div class="columns small-4">
+
+			<div class="columns small-24  text-right">
 			<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
-					
+				<select class="select-time-meeting" style="width:100px;">
+
 					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-        
+
 					<option value="0" selected>Time Allotment</option>
 					<option value="5"
 						<%=(_activity.getDuration() == 5)  ? "SELECTED" : ""%>>5</option>
@@ -146,35 +149,122 @@
 						<option value=""><%=_activity.getDuration() %></option>
 						<%} %>
 				</select>
-				<%}//edn if%>
+				<!-- <%//}//edn if%>
 			</div>
-		<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
-			<div class="columns small-20">
-				<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
-				<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
-			
+		<% //if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID )) {%>
+			<div class="columns large-10 medium-14 small-18 "> -->
+				<button  onclick="save()" class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top">Save</button>
+				<button class="tiny" style="color:white;text-transform:uppercase;font-weight:bold;vertical-align:top" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
 			</div>
 		 <%} %>
 		</form>
 		</div>
-				
+
+
+		<!-- Title -->
+		<div class="row">
+			<div class="column small-24 small-centered">
+					<h3>Agenda Item: <%=_activity.getName()%></h3>
+			</div>
 		</div>
-		<section class="row">
-			<%
-				if (!_activity.getIsOutdoor() && _activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-					out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-				}else if (_activity.getIsOutdoor() && _activity.getActivityDescription_outdoor() != null && !_activity.getActivityDescription_outdoor().isEmpty()) {
-                    out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription_outdoor() + "</div>");
-                }
-			%>
+		<!-- End: Title -->
+
+        <%if(_activity.getIsOutdoorAvailable()){ %>
+		<!-- Outdoor options-->
+			<div id="outdoor" class="row">
+				<div class="column small-24 small-centered">
+						<form class="">
+
+									<div class="" style="display:inline-block; margin-right:20px;" >
+										<input type="radio"  name="isoutdoor"  value="no" id="isoutdoor_no" <%=_activity.getIsOutdoor() ? "" : " checked " %> onchange="showIndoor();">
+										<label for="isoutdoor_no"><span></span><p> INSIDE </p></label>
+									</div>
+									<div class=""  style="display:inline-block">
+										<input type="radio" name="isoutdoor" id="isoutdoor_yes" value="yes"  <%=_activity.getIsOutdoor() ? " checked " : "" %> onchange="showOutdoor();">
+										<label for="isoutdoor_yes"><span></span><p> GET GIRLS OUTSIDE! </p></label>
+									</div>
+
+						</form>
+				</div>
+			</div>
+		<!--end: Outdoor options-->
+        <%}//edn if %>
+
+		</div>
+		<section class="row reset">
+					<div id="__indoor" data-outdoor="isoutdoor_no" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription() %></div>
+			    	<div id="__outdoor" accesskey=""data-outdoor="isoutdoor_yes" class="clearfix columns small-24 small-centered" style="display:none;"><%= _activity.getActivityDescription_outdoor() %></div>
 		</section>
+		
+		
+		<script>
+
+		function showIndoor(){
+		    document.getElementById('__outdoor').style.display='none';
+		    document.getElementById('__indoor').style.display='inline';
+		}
+
+		function showOutdoor(){
+		    document.getElementById('__outdoor').style.display='inline';
+		    document.getElementById('__indoor').style.display='none';
+		}
+
+		     function cngAgendaOutdoor(mid, aPath, isOutdoor){
+
+		             var ajax = $.ajax({
+		                  url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		                     cache: false,
+		                     type: 'GET',
+		                     dataType: 'json',
+		                     data: {
+		                         aid:aPath,
+		                         isOutdoor:isOutdoor,
+		                         mid: mid,
+		                         cngOutdoor:true,
+		                         a: Date.now()
+		                     }
+		             })
+
+		             return ajax;
+
+		     }
+
+
+		     function save(){
+		        if($('#outdoor').length){
+
+		            var inorout;
+		            if($('#outdoor').find($('input:checked'))[0].value === 'yes'){
+		                inorout = 'true';
+		            }else{
+		                inorout = 'false';
+		            }
+		            
+		            cngAgendaOutdoor('<%=meeting.getUid() %>', '<%= _activity.getPath()%>', inorout)
+		            .complete(function(){
+		                durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+		            })
+		        }else{
+
+		            durEditActiv(parseInt($('.select-time-meeting')[0].value), '<%=_activity.getPath()%>', '<%=meeting.getPath()%>');
+		        }
+
+		     
+		     }
+		     <%=(_activity!=null && _activity.getIsOutdoor()) ? " showOutdoor() " : "showIndoor()" %>
+		</script>
+		
 		<%}%>
 		</div>
 	</div>
 	<script type="text/javascript">
+
 	 $(document).ready(function() {
 		$('#print-link').on('click',function() {
 			$('.modal_agenda_edit .scroll.content').print();
 		});
+
+		
 	});
+
 	</script>

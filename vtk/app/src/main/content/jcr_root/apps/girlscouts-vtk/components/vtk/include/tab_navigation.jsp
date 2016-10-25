@@ -185,7 +185,7 @@
 								
 								
 								<%java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
-                                if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
+                                if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){%>
 								
     								<li><a onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"> SEE PAST YEARS </a></li>
                                 <%}%>
@@ -446,7 +446,7 @@
 						  java.util.Map archivedPlans=  troopDAO.getArchivedYearPlans(user,  troop);
 
 						     
-						      if( new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
+						      if( !isParent && new java.util.Date().after( new java.util.Date(configManager.getConfig("startShowingArchiveCmd")) ) && !user.getApiConfig().isDemoUser() && archivedPlans!=null && archivedPlans.size()>0 ){
 
 						  %>
     						       <input class="vtk-button" type="button" value="SEE PAST YEARS" onclick="cngYear('<%=archivedPlans.keySet().iterator().next()%>')"/>
@@ -521,3 +521,6 @@
 		</div>
 	</div>
 </div>
+
+ 
+

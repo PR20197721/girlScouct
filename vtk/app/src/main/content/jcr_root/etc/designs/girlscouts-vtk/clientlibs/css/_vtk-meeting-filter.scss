@@ -86,22 +86,17 @@
 
 
 
-#vtk-meeting-group-type {
-
-
-
+#vtk-meeting-group-type, #outdoor {
     input[type="radio"] {
         display: none;
                 visibility: hidden;
         margin: 0;
         position: absolute;
     }
-
     input[type="radio"] + label {
     	min-height: 42px;
     	display: table;
     }
-
     input[type="radio"] + label span {
      // display:inline-block;
     width:30px;
@@ -114,7 +109,6 @@
         background: url(/etc/designs/girlscouts-vtk/images/selector.png) -60px top no-repeat;
     }
 
-
 	input[type="radio"] + label p{
 		margin: 0 0 0 3px;
     	max-width: 90px;
@@ -124,20 +118,29 @@
 	    padding: 3px 0 0 2px;
 	}
 
-
-    input[type="radio"]:checked + label span {
-        background: url(/etc/designs/girlscouts-vtk/images/selector.png) -90px top no-repeat;
-    }
+  input[type="radio"]:checked + label span {
+      background: url(/etc/designs/girlscouts-vtk/images/selector.png) -90px top no-repeat;
+  }
 }
 
 
+#outdoor{
+  	input[type="radio"] + label p{
+      font-weight: bold;
+      width: 100% !important;
+      max-width: none;
+    }
+
+    input[type="radio"] + label {
+      width: 100% !important;
+    }
+
+}
 .main-report-search{
     // padding: 15px 0;
     border-bottom: 2px solid black;
     // margin-bottom: 15px;
 }
-
-
 .inactive-button{
 	background-color: gray !important;
 }
@@ -171,7 +174,7 @@
             font-weight: bold;
             font-size: 12px;
         }
-        
+
     }
 
     label{
@@ -204,7 +207,7 @@ text-align: center;
     border: 1px solid lightgray;
     z-index:1;
 
-    
+
 }
 
 .list-of-categories,.main-filter{

@@ -11,12 +11,18 @@
 
 	if(_aidTags!=null)
 	for(int i=0;i<_aidTags.size();i++){
-	org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-	if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.AID ) continue;
+		org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+		if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.AID ) continue;
 		existingAids.add(asset.getRefId());
 	}
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
-	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user, troop, MEETING_AID_PATH+"/"); 
+	java.util.List<org.girlscouts.vtk.models.Asset> gresources = null;
+System.err.println("test1");	
+	try{
+		gresources= yearPlanUtil.getAllResources(user, troop, MEETING_AID_PATH+"/"); 
+	
+	}catch(Exception e){e.printStackTrace();}
+System.err.println("test2");	
 	%>
     <!-- apps/girlscouts-vtk/components/vtk/include/modals/modal_meeting_aids.jsp -->
 
@@ -28,7 +34,10 @@
             <div class="content">
 				<table width="90%" align="center" class="browseMeetingAids">
 					<% 
-				  	for(int i=0;i<gresources.size();i++) {
+System.err.println("test3");
+					if( gresources!=null)
+				  	 for(int i=0;i<gresources.size();i++) {
+				  		try{
 						org.girlscouts.vtk.models.Asset a = gresources.get(i);
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
 					%>
@@ -47,7 +56,7 @@
 					 			<%} %>
 					 		</td>
 						</tr>
-				 	<% } %>
+				 	<% }catch(Exception e){e.printStackTrace();}} %>
 				</table>		
 	  </div>
 	</div>

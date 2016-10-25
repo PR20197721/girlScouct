@@ -130,11 +130,13 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 			<div id="panelWrapper" class="row meeting-detail content">
 			<div class="columns large-20 large-centered">
 			    <%@include file="vtkError.jsp" %>
+			    
+			    <p>We're sorry you're having trouble logging into the VTK! </p>
 			    <p>
-			    The Volunteer Toolkit is a digital planning tool currently available for Troop Leaders and Co-Leaders of single-grade level troops. Parents can access it in the fall, and other troop volunteer roles will have access later on. For questions, click Contact Us at the top of the page.
-			     </p>
-			        <p>
-			        Stay tuned! 
+			       The Volunteer Toolkit is a digital planning tool currently available for active Troop Leaders and Co-Leaders. If you're having trouble logging please ensure that you have an active 2017 membership. If you're a Parent of a girl in an active troop, please make sure your girl has an active 2017 membership record as well. 
+			    </p>
+			    <p>
+			        Please, click Contact Us at the top of the page for more help! 
 			    </p>
 			    </div>
 			</div>
