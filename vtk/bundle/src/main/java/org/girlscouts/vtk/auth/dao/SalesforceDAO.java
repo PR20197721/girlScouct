@@ -78,7 +78,7 @@ public class SalesforceDAO {
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() + vtlApiUserUri
 				+ "?USER_ID=" + apiConfig.getUserId();
-
+System.err.println("getUser "+ url);
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -91,7 +91,7 @@ public class SalesforceDAO {
 					CloseableHttpResponse resp = connection.execute(method);
 					int statusCode = resp.getStatusLine().getStatusCode();
 					if (statusCode != HttpStatus.SC_OK) {
-						
+						System.err.println("Salesforce API getUser status code: "+ statusCode +" : "+ resp);
 						throw new IllegalAccessException();
 					}
 		
