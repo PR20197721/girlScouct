@@ -71,9 +71,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
+					if( apiConfig.isDemoUser() ){
 				%>
-				<cq:include script="header.jsp"/>
+					<cq:include script="headerDemo.jsp"/>
+				<% 
+					}
+					else{ 
+				%>
+					<cq:include script="header.jsp"/>
 				<%
+					}
 					if (newCurrentPage != null) {
 					    request.removeAttribute("newCurrentPage");
 					}
