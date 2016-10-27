@@ -9,16 +9,24 @@
 <%} %>
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
-    <div class="small-5 columns date">
+  <div class="columns small-24 medium-8">
+    <div class="row">
+          <div class="small-15 medium-19 columns date">
       <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
-    <div class="small-2 columns date">
-      <label for="calStartDt"><i class="icon-calendar"></i></label>
+    <div class="small-7  medium-5 columns date">
+        <label for="calStartDt"><i class="icon-calendar"></i></label>
     </div>
-    <div class="small-4 columns">
-      <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
     </div>
-    <div class="small-3 columns">
+  </div>
+    <div class="columns small-24 medium-16">
+    <div class="row">
+
+
+    <div class="small-8 medium-5 columns">
+        <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+    </div>
+    <div class="small-6  medium-4 columns">
       <select id="calAP">
         <% String AM = "PM";
           if( troop.getYearPlan().getCalStartDate() !=null ){
@@ -29,12 +37,14 @@
         <option value="am" <%=AM.equals("AM") ? " SELECTED" : "" %>>AM</option>
       </select>
     </div>
-    <div class="small-4 columns left">
+    <div class="small-10   medium-7 columns left">
       <select id="calFreq">
         <option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
         <option value="biweekly" <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
         <option value="monthly" <%= troop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
       </select>
+    </div>
+    </div>
     </div>
   </section>
 
@@ -52,7 +62,7 @@
 
       %>
       
-    <ul class="small-block-grid-3">
+    <ul class="small-block-grid-2 medium-block-grid-3">
      <%
         java.util.Iterator itr= holidays.keySet().iterator();
         int holidayCount=0;
@@ -79,7 +89,12 @@
 	    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
 		       %>
 		         <li>
-		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
+		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/>
+                <label style="display:block;" for="chk_<%=holidayCount%>">
+                  <div style="padding-left: 30px">
+                    <span style="margin-left: 5px;" class="date"><%= split_exclDates[i]%><br><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span>
+                  </div>
+                </label>
 		         </li>   
 		      <%
 	    	  }catch(Exception e){e.printStackTrace();}
