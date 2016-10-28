@@ -609,4 +609,32 @@ public static String sortDates(String dates){
 	}
 	return toRet;
 }
+
+public static void xKaca(java.util.List<MeetingE>meetings, String mid, String aid){
+	/*
+	MeetingE m = meetings.stream()
+		    .filter( meeting -> mid.equals( meeting.getUid()))
+		    .findAny()
+			.orElse(null);
+	
+	System.err.println("Kaca x: "+ (m==null)+ " :" + mid+" : "+ m.getUid() );
+	*/
+	
+	
+	
+	Activity _activity = meetings.stream()
+		    .filter( meeting -> mid.equals( meeting.getUid()))
+		    .findAny() ->
+		   
+		    .filter( activity -> aid.equals( activity.getPath() ) )
+		    .findAny()
+	
+		    .orElse(null);
+	/*
+		    .filter( activity -> aid.equals( activity.getPath() ) )
+		    .findAny();*/
+	System.err.println("Kaca x:: "+ (_activity==null) +" : "+ mid +" : "+ aid);
+ 
+}
+
 }//end class
