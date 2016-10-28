@@ -1437,6 +1437,7 @@ System.err.println("Kaca xx4499");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
       
+        	/*
         	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
              zz:for(int i=0;i<meetings.size();i++){
             	 if( meetings.get(i).getUid().equals( mid ) ){
@@ -1448,9 +1449,11 @@ System.err.println("Kaca xx4499");
             		 }
             	 }
              }
-        	
-        	VtkUtil.xKaca(meetings, mid, aid);
-  	 
+        	*/
+            MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+        	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+        	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
+xKaca(troop.getYearPlan().getMeetingEvents(),  mid,  aid);       
         	 
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
        	
