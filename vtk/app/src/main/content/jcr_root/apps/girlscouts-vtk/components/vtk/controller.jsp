@@ -812,10 +812,6 @@ System.err.println("Kaca xx4499");
 
 			try{
 				
-//VtkUtil.xKaca(troop.getYearPlan().getMeetingEvents(), troop.getYearPlan().getMeetingEvents().get(0).getUid());
-
-
-				
 	System.err.println("tata start");
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
@@ -874,6 +870,11 @@ System.err.println("Kaca xx4499");
 
 
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> master
 				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
@@ -1251,21 +1252,35 @@ System.err.println("Kaca xx4499");
 
 	        <div class="row">
 
+<<<<<<< HEAD
 	        	<!-- <div class="small-20 small-centered columns"> -->
 
 	        	<!-- <div class="row"> -->
+=======
+	        	<div class="small-20 small-centered columns">
+
+	        	<div class="row">
+>>>>>>> master
 
 	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
                          !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
 	     
 	            <%if(condition){ %>   
+<<<<<<< HEAD
                     <div class="columns large-push-2 medium-2 medium-push-2 small-2">
+=======
+                    <div class="columns  small-2">
+>>>>>>> master
 		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
 		            <label for="r_0"></label> </div>
 	            <%} %>
 	       
+<<<<<<< HEAD
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2" style="<%= condition ? "padding-left:16px" : ""  %>"  >
 	        	<div style="margin-left:-10px;margin-right: -10px;">
+=======
+	        <div class="small-18 columns end" style="<%= condition ? "padding-left:16px" : ""  %>"  >
+>>>>>>> master
 	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
 	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
@@ -1302,8 +1317,13 @@ System.err.println("Kaca xx4499");
 	            </p>
 	            </div>
 	        </div>
+<<<<<<< HEAD
 	        <!-- </div> -->
 	        <!-- </div> -->
+=======
+	        </div>
+	        </div>
+>>>>>>> master
 	      </div><!--/row-->
 
 	      <%
@@ -1433,28 +1453,49 @@ System.err.println("Kaca xx4499");
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
 
         }else if(request.getParameter("cngOutdoor") != null){
+<<<<<<< HEAD
+=======
+//System.err.println("test outdoor: ");   	
+>>>>>>> master
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
       
+<<<<<<< HEAD
         	/*
         	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
              zz:for(int i=0;i<meetings.size();i++){
             	 if( meetings.get(i).getUid().equals( mid ) ){
             		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
             			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
+=======
+//System.err.println("test outdoor: " +mid +" : "+ aid+" :" + isOutdoor);    	
+        	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+             zz:for(int i=0;i<meetings.size();i++){
+//System.err.println("test outdoor i=:"+ i );            	 
+            	 if( meetings.get(i).getUid().equals( mid ) ){
+//System.err.println("test outdoor this meeting" );            		 
+            		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
+//System.err.println("test outdoor y=" + y + " :" + meetings.get(i).getMeetingInfo().getActivities().get(y).getPath() );   
+            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
+//System.err.println("test outdoor yes path --- update" );        				 
+>>>>>>> master
             			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
             			      break zz;
             			 }
             		 }
             	 }
              }
+<<<<<<< HEAD
         	*/
             MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
         	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
         	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
 xKaca(troop.getYearPlan().getMeetingEvents(),  mid,  aid);       
         	 
+=======
+        	
+>>>>>>> master
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
        	
         	String currDates = request.getParameter("mids");

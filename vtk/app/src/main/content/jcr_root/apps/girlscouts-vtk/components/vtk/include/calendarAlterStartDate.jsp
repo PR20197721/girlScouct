@@ -62,7 +62,11 @@
 
       %>
       
+<<<<<<< HEAD
     <ul class="small-block-grid-2 medium-block-grid-3">
+=======
+    <ul class="small-block-grid-3">
+>>>>>>> master
      <%
         java.util.Iterator itr= holidays.keySet().iterator();
         int holidayCount=0;
@@ -89,12 +93,16 @@
 	    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
 		       %>
 		         <li>
+<<<<<<< HEAD
 		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/>
                 <label style="display:block;" for="chk_<%=holidayCount%>">
                   <div style="padding-left: 30px">
                     <span style="margin-left: 5px;" class="date"><%= split_exclDates[i]%><br><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span>
                   </div>
                 </label>
+=======
+		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=holidayCount%>"><p><span class="date"><%= split_exclDates[i]%></span><span><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span></p></label>
+>>>>>>> master
 		         </li>   
 		      <%
 	    	  }catch(Exception e){e.printStackTrace();}

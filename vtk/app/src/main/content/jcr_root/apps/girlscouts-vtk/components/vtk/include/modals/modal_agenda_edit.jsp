@@ -90,7 +90,8 @@
 					builder.append("<p><b>Activity " + Integer.toString(activity.getActivityNumber()));
 					builder.append(": " + activity.getName() + "</b></p>");
 
-					String description = activity.getActivityDescription();
+					String description = activity.getIsOutdoor() ? activity.getActivityDescription_outdoor() : activity.getActivityDescription() ;
+					
 					if (!description.contains("Time Allotment")) {
 						builder.append("<p style=\"font-family: tahoma, arial, helvetica, sans-serif; font-size: 12px;\"><b>Time Allotment</b></p>");
 						builder.append("<p>" + Integer.toString(activity.getDuration()) + " minutes");
