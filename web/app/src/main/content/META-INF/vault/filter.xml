@@ -3,7 +3,6 @@
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/wcm"/>
-    <filter root="/apps/cq/xssprotection"/>
     <filter root="/etc/council-rollout"/>
     <filter root="/etc/council-update"/>
     <filter root="/etc/map.author"/>
