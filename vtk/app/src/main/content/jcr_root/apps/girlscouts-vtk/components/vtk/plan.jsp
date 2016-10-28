@@ -20,7 +20,7 @@
   <div 
     id="vtk_banner2234" 
     data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
-    class="column small-20 small-centered" 
+    class="column small-24 medium-20 small-centered" 
     style="display:none;"
   >
   </div>

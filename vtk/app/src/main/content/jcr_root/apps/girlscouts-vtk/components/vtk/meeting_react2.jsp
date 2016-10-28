@@ -85,8 +85,9 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column small-20 small-centered" style="display:none;">
+      <div id="vtk_banner2234" data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"  class="column medium-20 small-24 small-centered" style="display:none;">
       </div>
+
 
 
 
