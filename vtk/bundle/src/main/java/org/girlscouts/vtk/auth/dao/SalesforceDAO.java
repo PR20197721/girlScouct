@@ -439,7 +439,7 @@ System.err.println(">>>>> " + rsp);
 					resp.close();
 				}
 				rsp = "{\"records\":" + rsp + "}";
-	
+System.err.println("Contact Rsp: "+ rsp);	
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
