@@ -10,10 +10,12 @@ import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.*;
 import java.io.File;
@@ -56,20 +58,29 @@ public class Printpdf extends SlingSafeMethodsServlet {
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 
-
-
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
-			
-			response.setHeader("Content-Disposition", "attachment;filename=\"print.pdf\"");
-			response.setContentType("application/pdf");
-
-			try {			
-				ServletOutputStream fout = response.getOutputStream();
-				fout.print("test123");
-				fout.flush();
+		
+			try {
+				String reqURI = request.getRequestURI();
+				if(reqURI.startsWith("/content/girlscouts-vtk")){
+					response.setHeader("Content-Disposition", "attachment;filename=\"print.pdf\"");
+					response.setContentType("application/pdf");
+					ServletOutputStream fout = response.getOutputStream();
+					fout.print("test123");
+					fout.flush();
+				}
+				
+				else{
+					try{
+						String councilPath = reqURI.substring(0,reqURI.indexOf("/", reqURI.indexOf("/", reqURI.indexOf("/") + 1) + 1));
+						response.sendRedirect(councilPath + "/404.html");
+					}catch(Exception e){
+						response.sendRedirect("/404.html");
+					}
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

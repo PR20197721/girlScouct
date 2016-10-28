@@ -16,22 +16,109 @@
 %>
   <%@include file="include/bodyTop.jsp" %>
   <%@include file="include/modals/modal_help.jsp"%>
+       
+  <div 
+    id="vtk_banner2234" 
+    data-cached="<%=session.getAttribute("isHideVtkBanner")!=null ? "yes" : "no" %>"
+    class="column small-20 small-centered" 
+    style="display:none;"
+  >
+  </div>
+
+
+
+    <script>
+
+
+
+  $(function(){
+   
+  })
+
+
+
+    $(function(){
+
+
+
+      $.ajax({
+        url: '/content/vtkcontent/en/vtk-banner.simple.html',
+        type: 'GET',
+        dataType:'html',
+        data: {
+            a: Date.now()
+        },
+        success: function(result) {
+            // document.getElementById("vtk_banner2234").innerHTML=result;
+            $("#vtk_banner2234").html(result);
+
+            $(function(){
+              // if($("#vtk_banner2234").data('cached') === 'no'){
+              //   $("#vtk_banner2234").show();
+              // }
+
+
+
+              $('.vtk-banner-button').click(function(){
+
+                 $.ajax({
+                   url:'/content/girlscouts-vtk/controllers/vtk.controller.html?act=hideVtkBanner',
+                   dataType:'html',
+                 }).done(function(){
+                  $('.vtk-banner-image').slideUp();
+
+                   
+       
+                  })
+
+
+              });
+            });
+
+
+            // get if the there is a vtk cached
+            if($("#vtk_banner2234").data('cached') === 'no'){
+              $("#vtk_banner2234").show();
+            }
+       
+
+        }
+      });
+
+
+
+     });
+
+
+   
+
+
+    </script>
+
+
+
    <%if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
 
+
+
   <div id="yearPlanMeetings" class="<%= (user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"") ) ? "vtk-currentYear-plan" : "vtk-pastYear-plan" %>">
-    
+
+
     <div id="thePlan">
 
       <script type="text/javascript">
 
- var isActivNew;
+      var isActivNew;
       var isFirst=1;
       var meetingPassed=true;
       var scrollTarget = "";
 
+
+
       var CommentBox = React.createClass({displayName: "CommentBox",
+
        loadCommentsFromServer: function( isFirst ) {
          if (isFirst) {
              $.ajax({
@@ -45,8 +132,8 @@
                  }.bind(this),
              });
          } else if(  <%=user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"" ) %> ){
-         
-         
+
+
              getDataIfModified("year-plan.json", this, function(data, textStatus, req){
                 // Skip if is 304.
                 // Skip if is reordering.
@@ -55,7 +142,7 @@
                 }
 
              });
-             
+
          }
        },
         getInitialState: function() {
@@ -66,6 +153,9 @@
         isReordering: false,
         componentDidMount: function() {
             loadNav('plan');
+
+
+     
 
           // Need to skip dispatcher cache for the first time load.
           this.loadCommentsFromServer(true);
@@ -108,10 +198,7 @@
 
         }
       });
-
-
-
-       var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
+      var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
             // Reordering
             var parent = this.props.parentComponent;
@@ -138,22 +225,35 @@
         } //end of render
       });
 
-       var outdoorIcon = React.createClass({
+      var outdoorIcon = React.createClass({
     	   displayName:"outdoorIcon",
+
     	   render:function(){
-    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,
-    		       isOutdoor = this.props.isOutdoor;
+
+
+    		   var isOutdoorAvailable = this.props.isOutdoorAvailable,imgName;
+
+               if (this.props.isOutdoor) {
+                 imgName =  "outdoor.png";
+              } else {
+                  imgName = "indoor.png";
+              }
+
+               var options = {
+                 className: 'outdoor-icon',
+                 src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/'+imgName,
+                 style:{
+                    width:'45px'
+                 }
+               }
+
     		   if (isOutdoorAvailable) {
-    			   if (isOutdoor) {
-    		   			return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Green.png"}));
-    			   } else {
-    				   return (React.createElement("img", {className: "outdoor-icon", src: "/content/dam/girlscouts-vtk/global/EMail__Yellow.png"}));
-    			   }
-    		   } 
+    				   return (React.createElement("img", options));
+    		   }
 			   return null;
     	   }
     	})
-       
+
 
        var MeetingComponent = React.createClass({displayName: "MeetingComponent",
         render: function() {
@@ -257,7 +357,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         },
       onReorder: function(order) {
         isActivNew=1;
-        
+
       },
       componentDidMount: function() {
         resizeWindow();
@@ -270,6 +370,11 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
 
        }
+
+
+
+       
+
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
@@ -348,10 +453,10 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           }
             var src = "<%=relayUrl %>/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
-        		  
+
               //React.createElement("a", {href: src}, this.props.name +":Outdoor available? "+this.props.isOutdoorAvailable+" Outdoor selected? : "+ this.props.isOutdoor)
               React.createElement("a", {href: src}, this.props.name)
-              
+
           );
         }
       });
@@ -417,8 +522,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 var src="javascript:newLocCal()";
 
       return (
-    		  React.createElement("a", {href: src}, 
-    	         
+    		  React.createElement("a", {href: src},
+
 			        React.createElement("div", {className: bgcolor(obj, comment, 1)},
 			        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
 			        React.createElement("div", {className: "date"},
@@ -428,7 +533,7 @@ var src="javascript:newLocCal()";
 			        )
 			      )
       )
-      
+
            );
         }
       });

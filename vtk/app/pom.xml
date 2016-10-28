@@ -98,7 +98,7 @@
             </goals>
             <configuration>
               <sassSourceDirectory>${basedir}/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</sassSourceDirectory>
-              <destination>${project.build.directory}/sass-gen-css</destination>
+              <destination>${basedir}/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</destination>
             </configuration>
           </execution>
         </executions>

@@ -118,6 +118,7 @@ if( !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         javax.jcr.query.QueryResult result = q.execute();
         for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
             javax.jcr.query.Row r = it.nextRow();
+            
             String path = r.getValue("jcr:path").getString() ;
             String sfCouncil = null, sfTroopAge=null;
             try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}          

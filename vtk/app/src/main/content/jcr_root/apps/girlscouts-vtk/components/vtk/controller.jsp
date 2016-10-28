@@ -309,8 +309,7 @@
 				*/
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
-				meetingUtil.rmSchedDate(user, troop,
-						Long.parseLong(request.getParameter("rmDate")));
+				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
@@ -706,7 +705,7 @@
                 troop.setSfTroopAge(troop.getTroop().getGradeLevel());
                 troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
-
+System.err.println("Kaca xx44");
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 
 				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
@@ -716,7 +715,7 @@
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
-
+System.err.println("Kaca xx445");
 				if( attendance !=null && attendance.getUsers()!=null ){
 				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 				    attendanceTotal= attendance.getTotal();
@@ -725,7 +724,7 @@
 				if( achievement !=null && achievement.getUsers()!=null ){
 				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 				}
-
+System.err.println("Kaca xx46");
 				if (_meeting.getMeetingInfo() != null
 						&& _meeting.getMeetingInfo()
 								.getActivities() != null) {
@@ -737,7 +736,7 @@
 					} else {
 						java.util.List<Activity> _activities = _meeting
 								.getMeetingInfo().getActivities();
-
+System.err.println("Kaca xx447");
 						_meeting.getMeetingInfo()
 								.getMeetingInfo()
 								.put("meeting short description",
@@ -755,6 +754,7 @@
 					}
 
 				}
+System.err.println("Kaca xx448");
 				if( troop!=null && troop.getYearPlan()!=null){
 					Helper helper = troop.getYearPlan().getHelper();
 					if( helper==null ) helper= new Helper();
@@ -776,6 +776,7 @@
                                                         permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
+System.err.println("Kaca xx449");
 					helper.setPermissions(permissions);
 					helper.setAchievementCurrent(achievementCurrent);
 					helper.setAttendanceCurrent(attendanceCurrent);
@@ -783,7 +784,7 @@
 					troop.getYearPlan().setHelper(helper);
 
 	                session.putValue("VTK_troop", troop);
-
+System.err.println("Kaca xx4499");
                     ObjectMapper mapper = new ObjectMapper();
                     try {
 
@@ -809,6 +810,7 @@
 }catch(Exception e){e.printStackTrace();}
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 try{
+	System.err.println("tata start");
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
                 out.println("{\"yearPlan\":\"NYP\"}");
@@ -828,7 +830,7 @@ try{
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-
+			System.err.println("tata xx");
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {
@@ -909,13 +911,15 @@ try{
 
 	Object tmp[] = sched.values().toArray();
 	for(int i=0;i<tmp.length;i++){
-		try{
+		try{ 
+		
+			   if( ! ( tmp[i] instanceof   MeetingE)  ) continue;
+			   
 			   boolean isAnyOutdoorActivitiesInMeeting = VtkUtil.isAnyOutdoorActivitiesInMeeting( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeeting(isAnyOutdoorActivitiesInMeeting);
-			  
 			   boolean isAnyOutdoorActivitiesInMeetingAvailable = VtkUtil.isAnyOutdoorActivitiesInMeetingAvailable( ((MeetingE) tmp[i]).getMeetingInfo() );
 			   ((MeetingE) tmp[i]).setAnyOutdoorActivityInMeetingAvailable(isAnyOutdoorActivitiesInMeetingAvailable);
-			   
+
 			   ((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
@@ -1365,10 +1369,12 @@ try{
             
             
         }else if( request.getParameter("rmNote") != null ){
+      System.err.println("inRmNote contr: "+request.getParameter("nid") );  	
             boolean isRm= false;
             String noteId= request.getParameter("nid");
-
+     System.err.println("inRmNote contr b4: "+request.getParameter("nid") ); 
              isRm=  meetingUtil.rmNote(user, troop, noteId);
+    System.err.println("inRmNote contr after : "+request.getParameter("nid") ); 
              out.println("{vtkresp:"+ isRm+"}");
 
         }else if( request.getParameter("editNote") != null ){
@@ -1421,15 +1427,21 @@ try{
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
 
         }else if(request.getParameter("cngOutdoor") != null){
+//System.err.println("test outdoor: ");   	
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
-        	
+      
+//System.err.println("test outdoor: " +mid +" : "+ aid+" :" + isOutdoor);    	
         	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
              zz:for(int i=0;i<meetings.size();i++){
+//System.err.println("test outdoor i=:"+ i );            	 
             	 if( meetings.get(i).getUid().equals( mid ) ){
+//System.err.println("test outdoor this meeting" );            		 
             		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
-            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getUid().equals(aid)){
+//System.err.println("test outdoor y=" + y + " :" + meetings.get(i).getMeetingInfo().getActivities().get(y).getPath() );   
+            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
+//System.err.println("test outdoor yes path --- update" );        				 
             			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
             			      break zz;
             			 }
@@ -1443,10 +1455,17 @@ try{
 
         	java.util.StringTokenizer t= new java.util.StringTokenizer( currDates, ",");
         	while( t.hasMoreElements()){
+        		
         		   long currDate = Long.parseLong(t.nextToken());
-        		   calendarUtil.updateDate( user,  troop,  currDate,  Long.parseLong( request.getParameter("dt")));
+        		   java.util.Date dt = VtkUtil.parseDate(
+                           VtkUtil.FORMAT_FULL,
+                           request.getParameter("dt"));
+        		   calendarUtil.updateDate( user,  troop,  currDate,  dt.getTime() );
 	   
         	}
+        }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){
+       
+            session.setAttribute("isHideVtkBanner", "true");
         } else {
 			//TODO throw ERROR CODE
 

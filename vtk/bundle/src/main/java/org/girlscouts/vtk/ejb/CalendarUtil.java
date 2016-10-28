@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -129,16 +130,75 @@ public class CalendarUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		String sched = cal.getDates();
+		//String sched = cal.getDates();
+		String sched = VtkUtil.sortDates(cal.getDates());
 		if ((sched == null || sched.contains(newDate.getTime() + ""))
 				&& !(("" + currDate).equals(newDate.getTime() + ""))) {
 			log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal");
 			return false;
 		}
+		/*
 		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		cal.setDates(sched);
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		
+
+		
+		//-java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		
+		*/
+		
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 0 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		for(int i=0;i<100;i++){
+			if ((sched == null || sched.contains(newDate.getTime() +""))) {
+				java.util.Calendar c = Calendar.getInstance();
+				c.setTimeInMillis(newDate.getTime());
+				c.add(java.util.Calendar.SECOND, 1);
+				newDate= c.getTime();
+			}
+		}
+		
+		sched = sched.replace("" + currDate, newDate.getTime() + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate.getTime() );
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 0.1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != (i) ){
+				meetings.get(i).setId((i));
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		
+		
+		
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 2 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		
+		
+		
+		/* GOOD
+		
+		
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getPath().equals(meetingPath)) {
@@ -146,6 +206,13 @@ public class CalendarUtil {
 				troop.getYearPlan().setAltered("true");
 			}
 		}
+		*/
+		for(int i=0;i<meetings.size();i++)
+			System.err.println("Kaca 3 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
+		
+		//troop.getYearPlan().setMeetingEvents(meetings);
+		cal.setDates(sched);
+		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
 		return true;
 	}
@@ -458,8 +525,9 @@ public class CalendarUtil {
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
 		Cal cal = plan.getSchedule();		
-		String sched = cal.getDates();
+		String sched = VtkUtil.sortDates(cal.getDates());
 		
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
 		
 		for(int i=0;i<100;i++){
 			if ((sched == null || sched.contains(newDate +""))) {
@@ -470,11 +538,63 @@ public class CalendarUtil {
 			}
 		}
 		sched = sched.replace("" + currDate, newDate + "");
+		
+		
+		updateSchedMeetings( meetings, currDate, newDate );
+		
+		
+		
+		//sort meetings by Date
+		Comparator<MeetingE> comp = new BeanComparator("date");
+		if (meetings != null)
+			Collections.sort(meetings, comp);
+		
+		
+		
+		
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getId() != i ){
+				meetings.get(i).setId(i);
+				meetings.get(i).setDbUpdate(true);
+			}
+		}
+		
+		
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
 		return true;
 	}
-
-
+	
+	
+private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> meetings, long currDate, long newDate ){
+	for(int i=0;i<meetings.size();i++){
+	
+		if( meetings.get(i).getDate().getTime()== currDate )
+			meetings.get(i).setDate( new java.util.Date( newDate) );
+	}
+	return meetings;
 }
+
+
+private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
+
+	
+	//sort meetings by Date
+	Comparator<MeetingE> comp = new BeanComparator("id");
+			if (meetings != null)
+				Collections.sort(meetings, comp);
+	
+	int count=0;
+	java.util.StringTokenizer t= new StringTokenizer( sched, ",");
+	while( t.hasMoreElements()){
+	
+		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
+		meetings.get(count).setDate(date);
+		count ++;
+	}
+	
+	return meetings;
+}
+
+}//edn class

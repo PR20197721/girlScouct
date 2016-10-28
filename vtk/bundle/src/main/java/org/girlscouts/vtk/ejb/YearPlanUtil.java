@@ -37,6 +37,17 @@ import org.girlscouts.vtk.models.bean_resource;
 import org.girlscouts.vtk.utils.VtkException;
 import org.girlscouts.vtk.utils.VtkUtil;
 
+import net.fortuna.ical4j.model.DateTime;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.PropertyFactoryImpl;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Uid;
+import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.util.UidGenerator;
+
 @Component
 @Service(value = YearPlanUtil.class)
 public class YearPlanUtil {
@@ -115,8 +126,6 @@ public class YearPlanUtil {
 
 		return container;
 	}
-/*
-In Koo removed for AEM 6.1 upgrade
 
 	@SuppressWarnings("unchecked")
 	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user, Troop troop)
@@ -127,21 +136,26 @@ In Koo removed for AEM 6.1 upgrade
 		if (!userUtil.hasPermission(troop,
 				Permission.PERMISSION_VIEW_MEETING_ID))
 			return null;
+		
 		net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
 		calendar.getProperties().add(
 				new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
+		
 		calendar.getProperties().add(Version.VERSION_2_0);
 		calendar.getProperties().add(CalScale.GREGORIAN);
+		
 		java.util.Iterator itr = sched.keySet().iterator();
 		while (itr.hasNext()) {
 			java.util.Date dt = (java.util.Date) itr.next();
 			YearPlanComponent _comp = (YearPlanComponent) sched.get(dt);
 			Calendar cal = java.util.Calendar.getInstance();
 			cal.setTime(dt);
+			
 			String desc = "", location = "";
 			java.util.Date endDate = null;
 			switch (_comp.getType()) {
 			case ACTIVITY:
+				
 				Activity a = ((Activity) _comp);
 				location = (a.getLocationName() == null ? "" : a
 						.getLocationName());
@@ -153,6 +167,7 @@ In Koo removed for AEM 6.1 upgrade
 				break;
 
 			case MEETING:
+				
 				Meeting meetingInfo = meetingDAO.getMeeting(user, troop,
 						((MeetingE) _comp).getRefId());
 				desc = meetingInfo.getName();
@@ -169,6 +184,7 @@ In Koo removed for AEM 6.1 upgrade
 			}
 			if (endDate == null)
 				endDate = cal.getTime();
+			
 			final List events = new ArrayList();
 			final VEvent event = new VEvent(new DateTime(cal.getTime()),
 					new DateTime(endDate), desc);
@@ -177,18 +193,19 @@ In Koo removed for AEM 6.1 upgrade
 				event.getProperties()
 						.add(new net.fortuna.ical4j.model.property.Location(
 								location));
-
-			UidGenerator uidGenerator = new UidGenerator("1");
-			event.getProperties().add(uidGenerator.generateUid());
-			events.add(event);
-
+			
+			Uid uid = new Uid(new java.util.Date().getTime() +""+ Math.random() );
+		  
+		    event.getProperties().add(uid);
+		    events.add(event);
+			
 			calendar.getComponents().addAll(events);
-
+		
 		}// end while
 		return calendar;
 	}
 
-*/
+
 	private String getLocation(Troop user, String locationId) {
 
 		String fmtLocation = "";

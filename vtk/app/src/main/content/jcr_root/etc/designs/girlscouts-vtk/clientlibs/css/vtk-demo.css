@@ -1,24 +1,19 @@
-/* line 1, vtk-demo.scss */
 .vtk-table-container {
   text-align: center;
 }
 
-/* line 7, vtk-demo.scss */
 .table-action-button a {
   color: red !important;
 }
 
-/* line 12, vtk-demo.scss */
 .vtk-empty-bar {
   width: 100%;
   height: 25px;
 }
 
-/* line 17, vtk-demo.scss */
 .vtk-toolkit-title {
   float: left;
 }
-/* line 19, vtk-demo.scss */
 .vtk-toolkit-title h4 {
   color: white !important;
   font-weight: 100;
@@ -28,12 +23,10 @@
   letter-spacing: 1px;
 }
 
-/* line 30, vtk-demo.scss */
 .vtk-demo-info-footer, .vtk-demo-reference-footer {
   margin: 25px 0;
 }
 
-/* line 35, vtk-demo.scss */
 .vtk-demo-info-footer h4 {
   font-size: 18px;
   font-weight: 100;
@@ -41,7 +34,6 @@
   margin: 0;
 }
 
-/* line 45, vtk-demo.scss */
 .vtk-demo-reference-footer a {
   float: right;
   font-weight: 100;
@@ -49,12 +41,10 @@
   text-decoration: underline;
 }
 
-/* line 53, vtk-demo.scss */
 .vtk-demo-wrap-top {
   padding: 36px 0;
 }
 
-/* line 57, vtk-demo.scss */
 .vtk-header-box {
   background-color: #009447;
   color: white;
@@ -63,7 +53,6 @@
   width: 100%;
   display: table;
 }
-/* line 66, vtk-demo.scss */
 .vtk-header-box a {
   display: table-cell;
   width: 100%;
@@ -72,28 +61,23 @@
   padding: 15px;
   color: white;
 }
-/* line 73, vtk-demo.scss */
 .vtk-header-box a:hover {
   color: white;
 }
 
-/* line 79, vtk-demo.scss */
 .vtk-demo-card {
   margin-bottom: 15px;
 }
-/* line 81, vtk-demo.scss */
 .vtk-demo-card p {
   padding: 0 15px;
   font-size: 13px;
 }
-/* line 86, vtk-demo.scss */
 .vtk-demo-card ul {
   list-style-type: circle !important;
   font-size: 13px;
   padding-left: 15px;
 }
 
-/* line 94, vtk-demo.scss */
 .vtk-demo-select select {
   width: auto;
   float: right;
@@ -102,7 +86,6 @@
   margin: 10px 10px 0 0;
 }
 
-/* line 103, vtk-demo.scss */
 .vtk-demo-select_ {
   text-align: center;
   background-color: #FFFFE0;
@@ -111,11 +94,9 @@
   margin-bottom: 40px;
 }
 
-/* line 112, vtk-demo.scss */
 .vtk-demo-restart {
   position: relative;
 }
-/* line 114, vtk-demo.scss */
 .vtk-demo-restart a {
   float: right;
   margin: 5px 10px 5px 0;
@@ -124,14 +105,12 @@
   font-size: 12px;
 }
 
-/* line 123, vtk-demo.scss */
 .float-right {
   position: absolute;
   top: 8px;
   right: 9px;
 }
 
-/* line 129, vtk-demo.scss */
 .vtk-demo-logo-img {
   position: absolute;
   z-index: 1000;
