@@ -1397,7 +1397,18 @@ try{
         }else if( request.getParameter("getNotes") != null ){
 
                 String mid = request.getParameter("mid");
+                //find meeting
+                MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+                
+                //get notes
+                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotes(  user,  troop, meeting.getUid() );
 
+                //print json
+                ObjectMapper mapper = new ObjectMapper();
+                out.println(mapper.writeValueAsString(notes));
+
+                
+/*
                 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
                 for(int i=0;i<meetings.size();i++){
 
@@ -1411,6 +1422,9 @@ try{
                         break;
                     }//edn if
                 }//end for
+                
+                */
+                
                 /*
         }else if( request.getParameter("getAllMeetings") != null ){
         	
@@ -1427,28 +1441,27 @@ try{
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
 
         }else if(request.getParameter("cngOutdoor") != null){
-//System.err.println("test outdoor: ");   	
+   	
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
-      
-//System.err.println("test outdoor: " +mid +" : "+ aid+" :" + isOutdoor);    	
+/*
         	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
              zz:for(int i=0;i<meetings.size();i++){
-//System.err.println("test outdoor i=:"+ i );            	 
             	 if( meetings.get(i).getUid().equals( mid ) ){
-//System.err.println("test outdoor this meeting" );            		 
             		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
-//System.err.println("test outdoor y=" + y + " :" + meetings.get(i).getMeetingInfo().getActivities().get(y).getPath() );   
             			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
-//System.err.println("test outdoor yes path --- update" );        				 
             			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
             			      break zz;
             			 }
             		 }
             	 }
              }
-        	
+  */
+            MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+            Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+            meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
+       
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
        	
         	String currDates = request.getParameter("mids");

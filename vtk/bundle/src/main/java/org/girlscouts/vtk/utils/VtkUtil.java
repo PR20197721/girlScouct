@@ -609,4 +609,39 @@ public static String sortDates(String dates){
 	}
 	return toRet;
 }
+
+public static MeetingE findMeetingById(java.util.List<MeetingE>meetings, String mid){//, String aid, boolean isOutdoor){
+
+	if( meetings==null || mid==null ) return null;
+	
+	return meetings.stream()
+		    .filter( meeting -> mid.equals( meeting.getUid()))
+		    .findAny()
+		    .orElse(null);
+	
+}
+
+public static Activity findActivityByPath(java.util.List<Activity>activities, String aid){
+
+	if( activities==null || aid ==null) return null;
+	
+	return activities.stream()
+			 .filter( activity -> aid.equals( activity.getPath() ) )
+			    .findAny()
+			    .orElse(null);
+		
+}
+/*
+public static void xKaca(java.util.List<MeetingE>meetings, String mid, String aid){
+	 meetings  
+	    .stream()
+	    .filter(
+	            p -> mid.equals(p.getUid()),
+	            a -> aid.equals(p.getPath())
+	           )
+	       
+	        .forEach(email -> System.out.println(email.getUid()));
+		    
+}
+*/
 }//end class
