@@ -648,7 +648,7 @@ public static void xKaca(java.util.List<MeetingE>meetings, String mid, String ai
 
 
 
-public void changePermission(User user, Troop troop, int chngPerm){
+public static void changePermission(User user, Troop troop, int chngPerm){
 	
 	switch (chngPerm) {
 	case 2:

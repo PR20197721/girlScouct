@@ -561,7 +561,7 @@
 			calendarUtil.resetCal(user, troop);
 			out.println("Cal reset");
 		} else if (request.getParameter("chngPermis") != null) {
-			VtkUtil.changePermission(Integer.parseInt(request.getParameter("chngPermis")));
+			VtkUtil.changePermission(user, troop, Integer.parseInt(request.getParameter("chngPermis")));
 		} else if (request.getParameter("Impersonate4S") != null) {
 
 			troopUtil.impersonate(user, troop,
@@ -1242,7 +1242,7 @@ try{
             out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
         }else if( request.getParameter("getNotes") != null ){
                 java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
-                out.println( new ObjectMapper().mapper.writeValueAsString(notes));
+                out.println( new ObjectMapper().writeValueAsString(notes));
         }else if(request.getParameter("addMeetings") != null){
             meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
@@ -1250,7 +1250,7 @@ try{
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
         	meetingUtil.updateActivityOutdoorStatus( user,  troop,  request.getParameter("mid"),  request.getParameter("aid"),  isOutdoor);
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
-        	calendargUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
+        	calendarUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){       
             session.setAttribute("isHideVtkBanner", "true");
         } else {
