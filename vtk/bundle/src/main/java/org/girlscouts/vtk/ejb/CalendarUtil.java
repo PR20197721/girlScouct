@@ -597,4 +597,14 @@ private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings
 	return meetings;
 }
 
+
+public void combineMeeting(User user, Troop troop, String currDates, String _dt) throws java.lang.IllegalAccessException, java.text.ParseException, org.girlscouts.vtk.utils.VtkException{
+	
+	java.util.StringTokenizer t= new java.util.StringTokenizer( currDates, ",");
+	while( t.hasMoreElements()){
+		   long currDate = Long.parseLong(t.nextToken());
+		   java.util.Date dt = VtkUtil.parseDate( VtkUtil.FORMAT_FULL, _dt );
+		   updateDate( user,  troop,  currDate,  dt.getTime() );
+	}
+}
 }//edn class

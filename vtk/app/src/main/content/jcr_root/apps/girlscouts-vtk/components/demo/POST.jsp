@@ -82,6 +82,21 @@ letmein.add("VTKDemo238");
 letmein.add("VTKDemo583");
 letmein.add("VTKDemo333");
 
+letmein.add("VTKDemo612");
+letmein.add("VTKDemo278");
+letmein.add("VTKDemo506");
+letmein.add("VTKDemo548");
+letmein.add("VTKDemo314");
+letmein.add("VTKDemo468");
+letmein.add("VTKDemo168");
+letmein.add("VTKDemo499");
+letmein.add("VTKDemo194");
+letmein.add("VTKDemo135");
+letmein.add("VTKDemo306");
+letmein.add("VTKDemo368");
+letmein.add("VTKDemo700");
+
+
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
         session.setAttribute("demoSiteUser", true);

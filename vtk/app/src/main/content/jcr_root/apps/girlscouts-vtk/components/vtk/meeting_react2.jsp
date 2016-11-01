@@ -91,10 +91,6 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> master
     <script>
 
     $.ajax({
