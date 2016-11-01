@@ -134,7 +134,7 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
             try{
                 sfTroopAge= r.getValue("sfTroopAge").getString(); 
-                if(!sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
+                if(!sfTroopAge.equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
                     continue;
                     }
             }catch(Exception e){}
