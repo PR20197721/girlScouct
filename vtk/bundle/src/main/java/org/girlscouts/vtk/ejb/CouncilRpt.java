@@ -414,7 +414,7 @@ public class CouncilRpt {
 			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
 			email.setFrom("alex.yakobovich@ey.com", "VTK");
 			
-			email.setSubject("GS Monthly Report");
+			email.setSubject("GS Monthly Report for D from dev cng 100116");
 			email.setMsg("Please find attached GS Monthly Report attached as of "+ new java.util.Date());
 
 			DataSource source = new ByteArrayDataSource(msg, "application/text");  

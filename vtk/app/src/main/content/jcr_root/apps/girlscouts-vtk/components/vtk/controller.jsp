@@ -470,100 +470,26 @@
 
 
 		} else if (request.getParameter("updateCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-
-			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(user,councilId);
-			for (int i = 0; i < milestones.size(); i++) {
-
-				Milestone m = milestones.get(i);
-				String blurb = request.getParameter("blurb" + i);
-				String date = request.getParameter("date" + i);
-
-				m.setBlurb(blurb);
-				m.setDate(new java.util.Date(date));
-
-			}
-
+			yearPlanUtil.updateMilestones( user,  troop,  request );
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
-			String[] blurbs = request.getParameterValues("ms_blurb[]");
-			String[] dates = request.getParameterValues("ms_date[]");
-			String[] shows = request.getParameterValues("ms_show[]");
-			if (blurbs != null) {
-				for (int i = 0; i < blurbs.length; i++) {
-					String blurb = blurbs[i];
-					if (blurb == null || blurb.trim().isEmpty()) {
-						break;
-					}
-					boolean show = shows[i].equals("true");
-					Date date = null;
-					if (!dates[i].isEmpty()) {
-						date = VtkUtil.parseDate(
-								VtkUtil.FORMAT_MMddYYYY, dates[i]);
-					}
-
-					Milestone m = new Milestone(blurb, show, date);
-					milestones.add(m);
-				}
-			}
-
-			try{
-				yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-
+			yearPlanUtil.saveMilestones(user, troop, request);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
-
 		} else if (request.getParameter("createCouncilMilestones") != null) {
-
-			String councilId = request.getParameter("cid");
-			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(user,councilId);
-
-			Milestone m = new Milestone();
-			m.setBlurb(request.getParameter("blurb"));
-			m.setDate(new java.util.Date(request.getParameter("date")));
-			milestones.add(m);
-
+			yearPlanUtil.createMilestones(user, troop, request);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-
 		} else if (request.getParameter("removeCouncilMilestones") != null) {
-
-			java.util.List<Milestone> milestones = troop.getYearPlan()
-					.getMilestones();
-			for (int i = 0; i < milestones.size(); i++) {
-
-				Milestone m = milestones.get(i);
-				if (m.getUid()
-						.equals(request
-								.getParameter("removeCouncilMilestones"))) {
-					milestones.remove(m);
-
-					boolean isUsrUpd = troopUtil.updateTroop(user,
-							troop);
-					if (!isUsrUpd)
-						vtkErr += vtkErr
-								.concat("Warning: You last change was not saved.");
-
-					response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-					return;
-				}
-			}
-
+			boolean isRm = troopUtil.removeMilestone(user, troop, request);
+		    if( isRm )
+		    	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+		    else
+		    	vtkErr += vtkErr.concat("Warning: You last change was not saved.");
 		} else if (request.getParameter("resetCal") != null) {
 			calendarUtil.resetCal(user, troop);
 			out.println("Cal reset");
 		} else if (request.getParameter("chngPermis") != null) {
 			VtkUtil.changePermission(user, troop, Integer.parseInt(request.getParameter("chngPermis")));
 		} else if (request.getParameter("Impersonate4S") != null) {
-
 			troopUtil.impersonate(user, troop,
 					request.getParameter("councilCode"),
 					request.getParameter("troopId"), session);
