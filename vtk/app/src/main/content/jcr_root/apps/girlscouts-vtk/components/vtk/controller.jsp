@@ -479,7 +479,7 @@
 			yearPlanUtil.createMilestones(user, troop, request);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 		} else if (request.getParameter("removeCouncilMilestones") != null) {
-			boolean isRm = troopUtil.removeMilestone(user, troop, request);
+			boolean isRm = troopUtil.removeMilestones(user, troop, request);
 		    if( isRm )
 		    	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 		    else
