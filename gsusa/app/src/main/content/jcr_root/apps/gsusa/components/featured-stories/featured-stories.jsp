@@ -8,6 +8,16 @@
     } catch (NullPointerException e) {
         numberOfStories = 6;
     }
+    
+    String resourceType = "gsusa/components/homepage";
+    String storiesClass = "";
+    try{
+    	resourceType = currentPage.getProperties().get("sling:resourceType", String.class);
+    	String resourceName = resourceType.substring(resourceType.lastIndexOf("/") + 1);
+    	storiesClass = resourceName;
+    } catch(Exception e){
+    	e.printStackTrace();
+    }
 %>
 	<ul class="featured-stories inline-list clearfix">
 <%
@@ -23,7 +33,7 @@
             style = "style=\"background: url(" + bg+ ") no-repeat transparent center center / cover\"";
         } catch (Exception e) {}
 %>
-        <li <%=style%> id="tag_tile_featured_story_<%= i %>">
+        <li <%=style%> id="tag_tile_featured_story_<%= i %>" class="<%= storiesClass%>">
             <cq:include path="<%= id %>" resourceType="gsusa/components/featured-story" />
         </li>
 <%
