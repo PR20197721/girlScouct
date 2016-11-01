@@ -406,7 +406,7 @@ public class YearPlanUtil {
 	}
 	
 	
-	public void updateMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+	public void updateMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws java.lang.IllegalAccessException{
 		String councilId = request.getParameter("cid");
 
 		java.util.List<Milestone> milestones = getCouncilMilestones(user,councilId);
@@ -422,7 +422,7 @@ public class YearPlanUtil {
 		}
 	}
 	
-	public void saveMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+	public void saveMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request)throws java.text.ParseException{
 		String councilId = request.getParameter("cid");
 		java.util.List<Milestone> milestones = new ArrayList<Milestone>();
 		String[] blurbs = request.getParameterValues("ms_blurb[]");
@@ -435,7 +435,7 @@ public class YearPlanUtil {
 					break;
 				}
 				boolean show = shows[i].equals("true");
-				Date date = null;
+				java.util.Date date = null;
 				if (!dates[i].isEmpty()) {
 					date = VtkUtil.parseDate(
 							VtkUtil.FORMAT_MMddYYYY, dates[i]);
@@ -453,7 +453,7 @@ public class YearPlanUtil {
 		}
 	}
 	
-	public void createMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request ){
+	public void createMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request ) throws java.lang.IllegalAccessException{
 		String councilId = request.getParameter("cid");
 		java.util.List<Milestone> milestones = getCouncilMilestones(user,councilId);
 

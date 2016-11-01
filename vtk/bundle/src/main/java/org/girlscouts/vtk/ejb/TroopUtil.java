@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.ejb;
 
 import java.text.ParseException;
+import  org.girlscouts.vtk.models.Milestone;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -777,7 +778,7 @@ if( newTroop ==null ) return;
 		return futureMeetings;
 	}
 	
-	public boolean removeMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+	public boolean removeMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request)throws java.lang.IllegalAccessException,org.girlscouts.vtk.utils.VtkException{
 		java.util.List<Milestone> milestones = troop.getYearPlan().getMilestones();
 		for (int i = 0; i < milestones.size(); i++) {
 
@@ -789,11 +790,13 @@ if( newTroop ==null ) return;
 
 				boolean isUsrUpd = updateTroop(user,
 						troop);
+				/*
 				if (!isUsrUpd)
 					vtkErr += vtkErr
 							.concat("Warning: You last change was not saved.");
 
 				//response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+				*/
 				return false;
 			}
 		}
