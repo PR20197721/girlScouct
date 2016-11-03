@@ -23,7 +23,7 @@ description = "Gs monthly rpt"
 @Properties({
 @Property(name = "service.description", value = "GS Monthly Report",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
-@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 54 1 * *  ?",description="cron expression"),
+@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 51 17 * *  ?",description="cron expression"),
 @Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 @Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true)
 })
