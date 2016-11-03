@@ -135,7 +135,7 @@ System.err.println("SQL rpt xls1241 "+ sql );
             try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
             try{
                 sfTroopAge= r.getValue("sfTroopAge").getString(); 
-                if(!sfTroopAge.equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
+                if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
                     continue;
                     }
             }catch(Exception e){}
@@ -154,8 +154,8 @@ System.err.println("SQL rpt xls1241 "+ sql );
        
 }
 
-final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
-String rptId= councilRpt.saveRpt( sb );
+//final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
+//String rptId= councilRpt.saveRpt( sb );
 
 //email rpt
 councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);

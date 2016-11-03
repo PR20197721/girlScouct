@@ -27,7 +27,7 @@ description = "rm demo temp nodes from db"
 @Properties({
 @Property(name = "service.description", value = "Girl Scouts DEM Demo Service",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
-@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 40 15 * *  ?",description="cron expression"),
+@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 40 4 1 1 ?",description="cron expression"),
 
 @Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 @Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true)
