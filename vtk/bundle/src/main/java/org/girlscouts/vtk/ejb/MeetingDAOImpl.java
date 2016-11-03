@@ -1326,7 +1326,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
-			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
+			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [isOutdoorRelated] "
 					+ " from [nt:unstructured] as parent where "
 					+ " (isdescendantnode (parent, ["
 					+ _path
@@ -1351,6 +1351,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				try {
 					search.setTitle(r.getValue("dc:title").getString());
+				} catch (Exception e) {
+				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("isOutdoorRelated").getBoolean());
 				} catch (Exception e) {
 				}
 				try {
