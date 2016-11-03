@@ -563,7 +563,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 
 			String sql = "";
-			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
+			sql = "select dc:description,dc:format, dc:title, isOutdoorRelated from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
 
@@ -594,6 +594,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 					search.setTitle(r.getValue("dc:title").getString());
 				} catch (Exception e) {
 				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("isOutdoorRelated").getBoolean());
+				} catch (Exception e) {
+				}
 				matched.add(search);
 
 			}
@@ -613,7 +617,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public List<Asset> getAidTag_local(User user, Troop troop, String tags,
 			String meetingName, String meetingPath)
 			throws IllegalAccessException {
-
+		
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
@@ -829,6 +833,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 					Asset asset = new Asset();
 					asset.setRefId(node.getPath());
+					asset.setIsOutdoorRelated(props.getProperty("isOutdoorRelated").getBoolean());
 					asset.setIsCachable(true);
 					asset.setType(type);
 
