@@ -1393,7 +1393,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			String sql = "";
 			if (_path != null && _path.contains("metadata/"))
 				_path = _path.replace("metadata/", "");
-			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"
+			sql = "select dc:description,dc:format, dc:title,isOutdoorRelated from nt:unstructured where jcr:path like '"
 					+ _path + "%' and cq:tags is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1417,6 +1417,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				try {
 					search.setTitle(r.getValue("dc:title").getString());
+				} catch (Exception e) {
+				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("isOutdoorRelated").getBoolean());
 				} catch (Exception e) {
 				}
 			}
