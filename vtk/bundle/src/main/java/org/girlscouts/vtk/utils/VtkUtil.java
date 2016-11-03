@@ -632,15 +632,5 @@ public static Activity findActivityByPath(java.util.List<Activity>activities, St
 		
 }
 
-public static void xKaca(java.util.List<MeetingE>meetings, String mid, String aid){
-	 meetings  
-	    .stream()
-	    .filter(
-	            p -> mid.equals(p.getUid()),
-	            a -> aid.equals(p.getPath())
-	           )
-	       
-	        .forEach(email -> System.out.println(email.getUid()));
-		    
-}
+
 }//end class
