@@ -591,7 +591,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		
 		        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
 		        SimpleDateFormat format1 = new SimpleDateFormat("MM-dd-yyyy");
-		        sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \nCouncil, Troop, Junior, Brownie, Daisy, Total ");
+		        sb.append("Council Report generated on " + format1.format(new java.util.Date())+ " \n");
 		        
 		        java.util.Map<String, String> cTrans = new java.util.TreeMap();     
 		        cTrans.put("597", "Girl Scouts of Northeast Texas"); 
@@ -696,7 +696,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            
 		            
 		          //  out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
-		            sb.append(  cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
+		            sb.append(  "\n"+cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ ",\"" + yearPlanName  +"\","+ sfTroopId + ","+sfTroopName );          
 		           
 		            
 		           
