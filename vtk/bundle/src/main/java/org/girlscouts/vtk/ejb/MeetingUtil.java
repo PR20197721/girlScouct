@@ -681,9 +681,10 @@ public class MeetingUtil {
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
 				asset.setDocType(docType);
-				if (dbAsset != null)
+				if (dbAsset != null) {
 					asset.setDescription(dbAsset.getDescription());
-
+					asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
+				}
 				java.util.List<Asset> assets = meeting.getAssets();
 				assets = assets == null ? new java.util.ArrayList() : assets;
 
@@ -922,7 +923,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		if( _aidTags==null )
 			_aidTags= new java.util.ArrayList<Asset>();
 		
-	
+	//????
 		// query aids cachables
 		java.util.List <Asset>__aidTags = yearPlanUtil.getAids(user, troop, 
 				meetingInfo.getAidTags(), meetingInfo.getId(),
