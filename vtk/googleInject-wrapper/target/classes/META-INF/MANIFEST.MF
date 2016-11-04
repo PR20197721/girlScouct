@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1478291342462
+Bnd-LastModified: 1478291752190
 Build-Jdk: 1.8.0_91
 Built-By: akobovich
 Bundle-ClassPath: .,guice-3.0.jar,javax.inject-1.jar,aopalliance-1.0.jar

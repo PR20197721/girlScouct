@@ -847,7 +847,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
                              .thenComparing(Meeting::getName) );
                           */
              
-             meetings = VtkUtil.xx34( meetings );
+             meetings = VtkUtil.sortMeetings( meetings );
           
 		  
 		  

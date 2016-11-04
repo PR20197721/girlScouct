@@ -691,7 +691,7 @@ public static void changePermission(User user, Troop troop, int chngPerm){
 }
 
 
-public static  java.util.List<Meeting>  xx34 (java.util.List<Meeting> meetings){
+public static  java.util.List<Meeting>  sortMeetings (java.util.List<Meeting> meetings){
 	Collections.sort(meetings,
             java.util.Comparator.comparing(Meeting::getLevel)
                    .thenComparing(Meeting::getName) );
