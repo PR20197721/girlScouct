@@ -803,12 +803,35 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 		  //sort meetings by this specific order: dAisy > bRownie > jUnior
 		  if (meetings != null) {
+			  
+		  /*
 			  Collections.sort(meetings, new Comparator<Meeting>() {
 				  public int compare(Meeting o1, Meeting o2) {
 					  //return o1.getLevel().compareTo(o2.getLevel());
 					  return Character.compare(o1.getLevel().charAt(1), o2.getLevel().charAt(1)); 
 				  }
 			  });
+		  */
+		  
+			  Collections.sort(meetings, new Comparator() {
+
+			        public int compare(Object o1, Object o2) {
+
+			            String x1 = ((Meeting) o1).getLevel().charAt(1) +"";
+			            String x2 = ((Meeting) o2).getLevel().charAt(1) +"";
+			            int sComp = x1.compareTo(x2);
+
+			            if (sComp != 0) {
+			               return sComp;
+			            } else {
+			               String x3 = ((Meeting) o1).getName();
+			               String x4 = ((Meeting) o2).getName();
+			               return x3.compareTo(x4);
+			            }
+			    }});
+		  
+		  
+		  
 		  }
 
 		  String currentLevel = "";
