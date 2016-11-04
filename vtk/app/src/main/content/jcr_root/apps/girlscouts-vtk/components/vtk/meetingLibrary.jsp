@@ -813,6 +813,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			  });
 		  */
 		  
+		  /*
 			  Collections.sort(meetings, new Comparator() {
 
 			        public int compare(Object o1, Object o2) {
@@ -830,6 +831,24 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			            }
 			    }});
 		  
+		  */
+		  
+		  /*
+			  Collections.sort(meetings,
+					  java.util.Comparator.comparing(p1 -> ((Meeting)p1).getLevel().charAt(1))
+		                     .thenComparing(p1 -> ((Meeting)p1).getName()) );
+		                     //.thenComparing(p1 -> p1.getArtist()));
+		  */
+		  
+		  
+/*
+              Collections.sort(meetings,
+                      java.util.Comparator.comparing(Meeting::getLevel)
+                             .thenComparing(Meeting::getName) );
+                          */
+             
+             meetings = VtkUtil.xx34( meetings );
+          
 		  
 		  
 		  }
