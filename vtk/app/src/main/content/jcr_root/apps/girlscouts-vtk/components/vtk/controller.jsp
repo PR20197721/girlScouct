@@ -870,11 +870,6 @@ System.err.println("Kaca xx4499");
 
 
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> master
 				//troop.setTroop(prefTroop);
                 troop.setSfTroopId(troop.getTroop().getTroopId());
                 troop.setSfUserId(user.getApiConfig().getUserId());
@@ -1252,35 +1247,21 @@ System.err.println("Kaca xx4499");
 
 	        <div class="row">
 
-<<<<<<< HEAD
 	        	<!-- <div class="small-20 small-centered columns"> -->
 
 	        	<!-- <div class="row"> -->
-=======
-	        	<div class="small-20 small-centered columns">
-
-	        	<div class="row">
->>>>>>> master
 
 	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
                          !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
 	     
 	            <%if(condition){ %>   
-<<<<<<< HEAD
                     <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-=======
-                    <div class="columns  small-2">
->>>>>>> master
 		            <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" :troop.getYearPlan().getName()%>')" />
 		            <label for="r_0"></label> </div>
 	            <%} %>
 	       
-<<<<<<< HEAD
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2" style="<%= condition ? "padding-left:16px" : ""  %>"  >
 	        	<div style="margin-left:-10px;margin-right: -10px;">
-=======
-	        <div class="small-18 columns end" style="<%= condition ? "padding-left:16px" : ""  %>"  >
->>>>>>> master
 	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
 	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
@@ -1317,13 +1298,8 @@ System.err.println("Kaca xx4499");
 	            </p>
 	            </div>
 	        </div>
-<<<<<<< HEAD
 	        <!-- </div> -->
 	        <!-- </div> -->
-=======
-	        </div>
-	        </div>
->>>>>>> master
 	      </div><!--/row-->
 
 	      <%
@@ -1453,10 +1429,6 @@ System.err.println("Kaca xx4499");
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
 
         }else if(request.getParameter("cngOutdoor") != null){
-<<<<<<< HEAD
-=======
-//System.err.println("test outdoor: ");   	
->>>>>>> master
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
