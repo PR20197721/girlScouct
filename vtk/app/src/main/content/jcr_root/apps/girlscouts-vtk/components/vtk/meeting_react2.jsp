@@ -996,86 +996,104 @@ React.createElement(ActivityPlan),
    var Survey = React.createClass({
     displayName:"survey",
 
+    click: function(){
+
+      function addhttp(url) {
+         if (!/^(f|ht)tps?:\/\//i.test(url)) {
+            url = "http://" + url;
+         }
+         return url;
+      }
+            
+       window.open(addhttp(this.state.url), '_blank');
+    },
+
     getInitialState: function(){
       return {
-        img:'',
-        text:'',
-        button:'',
-        url:'',
-        show:false
+         button:'',
+          img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+          text:'',
+          url:'',
+          show:false
       }
     },
     componentWillMount: function(){
         var Con = thisMeetingRefId.split('/').reverse()[0];
 
+        var _context = this;
+       
 
-         var data_survey = {
-            "jcr:primaryType": "nt:unstructured",
-            "sling:resourceType": "foundation/components/parsys",
-            "vtk_survey_links_1454513569": {
-                "jcr:primaryType": "nt:unstructured",
-                "jcr:createdBy": "admin",
-                "jcr:lastModifiedBy": "admin",
-                meetingid: ['B16B01'],
-                surveyLink: "http://www.google.com",
-                "jcr:created": "Mon Oct 31 2016 22:55:58 GMT-0400",
-                "jcr:lastModified": "Mon Oct 31 2016 22:56:22 GMT-0400",
-                "sling:resourceType": "girlscouts/components/vtk-survey-links"
-            },
-            "vtk_survey_links": {
-                "jcr:primaryType": "nt:unstructured",
-                "jcr:createdBy": "admin",
-                "jcr:lastModifiedBy": "admin",
-                meetingid: "B16B08",
-                surveyLink: "wsj.com",
-                "jcr:created": "Mon Oct 31 2016 22:56:40 GMT-0400",
-                "jcr:lastModified": "Mon Oct 31 2016 22:57:18 GMT-0400",
-                "sling:resourceType": "girlscouts/components/vtk-survey-links"
+        function processData(data){
+          debugger;
+         for (var key in data) {
+            if(data[key].hasOwnProperty('meetingid')){
+                  var idlist = data[key].meetingid.split(',')
+
+                  for (var i = idlist.length - 1; i >= 0; i--) {
+                    if(idlist[i] === Con){
+                      setNewState(data[key]);
+                      return false;
+                    }
+                  };
+          
             }
+          }
+
+
         }
 
 
-        var _context = this;
-
-        // $.ajax({
-    
-        //    url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
-        // }).done(function(){
-
-        //   _context.setState('survey',data);
-
-        // });
-            var list_survey = [];
-
-
-           function setNewState(data){
+          function setNewState(data){
             console.log("setNewState",data);
 
             _context.setState({
+              button:data.buttonCopy,
+              img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+              text:data.bannerCopy,
+              url:data.surveyLink,
               show:true
             })
            }
           
 
-          for (var key in data_survey) {
-            if(data_survey[key].hasOwnProperty('meetingid')){
-              if(data_survey[key].meetingid.constructor == Array){
 
-                  for (var i = data_survey[key].meetingid.length - 1; i >= 0; i--) {
-                    if(data_survey[key].meetingid[i] === Con){
-                      setNewState(data_survey[key]);
-                      return false;
-                    }
-                  };
+        $.ajax({
+    
+           url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
+        }).done(function(data){
+          
+          processData(data);
 
-              }else{
-                if(data_survey[key].meetingid === Con){
-                  setNewState(data_survey[key] )
-                  return false;
-                }
-              }
-            }
-          }
+          // setTimeout(function(){
+          //   processData({"jcr:primaryType":"nt:unstructured","sling:resourceType":"foundation/components/parsys","vtk_survey_links":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"Almost done! Share your ...","meetingid":"232132,6656,2131","surveyLink":"google.com","jcr:created":"Mon Nov 07 2016 12:09:01 GMT-0500","buttonCopy":"TAKE SURVEY","jcr:lastModified":"Mon Nov 07 2016 12:38:57 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"},"vtk_survey_links_1734082909":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"You are almost there...","meetingid":"B16B01,B05A88","surveyLink":"cnn.com","jcr:created":"Mon Nov 07 2016 12:39:21 GMT-0500","buttonCopy":"Survey Time","jcr:lastModified":"Mon Nov 07 2016 12:40:18 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"}});
+          // },500)
+          
+
+        });
+           
+
+
+
+
+          // for (var key in data_survey) {
+          //   if(data_survey[key].hasOwnProperty('meetingid')){
+          //     if(data_survey[key].meetingid.constructor == Array){
+
+          //         for (var i = data_survey[key].meetingid.length - 1; i >= 0; i--) {
+          //           if(data_survey[key].meetingid[i] === Con){
+          //             setNewState(data_survey[key]);
+          //             return false;
+          //           }
+          //         };
+
+          //     }else{
+          //       if(data_survey[key].meetingid === Con){
+          //         setNewState(data_survey[key] )
+          //         return false;
+          //       }
+          //     }
+          //   }
+          // }
           
         
 
@@ -1101,8 +1119,12 @@ React.createElement(ActivityPlan),
                 "img",
                 {
 
-                  src:"a",
-                  alt:'a'
+                  src:this.state.img,
+                  alt:this.state.button,
+                  title:this.state.text,
+                  style:{
+                    height:'34px'
+                  }
                 }
               )
             ),
@@ -1114,8 +1136,8 @@ React.createElement(ActivityPlan),
                 'padding':"5px 0"
               }
             },
-            React.createElement('b',null,"Almost done! "),
-            "Share your feedback on meeting activities to help us improve."
+            React.createElement('b',null,"Your Oponion Matters! "),
+            this.state.text
             ),
           React.createElement(
             "div",
@@ -1123,15 +1145,22 @@ React.createElement(ActivityPlan),
               'className':'columns small-24 medium-4',
             },
             React.createElement(
-              "button",
+              'div',
               {
-                "className": "tiny",
-               style:{
-                "width":"100%"
-                },
-                'href':'http://google.com'
+                className:'row'
               },
-              "take survey"
+              React.createElement(
+                "button",
+                {
+                  "className": "tiny",
+                 style:{
+                  "width":"100%"
+                  },
+                  'href':'http://google.com',
+                  onClick: this.click
+                },
+                this.state.button
+                )
               )
             )
         )
