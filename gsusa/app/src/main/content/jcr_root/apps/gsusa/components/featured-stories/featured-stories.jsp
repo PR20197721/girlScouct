@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 
 <%
     int numberOfStories;
@@ -18,6 +19,12 @@
     } catch(Exception e){
     	e.printStackTrace();
     }
+    
+    if(storiesClass.equals("three-column-page")){
+    	if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+    		%> The Featured Stories component should only be used with One Column and Two Column Pages, and the Homepage. It has been disabled for the Three Column Page template. <%
+    	}
+    } else {
 %>
 	<ul class="featured-stories inline-list clearfix">
 <%
@@ -39,5 +46,6 @@
 <%
     }
 	request.removeAttribute("index");
+    }
 %>
 </ul>
