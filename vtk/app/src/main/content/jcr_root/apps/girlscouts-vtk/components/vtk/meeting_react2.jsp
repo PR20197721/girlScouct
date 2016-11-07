@@ -679,6 +679,7 @@ React.createElement(ActivityPlan),
 
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
+
         return (
                 React.createElement("li", null,
                         React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension}, this.props.title),
@@ -811,12 +812,14 @@ React.createElement(ActivityPlan),
           this.setState({data: null});
       },
         render: function () {
+    
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
         React.createElement("h6", null, "meeting agenda"),
                 React.createElement("p", {className: "vtkDisableP"}, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."),
         React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}),
                 React.createElement(AgendaTotal, {data: this.props.data}),
-                React.createElement(AgendaItemAdd)
+                React.createElement(AgendaItemAdd),
+                React.createElement(Survey)
           );
         }
     });
@@ -990,7 +993,181 @@ React.createElement(ActivityPlan),
        }
      });
 
+   var Survey = React.createClass({
+    displayName:"survey",
 
+    click: function(){
+
+      function addhttp(url) {
+         if (!/^(f|ht)tps?:\/\//i.test(url)) {
+            url = "http://" + url;
+         }
+         return url;
+      }
+            
+       window.open(addhttp(this.state.url), '_blank');
+    },
+
+    getInitialState: function(){
+      return {
+         button:'',
+          img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+          text:'',
+          url:'',
+          show:false
+      }
+    },
+    componentWillMount: function(){
+        var Con = thisMeetingRefId.split('/').reverse()[0];
+
+        var _context = this;
+       
+
+        function processData(data){
+          debugger;
+         for (var key in data) {
+            if(data[key].hasOwnProperty('meetingid')){
+                  var idlist = data[key].meetingid.split(',')
+
+                  for (var i = idlist.length - 1; i >= 0; i--) {
+                    if(idlist[i] === Con){
+                      setNewState(data[key]);
+                      return false;
+                    }
+                  };
+          
+            }
+          }
+
+
+        }
+
+
+          function setNewState(data){
+            console.log("setNewState",data);
+
+            _context.setState({
+              button:data.buttonCopy,
+              img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+              text:data.bannerCopy,
+              url:data.surveyLink,
+              show:true
+            })
+           }
+          
+
+
+        $.ajax({
+    
+           url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
+        }).done(function(data){
+          
+          processData(data);
+
+          // setTimeout(function(){
+          //   processData({"jcr:primaryType":"nt:unstructured","sling:resourceType":"foundation/components/parsys","vtk_survey_links":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"Almost done! Share your ...","meetingid":"232132,6656,2131","surveyLink":"google.com","jcr:created":"Mon Nov 07 2016 12:09:01 GMT-0500","buttonCopy":"TAKE SURVEY","jcr:lastModified":"Mon Nov 07 2016 12:38:57 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"},"vtk_survey_links_1734082909":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"You are almost there...","meetingid":"B16B01,B05A88","surveyLink":"cnn.com","jcr:created":"Mon Nov 07 2016 12:39:21 GMT-0500","buttonCopy":"Survey Time","jcr:lastModified":"Mon Nov 07 2016 12:40:18 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"}});
+          // },500)
+          
+
+        });
+           
+
+
+
+
+          // for (var key in data_survey) {
+          //   if(data_survey[key].hasOwnProperty('meetingid')){
+          //     if(data_survey[key].meetingid.constructor == Array){
+
+          //         for (var i = data_survey[key].meetingid.length - 1; i >= 0; i--) {
+          //           if(data_survey[key].meetingid[i] === Con){
+          //             setNewState(data_survey[key]);
+          //             return false;
+          //           }
+          //         };
+
+          //     }else{
+          //       if(data_survey[key].meetingid === Con){
+          //         setNewState(data_survey[key] )
+          //         return false;
+          //       }
+          //     }
+          //   }
+          // }
+          
+        
+
+
+    },
+    render:function(){
+      var _context = this;
+      var className = "vtk-survey columns small-24" + (function(){ return (!_context.state.show) ? ' hide':''}());
+      return (
+        React.createElement(
+          'div',
+          {
+            className:className,
+            style:{}
+          },
+          React.createElement(
+            "div",
+            {
+              'className':'text-center columns small-24 medium-2',
+
+            },
+              React.createElement(
+                "img",
+                {
+
+                  src:this.state.img,
+                  alt:this.state.button,
+                  title:this.state.text,
+                  style:{
+                    height:'34px'
+                  }
+                }
+              )
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-18',
+              'style':{
+                'padding':"5px 0"
+              }
+            },
+            React.createElement('b',null,"Your Oponion Matters! "),
+            this.state.text
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-4',
+            },
+            React.createElement(
+              'div',
+              {
+                className:'row'
+              },
+              React.createElement(
+                "button",
+                {
+                  "className": "tiny",
+                 style:{
+                  "width":"100%"
+                  },
+                  'href':'http://google.com',
+                  onClick: this.click
+                },
+                this.state.button
+                )
+              )
+            )
+        )
+      );
+    }
+
+   })
 
    var Outdoor = React.createClass({
                   displayName: "Outdoor",
