@@ -1433,41 +1433,11 @@ System.err.println("Kaca xx4499");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
       
-<<<<<<< HEAD
-        	/*
-        	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
-             zz:for(int i=0;i<meetings.size();i++){
-            	 if( meetings.get(i).getUid().equals( mid ) ){
-            		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
-            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
-=======
-//System.err.println("test outdoor: " +mid +" : "+ aid+" :" + isOutdoor);    	
-        	 java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
-             zz:for(int i=0;i<meetings.size();i++){
-//System.err.println("test outdoor i=:"+ i );            	 
-            	 if( meetings.get(i).getUid().equals( mid ) ){
-//System.err.println("test outdoor this meeting" );            		 
-            		 for(int y=0;y<meetings.get(i).getMeetingInfo().getActivities().size();y++){
-//System.err.println("test outdoor y=" + y + " :" + meetings.get(i).getMeetingInfo().getActivities().get(y).getPath() );   
-            			 if(meetings.get(i).getMeetingInfo().getActivities().get(y).getPath().equals(aid)){
-//System.err.println("test outdoor yes path --- update" );        				 
->>>>>>> master
-            			      meetingUtil.updateActivityOutdoorStatus(user, troop, meetings.get(i), meetings.get(i).getMeetingInfo().getActivities().get(y), isOutdoor);
-            			      break zz;
-            			 }
-            		 }
-            	 }
-             }
-<<<<<<< HEAD
-        	*/
+
             MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
         	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
         	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
-xKaca(troop.getYearPlan().getMeetingEvents(),  mid,  aid);       
-        	 
-=======
-        	
->>>>>>> master
+
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
        	
         	String currDates = request.getParameter("mids");
