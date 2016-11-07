@@ -679,6 +679,7 @@ React.createElement(ActivityPlan),
 
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
+
         return (
                 React.createElement("li", null,
                         React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension}, this.props.title),
@@ -811,12 +812,14 @@ React.createElement(ActivityPlan),
           this.setState({data: null});
       },
         render: function () {
+    
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
         React.createElement("h6", null, "meeting agenda"),
                 React.createElement("p", {className: "vtkDisableP"}, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."),
         React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}),
                 React.createElement(AgendaTotal, {data: this.props.data}),
-                React.createElement(AgendaItemAdd)
+                React.createElement(AgendaItemAdd),
+                React.createElement(Survey)
           );
         }
     });
@@ -990,7 +993,152 @@ React.createElement(ActivityPlan),
        }
      });
 
+   var Survey = React.createClass({
+    displayName:"survey",
 
+    getInitialState: function(){
+      return {
+        img:'',
+        text:'',
+        button:'',
+        url:'',
+        show:false
+      }
+    },
+    componentWillMount: function(){
+        var Con = thisMeetingRefId.split('/').reverse()[0];
+
+
+         var data_survey = {
+            "jcr:primaryType": "nt:unstructured",
+            "sling:resourceType": "foundation/components/parsys",
+            "vtk_survey_links_1454513569": {
+                "jcr:primaryType": "nt:unstructured",
+                "jcr:createdBy": "admin",
+                "jcr:lastModifiedBy": "admin",
+                meetingid: ['B16B01'],
+                surveyLink: "http://www.google.com",
+                "jcr:created": "Mon Oct 31 2016 22:55:58 GMT-0400",
+                "jcr:lastModified": "Mon Oct 31 2016 22:56:22 GMT-0400",
+                "sling:resourceType": "girlscouts/components/vtk-survey-links"
+            },
+            "vtk_survey_links": {
+                "jcr:primaryType": "nt:unstructured",
+                "jcr:createdBy": "admin",
+                "jcr:lastModifiedBy": "admin",
+                meetingid: "B16B08",
+                surveyLink: "wsj.com",
+                "jcr:created": "Mon Oct 31 2016 22:56:40 GMT-0400",
+                "jcr:lastModified": "Mon Oct 31 2016 22:57:18 GMT-0400",
+                "sling:resourceType": "girlscouts/components/vtk-survey-links"
+            }
+        }
+
+
+        var _context = this;
+
+        // $.ajax({
+    
+        //    url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
+        // }).done(function(){
+
+        //   _context.setState('survey',data);
+
+        // });
+            var list_survey = [];
+
+
+           function setNewState(data){
+            console.log("setNewState",data);
+
+            _context.setState({
+              show:true
+            })
+           }
+          
+
+          for (var key in data_survey) {
+            if(data_survey[key].hasOwnProperty('meetingid')){
+              if(data_survey[key].meetingid.constructor == Array){
+
+                  for (var i = data_survey[key].meetingid.length - 1; i >= 0; i--) {
+                    if(data_survey[key].meetingid[i] === Con){
+                      setNewState(data_survey[key]);
+                      return false;
+                    }
+                  };
+
+              }else{
+                if(data_survey[key].meetingid === Con){
+                  setNewState(data_survey[key] )
+                  return false;
+                }
+              }
+            }
+          }
+          
+        
+
+
+    },
+    render:function(){
+      var _context = this;
+      var className = "vtk-survey columns small-24" + (function(){ return (!_context.state.show) ? ' hide':''}());
+      return (
+        React.createElement(
+          'div',
+          {
+            className:className,
+            style:{}
+          },
+          React.createElement(
+            "div",
+            {
+              'className':'text-center columns small-24 medium-2',
+
+            },
+              React.createElement(
+                "img",
+                {
+
+                  src:"a",
+                  alt:'a'
+                }
+              )
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-18',
+              'style':{
+                'padding':"5px 0"
+              }
+            },
+            React.createElement('b',null,"Almost done! "),
+            "Share your feedback on meeting activities to help us improve."
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-4',
+            },
+            React.createElement(
+              "button",
+              {
+                "className": "tiny",
+               style:{
+                "width":"100%"
+                },
+                'href':'http://google.com'
+              },
+              "take survey"
+              )
+            )
+        )
+      );
+    }
+
+   })
 
    var Outdoor = React.createClass({
                   displayName: "Outdoor",
