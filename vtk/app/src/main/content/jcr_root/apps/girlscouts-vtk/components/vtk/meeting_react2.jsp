@@ -1024,7 +1024,6 @@ React.createElement(ActivityPlan),
        
 
         function processData(data){
-          debugger;
          for (var key in data) {
             if(data[key].hasOwnProperty('meetingid')){
                   var idlist = data[key].meetingid.split(',')
@@ -1044,7 +1043,7 @@ React.createElement(ActivityPlan),
 
 
           function setNewState(data){
-            console.log("setNewState",data);
+ 
 
             _context.setState({
               button:data.buttonCopy,
@@ -1064,37 +1063,12 @@ React.createElement(ActivityPlan),
           
           processData(data);
 
-          // setTimeout(function(){
-          //   processData({"jcr:primaryType":"nt:unstructured","sling:resourceType":"foundation/components/parsys","vtk_survey_links":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"Almost done! Share your ...","meetingid":"232132,6656,2131","surveyLink":"google.com","jcr:created":"Mon Nov 07 2016 12:09:01 GMT-0500","buttonCopy":"TAKE SURVEY","jcr:lastModified":"Mon Nov 07 2016 12:38:57 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"},"vtk_survey_links_1734082909":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"You are almost there...","meetingid":"B16B01,B05A88","surveyLink":"cnn.com","jcr:created":"Mon Nov 07 2016 12:39:21 GMT-0500","buttonCopy":"Survey Time","jcr:lastModified":"Mon Nov 07 2016 12:40:18 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links"}});
-          // },500)
           
 
         });
            
 
 
-
-
-          // for (var key in data_survey) {
-          //   if(data_survey[key].hasOwnProperty('meetingid')){
-          //     if(data_survey[key].meetingid.constructor == Array){
-
-          //         for (var i = data_survey[key].meetingid.length - 1; i >= 0; i--) {
-          //           if(data_survey[key].meetingid[i] === Con){
-          //             setNewState(data_survey[key]);
-          //             return false;
-          //           }
-          //         };
-
-          //     }else{
-          //       if(data_survey[key].meetingid === Con){
-          //         setNewState(data_survey[key] )
-          //         return false;
-          //       }
-          //     }
-          //   }
-          // }
-          
         
 
 
