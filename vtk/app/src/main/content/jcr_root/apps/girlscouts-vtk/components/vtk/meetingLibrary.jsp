@@ -841,7 +841,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		  */
 		  
 		  
-/*
+		    /*
               Collections.sort(meetings,
                       java.util.Comparator.comparing(Meeting::getLevel)
                              .thenComparing(Meeting::getName) );
