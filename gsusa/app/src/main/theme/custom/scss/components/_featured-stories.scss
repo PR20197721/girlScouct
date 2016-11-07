@@ -303,7 +303,7 @@ div.featured-stories {
     &:only-child {
       max-width: 100%;
     }
-    &.homepage, &.page{
+    &, &.homepage, &.page, &.two-column-page{
       &:first-child:nth-last-child(2) ~ li,
       &:first-child:nth-last-child(2),
       &:first-child:nth-last-child(3n+5) ~ li,
@@ -333,7 +333,7 @@ div.featured-stories {
         margin-right: 0;
       }
     }
-    &.two-column-page, &.three-column-page{
+    &.three-column-page{
       &:first-child:nth-last-child(2) ~ li,
       &:first-child:nth-last-child(2),
       &:first-child:nth-last-child(3) ~ li,
