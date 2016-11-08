@@ -38,7 +38,9 @@ function _checkCalendar(){
 
 
 function inputLogic(){
-  return _checkInput() || _checkCalendar(); 
+
+  console.log((_checkInput() && !_checkCalendar()),(_checkCalendar() && _checkInput()))
+  return (_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()) ; 
 }
 
 
