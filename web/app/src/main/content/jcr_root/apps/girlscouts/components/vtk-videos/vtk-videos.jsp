@@ -3,19 +3,19 @@
 <%@page session="false" %>
 <%
 	String name = properties.get("name", "");
-	String desc = properties.get("desc", "");
 	String url = properties.get("url", "");
 	String meetingid = properties.get("meetingid", "");
 	String tag = properties.get("tag", "");
 	String flag = "VIDEO";
 
-    if ( "".equals(name) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>##### VTK VIDEOS FOR NASA #####<%
-    } else {
-        %><div class="vtk-video-container">
-        <p>
-        Name: <%=name %><br>Description: <%=desc %><br>URL: <%=url %><br>ID: <%=meetingid %><br>
-        Tag: <%=tag %>
-        </p></div><%
-    }
+//if ( "".equals(name) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 %>
+##### VTK Video Meeting Adis #####
+<div class="vtk-video-container"><p>
+        Name: <%=name %><br>
+        URL: <%=url %><br>
+        ID: <%=meetingid %><br>
+        Tag: <%=tag %>
+        </p></div>
+
+

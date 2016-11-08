@@ -15,11 +15,6 @@
                         fieldLabel="Name"
                         name="./name"
                         xtype="textfield"/>
-                    <description
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Description"
-                        name="./desc"
-                        xtype="textfield"/>
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldLabel="URL"
@@ -30,17 +25,11 @@
                         fieldLabel="Meeting ID"
                         name="./meetingid"
                         xtype="textfield"/>
-                    <tags
+                    <tag
                         jcr:primaryType="cq:Widget"
+                        defaultValue="NASA"
                         fieldLabel="Tag"
                         name="./tag"
-                        defaultValue="NASA"
-                        xtype="textfield"/>
-                    <flag
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="Flag"
-                        name="./flag"
-                        defaultValue="VIDEO"
                         xtype="textfield"/>
                 </items>
             </tab1>
