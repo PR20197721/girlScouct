@@ -1051,6 +1051,8 @@ React.createElement(ActivityPlan),
     componentWillMount: function(){
         var Con = thisMeetingRefId.split('/').reverse()[0];
 
+        var url = window.location.origin +'/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json';
+
         var _context = this;
        
 
@@ -1087,7 +1089,7 @@ React.createElement(ActivityPlan),
            }
     
         $.ajax({
-           url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
+           url:url
         }).done(function(data){
           processData(data);
         });
