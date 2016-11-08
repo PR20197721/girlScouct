@@ -116,7 +116,7 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
-          <group>Girl Scouts</group>
+          <group>GirlScouts</group>
           <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
           <embeddeds>
             <embedded>
