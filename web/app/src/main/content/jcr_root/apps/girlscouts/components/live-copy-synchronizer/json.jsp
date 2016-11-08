@@ -1,7 +1,13 @@
 <%@ page import="org.apache.sling.commons.json.io.*,
 javax.jcr.security.AccessControlManager,
 javax.jcr.security.Privilege,
-javax.jcr.Session" %>
+javax.jcr.Session,
+java.util.Date,
+java.util.Calendar,
+com.day.cq.commons.jcr.JcrUtil,
+com.day.cq.wcm.msm.api.LiveRelationshipManager,
+com.day.cq.wcm.msm.api.LiveRelationship,
+com.day.cq.wcm.msm.api.RolloutManager" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <% 
@@ -32,10 +38,10 @@ else if(null != resourcePath){
 			Node pageNode = p.adaptTo(Node.class);
 			Node liveSyncConfigNode = pageNode.getNode("jcr:content/cq:LiveSyncConfig");
 			String masterPage = liveSyncConfigNode.getProperty("cq:master").getString();
+			Resource masterResource = resourceResolver.resolve(masterPage + pageToResource);
 
 			if(action.equals("EditProp")){
 				if(null != editProp){
-					Resource masterResource = resourceResolver.resolve(masterPage + pageToResource);
 					try{
 						Node masterNode = masterResource.adaptTo(Node.class);
 						Value masterValue = masterNode.getProperty(editProp).getValue();
@@ -44,9 +50,28 @@ else if(null != resourcePath){
 						status = "success";
 					}catch(Exception e){
 						status = "failure - unable to retrieve master properties";
+						outputJSON(status, response);
 						e.printStackTrace();
 					}
 				}
+			}else if(action.equals("EditBase")){
+				Calendar lastModifiedNew = Calendar.getInstance();
+				lastModifiedNew.setTime(new Date());
+				String lastModifiedBy = session.getUserID();
+				try{
+					LiveRelationshipManager lrm = sling.getService(LiveRelationshipManager.class);
+					LiveRelationship lr = lrm.getLiveRelationship(r,false);
+					RolloutManager rm = sling.getService(RolloutManager.class);
+					rm.rollout(resourceResolver, lr, false);
+					session.save();
+					status = "success";
+				}catch(Exception e){
+					status = "failure - unable to synchronize node data";
+					outputJSON(status, response);
+					e.printStackTrace();
+				}
+			}else{
+				status = "failure - invalid action";
 			}
 			
 		} else{
@@ -54,6 +79,7 @@ else if(null != resourcePath){
 		}
 	} catch(Exception e){
 		status = "failure - invalid credentials";
+		outputJSON(status, response);
 		e.printStackTrace();
 	}
 	
@@ -61,9 +87,19 @@ else if(null != resourcePath){
 	status = "failure - resource not found";
 }
 
-JSONWriter writer = new JSONWriter(response.getWriter());
-writer.object();
-writer.key("status");
-writer.value(status);
-writer.endObject();
+outputJSON(status, response);
+%>
+
+<%!
+public void outputJSON(String status, HttpServletResponse response){
+	try{
+		JSONWriter writer = new JSONWriter(response.getWriter());
+		writer.object();
+		writer.key("status");
+		writer.value(status);
+		writer.endObject();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
 %>
