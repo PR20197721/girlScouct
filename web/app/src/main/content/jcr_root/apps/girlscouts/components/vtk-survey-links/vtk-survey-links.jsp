@@ -9,6 +9,7 @@
 <%
 	String meetingid = properties.get("meetingid", "");
 	String link = properties.get("surveyLink", "");
+	String bannerCopyBold = properties.get("bannerCopyBold", "");
 	String bannerCopy = properties.get("bannerCopy", "");
 	String buttonCopy = properties.get("buttonCopy", "");
 
@@ -16,6 +17,7 @@
 %>
 <div class="vtk-survey-link">
 		<br>Meeting ID: <%=meetingid %><br>
+    		Banner Copy Bold: <%=bannerCopyBold %><br>
             Banner Copy : <%=bannerCopy %><br>
             Button Copy : <%=buttonCopy %><br>
             Survey Link : <%=link %><br>

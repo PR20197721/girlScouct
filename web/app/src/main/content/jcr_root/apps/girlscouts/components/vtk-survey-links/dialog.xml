@@ -20,6 +20,11 @@
                         fieldLabel="URL"
                         name="./surveyLink"
                         xtype="textfield"/>
+                    <bannerCopyBold
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Banner Copy Bold"
+                        name="./bannerCopyBold"
+                        xtype="textfield"/>
                     <bannerCopy
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Banner Copy"
