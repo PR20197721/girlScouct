@@ -1044,6 +1044,7 @@ React.createElement(ActivityPlan),
           img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
           text:'',
           url:'',
+          text_bold:'',
           show:false
       }
     },
@@ -1080,28 +1081,17 @@ React.createElement(ActivityPlan),
               img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
               text:data.bannerCopy,
               url:data.surveyLink,
+              text_bold:data.bannerCopyBold
               show:true
             })
            }
-          
-
-
-        $.ajax({
     
+        $.ajax({
            url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
         }).done(function(data){
-          
           processData(data);
-
-          
-
         });
            
-
-
-        
-
-
     },
     render:function(){
       var _context = this;
@@ -1140,7 +1130,7 @@ React.createElement(ActivityPlan),
                 'padding':"5px 0"
               }
             },
-            React.createElement('b',null,"Your Oponion Matters! "),
+            React.createElement('b',null,this.state.text_bold+" "),
             this.state.text
             ),
           React.createElement(
