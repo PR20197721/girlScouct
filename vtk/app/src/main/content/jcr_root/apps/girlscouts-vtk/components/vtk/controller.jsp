@@ -1087,11 +1087,9 @@ try{
 
 	        <div class="row">
 
+	        	<!-- <div class="small-20 small-centered columns"> -->
 
-	        	<div class="small-20 small-centered columns">
-
-	        	<div class="row">
-
+	        	<!-- <div class="row"> -->
 
 	        	<% Boolean condition = troop!=null  && troop.getSfTroopAge()!=null &&
                          !troop.getSfTroopAge().toLowerCase().contains("multilevel");  %>
@@ -1107,7 +1105,6 @@ try{
 
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2" style="<%= condition ? "padding-left:16px" : ""  %>"  >
 	        	<div style="margin-left:-10px;margin-right: -10px;">
-
 	            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getId()%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getName()%>')">
 	
 	            <% if( troop!=null  && troop.getSfTroopAge()!=null &&
@@ -1145,6 +1142,8 @@ try{
 	            </div>
 	        </div>
 
+	        <!-- </div> -->
+	        <!-- </div> -->
 	      </div><!--/row-->
 
 	      <%
@@ -1176,8 +1175,20 @@ try{
             meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
         }else if(request.getParameter("cngOutdoor") != null){
+
+//This is the original branch         
+//	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
+//	meetingUtil.updateActivityOutdoorStatus( user,  troop,  request.getParameter("mid"),  request.getParameter("aid"),  isOutdoor);
+
+        	String mid= request.getParameter("mid");
+        	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
-        	meetingUtil.updateActivityOutdoorStatus( user,  troop,  request.getParameter("mid"),  request.getParameter("aid"),  isOutdoor);
+      
+
+            MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+        	Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+        	meetingUtil.updateActivityOutdoorStatus(user, troop, meeting, activity, isOutdoor);
+
         }else if(request.getParameter("act") != null && "combineCal".equals(request.getParameter("act")) ){
         	calendarUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){       

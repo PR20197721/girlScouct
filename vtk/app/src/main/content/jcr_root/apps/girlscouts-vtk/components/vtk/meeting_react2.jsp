@@ -680,7 +680,6 @@ React.createElement(ActivityPlan),
 
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
-        console.log('==>',this.props)
         return (
                 React.createElement(
                   "li",
@@ -843,12 +842,14 @@ React.createElement(ActivityPlan),
           this.setState({data: null});
       },
         render: function () {
+    
           return React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
         React.createElement("h6", null, "meeting agenda"),
                 React.createElement("p", {className: "vtkDisableP"}, "Select an agenda item to view details, edit duration or delete. Drag and drop to reorder."),
         React.createElement(SortableListItems1, {key: "{this.state.data}", data: this.state.data, onClick: this.alex, onReorder: this.onReorder, forceReload: this.props.forceReload}),
                 React.createElement(AgendaTotal, {data: this.props.data}),
-                React.createElement(AgendaItemAdd)
+                React.createElement(AgendaItemAdd),
+                React.createElement(Survey)
           );
         }
     });
@@ -1022,7 +1023,155 @@ React.createElement(ActivityPlan),
        }
      });
 
+   var Survey = React.createClass({
+    displayName:"survey",
 
+    click: function(){
+
+      function addhttp(url) {
+         if (!/^(f|ht)tps?:\/\//i.test(url)) {
+            url = "http://" + url;
+         }
+         return url;
+      }
+            
+       window.open(addhttp(this.state.url), '_blank');
+    },
+
+    getInitialState: function(){
+      return {
+         button:'',
+          img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+          text:'',
+          url:'',
+          show:false
+      }
+    },
+    componentWillMount: function(){
+        var Con = thisMeetingRefId.split('/').reverse()[0];
+
+        var _context = this;
+       
+
+        function processData(data){
+         for (var key in data) {
+            if(data[key].hasOwnProperty('meetingid')){
+                  var idlist = data[key].meetingid.split(',')
+
+                  for (var i = idlist.length - 1; i >= 0; i--) {
+                    if(idlist[i] === Con){
+                      setNewState(data[key]);
+                      return false;
+                    }
+                  };
+          
+            }
+          }
+
+
+        }
+
+
+          function setNewState(data){
+ 
+
+            _context.setState({
+              button:data.buttonCopy,
+              img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
+              text:data.bannerCopy,
+              url:data.surveyLink,
+              show:true
+            })
+           }
+          
+
+
+        $.ajax({
+    
+           url:'https://my-dev.girlscouts.org/content/vtkcontent/en/vtk-survey-links/_jcr_content/content/middle/par.1.json'
+        }).done(function(data){
+          
+          processData(data);
+
+          
+
+        });
+           
+
+
+        
+
+
+    },
+    render:function(){
+      var _context = this;
+      var className = "vtk-survey columns small-24" + (function(){ return (!_context.state.show) ? ' hide':''}());
+      return (
+        React.createElement(
+          'div',
+          {
+            className:className,
+            style:{}
+          },
+          React.createElement(
+            "div",
+            {
+              'className':'text-center columns small-24 medium-2',
+
+            },
+              React.createElement(
+                "img",
+                {
+
+                  src:this.state.img,
+                  alt:this.state.button,
+                  title:this.state.text,
+                  style:{
+                    height:'34px'
+                  }
+                }
+              )
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-18',
+              'style':{
+                'padding':"5px 0"
+              }
+            },
+            React.createElement('b',null,"Your Oponion Matters! "),
+            this.state.text
+            ),
+          React.createElement(
+            "div",
+            {
+              'className':'columns small-24 medium-4',
+            },
+            React.createElement(
+              'div',
+              {
+                className:'row'
+              },
+              React.createElement(
+                "button",
+                {
+                  "className": "tiny",
+                 style:{
+                  "width":"100%"
+                  },
+                  'href':'http://google.com',
+                  onClick: this.click
+                },
+                this.state.button
+                )
+              )
+            )
+        )
+      );
+    }
+
+   })
 
    var Outdoor = React.createClass({
                   displayName: "Outdoor",

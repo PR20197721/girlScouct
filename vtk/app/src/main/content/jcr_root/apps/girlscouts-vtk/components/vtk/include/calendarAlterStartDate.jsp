@@ -74,7 +74,12 @@
 	    	 String holidayTitle = holidays.get(holidayDate);   	 
 	      %>  
 	      <li>
-	         <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/><label for="chk_<%=holidayCount%>"><p><span class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span></p></label>
+	         <input type="checkbox" id="chk_<%=holidayCount %>" name="exclDt" value="<%=holidayDateFmt %>" <%=("".equals(exlDates) || exlDates.contains(holidayDateFmt)) ? "CHECKED" : ""  %>/>
+           <label style="display:block;" for="chk_<%=holidayCount%>">
+            <div style="padding-left: 30px;">
+              <span style="margin-left: 5px;"  class="date"><%=holidayDateFmt %></span><span><%=holidayTitle %></span>
+              </div>
+            </label>
 	      </li>
 	     <%}
 	     }else{ //pull from db %>
@@ -89,14 +94,12 @@
 	    	   if( split_exclDates[i]==null || split_exclDates[i].equals("")) continue;
 		       %>
 		         <li>
-
 		            <input type="checkbox" id="chk_<%=(holidayCount) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/>
                 <label style="display:block;" for="chk_<%=holidayCount%>">
                   <div style="padding-left: 30px">
                     <span style="margin-left: 5px;" class="date"><%= split_exclDates[i]%><br><%=holidayTitle ==null ? "Canceled Meeting" : holidayTitle %></span>
                   </div>
                 </label>
-
 		         </li>   
 		      <%
 	    	  }catch(Exception e){e.printStackTrace();}
