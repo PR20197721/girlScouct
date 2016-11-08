@@ -2529,7 +2529,21 @@ CQ.wcm.EditBase = {
                 } else {
                     // todo: handle better. reloadSelf() would be sufficient, but
                     // component might change edit layout (eg. buttons, editbar/rollovers)
-                    this.refreshPage();
+                	var toRefresh = this;
+                	var jsonURL = window.location.origin + "/etc/council-update/live-copy-synchronizer.json";
+                	$.ajax({
+                		dataType: 'json',
+                		url: jsonURL,
+                		data: {
+                			resource: toRefresh.path,
+                			sourceaction: "EditBase"
+                		}
+                	}).done(function(data){
+                		toRefresh.refreshPage();
+                	}).fail(function(){
+                		console.log("Unable to synchronize with live copy");
+                		toRefresh.refreshPage();
+                	});
                 }
             } else {
                 if (CQ.undo.UndoManager.isEnabled()) {
