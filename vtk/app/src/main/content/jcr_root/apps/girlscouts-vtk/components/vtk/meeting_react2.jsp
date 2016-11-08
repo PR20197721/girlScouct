@@ -1081,7 +1081,7 @@ React.createElement(ActivityPlan),
               img:'/etc/designs/girlscouts-vtk/clientlibs/css/images/survey_icon.png',
               text:data.bannerCopy,
               url:data.surveyLink,
-              text_bold:data.bannerCopyBold
+              text_bold:data.bannerCopyBold,
               show:true
             })
            }
