@@ -681,9 +681,10 @@ public class MeetingUtil {
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
 				asset.setDocType(docType);
-				if (dbAsset != null)
+				if (dbAsset != null) {
 					asset.setDescription(dbAsset.getDescription());
-
+					asset.setIsOutdoorRelated(dbAsset.getIsOutdoorRelated());
+				}
 				java.util.List<Asset> assets = meeting.getAssets();
 				assets = assets == null ? new java.util.ArrayList() : assets;
 
@@ -922,7 +923,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		if( _aidTags==null )
 			_aidTags= new java.util.ArrayList<Asset>();
 		
-	
+	//????
 		// query aids cachables
 		java.util.List <Asset>__aidTags = yearPlanUtil.getAids(user, troop, 
 				meetingInfo.getAidTags(), meetingInfo.getId(),
@@ -1428,11 +1429,17 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 	
 	public java.util.List<Note> getNotes(User user, Troop troop, String path)
 			throws IllegalAccessException, VtkException{
-
-		
-		
 		return meetingDAO.getNotes( user, troop, path);
 	}
+	
+	public java.util.List<Note> getNotesByMid(User user, Troop troop, String mid)
+			throws IllegalAccessException, VtkException{
+		MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+		return meetingDAO.getNotes( user, troop, meeting.getPath() );
+	}
+	
+	
+	 
 	public boolean updateNote(User user, Troop troop,Note  note) throws IllegalAccessException{
 		
 		return meetingDAO.updateNote( user, troop, note);
@@ -1471,6 +1478,14 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 				troopUtil.updateTroop(user, troop);
 	}
 	
+	public boolean updateActivityOutdoorStatus(User user, Troop troop, String mid, String aid, boolean isOutdoor) throws IllegalAccessException, VtkException{
+	
+		MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
+        Activity activity = VtkUtil.findActivityByPath( meeting.getMeetingInfo().getActivities(), aid );
+        return updateActivityOutdoorStatus( user, troop, meeting, activity, isOutdoor );
+        
+    }
+
 	public boolean updateActivityOutdoorStatus(User user, Troop troop, MeetingE meetingE, Activity activity, boolean isOutdoor) throws IllegalAccessException, VtkException{
 		boolean isUpdated= false;
 		for(int i=0;i<meetingE.getMeetingInfo().getActivities().size();i++){
@@ -1482,5 +1497,50 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		}	
 		return isUpdated;
 	}
+	
+	public Note addNote(User user, Troop troop, String mid, String message) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+		if (mid == null || message == null || message.trim().equals("")) {
+			return null;
+		}
+		MeetingE meeting = VtkUtil.findMeetingById(troop.getYearPlan().getMeetingEvents(), mid);
+
+		java.util.List<Note> notes = meeting.getNotes();
+		if (notes == null)
+			notes = new java.util.ArrayList<Note>();
+		Note note = new Note();
+		note.setMessage(message);
+		note.setCreatedByUserId(user.getApiConfig().getUser().getSfUserId());
+		note.setCreatedByUserName(user.getApiConfig().getUser().getName());
+		note.setCreateTime(new java.util.Date().getTime());
+		note.setRefId(meeting.getUid());
+		note.setPath(meeting.getPath() + "/notes/" + note.getUid());
+		notes.add(note);
+
+		meeting.setNotes(notes);
+
+		troopUtil.updateTroop(user, troop);
+		return note;
+
+	}
+	
+	public boolean editNote(User user, Troop troop, String noteId, String msg)throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+		 boolean isEdit= false;
+        
+         Note note= getNote(user, troop, noteId);
+         if( note!=null && msg!=null && !msg.equals("") ){
+                  note.setMessage( msg );
+                  isEdit= updateNote(user, troop, note);
+         }//edn if
+
+         return isEdit;
+	}
+	
+	public void addMeetings(User user, Troop troop, String meetings[]) throws java.lang.IllegalAccessException, org.girlscouts.vtk.utils.VtkException{
+        for(int i=0;i<meetings.length;i++){
+            addMeetings(user, troop, meetings[i] );
+        }
+	}
+	
+	
 	
 }// edn class

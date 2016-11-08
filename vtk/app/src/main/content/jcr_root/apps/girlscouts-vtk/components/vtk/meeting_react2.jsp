@@ -91,7 +91,6 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-
     <script>
 
     $.ajax({
@@ -309,6 +308,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
          render: function() {
    if(this.props.data==null){return React.createElement("section");}
            var commentNodes = this.props.data.map(function (comment ,i ) {
+
              var thisAssetExtension = "pdf";
              var thisAssetExtensionPattern=/.*\.(.+)$/;
              if (comment.refId.indexOf(".") != -1) {
@@ -337,7 +337,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
           return (
              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids")
           );
-        }else{ return React.createElement("span");}
+        }else{ 
+          return React.createElement("span");}
         }
       });
 
@@ -679,12 +680,41 @@ React.createElement(ActivityPlan),
 
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
-
         return (
-                React.createElement("li", null,
-                        React.createElement("a", {href: this.props.refId, target: "_blank", title: "View Meeting Aids", className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension}, this.props.title),
-                        React.createElement("p", {className: "info"}, this.props.description)
+                React.createElement(
+                  "li",
+                  null,
+                  React.createElement(
+                    "a",
+                      {
+                        href: this.props.refId,
+                        target: "_blank",
+                        title: "View Meeting Aids",
+                        className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension
+                      }, 
+                      this.props.title,
+                      (this.props.item.isOutdoorRelated)? React.createElement(
+                        "img",
+                        {
+                          src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
+                          style:{
+                            width:'9%',
+                            "margin-left":"15px"
+                          }
+                        }
+                      ): React.createElement(
+                        "span",
+                        null
                       )
+                    ),
+                      React.createElement(
+                        "p",
+                        {
+                          className: "info"
+                        },
+                        this.props.description
+                      )
+                )
         );
       }
     });

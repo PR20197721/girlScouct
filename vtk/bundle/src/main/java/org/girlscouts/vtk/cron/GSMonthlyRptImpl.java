@@ -23,7 +23,8 @@ description = "Gs monthly rpt"
 @Properties({
 @Property(name = "service.description", value = "GS Monthly Report",propertyPrivate=true),
 @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
-@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 54 1 1 *  ?",description="cron expression"),
+
+@Property( name = "scheduler.expression", label="scheduler.expression", value = "4 50 4 1 1  ?",description="cron expression"),
 @Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 @Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true)
 })
@@ -40,9 +41,15 @@ public class GSMonthlyRptImpl implements Runnable, AemCron  {
 	public void run() {
 		
 		
-		if( true){// slingSettings.getRunModes().contains("prod") ){ 
+		if( slingSettings.getRunModes().contains("prod") ){ 
 		
-			councilDAO.GSMonthlyRpt();
+			System.err.println("Generating report 'monthly' part 1 of 2 ....");
+			try{ councilDAO.GSMonthlyRpt(); }catch(Exception e){e.printStackTrace();}
+			
+			System.err.println("Generating report 'detailed' part 2 of 2 ....");
+			try{ councilDAO.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+			
+			System.err.println("Done generating reports");
 		}
 		
 	}

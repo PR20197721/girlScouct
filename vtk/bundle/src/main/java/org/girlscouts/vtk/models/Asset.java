@@ -26,11 +26,20 @@ public class Asset implements Serializable {
 	@Field(path = true) private String path;
 	@Field Boolean isCachable;
 	@Field(id = true) private String uid;
+	@Field  private boolean isOutdoorRelated;
 	private boolean isDbUpdate=false;
 	
 	
 	public String getDocType() {
 		return docType;
+	}
+
+	public boolean getIsOutdoorRelated() {
+		return isOutdoorRelated;
+	}
+
+	public void setIsOutdoorRelated(boolean isOutdoorRelated) {
+		this.isOutdoorRelated = isOutdoorRelated;
 	}
 
 	public void setDocType(String docType) {

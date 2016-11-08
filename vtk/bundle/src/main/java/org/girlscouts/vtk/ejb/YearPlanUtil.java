@@ -404,4 +404,64 @@ public class YearPlanUtil {
 	public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalAccessException{
 		return meetingDAO.getVtkAssetCount(user, troop, path);
 	}
+	
+	
+	public void updateMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws java.lang.IllegalAccessException{
+		String councilId = request.getParameter("cid");
+
+		java.util.List<Milestone> milestones = getCouncilMilestones(user,councilId);
+		for (int i = 0; i < milestones.size(); i++) {
+
+			Milestone m = milestones.get(i);
+			String blurb = request.getParameter("blurb" + i);
+			String date = request.getParameter("date" + i);
+
+			m.setBlurb(blurb);
+			m.setDate(new java.util.Date(date));
+
+		}
+	}
+	
+	public void saveMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request)throws java.text.ParseException{
+		String councilId = request.getParameter("cid");
+		java.util.List<Milestone> milestones = new ArrayList<Milestone>();
+		String[] blurbs = request.getParameterValues("ms_blurb[]");
+		String[] dates = request.getParameterValues("ms_date[]");
+		String[] shows = request.getParameterValues("ms_show[]");
+		if (blurbs != null) {
+			for (int i = 0; i < blurbs.length; i++) {
+				String blurb = blurbs[i];
+				if (blurb == null || blurb.trim().isEmpty()) {
+					break;
+				}
+				boolean show = shows[i].equals("true");
+				java.util.Date date = null;
+				if (!dates[i].isEmpty()) {
+					date = VtkUtil.parseDate(
+							VtkUtil.FORMAT_MMddYYYY, dates[i]);
+				}
+
+				Milestone m = new Milestone(blurb, show, date);
+				milestones.add(m);
+			}
+		}
+
+		try{
+			saveCouncilMilestones(user, milestones,councilId);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void createMilestones(User user, Troop troop, javax.servlet.http.HttpServletRequest request ) throws java.lang.IllegalAccessException{
+		String councilId = request.getParameter("cid");
+		java.util.List<Milestone> milestones = getCouncilMilestones(user,councilId);
+
+		Milestone m = new Milestone();
+		m.setBlurb(request.getParameter("blurb"));
+		m.setDate(new java.util.Date(request.getParameter("date")));
+		milestones.add(m);
+	}
+	
+	
 }// edn class
