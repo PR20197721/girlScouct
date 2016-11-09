@@ -1137,7 +1137,8 @@ React.createElement(ActivityPlan),
             {
               'className':'columns small-24 medium-push-1 medium-13 small-text-center medium-text-left',
               'style':{
-                'padding':"5px 0px"
+                'padding':"5px 0px",
+                'margin-left':"-5px"
               }
             },
             React.createElement('b',null,this.state.text_bold+" "),
