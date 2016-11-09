@@ -1203,7 +1203,7 @@ React.createElement(ActivityPlan),
                   var idlist = data[key].meetingid.split(',')
 
                   for (var i = idlist.length - 1; i >= 0; i--) {
-                    if(idlist[i] === Con){
+                    if(Con.indexOf(idlist[i]) > -1){
                       setNewState(data[key]);
                       return false;
                     }
