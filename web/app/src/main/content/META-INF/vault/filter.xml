@@ -6,6 +6,7 @@
     <filter root="/apps/cq/xssprotection"/>
     <filter root="/etc/council-rollout"/>
     <filter root="/etc/council-update"/>
+    <filter root="/etc/council-report"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import/girlscouts/csv"/>

@@ -352,5 +352,10 @@
        	  	mode="replace"
        	  	root="/content/girlscouts-shared"
        	  	rules="[]"/>
+	  <f67
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/etc/council-report"
+		rules="[]"/>
     </filter>
 </jcr:root>
