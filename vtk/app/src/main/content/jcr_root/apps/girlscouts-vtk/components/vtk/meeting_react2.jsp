@@ -1087,12 +1087,19 @@ React.createElement(ActivityPlan),
               show:true
             })
            }
+
+
+
+
+           processData({"jcr:primaryType":"nt:unstructured","sling:resourceType":"foundation/components/parsys","vtk_survey_links":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"Share your opinion ...","meetingid":"B16B01,B16B02,B16B03,B16B07","surveyLink":"www.google.com","jcr:created":"Mon Nov 07 2016 12:09:01 GMT-0500","buttonCopy":"TAKE SURVEY!","jcr:lastModified":"Wed Nov 09 2016 10:37:02 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links","bannerCopyBold":"Almost done!"},"vtk_survey_links_1734082909":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","bannerCopy":"to the team","meetingid":"B06B14,B05A88,B16OG03","surveyLink":"cnn.com","jcr:created":"Mon Nov 07 2016 12:39:21 GMT-0500","buttonCopy":"Survey Time","jcr:lastModified":"Tue Nov 08 2016 11:16:20 GMT-0500","sling:resourceType":"girlscouts/components/vtk-survey-links","bannerCopyBold":"Join us "}})
     
-        $.ajax({
-           url:url
-        }).done(function(data){
-          processData(data);
-        });
+        // $.ajax({
+        //    url:url
+        // }).done(function(data){
+        //   processData(data);
+        // }).error(function(err){
+        //   console.log(err);
+        // });
            
     },
     render:function(){
@@ -1108,7 +1115,7 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'text-center columns small-24 medium-2',
+              'className':'text-center columns small-24 medium-push-1 medium-3 small-text-center medium-text-left',
 
             },
               React.createElement(
@@ -1119,7 +1126,8 @@ React.createElement(ActivityPlan),
                   alt:this.state.button,
                   title:this.state.text,
                   style:{
-                    height:'34px'
+                    height:'34px',
+                    padding:'0 10px'
                   }
                 }
               )
@@ -1127,9 +1135,9 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'columns small-24 medium-18',
+              'className':'columns small-24 medium-push-1 medium-13 small-text-center medium-text-left',
               'style':{
-                'padding':"5px 0"
+                'padding':"5px 0px"
               }
             },
             React.createElement('b',null,this.state.text_bold+" "),
@@ -1138,19 +1146,17 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'columns small-24 medium-4',
+              'className':'columns small-24 medium-4 medium-pull-1 small-text-center medium-text-left',
             },
             React.createElement(
               'div',
-              {
-                className:'row'
-              },
+              null,
               React.createElement(
                 "button",
                 {
                   "className": "tiny",
                  style:{
-                  "width":"100%"
+
                   },
                   'href':'http://google.com',
                   onClick: this.click
