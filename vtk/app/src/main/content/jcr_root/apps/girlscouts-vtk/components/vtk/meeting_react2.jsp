@@ -1249,7 +1249,10 @@ React.createElement(ActivityPlan),
           'div',
           {
             className:className,
-            style:{}
+            style:{
+              cursor:'pointer',
+            },
+             onClick: this.click
           },
           React.createElement(
             "div",
@@ -1298,8 +1301,8 @@ React.createElement(ActivityPlan),
                  style:{
 
                   },
-                  'href':'http://google.com',
-                  onClick: this.click
+                  'href':'http://google.com'
+                 
                 },
                 this.state.button
                 )
