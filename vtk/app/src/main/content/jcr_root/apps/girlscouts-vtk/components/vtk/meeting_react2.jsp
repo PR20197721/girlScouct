@@ -315,11 +315,16 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                   // var jsonD = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
 
 
-                    newData = this.props.data.slice(0);
+                    
 
 
-                    function Add(e){
+    
 
+                    function processData(json){
+
+                      var newData = _context.props.data.slice(0);
+
+                      function Add(e){
                         var newO ={
                           
                                   description:null,
@@ -330,11 +335,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                                   title:e.name
                        
                                   }
-
-                      newData.push(newO)
-                    }
-
-                    function processData(json){
+                        newData.push(newO)
+                      } 
 
                       for(var element in json ){
                         if(json[element].hasOwnProperty('meetingid')){
@@ -351,21 +353,25 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                             };
                         }
                       }
+                      return newData;
                     }
 
 
-                  $.ajax({
+                  var call = $.ajax({
                     url:url
-                  }).done(function(response){
-                  
-                    processData(response)
-                    _context.setState({'data':newData});
-                  }).error(function(err){
+                  })
+
+
+
+                  call.done(function(response){
+                    return processData(response)
+                  }).then(function(newData){
+                     _context.setState({'data':newData});
+                  })
+
+                  call.error(function(err){
                     console.error(err);
                   })
-                  
-                  
-            
       
          },
          componentWillReceiveProps:function(nextProps){
