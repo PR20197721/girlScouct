@@ -300,24 +300,98 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     var MeetingAssets = React.createClass({displayName: "MeetingAssets",
         getInitialState: function() {
-           return { show: false };
+           return { 
+            data:[]
+            };
          },
-         toggle: function() {
-           this.setState({ show: !this.state.show });
+         componentWillMount:function(){
+
+
+                  var Con = thisMeetingRefId.split('/').reverse()[0];
+
+                  var url = location.origin+'/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'; 
+
+                  var json = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
+
+
+                    newData = this.props.data.slice(0);
+
+
+                    function Add(e){
+
+                        var newO ={
+                          
+                                  description:null,
+                                  docType:'video',                                 
+                                  isOutdoorRelated:null,
+                                  video_url:e.url,
+                                  path:null,
+                                  refId:"/content/dam/girlscouts-vtk/global/aid/The-Girl-Scout-Promise-and-Law.pdf",
+                                  title:e.name
+                       
+                                  }
+
+                      newData.push(newO)
+                    }
+
+
+                    for(var element in json ){
+                      if(json[element].hasOwnProperty('meetingid')){
+                          var idlist = json[element].meetingid.split(',')
+
+                          for (var i = idlist.length - 1; i >= 0; i--) {
+                        
+                            if(idlist[i] === Con){
+                              Add(json[element]);
+
+                              break;
+                            }
+                          };
+                      }
+                    }
+
+                  // $.ajax({
+                  //   url:url
+                  // }).done(function(response){
+                  //   console.log(response);
+                  // }).error(function(err){
+                  //   console.error(err);
+                  // })
+
+                    this.setState({'data':newData});
+
+                      console.log(newData);
+      
          },
          render: function() {
-   if(this.props.data==null){return React.createElement("section");}
-           var commentNodes = this.props.data.map(function (comment ,i ) {
+              if(this.props.data==null){
+                return React.createElement("section");
+              }
 
-             var thisAssetExtension = "pdf";
-             var thisAssetExtensionPattern=/.*\.(.+)$/;
-             if (comment.refId.indexOf(".") != -1) {
-               thisAssetExtension = comment.refId.replace(thisAssetExtensionPattern, "$1");
-             }
-             return (
-                  React.createElement(MeetingAsset, {item: comment, key: i, refId: comment.refId, title: comment.title, description: comment.description, extension: thisAssetExtension})
-             );
-           });
+              var commentNodes = this.state.data.map(function (comment ,i ) {
+                var thisAssetExtension = "pdf";
+                var thisAssetExtensionPattern=/.*\.(.+)$/;
+
+                if (comment.refId.indexOf(".") != -1) {
+                  thisAssetExtension = comment.refId.replace(thisAssetExtensionPattern, "$1");
+                }
+
+                return (
+                  React.createElement(
+                      MeetingAsset,
+                      {
+                        item: comment,
+                        key: i, 
+                        refId: comment.refId,
+                        title: comment.title,
+                        description: comment.description,
+                        extension: thisAssetExtension
+                      }
+                  )
+                );
+
+            });
+
            return (
              React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
                  React.createElement("h6", null, "meeting aids"),
