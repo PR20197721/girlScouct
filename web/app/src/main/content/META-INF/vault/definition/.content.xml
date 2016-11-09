@@ -357,5 +357,10 @@
 		mode="replace"
 		root="/etc/council-report"
 		rules="[]"/>
+	  <f68
+		jcr:primaryType="nt:unstructured"
+		mode="replace"	
+		root="/etc/workflow/dialogs"
+		rules="[]"/>
     </filter>
 </jcr:root>

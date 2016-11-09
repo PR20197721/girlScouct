@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <councils
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Councils"
+            name="./jcr:content/councils"
+            options="/etc/council-report/council-list.json"
+            type="checkbox"
+            xtype="selection">
+            <listeners
+            	jcr:primaryType="nt:unstructured"
+            	beforerender="function(){  
+            		var chkboxes = this;
+            		var chkboxlist = chkboxes.items.items;
+            		this.insert(0, new CQ.Ext.Button({
+	                'text':'Select/Deselect All',
+                	handler : function(){
+                		var selecting = false;
+                    	CQ.Ext.each(chkboxlist, function(c){
+							if(c.getXType() == 'checkbox'){
+								if(c.getValue() == false){
+									selecting = true;
+								}
+							}
+						});
+						CQ.Ext.each(chkboxlist, function(c){
+							if (c.setValue) { 
+								if(selecting){
+									c.setValue('true'); 
+								}else{
+									c.setValue('false');
+								}
+							} 
+						return true; } );
+                	}
+            	}));
+            }"/>
+            </councils>
+    </items>
+</jcr:root>
