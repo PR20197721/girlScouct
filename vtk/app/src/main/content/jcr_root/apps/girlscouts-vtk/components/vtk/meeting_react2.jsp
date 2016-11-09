@@ -306,13 +306,13 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
          },
          split:{},
          componentWillMount:function(){
-                  console.log('WillMount')
+                  var _context = this;
 
                   var Con = thisMeetingRefId.split('/').reverse()[0];
 
                   var url = location.origin+'/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'; 
 
-                  var jsonD = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
+                  // var jsonD = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
 
 
                     newData = this.props.data.slice(0);
@@ -359,7 +359,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                   }).done(function(response){
                   
                     processData(response)
-                    this.setState({'data':newData});
+                    _context.setState({'data':newData});
                   }).error(function(err){
                     console.error(err);
                   })
