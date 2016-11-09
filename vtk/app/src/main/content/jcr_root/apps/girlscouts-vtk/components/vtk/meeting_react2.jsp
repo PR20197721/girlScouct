@@ -1087,11 +1087,16 @@ React.createElement(ActivityPlan),
               show:true
             })
            }
+
+
+
     
         $.ajax({
            url:url
         }).done(function(data){
           processData(data);
+        }).error(function(err){
+          console.log(err);
         });
            
     },
@@ -1108,7 +1113,7 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'text-center columns small-24 medium-2',
+              'className':'text-center columns small-24 medium-push-1 medium-3 small-text-center medium-text-left',
 
             },
               React.createElement(
@@ -1119,7 +1124,8 @@ React.createElement(ActivityPlan),
                   alt:this.state.button,
                   title:this.state.text,
                   style:{
-                    height:'34px'
+                    height:'34px',
+                    padding:'0 10px'
                   }
                 }
               )
@@ -1127,9 +1133,10 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'columns small-24 medium-18',
+              'className':'columns small-24 medium-push-1 medium-13 small-text-center medium-text-left',
               'style':{
-                'padding':"5px 0"
+                'padding':"5px 0px",
+                'margin-left':"-5px"
               }
             },
             React.createElement('b',null,this.state.text_bold+" "),
@@ -1138,19 +1145,17 @@ React.createElement(ActivityPlan),
           React.createElement(
             "div",
             {
-              'className':'columns small-24 medium-4',
+              'className':'columns small-24 medium-4 medium-pull-1 small-text-center medium-text-left',
             },
             React.createElement(
               'div',
-              {
-                className:'row'
-              },
+              null,
               React.createElement(
                 "button",
                 {
                   "className": "tiny",
                  style:{
-                  "width":"100%"
+
                   },
                   'href':'http://google.com',
                   onClick: this.click
