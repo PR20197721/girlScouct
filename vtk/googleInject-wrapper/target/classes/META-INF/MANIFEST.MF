@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
-Bnd-LastModified: 1478534220953
-Build-Jdk: 1.8.0_73
-Built-By: linkrad
+Bnd-LastModified: 1478718117534
+Build-Jdk: 1.8.0_91
+Built-By: akobovich
 Bundle-ClassPath: .,guice-3.0.jar,javax.inject-1.jar,aopalliance-1.0.jar
 Bundle-Description: Maven Multimodule project for Girl Scouts Volunteer 
  Toolkit.

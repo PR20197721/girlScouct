@@ -55,8 +55,9 @@
                         builder.append("<p>" + Integer.toString(activity.getDuration()) + " minutes");
                     }
                     builder.append(description);
-                    str += builder.toString();
+                    
                 }
+                str += builder.toString();
 	} else if (act.equals("isMaterials"))
 		str = meetingInfoItems.get("materials").getStr();
 	else if (act.equals("isOverview")) {
