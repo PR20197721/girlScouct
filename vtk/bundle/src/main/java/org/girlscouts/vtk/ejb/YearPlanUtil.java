@@ -463,5 +463,8 @@ public class YearPlanUtil {
 		milestones.add(m);
 	}
 	
+	public void GSMonthlyDetailedRpt(){
+		councilDAO.GSMonthlyDetailedRpt();
+	}
 	
 }// edn class
