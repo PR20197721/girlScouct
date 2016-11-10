@@ -304,7 +304,6 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
             data:[]
             };
          },
-         split:{},
          componentWillMount:function(){
                   var _context = this;
 
@@ -313,12 +312,24 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
                   var url = location.origin+'/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'; 
 
 
-                  var url = 'https://my-dev.girlscouts.org/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'
+                  // var url = 'https://my-dev.girlscouts.org/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'
 
                   // var jsonD = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
 
 
-                    
+                  //   var p = new Promise(function(r,e){
+                  //               window.setTimeout(
+                  //                 function() {
+                  //                     r(jsonD);
+                  //                 }, 
+                  //                 Math.random() * 10000 );
+                  //   })
+
+                  //   p.then(function(response){
+                  //   return processData(response)
+                  // }).then(function(newData){
+                  //    _context.setState({'data':newData});
+                  // })
 
 
     
@@ -372,8 +383,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
 
 
-                  call.done(function(response){
-                    return processData(response)
+                  call.then(function(response){
+                    return processData(response);
                   }).then(function(newData){
                      _context.setState({'data':newData});
                   })
