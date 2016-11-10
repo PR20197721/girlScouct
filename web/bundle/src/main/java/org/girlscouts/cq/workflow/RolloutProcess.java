@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.ValueFormatException;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
@@ -30,6 +31,7 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
+import javax.jcr.Value;
 
 @Component
 @Service
@@ -69,6 +71,18 @@ public class RolloutProcess implements WorkflowProcess {
         }
 
         String srcPath = item.getWorkflowData().getPayload().toString();
+        MetaDataMap mdm = item.getWorkflowData().getMetaDataMap();
+        Value singleValue = null;
+        Value[] values = null;
+        try {
+            values = (Value[]) mdm.get("councils");
+		} catch (Exception e) {
+			try{
+				singleValue = (Value) mdm.get("councils");
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
+		} 
 
         Resource srcRes = resourceResolver.resolve(srcPath);
         Page srcPage = (Page)srcRes.adaptTo(Page.class);
@@ -87,7 +101,23 @@ public class RolloutProcess implements WorkflowProcess {
             Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
+            	Boolean proceed = false;
             	if(!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+            		if(values == null){
+            			if(singleValue != null){
+            				if(targetResource.getPath().startsWith(singleValue.getString())){
+            					proceed = true;
+            				}
+            			}
+            		}else{
+	            		for(Value v : values){
+	            			if(targetResource.getPath().startsWith(v.getString())){
+	            				proceed = true;
+	            			}
+	            		}
+            		}
+            	}
+            	if(proceed == true){
             		rolloutManager.rollout(resourceResolver, relation, false);
             		session.save();
 	                String targetPath = relation.getTargetPath();

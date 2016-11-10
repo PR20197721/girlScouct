@@ -22,7 +22,7 @@ while (contentChildren.hasNext()){
 				writer.key("value");
 				writer.value(thisPage.getPath());
 				writer.key("text");
-				writer.value(enPage.getTitle());
+				writer.value(thisPage.getTitle());
 				writer.endObject();
 			}
 		}
