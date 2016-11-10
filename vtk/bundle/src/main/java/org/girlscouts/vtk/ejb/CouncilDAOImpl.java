@@ -696,7 +696,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            
 		            
 		          //  out.println( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ "," + yearPlanName  +","+ sfTroopId + ","+sfTroopName );          
-		            sb.append(  "\n"+cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ ",\"" + yearPlanName  +"\","+ sfTroopId + ","+sfTroopName );          
+		            sb.append(  "\n \""+cTrans.get(sfCouncil)+"\","+ sfCouncil +"," + sfTroopAge+ ",\"" + yearPlanName  +"\","+ sfTroopId + ","+sfTroopName );          
 		           
 		            
 		           

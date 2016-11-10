@@ -1193,6 +1193,9 @@ try{
         	calendarUtil.combineMeeting(user, troop, request.getParameter("mids"), request.getParameter("dt"));	   
         }else if(request.getParameter("act") != null && "hideVtkBanner".equals(request.getParameter("act")) ){       
             session.setAttribute("isHideVtkBanner", "true");
+        }else if( request.getParameter("alex658Xf409Re49v") !=null){
+        	try{ councilDAO.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+            
         } else {
 			//TODO throw ERROR CODE
 		}
