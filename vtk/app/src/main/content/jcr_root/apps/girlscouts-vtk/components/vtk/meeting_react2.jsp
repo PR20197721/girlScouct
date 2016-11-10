@@ -300,24 +300,122 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     var MeetingAssets = React.createClass({displayName: "MeetingAssets",
         getInitialState: function() {
-           return { show: false };
+           return { 
+            data:[]
+            };
          },
-         toggle: function() {
-           this.setState({ show: !this.state.show });
-         },
-         render: function() {
-   if(this.props.data==null){return React.createElement("section");}
-           var commentNodes = this.props.data.map(function (comment ,i ) {
+         split:{},
+         componentWillMount:function(){
+                  var _context = this;
 
-             var thisAssetExtension = "pdf";
-             var thisAssetExtensionPattern=/.*\.(.+)$/;
-             if (comment.refId.indexOf(".") != -1) {
-               thisAssetExtension = comment.refId.replace(thisAssetExtensionPattern, "$1");
-             }
-             return (
-                  React.createElement(MeetingAsset, {item: comment, key: i, refId: comment.refId, title: comment.title, description: comment.description, extension: thisAssetExtension})
-             );
-           });
+                  var Con = thisMeetingRefId.split('/').reverse()[0];
+
+                  var url = location.origin+'/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'; 
+
+
+                  var url = 'https://my-dev.girlscouts.org/content/vtkcontent/en/resources/volunteer-aids/vtkvideos/_jcr_content/content/top/par.1.json'
+
+                  // var jsonD = {"jcr:primaryType":"nt:unstructured","sling:resourceType":"girlscouts/components/styled-parsys","vtk_videos":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"D16DP03,B16B33","jcr:created":"Tue Nov 08 2016 12:08:28 GMT-0500","tag":"mytag","url":"https://youtu.be/rCSsqtR4YSs","name":"Planning your first campout","jcr:lastModified":"Tue Nov 08 2016 13:02:19 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"},"vtk_videos_1080805446":{"jcr:primaryType":"nt:unstructured","jcr:createdBy":"admin","jcr:lastModifiedBy":"admin","meetingid":"B16B27,B16B26,B16B01","jcr:created":"Tue Nov 08 2016 12:52:30 GMT-0500","tag":"daisy","url":"https://youtu.be/uEvcCAQg8PE","name":"Introduction to Cooking Outdoors","jcr:lastModified":"Tue Nov 08 2016 13:04:32 GMT-0500","sling:resourceType":"girlscouts/components/vtk-videos"}};
+
+
+                    
+
+
+    
+
+                    function processData(json){
+                      debugger;
+                      var newData = _context.props.data.slice(0);
+
+
+                      function Add(e){
+                        var newO ={
+                          
+                                  description:null,
+                                  docType:'movie',
+                                  isOutdoorRelated:null,
+                                  path:null,
+                                  refId:e.url,
+                                  title:e.name
+                       
+                                  }
+                        newData.push(newO)
+                      } 
+
+
+                      if(json){
+                        for(var element in json ){
+                        if(json[element].hasOwnProperty('meetingid')){
+                            var idlist = json[element].meetingid.split(',')
+                          console.log(json[element]);
+
+                            for (var i = idlist.length - 1; i >= 0; i--) {
+                              if(Con.indexOf(idlist[i]) > -1 ){
+                              
+                                Add(json[element]);
+
+                                break;
+                              }
+                            };
+                        }
+                        }
+                      }
+
+
+                      return newData;
+                    }
+
+
+                  var call = $.ajax({
+                    url:url
+                  })
+
+
+
+                  call.done(function(response){
+                    return processData(response)
+                  }).then(function(newData){
+                     _context.setState({'data':newData});
+                  })
+
+                  call.error(function(err){
+                    _context.setState({'data':processData()});
+                    console.error(err);
+                  })
+      
+         },
+
+         render: function() {
+              if(this.props.data==null){
+                return React.createElement("section");
+              }
+
+              var commentNodes = this.state.data.map(function (comment ,i ) {
+                var thisAssetExtension = "pdf";
+
+                var urlPattern = /((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)/;
+
+
+                if(comment.docType=='movie' || urlPattern.test(comment.refId)){
+                    thisAssetExtension = 'movie';
+                }
+
+                return (
+                  React.createElement(
+                      MeetingAsset,
+                      {
+                        item: comment,
+                        key: i, 
+                        refId: comment.refId,
+                        title: comment.title,
+                        description: comment.description,
+                        extension: thisAssetExtension
+                      }
+                  )
+                );
+
+            });
+
            return (
              React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"},
                  React.createElement("h6", null, "meeting aids"),
@@ -680,42 +778,96 @@ React.createElement(ActivityPlan),
 
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
-        return (
-                React.createElement(
-                  "li",
-                  null,
+
+           var _context = this;
+
+          return (function(){
+
+            if(_context.props.extension === "movie"){
+
+              return React.createElement(
+                "li",
+                null,
                   React.createElement(
                     "a",
-                      {
-                        href: this.props.refId,
-                        target: "_blank",
-                        title: "View Meeting Aids",
-                        className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension
-                      }, 
-                      this.props.title,
-                      (this.props.item.isOutdoorRelated)? React.createElement(
-                        "img",
-                        {
-                          src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
-                          style:{
-                            width:'9%',
-                            "margin-left":"15px"
-                          }
-                        }
-                      ): React.createElement(
-                        "span",
-                        null
-                      )
-                    ),
-                      React.createElement(
-                        "p",
-                        {
-                          className: "info"
-                        },
-                        this.props.description
-                      )
-                )
-        );
+                    {
+                      // href: _context.props.refId,
+                      // href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_youtube.html?resource="+_context.props.refId,
+                      target: "_blank",
+                      title: "Meeting Asset",
+                      "data-reveal-id": "modal_popup_video",
+                      "data-reveal-ajax": "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_youtube.html?resource='"+_context.props.refId+"'",
+                      className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ _context.props.extension
+                    },
+                    _context.props.title
+                  ),
+                  React.createElement(
+                    "p",
+                     {className: "info"},
+                     _context.props.description
+                  )
+              )
+            }else{
+              return React.createElement(
+                "li",
+                null,
+                  React.createElement(
+                    "a",
+                    {
+                      href: _context.props.refId,
+                      target: "_blank",
+                      title: "View Meeting Aids",
+                      className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ _context.props.extension
+                    },
+                    _context.props.title
+                  ),
+                  React.createElement(
+                    "p",
+                     {className: "info"},
+                     _context.props.description
+                  )
+              )
+            }
+          }())
+
+
+
+        // return (
+        //         React.createElement(
+        //           "li",
+        //           null,
+        //           React.createElement(
+        //             "a",
+        //               {
+        //                 href: this.props.refId,
+        //                 target: "_blank",
+        //                 title: "View Meeting Aids",
+        //                 className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ this.props.extension
+        //               }, 
+        //               this.props.title,
+        //               (this.props.item.isOutdoorRelated)? React.createElement(
+        //                 "img",
+        //                 {
+        //                   src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
+        //                   style:{
+        //                     width:'9%',
+        //                     "margin-left":"15px"
+        //                   }
+        //                 }
+        //               ): React.createElement(
+        //                 "span",
+        //                 null
+        //               )
+        //             ),
+        //               React.createElement(
+        //                 "p",
+        //                 {
+        //                   className: "info"
+        //                 },
+        //                 this.props.description
+        //               )
+        //         )
+        // );
       }
     });
 
@@ -1062,7 +1214,7 @@ React.createElement(ActivityPlan),
                   var idlist = data[key].meetingid.split(',')
 
                   for (var i = idlist.length - 1; i >= 0; i--) {
-                    if(idlist[i] === Con){
+                    if(Con.indexOf(idlist[i]) > -1){
                       setNewState(data[key]);
                       return false;
                     }
@@ -1108,7 +1260,10 @@ React.createElement(ActivityPlan),
           'div',
           {
             className:className,
-            style:{}
+            style:{
+              cursor:'pointer',
+            },
+             onClick: this.click
           },
           React.createElement(
             "div",
@@ -1157,8 +1312,8 @@ React.createElement(ActivityPlan),
                  style:{
 
                   },
-                  'href':'http://google.com',
-                  onClick: this.click
+                  'href':'http://google.com'
+                 
                 },
                 this.state.button
                 )
@@ -1335,4 +1490,6 @@ React.createElement(ActivityPlan),
   <% } %>
 
 <%@include file="include/bodyBottom.jsp" %>
+
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
+<div id="modal_popup_video" class="reveal-modal" data-reveal></div>
