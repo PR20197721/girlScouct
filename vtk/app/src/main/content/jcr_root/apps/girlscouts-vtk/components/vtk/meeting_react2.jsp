@@ -769,7 +769,7 @@ React.createElement(ActivityPlan),
           return (function(){
 
             if(_context.props.extension === "movie"){
-
+              debugger;
               return React.createElement(
                 "li",
                 null,
@@ -785,7 +785,7 @@ React.createElement(ActivityPlan),
                       className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ _context.props.extension
                     },
                     _context.props.title,
-                    (this.props.item.isOutdoorRelated)? React.createElement(
+                    (_context.props.item.isOutdoorRelated)? React.createElement(
                          "img",
                          {
                            src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
@@ -817,7 +817,20 @@ React.createElement(ActivityPlan),
                       title: "View Meeting Aids",
                       className: "<%=( user.getCurrentYear().equals( VtkUtil.getCurrentGSYear()+"")) ? "" : "vtkDisableA"%> icon "+ _context.props.extension
                     },
-                    _context.props.title
+                    _context.props.title,
+                    (_context.props.item.isOutdoorRelated)? React.createElement(
+                         "img",
+                         {
+                           src:'/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png',
+                           style:{
+                             width:'9%',
+                             "margin-left":"15px"
+                           }
+                         }
+                       ): React.createElement(
+                         "span",
+                         null
+                       )
                   ),
                   React.createElement(
                     "p",
