@@ -3,4 +3,4 @@
     jcr:description="Container for customized HTML code. Specifically used for Youtube and other video formats."
     jcr:primaryType="cq:Component"
     jcr:title="VTK Survey Links"
-    componentGroup="Girl Scouts"/>
+    componentGroup="GSVTK"/>
