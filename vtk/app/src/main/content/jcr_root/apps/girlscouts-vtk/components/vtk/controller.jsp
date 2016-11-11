@@ -1169,7 +1169,7 @@ try{
         }else if( request.getParameter("editNote") != null ){  
             out.println("{vtkresp:"+ meetingUtil.editNote(user, troop,request.getParameter("nid"), request.getParameter("msg") )+"}");
         }else if( request.getParameter("getNotes") != null ){
-                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") );
+                java.util.List <org.girlscouts.vtk.models.Note> notes = meetingUtil.getNotesByMid(  user,  troop, request.getParameter("mid") ); 
                 out.println( new ObjectMapper().writeValueAsString(notes));
         }else if(request.getParameter("addMeetings") != null){
             meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));

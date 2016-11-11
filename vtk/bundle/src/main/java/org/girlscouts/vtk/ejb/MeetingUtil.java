@@ -1435,7 +1435,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 	public java.util.List<Note> getNotesByMid(User user, Troop troop, String mid)
 			throws IllegalAccessException, VtkException{
 		MeetingE meeting = VtkUtil.findMeetingById( troop.getYearPlan().getMeetingEvents(), mid );
-		return meetingDAO.getNotes( user, troop, meeting.getPath() );
+		return meetingDAO.getNotes( user, troop, meeting.getUid() );//meeting.getPath() );
 	}
 	
 	
