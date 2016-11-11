@@ -595,12 +595,12 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		        
 		        java.util.Map<String, String> cTrans = new java.util.TreeMap();     
 		        cTrans.put("597", "Girl Scouts of Northeast Texas"); 
-		        cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
+		        cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys Inc.");
 		        cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
-		        cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
-		        cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
-		        cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
-		        cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
+		        cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines Inc.");
+		        cTrans.put("320", "Girl Scouts of West Central Florida Inc.");
+		        cTrans.put("388", "Girl Scout Council of the Southern Appalachians Inc.");
+		        cTrans.put("313", "Girl Scouts of Gateway Council Inc.");
 		        cTrans.put("664", "Oregon and SW Washington");
 		        cTrans.put("234", "North East Ohio");
 		        cTrans.put("661", "Sierra Nevada");

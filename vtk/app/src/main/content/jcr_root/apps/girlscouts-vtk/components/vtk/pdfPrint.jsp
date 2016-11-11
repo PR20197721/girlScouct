@@ -54,7 +54,7 @@
                         builder.append("<p style=\"font-family: tahoma, arial, helvetica, sans-serif; font-size: 12px;\"><b>Time Allotment</b></p>");
                         builder.append("<p>" + Integer.toString(activity.getDuration()) + " minutes");
                     }
-                    builder.append(description+"</br>");
+                    builder.append(description+"<p> &nbsp;&nbsp;</p>");
                     
                 }
                 str += builder.toString();
