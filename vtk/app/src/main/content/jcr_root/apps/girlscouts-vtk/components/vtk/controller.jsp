@@ -305,7 +305,6 @@
 				
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
-				
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
@@ -559,7 +558,7 @@
                 troop.setSfTroopAge(troop.getTroop().getGradeLevel());
                 troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
-
+System.err.println("Kaca xx44");
 				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 
 				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
@@ -569,7 +568,7 @@
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
-
+System.err.println("Kaca xx445");
 				if( attendance !=null && attendance.getUsers()!=null ){
 				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 				    attendanceTotal= attendance.getTotal();
@@ -578,7 +577,7 @@
 				if( achievement !=null && achievement.getUsers()!=null ){
 				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 				}
-
+System.err.println("Kaca xx46");
 				if (_meeting.getMeetingInfo() != null
 						&& _meeting.getMeetingInfo()
 								.getActivities() != null) {
@@ -590,7 +589,7 @@
 					} else {
 						java.util.List<Activity> _activities = _meeting
 								.getMeetingInfo().getActivities();
-
+System.err.println("Kaca xx447");
 						_meeting.getMeetingInfo()
 								.getMeetingInfo()
 								.put("meeting short description",
@@ -608,7 +607,6 @@
 					}
 
 				}
-
 				if( troop!=null && troop.getYearPlan()!=null){
 					Helper helper = troop.getYearPlan().getHelper();
 					if( helper==null ) helper= new Helper();
@@ -630,7 +628,6 @@
                                                         permissions.add(String.valueOf(Permission.PERMISSION_EDIT_ATTENDANCE_ID));
                                                 }
 					}
-
 					helper.setPermissions(permissions);
 					helper.setAchievementCurrent(achievementCurrent);
 					helper.setAttendanceCurrent(attendanceCurrent);
@@ -638,7 +635,7 @@
 					troop.getYearPlan().setHelper(helper);
 
 	                session.putValue("VTK_troop", troop);
-
+System.err.println("Kaca xx4499");
                     ObjectMapper mapper = new ObjectMapper();
                     try {
 
@@ -665,7 +662,6 @@
 		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 
 try{
-
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
                 out.println("{\"yearPlan\":\"NYP\"}");
@@ -1175,11 +1171,6 @@ try{
             meetingUtil.addMeetings(user, troop, request.getParameterValues("addMeetingMulti"));
             %><script>self.location='/content/girlscouts-vtk/en/vtk.html';</script><% 
         }else if(request.getParameter("cngOutdoor") != null){
-
-//This is the original branch         
-//	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;
-//	meetingUtil.updateActivityOutdoorStatus( user,  troop,  request.getParameter("mid"),  request.getParameter("aid"),  isOutdoor);
-
         	String mid= request.getParameter("mid");
         	String aid= request.getParameter("aid");
         	boolean isOutdoor = "true".equals( request.getParameter("isOutdoor") ) ? true : false;

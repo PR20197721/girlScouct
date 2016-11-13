@@ -923,7 +923,6 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		if( _aidTags==null )
 			_aidTags= new java.util.ArrayList<Asset>();
 		
-	//????
 		// query aids cachables
 		java.util.List <Asset>__aidTags = yearPlanUtil.getAids(user, troop, 
 				meetingInfo.getAidTags(), meetingInfo.getId(),

@@ -32,6 +32,7 @@ target/
 
 /web/app/bin/
 
+<<<<<<< HEAD
 /vtk/app/bin/
 
 /vtk/ical4j-wrapper/target
@@ -43,6 +44,8 @@ target/
 /vtk/api-bundle/bin/
 
 /vtk/replication-bundle/bin/
+=======
+>>>>>>> RC
 
 bin/
 /target

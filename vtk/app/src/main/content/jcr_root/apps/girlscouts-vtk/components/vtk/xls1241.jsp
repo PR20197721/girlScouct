@@ -112,7 +112,6 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
         String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
-System.err.println("SQL rpt xls1241 "+ sql );
      
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -123,7 +122,6 @@ System.err.println("SQL rpt xls1241 "+ sql );
             javax.jcr.query.Row r = it.nextRow();
 
             javax.jcr.Node n = r.getNode();
-   System.err.println("Node: "+ n.getPath());         
             javax.jcr.Node n1 = n.getNode("yearPlan");
             String yearPlanName=n1.getProperty("name").getValue().getString();
                
@@ -154,8 +152,6 @@ System.err.println("SQL rpt xls1241 "+ sql );
        
 }
 
-//final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
-//String rptId= councilRpt.saveRpt( sb );
 
 //email rpt
 councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
