@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1479140890179"
+        cq:lastModified="{Long}1479147747118"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -367,6 +367,16 @@
         </node33>
         <node34
             jcr:primaryType="cq:WorkflowNode"
+            title="Rendition Renaming"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="org.girlscouts.web.gsusa.workflow.NPDRendtionRenameProcess"
+                PROCESS_ARGS="original:original"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node34>
+        <node35
+            jcr:primaryType="cq:WorkflowNode"
             description="InDesign Media Extraction"
             title="Media Extraction"
             type="EXTERNAL_PROCESS">
@@ -380,8 +390,8 @@
                 PROCESS_AUTO_ADVANCE="true"
                 scriptPaths="[/etc/dam/indesign/scripts/ThumbnailExport.jsx,/etc/dam/indesign/scripts/XHTMLExport.jsx,/etc/dam/indesign/scripts/IDMLExport.jsx]"
                 timeout="3600"/>
-        </node34>
-        <node35
+        </node35>
+        <node36
             jcr:primaryType="cq:WorkflowNode"
             description="This step will check for the thumbnail existence. It will create new thumbnails from thumbnail.jpg rendition"
             title="INDD Verify Thumbnail"
@@ -391,8 +401,8 @@
                 PROCESS="com.day.cq.dam.indd.process.INDDCreateThumbnailProcess"
                 PROCESS_ARGS="\[140:100],[48:48],[319:319]"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node35>
-        <node36
+        </node36>
+        <node37
             jcr:primaryType="cq:WorkflowNode"
             description="InDesign Page Extraction"
             title="Page Extraction"
@@ -405,8 +415,8 @@
                 pageTitle="IDML Extraction"
                 PROCESS="com.day.cq.dam.indd.process.INDDPageExtractProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node36>
-        <node37
+        </node37>
+        <node38
             jcr:primaryType="cq:WorkflowNode"
             description="Uploads and processes videos through the Adobe Dynamic Media Video Service."
             title="Dynamic Media Video Service Process"
@@ -419,8 +429,8 @@
                 PROCESS_ARGS="test"
                 PROCESS_AUTO_ADVANCE="true"
                 timeout="3600"/>
-        </node37>
-        <node38
+        </node38>
+        <node39
             jcr:primaryType="cq:WorkflowNode"
             description="This process will create one or more thumbnails for the asset, create web enabled rendition and update folder thumbnail."
             title="Process Thumbnails"
@@ -429,8 +439,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.ThumbnailProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node38>
-        <node39
+        </node39>
+        <node40
             jcr:primaryType="cq:WorkflowNode"
             description="Dynamic Media On-Premise apply image profile"
             title="Dynamic Media On-Premise Apply Image Profile"
@@ -439,8 +449,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.s7dam.onprem.process.ApplyImageProfileProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node39>
-        <node40
+        </node40>
+        <node41
             jcr:primaryType="cq:WorkflowNode"
             description="This process will extract and upload the product assets"
             title="Product Asset Upload"
@@ -449,8 +459,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.pim.impl.sourcing.upload.process.ProductAssetsUploadProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node40>
-        <node41
+        </node41>
+        <node42
             jcr:primaryType="cq:WorkflowNode"
             description="Apply metadata template to uploaded assets"
             title="Apply Metadata Template"
@@ -459,8 +469,8 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.ApplyMetadataTemplateProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node41>
-        <node42
+        </node42>
+        <node43
             jcr:primaryType="cq:WorkflowNode"
             description="remove jcr:title and dc:title ending with &quot;.docx&quot; for pdf files."
             title="metadata title update"
@@ -469,13 +479,13 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/girlscouts/remove-docx-title.ecma"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node42>
-        <node43
+        </node43>
+        <node44
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node43>
+        </node44>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -711,26 +721,26 @@
             to="node33">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node32_x0023_node33>
-        <node33_x0023_node14
+        <node33_x0023_node34
             jcr:primaryType="cq:WorkflowTransition"
             from="node33"
-            to="node14">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node33_x0023_node14>
-        <node14_x0023_node34
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node14"
             rule=""
             to="node34">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node14_x0023_node34>
-        <node34_x0023_node35
+        </node33_x0023_node34>
+        <node34_x0023_node14
             jcr:primaryType="cq:WorkflowTransition"
             from="node34"
+            to="node14">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node34_x0023_node14>
+        <node14_x0023_node35
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node14"
             rule=""
             to="node35">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node34_x0023_node35>
+        </node14_x0023_node35>
         <node35_x0023_node36
             jcr:primaryType="cq:WorkflowTransition"
             from="node35"
@@ -783,8 +793,15 @@
         <node42_x0023_node43
             jcr:primaryType="cq:WorkflowTransition"
             from="node42"
+            rule=""
             to="node43">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node42_x0023_node43>
+        <node43_x0023_node44
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node43"
+            to="node44">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node43_x0023_node44>
     </transitions>
 </jcr:root>
