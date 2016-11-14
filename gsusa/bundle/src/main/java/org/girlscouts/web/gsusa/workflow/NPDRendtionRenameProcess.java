@@ -41,9 +41,13 @@ public class NPDRendtionRenameProcess implements WorkflowProcess {
             throws WorkflowException {
         Map<String, String> renditionsMap = new HashMap<String, String>();
         String[] renditionMappings = metadata.get("PROCESS_ARGS", String.class).split(",");
+        boolean renameOriginal = false;
         for (String mapping : renditionMappings) {
             String[] tuple = mapping.split(":");
             renditionsMap.put(tuple[0].trim(), tuple[1].trim());
+            if(tuple[0].trim().equals("original")){
+            	renameOriginal = true;
+            }
         }
         
         Session session = workflowSession.getSession();
@@ -58,22 +62,27 @@ public class NPDRendtionRenameProcess implements WorkflowProcess {
             while (iter.hasNext()) {
                 Node srcNode = iter.nextNode();
                 String srcRendition = srcNode.getName();
-                Matcher matcher = RENDITION_PATTERN.matcher(srcRendition);
-                if (matcher.find()) {
-                    String srcShortRendition = matcher.group(1);
-                    String extension = matcher.group(2);
-                    String targetShortRendition = renditionsMap.get(srcShortRendition);
-
-                    if (targetShortRendition != null) {
-                        String targetRendition = srcNode.getParent().getPath() + "/" + "cq5dam.npd." + targetShortRendition + "." + extension;
-			if (session.nodeExists(targetRendition)) {
-				session.removeItem(targetRendition);
-			}
-			log.info("Creating rendition " + targetRendition);
-			session.move(srcNode.getPath(), targetRendition);
-                    }
-                } else {
-                    continue;
+                if(srcRendition.equals("original") && renameOriginal){
+                	String targetRendition = srcNode.getParent().getPath() + "/" + renditionsMap.get("original");
+                	session.move(srcNode.getPath(), targetRendition);
+                }else{
+	                Matcher matcher = RENDITION_PATTERN.matcher(srcRendition);
+	                if (matcher.find()) {
+	                    String srcShortRendition = matcher.group(1);
+	                    String extension = matcher.group(2);
+	                    String targetShortRendition = renditionsMap.get(srcShortRendition);
+	
+	                    if (targetShortRendition != null) {
+	                        String targetRendition = srcNode.getParent().getPath() + "/" + "cq5dam.npd." + targetShortRendition + "." + extension;
+							if (session.nodeExists(targetRendition)) {
+								session.removeItem(targetRendition);
+							}
+							log.info("Creating rendition " + targetRendition);
+							session.move(srcNode.getPath(), targetRendition);
+	                    }
+	                } else {
+	                    continue;
+	                }
                 }
             }
             session.save();
