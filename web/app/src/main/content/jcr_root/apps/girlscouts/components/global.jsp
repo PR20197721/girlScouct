@@ -80,6 +80,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 	try {
 		Resource imgResource = rr.resolve(imagePath);
 		ValueMap properties = imgResource.adaptTo(ValueMap.class);
+		if(properties == null) return "";
 		
 		String fileReference = properties.get("fileReference", "");
 		Asset asset;
@@ -91,7 +92,7 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		    // fileRefence empty. Assuming this resource is a DAM asset.
 		    asset = imgResource.adaptTo(Asset.class);
 		}
-		
+		if(asset == null) return "";
 		boolean isOriginal = false;
 		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
 		if (rendition == null) {
