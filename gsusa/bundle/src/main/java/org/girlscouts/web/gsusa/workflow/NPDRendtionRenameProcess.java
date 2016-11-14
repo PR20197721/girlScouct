@@ -18,6 +18,7 @@ import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
@@ -57,14 +58,21 @@ public class NPDRendtionRenameProcess implements WorkflowProcess {
             while (!renditionsNode.getName().equals("renditions")) {
                 renditionsNode = renditionsNode.getParent();
             }
+            String imagePath = renditionsNode.getPath().substring(0, renditionsNode.getPath().indexOf("/jcr:content/renditions"));
             
             NodeIterator iter = renditionsNode.getNodes();
             while (iter.hasNext()) {
                 Node srcNode = iter.nextNode();
                 String srcRendition = srcNode.getName();
                 if(srcRendition.equals("original") && renameOriginal){
-                	String targetRendition = srcNode.getParent().getPath() + "/" + renditionsMap.get("original");
-                	session.move(srcNode.getPath(), targetRendition);
+                	String [] fileTokens = imagePath.split("\\.(?=[^\\.]+$)");
+                	String fileExtension = fileTokens[1];
+                	String targetRendition = renditionsMap.get("original") + "." + fileExtension;
+                	try{
+                		JcrUtil.copy(srcNode, srcNode.getParent(), targetRendition);
+                	}catch(Exception e){
+                		e.printStackTrace();
+                	}
                 }else{
 	                Matcher matcher = RENDITION_PATTERN.matcher(srcRendition);
 	                if (matcher.find()) {
