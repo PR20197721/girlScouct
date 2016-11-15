@@ -5,15 +5,16 @@ import java.util.Collections;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.ValueFormatException;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.cq.livecopy.GirlScoutsNotificationAction;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,6 +57,7 @@ public class RolloutProcess implements WorkflowProcess {
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 
+
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
         Session session = workflowSession.getSession();
@@ -80,9 +82,45 @@ public class RolloutProcess implements WorkflowProcess {
 			try{
 				singleValue = (Value) mdm.get("councils");
 			}catch(Exception e1){
+				System.err.println("Rollout Could Not Run - No Councils Selected");
 				e1.printStackTrace();
 			}
 		} 
+        
+        Boolean dontSend = false, useTemplate = false;
+        String templatePath = "";
+        
+        try{
+        	dontSend = ((Value)mdm.get("dontsend")).getBoolean();
+        }catch(Exception e){}
+        
+        
+        String message = "<p>Dear Council, </p>" +
+        		"<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>" +
+        		"<p><b>National page URL:</b> <%template-page%></p>" +
+        		"<p><b>Your page URL:</b> <%council-page%></p>" +
+        		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>";
+        
+        try {
+        	useTemplate = ((Value)mdm.get("useTemplate")).getBoolean();
+        	templatePath = ((Value)mdm.get("template")).getString();
+        	if("".equals(templatePath)){
+        		System.err.println("Rollout Error - Use Template checked but no template provided. Cancelling.");
+        		return;
+        	}
+        }catch(Exception e){}
+        
+        try {
+        	if(useTemplate){
+        		//Get Template Message
+        	}else{
+        		message = ((Value)mdm.get("message")).getString();
+        	}	
+        	//Message is parsed in GirlScoutsNotificationActionFactory.java
+		} catch (Exception e) {
+			System.err.println("Rollout Error - Unable to Parse Message");
+			e.printStackTrace();
+		}
 
         Resource srcRes = resourceResolver.resolve(srcPath);
         Page srcPage = (Page)srcRes.adaptTo(Page.class);
@@ -119,6 +157,10 @@ public class RolloutProcess implements WorkflowProcess {
             	}
             	if(proceed == true){
             		rolloutManager.rollout(resourceResolver, relation, false);
+            		//Stop using a live action for the notifications. Change GirlScoutsNotificationActionFactory
+            		//Into a new class and call it normally. Then you can pass whatever values into it that you want
+            		GirlScoutsNotificationAction actionFactory = new GirlScoutsNotificationAction(srcPage.adaptTo(Resource.class), targetResource, dontSend, message);
+            		actionFactory.execute();
             		session.save();
 	                String targetPath = relation.getTargetPath();
 	                // Remove jcr:content
