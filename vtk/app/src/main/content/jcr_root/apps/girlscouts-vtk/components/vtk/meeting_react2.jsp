@@ -1186,7 +1186,6 @@ React.createElement(ActivityPlan),
        }
      });
 
-<<<<<<< HEAD
    var Survey = React.createClass({
     displayName:"survey",
 
@@ -1336,9 +1335,6 @@ React.createElement(ActivityPlan),
     }
 
    })
-=======
-
->>>>>>> RC
 
    var Outdoor = React.createClass({
                   displayName: "Outdoor",
