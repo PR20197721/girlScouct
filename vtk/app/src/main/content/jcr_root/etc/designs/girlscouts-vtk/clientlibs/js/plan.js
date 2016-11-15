@@ -2095,14 +2095,12 @@ var initNotes = (function(global, ModalVtk, $) {
             userLoginId = auid;
         }
 
-
-        console.log(thisMeetingNotes)
         defer = $.Deferred();
-        // return thisMeetingNotes?thisMeetingNotes:[];
-        // 
-                    setTimeout(function(){
-                        defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
-                    },50);
+        
+        setTimeout(function(){
+            defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
+        },500);
+        
         return defer.promise();
     }
 
