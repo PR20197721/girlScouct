@@ -40,11 +40,7 @@ public class GSMonthlyRptImpl implements Runnable, AemCron  {
 	public void run() {
 		
 		
-<<<<<<< HEAD
 		if( slingSettings.getRunModes().contains("prod") ){ 
-=======
-		if( true){// slingSettings.getRunModes().contains("prod") ){ 
->>>>>>> RC
 		
 			System.err.println("Generating report 'monthly' part 1 of 2 ....");
 			try{ councilDAO.GSMonthlyRpt(); }catch(Exception e){e.printStackTrace();}
