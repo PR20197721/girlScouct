@@ -1497,7 +1497,7 @@ var initNotes = (function(global, ModalVtk, $) {
                     })
                     .success(function() {
 
-                        var req = getNotes(globalMid, userLoginId);
+                        var req = getNotesAjax(globalMid, userLoginId);
 
                         req.done(function(json) {
                             interateNotes(json);
@@ -1675,41 +1675,6 @@ var initNotes = (function(global, ModalVtk, $) {
                                 }
                             }
                         }
-                        // div: {
-                        //     class: "vtk-note_content small-24 medium-18 columns",
-                        //     html: note.message
-                        // },
-                        // 'div-0': {
-                        //     class: "vtk-note_detail small-24 medium-6  columns",
-
-                        //     child: {
-                        //         'p': {
-                        //             class: '',
-                        //             child: {
-                        //                 strong: {
-                        //                     text: note.createdByUserName
-                        //                 }
-                        //             }
-
-                        //         },
-                        //         'p-1': {
-                        //             class: '',
-                        //             text: dateString
-                        //         },
-                        //         'p-2': {
-                        //             class: '',
-                        //             text: timeString
-                        //         },
-                        //         'span': {
-                        //             class: 'vtk-note_actions',
-                        //             child: this.actions(note)
-                        //         }
-                        //     }
-                        // },
-                        // 'div-1': {
-                        //     class: 'vtk-note_container',
-
-                        // }
                     }
                 }
             }
@@ -1778,47 +1743,7 @@ var initNotes = (function(global, ModalVtk, $) {
                                 click: editor.applyFormat
                             },
                             text: 'U'
-                        },
-
-                        // 'a-3': {
-                        //     attr: {
-                        //         href: '#'
-                        //     },
-                        //     class: 'format-buttom format-p',
-                        //     data: {
-                        //         command: 'p'
-                        //     },
-                        //     events: {
-                        //         click: editor.applyFormat
-                        //     },
-                        //     text: 'P'
-                        // },
-                        // 'a-4': {
-                        //     attr: {
-                        //         href: '#'
-                        //     },
-                        //     class: 'format-buttom format-h',
-                        //     data: {
-                        //         command: 'h1'
-                        //     },
-                        //     events: {
-                        //         click: editor.applyFormat
-                        //     },
-                        //     text: 'H1'
-                        // },
-                        // 'a-5': {
-                        //     attr: {
-                        //         href: '#'
-                        //     },
-                        //     class: 'format-buttom format-h',
-                        //     data: {
-                        //         command: 'h2'
-                        //     },
-                        //     events: {
-                        //         click: editor.applyFormat
-                        //     },
-                        //     text: 'H2'
-                        // }
+                        }
                     }
 
                 }
@@ -2164,6 +2089,13 @@ var initNotes = (function(global, ModalVtk, $) {
 
 
     function getNotes(mid, auid) {
+
+                globalMid = mid;
+        if (auid) {
+            userLoginId = auid;
+        }
+
+
         console.log(thisMeetingNotes)
         defer = $.Deferred();
         // return thisMeetingNotes?thisMeetingNotes:[];

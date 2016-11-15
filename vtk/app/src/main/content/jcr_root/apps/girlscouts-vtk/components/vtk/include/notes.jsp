@@ -8,11 +8,8 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
     var appVtk;
   $(function(){
     appVTK = initNotes;
-    // appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
-    //     appVTK.interateNotes(json);
-    // });
-    // 
-    appVTK.getNotes().done(function(json){
+
+    appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
         appVTK.interateNotes(json);
     });
   })
