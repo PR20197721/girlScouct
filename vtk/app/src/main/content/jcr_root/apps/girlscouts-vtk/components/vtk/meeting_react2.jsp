@@ -208,6 +208,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var sentEmails=0;
     var sentEmailsSubject=null;
     var locations =null;
+    var thisMeetingNotes=null;
 
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
@@ -256,7 +257,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
           }
 
-
+          thisMeetingNotes = comment.notes;
+          console.log('==>>>',thisMeetingNotes)
      return (
             React.createElement(YearPlan, {item: comment, key: i},
                    React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment.tz(thisMeetingDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(thisMeetingDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(thisMeetingDate,"America/New_York").format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}),
@@ -937,6 +939,13 @@ React.createElement(ActivityPlan),
             this.setState({
                 data: data.yearPlan
             });
+
+            // console.log(data.yearPlan.meetingEvents[0].notes);
+
+            // thisMeetingNotes = data.yearPlan.meetingEvents[0].notes;
+
+           // appVTK.data.set(data.yearPlan.meetingEvents[0].notes);
+
         }, 10000);
 
         this.dataWorker.start();

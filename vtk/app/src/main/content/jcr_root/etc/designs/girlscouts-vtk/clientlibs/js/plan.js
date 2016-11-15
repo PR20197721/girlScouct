@@ -2139,7 +2139,7 @@ var initNotes = (function(global, ModalVtk, $) {
         checkQuantityNotes(notes.length);
     }
 
-    function getNotes(mid, auid) {
+   function getNotesAjax(mid, auid) {
 
         globalMid = mid;
         if (auid) {
@@ -2162,7 +2162,36 @@ var initNotes = (function(global, ModalVtk, $) {
         return ajaxConnection(ajaxOptions);
     }
 
-    
+
+    function getNotes(mid, auid) {
+        console.log(thisMeetingNotes)
+        defer = $.Deferred();
+        // return thisMeetingNotes?thisMeetingNotes:[];
+        // 
+                    setTimeout(function(){
+                        defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
+                    },50);
+        return defer.promise();
+    }
+
+    function data(){
+            var data;
+
+            function set(d){
+                data = d;
+            }
+
+
+       function get(){
+            return data;
+        }
+
+        return{
+            get:get,
+            set:set
+        };
+
+    }
 
 
     
