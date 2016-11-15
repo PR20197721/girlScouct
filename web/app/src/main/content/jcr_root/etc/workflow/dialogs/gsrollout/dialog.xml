@@ -46,6 +46,13 @@
         	name="./dontsend"
         	type="checkbox"
         	xtype="selection"/>
+       	<subject
+       		jcr:primaryType="cq:Widget"
+       		fieldLabel="Email Subject"
+       		name="./subject"
+       		defaultValue="GSUSA Rollout Notification"
+       		value="GSUSA Rollout Notification"
+       		xtype="textfield"/>
         <message
         	jcr:primaryType="cq:Widget"
         	fieldLabel="Custom Message"
@@ -56,7 +63,7 @@
         	xtype="textarea"/>
        	<usetemplate
        		jcr:primaryType="cq:Widget"
-       		fieldLabel="Use Email Template"
+       		fieldLabel="Use Email Template (Message AND Subject)"
        		name="./useTemplate"
        		type="checkbox"
        		xtype="selection"/>
