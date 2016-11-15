@@ -651,6 +651,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			default:
 				pathProp = AID_PATHS_PROP;
 			}
+			
 			if (meetingNode.hasProperty(pathProp)) {
 				Value[] assetPaths = meetingNode.getProperty(pathProp)
 						.getValues();
@@ -819,11 +820,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if (!session.nodeExists(rootPath)) {
 				return assets;
 			}
+
 			Node rootNode = session.getNode(rootPath);
 
 			NodeIterator iter = rootNode.getNodes();
+
 			while (iter.hasNext()) {
 				Node node = null;
+
 				try {
 					node = iter.nextNode();
 					if (!node.hasNode("jcr:content")) {
@@ -833,7 +837,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 					Asset asset = new Asset();
 					asset.setRefId(node.getPath());
-					asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+					
+					if (props.hasProperty("dc:isOutdoorRelated")) {
+						asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+					} else {
+						asset.setIsOutdoorRelated(false);
+					}
 					asset.setIsCachable(true);
 					asset.setType(type);
 
