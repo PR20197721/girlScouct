@@ -1,4 +1,4 @@
-package org.girlscouts.cq.livecopy;
+package org.girlscouts.web.councilrollout.impl;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -19,6 +19,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.felix.scr.annotations.Property;
@@ -29,6 +30,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.io.JSONWriter;
+import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,18 +39,23 @@ import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.ActionConfig;
 import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveStatus;
+import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 
-@SuppressWarnings("deprecation")
-@Component(metatype=false)
-@Service
-public class GirlScoutsNotificationAction {
+@Component
+@Service(value = GirlScoutsNotificationAction.class)
+@Properties({
+
+    @Property(name = "service.pid", value = "org.girlscouts.web.councilrollout.girlscoutsnotificationaction", propertyPrivate = false),
+    @Property(name = "service.description", value = "Girl Scouts Content Rollout Notification Service", propertyPrivate = false),
+    @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
+public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationAction{
 	
 	@Reference
 	public MessageGatewayService messageGatewayService;
 
-	private final Logger log = LoggerFactory.getLogger(GirlScoutsNotificationAction.class);
+	private final Logger log = LoggerFactory.getLogger(GirlScoutsNotificationActionImpl.class);
 
 	public void execute(Resource source, Resource target, String subject, String message, LiveRelationship relation, ResourceResolver rr)
 					throws WCMException {
@@ -109,9 +116,6 @@ public class GirlScoutsNotificationAction {
 	public void send(String nationalPage, String councilPage,String email1, String email2, ValueMap vm, String subject, String message, ResourceResolver rr) 
 			throws WCMException{
 		try {
-			
-			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
-					.getGateway(HtmlEmail.class);
 
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
@@ -131,13 +135,14 @@ public class GirlScoutsNotificationAction {
 			email.setHtmlMsg(html);
 			if(!emailRecipients.isEmpty()){
 				email.setTo(emailRecipients);
-				//messageGateway.send(email);
+				MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+				messageGateway.send(email);
 			}else{
 				log.error("No email address found for council :" + getBranch(councilPage));
 			}
 
 		} catch (Exception e) {
-            throw new WCMException(e.getMessage(), e);
+            e.printStackTrace();
 		}
 
 	}

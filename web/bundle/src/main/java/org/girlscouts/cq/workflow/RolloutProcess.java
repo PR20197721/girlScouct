@@ -27,7 +27,8 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
-import org.girlscouts.cq.livecopy.GirlScoutsNotificationAction;
+import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
+import org.girlscouts.web.councilrollout.impl.GirlScoutsNotificationActionImpl;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,6 +70,9 @@ public class RolloutProcess implements WorkflowProcess {
     
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
+	
+	@Reference
+	private GirlScoutsNotificationAction girlscoutsNotificationAction;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
@@ -154,7 +158,6 @@ public class RolloutProcess implements WorkflowProcess {
         }
 
         try {
-        	GirlScoutsNotificationAction mailActionFactory = new GirlScoutsNotificationAction();
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
@@ -177,7 +180,7 @@ public class RolloutProcess implements WorkflowProcess {
             	if(proceed == true){
             		rolloutManager.rollout(resourceResolver, relation, false);
             		if(!dontSend){
-            			mailActionFactory.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
+            			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
             		}
             		session.save();
 	                String targetPath = relation.getTargetPath();
