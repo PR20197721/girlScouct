@@ -209,6 +209,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var sentEmailsSubject=null;
     var locations =null;
     var thisMeetingNotes=null;
+    var initialize = false;
 
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
@@ -258,11 +259,18 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
           }
 
           thisMeetingNotes = comment.notes;
-          console.log('==>>>',thisMeetingNotes)
+          console.log('set =>',thisMeetingNotes)
 
-           appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
+
+          if(!initialize){
+            appVTK = initNotes;
+
+            appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
                   appVTK.interateNotes(json);
             });
+           
+            initialize = true;
+         }
 
      return (
             React.createElement(YearPlan, {item: comment, key: i},

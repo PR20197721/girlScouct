@@ -5,9 +5,9 @@ java.util.List <org.girlscouts.vtk.models.Note> notes = gg.getNotes(  user,  tro
 
 
 <script>
-    var appVtk;
+    var appVTK;
   $(function(){
-    appVTK = initNotes;
+    
 
     // appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
     //     appVTK.interateNotes(json);

@@ -1984,6 +1984,7 @@ var initNotes = (function(global, ModalVtk, $) {
                 req.then(
                     function(json, e) {
                         $('.vtk-notes_list_container').prepend(utility.compileTemplate(view.newNote(json)));
+                        
 
                         $('.input-content').html('');
                         $('.vtk-word-counter').html('500');
@@ -2096,7 +2097,7 @@ var initNotes = (function(global, ModalVtk, $) {
         }
 
         defer = $.Deferred();
-        
+        console.log('inside getNotes =>>>',thisMeetingNotes)
         setTimeout(function(){
             defer.resolve(thisMeetingNotes?thisMeetingNotes:[])
         },500);
