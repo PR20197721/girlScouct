@@ -259,6 +259,11 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
           thisMeetingNotes = comment.notes;
           console.log('==>>>',thisMeetingNotes)
+
+           appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
+                  appVTK.interateNotes(json);
+            });
+
      return (
             React.createElement(YearPlan, {item: comment, key: i},
                    React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment.tz(thisMeetingDate,"America/New_York").format('MMMM'), meetingModDAY: moment.tz(thisMeetingDate,"America/New_York").format('DD'), meetingModHOUR: moment.tz(thisMeetingDate,"America/New_York").format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}),
