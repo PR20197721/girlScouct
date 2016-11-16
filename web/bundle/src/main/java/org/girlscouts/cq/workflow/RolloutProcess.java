@@ -130,12 +130,16 @@ public class RolloutProcess implements WorkflowProcess {
         }catch(Exception e){}
         
         try{
-        	subject = ((Value)mdm.get("subject")).getString();
+        	if(useTemplate){
+        		subject = ((Value)mdm.get("subject")).getString();
+        	}else{
+        		subject = getTemplate(templatePath, resourceResolver, true);
+        	}
         }catch(Exception e){}
         
         try {
         	if(useTemplate){
-        		message = getTemplate(templatePath, resourceResolver);
+        		message = getTemplate(templatePath, resourceResolver, false);
         	}else{
         		message = ((Value)mdm.get("message")).getString();
         	}	
@@ -200,23 +204,29 @@ public class RolloutProcess implements WorkflowProcess {
         }
     }
     
-    public String getTemplate(String templatePath, ResourceResolver resourceResolver){
+    public String getTemplate(String templatePath, ResourceResolver resourceResolver, Boolean subject){
     	try{
     		Resource templateResource = resourceResolver.resolve(templatePath);
     		Resource dataResource = templateResource.getChild("jcr:content/data");
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
-    		String message = templateProps.get("content","");
-    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
-    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
-    				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
-    				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-    				"<title>Girl Scouts</title></head>";
-    		String html = head + "<body>" + message + "</body></html>";
-    		return html;
+    		String ret = "";
+    		if(subject){
+    			ret = templateProps.get("subject","GSUSA Rollout Notification");
+    		}else{
+	    		String message = templateProps.get("content","");
+	    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 
+	    				"<html xmlns=\"http://www.w3.org/1999/xhtml\">" + 
+	    				"<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">" +
+	    				"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
+	    				"<title>Girl Scouts</title></head>";
+	    		ret = head + "<body>" + message + "</body></html>";
+    		}
+    		return ret;
     	}catch(Exception e){
     		log.error("No valid template found");
     		e.printStackTrace();
     		return "";
     	}
     }
+    
 }
