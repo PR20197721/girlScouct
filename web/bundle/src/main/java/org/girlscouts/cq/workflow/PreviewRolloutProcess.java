@@ -53,13 +53,13 @@ import javax.jcr.Value;
 @Component
 @Service
 public class PreviewRolloutProcess implements WorkflowProcess {
-	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
+	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages to preview publisher.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
 	static final String VENDOR = Constants.SERVICE_VENDOR;
-	@Property(value = "Girl Scouts Roll out Process")
+	@Property(value = "Girl Scouts Preview Roll out Process")
 	static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger(RolloutProcess.class);
+	private static Logger log = LoggerFactory.getLogger(PreviewRolloutProcess.class);
     
     @Reference
     RolloutManager rolloutManager;
@@ -125,7 +125,7 @@ public class PreviewRolloutProcess implements WorkflowProcess {
         try {
         	useTemplate = ((Value)mdm.get("useTemplate")).getBoolean();
         	templatePath = ((Value)mdm.get("template")).getString();
-        	if("".equals(templatePath)){
+        	if(useTemplate && "".equals(templatePath)){
         		System.err.println("Rollout Error - Use Template checked but no template provided. Cancelling.");
         		return;
         	}
@@ -133,9 +133,9 @@ public class PreviewRolloutProcess implements WorkflowProcess {
         
         try{
         	if(useTemplate){
-        		subject = ((Value)mdm.get("subject")).getString();
-        	}else{
         		subject = getTemplate(templatePath, resourceResolver, true);
+        	}else{
+        		subject = ((Value)mdm.get("subject")).getString();
         	}
         }catch(Exception e){}
         
@@ -223,7 +223,9 @@ public class PreviewRolloutProcess implements WorkflowProcess {
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
     		String ret = "";
     		if(subject){
-    			ret = templateProps.get("subject","GSUSA Rollout Notification");
+    			Resource contentResource = templateResource.getChild("jcr:content");
+    			ValueMap contentProps = ResourceUtil.getValueMap(contentResource);
+    			ret = contentProps.get("jcr:title","GSUSA Rollout Notification");
     		}else{
 	    		String message = templateProps.get("content","");
 	    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 

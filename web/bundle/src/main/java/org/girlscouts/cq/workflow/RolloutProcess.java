@@ -123,7 +123,7 @@ public class RolloutProcess implements WorkflowProcess {
         try {
         	useTemplate = ((Value)mdm.get("useTemplate")).getBoolean();
         	templatePath = ((Value)mdm.get("template")).getString();
-        	if("".equals(templatePath)){
+        	if(useTemplate && "".equals(templatePath)){
         		System.err.println("Rollout Error - Use Template checked but no template provided. Cancelling.");
         		return;
         	}
@@ -131,9 +131,9 @@ public class RolloutProcess implements WorkflowProcess {
         
         try{
         	if(useTemplate){
-        		subject = ((Value)mdm.get("subject")).getString();
-        	}else{
         		subject = getTemplate(templatePath, resourceResolver, true);
+        	}else{
+        		subject = ((Value)mdm.get("subject")).getString();
         	}
         }catch(Exception e){}
         
@@ -211,7 +211,9 @@ public class RolloutProcess implements WorkflowProcess {
     		ValueMap templateProps = ResourceUtil.getValueMap(dataResource);
     		String ret = "";
     		if(subject){
-    			ret = templateProps.get("subject","GSUSA Rollout Notification");
+    			Resource contentResource = templateResource.getChild("jcr:content");
+    			ValueMap contentProps = ResourceUtil.getValueMap(contentResource);
+    			ret = contentProps.get("jcr:title","GSUSA Rollout Notification");
     		}else{
 	    		String message = templateProps.get("content","");
 	    		String head = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">" + 

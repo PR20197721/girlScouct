@@ -128,9 +128,11 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 
 			email.setSubject(subject);
 			String html = message
-					.replaceAll("<%template-page%>", getURL(nationalPage))
-					.replaceAll("<%council-page%>",getRealUrl(councilPage, vm))
-					.replaceAll("<%council-author-page%>", getURL(councilPage));
+					.replaceAll("<%template-page%>", getURL(nationalPage)).replaceAll("&lt;%template-page%&gt;", getURL(nationalPage))
+					.replaceAll("<%council-page%>",getRealUrl(councilPage, vm)).replaceAll("&lt;%council-page%&gt;", getRealUrl(councilPage, vm))
+					.replaceAll("<%council-author-page%>", getURL(councilPage)).replaceAll("&lt;%council-author-page%&gt;", "https://authornew.girlscouts.org" + getURL(councilPage))
+					.replaceAll("<%a", "<a").replaceAll("<%/a>","</a>").replaceAll("&lt;%a", "<a").replaceAll("&lt;%/a&gt;", "</a>");
+			html = html.replaceAll("&lt;","<").replaceAll("&gt;", ">");
 			html = parseHtml(html, email, rr);
 			email.setHtmlMsg(html);
 			if(!emailRecipients.isEmpty()){
