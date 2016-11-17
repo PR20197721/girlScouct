@@ -182,17 +182,26 @@ public class RolloutProcess implements WorkflowProcess {
             		}
             	}
             	if(proceed == true){
-            		rolloutManager.rollout(resourceResolver, relation, false);
+            	    boolean breakInheritance = false;
+            		try{
+            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
+            			breakInheritance = contentProps.get("breakInheritance",false);
+            		}catch(Exception e){
+            			e.printStackTrace();
+            		}
+            		if(!breakInheritance){
+            			rolloutManager.rollout(resourceResolver, relation, false);
+            			session.save();
+		                String targetPath = relation.getTargetPath();
+		                // Remove jcr:content
+		                if (targetPath.endsWith("/jcr:content")) {
+		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+		                }
+		                replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
+            		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
             		}
-            		session.save();
-	                String targetPath = relation.getTargetPath();
-	                // Remove jcr:content
-	                if (targetPath.endsWith("/jcr:content")) {
-	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-	                }
-	                replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             	}
             }
         } catch (WCMException e) {

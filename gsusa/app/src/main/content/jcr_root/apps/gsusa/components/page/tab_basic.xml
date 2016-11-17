@@ -39,6 +39,14 @@
                     name="./hideInNav"
                     type="checkbox"
                     xtype="selection"/>
+                <breakinheritance
+                	jcr:primaryType="cq:Widget"
+                	fieldLabel="Break Inheritance for this page"
+                	fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
+                	inputValue="true"
+                	name="./breakInheritance"
+                	type="checkbox"
+                	xtype="selection"/>
             </items>
         </basic>
         <more_titles

@@ -191,22 +191,30 @@ public class PreviewRolloutProcess implements WorkflowProcess {
 
             	    ReplicationOptions opts = new ReplicationOptions();
             	    opts.setFilter(filter);
-            	    
-            		rolloutManager.rollout(resourceResolver, relation, false);
+            	    boolean breakInheritance = false;
+            		try{
+            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
+            			breakInheritance = contentProps.get("breakInheritance",false);
+            		}catch(Exception e){
+            			e.printStackTrace();
+            		}
+            		if(!breakInheritance){
+            			rolloutManager.rollout(resourceResolver, relation, false);
+            			session.save();
+	            	    try {
+	            	    	String targetPath = relation.getTargetPath();
+	    	                // Remove jcr:content
+	    	                if (targetPath.endsWith("/jcr:content")) {
+	    	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+	    	                }
+	            	        replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+	            	    } catch(Exception e) {
+	            	        e.printStackTrace();
+	            	    }
+            		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
             		}
-            		session.save();
-            	    try {
-            	    	String targetPath = relation.getTargetPath();
-    	                // Remove jcr:content
-    	                if (targetPath.endsWith("/jcr:content")) {
-    	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-    	                }
-            	        replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
-            	    } catch(Exception e) {
-            	        e.printStackTrace();
-            	    }
             	}
             }
         } catch (WCMException e) {
