@@ -62,7 +62,7 @@ public class img_GET extends AbstractImageServlet {
             throws IOException, RepositoryException {
 
         boolean isRetina = false;
-        if (req.getRequestURI().indexOf("@2x.") != -1) {
+        if (req.getRequestURI().indexOf("@2x.") != -1 || req.getRequestURI().indexOf("%402x.") != -1) {
             isRetina = true;
         }
 
