@@ -41,6 +41,11 @@
                 </td>
                 <td><a class="previewItem" href="<%=la.getRefId()%>"
                     target="_blank"><%=la.getTitle()%></a></td>
+                <td width="60">
+	                <%if (la.getIsOutdoorRelated()) {  %>
+	                	<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png">
+	                <% } %>
+                </td>
                 <td width="40"> 
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){
@@ -74,6 +79,11 @@
                 </td>
                 <td><a class="previewItem" href="<%=a.getRefId()%>"
                     target="_blank"><%=a.getTitle()%></a></td>
+                <td width="60">
+                <%if (a.getIsOutdoorRelated()) {  %>
+                	<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/outdoor.png">
+                <% } %>
+                </td>
                 <td width="40"> 
                     <%
                         if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ){

@@ -26,4 +26,8 @@ public interface CouncilDAO {
 	
 	public void GSMonthlyRpt();
 
+	public void GSMonthlyDetailedRpt();
+	
+	
+
 }

@@ -404,7 +404,7 @@ public class CouncilRpt {
 		return rptId;
 	}
 	
-	public void emailRpt(String msg){
+	public void emailRpt(String msg, String subject){
 		try {
 			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
 			
@@ -414,8 +414,8 @@ public class CouncilRpt {
 			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
 			email.setFrom("alex.yakobovich@ey.com", "VTK");
 			
-			email.setSubject("GS Monthly Report");
-			email.setMsg("Please find attached GS Monthly Report attached as of "+ new java.util.Date());
+			email.setSubject(subject);
+			email.setMsg("Please find attached GS Report attached as of "+ new java.util.Date());
 
 			DataSource source = new ByteArrayDataSource(msg, "application/text");  
 

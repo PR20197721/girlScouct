@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.utils;
 
 import java.io.ByteArrayInputStream;
+import org.girlscouts.vtk.auth.permission.*;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -609,4 +610,92 @@ public static String sortDates(String dates){
 	}
 	return toRet;
 }
+
+public static MeetingE findMeetingById(java.util.List<MeetingE>meetings, String mid){//, String aid, boolean isOutdoor){
+
+	if( meetings==null || mid==null ) return null;
+	
+	return meetings.stream()
+		    .filter( meeting -> mid.equals( meeting.getUid()))
+		    .findAny()
+		    .orElse(null);
+	
+}
+
+public static Activity findActivityByPath(java.util.List<Activity>activities, String aid){
+
+	if( activities==null || aid ==null) return null;
+	
+	return activities.stream()
+			 .filter( activity -> aid.equals( activity.getPath() ) )
+			    .findAny()
+			    .orElse(null);
+		
+}
+
+
+
+
+public static void changePermission(User user, Troop troop, int chngPerm){
+	
+	switch (chngPerm) {
+	case 2:
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+		break;
+	case 11:
+
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+		break;
+	case 12:
+
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_2G_PERMISSIONS));
+		break;
+	case 13:
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+		break;
+
+	case 14:
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS));
+		break;
+
+	case 15:
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_MEMBER_TROOP_PERMISSIONS));
+		break;
+
+	default:
+		troop.getTroop()
+				.setPermissionTokens(
+						Permission
+								.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+
+		break;
+	}
+}
+
+
+public static  java.util.List<Meeting>  sortMeetings (java.util.List<Meeting> meetings){
+	Collections.sort(meetings,
+            java.util.Comparator.comparing(Meeting::getLevel)
+                   .thenComparing(Meeting::getName) );
+	return meetings;
+}
+
 }//end class

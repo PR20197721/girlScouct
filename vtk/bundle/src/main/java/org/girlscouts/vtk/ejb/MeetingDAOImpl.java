@@ -563,7 +563,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			}
 
 			String sql = "";
-			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
+			sql = "select dc:description,dc:format, dc:title, dc:isOutdoorRelated from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
 			if (!sql_tag.equals(""))
 				sql += " and ( " + sql_tag + " )";
 
@@ -594,6 +594,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 					search.setTitle(r.getValue("dc:title").getString());
 				} catch (Exception e) {
 				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
+				} catch (Exception e) {
+				}
 				matched.add(search);
 
 			}
@@ -613,7 +617,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	public List<Asset> getAidTag_local(User user, Troop troop, String tags,
 			String meetingName, String meetingPath)
 			throws IllegalAccessException {
-
+		
 		if (user != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_LOGIN_ID))
@@ -647,6 +651,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			default:
 				pathProp = AID_PATHS_PROP;
 			}
+			
 			if (meetingNode.hasProperty(pathProp)) {
 				Value[] assetPaths = meetingNode.getProperty(pathProp)
 						.getValues();
@@ -815,11 +820,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if (!session.nodeExists(rootPath)) {
 				return assets;
 			}
+
 			Node rootNode = session.getNode(rootPath);
 
 			NodeIterator iter = rootNode.getNodes();
+
 			while (iter.hasNext()) {
 				Node node = null;
+
 				try {
 					node = iter.nextNode();
 					if (!node.hasNode("jcr:content")) {
@@ -829,6 +837,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 					Asset asset = new Asset();
 					asset.setRefId(node.getPath());
+					
+					if (props.hasProperty("dc:isOutdoorRelated")) {
+						asset.setIsOutdoorRelated(props.getProperty("dc:isOutdoorRelated").getBoolean());
+					} else {
+						asset.setIsOutdoorRelated(false);
+					}
 					asset.setIsCachable(true);
 					asset.setType(type);
 
@@ -1326,7 +1340,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
-			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] "
+			String sql = "select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path], [dc:isOutdoorRelated] "
 					+ " from [nt:unstructured] as parent where "
 					+ " (isdescendantnode (parent, ["
 					+ _path
@@ -1351,6 +1365,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				try {
 					search.setTitle(r.getValue("dc:title").getString());
+				} catch (Exception e) {
+				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
 				} catch (Exception e) {
 				}
 				try {
@@ -1393,7 +1411,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			String sql = "";
 			if (_path != null && _path.contains("metadata/"))
 				_path = _path.replace("metadata/", "");
-			sql = "select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"
+			sql = "select dc:description,dc:format, dc:title,dc:isOutdoorRelated from nt:unstructured where jcr:path like '"
 					+ _path + "%' and cq:tags is not null";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1417,6 +1435,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				}
 				try {
 					search.setTitle(r.getValue("dc:title").getString());
+				} catch (Exception e) {
+				}
+				try {
+					search.setIsOutdoorRelated(r.getValue("dc:isOutdoorRelated").getBoolean());
 				} catch (Exception e) {
 				}
 			}

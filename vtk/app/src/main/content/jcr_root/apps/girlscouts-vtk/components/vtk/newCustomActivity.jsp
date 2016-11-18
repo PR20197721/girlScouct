@@ -6,13 +6,55 @@
 
 <script>
 
+function disabledButton(boolean){
+  if(boolean){
+    $('#view_activities_button').addClass('inactive-button');
+  }else{
+    $('#view_activities_button').removeClass('inactive-button');
+     
+  }
+}
+
+
+
+
+
+
+function _checkInput(){
+  return $('#sch_keyword').val().length >= 3;
+}
+
+
+function _checkCalendar(){
+
+  return $('#sch_startDate').val() &&  $('#sch_endDate').val();
+  // if($('#sch_startDate').val() &&  $('#sch_endDate').val()){
+  //   disabledButton(false);
+  // }else{
+
+  //   disabledButton(true)
+  // }
+}
+
+
+function inputLogic(){
+
+  console.log((_checkInput() && !_checkCalendar()),(_checkCalendar() && _checkInput()))
+  return (_checkInput() && !_checkCalendar()) || (_checkCalendar() && _checkInput()) || (($('#sch_keyword').val().length == 0 || $('#sch_keyword').val() == "") && _checkCalendar()) ; 
+}
+
+
+
+
   function doChkSubmitValid(){
+
   	
   	//var x= document.getElementById("newCustActivity_date").value;
   	//var y =document.getElementById("newCustActivity_name").value;
   	
   	if ($('#signupForm').valid()) {
-  		
+
+
   		if(!timeDiff()){ return false;}
   		
   		document.getElementById("newCustActivity").disabled=false;
@@ -251,7 +293,7 @@
 
               <div class="small-24 medium-8 large-8 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
-                <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyPress="return submitenter(this,event)"/></div>
+                <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyUp="return submitenter(this,event)" /></div>
               </div>
 
               <div class="small-24 medium-6 large-6 columns">
@@ -269,13 +311,13 @@
               <div class="columns large-10 medium-10 small-24 date">
                 <label id="dateTitle" ACCESSKEY="r">Date</label>
                 <div class="small-21 large-9 medium-9 columns">
-                  <input type="text" id="sch_startDate"  value="" placeholder="From" class="date calendarField"/>
+                  <input type="text" id="sch_startDate" onchange="checkCalendar"  value="" placeholder="From" class="date calendarField"/>
                 </div>
                 <div class="large-3 columns medium-3 small-3">
                   <label for="sch_startDate"><i class="icon-calendar"></i></label>
                 </div>
                 <div class="small-21 large-9 medium-9 columns">
-                  <input type="text" id="sch_endDate"  value="" placeholder="To" class="date calendarField"/>
+                  <input type="text" id="sch_endDate" onchange="checkCalendar" value="" placeholder="To" class="date calendarField"/>
                 </div>
                 <div class="large-3 columns medium-3 small-3">
                   <label for="sch_endDate"><i class="icon-calendar"></i></label>
@@ -325,7 +367,7 @@
             
             </div>
 
-            <input type="button" value="View Activities" onclick='searchActivities()' class="button btn right"/>
+            <input id="view_activities_button" type="button" value="View Activities" onclick='searchActivities()' class="button btn right inactive-button"/>
 
             <div id="searchResults"></div>
           </form>
@@ -350,8 +392,12 @@
     }
 }
 function submitenter(myfield,e) {
+  // debugger;
 	var keycode;
-	if (window.event) {
+
+disabledButton(!inputLogic());
+	
+  if (window.event) {
 		keycode = window.event.keyCode;
 	} else if (e) {
 		keycode = e.which;
@@ -368,6 +414,9 @@ function submitenter(myfield,e) {
 }
 
   $('#sch_startDate').datepicker({minDate: 0,
+  onSelect: function(){
+    disabledButton(!inputLogic());
+  },
   beforeShowDay: function(d) {
       if($('#sch_endDate').val() == "" || $('#sch_endDate').val() == undefined){
   		return [true, "","Available"]; 
@@ -384,6 +433,9 @@ function submitenter(myfield,e) {
 
       }});
   $('#sch_endDate').datepicker({minDate: 0,
+     onSelect: function(){
+    disabledButton(!inputLogic());
+  },
   beforeShowDay: function(d) {
 
 

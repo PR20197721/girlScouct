@@ -112,7 +112,6 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
         java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
         javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
         String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(user, troop)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
- 
      
         javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
         javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -134,7 +133,7 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
             try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
             try{
                 sfTroopAge= r.getValue("sfTroopAge").getString(); 
-                if(!sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
+                if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
                     continue;
                     }
             }catch(Exception e){}
@@ -153,8 +152,6 @@ if(false){// !allowedReportUsers.contains(user.getApiConfig().getUserId()) ){
        
 }
 
-final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
-String rptId= councilRpt.saveRpt( sb );
 
 //email rpt
 councilRpt.emailRpt(sb.toString());//vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
