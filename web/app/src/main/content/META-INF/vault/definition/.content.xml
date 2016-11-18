@@ -362,5 +362,10 @@
 		mode="replace"	
 		root="/etc/workflow/dialogs"
 		rules="[]"/>
+	  <f69
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/etc/workflow/dialogs"
+		rules="[]"/>
     </filter>
 </jcr:root>
