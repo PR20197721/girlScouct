@@ -4,6 +4,15 @@
     title="GS Rollout - Council Selection Dialog"
     xtype="dialog">
     <items jcr:primaryType="cq:WidgetCollection">
+    	<activate
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Activate pages?"
+    		fieldDescription="If checked, the pages will activate automatically when they are rolled out."
+    		name="./activate"
+    		defaultValue="true"
+    		value="true"
+    		type="checkbox"
+    		xtype="selection"/>
         <councils
             jcr:primaryType="cq:Widget"
             fieldLabel="Councils"

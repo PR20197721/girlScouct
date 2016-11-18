@@ -104,13 +104,16 @@ public class RolloutProcess implements WorkflowProcess {
 			}
 		} 
         
-        Boolean dontSend = false, useTemplate = false;
+        Boolean dontSend = false, useTemplate = false, activate = true;
         String templatePath = "";
         
         try{
         	dontSend = ((Value)mdm.get("dontsend")).getBoolean();
         }catch(Exception e){}
         
+        try{
+        	activate = ((Value)mdm.get("activate")).getBoolean();
+        }catch(Exception e){}
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>" +
@@ -197,7 +200,9 @@ public class RolloutProcess implements WorkflowProcess {
 		                if (targetPath.endsWith("/jcr:content")) {
 		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 		                }
-		                replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
+		                if(activate){
+		                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
+		                }
             		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);

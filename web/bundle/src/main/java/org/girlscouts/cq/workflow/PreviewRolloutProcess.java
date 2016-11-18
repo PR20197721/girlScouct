@@ -106,11 +106,15 @@ public class PreviewRolloutProcess implements WorkflowProcess {
 			}
 		} 
         
-        Boolean dontSend = false, useTemplate = false;
+        Boolean dontSend = false, useTemplate = false, activate = true;
         String templatePath = "";
         
         try{
         	dontSend = ((Value)mdm.get("dontsend")).getBoolean();
+        }catch(Exception e){}
+        
+        try{
+        	activate = ((Value)mdm.get("activate")).getBoolean();
         }catch(Exception e){}
         
         
@@ -207,7 +211,9 @@ public class PreviewRolloutProcess implements WorkflowProcess {
 	    	                if (targetPath.endsWith("/jcr:content")) {
 	    	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 	    	                }
-	            	        replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+	    	                if(activate){
+	    	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+	    	                }
 	            	    } catch(Exception e) {
 	            	        e.printStackTrace();
 	            	    }
