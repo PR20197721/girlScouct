@@ -26,7 +26,7 @@ public class Asset implements Serializable {
 	@Field(path = true) private String path;
 	@Field Boolean isCachable;
 	@Field(id = true) private String uid;
-	@Field  private boolean isOutdoorRelated;
+	@Field private Boolean isOutdoorRelated;
 	private boolean isDbUpdate=false;
 	
 	
@@ -34,11 +34,14 @@ public class Asset implements Serializable {
 		return docType;
 	}
 
-	public boolean getIsOutdoorRelated() {
+	public Boolean getIsOutdoorRelated() {
 		return isOutdoorRelated;
 	}
 
-	public void setIsOutdoorRelated(boolean isOutdoorRelated) {
+	public void setIsOutdoorRelated(Boolean isOutdoorRelated) {
+		if( (isOutdoorRelated !=null && this.isOutdoorRelated!=null && this.isOutdoorRelated.booleanValue() !=isOutdoorRelated.booleanValue()  )	||
+				(isOutdoorRelated!=null && this.isOutdoorRelated==null) )
+			isOutdoorRelated=false;
 		this.isOutdoorRelated = isOutdoorRelated;
 	}
 
