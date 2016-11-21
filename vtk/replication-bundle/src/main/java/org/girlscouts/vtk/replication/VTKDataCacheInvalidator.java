@@ -109,10 +109,6 @@ public class VTKDataCacheInvalidator {
         try {
             Session session = repository.loginAdministrative(null);
             flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
-			log.info("Read the flush agent. The flushUri is " + flushUri + " with the node " + FLUSH_NODE);
-			
-			flushUri2 = session.getNode(FLUSH_NODE2).getProperty(FLUSH_PROPERTY).getString();
-			log.info("Reading the second flush agent. The flushUri2 is " + flushUri2 + " with the node " + FLUSH_NODE2);
             session.logout();
             log.info("Started.");
         } catch (RepositoryException e) {
@@ -120,6 +116,19 @@ public class VTKDataCacheInvalidator {
             e.printStackTrace();
         } 
         
+        //second seasonal dispatcher
+        try {
+        	Session session = repository.loginAdministrative(null);
+            flushUri2 = session.getNode(FLUSH_NODE2).getProperty(FLUSH_PROPERTY).getString();
+            session.logout();
+            log.info("The second flush agent is up and Started. The flushUri is " + flushUri2 + " with the node " + FLUSH_NODE2);
+        } catch(PathNotFoundException pnfe) {
+        	log.info("VTKDataCacheInvalidator2. There is no second flush agent. Please ignore.");
+        	pnfe.printStackTrace();
+        } catch (RepositoryException e) {
+            log.error("VTKDataCacheInvalidator2: RepositoryException while initializing.");
+            e.printStackTrace();
+        } 
     }
     
     @Deactivate
