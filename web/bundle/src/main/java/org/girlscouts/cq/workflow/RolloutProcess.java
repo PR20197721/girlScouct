@@ -3,8 +3,11 @@ package org.girlscouts.cq.workflow;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -28,6 +31,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
+import org.girlscouts.web.councilrollout.GirlScoutsRolloutReporter;
 import org.girlscouts.web.councilrollout.impl.GirlScoutsNotificationActionImpl;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
@@ -73,13 +77,23 @@ public class RolloutProcess implements WorkflowProcess {
 	
 	@Reference
 	private GirlScoutsNotificationAction girlscoutsNotificationAction;
+	
+	@Reference
+	private GirlScoutsRolloutReporter girlscoutsRolloutReporter;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
         Session session = workflowSession.getSession();
         ResourceResolver resourceResolver = null;
-
+        
+        ArrayList<String> messageLog = new ArrayList<String>();
+        messageLog.add("Dear Girl Scouts USA User,");
+        messageLog.add("The following is a report for the GSUSA Rollout Workflow (Production).");
+        
+        Date runtime = new Date();
+        messageLog.add("The workflow was run on " + runtime.toString() + ".");
+        
         try {
             resourceResolver = resourceResolverFactory.getResourceResolver(Collections.singletonMap(
                     "user.jcr.session",
@@ -112,8 +126,11 @@ public class RolloutProcess implements WorkflowProcess {
         }catch(Exception e){}
         
         try{
-        	activate = ((Value)mdm.get("activate")).getBoolean();
+        	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
+        
+        messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils");
+        messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>" +
@@ -135,9 +152,11 @@ public class RolloutProcess implements WorkflowProcess {
         try{
         	if(useTemplate){
         		subject = getTemplate(templatePath, resourceResolver, true);
+        		messageLog.add("An email template is in use. The path to the template is " + templatePath);
         	}else{
         		subject = ((Value)mdm.get("subject")).getString();
         	}
+        	messageLog.add("The email subject is " + subject);
         }catch(Exception e){}
         
         try {
@@ -146,6 +165,8 @@ public class RolloutProcess implements WorkflowProcess {
         	}else{
         		message = ((Value)mdm.get("message")).getString();
         	}	
+        	messageLog.add("The email message is: ");
+        	messageLog.add(message);
 		} catch (Exception e) {
 			System.err.println("Rollout Error - Unable to Parse Message");
 			e.printStackTrace();
@@ -163,7 +184,28 @@ public class RolloutProcess implements WorkflowProcess {
             log.error("Not a live copy source page. Quit. " + srcPath);
             return;
         }
-
+        
+    	messageLog.add("The following councils have been selected:");
+        try{
+        	if(values == null){
+        		if(singleValue != null){
+        			Resource councilRes = resourceResolver.resolve(singleValue.getString());
+        			Page councilPage = councilRes.adaptTo(Page.class);
+        			messageLog.add(councilPage.getTitle());
+        		}
+        	}else{
+        		for(Value v : values){
+        			Resource councilRes = resourceResolver.resolve(v.getString());
+        			Page councilPage = councilRes.adaptTo(Page.class);
+        			messageLog.add(councilPage.getTitle());
+        		}
+        	}
+        }catch(Exception e){
+        	System.err.println("Failed to report council names");
+        }
+        
+        messageLog.add("<b>Processing:</b><br>Source Page: " + srcPath);
+        
         try {
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
             for (LiveRelationship relation : relations) {
@@ -173,16 +215,21 @@ public class RolloutProcess implements WorkflowProcess {
             		if(values == null){
             			if(singleValue != null){
             				if(targetResource.getPath().startsWith(singleValue.getString())){
+            					messageLog.add("Located: " + targetResource.getPath());
             					proceed = true;
             				}
             			}
             		}else{
 	            		for(Value v : values){
 	            			if(targetResource.getPath().startsWith(v.getString())){
+	            				messageLog.add("Located: " + targetResource.getPath());
 	            				proceed = true;
 	            			}
 	            		}
             		}
+            	}else{
+            		messageLog.add("Resource not found. Presumed deleted by council");
+            		messageLog.add("Will NOT rollout to this page");
             	}
             	if(proceed == true){
             	    boolean breakInheritance = false;
@@ -195,6 +242,7 @@ public class RolloutProcess implements WorkflowProcess {
             		if(!breakInheritance){
             			rolloutManager.rollout(resourceResolver, relation, false);
             			session.save();
+            			messageLog.add("Rolled out content to page");
 		                String targetPath = relation.getTargetPath();
 		                // Remove jcr:content
 		                if (targetPath.endsWith("/jcr:content")) {
@@ -202,13 +250,19 @@ public class RolloutProcess implements WorkflowProcess {
 		                }
 		                if(activate){
 		                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
+		                	messageLog.add("Page activated");
 		                }
+            		}else{
+            			messageLog.add("The page has Break Inheritance checked off. Will not roll out");
             		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
+            			messageLog.add("Message sent to council");
+            			
             		}
             	}
             }
+    		girlscoutsRolloutReporter.execute(subject, messageLog, resourceResolver);
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {

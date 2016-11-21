@@ -119,7 +119,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         }catch(Exception e){}
         
         try{
-        	activate = ((Value)mdm.get("activate")).getBoolean();
+        	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
         
         String message = "<p>Dear Council, </p>" +
