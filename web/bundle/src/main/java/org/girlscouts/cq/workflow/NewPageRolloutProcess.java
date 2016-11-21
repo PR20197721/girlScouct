@@ -3,8 +3,10 @@ package org.girlscouts.cq.workflow;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -37,9 +39,12 @@ import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutConfig;
+import com.day.cq.wcm.msm.api.RolloutConfigManager;
 import com.day.cq.wcm.msm.api.RolloutManager;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
@@ -47,6 +52,7 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
+import javax.jcr.query.Query;
 
 @Component
 @Service
@@ -73,7 +79,6 @@ public class NewPageRolloutProcess implements WorkflowProcess {
 	
 	@Reference
 	private GirlScoutsNotificationAction girlscoutsNotificationAction;
-
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
@@ -165,6 +170,16 @@ public class NewPageRolloutProcess implements WorkflowProcess {
         }
 
         try {
+        	List<String> existingCopies = new ArrayList<String>();
+        	Collection<LiveRelationship> existingRelations = relationManager.getLiveRelationships(srcPage, null, null, true);
+        	for(LiveRelationship relation : existingRelations){
+        		Resource tres = resourceResolver.resolve(relation.getTargetPath());
+        		if(!tres.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+        			Page tpage = tres.getParent().adaptTo(Page.class);
+        			existingCopies.add(tpage.getAbsoluteParent(2).getPath());
+        		}
+        	}
+        	
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage.getParent(), null, null, true);
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
@@ -183,10 +198,26 @@ public class NewPageRolloutProcess implements WorkflowProcess {
 	            			}
 	            		}
             		}
+                	
+            		//Prevent creating a new live copy multiple times for one council
+                	if(proceed == true){
+                		for(String existingString : existingCopies){
+                			if(targetResource.getPath().startsWith(existingString)){
+                				proceed = false;
+                			}
+                		}
+                	}
             	}
+            	
             	if(proceed == true){
-            		//TODO Using the same implementation as the council creation rollout process, make a livecopy of the source page
-        			rolloutManager.rollout(resourceResolver, relation, false);
+            		PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
+					Page copyPage = pageManager.copy(srcPage, targetResource.getParent().getPath() + "/" + srcPage.getName(), srcPage.getName(), false, true);
+					RolloutConfigManager configMgr = (RolloutConfigManager) resourceResolver.adaptTo(RolloutConfigManager.class);
+					RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+					LiveRelationship relationship= relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
+					cancelInheritance(resourceResolver, copyPage.getPath());
+        			
+					rolloutManager.rollout(resourceResolver, relationship, false);
         			session.save();
 	                String targetPath = relation.getTargetPath();
 	                // Remove jcr:content
@@ -236,5 +267,24 @@ public class NewPageRolloutProcess implements WorkflowProcess {
     		return "";
     	}
     }
+    
+	/**
+	 * cancel the Inheritance for certain components
+	 *  (nodes with mixin type "cq:LiveSyncCancelled" under national template page)
+	 */
+	private void cancelInheritance(ResourceResolver rr, String councilPath){
+		try {
+			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '"
+					+ councilPath + "')";
+			log.debug("SQL " + sql);
+			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2);it.hasNext();){
+				Resource target = it.next();
+                relationManager.endRelationship(target,true);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
     
 }
