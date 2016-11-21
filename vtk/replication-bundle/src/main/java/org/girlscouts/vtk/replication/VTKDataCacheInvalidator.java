@@ -31,7 +31,7 @@ public class VTKDataCacheInvalidator {
     
     // Interval for the next invalidation, in milliseconds.
     private static final int INTERVAL = 4000;
-    private static final String  = "FLUSH_NODE/etc/replication/agents.publish/flush/jcr:content";
+    private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_NODE2 = "/etc/replication/agents.publish/flush2/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
     private static final String SCHEDULER_PATH_PREFIX = "VTK_PATH_";
@@ -139,7 +139,12 @@ public class VTKDataCacheInvalidator {
     public void addPath(String path) {
         try {
         	scheduler.fireJobAt(SCHEDULER_PATH_PREFIX + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
-        	scheduler.fireJobAt(SCHEDULER_PATH_PREFIX2 + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
+        	log.info("scheduler 1 invalidator scheduled");
+        	
+        	if (!"".equals(flushUri2) && flushUri2 != null) {
+        		scheduler.fireJobAt(SCHEDULER_PATH_PREFIX2 + path, new CacheInvalidationJob(path), null, new Date(System.currentTimeMillis() + INTERVAL));
+        		log.info("scheduler 2 invalidator scheduled");
+        	}
         } catch (Exception e) {
             log.error("VTKDataCacheInvalidator: Cannot add path: " + path);
         }
