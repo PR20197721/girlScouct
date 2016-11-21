@@ -34,14 +34,12 @@ public class Asset implements Serializable {
 		return docType;
 	}
 
+	
 	public Boolean getIsOutdoorRelated() {
-		return isOutdoorRelated;
+		return isOutdoorRelated == null ? false : isOutdoorRelated;
 	}
 
 	public void setIsOutdoorRelated(Boolean isOutdoorRelated) {
-		if( (isOutdoorRelated !=null && this.isOutdoorRelated!=null && this.isOutdoorRelated.booleanValue() !=isOutdoorRelated.booleanValue()  )	||
-				(isOutdoorRelated!=null && this.isOutdoorRelated==null) )
-			isOutdoorRelated=false;
 		this.isOutdoorRelated = isOutdoorRelated;
 	}
 
