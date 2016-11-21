@@ -23,7 +23,7 @@
             type="PARTICIPANT">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                DIALOG_PATH="/etc/workflow/dialogs/gsnewpagerollout/dialog"
                 PARTICIPANT="content-analysts"/>
         </node1>
         <node2

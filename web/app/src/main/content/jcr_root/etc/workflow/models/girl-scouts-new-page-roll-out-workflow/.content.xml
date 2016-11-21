@@ -23,7 +23,7 @@
                 sling:resourceType="cq/workflow/components/model/dialog">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                    DIALOG_PATH="/etc/workflow/dialogs/gsnewpagerollout/dialog"
                     PARTICIPANT="content-analysts"/>
             </dialog>
             <or
