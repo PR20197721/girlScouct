@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +31,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ResourceUtil;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
+import org.girlscouts.web.councilrollout.GirlScoutsRolloutReporter;
 import org.girlscouts.web.councilrollout.impl.GirlScoutsNotificationActionImpl;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
@@ -81,11 +83,22 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 	
 	@Reference
 	private GirlScoutsNotificationAction girlscoutsNotificationAction;
+	
+	@Reference
+	private GirlScoutsRolloutReporter girlscoutsRolloutReporter;
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
         Session session = workflowSession.getSession();
         ResourceResolver resourceResolver = null;
+        
+        ArrayList<String> messageLog = new ArrayList<String>();
+        String reportSubject = "GSUSA New Page Rollout (Preview) Report";
+        messageLog.add("Dear Girl Scouts USA User,");
+        messageLog.add("The following is a report for the GSUSA Rollout Workflow (Preview).");
+        
+        Date runtime = new Date();
+        messageLog.add("The workflow was run on " + runtime.toString() + ".");
 
         try {
             resourceResolver = resourceResolverFactory.getResourceResolver(Collections.singletonMap(
@@ -111,7 +124,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 			}
 		} 
         
-        Boolean dontSend = false, useTemplate = false, activate = true;
+        Boolean dontSend = false, useTemplate = false, activate = true, rebuild = false;
         String templatePath = "";
         
         try{
@@ -121,6 +134,14 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         try{
         	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
+        
+        try{
+        	rebuild = ((Value)mdm.get("rebuild")).getBoolean();
+        }catch(Exception e){}
+        
+        messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
+        messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
+        messageLog.add("This workflow will " + (rebuild? "" : "not ") + "rebuild deleted live copies.");
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.</p>" +
@@ -145,6 +166,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         	}else{
         		subject = ((Value)mdm.get("subject")).getString();
         	}
+        	messageLog.add("The email subject is " + subject);
         }catch(Exception e){}
         
         try {
@@ -153,6 +175,8 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         	}else{
         		message = ((Value)mdm.get("message")).getString();
         	}	
+        	messageLog.add("The email message is: ");
+        	messageLog.add(message);
 		} catch (Exception e) {
 			System.err.println("Rollout Error - Unable to Parse Message");
 			e.printStackTrace();
@@ -170,46 +194,90 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
             log.error("Not a live copy source page. Quit. " + srcPath);
             return;
         }
+        
+    	messageLog.add("The following councils have been selected:");
+        try{
+        	if(values == null){
+        		if(singleValue != null){
+        			Resource councilRes = resourceResolver.resolve(singleValue.getString());
+        			Page councilPage = councilRes.adaptTo(Page.class);
+        			messageLog.add(councilPage.getTitle());
+        		}
+        	}else{
+        		for(Value v : values){
+        			Resource councilRes = resourceResolver.resolve(v.getString());
+        			Page councilPage = councilRes.adaptTo(Page.class);
+        			messageLog.add(councilPage.getTitle());
+        		}
+        	}
+        }catch(Exception e){
+        	System.err.println("Failed to report council names");
+        }
+        
+        messageLog.add("<b>Processing:</b><br>Source Page: " + srcPath);
 
         try {
         	List<String> existingCopies = new ArrayList<String>();
         	Collection<LiveRelationship> existingRelations = relationManager.getLiveRelationships(srcPage, null, null, true);
         	for(LiveRelationship relation : existingRelations){
         		Resource tres = resourceResolver.resolve(relation.getTargetPath());
-        		if(!tres.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-        			Page tpage = tres.adaptTo(Page.class);
-        			existingCopies.add(tpage.getAbsoluteParent(2).getPath());
+        		String existingString = tres.getPath();
+        		if(tres.getPath().indexOf("/jcr:content") > 0){
+        			existingString = existingString.substring(0,existingString.indexOf("/jcr:content"));
         		}
+        		existingCopies.add(existingString);
         	}
         	
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage.getParent(), null, null, true);
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
             	Boolean proceed = false;
-            	if(!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-            		if(values == null){
-            			if(singleValue != null){
-            				if(targetResource.getPath().startsWith(singleValue.getString())){
-            					proceed = true;
-            				}
+        		if(values == null){
+        			if(singleValue != null){
+        				if(targetResource.getPath().startsWith(singleValue.getString())){
+        					messageLog.add("Attempting to roll out a child page of: " + targetResource.getPath());
+        					proceed = true;
+        				}
+        			}
+        		}else{
+            		for(Value v : values){
+            			if(targetResource.getPath().startsWith(v.getString())){
+        					messageLog.add("Attempting to roll out a child page of: " + targetResource.getPath());
+            				proceed = true;
             			}
-            		}else{
-	            		for(Value v : values){
-	            			if(targetResource.getPath().startsWith(v.getString())){
-	            				proceed = true;
-	            			}
-	            		}
             		}
-            		
-            		//Prevent creating a new live copy multiple times for one council
-                	if(proceed == true){
-                		for(String existingString : existingCopies){
-                			if(targetResource.getPath().startsWith(existingString)){
-                				proceed = false;
+        		}
+            	
+            	if(proceed && targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+            		messageLog.add("No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+            		messageLog.add("Will NOT rollout to this council");
+            		proceed = false;
+            	}
+            	
+        		//Prevent creating a new live copy multiple times for one council
+            	if(proceed == true){
+            		for(String existingString : existingCopies){
+                		String compString = existingString;
+            			if(compString.indexOf("/en/") > 0){
+                			compString = compString.substring(0,existingString.indexOf("/en/"));
+                			if(targetResource.getPath().startsWith(compString)){
+                				if(resourceResolver.resolve(existingString).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+                					if(rebuild){
+                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Because rebuild is checked, a new live copy will be created.");
+                					}else{
+                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Rebuild is not checked, so this council will be skipped.");
+                						proceed = false;
+                					}
+                				}else{
+                					System.out.println("Skipping New Page Rollout for " + compString + ". The council already has a live copy");
+                					messageLog.add("A live copy for this page can already be found in this council. Skipping.");
+                					proceed = false;
+                				}
                 			}
                 		}
-                	}
+            		}
             	}
+            	
             	if(proceed == true){
             	    String agentId = "publishpreview";
             	    
@@ -219,7 +287,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
             	    opts.setFilter(filter);
             		
             		PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
-					Page copyPage = pageManager.copy(srcPage, targetResource.getParent().getPath() + "/" + srcPage.getTitle(), srcPage.getTitle(), false, true);
+					Page copyPage = pageManager.copy(srcPage, targetResource.getParent().getPath() + "/" + srcPage.getName(), srcPage.getName(), false, true);
 					RolloutConfigManager configMgr = (RolloutConfigManager) resourceResolver.adaptTo(RolloutConfigManager.class);
 					RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
 					LiveRelationship relationship= relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
@@ -227,6 +295,8 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         			
 					rolloutManager.rollout(resourceResolver, relationship, false);
         			session.save();
+					messageLog.add("Page " + copyPage.getPath() + " created");
+					messageLog.add("Live copy established");
 	                String targetPath = relation.getTargetPath();
 	                // Remove jcr:content
 	                if (targetPath.endsWith("/jcr:content")) {
@@ -234,12 +304,15 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 	                }
 	                if(activate){
 	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+	                	messageLog.add("Page activated");
 	                }
             		if(!dontSend){
-            			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
+            			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), copyPage.adaptTo(Resource.class), subject, message, relationship, resourceResolver);
+            			messageLog.add("Message sent to council");  
             		}
             	}
             }
+            girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {

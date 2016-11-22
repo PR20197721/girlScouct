@@ -88,6 +88,7 @@ public class RolloutProcess implements WorkflowProcess {
         ResourceResolver resourceResolver = null;
         
         ArrayList<String> messageLog = new ArrayList<String>();
+        String reportSubject = "GSUSA Rollout (Production) Report";
         messageLog.add("Dear Girl Scouts USA User,");
         messageLog.add("The following is a report for the GSUSA Rollout Workflow (Production).");
         
@@ -129,7 +130,7 @@ public class RolloutProcess implements WorkflowProcess {
         	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
         
-        messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils");
+        messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
         messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
         
         String message = "<p>Dear Council, </p>" +
@@ -211,25 +212,25 @@ public class RolloutProcess implements WorkflowProcess {
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
             	Boolean proceed = false;
-            	if(!targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-            		if(values == null){
-            			if(singleValue != null){
-            				if(targetResource.getPath().startsWith(singleValue.getString())){
-            					messageLog.add("Located: " + targetResource.getPath());
-            					proceed = true;
-            				}
+        		if(values == null){
+        			if(singleValue != null){
+        				if(targetResource.getPath().startsWith(singleValue.getString())){
+        					messageLog.add("Attempting to roll out to: " + targetResource.getPath());
+        					proceed = true;
+        				}
+        			}
+        		}else{
+            		for(Value v : values){
+            			if(targetResource.getPath().startsWith(v.getString())){
+            				messageLog.add("Attempting to roll out to: " + targetResource.getPath());
+            				proceed = true;
             			}
-            		}else{
-	            		for(Value v : values){
-	            			if(targetResource.getPath().startsWith(v.getString())){
-	            				messageLog.add("Located: " + targetResource.getPath());
-	            				proceed = true;
-	            			}
-	            		}
             		}
-            	}else{
+        		}
+            	if(proceed && targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
             		messageLog.add("Resource not found. Presumed deleted by council");
             		messageLog.add("Will NOT rollout to this page");
+            		proceed = false;
             	}
             	if(proceed == true){
             	    boolean breakInheritance = false;
@@ -257,12 +258,11 @@ public class RolloutProcess implements WorkflowProcess {
             		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
-            			messageLog.add("Message sent to council");
-            			
+            			messageLog.add("Message sent to council");           			
             		}
             	}
             }
-    		girlscoutsRolloutReporter.execute(subject, messageLog, resourceResolver);
+    		girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {

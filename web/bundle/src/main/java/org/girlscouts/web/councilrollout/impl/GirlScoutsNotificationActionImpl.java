@@ -60,29 +60,26 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 	public void execute(Resource source, Resource target, String subject, String message, LiveRelationship relation, ResourceResolver rr)
 					throws WCMException {
 		if (source == null) {
-			log.info("Source is null. Quit");
+			System.err.println("Source is null. Quit");
 			return;
 		}
 		if (target == null) {
-			log.info("Target is null. Quit");
+			System.err.println("Target is null. Quit");
 			return;
 		}
-
 		Node sourceNode = (Node)source.adaptTo(Node.class);
 		Node targetNode = (Node)target.adaptTo(Node.class);
 		if (sourceNode == null) {
-			log.error("Cannot access source node: " + source + ". Quit.");
+			System.err.println("Cannot access source node: " + source + ". Quit.");
 			return;
 		}
 		if (targetNode == null) {
-			log.error("Cannot access target node: " + target + ". Quit.");
+			System.err.println("Cannot access target node: " + target + ". Quit.");
 			return;
 		}
 		LiveStatus status = relation.getStatus();
 		//one or more child components were unlocked on that page
-		if(status!=null && status.isPage() && 
-				status.getAdvancedStatus("msm:isTargetCancelledChild")!=null 
-				&& status.getAdvancedStatus("msm:isTargetCancelledChild")){
+		if(status!=null && status.isPage()){
 			String sourcePath = source.getPath();
 			String targetPath = target.getPath();
 			if(!"".equals(message)){
@@ -99,8 +96,9 @@ public class GirlScoutsNotificationActionImpl implements GirlScoutsNotificationA
 				throw new WCMException("Rollout Notification Error - Unable to resolve email addresses");
 			}
 		
+		}else{
+			System.err.println("relation status issue");
 		}
-
 	}
 	
 	private final Pattern BRANCH_PATTERN = Pattern.compile("^(/content/[^/]+)/?");

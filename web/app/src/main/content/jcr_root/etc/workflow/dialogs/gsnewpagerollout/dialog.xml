@@ -6,11 +6,16 @@
     <items jcr:primaryType="cq:WidgetCollection">
     	<activate
     		jcr:primaryType="cq:Widget"
-    		fieldLabel="Activate pages?"
-    		fieldDescription="If checked, the pages will activate automatically when they are rolled out."
-    		name="./activate"
-    		defaultValue="true"
-    		value="true"
+    		fieldLabel="Don't Activate Pages"
+    		fieldDescription="If checked, the pages will not activate automatically when they are rolled out."
+    		name="./dontActivate"
+    		type="checkbox"
+    		xtype="selection"/>
+    	<rebuild
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Rebuild Deleted Live Copies"
+    		fieldDescription="If a council already had a live copy of this page and deleted it, should the workflow rebuild the page? If unchecked, councils in this situation will be skipped."
+    		name="./rebuild"
     		type="checkbox"
     		xtype="selection"/>
         <councils
