@@ -96,6 +96,8 @@ letmein.add("VTKDemo306");
 letmein.add("VTKDemo368");
 letmein.add("VTKDemo700");
 
+letmein.add("VTKDemo477");
+
 
     if( request.getParameter("p")!=null && letmein.contains( request.getParameter("p") )){
 
