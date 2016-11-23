@@ -2243,6 +2243,9 @@ CQ.wcm.Sidekick = CQ.Ext.extend(CQ.Dialog, {
                     }
                 };
 
+                /*
+                 * Girl Scouts - Modified so that workflow dialogs store to workflow payload correctly
+                 */
                 var completeAction = new CQ.Ext.Action({
                     cls:'cq.workflow.sidekick.complete',
                     text:CQ.I18n.getMessage('Complete'),
@@ -2334,7 +2337,7 @@ CQ.wcm.Sidekick = CQ.Ext.extend(CQ.Dialog, {
                                 if(dlgPath) {
                                     var payloadUrl = CQ.HTTP.externalize(CQ.WCM.getPagePath());
                                     var action = new CQ.form.SlingSubmitAction(this.form, {
-                                        "url": payloadUrl
+                                        "url": workItemUrl.substring(0,workItemUrl.indexOf("/workItems")) + "/data/metaData"
                                     });
 
                                     this.form.doAction(action);

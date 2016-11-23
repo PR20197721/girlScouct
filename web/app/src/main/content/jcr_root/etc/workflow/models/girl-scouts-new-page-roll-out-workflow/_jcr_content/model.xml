@@ -4,8 +4,8 @@
     jcr:primaryType="cq:WorkflowModel"
     jcr:uuid="b88c0bfc-4216-48ee-bbcc-42b575532155"
     sling:resourceType="cq/workflow/components/model"
-    description="Roll out the national content to the council site and activate both the source and the target page."
-    title="Girl Scouts Roll out Workflow">
+    description="Roll out new national content to the council site and activate both the source and the target page (optional)."
+    title="Girl Scouts New Page Roll out Workflow">
     <metaData
         cq:lastModified="{Long}1478806871437"
         cq:lastModifiedBy="admin"
@@ -23,7 +23,7 @@
             type="PARTICIPANT">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                DIALOG_PATH="/etc/workflow/dialogs/gsnewpagerollout/dialog"
                 PARTICIPANT="content-analysts"/>
         </node1>
         <node2
@@ -41,11 +41,11 @@
         <node4
             jcr:primaryType="cq:WorkflowNode"
             description="Roll out the source page and activate both the source and the target page."
-            title="Production Roll Out and Activate"
+            title="Production New Page Roll Out and Activate"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                PROCESS="org.girlscouts.cq.workflow.NewPageRolloutProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node4>
         <node5
@@ -70,11 +70,11 @@
         <node7
             jcr:primaryType="cq:WorkflowNode"
             description="Roll out the source page and activate on preview"
-            title="Preview Roll Out and Activate"
+            title="Preview New Page Roll Out and Activate"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.PreviewRolloutProcess"
+                PROCESS="org.girlscouts.cq.workflow.NewPagePreviewRolloutProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node7>
         <node8

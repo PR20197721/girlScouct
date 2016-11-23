@@ -6,9 +6,9 @@
         cq:lastModified="{Date}2016-11-10T14:41:09.866-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
-        jcr:description="Roll out the national content to the council site and activate both the source and the target page."
+        jcr:description="Roll out new national content to the council sites and activate both the source and the target page (optional)."
         jcr:primaryType="cq:PageContent"
-        jcr:title="Girl Scouts Roll out Workflow"
+        jcr:title="Girl Scouts New Page Roll out Workflow"
         sling:resourceType="cq/workflow/components/pages/model">
         <flow
             jcr:primaryType="nt:unstructured"
@@ -23,7 +23,7 @@
                 sling:resourceType="cq/workflow/components/model/dialog">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                    DIALOG_PATH="/etc/workflow/dialogs/gsnewpagerollout/dialog"
                     PARTICIPANT="content-analysts"/>
             </dialog>
             <or
@@ -45,11 +45,11 @@
                         jcr:lastModified="{Date}2016-11-10T14:38:14.046-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="Production Roll Out and Activate"
+                        jcr:title="Production New Page Roll Out and Activate"
                         sling:resourceType="cq/workflow/components/model/process">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                            PROCESS="org.girlscouts.cq.workflow.NewPageRolloutProcess"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>
                     <process_816814459
@@ -92,11 +92,11 @@
                         jcr:lastModified="{Date}2016-11-10T14:36:10.796-05:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
-                        jcr:title="Preview Roll Out and Activate"
+                        jcr:title="Preview New Page Roll Out and Activate"
                         sling:resourceType="cq/workflow/components/model/process">
                         <metaData
                             jcr:primaryType="nt:unstructured"
-                            PROCESS="org.girlscouts.cq.workflow.PreviewRolloutProcess"
+                            PROCESS="org.girlscouts.cq.workflow.NewPagePreviewRolloutProcess"
                             PROCESS_AUTO_ADVANCE="true"/>
                     </process>
                     <process_569084161
