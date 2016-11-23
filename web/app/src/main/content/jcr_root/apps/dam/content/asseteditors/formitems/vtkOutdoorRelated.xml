@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-   jcr:primaryType="cq:Widget"
-            checkboxBoolTypeHint="{Boolean}true"
-            fieldDescription="Checking this box will cause the evergreen tree icon to appear next to this resource"
-            fieldLabel="VTK - Outdoor Related"
-            name="./dc:isOutdoorRelated"
-            type="checkbox"
-            xtype="selection"/>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Widget"
+    checkboxBoolTypeHint="{Boolean}true"
+    fieldDescription="Checking this box will cause the evergreen tree icon to appear next to this resource"
+    fieldLabel="VTK - Outdoor Related"
+    name="./dc:isOutdoorRelated"
+    type="checkbox"
+    xtype="selection">
+    <listeners
+        jcr:primaryType="nt:unstructured"
+        beforeloadcontent="function(f, r, p) { if ((p.indexOf(&quot;/content/dam/girlscouts-vtkcontent&quot;) &lt; 0) &amp;&amp;(p.indexOf(&quot;/content/dam/girlscouts-vtk&quot;) &lt; 0)) { f.hide(); } return true; }"/>
+</jcr:root>
