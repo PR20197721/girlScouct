@@ -538,6 +538,12 @@
 
 				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 
+				
+java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
+for(int i=0;i<tt.size();i++){
+	System.err.println("testtt: "+ tt.get(i).getId() +" : "+ tt.get(i).getRefId() );
+}
+				
 				//archive
                 VtkUtil.cngYear(request,  user,  troop);
 
