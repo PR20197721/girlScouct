@@ -18,14 +18,16 @@ public class Cal implements Serializable {
 	
 	public String getDates() {
 
-		String _frmDates = fmtDates();
-		return _frmDates == null ? dates : _frmDates;
+		//String _frmDates = fmtDates();
+		//return _frmDates == null ? dates : _frmDates;
+		return fmtDates(); //dates;
 	}
 
 	public void setDates(String dates) {
 		
-		String _frmDates = fmtDates();
-		dates= _frmDates==null ? dates : _frmDates;
+		dates = fmtDates(dates);
+		//String _frmDates = fmtDates();
+		//dates= _frmDates==null ? dates : _frmDates;
 		
 		if( dates!=null && this.dates!=null && !this.dates.equals(dates))
 			isDbUpdate =true;
@@ -72,6 +74,8 @@ public class Cal implements Serializable {
 	public String fmtDates(){ return fmtDates(this.dates); }
 	public String fmtDates( String dates ){
 		
+//if( true ) return dates;
+
 		if( dates ==null || dates.indexOf(",") ==-1 )
 			return dates;
 		

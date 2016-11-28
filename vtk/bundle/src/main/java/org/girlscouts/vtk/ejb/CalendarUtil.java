@@ -148,10 +148,10 @@ public class CalendarUtil {
 		
 		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
 		
-		
+		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 0 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		
+		*/
 		
 		for(int i=0;i<100;i++){
 			if ((sched == null || sched.contains(newDate.getTime() +""))) {
@@ -166,20 +166,21 @@ public class CalendarUtil {
 		
 		
 		updateSchedMeetings( meetings, currDate, newDate.getTime() );
-		
+		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 0.1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
 		
+		*/
 		
 		//sort meetings by Date
 		Comparator<MeetingE> comp = new BeanComparator("date");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 		
-		
+		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		
+		*/
 		
 		for(int i=0;i<meetings.size();i++){
 			if( meetings.get(i).getId() != (i) ){
@@ -189,10 +190,10 @@ public class CalendarUtil {
 		}
 		
 		
-		
+		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 2 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		
+		*/
 		
 		
 		
@@ -207,9 +208,11 @@ public class CalendarUtil {
 			}
 		}
 		*/
+		
+		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 3 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		
+		*/
 		//troop.getYearPlan().setMeetingEvents(meetings);
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
@@ -520,13 +523,20 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
+System.err.println("combine dates newDAte: "+  new java.util.Date( newDate ) );
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
 		Cal cal = plan.getSchedule();		
 		String sched = VtkUtil.sortDates(cal.getDates());
-		
+System.err.println("_____________________combine dates before: "+ sched);
+StringTokenizer t1 = new StringTokenizer(sched, ",");
+while( t1.hasMoreElements()){
+	String tt= t1.nextToken();
+	System.err.println("combine dates before check: *"+tt+"*");
+	System.err.println("combine dates before: "+ new java.util.Date( Long.parseLong(tt) ));
+}
+
 		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
 		
 		for(int i=0;i<100;i++){
@@ -561,7 +571,17 @@ public class CalendarUtil {
 		
 		
 		cal.setDates(sched);
+
+System.err.println("combine dates after: "+ sched);		
+StringTokenizer t = new StringTokenizer(sched, ",");
+while( t.hasMoreElements()){
+	String tt= t.nextToken();
+	System.err.println("combine dates check: *"+tt+"*");
+	System.err.println("combine dates after: "+ new java.util.Date( Long.parseLong(tt) ));
+}
+
 		cal.setDbUpdate(true);
+troop.getYearPlan().setSchedule(cal);		
 		troopUtil.updateTroop(user, troop);
 		return true;
 	}
