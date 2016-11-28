@@ -119,7 +119,7 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-
+System.err.println("UpdS: start");
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
@@ -145,9 +145,9 @@ public class CalendarUtil {
 		//-java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		
 		*/
-		
+System.err.println("UpdS: 1");		
 		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
-		
+System.err.println("UpdS: 2");	
 		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 0 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
@@ -161,11 +161,12 @@ public class CalendarUtil {
 				newDate= c.getTime();
 			}
 		}
-		
+		System.err.println("UpdS: 3");		
 		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		
+		System.err.println("UpdS: 4");	
 		
 		updateSchedMeetings( meetings, currDate, newDate.getTime() );
+		System.err.println("UpdS: 5");	
 		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 0.1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
@@ -176,7 +177,7 @@ public class CalendarUtil {
 		Comparator<MeetingE> comp = new BeanComparator("date");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
-		
+		System.err.println("UpdS: 6");	
 		/*
 		for(int i=0;i<meetings.size();i++)
 			System.err.println("Kaca 1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
@@ -188,7 +189,7 @@ public class CalendarUtil {
 				meetings.get(i).setDbUpdate(true);
 			}
 		}
-		
+		System.err.println("UpdS: 7");	
 		
 		/*
 		for(int i=0;i<meetings.size();i++)
@@ -217,6 +218,7 @@ public class CalendarUtil {
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
+System.err.println("UpdS: end");
 		return true;
 	}
 
@@ -590,7 +592,7 @@ troop.getYearPlan().setSchedule(cal);
 private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> meetings, long currDate, long newDate ){
 	for(int i=0;i<meetings.size();i++){
 	
-		if( meetings.get(i).getDate().getTime()== currDate )
+		if(  meetings.get(i).getDate().getTime()== currDate )
 			meetings.get(i).setDate( new java.util.Date( newDate) );
 	}
 	return meetings;
@@ -608,10 +610,11 @@ private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings
 	int count=0;
 	java.util.StringTokenizer t= new StringTokenizer( sched, ",");
 	while( t.hasMoreElements()){
-	
+	    if( meetings.size() <= count){ System.err.println("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings."); break;}
 		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
 		meetings.get(count).setDate(date);
 		count ++;
+	 
 	}
 	
 	return meetings;

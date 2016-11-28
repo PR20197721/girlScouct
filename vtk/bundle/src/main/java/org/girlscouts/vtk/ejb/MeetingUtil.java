@@ -273,7 +273,8 @@ public class MeetingUtil {
 							if (maxLook > 100)
 								break;
 						}
-						sched.put(dt, meetingEs.get(count));
+						if( meetingEs.size()> count)
+							sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
