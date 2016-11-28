@@ -1101,6 +1101,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 
+		/*
 		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
 		exclDates = exclDates == null ? "" : exclDates;
 		if (exclDates.endsWith(",") || exclDates.equals(""))
@@ -1111,6 +1112,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 					+ FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
 					+ ",";
 		troop.getYearPlan().setCalExclWeeksOf(exclDates);
+		*/
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
@@ -1119,8 +1121,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 	public boolean rmMeeting(User user, Troop troop, String meetingRefId)
 			throws IllegalAccessException {
 		boolean isRemoved = false;
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
 			if (meetings.get(i).getRefId().equals(meetingRefId)) {
 				troopDAO.removeMeeting(user, troop, meetings.get(i));
