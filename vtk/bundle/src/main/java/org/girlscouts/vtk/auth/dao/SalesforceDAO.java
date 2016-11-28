@@ -651,6 +651,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 					contact.setFirstName(results.getJSONObject(i)
 	
 					.getString("Name"));
+System.err.println("ContactName: "+ contact.getFirstName() );					
 					} catch (Exception e) {
 	
 					}
@@ -785,7 +786,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				contact.setRole(results.getJSONObject(i).getString(
 
 				"rC_Bios__Role__c"));
-
+System.err.println("role: "+ contact.getRole());
 				} catch (Exception e) {
 
 				}
