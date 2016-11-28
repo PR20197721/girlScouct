@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -37,8 +36,10 @@ import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.replication.AgentIdFilter;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.ReplicationOptions;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
@@ -54,14 +55,14 @@ import javax.jcr.Value;
 
 @Component
 @Service
-public class RolloutProcess implements WorkflowProcess {
-	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
+public class PreviewRolloutProcess implements WorkflowProcess {
+	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages to preview publisher.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
 	static final String VENDOR = Constants.SERVICE_VENDOR;
-	@Property(value = "Girl Scouts Roll out Process")
+	@Property(value = "Girl Scouts Preview Roll out Process")
 	static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger(RolloutProcess.class);
+	private static Logger log = LoggerFactory.getLogger(PreviewRolloutProcess.class);
     
     @Reference
     RolloutManager rolloutManager;
@@ -88,13 +89,13 @@ public class RolloutProcess implements WorkflowProcess {
         ResourceResolver resourceResolver = null;
         
         ArrayList<String> messageLog = new ArrayList<String>();
-        String reportSubject = "GSUSA Rollout (Production) Report";
+        String reportSubject = "GSUSA Rollout (Preview) Report";
         messageLog.add("Dear Girl Scouts USA User,");
-        messageLog.add("The following is a report for the GSUSA Rollout Workflow (Production).");
+        messageLog.add("The following is a report for the GSUSA Rollout Workflow (Preview).");
         
         Date runtime = new Date();
         messageLog.add("The workflow was run on " + runtime.toString() + ".");
-        
+
         try {
             resourceResolver = resourceResolverFactory.getResourceResolver(Collections.singletonMap(
                     "user.jcr.session",
@@ -185,7 +186,7 @@ public class RolloutProcess implements WorkflowProcess {
             log.error("Not a live copy source page. Quit. " + srcPath);
             return;
         }
-        
+
     	messageLog.add("The following councils have been selected:");
         try{
         	if(values == null){
@@ -233,6 +234,13 @@ public class RolloutProcess implements WorkflowProcess {
             		proceed = false;
             	}
             	if(proceed == true){
+            		
+            	    String agentId = "publishpreview";
+            	    
+            	    AgentIdFilter filter = new AgentIdFilter(agentId);
+
+            	    ReplicationOptions opts = new ReplicationOptions();
+            	    opts.setFilter(filter);
             	    boolean breakInheritance = false;
             		try{
             			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
@@ -244,31 +252,33 @@ public class RolloutProcess implements WorkflowProcess {
             			rolloutManager.rollout(resourceResolver, relation, false);
             			session.save();
             			messageLog.add("Rolled out content to page");
-		                String targetPath = relation.getTargetPath();
-		                // Remove jcr:content
-		                if (targetPath.endsWith("/jcr:content")) {
-		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-		                }
-		                if(activate){
-		                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
-		                	messageLog.add("Page activated");
-		                }
+	            	    try {
+	            	    	String targetPath = relation.getTargetPath();
+	    	                // Remove jcr:content
+	    	                if (targetPath.endsWith("/jcr:content")) {
+	    	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+	    	                }
+	    	                if(activate){
+	    	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+			                	messageLog.add("Page activated");
+	    	                }
+	            	    } catch(Exception e) {
+	            	        e.printStackTrace();
+	            	    }
             		}else{
             			messageLog.add("The page has Break Inheritance checked off. Will not roll out");
             		}
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
-            			messageLog.add("Message sent to council");           			
+            			messageLog.add("Message sent to council");
             		}
             	}
             }
-    		girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
+            girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
             log.error("RepositoryException for LiveRelationshipManager");
-        } catch (ReplicationException e) {
-            log.error("ReplicationException for LiveRelationshipManager");
         }
     }
     

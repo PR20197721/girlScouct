@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -41,9 +41,12 @@ import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutConfig;
+import com.day.cq.wcm.msm.api.RolloutConfigManager;
 import com.day.cq.wcm.msm.api.RolloutManager;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
@@ -51,17 +54,18 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
+import javax.jcr.query.Query;
 
 @Component
 @Service
-public class RolloutProcess implements WorkflowProcess {
-	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
+public class NewPageRolloutProcess implements WorkflowProcess {
+	@Property(value = "Attempt to locate a page within the council that is a live copy of the parent of the current source page, and then create a live copy there.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
 	static final String VENDOR = Constants.SERVICE_VENDOR;
-	@Property(value = "Girl Scouts Roll out Process")
+	@Property(value = "Girl Scouts New Page Roll out Process")
 	static final String LABEL = "process.label";
-    private static Logger log = LoggerFactory.getLogger(RolloutProcess.class);
+    private static Logger log = LoggerFactory.getLogger(NewPageRolloutProcess.class);
     
     @Reference
     RolloutManager rolloutManager;
@@ -84,17 +88,17 @@ public class RolloutProcess implements WorkflowProcess {
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
             throws WorkflowException {
-        Session session = workflowSession.getSession();
+    	Session session = workflowSession.getSession();
         ResourceResolver resourceResolver = null;
         
         ArrayList<String> messageLog = new ArrayList<String>();
-        String reportSubject = "GSUSA Rollout (Production) Report";
+        String reportSubject = "GSUSA New Page Rollout (Production) Report";
         messageLog.add("Dear Girl Scouts USA User,");
-        messageLog.add("The following is a report for the GSUSA Rollout Workflow (Production).");
+        messageLog.add("The following is a report for the GSUSA New Page Rollout Workflow (Production).");
         
         Date runtime = new Date();
         messageLog.add("The workflow was run on " + runtime.toString() + ".");
-        
+
         try {
             resourceResolver = resourceResolverFactory.getResourceResolver(Collections.singletonMap(
                     "user.jcr.session",
@@ -119,7 +123,7 @@ public class RolloutProcess implements WorkflowProcess {
 			}
 		} 
         
-        Boolean dontSend = false, useTemplate = false, activate = true;
+        Boolean dontSend = false, useTemplate = false, activate = true, rebuild = false;
         String templatePath = "";
         
         try{
@@ -130,11 +134,16 @@ public class RolloutProcess implements WorkflowProcess {
         	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
         
+        try{
+        	rebuild = ((Value)mdm.get("rebuild")).getBoolean();
+        }catch(Exception e){}
+        
         messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
-        messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
+        messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion. ");
+        messageLog.add("This workflow will " + (rebuild? "" : "not ") + "rebuild deleted live copies.");
         
         String message = "<p>Dear Council, </p>" +
-        		"<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>" +
+        		"<p>It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.</p>" +
         		"<p><b>National page URL:</b> <%template-page%></p>" +
         		"<p><b>Your page URL:</b> <%council-page%></p>" +
         		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>";
@@ -153,7 +162,6 @@ public class RolloutProcess implements WorkflowProcess {
         try{
         	if(useTemplate){
         		subject = getTemplate(templatePath, resourceResolver, true);
-        		messageLog.add("An email template is in use. The path to the template is " + templatePath);
         	}else{
         		subject = ((Value)mdm.get("subject")).getString();
         	}
@@ -206,63 +214,94 @@ public class RolloutProcess implements WorkflowProcess {
         }
         
         messageLog.add("<b>Processing:</b><br>Source Page: " + srcPath);
-        
+
         try {
-        	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
+        	List<String> existingCopies = new ArrayList<String>();
+        	Collection<LiveRelationship> existingRelations = relationManager.getLiveRelationships(srcPage, null, null, true);
+        	for(LiveRelationship relation : existingRelations){
+        		Resource tres = resourceResolver.resolve(relation.getTargetPath());
+        		String existingString = tres.getPath();
+        		existingCopies.add(existingString);
+        	}
+        	
+        	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage.getParent(), null, null, true);
             for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
             	Boolean proceed = false;
         		if(values == null){
         			if(singleValue != null){
         				if(targetResource.getPath().startsWith(singleValue.getString())){
-        					messageLog.add("Attempting to roll out to: " + targetResource.getPath());
+        					messageLog.add("Attempting to roll out a child page of: " + targetResource.getPath());
         					proceed = true;
         				}
         			}
         		}else{
             		for(Value v : values){
             			if(targetResource.getPath().startsWith(v.getString())){
-            				messageLog.add("Attempting to roll out to: " + targetResource.getPath());
+        					messageLog.add("Attempting to roll out a child page of: " + targetResource.getPath());
             				proceed = true;
             			}
             		}
         		}
+            	
             	if(proceed && targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-            		messageLog.add("Resource not found. Presumed deleted by council");
-            		messageLog.add("Will NOT rollout to this page");
+            		messageLog.add("No resource can be found to serve as a suitable parent page. In order to roll out to this council, you must roll out the parent of this template page first.");
+            		messageLog.add("Will NOT rollout to this council");
             		proceed = false;
             	}
+            	
+        		//Prevent creating a new live copy multiple times for one council
             	if(proceed == true){
-            	    boolean breakInheritance = false;
-            		try{
-            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
-            			breakInheritance = contentProps.get("breakInheritance",false);
-            		}catch(Exception e){
-            			e.printStackTrace();
+            		for(String existingString : existingCopies){
+                		String compString = existingString;
+            			if(compString.indexOf("/en/") > 0){
+                			compString = compString.substring(0,existingString.indexOf("/en/"));
+                			if(targetResource.getPath().startsWith(compString)){
+                				if(resourceResolver.resolve(existingString).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+                					if(rebuild){
+                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Because rebuild is checked, a new live copy will be created.");
+                					}else{
+                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Rebuild is not checked, so this council will be skipped.");
+                						proceed = false;
+                					}
+                				}else{
+                					System.out.println("Skipping New Page Rollout for " + compString + ". The council already has a live copy");
+                					messageLog.add("A live copy for this page can already be found in this council. Skipping.");
+                					proceed = false;
+                				}
+                			}
+                		}
             		}
-            		if(!breakInheritance){
-            			rolloutManager.rollout(resourceResolver, relation, false);
-            			session.save();
-            			messageLog.add("Rolled out content to page");
-		                String targetPath = relation.getTargetPath();
-		                // Remove jcr:content
-		                if (targetPath.endsWith("/jcr:content")) {
-		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
-		                }
-		                if(activate){
-		                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
-		                	messageLog.add("Page activated");
-		                }
-            		}else{
-            			messageLog.add("The page has Break Inheritance checked off. Will not roll out");
-            		}
+            	}
+            	
+            	if(proceed == true){
+                	PageManager pageManager = resourceResolver.adaptTo(PageManager.class);
+					Page copyPage = pageManager.copy(srcPage, targetResource.getParent().getPath() + "/" + srcPage.getName(), srcPage.getName(), false, true);
+					RolloutConfigManager configMgr = (RolloutConfigManager) resourceResolver.adaptTo(RolloutConfigManager.class);
+					RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+					LiveRelationship relationship= relationManager.establishRelationship(srcPage, copyPage, true, false, gsConfig);
+					cancelInheritance(resourceResolver, copyPage.getPath());
+        			
+					rolloutManager.rollout(resourceResolver, relationship, false);
+        			session.save();
+					messageLog.add("Page " + copyPage.getPath() + " created");
+					messageLog.add("Live copy established");
+	                String targetPath = relation.getTargetPath();
+	                // Remove jcr:content
+	                if (targetPath.endsWith("/jcr:content")) {
+	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
+	                }
+	                if(activate){
+	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
+	                	messageLog.add("Page activated");
+	                }
             		if(!dontSend){
-            			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), targetResource, subject, message, relation, resourceResolver);
-            			messageLog.add("Message sent to council");           			
+            			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), copyPage.adaptTo(Resource.class), subject, message, relationship, resourceResolver);
+            			messageLog.add("Message sent to council");  
             		}
             	}
             }
-    		girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
+            girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
@@ -298,5 +337,24 @@ public class RolloutProcess implements WorkflowProcess {
     		return "";
     	}
     }
+    
+	/**
+	 * cancel the Inheritance for certain components
+	 *  (nodes with mixin type "cq:LiveSyncCancelled" under national template page)
+	 */
+	private void cancelInheritance(ResourceResolver rr, String councilPath){
+		try {
+			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '"
+					+ councilPath + "')";
+			log.debug("SQL " + sql);
+			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2);it.hasNext();){
+				Resource target = it.next();
+                relationManager.endRelationship(target,true);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
     
 }
