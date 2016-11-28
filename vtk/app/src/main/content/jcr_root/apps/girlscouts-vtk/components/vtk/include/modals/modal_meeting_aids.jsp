@@ -49,7 +49,7 @@ System.err.println("test3");
 							</td>
 					 		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 					 		<td width="60">
-							    <% if (a.getIsOutdoorRelated()) { 
+							    <% if(a.getIsOutdoorRelated()){ 
 							    	 if( !existingAids.contains(a.getRefId()) && VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>	
 				 		                <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/indoor.png">
 				 		          <%  } else { %>
