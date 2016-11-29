@@ -4,16 +4,16 @@
 
       <div class="row">
         <div class="column small-24 medium-8">
-          Membership: Adult 2016<br>
-          Role: Friends and Family Volunteer
+          Membership: *?Adult 2016<br>
+          Role: *Friends and Family Volunteer
         </div>
         <div class="column  small-24 medium-8">
-          Membership Years: Girl:3 Adult:12<br>
-          Gender: Female
+          Membership Years: Girl:*3 Adult:*12<br>
+          Gender:*Female
         </div>
         <div class="column small-24 medium-8">
-          <input type="checkbox"> Email Opt In<br>
-          <input type="checkbox"> Text Opt In
+          <input type="checkbox"> *Email Opt In<br>
+          <input type="checkbox"> *Text Opt In
         </div>
       </div>
 
@@ -21,16 +21,16 @@
       <div style="margin:15px 0"></div>
 
       <div class="row">
-        <div class="column small-24"> Phone : 888-888-8888</div>
+        <div class="column small-24"> Phone : *888-888-8888</div>
       </div>
 
       <div class="row">
-        <div class="column small-24"> Email:mail </div>
+        <div class="column small-24"> Email:mail *</div>
       </div>
 
       <div style="margin:15px 0"></div>
       <div class="row">
-        <div class="column small-24"> Home Address: </div>
+        <div class="column small-24"> Home Address: *</div>
       </div>
 
 
@@ -53,8 +53,8 @@
                 }
                }else{
                    %>
-                   <a href="javascript:void(0)" class="button" disabled=true>RENEW NOW</a>
-                   <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO</a>
+                   <a href="javascript:void(0)" class="button" disabled=true>*RENEW NOW</a>
+                   <a href="javascript:void(0)" class="button" disabled=true>UPDATE CONTACT INFO*</a>
                   <% 
                }
               %>
