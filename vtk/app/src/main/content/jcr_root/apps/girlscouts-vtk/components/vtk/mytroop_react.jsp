@@ -102,9 +102,9 @@
 	      <div class="column large-24 large-centered mytroop">
             <dl class="accordion" data-accordion>
               <dt data-target="panel1">
-                <h3 class="on">VALNTR*** <%=troop.getSfTroopName() %> INFO</h3>
+                <h3 class="on">VALNTR**</h3>
                 <% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ALL_TROOP_PARENTS_ID)){ %>
-                   <a href="mailto:<%=emailTo%>"><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a>
+                  <a href="<%= sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class).getConfig("communityUrl")%>/Membership_Troop_Renewal ">Add a New Volunteer</a>
                    <label><input type="checkbox" name="delimiter">Please check this box if you use Outlook</label>
                  <%} %>
                  

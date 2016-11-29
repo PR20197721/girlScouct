@@ -94,6 +94,12 @@ try{
 
 			String meetingId = myMeetings.get(i).getRefId();
 			meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
+		
+			//if custom meeting 
+			if( meetingId.contains("_") )
+				meetingId= meetingId.substring(0, meetingId.indexOf("_")  );
+		
+			
 			myMeetingIds.add( meetingId );
 
 			java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
