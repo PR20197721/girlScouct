@@ -111,7 +111,8 @@
               </dt>
               <dd class="accordion-navigation">
                 <div class="content active" id="panel1">
-                   <%@include file='include/troop_member_detail.jsp' %>
+                
+                   <%@include file='include/troop_volunteer_detail.jsp' %>
                 </div>
               </dd>
             </dl>
