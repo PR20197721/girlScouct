@@ -24,6 +24,7 @@ girlscouts.components.SocialMediaWidget = CQ.Ext.extend(CQ.form.CompositeField, 
     hiddenField: null,
     linkField: null,
 	iconField: null,
+    newtabField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -70,6 +71,17 @@ girlscouts.components.SocialMediaWidget = CQ.Ext.extend(CQ.form.CompositeField, 
             } 
         });
         this.add(this.iconField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Open in new tab"}));
+        this.newtabField = new CQ.Ext.form.Checkbox({
+        	listeners: {
+        		change: {
+        			scope:this,
+        			fn:this.updateHidden
+        		}
+        	}
+        });
+        this.add(this.newtabField);
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -77,6 +89,7 @@ girlscouts.components.SocialMediaWidget = CQ.Ext.extend(CQ.form.CompositeField, 
         var parts = value.split("|||");
         this.linkField.setValue(parts[0]);
         this.iconField.setValue(parts[1]);
+        this.newtabField.setValue(parts[2]);
         this.hiddenField.setValue(value);
     },
 
@@ -88,7 +101,8 @@ girlscouts.components.SocialMediaWidget = CQ.Ext.extend(CQ.form.CompositeField, 
     // overriding CQ.form.CompositeField#getRawValue
     getRawValue: function() {
         return this.linkField.getValue() + "|||" 
-        	+ this.iconField.getValue();
+        	+ this.iconField.getValue() + "|||"
+        	+ this.newtabField.getValue();
     },
 
     // private

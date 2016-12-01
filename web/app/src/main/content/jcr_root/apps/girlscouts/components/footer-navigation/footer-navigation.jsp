@@ -17,8 +17,9 @@
           String path = values.length >= 2 ? values[1] : "";
           path = genLink(resourceResolver, path);
           String linkClass = values.length >= 3 ? "class=\"" + values[2] + "\"" : "";
+          String newTab = values.length >= 4 ? values[3] : "false";
   %> 
-    <li><a <%= linkClass%> href="<%= path %>"><%= label %></a></li>
+    <li><a <%= newTab.equals("true") ? "target=\"_blank\"" : "" %> <%= linkClass%> href="<%= path %>"><%= label %></a></li>
   <% } 
   } %>
   </ul>
@@ -33,9 +34,9 @@
       }
       String url = settings[0];
       String iconPath = settings[1];
-      String iconClass = settings.length >= 3 ? " "+ settings[2] : "";
+      String newTab = settings.length >= 3 ? settings[2] : "false";
     %>
-    <li><a href="<%= url %>"><img src="<%= iconPath %>"/></a></li>
+    <li><a <%= newTab.equals("true") ? "target=\"_blank\"" : "" %> href="<%= url %>"><img src="<%= iconPath %>"/></a></li>
     <% } 
     } %>
   </ul>
