@@ -608,6 +608,15 @@ System.err.println("Kaca xx447");
 																.get("meeting short description")
 																.getStr())));
 
+						//_meeting.setSentEmails(null); //GSVTK-1324
+						java.util.List<SentEmail> sendEmails = _meeting.getSentEmails();
+						if( sendEmails!=null && sendEmails.size()>0 ){
+							  for(int se=0;se< sendEmails.size();se++){
+								  SentEmail sEmail = sendEmails.get(se);
+								  sEmail.setHtmlDiff("tessss");
+							  }
+						}
+						
 						java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 								"activityNumber");
 						Collections.sort(_activities, comp);
