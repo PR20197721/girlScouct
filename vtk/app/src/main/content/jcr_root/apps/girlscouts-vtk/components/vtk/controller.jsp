@@ -781,6 +781,9 @@ try{
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
+							
+							((MeetingE) tmp[i]).setSentEmails(null); //GSVTK-1324
+							
 						} catch (Exception e) {e.printStackTrace();
 	}
 					}
