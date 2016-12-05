@@ -4,16 +4,16 @@
 
       <div class="row">
         <div class="column small-24 medium-8">
-          Membership: *?Adult 2016<br>
-          Role: *Friends and Family Volunteer
+          Membership:<%=contact.getMembershipYear() %><br>
+          Role: <%= contact.getRole() %>
         </div>
         <div class="column  small-24 medium-8">
-          Membership Years: Girl:*3 Adult:*12<br>
-          Gender:*Female
+          Membership Years: <%=contact.getMembershipYear() %><br>
+          Gender:
         </div>
         <div class="column small-24 medium-8">
-          <input type="checkbox"> *Email Opt In<br>
-          <input type="checkbox"> *Text Opt In
+          <input type="checkbox" <%=contact.isEmailOptIn() ? " CHECKED " : "" %>> Email Opt In<br>
+          <input type="checkbox" <%=contact.isTxtOptIn() ? " CHECKED " : "" %>> Text Opt In
         </div>
       </div>
 
@@ -21,16 +21,20 @@
       <div style="margin:15px 0"></div>
 
       <div class="row">
-        <div class="column small-24"> Phone : *888-888-8888</div>
+        <div class="column small-24"> Phone :<%=contact.getPhone() %></div>
       </div>
 
       <div class="row">
-        <div class="column small-24"> Email:mail *</div>
+        <div class="column small-24"> Email: <%=contact.getEmail() %></div>
       </div>
 
       <div style="margin:15px 0"></div>
       <div class="row">
-        <div class="column small-24"> Home Address: *</div>
+        <div class="column small-24"> Home Address: <%=contact.getAddress() ==null ? "" : contact.getAddress()%> 
+        <%=contact.getAddress1() ==null ? "" : contact.getAddress1()%>  <%=contact.getSuite() ==null ? "" :  contact.getSuite()%> 
+        <%=contact.getCity() ==null ? "" : contact.getCity()%> <%=contact.getState() ==null ? "" : contact.getState() %>
+        <%=contact.getZip()==null ? "" : contact.getZip() %> <%=contact.getCountry() ==null ? "" :  contact.getCountry()%>
+        </div>
       </div>
 
 
