@@ -1322,22 +1322,22 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 
 	public void saveEmail(User user, Troop troop, String meetingId) {
 
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
+System.err.println("TTR1: "+meetingId);			
 			if (meeting.getUid().equals(meetingId)) {
 				try {
 					SentEmail email = new SentEmail(troop.getSendingEmail());
 					java.util.List<SentEmail> emails = meeting.getSentEmails();
-					emails = emails == null ? new java.util.ArrayList<SentEmail>()
-							: emails;
+System.err.println("TTR2: " + (emails ==null ? "NULL" : emails.size()));				
+					emails = emails == null ? new java.util.ArrayList<SentEmail>() : emails;
 					emails.add(email);
-
+System.err.println("TTR3: " +  emails.size());
 					meeting.setSentEmails(emails);
+					
 					if (meeting.getEmlTemplate() == null) {
-						meeting.setEmlTemplate(troop.getSendingEmail()
-								.getTemplate());
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
 					}
 					meetingDAO.updateMeetingEvent(user, troop, meeting);
 					return;

@@ -389,6 +389,7 @@
 
 		} else if (request.getParameter("sendMeetingReminderEmail") != null) {
 
+	
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
@@ -541,9 +542,7 @@
 
 				
 java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
-for(int i=0;i<tt.size();i++){
-	System.err.println("testtt: "+ tt.get(i).getId() +" : "+ tt.get(i).getRefId() );
-}
+
 				
 				//archive
                 VtkUtil.cngYear(request,  user,  troop);
@@ -565,8 +564,8 @@ for(int i=0;i<tt.size();i++){
                 troop.setSfTroopAge(troop.getTroop().getGradeLevel());
                 troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
-System.err.println("Kaca xx44");
-				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
+
+				java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE> )VtkUtil.deepClone(troop.getYearPlan().getMeetingEvents());
 
 				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
@@ -575,7 +574,7 @@ System.err.println("Kaca xx44");
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
-System.err.println("Kaca xx445");
+
 				if( attendance !=null && attendance.getUsers()!=null ){
 				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 				    attendanceTotal= attendance.getTotal();
@@ -584,7 +583,7 @@ System.err.println("Kaca xx445");
 				if( achievement !=null && achievement.getUsers()!=null ){
 				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 				}
-System.err.println("Kaca xx46");
+
 				if (_meeting.getMeetingInfo() != null
 						&& _meeting.getMeetingInfo()
 								.getActivities() != null) {
@@ -596,7 +595,7 @@ System.err.println("Kaca xx46");
 					} else {
 						java.util.List<Activity> _activities = _meeting
 								.getMeetingInfo().getActivities();
-System.err.println("Kaca xx447");
+
 						_meeting.getMeetingInfo()
 								.getMeetingInfo()
 								.put("meeting short description",
@@ -607,13 +606,14 @@ System.err.println("Kaca xx447");
 																.getMeetingInfo() // fixme - refactor
 																.get("meeting short description")
 																.getStr())));
-
+java.util.List<SentEmail> emails = _meeting.getSentEmails();
+					
 						//_meeting.setSentEmails(null); //GSVTK-1324
 						java.util.List<SentEmail> sendEmails = _meeting.getSentEmails();
 						if( sendEmails!=null && sendEmails.size()>0 ){
 							  for(int se=0;se< sendEmails.size();se++){
 								  SentEmail sEmail = sendEmails.get(se);
-								  sEmail.setHtmlDiff("tessss");
+								  sEmail.setHtmlDiff("tessss123");
 							  }
 						}
 						
@@ -651,7 +651,7 @@ System.err.println("Kaca xx447");
 					troop.getYearPlan().setHelper(helper);
 
 	                session.putValue("VTK_troop", troop);
-System.err.println("Kaca xx4499");
+
                     ObjectMapper mapper = new ObjectMapper();
                     try {
 

@@ -21,9 +21,34 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	
 	private java.util.List <Contact>contacts;
 	private String accountId;
-	private boolean renewalDue;
+	private boolean renewalDue, emailOptIn, txtOptIn;
+	public boolean isEmailOptIn() {
+		return emailOptIn;
+	}
+
+	public void setEmailOptIn(boolean emailOptIn) {
+		this.emailOptIn = emailOptIn;
+	}
+
+	public boolean isTxtOptIn() {
+		return txtOptIn;
+	}
+
+	public void setTxtOptIn(boolean txtOptIn) {
+		this.txtOptIn = txtOptIn;
+	}
+
+	private Integer membershipYear;
 	
 	
+	public Integer getMembershipYear() {
+		return membershipYear;
+	}
+
+	public void setMembershipYear(Integer membershipYear) {
+		this.membershipYear = membershipYear;
+	}
+
 	public Integer getType() {
 		return type;
 	}

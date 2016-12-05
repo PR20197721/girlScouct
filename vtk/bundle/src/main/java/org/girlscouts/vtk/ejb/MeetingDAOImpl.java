@@ -1749,8 +1749,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 					
 					continue;
 				}
-				activity.setLocationName(r.getValue("child.locationLabel")
-						.getString());
+				try {
+					activity.setLocationName(r.getValue("child.locationLabel").getString());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				try {
 					activity.setLocationAddress(r.getValue("child.address")
 							.getString());
