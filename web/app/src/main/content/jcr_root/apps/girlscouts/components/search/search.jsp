@@ -131,6 +131,13 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
 					continue;
 				}
             }
+            if(null != docHit.getProperties().get("data/end")){
+            	String endDateString = (String)docHit.getProperties().get("data/end");
+            	GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
+            	if(today.isAfter(endDate)){
+            		continue;
+            	}
+            }
             %>
             <br/>
         <%
