@@ -11,13 +11,6 @@
     		name="./dontActivate"
     		type="checkbox"
     		xtype="selection"/>
-    	<rebuild
-    		jcr:primaryType="cq:Widget"
-    		fieldLabel="Rebuild Deleted Live Copies"
-    		fieldDescription="If a council already had a live copy of this page and deleted it, should the workflow rebuild the page? If unchecked, councils in this situation will be skipped."
-    		name="./rebuild"
-    		type="checkbox"
-    		xtype="selection"/>
         <councils
             jcr:primaryType="cq:Widget"
             fieldLabel="Councils"

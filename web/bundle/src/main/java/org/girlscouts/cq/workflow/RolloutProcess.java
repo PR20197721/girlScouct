@@ -228,7 +228,7 @@ public class RolloutProcess implements WorkflowProcess {
             		}
         		}
             	if(proceed && targetResource.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-            		messageLog.add("Resource not found. Presumed deleted by council");
+            		messageLog.add("Resource not found in this council.");
             		messageLog.add("Will NOT rollout to this page");
             		proceed = false;
             	}

@@ -36,9 +36,14 @@ else if(null != resourcePath){
 			String pageToResource = resourcePath.substring(p.getPath().length());
 			
 			Node pageNode = p.adaptTo(Node.class);
-			Node liveSyncConfigNode = pageNode.getNode("jcr:content/cq:LiveSyncConfig");
-			String masterPage = liveSyncConfigNode.getProperty("cq:master").getString();
-			Resource masterResource = resourceResolver.resolve(masterPage + pageToResource);
+			Node liveSyncConfigNode = null;
+			String masterPage = null;
+			Resource masterResource = null;
+			try{
+				pageNode.getNode("jcr:content/cq:LiveSyncConfig");
+				masterPage = liveSyncConfigNode.getProperty("cq:master").getString();
+				masterResource = resourceResolver.resolve(masterPage + pageToResource);
+			}catch(Exception e){}
 
 			if(action.equals("EditProp")){
 				if(null != editProp){
@@ -62,7 +67,7 @@ else if(null != resourcePath){
 					LiveRelationshipManager lrm = sling.getService(LiveRelationshipManager.class);
 					LiveRelationship lr = lrm.getLiveRelationship(r,false);
 					RolloutManager rm = sling.getService(RolloutManager.class);
-					rm.rollout(resourceResolver, lr, false);
+					rm.rollout(resourceResolver, lr, true);
 					session.save();
 					status = "success";
 				}catch(Exception e){

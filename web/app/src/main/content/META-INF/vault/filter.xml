@@ -72,7 +72,6 @@
     <filter root="/etc/workflow/dialogs"/>
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
-    <filter root="/etc/msm/rolloutreports"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
        <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>

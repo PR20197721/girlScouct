@@ -124,7 +124,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 			}
 		} 
         
-        Boolean dontSend = false, useTemplate = false, activate = true, rebuild = false;
+        Boolean dontSend = false, useTemplate = false, activate = true;
         String templatePath = "";
         
         try{
@@ -135,13 +135,8 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         	activate = !((Value)mdm.get("dontActivate")).getBoolean();
         }catch(Exception e){}
         
-        try{
-        	rebuild = ((Value)mdm.get("rebuild")).getBoolean();
-        }catch(Exception e){}
-        
         messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
         messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
-        messageLog.add("This workflow will " + (rebuild? "" : "not ") + "rebuild deleted live copies.");
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.</p>" +
@@ -261,15 +256,7 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
             			if(compString.indexOf("/en/") > 0){
                 			compString = compString.substring(0,existingString.indexOf("/en/"));
                 			if(targetResource.getPath().startsWith(compString)){
-                				if(resourceResolver.resolve(existingString).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-                					if(rebuild){
-                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Because rebuild is checked, a new live copy will be created.");
-                					}else{
-                						messageLog.add("A live copy for this page existed on this council at " + existingString + " but was deleted. Rebuild is not checked, so this council will be skipped.");
-                						proceed = false;
-                					}
-                				}else{
-                					System.out.println("Skipping New Page Rollout for " + compString + ". The council already has a live copy");
+                				if(!resourceResolver.resolve(existingString).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
                 					messageLog.add("A live copy for this page can already be found in this council. Skipping.");
                 					proceed = false;
                 				}
