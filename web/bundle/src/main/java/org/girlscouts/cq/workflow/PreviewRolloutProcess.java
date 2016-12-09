@@ -241,9 +241,9 @@ public class PreviewRolloutProcess implements WorkflowProcess {
 
             	    ReplicationOptions opts = new ReplicationOptions();
             	    opts.setFilter(filter);
-            	    boolean breakInheritance = false;
+            	    Boolean breakInheritance = false;
             		try{
-            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
+            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
             			breakInheritance = contentProps.get("breakInheritance",false);
             		}catch(Exception e){
             			e.printStackTrace();

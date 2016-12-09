@@ -233,9 +233,9 @@ public class RolloutProcess implements WorkflowProcess {
             		proceed = false;
             	}
             	if(proceed == true){
-            	    boolean breakInheritance = false;
+            	    Boolean breakInheritance = false;
             		try{
-            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource.getChild("jcr:content"));
+            			ValueMap contentProps = ResourceUtil.getValueMap(targetResource);
             			breakInheritance = contentProps.get("breakInheritance",false);
             		}catch(Exception e){
             			e.printStackTrace();

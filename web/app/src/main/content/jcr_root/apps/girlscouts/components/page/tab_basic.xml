@@ -35,7 +35,7 @@
                     xtype="selection"/>
                 <breakinheritance
                 	jcr:primaryType="cq:Widget"
-                	fieldLabel="Break Inheritance for this page"
+                	fieldLabel="Block Rollouts for this page"
                 	fieldDescription="Rejects all GSUSA content rollouts for this page. If you want to sync individual components with national content, you will need to unlock and relock them"
                 	inputValue="true"
                 	name="./breakInheritance"
