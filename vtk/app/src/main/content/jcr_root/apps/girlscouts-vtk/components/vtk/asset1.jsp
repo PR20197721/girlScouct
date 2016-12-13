@@ -4,7 +4,7 @@
 <!-- PAGE START asset.jsp -->
 <%@include file="include/session.jsp"%>
 <!--  WHAT IS THIS JSP?? Refactor -->
-<script>
+<script> 
 function assignAid(aidId, meetingId, assetName, assetDesc){
       
       $.ajax({
