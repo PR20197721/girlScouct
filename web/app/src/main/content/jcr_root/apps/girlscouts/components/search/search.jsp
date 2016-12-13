@@ -18,7 +18,6 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
 	Date today = new Date();
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 	String todayString = sdf.format(today);
-	System.out.println(todayString);
 	
 	//This query first checks if the page is an event
 	//If it's an event, it checks that a) the end date of the event is in the future, and
@@ -47,7 +46,6 @@ public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path
     mapFullText.put("group.2_group.2_group.2_daterange.upperOperation","<=");
 
     PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-    System.out.println(predicateFullText.toString());
     Query query = queryBuilder.createQuery(predicateFullText,session);
 
     query.setExcerpt(true);
