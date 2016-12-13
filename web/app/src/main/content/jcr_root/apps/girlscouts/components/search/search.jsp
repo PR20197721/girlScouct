@@ -188,7 +188,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     		last = (int)totalPage -1;
 		}
 
-    	for (int i = first; i < last; i++ ) { 
+    	for (int i = first; i <= last; i++ ) { 
     		if (currentPageNo == i) {
             	%><li class="currentPageNo"><%= i+1 %></li><%
         	} else {
