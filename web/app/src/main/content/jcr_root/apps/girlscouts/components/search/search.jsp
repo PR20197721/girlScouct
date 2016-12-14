@@ -7,26 +7,49 @@ java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
 com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
 com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
 java.util.Map,java.util.HashMap,java.util.List, java.util.ArrayList, java.util.regex.*, java.text.*,
-java.util.Arrays, org.girlscouts.web.events.search.*" %>
+java.util.Arrays, org.girlscouts.web.events.search.*,
+java.util.Date,
+java.text.SimpleDateFormat" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 
 <%!
 public List<Hit> getHits(QueryBuilder queryBuilder, Session session, String path, String escapedQuery, String pType){
-    Map mapFullText = new HashMap();
+	Date today = new Date();
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	String todayString = sdf.format(today);
+	
+	//This query first checks if the page is an event
+	//If it's an event, it checks that a) the end date of the event is in the future, and
+	//b) that the visible date of the event is in the past
+	Map mapFullText = new HashMap();
     mapFullText.put("fulltext", escapedQuery);
+    mapFullText.put("fulltext.relPath","jcr:content");
     mapFullText.put("type", pType);
     mapFullText.put("p.limit","-1");
     mapFullText.put("path",path);
-    mapFullText.put("group.1_fulltext.relPath", "jcr:content");
     mapFullText.put("boolproperty","jcr:content/hideInNav");
     mapFullText.put("boolproperty.value","false");
-
+    mapFullText.put("group.p.or","true");
+    mapFullText.put("group.1_property","jcr:content/sling:resourceType");
+    mapFullText.put("group.1_property.operation","unequals");
+    mapFullText.put("group.1_property.value","girlscouts/components/event-page");
+    mapFullText.put("group.2_group.1_daterange.property","jcr:content/data/end");
+    mapFullText.put("group.2_group.1_daterange.lowerBound",todayString);
+    mapFullText.put("group.2_group.1_daterange.lowerOperation",">=");
+    mapFullText.put("group.2_group.2_group.p.or","true");
+    mapFullText.put("group.2_group.2_group.1_property","jcr:content/data/visibleDate");
+    mapFullText.put("group.2_group.2_group.1_property.operation","exists");
+    mapFullText.put("group.2_group.2_group.1_property.value","false");
+    mapFullText.put("group.2_group.2_group.2_daterange.property","jcr:content/data/visibleDate");
+    mapFullText.put("group.2_group.2_group.2_daterange.upperBound",todayString);
+    mapFullText.put("group.2_group.2_group.2_daterange.upperOperation","<=");
 
     PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
     Query query = queryBuilder.createQuery(predicateFullText,session);
 
     query.setExcerpt(true);
+    
     return query.getResult().getHits(); 
 }
 
@@ -114,8 +137,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-	GSDateTime today = new GSDateTime();
-    GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     int pathIndex = startIdx;
     for(int i = startIdx; i < endIdx ; i++) {
         try{
@@ -124,20 +145,6 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
             String description = docHit.getDescription();
-            if(null != docHit.getProperties().get("data/visibleDate")){
-				String visibleDate = (String)docHit.getProperties().get("data/visibleDate");
-				GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
-				if(vis.isAfter(today)){
-					continue;
-				}
-            }
-            if(null != docHit.getProperties().get("data/end")){
-            	String endDateString = (String)docHit.getProperties().get("data/end");
-            	GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
-            	if(today.isAfter(endDate)){
-            		continue;
-            	}
-            }
             %>
             <br/>
         <%
@@ -179,7 +186,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     		last = (int)totalPage -1;
 		}
 
-    	for (int i = first; i < last; i++ ) { 
+    	for (int i = first; i <= last; i++ ) { 
     		if (currentPageNo == i) {
             	%><li class="currentPageNo"><%= i+1 %></li><%
         	} else {
