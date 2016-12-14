@@ -69,6 +69,9 @@ public class MeetingUtil {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
+	
+	//@Reference
+	//CalendarUtil calendarUtil;
 
 	java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
@@ -1118,17 +1121,29 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		return isRemoved;
 	}
 
-	public boolean rmMeeting(User user, Troop troop, String meetingRefId)
+	public boolean rmMeeting(User user, Troop troop, String meetingUid)
 			throws IllegalAccessException {
 		boolean isRemoved = false;
+	
+		boolean isRmDt = false;
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		
+		meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId)) {
-				troopDAO.removeMeeting(user, troop, meetings.get(i));
-				meetings.remove(i);
+			if (meetings.get(i).getUid().equals(meetingUid)) {
+				
+				try{
+					isRmDt= rmSchedDate( user,  troop, meetings.get(i).getDate().getTime() );
+				}catch(org.girlscouts.vtk.utils.VtkException e){e.printStackTrace();}
+				
+				 if( isRmDt ){
+					troopDAO.removeMeeting(user, troop, meetings.get(i));
+					meetings.remove(i);
+				}
 			}
 		}
-		isRemoved = true;
+		
+		if( isRmDt )isRemoved = true;
 		return isRemoved;
 	}
 

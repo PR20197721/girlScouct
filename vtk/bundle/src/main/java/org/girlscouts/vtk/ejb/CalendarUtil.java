@@ -599,9 +599,9 @@ private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> m
 }
 
 
-private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
+public  java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
 
-	
+	/*
 	//sort meetings by Date
 	Comparator<MeetingE> comp = new BeanComparator("id");
 			if (meetings != null)
@@ -618,6 +618,8 @@ private java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings
 	}
 	
 	return meetings;
+	*/
+	return VtkUtil.schedMeetings(meetings, sched);
 }
 
 
