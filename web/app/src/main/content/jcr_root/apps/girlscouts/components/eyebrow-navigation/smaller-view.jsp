@@ -24,7 +24,7 @@ for (int i = 0; i < links.length; i++) {
      <%}else{ %>
      	<li>
      <% } %>
-		<div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
+		<div><a <%= clazz %> href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
  <% } %>
 </ul>
 </div>

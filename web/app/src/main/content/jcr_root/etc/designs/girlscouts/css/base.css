@@ -1601,3 +1601,6 @@ div.textimage div.image {
 	    padding: 0.0625rem;
 	}
 }
+.eyebrow-nav .side-nav .no-hamburger{
+	display:none;
+}
