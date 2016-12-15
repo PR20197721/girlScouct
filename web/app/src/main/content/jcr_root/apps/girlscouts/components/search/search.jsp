@@ -37,7 +37,10 @@ final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
 Session session = slingRequest.getResourceResolver().adaptTo(Session.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-String q = slingRequest.getParameter("q").trim();
+String q = "";
+if(slingRequest.getParameter("q") != null){
+	q = slingRequest.getParameter("q").trim();
+}
 //String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 List<Hit> hits = new ArrayList<Hit>();
@@ -91,14 +94,56 @@ if(theseDamDocuments.equals("")){
 hits.addAll(getHits(queryBuilder,session,searchIn,java.net.URLDecoder.decode(query, "UTF-8"), "cq:Page"));
 hits.addAll(getHits(queryBuilder,session,theseDamDocuments,java.net.URLDecoder.decode(query, "UTF-8"), "dam:Asset"));
 
-String numberOfResults = String.valueOf(hits.size());
+GSDateTime today = new GSDateTime();
+GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+ArrayList<Hit> filteredHits = new ArrayList<Hit>();
+//It might seem inefficient to iterate through the whole results list here to pick out invalid events
+//But this is actually significantly faster than modifying the search predicates and making Lucene do the work
+for(int i = 0; i < hits.size(); i++){
+	try{
+        DocHit docHit = new DocHit(hits.get(i));
+        String path = docHit.getURL();
+        Resource hitRes = resourceResolver.resolve(docHit.getURL());
+        Node hitNode = hitRes.adaptTo(Node.class);
+        if(hitNode.hasNode("jcr:content/data")){
+        	Node dataNode = hitNode.getNode("jcr:content/data");
+            if(dataNode.hasProperty("visibleDate")){
+            	try{
+    				String visibleDate = dataNode.getProperty("visibleDate").getString();
+    				GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
+    				if(vis.isAfter(today)){
+    					continue;
+    				}
+            	}catch(Exception e){
+    				e.printStackTrace();
+            	}
+            }
+            if(dataNode.hasProperty("end")){
+            	try{
+    	        	String endDateString = dataNode.getProperty("end").getString();
+    	        	GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
+    	        	if(today.isAfter(endDate)){
+    	        		continue;
+    	        	}
+            	}catch(Exception e){
+            		e.printStackTrace();
+            	}
+            }
+        }
+        filteredHits.add(hits.get(i));
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+}
 
-if (startIdx + pageSize > hits.size()) {
-	endIdx = hits.size(); //last page
+String numberOfResults = String.valueOf(filteredHits.size());
+
+if (startIdx + pageSize > filteredHits.size()) {
+	endIdx = filteredHits.size(); //last page
 } else {
 	endIdx = startIdx + pageSize; //all other page
 }
-totalPage = Math.ceil((double)hits.size()/pageSize);
+totalPage = Math.ceil((double)filteredHits.size()/pageSize);
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
@@ -106,7 +151,7 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
      </form>
 </center>
 <br/>
-<%if(hits.isEmpty()){ %>
+<%if(filteredHits.isEmpty()){ %>
     <fmt:message key="noResultsText">
       <fmt:param value="${escapedQuery}"/>
     </fmt:message>
@@ -114,30 +159,15 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-	GSDateTime today = new GSDateTime();
-    GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
     int pathIndex = startIdx;
+    
     for(int i = startIdx; i < endIdx ; i++) {
         try{
-            DocHit docHit = new DocHit(hits.get(i));
+            DocHit docHit = new DocHit(filteredHits.get(i));
             String path = docHit.getURL();
             int idx = path.lastIndexOf('.');
             String extension = idx >= 0 ? path.substring(idx + 1) : "";
             String description = docHit.getDescription();
-            if(null != docHit.getProperties().get("data/visibleDate")){
-				String visibleDate = (String)docHit.getProperties().get("data/visibleDate");
-				GSDateTime vis = GSDateTime.parse(visibleDate,dtfIn);
-				if(vis.isAfter(today)){
-					continue;
-				}
-            }
-            if(null != docHit.getProperties().get("data/end")){
-            	String endDateString = (String)docHit.getProperties().get("data/end");
-            	GSDateTime endDate = GSDateTime.parse(endDateString, dtfIn);
-            	if(today.isAfter(endDate)){
-            		continue;
-            	}
-            }
             %>
             <br/>
         <%
@@ -179,21 +209,23 @@ totalPage = Math.ceil((double)hits.size()/pageSize);
     		last = (int)totalPage -1;
 		}
 
-    	for (int i = first; i < last; i++ ) { 
-    		if (currentPageNo == i) {
-            	%><li class="currentPageNo"><%= i+1 %></li><%
-        	} else {
-            	if (((last-i)==1 && last >10 ) || (currentPageNo==10 &&i==9) ){
-                	%><li class="currentPageNo"><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
-            	} else {
-                	%><li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=i*10%>"><%= i+1 %></a></li><%
-            	}
-       	 	}
-    	}%>
-
-    	<%if (currentPageNo != totalPage-1 ) {  %>
-    		<li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=(currentPageNo + 1)*10%>">></a></li>
-    	<%}  %>
+		if(totalPage > 1){
+	    	for (int i = first; i <= last; i++ ) { 
+	    		if (currentPageNo == i) {
+	            	%><li class="currentPageNo"><%= i+1 %></li><%
+	        	} else {
+	            	if (((last-i)==1 && last >10 ) || (currentPageNo==10 &&i==9) ){
+	                	%><li class="currentPageNo"><a href="${currentPage.path}.html?q=<%= q%>&start=<%=i*10%>"><%= i+1 %></a></li><%
+	            	} else {
+	                	%><li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=i*10%>"><%= i+1 %></a></li><%
+	            	}
+	       	 	}
+	    	}%>
+	
+	    	<%if (currentPageNo != totalPage-1 ) {  %>
+	    		<li><a href="${currentPage.path}.html?q=${escapedQueryForAttr}&start=<%=(currentPageNo + 1)*10%>">></a></li>
+	    	<%}
+    	}  %>
 </ul>
 	
 <script>
