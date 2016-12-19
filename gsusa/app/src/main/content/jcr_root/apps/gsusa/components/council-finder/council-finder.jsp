@@ -21,7 +21,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 	<% } %>
 		<% if(zip == true) { %>
 			<li>
-				<form class="zipSearch" action="<%= path %>" method="get" />
+				<form class="zipSearch" name="zipSearch">
 					<h6>By Zip Code</h6>
 					<p>Find the Girl Scout<br/> Council Serving Your Area</p>
 					<section>
@@ -30,21 +30,89 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 					</section>
 				</form>
 			</li>
+    <script>
+    	$(document).ready(function(){
+    		// zip
+    		zipFormSubmitted = false;
+		    $('.council-finder form[name="zipSearch"]').submit(function(){
+		    	if (zipFormSubmitted) {
+		    		return false;
+		    	}
+
+		        var zip = $(this).find('input[name="zip"]').val();
+			    var redirectUrl = '<%= resourceResolver.map(path) %>'; 
+			    var currentUrl = window.location.href;
+			    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
+			    var queryPos = currentUrl.indexOf('?');
+			    if (queryPos != -1) {
+			    	var queryStr = currentUrl.substring(queryPos);
+			    	var hashPos = queryStr.indexOf('#');
+			    	if (hashPos != -1) {
+			    		queryStr = queryStr.substr(0, hashPos);
+			    	}
+			    	redirectUrl += queryStr;
+			    }
+			    redirectUrl = redirectUrl + '#' + zip;
+			    window.location.href = redirectUrl;
+			    if (isSameUrl) {
+			    	window.location.reload();
+			    }
+		    
+		    	zipFormSubmitted = true;
+		        return false;
+		    });
+	    });
+    </script>
+			
 		<% } %>
 
 			<% if(state == true) { %>
 			<li>
-				<form class="stateSearch" action="<%= path %>" method="get">
+				<form class="stateSearch" name="stateSearch">
 					<h6>By State</h6>
 					<p>Find a Girl Scout<br/> Council by State</p>
 					<cq:include script="state-form.jsp" />
 				</form>
 			</li>
+    <script>
+    	$(document).ready(function(){
+    		// state
+    		stateFormSubmitted = false;
+		    $('.council-finder form[name="stateSearch"]').submit(function(){
+		    	if (stateFormSubmitted) {
+		    		return false;
+		    	}
+
+		        var state = $(this).find('select[name="state"]').val();
+			    var redirectUrl = '<%= resourceResolver.map(path) %>'; 
+			    var currentUrl = window.location.href;
+			    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
+			    var queryPos = currentUrl.indexOf('?');
+			    if (queryPos != -1) {
+			    	var queryStr = currentUrl.substring(queryPos);
+			    	var hashPos = queryStr.indexOf('#');
+			    	if (hashPos != -1) {
+			    		queryStr = queryStr.substr(0, hashPos);
+			    	}
+			    	redirectUrl += queryStr;
+			    }
+			    redirectUrl = redirectUrl + '#' + state;
+			    window.location.href = redirectUrl;
+			    if (isSameUrl) {
+			    	window.location.reload();
+			    }
+		    
+		    	stateFormSubmitted = true;
+		        return false;
+		    });
+    	});
+    </script>
+			
 		<% } %>
 
 		<% if(councilName == true) { %>
 			<li>
-				<form class="councilCodeSearch" action="<%= path %>" method="get">
+				<form class="councilCodeSearch" name="councilCodeSearch">
 				</form>
 			</li>
 			<script type="text/javascript">
@@ -81,8 +149,43 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 				});
 			});
 			</script>
+
+    <script>
+    	$(document).ready(function(){
+    		// councilCode
+    		councilCodeFormSubmitted = false;
+		    $('.council-finder form[name="councilCodeSearch"]').submit(function(){
+		    	if (councilCodeFormSubmitted) {
+		    		return false;
+		    	}
+
+		        var councilCode = $(this).find('select[name="council-code"]').val();
+			    var redirectUrl = '<%= resourceResolver.map(path) %>'; 
+			    var currentUrl = window.location.href;
+			    var isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
+			    var queryPos = currentUrl.indexOf('?');
+			    if (queryPos != -1) {
+			    	var queryStr = currentUrl.substring(queryPos);
+			    	var hashPos = queryStr.indexOf('#');
+			    	if (hashPos != -1) {
+			    		queryStr = queryStr.substr(0, hashPos);
+			    	}
+			    	redirectUrl += queryStr;
+			    }
+			    redirectUrl = redirectUrl + '#' + councilCode;
+			    window.location.href = redirectUrl;
+			    if (isSameUrl) {
+			    	window.location.reload();
+			    }
+		    
+		    	councilCodeFormSubmitted = true;
+		        return false;
+		    });
+    	});
+    </script>
+			
 		<% } %>
 	<% if(zip == true || state == true || councilName == true) { %>
 	</ul>
-	<% } %>
+	<% } %>	
 <% } %>
