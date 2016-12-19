@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Temporary Future User Configuration">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <username
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Username"
+                        name="./username"
+                        regex="/^[a-z]+$/"
+                        regexText="Username must be all lowercase letters"
+                        xtype="textfield"/>
+                   <password
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Password"
+                        name="./password"
+                        xtype="password"/>
+                    <expiration-date
+                    	jcr:primaryType="cq:Widget"
+                    	allowBlank="{Boolean}false"
+                    	fieldLabel="Expiration Date"
+                    	name="./expiration"
+                    	xtype="datefield"/>
+                    <user-group
+                    	jcr:primaryType="cq:Widget"
+                    	value="future-user"
+                    	name="./group"
+                    	xtype="hidden"/>
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>
