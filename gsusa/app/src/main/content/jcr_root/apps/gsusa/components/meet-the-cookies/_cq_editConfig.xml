@@ -2,7 +2,7 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     cq:dialogMode="floating"
     cq:disableTargeting="{Boolean}true"
-    cq:actions="[text:Booth Finder Result,-,edit,delete]"
+    cq:actions="[text:Meet the Cookies,-,edit,delete]"
     cq:layout="editbar"
     jcr:primaryType="cq:EditConfig">
     <cq:listeners
