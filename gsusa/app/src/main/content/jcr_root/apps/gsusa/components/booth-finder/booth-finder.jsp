@@ -205,7 +205,7 @@ BoothFinder.prototype.processResult = function(result) {
 			var radius = getParameterByName('radius');
 			var date = getParameterByName('date');
 			var sortBy = getParameterByName('sortBy');
-			if (!radius) radius = 25;
+			if (!radius) radius = 50;
 			if (!date) date = 60;
 			if (!sortBy) sortBy = 'distance'
 			$('select[name="radius"]').val(radius);
@@ -293,7 +293,7 @@ $(document).ready(function(){
 		var radius = getParameterByName('radius');
 		var date = getParameterByName('date');
 		var sortBy = getParameterByName('sortBy');
-		if (!radius) radius = 25;
+		if (!radius) radius = 50;
 		if (!date) date = 60;
 		if (!sortBy) sortBy = 'distance';
 		
