@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:mixinTypes="[cq:Console]"
+    jcr:primaryType="cq:Widget"
+    jcr:title="AEM Tagging"
+    sling:redirect="{Boolean}false"
+    sling:resourceType="cq/ui/components/widget"
+    sling:vanityOrder="{Long}220"
+    sling:vanityPath="/tagging"
+    consoleDescription="Organize your tags and their namespaces."
+    consoleTitle="Tagging"
+    iconClass="tagadmin"
+    jsLibs="[cq.wcm.admin,cq.tagging]"
+    xtype="tagadmin">
+    <actions jcr:primaryType="nt:unstructured">
+        <new
+            jcr:primaryType="nt:unstructured"
+            cls="cq-tagadmin-create"
+            handler="CQ.tagging.TagAdmin.createTag"
+            privileges="[create]"
+            target="CQ.tagging.TagAdmin.getCurrentTreePath"
+            text="New...">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Creates a new tag/namespace"
+                title="Create new tag/namespace"/>
+        </new>
+        <delete
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-delete"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.deleteTag"
+            privileges="[delete]"
+            target="CQ.tagging.TagAdmin.getAnyTarget"
+            text="Delete">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Deletes selected tags"
+                title="Delete tag"/>
+        </delete>
+        <edit
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-edit"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.editTag"
+            privileges="[update]"
+            target="CQ.tagging.TagAdmin.getSelectedTag"
+            text="Edit...">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Opens dialog to edit tag properties"
+                title="Edit tag"/>
+        </edit>
+        <list
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-list"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.listTaggedItems"
+            text="List">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Opens a dialog listing all tagged items"
+                title="List tagged items"/>
+        </list>
+        <separator1
+            jcr:primaryType="nt:unstructured"
+            page="{Boolean}true"
+            value="-"
+            xtype="separator"/>
+        <move
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-edit"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.moveTag"
+            privileges="[delete]"
+            target="CQ.tagging.TagAdmin.getSelectedTag"
+            text="Move...">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Opens a dialog to move the tag"
+                title="Move tag"/>
+        </move>
+        <merge
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-edit"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.mergeTag"
+            privileges="[update]"
+            target="CQ.tagging.TagAdmin.getSelectedTag"
+            text="Merge...">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Opens a dialog to merge the tag with another tag"
+                title="Merge tag"/>
+        </merge>
+        <separator2
+            jcr:primaryType="nt:unstructured"
+            page="{Boolean}true"
+            value="-"
+            xtype="separator"/>
+        <activate
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-activate"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.activateTag"
+            privileges="[replicate]"
+            target="CQ.tagging.TagAdmin.getSelectedTag"
+            text="Activate">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Activates selected tags"
+                title="Activate tag"/>
+        </activate>
+        <deactivate
+            jcr:primaryType="nt:unstructured"
+            cls="cq-siteadmin-deactivate"
+            disabled="{Boolean}true"
+            handler="CQ.tagging.TagAdmin.deactivateTag"
+            privileges="[replicate]"
+            target="CQ.tagging.TagAdmin.getSelectedTag"
+            text="Deactivate">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Deactivates selected tags"
+                title="Deactivate tag"/>
+        </deactivate>
+        <separator3
+            jcr:primaryType="nt:unstructured"
+            page="{Boolean}true"
+            value="-"
+            xtype="separator"/>
+        <help
+            jcr:primaryType="nt:unstructured"
+            handler="CQ.wcm.HelpBrowser.show"
+            text="Help">
+            <tooltip
+                jcr:primaryType="nt:unstructured"
+                autoHide="{Boolean}true"
+                text="Browse the online help"
+                title="AEM User Guide"/>
+        </help>
+    </actions>
+    <tags jcr:primaryType="nt:unstructured">
+        <icon1
+            jcr:primaryType="nt:unstructured"
+            href="/libs/cq/tagging/content/tagadmin.ico"
+            rel="shortcut icon"
+            tagName="link"
+            type="image/vnd.microsoft.icon"/>
+        <icon2
+            jcr:primaryType="nt:unstructured"
+            href="/libs/cq/tagging/content/tagadmin.ico"
+            rel="icon"
+            tagName="link"
+            type="image/vnd.microsoft.icon"/>
+    </tags>
+</jcr:root>
