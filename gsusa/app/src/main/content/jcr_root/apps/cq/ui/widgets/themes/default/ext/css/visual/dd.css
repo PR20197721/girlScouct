@@ -1,0 +1,29 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ .x-dd-drag-ghost{
+	color:#000;
+	font: normal 11px arial, helvetica, sans-serif;
+    border-color: #ddd #bbb #bbb #ddd;
+	background-color:#fff;
+}
+
+#CQ .x-dd-drop-nodrop .x-dd-drop-icon{
+  background-image: url(../../../ext/dd/drop-no.gif);
+}
+
+#CQ .x-dd-drop-ok .x-dd-drop-icon{
+  background-image: url(../../../ext/dd/drop-yes.gif);
+}
+
+#CQ .x-dd-drop-ok-add .x-dd-drop-icon{
+  background-image: url(../../../ext/dd/drop-add.gif);
+}
+
+#CQ .x-view-selector {
+    background-color:#D6D6D6;
+    border-color:#888888;
+}

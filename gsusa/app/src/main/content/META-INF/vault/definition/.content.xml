@@ -55,5 +55,10 @@
             mode="replace"
             root="/etc/designs/gsusa/jcr:content/page/video"
             rules="[]"/>
+	<f9
+	    jcr:primaryType="nt:folder"
+	    mode="replace"
+	    root="/apps/cq/ui/widgets/themes"
+	    rules="[]"/>
     </filter>
 </jcr:root>

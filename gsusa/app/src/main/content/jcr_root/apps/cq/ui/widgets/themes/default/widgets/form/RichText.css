@@ -1,0 +1,281 @@
+/*************************************************************************
+*
+* ADOBE CONFIDENTIAL
+* ___________________
+*
+*  Copyright 2012 Adobe Systems Incorporated
+*  All Rights Reserved.
+*
+* NOTICE:  All information contained herein is, and remains
+* the property of Adobe Systems Incorporated and its suppliers,
+* if any.  The intellectual and technical concepts contained
+* herein are proprietary to Adobe Systems Incorporated and its
+* suppliers and are protected by trade secret or copyright law.
+* Dissemination of this information or reproduction of this material
+* is strictly forbidden unless prior written permission is obtained
+* from Adobe Systems Incorporated.
+**************************************************************************/
+
+#CQ .x-html-editor-tb .x-edit-modifylink {
+    background-position:-208px 0;
+    background-image:url(../../icons/16x16/tb-sprite.gif);
+}
+
+#CQ .x-html-editor-tb .x-edit-unlink {
+    background: url(../../icons/16x16/unlink.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-anchor {
+    background: url(../../icons/16x16/anchor.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-specialchars {
+    background: url(../../icons/16x16/special_chars.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-subscript {
+    background: url(../../icons/16x16/subscript.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-superscript {
+    background: url(../../icons/16x16/superscript.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-indent {
+    background: url(../../icons/16x16/indent.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-outdent {
+    background: url(../../icons/16x16/outdent.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-cut {
+    background: url(../../icons/16x16/cut.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-copy {
+    background: url(../../icons/16x16/copy.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-paste-default {
+    background: url(../../icons/16x16/paste-default.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-paste-plaintext {
+    background: url(../../icons/16x16/paste-plaintext.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-paste-wordhtml {
+    background: url(../../icons/16x16/paste-word.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-table {
+    background: url(../../icons/16x16/table.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-removestyle {
+    background: url(../../icons/16x16/remove-style.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-table-properties,
+#CQ .x-menu .x-menu-item .rte-tableprops {
+    background: url(../../icons/16x16/table-properties.png) center no-repeat;
+}
+
+#CQ .x-menu .x-menu-item .rte-createtable {
+    background: url(../../icons/16x16/table-add.png) center no-repeat;
+}
+
+#CQ .x-menu .x-menu-item .rte-removetable {
+    background: url(../../icons/16x16/table-delete.png) center no-repeat;
+}
+
+#CQ .x-menu .x-menu-item .rte-row {
+    background: url(../../icons/16x16/row.png) center no-repeat;
+}
+
+#CQ .x-menu .x-menu-item .rte-column {
+    background: url(../../icons/16x16/column.png) center no-repeat;
+}
+
+#CQ .x-menu .x-menu-item .rte-cell {
+    background: url(../../icons/16x16/cell.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-insertrow-before,
+#CQ .x-menu .x-menu-item .rte-insertrow-before {
+    background: url(../../icons/16x16/row-insert-before.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-insertrow-after,
+#CQ .x-menu .x-menu-item .rte-insertrow-after {
+    background: url(../../icons/16x16/row-insert-after.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-removerow,
+#CQ .x-menu .x-menu-item .rte-removerow {
+    background: url(../../icons/16x16/row-remove.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-insertcolumn-before,
+#CQ .x-menu .x-menu-item .rte-insertcolumn-before {
+    background: url(../../icons/16x16/column-insert-before.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-insertcolumn-after,
+#CQ .x-menu .x-menu-item .rte-insertcolumn-after {
+    background: url(../../icons/16x16/column-insert-after.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-removecolumn,
+#CQ .x-menu .x-menu-item .rte-removecolumn {
+    background: url(../../icons/16x16/column-remove.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-cellprops,
+#CQ .x-menu .x-menu-item .rte-cellprops {
+    background: url(../../icons/16x16/cell-properties.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-cellmerge,
+#CQ .x-menu .x-menu-item .rte-cellmerge {
+    background: url(../../icons/16x16/cell-merge.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-cellsplit-horizontal,
+#CQ .x-menu .x-menu-item .rte-cellsplit-horizontal {
+    background: url(../../icons/16x16/cell-split-horizontal.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-cellsplit-vertical,
+#CQ .x-menu .x-menu-item .rte-cellsplit-vertical {
+    background: url(../../icons/16x16/cell-split-vertical.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-find {
+    background: url(../../icons/16x16/find.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-replace {
+    background: url(../../icons/16x16/replace.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-undo {
+    background: url(../../icons/16x16/undo.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-redo {
+    background: url(../../icons/16x16/redo.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-checktext {
+    background: url(../../icons/16x16/checktext.png) center no-repeat;
+}
+
+#CQ .x-html-editor-tb .x-edit-ordered, #CQ .x-menu-item img.x-edit-ordered {
+    background-position:-80px 0;
+    background-image:url(../../ext/editor/tb-sprite.gif);
+}
+
+#CQ .x-html-editor-tb .x-edit-unordered, #CQ .x-menu-item img.x-edit-unordered {
+    background-position:-96px 0;
+    background-image:url(../../ext/editor/tb-sprite.gif);
+}
+
+#CQ .cq-rte-linkdialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-anchordialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-imagepropsdialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .x-html-editor-wrap .x-form-invalid {
+    background-color:red;
+    opacity:0.1;
+    filter:alpha(opacity=10);
+}
+
+#CQ .cq-rte-basewindow {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-tablepropsdialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-cellpropsdialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-findreplacedialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .cq-rte-specialcharsdialog {
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    background-color: #FFFFFF;
+}
+
+#CQ .richtext-scd-table {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+#CQ .richtext-scd-cell {
+    border: #dddddd solid 1px;
+    width: 16px;
+    height: 18px;
+    text-align: center;
+    cursor: default;
+}
+
+#CQ .richtext-scd-cell-over {
+    border-color: #000000;
+    background-color: #ffffdd;
+}
+
+#CQ .richtext-scd-magnify {
+    font-family: Tahoma, Arial, Helvetica, sans-serif;
+    font-size: 36px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    border: #000000 solid 1px;
+    cursor: default;
+}
