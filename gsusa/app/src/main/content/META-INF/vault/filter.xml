@@ -22,4 +22,5 @@
     <filter root="/libs/cq/core/content/welcome/features/gsusa-tag-editor"/>
     <filter root="/content/gsusa/en/components/article-hub"/>
     <filter root="/apps/cq/ui/widgets/themes"/>
+    <filter root="/apps/cq/ui/widgets/source/User.js"/>
 </workspaceFilter>

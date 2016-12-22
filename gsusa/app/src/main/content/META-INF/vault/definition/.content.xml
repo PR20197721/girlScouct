@@ -60,5 +60,10 @@
 	    mode="replace"
 	    root="/apps/cq/ui/widgets/themes"
 	    rules="[]"/>
+	<f10
+	    jcr:primaryType="nt:file"
+	    mode="replace"
+	    root="/apps/cq/ui/widgets/source/User.js"
+	    rules=[]"/>
     </filter>
 </jcr:root>
