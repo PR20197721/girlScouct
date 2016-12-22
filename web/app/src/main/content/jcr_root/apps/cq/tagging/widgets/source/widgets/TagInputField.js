@@ -1910,9 +1910,10 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
                 continue;
             }
             
+            var store = {};
+            
             // similar to TagAdmin.js
             var treeLoader = new CQ.tree.SlingTreeLoader({
-            	store: {},
                 // sling tree loader config
                 path: this.tagsBasePath,
                 typeIncludes: ["cq:Tag"],
@@ -1920,7 +1921,7 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
                     if (o["cq:movedTo"]) {
                         return null;
                     }
-                    store[getTitle("", o)] = o["jcr:lastModified"] || "";
+                    store[o["jcr:title"] || ""] = o["jcr:lastModified"] || "";
                     return o;
                 },
                 getTitle: function(name, o) {
@@ -1966,8 +1967,11 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
                 folderSort: true,
                 dir: "desc",
                 sortType: function(node) {
-                	console.log(treeLoader);
-                	return 0;
+                	if(!isNaN(Date.parse(store[node]))){
+                		return Date.parse(store[node]);
+                	}else{
+                		return 0;
+                	}
                 }
             });
         
