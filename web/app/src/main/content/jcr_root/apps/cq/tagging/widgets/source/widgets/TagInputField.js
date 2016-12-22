@@ -1921,7 +1921,7 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
                     if (o["cq:movedTo"]) {
                         return null;
                     }
-                    store[o["jcr:title"] || ""] = o["jcr:lastModified"] || "";
+                    store[o["jcr:title"] || ""] = o["jcr:lastModified"] || o["jcr:created"] || "";
                     return o;
                 },
                 getTitle: function(name, o) {
