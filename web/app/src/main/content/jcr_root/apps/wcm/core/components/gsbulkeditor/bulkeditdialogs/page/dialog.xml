@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    ok="function() {                 var config = {};                 if (this.responseScope) {                     config = {                         'scope': this.responseScope,                         'success': this.success ? this.success : this.responseScope.success,                         'failure': this.failure ? this.failure : this.responseScope.failure                     };                 }                 else {                     if (this.success) {                         config.success = this.success;                     }                     if (this.failure) {                         config.failure = this.failure;                     }                 }                  if (this.form.isValid()) {                     if (this.fireEvent('beforesubmit', this) === false){                         return false;                     }                     this.form.items.each(function(field) {                         if (field.emptyText &amp;&amp; field.el.dom.value == field.emptyText) {                             field.setRawValue('');                         }                          var rv = field.getValue();                         if( !rv || rv == '') {                             field.disable();                         }                     });                      for(var i = 0; i &lt; this.postToURLs.length; i++) {                         var c = CQ.Util.applyDefaults({                             'url': this.postToURLs[i] + '/jcr:content'                         }, config);                         var action = new CQ.form.SlingSubmitAction(this.form, c);                         this.form.doAction(action);                         this.form.url = null;                     }                     this.hide();                 } else {                     CQ.Ext.Msg.show({                         title:CQ.I18n.getMessage('Validation Failed'),                         msg: CQ.I18n.getMessage('Verify the values of the marked fields.'),                         buttons: CQ.Ext.Msg.OK,                         icon: CQ.Ext.Msg.ERROR                     });                 }             }"
+    stateful="false"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <basic
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_basic.infinity.json"
+                    xtype="cqinclude"/>
+                <advanced
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_advanced.infinity.json"
+                    xtype="cqinclude"/>
+                <technical
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/wcm/core/components/bulkeditor/bulkeditdialogs/page/tab_technical.infinity.json"
+                    xtype="cqinclude"/>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>
