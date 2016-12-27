@@ -50,6 +50,7 @@ public class json extends SlingAllMethodsServlet {
 	 * Query clause
 	 */
 	public static final String QUERY_PARAM = "query";
+	public static final String DEEP_SEARCH_PARAM = "isDeep";
 
 	/**
 	 * Common path prefix
@@ -81,6 +82,10 @@ public class json extends SlingAllMethodsServlet {
 			StringWriter buf = new StringWriter();
 
 			String queryString = request.getParameter(QUERY_PARAM);
+			String isDeepString = request.getParamter(DEEP_SEARCH_PARAM);
+			
+			Boolean isDeep = isDeepString.equals("true");
+			
 			String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
 
 			Session session = request.getResourceResolver().adaptTo(
@@ -111,43 +116,9 @@ public class json extends SlingAllMethodsServlet {
 				String tmp = request.getParameter(PROPERTIES_PARAM);
 				String[] properties = (tmp != null) ? tmp.split(",") : null;
 
-                NodeIterator iter = session.getNode(path).getNodes();
-                while (iter.hasNext()) {
-                // Girl Scouts customization
-                // Use NodeIterator instead. Only handles direct children.
-                // This reduces deeper query and gets rid of the memory issue of queries.
-                //while (hits.hasNext()) {
-                    //Row hit = hits.nextRow();
-                    //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
-                    nbrOfResults++;
-                    Node node = iter.nextNode();
-					if (node != null) {
-						writer.object();
-                        //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
-                        writer.key(JcrConstants.JCR_PATH).value(node.getPath());
-						if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
-							Map<String, String[]> decryptedMap=getNodeSecret(node,request);
-							if (properties != null) {
-								for (String property : properties) {
-									if(decryptedMap.containsKey(property)){
-										writeProperty(writer,property,decryptedMap.get(property));
-									}else if (node.hasProperty(property)) {
-										writeProperty(writer,property,node.getProperty(property));
-									}
-								}
-							}
-						}else{//open form
-							if (properties != null) {
-								for (String property : properties) {
-									if (node.hasProperty(property)) {
-										writeProperty(writer,property,node.getProperty(property));
-									}
-								}
-							}
-						}
-						writer.endObject();
-					}
-				}
+                
+                iterateNodes(path, nbrOfResults, writer, properties, isDeep);
+
 				writer.endArray();
 				writer.key("results").value(nbrOfResults);
 				writer.endObject();
@@ -229,3 +200,46 @@ public class json extends SlingAllMethodsServlet {
 	}
 }
 
+public void iterateNodes(String path, long nbrOfResults, TidyJSONWriter writer, String[] properties, Boolean isDeep){
+	NodeIterator iter = session.getNode(path).getNodes();
+	while (iter.hasNext()) {
+	    // Girl Scouts customization
+	    // Use NodeIterator instead. Only handles direct children.
+	    // This reduces deeper query and gets rid of the memory issue of queries.
+	    //while (hits.hasNext()) {
+        //Row hit = hits.nextRow();
+        //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+        nbrOfResults++;
+        Node node = iter.nextNode();
+		if (node != null) {
+			writer.object();
+            //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
+            writer.key(JcrConstants.JCR_PATH).value(node.getPath());
+			if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
+				Map<String, String[]> decryptedMap=getNodeSecret(node,request);
+				if (properties != null) {
+					for (String property : properties) {
+						if(decryptedMap.containsKey(property)){
+							writeProperty(writer,property,decryptedMap.get(property));
+						}else if (node.hasProperty(property)) {
+							writeProperty(writer,property,node.getProperty(property));
+						}
+					}
+				}
+			}else{//open form
+				if (properties != null) {
+					for (String property : properties) {
+						if (node.hasProperty(property)) {
+							writeProperty(writer,property,node.getProperty(property));
+						}
+					}
+				}
+			}
+			//Allows optional deep searches
+			writer.endObject();
+			if(node.hasNodes() && isDeep){
+				iterateNodes(node.getPath(), nbrOfResults, writer, properties, isDeep);
+			}
+		}
+	}
+}
