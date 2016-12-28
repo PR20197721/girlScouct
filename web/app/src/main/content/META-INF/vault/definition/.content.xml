@@ -367,5 +367,10 @@
 		mode="replace"
 		root="/etc/workflow/dialogs"
 		rules="[]"/>
+	<f70
+	  jcr:primaryType="sling:folder"
+	  mode="replace"
+	  root="/etc/importers/gsbulkeditor"
+	  rules="[]"/>
     </filter>
 </jcr:root>

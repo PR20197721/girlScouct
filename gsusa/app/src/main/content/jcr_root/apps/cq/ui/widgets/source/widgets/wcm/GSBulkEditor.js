@@ -10,7 +10,7 @@
  * with Day.
  */
 /**
- * @class CQ.wcm.BulkEditor
+ * @class CQ.wcm.GSBulkEditor
  * @extends CQ.Ext.Panel
  * The BulkEditor provides a search engine and a grid to edit search results.<p>
  * The BulkEditor must be inserted in a HTML form (required by import functionality). This works
@@ -298,7 +298,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         CQ.Util.applyDefaults(config, defaults);
 
         // init component by calling super constructor
-        CQ.wcm.BulkEditor.superclass.constructor.call(this, config);
+        CQ.wcm.GSBulkEditor.superclass.constructor.call(this, config);
 
     },
 
@@ -314,7 +314,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
     // overriding CQ.Ext.Panel#initComponent
     initComponent : function() {
-        CQ.wcm.BulkEditor.superclass.initComponent.call(this);
+        CQ.wcm.GSBulkEditor.superclass.initComponent.call(this);
 
         if( this.showGridOnly ) {
             this.hideRootPath = true;
@@ -520,7 +520,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
     // overriding CQ.Ext.Panel#onRender
     onRender: function(ct, position) {
-        CQ.wcm.BulkEditor.superclass.onRender.call(this, ct, position);
+        CQ.wcm.GSBulkEditor.superclass.onRender.call(this, ct, position);
 
         if (this.initialSearch) {
             var parentDialog = this.findParentByType("dialog");
@@ -548,25 +548,25 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     initializeCheckboxSelection:function() {
         //if there is at least one checkbox column, modify context menu o have select all / select none menu items.
         if ( this.gridPlugins.length > 0 ) {
-            var bulkeditor = this;
+            var gsbulkeditor = this;
 
             this.selectAllItem = new CQ.Ext.menu.Item({
                 "id": "select-all-" + this.gridEditor.id,
                 "text": CQ.I18n.getMessage("Select All"),
                 "cls": "x-menu-check-item x-menu-item-checked",
                 handler: function(item,evt) {
-                    var cm = bulkeditor.gridEditor.getColumnModel();
-                    var col = bulkeditor.gridEditor.view.hdCtxIndex;
+                    var cm = gsbulkeditor.gridEditor.getColumnModel();
+                    var col = gsbulkeditor.gridEditor.view.hdCtxIndex;
                     var ctxColumnId = cm.getColumnId(col);
-                    var nbRows = bulkeditor.gridEditor.store.getCount();
+                    var nbRows = gsbulkeditor.gridEditor.store.getCount();
                     for(var row=0;row<nbRows;row++) {
-                        bulkeditor.gridEditor.startEditing(row,col);
-                        var record = bulkeditor.gridEditor.store.getAt(row);
+                        gsbulkeditor.gridEditor.startEditing(row,col);
+                        var record = gsbulkeditor.gridEditor.store.getAt(row);
                         var initValue = record.data[ctxColumnId];
                         if( initValue === "false" || initValue === false){
                             record.set(ctxColumnId, true);
-                            bulkeditor.gridEditor.stopEditing();
-                            bulkeditor.handleEditedRecord(record, ctxColumnId, true, initValue);
+                            gsbulkeditor.gridEditor.stopEditing();
+                            gsbulkeditor.handleEditedRecord(record, ctxColumnId, true, initValue);
                         }
                         record = null;
                     }
@@ -579,18 +579,18 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 "text": CQ.I18n.getMessage("Select None"),
                 "cls": "x-menu-check-item",
                 "handler": function(item,evt) {
-                    var cm = bulkeditor.gridEditor.getColumnModel();
-                    var col = bulkeditor.gridEditor.view.hdCtxIndex;
+                    var cm = gsbulkeditor.gridEditor.getColumnModel();
+                    var col = gsbulkeditor.gridEditor.view.hdCtxIndex;
                     var ctxColumnId = cm.getColumnId(col);
-                    var nbRows = bulkeditor.gridEditor.store.getCount();
+                    var nbRows = gsbulkeditor.gridEditor.store.getCount();
                     for(var row=0;row<nbRows;row++) {
-                        bulkeditor.gridEditor.startEditing(row,col);
-                        var record = bulkeditor.gridEditor.store.getAt(row);
+                        gsbulkeditor.gridEditor.startEditing(row,col);
+                        var record = gsbulkeditor.gridEditor.store.getAt(row);
                         var initValue = record.data[ctxColumnId];
                         if( initValue === "true" || initValue === true){
                             record.set(ctxColumnId, false);
-                            bulkeditor.gridEditor.stopEditing();
-                            bulkeditor.handleEditedRecord(record, ctxColumnId, false, initValue);
+                            gsbulkeditor.gridEditor.stopEditing();
+                            gsbulkeditor.handleEditedRecord(record, ctxColumnId, false, initValue);
                         }
                         record = null;
                     }
@@ -600,17 +600,17 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
             this.gridEditor.view.hmenu.on("beforeshow", function(a,b,c,d) {
                 if( ! this.selectionAdded ) {
-                    this.add("-", bulkeditor.selectAllItem,bulkeditor.selectNoneItem);
+                    this.add("-", gsbulkeditor.selectAllItem,gsbulkeditor.selectNoneItem);
                     this.selectionAdded = true;
                 }
-                var ctxColumnId = bulkeditor.gridEditor.getColumnModel().getColumnId(bulkeditor.gridEditor.view.hdCtxIndex);
-                var metadata = bulkeditor.getMetadata(ctxColumnId);
+                var ctxColumnId = gsbulkeditor.gridEditor.getColumnModel().getColumnId(gsbulkeditor.gridEditor.view.hdCtxIndex);
+                var metadata = gsbulkeditor.getMetadata(ctxColumnId);
                 if( metadata && (metadata["checkbox"] === "true" || metadata["checkbox"] === true)) {
-                    bulkeditor.selectAllItem.enable();
-                    bulkeditor.selectNoneItem.enable();
+                    gsbulkeditor.selectAllItem.enable();
+                    gsbulkeditor.selectNoneItem.enable();
                 } else {
-                    bulkeditor.selectAllItem.disable();
-                    bulkeditor.selectNoneItem.disable();
+                    gsbulkeditor.selectAllItem.disable();
+                    gsbulkeditor.selectNoneItem.disable();
                 }
             }, this.gridEditor.view.hmenu);
         }
@@ -622,8 +622,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      */
     getMetadata: function(id) {
         var lookupId = id;
-        if( id.indexOf(CQ.wcm.BulkEditor.JCR_CONTENT_NODE + "/") != -1) {
-            lookupId = id.substring(CQ.wcm.BulkEditor.JCR_CONTENT_NODE.length + 1);
+        if( id.indexOf(CQ.wcm.GSBulkEditor.JCR_CONTENT_NODE + "/") != -1) {
+            lookupId = id.substring(CQ.wcm.GSBulkEditor.JCR_CONTENT_NODE.length + 1);
         }
 
         if( this.colsMetadata && this.colsMetadata[lookupId]) {
@@ -663,9 +663,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                         var v = cols[i];
                         if (v && v.length > 0) {
                             var h = v;
-                            var index = v.indexOf(CQ.wcm.BulkEditor.JCR_CONTENT_NODE + "/");
+                            var index = v.indexOf(CQ.wcm.GSBulkEditor.JCR_CONTENT_NODE + "/");
                             if (contentMode && index == -1) {
-                                v = CQ.wcm.BulkEditor.JCR_CONTENT_NODE + "/" + v;
+                                v = CQ.wcm.GSBulkEditor.JCR_CONTENT_NODE + "/" + v;
                             } else {
                                 if (index == 0) {
                                     h = v.substring(12, v.length);
@@ -791,9 +791,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if (!this.hidePathCol) {
             colsObjects.push(
                     this.getColumnModelConfig(
-                            CQ.wcm.BulkEditor.JCR_PATH,
+                            CQ.wcm.GSBulkEditor.JCR_PATH,
                             "Path",
-                            CQ.wcm.BulkEditor.JCR_PATH
+                            CQ.wcm.GSBulkEditor.JCR_PATH
                             )
                     );
         }
@@ -858,7 +858,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var colObj = this.getColObject();
         var mappingsObjects = new Array();
         mappingsObjects.push({
-            "name": CQ.wcm.BulkEditor.JCR_PATH
+            "name": CQ.wcm.GSBulkEditor.JCR_PATH
         });
         for (var i = 0; i < colObj.values.length; i++) {
             mappingsObjects.push({
@@ -871,7 +871,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var sortInfo = queryParams && queryParams.indexOf("order:") === -1
                 ?
                        {
-                           "field": CQ.wcm.BulkEditor.JCR_PATH,
+                           "field": CQ.wcm.GSBulkEditor.JCR_PATH,
                            "direction": "ASC"
                        }
                 : null;
@@ -940,7 +940,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if (!this.gridEditor) {
             // create the editor grid
             this.gridEditor = new CQ.Ext.grid.EditorGridPanel(this.getGridConfig());
-            this.gridEditor.bulkeditor = this;
+            this.gridEditor.gsbulkeditor = this;
             this.gridEditor.on("afteredit", this.editionHandler, this);
         } else {
             this.gridEditor.stopEditing();
@@ -968,8 +968,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * @private
      */
     handleEditedRecord: function(record, field, newValue, originalValue) {
-        if (record.data[CQ.wcm.BulkEditor.JCR_PATH]) {
-            var path = record.data[CQ.wcm.BulkEditor.JCR_PATH];
+        if (record.data[CQ.wcm.GSBulkEditor.JCR_PATH]) {
+            var path = record.data[CQ.wcm.GSBulkEditor.JCR_PATH];
             if (this.modifiedItems[path]) {
                 if (this.modifiedItems[path][field]) {
                     if (this.modifiedItems[path][field].originalValue == newValue) {
@@ -2021,11 +2021,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 var generatedPath = this.getRootPath() + "/" + new Date().getTime();
 
                 var newRecord = {};
-                newRecord[CQ.wcm.BulkEditor.JCR_PATH] = generatedPath;
+                newRecord[CQ.wcm.GSBulkEditor.JCR_PATH] = generatedPath;
 
                 var mappingsObjects = new Array();
                 mappingsObjects.push({
-                    "name": CQ.wcm.BulkEditor.JCR_PATH
+                    "name": CQ.wcm.GSBulkEditor.JCR_PATH
                 });
                 for (var i = 0; i < colObj.values.length; i++) {
                     mappingsObjects.push({
@@ -2066,7 +2066,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                         var row = selections[i][0];
                         var rec = this.gridEditor.store.getAt(row);
                         if (rec) {
-                            var path = rec.data[CQ.wcm.BulkEditor.JCR_PATH];
+                            var path = rec.data[CQ.wcm.GSBulkEditor.JCR_PATH];
                             this.gridEditor.store.remove(rec);
                             if (this.createdItems[path] != undefined) {
                                 delete this.createdItems[path];
@@ -2260,16 +2260,16 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * @param {Record} record
      */
     handleRowMove: function(movedRecord,beforeMoveNextRecord,afterMoveNextRecord) {
-        var path = movedRecord.data[CQ.wcm.BulkEditor.JCR_PATH];
+        var path = movedRecord.data[CQ.wcm.GSBulkEditor.JCR_PATH];
 
         var beforeMoveNextPath = null;
         if( beforeMoveNextRecord ) {
-            beforeMoveNextPath = beforeMoveNextRecord.data[CQ.wcm.BulkEditor.JCR_PATH];
+            beforeMoveNextPath = beforeMoveNextRecord.data[CQ.wcm.GSBulkEditor.JCR_PATH];
         }
 
         var afterMoveNextPath = null;
         if( afterMoveNextRecord ) {
-            afterMoveNextPath = afterMoveNextRecord.data[CQ.wcm.BulkEditor.JCR_PATH];
+            afterMoveNextPath = afterMoveNextRecord.data[CQ.wcm.GSBulkEditor.JCR_PATH];
         }
 
         var currentIndex = this.gridEditor.store.indexOf(movedRecord);
@@ -2285,7 +2285,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 var initialNextPath = null;
                 if( initialIndex + 1 < this.initialStoreData.length) {
                     var initialNextRecord = this.initialStoreData.itemAt(initialIndex + 1);
-                    initialNextPath = initialNextRecord.data[CQ.wcm.BulkEditor.JCR_PATH];
+                    initialNextPath = initialNextRecord.data[CQ.wcm.GSBulkEditor.JCR_PATH];
                 }
                 this.movedItems[path].initialNextPath = initialNextPath;
                 this.movedItems[path].initialIndex = initialIndex;
@@ -2386,7 +2386,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
         if ( checkbox ) {
             config["readOnly"] = readOnly;
-            var cc = new CQ.wcm.BulkEditor.CheckColumn(config);
+            var cc = new CQ.wcm.GSBulkEditor.CheckColumn(config);
            this.gridPlugins.push(cc);
            return cc;
         } else {
@@ -2492,7 +2492,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             if(this.colsMetadata) {
                 var cols = new Array();
                 for(var c in this.colsMetadata) {
-                    if( c != "xtype" && c !=CQ.wcm.BulkEditor.JCR_PRIMARYTYPE && c != CQ.wcm.BulkEditor.JCR_PATH) {
+                    if( c != "xtype" && c !=CQ.wcm.GSBulkEditor.JCR_PRIMARYTYPE && c != CQ.wcm.GSBulkEditor.JCR_PATH) {
                         cols.push(c);
                     }
                 }
@@ -2559,7 +2559,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     }
 
                     if(this.createdItems[path] && this.insertedResourceType) {
-                        params[path + "/" + CQ.wcm.BulkEditor.JCR_RESOURCETYPE] = this.insertedResourceType;
+                        params[path + "/" + CQ.wcm.GSBulkEditor.JCR_RESOURCETYPE] = this.insertedResourceType;
                     }
                 }
             }
@@ -2634,14 +2634,14 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     }
 });
 
-CQ.wcm.BulkEditor.JCR_PATH = "jcr:path";
-CQ.wcm.BulkEditor.JCR_CONTENT_NODE = "jcr:content";
-CQ.wcm.BulkEditor.JCR_PRIMARYTYPE = "jcr:primaryType";
-CQ.wcm.BulkEditor.JCR_RESOURCETYPE = "sling:resourceType";
+CQ.wcm.GSBulkEditor.JCR_PATH = "jcr:path";
+CQ.wcm.GSBulkEditor.JCR_CONTENT_NODE = "jcr:content";
+CQ.wcm.GSBulkEditor.JCR_PRIMARYTYPE = "jcr:primaryType";
+CQ.wcm.GSBulkEditor.JCR_RESOURCETYPE = "sling:resourceType";
 
-CQ.Ext.reg("bulkeditor", CQ.wcm.BulkEditor);
+CQ.Ext.reg("gsbulkeditor", CQ.wcm.GSBulkEditor);
 
-CQ.wcm.BulkEditor.CheckColumn = function(config){
+CQ.wcm.GSBulkEditor.CheckColumn = function(config){
     CQ.Ext.apply(this, config);
     if(!this.id){
         this.id = CQ.Ext.id();
@@ -2649,7 +2649,7 @@ CQ.wcm.BulkEditor.CheckColumn = function(config){
     this.renderer = this.renderer.createDelegate(this);
 };
 
-CQ.wcm.BulkEditor.CheckColumn.prototype ={
+CQ.wcm.GSBulkEditor.CheckColumn.prototype ={
     init : function(grid){
         this.grid = grid;
         this.grid.on('render', function(){
@@ -2665,7 +2665,7 @@ CQ.wcm.BulkEditor.CheckColumn.prototype ={
                 var row = this.grid.getView().findRowIndex(t);
                 var record = this.grid.store.getAt(row);
                 record.set(this.dataIndex, !record.data[this.dataIndex]);
-                this.grid.bulkeditor.handleEditedRecord(record, this.dataIndex, record.data[this.dataIndex], !record.data[this.dataIndex]);
+                this.grid.gsbulkeditor.handleEditedRecord(record, this.dataIndex, record.data[this.dataIndex], !record.data[this.dataIndex]);
             }
         }
     },

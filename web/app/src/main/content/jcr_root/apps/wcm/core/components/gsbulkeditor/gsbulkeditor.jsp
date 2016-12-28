@@ -187,7 +187,6 @@
 </script>
 </body>
 </html>
-
 <%!
     public void writeConfig(JspWriter out, Map<String,Object> config) throws JSONException {
         TidyJSONWriter w = new TidyJSONWriter(out);

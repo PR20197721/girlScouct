@@ -74,6 +74,6 @@
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
-       <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
-    
+    <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
+    <filter root="/etc/importers/gsbulkeditor"/>    
 </workspaceFilter>

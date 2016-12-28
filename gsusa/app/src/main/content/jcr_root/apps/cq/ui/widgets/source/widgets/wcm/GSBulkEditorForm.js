@@ -45,4 +45,4 @@ CQ.wcm.GSBulkEditorForm = CQ.Ext.extend(CQ.Ext.form.FormPanel, {
     }
 });
 
-CQ.Ext.reg("gsbulkeditorform", CQ.wcm.BulkEditorForm);
+CQ.Ext.reg("gsbulkeditorform", CQ.wcm.GSBulkEditorForm);
