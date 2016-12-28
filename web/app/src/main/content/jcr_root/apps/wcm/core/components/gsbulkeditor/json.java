@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package apps.wcm.core.components.bulkeditor;
+package apps.wcm.core.components.gsbulkeditor;
 
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
@@ -213,7 +213,7 @@ public class json extends SlingAllMethodsServlet {
 	        //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
 	        nbrOfResults++;
 	        Node node = iter.nextNode();
-			if (node != null) {
+			if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
 				writer.object();
 	            //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
 	            writer.key(JcrConstants.JCR_PATH).value(node.getPath());

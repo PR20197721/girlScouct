@@ -831,6 +831,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var query = "path:" + path + (queryParams ?  " " + queryParams : "");
         url = CQ.HTTP.addParameter(url, "query", query);
         url = CQ.HTTP.addParameter(url, "tidy", "true");
+        var isDeep = this.getIsDeepMode();
+        if(isDeep){
+            url = CQ.HTTP.addParameter(url, "isDeep", this.getIsDeepMode());
+        }
         var colObj = this.getColObject();
         if (colObj.values && colObj.values.length > 0) {
             url = CQ.HTTP.addParameter(url, "cols", "" + colObj.values);
@@ -1077,7 +1081,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	var config = {
     			"fieldLabel":CQ.I18n.getMessage("Deep Search"),
     			"name":"./isDeep",
-    			"checked":this.isDeep,
+    			"checked":this.isDeepMode,
     			"boxLabel":"&nbsp;",
     			"fieldDescription": CQ.I18n.getMessage("Return child nodes recursively (takes longer)")
     	};
@@ -1509,9 +1513,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             leftset.push(this.contentModeInput);
         }
         
-        if(!this.isDeepMode){
+        if(!this.hideIsDeepMode){
         	this.isDeepModeInput = new CQ.Ext.form.Checkbox(this.getIsDeepConfig());
-        	leftset.push(this.isDeepInput);
+        	leftset.push(this.isDeepModeInput);
         }
 
         if(!this.hideSearchButton || !this.hideImportButton) {
@@ -1557,7 +1561,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "hidden":  this.showGridOnly,
             "autoEl":"div",
             "autoScroll": true,
-            "height": 270,
+            "height": 280,
             "anchor": "100%",
             "listeners": {
                 "expand": function() {
@@ -1576,7 +1580,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 "border": false,
 
                 "defaults": {
-                    "columnWidth": ".5",
+                    "columnWidth": ".45",
                     "border": false,
                     "bodyStyle": {
                         "background-color": "#e8e8e8"

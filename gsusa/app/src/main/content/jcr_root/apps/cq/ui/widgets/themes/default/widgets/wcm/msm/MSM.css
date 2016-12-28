@@ -1,0 +1,284 @@
+/* MSM related classes*/
+#CQ .msm-status {
+    height: 16px;
+    width: 16px;
+
+    background-repeat: no-repeat;
+    display: block;
+    float: left;
+}
+
+#CQ .msm-status-new {
+    background-image: url(../../../icons/16x16/bulb-blue.gif);
+}
+#CQ .msm-status-synchronized {
+    background-image: url(../../../icons/16x16/bulb-green.gif);
+}
+
+#CQ .msm-status-synchronized-cancelled-par {
+    background-image: url(../../../icons/16x16/bulb-green-grey.gif);
+}
+
+#CQ .msm-status-src-deleted {
+    background-image: url(../../../icons/16x16/bulb-red.gif);
+}
+
+#CQ .msm-status-cancelled {
+    background-image: url(../../../icons/16x16/bulb-grey.gif);
+}
+
+#CQ .msm-status-src-modified {
+    background-image: url(../../../icons/16x16/bulb-orange.gif);
+}
+
+#CQ .msm-status-src-modified-cancelled-par {
+    background-image: url(../../../icons/16x16/bulb-orange-grey.gif);
+}
+
+#CQ .msm-status-target-modified {
+    background-image: url(../../../icons/16x16/bulb-purple.gif);
+}
+
+#CQ .msm-status-target-modified-cancelled-par {
+    background-image: url(../../../icons/16x16/bulb-purple-grey.gif);
+}
+
+#CQ .msm-status-target-deleted {
+    /* TODO create icon */
+    background-image: url(../../../icons/16x16/bulb-red.gif);
+}
+
+#CQ .msm-status-never-created {
+    background-image: url(../../../icons/16x16/bulb-empty.gif);
+}
+
+#CQ .msm-status-skipped {
+    background-image: url(../../../icons/16x16/bulb-skipped.gif);
+}
+
+#CQ .cq-msm-list {
+    border-color:#FFFFFF rgb(255, 255, 255) rgb(238, 238, 238);
+    border-style:solid;
+    border-width:1px;
+    color:#555555;
+    font-family:tahoma,arial,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    padding:3px 10px;
+    white-space:normal;
+    right:5px !important;
+    top:25px !important;
+    left:auto !important;
+    cursor:default !important;
+}
+#CQ .cq-msm-list-entry {
+    cursor:pointer !important
+}
+
+#CQ .msm-rollout-plan-rolledout {
+    background-image: url(../../../icons/16x16/bulb-green.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#CQ .msm-rollout-plan-rolloutbackground {
+    background-image: url(../../../icons/16x16/bulb-green-grey.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#CQ .msm-rollout-plan-rollouterror {
+    background-image: url(../../../icons/16x16/bulb-red.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#CQ .msm-rollout-plan-rollingout {
+    background-image: url(../../../ext/shared/loading-balls.gif);
+    background-repeat: no-repeat;
+    background-position: 12px center;
+}
+
+#CQ .msm-rollout-plan-norollout {
+    background-image: url(../../../icons/16x16/bulb-grey.gif);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-node {
+    zoom: 1;
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-node-el {
+    zoom: 1;
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-selected {
+    background: #d9e8fb;
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-node a {
+    line-height: 18px;
+    vertical-align: middle;
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-node a span {
+
+}
+
+#CQ #cq-blueprintstatus .x-column-tree .x-tree-node .x-tree-selected a span {
+    background: transparent;
+    color: #000;
+}
+
+#CQ #cq-blueprintstatus .x-tree-col {
+    float: left;
+    overflow: hidden;
+    padding: 0 1px;
+    zoom: 1;
+}
+
+#CQ #cq-blueprintstatus .x-tree-col-text, #CQ #cq-blueprintstatus .x-tree-hd-text {
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    padding: 3px 3px 3px 5px;
+    white-space: nowrap;
+    font: normal 11px tahoma, arial, helvetica, sans-serif;
+}
+
+#CQ #cq-blueprintstatus .x-tree-headers {
+    background: #f9f9f9 url(../../../ext/grid/grid3-hrow.gif ) repeat-x 0 bottom;
+    cursor: default;
+    zoom: 1;
+}
+
+#CQ #cq-blueprintstatus .x-tree-hd {
+    float: left;
+    overflow: hidden;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #d0d0d0;
+}
+
+#CQ #cq-blueprintstatus .cq-msm-page {
+    background-image: url( "../../../icons/16x16/page.png" ) !important;
+}
+
+#CQ #cq-blueprintstatus .cq-msm-bpcell {
+    display: inline;
+    width: 250px;
+}
+
+#CQ #cq-blueprintstatus .cq-msm-lccell {
+    display: inline;
+    width: 32px;
+}
+
+#CQ #cq-blueprintstatus .cq-msm-lccell-rolloutinfo {
+    width: 16px;
+    height: 16px;
+}
+
+/* hide grid unused sorting menu items */
+#CQ #cq-blueprintstatus-grid-hctx .xg-hmenu-sort-desc {
+    display: none;
+}
+
+#CQ #cq-blueprintstatus-grid-hctx .xg-hmenu-sort-asc {
+    display: none;
+}
+
+#CQ #cq-blueprintstatus-grid-hctx .x-menu-sep-li {
+    display: none;
+}
+
+/* vertical headers */
+.ext-ie #CQ #cq-blueprintstatus-grid .x-grid3-hd-btn {
+    -ms-filter:'progid:DXImageTransform.Microsoft.BasicImage(rotation=3);';
+    width: 14px !important;
+    height: 23px !important;
+    top:0px;
+    left:0px;
+}
+
+.ext-ie6 #CQ #cq-blueprintstatus-grid .x-grid3-hd-btn {
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.ext-ie7 #CQ #cq-blueprintstatus-grid .x-grid3-hd-btn {
+    left:106px;
+}
+
+.ext-ie #CQ #cq-blueprintstatus-grid a.x-grid3-hd-btn:hover {
+    background-position: -14px -13px;
+}
+
+#CQ #cq-blueprintstatus-grid .x-grid3-hd-inner {
+    /*writing-mode: tb-rl;*/
+    -webkit-transform: rotate(270deg);
+    -webkit-transform-origin: 60px 60px;
+    -moz-transform: rotate(270deg);
+    -moz-transform-origin: 60px 60px;
+    -ms-transform: rotate(270deg);
+    -ms-transform-origin: 60px 60px;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    bottom:0;
+    display:block;
+    height:16px;
+    width:112px;
+    white-space:nowrap;
+}
+
+#CQ #cq-blueprintstatus-grid .x-grid3-hd-0 .x-grid3-hd-btn {
+    left: 136px;
+}
+
+.ext-ie #CQ #cq-blueprintstatus-grid .x-grid3-hd-0 .x-grid3-hd-btn {
+    filter: none;
+}
+
+#CQ #cq-blueprintstatus-grid .x-grid3-hd-0 {
+    -webkit-transform: none;
+    -moz-transform: none;
+    filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=0);
+    bottom:0;
+    display: block;
+    height:16px;
+    margin-left: 0;
+    margin-top: 95px;
+    white-space:nowrap;
+    width:142px;
+}
+
+#CQ #cq-blueprintstatus .x-grid3-hd-row {
+    height: 120px;
+}
+
+#CQ #cq-blueprintstatus .x-grid3-hd-row TD {
+    vertical-align:top;
+}
+
+/* Blueprint status legend */
+#CQ .cq-blueprintstatus-legend-item {
+    padding: 1px;
+}
+#CQ .cq-blueprintstatus-legend-item-icon {
+    width: 16px;
+    height: 16px;
+    float: left;
+}
+
+#CQ .cq-blueprintstatus-legend-item-text {
+    margin-left: 20px;
+    white-space: pre-wrap;
+    font-size: 12px;
+}
+
+#CQ .cq-msm-menu-status-icon {
+    top: 2px;
+}

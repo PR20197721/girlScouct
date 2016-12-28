@@ -1,0 +1,55 @@
+/*
+ * Copyright 1997-2009 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+#CQ #cq-createsitewizard .cq-template-view {
+}
+
+#CQ #cq-createsitewizard .template-item {
+}
+
+/*
+ * progress bar
+ */
+#CQ #cq-createsitewizard-info table {
+}
+
+#CQ #cq-createsitewizard-info td {
+}
+
+#CQ #cq-createsitewizard-info .wiz-step {
+    font-size: 12px;
+    color: #888888;
+}
+#CQ #cq-createsitewizard-info .wiz-sep {
+    font-size: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+    color: #888888;
+}
+#CQ #cq-createsitewizard-info .wiz-step-active {
+    color: black;
+}
+
+/*
+ * finish panel
+ */
+#CQ #cq-createsite-wizpanel .cq-card-last h1 {
+    font-size: 16px
+}
+
+#CQ #cq-createsite-wizpanel .cq-card-last p {
+    margin-top: 20px;
+}
+#CQ #cq-createsite-wizpanel .cq-card-last em {
+    font-style: italic
+}
+

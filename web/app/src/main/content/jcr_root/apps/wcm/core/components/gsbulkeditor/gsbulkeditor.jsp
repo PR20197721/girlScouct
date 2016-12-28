@@ -131,9 +131,9 @@
         }
 
         //config
-        String queryURL = "/etc/importers/bulkeditor/query.json";
-        String importURL = "/etc/importers/bulkeditor/import";
-        String exportURL = "/etc/importers/bulkeditor/export.csv";
+        String queryURL = "/etc/importers/gsbulkeditor/query.json";
+        String importURL = "/etc/importers/gsbulkeditor/import";
+        String exportURL = "/etc/importers/gsbulkeditor/export.csv";
         String renderTo = "cq-bulkeditor";
 
 
@@ -141,7 +141,7 @@
         bulkEditorConfig.put("rootPath",rootPath);
         bulkEditorConfig.put("queryParams",queryParams);
         bulkEditorConfig.put("contentMode",contentMode);
-        bulkEditorConfig.put("isDeep",isDeep);
+        bulkEditorConfig.put("isDeepMode",isDeep);
         bulkEditorConfig.put("colsValue",colsValue);
         bulkEditorConfig.put("extraCols",extraCols);
         bulkEditorConfig.put("initialSearch",initialSearch);
