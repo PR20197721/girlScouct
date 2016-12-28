@@ -382,7 +382,7 @@ System.err.println(">>>>> " + rsp);
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
-		
+System.err.println("trrr: "+ url);		
 		HttpGet method = new HttpGet(url);
 
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
@@ -561,6 +561,8 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
+				
+				
 
 
 				try {
@@ -636,7 +638,28 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
+				
+				try {
 
+					contact.setMembershipYear_adult(results.getJSONObject(i).getInt(
+
+					"of_Adult_Years__c"));
+
+					} catch (Exception e) {
+
+					}
+				
+				try {
+
+					contact.setMembershipYear_girl(results.getJSONObject(i).getInt(
+
+					"of_Girl_Years__c"));
+
+					} catch (Exception e) {
+
+					}
+				
+				
 
 				try {
 

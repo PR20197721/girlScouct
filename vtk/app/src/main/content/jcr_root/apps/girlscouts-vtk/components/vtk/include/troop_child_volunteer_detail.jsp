@@ -8,7 +8,7 @@
           Role: <%= contact.getRole() %>
         </div>
         <div class="column  small-24 medium-8">
-          Membership Years: <%=contact.getMembershipYear() %><br>
+          Membership Years: Girl: <%=contact.getMembershipYear_girl() %> Adult:<%=contact.getMembershipYear_adult() %><br>
           Gender:
         </div>
         <div class="column small-24 medium-8">
