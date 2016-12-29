@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package libs.wcm.core.components.bulkeditor;
+package libs.wcm.core.components.gsbulkeditor;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;

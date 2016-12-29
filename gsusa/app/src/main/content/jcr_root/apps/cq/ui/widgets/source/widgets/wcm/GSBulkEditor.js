@@ -1578,9 +1578,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "items": [{
                 "layout": "column",
                 "border": false,
-
+                
                 "defaults": {
-                    "columnWidth": ".45",
+                    "columnWidth": ".49",
                     "border": false,
                     "bodyStyle": {
                         "background-color": "#e8e8e8"
@@ -1604,7 +1604,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                             "padding": "5px"
                         },
                         "defaults": {
-                            "anchor": "97%",
+                            "anchor": "90%",
                             "bodyStyle": {
                                 "background-color": "#e8e8e8"
                             }
@@ -1625,7 +1625,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                             "padding": "5px"
                         },
                         "defaults": {
-                            "anchor": "97%",
+                            "anchor": "90%",
                             "bodyStyle": {
                                 "background-color": "#e8e8e8"
                             }

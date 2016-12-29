@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package apps.wcm.core.components.bulkeditor;
+package apps.wcm.core.components.gsbulkeditor;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -50,6 +50,7 @@ public class csv extends SlingAllMethodsServlet {
      * Query clause
      */
     public static final String QUERY_PARAM = "query";
+    public static final String DEEP_SEARCH_PARAM = "isDeep";
 
     public static final String SEPARATOR_PARAM = "separator";
 
@@ -82,6 +83,11 @@ public class csv extends SlingAllMethodsServlet {
         BufferedWriter bw = new BufferedWriter(buf);
 
         String queryString = request.getParameter(QUERY_PARAM);
+        
+		String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
+		
+		Boolean isDeep = "true".equals(isDeepString);
+		
         String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
 
         Session session = request.getResourceResolver().adaptTo(
@@ -115,45 +121,9 @@ public class csv extends SlingAllMethodsServlet {
             bw.newLine();
 
             String path = queryString.split(":")[1];
-            NodeIterator iter = session.getNode(path).getNodes();
+            
+            iterateNodes(path, separator, bw, properties, session, request, isDeep);
 
-            //while (hits.hasNext()) {
-            while (iter.hasNext()) {
-                Node node = iter.nextNode();
-                //Row hit = hits.nextRow();
-                //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
-                if (node != null) {
-                    //bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
-					if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
-						Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
-						if (properties != null) {
-							for (String property : properties) {
-								bw.write(separator);
-								property = property.trim();
-								if(decryptedMap.containsKey(property)){
-									String[] values = decryptedMap.get(property);
-									bw.write(csv.format(values));
-								}else if (node.hasProperty(property)) {
-									Property prop = node.getProperty(property);
-									bw.write(csv.format(prop));
-								}
-							}
-						}
-					}else{
-						if (properties != null) {
-							for (String property : properties) {
-								bw.write(separator);
-								property = property.trim();
-								if (node.hasProperty(property)) {
-									Property prop = node.getProperty(property);
-									bw.write(csv.format(prop));
-								}
-							}
-						}
-					}
-                    bw.newLine();
-                }
-            }
         } catch (Exception e) {
             throw new ServletException(e);
         }
@@ -306,6 +276,51 @@ public class csv extends SlingAllMethodsServlet {
         UNAMBIGOUS.add("jcr:lastModified");
         UNAMBIGOUS.add("jcr:created");
     }
+    
+	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep)
+	throws Exception{
+		NodeIterator iter = session.getNode(path).getNodes();
+        //while (hits.hasNext()) {
+        while (iter.hasNext()) {
+            Node node = iter.nextNode();
+            //Row hit = hits.nextRow();
+            //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+            if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
+                bw.write(csv.valueParser(node.getPath(), separator));
+				if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
+					Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
+					if (properties != null) {
+						for (String property : properties) {
+							bw.write(separator);
+							property = property.trim();
+							if(decryptedMap.containsKey(property)){
+								String[] values = decryptedMap.get(property);
+								bw.write(csv.format(values));
+							}else if (node.hasProperty(property)) {
+								Property prop = node.getProperty(property);
+								bw.write(csv.format(prop));
+							}
+						}
+					}
+				}else{
+					if (properties != null) {
+						for (String property : properties) {
+							bw.write(separator);
+							property = property.trim();
+							if (node.hasProperty(property)) {
+								Property prop = node.getProperty(property);
+								bw.write(csv.format(prop));
+							}
+						}
+					}
+				}
+                bw.newLine();
+				if(node.hasNodes() && isDeep){
+					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep);
+				}
+            }
+        }
+	}
 
 
 }
