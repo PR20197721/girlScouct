@@ -1909,7 +1909,8 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
             if (!cfg) {
                 continue;
             }
-            
+           
+	    //Girl Scouts GSWP-818/870 - Sort Tags in order of last modified instead of alphabetically 
             var store = {};
             
             // similar to TagAdmin.js

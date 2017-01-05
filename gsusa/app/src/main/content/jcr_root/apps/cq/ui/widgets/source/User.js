@@ -164,6 +164,7 @@ CQ.User.prototype = function() {
          * Returns the applications the user has permission to use.
          * @return {String[]} The allowed applications
          */
+	//Girl Scouts - Force order of icons to be the OOTB default. Otherwise, the icons in apps will always appear before the icons in libs
         getAllowedApps: function() {
         	var allowed = [];
         	for(var i = 0; i < this.data.allowedApps.length; i++){
