@@ -36,6 +36,7 @@
     AuditLogEntry[] events = null;
     final I18n i18n = new I18n(request);
     if ( al != null ) {
+	//Girl Scouts - Changed 15 to 50 to increase visible audit log
         events = al.getLatestEvents(slingRequest.getResourceResolver(), new String[] {PageEvent.EVENT_TOPIC, ReplicationAction.EVENT_TOPIC}, resource.getPath(), 50);
     }
     writer.object();
