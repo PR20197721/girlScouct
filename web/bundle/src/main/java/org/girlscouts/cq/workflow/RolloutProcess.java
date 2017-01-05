@@ -122,6 +122,12 @@ public class RolloutProcess implements WorkflowProcess {
         Boolean dontSend = false, useTemplate = false, activate = true;
         String templatePath = "";
         
+        Boolean delay = true;
+        try{
+        	delay = ((Value)mdm.get("delayActivation")).getBoolean();
+        	System.out.println(delay);
+        }catch(Exception e){}
+        
         try{
         	dontSend = ((Value)mdm.get("dontsend")).getBoolean();
         }catch(Exception e){}
