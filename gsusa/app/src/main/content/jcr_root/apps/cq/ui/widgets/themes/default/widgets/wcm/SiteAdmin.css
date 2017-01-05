@@ -1,0 +1,362 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+
+/* header and user info */
+
+#CQ #cq-header.cq-damadmin-header {
+    background:url('../../resources/damadmin_titlebar_bg.png');
+}
+
+/* outer tab panel (e.g. DAM Admin) */
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-header {
+    padding-top:4px;
+    padding-bottom:0;
+    border-bottom:none;
+    background-color:#EEEEEE;
+}
+/* set the bg of the main panel inside the tabpanel to fit the active tab button */
+#CQ .cq-siteadmin-tabpanel .x-border-layout-ct {
+    background-color:#EAEAEA;
+}
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-header .x-tab-scroller-left,
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-header .x-tab-scroller-right {
+    margin-top:4px;
+}
+/* reset rules for inner tab panel (e.g. tabpanel in Asset Editors) */
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-bwrap .x-tab-panel-header {
+    padding-top:0;
+}
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-bwrap .x-tab-panel-header .x-tab-scroller-left,
+#CQ .cq-siteadmin-tabpanel .x-tab-panel-bwrap .x-tab-panel-header .x-tab-scroller-right {
+    margin-top:0;
+}
+
+/* page list */
+#CQ .cq-siteadmin-grid a,
+#CQ .cq-siteadmin-grid a:hover,
+#CQ .cq-siteadmin-grid a:visited,
+#CQ .cq-siteadmin-grid a:active {
+    text-decoration:underline;
+    color:#000;
+    cursor:pointer;
+}
+
+#CQ .cq-siteadmin-grid .cq-mask-drop-ok DIV {
+    background-image:url(../../ext/dd/drop-add.gif);
+}
+
+#CQ .cq-siteadmin-grid .cq-mask-drop-no DIV {
+    background-image:url(../../ext/dd/drop-no.gif);
+}
+
+#CQ .cq-siteadmin-wrapper .status {
+    height: 16px;
+    padding-left: 18px;
+    background-repeat: no-repeat;
+    background-position: 0 -1px;
+}
+#CQ .cq-siteadmin-wrapper .double {
+    padding-left: 32px;
+}
+
+/* in progress */
+#CQ .cq-siteadmin-wrapper .status-in-progress td div {
+    color:#cccccc;
+}
+
+/* error */
+#CQ .cq-siteadmin-wrapper .status-error td div {
+    color:#ff0000;
+}
+
+/* modified */
+#CQ .cq-siteadmin-wrapper .status-modified {
+    background-image: url(../../icons/16x16/bulb-blue.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-localmodified {
+    color: #cccccc;
+    background-image: url(../../icons/16x16/bulb-grey.gif);
+}
+
+/* grid: hidden header titles (still available in "hideable menu", e.g. thumbnail column) */
+#CQ .cq-siteadmin-wrapper .x-grid3-hd-inner .hidden {
+    visibility:hidden;
+}
+/* thumbnail col */
+#CQ .cq-siteadmin-wrapper .x-grid3-col-thumbnail {
+    height:48px;
+    text-align:center;
+}
+/* width, height and size col */
+#CQ .cq-siteadmin-wrapper DIV.x-grid3-col-width,
+#CQ .cq-siteadmin-wrapper DIV.x-grid3-col-height,
+#CQ .cq-siteadmin-wrapper DIV.x-grid3-col-size {
+    text-align:right;
+    padding-right:7px;
+}
+
+/* published */
+#CQ .cq-siteadmin-wrapper .status-none {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-none.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-activated {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-activated.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-pending-activation {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-pending-activation.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-deactivated {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-deactivated.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-pending-deactivation {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-pending-deactivation.gif);
+}
+
+/* on-/offtime */
+#CQ .cq-siteadmin-wrapper .status-ontime {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-ontime.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-offtime {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-offtime.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-onofftime {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-onofftime.gif);
+}
+
+/* scene7 status */
+#CQ .cq-siteadmin-wrapper .status-s7-none {
+    background-image: url(../../icons/16x16/bulb-grey.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-s7-complete {
+    background-image: url(../../icons/16x16/bulb-green.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-s7-pending {
+    background-image: url(../../icons/16x16/bulb-orange.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-s7-queued {
+    background-image: url(../../icons/16x16/bulb-orange.gif);
+}
+#CQ .cq-siteadmin-wrapper .status-s7-failed {
+    background-image: url(../../icons/16x16/bulb-red.gif);
+}
+
+
+/* scheduled activation, etc */
+
+#CQ .cq-siteadmin-wrapper .status-scheduledtask {
+    background-image:url(../../widgets/wcm/SiteAdmin/status-scheduledtask.gif);
+    background-position:0 -1px;
+}
+
+#CQ .cq-siteadmin-wrapper .status-locked {
+    background-image:url(../../widgets/wcm/SiteAdmin/status-locked.gif);
+    background-position:0 -1px;
+}
+
+#CQ .cq-siteadmin-wrapper .status-workflow {
+    background-image:url(../../widgets/wcm/SiteAdmin/status-workflow.gif);
+    background-position:0 -1px;
+}
+
+#CQ .cq-siteadmin-wrapper .workflow-suspended {
+    color:#B5B8C8;
+}
+
+#CQ .cq-siteadmin-wrapper .status-livecopy {
+    background-image:url(../../widgets/wcm/SiteAdmin/status-livecopy.gif);
+    background-position:0 -1px;
+}
+
+#CQ .qtip-table {
+    white-space: normal;
+    border-spacing: 3px;
+}
+
+#CQ .qtip-table th {
+    font-weight: bold;
+}
+
+#CQ .qtip-table td {
+    padding-right:5px;
+    overflow:hidden;
+}
+
+#CQ .qtip-table .status {
+    background-repeat: no-repeat;
+    background-position: 0 -1px;
+}
+
+#CQ .qtip-table .status-scheduledtask-activation {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-activated.gif);
+    width: 25px;
+}
+
+#CQ .qtip-table .status-scheduledtask-deactivation {
+    background-image: url(../../widgets/wcm/SiteAdmin/status-deactivated.gif);
+    width: 25px;
+}
+
+
+/* impressions */
+
+#CQ .cq-siteadmin-wrapper .monthly-hits {
+    padding-left:4px;
+    background:transparent url(../../widgets/wcm/SiteAdmin/impressions-bar.gif) repeat-x;
+    border:1px solid #c0c0c0;
+    cursor: pointer;
+}
+
+#CQ .cq-siteadmin-wrapper .no-hits {
+    padding-left:5px;
+    cursor: pointer;
+}
+
+
+
+/* actions and menus */
+
+#CQ .cq-siteadmin-refresh {
+    background-image: url(../../icons/16x16/refresh.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-icon {
+    background-image: url(../../icons/16x16/document_new.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-page-icon {
+    background-image: url(../../icons/16x16/page.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-site-icon {
+    background-image: url(../../icons/16x16/site.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-livecopy-icon {
+    background-image: url(../../icons/16x16/site.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-file-icon,
+#CQ .cq-damadmin-create-file-icon {
+    background-image: url(../../icons/16x16/file.png) ! important;
+}
+
+#CQ .cq-siteadmin-create-folder-icon,
+#CQ .cq-damadmin-create-folder-icon {
+    background-image: url(../../ext/tree/folder.gif) ! important;
+}
+
+#CQ .cq-siteadmin-tools-icon {
+    background-image: url(../../icons/16x16/tools.png) ! important;
+}
+
+/* items */
+
+#CQ .cq-siteadmin-file,
+#CQ .cq-siteadmin-item {
+    background-image: url(../../icons/16x16/file.png) ! important;
+}
+
+#CQ .cq-siteadmin-folder {
+    background-image: url(../../ext/tree/folder.gif) ! important;
+}
+
+#CQ .cq-siteadmin-page {
+    background-image: url(../../icons/16x16/page.png) ! important;
+}
+
+/* tree DD */
+#CQ .x-tree-drop-ok-copy .x-dd-drop-icon{
+  background-image: url(../../ext/tree/drop-add.gif);
+}
+
+
+#CQ .x-tree-drop-ok-move .x-dd-drop-icon{
+  background-image: url(../../ext/tree/drop-yes.gif);
+}
+
+/* template chooser*/
+#CQ .cq-template-view {
+    padding:4px;
+    position:absolute;
+    border: 1px solid #B5B8C8;
+}
+
+#CQ .cq-template-view .x-view-over {
+    /*border-color:#dddddd;*/
+    background:#efefef repeat-x left top;
+}
+#CQ .cq-template-view .x-view-selected {
+    /*border-color:#d0d0d0;*/
+    background:#CCCCCC no-repeat right bottom;
+}
+
+/* template list */
+#CQ .template-item {
+    border-color:#FFFFFF rgb(255, 255, 255) rgb(238, 238, 238);
+    border-style:solid;
+    border-width:1px;
+    color:#555555;
+    font-family:tahoma,arial,helvetica,sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    padding:7px 7px;
+    white-space:normal;
+}
+
+
+#CQ .template-thumbnail {
+    float:left;
+    margin-right:7px;
+    max-width: 128px;
+}
+
+#CQ .template-no-thumbnail {
+    padding-left:135px;
+}
+
+#CQ .template-title {
+    font-weight:bold;
+}
+
+
+#CQ .template-description {
+    font-style:italic;
+}
+
+/* Used in BulkEditor to show the checkbox group with the form background. */
+#CQ #x-form-el-cq-bulkeditor-colsselection .x-panel-body {
+    background: transparent;
+}
+
+/* Heavy move dialog */
+
+#CQ .cq-heavymove .status {
+    height: 16px;
+    padding-left: 18px;
+    background-repeat: no-repeat;
+    background-position: 0 -1px;
+}
+
+#CQ .cq-heavymove .status-modified {
+    background-image: url(../../icons/16x16/bulb-blue.gif);
+}
+
+#CQ .cq-heavymove .status-localmodified {
+    color: #cccccc;
+    background-image: url(../../icons/16x16/bulb-grey.gif);
+}

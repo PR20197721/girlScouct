@@ -1,0 +1,287 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+
+#CQ .x-window.cq-annotation .x-window-tl,
+#CQ .x-window.cq-annotation .x-window-tc,
+#CQ .x-window.cq-annotation .x-window-tr,
+#CQ .x-window.cq-annotation .x-window-bwrap DIV,
+
+#CQ .x-window.cq-annotation-mini .x-window-tl,
+#CQ .x-window.cq-annotation-mini .x-window-tc,
+#CQ .x-window.cq-annotation-mini .x-window-tr,
+#CQ .x-window.cq-annotation-mini .x-window-bwrap DIV,
+
+#CQ .x-panel-ghost.cq-annotation,
+#CQ .x-panel-ghost.cq-annotation DIV,
+#CQ .x-panel-ghost.cq-annotation UL,
+
+#CQ .x-panel-ghost.cq-annotation-mini,
+#CQ .x-panel-ghost.cq-annotation-mini .x-window-tl,
+#CQ .x-panel-ghost.cq-annotation-mini .x-window-tc,
+#CQ .x-panel-ghost.cq-annotation-mini .x-window-tr,
+#CQ .x-panel-ghost.cq-annotation-mini UL,
+
+#CQ .x-panel-ghost.cq-annotation-sketch,
+#CQ .x-panel-ghost.cq-annotation-sketch .x-window-tl,
+#CQ .x-panel-ghost.cq-annotation-sketch .x-window-tc,
+#CQ .x-panel-ghost.cq-annotation-sketch .x-window-tr,
+#CQ .x-panel-ghost.cq-annotation-sketch UL {
+
+    background:none;
+    border:none;
+}
+
+#CQ .x-window.cq-annotation,
+#CQ .x-panel-ghost.cq-annotation {
+    background:#ffff99 url("../../widgets/wcm/Annotation/bg.png") bottom left no-repeat;
+}
+
+#CQ .x-window.cq-annotation .x-resizable-handle-southeast {
+    background:url(../../widgets/wcm/Annotation/se-handle.png) no-repeat;
+    width:8px;
+    height:8px;
+}
+
+.ext-ie #CQ .x-window.cq-annotation .x-resizable-handle-southeast {
+    background-color:#ffff99;
+}
+
+#CQ .x-window.cq-annotation-yellow,
+#CQ .x-panel-ghost.cq-annotation-yellow,
+.ext-ie #CQ .x-window.cq-annotation-yellow .x-resizable-handle-southeast {
+    background-color:#ffff99;
+}
+#CQ .x-window.cq-annotation-orange,
+#CQ .x-panel-ghost.cq-annotation-orange,
+.ext-ie #CQ .x-window.cq-annotation-orange .x-resizable-handle-southeast {
+    background-color:#ffb853;
+}
+#CQ .x-window.cq-annotation-pink,
+#CQ .x-panel-ghost.cq-annotation-pink,
+.ext-ie #CQ .x-window.cq-annotation-pink .x-resizable-handle-southeast {
+    background-color:#fc5baa;
+}
+#CQ .x-window.cq-annotation-orchid,
+#CQ .x-panel-ghost.cq-annotation-orchid,
+.ext-ie #CQ .x-window.cq-annotation-orchid .x-resizable-handle-southeast {
+    background-color:#e291ee;
+}
+#CQ .x-window.cq-annotation-blue,
+#CQ .x-panel-ghost.cq-annotation-blue,
+.ext-ie #CQ .x-window.cq-annotation-blue .x-resizable-handle-southeast {
+    background-color:#88ecff;
+}
+#CQ .x-window.cq-annotation-lime,
+#CQ .x-panel-ghost.cq-annotation-lime,
+.ext-ie #CQ .x-window.cq-annotation.cq-annotation-lime .x-resizable-handle-southeast {
+    background-color:#8cf961;
+}
+
+
+#CQ .x-window.cq-annotation .x-form-textarea {
+    opacity:0.7;
+    -moz-opacity:0.7;
+    filter:alpha(opacity=70);
+}
+
+#CQ .x-window.cq-annotation .x-window-tl .x-window-header {
+    padding:2px 0 7px;
+}
+#CQ .x-window.cq-annotation .x-window-tr {
+    padding-right:3px;
+}
+
+#CQ .x-window.cq-annotation .x-window-mr {
+    padding-right:0;    
+}
+
+#CQ .x-window.cq-annotation DIV.x-tool {
+    background-image:url("../../widgets/wcm/Annotation/tool-sprites.png");
+    width:11px;
+    height:11px;
+    margin-left:1px;
+    float:left;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-minimize {
+    background-position:0 0;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-minimize-over {
+    background-position:-11px 0;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-close {
+    background-position:0 -11px;
+    float:right;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-close-over {
+    background-position:-11px -11px;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-color {
+    background-position:0 -22px;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-color-over {
+    background-position:-11px -22px;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-sketch {
+    background-position:0 -33px;
+}
+#CQ .x-window.cq-annotation DIV.x-tool-sketch-over {
+    background-position:-11px -33px;
+}
+
+#CQ .x-window.cq-annotation .x-window-handle {
+    opacity:1;
+    -moz-opacity:1;
+    filter:alpha(opacity=100);
+}
+
+#CQ .x-window.cq-annotation TEXTAREA.x-form-field {
+    background:transparent;
+    border:none;
+    font-family:tahoma,arial,helvetica,sans-serif;
+}
+
+#CQ .x-window.cq-annotation .cq-static {
+    text-align:center;
+}
+
+#CQ .x-window.cq-annotation .cq-static SPAN {
+    font-size:9px;
+    cursor:default;
+    opacity:0.5;
+    -moz-opacity:0.5;
+    filter:alpha(opacity=50);
+}
+
+#CQ .x-window.cq-annotation .x-panel-nofooter .x-window-bc {
+    height:2px;
+}
+
+#CQ .x-window.cq-annotation-mini,
+#CQ .x-panel-ghost.cq-annotation-mini {
+    width:23px;
+    height:23px;
+    background:url(../../widgets/wcm/Annotation/mini-yellow.png) 0 0 no-repeat;
+}
+#CQ .x-window.cq-annotation-mini-yellow,
+#CQ .x-panel-ghost.cq-annotation-mini-yellow {
+    background:url(../../widgets/wcm/Annotation/mini-yellow.png);
+}
+#CQ .x-window.cq-annotation-mini-orange,
+#CQ .x-panel-ghost.cq-annotation-mini-orange {
+    background:url(../../widgets/wcm/Annotation/mini-orange.png);
+}
+#CQ .x-window.cq-annotation-mini-pink,
+#CQ .x-panel-ghost.cq-annotation-mini-pink {
+    background:url(../../widgets/wcm/Annotation/mini-pink.png);
+}
+#CQ .x-window.cq-annotation-mini-orchid,
+#CQ .x-panel-ghost.cq-annotation-mini-orchid {
+    background:url(../../widgets/wcm/Annotation/mini-orchid.png);
+}
+#CQ .x-window.cq-annotation-mini-blue,
+#CQ .x-panel-ghost.cq-annotation-mini-blue {
+    background:url(../../widgets/wcm/Annotation/mini-blue.png);
+}
+#CQ .x-window.cq-annotation-mini-lime,
+#CQ .x-panel-ghost.cq-annotation-mini-lime {
+    background:url(../../widgets/wcm/Annotation/mini-lime.png);
+}
+
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-yellow,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-orange,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-pink,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-orchid,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-blue,
+.ext-ie #CQ .x-panel-ghost.cq-annotation-mini-lime {
+    background-color:#ffffff;
+}
+
+
+#CQ .x-window.cq-annotation-mini .x-window-tl {
+    padding-left:0;
+}
+#CQ .x-window.cq-annotation-mini .x-window-tr {
+    padding-right:0;
+}
+#CQ .x-window.cq-annotation-mini .x-window-header {
+    padding:0;
+}
+
+#CQ .x-window.cq-annotation-mini .x-tool-minimize,
+#CQ .x-panel-ghost.cq-annotation-mini .x-tool-minimize {
+    width:23px;
+    height:23px;
+    background:none;
+}
+
+
+#CQ .x-window.cq-annotation-sketch .x-window-tl {
+    padding:0;
+    display:none;
+}
+#CQ .x-window.cq-annotation-sketch .x-window-bl {
+    display:none;
+    padding:0;
+}
+#CQ .x-window.cq-annotation-sketch .x-window-ml,
+#CQ .x-window.cq-annotation-sketch .x-window-mr {
+    background:none;
+    padding:0;
+}
+#CQ .x-window.cq-annotation-sketch .x-window-mc {
+    background:transparent;
+    border:none;
+}
+
+#CQ .cq-annotation-angle-tl,
+#CQ .cq-annotation-angle-tr,
+#CQ .cq-annotation-angle-bl,
+#CQ .cq-annotation-angle-br {
+    background-color:#FFFFFF;
+    border:solid 1px #000000;
+    width:5px;
+    height:5px;
+    position:absolute;
+    display:none;
+}
+#CQ .cq-annotation-active .cq-annotation-angle-tl,
+#CQ .cq-annotation-active .cq-annotation-angle-tr,
+#CQ .cq-annotation-active .cq-annotation-angle-bl,
+#CQ .cq-annotation-active .cq-annotation-angle-br,
+#CQ .x-panel-ghost .cq-annotation-angle-tl,
+#CQ .x-panel-ghost .cq-annotation-angle-tr,
+#CQ .x-panel-ghost .cq-annotation-angle-bl,
+#CQ .x-panel-ghost .cq-annotation-angle-br {
+    display:block;
+}
+#CQ .x-panel-ghost.cq-annotation-sketch {
+    opacity:1;
+}
+
+#CQ .cq-annotation-angle-tl {
+    top:0;
+    left:0;
+}
+#CQ .cq-annotation-angle-tr {
+    top:0;
+    right:0;
+}
+#CQ .cq-annotation-angle-bl {
+    bottom:0;
+    left:0;
+}
+#CQ .cq-annotation-angle-br {
+    bottom:0;
+    right:0;
+}
