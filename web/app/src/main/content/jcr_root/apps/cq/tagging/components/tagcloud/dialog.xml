@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Tag Cloud"
+    xtype="panel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <display
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Tags to Display"
+            name="./display"
+            type="select"
+            xtype="selection">
+            <options jcr:primaryType="cq:WidgetCollection">
+                <page
+                    jcr:primaryType="cq:Widget"
+                    text="From page"
+                    value="page"/>
+                <pagetree
+                    jcr:primaryType="cq:Widget"
+                    text="From page and child pages"
+                    value="pagetree"/>
+                <all
+                    jcr:primaryType="cq:Widget"
+                    text="All tags"
+                    value="all"/>
+            </options>
+        </display>
+        <displaypath
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Leave empty for current page. Ignored when 'All tags' is selected above."
+            fieldLabel="Page"
+            name="./path"
+            xtype="pathfield"/>
+        <noLinks
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Disables any link template design value."
+            fieldLabel="No links on tags"
+            name="./noLinks"
+            type="checkbox"
+            xtype="selection"/>
+    </items>
+</jcr:root>
