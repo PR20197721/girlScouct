@@ -1,4 +1,3 @@
-
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -22,6 +21,7 @@
 /******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
@@ -22620,7 +22620,8 @@
 	    };
 	    CONST.LINKS = {
 	        "REMOVE": "REMOVE_LINK",
-	        "ADD": "ADD_LINK"
+	        "ADD": "ADD_LINK",
+	        "SET": "SET_TITLE"
 	    };
 	    var FORMAT;
 	    (function (FORMAT) {
@@ -22676,7 +22677,9 @@
 	    CONST.SECTION = {
 	        CATEGORY: "CATEGORY",
 	        EMAIL: "EMAIL",
-	        LINK: "LINKS"
+	        LINK: "LINKS",
+	        INCOME: "INCOME",
+	        EXPENSES: "EXPENSES"
 	    };
 	})(CONST = exports.CONST || (exports.CONST = {}));
 
@@ -22907,6 +22910,34 @@
 	            });
 	        case constants_1.CONST.EMAIL.RENAME:
 	            return state;
+	        //LINKS
+	        case constants_1.CONST.LINKS.ADD:
+	            return invariant_1.invariant
+	                .list
+	                .map(state, function (section) {
+	                if (section.sectionType == constants_1.CONST.SECTION.LINK) {
+	                    section.externalLink.push(action.payload);
+	                }
+	                return section;
+	            });
+	        case constants_1.CONST.LINKS.REMOVE:
+	            return invariant_1.invariant
+	                .list
+	                .map(state, function (section) {
+	                if (section.sectionType == constants_1.CONST.SECTION.LINK) {
+	                    section.externalLink.splice(action.payload, 1);
+	                }
+	                return section;
+	            });
+	        case constants_1.CONST.LINKS.SET:
+	            return invariant_1.invariant
+	                .list
+	                .map(state, function (section) {
+	                if (section.sectionType == constants_1.CONST.SECTION.LINK) {
+	                    section.label = action.payload;
+	                }
+	                return section;
+	            });
 	        default:
 	            return state;
 	    }
@@ -23139,6 +23170,10 @@
 	        return { type: constants_1.CONST.LINKS.REMOVE, payload: idx };
 	    }
 	    LINK.REMOVE = REMOVE;
+	    function SET(label) {
+	        return { type: constants_1.CONST.LINKS.SET, payload: label };
+	    }
+	    LINK.SET = SET;
 	})(LINK = exports.LINK || (exports.LINK = {}));
 
 
@@ -26260,11 +26295,9 @@
 	        };
 	    }
 	    VtkFinanceApp.prototype.componentWillReceiveProps = function (props) {
-	        console.log('receive', props);
 	        this.setState({ modals: props.app.modals });
 	    };
 	    VtkFinanceApp.prototype.conponentWillMount = function () {
-	        console.log('mount', this.props);
 	        this.setState({ modals: this.props.app.modals });
 	    };
 	    VtkFinanceApp.prototype.render = function () {
@@ -26334,7 +26367,6 @@
 	        return true;
 	    };
 	    VtkGray.prototype.componentWillReceiveProps = function (props) {
-	        console.log('received-gray', props);
 	        if (this.allTrue(props.modals)) {
 	            this.setState({ show: true });
 	        }
@@ -26478,14 +26510,18 @@
 	        this.setState({ app: this.props.app });
 	    };
 	    VtkCouncilEdit.prototype.componentWillReceiveProps = function (props) {
-	        console.log('new', props);
 	        this.setState({ app: props.app });
 	    };
 	    VtkCouncilEdit.prototype.render = function () {
 	        return (React.createElement("div", {className: "__edit"}, 
 	            this.props.sections.map(function (section, idx) {
+	                debugger;
 	                switch (section.sectionType) {
 	                    case constants_1.CONST.SECTION.CATEGORY:
+	                        return React.createElement(vtk_section_categories_1.default, {key: idx, section: section});
+	                    case constants_1.CONST.SECTION.INCOME:
+	                        return React.createElement(vtk_section_categories_1.default, {key: idx, section: section});
+	                    case constants_1.CONST.SECTION.EXPENSES:
 	                        return React.createElement(vtk_section_categories_1.default, {key: idx, section: section});
 	                    case constants_1.CONST.SECTION.EMAIL:
 	                        return React.createElement(vtk_section_email_1.default, {key: idx, section: section});
@@ -26699,7 +26735,6 @@
 	        // let {label, notes, id, isSet} = this.state;
 	        var IsSetElement = (this.state.isSet)
 	            ? React.createElement("div", {onClick: function (e) {
-	                console.log(e);
 	                _this.setState({ "isSet": false });
 	            }}, this.state.label)
 	            : React.createElement(vtk_input_1.default, {type: "text", value: this.state.label, property: {
@@ -26995,7 +27030,6 @@
 	        });
 	    };
 	    VtkNotes.prototype._onChange = function (sectionId, categoryId, e, user) {
-	        console.log(e);
 	        if (e.html == "") {
 	            this.setState({
 	                addNote: false,
@@ -42235,20 +42269,42 @@
 	var store_1 = __webpack_require__(178);
 	var ACTION = __webpack_require__(207);
 	__webpack_require__(393);
+	var vtk_icon_1 = __webpack_require__(262);
 	;
 	;
 	var VtkModalLink = (function (_super) {
 	    __extends(VtkModalLink, _super);
 	    function VtkModalLink() {
 	        _super.call(this);
-	        this._object = {
+	        this.state = {
 	            title: '',
-	            url: '',
+	            url: 'http://',
 	            description: ''
 	        };
 	    }
 	    VtkModalLink.prototype.blur = function (e) {
-	        this._object[e.target.name] = e.target.value;
+	        console.log(this);
+	        // this._object[e.target.name] = e.target.value;Ã·
+	        debugger;
+	        var a = this.state.inputs;
+	        a[e.target.name] = e.target.value;
+	        this.setState(a);
+	    };
+	    VtkModalLink.prototype.componentWillReceiveProps = function (props) {
+	        // this.setState({
+	        //     inputs: {
+	        //         title: props.section.label,
+	        //         urek
+	        //     }
+	        // })
+	    };
+	    VtkModalLink.prototype.add_link = function (Object) {
+	        store_1.store.dispatch(ACTION.LINK.ADD(Object));
+	        this.setState({
+	            description: "",
+	            url: "http://",
+	            title: this.props.section.label
+	        });
 	    };
 	    VtkModalLink.prototype.render = function () {
 	        var _this = this;
@@ -42260,10 +42316,11 @@
 	                        "(max 40 characters)"), 
 	                    React.createElement(vtk_input_1.default, {property: {
 	                        style: {
-	                            width: '100%'
+	                            width: '80%'
 	                        },
 	                        name: 'title',
-	                    }, blur: this.blur.bind(this), type: "text"})), 
+	                    }, value: this.state.title, blur: this.blur.bind(this), type: "text"}), 
+	                    React.createElement(vtk_button_1.default, {property: { onClick: function () { } }, text: "SAVE", type: "tiny right"})), 
 	                React.createElement("div", null, 
 	                    React.createElement("p", {className: "__title"}, 
 	                        React.createElement("b", null, "Link to finanacial material")
@@ -42274,31 +42331,35 @@
 	                            width: '100%'
 	                        },
 	                        name: 'description',
-	                    }, blur: this.blur.bind(this), type: "text"})), 
+	                        onChange: this.blur.bind(this)
+	                    }, value: this.state.description, ref: "description", type: "text"})), 
 	                React.createElement("div", null, 
 	                    React.createElement("p", {className: "__title"}, "What is the URL this should link to?"), 
-	                    React.createElement(vtk_input_1.default, {property: {
+	                    React.createElement(vtk_input_1.default, {value: this.state.url, property: {
 	                        style: {
 	                            width: '100%'
 	                        },
 	                        name: 'url',
-	                        defaultValue: "http://"
-	                    }, blur: this.blur.bind(this), type: "url"}), 
+	                        onChange: this.blur.bind(this)
+	                    }, ref: "url", type: "url"}), 
 	                    React.createElement("p", null, "Go to the web page you want to link. Copy the web address from the browser's" + ' ' + "address bar and paste it into the box above")), 
 	                React.createElement("div", null, 
-	                    React.createElement(vtk_button_1.default, {property: { onClick: function () { return store_1.store.dispatch(ACTION.LINK.ADD(_this._object)); } }, text: "ADD LINK", type: "tiny right"}), 
+	                    React.createElement(vtk_button_1.default, {property: { onClick: function () { return _this.add_link({ label: _this.state.inputs.description, url: _this.state.inputs.url }); }, style: { marginTop: '2px' } }, text: "ADD LINK", type: "tiny right"}), 
 	                    React.createElement("div", {style: {
 	                        clear: 'both'
 	                    }})), 
 	                React.createElement("div", null, 
 	                    React.createElement("h5", null, "Links you've added to help Volunteers"), 
-	                    React.createElement("div", {className: "vtk-link-list columns small-11 small-centered"}, this.props.section.externalLink.map(function (link, idx) { return (React.createElement("div", {key: idx, className: "__element row"}, 
-	                        React.createElement("div", {className: "columns small-10"}, 
-	                            React.createElement("a", {href: link.url, target: "_blank"}, link.label)
-	                        ), 
-	                        React.createElement("div", {className: "columns small-2"}, 
-	                            React.createElement("a", {onClick: function () { return store_1.store.dispatch(ACTION.LINK.REMOVE(idx)); }}, "Remove")
-	                        ))); }))))
+	                    React.createElement("div", {className: "vtk-link-list columns small-10 small-centered"}, (this.props.section.externalLink.length) ?
+	                        this.props.section.externalLink.map(function (link, idx) { return (React.createElement("div", {key: idx, className: "__element row"}, 
+	                            React.createElement("div", {className: "columns small-10"}, 
+	                                React.createElement("a", {href: link.url, target: "_blank"}, link.label)
+	                            ), 
+	                            React.createElement("div", {className: "columns small-2"}, 
+	                                React.createElement(vtk_icon_1.default, {icon: "button-circle-cross", property: { onClick: function () { store_1.store.dispatch(ACTION.LINK.REMOVE(idx)); } }})
+	                            ))); }) : React.createElement("div", {className: "vtk-message-no-links"}, 
+	                        React.createElement("h6", {style: { textAlign: 'center' }}, "No Links")
+	                    ))))
 	        )) : null;
 	    };
 	    return VtkModalLink;

@@ -250,6 +250,7 @@
         <artifactId>content-package-maven-plugin</artifactId>
         <version>0.0.24</version>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
   <build>

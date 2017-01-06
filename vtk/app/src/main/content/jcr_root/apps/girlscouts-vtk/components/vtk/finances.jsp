@@ -31,9 +31,11 @@
     FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop, user.getCurrentYear());    
 %>
 <%@include file="include/bodyTop.jsp" %>
-hello
-<main id="content" class=""></main>
-buy
+
+		<main id="content" class="" style="width:100%"></main>
+		
+
+
 
 <%@include file="include/bodyBottom.jsp" %>
 <script>loadNav('finances');</script>
