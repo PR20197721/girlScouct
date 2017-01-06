@@ -1,0 +1,276 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ .x-grid3 {
+    background-color:#fff;
+}
+
+#CQ .x-grid-panel .x-panel-mc .x-panel-body {
+    border-color:#d0d0d0;
+}
+
+#CQ .x-grid3-row td, #CQ .x-grid3-summary-row td{
+    font:normal 11px/13px arial, tahoma, helvetica, sans-serif;
+}
+
+#CQ .x-grid3-hd-row td {
+    font:normal 11px/15px arial, tahoma, helvetica, sans-serif;
+}
+
+#CQ .x-grid3-hd-row td {
+    border-left-color:#eee;
+    border-right-color:#d0d0d0;
+}
+
+#CQ .x-grid-row-loading {
+    background-color: #fff;
+    background-image:url(../../../ext/shared/loading-balls.gif);
+}
+
+#CQ .x-grid3-row {
+    border-color:#ededed;
+    border-top-color:#fff;
+}
+
+#CQ .x-grid3-row-alt{
+	background-color:#fafafa;
+}
+
+#CQ .x-grid3-row-over {
+	border-color:#ddd;
+    background-color:#efefef;
+    background-image:url(../../../ext/grid/row-over.gif);
+}
+
+#CQ .x-grid3-resize-proxy {
+    background-color:#777;
+}
+
+#CQ .x-grid3-resize-marker {
+    background-color:#777;
+}
+
+#CQ .x-grid3-header{
+    background-color:#f9f9f9;
+	background-image:url(../../../ext/grid/grid3-hrow2.gif);
+}
+
+#CQ .x-grid3-header-pop {
+    border-left-color:#d0d0d0;
+}
+
+#CQ .x-grid3-header-pop-inner {
+    border-left-color:#eee;
+    background-image:url(../../../ext/grid/hd-pop.gif);
+}
+
+#CQ td.x-grid3-hd-over, #CQ td.sort-desc, #CQ td.sort-asc, #CQ td.x-grid3-hd-menu-open {
+    border-left-color:#ACACAC;
+    border-right-color:#ACACAC;
+}
+
+#CQ td.x-grid3-hd-over .x-grid3-hd-inner, #CQ td.sort-desc .x-grid3-hd-inner, #CQ td.sort-asc .x-grid3-hd-inner, #CQ td.x-grid3-hd-menu-open .x-grid3-hd-inner {
+    background-color:#f9f9f9;
+    background-image:url(../../../ext/grid/grid3-hrow-over2.gif);
+
+}
+
+#CQ .sort-asc .x-grid3-sort-icon {
+	background-image: url(../../../ext/grid/sort_asc.gif);
+}
+
+#CQ .sort-desc .x-grid3-sort-icon {
+	background-image: url(../../../ext/grid/sort_desc.gif);
+}
+
+#CQ .x-grid3-cell-text, #CQ .x-grid3-hd-text {
+	color:#000;
+}
+
+#CQ .x-grid3-split {
+	background-image: url(../../../ext/grid/grid-split.gif);
+}
+
+#CQ .x-grid3-hd-text {
+	color:#333;
+}
+
+#CQ .x-dd-drag-proxy .x-grid3-hd-inner{
+    background-color:#f9f9f9;
+	background-image:url(../../../ext/grid/grid3-hrow-over2.gif);
+	border-color:#ACACAC;
+}
+
+#CQ .col-move-top{
+	background-image:url(../../../ext/grid/col-move-top.gif);
+}
+
+#CQ .col-move-bottom{
+	background-image:url(../../../ext/grid/col-move-bottom.gif);
+}
+
+#CQ .x-grid3-row-selected {
+	background-color:#CCCCCC !important;
+	background-image: none;
+	border-color:#ACACAC;
+}
+
+#CQ .x-grid3-cell-selected{
+	background-color: #CBCBCB !important;
+	color:#000;
+}
+
+#CQ .x-grid3-cell-selected span{
+	color:#000 !important;
+}
+
+#CQ .x-grid3-cell-selected .x-grid3-cell-text{
+	color:#000;
+}
+
+#CQ .x-grid3-locked td.x-grid3-row-marker, #CQ .x-grid3-locked .x-grid3-row-selected td.x-grid3-row-marker{
+    background-color:#ebeadb !important;
+    background-image:url(../../../ext/grid/grid-hrow.gif) !important;
+    color:#000;
+    border-top-color:#fff;
+    border-right-color:#6fa0df !important;
+}
+
+#CQ .x-grid3-locked td.x-grid3-row-marker div, #CQ .x-grid3-locked .x-grid3-row-selected td.x-grid3-row-marker div{
+    color:#333 !important;
+}
+
+#CQ .x-grid3-dirty-cell {
+    background-image:url(../../../ext/grid/dirty.gif);
+}
+
+#CQ .x-grid3-topbar, #CQ .x-grid3-bottombar{
+	font:normal 11px arial, tahoma, helvetica, sans-serif;
+}
+
+#CQ .x-grid3-bottombar .x-toolbar{
+	border-top-color:#a9bfd3;
+}
+
+#CQ .x-props-grid .x-grid3-td-name .x-grid3-cell-inner{
+	background-image:url(../../../ext/grid/grid3-special-col-bg.gif) !important;
+    color:#000 !important;
+}
+
+#CQ .x-props-grid .x-grid3-body .x-grid3-td-name{
+    background-color:#fff !important;
+    border-right-color:#eee;
+}
+
+#CQ .xg-hmenu-sort-asc .x-menu-item-icon{
+	background-image: url(../../../ext/grid/hmenu-asc.gif);
+}
+
+#CQ .xg-hmenu-sort-desc .x-menu-item-icon{
+	background-image: url(../../../ext/grid/hmenu-desc.gif);
+}
+
+#CQ .xg-hmenu-lock .x-menu-item-icon{
+	background-image: url(../../../ext/grid/hmenu-lock.gif);
+}
+
+#CQ .xg-hmenu-unlock .x-menu-item-icon{
+	background-image: url(../../../ext/grid/hmenu-unlock.gif);
+}
+
+#CQ .x-grid3-hd-btn {
+    background-color:#f9f9f9;
+    background-image:url(../../../ext/grid/grid3-hd-btn.gif);
+}
+
+#CQ .x-grid3-body .x-grid3-td-expander {
+    background-image:url(../../../ext/grid/grid3-special-col-bg.gif);
+}
+
+#CQ .x-grid3-row-expander {
+    background-image:url(../../../ext/grid/row-expand-sprite.gif);
+}
+
+#CQ .x-grid3-body .x-grid3-td-checker {
+    background-image: url(../../../ext/grid/grid3-special-col-bg.gif);
+}
+
+#CQ .x-grid3-row-checker, #CQ .x-grid3-hd-checker {
+    background-image:url(../../../ext/grid/row-check-sprite.gif);
+}
+
+#CQ .x-grid3-body .x-grid3-td-numberer {
+    background-image:url(../../../ext/grid/grid3-special-col-bg.gif);
+}
+
+#CQ .x-grid3-body .x-grid3-td-numberer .x-grid3-cell-inner {
+	color:#444;
+}
+
+#CQ .x-grid3-body .x-grid3-td-row-icon {
+    background-image:url(../../../ext/grid/grid3-special-col-bg.gif);
+}
+
+#CQ .x-grid3-body .x-grid3-row-selected .x-grid3-td-numberer,
+#CQ .x-grid3-body .x-grid3-row-selected .x-grid3-td-checker,
+#CQ .x-grid3-body .x-grid3-row-selected .x-grid3-td-expander {
+	background-image:url(../../../ext/grid/grid3-special-col-sel-bg.gif);
+}
+
+#CQ .x-grid3-check-col {
+	background-image:url(../../../ext/menu/unchecked.gif);
+}
+
+#CQ .x-grid3-check-col-on {
+	background-image:url(../../../ext/menu/checked.gif);
+}
+
+#CQ .x-grid-group, #CQ .x-grid-group-body, #CQ .x-grid-group-hd {
+    zoom:1;
+}
+
+#CQ .x-grid-group-hd {
+    border-bottom-color:#d0d0d0;
+}
+
+#CQ .x-grid-group-hd div.x-grid-group-title {
+    background-image:url(../../../ext/grid/group-collapse.gif);
+    color:#5F5F5F;
+    font:bold 11px tahoma, arial, helvetica, sans-serif;
+}
+
+#CQ .x-grid-group-collapsed .x-grid-group-hd div.x-grid-group-title {
+    background-image:url(../../../ext/grid/group-expand.gif);
+}
+
+#CQ .x-group-by-icon {
+    background-image:url(../../../ext/grid/group-by.gif);
+}
+
+#CQ .x-cols-icon {
+    background-image:url(../../../ext/grid/columns.gif);
+}
+
+#CQ .x-show-groups-icon {
+    background-image:url(../../../ext/grid/group-by.gif);
+}
+
+#CQ .x-grid-empty {
+    color:gray;
+    font:normal 11px tahoma, arial, helvetica, sans-serif;
+}
+
+#CQ .x-grid-with-col-lines .x-grid3-row td.x-grid3-cell {
+    border-right-color:#ededed;
+}
+
+#CQ .x-grid-with-col-lines .x-grid3-row{
+    border-top-color:#ededed;
+}
+
+#CQ .x-grid-with-col-lines .x-grid3-row-selected {
+	border-top-color:#B9B9B9;
+}

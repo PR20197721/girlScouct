@@ -1,0 +1,52 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+
+/* header and user info */
+
+#CQ #cq-dialogeditor-wrapper #cq-header {
+    height:36px;
+    background:url('../resources/titlebar_bg.png');
+}
+
+/* tools palette */
+
+#CQ #cq-dialogeditor-wrapper #cq-dialogeditor-tools .x-control {
+    border-color:#FFFFFF #FFFFFF #EEEEEE;
+    border-style:solid;
+    border-width:1px;
+    color:#000000;
+    background:white;
+    font-family:tahoma,arial,helvetica,sans-serif;
+    font-size:11px;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+    padding:3px 10px;
+    white-space:normal;
+}
+
+#CQ #cq-dialogeditor-wrapper #cq-dialogeditor-tools .x-control-selected {
+    background:#D3EA9A none repeat scroll 0 0;
+    border:solid 1px;
+    border-color:#FFFFFF #EDEDED #EDEDED;
+    cursor:pointer;
+}
+
+#CQ #cq-dialogeditor-wrapper #cq-dialogeditor-tools .x-control-over {
+    background:#f0f0f0 none repeat scroll 0 0;
+}
+
+#CQ #cq-dialogeditor-wrapper #cq-dialogeditor-tools .x-control-over.x-control-selected {
+    background-color:#D3EA9A;
+}

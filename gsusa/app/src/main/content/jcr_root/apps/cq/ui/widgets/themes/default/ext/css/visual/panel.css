@@ -1,0 +1,87 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ .x-panel {
+    border-color: #d0d0d0;
+}
+
+#CQ .x-panel-header {
+    color:#333;
+	font-weight:bold;
+    font-size: 11px;
+    font-family: tahoma,arial,verdana,sans-serif;
+    border-color:#d0d0d0;
+    background-image: url(../../../ext/panel/white-top-bottom.gif);
+}
+
+#CQ .x-panel-body {
+    border-color:#d0d0d0;
+    background-color:#fff;
+}
+
+#CQ .x-panel-bbar .x-toolbar, #CQ .x-panel-tbar .x-toolbar {
+    border-color:#d0d0d0;
+}
+
+#CQ .x-panel-tbar-noheader .x-toolbar, #CQ .x-panel-mc .x-panel-tbar .x-toolbar {
+    border-top-color:#d0d0d0;
+}
+
+#CQ .x-panel-body-noheader, #CQ .x-panel-mc .x-panel-body {
+    border-top-color:#d0d0d0;
+}
+
+#CQ .x-panel-tl .x-panel-header {
+    color:#333;
+	font:bold 11px tahoma,arial,verdana,sans-serif;
+}
+
+#CQ .x-panel-tc {
+	background-image: url(../../../ext/panel/top-bottom.gif);
+}
+
+#CQ .x-panel-tl, #CQ .x-panel-tr, #CQ .x-panel-bl,  #CQ .x-panel-br{
+	background-image: url(../../../ext/panel/corners-sprite.gif);
+    border-bottom-color:#d0d0d0;
+}
+
+#CQ .x-panel-bc {
+	background-image: url(../../../ext/panel/top-bottom.gif);
+}
+
+#CQ .x-panel-mc {
+    font: normal 11px tahoma,arial,helvetica,sans-serif;
+    background-color:#f1f1f1;
+}
+
+#CQ .x-panel-ml {
+	background-color: #fff;
+    background-image:url(../../../ext/panel/left-right.gif);
+}
+
+#CQ .x-panel-mr {
+	background-image: url(../../../ext/panel/left-right.gif);
+}
+
+#CQ .x-tool {
+    background-image:url(../../../ext/panel/tool-sprites.gif);
+}
+
+#CQ .x-panel-ghost {
+    background-color:#f2f2f2;
+}
+
+#CQ .x-panel-ghost ul {
+    border-color:#d0d0d0;
+}
+
+#CQ .x-panel-dd-spacer {
+    border-color:#d0d0d0;
+}
+
+#CQ .x-panel-fbar td,#CQ .x-panel-fbar span,#CQ .x-panel-fbar input,#CQ .x-panel-fbar div,#CQ .x-panel-fbar select,#CQ .x-panel-fbar label{
+    font:normal 11px arial,tahoma, helvetica, sans-serif;
+}

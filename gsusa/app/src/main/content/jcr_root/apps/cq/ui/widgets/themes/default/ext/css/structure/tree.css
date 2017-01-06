@@ -1,0 +1,218 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+.ext-strict .ext-ie #CQ .x-tree .x-panel-bwrap{
+    position:relative;
+    overflow:hidden;
+}
+
+#CQ .x-tree-icon, #CQ .x-tree-ec-icon, #CQ .x-tree-elbow-line, #CQ .x-tree-elbow, #CQ .x-tree-elbow-end, #CQ .x-tree-elbow-plus, #CQ .x-tree-elbow-minus, #CQ .x-tree-elbow-end-plus, #CQ .x-tree-elbow-end-minus{
+	border: 0 none;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 16px;
+    background-repeat: no-repeat;
+}
+
+#CQ .x-tree-node-collapsed .x-tree-node-icon, #CQ .x-tree-node-expanded .x-tree-node-icon, #CQ .x-tree-node-leaf .x-tree-node-icon{
+	border: 0 none;
+	height: 18px;
+	margin: 0;
+	padding: 0;
+	vertical-align: top;
+	width: 16px;
+	background-position:center;
+    background-repeat: no-repeat;
+}
+
+.ext-ie #CQ .x-tree-node-indent img, .ext-ie #CQ .x-tree-node-icon, .ext-ie #CQ .x-tree-ec-icon {
+    vertical-align: middle !important;
+}
+
+.ext-strict .ext-ie8 #CQ .x-tree-node-indent img, .ext-strict .ext-ie8 #CQ .x-tree-node-icon, .ext-strict .ext-ie8 #CQ .x-tree-ec-icon {
+    vertical-align: top !important;
+}
+
+/* checkboxes */
+
+#CQ input.x-tree-node-cb {
+    margin-left:1px;
+    height: 19px;
+	vertical-align: bottom;
+}
+
+.ext-ie #CQ input.x-tree-node-cb {
+    margin-left:0;
+    margin-top: 1px;
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.ext-strict .ext-ie8 #CQ input.x-tree-node-cb{
+    margin: 1px 1px;
+    height: 14px;
+    vertical-align: bottom;
+}
+
+.ext-strict .ext-ie8 #CQ input.x-tree-node-cb + a{
+    vertical-align: bottom;
+}
+
+.ext-opera #CQ input.x-tree-node-cb {
+    height: 14px;
+    vertical-align: middle;
+}
+
+#CQ .x-tree-noicon .x-tree-node-icon{
+	width:0; height:0;
+}
+
+/* No line styles */
+#CQ .x-tree-no-lines .x-tree-elbow{
+	background-color:transparent;
+}
+
+#CQ .x-tree-no-lines .x-tree-elbow-end{
+	background-color:transparent;
+}
+
+#CQ .x-tree-no-lines .x-tree-elbow-line{
+	background-color:transparent;
+}
+
+/* Arrows */
+#CQ .x-tree-arrows .x-tree-elbow{
+	background-color:transparent;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-plus{
+    background:transparent no-repeat 0 0;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-minus{
+    background:transparent no-repeat -16px 0;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-end{
+	background-color:transparent;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-end-plus{
+    background:transparent no-repeat 0 0;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-end-minus{
+    background:transparent no-repeat -16px 0;
+}
+
+#CQ .x-tree-arrows .x-tree-elbow-line{
+	background-color:transparent;
+}
+
+#CQ .x-tree-arrows .x-tree-ec-over .x-tree-elbow-plus{
+    background-position:-32px 0;
+}
+
+#CQ .x-tree-arrows .x-tree-ec-over .x-tree-elbow-minus{
+    background-position:-48px 0;
+}
+
+#CQ .x-tree-arrows .x-tree-ec-over .x-tree-elbow-end-plus{
+    background-position:-32px 0;
+}
+
+#CQ .x-tree-arrows .x-tree-ec-over .x-tree-elbow-end-minus{
+    background-position:-48px 0;
+}
+
+#CQ .x-tree-elbow-plus, #CQ .x-tree-elbow-minus, #CQ .x-tree-elbow-end-plus, #CQ .x-tree-elbow-end-minus{
+	cursor:pointer;
+}
+
+.ext-ie #CQ ul.x-tree-node-ct{
+    font-size:0;
+    line-height:0;
+    zoom:1;
+}
+
+#CQ .x-tree-node{
+	white-space: nowrap;
+}
+
+#CQ .x-tree-node-el {
+    line-height:18px;
+    cursor:pointer;
+}
+
+#CQ .x-tree-node a, #CQ .x-dd-drag-ghost a{
+	text-decoration:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+    -webkit-user-select:ignore;
+    -kthml-user-focus:normal;
+    -moz-user-focus:normal;
+    -moz-outline: 0 none;
+    outline:0 none;
+}
+
+#CQ .x-tree-node a span, #CQ .x-dd-drag-ghost a span{
+	text-decoration:none;
+	padding:1px 3px 1px 2px;
+}
+
+#CQ .x-tree-node .x-tree-node-disabled .x-tree-node-icon{
+	-moz-opacity: 0.5;
+   opacity:.5;
+   filter: alpha(opacity=50);
+}
+
+#CQ .x-tree-node .x-tree-node-inline-icon{
+	background-color:transparent;
+}
+
+#CQ .x-tree-node a:hover, #CQ .x-dd-drag-ghost a:hover{
+	text-decoration:none;
+}
+
+#CQ .x-tree-node div.x-tree-drag-insert-below{
+ 	 border-bottom:1px dotted;
+}
+
+#CQ .x-tree-node div.x-tree-drag-insert-above{
+	 border-top:1px dotted;
+}
+
+#CQ .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below{
+ 	 border-bottom:0 none;
+}
+
+#CQ .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above{
+	 border-top:0 none;
+}
+
+#CQ .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-below a{
+ 	 border-bottom:2px solid;
+}
+
+#CQ .x-tree-dd-underline .x-tree-node div.x-tree-drag-insert-above a{
+	 border-top:2px solid;
+}
+
+#CQ .x-tree-node .x-tree-drag-append a span{
+	 border:1px dotted;
+}
+
+#CQ .x-dd-drag-ghost .x-tree-node-indent, #CQ .x-dd-drag-ghost .x-tree-ec-icon{
+	display:none !important;
+}
+
+/* Fix for ie rootVisible:false issue */
+#CQ .x-tree-root-ct {
+    zoom:1;
+}

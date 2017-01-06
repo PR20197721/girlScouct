@@ -1,0 +1,246 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+#CQ .cq-header-toolbar .x-panel-body {
+    background:transparent !important;
+}
+
+#CQ .cq-header-toolbar .x-toolbar {
+    padding:0px;
+}
+
+#CQ #cq-switcher {
+    color:white;
+    background:transparent !important;
+    padding:0 6px 0 245px;
+    font:10px Tahoma, Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    border-style:none !important
+}
+
+#CQ #cq-switcher .x-btn-icon .x-btn-text {
+    width:26px;
+    height:36px;
+}
+
+#CQ #cq-switcher .x-btn-tl, #CQ #cq-switcher .x-btn-tc, #CQ #cq-switcher .x-btn-tr,
+#CQ #cq-switcher .x-btn-bl, #CQ #cq-switcher .x-btn-bc, #CQ #cq-switcher .x-btn-br {
+    height: 0;
+    background: none;
+}
+
+#CQ #cq-switcher .x-btn-tr i, #CQ #cq-switcher .x-btn-tl i,
+#CQ #cq-switcher .x-btn-br i, #CQ #cq-switcher .x-btn-bl i {
+    height: 0;
+}
+
+#CQ #cq-switcher .x-btn {
+    background-repeat: no-repeat;
+}
+
+#CQ #cq-switcher .cq-switcher-siteadmin {
+    background-image: url(../widgets/Switcher/act_siteadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-siteadmin-inactive {
+    background-image: url(../widgets/Switcher/inact_siteadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-damadmin {
+    background-image: url(../widgets/Switcher/act_damadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-damadmin-inactive {
+    background-image: url(../widgets/Switcher/inact_damadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-misc {
+    background-image: url(../widgets/Switcher/act_misc.png);
+}
+
+#CQ #cq-switcher .cq-switcher-misc-inactive {
+    background-image: url(../widgets/Switcher/inact_misc.png);
+}
+
+#CQ #cq-switcher .cq-switcher-useradmin {
+    background-image: url(../widgets/Switcher/act_useradmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-useradmin-inactive {
+    background-image: url(../widgets/Switcher/inact_useradmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-tagadmin {
+    background-image: url(../widgets/Switcher/act_tagadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-tagadmin-inactive {
+    background-image: url(../widgets/Switcher/inact_tagadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-inbox {
+    background-image: url(../widgets/Switcher/act_inbox.png);
+}
+
+#CQ #cq-switcher .cq-switcher-inbox-inactive {
+    background-image: url(../widgets/Switcher/inact_inbox.png);
+}
+
+#CQ #cq-switcher .cq-switcher-socoadmin {
+    background-image: url(../widgets/Switcher/act_soco.png);
+}
+
+#CQ #cq-switcher .cq-switcher-socoadmin-inactive {
+    background-image: url(../widgets/Switcher/inact_soco.png);
+}
+
+#CQ #cq-switcher .cq-switcher-mcmadmin {
+    background-image: url(../widgets/Switcher/act_mcm.png);
+}
+
+#CQ #cq-switcher .cq-switcher-mcmadmin-inactive {
+    background-image: url(../widgets/Switcher/inact_mcm.png);
+}
+
+#CQ #cq-switcher .cq-switcher-articleadmin-inactive {
+    background-image: url(../../../../../../media/articles/admin/content/inact_articleadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-articleadmin {
+    background-image: url(../../../../../../media/articles/admin/content/act_articleadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-publishingadmin-inactive {
+    background-image: url(../../../../../../media/publishing/admin/content/inact_publishingadmin.png);
+}
+
+#CQ #cq-switcher .cq-switcher-publishingadmin {
+    background-image: url(../../../../../../media/publishing/admin/content/act_publishingadmin.png);
+}
+
+
+/* Special treatment for IE6
+ * Note: image paths are overridden in /libs/mcm/widgets/themes/default/widgets/Switcher.css
+ */
+
+#CQ #cq-switcher .cq-switcher-siteadmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_siteadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-siteadmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_siteadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-damadmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_damadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-damadmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_damadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-misc-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_misc.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-misc-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_misc.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-useradmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_useradmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-useradmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_useradmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-tagadmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_tagadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-tagadmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_tagadmin.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-inbox-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_inbox.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-inbox-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_inbox.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-socoadmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_soco.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-socoadmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_soco.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-mcmadmin-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/act_mcm.png');
+    margin-right:5px;
+}
+
+#CQ #cq-switcher .cq-switcher-mcmadmin-inactive-ie6 {
+    background-image:none;
+    filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../../../cq/ui/widgets/themes/default/widgets/Switcher/inact_mcm.png');
+    margin-right:5px;
+}
+
+#CQ #cq-userinfo {
+    color:black;
+    background:transparent !important;
+    float:right;
+    padding-right:6px;
+    font:12px Tahoma, Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    border-style:none !important;
+    margin-top:8px
+}
+
+#CQ #cq-userinfo .x-btn-tl, #CQ #cq-userinfo .x-btn-tr, #CQ #cq-userinfo .x-btn-tc,
+#CQ #cq-userinfo .x-btn-ml, #CQ #cq-userinfo .x-btn-mr, #CQ #cq-userinfo .x-btn-mc,
+#CQ #cq-userinfo .x-btn-bl, #CQ #cq-userinfo .x-btn-br, #CQ #cq-userinfo .x-btn-bc {
+	background-image:url(../widgets/Switcher/btn.gif);
+}

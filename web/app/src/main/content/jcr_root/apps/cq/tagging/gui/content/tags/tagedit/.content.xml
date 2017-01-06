@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="AEM Tag Edit"
+        sling:resourceType="granite/ui/components/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/admin/page/viewport"/>
+            <meta
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/meta"
+                content="chrome=1"
+                name="X-UA-Compatible"/>
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/page/favicon"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                categories="[granite.ui.foundation,cq.tagging.touch.tagedit]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/foundation/page/body">
+            <layout
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/layouts/fit"/>
+            <content
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/form"
+                action="/etc/tags"
+                class="foundation-form content-container"
+                id="tag-edit-form"
+                method="post">
+                <layout
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/foundation/layouts/wizard"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <edittag
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Edit Tag"
+                        sling:resourceType="granite/ui/components/foundation/container">
+                        <items jcr:primaryType="nt:unstructured">
+                            <settings
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/tagging/gui/components/tagedit/tageditlayout"
+                                id="edittagsettings"
+                                redirect="/libs/cq/tagging/gui/content/tags.html">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <left
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/contsys"
+                                        id="tageditsettings-left">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <grid
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/container"
+                                                class="grid">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <tagdetailstext
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/text"
+                                                        class="parttext"
+                                                        text="Tag Details"/>
+                                                    <titlefield
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/textfield"
+                                                        class="block"
+                                                        fieldLabel="Title"
+                                                        id="tagtitle"
+                                                        name="./jcr:title"/>
+                                                    <descriptionfield
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/textarea"
+                                                        class="block"
+                                                        fieldLabel="Description"
+                                                        id="tagdescription"
+                                                        name="./jcr:description"/>
+                                                </items>
+                                            </grid>
+                                        </items>
+                                    </left>
+                                    <right
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/foundation/contsys"
+                                        id="tageditsettings-right">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <container
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/container"
+                                                class="grid, tag-edit-right-div">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <localizationtext
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/text"
+                                                        class="parttext"
+                                                        text="Localization"/>
+                                                    <jcrtype
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                        name="jcr:primaryType"/>
+                                                    <addlanguage
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/container"
+                                                        id="tageditsettings-addlanguage">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <languagepicker
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="cq/tagging/gui/components/tagedit/languagepicker"
+                                                                emptyText="Add Language"
+                                                                id="tagedit-settings-languagepicker"
+                                                                userGroups="[everyone]"/>
+                                                        </items>
+                                                    </addlanguage>
+                                                    <charset
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                        name="_charset_"
+                                                        value="utf-8"/>
+                                                    <titleReadFrom
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/foundation/form/hidden"
+                                                        name="titleReadFrom"
+                                                        value="contentNode"/>
+                                                    <contentPath
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="/libs/cq/tagging/gui/components/tagedit/contentpath"/>
+                                                </items>
+                                            </container>
+                                        </items>
+                                    </right>
+                                </items>
+                            </settings>
+                            <cancel
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/hyperlink"
+                                class="foundation-wizard-control"
+                                foundation-wizard-control-action="cancel"
+                                href="/libs/cq/tagging/gui/content/tags.html"
+                                text="Cancel"/>
+                            <save
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/foundation/form/submit"
+                                class="foundation-wizard-control primary flexwizard-control"
+                                foundation-wizard-control-action="next"
+                                text="Save"/>
+                        </items>
+                    </edittag>
+                </items>
+            </content>
+        </body>
+    </jcr:content>
+</jcr:root>
