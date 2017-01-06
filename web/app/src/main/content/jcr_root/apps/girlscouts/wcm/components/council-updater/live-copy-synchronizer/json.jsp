@@ -29,7 +29,7 @@ else if(null != resourcePath){
 		Session session = resourceResolver.adaptTo(Session.class);
 		AccessControlManager acMgr = session.getAccessControlManager();
 		if(acMgr.hasPrivileges(resourcePath, new Privilege[] {acMgr.privilegeFromName(Privilege.JCR_READ), acMgr.privilegeFromName(Privilege.JCR_WRITE)})){
-			Resource r = resourceResolver.resolve(resourcePath);
+            Resource r = resourceResolver.resolve(resourcePath);
 			Node resourceNode = r.adaptTo(Node.class);
 			PageManager pm = resourceResolver.adaptTo(PageManager.class);
 			Page p = pm.getContainingPage(r);
@@ -37,22 +37,20 @@ else if(null != resourcePath){
 			
 			Node pageNode = p.adaptTo(Node.class);
 			Node liveSyncConfigNode = null;
-			String masterPage = null;
 			Resource masterResource = null;
-			try{
-				pageNode.getNode("jcr:content/cq:LiveSyncConfig");
-				masterPage = liveSyncConfigNode.getProperty("cq:master").getString();
-				masterResource = resourceResolver.resolve(masterPage + pageToResource);
-			}catch(Exception e){}
-
+			LiveRelationshipManager lrm = sling.getService(LiveRelationshipManager.class);
 			if(action.equals("EditProp")){
 				if(null != editProp){
 					try{
+		                Resource pageRes = resourceResolver.resolve(p.getPath());
+		                String sourcePath = lrm.getLiveRelationship(pageRes,false).getSourcePath();
+                        masterResource = resourceResolver.resolve(sourcePath + "/jcr:content");
 						Node masterNode = masterResource.adaptTo(Node.class);
 						Value masterValue = masterNode.getProperty(editProp).getValue();
 						resourceNode.setProperty(editProp, masterValue);
 						session.save();
 						status = "success";
+
 					}catch(Exception e){
 						status = "failure - unable to retrieve master properties";
 						outputJSON(status, response);
@@ -60,11 +58,7 @@ else if(null != resourcePath){
 					}
 				}
 			}else if(action.equals("EditBase")){
-				Calendar lastModifiedNew = Calendar.getInstance();
-				lastModifiedNew.setTime(new Date());
-				String lastModifiedBy = session.getUserID();
 				try{
-					LiveRelationshipManager lrm = sling.getService(LiveRelationshipManager.class);
 					LiveRelationship lr = lrm.getLiveRelationship(r,false);
 					RolloutManager rm = sling.getService(RolloutManager.class);
 					rm.rollout(resourceResolver, lr, true);
@@ -85,7 +79,7 @@ else if(null != resourcePath){
 	} catch(Exception e){
 		status = "failure - invalid credentials";
 		outputJSON(status, response);
-		e.printStackTrace();
+        e.printStackTrace();
 	}
 	
 }else{
