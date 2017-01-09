@@ -11,6 +11,14 @@
     		name="./dontActivate"
     		type="checkbox"
     		xtype="selection"/>
+    	<delayActivation
+    		jcr:primaryType="cq:Widget"
+    		fieldLabel="Delay Activation to Midnight"
+    		name="./delayActivation"
+    		value="true"
+    		defaultValue="true"
+    		type="checkbox"
+    		xtype="selection"/>
         <councils
             jcr:primaryType="cq:Widget"
             fieldLabel="Councils"
