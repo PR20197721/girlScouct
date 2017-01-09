@@ -1124,26 +1124,33 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 	public boolean rmMeeting(User user, Troop troop, String meetingUid)
 			throws IllegalAccessException {
 		boolean isRemoved = false;
-	
+System.err.println("b2.0.3x rmMeeting	"+ meetingUid);
 		boolean isRmDt = false;
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		
 		meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
+System.err.println("x11: b4");	
 		for (int i = 0; i < meetings.size(); i++) {
+System.err.println("x12: " +i +" : "+ meetings.get(i).getUid() );			
 			if (meetings.get(i).getUid().equals(meetingUid)) {
-				
+System.err.println("x11: in if");	
 				try{
-					isRmDt= rmSchedDate( user,  troop, meetings.get(i).getDate().getTime() );
-				}catch(org.girlscouts.vtk.utils.VtkException e){e.printStackTrace();}
-				
+					if( meetings.get(i).getDate()==null )//more meetings than dates.Ex: scheduling from start
+						isRmDt=true;
+					else
+						isRmDt= rmSchedDate( user,  troop, meetings.get(i).getDate().getTime() );
+				}catch(Exception e){e.printStackTrace();}
+System.err.println("x12 A "+ i);				
 				 if( isRmDt ){
 					troopDAO.removeMeeting(user, troop, meetings.get(i));
 					meetings.remove(i);
+System.err.println("x12 B "+ i);				
 				}
 			}
 		}
-		
+System.err.println("b2.0.4x rmMeeting	");
 		if( isRmDt )isRemoved = true;
+System.err.println("b2.0.5x rmMeeting	end ");	
 		return isRemoved;
 	}
 
@@ -1416,19 +1423,30 @@ System.err.println("TTR3: " +  emails.size());
 
 	public void rmExtraMeetingsNotOnSched(User user, Troop troop) 
 			throws IllegalAccessException {
+System.err.println("b2.0x rmExtraMeetingsNotOnSched	");	
 		String dates = troop.getYearPlan().getSchedule().getDates();
+System.err.println("b2.0.1x rmExtraMeetingsNotOnSched	");	
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		int meetingDatesCount = t.countTokens();
-		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents()
-				.size()) {
-			rmMeeting(
+System.err.println("b2.0.2x rmExtraMeetingsNotOnSched	");	
+		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents().size()) {
+System.err.println(">>>>>>>>>>>>>>>>"+ meetingDatesCount +" : "+troop.getYearPlan().getMeetingEvents().size());			
+System.err.println("b2.0.3x rmExtraMeetingsNotOnSched while	");			
+			/*rmMeeting(
 					user,
 					troop,
 					troop.getYearPlan()
 							.getMeetingEvents()
-							.get(troop.getYearPlan().getMeetingEvents().size() - 1)
-							.getRefId());
+							.get(troop.getYearPlan().getMeetingEvents().size() - 1).getRefId());
+							*/
+		rmMeeting(
+		user,
+		troop,
+		troop.getYearPlan()
+				.getMeetingEvents()
+				.get(troop.getYearPlan().getMeetingEvents().size() - 1).getUid());
 		}
+System.err.println("b2.0.9x rmExtraMeetingsNotOnSched end	");	
 	}
 
 	public MeetingE getMeetingE( User user, Troop troop, String meetingEpath) throws IllegalAccessException, VtkException{

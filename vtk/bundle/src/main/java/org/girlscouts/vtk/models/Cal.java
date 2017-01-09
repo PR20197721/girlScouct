@@ -20,11 +20,15 @@ public class Cal implements Serializable {
 
 		//String _frmDates = fmtDates();
 		//return _frmDates == null ? dates : _frmDates;
-		return fmtDates(); //dates;
+
+System.err.println("GetDates...");	
+String toRet= fmtDates();
+System.err.println("GetDates..."+ toRet);	
+		return toRet;//fmtDates(); //dates;
 	}
 
 	public void setDates(String dates) {
-		
+System.err.println("setDates: "+ dates);
 		dates = fmtDates(dates);
 		//String _frmDates = fmtDates();
 		//dates= _frmDates==null ? dates : _frmDates;
@@ -55,7 +59,7 @@ public class Cal implements Serializable {
 	}
 
 	public void addDate(java.util.Date date) {
-
+System.err.println("Add date "+ date);
 		if( date ==null ) return;
 		
 		String fmtDates = getDates();
@@ -73,7 +77,7 @@ public class Cal implements Serializable {
 	
 	public String fmtDates(){ return fmtDates(this.dates); }
 	public String fmtDates( String dates ){
-		
+System.err.println("start fmtDates______________ "+ dates);		
 //if( true ) return dates;
 
 		if( dates ==null || dates.indexOf(",") ==-1 )
