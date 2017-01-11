@@ -4,11 +4,11 @@
 
       <div class="row">
         <div class="column small-24 medium-8">
-          Membership:<%=contact.getMembershipYear() %><br>
+          Membership: <%=contact.getMembershipYear() %><br>
           Role: <%= contact.getRole() %>
         </div>
         <div class="column  small-24 medium-8">
-          Membership Years: Girl: <%=contact.getMembershipYear_girl() %> Adult:<%=contact.getMembershipYear_adult() %><br>
+          Membership Years: Girl: <%=contact.getMembershipYear_girl() %> Adult: <%=contact.getMembershipYear_adult() %><br>
           Gender:
         </div>
         <div class="column small-24 medium-8">
@@ -21,7 +21,7 @@
       <div style="margin:15px 0"></div>
 
       <div class="row">
-        <div class="column small-24"> Phone :<%=contact.getPhone() %></div>
+        <div class="column small-24"> Phone: <%=contact.getPhone() %></div>
       </div>
 
       <div class="row">
