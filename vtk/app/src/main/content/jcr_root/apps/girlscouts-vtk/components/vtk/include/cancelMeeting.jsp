@@ -18,7 +18,7 @@
                                       <td>
 
 
-                                       *<%=meetingsToCancel.get(i).getUid()%>*<input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getUid()%>"  />
+                                       <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getUid()%>"  />
                                             <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span><p> </p></label>
 
 

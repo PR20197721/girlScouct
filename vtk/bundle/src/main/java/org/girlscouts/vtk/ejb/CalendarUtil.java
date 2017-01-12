@@ -243,6 +243,8 @@ System.err.println("UpdS: end");
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
+System.err.println("getSchedDates");
+
 
 		// org Dates
 		String dates = "";
@@ -256,8 +258,12 @@ System.err.println("UpdS: end");
 					dates = dates + (cal.getTimeInMillis()) + ",";
 					cal.add(java.util.Calendar.DATE, 1);
 				}
-		} else
+		} else{
+System.err.println("A1");			
 			dates = troop.getYearPlan().getSchedule().getDates();
+System.err.println("A2");	
+		}//end else
+		
 		if (!dates.startsWith(","))
 			dates = "," + dates;
 		if (!dates.endsWith(","))
@@ -311,6 +317,7 @@ System.err.println("UpdS: end");
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
+System.err.println("end getSchedDates");		
 		return dates;
 	}
 
@@ -347,12 +354,16 @@ System.err.println("UpdS: end");
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
+		
+System.err.println("b1x");		
 		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate, oldFromDate);
 		troop.setYearPlan(plan);
-		
+System.err.println("b2x");		
 		// if sched dates > meetings = rm last N meetings
 		meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
+System.err.println("b2.1x");	
 		troopUtil.updateTroop(user, troop);
+System.err.println("b3x");		
 	}
 
 	private java.util.List<String> getExclDates(String exclDate) {

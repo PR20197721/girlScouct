@@ -382,7 +382,7 @@ System.err.println(">>>>> " + rsp);
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
-System.err.println("trrr: "+ url);		
+System.err.println("trrwwwr: "+ url);		
 		HttpGet method = new HttpGet(url);
 
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
