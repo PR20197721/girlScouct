@@ -10,7 +10,7 @@ import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.Value;
 
-import org.girlscouts.web.councilupdate.DelayedPageActivator;
+import org.girlscouts.web.councilupdate.DelayedPagePreviewActivator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,9 @@ import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 
+import com.day.cq.replication.AgentIdFilter;
 import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationOptions;
 import com.day.cq.replication.Replicator;
 import org.apache.sling.settings.SlingSettingsService;
 
@@ -37,12 +39,12 @@ import org.apache.sling.commons.osgi.OsgiUtil;
 @Component(
 		metatype = true, 
 		immediate = true,
-		label = "Girl Scouts Delayed Page Activation Service", 
+		label = "Girl Scouts Delayed Page Preview Activation Service", 
 		description = "Activates pages at night to make cache-clearing interfere less with production sites" 
 		)
-@Service(value = {Runnable.class, DelayedPageActivator.class})
+@Service(value = {Runnable.class, DelayedPagePreviewActivator.class})
 @Properties({
-	@Property(name = "service.description", value = "Girl Scouts Delayed Activation Service",propertyPrivate=true),
+	@Property(name = "service.description", value = "Girl Scouts Delayed Preview Activation Service",propertyPrivate=true),
 	@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 	@Property(name = "scheduler.expression", label="scheduler.expression", description="cron expression"),
 	@Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
@@ -50,9 +52,9 @@ import org.apache.sling.commons.osgi.OsgiUtil;
 	@Property(name = "pagespath", label="Path to queued pages")
 })
 
-public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
+public class DelayedPagePreviewActivatorImpl implements Runnable, DelayedPagePreviewActivator{
 	
-	private static Logger log = LoggerFactory.getLogger(DelayedPageActivatorImpl.class);
+	private static Logger log = LoggerFactory.getLogger(DelayedPagePreviewActivatorImpl.class);
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 	@Reference 
@@ -122,8 +124,14 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		
 		for(String s : pages){
 			try{
+        	    String agentId = "publishpreview";
+        	    
+        	    AgentIdFilter filter = new AgentIdFilter(agentId);
+
+        	    ReplicationOptions opts = new ReplicationOptions();
+        	    opts.setFilter(filter);
 				pageString = s;        
-		        replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString);
+				replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString, opts);
 			}catch(Exception e){
 				log.error("An error occurred while deleting user: " + pageString);
 				try{
@@ -183,7 +191,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
 		rr.close();
-		log.info("Delayed Page Activation Service Deactivated.");
+		log.info("Delayed Page Preview Activation Service Deactivated.");
 	}
 	
 }
