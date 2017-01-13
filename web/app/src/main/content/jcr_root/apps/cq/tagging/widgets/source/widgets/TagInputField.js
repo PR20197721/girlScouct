@@ -1964,12 +1964,16 @@ CQ.tagging.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
             
             rootNode.treePanel = treePanel;
             
+            //Girl Scouts - sort by most recent date
             new CQ.Ext.tree.TreeSorter(treePanel, {
                 folderSort: true,
                 dir: "desc",
                 sortType: function(node) {
-                	if(!isNaN(Date.parse(store[node]))){
-                		return Date.parse(store[node]);
+                	var elem = document.createElement('textarea');
+                	elem.innerHTML = node;
+                	var decoded = elem.value;
+                	if(!isNaN(Date.parse(store[decoded]))){
+                		return Date.parse(store[decoded]);
                 	}else{
                 		return 0;
                 	}
