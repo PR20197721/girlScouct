@@ -33,6 +33,9 @@ import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.web.councilrollout.GirlScoutsNotificationAction;
 import org.girlscouts.web.councilrollout.GirlScoutsRolloutReporter;
 import org.girlscouts.web.councilrollout.impl.GirlScoutsNotificationActionImpl;
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
 import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,6 +130,12 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         Boolean dontSend = false, useTemplate = false, activate = true;
         String templatePath = "";
         
+        Boolean delay = false;
+        try{
+        	delay = ((Value)mdm.get("delayActivation")).getBoolean();
+
+        }catch(Exception e){}
+        
         try{
         	dontSend = ((Value)mdm.get("dontsend")).getBoolean();
         }catch(Exception e){}
@@ -137,6 +146,9 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
         
         messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
         messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
+        if(activate){
+        	messageLog.add("This workflow will " + (delay? "" : "not") + "delay the page activations until tonight");
+        }
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.</p>" +
@@ -290,8 +302,50 @@ public class NewPagePreviewRolloutProcess implements WorkflowProcess {
 	                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 	                }
 	                if(activate){
-	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
-	                	messageLog.add("Page activated");
+	                	if(!delay){
+    	                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath, opts);
+		                	messageLog.add("Page activated");
+	                	}else{
+	            	        //If necessary, create the folder where the temp user nodes will be stored
+	            	        Resource etcRes = resourceResolver.resolve("/etc");
+	            	        Node etcNode = etcRes.adaptTo(Node.class);
+	            	        Resource gsUsersRes = resourceResolver.resolve("/etc/gs-delayed-preview-activations");
+	            	        Node gsUsersNode = null;
+	            	        if(gsUsersRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+	            				gsUsersNode = etcNode.addNode("gs-delayed-preview-activations");
+	            	        }else{
+	            		        gsUsersNode = gsUsersRes.adaptTo(Node.class);
+	            	        }
+	            	        
+	                		GSDateTime today = new GSDateTime();
+	                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd");
+	            	    	String dateNodeString = dtfOut.print(today);
+	            	    	
+	            	    	//If necessary, create a node for the expiration date
+	            	    	Resource dateRes = resourceResolver.resolve("/etc/gs-delayed-preview-activations/" + dateNodeString);
+	            	    	Node dateNode = null;
+	            	    	if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+	            	    		dateNode = gsUsersNode.addNode(dateNodeString,"nt:unstructured");
+	            	    	}else{
+	            	    		dateNode = dateRes.adaptTo(Node.class);
+	            	    	}
+	            	    	String [] pagesProp;
+	            	    	
+	            	    	if(!dateNode.hasProperty("pages")){
+	            	    		pagesProp = new String[]{targetPath};
+	            	    	}else{
+	            	    		Value[] propValues = dateNode.getProperty("pages").getValues();
+	            	    		pagesProp = new String[propValues.length+1];
+	            	    		for(int i=0; i<propValues.length; i++){
+	            	    			pagesProp[i] = propValues[i].getString();
+	            	    		}
+	            	    		pagesProp[propValues.length] = targetPath;
+	            	    	}
+	            	    	dateNode.setProperty("pages", pagesProp);
+	            	    	
+	            			session.save();    	
+	                		messageLog.add("Page set to activate at midnight");
+	                	}
 	                }
             		if(!dontSend){
             			girlscoutsNotificationAction.execute(srcPage.adaptTo(Resource.class), copyPage.adaptTo(Resource.class), subject, message, relationship, resourceResolver);
