@@ -86,7 +86,6 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
-		
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
 		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -156,6 +155,9 @@ String relayUrl="";//sling.getService(org.girlscouts.vtk.helpers.ConfigManager.c
     String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 
+	
+	
+	
 	if( request.getParameter("showGamma")!=null && request.getParameter("showGamma").equals("true")){
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_VIEW_FINANCE_ID);
 	     troop.getTroop().getPermissionTokens().add( PermissionConstants.PERMISSION_CAN_VIEW_MEMBER_DETAIL_TROOP_ID);
