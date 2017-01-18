@@ -153,7 +153,8 @@ public class NewPageRolloutProcess implements WorkflowProcess {
         		"<p>It has been detected that a new national content page has been created by GSUSA. Please review and make any updates to content.</p>" +
         		"<p><b>National page URL:</b> <%template-page%></p>" +
         		"<p><b>Your page URL:</b> <%council-page%></p>" +
-        		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>";
+        		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>" +
+        		"<p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.</p>";
         
         String subject = "GSUSA Rollout Notification";
         
