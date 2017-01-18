@@ -142,7 +142,7 @@ public class RolloutProcess implements WorkflowProcess {
         messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
         messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
         if(activate){
-        	messageLog.add("This workflow will " + (delay? "" : "not") + "delay the page activations until tonight");
+        	messageLog.add("This workflow will " + (delay? "" : "not ") + "delay the page activations until tonight");
         }
         
         String message = "<p>Dear Council, </p>" +
