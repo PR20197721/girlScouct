@@ -1,0 +1,222 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ .x-window {
+    zoom:1;
+}
+
+#CQ .x-window .x-window-handle {
+    opacity:0;
+    -moz-opacity:0;
+    filter:alpha(opacity=0);
+}
+
+#CQ .x-window-proxy {
+    border:1px solid;
+    z-index:12000;
+    overflow:hidden;
+    position:absolute;
+    left:0;top:0;
+    display:none;
+    opacity:.5;
+    -moz-opacity:.5;
+    filter:alpha(opacity=50);
+}
+
+#CQ .x-window-header {
+    overflow:hidden;
+    zoom:1;
+}
+
+#CQ .x-window-bwrap {
+    z-index:1;
+    position:relative;
+    zoom:1;
+    left:0;top:0;
+}
+
+#CQ .x-window-tl .x-window-header {
+    padding:5px 0 4px 0;
+}
+
+#CQ .x-window-header-text {
+    cursor:pointer;
+}
+
+#CQ .x-window-tc {
+	background: transparent repeat-x 0 0;
+	overflow:hidden;
+    zoom:1;
+}
+
+#CQ .x-window-tl {
+	background: transparent no-repeat 0 0;
+	padding-left:6px;
+    zoom:1;
+    z-index:1;
+    position:relative;
+}
+
+#CQ .x-window-tr {
+	background: transparent no-repeat right 0;
+	padding-right:6px;
+}
+
+#CQ .x-window-bc {
+	background: transparent repeat-x 0 bottom;
+    zoom:1;
+}
+
+#CQ .x-window-bc .x-window-footer {
+    padding-bottom:6px;
+    zoom:1;
+    font-size:0;
+    line-height:0;
+}
+
+#CQ .x-window-bl {
+	background: transparent no-repeat 0 bottom;
+	padding-left:6px;
+    zoom:1;
+}
+
+#CQ .x-window-br {
+	background: transparent no-repeat right bottom;
+	padding-right:6px;
+    zoom:1;
+}
+
+#CQ .x-window-mc {
+    border:1px solid;
+    padding:0;
+    margin:0;
+}
+
+#CQ .x-window-ml {
+	background: transparent repeat-y 0 0;
+	padding-left:6px;
+    zoom:1;
+}
+
+#CQ .x-window-mr {
+	background: transparent repeat-y right 0;
+	padding-right:6px;
+    zoom:1;
+}
+
+#CQ .x-window-body {
+    overflow:hidden;
+}
+
+#CQ .x-window-bwrap {
+    overflow:hidden;
+}
+
+#CQ .x-window-maximized .x-window-bl, #CQ .x-window-maximized .x-window-br,
+    .x-window-maximized .x-window-ml, #CQ .x-window-maximized .x-window-mr,
+    .x-window-maximized .x-window-tl, #CQ .x-window-maximized .x-window-tr {
+    padding:0;
+}
+
+#CQ .x-window-maximized .x-window-footer {
+    padding-bottom:0;
+}
+
+#CQ .x-window-maximized .x-window-tc {
+    padding-left:3px;
+    padding-right:3px;
+}
+
+#CQ .x-window-maximized .x-window-mc {
+    border-left:0 none;
+    border-right:0 none;
+}
+
+#CQ .x-window-tbar .x-toolbar, #CQ .x-window-bbar .x-toolbar {
+    border-left:0 none;
+    border-right: 0 none;
+}
+
+#CQ .x-window-bbar .x-toolbar {
+    border-top:1px solid;
+    border-bottom:0 none;
+}
+
+#CQ .x-window-draggable, #CQ .x-window-draggable .x-window-header-text {
+    cursor:move;
+}
+
+#CQ .x-window-maximized .x-window-draggable, #CQ .x-window-maximized .x-window-draggable .x-window-header-text {
+    cursor:default;
+}
+
+#CQ .x-window-body {
+    background-color:transparent;
+}
+
+#CQ .x-panel-ghost .x-window-tl {
+    border-bottom:1px solid;
+}
+
+#CQ .x-panel-collapsed .x-window-tl {
+    border-bottom:1px solid;
+}
+
+#CQ .x-window-maximized-ct {
+    overflow:hidden;
+}
+
+#CQ .x-window-maximized .x-window-handle {
+    display:none;
+}
+
+#CQ .x-window-sizing-ghost ul {
+    border:0 none !important;
+}
+
+#CQ .x-dlg-focus{
+	-moz-outline:0 none;
+	outline:0 none;
+	width:0;
+	height:0;
+	overflow:hidden;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+.ext-webkit #CQ .x-dlg-focus{
+    width: 1px;
+    height: 1px;
+}
+
+#CQ .x-dlg-mask{
+    z-index:10000;
+    display:none;
+    position:absolute;
+    top:0;
+    left:0;
+    -moz-opacity: 0.5;
+    opacity:.50;
+    filter: alpha(opacity=50);
+}
+
+body.ext-ie6.x-body-masked #CQ select {
+	visibility:hidden;
+}
+
+body.ext-ie6.x-body-masked #CQ .x-window select {
+	visibility:visible;
+}
+
+#CQ .x-window-plain .x-window-mc {
+    border: 1px solid;
+}
+
+#CQ .x-window-plain .x-window-body {
+    border: 1px solid;
+    background:transparent !important;
+}

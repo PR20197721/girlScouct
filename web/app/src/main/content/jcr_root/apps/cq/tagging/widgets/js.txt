@@ -1,0 +1,14 @@
+#base=source
+
+# license
+license.js
+
+# head
+CQ.tagging.js
+
+# tagging widgets
+widgets/TagInputField.js
+
+# tag admin
+widgets/admin/TagAdmin.js
+widgets/admin/TagAdmin.Actions.js

@@ -1,0 +1,114 @@
+/*
+ * Copyright 1997-2010 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+#CQ .cq-multifield-itemct {
+    width:100%;
+}
+
+/* only used in MultiCompositeField */
+#CQ .cq-multifield-item {
+    border-bottom: 1px solid #d0d0d0 !important;
+    margin-bottom: 3px;
+}
+
+#CQ .cq-multifield-targetline-top-shadow-penumbra {
+    position: absolute;
+    top: -2px;
+    height: 1px;
+    width: 100%;
+    background-color: #77CC51;
+    opacity: 0.2
+}
+
+#CQ .cq-multifield-targetline-top-shadow {
+    position: absolute;
+    top: -1px;
+    height: 1px;
+    width: 100%;
+    background-color: #77CC51;
+    opacity: 0.4
+}
+
+#CQ .cq-multifield-targetline {
+    z-index: 9999;
+    height: 1px;
+    line-height:0px;
+    background-color:#77B451;
+    position: absolute;
+}
+
+#CQ .cq-multifield-targetline-bottom-shadow {
+    position: absolute;
+    top: 1px;
+    height: 1px;
+    width: 100%;
+    background-color: #77CC51;
+    opacity: 0.4
+}
+
+#CQ .cq-multifield-targetline-bottom-shadow-penumbra {
+    position: absolute;
+    top: 2px;
+    height: 1px;
+    width: 100%;
+    background-color: #77CC51;
+    opacity: 0.2
+}
+
+#CQ .cq-multifield-toolbar {
+    background-color: #FFFFFF;
+    background-image: none
+}
+
+#CQ .cq-multifield-add {
+    background-image:url('../../icons/16x16/add.gif');
+    background-color: transparent;
+    border-style: none;
+    height:16px;
+    width:16px
+}
+
+#CQ .cq-multifield-remove {
+    background-image:url('../../icons/16x16/remove.png');
+    background-color: transparent;
+    border-style: none;
+    height:16px;
+    width:16px
+}
+
+#CQ .cq-multifield-up {
+    background-image:url('../../icons/16x16/up.gif');
+    background-color: transparent;
+    border-style: none;
+    height:16px;
+    width:16px
+}
+
+#CQ .cq-multifield-down {
+    background-image:url('../../icons/16x16/down.gif');
+    background-color: transparent;
+    border-style: none;
+    height:16px;
+    width:16px
+}
+
+#CQ .cq-multifield-drag-handle {
+    background-image:url('../../icons/16x16/drag-handle.gif');
+    background-color: transparent;
+    border-style: none;
+    position:relative;
+    z-index: 9999;
+    right:-2px;
+    height:20px;
+    width:8px
+}
+

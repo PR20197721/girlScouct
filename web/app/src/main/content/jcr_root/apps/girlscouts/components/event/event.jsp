@@ -72,9 +72,9 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     GSDateTimeZone dtz = null;
     String startDateStr = "";
     String startTimeStr = "";
+    Boolean useRaw = timeZoneLabel.length() < 4;
     
-	if(!timeZoneLabel.isEmpty()){
-		//dateStr = dateStr + " " + timeZoneLabel;
+	if(!timeZoneLabel.isEmpty() && !useRaw){
 		int openParen1 = timeZoneLabel.indexOf("(");
 		int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
 		int closeParen = timeZoneLabel.indexOf(")",openParen2);
@@ -88,10 +88,13 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 			startDateStr = dtfOutDate.print(startDate);
 			startTimeStr = dtfOutTime.print(startDate);
 		}catch(Exception e){
+			useRaw = true;
 			e.printStackTrace();
 		}
 		//startDate = new GSDateTime(startDate.getMillis());
-	}else{
+	}
+	if(timeZoneLabel.isEmpty() || useRaw){
+		timeZoneShortLabel = timeZoneLabel;
 		localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
 		startDateStr = dtfOutDate.print(localStartDate);
 		startTimeStr = dtfOutTime.print(localStartDate);

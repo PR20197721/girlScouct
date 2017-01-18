@@ -1,0 +1,140 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+/******************************************************************************/
+/* tabs */
+/******************************************************************************/
+
+#CQ #cq-cf-tabpanel .x-tab-panel-header {
+    border-bottom:none;
+    background-color:#f0f0f0;
+}
+
+#CQ #cq-cf-tabpanel ul.x-tab-strip-top {
+    background:none;
+}
+
+#CQ #cq-cf-tabpanel .x-tool-collapse-west {
+    display:none;
+}
+
+#CQ #cq-cf-tabpanel .x-toolbar {
+    border:none;
+    background:none;
+}
+
+/******************************************************************************/
+/* toolbar */
+/******************************************************************************/
+
+#CQ #cq-cf-framewrapper .cq-cf-toolbar-ct {
+    height:27px;
+    padding-left:5px;
+    padding-top:2px;
+    border-bottom-width:1px;
+    background-color:#f0f0f0;
+}
+
+#CQ #cq-cf-framewrapper .cq-cf-toolbar-ct .x-panel-body {
+    background-color:#f0f0f0;
+}
+
+#CQ #cq-cf-framewrapper .cq-cf-toolbar-ct .x-toolbar {
+    background:#f0f0f0 none;
+}
+
+#CQ #cq-cf-framewrapper {
+    border-left-width: 1px;
+}
+
+#CQ #cq-cf-toolbar-ct-xcollapsed {
+    display:none ! important; /* make sure toolbar is fully collapsed */
+}
+
+/******************************************************************************/
+/* content page */
+/******************************************************************************/
+
+#CQ #cq-cf-framewrapper .x-panel-body-noheader {
+    border-width:0;
+    /*border-left-width:1px;*/
+}
+
+/* drag & drop mask */
+#CQ #cq-cf-framewrapper.x-masked {
+    overflow: visible !important;
+}
+
+#CQ #cq-cf-framewrapper .ext-el-mask {
+    /* with background-color:transparent; dragging does not work in IE */
+    opacity:0;
+    filter: alpha(opacity=0);
+    z-index:8000;
+}
+
+.cq-cf-droptarget-highlight {
+    /* seems not to be in use */
+    opacity:0.9 ! important;
+    filter:alpha(opacity=90) ! important;
+    background-color: #ab6fc7 ! important;
+}
+
+/******************************************************************************/
+/* clipboard */
+/******************************************************************************/
+
+#CQ .cq-cf-clipboard {
+    width:100%;
+    background:#ffffff;
+    position:absolute;
+    font-family:Tahoma, Arial, Helvetica, sans-serif;
+    font-size:11px;
+    font-size-adjust:none;
+    font-stretch:normal;
+    font-style:normal;
+    font-variant:normal;
+    font-weight:normal;
+    line-height:normal;
+}
+
+#CQ .cq-cf-clipboard .item-wrap {
+    display:block;
+    padding:4px 4px 4px 22px;
+    border-bottom:solid 1px transparent;
+    background:transparent no-repeat 3px 4px;
+}
+
+#CQ .cq-cf-clipboard .item-wrap span {
+    display:block;
+    overflow:hidden;
+}
+
+#CQ .cq-cf-clipboard .x-view-over {
+    background-color:#efefef;
+}
+#CQ .cq-cf-clipboard .x-view-selected {
+    background-color:#dedede;
+    border-color:#d0d0d0;
+}
+
+#CQ .cq-frame {
+    width: 100%;
+    height: 100%;
+}
+
+.cq-cf-dd-debug-resolved {
+    border: 2px solid green !important;
+}
+
+.cq-cf-dd-debug-unresolved {
+    border: 1px solid red !important;
+}

@@ -1,0 +1,62 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+#CQ .cq-suggestions DIV {
+}
+
+#CQ .cq-suggestions .x-combo-list-item {
+    font-size:11px;
+}
+
+#CQ .cq-suggestions DIV {
+    /*padding:0 2px 0 12px;*/
+}
+
+#CQ .cq-suggestions DIV.name,
+#CQ .cq-suggestions DIV.title,
+#CQ .cq-suggestions DIV.nav {
+    float:left;
+    overflow:hidden;
+    height:20px;
+    padding-top:3px;
+    padding-left:20px;
+}
+
+#CQ .cq-suggestions DIV.name {
+    padding-left:22px;
+    width:80px;
+
+    /* do not use background (single style): -> sets bgcolor to transparent which overrides the selected bgcolor */
+    background-repeat:no-repeat;
+    background-position:3px 2px;
+}
+#CQ .cq-suggestions DIV.title {
+    width:140px;
+}
+#CQ .cq-suggestions DIV.nav {
+    width:20px;
+}
+
+
+#CQ .cq-suggestions DIV.folder,
+#CQ .cq-suggestions DIV.orderedfolder,
+#CQ .cq-suggestions DIV.unstructured {
+    background-image: url(../../icons/16x16/folder.png);
+}
+
+#CQ .cq-suggestions DIV.page {
+    background-image: url(../../icons/16x16/page.png);
+}
+
+#CQ .cq-suggestions DIV.tag {
+    background-image: url(../../icons/16x16/tag.png);
+}

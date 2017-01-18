@@ -1,0 +1,347 @@
+/*
+ * Copyright 1997-2008 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+
+/* show sidekick titlebar */
+#CQ .cq-sidekick .x-window-header {
+    background:url(../../widgets/wcm/Sidekick/titlebar_bg.png) 0 6px no-repeat;
+    height:30px;
+}
+
+
+/* avoid title being shown as text */
+#CQ .cq-sidekick. x-window-header-text {
+    opacity:0;
+    filter:alpha(opacity=0);
+}
+
+
+#CQ .cq-sidekick .x-window-header .x-tool {
+    margin: 8px 5px 0 0;
+}
+
+#CQ .cq-sidekick .x-window-header .x-tool-toggle {
+    margin-right: 1px;
+}
+
+/* load indication */
+#CQ .cq-sidekick-loading .x-panel-bwrap {
+    background-color:white;
+}
+
+
+#CQ .cq-sidekick-loading .x-panel-body {
+    background:url(../../ext/shared/large-loading.gif) center center no-repeat;
+}
+
+
+/* tab icons */
+#CQ .cq-sidekick .x-tab-strip {
+    padding-top:3px;
+}
+
+#CQ .cq-sidekick-tab {
+    background-position:0 4px ! important;
+    padding:0 0 22px 16px ! important;
+    width:1px;
+    height:1px;
+}
+
+
+#CQ .x-tab-strip-active .cq-sidekick-tab {
+    padding:0 0 23px 16px ! important;
+}
+
+
+#CQ .cq-sidekick ul.x-tab-strip li {
+    margin-left:1px;
+}
+
+
+#CQ .cq-sidekick .x-tab-strip-top .x-tab-right {
+    padding-left:5px;
+}
+
+
+#CQ .cq-sidekick .x-tab-strip-top .x-tab-left {
+    padding-right:5px;
+}
+
+
+#CQ .cq-sidekick-tab-icon-components {
+    background-image: url(../../icons/16x16/components.png);
+}
+
+
+#CQ .cq-sidekick-tab-icon-page {
+    background-image: url(../../icons/16x16/page.png);
+}
+
+
+#CQ .cq-sidekick-tab-icon-site {
+    background-image: url(../../icons/16x16/site.png);
+}
+
+
+#CQ .cq-sidekick-tab-icon-workflow {
+    background-image: url(../../icons/16x16/workflow.png);
+}
+
+
+#CQ .cq-sidekick-tab-icon-versioning {
+    background-image: url(../../icons/16x16/version.png);
+}
+
+
+#CQ .cq-sidekick-tab-icon-info {
+    background-image: url(../../icons/16x16/lock.png);
+}
+
+
+/* control buttons */
+#CQ .cq-sidekick-buttons .x-btn-noicon {
+    background-color: #f0f0f0;
+    border-bottom:1px solid #fff;
+}
+
+
+#CQ .cq-sidekick-buttons .x-btn-over.x-btn-noicon {
+    border-bottom:1px solid #d0d0d0;
+}
+
+
+#CQ .cq-sidekick-buttons .x-btn-ml {
+    background:none;
+    width:3px;
+    height:29px;
+}
+
+#CQ .cq-sidekick-buttons .x-btn-mr {
+    background:none;
+    width:3px;
+    height:29px;
+}
+
+#CQ .cq-sidekick-buttons .x-btn-mc {
+    background:none;
+    width:100%;
+    height:29px;
+    text-align:left;
+    padding:0 5px !important;
+}
+
+#CQ .cq-sidekick-buttons .x-btn-tl, #CQ .cq-sidekick-buttons .x-btn-tc, #CQ .cq-sidekick-buttons .x-btn-tr,
+#CQ .cq-sidekick-buttons .x-btn-bl, #CQ .cq-sidekick-buttons .x-btn-bc, #CQ .cq-sidekick-buttons .x-btn-br {
+    height: 0;
+    background: none;
+}
+
+#CQ .cq-sidekick-buttons .x-btn-tr i, #CQ .cq-sidekick-buttons .x-btn-tl i,
+#CQ .cq-sidekick-buttons .x-btn-br i, #CQ .cq-sidekick-buttons .x-btn-bl i {
+    height: 0;
+}
+
+/*todo: move buttons to ComponentList.css*/
+#CQ .cq-sidekick-buttons .x-btn-over .x-btn-ml {
+    background:url(../../widgets/wcm/Sidekick/item-over.gif) repeat-x;
+}
+#CQ .cq-sidekick-buttons .x-btn-over .x-btn-mr {
+    background:url(../../widgets/wcm/Sidekick/item-over.gif) repeat-x;
+}
+#CQ .cq-sidekick-buttons .x-btn-over .x-btn-mc {
+    background:url(../../widgets/wcm/Sidekick/item-over.gif) repeat-x;
+}
+#CQ .cq-sidekick-buttons .x-btn-click .x-btn-mc {
+    background:url(../../widgets/wcm/Sidekick/item-over.gif) repeat-x;
+}
+
+#CQ .cq-insertdialog .cq-sidekick-buttons .x-btn-selected .x-btn-ml {
+    background:url(../../widgets/wcm/Sidekick/item-selected.gif) repeat-x;
+}
+#CQ .cq-insertdialog .cq-sidekick-buttons .x-btn-selected .x-btn-mr {
+    background:url(../../widgets/wcm/Sidekick/item-selected.gif) repeat-x;
+}
+#CQ .cq-insertdialog .cq-sidekick-buttons .x-btn-selected .x-btn-mc {
+    background:url(../../widgets/wcm/Sidekick/item-selected.gif) repeat-x;
+}
+
+
+/* button bar */
+
+#CQ .cq-sidekick .x-window-bbar .x-toolbar td {
+    font-size: 1px;
+}
+
+#CQ .cq-sidekick .x-window-bbar .x-toolbar {
+    border-top:none;
+    height:21px;
+}
+#CQ .cq-sidekick .x-window-bbar .x-toolbar table {
+    float:right;
+}
+#CQ .cq-sidekick .x-window-bbar .x-btn-wrap {
+    /* effective margin differs in IE and FF > check in both before change */
+    margin-left:1px;
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-edit {
+    background-image:url(../../widgets/wcm/Sidekick/edit.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-design {
+    background-image:url(../../widgets/wcm/Sidekick/design.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-preview {
+    background-image:url(../../widgets/wcm/Sidekick/preview.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-scaffolding {
+    background-image:url(../../widgets/wcm/Sidekick/scaffolding.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-reload {
+    background-image:url(../../widgets/wcm/Sidekick/reload.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-siteadmin {
+    background-image:url(../../icons/16x16/siteadmin.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-miscadmin {
+    background-image:url(../../icons/16x16/tools.png);
+}
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-layer-livecopy {
+    background-image:url(../../icons/16x16/livecopy.png);
+}
+
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-clientcontext {
+    background-image:url(../../icons/16x16/clientcontext.png);
+}
+
+#CQ .cq-sidekick .x-window-bbar .cq-sidekick-analytics {
+    background-image:url(../../icons/16x16/sitecatalyst.png);
+}
+
+/* forms */
+
+#CQ .cq-sidekick-form .x-form-item {
+    padding:0 3px 0 3px;
+}
+
+#CQ .cq-sidekick-form .x-hide-label {
+    padding: 0 0 0 0;
+}
+
+#CQ .cq-sidekick-form .x-form-item-label {
+    width:auto ! important;
+    display:block;
+    font-size:10px;
+    color:gray;
+}
+
+#CQ .cq-sidekick-form .x-form-item-label .cq-asterisk {
+    position:relative;
+    margin-left:1px;
+    font-size:10px;
+    color:gray;
+}
+
+#CQ .cq-sidekick-form .x-form-element {
+    clear:left;
+    padding-left:0 ! important;
+    width: auto ! important;
+}
+
+#CQ .cq-sidekick-form .x-form-element .x-form-field {
+    font-size:11px;
+}
+
+#CQ .cq-sidekick-form .x-form-element-label-top {
+    padding-top:0 ! important;
+}
+
+#CQ .cq-sidekick-form .x-form-textarea {
+    overflow:auto;
+}
+
+#CQ .cq-sidekick-form .x-form-element .x-trigger-noedit {
+    font-size:11px;
+    width:154px ! important;
+}
+
+#CQ .cq-sidekick-form .x-btn {
+    margin:3px 0 3px 3px;
+}
+
+#CQ .cq-sidekick-wf-info-panel {
+    padding: 3px;
+}
+
+/* Fieldset */
+
+#CQ .cq-sidekick-fieldset {
+    margin: 5px 3px 0 3px;
+    padding-top: 3px;
+    width: 157px;
+}
+
+#CQ .cq-sidekick-wfp-fieldset {
+    margin-top: 15px ! important;
+}
+
+#CQ .cq-sidekick-fieldset .x-form-element .x-trigger-noedit {
+    width: 125px ! important;
+}
+
+/* timewarp */
+
+#CQ .cq-sidekick-form-timewarp .x-panel-header {
+    background:url(../../widgets/wcm/Sidekick/background-red.png) 0px -1px ! important;
+}
+
+#CQ .cq-sidekick-form-timewarp .x-panel-header-text {
+    color: #770000 ! important;
+}
+
+#CQ .cq-sidekick-timewarp-panel .x-btn {
+    margin: 0px 3px 0px 0px ! important;
+}
+
+#CQ .cq-sidekick-timewarp-panel {
+    padding: 3px 3px 7px 3px;
+}
+
+#CQ .cq-sidekick-timewarp-datetime {
+    padding: 0px 3px 3px 0px;
+}
+
+/* status */
+
+#CQ .cq-sk-launchesstatus {
+    background-image: url("../../ext/toolbar/bg.gif");
+    border-top: 1px solid #D0D0D0;
+    font-size: 10px;
+    padding: 0 3px;
+    min-width: 200px;
+}
+
+#CQ .cq-sk-launchesstatus span {
+    line-height: 14px;
+    overflow: hidden;
+}
+
+#CQ .cq-sk-launchesstatus .cq-sk-launchesstatus-productionready {
+    width: 10px;
+    height: 16px;
+}
+
+#CQ .cq-sk-launchesstatus .cq-sk-launchesstatus-productionready-on {
+    background-image: url(../../resources/status-on.gif);
+}
+
+#CQ .cq-sk-launchesstatus .cq-sk-launchesstatus-productionready-off {
+    background-image: url(../../resources/status-off.gif);
+}

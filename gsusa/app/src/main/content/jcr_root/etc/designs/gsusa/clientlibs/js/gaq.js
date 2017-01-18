@@ -1,4 +1,6 @@
+/* 
    var _gaq = _gaq || [];
+   
 
    // if this is cookie site also track on the separate cookie account
    // this has to be firing first before main one, otherwise all event clicks will be tied to "-35" account and not "-1" account
@@ -31,3 +33,4 @@
       gaAddons.src = '/etc/designs/gsusa/clientlibs/js/gaAddons-2.0.8.min.js';
       s.parentNode.insertBefore(gaAddons, s);
    })();
+*/

@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-07-02T13:25:27.733-04:00"
+        cq:lastModified="{Date}2016-11-10T14:41:09.866-05:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:description="Roll out the national content to the council site and activate both the source and the target page."
@@ -13,49 +13,121 @@
         <flow
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
-            <process
-                jcr:created="{Date}2014-07-01T14:31:35.992-04:00"
+            <dialog
+                jcr:created="{Date}2016-11-10T11:37:16.568-05:00"
                 jcr:createdBy="admin"
-                jcr:description="Roll out the source page and activate both the source and the target page."
-                jcr:lastModified="{Date}2014-07-01T15:48:10.350-04:00"
+                jcr:lastModified="{Date}2016-11-10T11:37:16.568-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Roll Out and Activate"
-                sling:resourceType="cq/workflow/components/model/process">
+                jcr:title="Council Selection"
+                sling:resourceType="cq/workflow/components/model/dialog">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process>
-            <process_0
-                jcr:created="{Date}2014-07-02T13:22:22.592-04:00"
+                    DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                    PARTICIPANT="content-analysts"/>
+            </dialog>
+            <or
+                jcr:created="{Date}2016-11-10T14:35:20.578-05:00"
                 jcr:createdBy="admin"
-                jcr:lastModified="{Date}2014-07-02T13:24:16.856-04:00"
+                jcr:lastModified="{Date}2016-11-10T14:35:20.578-05:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Activate Assets"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
+                sling:resourceType="cq/workflow/components/model/or"
+                branches="2"
+                orSplit="true">
+                <_x0031_
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="org.girlscouts.cq.workflow.AssetPublishActivateProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process_0>
-            <activateresourceproc
-                jcr:created="{Date}2014-07-02T13:16:00.995-04:00"
-                jcr:createdBy="admin"
-                jcr:description="A process to activate a page"
-                jcr:lastModified="{Date}2014-07-02T13:25:27.731-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Activate Page"
-                sling:resourceType="wcm/workflow/components/workflow/activateresourceprocess"
-                PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                PROCESS_AUTO_ADVANCE="true">
-                <metaData
+                    sling:resourceType="cq/flow/components/parsys">
+                    <process
+                        jcr:created="{Date}2016-11-10T14:35:25.338-05:00"
+                        jcr:createdBy="admin"
+                        jcr:description="Roll out the source page and activate both the source and the target page."
+                        jcr:lastModified="{Date}2016-11-10T14:38:14.046-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Production Roll Out and Activate"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process>
+                    <process_816814459
+                        jcr:created="{Date}2016-11-10T14:35:27.431-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-11-10T14:38:22.083-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate Assets"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.AssetPublishActivateProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process_816814459>
+                    <activateresourceproc
+                        jcr:created="{Date}2016-11-10T14:35:29.733-05:00"
+                        jcr:createdBy="admin"
+                        jcr:description="A process to activate a page or asset"
+                        jcr:lastModified="{Date}2016-11-10T14:38:33.534-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate Page"
+                        sling:resourceType="wcm/workflow/components/workflow/activateresourceprocess"
+                        PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                        PROCESS_AUTO_ADVANCE="true">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </activateresourceproc>
+                </_x0031_>
+                <_x0032_
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </activateresourceproc>
+                    sling:resourceType="cq/flow/components/parsys">
+                    <process
+                        jcr:created="{Date}2016-11-10T14:35:34.523-05:00"
+                        jcr:createdBy="admin"
+                        jcr:description="Roll out the source page and activate on preview"
+                        jcr:lastModified="{Date}2016-11-10T14:36:10.796-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Preview Roll Out and Activate"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.PreviewRolloutProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process>
+                    <process_569084161
+                        jcr:created="{Date}2016-11-10T14:40:21.522-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-11-10T14:40:41.469-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate Assets to Preview"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process_569084161>
+                    <process_1332899133
+                        jcr:created="{Date}2016-11-10T14:40:50.646-05:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2016-11-10T14:41:09.852-05:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate Page to Preview"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                            PROCESS_ARGS="agent:publishpreview"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process_1332899133>
+                </_x0032_>
+            </or>
         </flow>
         <model/>
         <image

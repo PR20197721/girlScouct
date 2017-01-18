@@ -1,0 +1,246 @@
+/*!
+ * Ext JS Library 3.4.0
+ * Copyright(c) 2006-2011 Sencha Inc.
+ * licensing@sencha.com
+ * http://www.sencha.com/license
+ */
+#CQ .x-toolbar{
+    border-style:solid;
+    border-width:0 0 1px 0;
+    display: block;
+	padding:2px;
+    background:repeat-x top left;
+    position:relative;
+    left:0;
+    top:0;
+    zoom:1;
+    overflow:hidden;
+}
+
+#CQ .x-toolbar-left {
+    width: 100%;
+}
+
+#CQ .x-toolbar .x-item-disabled .x-btn-icon {
+    opacity: .35;
+    -moz-opacity: .35;
+    filter: alpha(opacity=35);
+}
+
+#CQ .x-toolbar td {
+	vertical-align:middle;
+}
+
+#CQ .x-toolbar td,#CQ .x-toolbar span,#CQ .x-toolbar input,#CQ .x-toolbar div,#CQ .x-toolbar select,#CQ .x-toolbar label{
+	white-space: nowrap;
+}
+
+#CQ .x-toolbar .x-item-disabled {
+	cursor:default;
+	opacity:.6;
+	-moz-opacity:.6;
+	filter:alpha(opacity=60);
+}
+
+#CQ .x-toolbar .x-item-disabled * {
+	cursor:default;
+}
+
+#CQ .x-toolbar .x-toolbar-cell {
+    vertical-align:middle;
+}
+
+#CQ .x-toolbar .x-btn-tl, #CQ .x-toolbar .x-btn-tr, #CQ .x-toolbar .x-btn-tc, #CQ .x-toolbar .x-btn-ml, #CQ .x-toolbar .x-btn-mr,
+#CQ .x-toolbar .x-btn-mc, #CQ .x-toolbar .x-btn-bl, #CQ .x-toolbar .x-btn-br, #CQ .x-toolbar .x-btn-bc
+{
+	background-position: 500px 500px;
+}
+
+/* These rules are duplicated from button.css to give priority of x-toolbar rules above */
+#CQ .x-toolbar .x-btn-over .x-btn-tl{
+	background-position: -6px 0;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-tr{
+	background-position: -9px 0;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-tc{
+	background-position: 0 -9px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-ml{
+	background-position: -6px -24px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-mr{
+	background-position: -9px -24px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-mc{
+	background-position: 0 -2168px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-bl{
+	background-position: -6px -3px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-br{
+	background-position: -9px -3px;
+}
+
+#CQ .x-toolbar .x-btn-over .x-btn-bc{
+	background-position: 0 -18px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-tl, #CQ .x-toolbar .x-btn-menu-active .x-btn-tl, #CQ .x-toolbar .x-btn-pressed .x-btn-tl{
+	background-position: -12px 0;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-tr, #CQ .x-toolbar .x-btn-menu-active .x-btn-tr, #CQ .x-toolbar .x-btn-pressed .x-btn-tr{
+	background-position: -15px 0;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-tc, #CQ .x-toolbar .x-btn-menu-active .x-btn-tc, #CQ .x-toolbar .x-btn-pressed .x-btn-tc{
+	background-position: 0 -12px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-ml, #CQ .x-toolbar .x-btn-menu-active .x-btn-ml, #CQ .x-toolbar .x-btn-pressed .x-btn-ml{
+	background-position: -12px -24px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-mr, #CQ .x-toolbar .x-btn-menu-active .x-btn-mr, #CQ .x-toolbar .x-btn-pressed .x-btn-mr{
+	background-position: -15px -24px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-mc, #CQ .x-toolbar .x-btn-menu-active .x-btn-mc, #CQ .x-toolbar .x-btn-pressed .x-btn-mc{
+	background-position: 0 -3240px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-bl, #CQ .x-toolbar .x-btn-menu-active .x-btn-bl, #CQ .x-toolbar .x-btn-pressed .x-btn-bl{
+	background-position: -12px -3px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-br, #CQ .x-toolbar .x-btn-menu-active .x-btn-br, #CQ .x-toolbar .x-btn-pressed .x-btn-br{
+	background-position: -15px -3px;
+}
+
+#CQ .x-toolbar .x-btn-click .x-btn-bc, #CQ .x-toolbar .x-btn-menu-active .x-btn-bc, #CQ .x-toolbar .x-btn-pressed .x-btn-bc{
+	background-position: 0 -21px;
+}
+
+#CQ .x-toolbar div.xtb-text{
+    padding:2px 2px 0;
+    line-height:16px;
+    display:block;
+}
+
+#CQ .x-toolbar .xtb-sep {
+	background-position: center;
+	background-repeat: no-repeat;
+	display: block;
+	font-size: 1px;
+	height: 16px;
+	width:4px;
+	overflow: hidden;
+	cursor:default;
+	margin: 0 2px 0;
+	border:0;
+}
+
+#CQ .x-toolbar .xtb-spacer {
+    width:2px;
+}
+
+/* Paging Toolbar */
+#CQ .x-tbar-page-number{
+	width:30px;
+	height:14px;
+}
+
+.ext-ie #CQ .x-tbar-page-number{
+    margin-top: 2px;
+}
+
+#CQ .x-paging-info {
+    position:absolute;
+    top:5px;
+    right: 8px;
+}
+
+/* floating */
+#CQ .x-toolbar-ct {
+    width:100%;
+}
+
+#CQ .x-toolbar-right td {
+    text-align: center;
+}
+
+#CQ .x-panel-tbar, #CQ .x-panel-bbar, #CQ .x-window-tbar, #CQ .x-window-bbar, #CQ .x-tab-panel-tbar, #CQ .x-tab-panel-bbar, #CQ .x-plain-tbar, #CQ .x-plain-bbar {
+    overflow:hidden;
+    zoom:1;
+}
+
+#CQ .x-toolbar-more .x-btn-small .x-btn-text{
+	height: 16px;
+	width: 12px;
+}
+
+#CQ .x-toolbar-more em.x-btn-arrow {
+    display:inline;
+    background-color:transparent;
+	padding-right:0;
+}
+
+#CQ .x-toolbar-more .x-btn-mc em.x-btn-arrow {
+    background-image: none;
+}
+
+#CQ div.x-toolbar-no-items {
+    color:gray !important;
+    padding:5px 10px !important;
+}
+
+/* fix ie toolbar form items */
+.ext-border-box #CQ .x-toolbar-cell .x-form-text {
+    margin-bottom:-1px !important;
+}
+
+.ext-border-box #CQ .x-toolbar-cell .x-form-field-wrap .x-form-text {
+    margin:0 !important;
+}
+
+.ext-ie #CQ .x-toolbar-cell .x-form-field-wrap {
+    height:21px;
+}
+
+.ext-ie #CQ .x-toolbar-cell .x-form-text {
+    position:relative;
+    top:-1px;
+}
+
+.ext-strict .ext-ie8 #CQ .x-toolbar-cell .x-form-field-trigger-wrap .x-form-text, .ext-strict .ext-ie #CQ .x-toolbar-cell .x-form-text {
+    top: 0px;
+}
+
+#CQ .x-toolbar-right td .x-form-field-trigger-wrap{
+    text-align: left;
+}
+
+#CQ .x-toolbar-cell .x-form-checkbox, #CQ .x-toolbar-cell .x-form-radio{
+    margin-top: 5px;
+}
+
+#CQ .x-toolbar-cell .x-form-cb-label{
+    vertical-align: bottom;
+    top: 1px;
+}
+
+.ext-ie #CQ .x-toolbar-cell .x-form-checkbox, .ext-ie #CQ .x-toolbar-cell .x-form-radio{
+    margin-top: 4px;
+}
+
+.ext-ie #CQ .x-toolbar-cell .x-form-cb-label{
+    top: 0;
+}

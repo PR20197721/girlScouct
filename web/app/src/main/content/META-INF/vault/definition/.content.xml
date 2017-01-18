@@ -352,5 +352,25 @@
        	  	mode="replace"
        	  	root="/content/girlscouts-shared"
        	  	rules="[]"/>
+	  <f67
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/etc/council-report"
+		rules="[]"/>
+	  <f68
+		jcr:primaryType="nt:unstructured"
+		mode="replace"	
+		root="/etc/workflow/dialogs"
+		rules="[]"/>
+	  <f69
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/etc/workflow/dialogs"
+		rules="[]"/>
+	<f70
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/apps/cq/tagging"
+		rules="[]"/>
     </filter>
 </jcr:root>
