@@ -24,8 +24,23 @@
 	                <troop-back-info
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Troop Bank Info Line 1"
-	                    name="./troopbankinfo"
+	                    name="./troopbankinfo1"
 	                    xtype="textfield"/>
+	                <troop-back-info2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Troop Bank Info Line 2"
+	                    name="./troopbankinfo2"
+	                    xtype="textfield"/>
+	                <council-note1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Council Notes And Questions For Troops Line 1"
+	                    name="./councilnotes1"
+	                    xtype="textfield"/>
+	                <council-note2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Council Notes And Questions For Troops Line 2"
+	                    name="./councilnotes2"
+	                    xtype="textfield"/>    
                     <review-and-publish1
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Review and Publish Line 1"
