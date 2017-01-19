@@ -12,8 +12,8 @@
           Gender:
         </div>
         <div class="column small-24 medium-8">
-          <input type="checkbox" <%=contact.isEmailOptIn() ? " CHECKED " : "" %>> Email Opt In<br>
-          <input type="checkbox" <%=contact.isTxtOptIn() ? " CHECKED " : "" %>> Text Opt In
+          <input type="checkbox" <%=contact.isEmailOptIn() ? " CHECKED " : "" %> disabled> Email Opt In<br>
+          <input type="checkbox" <%=contact.isTxtOptIn() ? " CHECKED " : "" %> disabled> Text Opt In
         </div>
       </div>
 
