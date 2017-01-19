@@ -1,18 +1,15 @@
 <%@include file="/libs/foundation/global.jsp" %>
 
-<%
-if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state") != null || slingRequest.getParameter("council-code") != null){
-	%>
 	<div id="results-area"></div>
 	<script type="text/javascript">
 		var res = $("#results-area");
 		var display = function(data){
 			var json = JSON.parse(data);
 			if (json.councils == undefined){
-				res.html("<p>It looks like something went wrong with your search. Please try again</p>");
+				res.html("<p>It looks like something went wrong with your search.<br>Please try again.</p>");
 			}
 			else if(json.councils.length == 0){
-				res.html("<p>No results found</p>");
+				res.html("<p>No results found.</p>");
 			}
 			else{
 				var result = "<ul class=\"councils\">";
@@ -75,36 +72,52 @@ if(slingRequest.getParameter("zip") != null || slingRequest.getParameter("state"
 				res.html(result);
 			}
 		};
-	</script>
-	<%
-	String zip = slingRequest.getParameter("zip");
-	String state = slingRequest.getParameter("state");
-	String code = slingRequest.getParameter("council-code");
-	if(zip != null){
-		String url = "/councilfinder/ajax_results.asp?zip=" + zip;
-		%>
-		<script type="text/javascript">
-		$.get("<%= url %>",display);
-		</script>
-		<%
+
+
+	// get zip
+	var zip;
+	zip = (function(zip){
+		var hash = window.location.hash;
+		if (hash.indexOf('#') == 0) {
+			hash = hash.substring(1);
+		}
+		var zipRegex = /[0-9]{5}/;
+		return zipRegex.test(hash) ? hash : zip;
+	})();
+
+	// get state
+	var state;
+	state = (function(state){
+		var hash = window.location.hash;
+		if (hash.indexOf('#') == 0) {
+			hash = hash.substring(1);
+		}
+		var stateRegex = /[A-Z]{2}/;
+		return stateRegex.test(hash) ? hash : state;
+	})();
+
+	// get code
+	var code;
+	code = (function(code){
+		var hash = window.location.hash;
+		if (hash.indexOf('#') == 0) {
+			hash = hash.substring(1);
+		}
+		var codeRegex = /[0-9]{3}/;
+		return codeRegex.test(hash) ? hash : code;
+	})();
+
+	var url = "";
+	if (zip != undefined) {
+		url = "/councilfinder/ajax_results.asp?zip=" + zip;
+	} else if (state != undefined) {
+		url = "/councilfinder/ajax_results.asp?state=" + state;
+	} else if (code != undefined) {
+		url = "/councilfinder/ajax_results.asp?code=" + code;
 	}
-	if(state != null){
-		String url = "/councilfinder/ajax_results.asp?state=" + state.toUpperCase();
-		%>
-		<script type="text/javascript">
-		$.get("<%= url %>",display);
-		</script>
-		<%
-	}
-	if(code != null){
-		String url = "/councilfinder/ajax_results.asp?code=" + code;
-		%>
-		<script type="text/javascript">
+
 		$(document).ready(function() {
-			$.get("<%= url %>",display);
+			$.get(url,display);
 		});
-		</script>
-		<%
-	}
-}
-%>
+</script>
+

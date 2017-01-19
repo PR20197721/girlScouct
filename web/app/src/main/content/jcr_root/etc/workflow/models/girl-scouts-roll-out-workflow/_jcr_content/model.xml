@@ -7,7 +7,7 @@
     description="Roll out the national content to the council site and activate both the source and the target page."
     title="Girl Scouts Roll out Workflow">
     <metaData
-        cq:lastModified="{Long}1404321934115"
+        cq:lastModified="{Long}1478806871437"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -19,15 +19,36 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
+            title="Council Selection"
+            type="PARTICIPANT">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                DIALOG_PATH="/etc/workflow/dialogs/gsrollout/dialog"
+                PARTICIPANT="content-analysts"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
+            title="OR_SPLIT"
+            type="OR_SPLIT">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
+            title="OR_JOIN"
+            type="OR_JOIN">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3>
+        <node4
+            jcr:primaryType="cq:WorkflowNode"
             description="Roll out the source page and activate both the source and the target page."
-            title="Roll Out and Activate"
+            title="Production Roll Out and Activate"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node1>
-        <node2
+        </node4>
+        <node5
             jcr:primaryType="cq:WorkflowNode"
             title="Activate Assets"
             type="PROCESS">
@@ -35,23 +56,52 @@
                 jcr:primaryType="nt:unstructured"
                 PROCESS="org.girlscouts.cq.workflow.AssetPublishActivateProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node2>
-        <node3
+        </node5>
+        <node6
             jcr:primaryType="cq:WorkflowNode"
-            description="A process to activate a page"
+            description="A process to activate a page or asset"
             title="Activate Page"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node3>
-        <node4
+        </node6>
+        <node7
+            jcr:primaryType="cq:WorkflowNode"
+            description="Roll out the source page and activate on preview"
+            title="Preview Roll Out and Activate"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="org.girlscouts.cq.workflow.PreviewRolloutProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node7>
+        <node8
+            jcr:primaryType="cq:WorkflowNode"
+            title="Activate Assets to Preview"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node8>
+        <node9
+            jcr:primaryType="cq:WorkflowNode"
+            title="Activate Page to Preview"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                PROCESS_ARGS="agent:publishpreview"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node9>
+        <node10
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node4>
+        </node10>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -64,22 +114,72 @@
         <node1_x0023_node2
             jcr:primaryType="cq:WorkflowTransition"
             from="node1"
-            rule=""
             to="node2">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node1_x0023_node2>
-        <node2_x0023_node3
+        <node2_x0023_node4
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
             rule=""
+            to="node4">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                isDefault="false"/>
+        </node2_x0023_node4>
+        <node4_x0023_node5
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node4"
+            rule=""
+            to="node5">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node4_x0023_node5>
+        <node5_x0023_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node5"
+            rule=""
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node5_x0023_node6>
+        <node6_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node6"
             to="node3">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node2_x0023_node3>
-        <node3_x0023_node4
+        </node6_x0023_node3>
+        <node2_x0023_node7
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            rule=""
+            to="node7">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                isDefault="false"/>
+        </node2_x0023_node7>
+        <node7_x0023_node8
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node7"
+            rule=""
+            to="node8">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node7_x0023_node8>
+        <node8_x0023_node9
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node8"
+            rule=""
+            to="node9">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node8_x0023_node9>
+        <node9_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node9"
+            to="node3">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node9_x0023_node3>
+        <node3_x0023_node10
             jcr:primaryType="cq:WorkflowTransition"
             from="node3"
-            to="node4">
+            to="node10">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node3_x0023_node4>
+        </node3_x0023_node10>
     </transitions>
 </jcr:root>

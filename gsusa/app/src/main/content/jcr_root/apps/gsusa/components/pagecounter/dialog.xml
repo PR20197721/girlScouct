@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    width="{Long}950"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab
+                jcr:primaryType="cq:Panel"
+                title="Component Location">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <textfield
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Path of Page Counter Component ex. /en/pagecounter/jcr:content/content/middle/par/pagecounter"
+                        fieldLabel="Path"
+                        name="./pagecountercomponentpath"
+                        xtype="textfield"/>
+                </items>
+            </tab>
+        </items>
+    </items>
+</jcr:root>

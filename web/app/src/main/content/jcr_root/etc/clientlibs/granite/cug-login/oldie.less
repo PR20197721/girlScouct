@@ -1,0 +1,140 @@
+@import "utilities.less";
+
+//
+// Old IE fallbacks < ie9
+//
+
+.oldie { // Layout
+
+  #tag {
+    background: url(../login/clientlib/resources/adobe-logo-low-res.png) no-repeat;
+  }
+
+  #bg_default {
+    background-image: url('../login/clientlib/resources/bg/default/2048x1536.jpg');
+  }
+  #login-box,
+  #usage-box {
+    background: transparent;
+    filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000)";
+    zoom: 1;
+  }
+  #login button {
+    float: left;
+  }
+
+  #forgotpwd {
+    padding-left: 10px;
+    line-height: 44px;
+  }
+
+// Buttons
+  .coral-Button {
+    display: block;
+    width: 110px;
+    text-overflow: ellipsis;
+    border-width: 1px;
+    border-style: solid;
+    margin: 5px 3px 5px 0;
+    padding: 7px 10px 6px 10px;
+    line-height: 20px;
+  }
+  .coral-Button:active,
+  .coral-Button:focus {
+    outline: none;
+  }
+
+  .coral-Button--primary {
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType = 0, startColorstr = #498ED1, endColorstr = #3779CB);
+    -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#498ED1, endColorstr=#3779CB)";
+    border-color: #165dc1;
+  }
+
+  .coral-Alert {
+    margin: 8px 0;
+    padding: 8px;
+    padding-left: 15px;
+    min-height: 20px;
+    border: 1px solid #1e46;
+    padding-left: 40px;
+    text-indent: -10px;
+  }
+
+  .coral-Alert-typeIcon {
+    margin-left: -10px;
+    margin-right: 10px;
+  }
+
+  .coral-Alert-message {
+    padding-right: 30px;
+  }
+
+// Inputs
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="url"],
+  input[type="tel"] {
+    box-sizing: content-box;
+    border: 1px solid #bbb;
+    padding: 4px 8px;
+    width: 254px;
+  }
+  input[type="checkbox"], input[type="radio"] {
+    height: 1em;
+    width: 1em;
+    margin: 0;
+    padding: 0;
+  }
+  input[type="checkbox"] + label, input[type="radio"] + label, input[type="checkbox"] + span, input[type="radio"] + span {
+    display: inline;
+  }
+  #username, #password, #new_password, #confirm_password {
+    width: 276px;
+    height: 28px;
+    margin: 0 0 10px;
+    line-height: 28px;
+  }
+  #remember input {
+    float: left;
+  }
+  #remember span {
+    display: block;
+    float: left;
+    margin-left: 5px;
+    line-height: 20px;
+  }
+
+// IE8 specific
+  &.ie8 {
+    input[type="checkbox"] + span:before,
+    input[type="radio"] + span:before,
+    input[type="checkbox"] + label:before,
+    input[type="radio"] + label:before {
+      background: none;
+      border: 0 none;
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin: 0;
+      line-height: 0;
+    }
+  }
+}
+
+.oldie,
+.ie9 {
+    // IE9 and below do not support field placeholders >> replace by labels
+
+    #login label[for="username"],
+    #login label[for="password"],
+    #login label[for="new_password"],
+    #login label[for="confirm_password"] {
+        .visuallyshow;
+    }
+
+    /* hide sign-in title to allow for neat input label display */
+    .sign-in-title {
+        .visuallyhidden;
+    }
+}

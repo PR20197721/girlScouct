@@ -1,0 +1,28 @@
+/*
+ * Copyright 1997-2010 Day Management AG
+ * Barfuesserplatz 6, 4001 Basel, Switzerland
+ * All Rights Reserved.
+ *
+ * This software is the confidential and proprietary information of
+ * Day Management AG, ("Confidential Information"). You shall not
+ * disclose such Confidential Information and shall use it only in
+ * accordance with the terms of the license agreement you entered into
+ * with Day.
+ */
+
+ #CQ .x-toolbar .x-btn-with-menu .x-btn-mc em {
+    cursor:pointer;
+}
+
+#CQ .x-btn button{
+    color:#000;
+}
+
+#CQ .x-btn{
+	font:normal 11px Tahoma, Arial, Helvetica, sans-serif;
+}
+
+#CQ .x-btn button{
+    font:normal 11px Tahoma, Arial, Helvetica, sans-serif;
+    color:#333;
+}

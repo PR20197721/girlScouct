@@ -7,6 +7,7 @@
     <filter root="/apps/dam"/>
     <filter root="/etc/council-rollout"/>
     <filter root="/etc/council-update"/>
+    <filter root="/etc/council-report"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import/girlscouts/csv"/>
@@ -59,6 +60,7 @@
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
+    <filter root="/etc/workflow/models/girl-scouts-new-page-roll-out-workflow"/>
     <filter root="/etc/workflow/models/publish_example"/>
     <filter root="/etc/workflow/models/reverse_replication_with_delay"/>
     <filter root="/etc/workflow/models/request_for_activation"/>
@@ -67,10 +69,12 @@
     <filter root="/etc/workflow/models/girl-scouts-deactivate"/>
     <filter root="/etc/workflow/scripts/girlscouts"/>
     <filter root="/etc/workflow/notification/email/default"/>
+    <filter root="/etc/workflow/dialogs"/>
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
+    <filter root="/apps/granite/core"/>
        <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
-    
+    <filter root="/apps/cq/tagging"/>
 </workspaceFilter>

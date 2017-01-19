@@ -76,8 +76,9 @@ org.girlscouts.web.events.search.*"%>
              	String startTimeStr = ""; 
              	String endDateStr = "";
              	String endTimeStr = "";
+             	Boolean useRaw = timeZoneLabel.length() < 4;
            		
-				if(!timeZoneLabel.isEmpty()){
+				if(!timeZoneLabel.isEmpty() && !useRaw){
 					int openParen1 = timeZoneLabel.indexOf("(");
 					int openParen2 = timeZoneLabel.indexOf("(",openParen1+1);
 					int closeParen = timeZoneLabel.indexOf(")",openParen2);
@@ -101,9 +102,11 @@ org.girlscouts.web.events.search.*"%>
 						}
 						timeZoneLabel = dtz.getShortName(GSDateTimeUtils.currentTimeMillis());
 					}catch(Exception e){
+						useRaw = true;
 						e.printStackTrace();
 					}
-				} else{
+				} 
+				if(timeZoneLabel.isEmpty() || useRaw){
 					if(startDate != null){
 						localStartDate = GSLocalDateTime.parse(propNode.getProperty("start").getString(),fromFormat);
 						start = dateFt.print(localStartDate);
