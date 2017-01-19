@@ -17,3 +17,4 @@ TimezoneDateTime.js
 ad-selection.js
 accordion-field.js
 pagecounter.js
+global-link-widget.js

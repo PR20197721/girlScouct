@@ -143,14 +143,15 @@ public class PreviewRolloutProcess implements WorkflowProcess {
         messageLog.add("This workflow will " + (dontSend? "not " : "") + "send emails to councils. ");
         messageLog.add("This workflow will " + (activate? "" : "not ") + "activate pages upon completion");
         if(activate){
-        	messageLog.add("This workflow will " + (delay? "" : "not") + "delay the page activations until tonight");
+        	messageLog.add("This workflow will " + (delay? "" : "not ") + "delay the page activations until tonight");
         }
         
         String message = "<p>Dear Council, </p>" +
         		"<p>It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be <b>discarding</b> your own changes (custom content) that have been made to this page and will <b>immediately</b> receive the new national content.</p>" +
         		"<p><b>National page URL:</b> <%template-page%></p>" +
         		"<p><b>Your page URL:</b> <%council-page%></p>" +
-        		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>";
+        		"<p>Click <a href='<%council-author-page%>'>here</a> to edit your page.</p>" +
+        		"<p>Please note that any changes made as part of this rollout will not reflect on you live site until after midnight (this includes any page updates which you may see live in author). We have added the feature that delays activation of any updates or new pages to midnight in order to avoid outages.</p>";
         
         String subject = "GSUSA Rollout Notification";
         
