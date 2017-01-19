@@ -1,0 +1,160 @@
+/* Hide only visually, but have it available for screenreaders: h5bp.com/v */
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+/* Reverse visually hidden class */
+.visuallyshow {
+  clip: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  position: inherit;
+}
+.hidden {
+  position: absolute !important;
+  clip: rect(0, 0, 0, 0) !important;
+  visibility: hidden !important;
+}
+.oldie #tag {
+  background: url(../../login/clientlib/resources/adobe-logo-low-res.png) no-repeat;
+}
+.oldie #bg_default {
+  background-image: url('../../login/clientlib/resources/bg/default/2048x1536.jpg');
+}
+.oldie #login-box,
+.oldie #usage-box {
+  background: transparent;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#D9000000,endColorstr=#D9000000);
+  zoom: 1;
+}
+.oldie #login button {
+  float: left;
+}
+.oldie #forgotpwd {
+  padding-left: 10px;
+  line-height: 44px;
+}
+.oldie .coral-Button {
+  display: block;
+  width: 110px;
+  text-overflow: ellipsis;
+  border-width: 1px;
+  border-style: solid;
+  margin: 5px 3px 5px 0;
+  padding: 7px 10px 6px 10px;
+  line-height: 20px;
+}
+.oldie .coral-Button:active,
+.oldie .coral-Button:focus {
+  outline: none;
+}
+.oldie .coral-Button--primary {
+  filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr=#498ed1, endColorstr=#3779cb);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient (GradientType=0, startColorstr=#498ED1, endColorstr=#3779CB)";
+  border-color: #165dc1;
+}
+.oldie .coral-Alert {
+  margin: 8px 0;
+  padding: 8px;
+  padding-left: 15px;
+  min-height: 20px;
+  border: 1px solid #1e46;
+  padding-left: 40px;
+  text-indent: -10px;
+}
+.oldie .coral-Alert-typeIcon {
+  margin-left: -10px;
+  margin-right: 10px;
+}
+.oldie .coral-Alert-message {
+  padding-right: 30px;
+}
+.oldie input[type="text"],
+.oldie input[type="password"],
+.oldie input[type="email"],
+.oldie input[type="url"],
+.oldie input[type="tel"] {
+  box-sizing: content-box;
+  border: 1px solid #bbb;
+  padding: 4px 8px;
+  width: 254px;
+}
+.oldie input[type="checkbox"],
+.oldie input[type="radio"] {
+  height: 1em;
+  width: 1em;
+  margin: 0;
+  padding: 0;
+}
+.oldie input[type="checkbox"] + label,
+.oldie input[type="radio"] + label,
+.oldie input[type="checkbox"] + span,
+.oldie input[type="radio"] + span {
+  display: inline;
+}
+.oldie #username,
+.oldie #password,
+.oldie #new_password,
+.oldie #confirm_password {
+  width: 276px;
+  height: 28px;
+  margin: 0 0 10px;
+  line-height: 28px;
+}
+.oldie #remember input {
+  float: left;
+}
+.oldie #remember span {
+  display: block;
+  float: left;
+  margin-left: 5px;
+  line-height: 20px;
+}
+.oldie.ie8 input[type="checkbox"] + span:before,
+.oldie.ie8 input[type="radio"] + span:before,
+.oldie.ie8 input[type="checkbox"] + label:before,
+.oldie.ie8 input[type="radio"] + label:before {
+  background: none;
+  border: 0 none;
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 0;
+  line-height: 0;
+}
+.oldie,
+.ie9 {
+  /* hide sign-in title to allow for neat input label display */
+}
+.oldie #login label[for="username"],
+.ie9 #login label[for="username"],
+.oldie #login label[for="password"],
+.ie9 #login label[for="password"],
+.oldie #login label[for="new_password"],
+.ie9 #login label[for="new_password"],
+.oldie #login label[for="confirm_password"],
+.ie9 #login label[for="confirm_password"] {
+  clip: auto;
+  width: auto;
+  height: auto;
+  margin: 0;
+  position: inherit;
+}
+.oldie .sign-in-title,
+.ie9 .sign-in-title {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}

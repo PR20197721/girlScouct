@@ -372,5 +372,10 @@
 		mode="replace"
 		root="/apps/cq/tagging"
 		rules="[]"/>
+	<f71
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/apps/granite/core"
+		rules="[]"/>
     </filter>
 </jcr:root>
