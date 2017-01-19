@@ -11,7 +11,7 @@
                 jcr:primaryType="cq:Panel"
                 title="Modal">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <financial-summary
+                    <financial-summary1
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Financial Summary Line 1"
 	                    name="./finsum1"
@@ -21,7 +21,7 @@
 	                    fieldLabel="Financial Summary Line 2"
 	                    name="./finsum2"
 	                    xtype="textfield"/>
-	                <troop-back-info
+	                <troop-back-info1
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Troop Bank Info Line 1"
 	                    name="./troopbankinfo1"
