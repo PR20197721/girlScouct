@@ -40,7 +40,7 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.day.text.Text;
 import com.day.text.XMLChar;
 
-import apps.wcm.core.components.bulkeditor.json;
+import apps.wcm.core.components.gsbulkeditor.json;
 
 /**
  * Servers as base for image servlets
