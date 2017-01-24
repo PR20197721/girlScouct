@@ -6,7 +6,6 @@ twitter-feed-widget.js
 volunteer.js
 email.js
 join.js
-gaq.js
 utils.js
 foundation.min.js
 slick.min.js

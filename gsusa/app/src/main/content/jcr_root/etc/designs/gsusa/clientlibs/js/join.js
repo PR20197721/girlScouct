@@ -71,7 +71,7 @@ $('.formJoin, .formHeaderJoin, .bottom-overlay-join').submit(function (event) {
 	            //register zipcode entered to google analytics
 	            //var curZipcode = $(me).find("[name='ZipJoin']").val();
 	            spinner.stop(spinner_div);
-	            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/join/zipcode_entered'+"/"+zipValue]);
+				ga('send', 'pageview', '/gsrecruitmentcampaign/join/zipcode_entered'+"/"+zipValue);
 	        
 	            submit_facebook_conversion_pixel("join/"+"homepage");
 	            //put delay so that google analytics and facebook conversion pixel registers successfully
