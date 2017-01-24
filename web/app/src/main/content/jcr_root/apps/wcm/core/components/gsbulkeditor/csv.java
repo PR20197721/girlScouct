@@ -113,6 +113,9 @@ public class csv extends SlingAllMethodsServlet {
             bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
             if (properties != null) {
                 for (String property : properties) {
+                	if(property.equals("jcr:path")){
+                		continue;
+                	}
                     property = property.trim();
                     bw.write(separator + csv.valueParser(property, separator));
                 }
