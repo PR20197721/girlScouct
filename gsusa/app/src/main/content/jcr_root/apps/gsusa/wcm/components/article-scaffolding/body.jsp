@@ -103,7 +103,7 @@
 
     var myForm;
 
-    function changeParentPath() {
+    function changeParentPath() { 
         var browseDialog = new CQ.BrowseDialog({
             treeRoot: {
                 name: browseRoot.substring(1),
@@ -125,6 +125,16 @@
                 browseDialog.hide();
                 myForm.getForm().url = CQ.HTTP.externalize(parentPath + "/*");
                 document.getElementById("parentpath").innerHTML = CQ.shared.XSS.getXSSValue(parentPath);
+                
+                var fields = CQ.Util.findFormFields(myForm);
+                try{
+                	if(undefined != fields['./jcr:content/listingPage'][0]){
+                		var listingPage = fields['./jcr:content/listingPage'][0]
+                		listingPage.setValue(parentPath);
+                	}
+                }catch (e) {
+                	CQ.Log.debug("scaffolding processPath: {0}", e.message);
+                }
             }
         });
         browseDialog.show();
@@ -300,6 +310,18 @@
                         }
                     }
                 }
+                
+                try{
+                	if(undefined != fields['./jcr:content/listingPage'][0]){
+                		var listingPage = fields['./jcr:content/listingPage'][0];
+                		if(undefined == listingPage.value || "" == listingPage.value){
+                			listingPage.setValue(parentPath);
+                		}
+                	}
+                }catch (e) {
+                	CQ.Log.debug("scaffolding processPath: {0}", e.message);
+                }
+                
                 //this.fireEvent("loadContent", this);
 
                 // prepare creating an undo step from the update operation
@@ -315,21 +337,21 @@
              * Processes the given records. This method should only be used as
              * a callback by the component's store when loading content.
              */
-            processPath: function(path) {
-                var fields = CQ.Util.findFormFields(this);
-                for (var name in fields) {
-                    for (var i = 0; i < fields[name].length; i++) {
-                        try {
-                            if (fields[name][i].processPath) {
-                                fields[name][i].processPath(path);
-                            }
-                        }
-                        catch (e) {
-                            CQ.Log.debug("scaffolding processPath: {0}", e.message);
-                        }
-                    }
-                }
-            },
+             processPath: function(path) {
+                 var fields = CQ.Util.findFormFields(this);
+                 for (var name in fields) {
+                     for (var i = 0; i < fields[name].length; i++) {
+                         try {
+                             if (fields[name][i].processPath) {
+                                 fields[name][i].processPath(path);
+                             }
+                         }
+                         catch (e) {
+                             CQ.Log.debug("scaffolding processPath: {0}", e.message);
+                         }
+                     }
+                 }
+             },
 
             getActiveTab: function() {
                 return this;
