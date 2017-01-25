@@ -52,6 +52,13 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * Some extra searched properties, displayed in a textfield comma separated.
      */
     extraCols: null,
+    
+    /**
+     * Girl Scouts
+     * @cfg {String[]} resourceType
+     * A specific sling:resourceType to filter results
+     */
+    resourceType: null,
 
     /**
      * @cfg {Boolean} initialSearch
@@ -107,6 +114,13 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * True to hide extra columns field (default is false).
      */
     hideExtraCols: false,
+    
+    /**
+     * Girl Scouts
+     * @cfg {Boolean} hideResourceType
+     * True to hide resource type field (default is false).
+     */
+    hideResourceType: false,
 
     /**
      * @cfg {Boolean} hideSearchButton
@@ -323,6 +337,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             this.hideIsDeepMode = true;
             this.hideColsSelection = true;
             this.hideExtraCols = true;
+            this.hideResourceType = true;
             this.hideSearchButton = true;
             //allow to override the grid button configs per initial config
             this.hideImportButton = (this.initialConfig.hideImportButton !== false);
@@ -338,6 +353,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         this.hideIsDeepMode = this.toBoolean(this.hideIsDeepMode);
         this.hideColsSelection = this.toBoolean(this.hideColsSelection);
         this.hideExtraCols = this.toBoolean(this.hideExtraCols);
+        this.hideResourceType = this.toBoolean(this.hideResourceType);
         this.hideSearchButton = this.toBoolean(this.hideSearchButton);
         this.hideImportButton = this.toBoolean(this.hideImportButton);
         this.hideResultNumber = this.toBoolean(this.hideResultNumber);
@@ -833,11 +849,16 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         url = CQ.HTTP.addParameter(url, "tidy", "true");
         var isDeep = this.getIsDeepMode();
         if(isDeep){
-            url = CQ.HTTP.addParameter(url, "isDeep", this.getIsDeepMode());
+            url = CQ.HTTP.addParameter(url, "isDeep", isDeep);
         }
         var colObj = this.getColObject();
         if (colObj.values && colObj.values.length > 0) {
             url = CQ.HTTP.addParameter(url, "cols", "" + colObj.values);
+        }
+        //Girl Scouts
+        var resourceType = this.getResourceType();
+        if(resourceType){
+        	url = CQ.HTTP.addParameter(url, "resourceType", resourceType);
         }
         //TODO use pathPrefix parameter?
         //url = CQ.HTTP.addParameter(url,"pathPrefix","jcr:content");
@@ -1164,6 +1185,26 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             config = CQ.Util.applyDefaults(this.initialConfig.extraColsInput,config);
         }
         return config;
+    },
+    
+    /**
+     * Girl Scouts
+     * Returns resource type field config
+     * @private
+     */
+    
+    getResourceTypeConfig: function() {
+    	var config = {
+    		"fieldClass":"x-form-text-bulkeditor",
+    		"fieldLabel":CQ.I18n.getMessage("Sling:resourceType"),
+    		"name":"./resourceType",
+    		"value":this.resourceType,
+    		"fieldDescription":CQ.I18n.getMessage("If you want to only retrieve nodes with a specific sling:resourceType (node or jcr:content), enter it here"),
+    	};
+    	if(this.initialConfig && this.initialConfig.resourceTypeInput){
+    		config = CQ.Util.applyDefaults(this.initialConfig.resourceTypeInput,config);
+    	}
+    	return config;
     },
 
     exportToFile: function() {
@@ -1549,6 +1590,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(!this.hideExtraCols) {
             this.extraColsInput = new CQ.Ext.form.TextField(this.getExtraColsConfig());
             rightset.push(this.extraColsInput);
+        }
+        
+        if(!this.hideResourceType){
+        	this.resourceTypeInput = new CQ.Ext.form.TextField(this.getResourceTypeConfig());
+        	rightset.push(this.resourceTypeInput);
         }
 
         this.leftSetId = CQ.Ext.id();
@@ -2515,6 +2561,18 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             return this.extraColsInput.getValue();
         }
         return this.extraCols;
+    },
+    
+    /**
+     * Girl Scouts
+     * Returns resource type field value
+     * @private
+     */
+    getResourceType: function(){
+    	if(this.resourceTypeInput) {
+    		return this.resourceTypeInput.getValue();
+    	}
+    	return this.resourceType;
     },
 
     /**
