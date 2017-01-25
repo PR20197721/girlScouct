@@ -671,6 +671,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
 
                 if (cols instanceof Array) {
                     if (extraCols && extraCols instanceof Array) {
+                    	//Girl Scouts - Prevents issue where commas end up in strings, instead of as separators
+                    	extraCols = extraCols.toString();
+                    	extraCols = extraCols.split(',');
                         cols = cols.concat(extraCols);
                     }
                     colObj.headers = new Array();
