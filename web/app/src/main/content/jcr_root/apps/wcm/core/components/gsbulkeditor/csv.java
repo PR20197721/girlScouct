@@ -51,6 +51,7 @@ public class csv extends SlingAllMethodsServlet {
      */
     public static final String QUERY_PARAM = "query";
     public static final String DEEP_SEARCH_PARAM = "isDeep";
+    public static final String RESOURCE_TYPE_PARAM = "resourceType";
 
     public static final String SEPARATOR_PARAM = "separator";
 
@@ -85,6 +86,7 @@ public class csv extends SlingAllMethodsServlet {
         String queryString = request.getParameter(QUERY_PARAM);
         
 		String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
+		String resourceTypeString = request.getParameter(RESOURCE_TYPE_PARAM);
 		
 		Boolean isDeep = "true".equals(isDeepString);
 		
@@ -110,14 +112,11 @@ public class csv extends SlingAllMethodsServlet {
             //final String separator = (request.getParameter(SEPARATOR_PARAM)!=null ? request.getParameter(SEPARATOR_PARAM) : DEFAULT_SEPARATOR);
             final String separator = DEFAULT_SEPARATOR;
 
-            bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
+            //bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
             if (properties != null) {
                 for (String property : properties) {
-                	if(property.equals("jcr:path")){
-                		continue;
-                	}
                     property = property.trim();
-                    bw.write(separator + csv.valueParser(property, separator));
+                    bw.write(csv.valueParser(property, separator) + separator);
                 }
             }
 
@@ -125,7 +124,7 @@ public class csv extends SlingAllMethodsServlet {
 
             String path = queryString.split(":")[1];
             
-            iterateNodes(path, separator, bw, properties, session, request, isDeep);
+            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString);
 
         } catch (Exception e) {
             throw new ServletException(e);
@@ -280,7 +279,7 @@ public class csv extends SlingAllMethodsServlet {
         UNAMBIGOUS.add("jcr:created");
     }
     
-	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep)
+	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
         //while (hits.hasNext()) {
@@ -289,12 +288,33 @@ public class csv extends SlingAllMethodsServlet {
             //Row hit = hits.nextRow();
             //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
             if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
-                bw.write(csv.valueParser(node.getPath(), separator));
+            	if(null != resourceType){
+            		if(node.hasProperty("sling:resourceType")){
+            			if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
+            				if(node.hasNodes() && isDeep){
+            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
+            				}
+            				continue;
+            			}
+            		}else if(node.hasProperty("jcr:content/sling:resourceType")){
+            			if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
+            				if(node.hasNodes() && isDeep){
+            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
+            				}
+            				continue;
+            			}
+            		}else{
+        				if(node.hasNodes() && isDeep){
+        					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
+        				}
+        				continue;
+            		}
+            	}
+                //bw.write(csv.valueParser(node.getPath(), separator));
 				if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
 					Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
 					if (properties != null) {
 						for (String property : properties) {
-							bw.write(separator);
 							property = property.trim();
 							if(decryptedMap.containsKey(property)){
 								String[] values = decryptedMap.get(property);
@@ -303,23 +323,24 @@ public class csv extends SlingAllMethodsServlet {
 								Property prop = node.getProperty(property);
 								bw.write(csv.format(prop));
 							}
+							bw.write(separator);
 						}
 					}
 				}else{
 					if (properties != null) {
 						for (String property : properties) {
-							bw.write(separator);
 							property = property.trim();
 							if (node.hasProperty(property)) {
 								Property prop = node.getProperty(property);
 								bw.write(csv.format(prop));
 							}
+							bw.write(separator);
 						}
 					}
 				}
                 bw.newLine();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep);
+					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
 				}
             }
         }
