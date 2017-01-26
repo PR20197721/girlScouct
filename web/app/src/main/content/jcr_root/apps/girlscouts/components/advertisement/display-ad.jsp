@@ -9,9 +9,9 @@ if (currentAd != null) {
 	String path = currentAd.getPath();
 	String adLink = currentAd.getProperties().get("link", "");
 	String newWindow = currentAd.getProperties().get("newWindow", "false");
-	String linkTarget = "";
+	Boolean linkTarget = false;
 	if(newWindow.equals("true")){
-		linkTarget="_blank";
+		linkTarget=true;
 	}
 	if (adLink != null && !adLink.isEmpty()) {
 		adLink = genLink(resourceResolver, adLink);
@@ -106,7 +106,7 @@ if (currentAd != null) {
 	// display the ad only if customURL is NOT set or there is a match
 	if(customURLSet == false || displayThisAd) {
 %>
-	<a href="<%=adLink%>" target="<%=linkTarget%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
+	<a href="<%=adLink%>" <%= linkTarget ? "target=\"_blank\"" : "" %>><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
 <%
 	}
 
