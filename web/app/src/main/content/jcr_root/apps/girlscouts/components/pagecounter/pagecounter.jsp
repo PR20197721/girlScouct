@@ -258,7 +258,7 @@
 			
 			// If it exists in ExceptionPages
 			// do not count		
-			if (exceptionPages.contains(path)) {
+			if (exceptionPages.contains(path)) { 
 				if (!resourceType.equals("girlscouts/components/placeholder-page")) {
 					noncountPages.add(path + " in exceptionPages");
 					councilExceptionPages.add(path + " Page in exceptionPages");
@@ -294,23 +294,30 @@
 			ArrayList<String> mixinTypes = new ArrayList<String>();
 			String[] mTypes = properties.get("jcr:mixinTypes", String[].class);
 			Boolean addedMixin = false;
+			String pathMixin = "";
 			for (String m: mTypes) {
 				mixinTypes.add(m.trim());
 			}			
 			if (mixinTypes.contains("cq:PropertyLiveSyncCancelled")) {
 				propertyLiveSyncCancelled.add(path);
 				addedMixin = true;
+				pathMixin += "cq:PropertyLiveSyncCancelled ";
 			}
 			if (mixinTypes.contains("cq:LiveRelationship")) {
 				liveRelationships.add(path);
 				addedMixin = true;
+				pathMixin += "cq:LiveRelationship ";
 			}
+		
 			if (mixinTypes.contains("cq:LiveSync")) {
 				liveSyncs.add(path);
 				addedMixin = true;
+				pathMixin += "cq:LiveSync ";
 			}
+			
 			if (addedMixin == true) {
-				inherited.add(path);
+				
+				inherited.add(path + " " + pathMixin);
 				isInherited = true;
 			}
 			
@@ -337,9 +344,9 @@
 				String scaffolding = properties.get("cq:scaffolding", "");
 				
 				if (isCurrentPage) {
-					noncountPages.add(path + " Component Containing Page");
+					noncountPages.add(path + " Component Containing Page");					
 				} else if (nationalTemplatePages.contains(path)) {
-					councilTemplatePages.add(path);
+					councilTemplatePages.add(path);					
 				} else if (isInherited) {
 					councilTemplatePages.add(path);
 				} else if (hasEmbeddedForm) {
@@ -368,7 +375,7 @@
 %>
 
 <%
-	Page template = pageManager.getPage(TEMPLATE_PATH);
+	//Page template = pageManager.getPage(TEMPLATE_PATH);
 	Page top = currentPage.getAbsoluteParent(1);
 	Page en = currentPage.getAbsoluteParent(2);
 	
@@ -459,12 +466,12 @@
 			String[] values = s.split("\\|\\|\\|");
 			String label = values[0];
 	        String path = values.length >= 2 ? values[1] : "";
-			dValues.add(format(label, path, "true", "false"));		
+			dValues.add(format(label, path, "true", "false"));  		
 		}
 		
 		// Save the properties		
 		filters = new String[dValues.size()];
-		dValues.toArray(filters);
+		dValues.toArray(filters);  
 		node.setProperty("paths", filters);
 		node.getSession().save();
 	}
@@ -475,8 +482,8 @@
 	
 	// List national templates into tree format
 	//templates.add("/en"); // only on template, en is marked as placeholder. else where it's homepage component
-	listAllPages(nationalTemplatePages, template, "");
-	nationalTemplatePages = trimLevel(nationalTemplatePages, 1);
+	//listAllPages(nationalTemplatePages, template, "");
+	//nationalTemplatePages = trimLevel(nationalTemplatePages, 1);
 	
 	String eventlist = trimTopLevel(enProperties.get("eventLanding", ""), 2);
 	String eventcalendar = trimTopLevel(enProperties.get("calendarPath", ""), 2); 
@@ -558,6 +565,8 @@
 		<br><%= linkify(councilName, str) %>
 	<% } %><br>
 	</div> 
+	<br>
+
 	
 	<br><br><br>
 	<!-- # -->
