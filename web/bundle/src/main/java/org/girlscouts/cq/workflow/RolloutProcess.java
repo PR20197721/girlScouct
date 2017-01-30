@@ -270,42 +270,30 @@ public class RolloutProcess implements WorkflowProcess {
 		            	        //If necessary, create the folder where the temp user nodes will be stored
 		            	        Resource etcRes = resourceResolver.resolve("/etc");
 		            	        Node etcNode = etcRes.adaptTo(Node.class);
-		            	        Resource gsUsersRes = resourceResolver.resolve("/etc/gs-delayed-activations");
-		            	        Node gsUsersNode = null;
-		            	        if(gsUsersRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-		            				gsUsersNode = etcNode.addNode("gs-delayed-activations");
+		            	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
+		            	        Node gsPagesNode = null;
+		            	        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+		            				gsPagesNode = etcNode.addNode("gs-delayed-activations");
 		            	        }else{
-		            		        gsUsersNode = gsUsersRes.adaptTo(Node.class);
+		            		        gsPagesNode = gsPagesRes.adaptTo(Node.class);
 		            	        }
-		            	        
-		                		GSDateTime today = new GSDateTime();
-		                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd");
-		            	    	String dateNodeString = dtfOut.print(today);
-		            	    	
-		            	    	//If necessary, create a node for the expiration date
-		            	    	Resource dateRes = resourceResolver.resolve("/etc/gs-delayed-activations/" + dateNodeString);
-		            	    	Node dateNode = null;
-		            	    	if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-		            	    		dateNode = gsUsersNode.addNode(dateNodeString,"nt:unstructured");
-		            	    	}else{
-		            	    		dateNode = dateRes.adaptTo(Node.class);
-		            	    	}
+
 		            	    	String [] pagesProp;
 		            	    	
-		            	    	if(!dateNode.hasProperty("pages")){
+		            	    	if(!gsPagesNode.hasProperty("pages")){
 		            	    		pagesProp = new String[]{targetPath};
 		            	    	}else{
-		            	    		Value[] propValues = dateNode.getProperty("pages").getValues();
+		            	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
 		            	    		pagesProp = new String[propValues.length+1];
 		            	    		for(int i=0; i<propValues.length; i++){
 		            	    			pagesProp[i] = propValues[i].getString();
 		            	    		}
 		            	    		pagesProp[propValues.length] = targetPath;
 		            	    	}
-		            	    	dateNode.setProperty("pages", pagesProp);
+		            	    	gsPagesNode.setProperty("pages", pagesProp);
 		            	    	
 		            			session.save();    	
-		                		messageLog.add("Page set to activate at midnight");
+		                		messageLog.add("Page added to activation/cache build queue");
 		                	}
 		                }
             		}else{

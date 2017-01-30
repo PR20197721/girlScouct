@@ -47,7 +47,9 @@ import org.apache.sling.commons.osgi.OsgiUtil;
 	@Property(name = "scheduler.expression", label="scheduler.expression", description="cron expression"),
 	@Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 	@Property(name = "scheduler.runOn", value="SINGLE",propertyPrivate=true),
-	@Property(name = "pagespath", label="Path to queued pages")
+	@Property(name = "pagespath", label="Path to queued pages, dispatcher IPs"),
+	@Property(name = "groupsize", label="Group size", description="Default is 1"),
+	@Property(name = "minutes", label="Minutes to wait", description="Default is 30")
 })
 
 public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
@@ -63,8 +65,12 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	private ResourceResolver rr;
 	//configuration fields
 	public static final String PAGEPATH = "pagespath";
+	public static final String GROUP_SIZE = "groupsize";
+	public static final String MINUTES = "minutes";
 	
 	private String pagesPath;
+	private int groupSize;
+	private int minutes;
 	private Map<String, Map<String, Exception>> errors;
 	
 	@Activate
@@ -72,6 +78,8 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		@SuppressWarnings("rawtypes")
 		Dictionary configs = context.getProperties();
 		this.pagesPath=OsgiUtil.toString(configs.get(PAGEPATH), null);
+		this.groupSize=OsgiUtil.toInteger(configs.get(GROUP_SIZE), 1);
+		this.minutes=OsgiUtil.toInteger(configs.get(MINUTES), 30);
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
