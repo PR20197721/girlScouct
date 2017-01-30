@@ -6,10 +6,17 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Date;
 
+import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.version.VersionException;
 
+import org.girlscouts.web.councilupdate.CacheThread;
 import org.girlscouts.web.councilupdate.DelayedPageActivator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -94,57 +101,90 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		if (isPublisher()) {
 			return;
 		}
-		
 		Resource pagesRes = rr.resolve(pagesPath);
 		if(pagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-			log.error("Delayed pages node not found");
 			return;
 		}
 		
-		Resource dateRes = getDateRes(pagesRes);
+		Resource dateRes = rr.resolve(pagesRes.getPath() + "/" + getDateRes());
+		Node dateNode = null;
+		Node pageNode = pagesRes.adaptTo(Node.class);
+		
 		if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-			log.info("No pages today for activation");
-			return;
+			try {
+				dateNode = pageNode.addNode(getDateRes());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}else{
+			dateNode = dateRes.adaptTo(Node.class);
 		}
 		
-		Node pageNode = dateRes.adaptTo(Node.class);
 		String [] pages = getPages(pageNode);
 		if(pages.length < 1){
-			log.info("No expired users found for deletion today");
+			log.info("No pages for activation today");
 			return;
 		}
         Session session = rr.adaptTo(Session.class);
 		String pageString = "";
 		String status = "Success";
 		Node reportNode = null;
-		
 		try{
-			if(pageNode.hasNode("report")){
-				reportNode = pageNode.getNode("report");
+			if(dateNode.hasNode("report")){
+				reportNode = dateNode.getNode("report");
 			}else{
-				reportNode = pageNode.addNode("report","nt:unstructured");
+				reportNode = dateNode.addNode("report","nt:unstructured");
 			}
+			reportNode.setProperty("process","Delayed Page Activation");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
 		
-		for(String s : pages){
-			try{
-				pageString = s;        
-		        replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString);
-			}catch(Exception e){
-				log.error("An error occurred while deleting user: " + pageString);
-				try{
-					status = "Completed with errors";
-					Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
-					detailedReportNode.setProperty("message", e.getMessage());
-				}catch(Exception e1){
-					log.error("Delayed Page Activator - An exception occurred while creating error node");
-					e1.printStackTrace();
+		
+		for(int i = 0; i < pages.length; i+=groupSize){
+			for(int k = i; k<i+groupSize; k++){
+				String s;
+				if(k > pages.length){
+					break;
+				}else{
+					s = pages[k];
 				}
+				try{
+					pageString = s;        
+			        //replicator.replicate(session, ReplicationActionType.ACTIVATE, pageString);
+			        Runnable testRunnable = new CacheThread("/", "http://uat.girlscouts.org", "52.72.80.194", "");
+			        Thread testThread = new Thread(testRunnable, "testThread");
+			        System.out.println("Starting thread");
+			        testThread.start();
+			        try{
+			        	testThread.join();
+			        }catch(Exception e){
+			        	e.printStackTrace();
+			        }
+			        System.out.println("First thread finished");
+				}catch(Exception e){
+					log.error("An error occurred while deleting user: " + pageString);
+					try{
+						status = "Completed with errors";
+						Node detailedReportNode = reportNode.addNode(s, "nt:unstructured");
+						detailedReportNode.setProperty("message", e.getMessage());
+					}catch(Exception e1){
+						log.error("Delayed Page Activator - An exception occurred while creating error node");
+						e1.printStackTrace();
+					}
+					e.printStackTrace();
+				}
+			}
+			
+			
+			try {
+				Thread.sleep(minutes * 60 * 1000);
+				System.out.println("Done Sleeping");
+			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
+		
 		
 		try{
 			reportNode.setProperty("status", status);
@@ -162,12 +202,11 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		return false;
 	}
 	
-	private Resource getDateRes(Resource r){
+	private String getDateRes(){
 		Date today = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HHmmss");
 		String dateString = sdf.format(today);
-		Resource dateRes = rr.resolve(r.getPath() + "/" + dateString);
-		return dateRes;
+		return dateString;
 	}
 	
 	private String[] getPages(Node n){
