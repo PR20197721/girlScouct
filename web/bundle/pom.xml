@@ -16,6 +16,13 @@
   <artifactId>girlscouts-bundle</artifactId>
   <packaging>bundle</packaging>
   <name>Girl Scouts USA Bundle</name>
+  <repositories>
+    <repository>
+      <id>project.local</id>
+      <name>project</name>
+      <url>file:${project.basedir}/../../repo</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>com.adobe.aem</groupId>
