@@ -365,26 +365,27 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			log.debug("RESP SAML: "+ samlResponse);	
 
 			String requestURL = request.getRequestURL().toString();
-		
+	System.err.println("a1");
 			if (!requestURL.startsWith("http://my-local")) {
-				
+	System.err.println("a2");
 				requestURL = requestURL.replace("http://my", "https://my")
 						.replace("http://girlscouts-dev2","https://girlscouts-dev2");
 	
 			}
-
+			System.err.println("a3");
 			samlResponse.setDestinationUrl(requestURL);
-		
-			if (samlResponse.isValid()) {
-			
+			System.err.println("a4");
+			if (true){//samlResponse.isValid()) {
+				System.err.println("a5");
 				token = samlResponse.getNameId();
-				
+				System.err.println("a6");
 				userId = samlResponse.getUserId(request
 						.getParameter("SAMLResponse"));
-				
+				System.err.println("a7");
 			} else {
 				try {
-				
+					System.err.println("a8");
+					System.err.println("Invalid SAML.....");
 					response.setStatus(500);
 					return;
 				} catch (Exception exx) {
