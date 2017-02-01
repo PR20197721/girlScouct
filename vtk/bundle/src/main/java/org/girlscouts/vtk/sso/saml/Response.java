@@ -55,7 +55,7 @@ public class Response {
 		byte[] decodedB = base64.decode(response);
 		String decodedS = new String(decodedB);
 		
-
+System.err.println("test:"+ decodedS);
 	xmlDoc = Utils.loadXML(decodedS);
 
 		
@@ -65,7 +65,7 @@ public class Response {
 	public boolean isValid(){
 		try{
 		
-	
+	System.err.println("test saml: "+ xmlDoc);
 			// Security Checks
 			rootElement = xmlDoc.getDocumentElement();		
 			assertions = xmlDoc.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");		
@@ -117,9 +117,11 @@ public class Response {
 			boolean validSubjectConfirmation = true;
 			for(int i = 0; i < nodeSubConf.getLength(); i++){
 				Node method = nodeSubConf.item(i).getAttributes().getNamedItem("Method");			
+System.err.println(1);				
 				if(method != null && !method.getNodeValue().equals("urn:oasis:names:tc:SAML:2.0:cm:bearer")){
 					continue;
 				}
+System.err.println(2);				
 				NodeList childs = nodeSubConf.item(i).getChildNodes();			
 				for(int c = 0; c < childs.getLength(); c++){				
 					if(childs.item(c).getLocalName().equals("SubjectConfirmationData")){
@@ -129,9 +131,9 @@ public class Response {
 	//					}
 						Node recipient = childs.item(c).getAttributes().getNamedItem("Recipient");					
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
-
+							System.err.println(3);	
 							validSubjectConfirmation = false;
-							
+							System.err.println(4);			
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
 						if(notOnOrAfter != null){						
@@ -142,8 +144,9 @@ public class Response {
 							now.add(java.util.Calendar.MINUTE, -99);
 							
 							if(notOnOrAfterDate.before(now)){
-								
+								System.err.println(5);	
 								validSubjectConfirmation = false;
+								System.err.println(6);	
 							}
 						}
 						Node notBefore = childs.item(c).getAttributes().getNamedItem("NotBefore");
@@ -151,8 +154,9 @@ public class Response {
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
-								
+								System.err.println(7);	
 								validSubjectConfirmation = false;
+								System.err.println(8);	
 							}
 						}
 					}
@@ -175,7 +179,7 @@ public class Response {
 			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");	
 	
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-		
+			System.err.println(9);	
 			return xmlSignature.validate(ctx); 
 			//return true;
 		}catch (Error e) {

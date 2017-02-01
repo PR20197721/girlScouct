@@ -365,7 +365,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			log.debug("RESP SAML: "+ samlResponse);	
 
 			String requestURL = request.getRequestURL().toString();
-	System.err.println("a1");
+	System.err.println("a1 "+requestURL);
 			if (!requestURL.startsWith("http://my-local")) {
 	System.err.println("a2");
 				requestURL = requestURL.replace("http://my", "https://my")
@@ -375,7 +375,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			System.err.println("a3");
 			samlResponse.setDestinationUrl(requestURL);
 			System.err.println("a4");
-			if (true){//samlResponse.isValid()) {
+			if (samlResponse.isValid()) {
 				System.err.println("a5");
 				token = samlResponse.getNameId();
 				System.err.println("a6");
@@ -412,6 +412,9 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		
 				try{
 					SalesforceDAO dao = salesforceDAOFactory.getInstance();
+					
+		System.err.println("** "+configManager
+				.getConfig("gsCertificate") );			
 					
 					byte[] data = Base64.decodeBase64(configManager
 							.getConfig("gsCertificate"));
