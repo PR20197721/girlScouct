@@ -59,10 +59,7 @@ public class CacheThread implements Runnable {
 		TreeSet <String> pathsToRequest = new TreeSet <String>();
 		BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
 		String response = IOUtils.toString(in);
-		System.out.println("*********************");
 		System.out.println("Page: " + url.toString());
-		System.out.println(response);
-		System.out.println("*********************");
 		wget.disconnect();
 		Document doc = Jsoup.parse(response, "http://" + domain);
 		Elements href = doc.select("a[href]");

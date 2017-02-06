@@ -75,7 +75,7 @@ import org.apache.sling.commons.osgi.OsgiUtil;
 	@Property(name = "minutes", label="Minutes to wait", description="Default is 30")
 })
 
-public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator, PageActivator{
+public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	
 	private static Logger log = LoggerFactory.getLogger(DelayedPageActivatorImpl.class);
 	@Reference
@@ -210,6 +210,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator,
 		TreeSet<String> builtPages = new TreeSet<String>();
 		toBuild = new TreeSet<String>();
 		builtCouncils = new TreeSet<String>();
+		currentBatch = new TreeSet<String>();
 		
 		while(pages.length > 0){
 			try {
