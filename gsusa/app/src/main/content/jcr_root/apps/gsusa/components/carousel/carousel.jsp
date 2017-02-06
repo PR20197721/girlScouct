@@ -86,7 +86,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				String ytId = extractYTId(link[i]);
 				videoId[i] = ytId;
 				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+				//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
 				link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
 			} else if (link[i].indexOf("vimeo") != -1) {
 				String vimeoId = extractVimeoId(link[i]);
@@ -113,10 +113,14 @@ public  String readUrlFile(String urlString) throws Exception {
 
 	//passing this to another jsp
 	request.setAttribute("source7", source7);
-
 %>
+
+
 <script type="text/javascript">
-	$(document).ready(function() {			
+	$(document).ready(function() {		
+
+				var slick = $('.main-slider');	
+
 		function pauseVideoSliderVideosYoutube() {
 			if($('.lazyYT > iframe').length > 0) {
 			    $.each($('.lazyYT > iframe'), function( i, val ) {
@@ -137,12 +141,13 @@ public  String readUrlFile(String urlString) throws Exception {
 		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
 			pauseVideoSliderVideosVimeo();
-			$(".zip-council").slideDown();
+			$(".zip-council").slideDown(1000);
 		});
 		
 		stopSlider = function() {
-			var slick = $('.main-slider');
+
 			if (slick != undefined && slick.slick != undefined) {
+
 				slick.slick('slickPause');
 				slick.slick('slickSetOption', 'autoplay', false, false);
 				slick.slick('autoPlay',$.noop);
@@ -150,7 +155,7 @@ public  String readUrlFile(String urlString) throws Exception {
 		};
 
 		startSlider = function() {
-			var slick = $('.main-slider');
+
 			if (slick != undefined && slick.slick != undefined) {
 				slick.slick('slickPlay');
 				// slick.slick('slickSetOption', 'autoplay', true, false);
@@ -162,19 +167,28 @@ public  String readUrlFile(String urlString) throws Exception {
 			if ($('#vimeoPlayer' + i).length > 0) {
 				// $('#vimeoPlayer' + i).load(function() {
 					$.getScript('https://player.vimeo.com/api/player.js', function() {
+			
 						function attachListenerToVideoSlider () {
 							for (var k = 0; k < $('.main-slider iframe').length; k ++) {
 								var iframe = $('.main-slider iframe')[k], 
 									player, 
 									vPlayerId;
 									var vPlayerId = $(iframe).attr('id');
+
 								if (iframe.id != undefined) {
+									
 									if ( vPlayerId.toLowerCase().indexOf('vimeo') >= 0 ) {
+										
 										player = new Vimeo.Player(vPlayerId);
+
 										player.on('play', function() {
 											stopSlider();
-											$('.zip-council').css('display','none');
+											setTimeout(function(){
+												$('.zip-council').slideUp(0);
+											},200)
+											
 										});
+
 										$('.main-slider button').click( function() {
 											player.pause();
 											player.getVideoId().then( function(id) {
@@ -193,6 +207,8 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 		
 	});
+
+
 	var isRetina = (
 		window.devicePixelRatio > 1 || (window.matchMedia && window.matchMedia("(-webkit-min-device-pixel-ratio: 1.5),(-moz-min-device-pixel-ratio: 1.5),(min-device-pixel-ratio: 1.5)").matches)
 	);
@@ -201,8 +217,10 @@ public  String readUrlFile(String urlString) throws Exception {
 	homeCarouselAutoScroll = <%=homeCarouselAutoscroll%>;
 	homeCarouselTimeDelay = <%=homeCarouselTimeDelay%>;
 	homeCarouselAutoPlaySpeed = <%=homeCarouselAutoPlaySpeed%>;
-	
 </script>
+
+
+
 <div class="hero-feature">
 	<ul class="main-slider">
 		<% 
@@ -239,7 +257,10 @@ public  String readUrlFile(String urlString) throws Exception {
 		}
 		%>
 	</ul>
+
 	<cq:include path="zip-council" resourceType="gsusa/components/zip-council" />
+
+
 </div>
 <%
 	request.removeAttribute("source7");
