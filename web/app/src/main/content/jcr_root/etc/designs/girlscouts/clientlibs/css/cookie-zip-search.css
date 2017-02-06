@@ -1,7 +1,7 @@
 @media only screen and (max-width: 48em) {
   /* line 5, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  #main .standalone-cookie-header:not(.mobile-cookie-header), .main-content .standalone-cookie-header:not(.mobile-cookie-header), #main
-  .cookie-header:not(.mobile-cookie-header), .main-content
+  #main .standalone-cookie-header:not(.mobile-cookie-header), #main .standalone-cookie-header:not(.mobile-cookie-header), #main
+  .cookie-header:not(.mobile-cookie-header), #main
   .cookie-header:not(.mobile-cookie-header) {
     display: none;
   }
@@ -131,26 +131,27 @@
     margin-left: 16.5625rem;
   }
   /* line 101, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .main-content .standalone-cookie-header form, .main-content
+  #main .standalone-cookie-header form, #main
   .cookie-header form {
     padding: 0 20px 0 0;
   }
   /* line 104, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-cookie-header form, .three-cols .middle-col
+  #mainContent .standalone-cookie-header form, #mainContent
   .cookie-header form {
     width: 54%;
     margin-left: 15.4rem;
   }
   /* line 107, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-cookie-header form label, .three-cols .middle-col
+  #mainContent .standalone-cookie-header form label, #mainContent
   .cookie-header form label {
     font-size: 1.25rem;
   }
   /* line 110, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
-  .three-cols .middle-col .standalone-cookie-header form input[type="text"], .three-cols .middle-col
+  #mainContent .standalone-cookie-header form input[type="text"], #mainContent
   .cookie-header form input[type="text"] {
     font-size: 1rem;
     padding-left: 0.1875rem;
+    margin-bottom:0px;
   }
   /* line 115, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .two-cols .middle-col .standalone-cookie-header form, .two-cols .middle-col
@@ -437,3 +438,4 @@
   margin: 0;
   line-height: 2.3125rem;
 }
+

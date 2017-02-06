@@ -18,23 +18,37 @@ public String generateId() {
 	%><cq:includeClientLib categories="apps.girlscouts.authoring" /><%
 }
 final String bgcolor = properties.get("bgcolor", "6e298d"); //the default purple color
-final String mainText = properties.get("maintext", "");
+final String mainText = properties.get("maintext", "Find Cookies!");
 final boolean hasRightShareSection = properties.get("shareSection", false);
 final boolean disableInMobile = properties.get("disableinmobile", false);
 final boolean disableInDesktop = properties.get("disableindesktop", false);
-final String shareSectionIcon = properties.get("icon", "");
-final String shareSectionText = properties.get("sharetext", "");
-String shareSectionLink = properties.get("sharelink", "");
-final String cookieBoothLink = properties.get("cookieboothlink", "");
+final String shareSectionIcon = properties.get("icon", "icon-social-facebook");
+final String shareSectionText = properties.get("sharetext", "Follow Girl Scouts Cookies");
+String shareSectionLink = properties.get("sharelink", "https://www.facebook.com/GirlScoutCookieProgram/");
+final String cookieBoothLink = properties.get("cookieboothlink", "/content/gsusa/en/cookies/cookies");
 final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
 if(thumbnail != null) {
 	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+}else{
+	Node thumbnailNode = currentNode.addNode("thumbnail","nt:unstructured");
+	thumbnailNode.setProperty("sling:resourceType","foundation/components/image");
+	thumbnailNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png");
+	thumbnailNode.setProperty("imageRotate", "0");
+	thumbnailNode.save();
+	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 }
 Resource mobileImage = resource.getChild("mobileimage");
 String mobileImagePath = "";
 if (mobileImage != null) {
+	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
+}else{
+	Node mobileImageNode = currentNode.addNode("mobileimage","nt:unstructured");
+	mobileImageNode.setProperty("sling:resourceType","foundation/components/image");
+	mobileImageNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png");
+	mobileImageNode.setProperty("imageRotate","0");
+	mobileImageNode.save();
 	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
 }
 

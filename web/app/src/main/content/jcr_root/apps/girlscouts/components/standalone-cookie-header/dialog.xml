@@ -22,16 +22,22 @@
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Share Section Icon"
 	                    xtype="iconpicker"
+	              		value="icon-social-facebook"
+	              		defaultValue="icon-social-facebook"
 	                    name="./icon"/>
 	              	<sharetext
 	              		jcr:primaryType="cq:Widget"
 	              		fieldLabel="Text in the Share Section"
 	              		fieldDescription="text in the share section"
+	              		value="Follow Girl Scouts Cookies"
+	              		defaultValue="Follow Girl Scouts Cookies"
 	              		name="./sharetext"
 	              		xtype="textfield"/>
 	                <sharelink
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Link in the share section"
+	                    value="https://www.facebook.com/GirlScoutCookieProgram/"
+	                    defaultValue="https://www.facebook.com/GirlScoutCookieProgram/"
 	                    name="./sharelink"
 	                    xtype="pathfield"/>
                 </items>
@@ -55,12 +61,16 @@
                 		fieldLabel="Main Text"
                 		fieldDescription="text in the center of the header"
                 		name="./maintext"
+                		value="Find Cookies!"
+                        defaultValue="Find Cookies!"
                 		xtype="textfield"/>
                 	<cookieboothpath
 	                    jcr:primaryType="cq:Widget"
 	                    fieldLabel="Link in the Cookie Booth"
 	                    allowBlank="false"
 	                    fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
+	                    value="/content/gsusa/en/cookies/cookies"
+	                    defaultValue="/content/gsusa/en/cookies/cookies"
 	                    name="./cookieboothlink"
 	                    xtype="pathfield"/>
                 </items>
