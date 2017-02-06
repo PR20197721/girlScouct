@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/gsusa/components/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%@page import="com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.Placeholder, java.util.Random"  %>
 <%@page session="false" %>
 <%!
@@ -15,7 +15,7 @@ public String generateId() {
 
 
 <%if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%><cq:includeClientLib categories="apps.gsusa.authoring" /><%
+	%><cq:includeClientLib categories="apps.girlscouts.authoring" /><%
 }
 final String bgcolor = properties.get("bgcolor", "6e298d"); //the default purple color
 final String mainText = properties.get("maintext", "");
