@@ -34,6 +34,7 @@ public class CacheThread implements Runnable {
 	public void run(){
 		try{
 			visitedPages = new TreeSet<String>();
+			visitedPages.add(initialPath);
 			buildCache(initialPath, initialDomain, initialIp, initialReferer);
 		}catch(Exception e){
 			System.err.println("Delayed Page Activator - Build Cache Failed");
@@ -42,7 +43,6 @@ public class CacheThread implements Runnable {
 	}
 	
 	private void buildCache(String path, String domain, String ip, String referer) throws Exception{
-		visitedPages.add(path);
 		URL url = new URL("http://" + domain + path);
 		HttpURLConnection.setFollowRedirects(true);
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(InetAddress.getByName(ip), 80));
@@ -56,10 +56,10 @@ public class CacheThread implements Runnable {
 			wget.setRequestProperty("Referer", referer);
 		}
 		wget.connect();
+		System.out.println("Page: " + url.toString());
 		TreeSet <String> pathsToRequest = new TreeSet <String>();
 		BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
 		String response = IOUtils.toString(in);
-		System.out.println("Page: " + url.toString());
 		wget.disconnect();
 		Document doc = Jsoup.parse(response, "http://" + domain);
 		Elements href = doc.select("a[href]");
@@ -70,6 +70,7 @@ public class CacheThread implements Runnable {
 			if(!attribute.equals("")){
 				URL tempUrl = new URL(attribute);
 				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+					visitedPages.add(tempUrl.getPath());
 					pathsToRequest.add(tempUrl.getPath());
 				}
 			}
@@ -79,6 +80,7 @@ public class CacheThread implements Runnable {
 			if(!attribute.equals("")){
 				URL tempUrl = new URL(attribute);
 				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+					visitedPages.add(tempUrl.getPath());
 					pathsToRequest.add(tempUrl.getPath());
 				}
 			}
@@ -88,6 +90,7 @@ public class CacheThread implements Runnable {
 			if(!attribute.equals("")){
 				URL tempUrl = new URL(attribute);
 				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+					visitedPages.add(tempUrl.getPath());
 					pathsToRequest.add(tempUrl.getPath());
 				}
 			}

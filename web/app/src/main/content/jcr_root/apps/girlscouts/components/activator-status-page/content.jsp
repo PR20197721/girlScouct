@@ -1,8 +1,9 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
 				org.girlscouts.web.councilupdate.DelayedPageActivator,
+				org.girlscouts.web.councilupdate.PageActivator,
 				java.util.TreeSet" %>
 <%@include file="/libs/foundation/global.jsp" %>
-<div id="mainContent">
+<div id="main" class="row collapse inner-wrapper">
 <%
 final WCMMode wcmMode = WCMMode.fromRequest(request);
 if(wcmMode != WCMMode.EDIT){
@@ -12,8 +13,7 @@ if(wcmMode != WCMMode.EDIT){
 	<h1>This is the Activator Status Page</h1>
 	<%
 	DelayedPageActivator dpa = sling.getService(DelayedPageActivator.class);
-	//PageActivator pa = null;
-	DelayedPageActivator pa = null;
+	PageActivator pa = null;
 	String statusPath = dpa.getConfig("pagespath");
 	Resource statusRes = null;
 	if(statusPath != null){
@@ -30,7 +30,7 @@ if(wcmMode != WCMMode.EDIT){
 			if(statusNode.hasProperty("type")){
 				if(statusNode.getProperty("type").getString().equals("dpa")){
 					pa = dpa;
-					System.out.println("ASFDSDFJSKDLGFJKSDGKLJ");
+					%><p>The current activation scheme is "Delayed Activation with Site Crawl"</p><%
 				}
 			}
 			
@@ -81,6 +81,5 @@ if(wcmMode != WCMMode.EDIT){
 			}
 		}
 	}
-
  } %>
 </div>
