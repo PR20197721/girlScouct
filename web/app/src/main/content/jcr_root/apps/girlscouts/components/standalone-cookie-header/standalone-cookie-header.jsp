@@ -107,10 +107,7 @@ $(document).ready(function(){
 	    	redirectUrl += queryStr;
 	    }
 	    redirectUrl = redirectUrl + '#' + zip;
-	    window.location.href = redirectUrl;
-	    if (isSameUrl) {
-	    	window.location.reload();
-	    }
+	    window.open(redirectUrl,'_blank');
 	    cookieFormSubmitted = true;
 	});
 });
