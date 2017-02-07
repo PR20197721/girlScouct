@@ -37,7 +37,8 @@ public class CacheThread implements Runnable {
 			visitedPages.add(initialPath);
 			buildCache(initialPath, initialDomain, initialIp, initialReferer);
 		}catch(Exception e){
-			System.err.println("Delayed Page Activator - Build Cache Failed");
+			System.err.println("Delayed Page Activator _ Build Cache Failed on " + initialPath + " with ip " + initialIp + ", - Referer: " + initialReferer);
+			e.printStackTrace();
 		}
 		return;
 	}
@@ -57,8 +58,15 @@ public class CacheThread implements Runnable {
 		}
 		wget.connect();
 		TreeSet <String> pathsToRequest = new TreeSet <String>();
-		BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
-		String response = IOUtils.toString(in);
+		String response = "";
+		try{
+			BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
+			response = IOUtils.toString(in);
+		}catch(Exception e){
+			wget.disconnect();
+			System.err.println("Delayed Page Activator _ Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + initialReferer);
+			return;
+		}
 		wget.disconnect();
 		Document doc = Jsoup.parse(response, "http://" + domain);
 		Elements href = doc.select("a[href]");

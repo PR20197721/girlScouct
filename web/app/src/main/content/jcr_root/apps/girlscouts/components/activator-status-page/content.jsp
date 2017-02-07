@@ -1,7 +1,8 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
 				org.girlscouts.web.councilupdate.DelayedPageActivator,
 				org.girlscouts.web.councilupdate.PageActivator,
-				java.util.TreeSet" %>
+				java.util.TreeSet,
+				java.util.HashMap" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <div id="main" class="row collapse inner-wrapper">
 <%
@@ -43,37 +44,76 @@ if(wcmMode != WCMMode.EDIT){
 				%><p>Batches are staggered by a <%= minutes %> minute interval</p><%
 			}
 			
-			TreeSet<String> toBuild = pa.getToBuild();
-			if(toBuild != null && toBuild.size() > 0){
+			HashMap<String,TreeSet<String>> toBuild = pa.getToBuild();
+			if(toBuild != null && toBuild.keySet().size() > 0){
 				%><p>Pages queued for activation/cache building:</p><ul><%
-				for(String p : toBuild){
-					%><li><%= p %></li><%
+				for(String key : toBuild.keySet()){
+					%><li><%= key %></li><ul><%
+					for(String val : toBuild.get(key)){
+						%><li><%= val %></li><%
+					}
+					%></ul><%
 				}
 				%></ul><%
 			}
 			
-			TreeSet<String> currentBatch = pa.getCurrentBatch();
-			if(currentBatch != null && currentBatch.size() > 0){
+			HashMap<String,TreeSet<String>> currentBatch = pa.getCurrentBatch();
+			if(currentBatch != null && currentBatch.keySet().size() > 0){
 				%><p>Current Council Batch:</p><ul><%
-				for(String p : currentBatch){
+				for(String key : currentBatch.keySet()){
+					%><li><%= key %></li><ul><%
+						for(String val : currentBatch.get(key)){
+							%><li><%= val %></li><%
+						}
+					%></ul><%
+				}
+				%></ul><%
+			}
+			
+			HashMap<String, TreeSet<String>> builtCouncils = pa.getBuiltCouncils();
+			long lastBatchTime = pa.getLastBatchTime();
+			if(builtCouncils != null && builtCouncils.keySet().size() > 0){
+				%><p>Councils that have had pages activated and cache built so far</p><ul><%
+				for(String key : builtCouncils.keySet()){
+					%><li><%= key %></li><ul><%
+							for(String val : builtCouncils.get(key)){
+								%><li><%= val %></li><%
+							}
+					%></ul><%
+				}
+				%></ul><%
+				%><p>The last batch took <%= "" + lastBatchTime %> seconds to process</p><%
+			}
+			
+			TreeSet<String> unmapped = pa.getUnmapped();
+			if(unmapped.size() > 0){
+				%><p>Not all pages could be processed. The activator was unable to map the following pages to their council websites</p><ul><%
+				for(String p : unmapped){
 					%><li><%= p %></li><%
 				}
 				%></ul><%
 			}
 			
-			TreeSet<String> builtCouncils = pa.getBuiltCouncils();
-			if(builtCouncils != null && builtCouncils.size() > 0){
-				%><p>Councils that have had pages activated and cache built so far</p><ul><%
-				for(String p : builtCouncils){
-					%><li><%= p %></li><%
-				}
-				%></ul><%
-			}
 		}else{
 			%><p>The activator is now <b>idle</b></p><%
+			String expressionStr = dpa.getConfig("scheduler.expression");
+			String[] expression = expressionStr.split(" ");
+			String amPm = "AM";
+			int hours = Integer.parseInt(expression[2]);
+			if(expression.length >= 3){
+				if(hours > 11){
+					amPm = "PM";
+				}
+				int minutes = Integer.parseInt(expression[1]);
+				hours = (hours % 12);
+				if(hours == 0){
+					hours = 12;
+				}
+				%><p>The activator will run automatically at <%= String.format("%02d", hours) + ":" + String.format("%02d", minutes) + amPm %></p><%
+			}
 			if(statusNode.hasProperty("pages") && statusNode.getProperty("pages").getValues().length > 0){
 				Value[] pages = statusNode.getProperty("pages").getValues();
-				%><p>Pages queued for activation/cache building:</p><ul><%
+				%><p>Pages queued for activation/cache building on next run (note that these will be grouped by council when the process takes place):</p><ul><%
 				for(Value v : pages){
 					%><li><%= v.getString()%></li><%
 				}

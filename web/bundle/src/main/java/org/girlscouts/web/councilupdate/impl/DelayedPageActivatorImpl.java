@@ -90,7 +90,9 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	public static final String PAGEPATH = "pagespath";
 	public static final String GROUP_SIZE = "groupsize";
 	public static final String MINUTES = "minutes";
-	private static TreeSet<String> builtCouncils, toBuild, currentBatch;
+	private static HashMap<String, TreeSet<String>> currentBatch, builtCouncils, toBuild;
+	private static long lastBatchTime;
+	private static TreeSet<String> unmapped;
 	
 	private String pagesPath;
 	private int groupSize;
@@ -106,6 +108,8 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		this.groupSize=OsgiUtil.toInteger(configs.get(GROUP_SIZE), 1);
 		this.minutes=OsgiUtil.toInteger(configs.get(MINUTES), 30);
 		this.context = context;
+		this.lastBatchTime = -1;
+		this.unmapped = new TreeSet<String>();
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
@@ -119,16 +123,24 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		return (String) configs.get(key);
 	}
 	
-	public TreeSet<String> getToBuild(){
+	public HashMap<String,TreeSet<String>> getToBuild(){
 		return toBuild;
 	}
 	
-	public TreeSet<String> getBuiltCouncils(){
+	public HashMap<String, TreeSet<String>> getBuiltCouncils(){
 		return builtCouncils;
 	}
 	
-	public TreeSet<String> getCurrentBatch(){
+	public HashMap<String, TreeSet<String>> getCurrentBatch(){
 		return currentBatch;
+	}
+	
+	public long getLastBatchTime(){
+		return lastBatchTime;
+	}
+	
+	public TreeSet<String> getUnmapped(){
+		return unmapped;
 	}
 	
 	public void run() {
@@ -208,14 +220,13 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		}
 		
 		TreeSet<String> builtPages = new TreeSet<String>();
-		toBuild = new TreeSet<String>();
-		builtCouncils = new TreeSet<String>();
-		currentBatch = new TreeSet<String>();
+		toBuild = new HashMap<String,TreeSet<String>>();
+		builtCouncils = new HashMap<String, TreeSet<String>>();
+		currentBatch = new HashMap<String, TreeSet<String>>();
 		
 		while(pages.length > 0){
 			try {
 				pages = getPages(pageNode);
-				toBuild.addAll(Arrays.asList(pages));
 				builtPages.addAll(Arrays.asList(pages));
 				pageNode.setProperty("pages", new String[0]);
 				session.save();
@@ -232,9 +243,11 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			HashMap <String, TreeSet<String>> councilMappings = new HashMap<String, TreeSet<String>>();
 			try{
 				councilMappings = arrangeCouncils(pages, rr);
+				toBuild = new HashMap<String,TreeSet<String>>(councilMappings);
 			}catch(Exception e){
 				status = "failed - could not sort pages by council";
 				log.error("Delayed Page Activator - failed to arrange councils");
+				e.printStackTrace();
 			}
 			
 			Set<String> councilDomainsSet = councilMappings.keySet();
@@ -250,27 +263,24 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				ipsGroupTwo = getIps(2,pageNode);
 			}catch(Exception e){
 				log.error("Delayed Page Activator - failed to retrieve dispatcher 2 ips");
-			}
-			
-			long startTime = System.currentTimeMillis();
+			}			
 			buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode);	
-			long endTime = System.currentTimeMillis();
-			System.out.println("Total time of build in seconds - all dispatchers: " + ((endTime - startTime)/1000));
 		}
 		
 		
 		try{
-			reportNode.setProperty("status", status);
-			reportNode.setProperty("pagesActivated", builtPages.toArray(new String[builtPages.size()]));
+			reportNode.setProperty("overallStatus", status);
+			reportNode.setProperty("pagesProcessed", builtPages.toArray(new String[builtPages.size()]));
 			pageNode.setProperty("inProgress","false");
 			session.save();
 			log.info("Delayed Page Activator - Process completed with status: " + status);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		toBuild = new TreeSet<String>();
-		builtCouncils = new TreeSet<String>();
-		builtPages = new TreeSet<String>();
+		toBuild = new HashMap<String,TreeSet<String>>();
+		builtCouncils = new HashMap<String, TreeSet<String>>();
+		currentBatch = new HashMap<String, TreeSet<String>>();
+		unmapped = new TreeSet<String>();
 		rr.close();
 	}
 	
@@ -290,9 +300,11 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				firstLoop=false;
 			}
 			for(int k = i; k<i+groupSize; k++){
-				currentBatch.add(councilDomains[k]);
+				currentBatch.put(councilDomains[k], councilMappings.get(councilDomains[k]));
+				toBuild.remove(councilDomains[k]);
 			}
 			for(int k = i; k<i+groupSize; k++){
+				long startTime = System.currentTimeMillis();
 				String domain;
 				if(k > pages.length){
 					break;
@@ -303,7 +315,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 					TreeSet<String> pagesToActivate = councilMappings.get(domain);
 					for(String pageToActivate : pagesToActivate){
 						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
-				        toBuild.remove(pageToActivate);
 					}   
 			        for(int l=0; l<ipsGroupOne.length; l++){
 			        	Thread dispatcherIPOneThread = null;
@@ -326,7 +337,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			        	}
 			        }
 			        
-			        builtCouncils.add(domain);
+			        builtCouncils.put(domain,councilMappings.get(domain));
 
 				}catch(Exception e){
 					log.error("An error occurred while processing: " + domain);
@@ -341,7 +352,9 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 						continue;
 					}
 				}
-				currentBatch = new TreeSet<String>();
+				currentBatch = new HashMap<String,TreeSet<String>>();
+				long endTime = System.currentTimeMillis();
+				lastBatchTime = ((endTime - startTime)/1000);
 			}
 		}
 		
@@ -378,15 +391,21 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	private HashMap<String, TreeSet<String>> arrangeCouncils(String[] pages, ResourceResolver rr) throws Exception{
 		HashMap<String, TreeSet<String>> map = new HashMap <String, TreeSet<String>>();
 		for(String page : pages){
-			String domain = getDomain(rr, page);
-			TreeSet<String> set;
-			if(map.get(domain) != null){
-				set = map.get(domain);
-			}else{
-				set = new TreeSet<String>();
+			try{
+				String domain = getDomain(rr, page);
+				TreeSet<String> set;
+				if(map.get(domain) != null){
+					set = map.get(domain);
+				}else{
+					set = new TreeSet<String>();
+				}
+				set.add(page);
+				map.put(domain, set);
+			}catch(Exception e){
+				unmapped.add(page);
+				log.error("Could not map page " + page);
+				continue;
 			}
-			set.add(page);
-			map.put(domain, set);
 		}
 		return map;
 	}
