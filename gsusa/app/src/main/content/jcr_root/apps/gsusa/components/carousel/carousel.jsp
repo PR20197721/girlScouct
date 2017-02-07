@@ -185,7 +185,7 @@ public  String readUrlFile(String urlString) throws Exception {
 											stopSlider();
 											setTimeout(function(){
 												$('.zip-council').slideUp(0);
-											},200)
+											},1000)
 											
 										});
 
