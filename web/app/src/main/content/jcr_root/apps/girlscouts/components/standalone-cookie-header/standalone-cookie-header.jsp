@@ -32,24 +32,34 @@ String filePath = "";
 if(thumbnail != null) {
 	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
 }else{
-	Node thumbnailNode = currentNode.addNode("thumbnail","nt:unstructured");
-	thumbnailNode.setProperty("sling:resourceType","foundation/components/image");
-	thumbnailNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png");
-	thumbnailNode.setProperty("imageRotate", "0");
-	thumbnailNode.save();
-	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+	try{
+		Node thumbnailNode = currentNode.addNode("thumbnail","nt:unstructured");
+		thumbnailNode.setProperty("sling:resourceType","foundation/components/image");
+		thumbnailNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png");
+		thumbnailNode.setProperty("imageRotate", "0");
+		thumbnailNode.save();
+		thumbnail = resource.getChild("thumbnail");
+	}catch(Exception e){
+		
+	}
+	filePath = "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png";
 }
 Resource mobileImage = resource.getChild("mobileimage");
 String mobileImagePath = "";
 if (mobileImage != null) {
 	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
 }else{
-	Node mobileImageNode = currentNode.addNode("mobileimage","nt:unstructured");
-	mobileImageNode.setProperty("sling:resourceType","foundation/components/image");
-	mobileImageNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png");
-	mobileImageNode.setProperty("imageRotate","0");
-	mobileImageNode.save();
-	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
+	try{
+		Node mobileImageNode = currentNode.addNode("mobileimage","nt:unstructured");
+		mobileImageNode.setProperty("sling:resourceType","foundation/components/image");
+		mobileImageNode.setProperty("fileReference","/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png");
+		mobileImageNode.setProperty("imageRotate","0");
+		mobileImageNode.save();
+		mobileImage = resource.getChild("mobileimage");
+	}catch(Exception e){
+		
+	}
+	mobileImagePath = "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png";
 }
 
 Page shareSectionLinkPage = resourceResolver.resolve(shareSectionLink).adaptTo(Page.class);
