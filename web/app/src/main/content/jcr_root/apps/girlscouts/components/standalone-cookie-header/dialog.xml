@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+        	<sharesection
+            	jcr:primaryType="cq:Panel"
+            	title="Share Section">
+            	<items jcr:primaryType="cq:WidgetCollection">
+	            	<sharesection
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Right Share Section"
+	                    fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
+	                    name="./shareSection"
+	                    type="checkbox"
+	            		xtype="selection"/>
+            		<icon
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Share Section Icon"
+	                    xtype="iconpicker"
+	              		value="icon-social-facebook"
+	              		defaultValue="icon-social-facebook"
+	                    name="./icon"/>
+	              	<sharetext
+	              		jcr:primaryType="cq:Widget"
+	              		fieldLabel="Text in the Share Section"
+	              		fieldDescription="text in the share section"
+	              		value="Follow Girl Scouts Cookies"
+	              		defaultValue="Follow Girl Scouts Cookies"
+	              		name="./sharetext"
+	              		xtype="textfield"/>
+	                <sharelink
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the share section"
+	                    value="https://www.facebook.com/GirlScoutCookieProgram/"
+	                    defaultValue="https://www.facebook.com/GirlScoutCookieProgram/"
+	                    name="./sharelink"
+	                    xtype="pathfield"/>
+                </items>
+            </sharesection>
+            <maincontent
+                jcr:primaryType="cq:Panel"
+                title="Main Content">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<text
+                		jcr:primaryType="cq:Widget"
+                        text="Important: If this component is in the page, please shrink your browser to a smaller size (width smaller than 640px) until you see another header. You will also need to configure that header"
+                        xtype="label"/>
+                    <bgcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter background color in HEX (e.g. e34c38). Default: 6e298d"
+                        fieldLabel="Background Color"
+                        name="./bgcolor"
+                        xtype="textfield"/>
+                	<maintext
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Main Text"
+                		fieldDescription="text in the center of the header"
+                		name="./maintext"
+                		value="Find Cookies!"
+                        defaultValue="Find Cookies!"
+                		xtype="textfield"/>
+                	<cookieboothpath
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the Cookie Booth"
+	                    allowBlank="false"
+	                    fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
+	                    value="https://www.girlscouts.org/en/cookies/cookies"
+	                    defaultValue="https://www.girlscouts.org/en/cookies/cookies"
+	                    name="./cookieboothlink"
+	                    xtype="pathfield"/>
+                </items>
+            </maincontent>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thumbnail/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./thumbnail/fileName"
+                fileReferenceParameter="./thumbnail/fileReference"
+                mapParameter="./thumbnail/imageMap"
+                name="./file"
+                requestSuffix="/thumbnail.img.png"
+                rotateParameter="./thumbnail/imageRotate"
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
+            <mobileimage
+                jcr:primaryType="cq:Widget"
+                cropParameter="./mobileimage/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./mobileimage/fileName"
+                fileReferenceParameter="./mobileimage/fileReference"
+                mapParameter="./mobileimage/imageMap"
+                name="./mobilefile"
+                requestSuffix="/mobileimage.img.png"
+                rotateParameter="./mobileimage/imageRotate"
+                title="Mobile Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./mobileimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </mobileimage>
+        </items>
+    </items>
+</jcr:root>
