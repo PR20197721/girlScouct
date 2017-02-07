@@ -59,8 +59,6 @@ public String generateId() {
 	    sb.append(possibleLetters.charAt(rand.nextInt(possibleLetters.length())));
 	return sb.toString();
 }
-
-
 public  String readUrlFile(String urlString) throws Exception {
 	BufferedReader reader = null;
 	try {
@@ -129,7 +127,7 @@ checkVersion();
 %>
 <p> Video Slider - Please select at least one link to display</p>
 <% }else {
-	%><div class="video-slider-wrapper"><%
+	%><div class="video-slider-wrapper" style="height: 180px;"><%
 	String alt = "";
 	String[] urls = null;
 	for (int i = 0; i < links.length; i++) {
@@ -149,9 +147,9 @@ checkVersion();
 						</script>
 						<%
 					} %>
-					<div class="show-for-small thumbnail">
+					<div class="show-for-small thumbnail" >
 						<a href="<%= path %>" target="_blank" title="video thumbnail">
-							<img src="<%= urls[1] %>" />
+							<img  src="<%= urls[1] %>" />
 						</a>
 					</div>
 				  	<div class="vid-slide-wrapper show-for-medium-up">
@@ -162,16 +160,24 @@ checkVersion();
 				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } %>
 			  			<% } else { %>
-				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
+				  			<iframe id="<%= urls[3] %>" style="height:180px" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0"  webkitallowfullscreen mozallowfullscreen allowfullscreen>
 				  			</iframe>
 			  			<% } %>
 		  			</div>
+
+
+
+
+
 		  			<script type="text/javascript">
 		  			
 					
 				  stopSlider = function() {
-						var slick = $('.video-slider-wrapper');
+			
 						if(slick != undefined && slick.slick != undefined){
+							var slick = $('.video-slider-wrapper').slick();
+
+
 							slick.slick('slickPause');
 							slick.slick('slickSetOption', 'autoplay', false, false);
 							slick.slick('autoPlay',$.noop);
@@ -202,8 +208,9 @@ checkVersion();
 					$('#<%= urls[3] %>').load(function() {
 
 						$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-							  
+							
 							  function attachListenerToVideoSlider () {
+
 								    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
 								    	var iframe = $('.vid-slide-wrapper iframe')[i],
 								    		player;
