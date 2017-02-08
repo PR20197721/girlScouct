@@ -54,6 +54,8 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
+import org.girlscouts.web.councilupdate.DelayedPageActivator;
+import org.girlscouts.web.councilupdate.PageActivator;
 
 @Component
 @Service
@@ -83,6 +85,9 @@ public class RolloutProcess implements WorkflowProcess {
 	
 	@Reference
 	private GirlScoutsRolloutReporter girlscoutsRolloutReporter;
+	
+	@Reference
+	private DelayedPageActivator dpa;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
@@ -263,38 +268,47 @@ public class RolloutProcess implements WorkflowProcess {
 		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 		                }
 		                if(activate){
-		                	if(!delay){
-			                	replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
-			                	messageLog.add("Page activated");
-		                	}else{
-		            	        //If necessary, create the folder where the temp user nodes will be stored
-		            	        Resource etcRes = resourceResolver.resolve("/etc");
-		            	        Node etcNode = etcRes.adaptTo(Node.class);
-		            	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
-		            	        Node gsPagesNode = null;
-		            	        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-		            				gsPagesNode = etcNode.addNode("gs-delayed-activations");
-		            	        }else{
-		            		        gsPagesNode = gsPagesRes.adaptTo(Node.class);
-		            	        }
+	            	        //If necessary, create the folder where the temp user nodes will be stored
+	            	        Resource etcRes = resourceResolver.resolve("/etc");
+	            	        Node etcNode = etcRes.adaptTo(Node.class);
+	            	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
+	            	        Node gsPagesNode = null;
+	            	        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+	            				gsPagesNode = etcNode.addNode("gs-delayed-activations");
+	            	        }else{
+	            		        gsPagesNode = gsPagesRes.adaptTo(Node.class);
+	            	        }
 
-		            	    	String [] pagesProp;
-		            	    	
-		            	    	if(!gsPagesNode.hasProperty("pages")){
-		            	    		pagesProp = new String[]{targetPath};
-		            	    	}else{
-		            	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
-		            	    		pagesProp = new String[propValues.length+1];
-		            	    		for(int i=0; i<propValues.length; i++){
-		            	    			pagesProp[i] = propValues[i].getString();
-		            	    		}
-		            	    		pagesProp[propValues.length] = targetPath;
-		            	    	}
-		            	    	gsPagesNode.setProperty("pages", pagesProp);
-		            	    	
-		            			session.save();    	
-		                		messageLog.add("Page added to activation/cache build queue");
-		                	}
+	            	    	String [] pagesProp;
+	            	    	
+	            	    	if(!gsPagesNode.hasProperty("pages")){
+	            	    		pagesProp = new String[]{targetPath};
+	            	    	}else{
+	            	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
+	            	    		pagesProp = new String[propValues.length+1];
+	            	    		for(int i=0; i<propValues.length; i++){
+	            	    			pagesProp[i] = propValues[i].getString();
+	            	    		}
+	            	    		pagesProp[propValues.length] = targetPath;
+	            	    	}
+	            	    	gsPagesNode.setProperty("pages", pagesProp);
+	            	    	
+	            			session.save();    	
+	                		messageLog.add("Page added to activation/cache build queue");
+	                		if(!delay){
+	                			if(crawl){
+	                				gsPagesNode.setProperty("crawl", "true");
+	                			}else{
+	                				gsPagesNode.setProperty("crawl", "false");
+	                			}
+	                			try{
+	                				dpa.run();
+	                				messageLog.add("Page activated");
+	                			}catch(Exception e){
+	                				messageLog.add("Unable to perform immediate activation");
+	                				log.error("Rollout Process - Immediate Activation Process Failed");
+	                			}
+	                		}
 		                }
             		}else{
             			messageLog.add("The page has Break Inheritance checked off. Will not roll out");
@@ -310,8 +324,6 @@ public class RolloutProcess implements WorkflowProcess {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
             log.error("RepositoryException for LiveRelationshipManager");
-        } catch (ReplicationException e) {
-            log.error("ReplicationException for LiveRelationshipManager");
         }
     }
     
