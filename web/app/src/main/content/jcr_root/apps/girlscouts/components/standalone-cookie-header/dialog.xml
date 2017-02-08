@@ -69,8 +69,8 @@
 	                    fieldLabel="Link in the Cookie Booth"
 	                    allowBlank="false"
 	                    fieldDescription="This path defines the result page. If this path is left empty, the cookie-finder will not work"
-	                    value="https://www.girlscouts.org/en/cookies/cookies"
-	                    defaultValue="https://www.girlscouts.org/en/cookies/cookies"
+	                    value="http://www.girlscouts.org/en/cookies/cookies"
+	                    defaultValue="http://www.girlscouts.org/en/cookies/cookies"
 	                    name="./cookieboothlink"
 	                    xtype="pathfield"/>
                 </items>
