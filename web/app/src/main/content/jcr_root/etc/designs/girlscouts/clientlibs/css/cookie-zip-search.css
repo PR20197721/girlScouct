@@ -1,4 +1,4 @@
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 39.5em) {
   /* line 5, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   #main .standalone-cookie-header:not(.mobile-cookie-header), #main .standalone-cookie-header:not(.mobile-cookie-header), #main
   .cookie-header:not(.mobile-cookie-header), #main
@@ -188,6 +188,7 @@
   padding-left: 0.625rem;
   height: 2.9375rem;
   font-size: 1.125rem;
+  margin-bottom: 0px;
 }
 /* line 141, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
 .standalone-cookie-header form .link-arrow,
@@ -438,4 +439,16 @@
   margin: 0;
   line-height: 2.3125rem;
 }
+
+/* Custom font sizes */
+@media only screen and (max-width: 320px) {
+	form.find-cookies-share label[for=zip-code] {
+		font-size: 23px
+	}
+	.standalone-cookie-header .share a, .cookie-header .share a {
+		font-size: 16px;
+		padding-left:10px
+	}
+}
+
 

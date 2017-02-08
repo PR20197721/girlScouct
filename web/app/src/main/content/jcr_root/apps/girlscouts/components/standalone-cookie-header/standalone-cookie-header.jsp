@@ -69,7 +69,7 @@ if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
 %>
 <script>
 
-document.styleSheets[0].insertRule("@media only screen and (min-width: 48.1225em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (min-width: 48em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
 <% if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){ %>
 
 document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%> form label:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
