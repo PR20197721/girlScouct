@@ -6,11 +6,10 @@ twitter-feed-widget.js
 volunteer.js
 email.js
 join.js
-gaq.js
 utils.js
 foundation.min.js
 slick.min.js
-all.js
+#all.js
 council-finder.js
 retina.js
 spin.js

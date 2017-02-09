@@ -1,6 +1,7 @@
 #base=css
 
 shared.css
+facebook-feed.css
 style.css
 font-awesome.min.css
 social.css

@@ -56,6 +56,12 @@
                     fieldLabel="Link"
                     name="./jcr:content/link"
                     xtype="pathfield"/>
+                <newWindow
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Open In New Window"
+                    name="./jcr:content/newWindow"
+                    type="checkbox"
+                    xtype="selection"/>
             </items>
         </tab3>
 <!--

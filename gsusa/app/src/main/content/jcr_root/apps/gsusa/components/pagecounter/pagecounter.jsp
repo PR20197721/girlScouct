@@ -62,7 +62,7 @@
 			String path = res.getPath() + componentPath;
 			
 			Resource pagecounter = resourceResolver.getResource(path);
-			if (pagecounter != null) {
+			if ((pagecounter != null) && (!path.contains("gsusa"))) {
 				list.add(res);
 			}
 
@@ -118,7 +118,7 @@
 
 	Resource content = resourceResolver.getResource("/content");
 	Node node = resourceResolver.getResource("/content").adaptTo(Node.class);
-	Page template = pageManager.getPage("/content/girlscouts-template");
+	//Page template = pageManager.getPage("/content/girlscouts-template");
 
 	
 
