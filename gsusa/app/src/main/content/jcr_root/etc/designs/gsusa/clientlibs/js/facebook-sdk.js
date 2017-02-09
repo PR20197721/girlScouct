@@ -1,8 +1,10 @@
 window.fbAsyncInit = function(){
-	FB.init({
-		appId : '419540344831322',
-		xfbml : true,
-		version : 'v2.3'
+	$(window).on("fb-lazy-load", function() {
+		FB.init({
+			appId : '419540344831322',
+			xfbml : true,
+			version : 'v2.3'
+		})
 	});
 };
 

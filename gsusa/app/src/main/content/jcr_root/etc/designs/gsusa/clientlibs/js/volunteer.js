@@ -63,7 +63,7 @@ $('.formVol, .formHeaderVolunteer').submit(function (event) {
             //register zipcode entered to google analytics
             //var curZipcode = $(me).find("[name='ZipVolunteer']").val();
             spinner.stop(spinner_div);
-            _gaq.push(['_trackPageview','/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue]);
+			ga('send', 'pageview', '/gsrecruitmentcampaign/volunteer/zipcode_entered'+"/"+zipValue);
         
             submit_facebook_conversion_pixel("volunteer/"+"homepage");
             //put delay so that google analytics and facebook conversion pixel registers successfully

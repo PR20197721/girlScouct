@@ -8,6 +8,11 @@ if (currentAd != null) {
 	String adName = currentAd.getProperties().get("jcr:title", "");
 	String path = currentAd.getPath();
 	String adLink = currentAd.getProperties().get("link", "");
+	String newWindow = currentAd.getProperties().get("newWindow", "false");
+	Boolean linkTarget = false;
+	if(newWindow.equals("true")){
+		linkTarget=true;
+	}
 	if (adLink != null && !adLink.isEmpty()) {
 		adLink = genLink(resourceResolver, adLink);
 	} else {
@@ -37,6 +42,7 @@ if (currentAd != null) {
 	String displayPage18 = currentAd.getProperties().get("text/displayPage18", "");
 	String displayPage19 = currentAd.getProperties().get("text/displayPage19", "");
 	String displayPage20 = currentAd.getProperties().get("text/displayPage20", "");
+	
 	
 	// loop through and add them to hashtable
 	// if the count is at least one or above, then only show when there is a match
@@ -100,7 +106,7 @@ if (currentAd != null) {
 	// display the ad only if customURL is NOT set or there is a match
 	if(customURLSet == false || displayThisAd) {
 %>
-	<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
+	<a href="<%=adLink%>" <%= linkTarget ? "target=\"_blank\"" : "" %>><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
 <%
 	}
 

@@ -318,6 +318,11 @@
           e.stopPropagation();
           // target.addClass("shown");
           target.fadeIn('slow');
+          if(target[0] && target[0].children[0]){
+        	  if(target[0].children[0].id == "tag_tile_social"){
+        		  $(window).trigger("fb-lazy-load");
+        	  }
+          }
           $('.shop-slider').slick('setPosition');
           try {
             gsusa.functions.ToggleParsysAll.toggleAll(true);
