@@ -32,6 +32,9 @@ if(wcmMode != WCMMode.EDIT){
 				if(statusNode.getProperty("type").getString().equals("dpa")){
 					pa = dpa;
 					%><p>The current activation scheme is "Delayed Activation with Site Crawl"</p><%
+				}else if(statusNode.getProperty("type").getString().equals("ipa-c")){
+					pa = dpa;
+					%><p>The current activation scheme is "Immediate Activation with Site Crawl"</p><%
 				}
 			}
 			

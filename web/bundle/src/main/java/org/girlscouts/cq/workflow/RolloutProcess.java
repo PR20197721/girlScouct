@@ -227,7 +227,17 @@ public class RolloutProcess implements WorkflowProcess {
         
         try {
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
-            for (LiveRelationship relation : relations) {
+	        //If necessary, create the folder where the temp user nodes will be stored
+	        Resource etcRes = resourceResolver.resolve("/etc");
+	        Node etcNode = etcRes.adaptTo(Node.class);
+	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
+	        Node gsPagesNode = null;
+	        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+				gsPagesNode = etcNode.addNode("gs-delayed-activations");
+	        }else{
+		        gsPagesNode = gsPagesRes.adaptTo(Node.class);
+	        }
+        	for (LiveRelationship relation : relations) {
             	Resource targetResource = resourceResolver.resolve(relation.getTargetPath());
             	Boolean proceed = false;
         		if(values == null){
@@ -268,17 +278,6 @@ public class RolloutProcess implements WorkflowProcess {
 		                    targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
 		                }
 		                if(activate){
-	            	        //If necessary, create the folder where the temp user nodes will be stored
-	            	        Resource etcRes = resourceResolver.resolve("/etc");
-	            	        Node etcNode = etcRes.adaptTo(Node.class);
-	            	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
-	            	        Node gsPagesNode = null;
-	            	        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-	            				gsPagesNode = etcNode.addNode("gs-delayed-activations");
-	            	        }else{
-	            		        gsPagesNode = gsPagesRes.adaptTo(Node.class);
-	            	        }
-
 	            	    	String [] pagesProp;
 	            	    	
 	            	    	if(!gsPagesNode.hasProperty("pages")){
@@ -292,23 +291,8 @@ public class RolloutProcess implements WorkflowProcess {
 	            	    		pagesProp[propValues.length] = targetPath;
 	            	    	}
 	            	    	gsPagesNode.setProperty("pages", pagesProp);
-	            	    	
 	            			session.save();    	
 	                		messageLog.add("Page added to activation/cache build queue");
-	                		if(!delay){
-	                			if(crawl){
-	                				gsPagesNode.setProperty("crawl", "true");
-	                			}else{
-	                				gsPagesNode.setProperty("crawl", "false");
-	                			}
-	                			try{
-	                				dpa.run();
-	                				messageLog.add("Page activated");
-	                			}catch(Exception e){
-	                				messageLog.add("Unable to perform immediate activation");
-	                				log.error("Rollout Process - Immediate Activation Process Failed");
-	                			}
-	                		}
 		                }
             		}else{
             			messageLog.add("The page has Break Inheritance checked off. Will not roll out");
@@ -319,7 +303,30 @@ public class RolloutProcess implements WorkflowProcess {
             		}
             	}
             }
-    		girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
+    		if(activate && !delay){
+    			//if(crawl){
+    				gsPagesNode.setProperty("crawl", "true");
+    				gsPagesNode.setProperty("type","ipa-c");
+    				session.save();
+    			//}else{
+    			//	gsPagesNode.setProperty("crawl", "false");
+    			//}
+    			try{
+    				dpa.run();
+    				gsPagesNode.setProperty("type","dpa");
+    				session.save();
+    				messageLog.add("Page activated");
+    			}catch(Exception e){
+    				messageLog.add("Unable to perform immediate activation");
+    				log.error("Rollout Process - Immediate Activation Process Failed");
+    				e.printStackTrace();
+    			}
+    		}
+    		try{
+    			girlscoutsRolloutReporter.execute(reportSubject, messageLog, resourceResolver);
+    		}catch(Exception e){
+    			log.error("Failed to submit report");
+    		}
         } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {

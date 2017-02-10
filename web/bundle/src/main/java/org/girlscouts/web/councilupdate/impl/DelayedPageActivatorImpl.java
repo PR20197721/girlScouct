@@ -166,7 +166,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				return;
 			}else{
 				pageNode.setProperty("inProgress", "true");
-				pageNode.setProperty("type","dpa");
+				//pageNode.setProperty("type","dpa");
 				session.save();
 			}
 		}catch(Exception e){
