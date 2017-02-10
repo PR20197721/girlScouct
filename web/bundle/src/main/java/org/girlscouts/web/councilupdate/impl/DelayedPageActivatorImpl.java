@@ -145,14 +145,12 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	
 	public void run() {
 		if (isPublisher()) {
-			rr.close();
 			return;
 		}
 		
         Session session = rr.adaptTo(Session.class);
 		Resource pagesRes = rr.resolve(pagesPath);
 		if(pagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-			rr.close();
 			return;
 		}
 		Resource dateRes = rr.resolve(pagesRes.getPath() + "/" + getDateRes());
@@ -162,7 +160,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		try{
 			if(pageNode.hasProperty("inProgress") && pageNode.getProperty("inProgress").getString().equals("true")){
 				log.info("Delayed page Activator - Process already running");
-				rr.close();
 				return;
 			}else{
 				pageNode.setProperty("inProgress", "true");
@@ -171,7 +168,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			}
 		}catch(Exception e){
 			log.error("Delayed Page Activator - Failed to check if process in progress already");
-			rr.close();
 			return;
 		}
 		
@@ -179,7 +175,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			try {
 				dateNode = pageNode.addNode(getDateRes());
 			} catch (Exception e) {
-				rr.close();
 				log.error("Delayed Page Activator - Couldn't create date node");
 				e.printStackTrace();
 				return;
@@ -198,7 +193,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			reportNode.setProperty("process","Delayed Page Activator");
 		}catch(Exception e){
 			log.error("Delayed Page Activator - Failed to create or retrieve report node");
-			rr.close();
 			e.printStackTrace();
 			return;
 		}
@@ -210,7 +204,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		} catch (Exception e) {
 			status = "failed - unable to get initial page count";
 			log.error("Delayed Page Activator - failed to get initial page count");
-			rr.close();
 			e.printStackTrace();
 			return;
 		}
@@ -281,7 +274,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		builtCouncils = new HashMap<String, TreeSet<String>>();
 		currentBatch = new HashMap<String, TreeSet<String>>();
 		unmapped = new TreeSet<String>();
-		rr.close();
 	}
 	
 	private String buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode){
@@ -460,7 +452,6 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
-		rr.close();
 		log.info("Delayed Page Activation Service Deactivated.");
 	}
 	
