@@ -331,7 +331,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				        		dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
 				        		dispatcherIPOneThread.start();
 				        	}
-				        	if(ipsGroupTwo[l] != null){
+				        	if(ipsGroupTwo != null && ipsGroupTwo.length >= l+1 && ipsGroupTwo[l] != null){
 				        		Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "");
 				        		dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
 				        		dispatcherIPTwoThread.start();
@@ -349,7 +349,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 
 				}catch(Exception e){
 					log.error("An error occurred while processing: " + domain);
-					log.error(e.getMessage());
+					e.printStackTrace();
 					try{
 						toReturn = "Completed with errors - cache may not have built correctly";
 						Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");

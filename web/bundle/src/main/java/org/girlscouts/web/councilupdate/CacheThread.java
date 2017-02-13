@@ -32,81 +32,81 @@ public class CacheThread implements Runnable {
 		initialReferer=referer;
 	}
 	public void run(){
-		try{
-			visitedPages = new TreeSet<String>();
-			visitedPages.add(initialPath);
-			buildCache(initialPath, initialDomain, initialIp, initialReferer);
-		}catch(Exception e){
-			System.err.println("GS Page Activator _ Build Cache Failed on " + initialPath + " with ip " + initialIp + ", - Referer: " + initialReferer);
-			e.printStackTrace();
-		}
+		visitedPages = new TreeSet<String>();
+		visitedPages.add(initialPath);
+		buildCache(initialPath, initialDomain, initialIp, initialReferer);
 		return;
 	}
 	
-	private void buildCache(String path, String domain, String ip, String referer) throws Exception{
-		URL url = new URL("http://" + domain + path);
-		HttpURLConnection.setFollowRedirects(true);
-		Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(InetAddress.getByName(ip), 80));
-		HttpURLConnection wget = (HttpURLConnection) url.openConnection(proxy);
-		wget.setRequestMethod("GET");
-		wget.setRequestProperty("Host", domain);
-		wget.setRequestProperty("Accept", "text/html");
-		wget.setRequestProperty("Accept-Encoding", "identity");
-		wget.setRequestProperty("Connection", "Keep-Alive");
-		if(!referer.equals("")){
-			wget.setRequestProperty("Referer", referer);
-		}
-		wget.connect();
-		TreeSet <String> pathsToRequest = new TreeSet <String>();
-		String response = "";
+	private void buildCache(String path, String domain, String ip, String referer){
 		try{
-			BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
-			response = IOUtils.toString(in);
-		}catch(Exception e){
+			URL url = new URL("http://" + domain + path);
+			HttpURLConnection.setFollowRedirects(true);
+			Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(InetAddress.getByName(ip), 80));
+			HttpURLConnection wget = (HttpURLConnection) url.openConnection(proxy);
+			wget.setRequestMethod("GET");
+			wget.setRequestProperty("Host", domain);
+			wget.setRequestProperty("Accept", "text/html");
+			wget.setRequestProperty("Accept-Encoding", "identity");
+			wget.setRequestProperty("Connection", "Keep-Alive");
+			if(!referer.equals("")){
+				wget.setRequestProperty("Referer", referer);
+			}
+			wget.connect();
+			System.out.println("URL: " + url.toString());
+			TreeSet <String> pathsToRequest = new TreeSet <String>();
+			String response = "";
+			try{
+				BufferedReader in = new BufferedReader(new InputStreamReader(wget.getInputStream()));
+				response = IOUtils.toString(in);
+			}catch(Exception e){
+				wget.disconnect();
+				System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + referer);
+				return;
+			}
 			wget.disconnect();
-			System.err.println("GS Page Activator _ Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + initialReferer);
+			Document doc = Jsoup.parse(response, "http://" + domain);
+			Elements href = doc.select("a[href]");
+			Elements media = doc.select("[src]");
+			Elements imports = doc.select("link[href]");
+			for(Element link : href){
+				String attribute = link.attr("abs:href");
+				if(!attribute.equals("")){
+					URL tempUrl = new URL(attribute);
+					if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
+					}
+				}
+			}
+			for(Element medium : media){
+				String attribute = medium.attr("abs:src");
+				if(!attribute.equals("")){
+					URL tempUrl = new URL(attribute);
+					if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
+					}
+				}
+			}
+			for(Element importElem : imports){
+				String attribute = importElem.attr("abs:href");
+				if(!attribute.equals("")){
+					URL tempUrl = new URL(attribute);
+					if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
+						visitedPages.add(tempUrl.getPath());
+						pathsToRequest.add(tempUrl.getPath());
+					}
+				}
+			}
+			if(pathsToRequest.size() > 0){
+				for(String pathToRequest : pathsToRequest){
+					buildCache(pathToRequest, domain, ip, "http://" + domain + path);
+				}
+			}
+		}catch(Exception e){
+			System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + referer);
 			return;
 		}
-		wget.disconnect();
-		Document doc = Jsoup.parse(response, "http://" + domain);
-		Elements href = doc.select("a[href]");
-		Elements media = doc.select("[src]");
-		Elements imports = doc.select("link[href]");
-		for(Element link : href){
-			String attribute = link.attr("abs:href");
-			if(!attribute.equals("")){
-				URL tempUrl = new URL(attribute);
-				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
-					visitedPages.add(tempUrl.getPath());
-					pathsToRequest.add(tempUrl.getPath());
-				}
-			}
-		}
-		for(Element medium : media){
-			String attribute = medium.attr("abs:src");
-			if(!attribute.equals("")){
-				URL tempUrl = new URL(attribute);
-				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
-					visitedPages.add(tempUrl.getPath());
-					pathsToRequest.add(tempUrl.getPath());
-				}
-			}
-		}
-		for(Element importElem : imports){
-			String attribute = importElem.attr("abs:href");
-			if(!attribute.equals("")){
-				URL tempUrl = new URL(attribute);
-				if(tempUrl.getHost().equals(domain) && tempUrl.getPath().endsWith(".html") && !visitedPages.contains(tempUrl.getPath())){
-					visitedPages.add(tempUrl.getPath());
-					pathsToRequest.add(tempUrl.getPath());
-				}
-			}
-		}
-		if(pathsToRequest.size() > 0){
-			for(String pathToRequest : pathsToRequest){
-				buildCache(pathToRequest, domain, ip, "http://" + domain + path);
-			}
-		}
-		return;
 	}
 }

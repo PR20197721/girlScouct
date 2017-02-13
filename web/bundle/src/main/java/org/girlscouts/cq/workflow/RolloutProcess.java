@@ -231,7 +231,7 @@ public class RolloutProcess implements WorkflowProcess {
         
         try {
         	Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
-	        //If necessary, create the folder where the temp user nodes will be stored
+	        //If necessary, create the folder where the temp page nodes will be stored
 	        Resource etcRes = resourceResolver.resolve("/etc");
 	        Node etcNode = etcRes.adaptTo(Node.class);
 	        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
