@@ -54,7 +54,6 @@ import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 import javax.jcr.Value;
-import org.girlscouts.web.councilupdate.DelayedPageActivator;
 import org.girlscouts.web.councilupdate.PageActivator;
 
 @Component
@@ -87,7 +86,7 @@ public class RolloutProcess implements WorkflowProcess {
 	private GirlScoutsRolloutReporter girlscoutsRolloutReporter;
 	
 	@Reference
-	private DelayedPageActivator dpa;
+	private PageActivator pa;
 
 
     public void execute(WorkItem item, WorkflowSession workflowSession, MetaDataMap metadata)
@@ -134,6 +133,11 @@ public class RolloutProcess implements WorkflowProcess {
         try{
         	delay = ((Value)mdm.get("delayActivation")).getBoolean();
 
+        }catch(Exception e){}
+        
+        Boolean crawl = false;
+        try{
+        	crawl = ((Value)mdm.get("crawl")).getBoolean();
         }catch(Exception e){}
         
         try{
@@ -304,15 +308,15 @@ public class RolloutProcess implements WorkflowProcess {
             	}
             }
     		if(activate && !delay){
-    			//if(crawl){
-    				gsPagesNode.setProperty("crawl", "true");
+    			if(crawl){
     				gsPagesNode.setProperty("type","ipa-c");
     				session.save();
-    			//}else{
-    			//	gsPagesNode.setProperty("crawl", "false");
-    			//}
+    			}else{
+    				gsPagesNode.setProperty("type","ipa-nc");
+    				session.save();
+    			}
     			try{
-    				dpa.run();
+    				pa.run();
     				gsPagesNode.setProperty("type","dpa");
     				session.save();
     				messageLog.add("Page activated");

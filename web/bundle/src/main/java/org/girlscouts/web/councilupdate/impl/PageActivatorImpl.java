@@ -29,7 +29,7 @@ import javax.jcr.query.RowIterator;
 import javax.jcr.version.VersionException;
 
 import org.girlscouts.web.councilupdate.CacheThread;
-import org.girlscouts.web.councilupdate.DelayedPageActivator;
+import org.girlscouts.web.councilupdate.PageActivator;
 import org.girlscouts.web.councilupdate.PageActivator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -57,15 +57,21 @@ import org.apache.sling.settings.SlingSettingsService;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.osgi.OsgiUtil;
 
+/*
+ * Girl Scouts Page Activator - DL
+ * This process activates a queue of pages, in batches, with a timed delay between batches
+ * This system of staggering activations allows the dispatcher caches to rebuild during large rollouts
+ * The process runs at a scheduled time as a cron job, but it can also be called as a sling service and run at any time with the run() method
+ */
 @Component(
 		metatype = true, 
 		immediate = true,
-		label = "Girl Scouts Delayed Page Activation Service", 
+		label = "Girl Scouts Page Activation Service", 
 		description = "Activates pages at night to make cache-clearing interfere less with production sites" 
 		)
-@Service(value = {Runnable.class, DelayedPageActivator.class})
+@Service(value = {Runnable.class, PageActivator.class})
 @Properties({
-	@Property(name = "service.description", value = "Girl Scouts Delayed Activation Service",propertyPrivate=true),
+	@Property(name = "service.description", value = "Girl Scouts GS Activation Service",propertyPrivate=true),
 	@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 	@Property(name = "scheduler.expression", label="scheduler.expression", description="cron expression"),
 	@Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
@@ -75,9 +81,9 @@ import org.apache.sling.commons.osgi.OsgiUtil;
 	@Property(name = "minutes", label="Minutes to wait", description="Default is 30")
 })
 
-public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
+public class PageActivatorImpl implements Runnable, PageActivator{
 	
-	private static Logger log = LoggerFactory.getLogger(DelayedPageActivatorImpl.class);
+	private static Logger log = LoggerFactory.getLogger(PageActivatorImpl.class);
 	@Reference
 	private ResourceResolverFactory resolverFactory;
 	@Reference 
@@ -159,23 +165,31 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		
 		try{
 			if(pageNode.hasProperty("inProgress") && pageNode.getProperty("inProgress").getString().equals("true")){
-				log.info("Delayed page Activator - Process already running");
+				log.info("GS page Activator - Process already running");
 				return;
 			}else{
 				pageNode.setProperty("inProgress", "true");
-				//pageNode.setProperty("type","dpa");
 				session.save();
 			}
 		}catch(Exception e){
-			log.error("Delayed Page Activator - Failed to check if process in progress already");
+			log.error("GS Page Activator - Failed to check if process in progress already");
 			return;
+		}
+		
+		Boolean crawl = true;
+		try{
+			if(pageNode.hasProperty("type") && pageNode.getProperty("type").getString().equals("ipa-nc")){
+				crawl = false;
+			}
+		}catch(Exception e){
+			log.error("GS Page Activator - Could not determine crawl property. Defaulting to crawl");
 		}
 		
 		if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
 			try {
 				dateNode = pageNode.addNode(getDateRes());
 			} catch (Exception e) {
-				log.error("Delayed Page Activator - Couldn't create date node");
+				log.error("GS Page Activator - Couldn't create date node");
 				e.printStackTrace();
 				return;
 			}
@@ -190,9 +204,9 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			}else{
 				reportNode = dateNode.addNode("report","nt:unstructured");
 			}
-			reportNode.setProperty("process","Delayed Page Activator");
+			reportNode.setProperty("process","GS Page Activator");
 		}catch(Exception e){
-			log.error("Delayed Page Activator - Failed to create or retrieve report node");
+			log.error("GS Page Activator - Failed to create or retrieve report node");
 			e.printStackTrace();
 			return;
 		}
@@ -203,7 +217,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			pages = getPages(pageNode);
 		} catch (Exception e) {
 			status = "failed - unable to get initial page count";
-			log.error("Delayed Page Activator - failed to get initial page count");
+			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
 			return;
 		}
@@ -225,7 +239,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				session.save();
 			} catch (Exception e) {
 				status = "failed - unable to retrieve or remove pages from page node";
-				log.error("Delayed Page Activator - failed to save session upon removing pages from page node");
+				log.error("GS Page Activator - failed to save session upon removing pages from page node");
 				break;
 			}
 			
@@ -239,7 +253,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				toBuild = new HashMap<String,TreeSet<String>>(councilMappings);
 			}catch(Exception e){
 				status = "failed - could not sort pages by council";
-				log.error("Delayed Page Activator - failed to arrange councils");
+				log.error("GS Page Activator - failed to arrange councils");
 				e.printStackTrace();
 			}
 			
@@ -250,14 +264,14 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			try{
 				ipsGroupOne = getIps(1,pageNode);
 			}catch(Exception e){
-				log.error("Delayed Page Activator - failed to retrieve dispatcher 1 ips");
+				log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
 			}
 			try{	
 				ipsGroupTwo = getIps(2,pageNode);
 			}catch(Exception e){
-				log.error("Delayed Page Activator - failed to retrieve dispatcher 2 ips");
+				log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
 			}			
-			buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode);	
+			buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl);	
 		}
 		
 		
@@ -266,7 +280,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 			reportNode.setProperty("pagesProcessed", builtPages.toArray(new String[builtPages.size()]));
 			pageNode.setProperty("inProgress","false");
 			session.save();
-			log.info("Delayed Page Activator - Process completed with status: " + status);
+			log.info("GS Page Activator - Process completed with status: " + status);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -276,7 +290,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 		unmapped = new TreeSet<String>();
 	}
 	
-	private String buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode){
+	private String buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode, Boolean crawl){
 		String toReturn = "";
 		Boolean firstLoop = true;
 		for(int i = 0; i < councilDomains.length; i+=groupSize){
@@ -284,7 +298,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 				try {
 					Thread.sleep(minutes * 60 * 1000);
 				} catch (InterruptedException e) {
-					log.error("Delayed Page Activator - could not sleep");
+					log.error("GS Page Activator - could not sleep");
 					toReturn = "Staggering Failed - process cancelled";
 					break;
 				}
@@ -308,25 +322,27 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 					for(String pageToActivate : pagesToActivate){
 						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
 					}   
-			        for(int l=0; l<ipsGroupOne.length; l++){
-			        	Thread dispatcherIPOneThread = null;
-			        	Thread dispatcherIPTwoThread = null;
-			        	if(ipsGroupOne[l] != null){
-			        		Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "");
-			        		dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
-			        		dispatcherIPOneThread.start();
-			        	}
-			        	if(ipsGroupTwo[l] != null){
-			        		Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "");
-			        		dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
-			        		dispatcherIPTwoThread.start();
-			        	}
-			        	if(dispatcherIPOneThread != null){
-			        		dispatcherIPOneThread.join();
-			        	}
-			        	if(dispatcherIPTwoThread != null){
-			        		dispatcherIPTwoThread.join();
-			        	}
+			        if(crawl){
+				        for(int l=0; l<ipsGroupOne.length; l++){
+				        	Thread dispatcherIPOneThread = null;
+				        	Thread dispatcherIPTwoThread = null;
+				        	if(ipsGroupOne[l] != null){
+				        		Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "");
+				        		dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
+				        		dispatcherIPOneThread.start();
+				        	}
+				        	if(ipsGroupTwo[l] != null){
+				        		Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "");
+				        		dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
+				        		dispatcherIPTwoThread.start();
+				        	}
+				        	if(dispatcherIPOneThread != null){
+				        		dispatcherIPOneThread.join();
+				        	}
+				        	if(dispatcherIPTwoThread != null){
+				        		dispatcherIPTwoThread.join();
+				        	}
+				        }
 			        }
 			        
 			        builtCouncils.put(domain,councilMappings.get(domain));
@@ -339,7 +355,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 						Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");
 						detailedReportNode.setProperty("message", e.getMessage());
 					}catch(Exception e1){
-						log.error("Delayed Page Activator - An exception occurred while creating error node");
+						log.error("GS Page Activator - An exception occurred while creating error node");
 						log.error(e.getMessage());
 						continue;
 					}
@@ -452,7 +468,7 @@ public class DelayedPageActivatorImpl implements Runnable, DelayedPageActivator{
 	
 	@Deactivate
 	private void deactivate(ComponentContext componentContext) {
-		log.info("Delayed Page Activation Service Deactivated.");
+		log.info("GS Page Activation Service Deactivated.");
 	}
 	
 }

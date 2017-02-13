@@ -37,7 +37,7 @@ public class CacheThread implements Runnable {
 			visitedPages.add(initialPath);
 			buildCache(initialPath, initialDomain, initialIp, initialReferer);
 		}catch(Exception e){
-			System.err.println("Delayed Page Activator _ Build Cache Failed on " + initialPath + " with ip " + initialIp + ", - Referer: " + initialReferer);
+			System.err.println("GS Page Activator _ Build Cache Failed on " + initialPath + " with ip " + initialIp + ", - Referer: " + initialReferer);
 			e.printStackTrace();
 		}
 		return;
@@ -64,7 +64,7 @@ public class CacheThread implements Runnable {
 			response = IOUtils.toString(in);
 		}catch(Exception e){
 			wget.disconnect();
-			System.err.println("Delayed Page Activator _ Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + initialReferer);
+			System.err.println("GS Page Activator _ Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + initialReferer);
 			return;
 		}
 		wget.disconnect();
