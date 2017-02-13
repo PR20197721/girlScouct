@@ -1,4 +1,4 @@
-@media only screen and (max-width: 39.5em) {
+@media only screen and (max-width: 49.001em) {
   /* line 5, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   #main .standalone-cookie-header:not(.mobile-cookie-header), #main .standalone-cookie-header:not(.mobile-cookie-header), #main
   .cookie-header:not(.mobile-cookie-header), #main
@@ -6,6 +6,13 @@
     display: none;
   }
 }
+
+@media only screen and (min-width: 49em){
+	.standalone-cookie-header.mobile-cookie-header, .cookie-header.mobile-cookie-header{
+	  display: none;
+	}
+}
+
 /* line 10, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
 .standalone-cookie-header .help-msg,
 .cookie-header .help-msg {
@@ -21,7 +28,7 @@
   margin-right: 0;
   margin-left: 0;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 14, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .row,
   .cookie-header .row {
@@ -35,7 +42,7 @@
   z-index: 1;
   padding: 0.8125rem 0;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 28, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .wrapper-inner:before,
   .cookie-header .wrapper-inner:before {
@@ -47,7 +54,7 @@
     top: -0.8125rem;
   }
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 28, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .wrapper-inner:before,
   .cookie-header .wrapper-inner:before {
@@ -61,7 +68,7 @@
     margin-top: 1.25rem;
   }
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 53, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .share,
   .cookie-header .share {
@@ -87,7 +94,7 @@
 .cookie-header .share a:hover {
   color: #FFFFFF;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 75, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .find-cookies,
   .standalone-cookie-header .find-camp,
@@ -108,7 +115,7 @@
 .cookie-header form label * {
   color: #FFFFFF;
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 82, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header form label,
   .cookie-header form label {
@@ -116,14 +123,14 @@
     text-align: center;
   }
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 81, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header form,
   .cookie-header form {
     padding: 0 20%;
   }
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 81, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header form,
   .cookie-header form {
@@ -134,6 +141,7 @@
   #main .standalone-cookie-header form, #main
   .cookie-header form {
     padding: 0 20px 0 0;
+    margin-bottom: 0px;
   }
   /* line 104, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   #mainContent .standalone-cookie-header form, #mainContent
@@ -207,14 +215,14 @@
 .cookie-header form .form-wrapper {
   position: relative;
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 151, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header form .form-wrapper,
   .cookie-header form .form-wrapper {
     margin-top: 0.625rem;
   }
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 160, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .row.homepage .wrapper-inner,
   .cookie-header .row.homepage .wrapper-inner {
@@ -232,7 +240,7 @@
     margin-top: 0;
   }
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 174, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .row.homepage form label,
   .cookie-header .row.homepage form label {
@@ -251,7 +259,7 @@
     vertical-align: bottom;
   }
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 194, ../../../../../../../theme/custom/scss/components/_cookie-zip-search.scss */
   .standalone-cookie-header .share,
   .cookie-header .share {
@@ -285,7 +293,7 @@
 .cookie-footer {
   color: #FFFFFF;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 1, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
   .cookie-footer {
     position: relative;
@@ -323,7 +331,7 @@
   padding-right: 1.5625rem;
   padding-bottom: 1.25rem;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 26, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
   .cookie-footer .get-updates,
   .cookie-footer .install-app {
@@ -385,7 +393,7 @@
   background: #f8971d;
   padding-top: 1.5625rem;
 }
-@media only screen and (max-width: 48em) {
+@media only screen and (max-width: 49.001em) {
   /* line 74, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
   .cookie-footer .install-app {
     margin-bottom: 1.25rem;
@@ -400,7 +408,7 @@
   background: #a6ce38;
   padding-top: 0.9375rem;
 }
-@media only screen and (min-width: 48.1225em) {
+@media only screen and (min-width: 49em) {
   /* line 86, ../../../../../../../theme/custom/scss/components/_cookies_footer.scss */
   .cookie-footer .get-updates {
     float: right;
@@ -441,8 +449,8 @@
 }
 
 /* Custom font sizes */
-@media only screen and (max-width: 320px) {
-	form.find-cookies-share label[for=zip-code] {
+@media only screen and (max-width: 49.001em) {
+	form.find-cookies-share label[for=zip-code], form.find-cookies-noshare label[for=zip-code] {
 		font-size: 23px
 	}
 	.standalone-cookie-header .share a, .cookie-header .share a {

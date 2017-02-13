@@ -30,7 +30,7 @@ final String id = generateId();
 Resource thumbnail = resource.getChild("thumbnail");
 String filePath = "";
 if(thumbnail != null) {
-	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+	filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder.png");
 }else{
 	try{
 		Node thumbnailNode = currentNode.addNode("thumbnail","nt:unstructured");
@@ -47,7 +47,7 @@ if(thumbnail != null) {
 Resource mobileImage = resource.getChild("mobileimage");
 String mobileImagePath = "";
 if (mobileImage != null) {
-	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "");
+	mobileImagePath = ((ValueMap)mobileImage.adaptTo(ValueMap.class)).get("fileReference", "/content/dam/girlscouts-shared/images/cookies/cookie-finder/cookie-finder-mobile.png");
 }else{
 	try{
 		Node mobileImageNode = currentNode.addNode("mobileimage","nt:unstructured");
@@ -69,12 +69,12 @@ if (shareSectionLinkPage != null && !shareSectionLink.contains(".html")) {
 %>
 <script>
 
-document.styleSheets[0].insertRule("@media only screen and (min-width: 48em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (min-width: 49.0001em) { #<%= id%>:before { background: url('<%= filePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
 <% if(currentPage.getPath().equals(currentPage.getAbsoluteParent(2).getPath())){ %>
 
-document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%> form label:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+document.styleSheets[0].insertRule("@media only screen and (max-width: 49em) { #<%= id%> form label:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
 <% } else {%>
-    document.styleSheets[0].insertRule("@media only screen and (max-width: 48em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
+    document.styleSheets[0].insertRule("@media only screen and (max-width: 49em) { #<%= id%>:before { background: url('<%= mobileImagePath%>') no-repeat 0% 0%/contain transparent; } }", 0);
 <% } %>
 //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
 $(document).ready(function(){
