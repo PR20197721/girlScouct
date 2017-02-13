@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+        	<sharesection
+            	jcr:primaryType="cq:Panel"
+            	title="Share Section">
+            	<items jcr:primaryType="cq:WidgetCollection">
+	            	<sharesection
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Right Share Section"
+	                    fieldDescription="The right section of the header will be delicated to sharing. Check this when the header is on top of the page"
+	                    name="./shareSection"
+	                    type="checkbox"
+	            		xtype="selection"/>
+            		<icon
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Share Section Icon"
+	                    xtype="iconpicker"
+	                    name="./icon"/>
+	              	<sharetext
+	              		jcr:primaryType="cq:Widget"
+	              		fieldLabel="Text in the Share Section"
+	              		fieldDescription="text in the share section"
+	              		name="./sharetext"
+	              		xtype="textfield"/>
+	                <sharelink
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the share section"
+	                    name="./sharelink"
+	                    xtype="pathfield"/>
+                </items>
+            </sharesection>
+            <maincontent
+                jcr:primaryType="cq:Panel"
+                title="Main Content">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <bgcolor
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter background color in HEX (e.g. e34c38). Default: 6e298d"
+                        fieldLabel="Background Color"
+                        name="./bgcolor"
+                        xtype="textfield"/>
+                	<maintext
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Main Text"
+                		fieldDescription="text in the center of the header"
+                		name="./maintext"
+                		xtype="textfield"/>
+                	<cookieboothpath
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Link in the Cookie Booth"
+	                    name="./cookieboothlink"
+	                    xtype="pathfield"/>
+                </items>
+            </maincontent>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thumbnail/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./thumbnail/fileName"
+                fileReferenceParameter="./thumbnail/fileReference"
+                mapParameter="./thumbnail/imageMap"
+                name="./file"
+                requestSuffix="/thumbnail.img.png"
+                rotateParameter="./thumbnail/imageRotate"
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
+            
+        </items>
+    </items>
+</jcr:root>
