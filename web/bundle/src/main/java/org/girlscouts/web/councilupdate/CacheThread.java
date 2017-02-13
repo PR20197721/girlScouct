@@ -53,7 +53,6 @@ public class CacheThread implements Runnable {
 				wget.setRequestProperty("Referer", referer);
 			}
 			wget.connect();
-			System.out.println("URL: " + url.toString());
 			TreeSet <String> pathsToRequest = new TreeSet <String>();
 			String response = "";
 			try{
