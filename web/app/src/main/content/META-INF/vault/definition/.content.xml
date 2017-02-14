@@ -362,17 +362,12 @@
 		mode="replace"	
 		root="/etc/workflow/dialogs"
 		rules="[]"/>
-	  <f69
-		jcr:primaryType="nt:unstructured"
-		mode="replace"
-		root="/etc/workflow/dialogs"
-		rules="[]"/>
-	<f70
+	<f69
 		jcr:primaryType="nt:unstructured"
 		mode="replace"
 		root="/apps/cq/tagging"
 		rules="[]"/>
-	<f71
+	<f70
 		jcr:primaryType="nt:unstructured"
 		mode="replace"
 		root="/apps/granite/core"
