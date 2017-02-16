@@ -1,6 +1,7 @@
 package org.girlscouts.web.councilupdate.impl;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.RowIterator;
 import javax.jcr.version.VersionException;
+import javax.mail.internet.InternetAddress;
 
 import org.girlscouts.web.councilupdate.CacheThread;
 import org.girlscouts.web.councilupdate.PageActivator;
@@ -34,6 +36,7 @@ import org.girlscouts.web.councilupdate.PageActivator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -48,6 +51,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 
 import com.day.cq.commons.Externalizer;
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.Replicator;
 import com.day.cq.wcm.api.Page;
@@ -90,6 +95,8 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 	private Replicator replicator;
 	@Reference
     private SlingSettingsService settingsService;
+	@Reference
+	public MessageGatewayService messageGatewayService;
 	
 	private ResourceResolver rr;
 	//configuration fields
@@ -154,6 +161,8 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			return;
 		}
 		
+		long begin = System.currentTimeMillis();
+		
         Session session = rr.adaptTo(Session.class);
 		Resource pagesRes = rr.resolve(pagesPath);
 		if(pagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
@@ -177,9 +186,13 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		}
 		
 		Boolean crawl = true;
+		String type = "";
 		try{
-			if(pageNode.hasProperty("type") && pageNode.getProperty("type").getString().equals("ipa-nc")){
-				crawl = false;
+			if(pageNode.hasProperty("type")){
+				if(pageNode.getProperty("type").getString().equals("ipa-nc")){
+					crawl = false;
+				}
+				type = pageNode.getProperty("type").getString();
 			}
 		}catch(Exception e){
 			log.error("GS Page Activator - Could not determine crawl property. Defaulting to crawl");
@@ -210,20 +223,20 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			e.printStackTrace();
 			return;
 		}
-		String status = "Success";
+		String status = "";
 		
 		String [] pages = new String[0];
 		try {
 			pages = getPages(pageNode);
 		} catch (Exception e) {
-			status = "failed - unable to get initial page count";
+			status = status + "failed to get initial page count | ";
 			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
 			return;
 		}
 		
 		if(pages.length == 0){
-			status = "No pages found - Did not run";
+			status = status + "No pages found in queue. Did not run | ";
 		}
 		
 		TreeSet<String> builtPages = new TreeSet<String>();
@@ -238,7 +251,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				pageNode.setProperty("pages", new String[0]);
 				session.save();
 			} catch (Exception e) {
-				status = "failed - unable to retrieve or remove pages from page node";
+				status = status + "failed to retrieve or remove pages from page node | ";
 				log.error("GS Page Activator - failed to save session upon removing pages from page node");
 				break;
 			}
@@ -252,9 +265,8 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				councilMappings = arrangeCouncils(pages, rr);
 				toBuild = new HashMap<String,TreeSet<String>>(councilMappings);
 			}catch(Exception e){
-				status = "failed - could not sort pages by council";
+				status = status + "failed to sort pages by council | ";
 				log.error("GS Page Activator - failed to arrange councils");
-				e.printStackTrace();
 			}
 			
 			Set<String> councilDomainsSet = councilMappings.keySet();
@@ -265,15 +277,31 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				ipsGroupOne = getIps(1,pageNode);
 			}catch(Exception e){
 				log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
+				status=status + "failed to retrieve any dispatcher 1 ips | ";
 			}
 			try{	
 				ipsGroupTwo = getIps(2,pageNode);
 			}catch(Exception e){
 				log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
 			}			
-			buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl);	
+			status = status + buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl);	
 		}
 		
+		long end = System.currentTimeMillis();
+		
+		if("".equals(status)){
+			status = "Success";
+		}else{
+			status = status + "Errors have occurred during process. Please check error logs for details";
+		}
+		
+		try{
+			sendReportEmail(status, pageNode, begin, end, type, builtPages);
+		}catch(Exception e){
+			status = status + "Unable to send report email";
+			log.error("Girl Scouts Page Activator - Unable to send report email");
+			log.error(e.getMessage());
+		}
 		
 		try{
 			reportNode.setProperty("overallStatus", status);
@@ -290,6 +318,53 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		unmapped = new TreeSet<String>();
 	}
 	
+	private void sendReportEmail(String status, Node pageNode, long startTime, long endTime, String type, TreeSet<String> builtPages) throws Exception{
+		ArrayList<String> emails = new ArrayList<String>();
+		if(pageNode.hasProperty("emails")){
+			Value[] values = pageNode.getProperty("emails").getValues();
+			for(Value v : values){
+				emails.add(v.toString());
+			}
+		}else{
+			status = status + "No email address property found | ";
+			return;
+		}
+		if(emails.size() < 1){
+			status = status + "No email addresses found | ";
+			return;
+		}
+		HtmlEmail email = new HtmlEmail();
+		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+		for(String s : emails){
+			emailRecipients.add(new InternetAddress(s));
+		}
+		email.setTo(emailRecipients);
+		email.setSubject("Girl Scouts Activation Process Report");
+		String html = "<p>The Girl Scouts Activation Process has just finished running.</p>";
+		if(type.equals("dpa")){
+			html = html + "<p>It was of type - Scheduled Activation</p>";
+		}else if(type.equals("ipa-c")){
+			html = html + "<p>It was of type - Immediate Activation with Crawl</p>";
+		}else if(type.equals("ipa-nc")){
+			html = html + "<p>It was of type - Immediate Activation without Crawl</p>";
+		}else{
+			html = html + "<p>The type of activation process could not be determined</p>";
+		}
+		
+		html = html + "<p>Pages Activated:</p><ul>";
+		for(String page : builtPages){
+			html = html + "<li>" + page + "</li>";
+		}
+		html = html + "</ul>";
+		
+		long timeDiff = (endTime - startTime)/60000;
+		html = html + "<p>The entire process took approximately " + timeDiff + " minutes to complete</p>";
+		
+		email.setHtmlMsg(html);
+		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+		messageGateway.send(email);
+	}
+	
 	private String buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode, Boolean crawl){
 		String toReturn = "";
 		Boolean firstLoop = true;
@@ -299,7 +374,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 					Thread.sleep(minutes * 60 * 1000);
 				} catch (InterruptedException e) {
 					log.error("GS Page Activator - could not sleep");
-					toReturn = "Staggering Failed - process cancelled";
+					toReturn = toReturn + "Staggering Failed - process (including activations) cancelled prematurely | ";
 					break;
 				}
 			}else{
@@ -349,14 +424,14 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 
 				}catch(Exception e){
 					log.error("An error occurred while processing: " + domain);
-					e.printStackTrace();
 					try{
-						toReturn = "Completed with errors - cache may not have built correctly";
+						toReturn = toReturn + "Cache may not have built correctly for " + domain + " | ";
 						Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");
 						detailedReportNode.setProperty("message", e.getMessage());
 					}catch(Exception e1){
 						log.error("GS Page Activator - An exception occurred while creating error node");
 						log.error(e.getMessage());
+						toReturn = toReturn + "Detailed cache report node could not be created | ";
 						continue;
 					}
 				}
