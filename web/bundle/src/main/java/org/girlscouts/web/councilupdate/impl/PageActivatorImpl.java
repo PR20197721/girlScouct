@@ -115,7 +115,10 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 	private int minutes;
 	private Map<String, Map<String, Exception>> errors;
 	private ComponentContext context;
-	private Node reportNode;
+	private ArrayList<Node> reportNodes;
+	private Node currentReportNode;
+	private int reportIndex;
+	private int reportNodeIndex;
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -127,7 +130,10 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		this.context = context;
 		this.lastBatchTime = -1;
 		this.unmapped = new TreeSet<String>();
-		this.reportNode = null;
+		this.reportIndex = 0;
+		this.reportNodes = new ArrayList<Node>();
+		this.currentReportNode = null;
+		this.reportNodeIndex = 0;
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
@@ -161,8 +167,8 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		return unmapped;
 	}
 	
-	public Node getReportNode(){
-		return reportNode;
+	public ArrayList<Node> getReportNodes(){
+		return reportNodes;
 	}
 	
 	public void run() {
@@ -209,7 +215,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		
 		if(dateRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
 			try {
-				dateNode = pageNode.addNode(getDateRes());
+				dateNode = pageNode.addNode(getDateRes(), "nt:unstructured");
 			} catch (Exception e) {
 				log.error("GS Page Activator - Couldn't create date node");
 				e.printStackTrace();
@@ -219,54 +225,22 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			dateNode = dateRes.adaptTo(Node.class);
 		}
 		
-		reportNode = null;
-		try{
-			if(dateNode.hasNode("report")){
-				reportNode = dateNode.getNode("report");
-			}else{
-				reportNode = dateNode.addNode("report","nt:unstructured");
-			}
-			reportNode.setProperty("process","GS Page Activator");
-		}catch(Exception e){
-			log.error("GS Page Activator - Failed to create or retrieve report node");
-			e.printStackTrace();
-			return;
-		}
-		
 		int statusIndex = 0;
 		ArrayList<String> statusList = new ArrayList<String>();
 		String status = "Initializing process";
 		statusList.add(status);
-		try{
-			reportNode.setProperty("status" + statusIndex, status);
-			session.save();
-			statusIndex++;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		report(dateNode, status, session);
 		
 		String [] pages = new String[0];
 		status = "Retrieving page queue";
 		statusList.add(status);
-		try{
-			reportNode.setProperty("status" + statusIndex, status);
-			session.save();
-			statusIndex++;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		report(dateNode, status, session);
 		try {
 			pages = getPages(pageNode);
 		} catch (Exception e) {
 			status = "Failed to get initial page count";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e1){
-				e1.printStackTrace();
-			}
+			report(dateNode, status, session);
 			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
 			return;
@@ -275,13 +249,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		if(pages.length == 0){
 			status = "No pages found in page queue. Will not proceed";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			report(dateNode, status, session);
 		}
 		
 		TreeSet<String> builtPages = new TreeSet<String>();
@@ -298,13 +266,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			} catch (Exception e1) {
 				status = "No more pages could be retrieved from page node";
 				statusList.add(status);
-				try{
-					reportNode.setProperty("status" + statusIndex, status);
-					session.save();
-					statusIndex++;
-				}catch(Exception e2){
-					e2.printStackTrace();
-				}
+				report(dateNode, status, session);
 				log.error("GS Page Activator - failed to save session upon removing pages from page node");
 				break;
 			}
@@ -316,26 +278,14 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			HashMap <String, TreeSet<String>> councilMappings = new HashMap<String, TreeSet<String>>();
 			status = "Arranging pages by council";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			report(dateNode, status, session);
 			try{
 				councilMappings = arrangeCouncils(pages, rr);
 				toBuild = new HashMap<String,TreeSet<String>>(councilMappings);
 			}catch(Exception e){
 				status = "Failed to sort pages by council";
 				statusList.add(status);
-				try{
-					reportNode.setProperty("status" + statusIndex, status);
-					session.save();
-					statusIndex++;
-				}catch(Exception e1){
-					e1.printStackTrace();
-				}
+				report(dateNode, status, session);
 				log.error("GS Page Activator - failed to arrange councils");
 			}
 			
@@ -343,13 +293,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				for(String u : unmapped){
 					status = "Page " + u + " could not be mapped to an external url";
 					statusList.add(status);
-					try{
-						reportNode.setProperty("status" + statusIndex, status);
-						session.save();
-						statusIndex++;
-					}catch(Exception e){
-						e.printStackTrace();
-					}
+					report(dateNode, status, session);
 				}
 			}
 			
@@ -359,25 +303,13 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			String[] ipsGroupTwo = null;
 			status = "Obtaining IP addresses for crawling";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			report(dateNode, status, session);
 			try{
 				ipsGroupOne = getIps(1,pageNode);
 			}catch(Exception e){
 				log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
 				status= "Failed to retrieve any dispatcher 1 ips";
-				try{
-					reportNode.setProperty("status" + statusIndex, status);
-					session.save();
-					statusIndex++;
-				}catch(Exception e1){
-					e1.printStackTrace();
-				}
+				report(dateNode, status, session);
 			}
 			try{	
 				ipsGroupTwo = getIps(2,pageNode);
@@ -385,56 +317,32 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
 				status = "Failed to retrieve any dispatcher 2 ips";
 				statusList.add(status);
-				try{
-					reportNode.setProperty("status" + statusIndex, status);
-					session.save();
-					statusIndex++;
-				}catch(Exception e1){
-					e1.printStackTrace();
-				}
+				report(dateNode, status, session);
 			}			
-			statusIndex = buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl, status, statusIndex, statusList);	
+			buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, dateNode, crawl, status, statusList);	
 		}
 		
 		long end = System.currentTimeMillis();
 		
-		status = "Preparing to send notification emails";
+		status = "Sending notification emails";
 		statusList.add(status);
-		try{
-			reportNode.setProperty("status" + statusIndex, status);
-			session.save();
-			statusIndex++;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		report(dateNode, status, session);
 		
 		try{
-			statusIndex = sendReportEmail(status, pageNode, begin, end, type, builtPages, reportNode, statusIndex, session, statusList);
+			sendReportEmail(status, pageNode, begin, end, type, builtPages, dateNode, session, statusList);
 			status = "Notification emails delivered";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			report(dateNode, status, session);
 		}catch(Exception e){
 			status = "Unable to send report email";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + statusIndex, status);
-				session.save();
-				statusIndex++;
-			}catch(Exception e1){
-				e1.printStackTrace();
-			}
+			report(dateNode, status, session);
 			log.error("Girl Scouts Page Activator - Unable to send report email");
 			log.error(e.getMessage());
 		}
 		
 		try{
-			reportNode.setProperty("pagesProcessed", builtPages.toArray(new String[builtPages.size()]));
+			dateNode.setProperty("pagesProcessed", builtPages.toArray(new String[builtPages.size()]));
 			pageNode.setProperty("inProgress","false");
 			session.save();
 			log.info("GS Page Activator - Process completed");
@@ -447,18 +355,11 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		unmapped = new TreeSet<String>();
 	}
 	
-	private int sendReportEmail(String status, Node pageNode, long startTime, long endTime, String type, TreeSet<String> builtPages, Node reportNode, int statusIndex, Session session, ArrayList<String> statusList) throws Exception{
-		int index = statusIndex;
+	private void sendReportEmail(String status, Node pageNode, long startTime, long endTime, String type, TreeSet<String> builtPages, Node dateNode, Session session, ArrayList<String> statusList) throws Exception{
 		ArrayList<String> emails = new ArrayList<String>();
 		status = "Retrieving email addresses for report";
 		statusList.add(status);
-		try{
-			reportNode.setProperty("status" + index, status);
-			session.save();
-			index++;
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		report(dateNode, status, session);
 		if(pageNode.hasProperty("emails")){
 			Value[] values = pageNode.getProperty("emails").getValues();
 			for(Value v : values){
@@ -467,26 +368,14 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		}else{
 			status = "No email address property found. Can't send any emails";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + index, status);
-				session.save();
-				index++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			return index;
+			report(dateNode, status, session);
+			return;
 		}
 		if(emails.size() < 1){
 			status = status + "No email addresses found in email address property. Can't send any emails.";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + index, status);
-				session.save();
-				index++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
-			return index;
+			report(dateNode, status, session);
+			return;
 		}
 		HtmlEmail email = new HtmlEmail();
 		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
@@ -529,75 +418,43 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		email.setHtmlMsg(html);
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 		messageGateway.send(email);
-		return index;
 	}
 	
-	private int buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode, Boolean crawl, String status, int statusIndex, ArrayList<String> statusList){
-		int index = statusIndex;
+	private void buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node dateNode, Boolean crawl, String status, ArrayList<String> statusList){
 		if(!crawl){
 			status = "Activating all pages immediately";
 			statusList.add(status);
-			try{
-				reportNode.setProperty("status" + index, status);
-				session.save();
-				index++;
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			report(dateNode, status, session);
 			for(String domain : councilDomains){
 				TreeSet<String> pagesToActivate = councilMappings.get(domain);
 				for(String pageToActivate : pagesToActivate){
 					status = "Activating " + pageToActivate;
 					statusList.add(status);
-					try{
-						reportNode.setProperty("status" + index, status);
-						session.save();
-						index++;
-					}catch(Exception e){
-						e.printStackTrace();
-					}
+					report(dateNode, status, session);
 					try{
 						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
 					}catch(Exception e){
 						status = "Failed to activate " + pageToActivate;
 						statusList.add(status);
-						try{
-							reportNode.setProperty("status" + index, status);
-							session.save();
-							index++;
-						}catch(Exception e1){
-							e1.printStackTrace();
-						}
+						report(dateNode, status, session);
 					}
 				} 
 			}
-			return index;
+			return;
 		}else{
 			Boolean firstLoop = true;
 			for(int i = 0; i < councilDomains.length; i+=groupSize){
 				if(!firstLoop){
-					status = "Staggering for " + minutes * 60 * 1000 + " minutes";
+					status = "Waiting for " + minutes + " minutes";
 					statusList.add(status);
-					try{
-						reportNode.setProperty("status" + index, status);
-						session.save();
-						index++;
-					}catch(Exception e){
-						e.printStackTrace();
-					}
+					report(dateNode, status, session);
 					try {
 						Thread.sleep(minutes * 60 * 1000);
 					} catch (InterruptedException e) {
 						log.error("GS Page Activator - could not sleep");
-						status = "Staggering Failed - process (including activations) cancelled prematurely";
+						status = "Waiting Failed - process (including activations) cancelled prematurely";
 						statusList.add(status);
-						try{
-							reportNode.setProperty("status" + index, status);
-							session.save();
-							index++;
-						}catch(Exception e1){
-							e1.printStackTrace();
-						}
+						report(dateNode, status, session);
 						break;
 					}
 				}else{
@@ -618,38 +475,35 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 						}else{
 							domain = councilDomains[k];
 						}
-						status = "Preparing to parse " + domain;
+						status = "Parsing " + domain;
 						statusList.add(status);
-						try{
-							reportNode.setProperty("status" + index, status);
-							session.save();
-							index++;
-						}catch(Exception e){
-							e.printStackTrace();
-						}
+						report(dateNode, status, session);
 						try{
 							TreeSet<String> pagesToActivate = councilMappings.get(domain);
 							for(String pageToActivate : pagesToActivate){
 								status = "Activating " + pageToActivate;
 								statusList.add(status);
-								try{
-									reportNode.setProperty("status" + index, status);
-									session.save();
-									index++;
-								}catch(Exception e){
-									e.printStackTrace();
-								}
+								report(dateNode, status, session);
 								replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
-							}   
-				        	status = "Preparing to crawl " + domain;
+							} 
+							
+							status = "Waiting before cache build";
 							statusList.add(status);
-							try{
-								reportNode.setProperty("status" + index, status);
-								session.save();
-								index++;
-							}catch(Exception e){
-								e.printStackTrace();
+							report(dateNode, status, session);
+							try {
+								//Wait 5 seconds for stat file to update
+								Thread.sleep(minutes * 5 * 1000);
+							} catch (InterruptedException e) {
+								log.error("GS Page Activator - could not sleep after replication");
+								status = "5 second break failed - process concluded prematurely";
+								statusList.add(status);
+								report(dateNode, status, session);
+								break;
 							}
+							
+				        	status = "Crawling " + domain;
+							statusList.add(status);
+							report(dateNode, status, session);
 					        for(int l=0; l<ipsGroupOne.length; l++){
 					        	Thread dispatcherIPOneThread = null;
 					        	Thread dispatcherIPTwoThread = null;
@@ -669,26 +523,14 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 					        		dispatcherIPOneThread.join();
 					        		statusList.addAll(dispatcher1StatusList);
 					        		for(String s :dispatcher1StatusList){
-										try{
-											reportNode.setProperty("status" + index, s);
-											session.save();
-											index++;
-										}catch(Exception e){
-											e.printStackTrace();
-										}
+					        			report(dateNode, s, session);
 					        		}
 					        	}
 					        	if(dispatcherIPTwoThread != null){
 					        		dispatcherIPTwoThread.join();
 					        		statusList.addAll(dispatcher2StatusList);
 					        		for(String s :dispatcher2StatusList){
-										try{
-											reportNode.setProperty("status" + index, s);
-											session.save();
-											index++;
-										}catch(Exception e){
-											e.printStackTrace();
-										}
+					        			report(dateNode, s, session);
 					        		}
 					        	}
 					        }
@@ -699,14 +541,8 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 							log.error("An error occurred while processing: " + domain);
 							try{
 								status = "Cache may not have built correctly for " + domain;
-								try{
-									reportNode.setProperty("status" + index, status);
-									session.save();
-									index++;
-								}catch(Exception e1){
-									e1.printStackTrace();
-								}
-								Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");
+								report(dateNode, status, session);
+								Node detailedReportNode = dateNode.addNode(domain, "nt:unstructured");
 								detailedReportNode.setProperty("message", e.getMessage());
 							}catch(Exception e1){
 								log.error("GS Page Activator - An exception occurred while creating error node");
@@ -720,7 +556,6 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				lastBatchTime = ((endTime - startTime)/1000);
 				currentBatch = new HashMap<String,TreeSet<String>>();
 			}
-			return index;
 		}
 	}
 	
@@ -819,6 +654,24 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			return toReturn;
 		}
 	return new String[0];
+	}
+	
+	private void report(Node dateNode, String status, Session session){
+		try{
+			if(currentReportNode == null || reportIndex >= 50){
+				currentReportNode = dateNode.addNode("report" + reportNodeIndex, "nt:unstructured");
+				reportNodes.add(currentReportNode);
+				reportNodeIndex++;
+				reportIndex = 0;
+			}
+			currentReportNode.setProperty("status" + reportIndex, status);
+			session.save();
+			reportIndex++;
+		}catch(Exception e){
+			log.error("GS Page Activator - Failed to create or retrieve report node. Status is " + status);
+			e.printStackTrace();
+			return;
+		}
 	}
 	
 	@Deactivate

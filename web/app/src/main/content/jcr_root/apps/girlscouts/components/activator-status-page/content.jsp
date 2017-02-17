@@ -1,6 +1,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
 				org.girlscouts.web.councilupdate.PageActivator,
 				java.util.TreeSet,
+				java.util.ArrayList,
 				java.util.HashMap" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <div id="main" class="row collapse inner-wrapper">
@@ -31,9 +32,9 @@ if(wcmMode != WCMMode.EDIT){
 			
 				if(statusNode.hasProperty("type")){
 					if(statusNode.getProperty("type").getString().equals("dpa")){
-						%><p>The current activation scheme is "Scheduled Staggered Activation with Site Crawl"</p><%
+						%><p>The current activation scheme is "Scheduled Activation with Site Crawl"</p><%
 					}else if(statusNode.getProperty("type").getString().equals("ipa-c")){
-						%><p>The current activation scheme is "Immediate Staggered Activation with Site Crawl"</p><%
+						%><p>The current activation scheme is "Immediate Activation with Site Crawl"</p><%
 					}else if(statusNode.getProperty("type").getString().equals("ipa-nc")){
 						%><p>The current activation scheme is "Immediate Activation <b>without</b> Site Crawl"</p><%
 					}
@@ -101,16 +102,18 @@ if(wcmMode != WCMMode.EDIT){
 				}
 				
 				try{
-					Node reportNode = pa.getReportNode();
-					if(reportNode != null){
-						PropertyIterator pi = reportNode.getProperties("status*");
+					ArrayList<Node> reportNodes = pa.getReportNodes();
+					if(reportNodes != null){
 						%><p style="text-decoration: underline;">Progress Report</p><%
-						while(pi.hasNext()){
-							try{
-								Property prop = pi.nextProperty();
-								%><p><%= prop.getString() %></p><%
-							}catch(Exception e){
-								break;
+						for(Node reportNode : reportNodes){
+							PropertyIterator pi = reportNode.getProperties("status*");
+							while(pi.hasNext()){
+								try{
+									Property prop = pi.nextProperty();
+									%><p><%= prop.getString() %></p><%
+								}catch(Exception e){
+									break;
+								}
 							}
 						}
 					}else{
@@ -143,7 +146,7 @@ if(wcmMode != WCMMode.EDIT){
 				}
 				String minutes = pa.getConfig("minutes");
 				if(minutes != null){
-					%><p>Batches are staggered by a <%= minutes %> minute interval</p><%
+					%><p>Batches are broken in <%= minutes %> minute intervals</p><%
 				}
 				if(statusNode.hasProperty("pages") && statusNode.getProperty("pages").getValues().length > 0){
 					Value[] pages = statusNode.getProperty("pages").getValues();
