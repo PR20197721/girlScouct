@@ -24,12 +24,16 @@ public class CacheThread implements Runnable {
 	String initialIp;
 	String initialReferer;
 	TreeSet<String> visitedPages;
+	ArrayList<String> statusList;
+	String dispTitle;
 	
-	public CacheThread(String path, String domain, String ip, String referer){
+	public CacheThread(String path, String domain, String ip, String referer, ArrayList<String> statusList, String dispTitle){
 		initialPath = path;
 		initialDomain = domain;
 		initialIp = ip;
 		initialReferer=referer;
+		this.statusList = statusList;
+		this.dispTitle = dispTitle;
 	}
 	public void run(){
 		visitedPages = new TreeSet<String>();
@@ -53,6 +57,7 @@ public class CacheThread implements Runnable {
 				wget.setRequestProperty("Referer", referer);
 			}
 			wget.connect();
+			statusList.add(dispTitle + " - connection established with " + domain + path + " with referer " + referer + ". Status Code " + wget.getResponseCode());
 			TreeSet <String> pathsToRequest = new TreeSet <String>();
 			String response = "";
 			try{
@@ -60,6 +65,7 @@ public class CacheThread implements Runnable {
 				response = IOUtils.toString(in);
 			}catch(Exception e){
 				wget.disconnect();
+				statusList.add(dispTitle + " - could not parse content at " + path + " with referer " + referer + ". This page may have a 500 error");
 				System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + referer);
 				return;
 			}
@@ -105,6 +111,7 @@ public class CacheThread implements Runnable {
 			}
 		}catch(Exception e){
 			System.err.println("GS Page Activator - Build Cache Failed on " + path + " with ip " + ip + ", - Referer: " + referer);
+			statusList.add(dispTitle + " - Either unable to establish connection or unable to interpret response from " + domain + path + " with referer " + referer);
 			return;
 		}
 	}

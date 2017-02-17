@@ -3,6 +3,8 @@ package org.girlscouts.web.councilupdate;
 import java.util.HashMap;
 import java.util.TreeSet;
 
+import javax.jcr.Node;
+
 public interface PageActivator{
 	void run();
 	String getConfig(String key);
@@ -11,4 +13,5 @@ public interface PageActivator{
 	HashMap<String, TreeSet<String>> getCurrentBatch();
 	long getLastBatchTime();
 	TreeSet<String> getUnmapped();
+	Node getReportNode();
 }

@@ -107,11 +107,15 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 	private static long lastBatchTime;
 	private static TreeSet<String> unmapped;
 	
+	public volatile ArrayList<String> dispatcher1StatusList = new ArrayList<String>();
+	public volatile ArrayList<String> dispatcher2StatusList = new ArrayList<String>();
+	
 	private String pagesPath;
 	private int groupSize;
 	private int minutes;
 	private Map<String, Map<String, Exception>> errors;
 	private ComponentContext context;
+	private Node reportNode;
 	
 	@Activate
 	private void activate(ComponentContext context) {
@@ -123,6 +127,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		this.context = context;
 		this.lastBatchTime = -1;
 		this.unmapped = new TreeSet<String>();
+		this.reportNode = null;
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
 		} catch (LoginException e) {
@@ -154,6 +159,10 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 	
 	public TreeSet<String> getUnmapped(){
 		return unmapped;
+	}
+	
+	public Node getReportNode(){
+		return reportNode;
 	}
 	
 	public void run() {
@@ -210,7 +219,7 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			dateNode = dateRes.adaptTo(Node.class);
 		}
 		
-		Node reportNode = null;
+		reportNode = null;
 		try{
 			if(dateNode.hasNode("report")){
 				reportNode = dateNode.getNode("report");
@@ -223,20 +232,56 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			e.printStackTrace();
 			return;
 		}
-		String status = "";
+		
+		int statusIndex = 0;
+		ArrayList<String> statusList = new ArrayList<String>();
+		String status = "Initializing process";
+		statusList.add(status);
+		try{
+			reportNode.setProperty("status" + statusIndex, status);
+			session.save();
+			statusIndex++;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		
 		String [] pages = new String[0];
+		status = "Retrieving page queue";
+		statusList.add(status);
+		try{
+			reportNode.setProperty("status" + statusIndex, status);
+			session.save();
+			statusIndex++;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		try {
 			pages = getPages(pageNode);
 		} catch (Exception e) {
-			status = status + "failed to get initial page count | ";
+			status = "Failed to get initial page count";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
 			log.error("GS Page Activator - failed to get initial page count");
 			e.printStackTrace();
 			return;
 		}
 		
 		if(pages.length == 0){
-			status = status + "No pages found in queue. Did not run | ";
+			status = "No pages found in page queue. Will not proceed";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		
 		TreeSet<String> builtPages = new TreeSet<String>();
@@ -250,8 +295,16 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 				builtPages.addAll(Arrays.asList(pages));
 				pageNode.setProperty("pages", new String[0]);
 				session.save();
-			} catch (Exception e) {
-				status = status + "failed to retrieve or remove pages from page node | ";
+			} catch (Exception e1) {
+				status = "No more pages could be retrieved from page node";
+				statusList.add(status);
+				try{
+					reportNode.setProperty("status" + statusIndex, status);
+					session.save();
+					statusIndex++;
+				}catch(Exception e2){
+					e2.printStackTrace();
+				}
 				log.error("GS Page Activator - failed to save session upon removing pages from page node");
 				break;
 			}
@@ -261,54 +314,130 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			}
 			
 			HashMap <String, TreeSet<String>> councilMappings = new HashMap<String, TreeSet<String>>();
+			status = "Arranging pages by council";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			try{
 				councilMappings = arrangeCouncils(pages, rr);
 				toBuild = new HashMap<String,TreeSet<String>>(councilMappings);
 			}catch(Exception e){
-				status = status + "failed to sort pages by council | ";
+				status = "Failed to sort pages by council";
+				statusList.add(status);
+				try{
+					reportNode.setProperty("status" + statusIndex, status);
+					session.save();
+					statusIndex++;
+				}catch(Exception e1){
+					e1.printStackTrace();
+				}
 				log.error("GS Page Activator - failed to arrange councils");
+			}
+			
+			if(unmapped.size() > 0){
+				for(String u : unmapped){
+					status = "Page " + u + " could not be mapped to an external url";
+					statusList.add(status);
+					try{
+						reportNode.setProperty("status" + statusIndex, status);
+						session.save();
+						statusIndex++;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+				}
 			}
 			
 			Set<String> councilDomainsSet = councilMappings.keySet();
 			String[] councilDomains = councilDomainsSet.toArray(new String[councilDomainsSet.size()]);
 			String[] ipsGroupOne = null;
 			String[] ipsGroupTwo = null;
+			status = "Obtaining IP addresses for crawling";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			try{
 				ipsGroupOne = getIps(1,pageNode);
 			}catch(Exception e){
 				log.error("GS Page Activator - failed to retrieve dispatcher 1 ips");
-				status=status + "failed to retrieve any dispatcher 1 ips | ";
+				status= "Failed to retrieve any dispatcher 1 ips";
+				try{
+					reportNode.setProperty("status" + statusIndex, status);
+					session.save();
+					statusIndex++;
+				}catch(Exception e1){
+					e1.printStackTrace();
+				}
 			}
 			try{	
 				ipsGroupTwo = getIps(2,pageNode);
 			}catch(Exception e){
 				log.error("GS Page Activator - failed to retrieve dispatcher 2 ips");
+				status = "Failed to retrieve any dispatcher 2 ips";
+				statusList.add(status);
+				try{
+					reportNode.setProperty("status" + statusIndex, status);
+					session.save();
+					statusIndex++;
+				}catch(Exception e1){
+					e1.printStackTrace();
+				}
 			}			
-			status = status + buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl);	
+			statusIndex = buildCache(councilDomains, pages, councilMappings, session, ipsGroupOne, ipsGroupTwo, reportNode, crawl, status, statusIndex, statusList);	
 		}
 		
 		long end = System.currentTimeMillis();
 		
-		if("".equals(status)){
-			status = "Success";
-		}else{
-			status = status + "Errors have occurred during process. Please check error logs for details";
+		status = "Preparing to send notification emails";
+		statusList.add(status);
+		try{
+			reportNode.setProperty("status" + statusIndex, status);
+			session.save();
+			statusIndex++;
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 		
 		try{
-			sendReportEmail(status, pageNode, begin, end, type, builtPages);
+			statusIndex = sendReportEmail(status, pageNode, begin, end, type, builtPages, reportNode, statusIndex, session, statusList);
+			status = "Notification emails delivered";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}catch(Exception e){
-			status = status + "Unable to send report email";
+			status = "Unable to send report email";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + statusIndex, status);
+				session.save();
+				statusIndex++;
+			}catch(Exception e1){
+				e1.printStackTrace();
+			}
 			log.error("Girl Scouts Page Activator - Unable to send report email");
 			log.error(e.getMessage());
 		}
 		
 		try{
-			reportNode.setProperty("overallStatus", status);
 			reportNode.setProperty("pagesProcessed", builtPages.toArray(new String[builtPages.size()]));
 			pageNode.setProperty("inProgress","false");
 			session.save();
-			log.info("GS Page Activator - Process completed with status: " + status);
+			log.info("GS Page Activator - Process completed");
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -318,20 +447,46 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		unmapped = new TreeSet<String>();
 	}
 	
-	private void sendReportEmail(String status, Node pageNode, long startTime, long endTime, String type, TreeSet<String> builtPages) throws Exception{
+	private int sendReportEmail(String status, Node pageNode, long startTime, long endTime, String type, TreeSet<String> builtPages, Node reportNode, int statusIndex, Session session, ArrayList<String> statusList) throws Exception{
+		int index = statusIndex;
 		ArrayList<String> emails = new ArrayList<String>();
+		status = "Retrieving email addresses for report";
+		statusList.add(status);
+		try{
+			reportNode.setProperty("status" + index, status);
+			session.save();
+			index++;
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 		if(pageNode.hasProperty("emails")){
 			Value[] values = pageNode.getProperty("emails").getValues();
 			for(Value v : values){
 				emails.add(v.toString());
 			}
 		}else{
-			status = status + "No email address property found | ";
-			return;
+			status = "No email address property found. Can't send any emails";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + index, status);
+				session.save();
+				index++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			return index;
 		}
 		if(emails.size() < 1){
-			status = status + "No email addresses found | ";
-			return;
+			status = status + "No email addresses found in email address property. Can't send any emails.";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + index, status);
+				session.save();
+				index++;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			return index;
 		}
 		HtmlEmail email = new HtmlEmail();
 		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
@@ -348,100 +503,225 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 		}else if(type.equals("ipa-nc")){
 			html = html + "<p>It was of type - Immediate Activation without Crawl</p>";
 		}else{
-			html = html + "<p>The type of activation process could not be determined</p>";
+			html = html + "<p>The type of activation process could not be determined. It was most likely a Scheduled Activation.</p>";
 		}
 		
-		html = html + "<p>Pages Activated:</p><ul>";
-		for(String page : builtPages){
-			html = html + "<li>" + page + "</li>";
+		if(builtPages.size() < 1){
+			html = html + "<p>No pages were activated</p>";
 		}
-		html = html + "</ul>";
+		else{
+			html = html + "<p>Pages Activated:</p><ul>";
+			for(String page : builtPages){
+				html = html + "<li>" + page + "</li>";
+			}
+			html = html + "</ul>";
+		}
 		
 		long timeDiff = (endTime - startTime)/60000;
 		html = html + "<p>The entire process took approximately " + timeDiff + " minutes to complete</p>";
 		
+		html = html + "<p>The following is the process log for the activation process so far:</p><ul>";
+		for( String s : statusList ){
+			html = html + "<li>" + s + "</li>";
+		}
+		html = html + "</ul>";
+		
 		email.setHtmlMsg(html);
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
 		messageGateway.send(email);
+		return index;
 	}
 	
-	private String buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode, Boolean crawl){
-		String toReturn = "";
-		Boolean firstLoop = true;
-		for(int i = 0; i < councilDomains.length; i+=groupSize){
-			if(!firstLoop){
-				try {
-					Thread.sleep(minutes * 60 * 1000);
-				} catch (InterruptedException e) {
-					log.error("GS Page Activator - could not sleep");
-					toReturn = toReturn + "Staggering Failed - process (including activations) cancelled prematurely | ";
-					break;
-				}
-			}else{
-				firstLoop=false;
+	private int buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node reportNode, Boolean crawl, String status, int statusIndex, ArrayList<String> statusList){
+		int index = statusIndex;
+		if(!crawl){
+			status = "Activating all pages immediately";
+			statusList.add(status);
+			try{
+				reportNode.setProperty("status" + index, status);
+				session.save();
+				index++;
+			}catch(Exception e){
+				e.printStackTrace();
 			}
-			for(int k = i; k<i+groupSize; k++){
-				currentBatch.put(councilDomains[k], councilMappings.get(councilDomains[k]));
-				toBuild.remove(councilDomains[k]);
-			}
-			for(int k = i; k<i+groupSize; k++){
-				long startTime = System.currentTimeMillis();
-				String domain;
-				if(k > pages.length){
-					break;
-				}else{
-					domain = councilDomains[k];
-				}
-				try{
-					TreeSet<String> pagesToActivate = councilMappings.get(domain);
-					for(String pageToActivate : pagesToActivate){
-						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
-					}   
-			        if(crawl){
-				        for(int l=0; l<ipsGroupOne.length; l++){
-				        	Thread dispatcherIPOneThread = null;
-				        	Thread dispatcherIPTwoThread = null;
-				        	if(ipsGroupOne[l] != null){
-				        		Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "");
-				        		dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
-				        		dispatcherIPOneThread.start();
-				        	}
-				        	if(ipsGroupTwo != null && ipsGroupTwo.length >= l+1 && ipsGroupTwo[l] != null){
-				        		Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "");
-				        		dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
-				        		dispatcherIPTwoThread.start();
-				        	}
-				        	if(dispatcherIPOneThread != null){
-				        		dispatcherIPOneThread.join();
-				        	}
-				        	if(dispatcherIPTwoThread != null){
-				        		dispatcherIPTwoThread.join();
-				        	}
-				        }
-			        }
-			        
-			        builtCouncils.put(domain,councilMappings.get(domain));
-
-				}catch(Exception e){
-					log.error("An error occurred while processing: " + domain);
+			for(String domain : councilDomains){
+				TreeSet<String> pagesToActivate = councilMappings.get(domain);
+				for(String pageToActivate : pagesToActivate){
+					status = "Activating " + pageToActivate;
+					statusList.add(status);
 					try{
-						toReturn = toReturn + "Cache may not have built correctly for " + domain + " | ";
-						Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");
-						detailedReportNode.setProperty("message", e.getMessage());
-					}catch(Exception e1){
-						log.error("GS Page Activator - An exception occurred while creating error node");
-						log.error(e.getMessage());
-						toReturn = toReturn + "Detailed cache report node could not be created | ";
-						continue;
+						reportNode.setProperty("status" + index, status);
+						session.save();
+						index++;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					try{
+						replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
+					}catch(Exception e){
+						status = "Failed to activate " + pageToActivate;
+						statusList.add(status);
+						try{
+							reportNode.setProperty("status" + index, status);
+							session.save();
+							index++;
+						}catch(Exception e1){
+							e1.printStackTrace();
+						}
+					}
+				} 
+			}
+			return index;
+		}else{
+			Boolean firstLoop = true;
+			for(int i = 0; i < councilDomains.length; i+=groupSize){
+				if(!firstLoop){
+					status = "Staggering for " + minutes * 60 * 1000 + " minutes";
+					statusList.add(status);
+					try{
+						reportNode.setProperty("status" + index, status);
+						session.save();
+						index++;
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					try {
+						Thread.sleep(minutes * 60 * 1000);
+					} catch (InterruptedException e) {
+						log.error("GS Page Activator - could not sleep");
+						status = "Staggering Failed - process (including activations) cancelled prematurely";
+						statusList.add(status);
+						try{
+							reportNode.setProperty("status" + index, status);
+							session.save();
+							index++;
+						}catch(Exception e1){
+							e1.printStackTrace();
+						}
+						break;
+					}
+				}else{
+					firstLoop=false;
+				}
+				for(int k = i; k<i+groupSize; k++){
+					if(councilDomains.length > k){
+						currentBatch.put(councilDomains[k], councilMappings.get(councilDomains[k]));
+						toBuild.remove(councilDomains[k]);
 					}
 				}
-				currentBatch = new HashMap<String,TreeSet<String>>();
+				long startTime = System.currentTimeMillis();
+				for(int k = i; k<i+groupSize; k++){
+					if(councilDomains.length > k){
+						String domain;
+						if(k > pages.length){
+							break;
+						}else{
+							domain = councilDomains[k];
+						}
+						status = "Preparing to parse " + domain;
+						statusList.add(status);
+						try{
+							reportNode.setProperty("status" + index, status);
+							session.save();
+							index++;
+						}catch(Exception e){
+							e.printStackTrace();
+						}
+						try{
+							TreeSet<String> pagesToActivate = councilMappings.get(domain);
+							for(String pageToActivate : pagesToActivate){
+								status = "Activating " + pageToActivate;
+								statusList.add(status);
+								try{
+									reportNode.setProperty("status" + index, status);
+									session.save();
+									index++;
+								}catch(Exception e){
+									e.printStackTrace();
+								}
+								replicator.replicate(session, ReplicationActionType.ACTIVATE, pageToActivate);
+							}   
+				        	status = "Preparing to crawl " + domain;
+							statusList.add(status);
+							try{
+								reportNode.setProperty("status" + index, status);
+								session.save();
+								index++;
+							}catch(Exception e){
+								e.printStackTrace();
+							}
+					        for(int l=0; l<ipsGroupOne.length; l++){
+					        	Thread dispatcherIPOneThread = null;
+					        	Thread dispatcherIPTwoThread = null;
+					        	dispatcher1StatusList = new ArrayList<String>();
+					        	if(ipsGroupOne[l] != null){
+					        		Runnable dispatcherIPOneRunnable = new CacheThread("/", domain, ipsGroupOne[l], "", dispatcher1StatusList, "Dispatcher 1 #" + l+1);
+					        		dispatcherIPOneThread = new Thread(dispatcherIPOneRunnable, "dispatcherGroupOneThread" + l);
+					        		dispatcherIPOneThread.start();
+					        	}
+					        	dispatcher2StatusList = new ArrayList<String>();
+					        	if(ipsGroupTwo != null && ipsGroupTwo.length >= l+1 && ipsGroupTwo[l] != null){
+					        		Runnable dispatcherIPTwoRunnable = new CacheThread("/", domain, ipsGroupTwo[l], "", dispatcher2StatusList, "Dispatcher 2 #" + l+1);
+					        		dispatcherIPTwoThread = new Thread(dispatcherIPTwoRunnable, "dispatcherGroupTwoThread" + l);
+					        		dispatcherIPTwoThread.start();
+					        	}
+					        	if(dispatcherIPOneThread != null){
+					        		dispatcherIPOneThread.join();
+					        		statusList.addAll(dispatcher1StatusList);
+					        		for(String s :dispatcher1StatusList){
+										try{
+											reportNode.setProperty("status" + index, s);
+											session.save();
+											index++;
+										}catch(Exception e){
+											e.printStackTrace();
+										}
+					        		}
+					        	}
+					        	if(dispatcherIPTwoThread != null){
+					        		dispatcherIPTwoThread.join();
+					        		statusList.addAll(dispatcher2StatusList);
+					        		for(String s :dispatcher2StatusList){
+										try{
+											reportNode.setProperty("status" + index, s);
+											session.save();
+											index++;
+										}catch(Exception e){
+											e.printStackTrace();
+										}
+					        		}
+					        	}
+					        }
+					        
+					        builtCouncils.put(domain,councilMappings.get(domain));
+		
+						}catch(Exception e){
+							log.error("An error occurred while processing: " + domain);
+							try{
+								status = "Cache may not have built correctly for " + domain;
+								try{
+									reportNode.setProperty("status" + index, status);
+									session.save();
+									index++;
+								}catch(Exception e1){
+									e1.printStackTrace();
+								}
+								Node detailedReportNode = reportNode.addNode(domain, "nt:unstructured");
+								detailedReportNode.setProperty("message", e.getMessage());
+							}catch(Exception e1){
+								log.error("GS Page Activator - An exception occurred while creating error node");
+								log.error(e.getMessage());
+								continue;
+							}
+						}
+					}
+				}
 				long endTime = System.currentTimeMillis();
 				lastBatchTime = ((endTime - startTime)/1000);
+				currentBatch = new HashMap<String,TreeSet<String>>();
 			}
+			return index;
 		}
-		
-		return toReturn;
 	}
 	
 	private boolean isPublisher() {

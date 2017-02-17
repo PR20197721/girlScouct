@@ -35,7 +35,7 @@ if(wcmMode != WCMMode.EDIT){
 					}else if(statusNode.getProperty("type").getString().equals("ipa-c")){
 						%><p>The current activation scheme is "Immediate Staggered Activation with Site Crawl"</p><%
 					}else if(statusNode.getProperty("type").getString().equals("ipa-nc")){
-						%><p>The current activation scheme is "Immediate Staggered Activation <b>without</b> Site Crawl"</p><%
+						%><p>The current activation scheme is "Immediate Activation <b>without</b> Site Crawl"</p><%
 					}
 				}
 				
@@ -86,7 +86,9 @@ if(wcmMode != WCMMode.EDIT){
 						%></ul><%
 					}
 					%></ul><%
-					%><p>The last batch took <%= "" + lastBatchTime %> seconds to process</p><%
+					if(lastBatchTime > 0){
+						%><p>The last batch took <%= "" + lastBatchTime %> seconds to process</p><%
+					}
 				}
 				
 				TreeSet<String> unmapped = pa.getUnmapped();
@@ -96,6 +98,26 @@ if(wcmMode != WCMMode.EDIT){
 						%><li><%= p %></li><%
 					}
 					%></ul><%
+				}
+				
+				try{
+					Node reportNode = pa.getReportNode();
+					if(reportNode != null){
+						PropertyIterator pi = reportNode.getProperties("status*");
+						%><p style="text-decoration: underline;">Progress Report</p><%
+						while(pi.hasNext()){
+							try{
+								Property prop = pi.nextProperty();
+								%><p><%= prop.getString() %></p><%
+							}catch(Exception e){
+								break;
+							}
+						}
+					}else{
+						System.err.println("GS Page Activator - There is no report node for the current process");
+					}
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 				
 			}else{
@@ -114,6 +136,14 @@ if(wcmMode != WCMMode.EDIT){
 						hours = 12;
 					}
 					%><p>The activator will run automatically at <%= String.format("%02d", hours) + ":" + String.format("%02d", minutes) + amPm %></p><%
+				}
+				String groupSize = pa.getConfig("groupsize");
+				if(groupSize != null){
+					%><p>The number of councils to have pages activated/cache built per batch is <%= groupSize %></p><%
+				}
+				String minutes = pa.getConfig("minutes");
+				if(minutes != null){
+					%><p>Batches are staggered by a <%= minutes %> minute interval</p><%
 				}
 				if(statusNode.hasProperty("pages") && statusNode.getProperty("pages").getValues().length > 0){
 					Value[] pages = statusNode.getProperty("pages").getValues();
