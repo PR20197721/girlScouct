@@ -232,7 +232,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * The URL to post imported file
      */
     importURL: null,
-
+    importType: null,
     /**
      * @cfg {String} exportURL
      * The URL to get export results
@@ -1247,6 +1247,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     var action = new CQ.form.SlingSubmitAction(form, {
                         "method": "POST",
                         "url": this.importURL,
+                        "params": { "importType" : importType },
                         success:function(form,action) {
                             form.el.dom["enctype"] = "";
                             delete form.fileUpload;

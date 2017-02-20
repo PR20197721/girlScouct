@@ -41,6 +41,7 @@
         //is content mode enabled: properties are read on jcr:content node and not on search result node
         Boolean contentMode = getBoolean(request,"contentMode","cm");
         Boolean isDeep = getBoolean(request,"isDeep","deep");
+        String importType = getString(request,"importType","it");
         //searched properties (checked values from colsSelection displayed as checkboxes)
         String[] colsValue = getStringArray(request,"colsValue","cv");
         //extra searched properties (displayed in a textfield comma separated
@@ -153,6 +154,7 @@
         bulkEditorConfig.put("colsSelection",colsSelection);
         bulkEditorConfig.put("queryURL",queryURL);
         bulkEditorConfig.put("importURL",importURL);
+        bulkEditorConfig.put("importType",importType);
         bulkEditorConfig.put("exportURL",exportURL);
         bulkEditorConfig.put("renderTo",renderTo);
         bulkEditorConfig.put("showGridOnly",showGridOnly);

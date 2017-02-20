@@ -4,7 +4,7 @@
  
 <%
 if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + homepage.getPath() + "/contacts&cm=true&deep=true&cv=jcr%3Atitle&ec=title%2Cphone%2Cemail%2Cteam&hib=false&is=true&rt=girlscouts%2Fcomponents%2Fcontact-page";
+	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + homepage.getPath() + "/contacts&cm=true&deep=true&cv=jcr%3Atitle&ec=title%2Cphone%2Cemail%2Cteam&hib=false&is=true&rt=girlscouts%2Fcomponents%2Fcontact-page&it=contacts";
 	response.setStatus(301);
 	response.setHeader("Location",redirectUrl);
 	response.setHeader("Connection","close");	

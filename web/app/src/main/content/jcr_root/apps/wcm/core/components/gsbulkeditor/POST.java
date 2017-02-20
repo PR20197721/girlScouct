@@ -9,10 +9,12 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package libs.wcm.core.components.gsbulkeditor;
+package apps.wcm.core.components.gsbulkeditor;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
+import com.day.cq.wcm.api.Page;
+
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.Resource;
@@ -29,6 +31,22 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Date;
+
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import com.day.jcr.vault.packaging.JcrPackageManager;
+import com.day.jcr.vault.packaging.JcrPackage;
+import com.day.jcr.vault.packaging.JcrPackageDefinition;
+import com.day.jcr.vault.fs.config.DefaultWorkspaceFilter;
+import com.day.jcr.vault.fs.api.PathFilterSet;
+import com.day.jcr.vault.util.DefaultProgressListener;
+import com.day.jcr.vault.packaging.Packaging;
+import java.io.PrintWriter;
+
+import org.apache.sling.api.scripting.SlingBindings;
+import org.apache.sling.api.scripting.SlingScriptHelper;
 
 /**
  * Servers as base for image servlets
@@ -37,6 +55,7 @@ public class POST extends SlingAllMethodsServlet {
     public static final String DOCUMENT_PARAM = "document";
     public static final String INSERTEDRESOURCETYPE_PARAM = "insertedResourceType";
     public static final String ROOTPATH_PARAM = "./rootPath";
+    public static final String IMPORT_TYPE_PARAM="importType";
 
     public static final String DEFAULT_SEPARATOR = "\t";
 
@@ -56,6 +75,8 @@ public class POST extends SlingAllMethodsServlet {
                     request.getRequestParameter(ROOTPATH_PARAM).getString() : null;
 
 
+            String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? .getString() : null;
+            
             if(rootPath!=null) {
                 Node rootNode = null;
 
@@ -67,48 +88,91 @@ public class POST extends SlingAllMethodsServlet {
                 if(rootNode!=null) {
                     //counter is "session unique id: created items will have their own unique ids, which will
                     //avoid the case to have duplicate node names (using [1], [2] to differentiate).
-                    long counter = System.currentTimeMillis();
-
-                    //manage headers
-                    String lineBuffer = bufferReader.readLine();
-                    if (lineBuffer != null) {
-                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR));
-                        if (headers.size() > 0) {
-                            int pathIndex = headers.indexOf(JcrConstants.JCR_PATH);
-                            int lineRead = 0, lineOK = 0;
-                            while((lineBuffer = bufferReader.readLine())!=null) {
-                                lineRead++;
-                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++)) {
-                                    lineOK++;
-                                }
-                            }
-
-                            if(lineOK>0) {
-                                try {
-                                    rootNode.save();
-                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                        "Imported " + lineOK + "/" + lineRead + " lines");
-                                } catch (RepositoryException e) {
-                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                        "Error while saving modifications " + e.getMessage());
-                                    try {
-                                        rootNode.refresh(false);
-                                    } catch (InvalidItemStateException e1) {
-                                    } catch (RepositoryException e1) {
-                                    }
-                                }
-                            } else {
-                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
-                                    "Imported " + lineOK + "/" + lineRead + " lines");
-                            }
-                        } else {
+                	
+            		//GS: We don't want to let anyone import with a depth less than two
+                	Page rootPage = resource.adaptTo(Page.class);
+                	if(rootPage.getDepth() >= 2){
+                		try{
+                			SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
+                	        SlingScriptHelper scriptHelper = bindings.getSling();
+                	        Packaging packaging = scriptHelper.getService(Packaging.class);
+                			//Start by creating a package under the root node, in case we need to roll back
+	                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
+	                		String packageName = rootPath.replaceAll("/","-");
+	                		GSDateTime gdt = new GSDateTime();
+	                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
+	                		String dateString = dtfOut.print(gdt);  
+	                		if(jcrPM == null){
+	                			System.out.println("Null PackageManager");
+	                		}
+	                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
+	                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
+	                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
+	                		PathFilterSet pfs = new PathFilterSet(rootPath);
+	                		filter.add(pfs);
+	                		jcrPD.setFilter(filter, false);
+	                		PrintWriter pkgout = new PrintWriter(System.out);
+	                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
+                		}catch(Exception e){
                             htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                    "Invalid headers");
-                        }
-                    } else {
-                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                "Empty document");
-                    }
+                                    "Failed to create package");
+                            htmlResponse.send(response, true);
+                            e.printStackTrace();
+                            return;
+                		}
+                	
+	                    long counter = System.currentTimeMillis();
+	
+	                    //manage headers
+	                    String lineBuffer = bufferReader.readLine();
+	                    if (lineBuffer != null) {
+	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR));
+	                        List<String> headersLowerCase = Arrays.asList(lineBuffer.toLowerCase().split(DEFAULT_SEPARATOR));
+	                        if (headers.size() > 0) {
+	                        	//GS: The importer expects a jcr:path header, but it can use the rootpath from the querybuilder if no path is present
+	                            int pathIndex = headers.indexOf(JcrConstants.JCR_PATH);
+	                            //GS: Check if the type is "contacts." If so, deactivate and delete everything under the rootpath
+	                            if(type.equals("contacts")){
+	                            	
+	                            }
+	                            int lineRead = 0, lineOK = 0;
+	                            while((lineBuffer = bufferReader.readLine())!=null) {
+	                                lineRead++;
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++)) {
+	                                    lineOK++;
+	                                }
+	                            }
+	
+	                            if(lineOK>0) {
+	                                try {
+	                                    rootNode.save();
+	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                                        "Imported " + lineOK + "/" + lineRead + " lines");
+	                                } catch (RepositoryException e) {
+	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                                        "Error while saving modifications " + e.getMessage());
+	                                    try {
+	                                        rootNode.refresh(false);
+	                                    } catch (InvalidItemStateException e1) {
+	                                    } catch (RepositoryException e1) {
+	                                    }
+	                                }
+	                            } else {
+	                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+	                                    "Imported " + lineOK + "/" + lineRead + " lines");
+	                            }
+	                        } else {
+	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                                    "Invalid headers");
+	                        }
+	                    } else {
+	                        htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                                "Empty document");
+	                    }
+                	} else {
+                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                "Please increase the depth of the root path to at least two");
+                	}
                 } else {
                     htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
                         "Invalid root path");
