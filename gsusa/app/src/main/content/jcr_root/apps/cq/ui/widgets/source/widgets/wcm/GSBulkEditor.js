@@ -1247,7 +1247,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     var action = new CQ.form.SlingSubmitAction(form, {
                         "method": "POST",
                         "url": this.importURL,
-                        "params": { "importType" : importType },
+                        "params": { "importType" : this.importType },
                         success:function(form,action) {
                             form.el.dom["enctype"] = "";
                             delete form.fileUpload;
