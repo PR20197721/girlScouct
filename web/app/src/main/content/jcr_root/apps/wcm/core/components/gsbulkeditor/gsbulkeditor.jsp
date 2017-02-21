@@ -30,20 +30,24 @@
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html>
 <head>
-    <title>AEM BulkEditor</title>
+    <title>CQ5 BulkEditor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <cq:includeClientLib categories="cq.wcm.edit,cq.security,cq.tagging"/><%
-        //accepted parameters: if name is null, short name is read from request. 
+        //accepted parameters: if name is null, short name is read from request.
         //search root path
         String rootPath = getString(request,"rootPath","rp");
         //search query
         String queryParams = getString(request,"queryParams","qp");
         //is content mode enabled: properties are read on jcr:content node and not on search result node
         Boolean contentMode = getBoolean(request,"contentMode","cm");
+        Boolean isDeep = getBoolean(request,"isDeep","deep");
+        String importType = getString(request,"importType","it");
         //searched properties (checked values from colsSelection displayed as checkboxes)
         String[] colsValue = getStringArray(request,"colsValue","cv");
         //extra searched properties (displayed in a textfield comma separated
         String[] extraCols = getStringArray(request,"extraCols","ec");
+        //Girl Scouts - Sling:resourceType specified
+        String[] resourceType = getStringArray(request,"resourceType","rt");
         //is query performed on page load
         Boolean initialSearch = getBoolean(request,"initialSearch","is");
         //searched properties selection (displayed as checkboxes)
@@ -81,10 +85,13 @@
         Boolean hideQueryParams = getBoolean(request,"hideQueryParams","hqp");
         //hide content mode field
         Boolean hideContentMode = getBoolean(request,"hideContentMode","hcm");
+        Boolean hideIsDeepMode = getBoolean(request,"hideIsDeepMode","hdm");
         //hide cols selection field
         Boolean hideColsSelection =  getBoolean(request,"hideColsSelection","hcs");
         //hide extra cols field
         Boolean hideExtraCols = getBoolean(request,"hideExtraCols","hec");
+        //Girl Scouts - hide resource type field
+        Boolean hideResourceType = getBoolean(request,"hideResourceType","hrt");
 
         //hide search button
         Boolean hideSearchButton = getBoolean(request,"hideSearchButton","hsearchb");
@@ -124,11 +131,14 @@
         if (contentMode == null) {
             contentMode = true;
         }
+        if(isDeep == null){
+        	isDeep = false;
+        }
 
         //config
-        String queryURL = "/etc/importers/bulkeditor/query.json";
-        String importURL = "/etc/importers/bulkeditor/import";
-        String exportURL = "/etc/importers/bulkeditor/export.tsv";
+        String queryURL = "/etc/importers/gsbulkeditor/query.json";
+        String importURL = "/etc/importers/gsbulkeditor/import";
+        String exportURL = "/etc/importers/gsbulkeditor/export.csv";
         String renderTo = "cq-bulkeditor";
 
 
@@ -136,12 +146,15 @@
         bulkEditorConfig.put("rootPath",rootPath);
         bulkEditorConfig.put("queryParams",queryParams);
         bulkEditorConfig.put("contentMode",contentMode);
+        bulkEditorConfig.put("isDeepMode",isDeep);
         bulkEditorConfig.put("colsValue",colsValue);
         bulkEditorConfig.put("extraCols",extraCols);
+        bulkEditorConfig.put("resourceType",resourceType);
         bulkEditorConfig.put("initialSearch",initialSearch);
         bulkEditorConfig.put("colsSelection",colsSelection);
         bulkEditorConfig.put("queryURL",queryURL);
         bulkEditorConfig.put("importURL",importURL);
+        bulkEditorConfig.put("importType",importType);
         bulkEditorConfig.put("exportURL",exportURL);
         bulkEditorConfig.put("renderTo",renderTo);
         bulkEditorConfig.put("showGridOnly",showGridOnly);
@@ -149,8 +162,10 @@
         bulkEditorConfig.put("hideRootPath",hideRootPath);
         bulkEditorConfig.put("hideQueryParams",hideQueryParams);
         bulkEditorConfig.put("hideContentMode",hideContentMode);
+        bulkEditorConfig.put("hideIsDeepMode",hideIsDeepMode);
         bulkEditorConfig.put("hideColsSelection",hideColsSelection);
         bulkEditorConfig.put("hideExtraCols",hideExtraCols);
+        bulkEditorConfig.put("hideResourceType",hideResourceType);
         bulkEditorConfig.put("hideSearchButton",hideSearchButton);
         bulkEditorConfig.put("hideSaveButton",hideSaveButton);
         bulkEditorConfig.put("hideExportButton",hideExportButton);
@@ -175,12 +190,11 @@
 </div>
 <script type="text/javascript">
     CQ.Ext.onReady(function() {
-        var blkeditor = new CQ.wcm.BulkEditorForm(<%writeConfig(out,bulkEditorConfig);%>);
+        var blkeditor = new CQ.wcm.GSBulkEditorForm(<%writeConfig(out,bulkEditorConfig);%>);
     });
 </script>
 </body>
 </html>
-
 <%!
     public void writeConfig(JspWriter out, Map<String,Object> config) throws JSONException {
         TidyJSONWriter w = new TidyJSONWriter(out);
