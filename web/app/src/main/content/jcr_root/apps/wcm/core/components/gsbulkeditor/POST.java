@@ -13,6 +13,7 @@ package apps.wcm.core.components.gsbulkeditor;
 
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
+import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.wcm.api.Page;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -32,6 +33,9 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
@@ -48,6 +52,8 @@ import java.io.PrintWriter;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 
+import com.day.cq.replication.Replicator;
+
 /**
  * Servers as base for image servlets
  */
@@ -57,7 +63,7 @@ public class POST extends SlingAllMethodsServlet {
     public static final String ROOTPATH_PARAM = "./rootPath";
     public static final String IMPORT_TYPE_PARAM="importType";
 
-    public static final String DEFAULT_SEPARATOR = "\t";
+    public static final String DEFAULT_SEPARATOR = ",";
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -75,7 +81,7 @@ public class POST extends SlingAllMethodsServlet {
                     request.getRequestParameter(ROOTPATH_PARAM).getString() : null;
 
 
-            String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? .getString() : null;
+            String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
             
             if(rootPath!=null) {
                 Node rootNode = null;
@@ -92,9 +98,19 @@ public class POST extends SlingAllMethodsServlet {
             		//GS: We don't want to let anyone import with a depth less than two
                 	Page rootPage = resource.adaptTo(Page.class);
                 	if(rootPage.getDepth() >= 2){
+            			SlingBindings bindings = null;
+            			SlingScriptHelper scriptHelper = null;
+            			try{
+            				bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
+            				scriptHelper = bindings.getSling();
+            			}catch(Exception e){
+                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+                                    "Could not resolve sling helper");
+                            htmlResponse.send(response, true);
+                            e.printStackTrace();
+                            return;
+            			}
                 		try{
-                			SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
-                	        SlingScriptHelper scriptHelper = bindings.getSling();
                 	        Packaging packaging = scriptHelper.getService(Packaging.class);
                 			//Start by creating a package under the root node, in case we need to roll back
 	                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
@@ -103,7 +119,7 @@ public class POST extends SlingAllMethodsServlet {
 	                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
 	                		String dateString = dtfOut.print(gdt);  
 	                		if(jcrPM == null){
-	                			System.out.println("Null PackageManager");
+	                			System.err.println("Null PackageManager");
 	                		}
 	                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
 	                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
@@ -131,19 +147,62 @@ public class POST extends SlingAllMethodsServlet {
 	                        if (headers.size() > 0) {
 	                        	//GS: The importer expects a jcr:path header, but it can use the rootpath from the querybuilder if no path is present
 	                            int pathIndex = headers.indexOf(JcrConstants.JCR_PATH);
+	                            Replicator replicator;
 	                            //GS: Check if the type is "contacts." If so, deactivate and delete everything under the rootpath
-	                            if(type.equals("contacts")){
-	                            	
+	                            if(importType.equals("contacts")){
+		                            try{
+			                            if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
+			                            	Iterator<Page> oldChildren = rootPage.listChildren();
+			                            	replicator = scriptHelper.getService(Replicator.class);
+			                            	while(oldChildren.hasNext()){
+			                            		Page child = oldChildren.next();
+			                            		replicator.replicate(rootNode.getSession(), ReplicationActionType.DELETE, child.getPath());
+			                            		Resource childRes = request.getResourceResolver().getResource(child.getPath());
+			                            		Node childNode = childRes.adaptTo(Node.class);
+			                            		childNode.remove();
+			                            	}
+			                            }
+		                            }catch(Exception e){
+		                                htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+		                                        "Failed to delete original contact data. Process Aborted");
+		                                htmlResponse.send(response, true);
+		                                e.printStackTrace();
+		                                return;
+		                            }
 	                            }
 	                            int lineRead = 0, lineOK = 0;
+	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++)) {
-	                                    lineOK++;
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate)) {
+	                                   lineOK++;
 	                                }
 	                            }
-	
+	                            
+	                            //GS: Used to determine contact scaffolding property
+	                            String councilRoot = rootPage.getAbsoluteParent(1).getPath();
+	                            String councilName = "";
+	                            if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
+	                            	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
+	                            }
+	                            
 	                            if(lineOK>0) {
+                                	if(importType.equals("contacts")){
+    	                                try {
+    	                                	replicator = scriptHelper.getService(Replicator.class);
+    	                                	createNewContacts(rootNode,contactsToCreate,councilName,rootNode.getSession(),replicator);
+    	                                }catch(Exception e){
+    	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+    		                                        "Error saving new contacts " + e.getMessage());
+    	                                    try {
+    	                                        rootNode.refresh(false);
+    	                                    } catch (InvalidItemStateException e1) {
+    	                                    } catch (RepositoryException e1) {
+    	                                    }
+    	                                	e.printStackTrace();
+    	                                	return;
+    	                                }
+                                	}
 	                                try {
 	                                    rootNode.save();
 	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
@@ -189,11 +248,11 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter) {
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate) {
         boolean updated = false;
         try {
             int headerSize = headers.size();
-            line = line + "\tFINAL";
+            line = line + ",FINAL";
             List<String> values = new LinkedList<String>(Arrays.asList(line.split(DEFAULT_SEPARATOR)));
             values.remove(values.size() - 1);
             if(values.size() < headerSize) {
@@ -208,67 +267,105 @@ public class POST extends SlingAllMethodsServlet {
 
             Resource resource = (path==null || path.length()==0 || path.equals(" ") ?
                     null : request.getResourceResolver().getResource(path));
-
-            if(resource!=null) {
-                node = resource.adaptTo(Node.class);
-            } else {
-                if(rootNode!=null) {
-                    if(path==null || path.length()==0 || path.equals(" ")) {
-                        path = "" + counter;
-                    } else {
-                        //check if path is under root node.
-                        //for the moment do nothing if path does not exist
-
-                        if(path.startsWith(rootNode.getPath())) {
-                            path = path.substring(rootNode.getPath().length() + 1,path.length());
-                        } else {
-                            return false;
-                        }
-                    }
-
-                    int index = headers.indexOf(JcrConstants.JCR_PRIMARYTYPE);
-                    if(index!=-1) {
-                        String primaryType = values.get(index);
-                        if(primaryType!=null && primaryType.length()>0) {
-                            node = rootNode.addNode(path,primaryType);
-                        } else {
-                            node = rootNode.addNode(path,"nt:unstructured");
-                        }
-                    } else {
-                        node = rootNode.addNode(path,"nt:unstructured");
-                        if(insertedResourceType!=null) {
-                            ValueFactory valueFactory = node.getSession().getValueFactory();
-                            Value value = valueFactory.createValue(insertedResourceType);
-                            if(node.getPrimaryNodeType().canSetProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value)) {
-                                node.setProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value);
-                            }
-                        }
-                    }
-                }
+            
+            if(importType.equals("contacts")){
+            	node = rootNode;
+            }else{
+            
+	            if(resource!=null) {
+	                node = resource.adaptTo(Node.class);
+	            } else {
+	                if(rootNode!=null) {
+	                    if(path==null || path.length()==0 || path.equals(" ")) {
+	                        path = "" + counter;
+	                    } else {
+	                        //check if path is under root node.
+	                        //for the moment do nothing if path does not exist
+	
+	                        if(path.startsWith(rootNode.getPath())) {
+	                            path = path.substring(rootNode.getPath().length() + 1,path.length());
+	                        } else {
+	                            return false;
+	                        }
+	                    }
+	
+	                    int index = headers.indexOf(JcrConstants.JCR_PRIMARYTYPE);
+	                    if(index!=-1) {
+	                        String primaryType = values.get(index);
+	                        if(primaryType!=null && primaryType.length()>0) {
+	                            node = rootNode.addNode(path,primaryType);
+	                        } else {
+	                            node = rootNode.addNode(path,"nt:unstructured");
+	                        }
+	                    } else {
+	                        node = rootNode.addNode(path,"nt:unstructured");
+	                        if(insertedResourceType!=null) {
+	                            ValueFactory valueFactory = node.getSession().getValueFactory();
+	                            Value value = valueFactory.createValue(insertedResourceType);
+	                            if(node.getPrimaryNodeType().canSetProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value)) {
+	                                node.setProperty(JcrResourceConstants.SLING_RESOURCE_TYPE_PROPERTY,value);
+	                            }
+	                        }
+	                    }
+	                }
+	            }
             }
 
            if(node!=null) {
                ValueFactory valueFactory = node.getSession().getValueFactory();
+       		   Contact contact = new Contact();
                 for(int i=0;i<headerSize;i++) {
                     if(i!=pathIndex) {
                         String property = headers.get(i);
                         property = property.trim();
-
-                        if(!property.equals(JcrConstants.JCR_PATH)
-                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE)) {
-                            Value value = valueFactory.createValue(values.get(i));
-                            Node updatedNode = node;
-                            if( property.indexOf('/') != -1) {
-                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
-                                updatedNode = node.getNode(childNodeName);
-                                property = property.substring(property.lastIndexOf('/') + 1);
-                            }
-                            if(updatedNode != null &&
-                                    updatedNode.getPrimaryNodeType().canSetProperty(property,value)) {
-                                updatedNode.setProperty(property,value);
-                            }
-                        }
+                        Value value = valueFactory.createValue(values.get(i));
+                    	//GS: If this is a contact spreadsheet, just get the necessary properties for a contact
+                        if(importType.equals("contacts")){
+                    		if(value != null){
+                    			if(value.getString() != null){
+                    				if(property.equals(Contact.NAME_PROP)){
+                    					String name = value.getString();
+	                    				contact.setName(name);
+	                    				contact.setPath(name.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
+	                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
+	                    				contact.setJobTitle(value.getString());
+	                    			}else if(property.equals(Contact.PHONE_PROP)){
+	                    				contact.setPhone(value.getString());
+	                    			}else if(property.equals(Contact.EMAIL_PROP)){
+	                    				contact.setEmail(value.getString());
+	                    			}else if(property.equals(Contact.TEAM_PROP)){
+	                    				contact.setTeam(value.getString());
+	                    			}
+	                    		}
+                    		}
+                    	}else{
+	                        if(!property.equals(JcrConstants.JCR_PATH)
+	                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE)) {
+	                            value = valueFactory.createValue(values.get(i));
+	                            Node updatedNode = node;
+	                            if( property.indexOf('/') != -1) {
+	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
+	                                updatedNode = node.getNode(childNodeName);
+	                                property = property.substring(property.lastIndexOf('/') + 1);
+	                            }
+	                            if(updatedNode != null &&
+	                                    updatedNode.getPrimaryNodeType().canSetProperty(property,value)) {
+	                                updatedNode.setProperty(property,value);
+	                            }
+	                        }
+                    	}
                     }
+                }
+                if(importType.equals("contacts")){
+	                ArrayList<Contact> contactsForTeam;
+	                if(contact.getTeam() != null && contactsToCreate.get(contact.getTeam()) != null){
+	                	contactsForTeam = contactsToCreate.get(contact.getTeam());
+	                	contactsForTeam.add(contact);
+	                }else{
+	                	contactsForTeam = new ArrayList<Contact>();
+	                	contactsForTeam.add(contact);
+	                }
+	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
                 }
                 updated = true;
             }
@@ -276,5 +373,108 @@ public class POST extends SlingAllMethodsServlet {
             return false;
         }
         return updated;
+    }
+    
+    public void createNewContacts(Node rootNode, HashMap<String,ArrayList<Contact>> contactsToCreate, String councilName, Session session, Replicator replicator) throws Exception{
+    	if(contactsToCreate.size() > 0){
+    		for(String team : contactsToCreate.keySet()){
+    			String teamPath = (team == null || team.equals("")) ? "none" : team;
+    			String teamPathName = teamPath.toLowerCase().replaceAll("[^A-Za-z0-9]","-");
+    			Node teamNode = rootNode.addNode(teamPathName,"cq:Page");
+    			Node teamContentNode = teamNode.addNode("jcr:content","cq:PageContent");
+    			teamContentNode.setProperty("jcr:title",team);
+    			ArrayList<Contact> contacts = contactsToCreate.get(team);
+    			for(Contact contact : contacts){
+    				if(contact.getPath() != null && !contact.getPath().equals("")){
+    					Node contactNode = teamNode.addNode(contact.getPath(),"cq:Page");
+    					Node contactContentNode = contactNode.addNode("jcr:content","cq:PageContent");
+    					contactContentNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/contact");
+    					contactContentNode.setProperty("sling:resourceType","girlscouts/components/contact-page");
+    					contactContentNode.setProperty("jcr:title",contact.getName());
+    					contactContentNode.setProperty("title",contact.getJobTitle());
+    					contactContentNode.setProperty("phone",contact.getPhone());
+    					contactContentNode.setProperty("email",contact.getEmail());
+    					contactContentNode.setProperty("team",contact.getTeam());
+    					replicator.replicate(session, ReplicationActionType.ACTIVATE, contactNode.getPath());
+    				}
+    			}
+    			replicator.replicate(session, ReplicationActionType.ACTIVATE, teamNode.getPath());
+    		}
+    		replicator.replicate(session, ReplicationActionType.ACTIVATE, rootNode.getPath());
+    	}else{
+    		throw new Exception("Contact Spreadsheet import - Contact Map is empty");
+    	}
+    }
+    
+    private class Contact{
+    	public static final String NAME_PROP="jcr:content/jcr:title";
+    	public static final String JOB_TITLE_PROP="jcr:content/title";
+    	public static final String PHONE_PROP="jcr:content/phone";
+    	public static final String EMAIL_PROP="jcr:content/email";
+    	public static final String TEAM_PROP="jcr:content/team";
+    	
+    	private String name;
+    	private String jobTitle;
+    	private String phone;
+    	private String email;
+    	private String team;
+    	private String path;
+    	
+    	public Contact(){
+    		name = null;
+    		jobTitle = null;
+    		phone = null;
+    		email = null;
+    		team = null;
+    		path = null;
+    	}
+    	
+    	public String getName(){
+    		return name;
+    	}
+    	
+    	public String getJobTitle(){
+    		return jobTitle;
+    	}
+    	
+    	public String getPhone(){
+    		return phone;
+    	}
+    	
+    	public String getEmail(){
+    		return email;
+    	}
+    	
+    	public String getTeam(){
+    		return team;
+    	}
+    	
+    	public String getPath(){
+    		return path;
+    	}
+    	
+    	public void setName(String name){
+    		this.name = name;
+    	}
+    	
+    	public void setJobTitle(String jobTitle){
+    		this.jobTitle = jobTitle;
+    	}
+    	
+    	public void setPhone(String phone){
+    		this.phone = phone;
+    	}
+    	
+    	public void setEmail(String email){
+    		this.email = email;
+    	}
+    	
+    	public void setTeam(String team){
+    		this.team = team;
+    	}
+    	
+    	public void setPath(String path){
+    		this.path = path;
+    	}
     }
 }
