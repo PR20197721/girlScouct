@@ -18,52 +18,37 @@
         <f1
             jcr:primaryType="nt:folder"
             mode="replace"
-            root="/apps/cq/ui/widgets"
-            rules="[]"/>
-        <f2
-            jcr:primaryType="nt:folder"
-            mode="replace"
             root="/etc/designs/gsusa/fonts"
             rules="[]"/>
-        <f3
+        <f2
             jcr:primaryType="cq:ClientLibraryFolder"
             mode="replace"
             root="/etc/designs/gsusa/clientlibs"
             rules="[]"/>
-        <f4
+        <f3
             jcr:primaryType="nt:folder"
             mode="replace"
             root="/etc/workflow/scripts/gsusa"
             rules="[]"/>
-        <f5
+        <f4
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/dam/update_asset"
             rules="[]"/>
-        <f6
+        <f5
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/dam/video/hq"
             rules="[]"/>
-        <f7
+        <f6
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/scaffolding/gsusa"
             rules="[]"/>
-        <f8
+        <f7
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/designs/gsusa/jcr:content/page/video"
             rules="[]"/>
-	<f9
-	    jcr:primaryType="nt:folder"
-	    mode="replace"
-	    root="/apps/cq/ui/widgets/themes"
-	    rules="[]"/>
-	<f10
-	    jcr:primaryType="nt:file"
-	    mode="replace"
-	    root="/apps/cq/ui/widgets/source/User.js"
-	    rules=[]"/>
     </filter>
 </jcr:root>
