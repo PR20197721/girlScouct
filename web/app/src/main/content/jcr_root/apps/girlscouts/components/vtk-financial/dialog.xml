@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Modal">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <financial-summary
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Financial Summary Line 1"
+	                    name="./finsum1"
+	                    xtype="textfield"/>
+                    <financial-summary2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Notes and Questions"
+	                    name="./finsum2"
+	                    xtype="textfield"/>
+                    <review-and-publish1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Review and Publish Line 1"
+	                    name="./reviewandpublish1"
+	                    xtype="textfield"/>
+                    <review-and-publish2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Review and Publish Line 2"
+	                    name="./reviewandpublish2"
+	                    xtype="textfield"/>
+					<troop-back-info
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Troop Leader Bank Info Line 1"
+	                    name="./troopbankinfo"
+	                    xtype="textfield"/>
+					<TL-Income-Expense-Instruction
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL Income Expense Instruction"
+	                    name="./incomeexpenseinst"
+	                    xtype="textfield"/>
+					<TL-Message-about-parent-view
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL Message about parent view"
+	                    name="./messageabout"
+	                    xtype="textfield"/>
+					<TL-preview-instruction
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="TL preview instruction"
+	                    name="./tlpreviewinst"
+	                    xtype="textfield"/>
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>
