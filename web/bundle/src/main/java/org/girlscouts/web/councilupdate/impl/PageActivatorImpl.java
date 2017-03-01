@@ -377,47 +377,44 @@ public class PageActivatorImpl implements Runnable, PageActivator{
 			report(dateNode, status, session);
 			return;
 		}
-		HtmlEmail email = new HtmlEmail();
-		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-		for(String s : emails){
-			emailRecipients.add(new InternetAddress(s));
-		}
-		email.setTo(emailRecipients);
-		email.setSubject("Girl Scouts Activation Process Report");
-		String html = "<p>The Girl Scouts Activation Process has just finished running.</p>";
-		if(type.equals("dpa")){
-			html = html + "<p>It was of type - Scheduled Activation</p>";
-		}else if(type.equals("ipa-c")){
-			html = html + "<p>It was of type - Immediate Activation with Crawl</p>";
-		}else if(type.equals("ipa-nc")){
-			html = html + "<p>It was of type - Immediate Activation without Crawl</p>";
-		}else{
-			html = html + "<p>The type of activation process could not be determined. It was most likely a Scheduled Activation.</p>";
-		}
-		
-		if(builtPages.size() < 1){
-			html = html + "<p>No pages were activated</p>";
-		}
-		else{
+		if(builtPages.size() > 0){
+			HtmlEmail email = new HtmlEmail();
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+			for(String s : emails){
+				emailRecipients.add(new InternetAddress(s));
+			}
+			email.setTo(emailRecipients);
+			email.setSubject("Girl Scouts Activation Process Report");
+			String html = "<p>The Girl Scouts Activation Process has just finished running.</p>";
+			if(type.equals("dpa")){
+				html = html + "<p>It was of type - Scheduled Activation</p>";
+			}else if(type.equals("ipa-c")){
+				html = html + "<p>It was of type - Immediate Activation with Crawl</p>";
+			}else if(type.equals("ipa-nc")){
+				html = html + "<p>It was of type - Immediate Activation without Crawl</p>";
+			}else{
+				html = html + "<p>The type of activation process could not be determined. It was most likely a Scheduled Activation.</p>";
+			}
+			
 			html = html + "<p>Pages Activated:</p><ul>";
 			for(String page : builtPages){
 				html = html + "<li>" + page + "</li>";
 			}
 			html = html + "</ul>";
+			
+			long timeDiff = (endTime - startTime)/60000;
+			html = html + "<p>The entire process took approximately " + timeDiff + " minutes to complete</p>";
+			
+			html = html + "<p>The following is the process log for the activation process so far:</p><ul>";
+			for( String s : statusList ){
+				html = html + "<li>" + s + "</li>";
+			}
+			html = html + "</ul>";
+			
+			email.setHtmlMsg(html);
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			messageGateway.send(email);
 		}
-		
-		long timeDiff = (endTime - startTime)/60000;
-		html = html + "<p>The entire process took approximately " + timeDiff + " minutes to complete</p>";
-		
-		html = html + "<p>The following is the process log for the activation process so far:</p><ul>";
-		for( String s : statusList ){
-			html = html + "<li>" + s + "</li>";
-		}
-		html = html + "</ul>";
-		
-		email.setHtmlMsg(html);
-		MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
-		messageGateway.send(email);
 	}
 	
 	private void buildCache(String[] councilDomains, String[] pages, HashMap<String, TreeSet<String>> councilMappings, Session session, String[] ipsGroupOne, String[] ipsGroupTwo, Node dateNode, Boolean crawl, String status, ArrayList<String> statusList){
