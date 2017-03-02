@@ -398,9 +398,21 @@ public class POST extends SlingAllMethodsServlet {
     		for(String team : contactsToCreate.keySet()){
     			String teamPath = (team == null || team.equals("")) ? "none" : team;
     			String teamPathName = teamPath.toLowerCase().replaceAll("[^A-Za-z0-9]","-");
-    			Node teamNode = rootNode.addNode(teamPathName,"cq:Page");
-    			Node teamContentNode = teamNode.addNode("jcr:content","cq:PageContent");
-    			teamContentNode.setProperty("jcr:title",team);
+    			Node teamNode = null;
+    			Node teamContentNode = null;
+    			try{
+    				teamNode = rootNode.addNode(teamPathName,"cq:Page");
+    				teamContentNode = teamNode.addNode("jcr:content","cq:PageContent");
+    				teamContentNode.setProperty("jcr:title",team);
+    			}catch(ItemExistsException e){
+    				try{
+    					teamNode = rootNode.getNode(teamPathName);
+    					teamContentNode = teamNode.getNode("jcr:content");
+    				}catch(Exception e1){
+    					e1.printStackTrace();
+    					break;
+    				}
+    			}
     			ArrayList<Contact> contacts = contactsToCreate.get(team);
     			for(Contact contact : contacts){
     				if(contact.getPath() != null && !contact.getPath().equals("")){
