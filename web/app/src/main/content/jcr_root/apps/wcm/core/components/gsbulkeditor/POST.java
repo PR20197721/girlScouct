@@ -328,8 +328,6 @@ public class POST extends SlingAllMethodsServlet {
                     			if(val != null){
                     				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
                     				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-                    				System.out.println("MULT: " + startsWithMultipleQuotes);
-                    				System.out.println("ONE QUOTE: " + startsWithOneQuote);
                     				if(startsWithMultipleQuotes){
                     					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
                     				}
