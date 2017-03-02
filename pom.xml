@@ -349,5 +349,6 @@
     <module>web</module>
     <module>gsusa</module>
     <module>gsactivities</module>
+    <module>vtk</module>
   </modules>
 </project>
