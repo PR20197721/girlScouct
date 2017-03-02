@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.TreeSet;
 
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
@@ -142,8 +143,8 @@ public class POST extends SlingAllMethodsServlet {
 	                    //manage headers
 	                    String lineBuffer = bufferReader.readLine();
 	                    if (lineBuffer != null) {
-	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR));
-	                        List<String> headersLowerCase = Arrays.asList(lineBuffer.toLowerCase().split(DEFAULT_SEPARATOR));
+	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
+	                        List<String> headersLowerCase = Arrays.asList(lineBuffer.toLowerCase().split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
 	                        if (headers.size() > 0) {
 	                        	//GS: The importer expects a jcr:path header, but it can use the rootpath from the querybuilder if no path is present
 	                            int pathIndex = headers.indexOf(JcrConstants.JCR_PATH);
@@ -172,9 +173,10 @@ public class POST extends SlingAllMethodsServlet {
 	                            }
 	                            int lineRead = 0, lineOK = 0;
 	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
+	                            TreeSet<String> allNames = new TreeSet<String>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate)) {
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames)) {
 	                                   lineOK++;
 	                                }
 	                            }
@@ -248,12 +250,12 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate) {
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames) {
         boolean updated = false;
         try {
             int headerSize = headers.size();
             line = line + ",FINAL";
-            List<String> values = new LinkedList<String>(Arrays.asList(line.split(DEFAULT_SEPARATOR)));
+            List<String> values = new LinkedList<String>(Arrays.asList(line.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1)));
             values.remove(values.size() - 1);
             if(values.size() < headerSize) {
                 //completet missing last empty cols
@@ -322,19 +324,37 @@ public class POST extends SlingAllMethodsServlet {
                     	//GS: If this is a contact spreadsheet, just get the necessary properties for a contact
                         if(importType.equals("contacts")){
                     		if(value != null){
-                    			if(value.getString() != null){
+                    			String val = value.getString();
+                    			if(val != null){
+                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+                    				System.out.println("MULT: " + startsWithMultipleQuotes);
+                    				System.out.println("ONE QUOTE: " + startsWithOneQuote);
+                    				if(startsWithMultipleQuotes){
+                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+                    				}
+                    				else if(startsWithOneQuote && val.length() >= 3){
+                    					val = val.substring(1,val.length()-1);
+                    				}
                     				if(property.equals(Contact.NAME_PROP)){
-                    					String name = value.getString();
-	                    				contact.setName(name);
-	                    				contact.setPath(name.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
+                    					if(allNames.contains(val)){
+                    						int nameIndex = 0;
+	                    					while(allNames.contains(val + nameIndex)){
+	                    						nameIndex++;
+	                    					}
+	                    					val = val + nameIndex;
+                    					}
+	                    				contact.setName(val);
+	                    				allNames.add(val);
+	                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
 	                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
-	                    				contact.setJobTitle(value.getString());
+	                    				contact.setJobTitle(val);
 	                    			}else if(property.equals(Contact.PHONE_PROP)){
-	                    				contact.setPhone(value.getString());
+	                    				contact.setPhone(val);
 	                    			}else if(property.equals(Contact.EMAIL_PROP)){
-	                    				contact.setEmail(value.getString());
+	                    				contact.setEmail(val);
 	                    			}else if(property.equals(Contact.TEAM_PROP)){
-	                    				contact.setTeam(value.getString());
+	                    				contact.setTeam(val);
 	                    			}
 	                    		}
                     		}
