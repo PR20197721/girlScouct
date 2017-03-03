@@ -141,6 +141,9 @@
         String queryURL = "/etc/importers/gsbulkeditor/query.json";
         String importURL = "/etc/importers/gsbulkeditor/import";
         String exportURL = "/etc/importers/gsbulkeditor/export.csv";
+        if(importType != null && !("").equals(importType)){
+        	exportURL = "/etc/importers/gsbulkeditor/" + importType + ".csv";
+        }
         String renderTo = "cq-bulkeditor";
 
 
