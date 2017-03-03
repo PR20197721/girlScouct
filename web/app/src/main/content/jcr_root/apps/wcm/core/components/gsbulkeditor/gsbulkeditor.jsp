@@ -48,6 +48,7 @@
         String[] extraCols = getStringArray(request,"extraCols","ec");
         //Girl Scouts - Sling:resourceType specified
         String[] resourceType = getStringArray(request,"resourceType","rt");
+        String[] primaryType = getStringArray(request, "primaryType","pt");
         //is query performed on page load
         Boolean initialSearch = getBoolean(request,"initialSearch","is");
         //searched properties selection (displayed as checkboxes)
@@ -92,6 +93,7 @@
         Boolean hideExtraCols = getBoolean(request,"hideExtraCols","hec");
         //Girl Scouts - hide resource type field
         Boolean hideResourceType = getBoolean(request,"hideResourceType","hrt");
+        Boolean hidePrimaryType = getBoolean(request, "hidePrimaryType", "hpt");
 
         //hide search button
         Boolean hideSearchButton = getBoolean(request,"hideSearchButton","hsearchb");
@@ -150,6 +152,7 @@
         bulkEditorConfig.put("colsValue",colsValue);
         bulkEditorConfig.put("extraCols",extraCols);
         bulkEditorConfig.put("resourceType",resourceType);
+        bulkEditorConfig.put("primaryType",primaryType);
         bulkEditorConfig.put("initialSearch",initialSearch);
         bulkEditorConfig.put("colsSelection",colsSelection);
         bulkEditorConfig.put("queryURL",queryURL);
@@ -166,6 +169,7 @@
         bulkEditorConfig.put("hideColsSelection",hideColsSelection);
         bulkEditorConfig.put("hideExtraCols",hideExtraCols);
         bulkEditorConfig.put("hideResourceType",hideResourceType);
+        bulkEditorConfig.put("hidePrimaryType",hidePrimaryType);
         bulkEditorConfig.put("hideSearchButton",hideSearchButton);
         bulkEditorConfig.put("hideSaveButton",hideSaveButton);
         bulkEditorConfig.put("hideExportButton",hideExportButton);
