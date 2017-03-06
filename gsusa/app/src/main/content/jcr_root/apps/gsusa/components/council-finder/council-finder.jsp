@@ -126,7 +126,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 					%>
 					var json = JSON.parse(data);
 					var codeSearch = $(".councilCodeSearch");
-					var appendStr = "<h6>By Council Name:</h6>"+
+					var appendStr = "<h6>By Council Name</h6>"+
 							"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
 							"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
 					for(var i=0; i < json.councils.length; i++) {
@@ -141,7 +141,7 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 					codeSearch.append(appendStr);
 				}).fail(function() {
 					var codeSearch = $(".councilCodeSearch");
-					var appendStr = "<h6>By Council Name:</h6>"+
+					var appendStr = "<h6>By Council Name</h6>"+
 					"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
 					"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
 					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
