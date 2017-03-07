@@ -111,32 +111,35 @@ public class POST extends SlingAllMethodsServlet {
                             e.printStackTrace();
                             return;
             			}
-                		try{
-                	        Packaging packaging = scriptHelper.getService(Packaging.class);
-                			//Start by creating a package under the root node, in case we need to roll back
-	                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
-	                		String packageName = rootPath.replaceAll("/","-");
-	                		GSDateTime gdt = new GSDateTime();
-	                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
-	                		String dateString = dtfOut.print(gdt);  
-	                		if(jcrPM == null){
-	                			System.err.println("Null PackageManager");
+            			//GS - We can't make lots of asset packages
+            			if(!importType.equals("Documents")){
+	                		try{
+	                	        Packaging packaging = scriptHelper.getService(Packaging.class);
+	                			//Start by creating a package under the root node, in case we need to roll back
+		                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
+		                		String packageName = rootPath.replaceAll("/","-");
+		                		GSDateTime gdt = new GSDateTime();
+		                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
+		                		String dateString = dtfOut.print(gdt);  
+		                		if(jcrPM == null){
+		                			System.err.println("Null PackageManager");
+		                		}
+		                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
+		                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
+		                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
+		                		PathFilterSet pfs = new PathFilterSet(rootPath);
+		                		filter.add(pfs);
+		                		jcrPD.setFilter(filter, false);
+		                		PrintWriter pkgout = new PrintWriter(System.out);
+		                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
+	                		}catch(Exception e){
+	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                                    "Failed to create package");
+	                            htmlResponse.send(response, true);
+	                            e.printStackTrace();
+	                            return;
 	                		}
-	                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
-	                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
-	                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
-	                		PathFilterSet pfs = new PathFilterSet(rootPath);
-	                		filter.add(pfs);
-	                		jcrPD.setFilter(filter, false);
-	                		PrintWriter pkgout = new PrintWriter(System.out);
-	                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
-                		}catch(Exception e){
-                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                    "Failed to create package");
-                            htmlResponse.send(response, true);
-                            e.printStackTrace();
-                            return;
-                		}
+            			}
                 	
 	                    long counter = System.currentTimeMillis();
 	

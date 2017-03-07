@@ -6,7 +6,8 @@
                  com.day.cq.commons.jcr.JcrUtil,
                  javax.jcr.Property,
                  javax.jcr.Session,
-                 com.day.text.Text" %>
+                 com.day.text.Text,
+				 com.day.cq.tagging.TagManager" %>
 <%@ page session="false" %>
 <%
 %>
@@ -32,6 +33,31 @@
                     Resource r = resourceResolver.getResource(path);
 
                     String propertyName = Text.getName(path);
+                    
+                    String[] values = null;
+                    //GS - Create new tags if they didn't exist before
+                    TagManager tm = resourceResolver.adaptTo(TagManager.class);
+                    if(propertyName.endsWith("cq:tags")){
+                    	values = value.split(",");
+                    	if(values.length > 0){
+                    		for(String tag : values){
+                    			 try{
+	                    			if(null == tm.resolve(tag)){
+	                    				if(tm.canCreateTag(tag)){
+	                    					String title = "";
+	                    					if(tag.indexOf("/") != -1){
+	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
+	                    					}
+	                    					tm.createTag(tag,title,"",true);
+	                    				}
+	                    			}
+                    			}catch(Exception e){
+                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+                    			} 
+                    		}
+                    	}
+                    }
+                    
                     if (r == null) {
                         //resource does not exist. 2 cases:
                         // - maybe it is a non existing property? property has to be created
@@ -70,13 +96,20 @@
                             //path should already be the property path
                             Property p = r.adaptTo(Property.class);
                             if (p != null) {
-                                p.setValue(value);
+                            	//multi-valued properties
+                            	if(values != null){
+                                	p.setValue(values);
+                            	}else{
+                            		p.setValue(value);
+                            	}
                                 updated = true;
                             }
                         }
                     }
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            	e.printStackTrace();
+            }
         }
 
         if (updated) {

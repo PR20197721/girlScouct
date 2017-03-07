@@ -2628,7 +2628,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             var hasParam = false;
 
             if( !this.saveURL ) {
-                this.saveURL = "/";
+                this.saveURL = "/etc/importers/gsbulkeditor/save";
             }
 
             if (this.deletedItems && this.deletedItems.count > 0) {
