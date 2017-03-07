@@ -60,7 +60,7 @@
 	        Matcher m = p.matcher(currentPage.getPath());
 	        m.matches();
 	        String bulkPage = "/content/" + m.group(1) + "/en/contacts";	        
-	        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "/contacts&cm=true&deep=true&cv=jcr%3Atitle&ec=title%2Cphone%2Cemail%2Cteam&hib=false&is=true&rt=girlscouts%2Fcomponents%2Fcontact-page&it=contacts" %>">Click Here</a></div><%
+	        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "&cm=true&deep=true&cv=jcr:title&ec=title,phone,email,team&hib=false&is=true&rt=girlscouts/components/contact-page&it=contacts" %>">Click Here</a></div><%
         }catch(Exception e){
         	System.err.println("Contact bulkeditor - could not determine path");
         }
