@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+    cq:lastReplicated="{Date}2016-11-28T12:55:58.125-05:00"
+    cq:lastReplicatedBy="dlubin"
+    cq:lastReplicationAction="Activate"
+    jcr:mixinTypes="[cq:ReplicationStatus,rep:AccessControllable]"
+    jcr:primaryType="sling:Folder"
+    jcr:title="Adobe Marketing Cloud"
+    sling:resourceType="granite/core/components/cug-login-single-username"
+    sling:vanityPath="/content/gsusa/login.html"/>

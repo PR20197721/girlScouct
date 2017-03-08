@@ -19,6 +19,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.servlets.HtmlResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.jcr.resource.JcrResourceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jcr.*;
 import javax.servlet.ServletException;
@@ -39,6 +41,11 @@ public class POST extends SlingAllMethodsServlet {
     public static final String ROOTPATH_PARAM = "./rootPath";
 
     public static final String DEFAULT_SEPARATOR = "\t";
+
+    /**
+     * default logger.
+     */
+    private static final Logger log = LoggerFactory.getLogger(POST.class);
 
     protected void doPost(SlingHttpServletRequest request,
                           SlingHttpServletResponse response)
@@ -185,23 +192,42 @@ public class POST extends SlingAllMethodsServlet {
 
            if(node!=null) {
                ValueFactory valueFactory = node.getSession().getValueFactory();
-                for(int i=0;i<headerSize;i++) {
+               for(int i=0;i<headerSize;i++) {
                     if(i!=pathIndex) {
                         String property = headers.get(i);
                         property = property.trim();
 
                         if(!property.equals(JcrConstants.JCR_PATH)
                                 && !property.equals(JcrConstants.JCR_PRIMARYTYPE)) {
-                            Value value = valueFactory.createValue(values.get(i));
+                            String stringValue = values.get(i);
                             Node updatedNode = node;
                             if( property.indexOf('/') != -1) {
                                 String childNodeName = property.substring(0,property.lastIndexOf('/'));
                                 updatedNode = node.getNode(childNodeName);
                                 property = property.substring(property.lastIndexOf('/') + 1);
                             }
-                            if(updatedNode != null &&
-                                    updatedNode.getPrimaryNodeType().canSetProperty(property,value)) {
-                                updatedNode.setProperty(property,value);
+                            boolean isMultiValued = updatedNode.hasProperty(property)
+                                    ? updatedNode.getProperty(property).getDefinition().isMultiple()
+                                    : stringValue.startsWith("[") && stringValue.endsWith("]");
+                            if (isMultiValued && (!stringValue.startsWith("[") || !stringValue.endsWith("]"))) {
+                                log.warn("Surrounding brackets expected around {} for multiValued property {}",
+                                        stringValue, updatedNode.getPath() + "/" + property);
+                                continue;
+                            }
+                            if (isMultiValued) {
+                                String [] stringValues = stringValue.substring(1, stringValue.length() - 1).split(",");
+                                Value [] valueArray = new Value[stringValues.length];
+                                for (int s = 0; s < valueArray.length; s++) {
+                                    valueArray[s] = valueFactory.createValue(stringValues[s]);
+                                }
+                                if (updatedNode.getPrimaryNodeType().canSetProperty(property, valueArray)) {
+                                    updatedNode.setProperty(property, valueArray);
+                                }
+                            } else {
+                                Value value = valueFactory.createValue(stringValue);
+                                if (updatedNode.getPrimaryNodeType().canSetProperty(property, value)) {
+                                    updatedNode.setProperty(property, value);
+                                }
                             }
                         }
                     }

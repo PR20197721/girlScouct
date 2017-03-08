@@ -75,6 +75,7 @@
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
     <filter root="/apps/granite/core"/>
-       <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
+    <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
     <filter root="/apps/cq/tagging"/>
+    <filter root="/etc/importers/gsbulkeditor"/>
 </workspaceFilter>
