@@ -15,6 +15,7 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.tagging.TagManager;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -97,8 +98,26 @@ public class POST extends SlingAllMethodsServlet {
                     //avoid the case to have duplicate node names (using [1], [2] to differentiate).
                 	
             		//GS: We don't want to let anyone import with a depth less than two
-                	Page rootPage = resource.adaptTo(Page.class);
-                	if(rootPage.getDepth() >= 2){
+                	int rootDepth = 0;
+                	String councilRoot = null;
+                    String councilName = "";
+                	try{
+                		rootDepth = rootNode.getDepth();
+                        //GS: Used to determine contact scaffolding property
+                        councilRoot = rootNode.getAncestor(1).getPath();
+                        	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                    "Could not determine council root");
+                        if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
+                        	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
+                        }
+                	}catch(Exception e){
+                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                "Can not Determine Root Node Depth and/or Council Name");
+                        htmlResponse.send(response, true);
+                        e.printStackTrace();
+                        return;
+                	}
+                	if(rootDepth >= 2){
             			SlingBindings bindings = null;
             			SlingScriptHelper scriptHelper = null;
             			try{
@@ -112,7 +131,7 @@ public class POST extends SlingAllMethodsServlet {
                             return;
             			}
             			//GS - We can't make lots of asset packages
-            			if(!importType.equals("Documents")){
+            			if(!importType.equals("documents")){
 	                		try{
 	                	        Packaging packaging = scriptHelper.getService(Packaging.class);
 	                			//Start by creating a package under the root node, in case we need to roll back
@@ -156,6 +175,7 @@ public class POST extends SlingAllMethodsServlet {
 	                            if(importType.equals("contacts")){
 		                            try{
 			                            if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
+			                            	Page rootPage = resource.adaptTo(Page.class);
 			                            	Iterator<Page> oldChildren = rootPage.listChildren();
 			                            	replicator = scriptHelper.getService(Replicator.class);
 			                            	while(oldChildren.hasNext()){
@@ -184,12 +204,6 @@ public class POST extends SlingAllMethodsServlet {
 	                                }
 	                            }
 	                            
-	                            //GS: Used to determine contact scaffolding property
-	                            String councilRoot = rootPage.getAbsoluteParent(1).getPath();
-	                            String councilName = "";
-	                            if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
-	                            	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
-	                            }
 	                            
 	                            if(lineOK>0) {
                                 	if(importType.equals("contacts")){
@@ -283,7 +297,7 @@ public class POST extends SlingAllMethodsServlet {
 	                if(rootNode!=null) {
 	                    if(path==null || path.length()==0 || path.equals(" ")) {
 	                        path = "" + counter;
-	                    } else {
+	                    } else if(!importType.equals("documents")) {
 	                        //check if path is under root node.
 	                        //for the moment do nothing if path does not exist
 	
@@ -323,46 +337,108 @@ public class POST extends SlingAllMethodsServlet {
                     if(i!=pathIndex) {
                         String property = headers.get(i);
                         property = property.trim();
-                        Value value = valueFactory.createValue(values.get(i));
-                    	//GS: If this is a contact spreadsheet, just get the necessary properties for a contact
-                        if(importType.equals("contacts")){
-                    		if(value != null){
-                    			String val = value.getString();
-                    			if(val != null){
-                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
-                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-                    				if(startsWithMultipleQuotes){
-                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
-                    				}
-                    				else if(startsWithOneQuote && val.length() >= 3){
-                    					val = val.substring(1,val.length()-1);
-                    				}
-                    				if(property.equals(Contact.NAME_PROP)){
-                    					if(allNames.contains(val)){
-                    						int nameIndex = 0;
-	                    					while(allNames.contains(val + nameIndex)){
-	                    						nameIndex++;
+                        if(!property.equals(JcrConstants.JCR_PATH)
+                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE) && !property.isEmpty()) {
+                        	Value value = valueFactory.createValue(values.get(i));
+	                        //GS: If this is a contact spreadsheet, just get the necessary properties for a contact
+	                        if(importType.equals("contacts")){
+	                    		if(value != null){
+	                    			String val = value.getString();
+	                    			if(val != null){
+	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+	                    				if(startsWithMultipleQuotes){
+	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+	                    				}
+	                    				else if(startsWithOneQuote && val.length() >= 3){
+	                    					val = val.substring(1,val.length()-1);
+	                    				}
+	                    				if(property.equals(Contact.NAME_PROP)){
+	                    					if(allNames.contains(val)){
+	                    						int nameIndex = 0;
+		                    					while(allNames.contains(val + nameIndex)){
+		                    						nameIndex++;
+		                    					}
+		                    					val = val + nameIndex;
 	                    					}
-	                    					val = val + nameIndex;
-                    					}
-	                    				contact.setName(val);
-	                    				allNames.add(val);
-	                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
-	                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
-	                    				contact.setJobTitle(val);
-	                    			}else if(property.equals(Contact.PHONE_PROP)){
-	                    				contact.setPhone(val);
-	                    			}else if(property.equals(Contact.EMAIL_PROP)){
-	                    				contact.setEmail(val);
-	                    			}else if(property.equals(Contact.TEAM_PROP)){
-	                    				contact.setTeam(val);
+		                    				contact.setName(val);
+		                    				allNames.add(val);
+		                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
+		                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
+		                    				contact.setJobTitle(val);
+		                    			}else if(property.equals(Contact.PHONE_PROP)){
+		                    				contact.setPhone(val);
+		                    			}else if(property.equals(Contact.EMAIL_PROP)){
+		                    				contact.setEmail(val);
+		                    			}else if(property.equals(Contact.TEAM_PROP)){
+		                    				contact.setTeam(val);
+		                    			}
+		                    		}
+	                    		}
+	                    	}else if(importType.equals("documents")){
+	                    		if(value != null){
+	                    			String val = value.getString();
+	                    			if(val != null){
+	                    				Node updatedNode = node;
+	                    				if(property.indexOf('/') != -1){
+	        	                            if( property.indexOf('/') != -1) {
+	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
+	        	                                updatedNode = node.getNode(childNodeName);
+	        	                                property = property.substring(property.lastIndexOf('/') + 1);
+	        	                            }
+	                    				}
+	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+	                    				Boolean multiValue = (val.matches("^\\[.*\\]$"));
+	                    				if(startsWithMultipleQuotes){
+	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+	                    				}
+	                    				else if(startsWithOneQuote && val.length() >= 3){
+	                    					val = val.substring(1,val.length()-1);
+	                    				}
+	                    				String[] multiVal = null;
+	                    				if(multiValue){
+	                    					val = val.substring(1,val.length()-1);
+	                    					multiVal = val.split(",");
+	                    				}
+	                    				if(property.endsWith("cq:tags")){
+	                    					String[] tags = val.split(",");
+	                    					if(multiVal != null){
+	                    						tags = multiVal;
+	                    					}
+	                                    	if(tags.length > 0){
+	                                    		for(String tag : tags){
+	                                    			 try{
+	                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+	                	                    			if(null == tm.resolve(tag)){
+	                	                    				if(tm.canCreateTag(tag)){
+	                	                    					String title = "";
+	                	                    					if(tag.indexOf("/") != -1){
+	                	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
+	                	                    					}
+	                	                    					tm.createTag(tag,title,"",true);
+	                	                    				}
+	                	                    			}
+	                                    			}catch(Exception e){
+	                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+	                                    			} 
+	                                    		}
+	                                    	}
+	        	                            if(updatedNode != null){
+		        	                            updatedNode.setProperty(property,tags);
+		        	                        }
+	                    				}else{
+	        	                            if(updatedNode != null){
+	        	                            	if(multiVal != null){
+	        	                            		updatedNode.setProperty(property,multiVal);
+	        	                            	}else{
+	        	                            		updatedNode.setProperty(property,val);
+	        	                            	}
+	        	                            }
+	                    				}
 	                    			}
 	                    		}
-                    		}
-                    	}else{
-	                        if(!property.equals(JcrConstants.JCR_PATH)
-	                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE)) {
-	                            value = valueFactory.createValue(values.get(i));
+	                    	}else{
 	                            Node updatedNode = node;
 	                            if( property.indexOf('/') != -1) {
 	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
@@ -509,5 +585,12 @@ public class POST extends SlingAllMethodsServlet {
     	public void setPath(String path){
     		this.path = path;
     	}
+    }
+    
+    private class Document{
+    	public static final String FILE_NAME_PROP="pdf:Title";
+    	public static final String TITLE_PROP="dc:title";
+    	public static final String DESCRIPTION_PROP="dc:description";
+    	public static final String TAGS_PROP="cq:tags";
     }
 }
