@@ -872,6 +872,12 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(primaryType){
         	url = CQ.HTTP.addParameter(url, "primaryType", primaryType);
         }
+        
+        var importType = this.getImportType();
+        if(importType){
+        	url = CQ.shared.HTTP.addParameter(url, "importType", importType);
+        }
+        
         //TODO use pathPrefix parameter?
         //url = CQ.HTTP.addParameter(url,"pathPrefix","jcr:content");
         return url;
@@ -2615,6 +2621,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     		return this.primaryTypeInput.getValue();
     	}
     	return this.primaryType;
+    },
+    
+    getImportType: function(){
+    	return this.importType;
     },
 
     /**

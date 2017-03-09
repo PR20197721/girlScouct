@@ -11,11 +11,14 @@
  */
 package apps.wcm.core.components.gsbulkeditor;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.tagging.TagManager;
+import com.day.cq.replication.Replicator;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -53,8 +56,6 @@ import java.io.PrintWriter;
 
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-
-import com.day.cq.replication.Replicator;
 
 /**
  * Servers as base for image servlets
@@ -229,6 +230,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                } catch (RepositoryException e) {
 	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
 	                                        "Error while saving modifications " + e.getMessage());
+	                                    e.printStackTrace();
 	                                    try {
 	                                        rootNode.refresh(false);
 	                                    } catch (InvalidItemStateException e1) {
@@ -294,10 +296,10 @@ public class POST extends SlingAllMethodsServlet {
 	            if(resource!=null) {
 	                node = resource.adaptTo(Node.class);
 	            } else {
-	                if(rootNode!=null) {
+	                if(rootNode!=null && !importType.equals("documents") && !importType.equals("contacts")) {
 	                    if(path==null || path.length()==0 || path.equals(" ")) {
 	                        path = "" + counter;
-	                    } else if(!importType.equals("documents")) {
+	                    } else {
 	                        //check if path is under root node.
 	                        //for the moment do nothing if path does not exist
 	
@@ -389,13 +391,13 @@ public class POST extends SlingAllMethodsServlet {
 	                    				}
 	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
 	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-	                    				Boolean multiValue = (val.matches("^\\[.*\\]$"));
 	                    				if(startsWithMultipleQuotes){
 	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
 	                    				}
 	                    				else if(startsWithOneQuote && val.length() >= 3){
 	                    					val = val.substring(1,val.length()-1);
 	                    				}
+	                    				Boolean multiValue = val.matches("^\\[.*\\]$");
 	                    				String[] multiVal = null;
 	                    				if(multiValue){
 	                    					val = val.substring(1,val.length()-1);
@@ -406,22 +408,26 @@ public class POST extends SlingAllMethodsServlet {
 	                    					if(multiVal != null){
 	                    						tags = multiVal;
 	                    					}
+	                    					ArrayUtils.removeElement(tags,"");
+	                    					ArrayUtils.removeElement(tags,null);
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
-	                                    			 try{
-	                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
-	                	                    			if(null == tm.resolve(tag)){
-	                	                    				if(tm.canCreateTag(tag)){
-	                	                    					String title = "";
-	                	                    					if(tag.indexOf("/") != -1){
-	                	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
-	                	                    					}
-	                	                    					tm.createTag(tag,title,"",true);
-	                	                    				}
-	                	                    			}
-	                                    			}catch(Exception e){
-	                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
-	                                    			} 
+	                                    			if(!tag.isEmpty()){
+		                                    			 try{
+		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+		                	                    			if(null == tm.resolve(tag)){
+		                	                    				if(tm.canCreateTag(tag)){
+		                	                    					String title = "";
+		                	                    					if(tag.indexOf("/") != -1){
+		                	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
+		                	                    					}
+		                	                    					tm.createTag(tag,title,"",true);
+		                	                    				}
+		                	                    			}
+		                                    			}catch(Exception e){
+		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+		                                    			} 
+	                                    			}
 	                                    		}
 	                                    	}
 	        	                            if(updatedNode != null){

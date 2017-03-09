@@ -53,6 +53,7 @@ public class json extends SlingAllMethodsServlet {
 	public static final String DEEP_SEARCH_PARAM = "isDeep";
 	public static final String RESOURCE_TYPE_PARAM = "resourceType";
 	public static final String PRIMARY_TYPE_PARAM = "primaryType";
+	public static final String IMPORT_TYPE_PARAM = "importType";
 
 	/**
 	 * Common path prefix
@@ -85,7 +86,7 @@ public class json extends SlingAllMethodsServlet {
 
 			String queryString = request.getParameter(QUERY_PARAM);
 			String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
-			
+			String importType = request.getParameter(IMPORT_TYPE_PARAM);
 			//Girl Scouts Custom Options
 			Boolean isDeep = "true".equals(isDeepString);
 			String resourceType = request.getParameter(RESOURCE_TYPE_PARAM);
@@ -123,7 +124,7 @@ public class json extends SlingAllMethodsServlet {
 				String[] properties = (tmp != null) ? tmp.split(",") : null;
 
                 
-                iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType);
+                iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 
 				writer.endArray();
 				writer.key("results").value(nbrOfResults);
@@ -206,7 +207,7 @@ public class json extends SlingAllMethodsServlet {
 	}
 
 
-	public void iterateNodes(String path, long nbrOfResults, TidyJSONWriter writer, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType)
+	public void iterateNodes(String path, long nbrOfResults, TidyJSONWriter writer, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, String importType)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
 		while (iter.hasNext()) {
@@ -255,11 +256,34 @@ public class json extends SlingAllMethodsServlet {
 	            }   
 	            if(canIterate){
     				if(node.hasNodes() && isDeep){
-    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType);
+    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
     				}
     				continue;
 	            }
 	            
+	            if(null != importType){
+		            if(importType.equals("documents")){
+		            	if(!node.hasProperty("jcr:content/metadata/dc:format")){
+		            		continue;
+		            	}else{
+		            		String format = node.getProperty("jcr:content/metadata/dc:format").getString();
+		            		if(!format.equals("application/pdf") 
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		            				&& !format.equals("application/zip")
+		            				&& !format.equals("application/vnd.ms-powerpoint")
+		            				&& !format.equals("application/vnd.ms-excel")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+		            				&& !format.equals("application/msword")
+		            				&& !format.equals("application/vnd.ms-word.document.macroenabled.12")
+		            				&& !format.equals("text/csv")
+		            				&& !format.equals("application/vnd.ms-excel.sheet.macroenabled.12")
+		            				&& !format.equals("text/plain")){
+		            			continue;
+		            		}
+		            	}
+		            }
+	            }
 				writer.object();
 	            //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
 	            writer.key(JcrConstants.JCR_PATH).value(node.getPath());
@@ -286,7 +310,7 @@ public class json extends SlingAllMethodsServlet {
 				//Allows optional deep searches
 				writer.endObject();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType);
+					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 				}
 			}
 		}

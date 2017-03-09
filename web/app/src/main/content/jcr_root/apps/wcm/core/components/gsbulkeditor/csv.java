@@ -137,7 +137,7 @@ public class csv extends SlingAllMethodsServlet {
 
             String path = queryString.split(":")[1];
             
-            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath);
+            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType);
 
         } catch (Exception e) {
             throw new ServletException(e);
@@ -292,7 +292,7 @@ public class csv extends SlingAllMethodsServlet {
         UNAMBIGOUS.add("jcr:created");
     }
     
-	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, Boolean includePath)
+	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, Boolean includePath, String importType)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
         //while (hits.hasNext()) {
@@ -337,10 +337,35 @@ public class csv extends SlingAllMethodsServlet {
 	            }   
 	            if(canIterate){
     				if(node.hasNodes() && isDeep){
-    					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath);
+    					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType);
     				}
     				continue;
 	            }
+	            
+	            if(null != importType){
+		            if(importType.equals("documents")){
+		            	if(!node.hasProperty("jcr:content/metadata/dc:format")){
+		            		continue;
+		            	}else{
+		            		String format = node.getProperty("jcr:content/metadata/dc:format").getString();
+		            		if(!format.equals("application/pdf") 
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		            				&& !format.equals("application/zip")
+		            				&& !format.equals("application/vnd.ms-powerpoint")
+		            				&& !format.equals("application/vnd.ms-excel")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+		            				&& !format.equals("application/msword")
+		            				&& !format.equals("application/vnd.ms-word.document.macroenabled.12")
+		            				&& !format.equals("text/csv")
+		            				&& !format.equals("application/vnd.ms-excel.sheet.macroenabled.12")
+		            				&& !format.equals("text/plain")){
+		            			continue;
+		            		}
+		            	}
+		            }
+	            }
+	            
 	            if(includePath){
 	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
 	            }
@@ -373,7 +398,7 @@ public class csv extends SlingAllMethodsServlet {
 				}
                 bw.newLine();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath);
+					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType);
 				}
             }
         }
