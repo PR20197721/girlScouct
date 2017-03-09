@@ -297,7 +297,7 @@ $(document).ready(function(){
 		if (!date) date = 60;
 		if (!sortBy) sortBy = 'distance';
 		
-		boothFinder = new BoothFinder("/cookiesapi/booth_list.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
+		boothFinder = new BoothFinder("/cookiesapi/booth_list_merged.asp", zip, radius, date, sortBy, <%= properties.get("numPerPage", 50)%>/*numPerPage*/);
 		boothFinder.getResult();
 	}
 });

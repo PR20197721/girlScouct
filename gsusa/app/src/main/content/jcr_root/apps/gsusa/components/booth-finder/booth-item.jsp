@@ -11,7 +11,6 @@
 	    </section>
 	    <section>
 	        <p>{{DateStart}}</p>
-	        <p>{{TimeOpen}} - {{TimeClose}}</p>
 	    </section>
 	    <section>
 	        <p>{{Distance}} Miles</p>

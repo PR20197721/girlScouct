@@ -103,7 +103,17 @@ try {
             <div>
                 <h5>Date and Time:</h5>
                 <p><%= dateStart %></p>
-                <p><%= request.getParameter("TimeOpen") %> - <%= request.getParameter("TimeClose") %></p>
+<script>
+	$.getJSON("/cookiesapi/booth_list_detail.asp?d=<%= request.getParameter("DateStart") %>&l=<%= request.getParameter("Location") %>&a1=<%= request.getParameter("Address1") %>&a2=<%= request.getParameter("Address2") %>&z=<%= request.getParameter("ZipCode") %>", function(data, textStatus, jqXHR){
+		var timeslotOutput = '';
+		for(var i = 0; i < data.TimeSlots.length; i++){
+			//alert(data.TimeSlots[i].TroopName+' '+data.TimeSlots[i].TimeOpen);
+			timeslotOutput+=data.TimeSlots[i].TimeOpen+' - '+data.TimeSlots[i].TimeClose+'<br>';
+		}
+		$('#timeslots').html(timeslotOutput);
+	});    
+</script>                
+                <p id="timeslots"></p>
             </div>
             <div>
                 <h5>Council:</h5>
