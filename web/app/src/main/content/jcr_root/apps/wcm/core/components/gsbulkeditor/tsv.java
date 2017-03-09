@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package libs.wcm.core.components.bulkeditor;
+package apps.wcm.core.components.gsbulkeditor;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

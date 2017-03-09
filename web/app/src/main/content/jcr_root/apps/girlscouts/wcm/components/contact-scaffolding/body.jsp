@@ -19,7 +19,9 @@
 %><%@ page import="com.day.cq.wcm.api.WCMMode,
 	com.day.cq.commons.jcr.JcrUtil,
 	javax.jcr.Session,
-	java.util.Calendar" %><%
+	java.util.Calendar,
+	java.util.regex.Pattern,
+	java.util.regex.Matcher" %><%
 %><body>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
         String contentPath = properties.get("cq:targetPath", "");
@@ -51,6 +53,16 @@
         if (scaffoldPath.equals("/etc/scaffolding")) {
             %></body><%
             return;
+        }
+        
+        try{
+	        Pattern p = Pattern.compile(".*/etc/scaffolding/([^/]*)/.*");
+	        Matcher m = p.matcher(currentPage.getPath());
+	        m.matches();
+	        String bulkPage = "/content/" + m.group(1) + "/en/contacts";	        
+	        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "&cm=true&deep=true&cv=jcr:title&ec=title,phone,email,team&hib=false&is=true&rt=girlscouts/components/contact-page&it=contacts" %>">Click Here</a></div><%
+        }catch(Exception e){
+        	System.err.println("Contact bulkeditor - could not determine path");
         }
         if (contentPath.length() == 0 || templatePath.length() == 0) {
             %>Please define the target path and a template in the page properties of this scaffolding.<br></body><%

@@ -372,5 +372,10 @@
 		mode="replace"
 		root="/apps/granite/core"
 		rules="[]"/>
+	<f70
+	  jcr:primaryType="sling:folder"
+	  mode="replace"
+	  root="/etc/importers/gsbulkeditor"
+	  rules="[]"/>
     </filter>
 </jcr:root>

@@ -118,7 +118,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
 				pages.add(buildPage(pageManager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page-404", null));
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "events-repository", "", "Events Repository"));
-				pages.add(buildRepositoryPage(pageManager, session, languagePath, "contacts", "", "Contacts"));
+				pages.add(buildPage(pageManager, session, languagePath, "Contacts", null, "contacts", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/contact-placeholder-page", null));
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "milestones", "", "Milestones"));
 				
 				Node enJcrContentNode = rr.getResource(councilPath + "/en/jcr:content").adaptTo(Node.class);
