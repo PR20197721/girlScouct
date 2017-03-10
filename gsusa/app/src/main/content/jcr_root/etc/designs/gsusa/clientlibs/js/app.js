@@ -377,9 +377,11 @@ function fixSlickSlideActive() {
                         gsusa.functions.ToggleParsysAll.toggleAll(true);
                     } catch (ignore) {}
                     if ($(window).width() <= 768) {
-                        // $(".off-canvas-wrap").css({
-                        //   'position': 'fixed'
-                        // });
+                        /*
+                        $(".off-canvas-wrap").css({
+                            'position': 'fixed'
+                        });
+                        */
                         homepageScrollTopPos = document.documentElement.scrollTop || document.body.scrollTop;
                         window.scrollTo(0, 0);
                         target.css({
@@ -387,12 +389,14 @@ function fixSlickSlideActive() {
                             "top": 0
                         });
                         $(".featured-stories").css('position', 'static');
-                        // if ($(window).height() < target.find('.contents').height()) {
-                        //   target.find('.contents').css({
-                        //     'max-height': ($(window).height() - 100) + 'px',
-                        //     'overflow-y' : 'scroll'
-                        //   });
-                        // }
+                        /*
+                        if ($(window).height() < target.find('.contents').height()) {
+                            target.find('.contents').css({
+                                'max-height': ($(window).height() - 100) + 'px',
+                                'overflow-y': 'scroll'
+                            });
+                        }
+                        */
                         fixColorlessWrapper();
                     }
                     fixSlickListTrack();
@@ -407,9 +411,11 @@ function fixSlickSlideActive() {
                     target.removeClass("shown");
                     target.fadeOut('slow');
                     $("body").css('overflow', '');
-                    // $(".off-canvas-wrap").css({
-                    //   'position': ''
-                    // });
+                    /*
+                    $(".off-canvas-wrap").css({
+                      'position': ''
+                    });
+                    */
                     $(".featured-stories").css('position', '');
                     try {
                         gsusa.functions.ToggleParsysAll.toggleAll(false);
