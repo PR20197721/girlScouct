@@ -7,15 +7,15 @@
  * Retina.js is an open source script that makes it easy to serve
  * high-resolution images to devices with retina displays.
  */
-(function() {
-	retina(false);
+(function () {
+    retina(false);
 })();
 
-function retina(forceful){
+function retina(forceful) {
     var root = (typeof exports === 'undefined' ? window : exports);
     var config = {
         // An option to choose a suffix for 2x images
-        retinaImageSuffix : '@2x',
+        retinaImageSuffix: '@2x',
 
         // Ensure Content-Type is an image before trying to load @2x image
         // https://github.com/imulus/retinajs/pull/45)
@@ -25,28 +25,29 @@ function retina(forceful){
         // https://github.com/imulus/retinajs/issues/8
         force_original_dimensions: true
     };
-    
-    function getDivBackgroundImages(){
-    	 var allDiv = $('div'), divs = [];
-    	 $.each(allDiv, function(index, value){
-    		 var $div = value;
-    		 var $jqDiv = $(value);
-    		 var $bgUrl = $jqDiv.css('background-image').split("\"")[1];
-    		 if($bgUrl != undefined){
-    			 if($bgUrl.indexOf(location.origin) == 0){
-    				 console.log($bgUrl);
-    				 divs.push($div);
-    			 }
-    		 }
-    	 });
-    	 return divs;
+
+    function getDivBackgroundImages() {
+        var allDiv = $('div'),
+            divs = [];
+        $.each(allDiv, function (index, value) {
+            var $div = value;
+            var $jqDiv = $(value);
+            var $bgUrl = $jqDiv.css('background-image').split("\"")[1];
+            if ($bgUrl != undefined) {
+                if ($bgUrl.indexOf(location.origin) == 0) {
+                    //console.log($bgUrl);
+                    divs.push($div);
+                }
+            }
+        });
+        return divs;
     }
 
     function Retina() {}
 
     root.Retina = Retina;
 
-    Retina.configure = function(options) {
+    Retina.configure = function (options) {
         if (options === null) {
             options = {};
         }
@@ -58,35 +59,39 @@ function retina(forceful){
         }
     };
 
-    Retina.init = function(context) {
+    Retina.init = function (context) {
         if (context === null) {
             context = root;
         }
 
-        var existing_onload = context.onload || function(){};
+        var existing_onload = context.onload || function () {};
 
-        if(!forceful){
-	        context.onload = function() {
-	            var images = document.getElementsByTagName('img'), retinaImages = [], i, image;
-	            var divs = getDivBackgroundImages();
-	            images = Array.prototype.slice.call(images).concat(divs);
-	            var isiPad = navigator.userAgent.match(/iPad/i) != null;
-	            for (i = 0; i < images.length; i += 1) {
-	                image = images[i];
-	                if (!!!image.getAttributeNode('data-no-retina')) {
-	                    // inkoo added: only if src cq5dam.npd
-	                    if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && null != image.src.match(/image_?\d*.img/g))) {
-			            // added: only if width < 768 pixels (mobile only)
-						    if ($(window).width() >= 768 && !isiPad) {	
-							    retinaImages.push(new RetinaImage(image));
-						    }
-	                    }
-	                }
-	            }
-	            existing_onload();
-	        };
-        }else{
-            var images = document.getElementsByTagName('img'), retinaImages = [], i, image;
+        if (!forceful) {
+            context.onload = function () {
+                var images = document.getElementsByTagName('img'),
+                    retinaImages = [],
+                    i, image;
+                var divs = getDivBackgroundImages();
+                images = Array.prototype.slice.call(images).concat(divs);
+                var isiPad = navigator.userAgent.match(/iPad/i) != null;
+                for (i = 0; i < images.length; i += 1) {
+                    image = images[i];
+                    if (!!!image.getAttributeNode('data-no-retina')) {
+                        // inkoo added: only if src cq5dam.npd
+                        if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && null != image.src.match(/image_?\d*.img/g))) {
+                            // added: only if width < 768 pixels (mobile only)
+                            if ($(window).width() >= 768 && !isiPad) {
+                                retinaImages.push(new RetinaImage(image));
+                            }
+                        }
+                    }
+                }
+                existing_onload();
+            };
+        } else {
+            var images = document.getElementsByTagName('img'),
+                retinaImages = [],
+                i, image;
             var divs = getDivBackgroundImages();
             images = Array.prototype.slice.call(images).concat(divs);
             var isiPad = navigator.userAgent.match(/iPad/i) != null;
@@ -95,17 +100,17 @@ function retina(forceful){
                 if (!!!image.getAttributeNode('data-no-retina')) {
                     // inkoo added: only if src cq5dam.npd
                     if ((image.src && image.src.indexOf("cq5dam.npd") > -1) || image.getAttribute('data-at2x') || (image.src && null != image.src.match(/image_?\d*.img/g))) {
-		            // added: only if width < 768 pixels (mobile only)
-					    if ($(window).width() >= 768 && !isiPad) {	
-						    retinaImages.push(new RetinaImage(image));
-					    }
+                        // added: only if width < 768 pixels (mobile only)
+                        if ($(window).width() >= 768 && !isiPad) {
+                            retinaImages.push(new RetinaImage(image));
+                        }
                     }
                 }
             }
         }
     };
 
-    Retina.isRetina = function(){
+    Retina.isRetina = function () {
         var mediaQuery = '(-webkit-min-device-pixel-ratio: 1.5), (min--moz-device-pixel-ratio: 1.5), (-o-min-device-pixel-ratio: 3/2), (min-resolution: 1.5dppx)';
 
         if (root.devicePixelRatio > 1) {
@@ -119,9 +124,9 @@ function retina(forceful){
         return false;
     };
 
-
     var regexMatch = /\.\w+$/;
-    function suffixReplace (match) {
+
+    function suffixReplace(match) {
         return config.retinaImageSuffix + match;
     }
 
@@ -135,12 +140,12 @@ function retina(forceful){
                 var locationObject = document.createElement('a');
                 locationObject.href = this.path;
                 var matchIndex = locationObject.pathname.indexOf(locationObject.pathname.match(regexMatch));
-                if(locationObject.pathname.substring(matchIndex-3,matchIndex) != "@2x"){ //If we're running retina a second time, such as in content hub dynamic tag listing, we don't want to try loading @2x@2x
-	                locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
-	                this.at_2x_path = locationObject.href;
-            	}else{
-            		this.at_2x_path = locationObject.href;
-            	}
+                if (locationObject.pathname.substring(matchIndex - 3, matchIndex) != "@2x") { //If we're running retina a second time, such as in content hub dynamic tag listing, we don't want to try loading @2x@2x
+                    locationObject.pathname = locationObject.pathname.replace(regexMatch, suffixReplace);
+                    this.at_2x_path = locationObject.href;
+                } else {
+                    this.at_2x_path = locationObject.href;
+                }
             } else {
                 var parts = this.path.split('?');
                 parts[0] = parts[0].replace(regexMatch, suffixReplace);
@@ -154,11 +159,11 @@ function retina(forceful){
 
     RetinaImagePath.confirmed_paths = [];
 
-    RetinaImagePath.prototype.is_external = function() {
-        return !!(this.path.match(/^https?\:/i) && !this.path.match('//' + document.domain) );
+    RetinaImagePath.prototype.is_external = function () {
+        return !!(this.path.match(/^https?\:/i) && !this.path.match('//' + document.domain));
     };
 
-    RetinaImagePath.prototype.check_2x_variant = function(callback) {
+    RetinaImagePath.prototype.check_2x_variant = function (callback) {
         var http, that = this;
         if (this.is_external()) {
             return callback(false);
@@ -169,7 +174,7 @@ function retina(forceful){
         } else {
             http = new XMLHttpRequest();
             http.open('HEAD', this.at_2x_path);
-            http.onreadystatechange = function() {
+            http.onreadystatechange = function () {
                 if (http.readyState !== 4) {
                     return callback(false);
                 }
@@ -192,38 +197,38 @@ function retina(forceful){
         }
     };
 
-
     function RetinaImage(el) {
         this.el = el;
-        if(el.tagName == "IMG" || el.tagName == "img"){
-	        this.path = new RetinaImagePath(this.el.getAttribute('src'), this.el.getAttribute('data-at2x'));
-	        var that = this;
-	        this.path.check_2x_variant(function(hasVariant) {
-	            if (hasVariant) {
-	                that.swap();
-	            }
-	        });
-        } else{
-        	this.path = new RetinaImagePath($(this.el).css("background-image"), this.el.getAttribute('data-at2x'));
-        	var that = this;
-        	this.path.check_2x_variant(function(hasVariant) {
-	            if (hasVariant) {
-	                that.swapDiv();
-	            }
-	        });
+        if (el.tagName == "IMG" || el.tagName == "img") {
+            this.path = new RetinaImagePath(this.el.getAttribute('src'), this.el.getAttribute('data-at2x'));
+            var that = this;
+            this.path.check_2x_variant(function (hasVariant) {
+                if (hasVariant) {
+                    that.swap();
+                }
+            });
+        } else {
+            this.path = new RetinaImagePath($(this.el).css("background-image"), this.el.getAttribute('data-at2x'));
+            var that = this;
+            this.path.check_2x_variant(function (hasVariant) {
+                if (hasVariant) {
+                    that.swapDiv();
+                }
+            });
         }
     }
 
     root.RetinaImage = RetinaImage;
 
-    RetinaImage.prototype.swap = function(path) {
+    RetinaImage.prototype.swap = function (path) {
         if (typeof path === 'undefined') {
             path = this.path.at_2x_path;
         }
 
         var that = this;
+
         function load() {
-            if (! that.el.complete) {
+            if (!that.el.complete) {
                 setTimeout(load, 5);
             } else {
                 if (config.force_original_dimensions) {
@@ -236,13 +241,14 @@ function retina(forceful){
         }
         load();
     };
-    
-    RetinaImage.prototype.swapDiv = function(path) {
+
+    RetinaImage.prototype.swapDiv = function (path) {
         if (typeof path === 'undefined') {
             path = this.path.at_2x_path;
         }
 
         var that = this;
+
         function load() {
             //if (! that.el.complete) {
             //    setTimeout(load, 5);
@@ -252,15 +258,14 @@ function retina(forceful){
             //        that.el.setAttribute('height', that.el.offsetHeight);
             //    }
 
-                $(that.el).css({
-                	"background": "url('" + path + "') no-repeat 0% 0%/contain transparent"
-                });
-                //}
+            $(that.el).css({
+                "background": "url('" + path + "') no-repeat 0% 0%/contain transparent"
+            });
+            //}
             //}
         }
         load();
     };
-
 
     if (Retina.isRetina()) {
         Retina.init(root);
