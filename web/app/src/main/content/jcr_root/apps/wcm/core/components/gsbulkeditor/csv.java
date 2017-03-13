@@ -52,6 +52,8 @@ public class csv extends SlingAllMethodsServlet {
     public static final String QUERY_PARAM = "query";
     public static final String DEEP_SEARCH_PARAM = "isDeep";
     public static final String RESOURCE_TYPE_PARAM = "resourceType";
+    public static final String PRIMARY_TYPE_PARAM = "primaryType";
+    public static final String IMPORT_TYPE_PARAM = "importType";
 
     public static final String SEPARATOR_PARAM = "separator";
 
@@ -87,6 +89,8 @@ public class csv extends SlingAllMethodsServlet {
         
 		String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
 		String resourceTypeString = request.getParameter(RESOURCE_TYPE_PARAM);
+		String primaryTypeString = request.getParameter(PRIMARY_TYPE_PARAM);
+		String importType = request.getParameter(IMPORT_TYPE_PARAM);
 		
 		Boolean isDeep = "true".equals(isDeepString);
 		
@@ -112,7 +116,16 @@ public class csv extends SlingAllMethodsServlet {
             //final String separator = (request.getParameter(SEPARATOR_PARAM)!=null ? request.getParameter(SEPARATOR_PARAM) : DEFAULT_SEPARATOR);
             final String separator = DEFAULT_SEPARATOR;
 
-            //bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
+            Boolean includePath = true;
+            if(importType != null){
+            	if(!importType.equals("contacts")){
+            		bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
+            	}else{
+            		includePath = false;
+            	}
+            }else{
+            	bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
+            }
             if (properties != null) {
                 for (String property : properties) {
                     property = property.trim();
@@ -124,7 +137,7 @@ public class csv extends SlingAllMethodsServlet {
 
             String path = queryString.split(":")[1];
             
-            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString);
+            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType);
 
         } catch (Exception e) {
             throw new ServletException(e);
@@ -279,7 +292,7 @@ public class csv extends SlingAllMethodsServlet {
         UNAMBIGOUS.add("jcr:created");
     }
     
-	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType)
+	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, Boolean includePath, String importType)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
         //while (hits.hasNext()) {
@@ -288,29 +301,74 @@ public class csv extends SlingAllMethodsServlet {
             //Row hit = hits.nextRow();
             //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
             if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
-            	if(null != resourceType){
-            		if(node.hasProperty("sling:resourceType")){
-            			if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
-            				if(node.hasNodes() && isDeep){
-            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-            				}
-            				continue;
-            			}
-            		}else if(node.hasProperty("jcr:content/sling:resourceType")){
-            			if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
-            				if(node.hasNodes() && isDeep){
-            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-            				}
-            				continue;
-            			}
-            		}else{
-        				if(node.hasNodes() && isDeep){
-        					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-        				}
-        				continue;
-            		}
-            	}
-                //bw.write(csv.valueParser(node.getPath(), separator));
+				Boolean canIterate = false;
+	            if(null != resourceType && null != primaryType){
+	            	if(node.hasProperty("sling:resourceType") && node.hasProperty("jcr:primaryType")){ 
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:primaryType").getString().equals(primaryType)) {
+	            			canIterate = true;
+		            	}
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType") && node.hasProperty("jcr:content/jcr:primaryType")){
+		            	if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)) {
+		            		canIterate = true;
+		            	}
+	            	}else{
+	    				canIterate = true;
+	            	}
+	            }else if(null != resourceType){
+	            	if(node.hasProperty("sling:resourceType")){
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType")){
+	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }else if(null != primaryType){
+	            	if(node.hasProperty("jcr:primaryType")){
+	            		if(!node.getProperty("jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/jcr:primaryType")){
+	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }   
+	            if(canIterate){
+    				if(node.hasNodes() && isDeep){
+    					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType);
+    				}
+    				continue;
+	            }
+	            
+	            if(null != importType){
+		            if(importType.equals("documents")){
+		            	if(!node.hasProperty("jcr:content/metadata/dc:format")){
+		            		continue;
+		            	}else{
+		            		String format = node.getProperty("jcr:content/metadata/dc:format").getString();
+		            		if(!format.equals("application/pdf") 
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		            				&& !format.equals("application/zip")
+		            				&& !format.equals("application/vnd.ms-powerpoint")
+		            				&& !format.equals("application/vnd.ms-excel")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+		            				&& !format.equals("application/msword")
+		            				&& !format.equals("application/vnd.ms-word.document.macroenabled.12")
+		            				&& !format.equals("text/csv")
+		            				&& !format.equals("application/vnd.ms-excel.sheet.macroenabled.12")
+		            				&& !format.equals("text/plain")){
+		            			continue;
+		            		}
+		            	}
+		            }
+	            }
+	            
+	            if(includePath){
+	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	            }
 				if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
 					Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
 					if (properties != null) {
@@ -340,7 +398,7 @@ public class csv extends SlingAllMethodsServlet {
 				}
                 bw.newLine();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
+					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType);
 				}
             }
         }
