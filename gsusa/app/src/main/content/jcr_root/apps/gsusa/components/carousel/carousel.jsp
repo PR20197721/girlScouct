@@ -132,9 +132,9 @@ public  String readUrlFile(String urlString) throws Exception {
 		
 		function pauseVideoSliderVideosVimeo(){
 			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				// if(typeof($f) !== "undefined"){
-				// 	$f(val).api('pause');
-				// }
+				//if(typeof($f) !== "undefined"){
+                //    $f(val).api('unload');
+                //}
 			});
 		}
 		
@@ -145,7 +145,6 @@ public  String readUrlFile(String urlString) throws Exception {
 		});
 		
 		stopSlider = function() {
-
 			if (slick != undefined && slick.slick != undefined) {
 
 				slick.slick('slickPause');
@@ -163,52 +162,44 @@ public  String readUrlFile(String urlString) throws Exception {
 			}
 		}
 
-        var iframe,
+        var embeds = $('.main-slider iframe'),
+            iframe,
             player,
-            vPlayerId,
-            i,
-            k;
-		for (i = 0; i < <%=numberOfImages%>; i += 1) {
-			if ($('#vimeoPlayer' + i).length > 0) {
-				// $('#vimeoPlayer' + i).load(function() {
-                $.getScript('https://player.vimeo.com/api/player.js', function() {
+            underbar = $('.zip-council'),
+            slideButton = $('.main-slider button'),
+            i;
+        
+        // Once the script has loaded
+        $.getScript('https://player.vimeo.com/api/player.js', function() {
+            
+            // For each slide
+            for (i = 0; i < <%=numberOfImages%>; i += 1) {
+                
+                iframe = $(embeds[i]);
 
-                    function attachListenerToVideoSlider () {
-                        
-                        for (k = 0; k < $('.main-slider iframe').length; k += 1) {
-                            iframe = $('.main-slider iframe')[k];
-                            vPlayerId = $(iframe).attr('id');
+                // Check for a Vimeo player
+                if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
 
-                            if (iframe.id != undefined) {
-                                if (vPlayerId.toLowerCase().indexOf('vimeo') >= 0) {
+                    //iframe.on("load", function() {
+                    
+                        // Add listener events
+                        player = new Vimeo.Player(iframe);
 
-                                    player = new Vimeo.Player(vPlayerId);
+                        player.on('play', function() {
+                            stopSlider();
+                            underbar.slideUp(0);
+                        });
 
-                                    player.on('play', function() {
-                                        stopSlider();
-                                        //setTimeout(function(){
-                                            $('.zip-council').slideUp(0);
-                                        //},1000);
-                                    });
-                                    
-                                    $('.main-slider button').click( function() {
-                                        player.unload();
-                                        /*
-                                        player.pause();
-                                        player.getVideoId().then( function(id) {
-                                            player.loadVideo(id);
-                                        });*/
-                                        startSlider();
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    attachListenerToVideoSlider();
-                });
-                // });
-			}
-		}
+                        slideButton.on('click', function() {
+                            player.unload();
+                            startSlider();
+                        });
+
+                    //});
+
+                }
+            }
+        });
 	});
 
 

@@ -199,7 +199,7 @@ checkVersion();
 						    pauseVideoSliderVideosVimeo();
 						});
 					  
-					$('#<%= urls[3] %>').load(function() {
+					$('#<%=urls[3]%>').load(function() {
 
 						$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
 							  

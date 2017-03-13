@@ -4,11 +4,10 @@
 
   Basic building block of the article hub components
 
---%><%
-%><%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/gsusa/components/global.jsp" %>
-<%
-%><%@page session="false" %>
+--%>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/gsusa/components/global.jsp"%>
+<%@page session="false"%>
 <%@page import="javax.jcr.Node, org.apache.commons.lang.StringEscapeUtils, javax.jcr.Value, com.day.cq.tagging.TagManager, com.day.cq.wcm.api.Page, com.day.cq.tagging.Tag"%>
 <%
   	String articlePath = (String)request.getAttribute("articlePath");
@@ -99,8 +98,6 @@
             imageSrc = getImageRenditionSrc(resourceResolver, imageSrc, "cq5dam.npd.tile.");
         }
 
-
-
     } catch(Exception e){
         e.printStackTrace();
     }
@@ -133,35 +130,28 @@
 %>
 
 <section>
-    <%
+	<%
     if(type.equals("video")){
 		if(playOnClick){
-        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"><%
+        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"> <%
     	} else {
-			%><a class="video non-click" href="<%=linkToArticle%>"><%
+			%><a class="video non-click" href="<%=linkToArticle%>"> <%
     	}
 	} else if(type.equals("link")){
         if(openInNewWindow){
-
-		%>
-
-			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
-    	<%
+		%> <a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank"> <%
         } else {
-		%>
-			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>">
-    	<%
+		%> <a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>"> <%
         }
 	} else {
     	%> <a class="photo" href="<%=linkToArticle%>"> <%
     }
-    %>
-		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
-		<div class="text-content" style="background: <%=rgba%>">
-			<h3><%=tileTitle%></h3>
-            <p><%=tileText%></p>
-		</div>
-	</a>
+    %> <img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>" />
+						<div class="text-content" style="background: <%=rgba%>">
+							<h3><%=tileTitle%></h3>
+							<p><%=tileText%></p>
+						</div>
+				</a>
 </section>
 
 
