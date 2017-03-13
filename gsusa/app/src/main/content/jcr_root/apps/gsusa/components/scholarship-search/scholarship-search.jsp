@@ -1,5 +1,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page import="java.util.TreeMap, 
+				java.util.Arrays,
 				java.util.ArrayList, 
 				java.util.SortedSet, 
 				java.util.TreeSet,
@@ -13,7 +14,9 @@
 				java.util.regex.Pattern,
 				java.util.regex.Matcher" %>
 
+
 <%
+	boolean searchMade = false;
 	String path = properties.get("path","");
 	if(path.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
 		%>
@@ -22,12 +25,26 @@
 	} else if (!path.equals("")) {
 		String typeParam = "All";
 		String stateParam = "All";
-		if(slingRequest.getParameter("type") != null){
-			typeParam = URLDecoder.decode(slingRequest.getParameter("type"), "UTF-8");
+
+		String mySelector = slingRequest.getRequestPathInfo().getSelectorString();
+		if (mySelector != null) {
+			String[] mySelectorArray = mySelector.split("\\."); 
+
+			if(mySelectorArray.length == 2) {		
+				if(mySelectorArray[0] != null){
+					// cannot send "/" so replacing it with "~"
+					mySelectorArray[0] = mySelectorArray[0].replace("~","/");
+					typeParam = URLDecoder.decode(mySelectorArray[0], "UTF-8");
+				}
+				if(mySelectorArray[1] != null){
+					// cannot send "/" so replacing it with "~"
+					mySelectorArray[1] = mySelectorArray[1].replace("~","/");
+					stateParam = URLDecoder.decode(mySelectorArray[1], "UTF-8");
+				}
+				searchMade = true;
+			}
 		}
-		if(slingRequest.getParameter("state") != null){
-			stateParam = URLDecoder.decode(slingRequest.getParameter("state"), "UTF-8");
-		}
+		
 		//Categorize scholarship pages by type
 		PageManager pm = resourceResolver.adaptTo(PageManager.class);
 		Page parent = pm.getPage(path);
@@ -61,7 +78,19 @@
 				}
 			}
 		%>
-<form action="<%= currentPage.getPath()+".html"%>" method="GET" id="scholarship-form">
+		
+<script>
+	function displayResults(obj) {
+		// cannot send "/" so replacing it with "^"
+		var myType = encodeURIComponent(obj["type"].value).replace(/'/g,"%27").replace(/"/g,"%22").replace("%2F","%7E");
+		var myState = encodeURIComponent(obj["state"].value).replace(/'/g,"%27").replace(/"/g,"%22").replace("%2F","%7E");
+		var myStr = "<%=currentPage.getPath()%>"+"."+myType+"."+myState+".html" 
+		window.location=myStr;
+		return false;
+	}
+</script>		
+		
+<form id="scholarship-form" onsubmit="return displayResults(this);">
 	<section class="scholarship-type">
 		<label>Type:</label>
 		<select name="type">
@@ -100,11 +129,7 @@
 	<input type="submit" value="Search" class="button">
 </form>
 <%
-	boolean searchMade = false;
 	boolean anyResults = false;
-	if(slingRequest.getParameter("type") != null && slingRequest.getParameter("state") != null){
-		searchMade = true;
-	}
 	if(!searchMade){
 		%> <p>Please note: if you are searching by state and your council office is in another state than the one you live in, be sure to search both states.</p><%
 	}
