@@ -2,6 +2,13 @@
 /*global $, jQuery, gsusa, alert, Handlebars, YT, $f, console */
 /*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, loc */
 
+//
+//
+// Follow these Naming Conventions
+// https://google.github.io/styleguide/javascriptguide.xml#Naming
+//
+//
+
 function fixColorlessWrapper() {
     'use strict';
     // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos
@@ -11,10 +18,16 @@ function fixColorlessWrapper() {
     for (i = 0; i < colorlessWrappers.length; i += 1) {
         thisWrapperStyle = $(colorlessWrappers[i]).attr("style");
         if (thisWrapperStyle) {
-            $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1\)"));
+            $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1)"));
         }
     }
-    //$(".story.colorless .bg-wrapper").each(function() {if($(this).attr("style")) {$(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"))}});
+    /*
+    $(".story.colorless .bg-wrapper").each(function () {
+        if ($(this).attr("style")) {
+            $(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"));
+        }
+    });
+    */
 }
 
 function fixSlickListTrack() {
@@ -72,7 +85,7 @@ function fixSlickSlideActive() {
     }
 
     //add height to the content for the footer to be always at the bottom.
-    function fix_bottom_footer() {
+    function fixBottomFooter() {
         var footer_height = $("footer").outerHeight(),
             header_height = $(".header").outerHeight(),
             total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
@@ -797,7 +810,7 @@ function fixSlickSlideActive() {
             $(this).toggleClass('on');
         });
     }
-    fix_bottom_footer();
+    fixBottomFooter();
     slide_search_bar();
     small_screens();
     show_hide_features();
@@ -978,7 +991,7 @@ function article_tiles() {
                 var jqElement = $(obj.el),
                     ratio,
                     c_height,
-                    title_height = parseInt($(obj.el).height());
+                    title_height = parseInt($(obj.el).height(), 10);
                 if ($(window).width() < 760) {
                     c_height = obj.content_height;
                 } else {
@@ -1001,7 +1014,7 @@ function article_tiles() {
         var obj = {
             index: index,
             el: el,
-            title_height: parseInt($(el).height()),
+            title_height: parseInt($(el).height(), 10),
             content_height: $(el).parent().height(),
             adjusted: $(el).data('adjusted'),
             height_real: $(el).parents('a').parent('section').parent('.article-tile').height()

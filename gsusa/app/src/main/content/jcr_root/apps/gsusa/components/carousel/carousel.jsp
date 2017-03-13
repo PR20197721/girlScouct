@@ -163,20 +163,24 @@ public  String readUrlFile(String urlString) throws Exception {
 			}
 		}
 
-		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
+        var iframe,
+            player,
+            vPlayerId,
+            i,
+            k;
+		for (i = 0; i < <%=numberOfImages%>; i += 1) {
 			if ($('#vimeoPlayer' + i).length > 0) {
 				// $('#vimeoPlayer' + i).load(function() {
                 $.getScript('https://player.vimeo.com/api/player.js', function() {
 
                     function attachListenerToVideoSlider () {
-                        for (var k = 0; k < $('.main-slider iframe').length; k ++) {
-                            var iframe = $('.main-slider iframe')[k], 
-                                player, 
-                                vPlayerId;
-                                var vPlayerId = $(iframe).attr('id');
+                        
+                        for (k = 0; k < $('.main-slider iframe').length; k += 1) {
+                            iframe = $('.main-slider iframe')[k];
+                            vPlayerId = $(iframe).attr('id');
 
                             if (iframe.id != undefined) {
-                                if ( vPlayerId.toLowerCase().indexOf('vimeo') >= 0 ) {
+                                if (vPlayerId.toLowerCase().indexOf('vimeo') >= 0) {
 
                                     player = new Vimeo.Player(vPlayerId);
 
@@ -222,12 +226,11 @@ public  String readUrlFile(String urlString) throws Exception {
 
 <div class="hero-feature">
 	<ul class="main-slider">
-		<% 
-		for (int i = 0 ; i < numberOfImages; i++) { 
-			if (!tempHidden[i]) {%>
+		<% for (int i = 0 ; i < numberOfImages; i++) { 
+			if (!tempHidden[i]) { %>
 		<li id="tag_explore_main_<%=i%>">
 			<% 
-				if (link[i].indexOf("https://www.youtube.com") != -1) {%>
+				if (link[i].indexOf("https://www.youtube.com") != -1) { %>
 					<div class="videoWrapper show-for-small thumbnail">
 						<iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" frameborder="0" allowfullscreen></iframe>
 					</div>
