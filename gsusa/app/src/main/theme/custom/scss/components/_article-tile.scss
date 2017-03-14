@@ -1,7 +1,6 @@
 $font-size: 14px;
 $line-height: 1.2;
 $lines-to-show: 3;
-
 .article-tile {
     section {
         position: relative;
@@ -33,13 +32,13 @@ $lines-to-show: 3;
                 margin-top: 0;
                 font-weight: normal;
             }
-            @media #{$small-only} {   
-                h3{
-                   font-size: rem-calc(14);
-                   line-height: 1.25rem;   
-                   font-weight: normal;
+            @media #{$small-only} {
+                h3 {
+                    font-size: rem-calc(14);
+                    line-height: 1.25rem;
+                    font-weight: normal;
                 }
-                p{
+                p {
                     line-height: 1rem;
                 }
             }
@@ -54,7 +53,6 @@ $lines-to-show: 3;
                 z-index: -10;
             }
         }
-
         @media #{$small-only} {
             .text-contect {
                 padding-left: 0.8rem;
@@ -68,6 +66,17 @@ $lines-to-show: 3;
         a {
             display: block;
             width: 100%;
+            * {
+                -webkit-user-select: none;
+                /* Chrome all / Safari all */
+                -moz-user-select: none;
+                /* Firefox all */
+                -ms-user-select: none;
+                /* IE 10+ */
+                user-select: none;
+                /* Likely future */
+                pointer-events: none;
+            }
             &.video:after {
                 z-index: 10;
                 content: "";
@@ -96,7 +105,6 @@ $lines-to-show: 3;
                     width: 100%;
                 }
             }
-             
         }
     }
 }
@@ -169,35 +177,32 @@ $lines-to-show: 3;
             }
         }
         @media #{$small-only} {
-
-          section .text-content h3 {
-            font-size: rem-calc(14);
-            line-height: 1rem;
-          }
-          section .text-content {
-             padding-left: 0.8rem;
-            padding-right: 0.8rem;
-          }
-
+            section .text-content h3 {
+                font-size: rem-calc(14);
+                line-height: 1rem;
+            }
+            section .text-content {
+                padding-left: 0.8rem;
+                padding-right: 0.8rem;
+            }
         }
         ul {
-          @include block-grid(2,
-          $spacing: rem-calc(20));
-          li {
-            padding-bottom: rem-calc(20);
-            @media #{$medium-up} {
-                padding-bottom: rem-calc(17);
-            }
-          }
-          @media #{$small-only} {
             @include block-grid(2,
-            $spacing: rem-calc(5));
-          }
+            $spacing: rem-calc(20));
+            li {
+                padding-bottom: rem-calc(20);
+                @media #{$medium-up} {
+                    padding-bottom: rem-calc(17);
+                }
+            }
+            @media #{$small-only} {
+                @include block-grid(2,
+                $spacing: rem-calc(5));
+            }
         }
         section .text-content p {
-          line-height: 1.2rem;
+            line-height: 1.2rem;
         }
-
     }
 }
 
@@ -230,22 +235,16 @@ $lines-to-show: 3;
             ul {
                 @include block-grid(2);
             }
-
-            .article-tile{
-                .text-content{
+            .article-tile {
+                .text-content {
                     padding: 0 0.8rem;
-                    h3{
+                    h3 {
                         line-height: 1rem;
                         font-size: 14px;
                     }
-
-                    p{
-
-                    }
+                    p {}
                 }
             }
-
-
         }
     }
 }
@@ -268,28 +267,20 @@ $lines-to-show: 3;
                     $spacing: rem-calc(20));
                 }
             }
-
-            .article-tile{
-
-            }
+            .article-tile {}
         }
         @media #{$small-only} {
             ul {
                 @include block-grid(1);
             }
-
-            .article-tile{
-                .text-content{
+            .article-tile {
+                .text-content {
                     // padding: 0 1rem !important;
-         
-                    h3{
+                    h3 {
                         line-height: 1.75rem;
-			font-size: 1.25rem;
+                        font-size: 1.25rem;
                     }
-
-                    p{
-
-                    }
+                    p {}
                 }
             }
         }
