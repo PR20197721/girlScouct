@@ -171,6 +171,7 @@ public  String readUrlFile(String urlString) throws Exception {
         
         // Once the script has loaded
         $.getScript('https://player.vimeo.com/api/player.js', function() {
+        //embeds.onload = function() {
             
             // For each slide
             for (i = 0; i < <%=numberOfImages%>; i += 1) {
@@ -180,11 +181,11 @@ public  String readUrlFile(String urlString) throws Exception {
                 // Check for a Vimeo player
                 if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
 
-                    //iframe.on("load", function() {
+                    // Add listener events
+                    player = new Vimeo.Player(iframe);
                     
-                        // Add listener events
-                        player = new Vimeo.Player(iframe);
-
+                    player.on('loaded', function(data) {
+                    
                         player.on('play', function() {
                             stopSlider();
                             underbar.slideUp(0);
@@ -195,7 +196,7 @@ public  String readUrlFile(String urlString) throws Exception {
                             startSlider();
                         });
 
-                    //});
+                    });
 
                 }
             }
