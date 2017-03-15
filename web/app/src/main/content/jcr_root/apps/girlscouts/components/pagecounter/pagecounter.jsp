@@ -86,13 +86,13 @@
 	}
 	
 	String linkify(String path) {
-		String[] values = path.split(" ");
+		String[] values = path.split("\\|");
 		String reason = "";
 		for (int i = 1; i < values.length; i++) {
 			reason += values[i] + " ";
 		}
 		
-		String html = "<a  target=\"_blank\"  href=\"" + values[0] + ".html\">" + trimTopLevel(values[0],2) + "</a>";  
+		String html = "<a  target=\"_blank\"  href=\"" + values[0].trim() + ".html\">" + trimTopLevel(values[0],2) + "</a>";  
 		
 		if (reason.length() > 0) {
 			html += " (" + reason.trim() + ")";
@@ -195,13 +195,13 @@
 		// Active Pages
 		String lastReplicationAction = properties.get("cq:lastReplicationAction", "");
 		if (!lastReplicationAction.equals("Activate")) {
-			noncountPages.add(path + " NonActive");
+			noncountPages.add(path + " | NonActive");
 			return;
 		}
 		
 		// Exception Pages
 		if (exceptionPages.contains(path)) {			
-			noncountPages.add(path + " ExceptionPages");
+			noncountPages.add(path + " | ExceptionPages");
 			return;
 		}		
 		
@@ -209,7 +209,7 @@
 		for (int i = 0; i < exceptionDirectories.size(); i++) {
 			String dir = exceptionDirectories.get(i);
 			if (!path.equals(dir) && path.contains(dir)) {				
-				noncountPages.add(path + " ExceptionDirectories");
+				noncountPages.add(path + " | ExceptionDirectories");
 				return;
 			}
 		}		
@@ -263,7 +263,7 @@
 		for (int i = 0; i < thankYouPages.size(); i++) {
 			String[] val = thankYouPages.get(i).split(" ");
 			if (path.equals(val[0])) {				
-				noncountPages.add(path + " ThankYou " + val[1]);
+				noncountPages.add(path + " | ThankYou " + val[1]);
 				return;
 			}
 		}	
