@@ -138,7 +138,7 @@ public  String readUrlFile(String urlString) throws Exception {
 			});
 		}
 		
-		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
+		slick.on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
 			pauseVideoSliderVideosVimeo();
 			$(".zip-council").slideDown(1000);
@@ -170,7 +170,7 @@ public  String readUrlFile(String urlString) throws Exception {
             i;
         
         // Once the script has loaded
-        $.getScript('https://player.vimeo.com/api/player.js', function() {
+        //$.getScript('https://player.vimeo.com/api/player.js', function() {
         //embeds.onload = function() {
             
             // For each slide
@@ -200,7 +200,7 @@ public  String readUrlFile(String urlString) throws Exception {
 
                 }
             }
-        });
+        //});
 	});
 
 

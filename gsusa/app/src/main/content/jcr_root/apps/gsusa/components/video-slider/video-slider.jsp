@@ -157,78 +157,67 @@ checkVersion();
 				  	<div class="vid-slide-wrapper show-for-medium-up">
 				  		<% if(urls.length == 5) { %>
 				  			<% if(!title.equals("")){ %>
-				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
+				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>" data-display-title="true" title="<%= title %>"></div>
 				  			<% } else { %>
-				  			<div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
+				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } %>
 			  			<% } else { %>
-				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen>
-				  			</iframe>
+				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
 			  			<% } %>
 		  			</div>
 		  			<script type="text/javascript">
-		  			
-					
-				  stopSlider = function() {
-						var slick = $('.video-slider-wrapper');
-						if(slick != undefined && slick.slick != undefined){
-							slick.slick('slickPause');
-							slick.slick('slickSetOption', 'autoplay', false, false);
-							slick.slick('autoPlay',$.noop);
-						}
-					}
-				  function pauseVideoSliderVideosVimeo(){
-					  $.each($(".vimeo"), function( i, val ) { 
-						  if(typeof($f) !== "undefined"){
-				    	  	$f(val).api('unload');
-						  }
-				      });
-				  };
-		  			
-					  function pauseVideoSliderVideosYoutube() {
-						  if($('.lazyYT > iframe').length > 0) {
-						      $.each($('.lazyYT > iframe'), function( i, val ) {
-						    	  var iframe = val;
-						    	  iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-						      });
-					  	}
-					  }
-					  
-					  $('.video-slider-wrapper').on('afterChange', function (event, slick, currentSlide) {
-						    pauseVideoSliderVideosYoutube();
-						    pauseVideoSliderVideosVimeo();
-						});
-					  
-					$('#<%=urls[3]%>').load(function() {
+                        $(function() {
+                            
+                            var slick = $('.video-slider-wrapper'),
+                                slides = $(".video-slider .slick-slide"),
+                                //iframes = $('.vid-slide-wrapper iframe'),
+                                vimeoPlayer = $(".vimeo"),
+                                youtubePlayer = $('.lazyYT > iframe');
+                            
+                            slides.css({
+                                height: slides.width() * 9 / 16,
+                                paddingBottom: 0
+                            });
 
-						$.getScript('https://f.vimeocdn.com/js/froogaloop2.min.js', function() {
-							  
-							  function attachListenerToVideoSlider () {
-								    for (var i = 0; i < $('.vid-slide-wrapper iframe').length; i ++) {
-								    	var iframe = $('.vid-slide-wrapper iframe')[i],
-								    		player;
-								    	if ($(iframe).hasClass("vimeo")) {
-								    		player = $f(iframe);
-							    			player.addEvent('playProgress', function() {
-							    				stopSlider();
-								    		}); 
-								    	}
-								    }   
-								}
-							  
-							  function pauseVideoSliderVideosVimeo(){
-								  $.each($(".vimeo"), function( i, val ) { 
-									  if(typeof($f) !== "undefined"){
-							    	  	$f(val).api('unload');
-									  }
-							      });
-							  };
-									
-							attachListenerToVideoSlider();
-						});
-					  
-					  });
-				</script>
+                            function stopSlider() {
+                                if (slick != undefined && slick.slick != undefined) {
+                                    slick.slick('slickPause');
+                                    slick.slick('slickSetOption', 'autoplay', false, false);
+                                    slick.slick('autoPlay', $.noop);
+                                }
+                            }
+
+                            function pauseVideoSliderVideosVimeo() {
+                                $.each(vimeoPlayer, function (i, iframe) {
+                                    if (typeof ($f) !== "undefined") {
+                                        $f(iframe).api('unload');
+                                    }
+                                });
+                            };
+
+                            function pauseVideoSliderVideosYoutube() {
+                                $.each(youtubePlayer, function (i, iframe) {
+                                    iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+                                });
+                            }
+
+                            slick.on('afterChange', function (event, slick, currentSlide) {
+                                pauseVideoSliderVideosYoutube();
+                                pauseVideoSliderVideosVimeo();
+                            });
+
+                            //$('#<%=urls[3]%>').on("load", function () {
+                                $.each(vimeoPlayer, function (i, iframe) {
+                                    if (typeof ($f) !== "undefined") {
+                                        $f(iframe).addEvent('playProgress', function () {
+                                            stopSlider();
+                                        });
+                                    }
+                                });
+                            //});
+
+                        });
+                    </script>
 	  			</div>
 			<% } else { %>
 				<div>*** Format not supported ***</div>

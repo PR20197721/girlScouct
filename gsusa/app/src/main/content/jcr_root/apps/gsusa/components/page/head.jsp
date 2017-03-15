@@ -141,4 +141,10 @@
 	});
 	</script>
 	<!-- END GA Tracking -->
+        
+    <!-- Video players -->
+    <!-- TODO - Check for videos and add conditionally -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="https://player.vimeo.com/api/player.js"></script>
+    <script src="https://f.vimeocdn.com/js/froogaloop2.min.js"></script>
 </head>
