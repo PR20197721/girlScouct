@@ -14,7 +14,9 @@
 	org.girlscouts.vtk.utils.VtkUtil,
 	org.girlscouts.vtk.models.User,
 	javax.servlet.http.HttpSession,
-	org.girlscouts.web.events.search.*
+	org.girlscouts.web.events.search.*,
+	java.text.SimpleDateFormat,
+	java.util.Calendar
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -24,110 +26,38 @@
     
 	/************************** Page Counter Component ************************
 	** This components lists pages that count towards page count
-	** Dialog is used to filter pages that do not count
+	** Dialog is used to filter pages that should not count
 	**
 	** Pages that count are:
-	** 	* pages that belong to 35 national template pages
+	** 	* pages inherited from national template pages
 	**  * pages that do not belong to below
 	**
 	** Pages that do not count are:
 	**	* Homepage
+	**  * Thank You pages
 	**  * Terms and Conditions, Privacy Policy, Content Monitoring
 	**	  Policy, Social Media Policy (in footer)
 	**  * Individual forms, events, news
 	**
 	*************************************************************************/
 	
-	public static final String TEMPLATE_PATH = "/content/girlscouts-template";
-	public static final String RESOURCE_TYPES = "girlscouts/components/homepage, girlscouts/components/one-column-page, girlscouts/components/three-column-page, girlscouts/components/placeholder-page";
-	
+	public static final String RESOURCE_TYPES = "foundation/components/page, girlscouts/components/homepage, girlscouts/components/one-column-page, girlscouts/components/three-column-page, girlscouts/components/placeholder-page";
+	public static final String FOOTER_LINK_FILTERs = "Terms, Conditions, Privacy, Policy, Social";
 	
 	ArrayList<String> nationalTemplatePages;
 	ArrayList<String> councilTemplatePages;
 	ArrayList<String> councilAddedPages;
-	
-	ArrayList<String> exceptionPages;
-	ArrayList<String> councilExceptionPages;
-	ArrayList<String> exceptionDirectories; 
-	ArrayList<String> councilExceptionDirectories;
-	ArrayList<String> countedResourceTypes;
-	ArrayList<String> countedResourceTypesList;
-	
-	ArrayList<String> countPages;
 	ArrayList<String> noncountPages;
-	ArrayList<String> allPages;
-	ArrayList<String> nonactivePages;
-		
-	ArrayList<String> liveRelationships;
-	ArrayList<String> liveSyncs;
-	ArrayList<String> propertyLiveSyncCancelled;
-	ArrayList<String> neither;
-	ArrayList<String> both;
-	ArrayList<String> inherited;
+	ArrayList<String> allPages;	
 
-	ArrayList<String> dValues; 	
+	ArrayList<String> countedResourceTypes;
+	ArrayList<String> exceptionPages;
+	ArrayList<String> exceptionDirectories; 
+	ArrayList<String> thankYouPages;	
+	ArrayList<String> defaultValues; 	
 		
-	void listAllPages(ArrayList<String> list, Page current, String path) {	
-		String name = path + "/" + current.getName();
-		name = name.trim();
-		ValueMap properties = current.getProperties();
-		
-		// In order for a resource to be a page, its resourceType must be
-		// 	girlscouts/components/one-column-page
-		// 	girlscouts/components/three-column-page
-		//  girlscouts/components/homepage
-		//  girlscouts/components/placeholder-page
-		String resourceType = properties.get("sling:resourceType", "");
-		if (countedResourceTypes.contains(resourceType)) {
-			list.add(name);
-		}
-		
-		for (Iterator<Page> iterator = current.listChildren(); iterator.hasNext();) {
-			listAllPages(list, iterator.next(), name);
-		}
-	}
-	
-	ArrayList<String> listChildren(Page current) {
-		ArrayList<String> list = new ArrayList<String>();
-		String name = "/" + current.getName();
-		name = name.trim();
-		ValueMap properties = current.getProperties();
-		
-		for (Iterator<Page> iterator = current.listChildren(); iterator.hasNext();) {
-			list.add(iterator.next().getPath());
-		}
-		
-		return list;
-	}
-	
-	void listChildrenPages(ArrayList<String> list, Page current) {
-		String name = "/" + current.getName();
-		name = name.trim();
-		
-		for (Iterator<Page> iterator = current.listChildren(); iterator.hasNext();) {
-			Page page = iterator.next();
-			ValueMap properties = page.getProperties();
-			
-			list.add(page.getPath() + ": " + properties.get("cq:lastReplicationAction")
-						+ " " + properties.get("sling:resourceType")
-						+ " " + page.isValid()
-					);
-		}	
-	}
-	
-	void listChildrenPages(ArrayList<String> list, String path, ResourceResolver rr) {
-		Page current = rr.getResource(path).adaptTo(Page.class);
-		
-		for (Iterator<Page> iterator = current.listChildren(); iterator.hasNext();) {
-			Page page = iterator.next();
-			ValueMap properties = page.getProperties();
-			
-			list.add(page.getPath() + ": " + properties.get("cq:lastReplicationAction")
-						+ " " + properties.get("sling:resourceType")
-						+ " " + page.isValid()
-					);
-		}	
-	}
+	Long before;
+	Long after;	
 	
 	ArrayList<String> listToArray(String list) {
 		String[] lists = list.split(",");
@@ -142,7 +72,7 @@
 		for (int i = 0; i < list.length; i++) {
 			String[] values = list[i].split("\\|\\|\\|");
 			String label = values[0];
-			String path = values.length > 1 ? trimTopLevel(values[1], 2) : "";
+			String path = values.length > 1 ? values[1] : ""; 
 			String page = values.length > 2 ? values[2] : "";
 			String subdir = values.length > 3 ? values [3] : "";
 			
@@ -155,20 +85,20 @@
 		}		
 	}
 	
-	String linkify(String councilName, String path) {
+	String linkify(String path) {
 		String[] values = path.split(" ");
 		String reason = "";
 		for (int i = 1; i < values.length; i++) {
 			reason += values[i] + " ";
 		}
-		String url = "/content/" + councilName + values[0];
-		String fpath = "<a  target=\"_blank\"  href=\"" + url + ".html\">" + values[0] + "</a>";  
+		
+		String html = "<a  target=\"_blank\"  href=\"" + values[0] + ".html\">" + trimTopLevel(values[0],2) + "</a>";  
 		
 		if (reason.length() > 0) {
-			fpath += " (" + reason.trim() + ")";
+			html += " (" + reason.trim() + ")";
 		}
 		
-		return fpath;
+		return html;
 	}
 	
 	String trimTopLevel(String path, int num) {
@@ -191,241 +121,197 @@
 		}
 		return newPath;
 	}
-	
-	String trimBottomLevel(String path, int num) { 
-		String[] values = path.split("/");
-		String str = "";
-		//num++;
-		for (int i = 1; i < values.length - num; i++) {
-			str = str + "/" + values[i];
-		}
-		return str;
-	}
-	
-	ArrayList<String> trimLevel(ArrayList<String> list, int num) {
-		ArrayList<String> newList = new ArrayList<String>();
-		for (String str: list) {
-			str = trimTopLevel(str, num);
-			newList.add(str);
-		}
-		return newList;
-	}
+
 	
 	String format(String label, String path, String page, String subdir) {
 		String str = label.trim() + "|||" + path.trim() + "|||"
-				+ page.trim() + "|||" + subdir.trim();
-		
+				+ page.trim() + "|||" + subdir.trim();		
 		return str;
 	}
 	
 	
+	void checkRedirect(ResourceResolver rr, Page currentPage) {
+		String nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/start";
+		Resource res = rr.getResource(nodePath);		
+		if (res != null) {
+			String redirect = res.getValueMap().get("redirect", "");
+			if (!redirect.isEmpty()) {
+				thankYouPages.add(redirect + " " + currentPage.getPath());
+			}
+		}
+		
+		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/form_start";
+		res = rr.getResource(nodePath);		
+		if (res != null) {
+			String redirect = res.getValueMap().get("redirect", "");
+			if (!redirect.isEmpty()) {
+				thankYouPages.add(redirect + " " + currentPage.getPath());
+			}
+		}
+		
+		nodePath = currentPage.getPath() + "/jcr:content/content/middle/par/web-to-case-form_start";
+		res = rr.getResource(nodePath);		
+		if (res != null) {
+			String redirect = res.getValueMap().get("redirect", "");
+			if (!redirect.isEmpty()) {
+				thankYouPages.add(redirect + " " + currentPage.getPath());
+			}
+		}
+	}
 	
-	// Recurses through the children and selects pages that counts into a list
-	void recurse(ResourceResolver rr, Page current, String prevPath, String councilName, String componentPagePath) {
-		String fullpath = prevPath + "/" + current.getName();
-		String path = trimTopLevel(fullpath, 1);
-		ValueMap properties = current.getProperties();
-		Boolean isNonCountPage = false;
-		Boolean isInherited = false;
-		Boolean isNonPlaceholderPage = false;
-		Boolean hasEmbeddedForm = false;
-		Boolean isCurrentPage = false;
-		Boolean doRecurse = true;
-		String reason = "";
-				
+	
+	void recurse(ResourceResolver rr, Page currentPage) {
+		String path = currentPage.getPath();
+		ValueMap properties = currentPage.getProperties();		
+		
 		// If it is a page, then its resourceType must be one of the below
+		//  foundation/components/page (/content/<council>)
+		//  girlscouts/components/homepage
 		// 	girlscouts/components/one-column-page
 		// 	girlscouts/components/three-column-page
-		//  girlscouts/components/homepage
 		//  girlscouts/components/placeholder-page
-		// Do not count non page resources		
 		String resourceType = properties.get("sling:resourceType", "");
-		if (!countedResourceTypes.contains(resourceType)) {
-			countedResourceTypesList.add(path);
-			isNonCountPage = true;
-			doRecurse = true;
-		} else {
+		if (countedResourceTypes.contains(resourceType)) {
+			allPages.add(path.trim());
 			
-			// If not active, 
-			// do not count, do not recurse
-			String lastReplicationAction = properties.get("cq:lastReplicationAction", "");
-			if (!lastReplicationAction.equals("Activate")) {
-				nonactivePages.add(path);
-				noncountPages.add(path + " Non Active");
-				return;
-			}
-		
+			// Check for Thank You Page
+			checkRedirect(rr, currentPage);
 			
-			// If it exists in ExceptionPages
-			// do not count		
-			if (exceptionPages.contains(path)) { 
-				if (!resourceType.equals("girlscouts/components/placeholder-page")) {
-					noncountPages.add(path + " in exceptionPages");
-					councilExceptionPages.add(path + " Page in exceptionPages");
-				} else {
-					noncountPages.add(path + " nonPage in exceptionPages");
-				}
-				isNonCountPage = true;
-			}
-					
-			// If it exists in ExceptionDirectories,
-			// do not recurse		
-			if (exceptionDirectories.contains(path) && exceptionPages.contains(path)) {
-				noncountPages.add(path + " in exceptionPages and exceptionDir");
-				//councilAddedPages.add(path);
-				councilExceptionDirectories.add(path + " in exceptionPages and exceptionDir");
-				doRecurse = false;
-				return;
-			} else if (exceptionDirectories.contains(path) && !exceptionPages.contains(path)) {
-				if (!resourceType.equals("girlscouts/components/placeholder-page")) { // If this is a page
-					countPages.add(path + " in exceptionPages but not exceptionDir");
-					councilAddedPages.add(path); // + " in exceptionPages but not exceptionDir");
-				} else {
-					noncountPages.add(path + " nonPage in exceptionPages but not exceptionDir");
-				}
-				
-				councilExceptionDirectories.add(path + " in exceptionPages but not exceptionDir");
-				doRecurse = false;
-				return;
-			}
-			
-			// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
-			// it's inherited from national templates 
-			ArrayList<String> mixinTypes = new ArrayList<String>();
-			String[] mTypes = properties.get("jcr:mixinTypes", String[].class);
-			Boolean addedMixin = false;
-			String pathMixin = "";
-			for (String m: mTypes) {
-				mixinTypes.add(m.trim());
-			}			
-			if (mixinTypes.contains("cq:PropertyLiveSyncCancelled")) {
-				propertyLiveSyncCancelled.add(path);
-				addedMixin = true;
-				pathMixin += "cq:PropertyLiveSyncCancelled ";
-			}
-			if (mixinTypes.contains("cq:LiveRelationship")) {
-				liveRelationships.add(path);
-				addedMixin = true;
-				pathMixin += "cq:LiveRelationship ";
-			}
-		
-			if (mixinTypes.contains("cq:LiveSync")) {
-				liveSyncs.add(path);
-				addedMixin = true;
-				pathMixin += "cq:LiveSync ";
-			}
-			
-			if (addedMixin == true) {
-				
-				inherited.add(path + " " + pathMixin);
-				isInherited = true;
-			}
-			
-			// Test for embedded forms
-			Resource tester = rr.getResource(current.getPath() + "/jcr:content/content/middle/par/embedded");
-			if (tester != null) {
-				String html = tester.getValueMap().get("html", "");
-				int qw = html.indexOf("wufoo");
-				if (qw > 0) {
-					hasEmbeddedForm = true;
-				}
-			}
-			
-			// Page that holds this component do not count
-			String currentPath = current.getPath();
-			if (componentPagePath.equals(currentPath)) {
-				isCurrentPage = true;
-			}
-			
-			if (resourceType.equals("girlscouts/components/one-column-page") || resourceType.equals("girlscouts/components/three-column-page")) {
-				// If the page name is in the national template
-				// it counts
-				
-				String scaffolding = properties.get("cq:scaffolding", "");
-				
-				if (isCurrentPage) {
-					noncountPages.add(path + " Component Containing Page");					
-				} else if (nationalTemplatePages.contains(path)) {
-					councilTemplatePages.add(path);					
-				} else if (isInherited) {
-					councilTemplatePages.add(path);
-				} else if (hasEmbeddedForm) {
-					noncountPages.add(path + " Embedded form");
-				} else if (scaffolding.equals("/etc/scaffolding/" + councilName + "/contact")) {
-					noncountPages.add(path + " Scaffolding");
-				} else if (isNonCountPage){
-					noncountPages.add(path + " isNonCountPage");
-				} else {
-					councilAddedPages.add(path);// + " else else");
-				}
-			}
-			
-			
-			allPages.add(path);
-		}
-		
-		if (doRecurse) {
-			for (Iterator<Page> iterator = current.listChildren(); iterator.hasNext();) {
-				recurse(rr, iterator.next(), fullpath, councilName, componentPagePath);
+			for (Iterator<Page> iterator = currentPage.listChildren(); iterator.hasNext();) {
+				recurse(rr, iterator.next());
 			}
 		}
-		
-	}	
+	}
 	
+	
+	
+	
+	void processPage(ResourceResolver rr, String path) {
+		
+		Page page = rr.getResource(path).adaptTo(Page.class);
+		String reason;
+		ValueMap properties = page.getProperties();
+		
+		// Active Pages
+		String lastReplicationAction = properties.get("cq:lastReplicationAction", "");
+		if (!lastReplicationAction.equals("Activate")) {
+			noncountPages.add(path + " NonActive");
+			return;
+		}
+		
+		// Exception Pages
+		if (exceptionPages.contains(path)) {			
+			noncountPages.add(path + " ExceptionPages");
+			return;
+		}		
+		
+		// Exception Directories
+		for (int i = 0; i < exceptionDirectories.size(); i++) {
+			String dir = exceptionDirectories.get(i);
+			if (!path.equals(dir) && path.contains(dir)) {				
+				noncountPages.add(path + " ExceptionDirectories");
+				return;
+			}
+		}		
+		
+		// Belongs to Template Pages
+		if (nationalTemplatePages.contains(path)) {
+			councilTemplatePages.add(path);
+			return;
+		}
+				
+		// Placeholder Page
+		String resourceType = properties.get("sling:resourceType", "");
+		if (resourceType.equals("girlscouts/components/placeholder-page")) {
+			//noncountPages.add(path + " PlaceHolder"); // not *really* a page
+			return;
+		}
+				
+		// If a page has jcr:mixinTypes of either LiveRelationship or LiveSync, 
+		// it's inherited from national templates 
+		ArrayList<String> mixinTypes = new ArrayList<String>();
+		String[] mTypes = properties.get("jcr:mixinTypes", String[].class);
+		Boolean addedMixin = false;
+		String pathMixin = "";
+		for (String m: mTypes) {
+			mixinTypes.add(m.trim());
+		}			
+		if (mixinTypes.contains("cq:LiveSync") ||
+			mixinTypes.contains("cq:LiveRelationship") ||
+			mixinTypes.contains("cq:PropertyLiveSyncCancelled")) {
+			councilTemplatePages.add(path);
+			return;
+		}	
+		
+		// Embedded Form
+		/*
+		Resource resource = rr.getResource(page.getPath() + "/jcr:content/content/middle/par/embedded");
+		if (resource != null) {
+			String html = resource.getValueMap().get("html", "");
+			int qw = html.indexOf("wufoo");
+			if (qw > 0) {
+				noncountPages.add(path + " Embedded Form: wufoo");
+				return;
+			} else {
+				noncountPages.add(path + " Embedded Form");
+			}
+			
+		}
+		*/
+		
+		// Thank You Pages
+		for (int i = 0; i < thankYouPages.size(); i++) {
+			String[] val = thankYouPages.get(i).split(" ");
+			if (path.equals(val[0])) {				
+				noncountPages.add(path + " ThankYou " + val[1]);
+				return;
+			}
+		}	
+		
+		
+		councilAddedPages.add(path);
+	}
 %>
 
 <%
-	//Page template = pageManager.getPage(TEMPLATE_PATH);
-	Page top = currentPage.getAbsoluteParent(1);
-	Page en = currentPage.getAbsoluteParent(2);
+	Calendar calendar = Calendar.getInstance();
+	before = System.currentTimeMillis();
+
+	Page top = currentPage.getAbsoluteParent(1);		// /content/<council>
+	Page en = currentPage.getAbsoluteParent(2);			// /content/<council>/en
 	
-	String councilName = currentPage.getAbsoluteParent(1).getName();
-	String councilPath = currentPage.getAbsoluteParent(1).getPath();
+	String councilTitle = top.getTitle();
+	String councilName = top.getName(); 
+	String councilPath = top.getPath();
 	
 	nationalTemplatePages = new ArrayList<String>();
 	councilTemplatePages = new ArrayList<String>();
 	councilAddedPages = new ArrayList<String>();
 	
 	exceptionPages = new ArrayList<String>();
-	councilExceptionPages = new ArrayList<String>();
 	exceptionDirectories = new ArrayList<String>();
-	councilExceptionDirectories = new ArrayList<String>();
+	
 	countedResourceTypes = new ArrayList<String>();
-	countedResourceTypesList = new ArrayList<String>();
 	
 	noncountPages = new ArrayList<String>();
-	countPages = new ArrayList<String>();
 	allPages = new ArrayList<String>();
-	nonactivePages = new ArrayList<String>();
 	
-	dValues = new ArrayList<String>();
+	thankYouPages = new ArrayList<String>();
 	
-	
-	liveRelationships = new ArrayList<String>();
-	liveSyncs = new ArrayList<String>();
-	neither = new ArrayList<String>();
-	both = new ArrayList<String>();
-	inherited = new ArrayList<String>();
-	propertyLiveSyncCancelled = new ArrayList<String>();
-
+	defaultValues = new ArrayList<String>();
 	
 	ArrayList<String> links = new ArrayList<String>();
-
-	ArrayList<String> childrenResources = new ArrayList<String>();
-	ArrayList<String> childrenNodes = new ArrayList<String>();
+	ArrayList<String> footerLinkFilters = new ArrayList<String>();
 
 	// If paths value is empty set default
 	// Retrieve paths set by homepage component in en/jcr:content to set as defaults
-	
-	ValueMap topProperties = top.getProperties();
-	String eventURL1 = topProperties.get("eventPath", "");
 	
 	ValueMap enProperties = en.getProperties();
 	
 	String resourceTypes = properties.get("resourceTypes", "");
 	String[] filters = properties.get("paths", String[].class);
 	
-	String nodePath = resource.getPath(); //top.getPath() + "/en/jcr:content/content/styled-subpar/pagecounter";
+	String nodePath = resource.getPath(); //top.getPath() + "/en/jcr:content/content/middle/par/pagecounter";
 	Node node = resourceResolver.getResource(nodePath).adaptTo(Node.class);
 		
 	
@@ -434,30 +320,27 @@
 		node.setProperty("resourceTypes", resourceTypes);
 		node.getSession().save();
 	}
-	if ((filters == null) || (filters.length == 0)) {
-		
+	if ((filters == null) || (filters.length == 0)) {		
 		
 		String eventRepoURL = enProperties.get("eventPath", "");		
 		String eventCalendarURL = enProperties.get("calendarPath", "");
-		//String eventListURL = enProperties.get("eventLanding", "/content/" + councilName + "/en/events");
-		//String eventURL = trimBottomLevel(eventListURL, 1);
 		String newsURL = enProperties.get("newsPath", "");		
 		String sitesearchURL = enProperties.get("globalLanding", "");
 		
-		dValues.add(format("Homepage", councilPath + "/en", "true", "false"));
-		dValues.add(format("Resources", councilPath + "/en/resources", "true", "true"));
-		dValues.add(format("Event Repository", eventRepoURL, "true", "true"));
-		//dValues.add(format("Events", eventURL, "true", "true"));
-		//dValues.add(format("Event Calendar", eventCalendarURL, "false", "false"));
-		//dValues.add(format("Event List", eventListURL, "false", "false"));
-		dValues.add(format("News", newsURL, "false", "true"));
-		dValues.add(format("Site Search", sitesearchURL, "true", "false"));
+		defaultValues.add(format("Homepage", councilPath + "/en", "true", "false"));
+		defaultValues.add(format("Resources", councilPath + "/en/resources", "true", "true"));
+		defaultValues.add(format("Event Repository", eventRepoURL, "true", "true"));
+		defaultValues.add(format("News", newsURL, "false", "true"));
+		defaultValues.add(format("Site Search", sitesearchURL, "true", "false"));
+		defaultValues.add(format("Email Templates", councilPath + "/en/email-templates", "true", "false"));
+		defaultValues.add(format("Redirects", councilPath + "/en/redirects", "true", "false"));
 		
-		// Get some links from footer
+		
+		// Get some links from homepage footer such as Terms and Conditions, Policy
+		footerLinkFilters = listToArray(FOOTER_LINK_FILTERs);
 		String footernavnodepath = top.getPath() + "/en/jcr:content/footer/nav";
 		Node fnode = resourceResolver.getResource(footernavnodepath).adaptTo(Node.class);
 		
-		// TODO
 		Value[] linkValues = fnode.getProperty("links").getValues();;
 		for (int i = 0; i < linkValues.length; i++) {
 			links.add(linkValues[i].toString());
@@ -466,36 +349,48 @@
 			String[] values = s.split("\\|\\|\\|");
 			String label = values[0];
 	        String path = values.length >= 2 ? values[1] : "";
-			dValues.add(format(label, path, "true", "false"));  		
+	        
+	        // If the label or path/url contains words in footer link filters,
+	        // Add to filter. Else discard
+	        for (int j = 0; j < footerLinkFilters.size(); j++) {
+	        	if (label.contains(footerLinkFilters.get(j))) {
+	        		defaultValues.add(format(label, path, "true", "false"));  
+	        		break;
+	        	} else if (path.contains(footerLinkFilters.get(j).toLowerCase())) {
+	        		defaultValues.add(format(label, path, "true", "false"));
+	        		break;
+	        	} 
+	        }
+					
 		}
 		
 		// Save the properties		
-		filters = new String[dValues.size()];
-		dValues.toArray(filters);  
+		filters = new String[defaultValues.size()];
+		defaultValues.toArray(filters);  
 		node.setProperty("paths", filters);
 		node.getSession().save();
 	}
 	
 	countedResourceTypes = listToArray(resourceTypes);	
 	processPaths(filters);
-	
-	
-	// List national templates into tree format
-	//templates.add("/en"); // only on template, en is marked as placeholder. else where it's homepage component
-	//listAllPages(nationalTemplatePages, template, "");
-	//nationalTemplatePages = trimLevel(nationalTemplatePages, 1);
-	
-	String eventlist = trimTopLevel(enProperties.get("eventLanding", ""), 2);
-	String eventcalendar = trimTopLevel(enProperties.get("calendarPath", ""), 2); 
 
+	// These pages belong to council template pages 
+	// They aren't inherited so no mixins to check
+	String eventlist = enProperties.get("eventLanding", ""); 
+	String eventcalendar = enProperties.get("calendarPath", ""); 
 	nationalTemplatePages.add(eventlist);
 	nationalTemplatePages.add(eventcalendar);
 	
 	
 	// Go through council directory to count pages
-	recurse(resourceResolver, top, "", councilName, currentPage.getPath());	
-
+	recurse(resourceResolver, top);	
 	
+	allPages.remove(0); // removes /content/<council>
+	for (int i = 0; i < allPages.size(); i++) {
+		processPage(resourceResolver, allPages.get(i));
+	}
+	
+	after = System.currentTimeMillis();
 %>
 
 
@@ -505,35 +400,37 @@
 
 	<h4>Pages that count</h4>
 	<p>
-	* Pages that are part of 35 National Templates <br>
+	* Pages that are part of National Template Pages <br>
 	* Pages that are added by councils <br>
 	</p>
 	
-	<h4>Pages that does not count</h4>
+	<h4>Pages that do not count</h4>
 	<p>
-	* Individual events, forms, news <br>
+	* Individual events, news <br>
+	* Forms under Forms and Documents <br>
 	* Terms and Conditions, Privacy Policy, Content Monitering Policy, Social Media Policy <br>
 	</p>
 	
 	<h4>Instructions</h4>	
 	<p>
-	This component goes through all active pages in a council's website to generate three lists to aid councils 
-	in counting pages. It lists pages that are part of National Templates which counts, pages that are added 
-	by councils which counts and pages that are added by councils but do not count. The pages that do not fit 
-	the requirement are filtered to count only relevant pages. The filter criteria can be altered by editing 
-	the dialog. Upon adding the component, it automatically generates a filter that collects various sites that 
-	do not count, such as Privacy Policy and Terms and Conditions, or individual events. In case of pages that 
-	are counted when they shouldn't, you can add them to the filter. In the dialog, add a label that explains 
-	why and select the path of the site or the directory that needs to be filtered. By checking "Page" Only it 
-	will only filter the specific page and will not filter its children pages. Checking "Sub Dir Only" will not 
-	filter the specified page but will filter all its children pages. And checking both will result in the page 
-	and its children pages being filtered. 
+	This component goes through a council's pages and determines which pages count towards the total page count and which pages do not. 
+	There are three categories that a page falls into - Template Pages: pages inherited from National Templates, Added Pages: 
+	pages added by councils and Noncount Pages: pages that should not count (ex. non-active pages, forms, etc). Total page count 
+	is the sum of Template Pages and Added Pages and does not count pages from Noncount Pages. Please look over each categories to 
+	make sure pages are in the correct categories to ensure an accurate page count. If any pages are filed into wrong categories or 
+	if there are any changes that need to made, please contact us.  
+ 	<br><br>
+	Total Page Count<br>
+	Up to 100 pages 						 $ 8,000<br>
+	Between 100 - 200 pages                  $10,000<br>
+	Between 201 - 300 pages                  $12,000<br>
+	Between 301 - 400 pages                  $15,000<br>
+	Each addition 100 pages over 400  		 $ 4,000
 	</p>
-		
 	<br><br>
-
+	
 	<!-- # -->
-	Template Pages (<%= councilTemplatePages.size() %>) + Council Pages (<%= councilAddedPages.size() %>) = <%= councilTemplatePages.size() + councilAddedPages.size() %>
+	Total Page Count (<%= councilTemplatePages.size() + councilAddedPages.size() %>) = Template Pages (<%= councilTemplatePages.size() %>) + Council Pages (<%= councilAddedPages.size() %>) 
 
 	<br><br>
 	<div><!-- # -->
@@ -542,7 +439,7 @@
 	</div>
 	<div id="<%= councilName %>TemplatePagesList" class="pagelist">
 	<% for(String str: councilTemplatePages) { %>
-		<br><%= linkify(councilName, str) %>
+		<br><%= linkify(str) %>
 	<% } %> 
 	</div>	
 	<br>
@@ -552,7 +449,7 @@
 	</div>
 	<div id="<%= councilName %>AddedPagesList" class="pagelist">
 	<% for(String str: councilAddedPages) { %>
-		<br><%= linkify(councilName, str) %> 
+		<br><%= linkify(str) %> 
 	<% } %> <br>
 	</div>
 	<br>
@@ -562,11 +459,10 @@
 	</div>
 	<div id="<%= councilName %>NoncountPagesList" class="pagelist">
 	<% for(String str: noncountPages) { %>
-		<br><%= linkify(councilName, str) %>
+		<br><%= linkify(str) %>
 	<% } %><br>
 	</div> 
 	<br>
-
 	
 	<br><br><br>
 	<!-- # -->
@@ -586,22 +482,22 @@
 			<tbody>
 			<!-- # -->
 				<tr style="vertical-align:top;">
-					<td><%= councilName %></td>
+					<td><%= councilTitle %><br>(<%= councilName %>)</td>
 					<td style="white-space:nowrap;">
 						<% for(String str: councilTemplatePages) { %>
-							<br><%= linkify(councilName, str) %>
+							<br><%= linkify(str) %>
 						<% } %> 
 					</td>
 					<td><%= councilTemplatePages.size() %></td>
 					<td style="white-space:nowrap;">
 						<% for(String str: councilAddedPages) { %>
-							<br><%= linkify(councilName, str) %>
+							<br><%= linkify(str) %>
 						<% } %> 
 					</td>
 					<td><%= councilAddedPages.size() %></td>
 					<td style="white-space:nowrap;">
 						<% for(String str: noncountPages) { %>
-							<br><%= linkify(councilName, str) %>
+							<br><%= linkify(str) %>
 						<% } %> 
 					</td>
 					<td><%= noncountPages.size() %></td>
