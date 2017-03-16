@@ -688,6 +688,14 @@ function fixSlickSlideActive() {
             }
         }]
     });
+    $('.video-slider-wrapper .slick-slide').css({
+        height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
+    });
+    $(window).on("resize", function () {
+        $('.video-slider-wrapper .slick-slide').css({
+            height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
+        });
+    });
 
     function shop_rotator() {
         /*

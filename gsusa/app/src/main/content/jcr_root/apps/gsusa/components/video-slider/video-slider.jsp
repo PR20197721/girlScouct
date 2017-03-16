@@ -165,16 +165,16 @@ public  String readUrlFile(String urlString) throws Exception {
                         $(function() {
                             
                             var slick = $('.video-slider-wrapper'),
-                                slides = $(".video-slider .slick-slide"),
+                                //slides = $(".video-slider .slick-slide"),
                                 //iframes = $('.vid-slide-wrapper iframe'),
                                 vimeoPlayer = $(".vimeo"),
                                 youtubePlayer = $('.lazyYT > iframe');
-                            
+                            /*
                             slides.css({
                                 height: slides.width() * 9 / 16,
                                 paddingBottom: 0
                             });
-
+                            */
                             function stopSlider() {
                                 if (slick != undefined && slick.slick != undefined) {
                                     slick.slick('slickPause');
