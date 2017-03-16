@@ -87,41 +87,37 @@ public  String readUrlFile(String urlString) throws Exception {
 	final boolean autoscroll = properties.get("autoscroll", false);
     %>
 <script>
-videoSliderDelay = <%= timedelay %>;
-videoSliderAuto = <%= autoscroll %>;
-var youtubeIDs = [];
+    videoSliderDelay = <%= timedelay %>;
+    videoSliderAuto = <%= autoscroll %>;
+    var youtubeIDs = [];
 
-function getInternetExplorerVersion()
-	//Returns the version of Internet Explorer or a -1
-	//(indicating the use of another browser).
-	{
-	var rv = -1; // Return value assumes failure.
-	if (navigator.appName == 'Microsoft Internet Explorer')
-	{
-	 var ua = navigator.userAgent;
-	 var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
-	 if (re.exec(ua) != null)
-	   rv = parseFloat( RegExp.$1 );
-	}
-	return rv;
-}
+    function getInternetExplorerVersion()
+    //Returns the version of Internet Explorer or a -1
+    //(indicating the use of another browser).
+    {
+        var rv = -1; // Return value assumes failure.
+        if (navigator.appName == 'Microsoft Internet Explorer') {
+            var ua = navigator.userAgent;
+            var re = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+            if (re.exec(ua) != null)
+                rv = parseFloat(RegExp.$1);
+        }
+        return rv;
+    }
 
-function checkVersion()
-{
-	var ver = getInternetExplorerVersion();
-	
-	if ( ver > -1 )
-	{
-	 if ( ver <= 9.0 ){ 
-	   console.log("No auto slide due to browser incompatibility");
-	   videoSliderAuto = false;
-	 }
-	}
-}
+    function checkVersion() {
+        var ver = getInternetExplorerVersion();
 
-checkVersion();
+        if (ver > -1) {
+            if (ver <= 9.0) {
+                console.log("No auto slide due to browser incompatibility");
+                videoSliderAuto = false;
+            }
+        }
+    }
+
+    checkVersion();
 </script>
-
 <%
 	//TODO: Optimize following javascript
 	String[] links = properties.get("links", String[].class);
@@ -143,9 +139,9 @@ checkVersion();
 					<%if(urls.length == 5){
 						%>
 						<script>
-						var ytid = '<%= urls[4] %>';
-						var id = '<%= urls[3] %>';
-						youtubeIDs.push([ytid, id]);
+                            var ytid = '<%= urls[4] %>',
+                                id = '<%= urls[3] %>';
+                            youtubeIDs.push([ytid, id]);
 						</script>
 						<%
 					} %>
@@ -188,11 +184,11 @@ checkVersion();
                             }
 
                             function pauseVideoSliderVideosVimeo() {
-                                $.each(vimeoPlayer, function (i, iframe) {
-                                    if (typeof ($f) !== "undefined") {
+                                if (typeof ($f) !== "undefined") {
+                                    $.each(vimeoPlayer, function (i, iframe) {
                                         $f(iframe).api('unload');
-                                    }
-                                });
+                                    });
+                                }
                             };
 
                             function pauseVideoSliderVideosYoutube() {
@@ -206,14 +202,15 @@ checkVersion();
                                 pauseVideoSliderVideosVimeo();
                             });
 
+                            // Add player listeners
                             //$('#<%=urls[3]%>').on("load", function () {
+                            if (typeof ($f) !== "undefined") {
                                 $.each(vimeoPlayer, function (i, iframe) {
-                                    if (typeof ($f) !== "undefined") {
-                                        $f(iframe).addEvent('playProgress', function () {
-                                            stopSlider();
-                                        });
-                                    }
+                                    $f(iframe).addEvent('playProgress', function () {
+                                        stopSlider();
+                                    });
                                 });
+                            }
                             //});
 
                         });
