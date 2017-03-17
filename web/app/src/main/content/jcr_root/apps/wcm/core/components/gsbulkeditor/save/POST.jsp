@@ -40,27 +40,22 @@
                     String[] values = null;
                     //GS - Create new tags if they didn't exist before
                     TagManager tm = resourceResolver.adaptTo(TagManager.class);
-                    boolean proceed = true;
                     if(propertyName.endsWith("cq:tags")){
                     	String[] tagValues = value.split(";");
                     	ArrayList<String> valueList = new ArrayList<String>();
                     		if(tagValues.length > 0){
                     		for(String tagVal : tagValues){
+                    			String tagTitle = tagVal.trim();
                     			 try{
-                    				String tagID = createId(tagVal, r.getPath());
-                    				if(tagID == null){
-                    					proceed = false;
-                    					continue;
-                    				}else{
+                    				String tagID = createId(tagTitle, r.getPath());
+                    				if(tagID != null){
 		                    			if(null == tm.resolve(tagID)){
 		                    				if(tm.canCreateTag(tagID)){
-		                    					System.out.println("TAGID: " + tagID);
-		                    					System.out.println("TAG: " + tagVal);
-		                    					tm.createTag(tagID,tagVal,"",true);
+		                    					tm.createTag(tagID,tagTitle,"",true);
 		                    					valueList.add(tagID);
-		                    				}else{
-		                    					proceed = false;
 		                    				}
+		                    			}else{
+		                    				valueList.add(tagID);
 		                    			}
                     				}
                     			}catch(Exception e){
@@ -71,7 +66,7 @@
                     	values = valueList.toArray(new String[0]);
                     	System.out.println("TAG ARRAY: " + values);
                     }
-                    if (r == null && proceed) {
+                    if (r == null) {
                         //resource does not exist. 2 cases:
                         // - maybe it is a non existing property? property has to be created
                         // - maybe it is a new row? node has to be created first
@@ -98,7 +93,7 @@
                                 }
                             }
                         }
-                    } else if(proceed) {
+                    } else {
                         if( isDelete ) {
                             Node n = r.adaptTo(Node.class);
                             if( n != null) {
@@ -143,9 +138,9 @@
 String createId(String tag, String path){
 	String councilRoot = "";
 	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
-	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/.*$");
+	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
 	Matcher mDam = pDam.matcher(path);
-	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.$");
+	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
 	Matcher mContent = pContent.matcher(path);
 	if(mDam.matches()){
 		councilRoot = mDam.group(1);

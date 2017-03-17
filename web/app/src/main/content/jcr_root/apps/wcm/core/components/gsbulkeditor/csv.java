@@ -195,15 +195,7 @@ public class csv extends SlingAllMethodsServlet {
                         if(t != null){
                         	strValue = t.getTitle();
                         }
-                        switch (prop.getType()) {
-                            case PropertyType.STRING:
-                            case PropertyType.NAME:
-                            case PropertyType.PATH:
-                                escape(attrValue, strValue, true);
-                                break;
-                            default:
-                                attrValue.append(strValue);
-                        }
+                        attrValue.append(strValue);
                     }
                 } else {
                     String strValue = ValueHelper.serialize(prop.getValue(), false);
@@ -212,7 +204,7 @@ public class csv extends SlingAllMethodsServlet {
                     if(t != null){
                     	strValue = t.getTitle();
                     }
-                    escape(attrValue, strValue, false);
+                    attrValue.append(strValue);
                 }
         	}
         	else if (prop.getDefinition().isMultiple()) {

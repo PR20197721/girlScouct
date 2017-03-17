@@ -41,6 +41,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
@@ -404,25 +406,27 @@ public class POST extends SlingAllMethodsServlet {
 	                    					multiVal = val.split(",");
 	                    				}
 	                    				if(property.endsWith("cq:tags")){
-	                    					String[] tags = val.split(",");
+	                    					String[] tags = val.split(";");
 	                    					if(multiVal != null){
 	                    						tags = multiVal;
 	                    					}
 	                    					ArrayUtils.removeElement(tags,"");
 	                    					ArrayUtils.removeElement(tags,null);
+	                    					ArrayList<String> tagList = new ArrayList<String>();
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
-	                                    			if(!tag.isEmpty()){
+	                                    			String tagTitle = tag.trim();
+	                                    			String tagID = createID(tagTitle, rootNode.getPath());
+	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
 		                                    			 try{
 		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
-		                	                    			if(null == tm.resolve(tag)){
-		                	                    				if(tm.canCreateTag(tag)){
-		                	                    					String title = "";
-		                	                    					if(tag.indexOf("/") != -1){
-		                	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
-		                	                    					}
-		                	                    					tm.createTag(tag,title,"",true);
+		                	                    			if(null == tm.resolve(tagID)){
+		                	                    				if(tm.canCreateTag(tagID)){
+		                	                    					tm.createTag(tagID,tagTitle,"",true);
+		                	                    					tagList.add(tagID);
 		                	                    				}
+		                	                    			}else{
+		                	                    				tagList.add(tagID);
 		                	                    			}
 		                                    			}catch(Exception e){
 		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
@@ -431,7 +435,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                    		}
 	                                    	}
 	        	                            if(updatedNode != null){
-		        	                            updatedNode.setProperty(property,tags);
+		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
 		        	                        }
 	                    				}else{
 	        	                            if(updatedNode != null){
@@ -476,6 +480,25 @@ public class POST extends SlingAllMethodsServlet {
             return false;
         }
         return updated;
+    }
+    
+    public String createID(String tag, String path){
+    	System.out.println("PATH: " + path);
+    	String councilRoot = "";
+    	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
+    	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
+    	Matcher mDam = pDam.matcher(path);
+    	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
+    	Matcher mContent = pContent.matcher(path);
+    	if(mDam.matches()){
+    		councilRoot = mDam.group(1);
+    		return councilRoot + ":forms_documents/" + tagName;
+    	}else if(mContent.matches()){
+    		councilRoot = mContent.group(1);
+    		return councilRoot + ":forms_documents/" + tagName;
+    	}else{
+    		return null;
+    	}
     }
     
     public void createNewContacts(Node rootNode, HashMap<String,ArrayList<Contact>> contactsToCreate, String councilName, Session session, Replicator replicator) throws Exception{
