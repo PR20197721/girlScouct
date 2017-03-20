@@ -132,7 +132,7 @@ if(WCMMode.fromRequest(request) == WCMMode.EDIT){
     <form action="<%=formAction%>" method="get" name="frm" onsubmit="return checkLen()">
     <%
     if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-    	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fpdf%3ATitle%2Cmetadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
+    	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
     	%>
     	<div class = "baseDiv">
     		<a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a>

@@ -64,7 +64,6 @@
                     		}
                     	}
                     	values = valueList.toArray(new String[0]);
-                    	System.out.println("TAG ARRAY: " + values);
                     }
                     if (r == null) {
                         //resource does not exist. 2 cases:

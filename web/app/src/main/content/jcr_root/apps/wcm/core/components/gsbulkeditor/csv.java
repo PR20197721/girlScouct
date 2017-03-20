@@ -123,7 +123,7 @@ public class csv extends SlingAllMethodsServlet {
 
             Boolean includePath = true;
             if(importType != null){
-            	if(!importType.equals("contacts")){
+            	if(!importType.equals("contacts") && !importType.equals("documents")){
             		bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
             	}else{
             		includePath = false;
@@ -134,8 +134,19 @@ public class csv extends SlingAllMethodsServlet {
             if (properties != null) {
                 for (String property : properties) {
                     property = property.trim();
+                    if(importType != null){
+                    	if(importType.equals("documents")){
+                    		property = property.replaceAll("jcr:content/metadata/dc:title","Title").replaceAll("jcr:content/metadata/dc:description", "Description").replaceAll("jcr:content/metadata/cq:tags","Categories");
+                    	}
+                    }
                     bw.write(csv.valueParser(property, separator) + separator);
                 }
+            }
+            
+            if(importType != null){
+            	if (importType.equals("documents")){
+            		bw.write(csv.valueParser("Path", separator) + separator);
+            	}
             }
 
             bw.newLine();
@@ -396,7 +407,18 @@ public class csv extends SlingAllMethodsServlet {
 		            }
 	            }
 	            
-	            if(includePath){
+	            if(null != importType){
+	            	if(!importType.equals("documents")){
+	    	            if(includePath){
+	    	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	    	            }
+	            	}else{
+	    	            if(includePath){
+	    	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	    	            }
+	            	}
+	            }
+	            else if(includePath){
 	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
 	            }
 				if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
@@ -425,6 +447,12 @@ public class csv extends SlingAllMethodsServlet {
 							bw.write(separator);
 						}
 					}
+				}
+				
+				if(null != importType){
+		            if(importType.equals("documents")){
+		            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+		            }
 				}
                 bw.newLine();
 				if(node.hasNodes() && isDeep){
