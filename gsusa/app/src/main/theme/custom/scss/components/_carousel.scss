@@ -557,7 +557,7 @@ div.carousel {
             height: rem-calc(177);
         }
         @media #{$small-only} {
-            height: rem-calc(160);
+            //height: rem-calc(160);
         }
         
         .thumbnail a {

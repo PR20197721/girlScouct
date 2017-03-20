@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<cq:includeClientLib js="video" />
 <%@page import="org.apache.sling.commons.json.*,
 				java.io.*,
 				java.util.regex.*,
