@@ -130,16 +130,6 @@ if(WCMMode.fromRequest(request) == WCMMode.EDIT){
 <div class="expandable">
 <div class="programLevel">
     <form action="<%=formAction%>" method="get" name="frm" onsubmit="return checkLen()">
-    <%
-    if(WCMMode.fromRequest(request) == WCMMode.EDIT){
-    	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
-    	%>
-    	<div class = "baseDiv">
-    		<a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a>
-    	</div>
-    	<%
-    }
-    %>
         <div id="searchBox" class="baseDiv">
             <input type="text" name="q" id="frmSrch" class="searchField formsAndDocuments" placeholder="<%=placeHolder%>" value="<%=escapedQueryForAttr%>" />
         </div>
@@ -193,6 +183,16 @@ try {
         </div>
     </form>
 </div>
+    <%
+    if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+    	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
+    	%>
+    	<div>
+    		<b><a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a></b>
+    	</div>
+    	<%
+    }
+    %>
 <% if((q!=null && !q.isEmpty()) ||  (request.getParameterValues("tags") != null)){ %>
 <div class="search">
 <%

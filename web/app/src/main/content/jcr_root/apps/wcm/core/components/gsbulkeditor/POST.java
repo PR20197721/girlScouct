@@ -18,6 +18,7 @@ import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.tagging.TagManager;
+import com.day.cq.tagging.Tag;
 import com.day.cq.replication.Replicator;
 
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -202,10 +203,11 @@ public class POST extends SlingAllMethodsServlet {
 	                            }
 	                            int lineRead = 0, lineOK = 0;
 	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
+	                            ArrayList<String> documentsToReplicate = new ArrayList<String>();
 	                            TreeSet<String> allNames = new TreeSet<String>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames)) {
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, documentsToReplicate)) {
 	                                   lineOK++;
 	                                }
 	                            }
@@ -227,6 +229,25 @@ public class POST extends SlingAllMethodsServlet {
     	                                	e.printStackTrace();
     	                                	return;
     	                                }
+                                	}else if(importType.equals("documents")){
+                                		if(documentsToReplicate.size() > 0){
+	                                		try{
+	                                			replicator = scriptHelper.getService(Replicator.class);
+	                                			for(String docPath : documentsToReplicate){
+	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, docPath);
+	                                			}
+	                                		}catch(Exception e){
+	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	    		                                        "Error activating documents " + e.getMessage());
+	                                			try {
+	    	                                        rootNode.refresh(false);
+	    	                                    } catch (InvalidItemStateException e1) {
+	    	                                    } catch (RepositoryException e1) {
+	    	                                    }
+	    	                                	e.printStackTrace();
+	    	                                	return;
+	                                		}
+                                		}
                                 	}
 	                                try {
 	                                    rootNode.save();
@@ -274,7 +295,7 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames) {
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> documentsToReplicate) {
         boolean updated = false;
         try {
             int headerSize = headers.size();
@@ -416,6 +437,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    					ArrayUtils.removeElement(tags,"");
 	                    					ArrayUtils.removeElement(tags,null);
 	                    					ArrayList<String> tagList = new ArrayList<String>();
+	                    					ArrayList<String> tagPathList = new ArrayList<String>();
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
 	                                    			String tagTitle = tag.trim();
@@ -425,11 +447,14 @@ public class POST extends SlingAllMethodsServlet {
 		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
 		                	                    			if(null == tm.resolve(tagID)){
 		                	                    				if(tm.canCreateTag(tagID)){
-		                	                    					tm.createTag(tagID,tagTitle,"",true);
+		                	                    					Tag newTag = tm.createTag(tagID,tagTitle,"",true);
 		                	                    					tagList.add(tagID);
+		                	                    					tagPathList.add(newTag.getPath());
 		                	                    				}
 		                	                    			}else{
+		                	                    				Tag existingTag = tm.resolve(tagID);
 		                	                    				tagList.add(tagID);
+		                	                    				tagPathList.add(existingTag.getPath());
 		                	                    			}
 		                                    			}catch(Exception e){
 		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
@@ -440,6 +465,21 @@ public class POST extends SlingAllMethodsServlet {
 	        	                            if(updatedNode != null){
 		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
 		        	                        }
+	        	                            if(tagPathList.size() > 0){
+	        	                            	try{
+	        	                            		Session session = rootNode.getSession();
+	        	                            		Replicator replicator = scriptHelper.getService(Replicator.class);
+		        	                            	for(String tagPath : tagPathList){
+		        	                            		try{
+		        	                            			replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
+		        	                            		}catch(Exception e1){
+		        	                            			e1.printStackTrace();
+		        	                            		}
+		        	                            	}
+	        	                            	}catch(Exception e){
+	        	                            		e.printStackTrace();
+	        	                            	}
+	        	                            }
 	                    				}else{
 	        	                            if(updatedNode != null){
 	        	                            	if(multiVal != null){
@@ -482,6 +522,12 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
+                }else if(importType.equals("documents")){
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+                			documentsToReplicate.add(node.getPath());
+                		}
+                	}
                 }
                 updated = true;
             }
@@ -492,7 +538,6 @@ public class POST extends SlingAllMethodsServlet {
     }
     
     public String createID(String tag, String path){
-    	System.out.println("PATH: " + path);
     	String councilRoot = "";
     	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
     	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
