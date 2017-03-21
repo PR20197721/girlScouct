@@ -811,25 +811,70 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     getColumnModel: function() {
         var colObj = this.getColObject(true);
         var colsObjects = new Array();
-        if (!this.hidePathCol) {
-            colsObjects.push(
-                    this.getColumnModelConfig(
-                            CQ.wcm.GSBulkEditor.JCR_PATH,
-                            "Path",
-                            CQ.wcm.GSBulkEditor.JCR_PATH
-                            )
-                    );
-        }
+        if(this.importType){
+        	if(this.importType == "documents"){
+                for (var i = 0; i < colObj.values.length; i++) {
 
-        for (var i = 0; i < colObj.values.length; i++) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    colObj.values[i],
+                                    colObj.headers[i].replace("metadata/dc:title","Title").replace("metadata/dc:description", "Description").replace("metadata/cq:tags","Categories"),
+                                    this.encodeString(colObj.values[i])
+                                    )
+                            );
+                }
+                if (!this.hidePathCol) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    CQ.wcm.GSBulkEditor.JCR_PATH,
+                                    "Path",
+                                    CQ.wcm.GSBulkEditor.JCR_PATH
+                                    )
+                            );
+                }
+        	}else{
+        		if (!this.hidePathCol) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    CQ.wcm.GSBulkEditor.JCR_PATH,
+                                    "Path",
+                                    CQ.wcm.GSBulkEditor.JCR_PATH
+                                    )
+                            );
+                }
 
-            colsObjects.push(
-                    this.getColumnModelConfig(
-                            colObj.values[i],
-                            colObj.headers[i],
-                            this.encodeString(colObj.values[i])
-                            )
-                    );
+                for (var i = 0; i < colObj.values.length; i++) {
+
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    colObj.values[i],
+                                    colObj.headers[i],
+                                    this.encodeString(colObj.values[i])
+                                    )
+                            );
+                }
+        	}
+        }else{
+	        if (!this.hidePathCol) {
+	            colsObjects.push(
+	                    this.getColumnModelConfig(
+	                            CQ.wcm.GSBulkEditor.JCR_PATH,
+	                            "Path",
+	                            CQ.wcm.GSBulkEditor.JCR_PATH
+	                            )
+	                    );
+	        }
+	
+	        for (var i = 0; i < colObj.values.length; i++) {
+	
+	            colsObjects.push(
+	                    this.getColumnModelConfig(
+	                            colObj.values[i],
+	                            colObj.headers[i],
+	                            this.encodeString(colObj.values[i])
+	                            )
+	                    );
+	        }
         }
         var columnModel = new CQ.Ext.grid.ColumnModel(colsObjects);
 
@@ -2723,6 +2768,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     CQ.Ext.MessageBox.alert(CQ.I18n.getMessage("Saving error"),
                         CQ.I18n.getMessage("Some re-ordering could not be saved."));
                 }
+            }
+            
+            if(this.importType){
+            	params["importType"] = this.importType;
             }
 
             if (hasParam) {

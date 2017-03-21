@@ -7,7 +7,12 @@
                  javax.jcr.Property,
                  javax.jcr.Session,
                  com.day.text.Text,
-				 com.day.cq.tagging.TagManager" %>
+				 com.day.cq.tagging.TagManager,
+				 java.util.regex.Pattern,
+				 java.util.regex.Matcher,
+				 java.util.ArrayList,
+				 javax.jcr.ValueFormatException,
+				 java.util.HashMap" %>
 <%@ page session="false" %>
 <%
 %>
@@ -38,26 +43,30 @@
                     //GS - Create new tags if they didn't exist before
                     TagManager tm = resourceResolver.adaptTo(TagManager.class);
                     if(propertyName.endsWith("cq:tags")){
-                    	values = value.split(",");
-                    	if(values.length > 0){
-                    		for(String tag : values){
+                    	String[] tagValues = value.split(";");
+                    	ArrayList<String> valueList = new ArrayList<String>();
+                    		if(tagValues.length > 0){
+                    		for(String tagVal : tagValues){
+                    			String tagTitle = tagVal.trim();
                     			 try{
-	                    			if(null == tm.resolve(tag)){
-	                    				if(tm.canCreateTag(tag)){
-	                    					String title = "";
-	                    					if(tag.indexOf("/") != -1){
-	                    						title = tag.substring(tag.lastIndexOf("/"),tag.length());
-	                    					}
-	                    					tm.createTag(tag,title,"",true);
-	                    				}
-	                    			}
+                    				String tagID = createId(tagTitle, r.getPath());
+                    				if(tagID != null){
+		                    			if(null == tm.resolve(tagID)){
+		                    				if(tm.canCreateTag(tagID)){
+		                    					tm.createTag(tagID,tagTitle,"",true);
+		                    					valueList.add(tagID);
+		                    				}
+		                    			}else{
+		                    				valueList.add(tagID);
+		                    			}
+                    				}
                     			}catch(Exception e){
                     				System.err.println("GSBulkEditor - Failed to Create Tag");
                     			} 
                     		}
                     	}
+                    	values = valueList.toArray(new String[0]);
                     }
-                    
                     if (r == null) {
                         //resource does not exist. 2 cases:
                         // - maybe it is a non existing property? property has to be created
@@ -100,7 +109,13 @@
                             	if(values != null){
                                 	p.setValue(values);
                             	}else{
-                            		p.setValue(value);
+                            		try{
+                            			p.setValue(value);
+                            		}catch(ValueFormatException e){
+                            			values = new String[1];
+                            			values[0] = value;
+                            			p.setValue(values);
+                            		}
                             	}
                                 updated = true;
                             }
@@ -124,4 +139,41 @@
     }
 
     htmlResponse.send(response, true);
+%>
+
+<%!
+String createId(String tag, String path){
+	HashMap<String,String> specialCouncils = new HashMap<String,String>();
+	specialCouncils.put("southern-appalachian","girlscoutcsa");
+	specialCouncils.put("NE_Texas","NE_Texas");
+	specialCouncils.put("nc-coastal-pines-images-","girlscoutsnccp");
+	specialCouncils.put("wcf-images","gswcf");
+	specialCouncils.put("oregon-sw-washington-","girlscoutsosw");
+	specialCouncils.put("dxp","girlscouts-dxp");
+	
+	String councilRoot = "";
+	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
+	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
+	Matcher mDam = pDam.matcher(path);
+	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
+	Matcher mContent = pContent.matcher(path);
+	if(mDam.matches()){
+		councilRoot = mDam.group(1);
+    	if(specialCouncils.containsKey(councilRoot)){
+    		councilRoot = specialCouncils.get(councilRoot);
+    	}
+    	if(councilRoot.startsWith("girlscouts-")){
+    		councilRoot = councilRoot.replace("girlscouts-","");
+    	}
+		return councilRoot + ":forms_documents/" + tagName;
+	}else if(mContent.matches()){
+		councilRoot = mContent.group(1);
+    	if(specialCouncils.containsKey(councilRoot)){
+    		councilRoot = specialCouncils.get(councilRoot);
+    	}
+		return councilRoot + ":forms_documents/" + tagName;
+	}else{
+		return null;
+	}
+}
 %>

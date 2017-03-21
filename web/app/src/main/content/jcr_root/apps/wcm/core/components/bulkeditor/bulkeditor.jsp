@@ -30,7 +30,7 @@
 %><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
 <html>
 <head>
-    <title>AEM BulkEditor</title>
+    <title>CQ5 BulkEditor</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <cq:includeClientLib categories="cq.wcm.edit,cq.security,cq.tagging"/><%
         //accepted parameters: if name is null, short name is read from request. 
@@ -128,7 +128,7 @@
         //config
         String queryURL = "/etc/importers/bulkeditor/query.json";
         String importURL = "/etc/importers/bulkeditor/import";
-        String exportURL = "/etc/importers/bulkeditor/export.tsv";
+        String exportURL = "/etc/importers/bulkeditor/export.csv";
         String renderTo = "cq-bulkeditor";
 
 

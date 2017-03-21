@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.StringBuilder;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -37,6 +38,9 @@ import org.apache.sling.api.scripting.SlingBindings;
 
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.tagging.TagManager;
+import com.day.cq.tagging.Tag;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
@@ -189,20 +193,51 @@ public class json extends SlingAllMethodsServlet {
 		}
 
 	}
-	public void writeProperty(TidyJSONWriter writer, String name, Property prop)throws Exception{
+	public void writeProperty(TidyJSONWriter writer, String name, Property prop, ResourceResolver rr)throws Exception{
 		writer.key(encodeString(name));
-		if (prop.getType() != PropertyType.BINARY) {
+		if(name.endsWith("cq:tags")){
+			TagManager tm = rr.adaptTo(TagManager.class);
 			if (prop.getDefinition().isMultiple()) {
-				writer.array();
-				for (Value v : prop.getValues()) {
-					writer.value(v.getString());
+				StringBuilder tagStrBuilder = new StringBuilder();
+				if(prop.getValues().length > 0){
+					for (int i = 0; i < prop.getValues().length; i++){
+						Value v = prop.getValues()[i];
+						Tag t = tm.resolve(v.getString());
+						if(t != null){
+							tagStrBuilder.append(t.getTitle());
+						}else{
+							tagStrBuilder.append(v.getString());
+						}
+						if(i < prop.getValues().length - 1){
+							tagStrBuilder.append(";");
+						}
+					}
+					writer.value(tagStrBuilder.toString());
+				}else{
+					writer.value("");
 				}
-				writer.endArray();
 			} else {
-				writer.value(prop.getString());
+				Tag t = tm.resolve(prop.getString());
+				if(t != null){
+					writer.value(t.getTitle());
+				}else{
+					writer.value(prop.getString());
+				}
 			}
-		} else {
-			writer.value("BINARY");
+		}else{
+			if (prop.getType() != PropertyType.BINARY) {
+				if (prop.getDefinition().isMultiple()) {
+					writer.array();
+					for (Value v : prop.getValues()) {
+						writer.value(v.getString());
+					}
+					writer.endArray();
+				} else {
+					writer.value(prop.getString());
+				}
+			} else {
+				writer.value("BINARY");
+			}
 		}
 	}
 
@@ -294,7 +329,7 @@ public class json extends SlingAllMethodsServlet {
 							if(decryptedMap.containsKey(property)){
 								writeProperty(writer,property,decryptedMap.get(property));
 							}else if (node.hasProperty(property)) {
-								writeProperty(writer,property,node.getProperty(property));
+								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}
 					}
@@ -302,7 +337,7 @@ public class json extends SlingAllMethodsServlet {
 					if (properties != null) {
 						for (String property : properties) {
 							if (node.hasProperty(property)) {
-								writeProperty(writer,property,node.getProperty(property));
+								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}
 					}

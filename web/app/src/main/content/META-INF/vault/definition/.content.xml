@@ -370,9 +370,29 @@
 	<f70
 		jcr:primaryType="nt:unstructured"
 		mode="replace"
-		root="/apps/granite/core"
+		root="/apps/granite/core/components"
 		rules="[]"/>
-	<f70
+	<f71
+		jcr:primaryType="nt:unstructured"
+		mode="replace"
+		root="/apps/granite/core/content/cug-dxp-login"
+		rules="[]"/>
+        <f72
+                jcr:primaryType="nt:unstructured"
+                mode="replace"
+                root="/apps/granite/core/content/cug-future-login"
+                rules="[]"/>
+        <f73
+                jcr:primaryType="nt:unstructured"
+                mode="replace"
+                root="/apps/granite/core/content/cug-login"
+                rules="[]"/>
+        <f74
+                jcr:primaryType="nt:unstructured"
+                mode="replace"
+                root="/apps/granite/core/content/cug-template-login"
+                rules="[]"/>
+	<f75
 	  jcr:primaryType="sling:folder"
 	  mode="replace"
 	  root="/etc/importers/gsbulkeditor"

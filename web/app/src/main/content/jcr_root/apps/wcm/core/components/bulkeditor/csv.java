@@ -15,9 +15,11 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Property;
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
@@ -38,10 +40,12 @@ import com.day.cq.commons.jcr.JcrConstants;
 import com.day.text.Text;
 import com.day.text.XMLChar;
 
+import apps.wcm.core.components.bulkeditor.json;
+
 /**
  * Servers as base for image servlets
  */
-public class tsv extends SlingAllMethodsServlet {
+public class csv extends SlingAllMethodsServlet {
     /**
      * Query clause
      */
@@ -59,7 +63,7 @@ public class tsv extends SlingAllMethodsServlet {
      */
     public static final String PROPERTIES_PARAM = "cols";
 
-    public static final String DEFAULT_SEPARATOR = "\t";
+    public static final String DEFAULT_SEPARATOR = ",";
 
     public static final String VALUE_DELIMITER = "\"";
 
@@ -83,14 +87,16 @@ public class tsv extends SlingAllMethodsServlet {
         Session session = request.getResourceResolver().adaptTo(
                 Session.class);
         try {
-            RowIterator hits;
-            if (commonPathPrefix != null && queryString != null) {
-                hits = GQL.execute(queryString, session, commonPathPrefix);
-            } else if (queryString != null) {
-                hits = GQL.execute(queryString, session);
-            } else {
-                return;
-            }
+            // Girl Scouts customization
+            // Discarding the original implementation of using a query
+            //RowIterator hits;
+            //if (commonPathPrefix != null && queryString != null) {
+            //    hits = GQL.execute(queryString, session, commonPathPrefix);
+            //} else if (queryString != null) {
+            //    hits = GQL.execute(queryString, session);
+            //} else {
+            //    return;
+            //}
 
             String tmp = request.getParameter(PROPERTIES_PARAM);
             String[] properties = (tmp != null) ? tmp.split(",") : null;
@@ -98,31 +104,53 @@ public class tsv extends SlingAllMethodsServlet {
             //final String separator = (request.getParameter(SEPARATOR_PARAM)!=null ? request.getParameter(SEPARATOR_PARAM) : DEFAULT_SEPARATOR);
             final String separator = DEFAULT_SEPARATOR;
 
-            bw.write(tsv.valueParser(JcrConstants.JCR_PATH, separator));
+            bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
             if (properties != null) {
                 for (String property : properties) {
                     property = property.trim();
-                    bw.write(separator + tsv.valueParser(property, separator));
+                    bw.write(separator + csv.valueParser(property, separator));
                 }
             }
 
             bw.newLine();
 
-            while (hits.hasNext()) {
-                Row hit = hits.nextRow();
-                Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+            String path = queryString.split(":")[1];
+            NodeIterator iter = session.getNode(path).getNodes();
+
+            //while (hits.hasNext()) {
+            while (iter.hasNext()) {
+                Node node = iter.nextNode();
+                //Row hit = hits.nextRow();
+                //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
                 if (node != null) {
-                    bw.write(tsv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
-                    if (properties != null) {
-                        for (String property : properties) {
-                            bw.write(separator);
-                            property = property.trim();
-                            if (node.hasProperty(property)) {
-                                Property prop = node.getProperty(property);
-                                bw.write(tsv.format(prop));
-                            }
-                        }
-                    }
+                    //bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
+					if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
+						Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
+						if (properties != null) {
+							for (String property : properties) {
+								bw.write(separator);
+								property = property.trim();
+								if(decryptedMap.containsKey(property)){
+									String[] values = decryptedMap.get(property);
+									bw.write(csv.format(values));
+								}else if (node.hasProperty(property)) {
+									Property prop = node.getProperty(property);
+									bw.write(csv.format(prop));
+								}
+							}
+						}
+					}else{
+						if (properties != null) {
+							for (String property : properties) {
+								bw.write(separator);
+								property = property.trim();
+								if (node.hasProperty(property)) {
+									Property prop = node.getProperty(property);
+									bw.write(csv.format(prop));
+								}
+							}
+						}
+					}
                     bw.newLine();
                 }
             }
@@ -132,7 +160,7 @@ public class tsv extends SlingAllMethodsServlet {
 
         // send string buffer
         bw.flush();
-        response.setContentType("text/tsv");
+        response.setContentType("text/csv");
         String encoding = request.getParameter(ENCODING_PARAM);
         response.setCharacterEncoding(StringUtils.isNotBlank(encoding) ? encoding : CHARACTER_ENCODING);
         response.getWriter().print(buf.getBuffer().toString());
@@ -187,10 +215,45 @@ public class tsv extends SlingAllMethodsServlet {
                 String strValue = ValueHelper.serialize(prop.getValue(), false);
                 escape(attrValue, strValue, false);
             }
+            String strValue = attrValue.toString();
+            if (strValue.contains(",")) {
+                strValue = strValue.replace("\"", "\"\"");
+                strValue = "\"" + strValue + "\"";
+            }
+            if (strValue.isEmpty()) {
+                strValue = "\"\"";
+            }
+            return strValue;
         }
         return attrValue.toString();
     }
 
+	public static String format(String[] values) throws RepositoryException {
+		StringBuffer attrValue = new StringBuffer();
+		if (values.length>1) {
+			attrValue.append('[');
+			for (int i = 0; i < values.length; i++) {
+				if (i > 0) {
+					attrValue.append(',');
+				}
+				attrValue.append(values[i]);
+			}
+			attrValue.append(']');
+		} else {
+			String strValue = values.length==0?"":values[0];
+			escape(attrValue, strValue, false);
+		}
+		String strValue = attrValue.toString();
+		if (strValue.contains(",")) {
+			strValue = strValue.replace("\"", "\"\"");
+			strValue = "\"" + strValue + "\"";
+		}
+		if (strValue.isEmpty()) {
+			strValue = "\"\"";
+		}
+		return strValue;
+
+	}
     /**
      * Escapes the value
      *
