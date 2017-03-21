@@ -177,27 +177,6 @@ $lines-to-show: 3;
             }
         }
         @media #{$small-only} {
-<<<<<<< HEAD
-            section .text-content h3 {
-                font-size: rem-calc(14);
-                line-height: 1rem;
-            }
-            section .text-content {
-                padding-left: 0.8rem;
-                padding-right: 0.8rem;
-            }
-||||||| parent of 1b8a63d... Merge pull request #451 from northpoint/GSDO-519_PHIL-STUFF_GSUSA-Font-Update
-
-          section .text-content h3 {
-            font-size: rem-calc(14);
-            line-height: 1rem;
-          }
-          section .text-content {
-             padding-left: 0.8rem;
-            padding-right: 0.8rem;
-          }
-
-=======
 
           section .text-content h3 {
             font-size: rem-calc(13);
@@ -208,7 +187,6 @@ $lines-to-show: 3;
             padding-right: 0.8rem;
           }
 
->>>>>>> 1b8a63d... Merge pull request #451 from northpoint/GSDO-519_PHIL-STUFF_GSUSA-Font-Update
         }
         ul {
             @include block-grid(2,
