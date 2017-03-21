@@ -16,7 +16,9 @@
   ==============================================================================
 
 --%><%@ page session="false" %><%
-%><%@page import="com.day.cq.wcm.api.WCMMode" %><%
+%><%@page import="com.day.cq.wcm.api.WCMMode,
+        java.util.Iterator,
+        com.day.cq.wcm.api.PageFilter" %><%
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:includeClientLib categories="cq.shared"/><%
@@ -53,9 +55,7 @@
 	<cq:includeClientLib categories="apps.gsusa.authoring" />
 <% } %>
 
-    
-<%@ page import="java.util.Iterator,
-        com.day.cq.wcm.api.PageFilter"%><%
+<%
     /*
     String listroot = properties.get("listroot", currentPage.getPath());
     Page rootPage = pageManager.getPage(listroot);
