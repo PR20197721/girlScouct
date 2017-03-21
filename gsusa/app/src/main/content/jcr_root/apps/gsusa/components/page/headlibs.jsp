@@ -25,6 +25,24 @@
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <cq:includeClientLib css="apps.gsusa" />
 
+<%!
+    String list = "";
+    public void getAllClientLibs(Node node) {
+
+        Iterator<Node> children = node.getNodes();
+        while (children.hasNext()) {
+            Node child = children.next();        
+    
+            // Include ClientLib of node
+            list += child.getDepth() + " - " + child.getName() + "\n";
+    
+            // Recurse into children
+            getAllClientLibs(child);
+        }
+
+    }    
+%>
+    
 <!-- Begin: Include Girl Scout clientlibs -->
 <!-- Artifact Browser -->
 <!--[if lt IE 10]>
@@ -56,35 +74,8 @@
 <% } %>
 
 <%
-    /*
-    String listroot = properties.get("listroot", currentPage.getPath());
-    Page rootPage = pageManager.getPage(listroot);
-    if (rootPage != null) {
-        Iterator<Page> children = rootPage.listChildren(new PageFilter(request));
-        while (children.hasNext()) {
-            Page child = children.next();
-            String title = child.getTitle() == null ? child.getName() : child.getTitle();
-            String date = child.getProperties().get("date","");
-            String desc = child.getProperties().get("jcr:description","");
-            %>
-            <script>
-                console.log("<%=title%> - <%=date%> - <%=desc%>");
-            </script>
-            <%
-        }
-    }
-    */        
-        // http://stackoverflow.com/questions/16383541/adding-to-head-from-a-cq-component
-        Iterator<Node> children = currentNode.getNode("content").getNodes();
-        while (children.hasNext()) {
-            Node child = children.next();
-            String title = child.getName();
-            //String desc = child.getProperty("jcr:title").getValues()[0].getString();
-            %>
-            <script>
-                console.log("<%=title%>");
-            </script>
-            <%
-        }
-
+    getAllClientLibs(request.getResource().adaptTo(Node.class));
 %>
+<script>
+    console.log("<%=list%>");
+</script>
