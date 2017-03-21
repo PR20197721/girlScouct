@@ -538,6 +538,14 @@ public class POST extends SlingAllMethodsServlet {
     }
     
     public String createID(String tag, String path){
+    	HashMap<String,String> specialCouncils = new HashMap<String,String>();
+    	specialCouncils.put("southern-appalachian","girlscoutcsa");
+    	specialCouncils.put("NE_Texas","NE_Texas");
+    	specialCouncils.put("nc-coastal-pines-images-","girlscoutsnccp");
+    	specialCouncils.put("wcf-images","gswcf");
+    	specialCouncils.put("oregon-sw-washington-","girlscoutsosw");
+    	specialCouncils.put("dxp","girlscouts-dxp");
+    	
     	String councilRoot = "";
     	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
     	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
@@ -546,9 +554,18 @@ public class POST extends SlingAllMethodsServlet {
     	Matcher mContent = pContent.matcher(path);
     	if(mDam.matches()){
     		councilRoot = mDam.group(1);
+        	if(specialCouncils.containsKey(councilRoot)){
+        		councilRoot = specialCouncils.get(councilRoot);
+        	}
+        	if(councilRoot.startsWith("girlscouts-")){
+        		councilRoot = councilRoot.replace("girlscouts-","");
+        	}
     		return councilRoot + ":forms_documents/" + tagName;
     	}else if(mContent.matches()){
     		councilRoot = mContent.group(1);
+        	if(specialCouncils.containsKey(councilRoot)){
+        		councilRoot = specialCouncils.get(councilRoot);
+        	}
     		return councilRoot + ":forms_documents/" + tagName;
     	}else{
     		return null;
