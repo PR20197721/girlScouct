@@ -28,6 +28,190 @@
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../../fonts/open-sans-bold.woff') format('woff');
 }
+
+
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-thin.eot");
+  src: local("Trefoil Sans Web Thin"), local("TrefoilSansWeb-Thin"), 
+    url("../../fonts/trefoilsans-thin.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-thin.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-thin.woff") format("woff");
+  font-weight: 100;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-thinit.eot");
+  src: local("Trefoil Sans Web Thin It"), local("TrefoilSansWeb-ThinIt"), 
+    url("../../fonts/trefoilsans-thinit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-thinit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-thinit.woff") format("woff");
+  font-weight: 100;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-xlight.eot");
+  src: local("Trefoil Sans Web XLight"), local("TrefoilSansWeb-XLight"), 
+    url("../../fonts/trefoilsans-xlight.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-xlight.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-xlight.woff") format("woff");
+  font-weight: 200;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-xlightit.eot");
+  src: local("Trefoil Sans Web XLight It"), local("TrefoilSansWeb-XLightIt"), 
+    url("../../fonts/trefoilsans-xlightit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-xlightit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-xlightit.woff") format("woff"); 
+  font-weight: 200;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-light.eot");
+  src: local("Trefoil Sans Web Light"), local("TrefoilSansWeb-Light"), 
+    url("../../fonts/trefoilsans-light.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-light.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-light.woff") format("woff"); 
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-lightit.eot");
+  src: local("Trefoil Sans Web Light It"), local("TrefoilSansWeb-LightIt"), 
+    url("../../fonts/trefoilsans-lightit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-lightit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-lightit.woff") format("woff");
+  font-weight: 300;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-regular.eot");
+  src: local("Trefoil Sans Web Regular"), local("TrefoilSansWeb-Regular"), 
+    url("../../fonts/trefoilsans-regular.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-regular.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-regular.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-regularit.eot");
+  src: local("Trefoil Sans Web Regular It"), local("TrefoilSansWeb-RegularIt"), 
+    url("../../fonts/trefoilsans-regularit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-regularit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-regularit.woff") format("woff");
+  font-weight: 400;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-medium.eot");
+  src: local("Trefoil Sans Web Medium"), local("TrefoilSansWeb-Medium"), 
+    url("../../fonts/trefoilsans-medium.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-medium.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-mediumit.eot");
+  src: local("Trefoil Sans Web Medium It"), local("TrefoilSansWeb-MediumIt"), 
+    url("../../fonts/trefoilsans-mediumit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-mediumit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-mediumit.woff") format("woff");
+  font-weight: 500;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-semibold.eot");
+  src: local("Trefoil Sans Web Semibold"), local("TrefoilSansWeb-Semibold"), 
+    url("../../fonts/trefoilsans-semibold.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-semibold.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-semibold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-semiboldit.eot");
+  src: local("Trefoil Sans Web Semibold It"), local("TrefoilSansWeb-SemiboldIt"), 
+    url("../../fonts/trefoilsans-semiboldit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-semiboldit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-semiboldit.woff") format("woff");
+  font-weight: 600;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-bold.eot");
+  src: local("Trefoil Sans Web Bold"), local("TrefoilSansWeb-Bold"), 
+    url("../../fonts/trefoilsans-bold.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-bold.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-bold.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-boldit.eot");
+  src: local("Trefoil Sans Web Bold It"), local("TrefoilSansWeb-BoldIt"), 
+    url("../../fonts/trefoilsans-boldit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-boldit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-boldit.woff") format("woff");
+  font-weight: 700;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-black.eot");
+  src: local("Trefoil Sans Web Black"), local("TrefoilSansWeb-Black"), 
+    url("../../fonts/trefoilsans-black.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-black.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-black.woff") format("woff");
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-blackit.eot");
+  src: local("Trefoil Sans Web Black It"), local("TrefoilSansWeb-BlackIt"), 
+    url("../../fonts/trefoilsans-blackit.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-blackit.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-blackit.woff") format("woff");
+  font-weight: 800;
+  font-style: italic;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-ultra.eot");
+  src: local("Trefoil Sans Web Ultra"), local("TrefoilSansWeb-Ultra"), 
+    url("../../fonts/trefoilsans-ultra.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-ultra.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-ultra.woff") format("woff");
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Trefoil Sans Web';
+  src: url("../../fonts/trefoilsans-ultrait.eot");
+  src: local("Trefoil Sans Web Ultra It"), local("TrefoilSansWeb-UltraIt"), 
+    url("../../fonts/trefoilsans-ultrait.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-ultrait.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-ultrait.woff") format("woff");
+  font-weight: 900;
+  font-style: italic;
+}
+
+
 .cookie-page {
   h3 {
     font-size: rem-calc(30);

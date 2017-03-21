@@ -26,17 +26,17 @@ $lines-to-show: 3;
                 color: $white;
             }
             h3 {
-                font-size: rem-calc(18);
-                line-height: 1.5rem;
+                font-size: rem-calc(17);
+                line-height: 1.2rem;
                 margin-bottom: rem-calc(10);
                 margin-top: 0;
                 font-weight: normal;
             }
-            @media #{$small-only} {
-                h3 {
-                    font-size: rem-calc(14);
-                    line-height: 1.25rem;
-                    font-weight: normal;
+            @media #{$small-only} {   
+                h3{
+                   font-size: rem-calc(14);
+                   line-height: 1rem;   
+                   font-weight: normal;
                 }
                 p {
                     line-height: 1rem;
@@ -111,10 +111,10 @@ $lines-to-show: 3;
 
 .featured-articles {
     h4 {
-        font-size: rem-calc(24);
-        font-weight: 700;
+        font-size: rem-calc(25);
+        font-weight: 400;
         * {
-            font-weight: 600;
+            font-weight: 400;
         }
     }
     @include grid-row();
@@ -127,8 +127,8 @@ $lines-to-show: 3;
                 padding-left: rem-calc(34);
                 padding-right: rem-calc(34);
                 h3 {
-                    font-size: rem-calc(21) !important;
-                    line-height: rem-calc(24) !important;
+                    font-size: rem-calc(23) !important;
+                    line-height: 1.2 !important;
                 }
             }
         }
@@ -138,8 +138,8 @@ $lines-to-show: 3;
                 padding-left: rem-calc(16);
                 padding-right: rem-calc(16);
                 h3 {
-                    font-size: rem-calc(20);
-                    line-height: rem-calc(28);
+                    font-size: rem-calc(22);
+                    line-height: 1.2;
                 }
             }
         }
@@ -164,8 +164,8 @@ $lines-to-show: 3;
                 }
             }
             section .text-content h3 {
-                font-size: 100%;
-                line-height: 1.2rem;
+                font-size: rem-calc(15);
+                line-height: 1.1rem;
             }
             section .text-content {
                 line-height: 1.2rem;
@@ -177,6 +177,7 @@ $lines-to-show: 3;
             }
         }
         @media #{$small-only} {
+<<<<<<< HEAD
             section .text-content h3 {
                 font-size: rem-calc(14);
                 line-height: 1rem;
@@ -185,6 +186,29 @@ $lines-to-show: 3;
                 padding-left: 0.8rem;
                 padding-right: 0.8rem;
             }
+||||||| parent of 1b8a63d... Merge pull request #451 from northpoint/GSDO-519_PHIL-STUFF_GSUSA-Font-Update
+
+          section .text-content h3 {
+            font-size: rem-calc(14);
+            line-height: 1rem;
+          }
+          section .text-content {
+             padding-left: 0.8rem;
+            padding-right: 0.8rem;
+          }
+
+=======
+
+          section .text-content h3 {
+            font-size: rem-calc(13);
+            line-height: 1rem;
+          }
+          section .text-content {
+             padding-left: 0.8rem;
+            padding-right: 0.8rem;
+          }
+
+>>>>>>> 1b8a63d... Merge pull request #451 from northpoint/GSDO-519_PHIL-STUFF_GSUSA-Font-Update
         }
         ul {
             @include block-grid(2,
@@ -253,9 +277,9 @@ $lines-to-show: 3;
     // margin-top: rem-calc(30);
     padding-top: rem-calc(20);
     h4 {
-        font-weight: 700;
-        font-size: rem-calc(24);
-        margin-bottom: rem-calc(37);
+        font-weight: 400;
+        font-size: rem-calc(25);
+        margin-bottom: rem-calc(22);
     }
     .block-grid {
         @media #{$medium-up} {

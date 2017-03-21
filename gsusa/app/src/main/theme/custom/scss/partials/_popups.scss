@@ -7,13 +7,14 @@
     font-size: rem-calc(30);
   }
   p {
-    font-weight:600;
-    font-size: rem-calc(18);
+    font-weight:400;
+    font-size: rem-calc(16);
     line-height: 1.2;
   }
   .close-reveal-modal {
     position: absolute;
     right: rem-calc(5);
+    font-size: rem-calc(30) !important;
   }
 }
 .local-lookup {
@@ -23,6 +24,7 @@
     label {
       margin-bottom: rem-calc(10);
       margin-top: rem-calc(10);
+      font-size: rem-calc(16);
     }
     > div:nth-last-of-type(1) {
       label {
@@ -38,11 +40,12 @@
         width: 72%;
         margin-bottom: rem-calc(10);
         padding-left: rem-calc(5);
+        font-size: rem-calc(16);
       }
       label {
         display: inline;
         text-align: right;
-        width: 18%;
+        width: 25%;
         float: left;
         margin-right: rem-calc(10);
       }
@@ -50,6 +53,7 @@
   }
   .button {
     margin: 0;
+    padding: rem-calc(5 26)
   }
 }
 .share-modal {
@@ -90,8 +94,8 @@
 #modal_booth_item_map {
   padding: rem-calc(20 30 20 20);
   p {
-    font-size: rem-calc(14);
-    font-weight: 600;
+    font-size: rem-calc(16);
+    font-weight: 400;
     margin:0;
   }
   h5 {
@@ -112,7 +116,7 @@
       div {
         margin-bottom: rem-calc(10);
         a {
-          font-size: rem-calc(14);
+          font-size: rem-calc(16);
         }
       }
     }

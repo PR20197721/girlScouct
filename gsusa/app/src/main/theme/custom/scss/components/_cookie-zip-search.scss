@@ -12,7 +12,8 @@
   	font-size:rem-calc(12);
   }
   .row {
-    font-size: rem-calc(18);
+    font-size: rem-calc(20);
+    font-weight: 300;
     @media #{$medium-up} {
       margin-top: 3%;
     }
@@ -66,7 +67,7 @@
     a {
       color: white;
       vertical-align: middle;
-      line-height: 1.2;
+      line-height: 1.5rem;
       &:hover {
         color: $white;
       }
@@ -81,7 +82,7 @@
   form {
     label {
       color: $white;
-      font-size: rem-calc(30);
+      font-size: rem-calc(33);
       font-weight: 300;
       * {
       	color: $white;
@@ -105,10 +106,10 @@
         width: 54%;
         margin-left: 15.4rem;
         label {
-          font-size: rem-calc(20);
+          font-size: rem-calc(22);
         }
          input[type="text"] {
-          font-size: rem-calc(16);
+          font-size: rem-calc(18);
           padding-left: rem-calc(3);
          }
       }
@@ -136,7 +137,7 @@
       width: 100%;
       padding-left: rem-calc(10);
       height: rem-calc(47);
-      font-size: rem-calc(18);
+      font-size: rem-calc(20);
     }
     .link-arrow {
       border: none;
@@ -147,6 +148,8 @@
       position: absolute;
       right: 0;
       color: $white;
+      font-size: rem-calc(18);
+      font-weight: 300;
     }
     .form-wrapper {
       position: relative;
@@ -246,8 +249,8 @@
       margin-bottom: 0;
       text-align: center;
       color: $white;
-      font-size: rem-calc(28);
-      font-weight: 600;
+      font-size: rem-calc(30);
+      font-weight: 500;
     }
     .form-wrapper {
       width: 34.22619%;
@@ -259,7 +262,7 @@
       label {
         float: none;
         margin-right: 0;
-        font-size: rem-calc(20);
+        font-size: rem-calc(22);
         margin-bottom: rem-calc(15);
       }
       .form-wrapper {
@@ -302,6 +305,8 @@
       position: absolute;
       right: 0;
       color: $white;
+      font-size: rem-calc(18);
+      font-weight: 300;
     }
     .form-wrapper {
       position: relative;

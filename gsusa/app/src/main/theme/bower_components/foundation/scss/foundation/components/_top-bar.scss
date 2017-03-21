@@ -335,7 +335,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
           color: $topbar-link-color;
           display: block;
           font-family: $topbar-link-font-family;
-          font-size: $topbar-link-font-size;
+          font-size: rem-calc(18); /* font-size: $topbar-link-font-size; */
           font-weight: $topbar-link-weight;
           padding-#{$default-float}: $topbar-link-padding;
           padding: 12px 0 12px $topbar-link-padding;
