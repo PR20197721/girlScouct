@@ -15,26 +15,27 @@
 
   ==============================================================================
 
---%><%@ page session="false" %><%
-%><%@page import="com.day.cq.wcm.api.WCMMode,
+--%>
+<%@ page session="false"%>
+<%@page import="com.day.cq.wcm.api.WCMMode,
         java.util.Iterator,
-        com.day.cq.wcm.api.PageFilter" %><%
-%><%@include file="/libs/foundation/global.jsp" %><%
-%><cq:includeClientLib categories="cq.foundation-main"/><%
-%><cq:includeClientLib categories="cq.shared"/><%
-%><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
+        com.day.cq.wcm.api.PageFilter"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:includeClientLib categories="cq.foundation-main" />
+<cq:includeClientLib categories="cq.shared" />
+<cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp" />
 <cq:includeClientLib css="apps.gsusa" />
 
 <%!
     String list = "";
-    public void getAllClientLibs(Node node) {
+    public void getAllClientLibs(Node node) throws RepositoryException {
 
+        // Include ClientLib of node
+        list += "\n" + node.getDepth() + " - " + node.getName() + " - " + node.getProperty("jcr:primaryType").getString();
+    
         Iterator<Node> children = node.getNodes();
         while (children.hasNext()) {
             Node child = children.next();        
-    
-            // Include ClientLib of node
-            list += child.getDepth() + " - " + child.getName() + "\n";
     
             // Recurse into children
             getAllClientLibs(child);
@@ -42,7 +43,7 @@
 
     }    
 %>
-    
+
 <!-- Begin: Include Girl Scout clientlibs -->
 <!-- Artifact Browser -->
 <!--[if lt IE 10]>
@@ -54,16 +55,16 @@
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 9]><!-->
-	<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app.css">
+<link rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app.css">
 <!--<![endif]-->
-	<link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css">
+<link media="print" rel="stylesheet" type="text/css" href="/etc/designs/gsusa/clientlibs/css/app_print.css">
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js" type="text/javascript"></script>
 <%
 	ValueMap siteProps = resourceResolver.resolve(currentPage.getAbsoluteParent(2).getPath() + "/jcr:content").adaptTo(ValueMap.class);
 	String addThisId = siteProps.get("addThisId", "");
 	if (!addThisId.isEmpty()) {
 %>
-		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=<%= addThisId %>"></script>
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=<%= addThisId %>"></script>
 <%
 	}
 %>
@@ -74,8 +75,12 @@
 <% } %>
 
 <%
-    getAllClientLibs(request.getResource().adaptTo(Node.class));
+    getAllClientLibs(currentNode);
 %>
+
 <script>
-    console.log("<%=list%>");
+    console.log("Nodes:");
 </script>
+<p>
+    <%=list%>
+</p>
