@@ -445,7 +445,13 @@ public class POST extends SlingAllMethodsServlet {
 	        	                            	if(multiVal != null){
 	        	                            		updatedNode.setProperty(property,multiVal);
 	        	                            	}else{
-	        	                            		updatedNode.setProperty(property,val);
+	        	                            		try{
+	        	                            			updatedNode.setProperty(property,val);
+	        	                            		}catch(ValueFormatException e){
+	        	                            			multiVal = new String[1];
+	        	                            			multiVal[0] = val;
+	        	                            			updatedNode.setProperty(property,multiVal);
+	        	                            		}
 	        	                            	}
 	        	                            }
 	                    				}

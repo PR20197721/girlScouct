@@ -10,7 +10,8 @@
 				 com.day.cq.tagging.TagManager,
 				 java.util.regex.Pattern,
 				 java.util.regex.Matcher,
-				 java.util.ArrayList" %>
+				 java.util.ArrayList,
+				 javax.jcr.ValueFormatException" %>
 <%@ page session="false" %>
 <%
 %>
@@ -107,7 +108,13 @@
                             	if(values != null){
                                 	p.setValue(values);
                             	}else{
-                            		p.setValue(value);
+                            		try{
+                            			p.setValue(value);
+                            		}catch(ValueFormatException e){
+                            			values = new String[1];
+                            			values[0] = value;
+                            			p.setValue(values);
+                            		}
                             	}
                                 updated = true;
                             }
