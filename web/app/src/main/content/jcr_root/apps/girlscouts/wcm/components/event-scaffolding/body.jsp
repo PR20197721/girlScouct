@@ -23,7 +23,10 @@
 	import="com.day.cq.wcm.api.WCMMode,
 	com.day.cq.commons.jcr.JcrUtil,
 	javax.jcr.Session,
-	java.util.Calendar"%>
+	java.util.Calendar,
+	org.girlscouts.web.events.search.GSDateTime,
+	java.util.regex.Pattern,
+	java.util.regex.Matcher"%>
 <%
 %><body>
 	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
@@ -78,6 +81,29 @@ properties of this scaffolding.
 <%
 	return;
 		} else {
+	        try{
+		        Pattern p = Pattern.compile(".*/etc/scaffolding/([^/]*)/.*");
+		        Matcher m = p.matcher(currentPage.getPath());
+		        m.matches();
+		        
+		        String bulkPage = "/content/" + m.group(1) + "/en/sf-events-repository";
+		        Resource sfRepo = resourceResolver.resolve(bulkPage);
+		        if(sfRepo.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+		        	bulkPage = "/content/" + m.group(1) + "/en/events-repository";
+		        }
+		        
+		        String yr = "";
+		        try{
+		        	GSDateTime dateTime = new GSDateTime();
+		        	yr = "" + dateTime.getYear();
+		        }catch(Exception e){
+		        	e.printStackTrace();
+		        }
+		        
+		        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "&cm=true&deep=false&cv=jcr:title&ec=start&hib=false&is=true&rt=girlscouts/components/event-page&it=events&hpc=false&hy=false&yr=" + yr %>">Click Here</a></div><%
+	        }catch(Exception e){
+	        	System.err.println("Event bulkeditor - could not determine path");
+	        }
 %>Create pages below
 <a href="<%=contentPath%>.html"><%=contentPath%></a>
 <ul id="linklist"></ul>

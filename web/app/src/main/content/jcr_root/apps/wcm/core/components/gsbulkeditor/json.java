@@ -277,6 +277,8 @@ public class json extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }else if(null != primaryType){
 	            	if(node.hasProperty("jcr:primaryType")){
@@ -287,6 +289,8 @@ public class json extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }   
 	            if(canIterate){

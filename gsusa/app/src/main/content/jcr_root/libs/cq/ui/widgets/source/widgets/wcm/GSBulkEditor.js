@@ -66,6 +66,12 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * True to perform query on load (default is false).
      */
     initialSearch: false,
+    
+    /**
+     * @cfg GS - year for events
+     */
+    hideYear: true,
+    year: null,
 
     /**
      * @cfg {String[]} colsSelection
@@ -340,6 +346,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             this.hideColsSelection = true;
             this.hideExtraCols = true;
             this.hideResourceType = true;
+            this.hideYear = true;
             this.hidePrimaryType = true;
             this.hideSearchButton = true;
             //allow to override the grid button configs per initial config
@@ -357,6 +364,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         this.hideColsSelection = this.toBoolean(this.hideColsSelection);
         this.hideExtraCols = this.toBoolean(this.hideExtraCols);
         this.hideResourceType = this.toBoolean(this.hideResourceType);
+        this.hideYear = this.toBoolean(this.hideYear);
         this.hidePrimaryType = this.toBoolean(this.hidePrimaryType);
         this.hideSearchButton = this.toBoolean(this.hideSearchButton);
         this.hideImportButton = this.toBoolean(this.hideImportButton);
@@ -913,6 +921,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         	url = CQ.HTTP.addParameter(url, "resourceType", resourceType);
         }
         
+        var year = this.getYear();
+        if(year){
+        	url = CQ.HTTP.addParameter(url, "year", resourceType);
+        }
+        
         var primaryType = this.getPrimaryType();
         if(primaryType){
         	url = CQ.HTTP.addParameter(url, "primaryType", primaryType);
@@ -1270,6 +1283,20 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	return config;
     },
     
+    getYearConfig: function() {
+    	var config = {
+    		"fieldClass":"x-form-text-bulkeditor",
+    		"fieldLabel":CQ.I18n.getMessage("Year"),
+    		"name":"./year",
+    		"value":this.year,
+    		"fieldDescription":CQ.I18n.getMessage("For Events only - Filter events by year"),
+    	};
+    	if(this.initialConfig && this.initialConfig.yearInput){
+    		config = CQ.Util.applyDefaults(this.initialConfig.yearInput,config);
+    	}
+    	return config;
+    },
+    
     getPrimaryTypeConfig: function() {
     	var config = {
     		"fieldClass":"x-form-text-bulkeditor",
@@ -1293,6 +1320,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 }
                 if(this.importType){
                 	url = CQ.shared.HTTP.addParameter(url, "importType", this.importType);
+                }
+                if(this.year){
+                	url = CQ.shared.HTTP.addParameter(url, "year", this.year);
                 }
                 CQ.shared.Util.open(url);
             };
@@ -1324,7 +1354,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     var action = new CQ.form.SlingSubmitAction(form, {
                         "method": "POST",
                         "url": this.importURL,
-                        "params": { "importType" : this.importType },
+                        "params": { "importType" : this.importType, "year" : this.year },
                         success:function(form,action) {
                             form.el.dom["enctype"] = "";
                             delete form.fileUpload;
@@ -1638,6 +1668,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(!this.hideIsDeepMode){
         	this.isDeepModeInput = new CQ.Ext.form.Checkbox(this.getIsDeepConfig());
         	leftset.push(this.isDeepModeInput);
+        }
+        
+        if(!this.hideYear){
+        	this.yearInput = new CQ.Ext.form.TextField(this.getYearConfig());
+        	leftset.push(this.yearInput);
         }
 
         if(!this.hideSearchButton || !this.hideImportButton) {
@@ -2661,6 +2696,13 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	return this.resourceType;
     },
     
+    getYear: function(){
+    	if(this.yearInput){
+    		return this.yearInput.getValue();
+    	}
+    	return this.year;
+    },
+    
     getPrimaryType: function(){
     	if(this.primaryTypeInput){
     		return this.primaryTypeInput.getValue();
@@ -2772,6 +2814,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             
             if(this.importType){
             	params["importType"] = this.importType;
+            }
+            
+            if(this.year){
+            	params["year"] = this.year;
             }
 
             if (hasParam) {

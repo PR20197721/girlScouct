@@ -119,7 +119,11 @@
 
         //hide grid "path" column
         Boolean hidePathCol = getBoolean(request,"hidePathCol","hpc");
-
+        
+        //GS - for events, year column
+        Boolean hideYear = getBoolean(request,"hideYear","hy");
+        String year = getString(request,"year","yr");
+        		
         //mandatory default values
         if (colsSelection == null) {
             colsSelection = new String[]{"sling:resourceType", "jcr:title", "cq:lastModified", "subtitle", "text"};
@@ -185,6 +189,8 @@
         bulkEditorConfig.put("bulkEditDialogType",bulkEditDialogType);
         bulkEditorConfig.put("bulkEditDialogPath",bulkEditDialogPath);
         bulkEditorConfig.put("hidePathCol",hidePathCol);
+        bulkEditorConfig.put("hideYear",hideYear);
+        bulkEditorConfig.put("year",year);
     %>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 </head>
