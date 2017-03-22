@@ -551,12 +551,15 @@ div.carousel {
     .slick-slide {
         margin: 0 7px;
         position: relative;
-        
         //padding-bottom: 6%;
         @media #{$medium-up} {
-            height: rem-calc(177);
+            width: rem-calc(432);
+            height: rem-calc(243);
+            //height: rem-calc(177);
         }
         @media #{$small-only} {
+            width: rem-calc(320);
+            height: rem-calc(180);
             //height: rem-calc(160);
         }
         

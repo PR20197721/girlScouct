@@ -19,6 +19,7 @@
 <%@ page session="false"%>
 <%@page import="com.day.cq.wcm.api.WCMMode,
         java.util.Iterator,
+        javax.jcr.query.Query,
         com.day.cq.wcm.api.PageFilter"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="cq.foundation-main" />
@@ -30,9 +31,10 @@
     String list = "";
     public void getAllClientLibs(Node node) throws RepositoryException {
 
-        // Include ClientLib of node
-        list += "\n" + node.getDepth() + " - " + node.getName() + " - " + node.getProperty("jcr:primaryType").getString();
-    
+        if (node.hasProperty("test")) {
+            // Include ClientLib of node
+            list += "\n" + node.getDepth() + " - " + node.getName() + " - " + node.getProperty("test").getString();
+        }
         Iterator<Node> children = node.getNodes();
         while (children.hasNext()) {
             Node child = children.next();        
@@ -76,6 +78,14 @@
 
 <%
     getAllClientLibs(currentNode);
+    final String sql2 = "SELECT * FROM [cq:Component] AS c WHERE ISDESCENDANTNODE([" + currentPage.getAbsoluteParent(1).getPath() + "])";
+    Iterator<Resource> resources = resourceResolver.findResources(sql2, Query.JCR_SQL2);
+    while (resources.hasNext()) {
+        Resource _component = resources.next();
+        ValueMap _properties = _component.getValueMap();        
+        //list += "\n" + _component.getName();
+    }
+    //list += currentPage.getProperties().keySet().toArray();
 %>
 
 <script>

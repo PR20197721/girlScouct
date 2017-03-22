@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, gsusa, alert, Handlebars, YT, $f, console */
+/*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
 /*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, loc */
 
 //
@@ -679,6 +679,7 @@ function fixSlickSlideActive() {
         slidesToShow: 1,
         centerPadding: '100px',
         touchMove: true,
+        variableWidth: true,
         responsive: [{
             breakpoint: 480,
             settings: {
@@ -688,6 +689,7 @@ function fixSlickSlideActive() {
             }
         }]
     });
+    /*
     $('.video-slider-wrapper .slick-slide').css({
         height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
     });
@@ -696,7 +698,7 @@ function fixSlickSlideActive() {
             height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
         });
     });
-
+    */
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {
@@ -892,10 +894,8 @@ function stopSlider() {
 
 function attachEventPlayer(player) {
     'use strict';
-    player.addEvent('ready', function () {
-        player.addEvent('playProgress', function () {
-            stopSlider();
-        });
+    player.on('play', function () {
+        stopSlider();
     });
 }
 
@@ -907,7 +907,7 @@ function attachListenerToVideoSlider() {
     for (i = 0; i < $('.vid-slide-wrapper iframe').length; i += 1) {
         iframe = $('.vid-slide-wrapper iframe')[i];
         if ($(iframe).hasClass("vimeo")) {
-            player = $f(iframe);
+            player = new Vimeo.Player($(iframe));
             attachEventPlayer(player);
         }
     }

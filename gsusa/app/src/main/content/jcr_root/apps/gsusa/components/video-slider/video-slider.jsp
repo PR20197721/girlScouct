@@ -166,16 +166,10 @@ public  String readUrlFile(String urlString) throws Exception {
                         $(function() {
                             
                             var slick = $('.video-slider-wrapper'),
-                                //slides = $(".video-slider .slick-slide"),
-                                //iframes = $('.vid-slide-wrapper iframe'),
-                                vimeoPlayer = $(".vimeo"),
+                                vimeoIframe = $(".vimeo"),
+                                vimeoPlayer = [],
                                 youtubePlayer = $('.lazyYT > iframe');
-                            /*
-                            slides.css({
-                                height: slides.width() * 9 / 16,
-                                paddingBottom: 0
-                            });
-                            */
+
                             function stopSlider() {
                                 if (slick != undefined && slick.slick != undefined) {
                                     slick.slick('slickPause');
@@ -185,11 +179,9 @@ public  String readUrlFile(String urlString) throws Exception {
                             }
 
                             function pauseVideoSliderVideosVimeo() {
-                                if (typeof ($f) !== "undefined") {
-                                    $.each(vimeoPlayer, function (i, iframe) {
-                                        $f(iframe).api('unload');
-                                    });
-                                }
+                                $.each(vimeoPlayer, function (i, player) {
+                                    player.unload();
+                                });
                             };
 
                             function pauseVideoSliderVideosYoutube() {
@@ -202,17 +194,17 @@ public  String readUrlFile(String urlString) throws Exception {
                                 pauseVideoSliderVideosYoutube();
                                 pauseVideoSliderVideosVimeo();
                             });
-
-                            // Add player listeners
-                            //$('#<%=urls[3]%>').on("load", function () {
-                            if (typeof ($f) !== "undefined") {
-                                $.each(vimeoPlayer, function (i, iframe) {
-                                    $f(iframe).addEvent('playProgress', function () {
-                                        stopSlider();
-                                    });
+                            
+                            $.each(vimeoIframe, function (i, iframe) {
+                                
+                                // Create Vimeo player objects
+                                vimeoPlayer.push(new Vimeo.Player(iframe));
+                                
+                                // Add player listeners
+                                vimeoPlayer[i].on('play', function () {
+                                    stopSlider();
                                 });
-                            }
-                            //});
+                            });
 
                         });
                     </script>

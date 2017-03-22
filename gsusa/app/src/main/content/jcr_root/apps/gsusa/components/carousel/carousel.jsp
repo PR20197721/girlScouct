@@ -120,88 +120,73 @@ public  String readUrlFile(String urlString) throws Exception {
 <script type="text/javascript">
 	$(document).ready(function() {		
 
-        var slick = $('.main-slider');	
+        var slick = $('.main-slider'),
+            slideButton = $('.main-slider button'),
+            embeds = $('.main-slider iframe'),
+            youtubePlayer = $('.lazyYT > iframe'),
+            vimeoPlayer = $('[id*="vimeoPlayer"]'),
+            underbar = $('.zip-council'),
+            iframe,
+            player,
+            i;
 
 		function pauseVideoSliderVideosYoutube() {
-			if($('.lazyYT > iframe').length > 0) {
-			    $.each($('.lazyYT > iframe'), function( i, val ) {
-			    	var iframe = val;
-			    	iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-			    });
-			}
+            $.each(youtubePlayer, function(i, iframe) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+            });
 		}
-		
+		/*
 		function pauseVideoSliderVideosVimeo(){
-			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				//if(typeof($f) !== "undefined"){
-                //    $f(val).api('unload');
-                //}
+			$.each(vimeoPlayer, function (i, val) {
+
 			});
 		}
-		
+		*/
 		slick.on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
-			pauseVideoSliderVideosVimeo();
-			$(".zip-council").slideDown(1000);
+			//pauseVideoSliderVideosVimeo();
+			underbar.slideDown(1000);
 		});
 		
-		stopSlider = function() {
+        function stopSlider() {
 			if (slick != undefined && slick.slick != undefined) {
-
 				slick.slick('slickPause');
 				slick.slick('slickSetOption', 'autoplay', false, false);
 				slick.slick('autoPlay',$.noop);
 			}
 		};
 
-		startSlider = function() {
-
+        function startSlider() {
 			if (slick != undefined && slick.slick != undefined) {
 				slick.slick('slickPlay');
 				// slick.slick('slickSetOption', 'autoplay', true, false);
 				// slick.slick('autoPlay',$.noop);
 			}
 		}
-
-        var embeds = $('.main-slider iframe'),
-            iframe,
-            player,
-            underbar = $('.zip-council'),
-            slideButton = $('.main-slider button'),
-            i;
-        
-        // Once the script has loaded
-        //$.getScript('https://player.vimeo.com/api/player.js', function() {
-        //embeds.onload = function() {
             
-            // For each slide
-            for (i = 0; i < <%=numberOfImages%>; i += 1) {
-                
-                iframe = $(embeds[i]);
+        // For each slide (Make sure player.js is loaded first)
+        for (i = 0; i < <%=numberOfImages%>; i += 1) {
 
-                // Check for a Vimeo player
-                if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
+            iframe = $(embeds[i]);
 
-                    // Add listener events
-                    player = new Vimeo.Player(iframe);
-                    
-                    player.on('loaded', function(data) {
-                    
-                        player.on('play', function() {
-                            stopSlider();
-                            underbar.slideUp(0);
-                        });
+            // Check for a Vimeo player
+            if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
 
-                        slideButton.on('click', function() {
-                            player.unload();
-                            startSlider();
-                        });
+                // Add listener events
+                player = new Vimeo.Player(iframe);
 
-                    });
+                player.on('play', function() {
+                    stopSlider();
+                    underbar.slideUp(0);
+                });
 
-                }
+                slideButton.on('click', function() {
+                    player.unload();
+                    startSlider();
+                });
             }
-        //});
+        }
+        
 	});
 
 
