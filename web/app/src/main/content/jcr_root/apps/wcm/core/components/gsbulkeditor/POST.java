@@ -242,7 +242,9 @@ public class POST extends SlingAllMethodsServlet {
 	                                			try {
 	    	                                        rootNode.refresh(false);
 	    	                                    } catch (InvalidItemStateException e1) {
+	    	                                    	e1.printStackTrace();
 	    	                                    } catch (RepositoryException e1) {
+	    	                                    	e1.printStackTrace();
 	    	                                    }
 	    	                                	e.printStackTrace();
 	    	                                	return;
