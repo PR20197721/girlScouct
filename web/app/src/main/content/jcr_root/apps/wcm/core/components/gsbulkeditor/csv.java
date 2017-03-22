@@ -206,6 +206,9 @@ public class csv extends SlingAllMethodsServlet {
                         if(t != null){
                         	strValue = t.getTitle();
                         }
+                		if(strValue.contains("\n") || strValue.contains("\r")){
+                			strValue = strValue.replaceAll("(\\r|\\n)", "");
+                		}
                         attrValue.append(strValue);
                     }
                 } else {
@@ -215,6 +218,9 @@ public class csv extends SlingAllMethodsServlet {
                     if(t != null){
                     	strValue = t.getTitle();
                     }
+            		if(strValue.contains("\n") || strValue.contains("\r")){
+            			strValue = strValue.replaceAll("(\\r|\\n)", "");
+            		}
                     attrValue.append(strValue);
                 }
         	}
@@ -249,6 +255,9 @@ public class csv extends SlingAllMethodsServlet {
             if (strValue.isEmpty()) {
                 strValue = "\"\"";
             }
+    		if(strValue.contains("\n") || strValue.contains("\r")){
+    			strValue = strValue.replaceAll("(\\r|\\n)", "");
+    		}
             return strValue;
         }
         return attrValue.toString();
@@ -276,6 +285,9 @@ public class csv extends SlingAllMethodsServlet {
 		}
 		if (strValue.isEmpty()) {
 			strValue = "\"\"";
+		}
+		if(strValue.contains("\n") || strValue.contains("\r")){
+			strValue = strValue.replaceAll("(\\r|\\n)", "");
 		}
 		return strValue;
 
