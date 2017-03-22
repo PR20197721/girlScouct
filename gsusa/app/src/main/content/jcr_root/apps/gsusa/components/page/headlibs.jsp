@@ -76,7 +76,7 @@
 	<cq:includeClientLib categories="apps.gsusa.authoring" />
 <% } %>
 
-<%
+<%--
     getAllClientLibs(currentNode);
     final String sql2 = "SELECT * FROM [cq:Component] AS c WHERE ISDESCENDANTNODE([" + currentPage.getAbsoluteParent(1).getPath() + "])";
     Iterator<Resource> resources = resourceResolver.findResources(sql2, Query.JCR_SQL2);
@@ -86,11 +86,7 @@
         //list += "\n" + _component.getName();
     }
     //list += currentPage.getProperties().keySet().toArray();
-%>
-
-<script>
-    console.log("Nodes:");
-</script>
-<p>
+--%>
+<div>
     <%=list%>
-</p>
+</div>

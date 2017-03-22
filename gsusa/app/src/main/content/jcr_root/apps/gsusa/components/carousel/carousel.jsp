@@ -118,7 +118,7 @@ public  String readUrlFile(String urlString) throws Exception {
 
 
 <script type="text/javascript">
-	$(document).ready(function() {		
+	$(function() {		
 
         var slick = $('.main-slider'),
             slideButton = $('.main-slider button'),
