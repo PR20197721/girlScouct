@@ -923,7 +923,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         
         var year = this.getYear();
         if(year){
-        	url = CQ.HTTP.addParameter(url, "year", resourceType);
+        	url = CQ.HTTP.addParameter(url, "year", year);
         }
         
         var primaryType = this.getPrimaryType();

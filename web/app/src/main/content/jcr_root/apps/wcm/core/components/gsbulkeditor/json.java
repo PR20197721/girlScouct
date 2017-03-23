@@ -58,6 +58,7 @@ public class json extends SlingAllMethodsServlet {
 	public static final String RESOURCE_TYPE_PARAM = "resourceType";
 	public static final String PRIMARY_TYPE_PARAM = "primaryType";
 	public static final String IMPORT_TYPE_PARAM = "importType";
+	public static final String YEAR_PARAM = "year";
 
 	/**
 	 * Common path prefix
@@ -126,8 +127,15 @@ public class json extends SlingAllMethodsServlet {
 
 				String tmp = request.getParameter(PROPERTIES_PARAM);
 				String[] properties = (tmp != null) ? tmp.split(",") : null;
-
-                
+				
+				String year = request.getParameter(YEAR_PARAM);
+				if(null != importType){
+					if(importType.equals("events")){
+						if(null != year){
+							path = path + "/" + year;
+						}
+					}
+				}
                 iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 
 				writer.endArray();
