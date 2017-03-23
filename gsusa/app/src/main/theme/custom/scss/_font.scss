@@ -210,6 +210,16 @@
   font-weight: 900;
   font-style: italic;
 }
+@font-face {
+  font-family: 'Trefoil Sans Web Nav';
+  src: url("../../fonts/trefoilsans-nav.eot");
+  src: local("Trefoil Sans Web Nav"), local("TrefoilSansWeb-Nav"), 
+    url("../../fonts/trefoilsans-nav.eot?#iefix") format("embedded-opentype"), 
+    url("../../fonts/trefoilsans-nav.woff2") format("woff2"), 
+    url("../../fonts/trefoilsans-nav.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 
 
 .cookie-page {

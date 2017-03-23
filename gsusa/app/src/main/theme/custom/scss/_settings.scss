@@ -141,6 +141,9 @@ $body-font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
+// Special exception for Nav font to address font jumping issue
+$nav-font-family: "Trefoil Sans Web Nav", "Open Sans", Arial, sans-serif;
+
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
 
