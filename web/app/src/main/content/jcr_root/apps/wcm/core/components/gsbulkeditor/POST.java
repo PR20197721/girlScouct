@@ -11,10 +11,15 @@
  */
 package apps.wcm.core.components.gsbulkeditor;
 
+import org.apache.commons.lang.ArrayUtils;
+
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.cq.commons.servlets.HtmlStatusResponseHelper;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.tagging.TagManager;
+import com.day.cq.tagging.Tag;
+import com.day.cq.replication.Replicator;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -37,6 +42,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeSet;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import org.girlscouts.web.events.search.GSDateTime;
 import org.girlscouts.web.events.search.GSDateTimeFormatter;
@@ -52,8 +59,6 @@ import java.io.PrintWriter;
 
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
-
-import com.day.cq.replication.Replicator;
 
 /**
  * Servers as base for image servlets
@@ -97,8 +102,26 @@ public class POST extends SlingAllMethodsServlet {
                     //avoid the case to have duplicate node names (using [1], [2] to differentiate).
                 	
             		//GS: We don't want to let anyone import with a depth less than two
-                	Page rootPage = resource.adaptTo(Page.class);
-                	if(rootPage.getDepth() >= 2){
+                	int rootDepth = 0;
+                	String councilRoot = null;
+                    String councilName = "";
+                	try{
+                		rootDepth = rootNode.getDepth();
+                        //GS: Used to determine contact scaffolding property
+                        councilRoot = rootNode.getAncestor(1).getPath();
+                        	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                    "Could not determine council root");
+                        if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
+                        	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
+                        }
+                	}catch(Exception e){
+                		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                "Can not Determine Root Node Depth and/or Council Name");
+                        htmlResponse.send(response, true);
+                        e.printStackTrace();
+                        return;
+                	}
+                	if(rootDepth >= 2){
             			SlingBindings bindings = null;
             			SlingScriptHelper scriptHelper = null;
             			try{
@@ -111,37 +134,43 @@ public class POST extends SlingAllMethodsServlet {
                             e.printStackTrace();
                             return;
             			}
-                		try{
-                	        Packaging packaging = scriptHelper.getService(Packaging.class);
-                			//Start by creating a package under the root node, in case we need to roll back
-	                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
-	                		String packageName = rootPath.replaceAll("/","-");
-	                		GSDateTime gdt = new GSDateTime();
-	                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
-	                		String dateString = dtfOut.print(gdt);  
-	                		if(jcrPM == null){
-	                			System.err.println("Null PackageManager");
+            			//GS - We can't make lots of asset packages
+            			if(!importType.equals("documents")){
+	                		try{
+	                	        Packaging packaging = scriptHelper.getService(Packaging.class);
+	                			//Start by creating a package under the root node, in case we need to roll back
+		                		JcrPackageManager jcrPM = packaging.getPackageManager(rootNode.getSession());
+		                		String packageName = rootPath.replaceAll("/","-");
+		                		GSDateTime gdt = new GSDateTime();
+		                		GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyyMMddHHmm");
+		                		String dateString = dtfOut.print(gdt);  
+		                		if(jcrPM == null){
+		                			System.err.println("Null PackageManager");
+		                		}
+		                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
+		                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
+		                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
+		                		PathFilterSet pfs = new PathFilterSet(rootPath);
+		                		filter.add(pfs);
+		                		jcrPD.setFilter(filter, false);
+		                		PrintWriter pkgout = new PrintWriter(System.out);
+		                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
+	                		}catch(Exception e){
+	                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	                                    "Failed to create package");
+	                            htmlResponse.send(response, true);
+	                            e.printStackTrace();
+	                            return;
 	                		}
-	                		JcrPackage jcrP = jcrPM.create("GirlScouts","spreadsheet-prebuild-" + packageName.toLowerCase(), dateString);
-	                		JcrPackageDefinition jcrPD = jcrP.getDefinition();
-	                		DefaultWorkspaceFilter filter = new DefaultWorkspaceFilter();
-	                		PathFilterSet pfs = new PathFilterSet(rootPath);
-	                		filter.add(pfs);
-	                		jcrPD.setFilter(filter, false);
-	                		PrintWriter pkgout = new PrintWriter(System.out);
-	                		jcrPM.assemble(jcrP, new DefaultProgressListener(pkgout));
-                		}catch(Exception e){
-                            htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
-                                    "Failed to create package");
-                            htmlResponse.send(response, true);
-                            e.printStackTrace();
-                            return;
-                		}
+            			}
                 	
 	                    long counter = System.currentTimeMillis();
 	
 	                    //manage headers
 	                    String lineBuffer = bufferReader.readLine();
+	                    if(importType.equals("documents")){
+	                    	lineBuffer = lineBuffer.replaceAll("Title","jcr:content/metadata/dc:title").replaceAll("Description","jcr:content/metadata/dc:description").replaceAll("Categories","jcr:content/metadata/cq:tags").replaceAll("Path","jcr:path");
+	                    }
 	                    if (lineBuffer != null) {
 	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
 	                        List<String> headersLowerCase = Arrays.asList(lineBuffer.toLowerCase().split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
@@ -153,6 +182,7 @@ public class POST extends SlingAllMethodsServlet {
 	                            if(importType.equals("contacts")){
 		                            try{
 			                            if(rootNode.getProperty("jcr:content/sling:resourceType").getString().equals("girlscouts/components/contact-placeholder-page")){
+			                            	Page rootPage = resource.adaptTo(Page.class);
 			                            	Iterator<Page> oldChildren = rootPage.listChildren();
 			                            	replicator = scriptHelper.getService(Replicator.class);
 			                            	while(oldChildren.hasNext()){
@@ -173,20 +203,15 @@ public class POST extends SlingAllMethodsServlet {
 	                            }
 	                            int lineRead = 0, lineOK = 0;
 	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
+	                            ArrayList<String> documentsToReplicate = new ArrayList<String>();
 	                            TreeSet<String> allNames = new TreeSet<String>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames)) {
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, documentsToReplicate)) {
 	                                   lineOK++;
 	                                }
 	                            }
 	                            
-	                            //GS: Used to determine contact scaffolding property
-	                            String councilRoot = rootPage.getAbsoluteParent(1).getPath();
-	                            String councilName = "";
-	                            if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
-	                            	councilName = councilRoot.substring(councilRoot.lastIndexOf("/") + 1,councilRoot.length());
-	                            }
 	                            
 	                            if(lineOK>0) {
                                 	if(importType.equals("contacts")){
@@ -204,6 +229,27 @@ public class POST extends SlingAllMethodsServlet {
     	                                	e.printStackTrace();
     	                                	return;
     	                                }
+                                	}else if(importType.equals("documents")){
+                                		if(documentsToReplicate.size() > 0){
+	                                		try{
+	                                			replicator = scriptHelper.getService(Replicator.class);
+	                                			for(String docPath : documentsToReplicate){
+	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, docPath);
+	                                			}
+	                                		}catch(Exception e){
+	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
+	    		                                        "Error activating documents " + e.getMessage());
+	                                			try {
+	    	                                        rootNode.refresh(false);
+	    	                                    } catch (InvalidItemStateException e1) {
+	    	                                    	e1.printStackTrace();
+	    	                                    } catch (RepositoryException e1) {
+	    	                                    	e1.printStackTrace();
+	    	                                    }
+	    	                                	e.printStackTrace();
+	    	                                	return;
+	                                		}
+                                		}
                                 	}
 	                                try {
 	                                    rootNode.save();
@@ -212,6 +258,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                } catch (RepositoryException e) {
 	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
 	                                        "Error while saving modifications " + e.getMessage());
+	                                    e.printStackTrace();
 	                                    try {
 	                                        rootNode.refresh(false);
 	                                    } catch (InvalidItemStateException e1) {
@@ -250,7 +297,7 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames) {
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> documentsToReplicate) {
         boolean updated = false;
         try {
             int headerSize = headers.size();
@@ -277,7 +324,7 @@ public class POST extends SlingAllMethodsServlet {
 	            if(resource!=null) {
 	                node = resource.adaptTo(Node.class);
 	            } else {
-	                if(rootNode!=null) {
+	                if(rootNode!=null && !importType.equals("documents") && !importType.equals("contacts")) {
 	                    if(path==null || path.length()==0 || path.equals(" ")) {
 	                        path = "" + counter;
 	                    } else {
@@ -320,46 +367,139 @@ public class POST extends SlingAllMethodsServlet {
                     if(i!=pathIndex) {
                         String property = headers.get(i);
                         property = property.trim();
-                        Value value = valueFactory.createValue(values.get(i));
-                    	//GS: If this is a contact spreadsheet, just get the necessary properties for a contact
-                        if(importType.equals("contacts")){
-                    		if(value != null){
-                    			String val = value.getString();
-                    			if(val != null){
-                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
-                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
-                    				if(startsWithMultipleQuotes){
-                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
-                    				}
-                    				else if(startsWithOneQuote && val.length() >= 3){
-                    					val = val.substring(1,val.length()-1);
-                    				}
-                    				if(property.equals(Contact.NAME_PROP)){
-                    					if(allNames.contains(val)){
-                    						int nameIndex = 0;
-	                    					while(allNames.contains(val + nameIndex)){
-	                    						nameIndex++;
+                        if(!property.equals(JcrConstants.JCR_PATH)
+                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE) && !property.isEmpty()) {
+                        	Value value = valueFactory.createValue(values.get(i));
+	                        //GS: If this is a contact spreadsheet, just get the necessary properties for a contact
+	                        if(importType.equals("contacts")){
+	                    		if(value != null){
+	                    			String val = value.getString();
+	                    			if(val != null){
+	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+	                    				if(startsWithMultipleQuotes){
+	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+	                    				}
+	                    				else if(startsWithOneQuote && val.length() >= 3){
+	                    					val = val.substring(1,val.length()-1);
+	                    				}
+	                    				if(property.equals(Contact.NAME_PROP)){
+	                    					if(allNames.contains(val)){
+	                    						int nameIndex = 0;
+		                    					while(allNames.contains(val + nameIndex)){
+		                    						nameIndex++;
+		                    					}
+		                    					val = val + nameIndex;
 	                    					}
-	                    					val = val + nameIndex;
-                    					}
-	                    				contact.setName(val);
-	                    				allNames.add(val);
-	                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
-	                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
-	                    				contact.setJobTitle(val);
-	                    			}else if(property.equals(Contact.PHONE_PROP)){
-	                    				contact.setPhone(val);
-	                    			}else if(property.equals(Contact.EMAIL_PROP)){
-	                    				contact.setEmail(val);
-	                    			}else if(property.equals(Contact.TEAM_PROP)){
-	                    				contact.setTeam(val);
+		                    				contact.setName(val);
+		                    				allNames.add(val);
+		                    				contact.setPath(val.toLowerCase().replaceAll("[^A-Za-z0-9]","-"));
+		                    			}else if(property.equals(Contact.JOB_TITLE_PROP)){
+		                    				contact.setJobTitle(val);
+		                    			}else if(property.equals(Contact.PHONE_PROP)){
+		                    				contact.setPhone(val);
+		                    			}else if(property.equals(Contact.EMAIL_PROP)){
+		                    				contact.setEmail(val);
+		                    			}else if(property.equals(Contact.TEAM_PROP)){
+		                    				contact.setTeam(val);
+		                    			}
+		                    		}
+	                    		}
+	                    	}else if(importType.equals("documents")){
+	                    		if(value != null){
+	                    			String val = value.getString();
+	                    			if(val != null){
+	                    				Node updatedNode = node;
+	                    				if(property.indexOf('/') != -1){
+	        	                            if( property.indexOf('/') != -1) {
+	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
+	        	                                updatedNode = node.getNode(childNodeName);
+	        	                                property = property.substring(property.lastIndexOf('/') + 1);
+	        	                            }
+	                    				}
+	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+	                    				if(startsWithMultipleQuotes){
+	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+	                    				}
+	                    				else if(startsWithOneQuote && val.length() >= 3){
+	                    					val = val.substring(1,val.length()-1);
+	                    				}
+	                    				Boolean multiValue = val.matches("^\\[.*\\]$");
+	                    				String[] multiVal = null;
+	                    				if(multiValue){
+	                    					val = val.substring(1,val.length()-1);
+	                    					multiVal = val.split(",");
+	                    				}
+	                    				if(property.endsWith("cq:tags")){
+	                    					String[] tags = val.split(";");
+	                    					if(multiVal != null){
+	                    						tags = multiVal;
+	                    					}
+	                    					ArrayUtils.removeElement(tags,"");
+	                    					ArrayUtils.removeElement(tags,null);
+	                    					ArrayList<String> tagList = new ArrayList<String>();
+	                    					ArrayList<String> tagPathList = new ArrayList<String>();
+	                                    	if(tags.length > 0){
+	                                    		for(String tag : tags){
+	                                    			String tagTitle = tag.trim();
+	                                    			String tagID = createID(tagTitle, rootNode.getPath());
+	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
+		                                    			 try{
+		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+		                	                    			if(null == tm.resolve(tagID)){
+		                	                    				if(tm.canCreateTag(tagID)){
+		                	                    					Tag newTag = tm.createTag(tagID,tagTitle,"",true);
+		                	                    					tagList.add(tagID);
+		                	                    					tagPathList.add(newTag.getPath());
+		                	                    				}
+		                	                    			}else{
+		                	                    				Tag existingTag = tm.resolve(tagID);
+		                	                    				tagList.add(tagID);
+		                	                    				tagPathList.add(existingTag.getPath());
+		                	                    			}
+		                                    			}catch(Exception e){
+		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+		                                    			} 
+	                                    			}
+	                                    		}
+	                                    	}
+	        	                            if(updatedNode != null){
+		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
+		        	                        }
+	        	                            if(tagPathList.size() > 0){
+	        	                            	try{
+	        	                            		Session session = rootNode.getSession();
+	        	                            		Replicator replicator = scriptHelper.getService(Replicator.class);
+		        	                            	for(String tagPath : tagPathList){
+		        	                            		try{
+		        	                            			replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
+		        	                            		}catch(Exception e1){
+		        	                            			e1.printStackTrace();
+		        	                            		}
+		        	                            	}
+	        	                            	}catch(Exception e){
+	        	                            		e.printStackTrace();
+	        	                            	}
+	        	                            }
+	                    				}else{
+	        	                            if(updatedNode != null){
+	        	                            	if(multiVal != null){
+	        	                            		updatedNode.setProperty(property,multiVal);
+	        	                            	}else{
+	        	                            		try{
+	        	                            			updatedNode.setProperty(property,val);
+	        	                            		}catch(ValueFormatException e){
+	        	                            			multiVal = new String[1];
+	        	                            			multiVal[0] = val;
+	        	                            			updatedNode.setProperty(property,multiVal);
+	        	                            		}
+	        	                            	}
+	        	                            }
+	                    				}
 	                    			}
 	                    		}
-                    		}
-                    	}else{
-	                        if(!property.equals(JcrConstants.JCR_PATH)
-	                                && !property.equals(JcrConstants.JCR_PRIMARYTYPE)) {
-	                            value = valueFactory.createValue(values.get(i));
+	                    	}else{
 	                            Node updatedNode = node;
 	                            if( property.indexOf('/') != -1) {
 	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
@@ -384,6 +524,12 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
+                }else if(importType.equals("documents")){
+                	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
+                		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
+                			documentsToReplicate.add(node.getPath());
+                		}
+                	}
                 }
                 updated = true;
             }
@@ -391,6 +537,41 @@ public class POST extends SlingAllMethodsServlet {
             return false;
         }
         return updated;
+    }
+    
+    public String createID(String tag, String path){
+    	HashMap<String,String> specialCouncils = new HashMap<String,String>();
+    	specialCouncils.put("southern-appalachian","girlscoutcsa");
+    	specialCouncils.put("NE_Texas","NE_Texas");
+    	specialCouncils.put("nc-coastal-pines-images-","girlscoutsnccp");
+    	specialCouncils.put("wcf-images","gswcf");
+    	specialCouncils.put("oregon-sw-washington-","girlscoutsosw");
+    	specialCouncils.put("dxp","girlscouts-dxp");
+    	
+    	String councilRoot = "";
+    	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
+    	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
+    	Matcher mDam = pDam.matcher(path);
+    	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
+    	Matcher mContent = pContent.matcher(path);
+    	if(mDam.matches()){
+    		councilRoot = mDam.group(1);
+        	if(specialCouncils.containsKey(councilRoot)){
+        		councilRoot = specialCouncils.get(councilRoot);
+        	}
+        	if(councilRoot.startsWith("girlscouts-")){
+        		councilRoot = councilRoot.replace("girlscouts-","");
+        	}
+    		return councilRoot + ":forms_documents/" + tagName;
+    	}else if(mContent.matches()){
+    		councilRoot = mContent.group(1);
+        	if(specialCouncils.containsKey(councilRoot)){
+        		councilRoot = specialCouncils.get(councilRoot);
+        	}
+    		return councilRoot + ":forms_documents/" + tagName;
+    	}else{
+    		return null;
+    	}
     }
     
     public void createNewContacts(Node rootNode, HashMap<String,ArrayList<Contact>> contactsToCreate, String councilName, Session session, Replicator replicator) throws Exception{
@@ -506,5 +687,12 @@ public class POST extends SlingAllMethodsServlet {
     	public void setPath(String path){
     		this.path = path;
     	}
+    }
+    
+    private class Document{
+    	public static final String FILE_NAME_PROP="pdf:Title";
+    	public static final String TITLE_PROP="dc:title";
+    	public static final String DESCRIPTION_PROP="dc:description";
+    	public static final String TAGS_PROP="cq:tags";
     }
 }

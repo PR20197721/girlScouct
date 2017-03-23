@@ -59,6 +59,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * A specific sling:resourceType to filter results
      */
     resourceType: null,
+    primaryType: null,
 
     /**
      * @cfg {Boolean} initialSearch
@@ -121,6 +122,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * True to hide resource type field (default is false).
      */
     hideResourceType: false,
+    hidePrimaryType: false,
 
     /**
      * @cfg {Boolean} hideSearchButton
@@ -338,6 +340,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             this.hideColsSelection = true;
             this.hideExtraCols = true;
             this.hideResourceType = true;
+            this.hidePrimaryType = true;
             this.hideSearchButton = true;
             //allow to override the grid button configs per initial config
             this.hideImportButton = (this.initialConfig.hideImportButton !== false);
@@ -354,6 +357,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         this.hideColsSelection = this.toBoolean(this.hideColsSelection);
         this.hideExtraCols = this.toBoolean(this.hideExtraCols);
         this.hideResourceType = this.toBoolean(this.hideResourceType);
+        this.hidePrimaryType = this.toBoolean(this.hidePrimaryType);
         this.hideSearchButton = this.toBoolean(this.hideSearchButton);
         this.hideImportButton = this.toBoolean(this.hideImportButton);
         this.hideResultNumber = this.toBoolean(this.hideResultNumber);
@@ -807,25 +811,70 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     getColumnModel: function() {
         var colObj = this.getColObject(true);
         var colsObjects = new Array();
-        if (!this.hidePathCol) {
-            colsObjects.push(
-                    this.getColumnModelConfig(
-                            CQ.wcm.GSBulkEditor.JCR_PATH,
-                            "Path",
-                            CQ.wcm.GSBulkEditor.JCR_PATH
-                            )
-                    );
-        }
+        if(this.importType){
+        	if(this.importType == "documents"){
+                for (var i = 0; i < colObj.values.length; i++) {
 
-        for (var i = 0; i < colObj.values.length; i++) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    colObj.values[i],
+                                    colObj.headers[i].replace("metadata/dc:title","Title").replace("metadata/dc:description", "Description").replace("metadata/cq:tags","Categories"),
+                                    this.encodeString(colObj.values[i])
+                                    )
+                            );
+                }
+                if (!this.hidePathCol) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    CQ.wcm.GSBulkEditor.JCR_PATH,
+                                    "Path",
+                                    CQ.wcm.GSBulkEditor.JCR_PATH
+                                    )
+                            );
+                }
+        	}else{
+        		if (!this.hidePathCol) {
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    CQ.wcm.GSBulkEditor.JCR_PATH,
+                                    "Path",
+                                    CQ.wcm.GSBulkEditor.JCR_PATH
+                                    )
+                            );
+                }
 
-            colsObjects.push(
-                    this.getColumnModelConfig(
-                            colObj.values[i],
-                            colObj.headers[i],
-                            this.encodeString(colObj.values[i])
-                            )
-                    );
+                for (var i = 0; i < colObj.values.length; i++) {
+
+                    colsObjects.push(
+                            this.getColumnModelConfig(
+                                    colObj.values[i],
+                                    colObj.headers[i],
+                                    this.encodeString(colObj.values[i])
+                                    )
+                            );
+                }
+        	}
+        }else{
+	        if (!this.hidePathCol) {
+	            colsObjects.push(
+	                    this.getColumnModelConfig(
+	                            CQ.wcm.GSBulkEditor.JCR_PATH,
+	                            "Path",
+	                            CQ.wcm.GSBulkEditor.JCR_PATH
+	                            )
+	                    );
+	        }
+	
+	        for (var i = 0; i < colObj.values.length; i++) {
+	
+	            colsObjects.push(
+	                    this.getColumnModelConfig(
+	                            colObj.values[i],
+	                            colObj.headers[i],
+	                            this.encodeString(colObj.values[i])
+	                            )
+	                    );
+	        }
         }
         var columnModel = new CQ.Ext.grid.ColumnModel(colsObjects);
 
@@ -863,6 +912,17 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(resourceType){
         	url = CQ.HTTP.addParameter(url, "resourceType", resourceType);
         }
+        
+        var primaryType = this.getPrimaryType();
+        if(primaryType){
+        	url = CQ.HTTP.addParameter(url, "primaryType", primaryType);
+        }
+        
+        var importType = this.getImportType();
+        if(importType){
+        	url = CQ.shared.HTTP.addParameter(url, "importType", importType);
+        }
+        
         //TODO use pathPrefix parameter?
         //url = CQ.HTTP.addParameter(url,"pathPrefix","jcr:content");
         return url;
@@ -1209,6 +1269,20 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	}
     	return config;
     },
+    
+    getPrimaryTypeConfig: function() {
+    	var config = {
+    		"fieldClass":"x-form-text-bulkeditor",
+    		"fieldLabel":CQ.I18n.getMessage("Jcr:primaryType"),
+    		"name":"./primaryType",
+    		"value":this.primaryType,
+    		"fieldDescription":CQ.I18n.getMessage("If you want to only retrieve nodes with a specific jcr:primaryType (node or jcr:content), enter it here"),
+    	};
+    	if(this.initialConfig && this.initialConfig.primaryTypeInput){
+    		config = CQ.Util.applyDefaults(this.initialConfig.primaryTypeInput,config);
+    	}
+    	return config;
+    },
 
     exportToFile: function() {
         if(this.fireEvent("beforeexport") !== false) {
@@ -1216,6 +1290,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 var url = this.getExportURL();
                 if (this.encoding) {
                     url = CQ.shared.HTTP.addParameter(url, "charset", "UTF-8");
+                }
+                if(this.importType){
+                	url = CQ.shared.HTTP.addParameter(url, "importType", this.importType);
                 }
                 CQ.shared.Util.open(url);
             };
@@ -1599,6 +1676,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         if(!this.hideResourceType){
         	this.resourceTypeInput = new CQ.Ext.form.TextField(this.getResourceTypeConfig());
         	rightset.push(this.resourceTypeInput);
+        }
+        
+        if(!this.hidePrimaryType){
+        	this.primaryTypeInput = new CQ.Ext.form.TextField(this.getPrimaryTypeConfig());
+        	rightset.push(this.primaryTypeInput);
         }
 
         this.leftSetId = CQ.Ext.id();
@@ -2578,6 +2660,17 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	}
     	return this.resourceType;
     },
+    
+    getPrimaryType: function(){
+    	if(this.primaryTypeInput){
+    		return this.primaryTypeInput.getValue();
+    	}
+    	return this.primaryType;
+    },
+    
+    getImportType: function(){
+    	return this.importType;
+    },
 
     /**
      * Saves grid modifications.
@@ -2590,7 +2683,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             var hasParam = false;
 
             if( !this.saveURL ) {
-                this.saveURL = "/";
+                this.saveURL = "/etc/importers/gsbulkeditor/save";
             }
 
             if (this.deletedItems && this.deletedItems.count > 0) {
@@ -2675,6 +2768,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     CQ.Ext.MessageBox.alert(CQ.I18n.getMessage("Saving error"),
                         CQ.I18n.getMessage("Some re-ordering could not be saved."));
                 }
+            }
+            
+            if(this.importType){
+            	params["importType"] = this.importType;
             }
 
             if (hasParam) {

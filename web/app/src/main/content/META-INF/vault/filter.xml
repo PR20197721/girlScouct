@@ -74,7 +74,11 @@
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
     <filter root="/apps/wcm"/>
     <filter root="/content/girlscouts-shared"/>
-    <filter root="/apps/granite/core"/>
+    <filter root="/apps/granite/core/components"/>
+    <filter root="/apps/granite/core/content/cug-dxp-login"/>
+    <filter root="/apps/granite/core/content/cug-future-login"/>
+    <filter root="/apps/granite/core/content/cug-login"/>
+    <filter root="/apps/granite/core/content/cug-template-login"/>
     <filter root="/apps/cq/gui/components/siteadmin/admin/pagecard"/>
     <filter root="/apps/cq/tagging"/>
     <filter root="/etc/importers/gsbulkeditor"/>
