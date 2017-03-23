@@ -4,7 +4,6 @@
 				java.io.*,
 				java.util.regex.*,
 				java.net.*,
-				org.apache.sling.commons.json.*, 
 				java.util.Random,
 				com.day.cq.wcm.api.WCMMode" %>
 <%@page session="false" %>
@@ -159,7 +158,7 @@ public  String readUrlFile(String urlString) throws Exception {
 				  			   <div class="lazyYT" data-id="<%= urls[3] %>" data-youtube-id="<%= urls[4]%>"></div>
 				  			<% } %>
 			  			<% } else { %>
-				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+				  			<iframe id="<%= urls[3] %>" class="<%= urls[2] %>" src="<%= urls[0] %>" width="480" height="225" frameborder="0" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe>
 			  			<% } %>
 		  			</div>
 		  			<script type="text/javascript">

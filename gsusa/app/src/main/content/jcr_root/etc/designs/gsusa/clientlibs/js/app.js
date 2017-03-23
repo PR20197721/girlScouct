@@ -668,6 +668,7 @@ function fixSlickSlideActive() {
         imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
         imageMap.resize();
     }
+    
     $('.video-slider-wrapper').slick({
         dots: false,
         speed: 500,
@@ -679,7 +680,6 @@ function fixSlickSlideActive() {
         slidesToShow: 1,
         centerPadding: '100px',
         touchMove: true,
-        variableWidth: true,
         responsive: [{
             breakpoint: 480,
             settings: {
@@ -689,16 +689,7 @@ function fixSlickSlideActive() {
             }
         }]
     });
-    /*
-    $('.video-slider-wrapper .slick-slide').css({
-        height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
-    });
-    $(window).on("resize", function () {
-        $('.video-slider-wrapper .slick-slide').css({
-            height: $('.video-slider-wrapper .slick-slide').width() * 9 / 16
-        });
-    });
-    */
+    
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {
