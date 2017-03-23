@@ -25,8 +25,11 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
 import javax.jcr.Value;
-
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPFile;
@@ -53,6 +56,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
 import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.Replicator;
@@ -75,7 +80,7 @@ import org.girlscouts.web.exception.GirlScoutsException;
 	@Property(name = "service.description", value = "Girl Scouts SF Events Import Service",propertyPrivate=true),
 	@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate=true), 
 	//@Property( name = "scheduler.expression", label="scheduler.expression", value = "0 * * * * ?",description="cron expression"),
-	@Property(name = "scheduler.period",label="scheduler.period", description="time interval in seconds", longValue=2000),
+	@Property(name = "scheduler.period",label="scheduler.period", description="time interval in seconds", longValue=10),
 	@Property(name = "scheduler.concurrent", boolValue=false, propertyPrivate=true),
 	@Property(name="scheduler.runOn", value="SINGLE",propertyPrivate=true),
 	@Property(name = "server",label = "FTP Server Address", description = "FTP server"),
@@ -96,6 +101,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private Replicator replicator;
 	@Reference
     private SlingSettingsService settingsService;
+	@Reference
+	private MessageGatewayService messageGatewayService;
 
 	private FTPSClient ftp;
 	private ResourceResolver rr;
@@ -162,7 +169,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		this.salesforcePath= OsgiUtil.toString(configs.get(SALESFORCEPATH), null);
 //		log.info("Configure: ftp server="+server+"; username="+user+"; password="+password+"; directory="+directory);	
 		log.info("Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
-		ftp = new FTPSClient();
+		System.out.println("About to configure FTP server");
+		ftp = new FTPSClient(false);
+		System.out.println("Initialized FTP srever");
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
@@ -207,6 +216,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	}
 
 	private void getFiles() throws IOException {
+		System.out.println("Getting Files");
 		readTimeStamp();
 		log.info("checking files after "+ZIP_DATE_FORMAT.format(lastUpdated));
 		//control connection being idle can cause disconnecting from server during data transfer
@@ -216,7 +226,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		if (ftp.changeWorkingDirectory(directory)) {
 			log.info("Successfully switch to directory " + ftp.printWorkingDirectory());
 			//tracking the latest timeStamp for this update
-			ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.NON_PRINT_TEXT_FORMAT); 
+			ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.NON_PRINT_TEXT_FORMAT);
+			System.out.println("Changed directory successfully");
 			
 			Date latest = lastUpdated;
 			FTPFile[] files = ftp.listFiles();
@@ -261,6 +272,35 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("finish retrieving up to date files.");
 			lastUpdated=latest;
 			writeTimeStamp();
+			try {
+
+				if (messageGatewayService != null) {
+					MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+							.getGateway(HtmlEmail.class);
+					HtmlEmail email = new HtmlEmail();
+					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+					email.setSubject("Activities Synced Through Automatic Process");
+					try {
+
+						emailRecipients
+								.add(new InternetAddress("igor.kaplunov@ey.com"));
+					} catch (AddressException e) {
+						log.error("Initiator email incorrectly formatted");
+						log.error(e.getMessage());
+					}
+					email.setTo(emailRecipients);
+					email.setHtmlMsg("This is a test");
+					messageGateway.send(email);
+				} else {
+					log.error("messageGatewayService is null");
+				}
+
+			} catch (EmailException e) {
+
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}else{
 			log.error("Not able to find the directory /"+directory+" on the server");
 		}
@@ -605,20 +645,27 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		//TODO: Change the following if case so that it uses policy = ConfigurationPolicy.REQUIRE to check for publishing servers 
 		//More info: http://aemfaq.blogspot.com/search/label/runmode
 		//http://stackoverflow.com/questions/19292933/creating-osgi-bundles-with-different-services
+		System.out.println("#######Importer Service is Running");
 		if (isPublisher()) {
+			System.out.println("#######Is Publisher");
 			return;
 		}
 		log.info("Running SF Events Importer..." );
 		try{
 			if (ftpLogin()) {
 				getFiles();
+				System.out.println("#######Got files");
 			} else {
+				System.out.println("#######Unable to login into ftp");
 				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
+			System.out.println("#######IOGException caught during access to FTP server:" + e.getMessage());
+			e.printStackTrace();
 			log.error("IOException caught during access to FTP server",e);
 			//e.printStackTrace();
 		} catch(Exception e) {
+			System.out.println("#######Exception caught during access to FTP server");
 			log.error("Exception caught during access to FTP server",e);
 			//e.printStackTrace();
 		} finally {
