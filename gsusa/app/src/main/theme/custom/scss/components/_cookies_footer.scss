@@ -39,15 +39,16 @@
         line-height: 1;
         margin: 0;
         &:nth-of-type(1) {
-          font-size: rem-calc(18);
-          font-weight: bold;
+          font-size: rem-calc(20);
+          font-weight: 600;
           margin-bottom: rem-calc(9);
         }
         &:nth-of-type(2) {
-          font-size: rem-calc(12);
+          font-size: rem-calc(13);
         }
         &.error {
-          font-size: rem-calc(13);
+          font-size: rem-calc(14);
+          font-weight: normal;
           margin: 0;
           position: absolute;
           color: #FF0000;
@@ -97,6 +98,7 @@
       width: 48%;
       padding-left: 5px;
       height: rem-calc(25);
+      font-size: rem-calc(16);
       &:nth-of-type(2) {
         float: right;
       }

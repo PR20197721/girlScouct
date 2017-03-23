@@ -37,7 +37,7 @@ $topbar-link-bg-hover: $jet !default;
 $topbar-link-bg-color-hover: $charcoal !default;
 $topbar-link-bg-active: $primary-color !default;
 $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%) !default;
-$topbar-link-font-family: $body-font-family !default;
+$topbar-link-font-family: $nav-font-family !default;
 $topbar-link-text-transform: none !default;
 $topbar-link-padding: ($topbar-height / 3) !default;
 $topbar-back-link-size: rem-calc(18) !default;
@@ -335,7 +335,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
           color: $topbar-link-color;
           display: block;
           font-family: $topbar-link-font-family;
-          font-size: $topbar-link-font-size;
+          font-size: rem-calc(18); /* font-size: $topbar-link-font-size; */
           font-weight: $topbar-link-weight;
           padding-#{$default-float}: $topbar-link-padding;
           padding: 12px 0 12px $topbar-link-padding;

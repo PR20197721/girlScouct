@@ -28,7 +28,7 @@
   .utility {
     @include grid-column(18);
     * {
-      font-size: rem-calc(14);
+      font-size: rem-calc(15);
     }
     .float-right {
       float: right;

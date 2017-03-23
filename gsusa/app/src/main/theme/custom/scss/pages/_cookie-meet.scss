@@ -20,8 +20,8 @@
   border: solid rem-calc(11) #ebebeb;
   margin-bottom: rem-calc(30) !important;
   h4 {
-    font-size: rem-calc(24);
-    font-weight: 600;
+    font-size: rem-calc(25);
+    font-weight: 400;
     position: relative;
     cursor: pointer;
     margin-bottom: rem-calc(18);
@@ -68,7 +68,8 @@
     section {
       padding-bottom: rem-calc(10);
       * {
-        font-size: rem-calc(14);
+        font-size: rem-calc(15);
+        line-height: 1.5rem;        
       }
     }
   }
