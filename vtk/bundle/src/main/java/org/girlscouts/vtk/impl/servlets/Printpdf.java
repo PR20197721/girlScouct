@@ -74,12 +74,8 @@ public class Printpdf extends SlingSafeMethodsServlet {
 				}
 				
 				else{
-					try{
-						String councilPath = reqURI.substring(0,reqURI.indexOf("/", reqURI.indexOf("/", reqURI.indexOf("/") + 1) + 1));
-						response.sendRedirect(councilPath + "/404.html");
-					}catch(Exception e){
-						response.sendRedirect("/404.html");
-					}
+					response.setStatus(404);
+					response.setHeader("Connection", "close");
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
