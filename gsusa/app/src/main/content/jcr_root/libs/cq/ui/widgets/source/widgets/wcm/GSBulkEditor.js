@@ -737,6 +737,103 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             }
             this.currentColObject = colObj;
         }
+                
+        if(this.importType == "events"){
+        	var modObj = {"headers" : [], "values" : []};
+        	var modIndex = 0;
+        	
+        	var colObj = this.currentColObject;
+        	for(var k = 0; k < colObj.values.length; k++){
+        		if(colObj.headers[k] == "jcr:title"){
+        			modObj.headers[modIndex] = "Title";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/start"){
+        			modObj.headers[modIndex] = "Start Date";
+        			modObj.values[modIndex] = "jcr:content/data/start-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Start Time";
+        			modObj.values[modIndex] = "jcr:content/data/start-time";
+        		}else if(colObj.headers[k] == "data/end"){
+        			modObj.headers[modIndex] = "End Date";
+        			modObj.values[modIndex] = "jcr:content/data/end-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "End Time";
+        			modObj.values[modIndex] = "jcr:content/data/end-time";
+        		}else if(colObj.headers[k] == "data/region"){
+        			modObj.headers[modIndex] = "Region";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/locationLabel"){
+        			modObj.headers[modIndex] = "Location Name";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/address"){
+        			modObj.headers[modIndex] = "Address";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/details"){
+        			modObj.headers[modIndex] = "Text";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/srchdisp"){
+        			modObj.headers[modIndex] = "Search Description";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/color"){
+        			modObj.headers[modIndex] = "Color";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/register"){
+        			modObj.headers[modIndex] = "Registration";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "cq:tags"){
+        			modObj.headers[modIndex] = "Categories";
+        			modObj.values[modIndex] = "jcr:content/cq:tags-categories";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Program Levels";
+        			modObj.values[modIndex] = "jcr:content/cq:tags-progLevel";
+        		}else if(colObj.headers[k] == "data/image"){
+        			modObj.headers[modIndex] = "Image";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/regOpen"){
+        			modObj.headers[modIndex] = "Registration Open Date";
+        			modObj.values[modIndex] = "jcr:content/data/regOpen-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Registration Open Time";
+        			modObj.values[modIndex] = "jcr:content/data/regOpen-time";
+        		}else if(colObj.headers[k] == "data/regClose"){
+        			modObj.headers[modIndex] = "Registration Close Date";
+        			modObj.values[modIndex] = "jcr:content/data/regClose-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Registration Close Time";
+        			modObj.values[modIndex] = "jcr:content/data/regOpen-time";
+        		}else if(colObj.headers[k] == "data/progType"){
+        			modObj.headers[modIndex] = "Program Type";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/grades"){
+        			modObj.headers[modIndex] = "Grades";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/girlFee"){
+        			modObj.headers[modIndex] = "Girl Fee";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/adultFee"){
+        			modObj.headers[modIndex] = "Adult Fee";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/minAttend"){
+        			modObj.headers[modIndex] = "Minimum Attendance";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/maxAttend"){
+        			modObj.headers[modIndex] = "Maximum Attendance";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/programCode"){
+        			modObj.headers[modIndex] = "Program Code";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}
+        		
+        		else{
+        			modObj.headers[modIndex] = colObj.values[k];
+        			modObj.values[modIndex] = colObj.values[k];
+        		}
+        		modIndex++;
+        	}
+        	colObj = modObj;
+        	this.currentColObject = colObj;
+        }
+        
         return this.currentColObject;
     },
 
@@ -820,7 +917,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var colObj = this.getColObject(true);
         var colsObjects = new Array();
         if(this.importType){
-        	if(this.importType == "documents"){
+        	if(this.importType == "documents" || this.importType == "events"){
                 for (var i = 0; i < colObj.values.length; i++) {
 
                     colsObjects.push(
@@ -912,6 +1009,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             url = CQ.HTTP.addParameter(url, "isDeep", isDeep);
         }
         var colObj = this.getColObject();
+        
         if (colObj.values && colObj.values.length > 0) {
             url = CQ.HTTP.addParameter(url, "cols", "" + colObj.values);
         }

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.lang.StringBuilder;
 
 import javax.jcr.Node;
@@ -44,6 +45,9 @@ import org.apache.sling.api.resource.ResourceResolver;
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
 
 
 /**
@@ -348,7 +352,66 @@ public class json extends SlingAllMethodsServlet {
 				}else{//open form
 					if (properties != null) {
 						for (String property : properties) {
-							if (node.hasProperty(property)) {
+							if(null != importType){
+								if(importType.equals("events")){
+									if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-date") || property.equals("jcr:content/data/regClose-time")){
+										if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+											String datetimeString = node.getProperty(property.substring(0,property.lastIndexOf("-"))).getString();
+											GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+											GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
+											GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
+											GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("HH:mm:ss a");
+											String [] dateTime = new String[1];
+											if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regClose-date")){
+												dateTime[0] = dtfOutDate.print(dt);
+												writeProperty(writer,property,dateTime);
+											}else if(property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-time")){
+												dateTime[0] = dtfOutTime.print(dt);
+												writeProperty(writer,property,dateTime);
+											}
+										}
+									}else if(property.equals("jcr:content/cq:tags-progLevel") || property.equals("jcr:content/cq:tags-categories")){
+										if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+											String tagFolder = property.substring(property.lastIndexOf("-")+1,property.length());
+											if(tagFolder.equals("progLevel")){
+												tagFolder = "program-level";
+											}
+											ArrayList<String> tagsToWrite = new ArrayList<String>();
+											try{
+												Property prop = node.getProperty(property.substring(0,property.lastIndexOf("-")));
+                                				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+                                				if (prop.getDefinition().isMultiple()) {
+                                					Value[] values = prop.getValues();
+                                					for(Value value : values){
+                                						Tag t = tm.resolve(value.toString());
+                                						if(null != t){
+                                							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                                								tagsToWrite.add(t.getTitle());
+                                							}
+                                						}
+                                					}
+                                				}else{
+                                					Value value = prop.getValue();
+                            						Tag t = tm.resolve(value.toString());
+                            						if(null != t){
+                            							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                            								tagsToWrite.add(t.getTitle());
+                            							}
+                            						}
+                                				}
+                                				writeProperty(writer,property,tagsToWrite.toArray(new String[0]));
+											}catch(Exception e){
+												e.printStackTrace();
+											}
+										}
+									}else if (node.hasProperty(property)) {
+										writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
+									}
+								}else if (node.hasProperty(property)) {
+									writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
+								}
+							}
+							else if (node.hasProperty(property)) {
 								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}

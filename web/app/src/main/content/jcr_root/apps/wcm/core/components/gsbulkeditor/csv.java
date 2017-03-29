@@ -58,6 +58,7 @@ public class csv extends SlingAllMethodsServlet {
     public static final String RESOURCE_TYPE_PARAM = "resourceType";
     public static final String PRIMARY_TYPE_PARAM = "primaryType";
     public static final String IMPORT_TYPE_PARAM = "importType";
+    public static final String YEAR_PARAM = "year";
 
     public static final String SEPARATOR_PARAM = "separator";
 
@@ -152,6 +153,15 @@ public class csv extends SlingAllMethodsServlet {
             bw.newLine();
 
             String path = queryString.split(":")[1];
+            
+			String year = request.getParameter(YEAR_PARAM);
+			if(null != importType){
+				if(importType.equals("events")){
+					if(null != year){
+						path = path + "/" + year;
+					}
+				}
+			}
             
             iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
 

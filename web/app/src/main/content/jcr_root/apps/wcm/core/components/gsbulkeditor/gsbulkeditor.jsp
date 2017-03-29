@@ -150,7 +150,6 @@
         }
         String renderTo = "cq-bulkeditor";
 
-
         Map<String,Object> bulkEditorConfig = new HashMap<String,Object>();
         bulkEditorConfig.put("rootPath",rootPath);
         bulkEditorConfig.put("queryParams",queryParams);
