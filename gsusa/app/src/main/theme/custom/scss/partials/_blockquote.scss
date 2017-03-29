@@ -8,10 +8,11 @@ blockquote {
   }
   @include clearfix;
   & * {
-    font-size: rem-calc(32);
+    font-size: rem-calc(33);
   }
   p {
     position: relative;
+    line-height:1.35em;
     padding: rem-calc(0 25);
     word-wrap:break-word;
     max-width:100%;

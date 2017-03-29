@@ -3,13 +3,14 @@
     h5 {
       color:$primary-color;
       margin-bottom: 0;
+      font-weight:500;
     }
     p {
       margin: 0;
-      font-size: rem-calc(14);
+      font-size: rem-calc(17);
     }
     i {
-      font-size: rem-calc(14);
+      font-size: rem-calc(17);
       color: #666;
       margin-bottom: rem-calc(10);
     }
@@ -26,7 +27,7 @@
   .read-more {
     display: inline-block;
     position: relative;
-    font-size: rem-calc(14);
+    font-size: rem-calc(17);
     &:after {
       border-style: solid;
       content: "";

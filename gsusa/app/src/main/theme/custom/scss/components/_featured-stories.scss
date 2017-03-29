@@ -9,6 +9,8 @@ div.featured-stories {
   overflow: visible;
   p {
     margin: 0;
+    font-size: rem-calc(17);
+    line-height: 1.4em;
   }
   > li {
     width: 100%;
@@ -151,7 +153,8 @@ div.featured-stories {
             }
           }
           p {
-            font-size: rem-calc(20);
+            font-size: rem-calc(21);
+            line-height: 1.4em;
           }
           .button-wrap {
             position: absolute;
@@ -163,6 +166,7 @@ div.featured-stories {
               bottom: auto;
             }
             .button {
+              font-size: rem-calc(18);
               text-transform: none;
               position: relative;
               left: auto;
@@ -199,7 +203,8 @@ div.featured-stories {
               }
               input[type="text"] {
                 display: inline;
-                width: 50%;
+                width: 40%;
+                font-size: rem-calc(16);
                 vertical-align: middle;
                 color: rgba(0, 0, 0, 0.75);
                 padding-left: rem-calc(5);
@@ -242,8 +247,9 @@ div.featured-stories {
             color: $white;
           }
           p {
-            font-size: rem-calc(20);
+            font-size: rem-calc(21);
             margin-bottom: rem-calc(10);
+            line-height: 1.4em;
           }
           .left-float {
             @media #{$medium-up} {
