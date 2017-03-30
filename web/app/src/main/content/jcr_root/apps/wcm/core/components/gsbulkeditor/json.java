@@ -376,7 +376,8 @@ public class json extends SlingAllMethodsServlet {
 											if(tagFolder.equals("progLevel")){
 												tagFolder = "program-level";
 											}
-											ArrayList<String> tagsToWrite = new ArrayList<String>();
+											String[] tagsToWrite = new String[1];
+											String tagString = "";
 											try{
 												Property prop = node.getProperty(property.substring(0,property.lastIndexOf("-")));
                                 				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
@@ -386,20 +387,24 @@ public class json extends SlingAllMethodsServlet {
                                 						Tag t = tm.resolve(value.toString());
                                 						if(null != t){
                                 							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
-                                								tagsToWrite.add(t.getTitle());
+                                        						if(tagString.length() > 0){
+                                        							tagString = tagString + ";";
+                                        						}
+                                								tagString = tagString + t.getTitle();
                                 							}
                                 						}
                                 					}
+                                					tagsToWrite[0] = tagString;
                                 				}else{
                                 					Value value = prop.getValue();
                             						Tag t = tm.resolve(value.toString());
                             						if(null != t){
                             							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
-                            								tagsToWrite.add(t.getTitle());
+                            								tagsToWrite[0] = t.getTitle();
                             							}
                             						}
                                 				}
-                                				writeProperty(writer,property,tagsToWrite.toArray(new String[0]));
+                                				writeProperty(writer,property,tagsToWrite);
 											}catch(Exception e){
 												e.printStackTrace();
 											}

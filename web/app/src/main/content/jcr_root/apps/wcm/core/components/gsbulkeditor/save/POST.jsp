@@ -12,7 +12,8 @@
 				 java.util.regex.Matcher,
 				 java.util.ArrayList,
 				 javax.jcr.ValueFormatException,
-				 java.util.HashMap" %>
+				 java.util.HashMap,
+				 javax.jcr.Value" %>
 <%@ page session="false" %>
 <%
 %>
@@ -36,8 +37,11 @@
 
                     String value = request.getParameter(path);
                     Resource r = resourceResolver.getResource(path);
-
                     String propertyName = Text.getName(path);
+                    
+                    if(propertyName.endsWith("cq:tags-categories") || propertyName.endsWith("cq:tags-progLevel")){
+                    	r = resourceResolver.getResource(path.substring(0,path.lastIndexOf("-")));
+                    }
                     
                     String[] values = null;
                     //GS - Create new tags if they didn't exist before
@@ -49,7 +53,53 @@
                     		for(String tagVal : tagValues){
                     			String tagTitle = tagVal.trim();
                     			 try{
-                    				String tagID = createId(tagTitle, r.getPath());
+                    				String tagID = createId(tagTitle, r.getPath(), "forms_documents");
+                    				if(tagID != null){
+		                    			if(null == tm.resolve(tagID)){
+		                    				if(tm.canCreateTag(tagID)){
+		                    					tm.createTag(tagID,tagTitle,"",true);
+		                    					valueList.add(tagID);
+		                    				}
+		                    			}else{
+		                    				valueList.add(tagID);
+		                    			}
+                    				}
+                    			}catch(Exception e){
+                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+                    			} 
+                    		}
+                    	}
+                    	values = valueList.toArray(new String[0]);
+                    }else if(propertyName.endsWith("cq:tags-categories") || propertyName.endsWith("cq:tags-progLevel")){
+                    	String tagFolder = propertyName.substring(propertyName.lastIndexOf("-")+1,propertyName.length());
+						if(tagFolder.equals("progLevel")){
+							tagFolder = "program-level";
+						}
+						String[] tagValues = value.split(";");
+						ArrayList<String> valueList = new ArrayList<String>();
+						if (r != null) {
+							Property tagsProp = r.adaptTo(Property.class);
+							Value[] tagsVals = tagsProp.getValues();
+							if(tagsVals.length > 0){
+								for(Value existing : tagsVals){
+									String existingStr = existing.getString();
+									if(tagFolder.equals("program-level")){
+										if(existingStr.matches("^.*:" + "categories" + "/.*$")){
+											valueList.add(existingStr);
+										}
+									}else if(tagFolder.equals("categories")){
+										if(existingStr.matches("^.*:" + "program-level" + "/.*$")){
+											valueList.add(existingStr);
+										}
+									}
+								}
+							}
+						}
+                    	if(tagValues.length > 0){
+                    		for(String tagVal : tagValues){
+                    			String tagTitle = tagVal.trim();
+                    			 try{
+                    				String tagID = createId(tagTitle, r.getPath(), tagFolder);
                     				if(tagID != null){
 		                    			if(null == tm.resolve(tagID)){
 		                    				if(tm.canCreateTag(tagID)){
@@ -142,7 +192,7 @@
 %>
 
 <%!
-String createId(String tag, String path){
+String createId(String tag, String path, String folder){
 	HashMap<String,String> specialCouncils = new HashMap<String,String>();
 	specialCouncils.put("southern-appalachian","girlscoutcsa");
 	specialCouncils.put("NE_Texas","NE_Texas");
@@ -155,7 +205,7 @@ String createId(String tag, String path){
 	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
 	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
 	Matcher mDam = pDam.matcher(path);
-	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
+	Pattern pContent = Pattern.compile("^/content/([^/]{1,})/*.*$");
 	Matcher mContent = pContent.matcher(path);
 	if(mDam.matches()){
 		councilRoot = mDam.group(1);
@@ -165,13 +215,13 @@ String createId(String tag, String path){
     	if(councilRoot.startsWith("girlscouts-")){
     		councilRoot = councilRoot.replace("girlscouts-","");
     	}
-		return councilRoot + ":forms_documents/" + tagName;
+		return councilRoot + ":" + folder + "/" + tagName;
 	}else if(mContent.matches()){
 		councilRoot = mContent.group(1);
     	if(specialCouncils.containsKey(councilRoot)){
     		councilRoot = specialCouncils.get(councilRoot);
     	}
-		return councilRoot + ":forms_documents/" + tagName;
+		return councilRoot + ":" + folder + "/" + tagName;
 	}else{
 		return null;
 	}
