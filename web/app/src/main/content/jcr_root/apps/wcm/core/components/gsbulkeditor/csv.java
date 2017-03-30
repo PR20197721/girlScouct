@@ -14,6 +14,7 @@ package apps.wcm.core.components.gsbulkeditor;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -124,7 +125,7 @@ public class csv extends SlingAllMethodsServlet {
 
             Boolean includePath = true;
             if(importType != null){
-            	if(!importType.equals("contacts") && !importType.equals("documents")){
+            	if(!importType.equals("contacts") && !importType.equals("documents") && !importType.equals("events")){
             		bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
             	}else{
             		includePath = false;
@@ -138,6 +139,87 @@ public class csv extends SlingAllMethodsServlet {
                     if(importType != null){
                     	if(importType.equals("documents")){
                     		property = property.replaceAll("jcr:content/metadata/dc:title","Title").replaceAll("jcr:content/metadata/dc:description", "Description").replaceAll("jcr:content/metadata/cq:tags","Categories");
+                    	}else if(importType.equals("events")){
+                    		switch(property){
+	                    		case "jcr:content/jcr:title":
+	                    			property = "Title";
+	                    			break;
+	                    		case "jcr:content/data/start-date":
+	                    			property = "Start Date";
+	                    			break;
+	                    		case "jcr:content/data/start-time":
+	                    			property = "Start Time";
+	                    			break;
+	                    		case "jcr:content/data/end-date":
+	                    			property = "End Date";
+	                    			break;
+	                    		case "jcr:content/data/end-time":
+	                    			property = "End Time";
+	                    			break;
+	                    		case "jcr:content/data/region":
+	                    			property = "Region";
+	                    			break;
+	                    		case "jcr:content/data/locationLabel":
+	                    			property = "Location Name";
+	                    			break;
+	                    		case "jcr:content/data/address":
+	                    			property = "Address";
+	                    			break;
+	                    		case "jcr:content/data/details":
+	                    			property = "Text";
+	                    			break;
+	                    		case "jcr:content/data/srchdisp":
+	                    			property = "Search Description";
+	                    			break;
+	                    		case "jcr:content/data/color":
+	                    			property = "Color";
+	                    			break;
+	                    		case "jcr:content/data/register":
+	                    			property = "Registration";
+	                    			break;
+	                    		case "jcr:content/cq:tags-categories":
+	                    			property = "Categories";
+	                    			break;
+	                    		case "jcr:content/cq:tags-progLevel":
+	                    			property = "Program Levels";
+	                    			break;
+	                    		case "jcr:content/data/image":
+	                    			property = "Image";
+	                    			break;
+	                    		case "jcr:content/data/regOpen-date":
+	                    			property = "Registration Open Date";
+	                    			break;
+	                    		case "jcr:content/data/regOpen-time":
+	                    			property = "Registration Open Time";
+	                    			break;
+	                    		case "jcr:content/data/regClose-date":
+	                    			property = "Registration Close Date";
+	                    			break;
+	                    		case "jcr:content/data/regClose-time":
+	                    			property = "Registration Close Time";
+	                    			break;
+	                    		case "jcr:content/data/progType":
+	                    			property = "Program Type";
+	                    			break;
+	                    		case "jcr:content/data/grades":
+	                    			property = "Grades";
+	                    			break;
+	                    		case "jcr:content/data/girlFee":
+	                    			property = "Girl Fee";
+	                    			break;
+	                    		case "jcr:content/data/adultFee":
+	                    			property = "Adult Fee";
+	                    			break;
+	                    		case "jcr:content/data/minAttend":
+	                    			property = "Minimum Attendance";
+	                    			break;
+	                    		case "jcr:content/data/maxAttend":
+	                    			property = "Maximum Attendance";
+	                    			break;
+	                    		case "jcr:content/data/programCode":
+	                    			property = "Program Code";
+	                    			break;
+                    		}
                     	}
                     }
                     bw.write(csv.valueParser(property, separator) + separator);
@@ -145,7 +227,7 @@ public class csv extends SlingAllMethodsServlet {
             }
             
             if(importType != null){
-            	if (importType.equals("documents")){
+            	if (importType.equals("documents") || importType.equals("events")){
             		bw.write(csv.valueParser("Path", separator) + separator);
             	}
             }
@@ -193,7 +275,7 @@ public class csv extends SlingAllMethodsServlet {
      * @return the formatted string
      * @throws RepositoryException if a repository error occurs
      */
-    public static String format(Property prop, ResourceResolver rr) throws RepositoryException {
+    public static String format(Property prop, ResourceResolver rr, String tagFolder) throws RepositoryException {
         StringBuffer attrValue = new StringBuffer();
         int type = prop.getType();
         if (type == PropertyType.BINARY || isAmbiguous(prop)) {
@@ -207,19 +289,29 @@ public class csv extends SlingAllMethodsServlet {
                 if (prop.getDefinition().isMultiple()) {
                     Value[] values = prop.getValues();
                     for (int i = 0; i < values.length; i++) {
-                        if (i > 0) {
-                            attrValue.append(';');
-                        }
                         TagManager tm = rr.adaptTo(TagManager.class);
                         Tag t = tm.resolve(values[i].getString());
                         String strValue = ValueHelper.serialize(values[i], false);
+                    	if (i > 0 && attrValue.length() > 0) {
+                    		if(null != tagFolder){
+                    			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                    				attrValue.append(';');
+                    			}
+                    		}
+                        }
                         if(t != null){
                         	strValue = t.getTitle();
                         }
                 		if(strValue.contains("\n") || strValue.contains("\r")){
                 			strValue = strValue.replaceAll("(\\r|\\n)", "");
                 		}
-                        attrValue.append(strValue);
+                		if(null != tagFolder){
+                			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                				attrValue.append(strValue);
+                			}
+                		}else{
+                			attrValue.append(strValue);
+                		}
                     }
                 } else {
                     String strValue = ValueHelper.serialize(prop.getValue(), false);
@@ -231,10 +323,15 @@ public class csv extends SlingAllMethodsServlet {
             		if(strValue.contains("\n") || strValue.contains("\r")){
             			strValue = strValue.replaceAll("(\\r|\\n)", "");
             		}
-                    attrValue.append(strValue);
+            		if(null != tagFolder){
+            			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+            				attrValue.append(strValue);
+            			}
+            		}else{
+            			attrValue.append(strValue);
+            		}
                 }
-        	}
-        	else if (prop.getDefinition().isMultiple()) {
+        	}else if (prop.getDefinition().isMultiple()) {
                 attrValue.append('[');
                 Value[] values = prop.getValues();
                 for (int i = 0; i < values.length; i++) {
@@ -386,6 +483,8 @@ public class csv extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }else if(null != primaryType){
 	            	if(node.hasProperty("jcr:primaryType")){
@@ -396,6 +495,8 @@ public class csv extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }   
 	            if(canIterate){
@@ -430,7 +531,7 @@ public class csv extends SlingAllMethodsServlet {
 	            }
 	            
 	            if(null != importType){
-	            	if(!importType.equals("documents")){
+	            	if(!importType.equals("documents") && !importType.equals("events")){
 	    	            if(includePath){
 	    	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
 	    	            }
@@ -453,7 +554,7 @@ public class csv extends SlingAllMethodsServlet {
 								bw.write(csv.format(values));
 							}else if (node.hasProperty(property)) {
 								Property prop = node.getProperty(property);
-								bw.write(csv.format(prop, rr));
+								bw.write(csv.format(prop, rr, null));
 							}
 							bw.write(separator);
 						}
@@ -462,9 +563,19 @@ public class csv extends SlingAllMethodsServlet {
 					if (properties != null) {
 						for (String property : properties) {
 							property = property.trim();
-							if (node.hasProperty(property)) {
+							if(property.equals("jcr:content/cq:tags-progLevel") || property.equals("jcr:content/cq:tags-categories")){
+								if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+									Property prop = node.getProperty(property.substring(0,property.lastIndexOf("-")));
+									String tagFolder = property.substring(property.lastIndexOf("-")+1,property.length());
+									if(tagFolder.equals("progLevel")){
+										tagFolder = "program-level";
+									}
+									bw.write(csv.format(prop, rr, tagFolder));
+								}
+							}
+							else if (node.hasProperty(property)) {
 								Property prop = node.getProperty(property);
-								bw.write(csv.format(prop, rr));
+								bw.write(csv.format(prop, rr, null));
 							}
 							bw.write(separator);
 						}
@@ -472,7 +583,7 @@ public class csv extends SlingAllMethodsServlet {
 				}
 				
 				if(null != importType){
-		            if(importType.equals("documents")){
+		            if(importType.equals("documents") || importType.equals("events")){
 		            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
 		            }
 				}

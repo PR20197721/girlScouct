@@ -800,7 +800,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         			modObj.values[modIndex] = "jcr:content/data/regClose-date";
         			modIndex++;
         			modObj.headers[modIndex] = "Registration Close Time";
-        			modObj.values[modIndex] = "jcr:content/data/regOpen-time";
+        			modObj.values[modIndex] = "jcr:content/data/regClose-time";
         		}else if(colObj.headers[k] == "data/progType"){
         			modObj.headers[modIndex] = "Program Type";
         			modObj.values[modIndex] = colObj.values[k];
