@@ -1,24 +1,21 @@
 package org.girlscouts.gsactivities.dataimport.impl;
 
-import org.girlscouts.gsactivities.dataimport.EventsImport;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.SocketException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -31,9 +28,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.net.ftp.FTP;
-import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
+import org.apache.commons.net.ftp.FTPSClient;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -51,6 +48,9 @@ import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.JSONObject;
 import org.apache.sling.commons.osgi.OsgiUtil;
 import org.apache.sling.settings.SlingSettingsService;
+import org.girlscouts.gsactivities.dataimport.EventsImport;
+import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.web.exception.GirlScoutsException;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,9 +65,6 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
-
-import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.web.exception.GirlScoutsException;
 
 @Component(
 		metatype = true, 
@@ -151,6 +148,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String CONFIG_PATH = "/etc/data-import/girlscouts/salesforce-events";
 	public static final String[] ILLEGAL_CHAR_MAPPING = JcrUtil.HYPHEN_LABEL_CHAR_MAPPING;
 	public static final String DEFAULT_REPL_CHAR = "_";
+	
+	private StringBuilder errorString;
 
 	private String server, user, password, directory, salesforcePath;
 	//keep track of the latest time stamp of import.
@@ -169,9 +168,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		this.salesforcePath= OsgiUtil.toString(configs.get(SALESFORCEPATH), null);
 //		log.info("Configure: ftp server="+server+"; username="+user+"; password="+password+"; directory="+directory);	
 		log.info("Configure: ftp server="+server+"; username="+user+"; directory="+directory+"salesforcePath=" + salesforcePath);	
-		System.out.println("About to configure FTP server");
 		ftp = new FTPSClient(false);
-		System.out.println("Initialized FTP srever");
 		ftp.setDefaultTimeout(TIME_OUT_IN_MS);
 		try {
 			rr= resolverFactory.getAdministrativeResourceResolver(null);
@@ -196,6 +193,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				log.info("Last import time stamp=" + ZIP_DATE_FORMAT.format(lastUpdated));	
 			}
 		} catch (Exception e) {
+			errorString.append("Failed to read: " + CONFIG_PATH);
+			errorString.append('\n');
 			log.error("Fail to read " + CONFIG_PATH);
 		}
 	}
@@ -209,6 +208,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			session.save();
 			log.info("lastUpdated " + ZIP_DATE_FORMAT.format(lastUpdated)+"written to "+CONFIG_PATH);
 		} catch (Exception e) {
+			errorString.append("Failed to store the timestamp");
+			errorString.append('\n');
 			log.error("Fail to store the timeStamp.");
 			e.printStackTrace();
 		}
@@ -216,7 +217,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	}
 
 	private void getFiles() throws IOException {
-		System.out.println("Getting Files");
 		readTimeStamp();
 		log.info("checking files after "+ZIP_DATE_FORMAT.format(lastUpdated));
 		//control connection being idle can cause disconnecting from server during data transfer
@@ -227,7 +227,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("Successfully switch to directory " + ftp.printWorkingDirectory());
 			//tracking the latest timeStamp for this update
 			ftp.setFileType(FTP.BINARY_FILE_TYPE, FTP.NON_PRINT_TEXT_FORMAT);
-			System.out.println("Changed directory successfully");
 			
 			Date latest = lastUpdated;
 			FTPFile[] files = ftp.listFiles();
@@ -248,6 +247,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 							newFiles.add(zipName);
 						} 
 					}catch(ParseException e){
+						errorString.append("Failed to read date is zipfile: " + zipName);
+						errorString.append('\n');
 						log.error("Fail to read date in the zip name: "+zipName, e);
 					}
 				}
@@ -272,36 +273,10 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("finish retrieving up to date files.");
 			lastUpdated=latest;
 			writeTimeStamp();
-			try {
-
-				if (messageGatewayService != null) {
-					MessageGateway<HtmlEmail> messageGateway = messageGatewayService
-							.getGateway(HtmlEmail.class);
-					HtmlEmail email = new HtmlEmail();
-					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-					email.setSubject("Activities Synced Through Automatic Process");
-					try {
-
-						emailRecipients
-								.add(new InternetAddress("igor.kaplunov@ey.com"));
-					} catch (AddressException e) {
-						log.error("Initiator email incorrectly formatted");
-						log.error(e.getMessage());
-					}
-					email.setTo(emailRecipients);
-					email.setHtmlMsg("This is a test");
-					messageGateway.send(email);
-				} else {
-					log.error("messageGatewayService is null");
-				}
-
-			} catch (EmailException e) {
-
-				e.printStackTrace();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			
 		}else{
+			errorString.append("Unable to find the event file directory " + directory + " on the server");
+			errorString.append('\n');
 			log.error("Not able to find the directory /"+directory+" on the server");
 		}
 
@@ -310,7 +285,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	private void readZip(String zipName) throws Exception {
 		log.info("Retrieving " + zipName);
 		InputStream input = ftp.retrieveFileStream(zipName);
-		if (input == null) { 
+		if (input == null) {
+			errorString.append("Cannot open data connection when reading zip: " + zipName);
+			errorString.append('\n');
 			throw new GirlScoutsException(null, "data connection cannot be opened.");
 		}
 		try {
@@ -356,6 +333,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 							final JSONObject jsonObject = jsonArray.getJSONObject(i);
 							parseJson(jsonObject, toActivate);
 						} catch(Exception e) {//catch inside loop, continue to next file
+							errorString.append("Failed to convert zip file: " + zipName + " to JSON");
+							errorString.append('\n');
 							log.error(e.getMessage());
 							errors.get(zipName).put("entry"+i, e);
 						}
@@ -368,6 +347,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			}
 			inputStream.close();
 		} catch (Exception e) {
+			errorString.append("Error: "+e.getMessage()+" while reading file:"+zipName);
+			errorString.append('\n');
 			throw new GirlScoutsException(e, "Error reading file:"+zipName);
 		} finally {
 			if (!ftp.completePendingCommand()) {
@@ -389,6 +370,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				//This is where we create the node.
 				newPath = put(payload);
 			} catch (Exception e) {
+				errorString.append("Failed to put payload due to error: " + e.getMessage());
+				errorString.append('\n');
 				log.error(e.getMessage());
 				throw new GirlScoutsException(e, "Fail to PUT the payload: "+payload);
 			}
@@ -396,12 +379,16 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			try {
 				replicateNode(newPath, toActivate);
 			} catch (Exception e) {
+				errorString.append("Unable to activate node" + newPath + " on the server");
+				errorString.append('\n');
 				throw new GirlScoutsException(e, "Fail to ACTIVIATE the Node from author with path: " + newPath);
 			}
 		} else if (action.equalsIgnoreCase("DELETE")) {
 			try {
 				delete(payload);
 			} catch (Exception e) {
+				errorString.append("Unable to delete payload on the server");
+				errorString.append('\n');
 				log.error(e.getMessage());
 				throw new GirlScoutsException(e, "Fail to DELETE the payload: "+payload);
 			}
@@ -415,10 +402,14 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		try {
 			replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
 		} catch (NullPointerException npe) {
+			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to nullpointer exception");
+			errorString.append('\n');
 			log.error("Replicator is null for path: " + newPath);
 			throw new GirlScoutsException(npe, "Fail to Activates the path with NPE: " + newPath);
 		} catch (Exception e) {
 			//e.printStackTrace();
+			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to error: " + e.getMessage());
+			errorString.append('\n');
 			throw new GirlScoutsException(e, "Fail to Activates the path: " + newPath + ". " + e.getMessage());
 		} */
 		toActivate.add(newPath);
@@ -446,6 +437,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		try {
 			startDate = NO_TIMEZONE_FORMAT.parse(start);
 		} catch (ParseException e) {
+			errorString.append("Failed to parse date: " + start);
+			errorString.append('\n');
 			e.printStackTrace();
 			throw new GirlScoutsException(e,"start date format error: " + start);
 		} 
@@ -463,6 +456,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			//need session.save() to persist
 			JcrUtil.createPath(parentPath, "cq:Page", session);
 		} catch (RepositoryException e) {
+			errorString.append("Failed when retrieving or creating parent path:  " + parentPath + " on the server due to error: " + e.getMessage());
+			errorString.append('\n');
 			e.printStackTrace();
 			throw new GirlScoutsException(e, "Fail to get/create parent path: " + parentPath);
 		}
@@ -497,6 +492,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					jcrNode.setProperty("cq:tags", tags);
 				} 
 			} catch(JSONException e) {
+				errorString.append("No tags found for payload");
+				errorString.append('\n');
 				log.info("no tags found for the payload");
 			}
 			//add data node
@@ -505,9 +502,13 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			session.save();
 		} catch (WCMException e) {
 			e.printStackTrace();
+			errorString.append("Failed to create event page under "+parentPath+ " due to error: "+ e.getMessage());
+			errorString.append('\n');
 			throw new GirlScoutsException(e,"Fail to create event page under "+parentPath);
 
 		} catch (RepositoryException e){
+			errorString.append("Exception throw when adding data to"+eventPage.getPath()+"/jcr:content with error: " + e.getMessage());
+			errorString.append('\n');
 			e.printStackTrace();
 			throw new GirlScoutsException(e, "Exception throw when adding data to"+eventPage.getPath()+"/jcr:content");
 		}
@@ -609,6 +610,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				return it.next().getParent().getParent().adaptTo(Page.class);	
 			}
 		} catch (Exception e) {
+			errorString.append("Exception thrown when getting event at: " +path+ " with error: " + e.getMessage());
+			errorString.append('\n');
 			e.printStackTrace();
 		} 
 		return null;
@@ -645,30 +648,61 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		//TODO: Change the following if case so that it uses policy = ConfigurationPolicy.REQUIRE to check for publishing servers 
 		//More info: http://aemfaq.blogspot.com/search/label/runmode
 		//http://stackoverflow.com/questions/19292933/creating-osgi-bundles-with-different-services
-		System.out.println("#######Importer Service is Running");
+		
 		if (isPublisher()) {
-			System.out.println("#######Is Publisher");
 			return;
 		}
 		log.info("Running SF Events Importer..." );
 		try{
 			if (ftpLogin()) {
 				getFiles();
-				System.out.println("#######Got files");
+				
 			} else {
-				System.out.println("#######Unable to login into ftp");
+				errorString.append("Unable to login to FTP"); 
+				errorString.append('\n');
 				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
-			System.out.println("#######IOGException caught during access to FTP server:" + e.getMessage());
+			errorString.append("Unable to connect to the FTP server due to error: " + e.getMessage());
+			errorString.append('\n');
 			e.printStackTrace();
 			log.error("IOException caught during access to FTP server",e);
 			//e.printStackTrace();
 		} catch(Exception e) {
-			System.out.println("#######Exception caught during access to FTP server");
+			errorString.append("Unable to connect to the FTP server due to error: " + e.getMessage());
+			errorString.append('\n');
 			log.error("Exception caught during access to FTP server",e);
 			//e.printStackTrace();
 		} finally {
+			try {
+
+				if (messageGatewayService != null) {
+					MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+							.getGateway(HtmlEmail.class);
+					HtmlEmail email = new HtmlEmail();
+					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+					email.setSubject("Activities Synced Through Automatic Process");
+					try {
+
+						emailRecipients
+								.add(new InternetAddress("igor.kaplunov@ey.com"));
+					} catch (AddressException e) {
+						log.error("Initiator email incorrectly formatted");
+						log.error(e.getMessage());
+					}
+					email.setTo(emailRecipients);
+					email.setHtmlMsg("This is a test");
+					messageGateway.send(email);
+				} else {
+					log.error("messageGatewayService is null");
+				}
+
+			} catch (EmailException e) {
+
+				e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			if (ftp.isConnected()) {
 				try {
 					ftp.logout();
