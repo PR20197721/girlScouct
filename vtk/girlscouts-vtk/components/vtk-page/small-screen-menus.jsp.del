@@ -1,1 +1,0 @@
-<%-- VTK does not have small screen menus --%>
