@@ -175,6 +175,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
+		
+		errorString = new StringBuilder();
 		readTimeStamp();
 		resetDate();
 	}
@@ -235,6 +237,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			List<String> newFiles = new ArrayList<String>();
 			for (FTPFile file:files) {
 				String zipName = file.getName();
+				System.out.println("Processing file "+ zipName);
 				int type = file.getType();
 				//log.info("Checking Individual File: " + zipName);
 				if (type == FTPFile.FILE_TYPE && zipName.matches(ZIP_REGEX)) {
@@ -676,7 +679,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} finally {
 			try {
 
-				if (messageGatewayService != null) {
+				if (messageGatewayService != null && null != errorString && !errorString.toString().isEmpty()) {
 					MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 							.getGateway(HtmlEmail.class);
 					HtmlEmail email = new HtmlEmail();
@@ -691,9 +694,10 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 						log.error(e.getMessage());
 					}
 					email.setTo(emailRecipients);
-					email.setHtmlMsg("This is a test");
+					email.setHtmlMsg("The following errors were encountered while events were being imported" + "\n" + errorString.toString());
 					messageGateway.send(email);
 				} else {
+					System.out.println("Email sending failed");
 					log.error("messageGatewayService is null");
 				}
 
