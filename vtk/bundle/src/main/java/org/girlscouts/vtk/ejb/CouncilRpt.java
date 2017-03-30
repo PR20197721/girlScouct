@@ -410,7 +410,6 @@ public class CouncilRpt {
 	public void emailRpt(String msg, String subject){
 		try {
 			
-			//System.err.println("test Rpt  runMode : "+  slingSettings.getRunModes());
 			
 			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
 			

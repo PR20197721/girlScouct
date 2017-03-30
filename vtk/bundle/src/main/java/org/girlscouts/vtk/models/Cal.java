@@ -18,20 +18,15 @@ public class Cal implements Serializable {
 	
 	public String getDates() {
 
-		//String _frmDates = fmtDates();
-		//return _frmDates == null ? dates : _frmDates;
-
-System.err.println("GetDates...");	
+		
 String toRet= fmtDates();
-System.err.println("GetDates..."+ toRet);	
+
 		return toRet;//fmtDates(); //dates;
 	}
 
 	public void setDates(String dates) {
-System.err.println("setDates: "+ dates);
+
 		dates = fmtDates(dates);
-		//String _frmDates = fmtDates();
-		//dates= _frmDates==null ? dates : _frmDates;
 		
 		if( dates!=null && this.dates!=null && !this.dates.equals(dates))
 			isDbUpdate =true;
@@ -59,7 +54,7 @@ System.err.println("setDates: "+ dates);
 	}
 
 	public void addDate(java.util.Date date) {
-System.err.println("Add date "+ date);
+
 		if( date ==null ) return;
 		
 		String fmtDates = getDates();
@@ -77,8 +72,8 @@ System.err.println("Add date "+ date);
 	
 	public String fmtDates(){ return fmtDates(this.dates); }
 	public String fmtDates( String dates ){
-System.err.println("start fmtDates______________ "+ dates);		
-//if( true ) return dates;
+	
+
 
 		if( dates ==null || dates.indexOf(",") ==-1 )
 			return dates;
@@ -99,9 +94,9 @@ System.err.println("start fmtDates______________ "+ dates);
 				
 				fmtList.add( _date );
 			}
-System.err.println("b4 testRR: "+  fmtList);			
+			
 			java.util.Collections.sort( fmtList );
-System.err.println("after testRR: "+  fmtList);	
+
 			
 		}catch(Exception e){
 			e.printStackTrace();
