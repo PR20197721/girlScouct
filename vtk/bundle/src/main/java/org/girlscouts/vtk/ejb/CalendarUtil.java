@@ -119,7 +119,7 @@ public class CalendarUtil {
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-System.err.println("UpdS: start");
+
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
@@ -137,21 +137,10 @@ System.err.println("UpdS: start");
 			log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal");
 			return false;
 		}
-		/*
-		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		
+			
+		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
 
 		
-		//-java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
-		
-		*/
-System.err.println("UpdS: 1");		
-		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
-System.err.println("UpdS: 2");	
-		/*
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 0 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		*/
 		
 		for(int i=0;i<100;i++){
 			if ((sched == null || sched.contains(newDate.getTime() +""))) {
@@ -161,27 +150,18 @@ System.err.println("UpdS: 2");
 				newDate= c.getTime();
 			}
 		}
-		System.err.println("UpdS: 3");		
+			
 		sched = sched.replace("" + currDate, newDate.getTime() + "");
-		System.err.println("UpdS: 4");	
+		
 		
 		updateSchedMeetings( meetings, currDate, newDate.getTime() );
-		System.err.println("UpdS: 5");	
-		/*
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 0.1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		
-		*/
+	
 		
 		//sort meetings by Date
 		Comparator<MeetingE> comp = new BeanComparator("date");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
-		System.err.println("UpdS: 6");	
-		/*
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 1 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		*/
+		
 		
 		for(int i=0;i<meetings.size();i++){
 			if( meetings.get(i).getId() != (i) ){
@@ -189,36 +169,11 @@ System.err.println("UpdS: 2");
 				meetings.get(i).setDbUpdate(true);
 			}
 		}
-		System.err.println("UpdS: 7");	
 		
-		/*
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 2 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		*/
-		
-		
-		
-		/* GOOD
-		
-		
-		for (int i = 0; i < meetings.size(); i++) {
-			MeetingE meeting = meetings.get(i);
-			if (meeting.getPath().equals(meetingPath)) {
-				meeting.setCancelled(isCancelledMeeting);
-				troop.getYearPlan().setAltered("true");
-			}
-		}
-		*/
-		
-		/*
-		for(int i=0;i<meetings.size();i++)
-			System.err.println("Kaca 3 : "+ meetings.get(i).getId()+" : "+meetings.get(i).getDate() +" : "+ meetings.get(i).getMeetingInfo().getName());
-		*/
-		//troop.getYearPlan().setMeetingEvents(meetings);
 		cal.setDates(sched);
 		cal.setDbUpdate(true);
 		troopUtil.updateTroop(user, troop);
-System.err.println("UpdS: end");
+
 		return true;
 	}
 
@@ -243,7 +198,7 @@ System.err.println("UpdS: end");
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-System.err.println("getSchedDates");
+
 
 
 		// org Dates
@@ -259,9 +214,9 @@ System.err.println("getSchedDates");
 					cal.add(java.util.Calendar.DATE, 1);
 				}
 		} else{
-System.err.println("A1");			
+			
 			dates = troop.getYearPlan().getSchedule().getDates();
-System.err.println("A2");	
+
 		}//end else
 		
 		if (!dates.startsWith(","))
@@ -317,7 +272,7 @@ System.err.println("A2");
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
-System.err.println("end getSchedDates");		
+		
 		return dates;
 	}
 
@@ -355,15 +310,15 @@ System.err.println("end getSchedDates");
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 		
-System.err.println("b1x");		
+	
 		YearPlan plan = getSched(user, troop, freq, newStartDate, exclDate, oldFromDate);
 		troop.setYearPlan(plan);
-System.err.println("b2x");		
+		
 		// if sched dates > meetings = rm last N meetings
 		meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
-System.err.println("b2.1x");	
+	
 		troopUtil.updateTroop(user, troop);
-System.err.println("b3x");		
+	
 	}
 
 	private java.util.List<String> getExclDates(String exclDate) {
@@ -536,18 +491,17 @@ System.err.println("b3x");
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
-System.err.println("combine dates newDAte: "+  new java.util.Date( newDate ) );
+
 		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy hh:mm a");
 		YearPlan plan = troop.getYearPlan();
 		Cal cal = plan.getSchedule();		
 		String sched = VtkUtil.sortDates(cal.getDates());
-System.err.println("_____________________combine dates before: "+ sched);
+
 StringTokenizer t1 = new StringTokenizer(sched, ",");
 while( t1.hasMoreElements()){
 	String tt= t1.nextToken();
-	System.err.println("combine dates before check: *"+tt+"*");
-	System.err.println("combine dates before: "+ new java.util.Date( Long.parseLong(tt) ));
+	
 }
 
 		java.util.List<MeetingE> meetings = schedMeetings(plan.getMeetingEvents(), sched);
@@ -585,12 +539,11 @@ while( t1.hasMoreElements()){
 		
 		cal.setDates(sched);
 
-System.err.println("combine dates after: "+ sched);		
+		
 StringTokenizer t = new StringTokenizer(sched, ",");
 while( t.hasMoreElements()){
 	String tt= t.nextToken();
-	System.err.println("combine dates check: *"+tt+"*");
-	System.err.println("combine dates after: "+ new java.util.Date( Long.parseLong(tt) ));
+	
 }
 
 		cal.setDbUpdate(true);
@@ -612,24 +565,7 @@ private java.util.List<MeetingE> updateSchedMeetings( java.util.List<MeetingE> m
 
 public  java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
 
-	/*
-	//sort meetings by Date
-	Comparator<MeetingE> comp = new BeanComparator("id");
-			if (meetings != null)
-				Collections.sort(meetings, comp);
 	
-	int count=0;
-	java.util.StringTokenizer t= new StringTokenizer( sched, ",");
-	while( t.hasMoreElements()){
-	    if( meetings.size() <= count){ System.err.println("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings."); break;}
-		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
-		meetings.get(count).setDate(date);
-		count ++;
-	 
-	}
-	
-	return meetings;
-	*/
 	return VtkUtil.schedMeetings(meetings, sched);
 }
 
