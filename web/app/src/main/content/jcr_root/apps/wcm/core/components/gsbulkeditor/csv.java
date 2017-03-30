@@ -47,6 +47,10 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.tagging.Tag;
 import org.apache.sling.api.resource.ResourceResolver;
 
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
+
 /**
  * Servers as base for image servlets
  */
@@ -275,17 +279,17 @@ public class csv extends SlingAllMethodsServlet {
      * @return the formatted string
      * @throws RepositoryException if a repository error occurs
      */
-    public static String format(Property prop, ResourceResolver rr, String tagFolder) throws RepositoryException {
+    public static String format(Property prop, ResourceResolver rr, String additional) throws RepositoryException {
         StringBuffer attrValue = new StringBuffer();
         int type = prop.getType();
-        if (type == PropertyType.BINARY || isAmbiguous(prop)) {
+        if ((type == PropertyType.BINARY || isAmbiguous(prop)) && additional == null) {
             attrValue.append("{");
             attrValue.append(PropertyType.nameFromValue(prop.getType()));
             attrValue.append("}");
         }
         // only write values for non binaries
         if (prop.getType() != PropertyType.BINARY) {
-        	if(prop.getName().endsWith("cq:tags")){
+        	if(additional != null && prop.getName().endsWith("cq:tags")){
                 if (prop.getDefinition().isMultiple()) {
                     Value[] values = prop.getValues();
                     for (int i = 0; i < values.length; i++) {
@@ -293,8 +297,8 @@ public class csv extends SlingAllMethodsServlet {
                         Tag t = tm.resolve(values[i].getString());
                         String strValue = ValueHelper.serialize(values[i], false);
                     	if (i > 0 && attrValue.length() > 0) {
-                    		if(null != tagFolder){
-                    			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                    		if(null != additional){
+                    			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
                     				attrValue.append(';');
                     			}
                     		}
@@ -305,8 +309,8 @@ public class csv extends SlingAllMethodsServlet {
                 		if(strValue.contains("\n") || strValue.contains("\r")){
                 			strValue = strValue.replaceAll("(\\r|\\n)", "");
                 		}
-                		if(null != tagFolder){
-                			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                		if(null != additional){
+                			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
                 				attrValue.append(strValue);
                 			}
                 		}else{
@@ -323,15 +327,32 @@ public class csv extends SlingAllMethodsServlet {
             		if(strValue.contains("\n") || strValue.contains("\r")){
             			strValue = strValue.replaceAll("(\\r|\\n)", "");
             		}
-            		if(null != tagFolder){
-            			if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+            		if(null != additional){
+            			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
             				attrValue.append(strValue);
             			}
             		}else{
             			attrValue.append(strValue);
             		}
                 }
-        	}else if (prop.getDefinition().isMultiple()) {
+        	}else if(additional != null && (prop.getName().equals("start") || prop.getName().equals("end") || prop.getName().equals("regOpen") || prop.getName().equals("regClose"))){
+        		String datetimeString = prop.getString();
+				GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+				GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
+				GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
+				GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm:ss a");
+				String dateTime = "";
+				if(additional.equals("date")){
+					dateTime = dtfOutDate.print(dt);
+					attrValue.append(dateTime);
+				}else if(additional.equals("time")){
+					dateTime = dtfOutTime.print(dt);
+					attrValue.append(dateTime);
+				}
+        	}
+        	
+        	
+        	else if (prop.getDefinition().isMultiple()) {
                 attrValue.append('[');
                 Value[] values = prop.getValues();
                 for (int i = 0; i < values.length; i++) {
@@ -571,6 +592,12 @@ public class csv extends SlingAllMethodsServlet {
 										tagFolder = "program-level";
 									}
 									bw.write(csv.format(prop, rr, tagFolder));
+								}
+							}else if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-date") || property.equals("jcr:content/data/regClose-time")){
+								if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+									Property prop = node.getProperty(property.substring(0,property.lastIndexOf("-")));
+									String dateType = property.substring(property.lastIndexOf("-") + 1, property.length());
+									bw.write(csv.format(prop, rr, dateType));
 								}
 							}
 							else if (node.hasProperty(property)) {
