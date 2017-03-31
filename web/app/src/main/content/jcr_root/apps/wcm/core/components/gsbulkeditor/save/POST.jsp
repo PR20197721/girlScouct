@@ -13,7 +13,10 @@
 				 java.util.ArrayList,
 				 javax.jcr.ValueFormatException,
 				 java.util.HashMap,
-				 javax.jcr.Value" %>
+				 javax.jcr.Value,
+				 org.girlscouts.web.events.search.GSDateTime,
+				 org.girlscouts.web.events.search.GSDateTimeFormat,
+				 org.girlscouts.web.events.search.GSDateTimeFormatter" %>
 <%@ page session="false" %>
 <%
 %>
@@ -38,15 +41,14 @@
                     String value = request.getParameter(path);
                     Resource r = resourceResolver.getResource(path);
                     String propertyName = Text.getName(path);
-                    
-                    if(propertyName.endsWith("cq:tags-categories") || propertyName.endsWith("cq:tags-progLevel")){
+                    System.out.println("Prop:" + propertyName);
+                    if(propertyName.equals("cq:tags-categories") || propertyName.equals("cq:tags-progLevel") || propertyName.equals("start-date") || propertyName.equals("start-time") || propertyName.equals("end-date") || propertyName.equals("end-time") || propertyName.equals("regOpen-date") || propertyName.equals("regOpen-time") || propertyName.equals("regClose-date") || propertyName.equals("regClose-time")){
                     	r = resourceResolver.getResource(path.substring(0,path.lastIndexOf("-")));
                     }
-                    
                     String[] values = null;
                     //GS - Create new tags if they didn't exist before
                     TagManager tm = resourceResolver.adaptTo(TagManager.class);
-                    if(propertyName.endsWith("cq:tags")){
+                    if(propertyName.equals("cq:tags")){
                     	String[] tagValues = value.split(";");
                     	ArrayList<String> valueList = new ArrayList<String>();
                     		if(tagValues.length > 0){
@@ -70,7 +72,7 @@
                     		}
                     	}
                     	values = valueList.toArray(new String[0]);
-                    }else if(propertyName.endsWith("cq:tags-categories") || propertyName.endsWith("cq:tags-progLevel")){
+                    }else if(propertyName.equals("cq:tags-categories") || propertyName.equals("cq:tags-progLevel")){
                     	String tagFolder = propertyName.substring(propertyName.lastIndexOf("-")+1,propertyName.length());
 						if(tagFolder.equals("progLevel")){
 							tagFolder = "program-level";
@@ -116,7 +118,27 @@
                     		}
                     	}
                     	values = valueList.toArray(new String[0]);
+                    }else if(propertyName.equals("start-date") || propertyName.equals("end-date") || propertyName.equals("regOpen-date") || propertyName.equals("regClose-date")){
+                    	Property dateProp = r.adaptTo(Property.class);
+                    	String dateString = value;
+                    	String timeString = dateProp.getString().substring(dateProp.getString().indexOf("T"));
+                    	String dateTimeString = dateString + timeString;
+                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
+                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+                    	value = dtfOut.print(dt);
+                    }else if(propertyName.equals("start-time") || propertyName.equals("end-time") || propertyName.equals("regOpen-time") || propertyName.equals("regClose-time")){
+                    	Property dateProp = r.adaptTo(Property.class);
+                    	String datetimeString = dateProp.getString();
+                    	String timeString = value;
+                    	String dateString = dateProp.getString().substring(0, dateProp.getString().indexOf("T"));
+                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
+                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss a Z");
+                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+                    	value = dtfOut.print(dt);
                     }
+
                     if (r == null) {
                         //resource does not exist. 2 cases:
                         // - maybe it is a non existing property? property has to be created
