@@ -1826,7 +1826,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "hidden":  this.showGridOnly,
             "autoEl":"div",
             "autoScroll": true,
-            "height": 280,
+            "height": 350,
             "anchor": "100%",
             "listeners": {
                 "expand": function() {

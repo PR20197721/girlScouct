@@ -63,6 +63,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	} 
 
 	String stringStartDate = properties.get("start","");
+	String regOpenDate = properties.get("regOpen","");
 	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
 	GSLocalDateTime localStartDate = null;
 	

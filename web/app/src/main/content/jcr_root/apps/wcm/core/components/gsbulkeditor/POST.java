@@ -180,6 +180,10 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Start Time","jcr:content/data/start-time")
 	                    			.replaceAll("End Date","jcr:content/data/end-date")
 	                    			.replaceAll("End Time","jcr:content/data/end-time")
+	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
+	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
+	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
+	                    			.replaceAll("Registration Close Time","jcr:content/data/regClose-time")
 	                    			.replaceAll("Region","jcr:content/data/region")
 	                    			.replaceAll("Location Name","jcr:content/data/locationLabel")
 	                    			.replaceAll("Address","jcr:content/data/address")
@@ -190,10 +194,6 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Categories","jcr:content/cq:tags-categories")
 	                    			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
 	                    			.replaceAll("Image","jcr:content/data/image")
-	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
-	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
-	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
-	                    			.replaceAll("Registration Close Time","jcr:content/data/regClose-time")
 	                    			.replaceAll("Program Type","jcr:content/data/progType")
 	                    			.replaceAll("Grades","jcr:content/data/grades")
 	                    			.replaceAll("Girl Fee","jcr:content/data/girlFee")
@@ -400,9 +400,9 @@ public class POST extends SlingAllMethodsServlet {
                         String property = headers.get(i);
                         property = property.trim();
                         String additional = "";
-                        if(property.equals("cq:tags-categories") || property.equals("cq:tags-progLevel") || property.equals("start-date") || property.equals("start-time") || property.equals("end-date") || property.equals("end-time") || property.equals("regOpen-date") || property.equals("regOpen-time") || property.equals("regClose-date") || property.equals("regClose-time")){
-                        	property = property.substring(0,property.lastIndexOf("-"));
+                        if(property.endsWith("cq:tags-categories") || property.endsWith("cq:tags-progLevel") || property.endsWith("start-date") || property.endsWith("start-time") || property.endsWith("end-date") || property.endsWith("end-time") || property.endsWith("regOpen-date") || property.endsWith("regOpen-time") || property.endsWith("regClose-date") || property.endsWith("regClose-time")){
                         	additional = property.substring(property.lastIndexOf("-")+1,property.length());
+                        	property = property.substring(0,property.lastIndexOf("-"));
                         }
                         if(!property.equals(JcrConstants.JCR_PATH)
                                 && !property.equals(JcrConstants.JCR_PRIMARYTYPE) && !property.isEmpty()) {
@@ -445,7 +445,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    	}else if(importType.equals("documents")){
 	                    		if(value != null){
 	                    			String val = value.getString();
-	                    			if(val != null){
+	                    			if(val != null && !"".equals(val)){
 	                    				Node updatedNode = node;
 	                    				if(property.indexOf('/') != -1){
 	        	                            if( property.indexOf('/') != -1) {
@@ -539,7 +539,8 @@ public class POST extends SlingAllMethodsServlet {
 	                    	}else if(importType.equals("events")){
 	                    		if(value != null){
 	                    			String val = value.getString();
-	                    			if(val != null){
+	                    			if(val != null && !"".equals(val)){
+	                    				val = val.replaceAll("\u0092","'");
 	                    				Node updatedNode = node;
 	                    				if(property.indexOf('/') != -1){
 	        	                            if( property.indexOf('/') != -1) {
@@ -562,7 +563,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    					val = val.substring(1,val.length()-1);
 	                    					multiVal = val.split(",");
 	                    				}
-	                    				if(additional.endsWith("cq:tags-categories") || additional.endsWith("cq:tags-progLevel")){
+	                    				if(property.endsWith("cq:tags") && (additional.equals("categories") || additional.equals("progLevel"))){
 	                    					String tagFolder = additional;
 	                						if(tagFolder.equals("progLevel")){
 	                							tagFolder = "program-level";
@@ -575,8 +576,8 @@ public class POST extends SlingAllMethodsServlet {
 	                    					ArrayUtils.removeElement(tags,null);
 	                    					ArrayList<String> tagList = new ArrayList<String>();
 	                    					ArrayList<String> tagPathList = new ArrayList<String>();
-	                    					if(node.hasProperty(property)){
-	                    						Property tagsProp = node.getProperty(property);
+	                    					if(updatedNode.hasProperty(property)){
+	                    						Property tagsProp = updatedNode.getProperty(property);
 	                							Value[] tagsVals = tagsProp.getValues();
 	                							TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
 	                							if(tagsVals.length > 0){
@@ -584,7 +585,7 @@ public class POST extends SlingAllMethodsServlet {
 	                									String existingStr = existing.getString();
 	                									if(tagFolder.equals("program-level")){
 	                										if(existingStr.matches("^.*:" + "categories" + "/.*$")){
-	                        	                    			if(null == tm.resolve(existingStr)){
+	                        	                    			if(null != tm.resolve(existingStr)){
 	                        	                    				Tag existingTag = tm.resolve(existingStr);
 	                        	                    				tagList.add(existingStr);
 	                        	                    				tagPathList.add(existingTag.getPath());
@@ -592,7 +593,7 @@ public class POST extends SlingAllMethodsServlet {
 	                										}
 	                									}else if(tagFolder.equals("categories")){
 	                										if(existingStr.matches("^.*:" + "program-level" + "/.*$")){
-	                        	                    			if(null == tm.resolve(existingStr)){
+	                        	                    			if(null != tm.resolve(existingStr)){
 	                        	                    				Tag existingTag = tm.resolve(existingStr);
 	                        	                    				tagList.add(existingStr);
 	                        	                    				tagPathList.add(existingTag.getPath());
@@ -653,6 +654,61 @@ public class POST extends SlingAllMethodsServlet {
 	        	                            		e.printStackTrace();
 	        	                            	}
 	        	                            }
+	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("date")){
+	                    					if(updatedNode.hasProperty(property)){
+		                                    	try{
+			                    					Property dateProp = updatedNode.getProperty(property);
+			                                    	String dateString = val;
+			                                    	String timeString = dateProp.getString().substring(dateProp.getString().indexOf("T"));
+			                                    	String dateTimeString = dateString + timeString;
+			                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
+			                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+			                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+			                                    	val = dtfOut.print(dt);
+	    	                            			updatedNode.setProperty(property,val);
+	    	                            		}catch(Exception e){
+	    	                            			multiVal = new String[1];
+	    	                            			multiVal[0] = val;
+	    	                            			updatedNode.setProperty(property,multiVal);
+	    	                            		}
+	                    					}else{
+	                    						String dateString = val;
+	                    						String timeString = "T00:00:00.000-05:00";
+		                                    	String dateTimeString = dateString + timeString;
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+    	                            			updatedNode.setProperty(property,val);
+	                    					}
+	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
+	                    					if(updatedNode.hasProperty(property)){
+		                    					Property dateProp = updatedNode.getProperty(property);
+		                                    	String datetimeString = dateProp.getString();
+		                                    	String timeString = val;
+		                                    	String dateString = dateProp.getString().substring(0, dateProp.getString().indexOf("T"));
+		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss a Z");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+		                                    	try{
+	    	                            			updatedNode.setProperty(property,val);
+	    	                            		}catch(Exception e){
+	    	                            			multiVal = new String[1];
+	    	                            			multiVal[0] = val;
+	    	                            			updatedNode.setProperty(property,multiVal);
+	    	                            		}
+	                    					}else{
+	                    						String timeString = val;
+		                                    	String dateString = "2017-01-01";
+		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss a Z");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+		                                    	updatedNode.setProperty(property,val);
+	                    					}
 	                    				}else{
 	        	                            if(updatedNode != null){
 	        	                            	if(multiVal != null){
@@ -670,17 +726,6 @@ public class POST extends SlingAllMethodsServlet {
 	                    				}
 	                    			}
 	                    		}
-	                    	}else{
-	                            Node updatedNode = node;
-	                            if( property.indexOf('/') != -1) {
-	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
-	                                updatedNode = node.getNode(childNodeName);
-	                                property = property.substring(property.lastIndexOf('/') + 1);
-	                            }
-	                            if(updatedNode != null &&
-	                                    updatedNode.getPrimaryNodeType().canSetProperty(property,value)) {
-	                                updatedNode.setProperty(property,value);
-	                            }
 	                        }
                     	}
                     }

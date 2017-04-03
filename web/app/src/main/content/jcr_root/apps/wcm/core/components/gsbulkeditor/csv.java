@@ -337,7 +337,7 @@ public class csv extends SlingAllMethodsServlet {
                 }
         	}else if(additional != null && (prop.getName().equals("start") || prop.getName().equals("end") || prop.getName().equals("regOpen") || prop.getName().equals("regClose"))){
         		String datetimeString = prop.getString();
-				GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+				GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 				GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
 				GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
 				GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm:ss a");

@@ -3,4 +3,4 @@
     jcr:description="Individual Event"
     jcr:primaryType="cq:Component"
     jcr:title="Event"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>

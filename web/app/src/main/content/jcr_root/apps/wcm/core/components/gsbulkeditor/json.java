@@ -357,7 +357,7 @@ public class json extends SlingAllMethodsServlet {
 									if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-date") || property.equals("jcr:content/data/regClose-time")){
 										if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
 											String datetimeString = node.getProperty(property.substring(0,property.lastIndexOf("-"))).getString();
-											GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+											GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 											GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
 											GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
 											GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm:ss a");
