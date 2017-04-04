@@ -160,6 +160,9 @@ public class csv extends SlingAllMethodsServlet {
 	                    		case "jcr:content/data/end-time":
 	                    			property = "End Time";
 	                    			break;
+	                    		case "jcr:content/data/timezone":
+	                    			property = "Time Zone (Only enter if you want timezone to be visible, e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs)";
+	                    			break;
 	                    		case "jcr:content/data/region":
 	                    			property = "Region";
 	                    			break;

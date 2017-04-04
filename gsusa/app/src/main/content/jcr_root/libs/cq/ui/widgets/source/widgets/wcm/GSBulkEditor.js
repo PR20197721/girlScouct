@@ -759,6 +759,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         			modIndex++;
         			modObj.headers[modIndex] = "End Time";
         			modObj.values[modIndex] = "jcr:content/data/end-time";
+        		}else if(colObj.headers[k] == "data/timezone"){
+        			modObj.headers[modIndex] = "Time Zone";
+        			modObj.values[modIndex] = colObj.values[k];
         		}else if(colObj.headers[k] == "data/region"){
         			modObj.headers[modIndex] = "Region";
         			modObj.values[modIndex] = colObj.values[k];

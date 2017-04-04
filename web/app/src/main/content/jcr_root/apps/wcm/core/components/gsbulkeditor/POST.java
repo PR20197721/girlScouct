@@ -180,6 +180,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Start Time","jcr:content/data/start-time")
 	                    			.replaceAll("End Date","jcr:content/data/end-date")
 	                    			.replaceAll("End Time","jcr:content/data/end-time")
+	                    			.replaceAll("Time Zone (Only enter if you want timezone to be visible, e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs)","jcr:content/data/timezone")
 	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
 	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
 	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
@@ -717,6 +718,9 @@ public class POST extends SlingAllMethodsServlet {
 		                                    		e.printStackTrace();
 		                                    	}
 	                    					}
+	                    				}else if(property.equals("timezone")){
+	                    					val = "()(" + val + ")";
+	                    					updatedNode.setProperty(property,val);
 	                    				}else{
 	        	                            if(updatedNode != null){
 	        	                            	if(multiVal != null){

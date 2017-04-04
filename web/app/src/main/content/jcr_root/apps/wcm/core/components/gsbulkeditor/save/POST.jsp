@@ -156,6 +156,8 @@
                         	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
                         	value = dtfOut.print(dt);
                     	}
+                    }else if(propertyName.equals("timezone")){
+                    	value = "()(" + value + ")";
                     }
 
                     if(propertyName.equals("cq:tags-categories") || propertyName.equals("cq:tags-progLevel") || propertyName.equals("start-date") || propertyName.equals("start-time") || propertyName.equals("end-date") || propertyName.equals("end-time") || propertyName.equals("regOpen-date") || propertyName.equals("regOpen-time") || propertyName.equals("regClose-date") || propertyName.equals("regClose-time")){
