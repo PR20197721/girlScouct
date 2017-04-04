@@ -425,6 +425,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", true), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ", true), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE", true), acm, session).getPrivilegeList());
+				//Applies to AUTHORS and REVIEWERS GSWP-898-Update Council Rollout for Page Counter Component
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/pagecounter", "WRITE_MODIFY_REPLICATE_DELETE", false), acm, session).getPrivilegeList());
 			}
 			else if(councilGroup.getID().equals(REVIEWERS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
@@ -433,6 +435,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE", true), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/designs/girlscouts-" + councilName, "READ", true), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", true), acm, session).getPrivilegeList());			
+				//Applies to AUTHORS and REVIEWERS GSWP-898-Update Council Rollout for Page Counter Component
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/pagecounter", "WRITE_MODIFY_REPLICATE_DELETE", false), acm, session).getPrivilegeList());
 			} else if(councilGroup.getID().equals("gs-authors") || councilGroup.getID().equals("gs-reviewers")){
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ", false), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ", false), acm, session).getPrivilegeList());
@@ -546,7 +550,16 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			    map.put("REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE)});
 				map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
 				map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
-			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});			
+			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
+			    map.put("WRITE_MODIFY_REPLICATE_DELETE", new Privilege[]{
+			    		manager.privilegeFromName(Privilege.JCR_WRITE),
+			    		manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), 
+			    		manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), 
+			    		manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), 
+			    		manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), 
+			    		manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), 
+			    		manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT),
+			    		manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
 			} catch (RepositoryException e) {
 				LOG.error("Error occurred while generating privileges in Privilege Map: " + e.toString());
 			}			
@@ -809,32 +822,27 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 */
 	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
 		ArrayList<Page> copyPages = new ArrayList<Page>();
-		final String templateLangPath = templatePath + "/" + languagePath;
-//		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
-		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-		
-		try {			
+		try {		
+			final String templateLangPath = templatePath + "/" + languagePath;
+			final String councilLangPath = councilPath + "/" + languagePath;
+			RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+			RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
 			if (rootNode.hasNode(templateLangPath)) {
 				Resource languageRootRes = rr.resolve(contentPath + "/" + templateLangPath);
 				Iterator<Resource> pageItr = languageRootRes.listChildren();
+				//Iterating through template site top level navigation items
 				while (pageItr.hasNext()) {
 					Resource childRes = pageItr.next();
-					if (childRes.getName().equals("jcr:content")) {
-						
-					} 
-					else {
-						String templatePageName = childRes.getName();
-						Page templatePage = (Page) languageRootRes.getChild(templatePageName).adaptTo(Page.class);
-						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
-						copyPages.add(copyPage);
-						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
-						cancelInheritance(rr, councilPath + "/" + languagePath);
+					if ("cq:Page".equals(childRes.getResourceType())) {
+						Page templatePage = childRes.adaptTo(Page.class);
+						//performing deep copy of a top level nav item from template site to council site
+						Page copyPage = manager.copy(templatePage, councilLangPath + "/" + childRes.getName(), childRes.getName(), false, true);
 						//GSWP-77 c.w.
-						rollout(rr,copyPage);
-						
+						rollout(rr, copyPage, contentPath, templatePath, councilPath, gsConfig);
+						copyPages.add(copyPage);
 					}
 				}
+				cancelInheritance(rr, councilPath + "/" + languagePath);
 			}
 			else {
 				LOG.error(templatePath + " doesn't exist in repository. Cannot create live copies");
@@ -870,17 +878,22 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 *  to trigger the gsreferenceupdate action
 	 * @throws WCMException 
 	 */
-	private void rollout(ResourceResolver rr, Page targetPage) throws WCMException {
-		Iterator<Page> childIter = targetPage.listChildren(null,true);
-		while(childIter.hasNext()){
-			Page child = childIter.next();
-			LiveRelationship relationship = relationshipManager.getLiveRelationship(child.adaptTo(Resource.class), false);
-			if(relationship!=null){
+	private void rollout(ResourceResolver rr, Page copyPage, String contentPath, String templatePath, String councilPath, RolloutConfig gsConfig) throws WCMException {	
+		String copyPagePath = copyPage.getPath();
+		String templatePagePath = copyPagePath.replaceAll(councilPath, templatePath);
+		Page templatePage = rr.resolve(contentPath + "/" + templatePagePath).adaptTo(Page.class);
+		if(templatePage != null){
+			LiveRelationship relationship= relationshipManager.establishRelationship(templatePage, copyPage, true, false, gsConfig);
+			if(relationship != null){
 				rolloutMgr.rollout(rr, relationship, false);
 			}
 		}
-		
+		Iterator<Page> pageItr = copyPage.listChildren();
+		while (pageItr.hasNext()) {
+			rollout(rr, pageItr.next(), contentPath, templatePath, councilPath, gsConfig);
+		}
 	}
+	
 	/**
 	 * Creates the Salesforce Web to Case page with it's form and properties
 	 * @param  languagePath  path to the page's /en directory

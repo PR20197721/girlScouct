@@ -78,7 +78,7 @@ public class SalesforceDAO {
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() + vtlApiUserUri
 				+ "?USER_ID=" + apiConfig.getUserId();
-System.err.println("getUser "+ url);
+
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -110,7 +110,7 @@ System.err.println("getUser "+ url);
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-System.err.println(">>>>> " + rsp);	
+
 					
 					
 			}else{
@@ -382,7 +382,7 @@ System.err.println(">>>>> " + rsp);
 		String vtkApiContactUri = apiConfig.getVtkApiContactUri();
 		String url = apiConfig.getWebServicesUrl() + vtkApiContactUri
 				+ "?troopId=" + sfTroopId;
-System.err.println("trrwwwr: "+ url);		
+		
 		HttpGet method = new HttpGet(url);
 
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
@@ -439,7 +439,7 @@ System.err.println("trrwwwr: "+ url);
 					resp.close();
 				}
 				rsp = "{\"records\":" + rsp + "}";
-System.err.println("Contact Rsp: "+ rsp);	
+
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
@@ -883,7 +883,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				connection = connectionFactory.getConnection();
 				HttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
-System.err.println("test rrt troop rspcode: " + statusCode );	
+	
 				if (statusCode != HttpStatus.SC_OK) {
 					
 					throw new IllegalAccessException();
@@ -898,7 +898,7 @@ System.err.println("test rrt troop rspcode: " + statusCode );
 				String troopJsonFile= vtkDemoPath +"/vtkTroop_"+apiConfig.getDemoUserName()+".json";
 				rsp= readFile(troopJsonFile).toString();
 			}
-System.err.println("test troop: "+ rsp);			
+			
 		troops= troopInfo_parse(user, rsp, apiConfig);
 		
 		} catch (Exception e) {

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.StringBuilder;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -37,6 +38,9 @@ import org.apache.sling.api.scripting.SlingBindings;
 
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
+import com.day.cq.tagging.TagManager;
+import com.day.cq.tagging.Tag;
+import org.apache.sling.api.resource.ResourceResolver;
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
@@ -52,6 +56,8 @@ public class json extends SlingAllMethodsServlet {
 	public static final String QUERY_PARAM = "query";
 	public static final String DEEP_SEARCH_PARAM = "isDeep";
 	public static final String RESOURCE_TYPE_PARAM = "resourceType";
+	public static final String PRIMARY_TYPE_PARAM = "primaryType";
+	public static final String IMPORT_TYPE_PARAM = "importType";
 
 	/**
 	 * Common path prefix
@@ -84,10 +90,11 @@ public class json extends SlingAllMethodsServlet {
 
 			String queryString = request.getParameter(QUERY_PARAM);
 			String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
-			
+			String importType = request.getParameter(IMPORT_TYPE_PARAM);
 			//Girl Scouts Custom Options
 			Boolean isDeep = "true".equals(isDeepString);
 			String resourceType = request.getParameter(RESOURCE_TYPE_PARAM);
+			String primaryType = request.getParameter(PRIMARY_TYPE_PARAM);
 			
 			String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
 
@@ -121,7 +128,7 @@ public class json extends SlingAllMethodsServlet {
 				String[] properties = (tmp != null) ? tmp.split(",") : null;
 
                 
-                iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType);
+                iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 
 				writer.endArray();
 				writer.key("results").value(nbrOfResults);
@@ -186,25 +193,56 @@ public class json extends SlingAllMethodsServlet {
 		}
 
 	}
-	public void writeProperty(TidyJSONWriter writer, String name, Property prop)throws Exception{
+	public void writeProperty(TidyJSONWriter writer, String name, Property prop, ResourceResolver rr)throws Exception{
 		writer.key(encodeString(name));
-		if (prop.getType() != PropertyType.BINARY) {
+		if(name.endsWith("cq:tags")){
+			TagManager tm = rr.adaptTo(TagManager.class);
 			if (prop.getDefinition().isMultiple()) {
-				writer.array();
-				for (Value v : prop.getValues()) {
-					writer.value(v.getString());
+				StringBuilder tagStrBuilder = new StringBuilder();
+				if(prop.getValues().length > 0){
+					for (int i = 0; i < prop.getValues().length; i++){
+						Value v = prop.getValues()[i];
+						Tag t = tm.resolve(v.getString());
+						if(t != null){
+							tagStrBuilder.append(t.getTitle());
+						}else{
+							tagStrBuilder.append(v.getString());
+						}
+						if(i < prop.getValues().length - 1){
+							tagStrBuilder.append(";");
+						}
+					}
+					writer.value(tagStrBuilder.toString());
+				}else{
+					writer.value("");
 				}
-				writer.endArray();
 			} else {
-				writer.value(prop.getString());
+				Tag t = tm.resolve(prop.getString());
+				if(t != null){
+					writer.value(t.getTitle());
+				}else{
+					writer.value(prop.getString());
+				}
 			}
-		} else {
-			writer.value("BINARY");
+		}else{
+			if (prop.getType() != PropertyType.BINARY) {
+				if (prop.getDefinition().isMultiple()) {
+					writer.array();
+					for (Value v : prop.getValues()) {
+						writer.value(v.getString());
+					}
+					writer.endArray();
+				} else {
+					writer.value(prop.getString());
+				}
+			} else {
+				writer.value("BINARY");
+			}
 		}
 	}
 
 
-	public void iterateNodes(String path, long nbrOfResults, TidyJSONWriter writer, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType)
+	public void iterateNodes(String path, long nbrOfResults, TidyJSONWriter writer, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, String importType)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
 		while (iter.hasNext()) {
@@ -217,27 +255,69 @@ public class json extends SlingAllMethodsServlet {
 	        nbrOfResults++;
 	        Node node = iter.nextNode();
 			if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
-	            if(null != resourceType){
-	            	if(node.hasProperty("sling:resourceType")){ 
-	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType)) {
-		    				if(node.hasNodes() && isDeep){
-		    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType);
-		    				}
-		    				continue;
+				Boolean canIterate = false;
+	            if(null != resourceType && null != primaryType){
+	            	if(node.hasProperty("sling:resourceType") && node.hasProperty("jcr:primaryType")){ 
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:primaryType").getString().equals(primaryType)) {
+	            			canIterate = true;
 		            	}
-	            	}else if(node.hasProperty("jcr:content/sling:resourceType")){
-		            	if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)) {
-		    				if(node.hasNodes() && isDeep){
-		    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType);
-		    				}
-	    					continue;
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType") && node.hasProperty("jcr:content/jcr:primaryType")){
+		            	if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)) {
+		            		canIterate = true;
 		            	}
 	            	}else{
-	    				if(node.hasNodes() && isDeep){
-	    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType);
-	    				}
-    					continue;
+	    				canIterate = true;
 	            	}
+	            }else if(null != resourceType){
+	            	if(node.hasProperty("sling:resourceType")){
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType")){
+	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }else if(null != primaryType){
+	            	if(node.hasProperty("jcr:primaryType")){
+	            		if(!node.getProperty("jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/jcr:primaryType")){
+	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }   
+	            if(canIterate){
+    				if(node.hasNodes() && isDeep){
+    					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
+    				}
+    				continue;
+	            }
+	            
+	            if(null != importType){
+		            if(importType.equals("documents")){
+		            	if(!node.hasProperty("jcr:content/metadata/dc:format")){
+		            		continue;
+		            	}else{
+		            		String format = node.getProperty("jcr:content/metadata/dc:format").getString();
+		            		if(!format.equals("application/pdf") 
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		            				&& !format.equals("application/zip")
+		            				&& !format.equals("application/vnd.ms-powerpoint")
+		            				&& !format.equals("application/vnd.ms-excel")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+		            				&& !format.equals("application/msword")
+		            				&& !format.equals("application/vnd.ms-word.document.macroenabled.12")
+		            				&& !format.equals("text/csv")
+		            				&& !format.equals("application/vnd.ms-excel.sheet.macroenabled.12")
+		            				&& !format.equals("text/plain")){
+		            			continue;
+		            		}
+		            	}
+		            }
 	            }
 				writer.object();
 	            //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
@@ -249,7 +329,7 @@ public class json extends SlingAllMethodsServlet {
 							if(decryptedMap.containsKey(property)){
 								writeProperty(writer,property,decryptedMap.get(property));
 							}else if (node.hasProperty(property)) {
-								writeProperty(writer,property,node.getProperty(property));
+								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}
 					}
@@ -257,7 +337,7 @@ public class json extends SlingAllMethodsServlet {
 					if (properties != null) {
 						for (String property : properties) {
 							if (node.hasProperty(property)) {
-								writeProperty(writer,property,node.getProperty(property));
+								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}
 					}
@@ -265,7 +345,7 @@ public class json extends SlingAllMethodsServlet {
 				//Allows optional deep searches
 				writer.endObject();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType);
+					iterateNodes(node.getPath(), nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 				}
 			}
 		}

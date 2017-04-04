@@ -86,13 +86,14 @@ div.wrapper .row:nth-child(2) {
 .accordion.section dt h6 {
   background:none;
   padding: 0;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   color: #000;
   display: block;
   padding: 0.63rem;
-  font-size: 1.13rem;
+  font-size: 18px;
   margin: 0;
+  line-height: 1.4em;  
 }
 .accordion.section dt h6.on {
   color: #fff;
@@ -121,7 +122,7 @@ div.wrapper .row:nth-child(2) {
     padding: 25px 15px 0 15px;
 }
 .accordion.section dd p, .accordion.section dd ol, .accordion.section dd li, .accordion.section dd ul {
-  font-size: 14px;
+  font-size: 16px;
 }
 /*form group*/
 #form .title {

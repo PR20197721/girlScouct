@@ -3,12 +3,13 @@ footer {
     background: $primary-color;
     color: #C1EAD4;
     @media #{$medium-up} {
-      padding-top: rem-calc(40);
+      padding-top: rem-calc(24);
     }
-    padding-bottom: rem-calc(40);
+    padding-bottom: rem-calc(24);
     @include grid-row();
     * {
-      font-size: rem-calc(14);
+      font-size: rem-calc(15);
+      line-height:1.5em;
     }
     .inline-list {
       margin-bottom: 0;
@@ -110,7 +111,7 @@ footer {
         }
         height: auto;
         padding: rem-calc(1  5  0 5);
-        font-size: rem-calc(12);
+        font-size: rem-calc(13);
         margin-bottom: 0;
          @media #{$small-only} {
           width: 75%;

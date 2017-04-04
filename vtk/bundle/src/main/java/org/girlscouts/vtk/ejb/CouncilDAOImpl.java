@@ -664,7 +664,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		        java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
 		        //javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		        String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '"+VtkUtil.getYearPlanBase(null, null)+""+ (limitRptToCouncil.equals("") ? "" : (limitRptToCouncil+"/") ) + "%' and ocm_classname= 'org.girlscouts.vtk.models.Troop'";        
-		System.err.println("SQL rpt xls1241 "+ sql );
+		
 		     try{
    		        session = sessionFactory.getSession();
 		        javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -676,7 +676,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            javax.jcr.query.Row r = it.nextRow();
 
 		            javax.jcr.Node n = r.getNode();
-		   System.err.println("Node: "+ n.getPath());         
+		            
 		            javax.jcr.Node n1 = n.getNode("yearPlan");
 		            String yearPlanName=n1.getProperty("name").getValue().getString();
 		               

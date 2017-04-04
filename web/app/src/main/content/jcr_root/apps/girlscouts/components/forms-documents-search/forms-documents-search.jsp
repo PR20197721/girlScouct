@@ -1,6 +1,8 @@
 <%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
 <%@page import="javax.jcr.query.*,
-                javax.jcr.*" %>
+                javax.jcr.*,
+                com.day.cq.wcm.api.WCMMode,
+				java.util.HashMap" %>
 
 
 <%@include file="/libs/foundation/global.jsp"%>
@@ -86,6 +88,44 @@ if (suffix != null) {
 String formAction = currentPage.getPath()+".html";
 String placeHolder = "Keyword Search";
 
+String damPath = "#";
+if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+	HashMap<String,String> specialCouncils = new HashMap<String,String>();
+	specialCouncils.put("gateway","gateway");
+	specialCouncils.put("girlscoutcsa","southern-appalachian");
+	specialCouncils.put("gsnetx","NE_Texas");
+	specialCouncils.put("girlscoutsnccp","nc-coastal-pines-images-");
+	specialCouncils.put("gswcf","wcf-images");
+	specialCouncils.put("gssem","gssem");
+	specialCouncils.put("gssjc","gssjc");
+	specialCouncils.put("gswestok","gswestok");
+	specialCouncils.put("girlscoutsaz","girlscoutsaz");
+	specialCouncils.put("kansasgirlscouts","kansasgirlscouts");
+	specialCouncils.put("gssnv","gssnv");
+	specialCouncils.put("gswo","gswo");
+	specialCouncils.put("girlscoutsosw","oregon-sw-washington-");
+	specialCouncils.put("gskentuckiana","gskentuckiana");
+	specialCouncils.put("girlscouts-dxp","dxp");
+	specialCouncils.put("gssn","gssn");
+	specialCouncils.put("gsneo","gsneo");
+	specialCouncils.put("usagso","usagso");
+	specialCouncils.put("girlscoutsofcolorado","girlscoutsofcolorado");
+	specialCouncils.put("girlscoutstoday","girlscoutstoday");
+	specialCouncils.put("gsbadgerland","gsbadgerland");
+	specialCouncils.put("girlscoutsoc","girlscoutsoc");
+	specialCouncils.put("gscsnj","gscsnj");
+
+	damPath = "/content/dam/";
+	Page rootPage = homepage.getAbsoluteParent(1);
+	String rootPagePath = rootPage.getPath();
+	String councilName = rootPagePath.substring(rootPagePath.lastIndexOf("/")+1,rootPagePath.length());
+	if(specialCouncils.containsKey(councilName)){
+		damPath = damPath + specialCouncils.get(councilName);
+	}else{
+		damPath = damPath + "girlscouts-" + councilName;
+	}
+}
+
 %>
 <div class="expandable">
 <div class="programLevel">
@@ -143,6 +183,16 @@ try {
         </div>
     </form>
 </div>
+    <%
+    if(WCMMode.fromRequest(request) == WCMMode.EDIT){
+    	String redirectUrl = "/etc/importers/gsbulkeditor.html?rp=" + damPath + "&cv=&cm=true&deep=true&ec=metadata%2Fdc%3Atitle%2Cmetadata%2Fdc%3Adescription%2Cmetadata%2Fcq%3Atags&hib=false&is=true&pt=dam%3AAsset&it=documents";
+    	%>
+    	<div>
+    		<b><a target="_blank" href="<%= redirectUrl %>">Document Bulk Editor</a></b>
+    	</div>
+    	<%
+    }
+    %>
 <% if((q!=null && !q.isEmpty()) ||  (request.getParameterValues("tags") != null)){ %>
 <div class="search">
 <%

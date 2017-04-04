@@ -3,6 +3,8 @@
   background: $bg_breaking_news;
   padding: 0.52083333%;
   text-align: center;
+  font-size: rem-calc(17);
+  line-height: 1.1em;
   & * {color: $white;}
   p {
     // @media #{$medium-up} {

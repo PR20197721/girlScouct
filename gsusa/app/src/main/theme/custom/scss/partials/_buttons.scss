@@ -9,6 +9,8 @@
   }
 }
 .button.arrow {
+    font-size: rem-calc(20);
+    font-weight: 300;
     white-space: nowrap;
     padding-left: rem-calc(10);
     z-index: 2;

@@ -717,7 +717,7 @@ try{
 						"X" + session.getId(), troop.getYearPlan()
 								.getPath());
 			}
-			System.err.println("tata xx");
+			
 			if (isFirst || isCng) {
 				org.girlscouts.vtk.salesforce.Troop prefTroop = null;
 				if (apiConfig.getTroops() != null && apiConfig.getTroops().size() > 0) {

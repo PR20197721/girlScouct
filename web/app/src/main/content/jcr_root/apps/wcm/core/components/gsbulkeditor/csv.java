@@ -42,6 +42,10 @@ import com.day.text.XMLChar;
 
 import apps.wcm.core.components.gsbulkeditor.json;
 
+import com.day.cq.tagging.TagManager;
+import com.day.cq.tagging.Tag;
+import org.apache.sling.api.resource.ResourceResolver;
+
 /**
  * Servers as base for image servlets
  */
@@ -52,6 +56,8 @@ public class csv extends SlingAllMethodsServlet {
     public static final String QUERY_PARAM = "query";
     public static final String DEEP_SEARCH_PARAM = "isDeep";
     public static final String RESOURCE_TYPE_PARAM = "resourceType";
+    public static final String PRIMARY_TYPE_PARAM = "primaryType";
+    public static final String IMPORT_TYPE_PARAM = "importType";
 
     public static final String SEPARATOR_PARAM = "separator";
 
@@ -87,12 +93,15 @@ public class csv extends SlingAllMethodsServlet {
         
 		String isDeepString = request.getParameter(DEEP_SEARCH_PARAM);
 		String resourceTypeString = request.getParameter(RESOURCE_TYPE_PARAM);
+		String primaryTypeString = request.getParameter(PRIMARY_TYPE_PARAM);
+		String importType = request.getParameter(IMPORT_TYPE_PARAM);
 		
 		Boolean isDeep = "true".equals(isDeepString);
 		
         String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
 
-        Session session = request.getResourceResolver().adaptTo(
+        ResourceResolver rr = request.getResourceResolver();
+        Session session = rr.adaptTo(
                 Session.class);
         try {
             // Girl Scouts customization
@@ -112,19 +121,39 @@ public class csv extends SlingAllMethodsServlet {
             //final String separator = (request.getParameter(SEPARATOR_PARAM)!=null ? request.getParameter(SEPARATOR_PARAM) : DEFAULT_SEPARATOR);
             final String separator = DEFAULT_SEPARATOR;
 
-            //bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
+            Boolean includePath = true;
+            if(importType != null){
+            	if(!importType.equals("contacts") && !importType.equals("documents")){
+            		bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
+            	}else{
+            		includePath = false;
+            	}
+            }else{
+            	bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator) + separator);
+            }
             if (properties != null) {
                 for (String property : properties) {
                     property = property.trim();
+                    if(importType != null){
+                    	if(importType.equals("documents")){
+                    		property = property.replaceAll("jcr:content/metadata/dc:title","Title").replaceAll("jcr:content/metadata/dc:description", "Description").replaceAll("jcr:content/metadata/cq:tags","Categories");
+                    	}
+                    }
                     bw.write(csv.valueParser(property, separator) + separator);
                 }
+            }
+            
+            if(importType != null){
+            	if (importType.equals("documents")){
+            		bw.write(csv.valueParser("Path", separator) + separator);
+            	}
             }
 
             bw.newLine();
 
             String path = queryString.split(":")[1];
             
-            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString);
+            iterateNodes(path, separator, bw, properties, session, request, isDeep, resourceTypeString, primaryTypeString, includePath, importType, rr);
 
         } catch (Exception e) {
             throw new ServletException(e);
@@ -154,7 +183,7 @@ public class csv extends SlingAllMethodsServlet {
      * @return the formatted string
      * @throws RepositoryException if a repository error occurs
      */
-    public static String format(Property prop) throws RepositoryException {
+    public static String format(Property prop, ResourceResolver rr) throws RepositoryException {
         StringBuffer attrValue = new StringBuffer();
         int type = prop.getType();
         if (type == PropertyType.BINARY || isAmbiguous(prop)) {
@@ -164,7 +193,38 @@ public class csv extends SlingAllMethodsServlet {
         }
         // only write values for non binaries
         if (prop.getType() != PropertyType.BINARY) {
-            if (prop.getDefinition().isMultiple()) {
+        	if(prop.getName().endsWith("cq:tags")){
+                if (prop.getDefinition().isMultiple()) {
+                    Value[] values = prop.getValues();
+                    for (int i = 0; i < values.length; i++) {
+                        if (i > 0) {
+                            attrValue.append(';');
+                        }
+                        TagManager tm = rr.adaptTo(TagManager.class);
+                        Tag t = tm.resolve(values[i].getString());
+                        String strValue = ValueHelper.serialize(values[i], false);
+                        if(t != null){
+                        	strValue = t.getTitle();
+                        }
+                		if(strValue.contains("\n") || strValue.contains("\r")){
+                			strValue = strValue.replaceAll("(\\r|\\n)", "");
+                		}
+                        attrValue.append(strValue);
+                    }
+                } else {
+                    String strValue = ValueHelper.serialize(prop.getValue(), false);
+                    TagManager tm = rr.adaptTo(TagManager.class);
+                    Tag t = tm.resolve(prop.getValue().getString());
+                    if(t != null){
+                    	strValue = t.getTitle();
+                    }
+            		if(strValue.contains("\n") || strValue.contains("\r")){
+            			strValue = strValue.replaceAll("(\\r|\\n)", "");
+            		}
+                    attrValue.append(strValue);
+                }
+        	}
+        	else if (prop.getDefinition().isMultiple()) {
                 attrValue.append('[');
                 Value[] values = prop.getValues();
                 for (int i = 0; i < values.length; i++) {
@@ -195,6 +255,9 @@ public class csv extends SlingAllMethodsServlet {
             if (strValue.isEmpty()) {
                 strValue = "\"\"";
             }
+    		if(strValue.contains("\n") || strValue.contains("\r")){
+    			strValue = strValue.replaceAll("(\\r|\\n)", "");
+    		}
             return strValue;
         }
         return attrValue.toString();
@@ -222,6 +285,9 @@ public class csv extends SlingAllMethodsServlet {
 		}
 		if (strValue.isEmpty()) {
 			strValue = "\"\"";
+		}
+		if(strValue.contains("\n") || strValue.contains("\r")){
+			strValue = strValue.replaceAll("(\\r|\\n)", "");
 		}
 		return strValue;
 
@@ -279,7 +345,7 @@ public class csv extends SlingAllMethodsServlet {
         UNAMBIGOUS.add("jcr:created");
     }
     
-	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType)
+	public void iterateNodes(String path, String separator, BufferedWriter bw, String[] properties, Session session, SlingHttpServletRequest request, Boolean isDeep, String resourceType, String primaryType, Boolean includePath, String importType, ResourceResolver rr)
 	throws Exception{
 		NodeIterator iter = session.getNode(path).getNodes();
         //while (hits.hasNext()) {
@@ -288,29 +354,85 @@ public class csv extends SlingAllMethodsServlet {
             //Row hit = hits.nextRow();
             //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
             if (node != null && (!isDeep || (isDeep && !node.getPath().endsWith("jcr:content")))) {
-            	if(null != resourceType){
-            		if(node.hasProperty("sling:resourceType")){
-            			if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
-            				if(node.hasNodes() && isDeep){
-            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-            				}
-            				continue;
-            			}
-            		}else if(node.hasProperty("jcr:content/sling:resourceType")){
-            			if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
-            				if(node.hasNodes() && isDeep){
-            					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-            				}
-            				continue;
-            			}
-            		}else{
-        				if(node.hasNodes() && isDeep){
-        					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
-        				}
-        				continue;
-            		}
-            	}
-                //bw.write(csv.valueParser(node.getPath(), separator));
+				Boolean canIterate = false;
+	            if(null != resourceType && null != primaryType){
+	            	if(node.hasProperty("sling:resourceType") && node.hasProperty("jcr:primaryType")){ 
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:primaryType").getString().equals(primaryType)) {
+	            			canIterate = true;
+		            	}
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType") && node.hasProperty("jcr:content/jcr:primaryType")){
+		            	if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType) && !node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)) {
+		            		canIterate = true;
+		            	}
+	            	}else{
+	    				canIterate = true;
+	            	}
+	            }else if(null != resourceType){
+	            	if(node.hasProperty("sling:resourceType")){
+	            		if(!node.getProperty("sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/sling:resourceType")){
+	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }else if(null != primaryType){
+	            	if(node.hasProperty("jcr:primaryType")){
+	            		if(!node.getProperty("jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}else if(node.hasProperty("jcr:content/jcr:primaryType")){
+	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
+	            			canIterate = true;
+	            		}
+	            	}
+	            }   
+	            if(canIterate){
+    				if(node.hasNodes() && isDeep){
+    					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType, rr);
+    				}
+    				continue;
+	            }
+	            
+	            if(null != importType){
+		            if(importType.equals("documents")){
+		            	if(!node.hasProperty("jcr:content/metadata/dc:format")){
+		            		continue;
+		            	}else{
+		            		String format = node.getProperty("jcr:content/metadata/dc:format").getString();
+		            		if(!format.equals("application/pdf") 
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+		            				&& !format.equals("application/zip")
+		            				&& !format.equals("application/vnd.ms-powerpoint")
+		            				&& !format.equals("application/vnd.ms-excel")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.presentationml.presentation")
+		            				&& !format.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+		            				&& !format.equals("application/msword")
+		            				&& !format.equals("application/vnd.ms-word.document.macroenabled.12")
+		            				&& !format.equals("text/csv")
+		            				&& !format.equals("application/vnd.ms-excel.sheet.macroenabled.12")
+		            				&& !format.equals("text/plain")){
+		            			continue;
+		            		}
+		            	}
+		            }
+	            }
+	            
+	            if(null != importType){
+	            	if(!importType.equals("documents")){
+	    	            if(includePath){
+	    	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	    	            }
+	            	}else{
+	    	            if(includePath){
+	    	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	    	            }
+	            	}
+	            }
+	            else if(includePath){
+	            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+	            }
 				if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
 					Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
 					if (properties != null) {
@@ -321,7 +443,7 @@ public class csv extends SlingAllMethodsServlet {
 								bw.write(csv.format(values));
 							}else if (node.hasProperty(property)) {
 								Property prop = node.getProperty(property);
-								bw.write(csv.format(prop));
+								bw.write(csv.format(prop, rr));
 							}
 							bw.write(separator);
 						}
@@ -332,15 +454,21 @@ public class csv extends SlingAllMethodsServlet {
 							property = property.trim();
 							if (node.hasProperty(property)) {
 								Property prop = node.getProperty(property);
-								bw.write(csv.format(prop));
+								bw.write(csv.format(prop, rr));
 							}
 							bw.write(separator);
 						}
 					}
 				}
+				
+				if(null != importType){
+		            if(importType.equals("documents")){
+		            	bw.write(csv.valueParser(node.getPath(), separator) + separator);
+		            }
+				}
                 bw.newLine();
 				if(node.hasNodes() && isDeep){
-					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType);
+					iterateNodes(node.getPath(), separator, bw, properties, session, request, isDeep, resourceType, primaryType, includePath, importType, rr);
 				}
             }
         }

@@ -137,9 +137,12 @@ $secondary-color: #FAA61A; //orange
 // We use these to control various global styles
 $body-bg: #FFFFFF;
 // $body-font-color: $jet;
-$body-font-family: "Open Sans", Arial, sans-serif;
+$body-font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
+
+// Special exception for Nav font to address font jumping issue
+$nav-font-family: "Trefoil Sans Web Nav", "Open Sans", Arial, sans-serif;
 
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
@@ -233,7 +236,7 @@ $include-html-type-classes: $include-html-classes;
 // We use these to control header font sizes
 //$h1-font-size: rem-calc(44);
 $h2-font-size: rem-calc(38);
-$h3-font-size: rem-calc(26);
+$h3-font-size: rem-calc(28);
 // $h4-font-size: rem-calc(23);
 // $h5-font-size: rem-calc(18);
 // $h6-font-size: 1rem;

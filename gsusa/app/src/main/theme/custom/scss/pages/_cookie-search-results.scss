@@ -8,7 +8,7 @@
     }
   }
   p {
-    font-size: rem-calc(14);
+    font-size: rem-calc(17);
   }
   .sort-form {
     margin-top: rem-calc(30);
@@ -23,18 +23,18 @@
         display: inline;
         margin-right: rem-calc(10);
       }
-      font-size: rem-calc(14);
+      font-size: rem-calc(15);
     }
     select {
       margin: 0 0 1rem 0;
       display: inline;
       width: 90%;
       @media #{$medium-up} {
-        width: 62%;
+        width: 57%;
       }
-      font-size: rem-calc(14);
+      font-size: rem-calc(15);
       height: auto;
-      padding:rem-calc(4 5);
+      padding:rem-calc(4 1);
     }
   }
   .row.headers,

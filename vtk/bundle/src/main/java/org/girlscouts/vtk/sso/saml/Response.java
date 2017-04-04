@@ -55,7 +55,7 @@ public class Response {
 		byte[] decodedB = base64.decode(response);
 		String decodedS = new String(decodedB);
 		
-System.err.println("test:"+ decodedS);
+
 	xmlDoc = Utils.loadXML(decodedS);
 
 		
@@ -65,7 +65,7 @@ System.err.println("test:"+ decodedS);
 	public boolean isValid(){
 		try{
 		
-	System.err.println("test saml: "+ xmlDoc);
+	
 			// Security Checks
 			rootElement = xmlDoc.getDocumentElement();		
 			assertions = xmlDoc.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "Assertion");		
@@ -117,11 +117,11 @@ System.err.println("test:"+ decodedS);
 			boolean validSubjectConfirmation = true;
 			for(int i = 0; i < nodeSubConf.getLength(); i++){
 				Node method = nodeSubConf.item(i).getAttributes().getNamedItem("Method");			
-System.err.println(1);				
+			
 				if(method != null && !method.getNodeValue().equals("urn:oasis:names:tc:SAML:2.0:cm:bearer")){
 					continue;
 				}
-System.err.println(2);				
+				
 				NodeList childs = nodeSubConf.item(i).getChildNodes();			
 				for(int c = 0; c < childs.getLength(); c++){				
 					if(childs.item(c).getLocalName().equals("SubjectConfirmationData")){
@@ -131,9 +131,9 @@ System.err.println(2);
 	//					}
 						Node recipient = childs.item(c).getAttributes().getNamedItem("Recipient");					
 						if(recipient != null && !recipient.getNodeValue().equals(currentUrl)){
-							System.err.println(3);	
+							
 							validSubjectConfirmation = false;
-							System.err.println(4);			
+									
 						}
 						Node notOnOrAfter = childs.item(c).getAttributes().getNamedItem("NotOnOrAfter");
 						if(notOnOrAfter != null){						
@@ -144,9 +144,9 @@ System.err.println(2);
 							now.add(java.util.Calendar.MINUTE, -99);
 							
 							if(notOnOrAfterDate.before(now)){
-								System.err.println(5);	
+									
 								validSubjectConfirmation = false;
-								System.err.println(6);	
+									
 							}
 						}
 						Node notBefore = childs.item(c).getAttributes().getNamedItem("NotBefore");
@@ -154,9 +154,9 @@ System.err.println(2);
 							final Calendar notBeforeDate = javax.xml.bind.DatatypeConverter.parseDateTime(notBefore.getNodeValue());
 							Calendar now = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 							if(notBeforeDate.before(now)){
-								System.err.println(7);	
+								
 								validSubjectConfirmation = false;
-								System.err.println(8);	
+									
 							}
 						}
 					}
@@ -179,7 +179,7 @@ System.err.println(2);
 			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");	
 	
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-			System.err.println(9);	
+				
 			return xmlSignature.validate(ctx); 
 			//return true;
 		}catch (Error e) {
@@ -316,39 +316,5 @@ public String getUserId() throws Exception {
 	
 
 
-/*
-private static Element signSamlElement(Element element,PrivateKey privKey,PublicKey pubKey){
-	  try {
-	    final String providerName=System.getProperty("jsr105Provider",JSR_105_PROVIDER);
-	    final XMLSignatureFactory sigFactory=XMLSignatureFactory.getInstance("DOM",(Provider)Class.forName(providerName).newInstance());
-	    final List envelopedTransform=Collections.singletonList(sigFactory.newTransform(Transform.ENVELOPED,(TransformParameterSpec)null));
-	    final Reference ref=sigFactory.newReference("",sigFactory.newDigestMethod(DigestMethod.SHA1,null),envelopedTransform,null,null);
-	    SignatureMethod signatureMethod;
-	    if (pubKey instanceof DSAPublicKey) {
-	      signatureMethod=sigFactory.newSignatureMethod(SignatureMethod.DSA_SHA1,null);
-	    }
-	 else     if (pubKey instanceof RSAPublicKey) {
-	      signatureMethod=sigFactory.newSignatureMethod(SignatureMethod.RSA_SHA1,null);
-	    }
-	 else {
-	      throw new RuntimeException("Error signing SAML element: Unsupported type of key");
-	    }
-	    final CanonicalizationMethod canonicalizationMethod=sigFactory.newCanonicalizationMethod(CanonicalizationMethod.INCLUSIVE_WITH_COMMENTS,(C14NMethodParameterSpec)null);
-	    final SignedInfo signedInfo=sigFactory.newSignedInfo(canonicalizationMethod,signatureMethod,Collections.singletonList(ref));
-	    final KeyInfoFactory keyInfoFactory=sigFactory.getKeyInfoFactory();
-	    final KeyValue keyValuePair=keyInfoFactory.newKeyValue(pubKey);
-	    final KeyInfo keyInfo=keyInfoFactory.newKeyInfo(Collections.singletonList(keyValuePair));
-	    org.w3c.dom.Element w3cElement=toDom(element);
-	    DOMSignContext dsc=new DOMSignContext(privKey,w3cElement);
-	    org.w3c.dom.Node xmlSigInsertionPoint=getXmlSignatureInsertLocation(w3cElement);
-	    dsc.setNextSibling(xmlSigInsertionPoint);
-	    XMLSignature signature=sigFactory.newXMLSignature(signedInfo,keyInfo);
-	    signature.sign(dsc);
-	    return toJdom(w3cElement);
-	  }
-	 catch (  final Exception e) {
-	    throw new RuntimeException("Error signing SAML element: " + e.getMessage(),e);
-	  }
-	}
-	*/
+
 }
