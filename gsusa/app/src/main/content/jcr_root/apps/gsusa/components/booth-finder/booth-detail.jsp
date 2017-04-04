@@ -104,7 +104,7 @@ try {
                 <h5>Date and Time:</h5>
                 <p><%= dateStart %></p>
 <script>
-	$.getJSON("/cookiesapi/booth_list_detail.asp?d=<%= request.getParameter("DateStart") %>&l=<%= request.getParameter("Location") %>&a1=<%= request.getParameter("Address1") %>&a2=<%= request.getParameter("Address2") %>&z=<%= request.getParameter("ZipCode") %>", function(data, textStatus, jqXHR){
+	$.getJSON("/cookiesapi/booth_list_detail.asp?d=<%= request.getParameter("DateStart") %>&l=<%= URLEncoder.encode(request.getParameter("Location")) %>&a1=<%= URLEncoder.encode(request.getParameter("Address1")) %>&a2=<%= URLEncoder.encode(request.getParameter("Address2")) %>&z=<%= URLEncoder.encode(request.getParameter("ZipCode")) %>", function(data, textStatus, jqXHR){
 		var timeslotOutput = '';
 		for(var i = 0; i < data.TimeSlots.length; i++){
 			//alert(data.TimeSlots[i].TroopName+' '+data.TimeSlots[i].TimeOpen);
