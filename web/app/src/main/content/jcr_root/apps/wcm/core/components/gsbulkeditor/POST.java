@@ -673,13 +673,17 @@ public class POST extends SlingAllMethodsServlet {
 	    	                            		}
 	                    					}else{
 	                    						String dateString = val;
-	                    						String timeString = "T00:00:00.000-05:00";
+	                    						String timeString = "T00:00:00.000";
 		                                    	String dateTimeString = dateString + timeString;
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSS");
 		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
 		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 		                                    	val = dtfOut.print(dt);
-    	                            			updatedNode.setProperty(property,val);
+		                                    	try{
+		                                    		updatedNode.setProperty(property,val);
+		                                    	}catch(Exception e){
+		                                    		e.printStackTrace();
+		                                    	}
 	                    					}
 	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
 	                    					if(updatedNode.hasProperty(property)){
@@ -687,8 +691,8 @@ public class POST extends SlingAllMethodsServlet {
 		                                    	String datetimeString = dateProp.getString();
 		                                    	String timeString = val;
 		                                    	String dateString = dateProp.getString().substring(0, dateProp.getString().indexOf("T"));
-		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss a Z");
+		                                    	String dateTimeString = dateString + "T" + timeString;
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a");
 		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
 		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 		                                    	val = dtfOut.print(dt);
@@ -703,11 +707,15 @@ public class POST extends SlingAllMethodsServlet {
 	                    						String timeString = val;
 		                                    	String dateString = "2017-01-01";
 		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
-		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm:ss a Z");
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a Z");
 		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
 		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 		                                    	val = dtfOut.print(dt);
-		                                    	updatedNode.setProperty(property,val);
+		                                    	try{
+		                                    		updatedNode.setProperty(property,val);
+		                                    	}catch(Exception e){
+		                                    		e.printStackTrace();
+		                                    	}
 	                    					}
 	                    				}else{
 	        	                            if(updatedNode != null){

@@ -340,7 +340,7 @@ public class csv extends SlingAllMethodsServlet {
 				GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 				GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
 				GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
-				GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm:ss a");
+				GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm a");
 				String dateTime = "";
 				if(additional.equals("date")){
 					dateTime = dtfOutDate.print(dt);
