@@ -150,6 +150,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 	public static final String DEFAULT_REPL_CHAR = "_";
 	
 	private StringBuilder errorString;
+	private boolean processInterrupted;
 
 	private String server, user, password, directory, salesforcePath;
 	//keep track of the latest time stamp of import.
@@ -175,7 +176,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (LoginException e) {
 			e.printStackTrace();
 		}
-		
+		processInterrupted = false;
 		errorString = new StringBuilder();
 		readTimeStamp();
 		resetDate();
@@ -197,6 +198,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (Exception e) {
 			errorString.append("Failed to read: " + CONFIG_PATH);
 			errorString.append('\n');
+			errorString.append('\n');
 			log.error("Fail to read " + CONFIG_PATH);
 		}
 	}
@@ -211,6 +213,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			log.info("lastUpdated " + ZIP_DATE_FORMAT.format(lastUpdated)+"written to "+CONFIG_PATH);
 		} catch (Exception e) {
 			errorString.append("Failed to store the timestamp");
+			errorString.append('\n');
 			errorString.append('\n');
 			log.error("Fail to store the timeStamp.");
 			e.printStackTrace();
@@ -252,6 +255,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					}catch(ParseException e){
 						errorString.append("Failed to read date is zipfile: " + zipName);
 						errorString.append('\n');
+						errorString.append('\n');
 						log.error("Fail to read date in the zip name: "+zipName, e);
 					}
 				}
@@ -280,6 +284,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}else{
 			errorString.append("Unable to find the event file directory " + directory + " on the server");
 			errorString.append('\n');
+			errorString.append('\n');
+			processInterrupted = true;
 			log.error("Not able to find the directory /"+directory+" on the server");
 		}
 
@@ -291,6 +297,8 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		if (input == null) {
 			errorString.append("Cannot open data connection when reading zip: " + zipName);
 			errorString.append('\n');
+			errorString.append('\n');
+			processInterrupted = true;
 			throw new GirlScoutsException(null, "data connection cannot be opened.");
 		}
 		try {
@@ -352,6 +360,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		} catch (Exception e) {
 			errorString.append("Error: "+e.getMessage()+" while reading file:"+zipName);
 			errorString.append('\n');
+			errorString.append('\n');
 			throw new GirlScoutsException(e, "Error reading file:"+zipName);
 		} finally {
 			if (!ftp.completePendingCommand()) {
@@ -375,6 +384,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			} catch (Exception e) {
 				errorString.append("Failed to put payload due to error: " + e.getMessage());
 				errorString.append('\n');
+				errorString.append('\n');
 				log.error(e.getMessage());
 				throw new GirlScoutsException(e, "Fail to PUT the payload: "+payload);
 			}
@@ -383,6 +393,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				replicateNode(newPath, toActivate);
 			} catch (Exception e) {
 				errorString.append("Unable to activate node" + newPath + " on the server");
+				errorString.append('\n');
 				errorString.append('\n');
 				throw new GirlScoutsException(e, "Fail to ACTIVIATE the Node from author with path: " + newPath);
 			}
@@ -663,28 +674,34 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			} else {
 				errorString.append("Unable to login to FTP"); 
 				errorString.append('\n');
+				errorString.append('\n');
+				processInterrupted = true;
 				throw new GirlScoutsException(null, "ftpLogin() return false. Failed to login."); 
 			}
 		} catch(IOException e) {
 			errorString.append("Unable to connect to the FTP server due to error: " + e.getMessage());
 			errorString.append('\n');
+			errorString.append('\n');
+			processInterrupted = true;
 			e.printStackTrace();
 			log.error("IOException caught during access to FTP server",e);
 			//e.printStackTrace();
 		} catch(Exception e) {
 			errorString.append("Unable to connect to the FTP server due to error: " + e.getMessage());
 			errorString.append('\n');
+			errorString.append('\n');
+			processInterrupted = true;
 			log.error("Exception caught during access to FTP server",e);
 			//e.printStackTrace();
 		} finally {
 			try {
 
-				if (messageGatewayService != null && null != errorString && !errorString.toString().isEmpty()) {
+				if (messageGatewayService != null && null != errorString && !errorString.toString().isEmpty() && processInterrupted) {
 					MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 							.getGateway(HtmlEmail.class);
 					HtmlEmail email = new HtmlEmail();
 					ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-					email.setSubject("Activities Synced Through Automatic Process");
+					email.setSubject("Actvity Syncing Failed Due To Error");
 					try {
 
 						emailRecipients
