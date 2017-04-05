@@ -1,4 +1,4 @@
-<%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/libs/foundation/global.jsp"%>
 <%@page import="org.apache.sling.commons.json.*,
 				java.io.*,
 				java.util.regex.*,
@@ -7,7 +7,7 @@
 				org.apache.sling.api.request.RequestDispatcherOptions,
                 com.day.cq.wcm.api.components.IncludeOptions,
                 org.apache.sling.jcr.api.SlingRepository,
-                com.day.cq.wcm.api.WCMMode" %>
+                com.day.cq.wcm.api.WCMMode"%>
 
 <%!
 public String extractYTId(String ytUrl) {
@@ -54,7 +54,7 @@ public void addVideoNode(String videoPath, String videoName) {
 
     }
     %>
-    <%
+<%
     String videoType50 = properties.get("videoType50", "");
     String videoType51 = properties.get("videoType51", "");
     String videoType52 = properties.get("videoType52", "");
@@ -124,45 +124,45 @@ for (int i = 0 ; i < 4; i++ ){
 }
 
 if(videoThumbNail[0] == null && WCMMode.fromRequest(request) == WCMMode.EDIT){
-	%> It looks like you're missing content here. Please edit this component. <%
+	%>
+It looks like you're missing content here. Please edit this component.
+<%
 }
 %>
 <div class="feature-video-slider">
-    <div class="slide-5">
-    <%
+	<div class="slide-5">
+		<%
     	for (int i = 0 ; i < 4; i++) {
     		count++;
     		if ("link".equals(videoType5[i])) {
     %>
-			<div>
-				<div class="video-wrapper">
-					<div class="video-embed">
-							<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-							<%= embeded[i] %>
-					</div>
+		<div>
+			<div class="video-wrapper">
+				<div class="video-embed">
+					<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb" />
+					<%= embeded[i] %>
 				</div>
 			</div>
-<%
+		</div>
+		<%
     		} else if ("path".equals(videoType5[i])) {
     %>
-			<div>
-				<div class="video-wrapper">
-					<div class="video-embed">
-						<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb"/>
-						<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
-					</div>
+		<div>
+			<div class="video-wrapper">
+				<div class="video-embed">
+					<img src="<%= videoThumbNail[i]%>" alt="" class="slide-thumb" />
+					<cq:include path="<%=vidNames[i] %>" resourceType="gsusa/components/video" />
 				</div>
 			</div>
-    <%
+		</div>
+		<%
     		} else {
     			count--;
     		}
     	}
     %>
-    </div>
+	</div>
 </div>
 <% if(count == 1 && WCMMode.fromRequest(request) == WCMMode.EDIT){ %>
-<div>
-Right-click here to edit
-</div>
+<div>Right-click here to edit</div>
 <% } %>
