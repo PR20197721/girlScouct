@@ -16,7 +16,8 @@
 				 javax.jcr.Value,
 				 org.girlscouts.web.events.search.GSDateTime,
 				 org.girlscouts.web.events.search.GSDateTimeFormat,
-				 org.girlscouts.web.events.search.GSDateTimeFormatter" %>
+				 org.girlscouts.web.events.search.GSDateTimeFormatter,
+				 org.girlscouts.web.events.search.GSDateTimeZone" %>
 <%@ page session="false" %>
 <%
 %>
@@ -158,6 +159,68 @@
                     	}
                     }else if(propertyName.equals("timezone")){
                     	value = "()(" + value + ")";
+                    	String rowPath = Text.getRelativeParent(path, 1);
+                        Resource rowResource = resourceResolver.getResource(rowPath);
+                        if (rowResource != null) {
+                            //add property to node
+                            Node updatedNode = rowResource.adaptTo(Node.class);
+                            if(updatedNode != null ) {
+		    					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		    					GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
+		    					if(updatedNode.hasProperty("start")){
+		    						try{
+		    							String startDate = updatedNode.getProperty("start").getString();
+		    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+		    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+		    						    startDateTime = startDateTime.withZone(dtz);
+		    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+		    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+		    						    updatedNode.setProperty("start",startDate);
+		    						}catch(Exception e){
+		    							e.printStackTrace();
+		    						}
+		    					}
+		    					if(updatedNode.hasProperty("end")){
+		    						try{
+		    							String startDate = updatedNode.getProperty("end").getString();
+		    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+		    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+		    						    startDateTime = startDateTime.withZone(dtz);
+		    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+		    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+		    						    updatedNode.setProperty("end",startDate);
+		    						}catch(Exception e){
+		    							e.printStackTrace();
+		    						}
+		    					}
+		    					if(updatedNode.hasProperty("regOpen")){
+		    						try{
+		    							String startDate = updatedNode.getProperty("regOpen").getString();
+		    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+		    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+		    						    startDateTime = startDateTime.withZone(dtz);
+		    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+		    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+		    						    updatedNode.setProperty("regOpen",startDate);
+		    						}catch(Exception e){
+		    							e.printStackTrace();
+		    						}
+		    					}
+		    					if(updatedNode.hasProperty("regClose")){
+		    						try{
+		    							String startDate = updatedNode.getProperty("regClose").getString();
+		    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+		    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+		    						    startDateTime = startDateTime.withZone(dtz);
+		    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+		    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+		    						    updatedNode.setProperty("regClose",startDate);
+		    						}catch(Exception e){
+		    							e.printStackTrace();
+		    						}
+		    					}
+                            }
+                        }
                     }
 
                     if(propertyName.equals("cq:tags-categories") || propertyName.equals("cq:tags-progLevel") || propertyName.equals("start-date") || propertyName.equals("start-time") || propertyName.equals("end-date") || propertyName.equals("end-time") || propertyName.equals("regOpen-date") || propertyName.equals("regOpen-time") || propertyName.equals("regClose-date") || propertyName.equals("regClose-time")){

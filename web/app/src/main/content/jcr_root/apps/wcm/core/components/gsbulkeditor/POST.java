@@ -60,6 +60,8 @@ import java.io.PrintWriter;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 
+import org.girlscouts.web.events.search.*;
+
 /**
  * Servers as base for image servlets
  */
@@ -180,7 +182,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Start Time","jcr:content/data/start-time")
 	                    			.replaceAll("End Date","jcr:content/data/end-date")
 	                    			.replaceAll("End Time","jcr:content/data/end-time")
-	                    			.replaceAll("Time Zone (Only enter if you want timezone to be visible, e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs)","jcr:content/data/timezone")
+	                    			.replaceAll("Time Zone \\(Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs\\)","jcr:content/data/timezone")
 	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
 	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
 	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
@@ -719,8 +721,61 @@ public class POST extends SlingAllMethodsServlet {
 		                                    	}
 	                    					}
 	                    				}else if(property.equals("timezone")){
-	                    					val = "()(" + val + ")";
-	                    					updatedNode.setProperty(property,val);
+	                    					updatedNode.setProperty(property,"()(" + val + ")");
+	                    					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+	                    					GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
+	                    					if(updatedNode.hasProperty("start")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("start").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("start",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("end")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("end").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("end",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("regOpen")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("regOpen").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("regOpen",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("regClose")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("regClose").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("regClose",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
 	                    				}else{
 	        	                            if(updatedNode != null){
 	        	                            	if(multiVal != null){

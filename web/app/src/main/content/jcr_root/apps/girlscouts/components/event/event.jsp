@@ -161,8 +161,8 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
 		if(dtz != null){
 			regCloseDate = regCloseDate.withZone(dtz);
-			regCloseDateStr = dtfOutDate.print(endDate);
-			regCloseTimeStr = dtfOutTime.print(endDate);
+			regCloseDateStr = dtfOutDate.print(regCloseDate);
+			regCloseTimeStr = dtfOutTime.print(regCloseDate);
 		}else{
 			localRegCloseDate = GSLocalDateTime.parse(properties.get("regClose",""),dtfIn);
 			regCloseDateStr = dtfOutDate.print(localRegCloseDate);

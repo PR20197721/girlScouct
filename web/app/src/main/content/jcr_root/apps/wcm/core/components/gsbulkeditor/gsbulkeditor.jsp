@@ -124,6 +124,8 @@
         Boolean hideYear = getBoolean(request,"hideYear","hy");
         String year = getString(request,"year","yr");
         		
+        Boolean hideResults = getBoolean(request,"hideResults","hr");
+        		
         //mandatory default values
         if (colsSelection == null) {
             colsSelection = new String[]{"sling:resourceType", "jcr:title", "cq:lastModified", "subtitle", "text"};
@@ -190,6 +192,7 @@
         bulkEditorConfig.put("hidePathCol",hidePathCol);
         bulkEditorConfig.put("hideYear",hideYear);
         bulkEditorConfig.put("year",year);
+        bulkEditorConfig.put("hideResults",hideResults);
     %>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 </head>

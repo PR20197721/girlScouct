@@ -72,6 +72,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      */
     hideYear: true,
     year: null,
+    hideResults: false,
 
     /**
      * @cfg {String[]} colsSelection
@@ -347,6 +348,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             this.hideExtraCols = true;
             this.hideResourceType = true;
             this.hideYear = true;
+            this.hideResults = false;
             this.hidePrimaryType = true;
             this.hideSearchButton = true;
             //allow to override the grid button configs per initial config
@@ -365,6 +367,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         this.hideExtraCols = this.toBoolean(this.hideExtraCols);
         this.hideResourceType = this.toBoolean(this.hideResourceType);
         this.hideYear = this.toBoolean(this.hideYear);
+        this.hideResults = this.toBoolean(this.hideResults);
         this.hidePrimaryType = this.toBoolean(this.hidePrimaryType);
         this.hideSearchButton = this.toBoolean(this.hideSearchButton);
         this.hideImportButton = this.toBoolean(this.hideImportButton);
@@ -569,8 +572,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     },
 
     initGridPanel: function() {
-        this.loadGrid(false);
-        this.add(this.gridEditor);
+	        this.loadGrid(false);
+	        this.add(this.gridEditor);
     },
 
     initializeCheckboxSelection:function() {
@@ -2136,7 +2139,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "cm": this.getColumnModel(),
             "sm": rsm,
             "clicksToEdit":2,
-            "height": 370,
+            "height": !this.hideResults ? 370 : 0,
             "stateful": false,
             "border": true,
             "plugins": this.gridPlugins,

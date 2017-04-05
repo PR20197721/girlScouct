@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -161,7 +163,7 @@ public class csv extends SlingAllMethodsServlet {
 	                    			property = "End Time";
 	                    			break;
 	                    		case "jcr:content/data/timezone":
-	                    			property = "Time Zone (Only enter if you want timezone to be visible, e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs)";
+	                    			property = "Time Zone (Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs)";
 	                    			break;
 	                    		case "jcr:content/data/region":
 	                    			property = "Region";
@@ -352,6 +354,14 @@ public class csv extends SlingAllMethodsServlet {
 					dateTime = dtfOutTime.print(dt);
 					attrValue.append(dateTime);
 				}
+        	}else if(prop.getName().equals("timezone")){
+        		Pattern p = Pattern.compile("^\\(.*\\).*\\((.*)\\)$");
+        		Matcher m = p.matcher(prop.getString());
+        		if(m.matches()){
+        			attrValue.append(m.group(1));
+        		}else{
+        			attrValue.append(prop.getString());
+        		}
         	}
         	
         	
