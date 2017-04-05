@@ -123,8 +123,8 @@ try {
         <section>
             <div id="map"></div>
             <ul class="inline-list">
-            	<li><div>
-            		<a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;"></a>
+            	<li><div style="margin-top:5px">
+            		<a class="icon-social-facebook" onclick="postToFeed<%= uniqueID %>(); return false;" style="margin-right:-6px"></a>
 					<a class="icon-social-twitter-tweet-bird" target="_blank" href="https://twitter.com/share?text=<%=tweet%>"></a>
 				</div></li>
 				<li><div id="toolbox" class="addthis_toolbox addthis_default_style addthis_32x32_style" addthis:title="Cookies are here." addthis:description="I found mine. Now find yours. Girl Scout Cookies are in your neighborhood!">
