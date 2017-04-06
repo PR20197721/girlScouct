@@ -24,6 +24,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
+import javax.jcr.Value;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.net.ftp.FTP;
@@ -62,9 +63,6 @@ import com.day.cq.wcm.api.WCMException;
 
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.web.exception.GirlScoutsException;
-
-import src.main.java.org.girlscouts.cq.workflow.String;
-import src.main.java.org.girlscouts.cq.workflow.Value;
 
 @Component(
 		metatype = true, 
@@ -288,30 +286,30 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					log.info("JSON Length " + jsonString.length());
 					JSONArray jsonArray = new JSONArray(jsonString);
 					
-			        Resource gsPagesRes = resourceResolver.resolve("/etc/gs-delayed-activations");
+					Resource etcRes = rr.resolve("/etc");
+					Node etcNode = etcRes.adaptTo(Node.class);
+			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
 			        Node gsPagesNode = null;
 			        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
 						gsPagesNode = etcNode.addNode("gs-delayed-activations");
 			        }else{
 				        gsPagesNode = gsPagesRes.adaptTo(Node.class);
 			        }
-			        
+			        ArrayList<String> toActivate = new ArrayList<String>();
         	    	String [] pagesProp;
         	    	
         	    	if(!gsPagesNode.hasProperty("pages")){
-        	    		pagesProp = toActivate.toArray(New String[0]);
+        	    		pagesProp = toActivate.toArray(new String[0]);
         	    	}else{
         	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
         	    		for(int i=0; i<propValues.length; i++){
-        	    			toActivate.add(propValues[i]);
+        	    			toActivate.add(propValues[i].getString());
         	    		}
         	    	}
-        	    	pagesProp = toActivate.toArray(New String[0]);
+        	    	pagesProp = toActivate.toArray(new String[0]);
         	    	gsPagesNode.setProperty("pages", pagesProp);
         	    	Session session = rr.adaptTo(Session.class);
         			session.save();
-			        
-			        ArrayList<String> toActivate = new ArrayList<String>();
 					
 					for (int i = 0; i < jsonArray.length(); i++) {
 						try {
