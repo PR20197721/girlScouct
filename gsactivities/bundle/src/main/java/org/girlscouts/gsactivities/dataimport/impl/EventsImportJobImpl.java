@@ -286,7 +286,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					log.info("JSON Length " + jsonString.length());
 					JSONArray jsonArray = new JSONArray(jsonString);
 					
-					Resource etcRes = rr.resolve("/etc/");
+					Resource etcRes = rr.resolve("/etc");
 					Node etcNode = etcRes.adaptTo(Node.class);
 			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
 			        Node gsPagesNode = null;
