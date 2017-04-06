@@ -69,6 +69,9 @@ public class MeetingUtil {
 
 	@Reference
 	private ConnectionFactory connectionFactory;
+	
+	//@Reference
+	//CalendarUtil calendarUtil;
 
 	java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
@@ -273,7 +276,8 @@ public class MeetingUtil {
 							if (maxLook > 100)
 								break;
 						}
-						sched.put(dt, meetingEs.get(count));
+						if( meetingEs.size()> count)
+							sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -895,7 +899,7 @@ public class MeetingUtil {
 			else if (_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
 				meetingCount = troop.getYearPlan().getMeetingCanceled()
 						.indexOf(_comp) + 1;
-System.err.println("Kaca planViiew..."+ meeting.getRefId());			
+			
 			meetingInfo = yearPlanUtil.getMeeting(user, troop, meeting.getRefId());	
 			meeting.setMeetingInfo(meetingInfo);
 			java.util.List<Activity> _activities = null;
@@ -1100,6 +1104,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 
+		/*
 		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
 		exclDates = exclDates == null ? "" : exclDates;
 		if (exclDates.endsWith(",") || exclDates.equals(""))
@@ -1110,23 +1115,42 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 					+ FORMAT_MMddYYYY.format(new java.util.Date(dateToRm))
 					+ ",";
 		troop.getYearPlan().setCalExclWeeksOf(exclDates);
+		*/
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}
 
-	public boolean rmMeeting(User user, Troop troop, String meetingRefId)
+	public boolean rmMeeting(User user, Troop troop, String meetingUid)
 			throws IllegalAccessException {
 		boolean isRemoved = false;
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+
+		boolean isRmDt = false;
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		
+		meetings = VtkUtil.schedMeetings( meetings, troop.getYearPlan().getSchedule().getDates() );
+
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId)) {
-				troopDAO.removeMeeting(user, troop, meetings.get(i));
-				meetings.remove(i);
+			
+			if (meetings.get(i).getUid().equals(meetingUid)) {
+
+				try{
+					if( meetings.get(i).getDate()==null )//more meetings than dates.Ex: scheduling from start
+						isRmDt=true;
+					else
+						isRmDt= rmSchedDate( user,  troop, meetings.get(i).getDate().getTime() );
+				}catch(Exception e){e.printStackTrace();}
+			
+				 if( isRmDt ){
+					troopDAO.removeMeeting(user, troop, meetings.get(i));
+					meetings.remove(i);
+				
+				}
 			}
 		}
-		isRemoved = true;
+
+		if( isRmDt )isRemoved = true;
+	
 		return isRemoved;
 	}
 
@@ -1320,22 +1344,22 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 
 	public void saveEmail(User user, Troop troop, String meetingId) {
 
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
+		
 			if (meeting.getUid().equals(meetingId)) {
 				try {
 					SentEmail email = new SentEmail(troop.getSendingEmail());
 					java.util.List<SentEmail> emails = meeting.getSentEmails();
-					emails = emails == null ? new java.util.ArrayList<SentEmail>()
-							: emails;
+				
+					emails = emails == null ? new java.util.ArrayList<SentEmail>() : emails;
 					emails.add(email);
 
 					meeting.setSentEmails(emails);
+					
 					if (meeting.getEmlTemplate() == null) {
-						meeting.setEmlTemplate(troop.getSendingEmail()
-								.getTemplate());
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
 					}
 					meetingDAO.updateMeetingEvent(user, troop, meeting);
 					return;
@@ -1399,19 +1423,23 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 
 	public void rmExtraMeetingsNotOnSched(User user, Troop troop) 
 			throws IllegalAccessException {
+	
 		String dates = troop.getYearPlan().getSchedule().getDates();
+
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		int meetingDatesCount = t.countTokens();
-		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents()
-				.size()) {
-			rmMeeting(
-					user,
-					troop,
-					troop.getYearPlan()
-							.getMeetingEvents()
-							.get(troop.getYearPlan().getMeetingEvents().size() - 1)
-							.getRefId());
+	
+		while (meetingDatesCount < troop.getYearPlan().getMeetingEvents().size()) {
+			
+			
+		rmMeeting(
+		user,
+		troop,
+		troop.getYearPlan()
+				.getMeetingEvents()
+				.get(troop.getYearPlan().getMeetingEvents().size() - 1).getUid());
 		}
+
 	}
 
 	public MeetingE getMeetingE( User user, Troop troop, String meetingEpath) throws IllegalAccessException, VtkException{
@@ -1452,11 +1480,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 		System.err.println("inRmNote MeetingUtil: " +noteId ); 
 		return meetingDAO.rmNote(user, troop, noteId);
 	}
-	/*
-	public java.util.List<Meeting> getMeetings(int gsYear){
-		return meetingDAO.getMeetings(gsYear);
-		}
-		*/
+	
 	
 	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE ) throws IllegalAccessException, VtkException{
 		createOrUpdateCustomMeeting( user, troop, meetingE, meetingE.getMeetingInfo());
@@ -1464,10 +1488,7 @@ System.err.println("Kaca planViiew..."+ meeting.getRefId());
 	
 	public void createOrUpdateCustomMeeting(User user, Troop troop, MeetingE meetingE , Meeting meetingInfo) throws IllegalAccessException, VtkException{
 				
-				/*
-				MeetingE meetingE = getMeeting(troop.getYearPlan().getMeetingEvents(),
-						meetingPath);
-						*/
+				
 				if (meetingE.getRefId().contains("_"))
 					meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
 				else

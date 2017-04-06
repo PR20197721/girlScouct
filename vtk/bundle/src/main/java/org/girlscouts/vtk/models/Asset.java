@@ -35,9 +35,7 @@ public class Asset implements Serializable {
 	}
 
 	
-	public Boolean getIsOutdoorRelated() {
-		return isOutdoorRelated == null ? false : isOutdoorRelated;
-	}
+	public Boolean getIsOutdoorRelated(){return isOutdoorRelated == null ? false : isOutdoorRelated;}
 
 	public void setIsOutdoorRelated(Boolean isOutdoorRelated) {
 		this.isOutdoorRelated = isOutdoorRelated;

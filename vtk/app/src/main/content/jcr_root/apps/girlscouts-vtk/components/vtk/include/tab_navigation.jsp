@@ -302,9 +302,9 @@
 							<% if("finances".equals(activeTab)) {
 
                if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-							<li><a title="Edit Finance Fields"
+							<!-- li><a title="Edit Finance Fields"
 								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-									finance fields</a></li>
+									finance fields</a></li -->
 							<%
 		            }
                 }else if("financesadmin".equals(activeTab)){
@@ -423,13 +423,16 @@
                      if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
 						<li>
 							<% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
-							<p>edit finance fields</p> <% } else if("financesadmin".equals(activeTab)){ %>
+								<p>edit finance fields</p> 
+							<% } else if("financesadmin".equals(activeTab)){ %>
 							<a title="Finance"
 							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
-								finance</a> <% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-							<a title="Edit Finance Fields"
+								finance</a> 
+								<% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
+							<!-- a title="Edit Finance Fields"
 							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-								finance fields</a> <% } %>
+								finance fields</a --> 
+								<% } %>
 						</li>
 						<%
                     }

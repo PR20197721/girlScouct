@@ -698,4 +698,25 @@ public static  java.util.List<Meeting>  sortMeetings (java.util.List<Meeting> me
 	return meetings;
 }
 
+public static java.util.List<MeetingE> schedMeetings(java.util.List<MeetingE> meetings, String sched){
+
+	
+	//sort meetings by Date
+	Comparator<MeetingE> comp = new BeanComparator("id");
+			if (meetings != null)
+				Collections.sort(meetings, comp);
+	
+	int count=0;
+	java.util.StringTokenizer t= new StringTokenizer( sched, ",");
+	while( t.hasMoreElements()){
+	    if( meetings.size() <= count){ System.err.println("CalendarUtil.schedMeetings Found extra sched date. Num of Dates > meetings."); break;}
+		java.util.Date date = new java.util.Date( Long.parseLong(t.nextToken()  ) );
+		meetings.get(count).setDate(date);
+		count ++;
+	 
+	}
+	
+	return meetings;
+}
+
 }//end class

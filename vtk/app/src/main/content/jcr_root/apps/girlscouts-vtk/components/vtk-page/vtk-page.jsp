@@ -6,9 +6,12 @@ org.girlscouts.vtk.auth.models.ApiConfig" %>
 
 <%
 try{
+	
+	
    HttpSession session = request.getSession();
    final org.girlscouts.vtk.helpers.ConfigManager configManager = sling.getService(org.girlscouts.vtk.helpers.ConfigManager.class);
    boolean isDemoSite= false;
+   
    String _demoSite = configManager.getConfig("isDemoSite");
    if( _demoSite!=null && _demoSite.equals("true") )
     { isDemoSite=true;}

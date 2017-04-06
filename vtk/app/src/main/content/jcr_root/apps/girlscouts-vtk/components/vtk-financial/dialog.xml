@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <properties
+                jcr:primaryType="cq:Panel"
+                title="Modal">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <financial-summary1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Financial Summary Line 1"
+	                    name="./finsum1"
+	                    xtype="textfield"/>
+                    <financial-summary2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Financial Summary Line 2"
+	                    name="./finsum2"
+	                    xtype="textfield"/>
+	                <troop-back-info1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Troop Bank Info Line 1"
+	                    name="./troopbankinfo1"
+	                    xtype="textfield"/>
+	                <troop-back-info2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Troop Bank Info Line 2"
+	                    name="./troopbankinfo2"
+	                    xtype="textfield"/>
+	                <council-note1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Council Notes And Questions For Troops Line 1"
+	                    name="./councilnotes1"
+	                    xtype="textfield"/>
+	                <council-note2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Council Notes And Questions For Troops Line 2"
+	                    name="./councilnotes2"
+	                    xtype="textfield"/>    
+                    <review-and-publish1
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Review and Publish Line 1"
+	                    name="./reviewandpublish1"
+	                    xtype="textfield"/>
+                    <review-and-publish2
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Review and Publish Line 2"
+	                    name="./reviewandpublish2"
+	                    xtype="textfield"/>
+                </items>
+            </properties>
+        </items>
+    </items>
+</jcr:root>

@@ -78,7 +78,7 @@ public class SalesforceDAO {
 		String vtlApiUserUri = apiConfig.getVtkApiUserUri();
 		String url = apiConfig.getWebServicesUrl() + vtlApiUserUri
 				+ "?USER_ID=" + apiConfig.getUserId();
-System.err.println("getUser "+ url);
+
 		HttpGet method = new HttpGet(url);
 		method.setHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
@@ -110,7 +110,7 @@ System.err.println("getUser "+ url);
 					
 					//response = new JSONObject(rsp);
 					log.debug(">>>>> " + rsp);
-System.err.println(">>>>> " + rsp);	
+
 					
 					
 			}else{
@@ -439,7 +439,7 @@ System.err.println(">>>>> " + rsp);
 					resp.close();
 				}
 				rsp = "{\"records\":" + rsp + "}";
-System.err.println("Contact Rsp: "+ rsp);	
+
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkContact_"+apiConfig.getUser().getName()+".json" , rsp);
 
@@ -460,182 +460,39 @@ System.err.println("Contact Rsp: "+ rsp);
 
 
 
-java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
+//java.util.Map <String, Boolean> renewals = new java.util.TreeMap();
+java.util.Map <String, java.util.Map> renewals = new java.util.TreeMap();
 
 JSONArray results1 = response.getJSONObject("records").getJSONArray("lstCM");
 
 for (int i = 0; i < results1.length(); i++) {
 
-try {
 
-try {
 
-renewals.put( results1.getJSONObject(i).getString("ContactId"),  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
-
-} catch (Exception e) {
-
-}
-
-}catch(Exception ex){ex.printStackTrace();}
+	try {
+	
+		String cId= results1.getJSONObject(i).getString("ContactId");
+		java.util.Map cDetails = renewals.get( cId );
+		if( cDetails == null ){
+			cDetails = new java.util.TreeMap<Object, Object>();
+			renewals.put(cId, cDetails);
+		}
+		cDetails.put("Display_Renewal__c", results1.getJSONObject(i).getBoolean("Display_Renewal__c") );
+		cDetails.put("Membership__r", results1.getJSONObject(i).getJSONObject("Membership__r").getInt("Membership_Year__c") );
+		
+		
+		//renewals.put( cId,  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
+		//renewals.put( results1.getJSONObject(i).getString("Membership__r"),  results1.getJSONObject(i).getBoolean("Display_Renewal__c"));
+		
+		
+	} catch (Exception e) {
+	
+	}
 
 }//edn for
 
 
 
-/*
-				JSONArray results = response.getJSONArray("records");
-
-				
-				for (int i = 0; i < results.length(); i++) {
-					log.debug("_____ " + results.get(i));
-					Contact contact = new Contact();
-					try {
-						try {
-							contact.setFirstName(results.getJSONObject(i)
-									.getString("Name"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setEmail(results.getJSONObject(i)
-									.getString("Email"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setPhone(results.getJSONObject(i)
-									.getString("Phone"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setId(results.getJSONObject(i).getString(
-									"Id"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setAddress(results.getJSONObject(i)
-									.getString("MailingStreet"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setCity(results.getJSONObject(i).getString(
-									"MailingCity"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setState(results.getJSONObject(i)
-									.getString("MailingState"));
-						} catch (Exception e) {
-						}
-
-					
-						try {
-							contact.setCountry(results.getJSONObject(i)
-									.getString("MailingCountry"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setZip(results.getJSONObject(i).getString(
-									"MailingPostalCode"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setAge(results.getJSONObject(i).getInt(
-									"rC_Bios__Age__c"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setDob(results.getJSONObject(i).getString(
-									"Birthdate"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setRole(results.getJSONObject(i).getString(
-									"rC_Bios__Role__c"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setAccountId(results.getJSONObject(i)
-									.getString("AccountId"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contact.setContactId(results.getJSONObject(i)
-									.getString("Id"));
-						} catch (Exception e) {
-						}
-
-						//renewal
-						try {
-								Boolean isRenewal = renewals.get( contact.getId() );
-								contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
-						} catch (Exception e) {
-						}
-						
-						
-						contact.setType(0);
-						Contact contactSub = new Contact();
-						try {
-							contactSub.setEmail(results
-									.getJSONObject(i)
-									.getJSONObject("Account")
-									.getJSONObject(
-											"rC_Bios__Preferred_Contact__r")
-									.getString("Email"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contactSub.setFirstName(results
-									.getJSONObject(i)
-									.getJSONObject("Account")
-									.getJSONObject(
-											"rC_Bios__Preferred_Contact__r")
-									.getString("FirstName"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contactSub.setLastName(results
-									.getJSONObject(i)
-									.getJSONObject("Account")
-									.getJSONObject(
-											"rC_Bios__Preferred_Contact__r")
-									.getString("LastName"));
-						} catch (Exception e) {
-						}
-
-						try {
-							contactSub.setContactId(results
-									.getJSONObject(i)
-									.getJSONObject("Account")
-									.getJSONObject(
-											"rC_Bios__Preferred_Contact__r")
-									.getString("Id"));
-						} catch (Exception e) {
-						}
-						
-
-						contactSub.setType(1);// caregiver
-						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
-						contactsSub.add(contactSub);
-						contact.setContacts(contactsSub);
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-					contacts.add(contact);
-				}//edn for
-				*/
 
 JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				for (int i = 0; i < results.length(); i++) {
@@ -651,6 +508,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 					contact.setFirstName(results.getJSONObject(i)
 	
 					.getString("Name"));
+					
 					} catch (Exception e) {
 	
 					}
@@ -703,6 +561,8 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
+				
+				
 
 
 				try {
@@ -778,7 +638,28 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
+				
+				try {
 
+					contact.setMembershipYear_adult(results.getJSONObject(i).getInt(
+
+					"of_Adult_Years__c"));
+
+					} catch (Exception e) {
+
+					}
+				
+				try {
+
+					contact.setMembershipYear_girl(results.getJSONObject(i).getInt(
+
+					"of_Girl_Years__c"));
+
+					} catch (Exception e) {
+
+					}
+				
+				
 
 				try {
 
@@ -820,15 +701,38 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				try {
 
-				Boolean isRenewal = renewals.get( contact.getId() );
+					Boolean isRenewal = (Boolean) renewals.get( contact.getId() ).get("Display_Renewal__c");
+	
+					contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
 
-				contact.setRenewalDue(isRenewal ==null ? false : isRenewal);
-
+					contact.setMembershipYear( (Integer) renewals.get( contact.getId() ).get("Membership__r") );
 				} catch (Exception e) {
 
 				}
 
-
+				if( "Adult".equals(contact.getRole()) ){
+					try {
+	
+						contact.setEmailOptIn(results.getJSONObject(i).getBoolean(
+	
+						"Email_Opt_In__c"));
+	
+						} catch (Exception e) {
+	
+						}
+					
+					
+					try {
+	
+						contact.setTxtOptIn(results.getJSONObject(i).getBoolean(
+	
+						"Text_Phone_Opt_In__c"));
+	
+						} catch (Exception e) {
+	
+						}
+				}//edn if
+				
 				contact.setType(0);
 
 				Contact contactSub = new Contact();
@@ -910,17 +814,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 
 				}
 
-				/*
-
-				* try{contactSub.setAccountId(results.getJSONObject(i)
-
-				* .getJSONObject("Account").getString("Id"));
-
-				* 
-
-				* }catch(Exception e){}
-
-				*/
+				
 
 
 
@@ -989,7 +883,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				connection = connectionFactory.getConnection();
 				HttpResponse resp = connection.execute(method);
 				int statusCode = resp.getStatusLine().getStatusCode();
-System.err.println("test rrt troop rspcode: " + statusCode );	
+	
 				if (statusCode != HttpStatus.SC_OK) {
 					
 					throw new IllegalAccessException();
@@ -1004,7 +898,7 @@ System.err.println("test rrt troop rspcode: " + statusCode );
 				String troopJsonFile= vtkDemoPath +"/vtkTroop_"+apiConfig.getDemoUserName()+".json";
 				rsp= readFile(troopJsonFile).toString();
 			}
-System.err.println("test troop: "+ rsp);			
+			
 		troops= troopInfo_parse(user, rsp, apiConfig);
 		
 		} catch (Exception e) {

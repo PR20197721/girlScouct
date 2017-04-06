@@ -34,9 +34,9 @@ import org.apache.sling.api.resource.Resource;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.CouncilRptBean;
 import org.girlscouts.vtk.utils.VtkUtil;
-
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
+import org.apache.sling.settings.SlingSettingsService;
 
 @Component
 @Service(value = CouncilRpt.class)
@@ -50,6 +50,9 @@ public class CouncilRpt {
 	
 	@Reference
 	ConfigManager configManager;
+	
+	@Reference
+	private SlingSettingsService slingSettings;
 	
 	@Activate
 	void activate() {
@@ -406,6 +409,8 @@ public class CouncilRpt {
 	
 	public void emailRpt(String msg, String subject){
 		try {
+			
+			
 			MessageGateway<MultiPartEmail> messageGateway = messageGatewayService.getGateway(MultiPartEmail.class);
 			
 			// create the mail
@@ -414,7 +419,7 @@ public class CouncilRpt {
 			email.addTo("Dimitry.Nemirovsky@ey.com", "BOSS");
 			email.setFrom("alex.yakobovich@ey.com", "VTK");
 			
-			email.setSubject(subject);
+			email.setSubject(subject +" (ENV:"+slingSettings.getRunModes()+")");
 			email.setMsg("Please find attached GS Report attached as of "+ new java.util.Date());
 
 			DataSource source = new ByteArrayDataSource(msg, "application/text");  

@@ -8,7 +8,7 @@
                             java.util.Iterator ii= sched.keySet().iterator();
                             while( ii.hasNext()){
                                 java.util.Date dt = (java.util.Date) ii.next();
-                                if( org.girlscouts.vtk.models.Activity.class.isInstance(sched.get(dt)) ) 
+                                if( dt.before( new java.util.Date() ) || org.girlscouts.vtk.models.Activity.class.isInstance(sched.get(dt)) ) 
                                     {continue;}
                                 MeetingE me = (MeetingE)sched.get(dt);
                                 if( me.getType() ==org.girlscouts.vtk.dao.YearPlanComponentType.MEETING )                                     
@@ -18,7 +18,7 @@
                                       <td>
 
 
-                                       <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getRefId()%>"  />
+                                       <input type="radio" name="_tag_t" id="x<%=meetingsToCancel.get(i).getUid() %>" value="<%=meetingsToCancel.get(i).getUid()%>"  />
                                             <label for="x<%=meetingsToCancel.get(i).getUid() %>"><span></span><p> </p></label>
 
 

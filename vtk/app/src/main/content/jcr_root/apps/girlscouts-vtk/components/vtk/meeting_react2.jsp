@@ -208,6 +208,8 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
     var sentEmails=0;
     var sentEmailsSubject=null;
     var locations =null;
+    var thisMeetingNotes=null;
+    var initialize = false;
 
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
@@ -256,6 +258,19 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
           }
 
+          thisMeetingNotes = comment.notes;
+          console.log('set =>',thisMeetingNotes)
+
+
+          if(!initialize){
+            appVTK = initNotes;
+
+            appVTK.getNotes('<%=meeting.getUid()%>','<%=user.getApiConfig().getUser().getSfUserId()%>').done(function(json){
+                  appVTK.interateNotes(json);
+            });
+           
+            initialize = true;
+         }
 
      return (
             React.createElement(YearPlan, {item: comment, key: i},
@@ -937,6 +952,13 @@ React.createElement(ActivityPlan),
             this.setState({
                 data: data.yearPlan
             });
+
+            // console.log(data.yearPlan.meetingEvents[0].notes);
+
+            // thisMeetingNotes = data.yearPlan.meetingEvents[0].notes;
+
+           // appVTK.data.set(data.yearPlan.meetingEvents[0].notes);
+
         }, 10000);
 
         this.dataWorker.start();

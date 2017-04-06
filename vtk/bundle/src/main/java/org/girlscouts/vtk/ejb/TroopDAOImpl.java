@@ -168,6 +168,14 @@ try{
 		
 		YearPlan yPlan= troop.getYearPlan();
 		yPlan.setSchedule(cal);
+		/*
+		try{
+   		 if( yPlan!=null && yPlan.getMeetingEvents()!=null){
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(yPlan.getMeetingEvents(), comp);
+		 }
+		}catch(Exception e){e.printStackTrace();}
+		*/
 		troop.setYearPlan(yPlan);
 	}
 }catch(Exception e){e.printStackTrace();}
@@ -1170,6 +1178,8 @@ try{
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
+			JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() , "nt:unstructured", mySession);
+			
 			ocm.update(yearPlan);
 			ocm.save();
 			isUpdated = true;

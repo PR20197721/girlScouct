@@ -329,7 +329,9 @@ function fnOpenNormalDialog() {
     	    "Go ahead, cancel the meeting": function () {
 	            $(this).dialog('close');
 	            var r = document.querySelector('input[name = "_tag_t"]:checked').value;
+	        
 	            rmMeeting('<%=date.getTime()%>',r);
+      
  	    	},
            	"Return to Specify Dates and Locations": function () {
 	            $(this).dialog('close');

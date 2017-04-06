@@ -303,8 +303,8 @@
 				return;
 			case RmMeeting:
 				
-				meetingUtil.rmMeeting(user, troop,
-						request.getParameter("mid"));
+				meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
+				//meetingUtil.rmSchedDate(user, troop,Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
 				meetingUtil.updateAttendance(user, troop, request);
@@ -388,6 +388,7 @@
 
 		} else if (request.getParameter("sendMeetingReminderEmail") != null) {
 
+	
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
@@ -538,6 +539,10 @@
 
 				troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 
+				
+java.util.List <MeetingE> tt= troop.getYearPlan().getMeetingEvents();
+
+				
 				//archive
                 VtkUtil.cngYear(request,  user,  troop);
 
@@ -558,8 +563,8 @@
                 troop.setSfTroopAge(troop.getTroop().getGradeLevel());
                 troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 				PlanView planView = meetingUtil.planView(user, troop, request);
-System.err.println("Kaca xx44");
-				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
+
+				java.util.List<MeetingE> TMP_meetings = (java.util.List<MeetingE> )VtkUtil.deepClone(troop.getYearPlan().getMeetingEvents());
 
 				MeetingE _meeting = (MeetingE) planView.getYearPlanComponent();
 				java.util.List<MeetingE> meetings = new java.util.ArrayList();
@@ -568,7 +573,7 @@ System.err.println("Kaca xx44");
 				Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
 				Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
 				int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
-System.err.println("Kaca xx445");
+
 				if( attendance !=null && attendance.getUsers()!=null ){
 				    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 				    attendanceTotal= attendance.getTotal();
@@ -577,7 +582,7 @@ System.err.println("Kaca xx445");
 				if( achievement !=null && achievement.getUsers()!=null ){
 				    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
 				}
-System.err.println("Kaca xx46");
+
 				if (_meeting.getMeetingInfo() != null
 						&& _meeting.getMeetingInfo()
 								.getActivities() != null) {
@@ -589,7 +594,7 @@ System.err.println("Kaca xx46");
 					} else {
 						java.util.List<Activity> _activities = _meeting
 								.getMeetingInfo().getActivities();
-System.err.println("Kaca xx447");
+
 						_meeting.getMeetingInfo()
 								.getMeetingInfo()
 								.put("meeting short description",
@@ -600,7 +605,17 @@ System.err.println("Kaca xx447");
 																.getMeetingInfo() // fixme - refactor
 																.get("meeting short description")
 																.getStr())));
-
+java.util.List<SentEmail> emails = _meeting.getSentEmails();
+					
+						//_meeting.setSentEmails(null); //GSVTK-1324
+						java.util.List<SentEmail> sendEmails = _meeting.getSentEmails();
+						if( sendEmails!=null && sendEmails.size()>0 ){
+							  for(int se=0;se< sendEmails.size();se++){
+								  SentEmail sEmail = sendEmails.get(se);
+								  sEmail.setHtmlDiff("tessss123");
+							  }
+						}
+						
 						java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 								"activityNumber");
 						Collections.sort(_activities, comp);
@@ -635,7 +650,7 @@ System.err.println("Kaca xx447");
 					troop.getYearPlan().setHelper(helper);
 
 	                session.putValue("VTK_troop", troop);
-System.err.println("Kaca xx4499");
+
                     ObjectMapper mapper = new ObjectMapper();
                     try {
 
@@ -774,6 +789,9 @@ try{
 									.setResources(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
+							
+							((MeetingE) tmp[i]).setSentEmails(null); //GSVTK-1324
+							
 						} catch (Exception e) {e.printStackTrace();
 	}
 					}
