@@ -1,69 +1,47 @@
-@import "normalize";
-@import "settings";
-// @import "foundation";
-//@import "fontawesome";
-
-//Import pages
-// @import "pages/**/*";
-
+@import "settings",
+//"normalize",
+//"foundation",
+//"fontawesome",
 // Or selectively include components
-@import
-  "foundation/components/accordion",
-  "foundation/components/block-grid",
-  "foundation/components/breadcrumbs",
-  "foundation/components/button-groups",
-  "foundation/components/buttons",
-  "foundation/components/clearing",
-  "foundation/components/dropdown",
-
-  "foundation/components/forms",
-  "foundation/components/grid",
-  "foundation/components/inline-lists",
-
-  "foundation/components/labels",
-  "foundation/components/reveal",
-  "foundation/components/side-nav",
-  "foundation/components/split-buttons",
-  "foundation/components/sub-nav",
-
-  "foundation/components/tabs",
-  "foundation/components/thumbs",
-  "foundation/components/tooltips",
-  "foundation/components/top-bar",
-  "foundation/components/type",
-  "foundation/components/offcanvas",
-  "foundation/components/visibility",
-  "foundation/components/tables";
-    //  "foundation/components/pagination",
-    // "foundation/components/dropdown-buttons",
-    // "foundation/components/alert-boxes",
-    // "foundation/components/joyride",
-    // "foundation/components/keystrokes",
-    // "foundation/components/magellan",
-    // "foundation/components/orbit",
-    // "foundation/components/panels",
-    // "foundation/components/pricing-tables",
-    // "foundation/components/progress-bars",
-    // "foundation/components/switches",
-    //  "foundation/components/flex-video";
-
-
-@import
-      //import google open sans fonts.
-      // url(http://fonts.googleapis.com/css?family=Open+Sans),
-      "font",
-
-      //Import slick carousel
-      "slick",
-
-      //Import layout
-        "layout/**/*",
-
-      //Import components
-      "components/**/*",
-
-      //Import partials
-      "partials/**/*",
-
-      //Import partials
-      "pages/**/*";
+"foundation/components/accordion",
+"foundation/components/block-grid",
+"foundation/components/breadcrumbs",
+"foundation/components/button-groups",
+"foundation/components/buttons",
+"foundation/components/clearing",
+"foundation/components/dropdown",
+"foundation/components/forms",
+"foundation/components/grid",
+"foundation/components/inline-lists",
+"foundation/components/labels",
+"foundation/components/reveal",
+"foundation/components/side-nav",
+"foundation/components/split-buttons",
+"foundation/components/sub-nav",
+"foundation/components/tabs",
+"foundation/components/thumbs",
+"foundation/components/tooltips",
+"foundation/components/top-bar",
+"foundation/components/type",
+"foundation/components/offcanvas",
+"foundation/components/visibility",
+"foundation/components/tables",
+//"foundation/components/pagination",
+//"foundation/components/dropdown-buttons",
+//"foundation/components/alert-boxes",
+//"foundation/components/joyride",
+//"foundation/components/keystrokes",
+//"foundation/components/magellan",
+//"foundation/components/orbit",
+//"foundation/components/panels",
+//"foundation/components/pricing-tables",
+//"foundation/components/progress-bars",
+//"foundation/components/switches",
+//"foundation/components/flex-video",
+//url(http://fonts.googleapis.com/css?family=Open+Sans), // Import google open sans fonts.
+"font", // Import slick carousel
+"slick", // Import layout
+"layout/**/*", // Import components
+"components/**/*", // Import partials
+"partials/**/*", // Import partials
+"pages/**/*";

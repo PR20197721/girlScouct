@@ -1,6 +1,12 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/gsusa/components/global.jsp" %>
-<%@page import="org.apache.sling.commons.json.*, java.io.*, java.util.regex.*, java.net.*, org.apache.sling.commons.json.*, org.apache.sling.api.request.RequestDispatcherOptions, com.day.cq.wcm.api.components.IncludeOptions, org.apache.sling.jcr.api.SlingRepository" %>
+<cq:includeClientLib js="video" />
+<%@page import="org.apache.sling.commons.json.*, 
+                java.io.*, java.util.regex.*, 
+                java.net.*, 
+                org.apache.sling.api.request.RequestDispatcherOptions, 
+                com.day.cq.wcm.api.components.IncludeOptions, 
+                org.apache.sling.jcr.api.SlingRepository" %>
 <%@page session="false" %>
 <%!
 public String extractYTId(String ytUrl) {
@@ -117,94 +123,75 @@ public  String readUrlFile(String urlString) throws Exception {
 
 
 <script type="text/javascript">
-	$(document).ready(function() {		
+	$(function() {		
 
-        var slick = $('.main-slider');	
+        var slick = $('.main-slider'),
+            slideButton = $('.main-slider button'),
+            embeds = $('.main-slider iframe'),
+            youtubePlayer = $('.lazyYT > iframe'),
+            vimeoPlayer = $('[id*="vimeoPlayer"]'),
+            underbar = $('.zip-council'),
+            iframe,
+            player,
+            i;
 
 		function pauseVideoSliderVideosYoutube() {
-			if($('.lazyYT > iframe').length > 0) {
-			    $.each($('.lazyYT > iframe'), function( i, val ) {
-			    	var iframe = val;
-			    	iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
-			    });
-			}
+            $.each(youtubePlayer, function(i, iframe) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+            });
 		}
-		
+		/*
 		function pauseVideoSliderVideosVimeo(){
-			$('[id*="vimeoPlayer"]').each(function (i, val) {
-				// if(typeof($f) !== "undefined"){
-				// 	$f(val).api('pause');
-				// }
+			$.each(vimeoPlayer, function (i, val) {
+
 			});
 		}
-		
-		$('.main-slider').on('afterChange', function (event, slick, currentSlide) {
+		*/
+		slick.on('afterChange', function (event, slick, currentSlide) {
 			pauseVideoSliderVideosYoutube();
-			pauseVideoSliderVideosVimeo();
-			$(".zip-council").slideDown(1000);
+			//pauseVideoSliderVideosVimeo();
+			underbar.slideDown(1000);
 		});
 		
-		stopSlider = function() {
-
+        function stopSlider() {
 			if (slick != undefined && slick.slick != undefined) {
-
 				slick.slick('slickPause');
 				slick.slick('slickSetOption', 'autoplay', false, false);
 				slick.slick('autoPlay',$.noop);
 			}
 		};
 
-		startSlider = function() {
-
+        function startSlider() {
 			if (slick != undefined && slick.slick != undefined) {
 				slick.slick('slickPlay');
 				// slick.slick('slickSetOption', 'autoplay', true, false);
 				// slick.slick('autoPlay',$.noop);
 			}
 		}
+            
+        // For each slide (Make sure player.js is loaded first)
+        for (i = 0; i < <%=numberOfImages%>; i += 1) {
 
-		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
-			if ($('#vimeoPlayer' + i).length > 0) {
-				// $('#vimeoPlayer' + i).load(function() {
-                $.getScript('https://player.vimeo.com/api/player.js', function() {
+            iframe = $(embeds[i]);
 
-                    function attachListenerToVideoSlider () {
-                        for (var k = 0; k < $('.main-slider iframe').length; k ++) {
-                            var iframe = $('.main-slider iframe')[k], 
-                                player, 
-                                vPlayerId;
-                                var vPlayerId = $(iframe).attr('id');
+            // Check for a Vimeo player
+            if (iframe.length > 0 && iframe.attr('id').toLowerCase().indexOf('vimeo') >= 0) {
 
-                            if (iframe.id != undefined) {
-                                if ( vPlayerId.toLowerCase().indexOf('vimeo') >= 0 ) {
+                // Add listener events
+                player = new Vimeo.Player(iframe);
 
-                                    player = new Vimeo.Player(vPlayerId);
-
-                                    player.on('play', function() {
-                                        stopSlider();
-                                        //setTimeout(function(){
-                                            $('.zip-council').slideUp(0);
-                                        //},1000);
-                                    });
-                                    
-                                    $('.main-slider button').click( function() {
-                                        player.unload();
-                                        /*
-                                        player.pause();
-                                        player.getVideoId().then( function(id) {
-                                            player.loadVideo(id);
-                                        });*/
-                                        startSlider();
-                                    });
-                                }
-                            }
-                        }
-                    }
-                    attachListenerToVideoSlider();
+                player.on('play', function() {
+                    stopSlider();
+                    underbar.slideUp(0);
                 });
-                // });
-			}
-		}
+
+                slideButton.on('click', function() {
+                    player.unload();
+                    startSlider();
+                });
+            }
+        }
+        
 	});
 
 
@@ -222,12 +209,11 @@ public  String readUrlFile(String urlString) throws Exception {
 
 <div class="hero-feature">
 	<ul class="main-slider">
-		<% 
-		for (int i = 0 ; i < numberOfImages; i++) { 
-			if (!tempHidden[i]) {%>
+		<% for (int i = 0 ; i < numberOfImages; i++) { 
+			if (!tempHidden[i]) { %>
 		<li id="tag_explore_main_<%=i%>">
 			<% 
-				if (link[i].indexOf("https://www.youtube.com") != -1) {%>
+				if (link[i].indexOf("https://www.youtube.com") != -1) { %>
 					<div class="videoWrapper show-for-small thumbnail">
 						<iframe id="youtubePlayer<%=i%>" width="100%" height="560" src="<%=link[i]%>" frameborder="0" allowfullscreen></iframe>
 					</div>
