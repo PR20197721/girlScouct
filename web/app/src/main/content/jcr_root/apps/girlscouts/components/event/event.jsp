@@ -246,7 +246,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 </div>
 <%
 	try {
-		String imgPath = properties.get("image","");
+		String imgPath = properties.get("imagePath","");
 		if(!imgPath.isEmpty()){
 			%> <img src="<%= imgPath %>" /> <%
 		}

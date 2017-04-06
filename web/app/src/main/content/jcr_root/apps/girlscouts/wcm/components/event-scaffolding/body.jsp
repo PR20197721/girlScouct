@@ -96,7 +96,7 @@ properties of this scaffolding.
 		        	e.printStackTrace();
 		        }
 		        //TODO Separate start and end into dates and times. Separate tags into grade level and categories
-		        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "&cm=true&deep=false&cv=jcr:title&ec=data%2Fstart%2Cdata%2Fend%2Cdata%2Fregion%2Cdata%2FlocationLabel%2Cdata%2Faddress%2Cdata%2Fdetails%2Cdata%2Fsrchdisp%2Cdata%2Fcolor%2Cdata%2Fregister%2Ccq%3Atags%2Cdata%2Fimage%2Cdata%2FregOpen%2Cdata%2FregClose%2Cdata%2Ftimezone%2Cdata%2FprogType%2Cdata%2Fgrades%2Cdata%2FgirlFee%2Cdata%2FadultFee%2Cdata%2FminAttend%2Cdata%2FmaxAttend%2Cdata%2FprogramCode&hib=false&is=true&rt=girlscouts/components/event-page&it=events&hpc=false&hy=false&hr=true&yr=" + yr %>">Click Here</a></div><%
+		        %><div>For the bulk editor, please <a href="<%= "/etc/importers/gsbulkeditor.html?rp=" + bulkPage + "&cm=true&deep=false&cv=jcr:title&ec=data%2Fstart%2Cdata%2Fend%2Cdata%2Fregion%2Cdata%2FlocationLabel%2Cdata%2Faddress%2Cdata%2Fdetails%2Cdata%2Fsrchdisp%2Cdata%2Fcolor%2Cdata%2Fregister%2Ccq%3Atags%2Cdata%2FimagePath%2Cdata%2FregOpen%2Cdata%2FregClose%2Cdata%2Ftimezone%2Cdata%2FprogType%2Cdata%2Fgrades%2Cdata%2FgirlFee%2Cdata%2FadultFee%2Cdata%2FminAttend%2Cdata%2FmaxAttend%2Cdata%2FprogramCode&hib=false&is=true&rt=girlscouts/components/event-page&it=events&hpc=false&hy=false&hr=true&yr=" + yr %>">Click Here</a></div><%
 	        }catch(Exception e){
 	        	System.err.println("Event bulkeditor - could not determine path");
 	        }

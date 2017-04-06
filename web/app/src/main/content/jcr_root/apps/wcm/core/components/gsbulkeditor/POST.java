@@ -196,7 +196,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Registration","jcr:content/data/register")
 	                    			.replaceAll("Categories","jcr:content/cq:tags-categories")
 	                    			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
-	                    			.replaceAll("Image","jcr:content/data/image")
+	                    			.replaceAll("Image","jcr:content/data/imagePath")
 	                    			.replaceAll("Program Type","jcr:content/data/progType")
 	                    			.replaceAll("Grades","jcr:content/data/grades")
 	                    			.replaceAll("Girl Fee","jcr:content/data/girlFee")

@@ -792,7 +792,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         			modIndex++;
         			modObj.headers[modIndex] = "Program Levels";
         			modObj.values[modIndex] = "jcr:content/cq:tags-progLevel";
-        		}else if(colObj.headers[k] == "data/image"){
+        		}else if(colObj.headers[k] == "data/imagePath"){
         			modObj.headers[modIndex] = "Image";
         			modObj.values[modIndex] = colObj.values[k];
         		}else if(colObj.headers[k] == "data/regOpen"){
