@@ -60,6 +60,8 @@ import java.io.PrintWriter;
 import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 
+import org.girlscouts.web.events.search.*;
+
 /**
  * Servers as base for image servlets
  */
@@ -68,6 +70,7 @@ public class POST extends SlingAllMethodsServlet {
     public static final String INSERTEDRESOURCETYPE_PARAM = "insertedResourceType";
     public static final String ROOTPATH_PARAM = "./rootPath";
     public static final String IMPORT_TYPE_PARAM="importType";
+    public static final String YEAR_PARAM = "year";
 
     public static final String DEFAULT_SEPARATOR = ",";
 
@@ -88,7 +91,10 @@ public class POST extends SlingAllMethodsServlet {
 
 
             String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
-            
+            String year = request.getRequestParameter(YEAR_PARAM)!=null ? request.getRequestParameter(YEAR_PARAM).getString() : "";
+            if(!year.equals("")){
+            	rootPath = rootPath + "/" + year;
+            }
             if(rootPath!=null) {
                 Node rootNode = null;
 
@@ -135,7 +141,7 @@ public class POST extends SlingAllMethodsServlet {
                             return;
             			}
             			//GS - We can't make lots of asset packages
-            			if(!importType.equals("documents")){
+            			if(importType.equals("contacts")){
 	                		try{
 	                	        Packaging packaging = scriptHelper.getService(Packaging.class);
 	                			//Start by creating a package under the root node, in case we need to roll back
@@ -170,6 +176,35 @@ public class POST extends SlingAllMethodsServlet {
 	                    String lineBuffer = bufferReader.readLine();
 	                    if(importType.equals("documents")){
 	                    	lineBuffer = lineBuffer.replaceAll("Title","jcr:content/metadata/dc:title").replaceAll("Description","jcr:content/metadata/dc:description").replaceAll("Categories","jcr:content/metadata/cq:tags").replaceAll("Path","jcr:path");
+	                    }else if(importType.equals("events")){
+	                    	lineBuffer = lineBuffer.replaceAll("Title","jcr:content/jcr:title")
+	                    			.replaceAll("Start Date","jcr:content/data/start-date")
+	                    			.replaceAll("Start Time","jcr:content/data/start-time")
+	                    			.replaceAll("End Date","jcr:content/data/end-date")
+	                    			.replaceAll("End Time","jcr:content/data/end-time")
+	                    			.replaceAll("Time Zone \\(Only enter if you want timezone to be visible e.g. 10:30 PM EST. See http://joda-time.sourceforge.net/timezones.html for valid IDs\\)","jcr:content/data/timezone")
+	                    			.replaceAll("Registration Open Date","jcr:content/data/regOpen-date")
+	                    			.replaceAll("Registration Open Time","jcr:content/data/regOpen-time")
+	                    			.replaceAll("Registration Close Date","jcr:content/data/regClose-date")
+	                    			.replaceAll("Registration Close Time","jcr:content/data/regClose-time")
+	                    			.replaceAll("Region","jcr:content/data/region")
+	                    			.replaceAll("Location Name","jcr:content/data/locationLabel")
+	                    			.replaceAll("Address","jcr:content/data/address")
+	                    			.replaceAll("Text","jcr:content/data/details")
+	                    			.replaceAll("Search Description","jcr:content/data/srchdisp")
+	                    			.replaceAll("Color","jcr:content/data/color")
+	                    			.replaceAll("Registration","jcr:content/data/register")
+	                    			.replaceAll("Categories","jcr:content/cq:tags-categories")
+	                    			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
+	                    			.replaceAll("Image","jcr:content/data/imagePath")
+	                    			.replaceAll("Program Type","jcr:content/data/progType")
+	                    			.replaceAll("Grades","jcr:content/data/grades")
+	                    			.replaceAll("Girl Fee","jcr:content/data/girlFee")
+	                    			.replaceAll("Adult Fee","jcr:content/data/adultFee")
+	                    			.replaceAll("Minimum Attendance","jcr:content/data/minAttend")
+	                    			.replaceAll("Maximum Attendance","jcr:content/data/maxAttend")
+	                    			.replaceAll("Program Code","jcr:content/data/programCode")
+	                    			.replaceAll("Path","jcr:path");
 	                    }
 	                    if (lineBuffer != null) {
 	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
@@ -203,11 +238,11 @@ public class POST extends SlingAllMethodsServlet {
 	                            }
 	                            int lineRead = 0, lineOK = 0;
 	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
-	                            ArrayList<String> documentsToReplicate = new ArrayList<String>();
+	                            ArrayList<String> pathsToReplicate = new ArrayList<String>();
 	                            TreeSet<String> allNames = new TreeSet<String>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, documentsToReplicate)) {
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate)) {
 	                                   lineOK++;
 	                                }
 	                            }
@@ -229,12 +264,12 @@ public class POST extends SlingAllMethodsServlet {
     	                                	e.printStackTrace();
     	                                	return;
     	                                }
-                                	}else if(importType.equals("documents")){
-                                		if(documentsToReplicate.size() > 0){
+                                	}else if(importType.equals("documents") || importType.equals("events")){
+                                		if(pathsToReplicate.size() > 0){
 	                                		try{
 	                                			replicator = scriptHelper.getService(Replicator.class);
-	                                			for(String docPath : documentsToReplicate){
-	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, docPath);
+	                                			for(String activatePath : pathsToReplicate){
+	                                				replicator.replicate(rootNode.getSession(), ReplicationActionType.ACTIVATE, activatePath);
 	                                			}
 	                                		}catch(Exception e){
 	                                			htmlResponse = HtmlStatusResponseHelper.createStatusResponse(false,
@@ -297,8 +332,8 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> documentsToReplicate) {
-        boolean updated = false;
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate) {
+    	boolean updated = false;
         try {
             int headerSize = headers.size();
             line = line + ",FINAL";
@@ -324,8 +359,8 @@ public class POST extends SlingAllMethodsServlet {
 	            if(resource!=null) {
 	                node = resource.adaptTo(Node.class);
 	            } else {
-	                if(rootNode!=null && !importType.equals("documents") && !importType.equals("contacts")) {
-	                    if(path==null || path.length()==0 || path.equals(" ")) {
+	                if(rootNode!=null && !importType.equals("documents") && !importType.equals("contacts") && !importType.equals("events")) {
+	                	if(path==null || path.length()==0 || path.equals(" ")) {
 	                        path = "" + counter;
 	                    } else {
 	                        //check if path is under root node.
@@ -367,6 +402,11 @@ public class POST extends SlingAllMethodsServlet {
                     if(i!=pathIndex) {
                         String property = headers.get(i);
                         property = property.trim();
+                        String additional = "";
+                        if(property.endsWith("cq:tags-categories") || property.endsWith("cq:tags-progLevel") || property.endsWith("start-date") || property.endsWith("start-time") || property.endsWith("end-date") || property.endsWith("end-time") || property.endsWith("regOpen-date") || property.endsWith("regOpen-time") || property.endsWith("regClose-date") || property.endsWith("regClose-time")){
+                        	additional = property.substring(property.lastIndexOf("-")+1,property.length());
+                        	property = property.substring(0,property.lastIndexOf("-"));
+                        }
                         if(!property.equals(JcrConstants.JCR_PATH)
                                 && !property.equals(JcrConstants.JCR_PRIMARYTYPE) && !property.isEmpty()) {
                         	Value value = valueFactory.createValue(values.get(i));
@@ -408,7 +448,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    	}else if(importType.equals("documents")){
 	                    		if(value != null){
 	                    			String val = value.getString();
-	                    			if(val != null){
+	                    			if(val != null && !"".equals(val)){
 	                    				Node updatedNode = node;
 	                    				if(property.indexOf('/') != -1){
 	        	                            if( property.indexOf('/') != -1) {
@@ -443,7 +483,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
 	                                    			String tagTitle = tag.trim();
-	                                    			String tagID = createID(tagTitle, rootNode.getPath());
+	                                    			String tagID = createID(tagTitle, rootNode.getPath(),"forms_documents");
 	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
 		                                    			 try{
 		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
@@ -499,17 +539,260 @@ public class POST extends SlingAllMethodsServlet {
 	                    				}
 	                    			}
 	                    		}
-	                    	}else{
-	                            Node updatedNode = node;
-	                            if( property.indexOf('/') != -1) {
-	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
-	                                updatedNode = node.getNode(childNodeName);
-	                                property = property.substring(property.lastIndexOf('/') + 1);
-	                            }
-	                            if(updatedNode != null &&
-	                                    updatedNode.getPrimaryNodeType().canSetProperty(property,value)) {
-	                                updatedNode.setProperty(property,value);
-	                            }
+	                    	}else if(importType.equals("events")){
+	                    		if(value != null){
+	                    			String val = value.getString();
+	                    			if(val != null && !"".equals(val)){
+	                    				val = val.replaceAll("\u0092","'");
+	                    				Node updatedNode = node;
+	                    				if(property.indexOf('/') != -1){
+	        	                            if( property.indexOf('/') != -1) {
+	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
+	        	                                updatedNode = node.getNode(childNodeName);
+	        	                                property = property.substring(property.lastIndexOf('/') + 1);
+	        	                            }
+	                    				}
+	                    				Boolean startsWithOneQuote = (val.matches("^\"[^\"].*") && val.matches(".*[^\"]\"$") && val.indexOf(",") != -1);
+	                    				Boolean startsWithMultipleQuotes = (val.matches("^[\"]{3,}[^\"].*") && val.matches(".*[^\"][\"]{3,}$") && val.indexOf(",") != -1);
+	                    				if(startsWithMultipleQuotes){
+	                    					val = val.replaceAll("^\"\"\"|\"\"\"$","\"");
+	                    				}
+	                    				else if(startsWithOneQuote && val.length() >= 3){
+	                    					val = val.substring(1,val.length()-1);
+	                    				}
+	                    				Boolean multiValue = val.matches("^\\[.*\\]$");
+	                    				String[] multiVal = null;
+	                    				if(multiValue){
+	                    					val = val.substring(1,val.length()-1);
+	                    					multiVal = val.split(",");
+	                    				}
+	                    				if(property.endsWith("cq:tags") && (additional.equals("categories") || additional.equals("progLevel"))){
+	                    					String tagFolder = additional;
+	                						if(tagFolder.equals("progLevel")){
+	                							tagFolder = "program-level";
+	                						}
+	                    					String[] tags = val.split(";");
+	                    					if(multiVal != null){
+	                    						tags = multiVal;
+	                    					}
+	                    					ArrayUtils.removeElement(tags,"");
+	                    					ArrayUtils.removeElement(tags,null);
+	                    					ArrayList<String> tagList = new ArrayList<String>();
+	                    					ArrayList<String> tagPathList = new ArrayList<String>();
+	                    					if(updatedNode.hasProperty(property)){
+	                    						Property tagsProp = updatedNode.getProperty(property);
+	                							Value[] tagsVals = tagsProp.getValues();
+	                							TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+	                							if(tagsVals.length > 0){
+	                								for(Value existing : tagsVals){
+	                									String existingStr = existing.getString();
+	                									if(tagFolder.equals("program-level")){
+	                										if(existingStr.matches("^.*:" + "categories" + "/.*$")){
+	                        	                    			if(null != tm.resolve(existingStr)){
+	                        	                    				Tag existingTag = tm.resolve(existingStr);
+	                        	                    				tagList.add(existingStr);
+	                        	                    				tagPathList.add(existingTag.getPath());
+	                        	                    			}
+	                										}
+	                									}else if(tagFolder.equals("categories")){
+	                										if(existingStr.matches("^.*:" + "program-level" + "/.*$")){
+	                        	                    			if(null != tm.resolve(existingStr)){
+	                        	                    				Tag existingTag = tm.resolve(existingStr);
+	                        	                    				tagList.add(existingStr);
+	                        	                    				tagPathList.add(existingTag.getPath());
+	                        	                    			}
+	                										}
+	                									}
+	                								}
+	                							}
+	                    					}
+	                    					
+	                                    	if(tags.length > 0){
+	                                    		for(String tag : tags){
+	                                    			String tagTitle = tag.trim();
+	                                    			String tagID = createID(tagTitle, rootNode.getPath(), tagFolder);
+	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
+		                                    			 try{
+		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+		                	                    			if(null == tm.resolve(tagID)){
+		                	                    				if(tm.canCreateTag(tagID)){
+		                	                    					Tag newTag = tm.createTag(tagID,tagTitle,"",true);
+		                	                    					tagList.add(tagID);
+		                	                    					tagPathList.add(newTag.getPath());
+		                	                    				}
+		                	                    			}else{
+		                	                    				Tag existingTag = tm.resolve(tagID);
+		                	                    				tagList.add(tagID);
+		                	                    				tagPathList.add(existingTag.getPath());
+		                	                    			}
+		                                    			}catch(Exception e){
+		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+		                                    			} 
+	                                    			}
+	                                    		}
+	                                    	}
+	        	                            if(updatedNode != null){
+		        	                            updatedNode.setProperty(property,tagList.toArray(new String[0]));
+		        	                        }
+	        	                            if(tagPathList.size() > 0){
+	        	                            	try{
+	        	                            		Session session = rootNode.getSession();
+	        	                            		Replicator replicator = scriptHelper.getService(Replicator.class);
+		        	                            	for(String tagPath : tagPathList){
+		        	                            		try{
+		        	                            			Resource tagRes = request.getResourceResolver().resolve(tagPath);
+		        	                            			Node tagNode = tagRes.adaptTo(Node.class);
+		        	                            			if(tagNode.hasProperty("cq:lastReplicationAction")){
+		        	                            				if(tagNode.getProperty("cq:lastReplicationAction").getValue().getString().equals("Activate")){
+		        	                            					replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
+		        	                            				}
+		        	                            			}else{
+		        	                            				replicator.replicate(session, ReplicationActionType.ACTIVATE, tagPath);
+		        	                            			}
+		        	                            		}catch(Exception e1){
+		        	                            			e1.printStackTrace();
+		        	                            		}
+		        	                            	}
+	        	                            	}catch(Exception e){
+	        	                            		e.printStackTrace();
+	        	                            	}
+	        	                            }
+	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("date")){
+	                    					if(updatedNode.hasProperty(property)){
+		                                    	try{
+			                    					Property dateProp = updatedNode.getProperty(property);
+			                                    	String dateString = val;
+			                                    	String timeString = dateProp.getString().substring(dateProp.getString().indexOf("T"));
+			                                    	String dateTimeString = dateString + timeString;
+			                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSSZ");
+			                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+			                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+			                                    	val = dtfOut.print(dt);
+	    	                            			updatedNode.setProperty(property,val);
+	    	                            		}catch(Exception e){
+	    	                            			multiVal = new String[1];
+	    	                            			multiVal[0] = val;
+	    	                            			updatedNode.setProperty(property,multiVal);
+	    	                            		}
+	                    					}else{
+	                    						String dateString = val;
+	                    						String timeString = "T00:00:00.000";
+		                                    	String dateTimeString = dateString + timeString;
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("MM/dd/yyyy'T'HH:mm:ss.SSS");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+		                                    	try{
+		                                    		updatedNode.setProperty(property,val);
+		                                    	}catch(Exception e){
+		                                    		e.printStackTrace();
+		                                    	}
+	                    					}
+	                    				}else if((property.equals("start") || property.equals("end") || property.equals("regOpen") || property.equals("regClose")) && additional.equals("time")){
+	                    					if(updatedNode.hasProperty(property)){
+		                    					Property dateProp = updatedNode.getProperty(property);
+		                                    	String datetimeString = dateProp.getString();
+		                                    	String timeString = val;
+		                                    	String dateString = dateProp.getString().substring(0, dateProp.getString().indexOf("T"));
+		                                    	String dateTimeString = dateString + "T" + timeString;
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+		                                    	try{
+	    	                            			updatedNode.setProperty(property,val);
+	    	                            		}catch(Exception e){
+	    	                            			multiVal = new String[1];
+	    	                            			multiVal[0] = val;
+	    	                            			updatedNode.setProperty(property,multiVal);
+	    	                            		}
+	                    					}else{
+	                    						String timeString = val;
+		                                    	String dateString = "2017-01-01";
+		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
+		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a Z");
+		                                    	GSDateTime dt = GSDateTime.parse(dateTimeString,dtfIn);
+		                                    	GSDateTimeFormatter dtfOut = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+		                                    	val = dtfOut.print(dt);
+		                                    	try{
+		                                    		updatedNode.setProperty(property,val);
+		                                    	}catch(Exception e){
+		                                    		e.printStackTrace();
+		                                    	}
+	                    					}
+	                    				}else if(property.equals("timezone")){
+	                    					updatedNode.setProperty(property,"()(" + val + ")");
+	                    					GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+	                    					GSDateTimeFormatter dtfOutZone = GSDateTimeFormat.forPattern("ZZ");
+	                    					if(updatedNode.hasProperty("start")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("start").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("start",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("end")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("end").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("end",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("regOpen")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("regOpen").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("regOpen",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    					if(updatedNode.hasProperty("regClose")){
+	                    						try{
+	                    							String startDate = updatedNode.getProperty("regClose").getString();
+	                    						    GSDateTimeZone dtz = GSDateTimeZone.forID(val);
+	                    						    GSDateTime startDateTime = GSDateTime.parse(startDate, dtfIn);
+	                    						    startDateTime = startDateTime.withZone(dtz);
+	                    						    String timeZoneOffset = dtfOutZone.print(startDateTime);
+	                    						    startDate = startDate.substring(0,startDate.lastIndexOf("-")) + timeZoneOffset;
+	                    						    updatedNode.setProperty("regClose",startDate);
+	                    						}catch(Exception e){
+	                    							e.printStackTrace();
+	                    						}
+	                    					}
+	                    				}else{
+	        	                            if(updatedNode != null){
+	        	                            	if(multiVal != null){
+	        	                            		updatedNode.setProperty(property,multiVal);
+	        	                            	}else{
+	        	                            		try{
+	        	                            			updatedNode.setProperty(property,val);
+	        	                            		}catch(ValueFormatException e){
+	        	                            			multiVal = new String[1];
+	        	                            			multiVal[0] = val;
+	        	                            			updatedNode.setProperty(property,multiVal);
+	        	                            		}
+	        	                            	}
+	        	                            }
+	                    				}
+	                    			}
+	                    		}
 	                        }
                     	}
                     }
@@ -524,22 +807,23 @@ public class POST extends SlingAllMethodsServlet {
 	                	contactsForTeam.add(contact);
 	                }
 	                contactsToCreate.put(contact.getTeam(),contactsForTeam);
-                }else if(importType.equals("documents")){
+                }else if(importType.equals("documents") || importType.equals("events")){
                 	if(node.hasProperty("jcr:content/cq:lastReplicationAction")){
                 		if(node.getProperty("jcr:content/cq:lastReplicationAction").getString().equals("Activate")){
-                			documentsToReplicate.add(node.getPath());
+                			pathsToReplicate.add(node.getPath());
                 		}
                 	}
                 }
                 updated = true;
             }
         } catch (RepositoryException e) {
+        	e.printStackTrace();
             return false;
         }
         return updated;
     }
     
-    public String createID(String tag, String path){
+    public String createID(String tag, String path, String folder){
     	HashMap<String,String> specialCouncils = new HashMap<String,String>();
     	specialCouncils.put("southern-appalachian","girlscoutcsa");
     	specialCouncils.put("NE_Texas","NE_Texas");
@@ -552,7 +836,7 @@ public class POST extends SlingAllMethodsServlet {
     	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
     	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
     	Matcher mDam = pDam.matcher(path);
-    	Pattern pContent = Pattern.compile("^/content/(^/]{1,})/*.*$");
+    	Pattern pContent = Pattern.compile("^/content/([^/]{1,})/*.*$");
     	Matcher mContent = pContent.matcher(path);
     	if(mDam.matches()){
     		councilRoot = mDam.group(1);
@@ -562,13 +846,13 @@ public class POST extends SlingAllMethodsServlet {
         	if(councilRoot.startsWith("girlscouts-")){
         		councilRoot = councilRoot.replace("girlscouts-","");
         	}
-    		return councilRoot + ":forms_documents/" + tagName;
+    		return councilRoot + ":" + folder + "/" + tagName;
     	}else if(mContent.matches()){
     		councilRoot = mContent.group(1);
         	if(specialCouncils.containsKey(councilRoot)){
         		councilRoot = specialCouncils.get(councilRoot);
         	}
-    		return councilRoot + ":forms_documents/" + tagName;
+    		return councilRoot + ":" + folder + "/" + tagName;
     	}else{
     		return null;
     	}
