@@ -63,8 +63,11 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	} 
 
 	String stringStartDate = properties.get("start","");
+	String stringRegOpenDate = properties.get("regOpen","");
 	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
+	GSDateTime regOpenDate = GSDateTime.parse(stringRegOpenDate,dtfIn);
 	GSLocalDateTime localStartDate = null;
+	GSLocalDateTime localRegOpenDate = null;
 	
     //Add time zone label to date string if event has one
     String timeZoneLabel = properties.get("timezone","");
@@ -72,6 +75,8 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     GSDateTimeZone dtz = null;
     String startDateStr = "";
     String startTimeStr = "";
+    String regOpenDateStr = "";
+    String regOpenTimeStr = "";
     Boolean useRaw = timeZoneLabel.length() < 4;
     
 	if(!timeZoneLabel.isEmpty() && !useRaw){
@@ -84,9 +89,12 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
+			regOpenDate = regOpenDate.withZone(dtz);
 			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 			startDateStr = dtfOutDate.print(startDate);
 			startTimeStr = dtfOutTime.print(startDate);
+			regOpenDateStr = dtfOutDate.print(regOpenDate);
+			regOpenTimeStr = dtfOutTime.print(regOpenDate);
 		}catch(Exception e){
 			useRaw = true;
 			e.printStackTrace();
@@ -96,11 +104,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	if(timeZoneLabel.isEmpty() || useRaw){
 		timeZoneShortLabel = timeZoneLabel;
 		localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
+		localRegOpenDate = GSLocalDateTime.parse(stringRegOpenDate,dtfIn);
 		startDateStr = dtfOutDate.print(localStartDate);
 		startTimeStr = dtfOutTime.print(localStartDate);
+		regOpenDateStr = dtfOutDate.print(localRegOpenDate);
+		regOpenTimeStr = dtfOutTime.print(localRegOpenDate);
 	}
 
 	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
+	String formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
 
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
@@ -115,10 +127,15 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	}
 
 	String formatedEndDateStr="";
+	String formattedRegCloseDateStr="";
 	GSDateTime endDate =null;
+	GSDateTime regCloseDate = null;
 	String endDateStr = "";
 	String endTimeStr = "";
+	String regCloseDateStr = "";
+	String regCloseTimeStr = "";
 	GSLocalDateTime localEndDate = null;
+	GSLocalDateTime localRegCloseDate = null;
 	if(!"".equals(properties.get("end",""))){
 		endDate = GSDateTime.parse(properties.get("end",""),dtfIn);
 		if(dtz != null){
@@ -140,7 +157,27 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		}
 	}
 	
+	if(!"".equals(properties.get("regClose",""))){
+		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
+		if(dtz != null){
+			regCloseDate = regCloseDate.withZone(dtz);
+			regCloseDateStr = dtfOutDate.print(regCloseDate);
+			regCloseTimeStr = dtfOutTime.print(regCloseDate);
+		}else{
+			localRegCloseDate = GSLocalDateTime.parse(properties.get("regClose",""),dtfIn);
+			regCloseDateStr = dtfOutDate.print(localRegCloseDate);
+			regCloseTimeStr = dtfOutTime.print(localRegCloseDate);
+		}
+		boolean regSameDay = regOpenDate.year() == regCloseDate.year() && regOpenDate.dayOfYear() == regCloseDate.dayOfYear();
+		if(!regSameDay){
+			formattedRegCloseDateStr = " - " + regCloseDateStr + ", " + regCloseTimeStr;
+		}else{
+			formattedRegCloseDateStr = " - " + regCloseTimeStr;
+		}
+	}
+	
 	formatedEndDateStr = formatedEndDateStr + " " + timeZoneShortLabel;
+	formattedRegCloseDateStr = formattedRegCloseDateStr + " " + timeZoneShortLabel;
 
 
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
@@ -209,7 +246,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 </div>
 <%
 	try {
-		String imgPath = properties.get("image","");
+		String imgPath = properties.get("imagePath","");
 		if(!imgPath.isEmpty()){
 			%> <img src="<%= imgPath %>" /> <%
 		}
@@ -273,6 +310,49 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
                 	</div>
 				</div>
 	<% } %>
+
+	<div class="row">
+	<div class="small-10 medium-10 large-10 columns">
+    	<b>Registration:</b>
+	</div>
+    <div class="small-14 medium-14 large-14 columns">
+	<b>
+		<%try{%>
+				<span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(regOpenDate)%>"><%=formattedRegOpenDateStr%></span>
+                <% if(formattedRegCloseDateStr!=null && !formattedRegCloseDateStr.equals("")){ %>
+                    <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(regCloseDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(regCloseDate))%>"><%=formattedRegCloseDateStr %></span>
+                <%
+                }
+			}catch(Exception eDateStr){eDateStr.printStackTrace();}
+            %>
+	</b>
+	</div>
+	</div>
+	
+	<% String programType = properties.get("progType","");
+		if(!"".equals(programType)){%>
+		        <div class="row">
+                	<div class="small-10 medium-10 large-10 columns">
+                		<b>Program Type:</b>
+                	</div>
+                	<div class="small-14 medium-14 large-14 columns">
+                		<b><%= programType %></b>
+                	</div>
+				</div>
+	<% } %>
+	
+	<% String grades = properties.get("grades","");
+		if(!"".equals(grades)){%>
+	        <div class="row">
+               	<div class="small-10 medium-10 large-10 columns">
+               		<b>Grades:</b>
+               	</div>
+               	<div class="small-14 medium-14 large-14 columns">
+               		<b><%= grades %></b>
+               	</div>
+			</div>
+	<% } %>
+	
 	</div>
         <div class="small-24 medium-12 large-12 columns">
                 <div class="row">
@@ -308,6 +388,54 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 							<b><%=region %></b>
                      </div>
                 </div>
+                
+                <% String girlFee = properties.get("girlFee","");
+					if(!"".equals(girlFee)){%>
+				        <div class="row">
+		                	<div class="small-8 medium-8 large-8 columns">
+		                		<b>Girl Fee:</b>
+		                	</div>
+		                	<div class="small-16 medium-16 large-16 columns">
+		                		<b><%= girlFee %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String adultFee = properties.get("adultFee","");
+					if(!"".equals(adultFee)){%>
+				        <div class="row">
+		                	<div class="small-8 medium-8 large-8 columns">
+		                		<b>Adult Fee:</b>
+		                	</div>
+		                	<div class="small-16 medium-16 large-16 columns">
+		                		<b><%= adultFee %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String minAttend = properties.get("minAttend","");
+					if(!"".equals(minAttend)){%>
+				        <div class="row">
+		                	<div class="small-18 medium-18 large-18 columns">
+		                		<b>Minimum Attendance:</b>
+		                	</div>
+		                	<div class="small-6 medium-6 large-6 columns">
+		                		<b><%= minAttend %></b>
+		                	</div>
+						</div>
+				<% } %>
+				
+				<% String maxAttend = properties.get("maxAttend","");
+					if(!"".equals(maxAttend)){%>
+				        <div class="row">
+		                	<div class="small-18 medium-18 large-18 columns">
+		                		<b>Maximum Attendance:</b>
+		                	</div>
+		                	<div class="small-6 medium-6 large-6 columns">
+		                		<b><%= maxAttend %></b>
+		                	</div>
+						</div>
+				<% } %>
         </div>
 </div>
      <%if(register!=null && !register.isEmpty()){%>
