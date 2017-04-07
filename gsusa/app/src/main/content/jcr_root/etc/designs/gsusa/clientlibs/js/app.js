@@ -788,7 +788,11 @@ function fixSlickSlideActive() {
                 });
 
             } else {
-                currentUrl = window.location.href;
+                //currentUrl = window.location.href;
+                currentUrl = window.location.pathname;
+                //console.log("Current URL Substring: " + currentUrl.substring(0, currentUrl.indexOf('.html')));
+                //console.log("Redirect URL Substring: " + redirectUrl.substring(0, redirectUrl.indexOf('.html')));
+                
                 isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
                 if (window.location.search != undefined && window.location.search != "") {
                     redirectUrl += window.location.search;
