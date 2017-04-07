@@ -44,6 +44,11 @@ import org.osgi.service.component.ComponentContext;
 		@Property(name = "vtkApiTroopLeadersUri", label = "vtkApiTroopLeadersUri", description = "vtkApiTroopLeadersUri"),
 		
 		@Property(name = "vtkHolidays", label = "vtkHolidays", description = "vtkHolidays"),
+
+		@Property(name = "startShowingArchiveCmd", label = "startShowingArchiveCmd", description = "startShowingArchiveCmd"),
+		@Property(name = "isDemoSite", label = "isDemoSite", description = "isDemoSite"),
+		@Property(name = "DEMO_CRON_EMAIL", label = "DEMO_CRON_EMAIL", description = "DEMO_CRON_EMAIL"),
+
 		@Property(name = "allowParentAccess", label = "allowParentAccess", description = "allowParentAccess") })
 		
 

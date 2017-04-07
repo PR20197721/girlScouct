@@ -1178,6 +1178,8 @@ try{
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
+			JcrUtils.getOrCreateByPath(troop.getYearPlan().getPath() , "nt:unstructured", mySession);
+			
 			ocm.update(yearPlan);
 			ocm.save();
 			isUpdated = true;
