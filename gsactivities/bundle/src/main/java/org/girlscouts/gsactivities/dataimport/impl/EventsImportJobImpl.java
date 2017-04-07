@@ -240,7 +240,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			List<String> newFiles = new ArrayList<String>();
 			for (FTPFile file:files) {
 				String zipName = file.getName();
-				System.out.println("Processing file "+ zipName);
+			
 				int type = file.getType();
 				//log.info("Checking Individual File: " + zipName);
 				if (type == FTPFile.FILE_TYPE && zipName.matches(ZIP_REGEX)) {
@@ -250,8 +250,10 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 							if(date.after(latest)){//update latest date
 								latest = date;
 							}
+							System.out.println("Zipname is: " + zipName);
 							newFiles.add(zipName);
 						} 
+						newFiles.add(zipName);
 					}catch(ParseException e){
 						errorString.append("Failed to read date is zipfile: " + zipName);
 						errorString.append('\n');
@@ -263,6 +265,7 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			Collections.sort(newFiles);//sort to make sure you read the old data first
 			for (int i = 0; i < newFiles.size(); i++) {
 				String zip = newFiles.get(i);
+				System.out.println("Sorted zipname is " + i + ". " + zip);
 				Map<String,Exception> errorMap = new HashMap<String, Exception>();
 				errors.put(zip, errorMap);
 				try {
