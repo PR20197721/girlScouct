@@ -788,17 +788,25 @@ function fixSlickSlideActive() {
                 });
 
             } else {
-                currentUrl = window.location.href;
+                //currentUrl = window.location.href;
+                currentUrl = window.location.pathname;
+                
+                console.log("Redirect URL: " + redirectUrl);
+                console.log("Currnet URL Substring: " + currentUrl.substring(0, currentUrl.indexOf('.html')));
+                console.log("Redirect URL Substring: " + redirectUrl.substring(0, redirectUrl.indexOf('.html')));
+                
                 isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
                 if (window.location.search != undefined && window.location.search != "") {
                     redirectUrl += window.location.search;
                 }
                 redirectUrl = redirectUrl + '#' + zip;
                 if (isSameUrl) {
+                    console.log("SAME PAGE");
                     window.location.hash = "#" + zip;
                     window.location.reload();
                 } else {
                     window.location.href = redirectUrl;
+                    console.log("OTHER PAGE");
                 }
             }
         });
