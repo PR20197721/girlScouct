@@ -59,6 +59,10 @@
     @media #{$small-only} {
       text-align: center;
       clear:both;
+      a {
+        font-size: rem-calc(16);
+        padding-left: rem-calc(10);
+      }
     }
     i {
       color: white;
@@ -180,6 +184,7 @@
         text-align: center;
         line-height: 1;
         white-space: nowrap;
+        font-size: rem-calc(23);
         &:before {
           content: "";
           //This now done in the jsp. Please check cookie-header.jsp for more details

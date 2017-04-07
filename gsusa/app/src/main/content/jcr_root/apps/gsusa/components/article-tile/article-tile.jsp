@@ -136,15 +136,17 @@
     <%
     if(type.equals("video")){
 		if(playOnClick){
-        	%><a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal"><%
+        	%>
+                <a class="video" href="" onclick="populateVideoIntoModal('gsusaHiddenModal','<%=StringEscapeUtils.escapeHtml(videoLink)%>','#FFFFFF')" data-reveal-id="gsusaHiddenModal">
+            <%
     	} else {
-			%><a class="video non-click" href="<%=linkToArticle%>"><%
+			%>
+                <a class="video non-click" href="<%=linkToArticle%>">
+            <%
     	}
 	} else if(type.equals("link")){
         if(openInNewWindow){
-
 		%>
-
 			<a x-cq-linkchecker="valid" href="<%=genLink(resourceResolver, externalLink)%>" target="_blank">
     	<%
         } else {
@@ -153,10 +155,12 @@
     	<%
         }
 	} else {
-    	%> <a class="photo" href="<%=linkToArticle%>"> <%
+    	%> 
+            <a class="photo" draggable="false" href="<%=linkToArticle%>">
+        <%
     }
     %>
-		<img src="<%=imageSrc%>" data-at2x="<%= image2xSrc %>"/>
+		<img src="<%=imageSrc%>" data-at2x="<%=image2xSrc%>"/>
 		<div class="text-content" style="background: <%=rgba%>">
 			<h3><%=tileTitle%></h3>
             <p><%=tileText%></p>

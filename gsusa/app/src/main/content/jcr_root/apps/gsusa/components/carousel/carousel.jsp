@@ -119,7 +119,7 @@ public  String readUrlFile(String urlString) throws Exception {
 <script type="text/javascript">
 	$(document).ready(function() {		
 
-				var slick = $('.main-slider');	
+        var slick = $('.main-slider');	
 
 		function pauseVideoSliderVideosYoutube() {
 			if($('.lazyYT > iframe').length > 0) {
@@ -166,46 +166,45 @@ public  String readUrlFile(String urlString) throws Exception {
 		for (var i = 0; i < <%=numberOfImages%>; i++ ) {
 			if ($('#vimeoPlayer' + i).length > 0) {
 				// $('#vimeoPlayer' + i).load(function() {
-					$.getScript('https://player.vimeo.com/api/player.js', function() {
-			
-						function attachListenerToVideoSlider () {
-							for (var k = 0; k < $('.main-slider iframe').length; k ++) {
-								var iframe = $('.main-slider iframe')[k], 
-									player, 
-									vPlayerId;
-									var vPlayerId = $(iframe).attr('id');
+                $.getScript('https://player.vimeo.com/api/player.js', function() {
 
-								if (iframe.id != undefined) {
-									
-									if ( vPlayerId.toLowerCase().indexOf('vimeo') >= 0 ) {
-										
-										player = new Vimeo.Player(vPlayerId);
+                    function attachListenerToVideoSlider () {
+                        for (var k = 0; k < $('.main-slider iframe').length; k ++) {
+                            var iframe = $('.main-slider iframe')[k], 
+                                player, 
+                                vPlayerId;
+                                var vPlayerId = $(iframe).attr('id');
 
-										player.on('play', function() {
-											stopSlider();
-											setTimeout(function(){
-												$('.zip-council').slideUp(0);
-											},1000)
-											
-										});
+                            if (iframe.id != undefined) {
+                                if ( vPlayerId.toLowerCase().indexOf('vimeo') >= 0 ) {
 
-										$('.main-slider button').click( function() {
-											player.pause();
-											player.getVideoId().then( function(id) {
-												player.loadVideo(id);
-											});
-											startSlider();
-										});
-									}
-								}
-							}
-						}
-						attachListenerToVideoSlider();
-					});
-				// });
+                                    player = new Vimeo.Player(vPlayerId);
+
+                                    player.on('play', function() {
+                                        stopSlider();
+                                        //setTimeout(function(){
+                                            $('.zip-council').slideUp(0);
+                                        //},1000);
+                                    });
+                                    
+                                    $('.main-slider button').click( function() {
+                                        player.unload();
+                                        /*
+                                        player.pause();
+                                        player.getVideoId().then( function(id) {
+                                            player.loadVideo(id);
+                                        });*/
+                                        startSlider();
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    attachListenerToVideoSlider();
+                });
+                // });
 			}
 		}
-		
 	});
 
 
