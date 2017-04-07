@@ -432,6 +432,7 @@ System.err.println("ALEXALEX: "+ rsp);
 					entity = resp.getEntity();
 					entity.getContent();
 					rsp = EntityUtils.toString(entity);
+System.err.println("ALEXALEX contacts: "+ rsp);
 					EntityUtils.consume(entity);
 					method.releaseConnection();
 					method = null;
@@ -891,7 +892,7 @@ JSONArray results = response.getJSONObject("records").getJSONArray("lstCon");
 				HttpEntity entity = resp.getEntity();
 				entity.getContent();
 				rsp= EntityUtils.toString(entity);
-			
+System.err.println("ALEXALEX TL: "+ rsp);		
 				if(apiConfig.isUseAsDemo() )
 					writeToFile(vtkDemoPath +"/vtkTroop_"+user.getName()+".json" , rsp);
 			}else{
