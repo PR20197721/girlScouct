@@ -1,79 +1,88 @@
 input[type="text"],
 form {
-  margin: 0;
-  padding: 0;
-  margin: 0;
-}
-.header .search-form {
-  position: relative;
-  input {
-    height: auto;
-    padding: rem-calc(1  5  0 5);
-    font-size: rem-calc(14);
-  }
-}
-.top-header {
-  .search-form {
-//putting it outside for cq author mode
-//    @include grid-column(6);
+    margin: 0;
     padding: 0;
     margin: 0;
-    &:after {
-      font-family: "JollyFont";
-      position: absolute;
-      content: "\e66c";
-      color: $primary-color;
-      font-size: rem-calc(20);
-      top: rem-calc(-5);
-      right: 0;
-    }
-  }
 }
-.tab-bar {
-  .search-form {
-    @include grid-column(22);
-    top: rem-calc(-1);
-    .icon-search-magnifying-glass {
-      color: $white;
-      top: 0;
-      font-size: rem-calc(25);
-      position: absolute;
-      right: rem-calc(10);
-      top: rem-calc(3);
-    }
+
+.header .search-form {
+    position: relative;
     input {
-      display: none;
-      margin: 0;
+        height: auto;
+        padding: rem-calc(1 5 0 5);
+        font-size: rem-calc(14);
     }
-  }
 }
+
+.top-header {
+    .search-form {
+        //putting it outside for cq author mode
+        //    @include grid-column(6);
+        padding: 0;
+        margin: 0;
+        &:after {
+            font-family: "JollyFont";
+            position: absolute;
+            content: "\e66c";
+            color: $primary-color;
+            font-size: rem-calc(20);
+            top: rem-calc(-5);
+            right: 0;
+        }
+    }
+}
+
+.tab-bar {
+    .search-form {
+        @include grid-column(22);
+        top: rem-calc(-1);
+        .icon-search-magnifying-glass {
+            color: $white;
+            top: 0;
+            font-size: rem-calc(25);
+            position: absolute;
+            right: rem-calc(10);
+            top: rem-calc(3);
+        }
+        input {
+            display: none;
+            margin: 0;
+        }
+    }
+}
+
 .curriculum-filter,
 .scholarship-search {
-  form {
-    label {
-      font-weight: 600;
-      margin-bottom: rem-calc(10);
+    form {
+        label {
+            font-weight: 600;
+            margin-bottom: rem-calc(10);
+        }
     }
-  }
 }
 
 //for CQ built-in form
 //checkbox line-height
 //check permission-request-form and contact-us form to see effect
 form {
-  .checkbox.section {
-    .form_row {
-      //border-style: solid;
-      //border-color: #0000ff;
-      line-height: 2;
-      .form_rightcol {
-        //border-style: solid;
-        //border-color: #00ff00;
-        line-height: 2;
-        input[type="checkbox"] {
-          margin: 0 0 0.5rem 0;
+    .checkbox.section {
+        .form_row {
+            //border-style: solid;
+            //border-color: #0000ff;
+            line-height: 2;
+            .form_rightcol {
+                //border-style: solid;
+                //border-color: #00ff00;
+                line-height: 2;
+                input[type="checkbox"] {
+                    margin: 0 0 0.5rem 0;
+                }
+            }
         }
-      }
     }
-  }
+}
+
+input[type="submit"]::-moz-focus-inner {
+    border: 0px;
+    padding: 0px;
 }
