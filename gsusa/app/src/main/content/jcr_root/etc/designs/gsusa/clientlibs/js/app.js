@@ -606,22 +606,6 @@ function fixSlickSlideActive() {
         }
     });
 
-    function scroll_feeds() {
-        $('.scroll-more').bind("click", function () {
-            // var target = $(e.target);
-            var scroll_dir,
-                scroll_area = $(this).siblings('.social-block');
-            if ($(this).hasClass('down')) {
-                scroll_dir = "+=";
-            } else {
-                scroll_dir = "-=";
-            }
-            scroll_area.animate({
-                scrollTop: scroll_dir + scroll_area.height() + "px"
-            }, 500);
-        });
-    }
-
     function equilize_our_stories() {
         var blocks = $('.our-stories-block li div'),
             maxHeight = Math.max.apply(Math, blocks.map(function () {
@@ -818,7 +802,6 @@ function fixSlickSlideActive() {
     document_close_all();
     explore_button();
     //join_now();
-    scroll_feeds();
     shop_rotator();
     welcome_cookie_slider();
     loadYTScript();

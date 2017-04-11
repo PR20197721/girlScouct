@@ -11,7 +11,8 @@
 						data-adapt-container-width="true"
 						data-hide-cover="false"
 						data-show-facepile="true"
-						data-show-posts="true">
+						data-show-posts="true"
+                        data-height="99999">
 						<div class="fb-xfbml-parse-ignore">
 							<blockquote cite="https://www.facebook.com/<%= fbPage %>">
 								<a href="https://www.facebook.com/<%= fbPage %>"><%= fbPage %></a>
@@ -21,7 +22,5 @@
 				</div>
 				<p class="centered"><a href="https://www.facebook.com/GirlScoutsUSA" title="see more on facebook">See more</a></p>
 			</div>
-			<span class="scroll-more down"></span>
-			<span class="scroll-more up"></span>
 		</div>
 		<!-- Facebook logic is mostly gone since it doesn't have an image area anymore -->

@@ -42,8 +42,6 @@
 			    </div>
 			    <p class="centered"><a href="https://instagram.com/girlscouts/" title="see more on instagram">See more</a></p>
 		    </div>
-		    <span class="scroll-more down"></span>
-		    <span class="scroll-more up"></span>
 		</div>
 	    <script type="text/javascript">
         var feedHeadArea = $(".instagram-feed-image-head-area");
