@@ -301,26 +301,26 @@ public class csv extends SlingAllMethodsServlet {
                         TagManager tm = rr.adaptTo(TagManager.class);
                         Tag t = tm.resolve(values[i].getString());
                         String strValue = ValueHelper.serialize(values[i], false);
-                    	if (i > 0 && attrValue.length() > 0) {
+                        if(t != null){
+                        	if (i > 0 && attrValue.length() > 0) {
+                        		if(null != additional){
+                        			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
+                        				attrValue.append(';');
+                        			}
+                        		}
+                            }
+                        	strValue = t.getTitle();
+                    		if(strValue.contains("\n") || strValue.contains("\r")){
+                    			strValue = strValue.replaceAll("(\\r|\\n)", "");
+                    		}
                     		if(null != additional){
                     			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
-                    				attrValue.append(';');
+                    				attrValue.append(strValue);
                     			}
+                    		}else{
+                    			attrValue.append(strValue);
                     		}
                         }
-                        if(t != null){
-                        	strValue = t.getTitle();
-                        }
-                		if(strValue.contains("\n") || strValue.contains("\r")){
-                			strValue = strValue.replaceAll("(\\r|\\n)", "");
-                		}
-                		if(null != additional){
-                			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
-                				attrValue.append(strValue);
-                			}
-                		}else{
-                			attrValue.append(strValue);
-                		}
                     }
                 } else {
                     String strValue = ValueHelper.serialize(prop.getValue(), false);
