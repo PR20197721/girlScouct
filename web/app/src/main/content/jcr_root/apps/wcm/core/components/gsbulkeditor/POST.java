@@ -242,7 +242,7 @@ public class POST extends SlingAllMethodsServlet {
 	                            TreeSet<String> allNames = new TreeSet<String>();
 	                            while((lineBuffer = bufferReader.readLine())!=null) {
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate)) {
+	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
 	                                   lineOK++;
 	                                }
 	                            }
@@ -332,7 +332,7 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate) {
+    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
     	boolean updated = false;
         try {
             int headerSize = headers.size();
@@ -407,6 +407,8 @@ public class POST extends SlingAllMethodsServlet {
 		                    	
 		                    	node = rootNode.addNode(newEventPath,"cq:Page");
 		                    	Node jcrNode = node.addNode("jcr:content","cq:PageContent");
+		                    	jcrNode.setProperty("sling:resourceType","girlscouts/components/event-page");
+		                    	jcrNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/event");
 		                    	jcrNode.addNode("data","nt:unstructured");
 		                    }
 	                	}else{
