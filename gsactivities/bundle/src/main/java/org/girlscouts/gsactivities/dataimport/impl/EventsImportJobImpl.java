@@ -14,16 +14,23 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.ValueFormatException;
 import javax.jcr.query.Query;
 import javax.jcr.Value;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
@@ -65,6 +72,9 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
+
+import static java.util.concurrent.TimeUnit.*;
+
 
 @Component(
 		metatype = true, 
@@ -263,13 +273,20 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				}
 			}
 			Collections.sort(newFiles);//sort to make sure you read the old data first
+			HashMap<String,Future<List<JSONObject>>> futuresMap = new HashMap<String,Future<List<JSONObject>>>();
+			ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 			for (int i = 0; i < newFiles.size(); i++) {
 				String zip = newFiles.get(i);
 				System.out.println("Sorted zipname is " + i + ". " + zip);
 				Map<String,Exception> errorMap = new HashMap<String, Exception>();
 				errors.put(zip, errorMap);
 				try {
-					readZip(zip);
+					
+					final Future<List<JSONObject>> future = executor.submit(new ZipReader(ftp, zip));
+					
+					executor.schedule(new Runnable() {
+					       public void run() { future.cancel(true); }}, 60 * 60, SECONDS);
+					futuresMap.put(zip, future);
 				} catch (Exception e) {
 					log.error("Exception thrown when retrieving the zip file: "+zip, e);
 					errorMap.put("error",  e);
@@ -279,44 +296,12 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					errors.remove(zip);
 				}
 			}
-
-			log.info("finish retrieving up to date files.");
-			lastUpdated=latest;
-			writeTimeStamp();
 			
-		}else{
-			errorString.append("Unable to find the event file directory " + directory + " on the server");
-			errorString.append('\n');
-			errorString.append('\n');
-			processInterrupted = true;
-			log.error("Not able to find the directory /"+directory+" on the server");
-		}
-
-
-	}
-	private void readZip(String zipName) throws Exception {
-		log.info("Retrieving " + zipName);
-		InputStream input = ftp.retrieveFileStream(zipName);
-		if (input == null) {
-			errorString.append("Cannot open data connection when reading zip: " + zipName);
-			errorString.append('\n');
-			errorString.append('\n');
-			processInterrupted = true;
-			throw new GirlScoutsException(null, "data connection cannot be opened.");
-		}
-		try {
-			ZipInputStream inputStream = new ZipInputStream(input);
-			ZipEntry entry = inputStream.getNextEntry();
-			while (entry != null) {
-				String fileName = entry.getName();
-				if(fileName.startsWith("__macosx")) continue;
-				//read instructions.json
-				if(fileName.endsWith("instructions.json")){
-					log.info("Reading " + fileName);
-					String jsonString = IOUtils.toString(inputStream, "UTF-8").trim();
-					log.info("JSON Length " + jsonString.length());
-					JSONArray jsonArray = new JSONArray(jsonString);
-					
+			for (int i = 0; i < newFiles.size(); i++) {
+				String zip = newFiles.get(i);
+				Future<List<JSONObject>> future = futuresMap.get(zip);
+				try {
+					List<JSONObject> listOfObjects = future.get();
 					Resource etcRes = rr.resolve("/etc");
 					Node etcNode = etcRes.adaptTo(Node.class);
 			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
@@ -333,46 +318,151 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
         	    		pagesProp = toActivate.toArray(new String[0]);
         	    	}else{
         	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
-        	    		for(int i=0; i<propValues.length; i++){
-        	    			toActivate.add(propValues[i].getString());
+        	    		for(int j=0; j<propValues.length; j++){
+        	    			System.out.println("Prop Values Read: " + propValues[j].getString());
+        	    			toActivate.add(propValues[j].getString());
         	    		}
         	    	}
-        	    	pagesProp = toActivate.toArray(new String[0]);
+        	    	
+					for(JSONObject object : listOfObjects){
+						parseJson(object, toActivate);
+					}
+					pagesProp = toActivate.toArray(new String[0]);
         	    	gsPagesNode.setProperty("pages", pagesProp);
         	    	Session session = rr.adaptTo(Session.class);
         			session.save();
-					
-					for (int i = 0; i < jsonArray.length(); i++) {
-						try {
-							final JSONObject jsonObject = jsonArray.getJSONObject(i);
-							parseJson(jsonObject, toActivate);
-						} catch(Exception e) {//catch inside loop, continue to next file
-							errorString.append("Failed to convert zip file: " + zipName + " to JSON");
-							errorString.append('\n');
-							log.error(e.getMessage());
-							errors.get(zipName).put("entry"+i, e);
-						}
-					}
-					log.info("End of " + fileName);
-					//TODO: if we only need to read one instruction.json", break here
-					break;
+				} catch (InterruptedException e) {
+					errorString.append("Was interrupted while reading file: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+				} catch (ExecutionException e) {
+					errorString.append("Error occured while reading file: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
+				} catch (JSONException e) {
+					errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
+				} catch (ValueFormatException e) {
+					errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
+				} catch (RepositoryException e) {
+					errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
+				} catch (GirlScoutsException e) {
+					errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage());
+					errorString.append('\n');
+					errorString.append('\n');
+					e.printStackTrace();
 				}
-				entry = inputStream.getNextEntry();
 			}
-			inputStream.close();
-		} catch (Exception e) {
-			errorString.append("Error: "+e.getMessage()+" while reading file:"+zipName);
+			
+			
+			executor.shutdownNow();
+			log.info("finish retrieving up to date files.");
+			lastUpdated=latest;
+			writeTimeStamp();
+			
+		}else{
+			errorString.append("Unable to find the event file directory " + directory + " on the server");
 			errorString.append('\n');
 			errorString.append('\n');
-			throw new GirlScoutsException(e, "Error reading file:"+zipName);
-		} finally {
-			if (!ftp.completePendingCommand()) {
-				throw new GirlScoutsException(null,	"FTP CompletePendingCommand returns false." + " File " + zipName + " transfer failed.");
-			}
-			input.close();
-			log.info("End of reading " + zipName);
+			processInterrupted = true;
+			log.error("Not able to find the directory /"+directory+" on the server");
 		}
+
+
 	}
+//	private void readZip(String zipName) throws Exception {
+//		log.info("Retrieving " + zipName);
+//		InputStream input = ftp.retrieveFileStream(zipName);
+//		if (input == null) {
+//			errorString.append("Cannot open data connection when reading zip: " + zipName);
+//			errorString.append('\n');
+//			errorString.append('\n');
+//			processInterrupted = true;
+//			throw new GirlScoutsException(null, "data connection cannot be opened.");
+//		}
+//		try {
+//			ZipInputStream inputStream = new ZipInputStream(input);
+//			ZipEntry entry = inputStream.getNextEntry();
+//			while (entry != null) {
+//				String fileName = entry.getName();
+//				if(fileName.startsWith("__macosx")) continue;
+//				//read instructions.json
+//				if(fileName.endsWith("instructions.json")){
+//					log.info("Reading " + fileName);
+//					String jsonString = IOUtils.toString(inputStream, "UTF-8").trim();
+//					log.info("JSON Length " + jsonString.length());
+//					JSONArray jsonArray = new JSONArray(jsonString);
+//					
+//					Resource etcRes = rr.resolve("/etc");
+//					Node etcNode = etcRes.adaptTo(Node.class);
+//			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
+//			        Node gsPagesNode = null;
+//			        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+//						gsPagesNode = etcNode.addNode("gs-delayed-activations");
+//			        }else{
+//				        gsPagesNode = gsPagesRes.adaptTo(Node.class);
+//			        }
+//			        ArrayList<String> toActivate = new ArrayList<String>();
+//        	    	String [] pagesProp;
+//        	    	
+//        	    	if(!gsPagesNode.hasProperty("pages")){
+//        	    		pagesProp = toActivate.toArray(new String[0]);
+//        	    	}else{
+//        	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
+//        	    		for(int i=0; i<propValues.length; i++){
+//        	    			toActivate.add(propValues[i].getString());
+//        	    		}
+//        	    	}
+//        	    	pagesProp = toActivate.toArray(new String[0]);
+//        	    	gsPagesNode.setProperty("pages", pagesProp);
+//        	    	Session session = rr.adaptTo(Session.class);
+//        			session.save();
+//					
+//					for (int i = 0; i < jsonArray.length(); i++) {
+//						try {
+//							final JSONObject jsonObject = jsonArray.getJSONObject(i);
+//							parseJson(jsonObject, toActivate);
+//						} catch(Exception e) {//catch inside loop, continue to next file
+//							errorString.append("Failed to convert zip file: " + zipName + " to JSON");
+//							errorString.append('\n');
+//							log.error(e.getMessage());
+//							errors.get(zipName).put("entry"+i, e);
+//						}
+//					}
+//					log.info("End of " + fileName);
+//					//TODO: if we only need to read one instruction.json", break here
+//					break;
+//				}
+//				entry = inputStream.getNextEntry();
+//			}
+//			inputStream.close();
+//		} catch (Exception e) {
+//			errorString.append("Error: "+e.getMessage()+" while reading file:"+zipName);
+//			errorString.append('\n');
+//			errorString.append('\n');
+//			throw new GirlScoutsException(e, "Error reading file:"+zipName);
+//		} finally {
+//			if (!ftp.completePendingCommand()) {
+//				throw new GirlScoutsException(null,	"FTP CompletePendingCommand returns false." + " File " + zipName + " transfer failed.");
+//			}
+//			input.close();
+//			log.info("End of reading " + zipName);
+//		}
+//	}
 
 	private void parseJson(JSONObject jsonObject, ArrayList<String> toActivate) throws JSONException, GirlScoutsException {
 		String action =jsonObject.getString("action");
@@ -391,15 +481,9 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				log.error(e.getMessage());
 				throw new GirlScoutsException(e, "Fail to PUT the payload: "+payload);
 			}
-			//Then we replicate the node here
-			try {
-				replicateNode(newPath, toActivate);
-			} catch (Exception e) {
-				errorString.append("Unable to activate node" + newPath + " on the server");
-				errorString.append('\n');
-				errorString.append('\n');
-				throw new GirlScoutsException(e, "Fail to ACTIVIATE the Node from author with path: " + newPath);
-			}
+			//Add the node to the running activation list
+			toActivate.add(newPath);
+			
 		} else if (action.equalsIgnoreCase("DELETE")) {
 			try {
 				delete(payload);
@@ -414,24 +498,24 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 		}
 	}
 	
-	private void replicateNode(String newPath, ArrayList<String> toActivate) throws GirlScoutsException {
-		/* Session session = rr.adaptTo(Session.class);
-		try {
-			replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
-		} catch (NullPointerException npe) {
-			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to nullpointer exception");
-			errorString.append('\n');
-			log.error("Replicator is null for path: " + newPath);
-			throw new GirlScoutsException(npe, "Fail to Activates the path with NPE: " + newPath);
-		} catch (Exception e) {
-			//e.printStackTrace();
-			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to error: " + e.getMessage());
-			errorString.append('\n');
-			throw new GirlScoutsException(e, "Fail to Activates the path: " + newPath + ". " + e.getMessage());
-		} */
-		toActivate.add(newPath);
-		log.info("<---------EVENT SET TO ACTIVIATE: " + newPath + " -------->");
-	}
+//	private void replicateNode(String newPath, ArrayList<String> toActivate){
+//		/* Session session = rr.adaptTo(Session.class);
+//		try {
+//			replicator.replicate(session, ReplicationActionType.ACTIVATE, newPath);
+//		} catch (NullPointerException npe) {
+//			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to nullpointer exception");
+//			errorString.append('\n');
+//			log.error("Replicator is null for path: " + newPath);
+//			throw new GirlScoutsException(npe, "Fail to Activates the path with NPE: " + newPath);
+//		} catch (Exception e) {
+//			//e.printStackTrace();
+//			errorString.append("Failed to activate node with path:  " + newPath + " on the server due to error: " + e.getMessage());
+//			errorString.append('\n');
+//			throw new GirlScoutsException(e, "Fail to Activates the path: " + newPath + ". " + e.getMessage());
+//		} */
+//		toActivate.add(newPath);
+//		log.info("<---------EVENT SET TO ACTIVIATE: " + newPath + " -------->");
+//	}
 	
 	private String put(JSONObject payload) throws GirlScoutsException {
 
