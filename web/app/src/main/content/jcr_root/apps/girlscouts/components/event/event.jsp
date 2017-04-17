@@ -65,7 +65,10 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	String stringStartDate = properties.get("start","");
 	String stringRegOpenDate = properties.get("regOpen","");
 	GSDateTime startDate = GSDateTime.parse(stringStartDate,dtfIn);
-	GSDateTime regOpenDate = GSDateTime.parse(stringRegOpenDate,dtfIn);
+	GSDateTime regOpenDate = null;
+	try{
+		regOpenDate = GSDateTime.parse(stringRegOpenDate,dtfIn);
+	}catch(Exception e){}
 	GSLocalDateTime localStartDate = null;
 	GSLocalDateTime localRegOpenDate = null;
 	
@@ -89,12 +92,14 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		try{
 			dtz = GSDateTimeZone.forID(timeZoneLabel);
 			startDate = startDate.withZone(dtz);
-			regOpenDate = regOpenDate.withZone(dtz);
 			timeZoneShortLabel = dtz.getShortName(startDate.getMillis());
 			startDateStr = dtfOutDate.print(startDate);
 			startTimeStr = dtfOutTime.print(startDate);
-			regOpenDateStr = dtfOutDate.print(regOpenDate);
-			regOpenTimeStr = dtfOutTime.print(regOpenDate);
+			if(regOpenDate != null){
+				regOpenDate = regOpenDate.withZone(dtz);
+				regOpenDateStr = dtfOutDate.print(regOpenDate);
+				regOpenTimeStr = dtfOutTime.print(regOpenDate);
+			}
 		}catch(Exception e){
 			useRaw = true;
 			e.printStackTrace();
@@ -104,15 +109,20 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	if(timeZoneLabel.isEmpty() || useRaw){
 		timeZoneShortLabel = timeZoneLabel;
 		localStartDate = GSLocalDateTime.parse(stringStartDate,dtfIn);
-		localRegOpenDate = GSLocalDateTime.parse(stringRegOpenDate,dtfIn);
 		startDateStr = dtfOutDate.print(localStartDate);
 		startTimeStr = dtfOutTime.print(localStartDate);
-		regOpenDateStr = dtfOutDate.print(localRegOpenDate);
-		regOpenTimeStr = dtfOutTime.print(localRegOpenDate);
+		if(stringRegOpenDate != null && !"".equals(stringRegOpenDate)){
+			localRegOpenDate = GSLocalDateTime.parse(stringRegOpenDate,dtfIn);
+			regOpenDateStr = dtfOutDate.print(localRegOpenDate);
+			regOpenTimeStr = dtfOutTime.print(localRegOpenDate);
+		}
 	}
 
 	String formatedStartDateStr = startDateStr + ", " +startTimeStr;
-	String formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
+	String formattedRegOpenDateStr = "";
+	if(!"".equals(regOpenDateStr) && !"".equals(regOpenTimeStr)){
+		formattedRegOpenDateStr = regOpenDateStr + ", " + regOpenTimeStr;
+	}
 
 	// Member type true means it's members only. False means it's public. This was done because salesforce is currently sending us boolean data,
 	// but there's a possibility that more member types will be added in the future, and using strings means less of a transition when that happens
@@ -311,6 +321,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 				</div>
 	<% } %>
 
+<% if(regOpenDate != null ) {%>
 	<div class="row">
 	<div class="small-10 medium-10 large-10 columns">
     	<b>Registration:</b>
@@ -318,9 +329,9 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
     <div class="small-14 medium-14 large-14 columns">
 	<b>
 		<%try{%>
+			<% if(formattedRegCloseDateStr!=null && !formattedRegCloseDateStr.equals("")){ %>
 				<span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=dtUTF.withZone(GSDateTimeZone.UTC).print(regOpenDate)%>"><%=formattedRegOpenDateStr%></span>
-                <% if(formattedRegCloseDateStr!=null && !formattedRegCloseDateStr.equals("")){ %>
-                    <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(regCloseDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(regCloseDate))%>"><%=formattedRegCloseDateStr %></span>
+                <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(regCloseDate==null ? "" : dtUTF.withZone(GSDateTimeZone.UTC).print(regCloseDate))%>"><%=formattedRegCloseDateStr %></span>
                 <%
                 }
 			}catch(Exception eDateStr){eDateStr.printStackTrace();}
@@ -328,6 +339,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 	</b>
 	</div>
 	</div>
+	<% } %>
 	
 	<% String programType = properties.get("progType","");
 		if(!"".equals(programType)){%>
