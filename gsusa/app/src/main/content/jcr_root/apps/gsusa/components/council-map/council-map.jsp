@@ -12,9 +12,10 @@ if((path.equals("") || imgPath.equals("")) && WCMMode.fromRequest(request) == WC
 }else if(!path.equals("") && !imgPath.equals("")){
 %>
 	<img id="council-map-img" src="<%= imgPath %>" alt="United States map" height="320" style="width:494px" border="0" usemap="#Map" /><map id="council-map" name="Map">
-    <area shape="rect" coords="16,232,80,245" href="<%= path %>.html#AK" alt="Alaska">
-    <area shape="rect" coords="16,255,80,267" href="<%= path %>.html#HI" alt="Hawaii">
-    <area shape="rect" coords="16,274,90,286" href="<%= path %>.html#PR" alt="Puerto Rico">
+    <area shape="rect" coords="16,230,95,248" href="<%= path %>.html#AK" alt="Alaska">
+    <area shape="rect" coords="16,251,95,269" href="<%= path %>.html#HI" alt="Hawaii">
+    <area shape="rect" coords="16,272,95,290" href="<%= path %>.html#PR" alt="Puerto Rico">
+    <area shape="rect" coords="16,293,95,309" href="<%= path %>.html#700" alt="Overseas">
 	
     <area shape="poly" coords="63,18,102,29,95,62,56,55,47,45,47,23,62,31" href="<%= path %>.html#WA" alt="Washington">
     <area shape="poly" coords="45,49,54,57,92,65,85,103,31,87" href="<%= path %>.html#OR" alt="Oregon">   
