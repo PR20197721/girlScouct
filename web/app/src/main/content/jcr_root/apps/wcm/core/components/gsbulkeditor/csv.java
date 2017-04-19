@@ -204,12 +204,25 @@ public class csv extends SlingAllMethodsServlet {
                         Tag t = tm.resolve(values[i].getString());
                         String strValue = ValueHelper.serialize(values[i], false);
                         if(t != null){
+                        	if (i > 0 && attrValue.length() > 0) {
+                        		if(null != additional){
+                        			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
+                        				attrValue.append(';');
+                        			}
+                        		}
+                            }
                         	strValue = t.getTitle();
+                    		if(strValue.contains("\n") || strValue.contains("\r")){
+                    			strValue = strValue.replaceAll("(\\r|\\n)", "");
+                    		}
+                    		if(null != additional){
+                    			if(t.getTagID().matches("^.*:" + additional + "/.*$")){
+                    				attrValue.append(strValue);
+                    			}
+                    		}else{
+                    			attrValue.append(strValue);
+                    		}
                         }
-                		if(strValue.contains("\n") || strValue.contains("\r")){
-                			strValue = strValue.replaceAll("(\\r|\\n)", "");
-                		}
-                        attrValue.append(strValue);
                     }
                 } else {
                     String strValue = ValueHelper.serialize(prop.getValue(), false);
