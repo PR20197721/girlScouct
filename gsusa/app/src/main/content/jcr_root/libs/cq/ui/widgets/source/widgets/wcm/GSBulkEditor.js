@@ -66,6 +66,13 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
      * True to perform query on load (default is false).
      */
     initialSearch: false,
+    
+    /**
+     * @cfg GS - year for events
+     */
+    hideYear: true,
+    year: null,
+    hideResults: false,
 
     /**
      * @cfg {String[]} colsSelection
@@ -340,6 +347,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             this.hideColsSelection = true;
             this.hideExtraCols = true;
             this.hideResourceType = true;
+            this.hideYear = true;
+            this.hideResults = false;
             this.hidePrimaryType = true;
             this.hideSearchButton = true;
             //allow to override the grid button configs per initial config
@@ -357,6 +366,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         this.hideColsSelection = this.toBoolean(this.hideColsSelection);
         this.hideExtraCols = this.toBoolean(this.hideExtraCols);
         this.hideResourceType = this.toBoolean(this.hideResourceType);
+        this.hideYear = this.toBoolean(this.hideYear);
+        this.hideResults = this.toBoolean(this.hideResults);
         this.hidePrimaryType = this.toBoolean(this.hidePrimaryType);
         this.hideSearchButton = this.toBoolean(this.hideSearchButton);
         this.hideImportButton = this.toBoolean(this.hideImportButton);
@@ -561,8 +572,8 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     },
 
     initGridPanel: function() {
-        this.loadGrid(false);
-        this.add(this.gridEditor);
+	        this.loadGrid(false);
+	        this.add(this.gridEditor);
     },
 
     initializeCheckboxSelection:function() {
@@ -729,6 +740,106 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             }
             this.currentColObject = colObj;
         }
+                
+        if(this.importType == "events"){
+        	var modObj = {"headers" : [], "values" : []};
+        	var modIndex = 0;
+        	
+        	var colObj = this.currentColObject;
+        	for(var k = 0; k < colObj.values.length; k++){
+        		if(colObj.headers[k] == "jcr:title"){
+        			modObj.headers[modIndex] = "Title";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/start"){
+        			modObj.headers[modIndex] = "Start Date";
+        			modObj.values[modIndex] = "jcr:content/data/start-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Start Time";
+        			modObj.values[modIndex] = "jcr:content/data/start-time";
+        		}else if(colObj.headers[k] == "data/end"){
+        			modObj.headers[modIndex] = "End Date";
+        			modObj.values[modIndex] = "jcr:content/data/end-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "End Time";
+        			modObj.values[modIndex] = "jcr:content/data/end-time";
+        		}else if(colObj.headers[k] == "data/timezone"){
+        			modObj.headers[modIndex] = "Time Zone";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/region"){
+        			modObj.headers[modIndex] = "Region";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/locationLabel"){
+        			modObj.headers[modIndex] = "Location Name";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/address"){
+        			modObj.headers[modIndex] = "Address";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/details"){
+        			modObj.headers[modIndex] = "Text";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/srchdisp"){
+        			modObj.headers[modIndex] = "Search Description";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/color"){
+        			modObj.headers[modIndex] = "Color";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/register"){
+        			modObj.headers[modIndex] = "Registration";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "cq:tags"){
+        			modObj.headers[modIndex] = "Categories";
+        			modObj.values[modIndex] = "jcr:content/cq:tags-categories";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Program Levels";
+        			modObj.values[modIndex] = "jcr:content/cq:tags-progLevel";
+        		}else if(colObj.headers[k] == "data/imagePath"){
+        			modObj.headers[modIndex] = "Image";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/regOpen"){
+        			modObj.headers[modIndex] = "Registration Open Date";
+        			modObj.values[modIndex] = "jcr:content/data/regOpen-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Registration Open Time";
+        			modObj.values[modIndex] = "jcr:content/data/regOpen-time";
+        		}else if(colObj.headers[k] == "data/regClose"){
+        			modObj.headers[modIndex] = "Registration Close Date";
+        			modObj.values[modIndex] = "jcr:content/data/regClose-date";
+        			modIndex++;
+        			modObj.headers[modIndex] = "Registration Close Time";
+        			modObj.values[modIndex] = "jcr:content/data/regClose-time";
+        		}else if(colObj.headers[k] == "data/progType"){
+        			modObj.headers[modIndex] = "Program Type";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/grades"){
+        			modObj.headers[modIndex] = "Grades";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/girlFee"){
+        			modObj.headers[modIndex] = "Girl Fee";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/adultFee"){
+        			modObj.headers[modIndex] = "Adult Fee";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/minAttend"){
+        			modObj.headers[modIndex] = "Minimum Attendance";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/maxAttend"){
+        			modObj.headers[modIndex] = "Maximum Attendance";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}else if(colObj.headers[k] == "data/programCode"){
+        			modObj.headers[modIndex] = "Program Code";
+        			modObj.values[modIndex] = colObj.values[k];
+        		}
+        		
+        		else{
+        			modObj.headers[modIndex] = colObj.values[k];
+        			modObj.values[modIndex] = colObj.values[k];
+        		}
+        		modIndex++;
+        	}
+        	colObj = modObj;
+        	this.currentColObject = colObj;
+        }
+        
         return this.currentColObject;
     },
 
@@ -812,7 +923,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var colObj = this.getColObject(true);
         var colsObjects = new Array();
         if(this.importType){
-        	if(this.importType == "documents"){
+        	if(this.importType == "documents" || this.importType == "events"){
                 for (var i = 0; i < colObj.values.length; i++) {
 
                     colsObjects.push(
@@ -904,6 +1015,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             url = CQ.HTTP.addParameter(url, "isDeep", isDeep);
         }
         var colObj = this.getColObject();
+        
         if (colObj.values && colObj.values.length > 0) {
             url = CQ.HTTP.addParameter(url, "cols", "" + colObj.values);
         }
@@ -911,6 +1023,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         var resourceType = this.getResourceType();
         if(resourceType){
         	url = CQ.HTTP.addParameter(url, "resourceType", resourceType);
+        }
+        
+        var year = this.getYear();
+        if(year){
+        	url = CQ.HTTP.addParameter(url, "year", year);
         }
         
         var primaryType = this.getPrimaryType();
@@ -1270,6 +1387,20 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	return config;
     },
     
+    getYearConfig: function() {
+    	var config = {
+    		"fieldClass":"x-form-text-bulkeditor",
+    		"fieldLabel":CQ.I18n.getMessage("Year"),
+    		"name":"./year",
+    		"value":this.year,
+    		"fieldDescription":CQ.I18n.getMessage("For Events only - Filter events by year"),
+    	};
+    	if(this.initialConfig && this.initialConfig.yearInput){
+    		config = CQ.Util.applyDefaults(this.initialConfig.yearInput,config);
+    	}
+    	return config;
+    },
+    
     getPrimaryTypeConfig: function() {
     	var config = {
     		"fieldClass":"x-form-text-bulkeditor",
@@ -1293,6 +1424,9 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                 }
                 if(this.importType){
                 	url = CQ.shared.HTTP.addParameter(url, "importType", this.importType);
+                }
+                if(this.year){
+                	url = CQ.shared.HTTP.addParameter(url, "year", this.year);
                 }
                 CQ.shared.Util.open(url);
             };
@@ -1324,7 +1458,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
                     var action = new CQ.form.SlingSubmitAction(form, {
                         "method": "POST",
                         "url": this.importURL,
-                        "params": { "importType" : this.importType },
+                        "params": { "importType" : this.importType, "year" : this.year },
                         success:function(form,action) {
                             form.el.dom["enctype"] = "";
                             delete form.fileUpload;
@@ -1639,6 +1773,11 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
         	this.isDeepModeInput = new CQ.Ext.form.Checkbox(this.getIsDeepConfig());
         	leftset.push(this.isDeepModeInput);
         }
+        
+        if(!this.hideYear){
+        	this.yearInput = new CQ.Ext.form.TextField(this.getYearConfig());
+        	leftset.push(this.yearInput);
+        }
 
         if(!this.hideSearchButton || !this.hideImportButton) {
             var buttons = new Array();
@@ -1693,7 +1832,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "hidden":  this.showGridOnly,
             "autoEl":"div",
             "autoScroll": true,
-            "height": 280,
+            "height": 350,
             "anchor": "100%",
             "listeners": {
                 "expand": function() {
@@ -2000,7 +2139,7 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             "cm": this.getColumnModel(),
             "sm": rsm,
             "clicksToEdit":2,
-            "height": 370,
+            "height": !this.hideResults ? 370 : 0,
             "stateful": false,
             "border": true,
             "plugins": this.gridPlugins,
@@ -2661,6 +2800,13 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
     	return this.resourceType;
     },
     
+    getYear: function(){
+    	if(this.yearInput){
+    		return this.yearInput.getValue();
+    	}
+    	return this.year;
+    },
+    
     getPrimaryType: function(){
     	if(this.primaryTypeInput){
     		return this.primaryTypeInput.getValue();
@@ -2772,6 +2918,10 @@ CQ.wcm.GSBulkEditor = CQ.Ext.extend(CQ.Ext.Panel, {
             
             if(this.importType){
             	params["importType"] = this.importType;
+            }
+            
+            if(this.year){
+            	params["year"] = this.year;
             }
 
             if (hasParam) {

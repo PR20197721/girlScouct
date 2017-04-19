@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.lang.StringBuilder;
 
 import javax.jcr.Node;
@@ -44,6 +45,9 @@ import org.apache.sling.api.resource.ResourceResolver;
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
+import org.girlscouts.web.events.search.GSDateTime;
+import org.girlscouts.web.events.search.GSDateTimeFormat;
+import org.girlscouts.web.events.search.GSDateTimeFormatter;
 
 
 /**
@@ -58,6 +62,7 @@ public class json extends SlingAllMethodsServlet {
 	public static final String RESOURCE_TYPE_PARAM = "resourceType";
 	public static final String PRIMARY_TYPE_PARAM = "primaryType";
 	public static final String IMPORT_TYPE_PARAM = "importType";
+	public static final String YEAR_PARAM = "year";
 
 	/**
 	 * Common path prefix
@@ -126,8 +131,15 @@ public class json extends SlingAllMethodsServlet {
 
 				String tmp = request.getParameter(PROPERTIES_PARAM);
 				String[] properties = (tmp != null) ? tmp.split(",") : null;
-
-                
+				
+				String year = request.getParameter(YEAR_PARAM);
+				if(null != importType){
+					if(importType.equals("events")){
+						if(null != year){
+							path = path + "/" + year;
+						}
+					}
+				}
                 iterateNodes(path, nbrOfResults, writer, properties, session, request, isDeep, resourceType, primaryType, importType);
 
 				writer.endArray();
@@ -277,6 +289,8 @@ public class json extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/sling:resourceType").getString().equals(resourceType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }else if(null != primaryType){
 	            	if(node.hasProperty("jcr:primaryType")){
@@ -287,6 +301,8 @@ public class json extends SlingAllMethodsServlet {
 	            		if(!node.getProperty("jcr:content/jcr:primaryType").getString().equals(primaryType)){
 	            			canIterate = true;
 	            		}
+	            	}else{
+	            		canIterate = true;
 	            	}
 	            }   
 	            if(canIterate){
@@ -336,7 +352,71 @@ public class json extends SlingAllMethodsServlet {
 				}else{//open form
 					if (properties != null) {
 						for (String property : properties) {
-							if (node.hasProperty(property)) {
+							if(null != importType){
+								if(importType.equals("events")){
+									if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-date") || property.equals("jcr:content/data/regClose-time")){
+										if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+											String datetimeString = node.getProperty(property.substring(0,property.lastIndexOf("-"))).getString();
+											GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
+											GSDateTime dt = GSDateTime.parse(datetimeString,dtfIn);
+											GSDateTimeFormatter dtfOutDate = GSDateTimeFormat.forPattern("MM/dd/yyyy");
+											GSDateTimeFormatter dtfOutTime = GSDateTimeFormat.forPattern("hh:mm a");
+											String [] dateTime = new String[1];
+											if(property.equals("jcr:content/data/start-date") || property.equals("jcr:content/data/end-date") || property.equals("jcr:content/data/regOpen-date") || property.equals("jcr:content/data/regClose-date")){
+												dateTime[0] = dtfOutDate.print(dt);
+												writeProperty(writer,property,dateTime);
+											}else if(property.equals("jcr:content/data/start-time") || property.equals("jcr:content/data/end-time") || property.equals("jcr:content/data/regOpen-time") || property.equals("jcr:content/data/regClose-time")){
+												dateTime[0] = dtfOutTime.print(dt);
+												writeProperty(writer,property,dateTime);
+											}
+										}
+									}else if(property.equals("jcr:content/cq:tags-progLevel") || property.equals("jcr:content/cq:tags-categories")){
+										if (node.hasProperty(property.substring(0,property.lastIndexOf("-")))){
+											String tagFolder = property.substring(property.lastIndexOf("-")+1,property.length());
+											if(tagFolder.equals("progLevel")){
+												tagFolder = "program-level";
+											}
+											String[] tagsToWrite = new String[1];
+											String tagString = "";
+											try{
+												Property prop = node.getProperty(property.substring(0,property.lastIndexOf("-")));
+                                				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
+                                				if (prop.getDefinition().isMultiple()) {
+                                					Value[] values = prop.getValues();
+                                					for(Value value : values){
+                                						Tag t = tm.resolve(value.toString());
+                                						if(null != t){
+                                							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                                        						if(tagString.length() > 0){
+                                        							tagString = tagString + ";";
+                                        						}
+                                								tagString = tagString + t.getTitle();
+                                							}
+                                						}
+                                					}
+                                					tagsToWrite[0] = tagString;
+                                				}else{
+                                					Value value = prop.getValue();
+                            						Tag t = tm.resolve(value.toString());
+                            						if(null != t){
+                            							if(t.getTagID().matches("^.*:" + tagFolder + "/.*$")){
+                            								tagsToWrite[0] = t.getTitle();
+                            							}
+                            						}
+                                				}
+                                				writeProperty(writer,property,tagsToWrite);
+											}catch(Exception e){
+												e.printStackTrace();
+											}
+										}
+									}else if (node.hasProperty(property)) {
+										writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
+									}
+								}else if (node.hasProperty(property)) {
+									writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
+								}
+							}
+							else if (node.hasProperty(property)) {
 								writeProperty(writer,property,node.getProperty(property),request.getResourceResolver());
 							}
 						}

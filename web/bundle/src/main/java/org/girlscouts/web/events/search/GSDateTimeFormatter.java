@@ -23,4 +23,12 @@ public class GSDateTimeFormatter{
 	public GSDateTimeFormatter withZone(GSDateTimeZone dtz){
 		return new GSDateTimeFormatter(dtf.withZone(dtz.dtz));
 	}
+	
+	public GSDateTimeFormatter withOffsetParsed(){
+		return new GSDateTimeFormatter(dtf.withOffsetParsed());
+	}
+	
+	public GSDateTime parseDateTime(String text){
+		return new GSDateTime(dtf.parseDateTime(text));
+	}
 }
