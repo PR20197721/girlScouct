@@ -53,6 +53,7 @@
 		<option value="WV">West Virginia</option>
 		<option value="WI">Wisconsin</option>
 		<option value="WY">Wyoming</option>
+		<option value="700">Overseas</option> 
 	</select>
 	<input type="submit" value="Go" class="button tiny"/>
 </section>
