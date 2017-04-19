@@ -396,6 +396,9 @@ public class POST extends SlingAllMethodsServlet {
 	                	if(path==null || path.length()==0 || path.equals(" ")) {
 		                    int index = headers.indexOf("jcr:content/jcr:title");
 		                    if(index!=-1) {
+		                    	if(null == values.get(index) || "".equals(values.get(index))){
+		                    		return false;
+		                    	}
 		                    	String newEventPath = values.get(index).toLowerCase().replaceAll("[^A-Za-z0-9]","-");
 		                    	if(request.getResourceResolver().getResource(rootNode.getPath() + "/" + newEventPath) != null){
 		                    		int nodeNameCounter = 0;
@@ -410,6 +413,8 @@ public class POST extends SlingAllMethodsServlet {
 		                    	jcrNode.setProperty("sling:resourceType","girlscouts/components/event-page");
 		                    	jcrNode.setProperty("cq:scaffolding","/etc/scaffolding/" + councilName + "/event");
 		                    	jcrNode.addNode("data","nt:unstructured");
+		                    }else{
+		                    	return false;
 		                    }
 	                	}else{
 	                		node = rootNode.addNode(path,"nt:unstructured");
