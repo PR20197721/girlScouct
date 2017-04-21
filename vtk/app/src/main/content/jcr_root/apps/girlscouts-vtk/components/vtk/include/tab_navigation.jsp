@@ -118,19 +118,12 @@
 						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
 					</dd>
 				<% }  %>
-
-				<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+				<% if(  !user.getApiConfig().isDemoUser() ){ %>
 					<dd
 						<%=  ("finances".equals(activeTab) || "financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
 						<a href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
 					</dd>
 
-				<% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-					<dd
-						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
-						<a title="Edit Finance Fields"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
-					</dd>
 				<% } %>
 		  <%}%>
 			</dl>
@@ -295,35 +288,11 @@
 					<% } %>
 
 
-					<% if(VtkUtil.hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
-					<li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
+					<% if( !user.getApiConfig().isDemoUser() ) { %>
+					  <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a
 						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
-						<ul>
-							<% if("finances".equals(activeTab)) {
-
-               if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-							<!-- li><a title="Edit Finance Fields"
-								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-									finance fields</a></li -->
-							<%
-		            }
-                }else if("financesadmin".equals(activeTab)){
-
-              	 if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-							<li><a title="enter finance"
-								href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
-									finance</a></li>
-							<%
-                	 }
-                 }
-		            %>
-						</ul></li>
-					<% }else if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-					<li
-						<%= ("financesadmin".equals(activeTab)) ? "class='active'" : "" %>>
-						<a title="Edit Finance Fields"
-						href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
-					</li>
+						</li>
+					
 					<% } %>
 				<%}%>	
 				</ul>
@@ -417,27 +386,7 @@
 						<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove
 								troop photo</a></li>
 						<% } %>
-						<!-- if finance page -->
-						<% if("finances".equals(activeTab) || "financesadmin".equals(activeTab)) {
-
-                     if(VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_ID)) { %>
-						<li>
-							<% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
-								<p>edit finance fields</p> 
-							<% } else if("financesadmin".equals(activeTab)){ %>
-							<a title="Finance"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.finances.html">enter
-								finance</a> 
-								<% } else if( VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_FINANCE_FORM_ID)) { %>
-							<!-- a title="Edit Finance Fields"
-							href="<%=relayUrl %>/content/girlscouts-vtk/en/vtk.admin_finances.html">edit
-								finance fields</a --> 
-								<% } %>
-						</li>
-						<%
-                    }
-                }
-            %>
+						
 
 
 
@@ -526,4 +475,3 @@
 </div>
 
  
-
