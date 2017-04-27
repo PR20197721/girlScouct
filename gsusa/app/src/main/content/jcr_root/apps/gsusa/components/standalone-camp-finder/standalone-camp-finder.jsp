@@ -33,7 +33,8 @@ else{
 	%>
 	<script>
 	//variable to be passed to app.js function
-	var loc = "<%= resourceResolver.map(resultsPath) %>.html";
+	var redirectCampFinderURL = "<%= resourceResolver.map(resultsPath) %>";
+	var currentCampFinderURL = "<%= resourceResolver.map(currentPage.getPath()) %>";
 
 	document.styleSheets[0].insertRule("#<%= id%> { background: url('<%= getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource))%>') no-repeat 0% 0%/100% 100% transparent; }", 0);
 	</script>
