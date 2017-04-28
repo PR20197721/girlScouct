@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -274,131 +275,20 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 					}
 				}
 			}
-			Collections.sort(newFiles);//sort to make sure you read the old data first
-			ConcurrentHashMap<String,Future<List<JSONObject>>> futuresMap = new ConcurrentHashMap<String,Future<List<JSONObject>>>();
-			ExecutorService executor = Executors.newSingleThreadExecutor();
-			for (int i = 0; i < newFiles.size(); i++) {
-				String zip = newFiles.get(i);
-				//System.out.println("Sorted zipname is " + i + ". " + zip);
-				Map<String,Exception> errorMap = new HashMap<String, Exception>();
-				errors.put(zip, errorMap);
-				try {
-					
-					final Future<List<JSONObject>> future = executor.submit(new ZipReader(ftp, zip));
-					
-					
-					futuresMap.put(zip, future);
-				} catch (Exception e) {
-					log.error("Exception thrown when retrieving the zip file: "+zip, e);
-					errorMap.put("error",  e);
-				}
-				//clean errors list if no error recorded
-				if (errorMap.size() == 0) {
-					errors.remove(zip);
-				}
-			}
 			
-			ArrayList<String> failedZips = new ArrayList<String>();
-			
-			//Maximum number of attempts to retrieve files from ftps
 			int tries = 2;
-			
-			//Timeout for retrieving ftp file
-			int futureTimeout = 15;
-			
-			while(tries > 0 && !futuresMap.isEmpty()){
-				Set<String> keys = futuresMap.keySet();
-				for (String zip : keys) {
-					
-					Future<List<JSONObject>> future = futuresMap.get(zip);
-					futuresMap.remove(zip);
-					try {
-						
-						List<JSONObject> listOfObjects = future.get(futureTimeout, TimeUnit.MINUTES);
-						if(listOfObjects != null){
-							Resource etcRes = rr.resolve("/etc");
-							Node etcNode = etcRes.adaptTo(Node.class);
-					        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
-					        Node gsPagesNode = null;
-					        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
-								gsPagesNode = etcNode.addNode("gs-delayed-activations");
-					        }else{
-						        gsPagesNode = gsPagesRes.adaptTo(Node.class);
-					        }
-					        ArrayList<String> toActivate = new ArrayList<String>();
-		        	    	String [] pagesProp;
-		        	    	
-		        	    	if(!gsPagesNode.hasProperty("pages")){
-		        	    		pagesProp = toActivate.toArray(new String[0]);
-		        	    	}else{
-		        	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
-		        	    		for(int j=0; j<propValues.length; j++){
-		        	    			if(null != propValues[j]){
-		        	    				toActivate.add(propValues[j].getString());
-		        	    			}
-		        	    		}
-		        	    	}
-		        	    	
-								for(JSONObject object : listOfObjects){
-									parseJson(object, toActivate);
-								}
-		        	    	
-							pagesProp = toActivate.toArray(new String[0]);
-		        	    	gsPagesNode.setProperty("pages", pagesProp);
-		        	    	Session session = rr.adaptTo(Session.class);
-		        			session.save();
-						}
-					} catch (InterruptedException e) {
-						errorString.append("Was interrupted while reading file: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-					} catch (ExecutionException e) {
-						errorString.append("Error occured while reading file: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (JSONException e) {
-						errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (ValueFormatException e) {
-						errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (IllegalStateException e) {
-						errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (RepositoryException e) {
-						errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (GirlScoutsException e) {
-						errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage() + ".   ");
-						errorString.append('\n');
-						errorString.append('\n');
-						e.printStackTrace();
-					} catch (TimeoutException e) {	
-						future.cancel(true);
-						failedZips.add(zip);
-						final Future<List<JSONObject>> future2 = executor.submit(new ZipReader(ftp, zip));
-						futuresMap.put(zip, future2);
-					}
-				}
-				
+			int timeout = 15;
+			List<String> failedZips = newFiles;
+			while(tries > 0 && !failedZips.isEmpty()){
+				failedZips = processFtpFiles(failedZips, timeout);
+				timeout+=15;
 				tries--;
-				futureTimeout = futureTimeout + 15;
 			}
-			
 			//Record files that weren't downloaded despite multiple attempts
-			if(!futuresMap.isEmpty()){
-				Set<String> errorZips = futuresMap.keySet();
-				for(String errorZip : errorZips){
-					errorString.append("Unable to download file: " + errorZip + " despite multiple attempts.   ");
+			if(!failedZips.isEmpty()){
+				
+				for(String failedZip : failedZips){
+					errorString.append("Unable to download file: " + failedZip + " despite multiple attempts.   ");
 					errorString.append('\n');
 					errorString.append('\n');	
 				}
@@ -406,8 +296,6 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 				
 			}
 			
-			executor.shutdownNow();
-			log.info("finish retrieving up to date files.");
 			lastUpdated=latest;
 			writeTimeStamp();
 			
@@ -418,10 +306,116 @@ public class EventsImportJobImpl implements Runnable, EventsImport{
 			processInterrupted = true;
 			log.error("Not able to find the directory /"+directory+" on the server");
 		}
-		
-		
 
-
+	}
+	
+	private List<String> processFtpFiles(List<String> newFiles, int futureTimeout){
+		ArrayList<String> failedZips = new ArrayList<String>();
+		Collections.sort(newFiles);//sort to make sure you read the old data first
+		LinkedHashMap<String,Future<List<JSONObject>>> futuresMap = new LinkedHashMap<String,Future<List<JSONObject>>>();
+		ExecutorService executor = Executors.newSingleThreadExecutor();
+		for (String zip : newFiles) {
+			
+			Map<String,Exception> errorMap = errors.get(zip);			
+			if(errorMap == null) {
+				errorMap = new HashMap<String, Exception>();
+				errors.put(zip, errorMap);
+			}
+			try {
+				final Future<List<JSONObject>> future = executor.submit(new ZipReader(ftp, zip));
+				futuresMap.put(zip, future);
+			} catch (Exception e) {
+				log.error("Exception thrown when retrieving the zip file: "+zip, e);
+				errorMap.put("error",  e);
+			}
+			//clean errors list if no error recorded
+			if (errorMap.size() == 0) {
+				errors.remove(zip);
+			}
+		}		
+	
+		for (String zip : futuresMap.keySet()) {
+			
+			Future<List<JSONObject>> future = futuresMap.get(zip);
+			try {
+				
+				List<JSONObject> listOfObjects = future.get(futureTimeout, TimeUnit.MINUTES);
+				if(listOfObjects != null){
+					Resource etcRes = rr.resolve("/etc");
+					Node etcNode = etcRes.adaptTo(Node.class);
+			        Resource gsPagesRes = rr.resolve("/etc/gs-delayed-activations");
+			        Node gsPagesNode = null;
+			        if(gsPagesRes.getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)){
+						gsPagesNode = etcNode.addNode("gs-delayed-activations");
+			        }else{
+				        gsPagesNode = gsPagesRes.adaptTo(Node.class);
+			        }
+			        ArrayList<String> toActivate = new ArrayList<String>();
+	    	    	String [] pagesProp;
+	    	    	
+	    	    	if(!gsPagesNode.hasProperty("pages")){
+	    	    		pagesProp = toActivate.toArray(new String[0]);
+	    	    	}else{
+	    	    		Value[] propValues = gsPagesNode.getProperty("pages").getValues();
+	    	    		for(int j=0; j<propValues.length; j++){
+	    	    			if(null != propValues[j]){
+	    	    				toActivate.add(propValues[j].getString());
+	    	    			}
+	    	    		}
+	    	    	}
+	    	    	
+						for(JSONObject object : listOfObjects){
+							parseJson(object, toActivate);
+						}
+	    	    	
+					pagesProp = toActivate.toArray(new String[0]);
+	    	    	gsPagesNode.setProperty("pages", pagesProp);
+	    	    	Session session = rr.adaptTo(Session.class);
+	    			session.save();
+				}
+			} catch (InterruptedException e) {
+				errorString.append("Was interrupted while reading file: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+			} catch (ExecutionException e) {
+				errorString.append("Error occured while reading file: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (JSONException e) {
+				errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (ValueFormatException e) {
+				errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (IllegalStateException e) {
+				errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (RepositoryException e) {
+				errorString.append("Error occured while storing values locally for: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (GirlScoutsException e) {
+				errorString.append("Error occured while parsing JSON file: " + zip + " with message: " + e.getMessage() + ".   ");
+				errorString.append('\n');
+				errorString.append('\n');
+				e.printStackTrace();
+			} catch (TimeoutException e) {	
+				future.cancel(true);
+				failedZips.add(zip);
+			}
+		}
+				
+		executor.shutdownNow();
+		return failedZips;
+		
 	}
 
 	private void parseJson(JSONObject jsonObject, ArrayList<String> toActivate) throws JSONException, GirlScoutsException {
