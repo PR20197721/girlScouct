@@ -1,0 +1,45 @@
+/*
+form {
+    display: table-row !important;
+}
+
+input[type="text"] {
+    display: table-cell !important;
+}
+
+input[type="submit"],
+button[type="submit"] {
+    display: table-cell !important;
+    margin: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    height: 100% !important;
+}
+*/
+
+.bottom-overlay-join {
+    display: table;
+    //border-collapse: collapse;
+    //border-spacing: 0;
+    margin: 0 auto;
+    min-height: 37px;
+    height: 1px;
+    > div {
+        display: table-cell;
+        vertical-align: middle;
+        height: 100%;
+        * {
+            line-height: normal;
+            vertical-align: middle;
+            height: 100%;
+        }
+        input[type="text"] {
+            width: 200px;
+        }
+        /*
+        [type="submit"] {
+            height: 100%;
+        }
+        */
+    }
+}

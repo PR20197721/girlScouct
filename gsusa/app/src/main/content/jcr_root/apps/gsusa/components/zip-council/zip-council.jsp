@@ -8,10 +8,16 @@
 			<!-- <a id="tag_explore-join-now" href="#" title="join" tabindex="55">Join now</a> -->
 			<section>
 				<form class="bottom-overlay-join" id="findCouncilByZip">
-					<span>FIND YOUR LOCAL COUNCIL</span>
-					<input type="text" maxlength="5" pattern="[0-9]*" title="5 numbers zip code" name="ZipJoin" placeholder="Enter ZIP Code" />
-					<input type="hidden" name="source" value="<%= source7 %>">
-					<button id="tag_explore-join-go" class="button btn" type="submit" form="findCouncilByZip">GO</button>
+					<div>
+                        <span>FIND YOUR LOCAL COUNCIL</span>
+                    </div>
+                    <div>
+                        <input type="text" maxlength="5" pattern="[0-9]*" title="5 numbers zip code" name="ZipJoin" placeholder="Enter ZIP Code" />
+                    </div>
+				    <input type="hidden" name="source" value="<%= source7 %>">
+                    <div>
+                        <button id="tag_explore-join-go" class="button btn" type="submit" form="findCouncilByZip">GO</button>
+                    </div>
 				</form>
 			</section>
 		</div>
