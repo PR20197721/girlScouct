@@ -24,18 +24,19 @@ public class ZipReader implements Callable<List<JSONObject>>{
 		this.zipName = zip;
 	}
 
-	public synchronized List<JSONObject> call() throws Exception {
+	public List<JSONObject> call() throws Exception {
 		InputStream input = null;
 		
 		ArrayList<JSONObject> results = new ArrayList<JSONObject>();
-		synchronized(this){
-			input = ftp.retrieveFileStream(zipName);
+		
+		input = ftp.retrieveFileStream(zipName);
 		
 		if(input == null){
 			return null;
 		} else{
+			ZipInputStream inputStream = null;
 			try {
-				ZipInputStream inputStream = new ZipInputStream(input);
+				inputStream = new ZipInputStream(input);
 				ZipEntry entry = inputStream.getNextEntry();
 				while (entry != null) {
 					String fileName = entry.getName();
@@ -57,14 +58,21 @@ public class ZipReader implements Callable<List<JSONObject>>{
 					}
 					entry = inputStream.getNextEntry();
 				}
-				inputStream.close();
+				
 			} catch (Exception e) {
 				throw new GirlScoutsException(e, "Error reading file:"+zipName);
 			} finally {
+				
 				if (!ftp.completePendingCommand()) {
 					throw new GirlScoutsException(null,	"FTP CompletePendingCommand returns false." + " File " + zipName + " transfer failed.");
 				}
 				
+				try{ 
+					if(inputStream != null)
+						inputStream.close();
+				}catch(Exception e){
+					e.printStackTrace();
+				}
 				input.close();
 				
 				
@@ -73,7 +81,7 @@ public class ZipReader implements Callable<List<JSONObject>>{
 		}
 
 		return results;
-		}
+		
 	}
 	
 	
