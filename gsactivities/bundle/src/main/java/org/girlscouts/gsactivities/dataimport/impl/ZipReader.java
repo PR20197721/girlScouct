@@ -24,13 +24,11 @@ public class ZipReader implements Callable<List<JSONObject>>{
 		this.zipName = zip;
 	}
 
-	public List<JSONObject> call() throws Exception {
+	public synchronized List<JSONObject> call() throws Exception {
 		InputStream input = null;
 		
 		ArrayList<JSONObject> results = new ArrayList<JSONObject>();
 		synchronized(this){
-			System.out.println("DTime at the start of reading file:" + this.zipName+" stream is: " + Calendar.getInstance().getTime());
-			System.out.flush();
 			input = ftp.retrieveFileStream(zipName);
 		
 		if(input == null){
@@ -73,9 +71,7 @@ public class ZipReader implements Callable<List<JSONObject>>{
 				
 			}
 		}
-		
-		System.out.println("DTime at the end of reading file:" + this.zipName+" stream is: " + Calendar.getInstance().getTime());
-		System.out.flush();
+
 		return results;
 		}
 	}
