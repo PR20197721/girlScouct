@@ -751,9 +751,9 @@ function fixSlickSlideActive() {
 
             var zip = $(this).find('input[name="zip-code"]').val(),
                 zip_field = $(this).find('input[type="text"]'),
-                redirectUrl = loc, //passed in from standalone-camp-finder.jsp
-                currentUrl,
-                isSameUrl;
+                redirectUrl = redirectCampFinderURL, //passed in from standalone-camp-finder.jsp
+                currentUrl = currentCampFinderURL; //passed in from standalone-camp-finder.jsp
+                
 
             if (zip != zip.match("[0-9]{5}")) {
                 zip_field.attr("value", "invalid zip code");
@@ -772,21 +772,15 @@ function fixSlickSlideActive() {
                 });
 
             } else {
-                //currentUrl = window.location.href;
-                currentUrl = window.location.pathname;
-                //console.log("Current URL Substring: " + currentUrl.substring(0, currentUrl.indexOf('.html')));
-                //console.log("Redirect URL Substring: " + redirectUrl.substring(0, redirectUrl.indexOf('.html')));
-                
-                isSameUrl = currentUrl.substring(0, currentUrl.indexOf('.html')) == redirectUrl.substring(0, redirectUrl.indexOf('.html'));
                 if (window.location.search != undefined && window.location.search != "") {
                     redirectUrl += window.location.search;
                 }
-                redirectUrl = redirectUrl + '#' + zip;
-                if (isSameUrl) {
+                
+                if (currentUrl == redirectUrl) {
                     window.location.hash = "#" + zip;
                     window.location.reload();
                 } else {
-                    window.location.href = redirectUrl;
+                    window.location.href = redirectUrl+'.html#' + zip;
                 }
             }
         });
