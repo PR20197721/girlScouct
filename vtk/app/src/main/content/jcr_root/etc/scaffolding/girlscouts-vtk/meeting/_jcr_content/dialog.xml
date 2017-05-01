@@ -51,6 +51,10 @@
                             jcr:primaryType="nt:unstructured"
                             text="Junior"
                             value="Junior"/>
+						<multilevel
+							                            jcr:primaryType="nt:unstructured"
+							                            text="Multilevel"
+							                            value="Multilevel"/>
                     </options>
                 </level>
                 <name
