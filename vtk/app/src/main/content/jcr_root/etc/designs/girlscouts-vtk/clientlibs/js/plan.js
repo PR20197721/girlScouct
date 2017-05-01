@@ -937,29 +937,34 @@ function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPla
     x(planId, planPath, confirmMsg, planName);
 };
 
-function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
-    if (isYearPlan) {
-        if (planName === yearPlanName) {
+
+function createBlankYearPlan() {
+   
+    $.ajax({
+        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids=",
+        cache: false
+    }).done(function( html ) {
+  	  vtkTrackerPushAction('CreateCustomYearPlan');
+  	  location.reload();
+    });
+  }
+
+
+function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName, isBlankYearPlan) {
+	//alert(isYearPlan +" ** "+ planName +" : "+ yearPlanName);
+	
+	if (isYearPlan) {
+        if (planName == yearPlanName) {
             confirmMsg = "Are you sure to reset the yearplan?";
         }
     }
 
-    // doMeetingLib(false);
-    //"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
-    // $('#gsModal').foundation('reveal', 'open', {
-    //     url: "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html",
-    //     data: {
-    //         newCustYr: true
-    //     },
-
-    //     success: function(data) {
-    //         var min_height = $('#sortable1').height() - 71;
-    //         $("#sortable2").css('min-height', min_height);
-    //     }
-    // });
-    
-    loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
-
+  
+    if( isBlankYearPlan ){
+    	createBlankYearPlan();
+    }else{
+    	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false, {"newCustYr": true});
+    }
 };
 
 function getCngYearPlan() {
@@ -2124,7 +2129,7 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
-
+   
     
     $(function() {
         var editormain = Object.create(editor);
@@ -2166,3 +2171,7 @@ var initNotes = (function(global, ModalVtk, $) {
     };
 
 })(this, ModalVtk, $);
+
+
+
+
