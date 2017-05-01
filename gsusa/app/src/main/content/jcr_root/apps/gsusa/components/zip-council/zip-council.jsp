@@ -11,7 +11,7 @@
 					<div>
                         <span>FIND YOUR LOCAL COUNCIL</span>
                     </div>
-                    <div>
+                    <div class="text">
                         <input type="text" maxlength="5" pattern="[0-9]*" title="5 numbers zip code" name="ZipJoin" placeholder="Enter ZIP Code" />
                     </div>
 				    <input type="hidden" name="source" value="<%= source7 %>">

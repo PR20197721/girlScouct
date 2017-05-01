@@ -19,8 +19,9 @@ button[type="submit"] {
 
 .bottom-overlay-join {
     display: table;
-    //border-collapse: collapse;
-    //border-spacing: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
     margin: 0 auto;
     min-height: 37px;
     height: 1px;
@@ -34,12 +35,20 @@ button[type="submit"] {
             height: 100%;
         }
         input[type="text"] {
-            width: 200px;
+            border: none !important;
+            outline: 1px solid #cccccc;
+            -webkit-transition: outline-color 0.15s linear, background 0.15s linear;
+            -moz-transition: outline-color 0.15s linear, background 0.15s linear;
+            -ms-transition: outline-color 0.15s linear, background 0.15s linear;
+            -o-transition: outline-color 0.15s linear, background 0.15s linear;
+            transition: outline-color 0.15s linear, background 0.15s linear;
         }
-        /*
-        [type="submit"] {
-            height: 100%;
+        input[type="text"]:focus {
+            border: none !important;
         }
-        */
+    }
+    .text {
+        width: 200px;
+        padding: 1px;
     }
 }
