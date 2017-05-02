@@ -44,7 +44,8 @@ button[type="submit"] {
             transition: outline-color 0.15s linear, background 0.15s linear;
         }
         input[type="text"]:focus {
-            border: none !important;
+            outline-color: #999999;
+            outline-offset: 0;
         }
     }
     .text {
