@@ -1213,8 +1213,7 @@ try{
             session.setAttribute("isHideVtkBanner", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
         	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
-        }else if( request.getParameter("test444") !=null){
-        	yearPlanUtil.test();
+        
         } else {
 			//TODO throw ERROR CODE
 		}
