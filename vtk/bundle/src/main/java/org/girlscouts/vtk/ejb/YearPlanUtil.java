@@ -467,4 +467,5 @@ public class YearPlanUtil {
 		councilDAO.GSMonthlyDetailedRpt();
 	}
 	
+	public void test(){}
 }// edn class
