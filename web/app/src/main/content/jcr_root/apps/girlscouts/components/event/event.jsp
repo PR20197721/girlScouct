@@ -167,7 +167,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		}
 	}
 	
-	if(!"".equals(properties.get("regClose",""))){
+	if(!"".equals(properties.get("regClose","") && null != regOpenDate)){
 		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
 		if(dtz != null){
 			regCloseDate = regCloseDate.withZone(dtz);
@@ -321,7 +321,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 				</div>
 	<% } %>
 
-<% if(regOpenDate != null ) {%>
+<% if(regOpenDate != null && regCloseDate != null) {%>
 	<div class="row">
 	<div class="small-10 medium-10 large-10 columns">
     	<b>Registration:</b>

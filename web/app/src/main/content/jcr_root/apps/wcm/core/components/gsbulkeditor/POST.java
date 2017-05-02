@@ -61,6 +61,7 @@ import org.apache.sling.api.scripting.SlingBindings;
 import org.apache.sling.api.scripting.SlingScriptHelper;
 
 import org.girlscouts.web.events.search.*;
+import com.opencsv.CSVReader;
 
 /**
  * Servers as base for image servlets
@@ -93,6 +94,32 @@ public class POST extends SlingAllMethodsServlet {
             String importType = request.getRequestParameter(IMPORT_TYPE_PARAM)!=null ? request.getRequestParameter(IMPORT_TYPE_PARAM).getString() : "";
             String year = request.getRequestParameter(YEAR_PARAM)!=null ? request.getRequestParameter(YEAR_PARAM).getString() : "";
             if(!year.equals("")){
+            	if(rootPath != null){
+                	Resource rootRes = request.getResourceResolver().getResource(rootPath + "/" + year);
+                	if(rootRes == null){
+                		rootRes = request.getResourceResolver().getResource(rootPath);
+                		if(rootRes == null){
+                    		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                    "Could not resolve root path");
+                            htmlResponse.send(response, true);
+                            return;
+                		}else{
+                    		Node parentNode = rootRes.adaptTo(Node.class);
+                    		Node newYearNode = null;
+                    		Node newYearContentNode = null;
+                    		try{
+                    			newYearNode = parentNode.addNode(year,"cq:Page");
+                    			newYearContentNode = newYearNode.addNode("jcr:content","cq:PageContent");
+                    		}catch(Exception e){
+                        		htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
+                                        "Failed to create year node");
+                                htmlResponse.send(response, true);
+                                return;
+                    		}
+                		}
+                	}
+            	}
+            	
             	rootPath = rootPath + "/" + year;
             }
             if(rootPath!=null) {
@@ -114,7 +141,7 @@ public class POST extends SlingAllMethodsServlet {
                 	try{
                 		rootDepth = rootNode.getDepth();
                         //GS: Used to determine contact scaffolding property
-                        councilRoot = rootNode.getAncestor(1).getPath();
+                        councilRoot = rootNode.getAncestor(2).getPath();
                         	htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
                                     "Could not determine council root");
                         if(councilRoot.indexOf("/") != -1 && !councilRoot.endsWith("/")){
@@ -196,6 +223,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Registration","jcr:content/data/register")
 	                    			.replaceAll("Categories","jcr:content/cq:tags-categories")
 	                    			.replaceAll("Program Levels","jcr:content/cq:tags-progLevel")
+	                    			.replaceAll("Path","jcr:path")
 	                    			.replaceAll("Image","jcr:content/data/imagePath")
 	                    			.replaceAll("Program Type","jcr:content/data/progType")
 	                    			.replaceAll("Grades","jcr:content/data/grades")
@@ -203,8 +231,7 @@ public class POST extends SlingAllMethodsServlet {
 	                    			.replaceAll("Adult Fee","jcr:content/data/adultFee")
 	                    			.replaceAll("Minimum Attendance","jcr:content/data/minAttend")
 	                    			.replaceAll("Maximum Attendance","jcr:content/data/maxAttend")
-	                    			.replaceAll("Program Code","jcr:content/data/programCode")
-	                    			.replaceAll("Path","jcr:path");
+	                    			.replaceAll("Program Code","jcr:content/data/programCode");
 	                    }
 	                    if (lineBuffer != null) {
 	                        List<String> headers = Arrays.asList(lineBuffer.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1));
@@ -337,6 +364,7 @@ public class POST extends SlingAllMethodsServlet {
         try {
             int headerSize = headers.size();
             line = line + ",FINAL";
+            line = line.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
             List<String> values = new LinkedList<String>(Arrays.asList(line.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1)));
             values.remove(values.size() - 1);
             if(values.size() < headerSize) {
@@ -513,7 +541,7 @@ public class POST extends SlingAllMethodsServlet {
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
 	                                    			String tagTitle = tag.trim();
-	                                    			String tagID = createID(tagTitle, rootNode.getPath(),"forms_documents");
+	                                    			String tagID = createID(tagTitle, rootNode.getPath(),"forms_documents","_");
 	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
 		                                    			 try{
 		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
@@ -573,8 +601,10 @@ public class POST extends SlingAllMethodsServlet {
 	                    		if(value != null){
 	                    			String val = value.getString();
 	                    			if(val != null && !"".equals(val)){
-	                    				val = val.replaceAll("\u0092","'");
+	                    				val = val.replaceAll("\u0092","'").replace("ì", "'").replaceAll("î", "'").replaceAll("ë", "'").replaceAll("ó", "-");
 	                    				Node updatedNode = node;
+	                    				System.out.println("PROP: " + property);
+	                    				System.out.println("Val: " + val);
 	                    				if(property.indexOf('/') != -1){
 	        	                            if( property.indexOf('/') != -1) {
 	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));
@@ -640,13 +670,27 @@ public class POST extends SlingAllMethodsServlet {
 	                                    	if(tags.length > 0){
 	                                    		for(String tag : tags){
 	                                    			String tagTitle = tag.trim();
-	                                    			String tagID = createID(tagTitle, rootNode.getPath(), tagFolder);
+	                                    			String tagID = "";
+	                                    			if(tagFolder.equals("categories")){
+	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"");
+	                                    			}else if(tagFolder.equalsIgnoreCase("program-level")){
+	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"-");
+	                                    			}else{
+	                                    				tagID = createID(tagTitle, rootNode.getPath(), tagFolder,"_");
+	                                    			}
 	                                    			if(!tagTitle.isEmpty() && !tagID.isEmpty()){
 		                                    			 try{
 		                                    				TagManager tm = request.getResourceResolver().adaptTo(TagManager.class);
 		                	                    			if(null == tm.resolve(tagID)){
 		                	                    				if(tm.canCreateTag(tagID)){
-		                	                    					Tag newTag = tm.createTag(tagID,tagTitle,"",true);
+		                	                    					String rand = "" + System.currentTimeMillis();
+		                	                    					Tag newTag = tm.createTag(tagID + rand,tagTitle,"",true);
+		                	                    					Resource newTagRes = request.getResourceResolver().getResource(newTag.getPath());
+		                	                    					Node newTagNode = newTagRes.adaptTo(Node.class);
+		                	                    					Session newTagSession = newTagNode.getSession();
+		                	                    					newTagSession.save();
+		                	                    					newTagSession.move(newTagNode.getPath(), newTagNode.getPath().substring(0,newTagNode.getPath().indexOf(rand)));
+		                	                    					newTagSession.save();
 		                	                    					tagList.add(tagID);
 		                	                    					tagPathList.add(newTag.getPath());
 		                	                    				}
@@ -657,6 +701,7 @@ public class POST extends SlingAllMethodsServlet {
 		                	                    			}
 		                                    			}catch(Exception e){
 		                                    				System.err.println("GSBulkEditor - Failed to Create Tag");
+		                                    				e.printStackTrace();
 		                                    			} 
 	                                    			}
 	                                    		}
@@ -737,7 +782,7 @@ public class POST extends SlingAllMethodsServlet {
 	    	                            			updatedNode.setProperty(property,multiVal);
 	    	                            		}
 	                    					}else{
-	                    						String timeString = val;
+	                    						String timeString = val.toUpperCase();
 		                                    	String dateString = "2017-01-01";
 		                                    	String dateTimeString = dateString + "T" + timeString + " -05:00";
 		                                    	GSDateTimeFormatter dtfIn = GSDateTimeFormat.forPattern("yyyy-MM-dd'T'hh:mm a Z");
@@ -853,7 +898,7 @@ public class POST extends SlingAllMethodsServlet {
         return updated;
     }
     
-    public String createID(String tag, String path, String folder){
+    public String createID(String tag, String path, String folder, String divider){
     	HashMap<String,String> specialCouncils = new HashMap<String,String>();
     	specialCouncils.put("southern-appalachian","girlscoutcsa");
     	specialCouncils.put("NE_Texas","NE_Texas");
@@ -863,7 +908,7 @@ public class POST extends SlingAllMethodsServlet {
     	specialCouncils.put("dxp","girlscouts-dxp");
     	
     	String councilRoot = "";
-    	String tagName = tag.trim().toLowerCase().replaceAll(" ","_").replaceAll("[^a-z0-9_]","_");
+    	String tagName = tag.toLowerCase().replaceAll(" ",divider).replaceAll("[^a-z0-9_]",divider).trim();
     	Pattern pDam = Pattern.compile("^/content/dam/([^/]{1,})/*.*$");
     	Matcher mDam = pDam.matcher(path);
     	Pattern pContent = Pattern.compile("^/content/([^/]{1,})/*.*$");
