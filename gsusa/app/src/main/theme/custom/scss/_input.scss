@@ -35,7 +35,8 @@ button[type="submit"] {
             height: 100%;
         }
         input[type="text"] {
-            border: none !important;
+            width: 100%;
+            border: none;
             outline: 1px solid #cccccc;
             -webkit-transition: outline-color 0.15s linear, background 0.15s linear;
             -moz-transition: outline-color 0.15s linear, background 0.15s linear;
