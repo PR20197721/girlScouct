@@ -2321,7 +2321,7 @@ meta.foundation-mq-topbar {
   .breadcrumbs > * {
     margin: 0;
     float: left;
-    font-size: 0.75rem;
+    font-size: 0.6875em;
     text-transform: uppercase; }
     .breadcrumbs > *:hover a, .breadcrumbs > *:focus a {
       text-decoration: underline; }
@@ -2426,7 +2426,7 @@ button, .button {
   border-style: solid;
   border-width: 0px;
   cursor: pointer;
-  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-weight: normal;
   line-height: normal;
   margin: 0 0 1.25em;
@@ -2577,8 +2577,7 @@ button, .button {
 @media only screen and (min-width: 40.063em) {
 */
   button, .button {
-    display: inline-block; 
-    font-size: 1.0625rem; } /* } */
+    display: inline-block; } /* } */
 .button-group {
   list-style: none;
   margin: 0;
@@ -3332,10 +3331,10 @@ ul.pagination {
   padding: 0.875em 0;
   list-style-type: none;
   list-style-position: inside;
-  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif; }
+  font-family: "Open Sans", Arial, sans-serif; }
   .side-nav li {
     margin: 0 0 0.4375em 0;
-	font-size: 0.9375rem; }
+    font-size: 0.875em; }
     .side-nav li a:not(.button) {
       display: block;
       color: #00a850; }
@@ -3344,16 +3343,13 @@ ul.pagination {
     .side-nav li.active > a:first-child:not(.button) {
       color: #10ff82;
       font-weight: normal;
-      font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif; }
+      font-family: "Open Sans", Arial, sans-serif; }
     .side-nav li.divider {
       border-top: 1px solid;
       height: 0;
       padding: 0;
       list-style: none;
       border-top-color: white; }
-.side-nav * {
-  font-size: 0.9375rem;
-}
 
 .accordion {
   *zoom: 1;
@@ -3703,8 +3699,7 @@ td {
 a {
   color: #00a850;
   text-decoration: none;
-  line-height: inherit; 
-  font-size: 1.0625rem;}
+  line-height: inherit; }
   a:hover, a:focus {
     color: #009045; }
   a img {
@@ -3714,7 +3709,7 @@ a {
 p {
   font-family: inherit;
   font-weight: normal;
-  font-size: 1.0625rem;
+  font-size: 1em;
   line-height: 1.6;
   margin-bottom: 1.25em;
   text-rendering: optimizeLegibility; }
@@ -3727,8 +3722,8 @@ p {
     font-style: italic; }
 
 /* Default header styles */
-h1, h2, h3, h4, h5, h6 { 
-  font-family: "Trefoil Sans Web", "Open Sans", Arial, sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Open Sans", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
   color: white;
@@ -3742,23 +3737,23 @@ h1, h2, h3, h4, h5, h6 {
     line-height: 0; }
 
 h1 {
-  font-size: 2.5rem;
-}
+  font-size: 2.125em; }
+
 h2 {
-  font-size: 2.1875rem;
-}
+  font-size: 1.6875em; }
+
 h3 {
-  font-size: 1.4375rem;
-}
+  font-size: 1.375em; }
+
 h4 {
-  font-size: 1.1875rem;
-}
+  font-size: 1.125em; }
+
 h5 {
-  font-size: 1.1875rem;
-}
+  font-size: 1.125em; }
+
 h6 {
-  font-size: 1.0625rem;
-}
+  font-size: 1em; }
+
 .subheader {
   line-height: 1.4;
   color: white;
@@ -3797,7 +3792,7 @@ code {
 ul,
 ol,
 dl {
-  font-size: 1.0625em;
+  font-size: 1em;
   line-height: 1.6;
   margin-bottom: 1.25em;
   list-style-position: outside;
@@ -3908,23 +3903,16 @@ blockquote p {
     line-height: 1.4; }
 
   h1 {
-    font-size: 2.5rem;
-  }
+    font-size: 2.75em; }
+
   h2 {
-    font-size: 2.1875rem;
-  }
+    font-size: 2.3125em; }
+
   h3 {
-    font-size: 1.875rem;
-  }
+    font-size: 1.6875em; }
+
   h4 {
-    font-size: 1.625rem;
-  }
-  h5 {
-    font-size: 1.25rem;
-  }
-  h6 {
-    font-size: 1.125rem;
-  }
+    font-size: 1.4375em; } /* } */
 /*
  * Print styles.
  *
@@ -5295,11 +5283,8 @@ table {
   table tr th,
   table tr td {
     padding: 0.5625em 0.625em;
-    font-size: 0.9375rem;
+    font-size: 0.875em;
     color: #222222; }
-table tr th p, table tr td p {
-  font-size: 0.9375rem;
-}    
   table tr.even, table tr.alt, table tr:nth-of-type(even) {
     background: #f9f9f9; }
   table thead tr th,
@@ -5335,15 +5320,10 @@ form .row input.columns,
 form .row textarea.column,
 form .row textarea.columns {
   padding-left: 0.5em; }
-form .form_row_description span {
-  font-size: 0.75rem;
-}
-form .form_field_select {
-  font-size: 0.875rem;
-}
+
 /* Label Styles */
 label {
-  font-size: 0.9375rem;
+  font-size: 0.875em;
   color: #4d4d4d;
   cursor: pointer;
   display: block;
@@ -5519,7 +5499,7 @@ textarea {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
   color: rgba(0, 0, 0, 0.75);
   display: block;
-  font-size: 0.9375rem;
+  font-size: 0.875em;
   margin: 0 0 1em 0;
   padding: 0.5em;
   height: 2.3125em;
