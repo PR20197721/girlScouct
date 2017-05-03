@@ -30,7 +30,7 @@
  	<div id="heroBanner" class="row rightBannerHeight collapse">
 		<div class="large-17 medium-24 small-24 columns">
 			<div class="meow">
-				<cq:include script="slideshow-image-include.jsp"/> 
+				<cq:include script="slideshow-display.jsp"/> 
 			</div>
 		</div>  
 		<div class="large-7 medium-12 small-24 columns spHeight">
