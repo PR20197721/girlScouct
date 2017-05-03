@@ -14,5 +14,17 @@
   </div><!--/yearPlanSelection-->
 </section>
 
+
+
+
+
+<!-- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-yp-app.js"></script> -->
+
+
+
+<div id="vtk-yp-main"></div>
+
+
+
 <div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>
 <script>getCngYearPlan();</script>
