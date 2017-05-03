@@ -62,6 +62,7 @@ import org.apache.sling.api.scripting.SlingScriptHelper;
 
 import org.girlscouts.web.events.search.*;
 import com.opencsv.CSVReader;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Servers as base for image servlets
@@ -83,7 +84,7 @@ public class POST extends SlingAllMethodsServlet {
 
         if (request.getRequestParameter(DOCUMENT_PARAM) != null) {
             InputStream in = request.getRequestParameter(DOCUMENT_PARAM).getInputStream();
-            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in));
+            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(in, "cp1252"));
 
             String insertedResourceType = request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM)!=null ?
                     request.getRequestParameter(INSERTEDRESOURCETYPE_PARAM).getString() : null;
@@ -267,13 +268,14 @@ public class POST extends SlingAllMethodsServlet {
 	                            HashMap<String,ArrayList<Contact>> contactsToCreate = new HashMap<String,ArrayList<Contact>>();
 	                            ArrayList<String> pathsToReplicate = new ArrayList<String>();
 	                            TreeSet<String> allNames = new TreeSet<String>();
-	                            while((lineBuffer = bufferReader.readLine())!=null) {
+	                            CSVReader csvR = new CSVReader(bufferReader);
+	                            String[] nextLine;
+	                            while((nextLine = csvR.readNext()) != null){
 	                                lineRead++;
-	                                if(performLine(request,lineBuffer,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
+	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
 	                                   lineOK++;
 	                                }
 	                            }
-	                            
 	                            
 	                            if(lineOK>0) {
                                 	if(importType.equals("contacts")){
@@ -359,13 +361,21 @@ public class POST extends SlingAllMethodsServlet {
         htmlResponse.send(response, true);
     }
 
-    public boolean performLine(SlingHttpServletRequest request, String line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
+    public boolean performLine(SlingHttpServletRequest request, String[] line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
     	boolean updated = false;
+    	for(String s : line){
+    		System.out.println(s.replaceAll("[\\u2013\\u2014\\u2015]", "-")
+					.replaceAll("[\\u2017]", "_")
+					.replaceAll("[\\u2018\\u2019]","'")
+					.replaceAll("[\\u201C\\u201D]", "\"")
+					.replaceAll("[\\u201D\\u201E]","\"")
+					.replaceAll("[\\u2026]","...")
+					.replaceAll("[\\u2032]","\'")
+					.replaceAll("[\\u2033]","\""));
+    	}
         try {
             int headerSize = headers.size();
-            line = line + ",FINAL";
-            line = line.replaceAll("(\\r|\\n|\\r\\n)+", "\\\\n");
-            List<String> values = new LinkedList<String>(Arrays.asList(line.split(DEFAULT_SEPARATOR + "(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1)));
+            List<String> values = new LinkedList<String>(Arrays.asList(line));
             values.remove(values.size() - 1);
             if(values.size() < headerSize) {
                 //completet missing last empty cols
@@ -600,11 +610,16 @@ public class POST extends SlingAllMethodsServlet {
 	                    	}else if(importType.equals("events")){
 	                    		if(value != null){
 	                    			String val = value.getString();
+	                    			val = val.replaceAll("[\\u2013\\u2014\\u2015]", "-")
+	                    					.replaceAll("[\\u2017]", "_")
+	                    					.replaceAll("[\\u2018\\u2019]","'")
+	                    					.replaceAll("[\\u201C\\u201D]", "\"")
+	                    					.replaceAll("[\\u201D\\u201E]","\"")
+	                    					.replaceAll("[\\u2026]","...")
+	                    					.replaceAll("[\\u2032]","\'")
+	                    					.replaceAll("[\\u2033]","\"");
 	                    			if(val != null && !"".equals(val)){
-	                    				val = val.replaceAll("\u0092","'").replace("ì", "'").replaceAll("î", "'").replaceAll("ë", "'").replaceAll("ó", "-");
 	                    				Node updatedNode = node;
-	                    				System.out.println("PROP: " + property);
-	                    				System.out.println("Val: " + val);
 	                    				if(property.indexOf('/') != -1){
 	        	                            if( property.indexOf('/') != -1) {
 	        	                                String childNodeName = property.substring(0,property.lastIndexOf('/'));

@@ -65,5 +65,6 @@
     <module>bundle</module>
     <module>app</module>
     <module>pdfbox-wrapper</module>
+    <module>opencsv-wrapper</module>
   </modules>
 </project>
