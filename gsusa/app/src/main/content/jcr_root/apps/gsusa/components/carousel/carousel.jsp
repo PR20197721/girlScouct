@@ -86,27 +86,32 @@ public  String readUrlFile(String urlString) throws Exception {
 			if (linkPage != null && !link[i].contains(".html")) {
 				link[i] += ".html";
 			}
+			
+			try{
 
-			//now check if the link is youtube/vimeo
-			if (link[i].indexOf("youtube") != -1) {
-				String ytId = extractYTId(link[i]);
-				videoId[i] = ytId;
-				videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
-				//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
-				link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
-			} else if (link[i].indexOf("vimeo") != -1) {
-				String vimeoId = extractVimeoId(link[i]);
-				videoId[i] = vimeoId;
-				String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
-				if (!"".equals(jsonOutput)) {
-					JSONArray json = new JSONArray(jsonOutput);
-					if (!json.isNull(0)) {
-						videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+				//now check if the link is youtube/vimeo
+				if (link[i].indexOf("youtube") != -1) {
+					String ytId = extractYTId(link[i]);
+					videoId[i] = ytId;
+					videoThumbNail[i] = "https://i1.ytimg.com/vi/" + ytId +"/mqdefault.jpg";
+					//				link[i] = "https://www.youtube.com/watch?v=" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+					link[i] = "https://www.youtube.com/embed/" + ytId + "?enablejsapi=1&rel=0&autoplay=0&wmode=transparent";
+				} else if (link[i].indexOf("vimeo") != -1) {
+					String vimeoId = extractVimeoId(link[i]);
+					videoId[i] = vimeoId;
+					String jsonOutput = readUrlFile("http://vimeo.com/api/v2/video/" + vimeoId + ".json");
+					if (!"".equals(jsonOutput)) {
+						JSONArray json = new JSONArray(jsonOutput);
+						if (!json.isNull(0)) {
+							videoThumbNail[i] = json.getJSONObject(0).getString("thumbnail_large");
+						}
 					}
+					link[i] = "https://player.vimeo.com/video/" + vimeoId + "?api=1&player_id=" + "vimeoPlayer" + i ;
+				} else {
+					videoThumbNail[i] = "not supported";
 				}
-				link[i] = "https://player.vimeo.com/video/" + vimeoId + "?api=1&player_id=" + "vimeoPlayer" + i ;
-			} else {
-				videoThumbNail[i] = "not supported";
+			}catch(IOException e){
+				e.printStackTrace();
 			}
 		}
 	}
