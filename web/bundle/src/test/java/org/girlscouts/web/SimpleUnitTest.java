@@ -1,14 +1,20 @@
 package org.girlscouts.web;
 
-//import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-//import org.junit.Test;
+import org.girlscouts.web.checker.impl.ReplicationCheckerImpl;
+import org.junit.Test;
 
 public class SimpleUnitTest {
 
-    //@Test
+	private ReplicationCheckerImpl repchecker = new ReplicationCheckerImpl();
+	
+	
+	
+    @Test
     public void someTest() {
-       // assertTrue(true);
+    	
+       assertTrue(true);
     }
 
 }
