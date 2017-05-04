@@ -259,19 +259,23 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		String imgPath = properties.get("imagePath","");
 		if(!imgPath.isEmpty()){
 			%> <img src="<%= imgPath %>" /> <%
+		}else{
+			imgPath = properties.get("image","");
+			if(!imgPath.isEmpty()){
+				%> <img src="<%= imgPath %>" /> <%
+			}else{
+			    imgPath = resource.getPath() + "/image";
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+		
+			    if( imgNode.hasProperty("fileReference")){
+			%>   <div>
+					<p>
+					<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+					</p>
+				</div>
+			<%}
+			}
 		}
-		else{
-	    imgPath = resource.getPath() + "/image";
-	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-
-	    if( imgNode.hasProperty("fileReference")){
-	%>   <div>
-			<p>
-			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
-			</p>
-		</div>
-<%}
-		    }
 	} catch (Exception e) {}
 	%>
 
