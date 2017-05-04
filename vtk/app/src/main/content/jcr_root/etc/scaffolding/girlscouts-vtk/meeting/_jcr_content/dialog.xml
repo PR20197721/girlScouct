@@ -237,7 +237,7 @@
 			                 itemId="tagsField9">
 			                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badgesfor20172018,'); } else { catTagsField.setValue(curVal.replace(/Badgesfor20172018,/g,'')); } }"/>			             
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017_-_2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017_-_2018,/g,'')); } }"/>			             
 			                </catTags9>
 			             </items>
 			         </fieldset1>
