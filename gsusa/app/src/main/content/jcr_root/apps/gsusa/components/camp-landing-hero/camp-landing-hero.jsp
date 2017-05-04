@@ -32,7 +32,8 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
     </div>
     <script>
       //variable to be passed to app.js function
-      var loc = "<%= resourceResolver.map(resultPath) %>.html";
+      	var redirectCampFinderURL = "<%= resourceResolver.map(resultPath) %>";
+		var currentCampFinderURL = "<%= resourceResolver.map(currentPage.getPath()) %>";
     </script>
 <%
     }

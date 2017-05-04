@@ -628,11 +628,19 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		var listNodes;
 	
 		if(sort){
+			debugger;
 			var orden =  ['Daisy', 'Brownie', 'Junior']
 			listNodes =[];
 
 			$.each($(origin).children(), function(indx,el){
-				listNodes[orden.indexOf($(el).find('input').val())] = el;
+				if(orden.indexOf($(el).find('input').val())>=0){
+					listNodes[orden.indexOf($(el).find('input').val())] = el;
+				}else{
+					listNodes[orden.length + 1] = el;
+					orden.push($(el).find('input').val());
+					
+				}
+				
 			})
 		}else{
 			listNodes = $(origin).children();

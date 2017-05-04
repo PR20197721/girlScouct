@@ -333,6 +333,8 @@ function isSafary(){
 	  return false;
 }
 
+
+
 var getDataIfModified;
 (function() {
 	var BASE_PATH = '/vtk-data';
@@ -343,6 +345,7 @@ var getDataIfModified;
     	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
     	return hash;
     }
+    
     
     function _getDataIfModified(path, that, success) {
     	var url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
