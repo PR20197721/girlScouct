@@ -16,12 +16,6 @@
 
 
 
-
-
-<!-- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/vtk-yp-app.js"></script> -->
-
-
-
 <div id="vtk-yp-main"></div>
 
 

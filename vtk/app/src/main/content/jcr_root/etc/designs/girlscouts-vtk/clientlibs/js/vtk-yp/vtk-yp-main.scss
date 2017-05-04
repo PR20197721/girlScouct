@@ -1,0 +1,74 @@
+#vtk-yp-main {
+    margin: 20px 0;
+    .__header {
+        background: #f6f6f6;
+        padding: 5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    .__year-plan-track-row {
+        .__year-plan-track {
+            border-bottom: 1px dotted black;
+            padding: 5px 0;
+            .table {
+                width: 100%;
+                display: table;
+                font-size: 14px;
+                .cell {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+                .cell.c18 {
+                    width: 75%;
+                }
+                .cell.c3 {
+                    width: 12.5%;
+                    .button {
+                        width: 100%;
+                        margin: 0;
+                    }
+                    text-align: center;
+                }
+            }
+        }
+    }
+    .__meetings {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #EEEEEF;
+        .list-meetings {
+            background-color: white;
+            padding: 5px;
+        }
+    }
+    .meeting {
+        background-color: #f6f6f6;
+        margin-bottom: 10px;
+        .square {
+            width: 83px;
+            height: 83px;
+            background-color: #00ae57;
+            display: inline-block;
+       
+            p {
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                text-transform: uppercase;
+                color: white;
+                     font-weight: 100;
+            }
+            .postion {
+                font-size: 30px;
+            }
+        }
+        .arrowGreen {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid #00ae57;
+        }
+    }
+}

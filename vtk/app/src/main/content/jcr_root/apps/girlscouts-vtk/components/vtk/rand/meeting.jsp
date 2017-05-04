@@ -224,7 +224,7 @@ cache: false,
 
 
 
-React.render(
+ReactDOM.render(
 <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={20000} />,
   document.getElementById('content')
 );

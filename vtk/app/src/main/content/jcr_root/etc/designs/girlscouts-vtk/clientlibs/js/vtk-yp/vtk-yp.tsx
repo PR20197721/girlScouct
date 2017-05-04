@@ -3,7 +3,11 @@ import * as ReactDOM from "react-dom"
 
 import VtkMainYp from './vtk-yp-main';
 
-ReactDOM.render(
+window.onload = function () { 
+
+    ReactDOM.render(
        <VtkMainYp />,
-    document.getElementById("vtk-yp-main")
-);
+        document.getElementById("vtk-yp-main")
+    );
+}
+
