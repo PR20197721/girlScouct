@@ -45,9 +45,10 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.opencsv</groupId>
-      <artifactId>opencsv</artifactId>
-      <version>3.9</version>
+      <groupId>org.girlscouts.web</groupId>
+      <artifactId>opencsv-wrapper</artifactId>
+      <version>${project.version}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
@@ -92,6 +93,11 @@
             <embedded>
               <groupId>org.girlscouts.web</groupId>
               <artifactId>pdfbox-wrapper</artifactId>
+              <target>/apps/girlscouts/install</target>
+            </embedded>
+            <embedded>
+              <groupId>org.girlscouts.web</groupId>
+              <artifactId>opencsv-wrapper</artifactId>
               <target>/apps/girlscouts/install</target>
             </embedded>
           </embeddeds>
