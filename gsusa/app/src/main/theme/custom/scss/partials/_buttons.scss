@@ -1,11 +1,11 @@
 .main-section .button,
 .main-section button {
     text-transform: uppercase;
-    padding-top: 0;
-    padding-bottom: 0;
+    padding-top: rem-calc(7);
+    padding-bottom: rem-calc(8);
     &.tiny {
-        padding-top: 0;
-        padding-bottom: 0;
+        padding-top: rem-calc(11);
+        padding-bottom: rem-calc(11);
     }
 }
 

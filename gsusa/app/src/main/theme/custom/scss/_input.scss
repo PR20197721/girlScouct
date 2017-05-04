@@ -1,22 +1,3 @@
-/*
-form {
-    display: table-row !important;
-}
-
-input[type="text"] {
-    display: table-cell !important;
-}
-
-input[type="submit"],
-button[type="submit"] {
-    display: table-cell !important;
-    margin: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    height: 100% !important;
-}
-*/
-
 #findCouncilByZip {
     display: table;
     margin: 0 auto;
@@ -44,6 +25,10 @@ button[type="submit"] {
         input[type="text"]:focus {
             outline-color: #999999;
             outline-offset: 0;
+        }
+        [type="submit"] {
+            padding-top: 0;
+            padding-bottom: 0;
         }
     }
     .text {
