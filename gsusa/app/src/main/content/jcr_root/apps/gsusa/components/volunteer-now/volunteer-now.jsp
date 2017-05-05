@@ -23,7 +23,7 @@ if (bgExists) {
 } else {
    classes = "form-no-image";
 }
-String styles = textExists ? "max-width: " + properties.get("maxWidth", 210) + "px;" : "";
+String styles = bgExists ? "max-width: " + properties.get("maxWidth", 210) + "px;" : "";
 String border = properties.get("showverticalrule", false) ? "border" : "";
 String wrapper = bgExists || textExists ? "wrapper" : "";
 %>
