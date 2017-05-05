@@ -167,7 +167,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		}
 	}
 	
-	if(!"".equals(properties.get("regClose",""))){
+	if(!"".equals(properties.get("regClose","")) && null != regOpenDate){
 		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
 		if(dtz != null){
 			regCloseDate = regCloseDate.withZone(dtz);
@@ -259,19 +259,23 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		String imgPath = properties.get("imagePath","");
 		if(!imgPath.isEmpty()){
 			%> <img src="<%= imgPath %>" /> <%
+		}else{
+			imgPath = properties.get("image","");
+			if(!imgPath.isEmpty()){
+				%> <img src="<%= imgPath %>" /> <%
+			}else{
+			    imgPath = resource.getPath() + "/image";
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+		
+			    if( imgNode.hasProperty("fileReference")){
+			%>   <div>
+					<p>
+					<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+					</p>
+				</div>
+			<%}
+			}
 		}
-		else{
-	    imgPath = resource.getPath() + "/image";
-	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
-
-	    if( imgNode.hasProperty("fileReference")){
-	%>   <div>
-			<p>
-			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
-			</p>
-		</div>
-<%}
-		    }
 	} catch (Exception e) {}
 	%>
 
@@ -321,7 +325,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 				</div>
 	<% } %>
 
-<% if(regOpenDate != null ) {%>
+<% if(regOpenDate != null && regCloseDate != null) {%>
 	<div class="row">
 	<div class="small-10 medium-10 large-10 columns">
     	<b>Registration:</b>
