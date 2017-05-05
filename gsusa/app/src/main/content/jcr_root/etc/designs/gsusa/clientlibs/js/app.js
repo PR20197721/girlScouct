@@ -172,9 +172,11 @@ function fixSlickSlideActive() {
             */
             if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').siblings('form').css('display') != 'none') {
                 $('.vol.button.arrow').siblings('form').addClass('hide');
+                $('.vol.button.arrow').removeClass('hide');
             }
             if ((target.closest('.standalone-join').length == 0 && target.closest('.footer-join').length == 0) && target.closest('.join.button.arrow').siblings('form').css('display') != 'none') {
                 $('.join.button.arrow').siblings('form').addClass('hide');
+                $('.join.button.arrow').removeClass('hide');
             }
             if (target.closest('.standalone-donate').length == 0 && target.closest('a.button.form').siblings('form').css('display') != 'none') {
                 $('a.button.form').siblings('form').addClass('hide');
@@ -317,6 +319,7 @@ function fixSlickSlideActive() {
         event.preventDefault();
         var this_form = $(this).siblings("form");
         this_form.removeClass('hide');
+        $(this).addClass('hide');
         if (this_form.find('input[name="ZipJoin"]').length > 0) {
             this_form.find('input[name="ZipJoin"]').focus();
         }

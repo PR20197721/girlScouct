@@ -37,6 +37,38 @@
     }
 }
 
+.join-volunteer-block {
+    form {
+        padding: rem-calc(5) !important;
+        position: relative !important;
+        width: 100% !important;
+        label {
+            margin-top: rem-calc(7);
+        }
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+            * {
+                height: rem-calc(37);
+            }
+        }
+        [type="text"],
+        [type="submit"] {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            float: none !important;
+            position: relative !important;
+            width: 100% !important;
+        }
+        [type="text"] {
+            width: 100% !important;
+        }
+        [type="submit"] {
+            right: auto !important;
+        }
+    }
+}
+
 @media only screen and (max-width: 48em) {
     #findCouncilByZip {
         .fill {
@@ -50,7 +82,6 @@
         }
         .text {
             width: 49%;
-            
         }
         .caption {
             display: table-caption;
