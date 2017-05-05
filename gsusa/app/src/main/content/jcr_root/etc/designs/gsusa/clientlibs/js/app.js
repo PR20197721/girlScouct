@@ -1,6 +1,6 @@
 /*jslint browser: true, eqeq: true*/
 /*global $, jQuery, gsusa, alert, Handlebars, YT, Vimeo, console */
-/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, loc */
+/*global homeCarouselTimeDelay, homeCarouselAutoScroll, homeCarouselAutoPlaySpeed, videoSliderAuto, videoSliderDelay, shopautoscroll, shoptimedelay, redirectCampFinderURL, currentCampFinderURL */
 
 //
 //
@@ -652,7 +652,7 @@ function fixSlickSlideActive() {
         imageMap = new ImageMap(document.getElementById('council-map'), document.getElementById('council-map-img'));
         imageMap.resize();
     }
-    
+
     $('.video-slider-wrapper').slick({
         dots: false,
         speed: 500,
@@ -673,7 +673,7 @@ function fixSlickSlideActive() {
             }
         }]
     });
-    
+
     function shop_rotator() {
         /*
         $('.rotator .button.arrow').on("click", function (event) {
@@ -753,7 +753,6 @@ function fixSlickSlideActive() {
                 zip_field = $(this).find('input[type="text"]'),
                 redirectUrl = redirectCampFinderURL, //passed in from standalone-camp-finder.jsp
                 currentUrl = currentCampFinderURL; //passed in from standalone-camp-finder.jsp
-                
 
             if (zip != zip.match("[0-9]{5}")) {
                 zip_field.attr("value", "invalid zip code");
@@ -775,12 +774,12 @@ function fixSlickSlideActive() {
                 if (window.location.search != undefined && window.location.search != "") {
                     redirectUrl += window.location.search;
                 }
-                
+
                 if (currentUrl == redirectUrl) {
                     window.location.hash = "#" + zip;
                     window.location.reload();
                 } else {
-                    window.location.href = redirectUrl+'.html#' + zip;
+                    window.location.href = redirectUrl + '.html#' + zip;
                 }
             }
         });
@@ -947,30 +946,39 @@ Handlebars.registerHelper('escapeDoubleQuotes', function (context) {
 });
 Handlebars.registerHelper({
     eq: function (v1, v2) {
+        'use strict';
         return v1 === v2;
     },
     ne: function (v1, v2) {
+        'use strict';
         return v1 !== v2;
     },
     lt: function (v1, v2) {
+        'use strict';
         return v1 < v2;
     },
     gt: function (v1, v2) {
+        'use strict';
         return v1 > v2;
     },
     lte: function (v1, v2) {
+        'use strict';
         return v1 <= v2;
     },
     gte: function (v1, v2) {
+        'use strict';
         return v1 >= v2;
     },
     and: function (v1, v2) {
+        'use strict';
         return v1 && v2;
     },
     or: function (v1, v2) {
+        'use strict';
         return v1 || v2;
     }
 });
+
 function seeMoreScale() {
     'use strict';
     $.each($('.article-slider .article-tile.last section'), function (index, value) {
