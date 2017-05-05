@@ -66,9 +66,13 @@
             display: inline-block;
             width: 0;
             height: 0;
-            border-top: 10px solid transparent;
-            border-bottom: 10px solid transparent;
-            border-left: 10px solid #00ae57;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            border-left: 14px solid #00ae57;
+        }
+        .body{
+            display: inline-block;
+            padding: 0 0 0 40px;
         }
     }
 }

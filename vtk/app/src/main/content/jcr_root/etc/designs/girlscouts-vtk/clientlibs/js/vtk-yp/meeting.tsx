@@ -20,8 +20,11 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
                 <p className='postion'>{this.props.position}</p>
             </div>
             <div className="arrowGreen"></div>
+            <div className="body">
+                   {this.props.outdoor} {this.props.name}
+            </div>
             
-            {this.props.outdoor} {this.props.name}
+         
         </div>);
     }
 }
