@@ -536,9 +536,10 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
 		            try{
 		                sfTroopAge= r.getValue("sfTroopAge").getString(); 
-		                if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
+		                /*if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
 		                    continue;
 		                    }
+		                    */
 		            }catch(Exception e){}
 		            Integer counter = (Integer)container.get( sfCouncil+"|"+sfTroopAge );
 		            if( counter ==null )
@@ -570,7 +571,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 	}
 		//save to db
 		String rptId= councilRpt.saveRpt( sb );
-
+System.err.println("TESt: " + sb.toString());
 		//email rpt
 		councilRpt.emailRpt( sb.toString(), "GS Monthly Report" ); //"/vtk"+VtkUtil.getCurrentGSYear()+"/rpt/"+ rptId);
 	}
@@ -677,7 +678,15 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 
 		            javax.jcr.Node n = r.getNode();
 		            
-		            javax.jcr.Node n1 = n.getNode("yearPlan");
+		            javax.jcr.Node n1 = null;
+		            try{
+		            	n1= n.getNode("yearPlan");
+		            }catch(javax.jcr.PathNotFoundException pnfe){
+		            	System.err.println("Year Plan path not found");
+		            }
+		            if( n1==null )
+		            	{System.err.println("Year Plan doesnt exists. skipping record "+ n.getPath());continue;}
+		            
 		            String yearPlanName=n1.getProperty("name").getValue().getString();
 		               
 		            String path = r.getValue("jcr:path").getString() ;
@@ -685,12 +694,15 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		            
 		            try{ sfTroopId   = r.getValue("sfTroopId").getString() ;}catch(Exception e){}
 		            try{ sfTroopName = r.getValue("sfTroopName").getString() ;}catch(Exception e){}
-		            try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}          
+		            try{ sfCouncil   = r.getValue("sfCouncil").getString() ;}catch(Exception e){}  
+		            
 		            try{
 		                sfTroopAge= r.getValue("sfTroopAge").getString(); 
+		                /*
 		                if(!sfTroopAge.toUpperCase().equals("7-MULTI-LEVEL") && !sfTroopAge.equals("2-Brownie") && !sfTroopAge.equals("3-Junior") && !sfTroopAge.equals("1-Daisy")){
 		                    continue;
 		                    }
+		                    */
 		            }catch(Exception e){}
 		            
 		            
@@ -714,7 +726,7 @@ String p= VtkUtil.getYearPlanBase(user, null) + councilId;
 		 			ex.printStackTrace();
 		 		}
 		 	}
-		
+		System.err.println("TESt: " + sb.toString());
 				//email rpt
 				councilRpt.emailRpt( sb.toString(), "GS Detailed Report" ); 
 			
