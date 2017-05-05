@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Properties;
 
 
-@SlingServlet(resourceTypes = "sling/servlet/default", selectors = "buildinfo-vtk", extensions = "js", methods = "GET")
+@SlingServlet( paths = {"/bin/checkup/vtk"} )
 public class BuildInfoServlet extends SlingSafeMethodsServlet {
 	private static final long serialVersionUID = 5981389970977916595L;
 
