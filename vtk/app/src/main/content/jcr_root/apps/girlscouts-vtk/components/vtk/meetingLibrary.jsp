@@ -289,7 +289,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
 			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
-			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
+			   <label for="<%= id%>"><span></span><p><%=level.toLowerCase().equals("multilevel") ? "Multi-level" : level  %> </p></label>
 			</div>
 			</span>
 			</span>
