@@ -61,8 +61,8 @@
                             value="junior"/>
 							<multilevel
 							                            jcr:primaryType="nt:unstructured"
-							                            text="Multilevel"
-							                            value="Multilevel"/>
+							                            text="Multi-level"
+							                            value="Multi-level"/>
                     </options>
                 </level>
                 <desc
