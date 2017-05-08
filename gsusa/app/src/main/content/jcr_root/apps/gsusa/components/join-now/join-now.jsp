@@ -38,16 +38,18 @@ String wrapper = bgExists || textExists ? "wrapper" : "";
        <p><%=text%></p><%
     }
     %><div class="<%=wrapper%>">
-        <a href="#" title="Join Now" class="join button arrow"><%=callToActionName%></a>
-        <form class="formJoin hide">
-            <label><%=title%></label>
-            <div>
-                <input type="text" name="ZipJoin" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
-            </div>
-            <input type="hidden" name="source" value="<%=source%>">
-            <div>
-                <input class="button" type="submit" value="<%=searchBtnName%>">
-            </div>
-        </form>
+        <a href="#" title="Join Now" class="join button arrow">
+            <%=callToActionName%>
+            <form class="formJoin hide">
+                <label><%=title%></label>
+                <div>
+                    <input type="text" name="ZipJoin" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
+                </div>
+                <input type="hidden" name="source" value="<%=source%>">
+                <div>
+                    <input class="button" type="submit" value="<%=searchBtnName%>">
+                </div>
+            </form>
+        </a>
     </div>
 </div>

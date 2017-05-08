@@ -22,6 +22,11 @@
         form.formDonate {
             background: #FFFFFF;
             padding: rem-calc(5);
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            white-space: normal;
             > div {
                 display: table-cell;
                 vertical-align: middle;
@@ -31,10 +36,12 @@
             }
             [type="text"] {
                 padding-left: rem-calc(5);
+                width: 100%;
             }
             [type="submit"] {
                 padding: 0 rem-calc(5);
                 margin-bottom: 0;
+                width: 100%;
             }
         }
     }

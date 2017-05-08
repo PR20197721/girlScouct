@@ -63,16 +63,18 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
         }
         %><div class="<%=wrapper%>"><%
             if (zip) {
-                %><a class="button form"><%=title%></a>
-                <form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
-                    <!-- <label for="zipcode">Enter ZIP Code: </label> -->
-                    <div>
-                        <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
-                    </div>
-                    <div>
-                        <button type="submit" class="button">GO</button>
-                    </div>
-                </form><%
+                %><a class="button form">
+                    <%=title%>
+                    <form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
+                        <!-- <label for="zipcode">Enter ZIP Code: </label> -->
+                        <div>
+                            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+                        </div>
+                        <div>
+                            <button type="submit" class="button">GO</button>
+                        </div>
+                    </form>
+                </a><%
             } else {
                 %><a class="button" href="<%=href%>" target="_blank"><%=title%></a><%
             }

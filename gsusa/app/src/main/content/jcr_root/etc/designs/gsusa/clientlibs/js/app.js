@@ -170,17 +170,17 @@ function fixSlickSlideActive() {
                 $("#tag_explore_final input[type=\"text\"]").hide();
             }
             */
-            if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').siblings('form').css('display') != 'none') {
-                $('.vol.button.arrow').siblings('form').addClass('hide');
-                $('.vol.button.arrow').removeClass('hide');
+            if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').children('form').css('display') != 'none') {
+                $('.vol.button.arrow').children('form').addClass('hide');
+                //$('.vol.button.arrow').removeClass('hide');
             }
-            if ((target.closest('.standalone-join').length == 0 && target.closest('.footer-join').length == 0) && target.closest('.join.button.arrow').siblings('form').css('display') != 'none') {
-                $('.join.button.arrow').siblings('form').addClass('hide');
-                $('.join.button.arrow').removeClass('hide');
+            if ((target.closest('.standalone-join').length == 0 && target.closest('.footer-join').length == 0) && target.closest('.join.button.arrow').children('form').css('display') != 'none') {
+                $('.join.button.arrow').children('form').addClass('hide');
+                //$('.join.button.arrow').removeClass('hide');
             }
-            if (target.closest('.standalone-donate').length == 0 && target.closest('a.button.form').siblings('form').css('display') != 'none') {
-                $('a.button.form').siblings('form').addClass('hide');
-                $('a.button.form').removeClass('hide');
+            if (target.closest('.standalone-donate').length == 0 && target.closest('a.button.form').children('form').css('display') != 'none') {
+                $('a.button.form').children('form').addClass('hide');
+                //$('a.button.form').removeClass('hide');
             }
         });
     }
@@ -317,9 +317,9 @@ function fixSlickSlideActive() {
     //join now and volunteer form for standalone
     $('.vol.button.arrow, .join.button.arrow').on("click", function (event) {
         event.preventDefault();
-        var this_form = $(this).siblings("form");
+        var this_form = $(this).children("form");
         this_form.removeClass('hide');
-        $(this).addClass('hide');
+        //$(this).addClass('hide');
         if (this_form.find('input[name="ZipJoin"]').length > 0) {
             this_form.find('input[name="ZipJoin"]').focus();
         }
@@ -827,7 +827,7 @@ function fixSlickSlideActive() {
         e.preventDefault();
         $('#tag_tile_button_donate').toggle();
         $('.formDonate').toggleClass('hide');
-        $(this).toggleClass('hide');
+        //$(this).toggleClass('hide');
         $('.formDonate input[type="text"]').focus();
     });
     $(document).on('closed.fndtn.reveal', '[data-reveal]', function () {

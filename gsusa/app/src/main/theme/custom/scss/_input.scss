@@ -40,8 +40,11 @@
 .join-volunteer-block {
     form {
         padding: rem-calc(5) !important;
-        position: relative !important;
+        //position: relative !important;
+        bottom: 0;
+        left: 0;
         width: 100% !important;
+        white-space: normal;
         label {
             margin-top: rem-calc(7);
         }
