@@ -91,7 +91,7 @@
     &.on:before {
       content: "";
       position: absolute;
-      display: block;
+      display: none;
       border-style: solid;
       border-color: transparent #fece24 transparent transparent;
       border-width: rem-calc(12);
