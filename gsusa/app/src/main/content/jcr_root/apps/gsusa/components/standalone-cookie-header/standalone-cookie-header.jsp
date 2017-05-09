@@ -110,8 +110,8 @@ String share = hasRightShareSection ? "share" : "noshare";
             if (hasRightShareSection) { 
                 %><div class="share">
                     <a href="<%=shareSectionLink%>" title="cookies on facebook" target="_blank">
-                        <span><%=shareSectionText%>
-                            <i class="<%=shareSectionIcon%>"></i>
+                        <span>
+                            <%=shareSectionText%><i class="<%=shareSectionIcon%>"></i>
                         </span>
                     </a>
                 </div><%
