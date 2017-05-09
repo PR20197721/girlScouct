@@ -6,6 +6,7 @@ boolean zip = properties.get("zip",false);
 boolean state = properties.get("state", false);
 boolean councilName = properties.get("council-name", false);
 String path = properties.get("path","");
+String councilCode = slingRequest.getParameter("council-code") != null ? slingRequest.getParameter("council-code") : "";
 
 if(path.equals("") || (zip == false && state == false && councilName == false) && WCMMode.fromRequest(request) == WCMMode.EDIT){
 %>
@@ -113,41 +114,36 @@ if(path.equals("") || (zip == false && state == false && councilName == false) &
 		<% if(councilName == true) { %>
 			<li>
 				<form class="councilCodeSearch" name="councilCodeSearch">
+                    <h6>By Council Name</h6>
+					<p>Find a Girl Scout<br/> Council by State</p>
+                    <section>
+                        <select required name="council-code">
+                            <option value="">Select a Council:</option>
+                        </select>
+                        <input type="submit" value="Go" class="button tiny"/>
+                    </section>
 				</form>
 			</li>
 			<script type="text/javascript">
-			$(document).ready(function() {
-				$.get("/councilfinder/ajax_results.asp?short=yes", function(data){
-					var request = "";
-					<%
-					if(slingRequest.getParameter("council-code") != null){
-						%> request = <%= slingRequest.getParameter("council-code") %> <%
-					}
-					%>
-					var json = JSON.parse(data);
-					var codeSearch = $(".councilCodeSearch");
-					var appendStr = "<h6>By Council Name</h6>"+
-							"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
-							"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
-					for(var i=0; i < json.councils.length; i++) {
-						var option = "<option ";
-						if(request == json.councils[i].councilCode){
-							option = "<option selected=\"selected\" ";
-						}
-						appendStr = appendStr + option + "value=\"" + json.councils[i].councilCode +
-								"\">" + json.councils[i].councilShortName + "</option>";
-					}
-					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
-					codeSearch.append(appendStr);
-				}).fail(function() {
-					var codeSearch = $(".councilCodeSearch");
-					var appendStr = "<h6>By Council Name</h6>"+
-					"<p>Find a Girl Scout<br/> Council by Council Name</p>" +
-					"<section><select required name=\"council-code\"><option value=\"\">Select a Council:</option>";
-					appendStr = appendStr + "</select><input type=\"submit\" value=\"Go\" class=\"button tiny\"/></section>";
-					codeSearch.append(appendStr);
-				});
-			});
+                $(document).ready(function () {
+                    $.get("/councilfinder/ajax_results.asp?short=yes", function(data) {
+                        var request = "<%=councilCode%>",
+                            json = JSON.parse(data),
+                            codeSelect = $(".councilCodeSearch [name='council-code']")[0],
+                            appendStr = "",
+                            selected,
+                            code,
+                            name;
+                        for (var i = 0; i < json.councils.length; i++) {
+                            code = json.councils[i].councilCode;
+                            name = json.councils[i].councilShortName;
+                            selected = request == code ? "selected=\"selected\" " : "";
+                            
+                            appendStr += "<option " + selected + "value=\"" + code + "\">" + name + "</option>";
+                        }
+                        codeSelect.insertAdjacentHTML("beforeend", appendStr);
+                    });
+                });
 			</script>
 
     <script>
