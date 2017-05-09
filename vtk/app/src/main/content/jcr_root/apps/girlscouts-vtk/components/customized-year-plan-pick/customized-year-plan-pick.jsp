@@ -7,8 +7,8 @@
 Selected Customized Year Plan
 <div>
   <p>
-   Selected Customized Year Plan Name : <%=customizedName %><br>
-  Selected Customized Year Plan Name : <%=linkText %><br>
+   Name of the Customized Year Plan : <%=customizedName %><br>
+   Link Text of the Customized Year Plan  : <%=linkText %><br>
 
   </p>
 </div>
