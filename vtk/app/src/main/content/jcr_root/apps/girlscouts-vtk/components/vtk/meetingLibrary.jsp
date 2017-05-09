@@ -9,14 +9,6 @@
 
 <%
 try{
-  java.util.List newItems = new java.util.ArrayList();
-  
-  newItems.add("Badges for 2017-2018");
-  newItems.add("STEM");
-  newItems.add("It’s Your World – Change It");
-  newItems.add("Outdoor");
-  newItems.add("Creativity and the Arts");
-
   boolean showVtkNav = true;
   String activeTab = "resource";
   String meetingPath = request.getParameter("mpath");
@@ -31,7 +23,7 @@ try{
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
-	
+
 	String find="";
 %>
   <div class="header clearfix">
@@ -151,7 +143,7 @@ try{
   if( meetings!=null)
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
-
+meeting.setLevel( meeting.getLevel().replace("-","_"));
 if( meeting!=null && meeting.getCatTags()!=null)
 	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
 if( meeting!=null && meeting.getMeetingPlanType()!=null)
@@ -297,7 +289,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
 			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
-			   <label for="<%= id%>"><span></span><p><%=level  %> </p></label>
+			   <label for="<%= id%>"><span></span><p><%=level.replace("_","-")  %> </p></label>
 			</div>
 			</span>
 			</span>
@@ -353,24 +345,16 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 		while( itrCats.hasNext()){
 			String cat =  (String)itrCats.next();
-			String cat_fmted = cat.replaceAll("_", " ");
 			String id= (String) mCats.get(cat);
-
 			%>
 				
 
 
 				<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>"  style="min-height:70px">
 					<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-					<label for="<%= id%>"><span></span>
-					<p> 
-						<%= cat_fmted %> 
-						<div style="font-size:10px;color:#F9A61A;font-weight:bold;margin-left:5px">
-							<%= newItems.contains(cat_fmted) ? " NEW" : ""  %>
-						</div>
-					</p></label>
+					<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
 				</div>
-				
+
 
 			
 		
