@@ -21,10 +21,19 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
             </div>
             <div className="arrowGreen"></div>
             <div className="body">
-                   {this.props.outdoor} {this.props.name}
-            </div>
-            
-         
+                <ul>
+                    <li>
+                         {this.props.outdoor}<br /> {this.props.name}
+                    </li>
+                    <li>
+                        <img src="" alt=""/>
+                    </li>
+                     <li>
+                            <img src="" alt="" />
+                    </li>
+                         
+                </ul>
+            </div>         
         </div>);
     }
 }
