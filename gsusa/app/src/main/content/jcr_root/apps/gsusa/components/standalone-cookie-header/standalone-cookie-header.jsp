@@ -103,8 +103,12 @@ String share = hasRightShareSection ? "share" : "noshare";
             <form class="find-cookies-<%=share%>" name="find-cookies">
                 <label for="zip-code"><%=mainText%></label>
                 <div class="form-wrapper clearfix">
-                    <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]*" title="5 number zip code" class="zip-code" name="zip-code">
-                    <input type="submit" class="link-arrow" value="Go >" />
+                    <div>
+                        <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]*" title="5 number zip code" class="zip-code" name="zip-code">
+                    </div>
+                    <div>
+                        <input type="submit" class="link-arrow" value="Go >" />
+                    </div>
                 </div>
             </form><%
             if (hasRightShareSection) { 
