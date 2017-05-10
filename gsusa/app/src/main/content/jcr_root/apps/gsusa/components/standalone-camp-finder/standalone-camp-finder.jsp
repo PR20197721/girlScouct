@@ -37,7 +37,8 @@ if (image == null) {
         var redirectCampFinderURL = "<%=resourceResolver.map(resultsPath)%>",
             currentCampFinderURL = "<%=resourceResolver.map(currentPage.getPath())%>";
 
-        document.styleSheets[0].insertRule("#<%=id%> { background: url('<%=imageRendition%>') no-repeat 0% 0%/100% 100% transparent; }", 0);
+        // Add important to stretch properly on mobile-camp-finder, overrule Retina.js
+        document.styleSheets[0].insertRule("#<%=id%> { background: url('<%=imageRendition%>') no-repeat 0% 0%/100% 100% transparent !important; }", 0);
     </script>
 
     <div class="row">
