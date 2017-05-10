@@ -5,10 +5,10 @@
   "main": "vtk-yp-app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack &&  npm run move",
+    "build": "webpack && npm run clean && npm run move",
     "version": "npm version minor",
     "build:prod": "webpack -p && npm run version",
-    "clean": "rm ../vtk-yp-app.* ../",
+    "clean": "rm -rf ../vtk-yp-app.*",
     "move": "mv ./dist/vtk-yp-app.* ../"
   },
   "author": "Juan Carlos Duran",

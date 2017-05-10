@@ -1,7 +1,9 @@
 import * as React from 'react';
 
+import { tree } from './tree';
+
 interface MeetingProps {
-      outdoor: string,
+      outdoor: boolean,
                 id: string,
                 cat: string,
                 name: string,
@@ -13,6 +15,9 @@ interface MeetingProps {
 interface MeetingState {};
 
 class Meeting extends React.Component<MeetingProps, MeetingState> {
+    
+    
+    
     public render(): JSX.Element {
         return (<div className="meeting">
             <div className="square">
@@ -29,7 +34,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
                         <img src="" alt=""/>
                     </li>
                      <li>
-                            <img src="" alt="" />
+                            {(this.props.outdoor)? <img src={tree} style={{'width':'60px','height':'60px'}} alt="" />:null}
                     </li>
                          
                 </ul>
