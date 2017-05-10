@@ -13,7 +13,7 @@ try{
 	  java.util.List newItems = new java.util.ArrayList(); 
 	  newItems.add("Badges for 2017-2018");
 	  newItems.add("STEM");
-	  newItems.add("It's Your World - Change It");
+	  newItems.add("Its Your World - Change It");
 	  newItems.add("Outdoor");
 	  
 	 
