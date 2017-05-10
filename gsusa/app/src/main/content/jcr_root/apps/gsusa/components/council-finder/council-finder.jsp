@@ -19,8 +19,12 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
                     <h6>By Zip Code</h6>
                     <p>Find the Girl Scout<br/> Council Serving Your Area</p>
                     <section>
-                        <input required type="text" pattern="[0-9]*" name="zip" placeholder="Enter ZIP Code" />
-                        <input type="submit" value="Go" class="button tiny" />
+                        <div>
+                            <input required type="text" pattern="[0-9]*" name="zip" placeholder="Enter ZIP Code" />
+                        </div>
+                        <div>
+                            <input type="submit" value="Go" class="button tiny" />
+                        </div>
                     </section>
                 </form>
             </li><%
@@ -38,12 +42,16 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
             %><li>
 				<form class="councilCodeSearch" name="councilCodeSearch">
                     <h6>By Council Name</h6>
-					<p>Find a Girl Scout<br/> Council by State</p>
+					<p>Find a Girl Scout<br/> Council by Council Name</p>
                     <section>
-                        <select required name="council-code">
-                            <option value="">Select a Council:</option>
-                        </select>
-                        <input type="submit" value="Go" class="button tiny"/>
+                        <div>
+                            <select required name="council-code">
+                                <option value="">Select a Council:</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="submit" value="Go" class="button tiny"/>
+                        </div>
                     </section>
 				</form>
 			</li>
