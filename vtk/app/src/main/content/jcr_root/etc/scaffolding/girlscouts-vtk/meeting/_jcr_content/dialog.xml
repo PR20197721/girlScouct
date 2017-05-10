@@ -146,7 +146,7 @@
 			            <catTags2
 			                jcr:primaryType="cq:Widget"
 			                allowBlank="{Boolean}true"
-			                fieldLabel="Creativity and the Arts"
+			                fieldLabel="Creativity And The Arts"
 			                name="./creativityAndTheArts"
 			                xtype="selection"
 			                type="checkbox"
