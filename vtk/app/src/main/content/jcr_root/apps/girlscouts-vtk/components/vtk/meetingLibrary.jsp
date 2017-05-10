@@ -891,9 +891,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			Meeting meeting = meetings.get(i);
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
+				
 				%>
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
-                    <%= currentLevel %>
+                    <%= currentLevel.replace("_","-") %>
                 </div>
 
 				<% 
