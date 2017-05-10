@@ -15,7 +15,7 @@ try{
 	  newItems.add("STEM");
 	  newItems.add("It's Your World - Change It");
 	  newItems.add("Outdoor");
-	  newItems.add("Creativity and the Arts");
+	  
 	 
 
   boolean showVtkNav = true;
