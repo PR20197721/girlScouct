@@ -261,6 +261,12 @@
     }
 }
 
+.camp-finder-options {
+    select {
+        padding-left: rem-calc(8) !important;
+    }
+}
+
 @media only screen and (min-width: 48.1225em) {
     .find-cookies-share,
     .find-cookies-noshare {
