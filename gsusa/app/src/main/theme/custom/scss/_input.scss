@@ -186,6 +186,40 @@
     }
 }
 
+.find-cookies {
+    .form-wrapper {
+        //padding: rem-calc(5) !important;
+        width: 100% !important;
+        white-space: normal;
+        display: table;
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            * {
+                height: rem-calc(47);
+            }
+        }
+        [type="text"],
+        [type="submit"] {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            float: none !important;
+            position: relative !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        [type="text"] {
+            //width: 100% !important;
+        }
+        [type="submit"] {
+            //width: 100%;
+            padding: 0 rem-calc(11) !important;
+            right: auto !important;
+        }
+    }
+}
+
 @media only screen and (max-width: 48em) {
     #findCouncilByZip {
         .fill {
