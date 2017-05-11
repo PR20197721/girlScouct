@@ -69,9 +69,9 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
                         for (var i = 0; i < json.councils.length; i++) {
                             code = json.councils[i].councilCode;
                             name = json.councils[i].councilShortName;
-                            selected = request == code ? "selected=\"selected\" " : "";
+                            selected = request == code ? "selected='selected' " : "";
                             
-                            appendStr += "<option " + selected + "value=\"" + code + "\">" + name + "</option>";
+                            appendStr += "<option " + selected + "value='" + code + "'>" + name + "</option>";
                         }
                         codeSelect.insertAdjacentHTML("beforeend", appendStr);
                     });
@@ -84,27 +84,27 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
         $(document).ready(function () {
             var hashForms = {
                 zip: {
-                    formElement: $(".council-finder form[name='zipSearch']"),
-                    hashElement: $(".council-finder form[name='zipSearch'] input[name='zip-code']"),
+                    formElement: ".council-finder form[name='zipSearch']",
+                    hashElement: "input[name='zip-code']",
                     redirectUrl: "<%=resourceResolver.map(path)%>",
                     currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 },
                 state: {
-                    formElement: $(".council-finder form[name='stateSearch']"),
-                    hashElement: $(".council-finder form[name='stateSearch'] select[name='state']"),
+                    formElement: ".council-finder form[name='stateSearch']",
+                    hashElement: "select[name='state']",
                     redirectUrl: "<%=resourceResolver.map(path)%>",
                     currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 },
                 councilCode: {
-                    formElement: $(".council-finder form[name='councilCodeSearch']"),
-                    hashElement: $(".council-finder form[name='councilCodeSearch'] select[name='council-code']"),
+                    formElement: ".council-finder form[name='councilCodeSearch']",
+                    hashElement: "select[name='council-code']",
                     redirectUrl: "<%=resourceResolver.map(path)%>",
                     currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 }
             }, form;
             
             for (form in hashForms) {
-                if (hashForms.hasOwnProperty(form) && form.formElement) {
+                if (hashForms.hasOwnProperty(form) && $(form.formElement)) {
                     bindSubmitHash(form);
                 }
             }

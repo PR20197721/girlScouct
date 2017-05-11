@@ -11,7 +11,8 @@
 
 function bindSubmitHash(form) {
     "use strict";
-    form.formElement.submit(function () {
+    $(form.formElement).submit(function (event) {
+
         // Stop other events
         if (event.preventDefault) {
             event.preventDefault();
@@ -21,36 +22,20 @@ function bindSubmitHash(form) {
         event.returnValue = false;
         event.stopPropagation();
         
-        // Prevent double-submit
-        if (form.submitted) {
+        var hash = $(this).find(form.hashElement).val();
+
+        // Prevent double submit and invalid data
+        if (form.submitted || !hash.match("[0-9]{5}")) {
             return false;
         }
-        event.preventDefault();
+        form.submitted = true;
         
-        var hash = form.hashElement.val(),
-            redirectUrl = form.redirectUrl + ".html",
-            currentUrl = form.currentUrl + ".html",
-            queryPos = currentUrl.indexOf('?'),
-            queryStr,
-            hashPos;
-
-        // Get hash
-        if (queryPos != -1) {
-            queryStr = currentUrl.substring(queryPos);
-            hashPos = queryStr.indexOf('#');
-            if (hashPos != -1) {
-                queryStr = queryStr.substr(0, hashPos);
-            }
-            redirectUrl += queryStr;
-        }
-        
-        // Go to results
-        window.location.href = redirectUrl + '#' + hash;
-        if (currentUrl == redirectUrl) {
+        // Go to results while maintaining query
+        window.location.href = form.redirectUrl + ".html" + window.location.search + "#" + hash;
+        if (form.currentUrl == form.redirectUrl) {
             window.location.reload();
         }
 
-        form.submitted = true;
         return false;
     });
 }
@@ -783,6 +768,7 @@ function fixSlickSlideActive() {
         }
     }
     //camp-finder vaidation and submittion function
+    /*
     function camp_finder() {
         var campFormSubmitted = false;
         $('.find-camp').submit(function (event) {
@@ -832,7 +818,9 @@ function fixSlickSlideActive() {
                 }
             }
         });
+        
     }
+    */
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
@@ -852,7 +840,7 @@ function fixSlickSlideActive() {
     welcome_cookie_slider();
     loadYTScript();
     $('.lazyYT').lazyYT('AIzaSyD5AjIEx35bBXxpvwPghtCzjrFNAWuLj8I');
-    camp_finder();
+    //camp_finder();
     $(window).resize(function () {
         small_screens();
     });

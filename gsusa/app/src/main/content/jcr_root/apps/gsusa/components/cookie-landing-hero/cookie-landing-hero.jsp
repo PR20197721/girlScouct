@@ -48,8 +48,8 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
     <script>
         $(document).ready(function () {
             bindSubmitHash({
-                formElement: $('.cookie-landing-hero form[name="find-cookies"]'),
-                hashElement: $('.cookie-landing-hero form[name="find-cookies"] input[name="zip-code"]'),
+                formElement: "form[name='find-cookies']",
+                hashElement: "input[name='zip-code']",
                 redirectUrl: "<%=resourceResolver.map(resultPage)%>",
                 currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
             });

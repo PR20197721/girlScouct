@@ -33,9 +33,14 @@ if (image == null) {
     String imageRendition = getImageRenditionSrc(resourceResolver, filePath, getResourceLocation(resource));
                                              
 	%><script>
-        //variable to be passed to app.js function
-        var redirectCampFinderURL = "<%=resourceResolver.map(resultsPath)%>",
-            currentCampFinderURL = "<%=resourceResolver.map(currentPage.getPath())%>";
+        $(document).ready(function () {
+            bindSubmitHash({
+                formElement: ".find-camp",
+                hashElement: "input[name='zip-code']",
+                redirectUrl: "<%=resourceResolver.map(resultsPath)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            });
+        });
 
         // Add important to stretch properly on mobile-camp-finder, overrule Retina.js
         document.styleSheets[0].insertRule("#<%=id%> { background: url('<%=imageRendition%>') no-repeat 0% 0%/100% 100% transparent !important; }", 0);
@@ -50,7 +55,7 @@ if (image == null) {
                     </div>
                     <div class="form-wrapper clearfix">
                         <div>
-                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="ZIP Code" />
+                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                         </div>
                         <div>
                             <input type="submit" class="link-arrow" value="Go >" />

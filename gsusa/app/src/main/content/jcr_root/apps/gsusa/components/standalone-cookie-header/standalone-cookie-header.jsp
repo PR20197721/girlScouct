@@ -58,40 +58,11 @@ String share = hasRightShareSection ? "share" : "noshare";
 
     //$('.find-cookies-share, .find-cookies-noshare').attr("action", "content/gsusa/en/booth-result.10036.html");
     $(document).ready(function () {
-        "use strict";
-        var cookieFormSubmitted = false;
-        $('.find-cookies-share, .find-cookies-noshare').submit(function (event) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            } else {
-                event.stop();
-            }
-            event.returnValue = false;
-            event.stopPropagation();
-            if (cookieFormSubmitted) {
-                return;
-            }
-
-            var zip = $(this).find('input[name="zip-code"]').val(),
-                redirectUrl = "<%=resourceResolver.map(cookieBoothLink)%>.html",
-                currentUrl = "<%=resourceResolver.map(currentPage.getPath())%>.html",
-                queryPos = currentUrl.indexOf('?'),
-                queryStr,
-                hashPos;
-
-            if (queryPos != -1) {
-                queryStr = currentUrl.substring(queryPos);
-                hashPos = queryStr.indexOf('#');
-                if (hashPos != -1) {
-                    queryStr = queryStr.substr(0, hashPos);
-                }
-                redirectUrl += queryStr;
-            }
-            window.location.href = redirectUrl + '#' + zip;
-            if (currentUrl == redirectUrl) {
-                window.location.reload();
-            }
-            cookieFormSubmitted = true;
+        bindSubmitHash({
+            formElement: "form[name='find-cookies']",
+            hashElement: "input[name='zip-code']",
+            redirectUrl: "<%=resourceResolver.map(cookieBoothLink)%>",
+            currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
         });
     });
 </script>

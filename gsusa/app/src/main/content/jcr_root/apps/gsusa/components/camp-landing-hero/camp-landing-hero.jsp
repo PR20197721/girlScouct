@@ -12,9 +12,14 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == "")) {
    %>Camp Landing Hero. Double click here to edit.<%
 } else {
    %><script>
-        //variable to be passed to app.js function
-        var redirectCampFinderURL = "<%=resourceResolver.map(resultPath)%>",
-            currentCampFinderURL = "<%=resourceResolver.map(currentPage.getPath())%>";
+        $(document).ready(function () {
+            bindSubmitHash({
+                formElement: ".find-camp",
+                hashElement: "input[name='zip-code']",
+                redirectUrl: "<%=resourceResolver.map(resultPath)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            });
+        });
     </script>
     
     <div class="camp-landing-hero hide-for-small ">
