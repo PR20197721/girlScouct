@@ -13,7 +13,7 @@ function bindSubmitHash(form) {
     "use strict";
     
     // Ensure a single form binding
-    if (boundHashForms[form.formElement]) {
+    if (boundHashForms[form.formElement] || !$(form.formElement)) {
         return false;
     }
     boundHashForms[form.formElement] = true;
@@ -28,10 +28,13 @@ function bindSubmitHash(form) {
         event.returnValue = false;
         event.stopPropagation();
         
-        var hash = $(this).find(form.hashElement).val();
+        var hashElement = $(this).find(form.hashElement),
+            hash = hashElement.val(),
+            pattern = hashElement.attr("pattern") || false,
+            match = !pattern || (pattern && hash.match(pattern));
 
-        // Prevent double submit and invalid data
-        if (form.submitted || !hash.match("[0-9]{5}")) {
+        // Prevent double submit and invalid data (if a pattern is specified)
+        if (form.submitted || !match) {
             return false;
         }
         form.submitted = true;

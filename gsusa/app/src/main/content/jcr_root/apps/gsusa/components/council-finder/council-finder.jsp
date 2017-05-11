@@ -82,32 +82,24 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
     
     <script>
         $(document).ready(function () {
-            var hashForms = {
-                zip: {
-                    formElement: ".council-finder form[name='zipSearch']",
-                    hashElement: "input[name='zip-code']",
-                    redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
-                },
-                state: {
-                    formElement: ".council-finder form[name='stateSearch']",
-                    hashElement: "select[name='state']",
-                    redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
-                },
-                councilCode: {
-                    formElement: ".council-finder form[name='councilCodeSearch']",
-                    hashElement: "select[name='council-code']",
-                    redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
-                }
-            }, form;
-            
-            for (form in hashForms) {
-                if (hashForms.hasOwnProperty(form) && $(form.formElement)) {
-                    bindSubmitHash(form);
-                }
-            }
+            bindSubmitHash({    // zip
+                formElement: ".council-finder form[name='zipSearch']",
+                hashElement: "input[name='zip-code']",
+                redirectUrl: "<%=resourceResolver.map(path)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            });
+            bindSubmitHash({    // state
+                formElement: ".council-finder form[name='stateSearch']",
+                hashElement: "select[name='state']",
+                redirectUrl: "<%=resourceResolver.map(path)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            });
+            bindSubmitHash({    // council-code
+                formElement: ".council-finder form[name='councilCodeSearch']",
+                hashElement: "select[name='council-code']",
+                redirectUrl: "<%=resourceResolver.map(path)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
+            });
         });
     </script><%
 } 
