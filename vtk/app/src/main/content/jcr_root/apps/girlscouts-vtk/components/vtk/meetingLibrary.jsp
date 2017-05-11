@@ -377,13 +377,11 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 					<label for="<%= id%>"><span></span>
  					<p> 
  						<%= cat_fmted %> 
-                        <div style="font-size:10px;color:#F9A61A;font-weight:bold;margin-left:5px;display:none;" id="vtkCatItem_<%= id%>">
+                        <span style="font-size:10px;color:#F9A61A;font-weight:bold;display:none;background:none;" id="vtkCatItem_<%= id%>">
  							<%= newItems.contains(cat_fmted) ? " NEW" : ""  %>
- 						</div>
+ 						</span>
  					</p></label>
 				</div>
-
-
 			
 		
 			<%  } %>

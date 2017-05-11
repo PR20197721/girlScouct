@@ -62,7 +62,7 @@
     height:30px;
     margin:-1px 6px 0 0;
     vertical-align:middle;
-
+    background-position-y: center;
     cursor:pointer;
 
         background: url(/etc/designs/girlscouts-vtk/images/selector.png) left top no-repeat;
@@ -71,14 +71,11 @@
 
 	input[type="checkbox"] + label p{
 		margin: 0;
-    	max-width: 90px;
-
+        max-width:140px;
 	    min-height: 42px;
-	    display: table-cell;
-	    padding: 3px 0 0 5px;
+	    padding: 0px 0 0 5px;
+        vertical-align: middle;
 	}
-
-
 
     input[type="checkbox"]:checked + label span {
         background: url(/etc/designs/girlscouts-vtk/images/selector.png) -30px top no-repeat;
