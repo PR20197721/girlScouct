@@ -8,11 +8,17 @@
 // https://google.github.io/styleguide/javascriptguide.xml#Naming
 //
 //
-
+var boundHashForms = {};
 function bindSubmitHash(form) {
     "use strict";
+    
+    // Ensure a single form binding
+    if (boundHashForms[form.formElement]) {
+        return false;
+    }
+    boundHashForms[form.formElement] = true;
+    
     $(form.formElement).submit(function (event) {
-
         // Stop other events
         if (event.preventDefault) {
             event.preventDefault();
@@ -30,7 +36,7 @@ function bindSubmitHash(form) {
         }
         form.submitted = true;
         
-        // Go to results while maintaining query
+        // Go to the results page while maintaining query
         window.location.href = form.redirectUrl + ".html" + window.location.search + "#" + hash;
         if (form.currentUrl == form.redirectUrl) {
             window.location.reload();
