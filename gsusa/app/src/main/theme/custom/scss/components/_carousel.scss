@@ -308,7 +308,7 @@ div.carousel {
                 font-size: rem-calc(20);
                 font-weight: 500;
                 margin-right: rem-calc(5);
-                @media only screen and (max-width: 48em) {
+                @media #{$small-only} {
                     display: block;
                     margin: 0;
                 }
@@ -319,13 +319,13 @@ div.carousel {
                 padding-left: rem-calc(5);
                 font-size: rem-calc(20);
                 //vertical-align: top;
-                @media only screen and (max-width: 48em) {
+                @media #{$small-only} {
                     width: 49%;
                 }
             }
             .button {
                 margin: 0;
-                @media only screen and (max-width: 48em) {
+                @media #{$small-only} {
                     padding-left: rem-calc(20);
                     padding-right: rem-calc(20);
                 }

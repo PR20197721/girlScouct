@@ -316,7 +316,7 @@
     }
 }
 
-@media only screen and (min-width: 48.1225em) {
+@media #{$medium-up} {
     .find-cookies-share,
     .find-cookies-noshare {
         .form-wrapper {
@@ -325,7 +325,7 @@
     }
 }
 
-@media only screen and (max-width: 48em) {
+@media #{$small-only} {
     #findCouncilByZip {
         .fill {
             width: auto;
