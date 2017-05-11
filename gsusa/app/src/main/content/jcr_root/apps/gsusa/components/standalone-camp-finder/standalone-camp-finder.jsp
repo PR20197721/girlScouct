@@ -50,7 +50,7 @@ if (image == null) {
                     </div>
                     <div class="form-wrapper clearfix">
                         <div>
-                            <input type="text" pattern="[0-9]*" maxlength="5" placeholder="ZIP Code" title="5 number zip code" name="zip-code">
+                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="ZIP Code" />
                         </div>
                         <div>
                             <input type="submit" class="link-arrow" value="Go >" />

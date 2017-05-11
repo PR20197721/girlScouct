@@ -20,7 +20,7 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
                     <p>Find the Girl Scout<br/> Council Serving Your Area</p>
                     <section>
                         <div>
-                            <input required type="text" pattern="[0-9]*" name="zip" placeholder="Enter ZIP Code" />
+                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="Enter ZIP Code" />
                         </div>
                         <div>
                             <input type="submit" value="Go" class="button tiny" />
@@ -81,66 +81,31 @@ if (path.equals("") || (!zip && !state && !councilName) && WCMMode.fromRequest(r
 	%></ul>
     
     <script>
-        function submitHash(form) {
-            "use strict";
-            form.formElement.submit(function () {
-                if (form.submitted) {
-                    return;
-                }
-                
-                var hash = form.hashElement.val(),
-                    redirectUrl = form.redirectUrl + ".html",
-                    currentUrl = form.currentUrl + ".html",
-                    queryPos = currentUrl.indexOf('?'),
-                    queryStr,
-                    hashPos;
-
-                if (queryPos != -1) {
-                    queryStr = currentUrl.substring(queryPos);
-                    hashPos = queryStr.indexOf('#');
-                    if (hashPos != -1) {
-                        queryStr = queryStr.substr(0, hashPos);
-                    }
-                    redirectUrl += queryStr;
-                }
-                window.location.href = redirectUrl + '#' + hash;
-                if (currentUrl == redirectUrl) {
-                    window.location.reload();
-                }
-
-                form.submitted = true;
-            });
-        }
-        
         $(document).ready(function () {
-            "use strict";
             var hashForms = {
                 zip: {
                     formElement: $(".council-finder form[name='zipSearch']"),
-                    hashElement: $(".council-finder form[name='zipSearch'] input[name='zip']"),
+                    hashElement: $(".council-finder form[name='zipSearch'] input[name='zip-code']"),
                     redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>",
-                    submitted: false
+                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 },
                 state: {
                     formElement: $(".council-finder form[name='stateSearch']"),
                     hashElement: $(".council-finder form[name='stateSearch'] select[name='state']"),
                     redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>",
-                    submitted: false
+                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 },
                 councilCode: {
                     formElement: $(".council-finder form[name='councilCodeSearch']"),
                     hashElement: $(".council-finder form[name='councilCodeSearch'] select[name='council-code']"),
                     redirectUrl: "<%=resourceResolver.map(path)%>",
-                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>",
-                    submitted: false
+                    currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
                 }
             }, form;
             
             for (form in hashForms) {
                 if (hashForms.hasOwnProperty(form) && form.formElement) {
-                    submitHash(form);
+                    bindSubmitHash(form);
                 }
             }
         });

@@ -9,6 +9,52 @@
 //
 //
 
+function bindSubmitHash(form) {
+    "use strict";
+    form.formElement.submit(function () {
+        // Stop other events
+        if (event.preventDefault) {
+            event.preventDefault();
+        } else {
+            event.stop();
+        }
+        event.returnValue = false;
+        event.stopPropagation();
+        
+        // Prevent double-submit
+        if (form.submitted) {
+            return false;
+        }
+        event.preventDefault();
+        
+        var hash = form.hashElement.val(),
+            redirectUrl = form.redirectUrl + ".html",
+            currentUrl = form.currentUrl + ".html",
+            queryPos = currentUrl.indexOf('?'),
+            queryStr,
+            hashPos;
+
+        // Get hash
+        if (queryPos != -1) {
+            queryStr = currentUrl.substring(queryPos);
+            hashPos = queryStr.indexOf('#');
+            if (hashPos != -1) {
+                queryStr = queryStr.substr(0, hashPos);
+            }
+            redirectUrl += queryStr;
+        }
+        
+        // Go to results
+        window.location.href = redirectUrl + '#' + hash;
+        if (currentUrl == redirectUrl) {
+            window.location.reload();
+        }
+
+        form.submitted = true;
+        return false;
+    });
+}
+
 function fixColorlessWrapper() {
     'use strict';
     // inkoo - this crazy code is to accommodate the initial hidden state of the slick layer for videos

@@ -68,7 +68,7 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     <form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
                         <!-- <label for="zipcode">Enter ZIP Code: </label> -->
                         <div>
-                            <input type="text" name="zipcode" maxlength="5" pattern="[0-9]*" placeholder="Enter ZIP Code">
+                            <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="Enter ZIP Code" />
                         </div>
                         <div>
                             <button type="submit" class="button">GO</button>

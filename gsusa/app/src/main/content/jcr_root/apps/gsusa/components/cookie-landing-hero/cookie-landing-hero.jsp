@@ -28,7 +28,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
                         <label for="zip-code"><%=text%></label>
                         <div class="form-wrapper clearfix">
                             <div>
-                                <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]{5}" title="5 number zip code" class="zip-code" name="zip-code">
+                                <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                             </div>
                             <div>
                                 <input type="submit" class="link-arrow" value="Go >" />
@@ -47,35 +47,11 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.le
 
     <script>
         $(document).ready(function () {
-            "use strict";
-            var heroFormSubmitted = false;
-            $('.cookie-landing-hero form[name="find-cookies"]').submit(function () {
-                if (heroFormSubmitted) {
-                    return false;
-                }
-
-                var zip = $(this).find('input[name="zip-code"]').val(),
-                    redirectUrl = "<%=resourceResolver.map(resultPage)%>.html",
-                    currentUrl = "<%=resourceResolver.map(currentPage.getPath())%>.html",
-                    queryPos = currentUrl.indexOf('?'),
-                    queryStr,
-                    hashPos;
-
-                if (queryPos != -1) {
-                    queryStr = currentUrl.substring(queryPos);
-                    hashPos = queryStr.indexOf('#');
-                    if (hashPos != -1) {
-                        queryStr = queryStr.substr(0, hashPos);
-                    }
-                    redirectUrl += queryStr;
-                }
-                window.location.href = redirectUrl + '#' + zip;
-                if (currentUrl == redirectUrl) {
-                    window.location.reload();
-                }
-
-                heroFormSubmitted = true;
-                return false;
+            bindSubmitHash({
+                formElement: $('.cookie-landing-hero form[name="find-cookies"]'),
+                hashElement: $('.cookie-landing-hero form[name="find-cookies"] input[name="zip-code"]'),
+                redirectUrl: "<%=resourceResolver.map(resultPage)%>",
+                currentUrl: "<%=resourceResolver.map(currentPage.getPath())%>"
             });
         });
     </script><%

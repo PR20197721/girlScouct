@@ -43,7 +43,7 @@ String wrapper = bgExists || textExists ? "wrapper" : "";
             <form class="formVol hide">
                 <label><%=title%></label>
                 <div>
-                    <input type="text" name="ZipVolunteer" maxlength="5" title="5 numbers zip code" pattern="[0-9]*" placeholder="Enter ZIP Code">
+                    <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipVolunteer" placeholder="Enter ZIP Code" />
                 </div>
                 <input type="hidden" name="source" value="<%=source%>">
                 <div>

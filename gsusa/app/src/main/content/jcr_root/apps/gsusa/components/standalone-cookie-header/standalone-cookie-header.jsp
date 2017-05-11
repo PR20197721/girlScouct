@@ -104,7 +104,7 @@ String share = hasRightShareSection ? "share" : "noshare";
                 <label for="zip-code"><%=mainText%></label>
                 <div class="form-wrapper clearfix">
                     <div>
-                        <input type="text" placeholder="ZIP Code" maxlength="5" pattern="[0-9]*" title="5 number zip code" class="zip-code" name="zip-code">
+                        <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />
                     </div>
                     <div>
                         <input type="submit" class="link-arrow" value="Go >" />

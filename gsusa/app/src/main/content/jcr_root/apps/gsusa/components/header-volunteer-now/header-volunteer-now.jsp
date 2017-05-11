@@ -10,7 +10,7 @@ String source = properties.get("source", "not_set");
 
 if (!isHidden) {
     %><form class="formHeaderVolunteer" id="tag_header_volunteer">
-        <input type="text" name="ZipVolunteer" maxlength="5" pattern="[0-9]*" title="5 numbers zip code" placeholder="ZIP Code">
+        <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipVolunteer" placeholder="ZIP Code" />
         <input type="hidden" name="source" value="<%=source%>">
         <div class="button" tabindex="30">
             <%=callToActionName%>
