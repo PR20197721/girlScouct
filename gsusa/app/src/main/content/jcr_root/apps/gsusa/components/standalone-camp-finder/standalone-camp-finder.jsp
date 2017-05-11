@@ -45,9 +45,9 @@ if (image == null) {
         <div class="wrapper clearfix" id="<%=id%>" data-at2x="<%=get2xPath(imageRendition)%>">
             <div class="wrapper-inner clearfix">
                 <form class="find-camp clearfix" name="find-camp">
-                    <label for="zip-code">
-                        <%=text%>
-                    </label>
+                    <div class="caption">
+                        <label for="zip-code"><%=text%></label>
+                    </div>
                     <div class="form-wrapper clearfix">
                         <div>
                             <input type="text" pattern="[0-9]*" maxlength="5" placeholder="ZIP Code" title="5 number zip code" name="zip-code">
