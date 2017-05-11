@@ -1250,20 +1250,14 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 					document.getElementById(<%=tp%>[y]).style.display ='inline';
 					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
 
-                    console.log('<%=tp%>');
-                    console.log(  document.getElementById(<%=tp%>[y]));
-
                     <%
                 	String searchNewItem="";
                 	for(int i=0;i<newItems.size();i++){
                 		searchNewItem += newItems.get(i) +", ";
             		}
-            		%>
-console.log("<%=searchNewItem%>");
-              console.log("<%=tp%>|"+ document.getElementById(<%=tp%>[y]).value);      
+            		%>     
                         if( !!~ "<%=searchNewItem%>".indexOf( "<%=tp%>|"+ document.getElementById(<%=tp%>[y]).value)  ){
 
-                        	console.log("yes!!!");
                             document.getElementById("vtkCatItem_"+document.getElementById(<%=tp%>[y]).id).style.display ='inline';
                         }
 
