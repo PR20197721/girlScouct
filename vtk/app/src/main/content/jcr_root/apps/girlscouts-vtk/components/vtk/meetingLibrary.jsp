@@ -654,7 +654,6 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		var listNodes;
 	
 		if(sort){
-			debugger;
 			var orden =  ['Daisy', 'Brownie', 'Junior']
 			listNodes =[];
 
