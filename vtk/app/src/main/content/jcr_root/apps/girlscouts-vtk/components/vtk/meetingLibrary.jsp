@@ -9,14 +9,21 @@
 
 <%
 try{
-	
+
 	  java.util.List newItems = new java.util.ArrayList(); 
 	  newItems.add("Badges for 2017-2018");
-	  newItems.add("STEM");
-	  newItems.add("It's Your World - Change It");
-	  newItems.add("Outdoor");
-	  
-	 
+	  newItems.add("Badges_Petals|Badges_for_2017-2018");
+
+	  newItems.add("Journey|It's_Your_World_-_Change_It");
+      newItems.add("It's Your World - Change It");
+
+	  newItems.add("Journey|STEM");
+      newItems.add("STEM");
+
+	  newItems.add("Journey|Outdoor");
+      newItems.add("Outdoor");
+
+
 
   boolean showVtkNav = true;
   String activeTab = "resource";
@@ -153,6 +160,9 @@ try{
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
 meeting.setLevel( meeting.getLevel().replace("-","_"));
+
+
+
 if( meeting!=null && meeting.getCatTags()!=null)
 	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
 if( meeting!=null && meeting.getMeetingPlanType()!=null)
@@ -362,12 +372,12 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 				<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>"  style="min-height:70px">
 					<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-					
+
 					
 					<label for="<%= id%>"><span></span>
  					<p> 
  						<%= cat_fmted %> 
- 						<div style="font-size:10px;color:#F9A61A;font-weight:bold;margin-left:5px">
+                        <div style="font-size:10px;color:#F9A61A;font-weight:bold;margin-left:5px;display:none;" id="vtkCatItem_<%= id%>">
  							<%= newItems.contains(cat_fmted) ? " NEW" : ""  %>
  						</div>
  					</p></label>
@@ -1198,7 +1208,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("<%= id%>").style.display='none';
 			document.getElementById("<%= id%>").parentElement.style.display = 'none';
 			//document.getElementById("<%= id%>").removeAttribute('data-v');
-
+            if( document.getElementById("vtkCatItem_<%= id%>")!=null ){
+                document.getElementById("vtkCatItem_<%= id%>").style.display = 'none';
+            }
 
 			<%
 		}
@@ -1237,6 +1249,17 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 				for(var y = 0; y < <%=tp%>.length; y++){
 					document.getElementById(<%=tp%>[y]).style.display ='inline';
 					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+
+                    <%
+                	String searchNewItem="";
+                	for(int i=0;i<newItems.size();i++){
+                		searchNewItem += newItems.get(i) +", ";
+            		}
+            		%>     
+                        if( !!~ "<%=searchNewItem%>".indexOf( "<%=tp%>|"+ document.getElementById(<%=tp%>[y]).value)  ){
+
+                            document.getElementById("vtkCatItem_"+document.getElementById(<%=tp%>[y]).id).style.display ='inline';
+                        }
 
 				}//end for
 			   }//end if
@@ -1292,7 +1315,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		
 	}
 	
-	
+
 	function checkIfOnWasClickedX(configObject){
 
 		var  _arrayList = [], v, _hasOne;
