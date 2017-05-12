@@ -62,13 +62,6 @@ function fixColorlessWrapper() {
             $(colorlessWrappers[i]).attr("style", thisWrapperStyle.replace(/, ?[0-9\.]*\)/, ", 1)"));
         }
     }
-    /*
-    $(".story.colorless .bg-wrapper").each(function () {
-        if ($(this).attr("style")) {
-            $(this).attr("style", $(this).attr("style").replace(/, ?[0-9\.]*\)/, ", 1\)"));
-        }
-    });
-    */
 }
 
 function fixSlickListTrack() {
@@ -206,56 +199,8 @@ function fixSlickSlideActive() {
                 $("body").css('overflow', '');
                 $(".featured-stories").css('position', '');
             }
-
-            // Join Now fades out but still appears 
-            /*
-            if (target.closest('.join .wrapper').length == 0 && target.closest(".join section").css('display') != 'none') {
-                $('.join section').fadeOut('500', function () {
-                    $('.join a').fadeIn('slow');
-                });
-            }
-            if (target.closest('.hero-feature').length == 0 && target.closest(".hero-feature").css('display') != 'none') {
-                $('.position').animate({
-                    'opacity': 0
-                }, 100, function () {
-                    $('.hero-feature .overlay').fadeOut();
-                    $('.position').css('z-index', '-1');
-                    $('.zip-council').removeClass('change');
-                    $('.main-slider').slick('slickPlay');
-                    pauseAllCarouselVideos();
-                    // release opacity for mike's fix
-                    if (isIE11 && lastAfterSlick) {
-                        for (var x in lastAfterSlick) {
-                            for (var i = 0; i < lastAfterSlick.length; i++) {
-                                $(lastAfterSlick[i]).css('opacity', '1');
-                            }
-                        }
-                    }
-                });
-            }
-            if (target.closest('.final-comp').length == 0 && target.closest(".final-comp").css('display') != 'none') {
-                $(".final-comp").fadeOut('slow');
-                $('.hero-text.first').show();
-                $('.zip-council').fadeIn('slow');
-                $('.main-slider').css('opacity', '');
-                $("#tag_explore_final input[type=\"text\"]").hide();
-            }
-            */
-            /*
-            if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').children('form').css('display') != 'none') {
-                $('.vol.button.arrow').children('form').addClass('hide');
-                //$('.vol.button.arrow').removeClass('hide');
-            }
-            if ((target.closest('.standalone-join').length == 0 && target.closest('.footer-join').length == 0) && target.closest('.join.button.arrow').children('form').css('display') != 'none') {
-                $('.join.button.arrow').children('form').addClass('hide');
-                //$('.join.button.arrow').removeClass('hide');
-            }
-            if (target.closest('.standalone-donate').length == 0 && target.closest('a.button.form').children('form').css('display') != 'none') {
-                $('a.button.form').children('form').addClass('hide');
-                //$('a.button.form').removeClass('hide');
-            }
-            */
         });
+        
     }
 
     //header join now volunteer forms.
@@ -388,33 +333,7 @@ function fixSlickSlideActive() {
             }
         });
     }
-    /*
-    //join now and volunteer form for standalone
-    $('.vol.button.arrow, .join.button.arrow').on("click", function (event) {
-        event.preventDefault();
-        var this_form = $(this).children("form");
-        //this_form.removeClass('hide');
-        //$(this).addClass('hide');
-        if (this_form.find('input[name="ZipJoin"]').length > 0) {
-            this_form.find('input[name="ZipJoin"]').focus();
-        }
-        if (this_form.find('input[name="ZipVolunteer"]').length > 0) {
-            this_form.find('input[name="ZipVolunteer"]').focus();
-        }
-    });
-    */
-    //home page join now link will open the email form.
-    /*
-    function join_now() {
-        $('.zip-council > .join a').on('click', function (e) {
-            e.preventDefault();
-            $(this).fadeOut(500, function () {
-                $(this).siblings('section').fadeIn('slow');
-                $(this).siblings('section').find("input[name='zipcode']").focus();
-            });
-        });
-    }
-    */
+    
     $('.shop-slider').slick({
         dots: false,
         infinite: false,
@@ -812,60 +731,6 @@ function fixSlickSlideActive() {
             firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
         }
     }
-    //camp-finder vaidation and submittion function
-    /*
-    function camp_finder() {
-        var campFormSubmitted = false;
-        $('.find-camp').submit(function (event) {
-            if (event.preventDefault) {
-                event.preventDefault();
-            } else {
-                event.stop();
-            }
-            event.returnValue = false;
-            event.stopPropagation();
-            if (campFormSubmitted) {
-                return;
-            }
-            event.preventDefault();
-
-            var zip = $(this).find('input[name="zip-code"]').val(),
-                zip_field = $(this).find('input[type="text"]'),
-                redirectUrl = redirectCampFinderURL, //passed in from standalone-camp-finder.jsp
-                currentUrl = currentCampFinderURL; //passed in from standalone-camp-finder.jsp
-
-            if (zip != zip.match("[0-9]{5}")) {
-                zip_field.attr("value", "invalid zip code");
-                zip_field.css({
-                    "font-size": "12px",
-                    "color": "red"
-                });
-                zip_field.on("blur, focus", function () {
-                    $(this).css({
-                        "font-size": "1.125rem",
-                        "color": "#000"
-                    });
-                    if ($(this).attr('value') == "invalid zip code") {
-                        $(this).val("").attr("placeholder", "ZIP Code");
-                    }
-                });
-
-            } else {
-                if (window.location.search != undefined && window.location.search != "") {
-                    redirectUrl += window.location.search;
-                }
-
-                if (currentUrl == redirectUrl) {
-                    window.location.hash = "#" + zip;
-                    window.location.reload();
-                } else {
-                    window.location.href = redirectUrl + '.html#' + zip;
-                }
-            }
-        });
-        
-    }
-    */
 
     function hide_show_cookie() {
         $('#meet-cookie-layout section').hide();
