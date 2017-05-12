@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <props jcr:primaryType="cq:Panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <track
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Select a Year Plan Track"
+                    fieldLabel="Year Plan Track Mapping"
+                    name="./track"
+                    options="/bin/vtk/v1/scaffoldingdata.json?yearplan=yearplan2016"
+                    optionsRoot="yearplan2016"
+                    optionsTextField="title"
+                    optionsValueField="data"
+                    type="select"
+                    xtype="selection"/>
+            </items>
+        </props>
+    </items>
+</jcr:root>
