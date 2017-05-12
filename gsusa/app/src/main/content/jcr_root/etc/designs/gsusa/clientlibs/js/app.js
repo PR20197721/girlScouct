@@ -9,15 +9,16 @@
 //
 //
 var boundHashForms = {};
+
 function bindSubmitHash(form) {
     "use strict";
-    
+
     // Ensure a single form binding
     if (boundHashForms[form.formElement] || !$(form.formElement)) {
         return false;
     }
     boundHashForms[form.formElement] = true;
-    
+
     $(form.formElement).submit(function (event) {
         // Stop other events
         if (event.preventDefault) {
@@ -27,7 +28,7 @@ function bindSubmitHash(form) {
         }
         event.returnValue = false;
         event.stopPropagation();
-        
+
         var hashElement = $(this).find(form.hashElement),
             hash = hashElement.val(),
             pattern = hashElement.attr("pattern") || false,
@@ -38,7 +39,7 @@ function bindSubmitHash(form) {
             return false;
         }
         form.submitted = true;
-        
+
         // Go to the results page while maintaining query
         window.location.href = form.redirectUrl + ".html" + window.location.search + "#" + hash;
         if (form.currentUrl == form.redirectUrl) {
@@ -99,6 +100,35 @@ function fixSlickSlideActive() {
         }
     }
 }
+
+(function bindButtonForms() {
+    "use strict";
+    //Detect ipad
+    var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
+    
+    $(document).on(touchOrClick, function (event) {
+        var target = $(event.target),
+            form = target.closest(".button-form-open").length,
+            button = target.is(".button-form");
+        
+        // Close all other open forms, including when clicking on a button
+        if (!form) {
+            console.log("clicked outside form");
+            $(".button-form-open").removeClass("button-form-open").addClass("hide");
+        }
+        
+        if (form) {
+            console.log("clicked form");
+        }
+        
+        // Open child form
+        if (button) {
+            console.log("clicked button");
+            target.find(".button-form-target.hide").removeClass("hide").addClass("button-form-open");
+            target.find("input[type='text']").focus();
+        }
+    });
+}());
 
 //
 //
@@ -176,6 +206,7 @@ function fixSlickSlideActive() {
                 $("body").css('overflow', '');
                 $(".featured-stories").css('position', '');
             }
+
             // Join Now fades out but still appears 
             /*
             if (target.closest('.join .wrapper').length == 0 && target.closest(".join section").css('display') != 'none') {
@@ -210,6 +241,7 @@ function fixSlickSlideActive() {
                 $("#tag_explore_final input[type=\"text\"]").hide();
             }
             */
+            /*
             if ((target.closest('.standalone-volunteer').length == 0 && target.closest('.footer-volunteer').length == 0) && target.closest('.vol.button.arrow').children('form').css('display') != 'none') {
                 $('.vol.button.arrow').children('form').addClass('hide');
                 //$('.vol.button.arrow').removeClass('hide');
@@ -222,8 +254,10 @@ function fixSlickSlideActive() {
                 $('a.button.form').children('form').addClass('hide');
                 //$('a.button.form').removeClass('hide');
             }
+            */
         });
     }
+
     //header join now volunteer forms.
     function headercomptrigger(item, event) {
         event.stopPropagation();
@@ -354,11 +388,12 @@ function fixSlickSlideActive() {
             }
         });
     }
+    /*
     //join now and volunteer form for standalone
     $('.vol.button.arrow, .join.button.arrow').on("click", function (event) {
         event.preventDefault();
         var this_form = $(this).children("form");
-        this_form.removeClass('hide');
+        //this_form.removeClass('hide');
         //$(this).addClass('hide');
         if (this_form.find('input[name="ZipJoin"]').length > 0) {
             this_form.find('input[name="ZipJoin"]').focus();
@@ -367,6 +402,7 @@ function fixSlickSlideActive() {
             this_form.find('input[name="ZipVolunteer"]').focus();
         }
     });
+    */
     //home page join now link will open the email form.
     /*
     function join_now() {
@@ -866,7 +902,7 @@ function fixSlickSlideActive() {
         hide_show_cookie();
     });
     // form on the Donate Tile.
-    $("#tag_tile_button_local, .standalone-donate a.button.form").on('click', function (e) {
+    $("#tag_tile_button_local").on('click', function (e) {
         e.preventDefault();
         $('#tag_tile_button_donate').toggle();
         $('.formDonate').toggleClass('hide');

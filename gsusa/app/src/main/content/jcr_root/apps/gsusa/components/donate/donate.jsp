@@ -1,36 +1,6 @@
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
-<script type="text/javascript">
-    var completeAndRedirectDonate = function (data) {
-        <% 
-        if (WCMMode.fromRequest(request) != WCMMode.EDIT) {
-            %>var toPost = $('.formDonate').serialize();
-            $(document).ready(function () {
-                $.ajax({
-                    method: "POST",
-                    url: '/invest/ajax_CouncilFinder.asp',
-                    data: toPost,
-                    async: false,
-                    success: function (resp) {
-                        if (resp == null || resp == "") {
-                            alert("The council you have searched for does not exist");
-                        } else {
-                            //console.log(resp);
-                            var url = resp.split(',', 3);
-                            //console.log(url[2]);
-                            window.open(url[2], '_blank');
-                        }
-                    }
-                });
-            });<% 
-        } else { 
-            %>alert("This tool can only be used on a live page");<%
-        } 
-        %>
-    }
-</script>
-
 <%
 String title = properties.get("title", "Donate");
 Boolean zip = (properties.get("zip", "Yes")).equals("Yes");
@@ -63,9 +33,9 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
         }
         %><div class="<%=wrapper%>"><%
             if (zip) {
-                %><a class="button form">
+                %><a class="button form button-form">
                     <%=title%>
-                    <form class="formDonate clearfix hide" onsubmit="completeAndRedirectDonate(); return false;" method="POST">
+                    <form class="formDonate clearfix button-form-target hide">
                         <!-- <label for="zipcode">Enter ZIP Code: </label> -->
                         <div>
                             <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="zip-code" placeholder="Enter ZIP Code" />
@@ -79,6 +49,48 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                 %><a class="button" href="<%=href%>" target="_blank"><%=title%></a><%
             }
         %></div>
-    </div><%
+    </div>
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.formDonate').submit(function (event) {
+                // Stop other events
+                if (event.preventDefault) {
+                    event.preventDefault();
+                } else {
+                    event.stop();
+                }
+                event.returnValue = false;
+                event.stopPropagation();
+                //event.stopImmediatePropagation();
+                
+                <% 
+                if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+                    %>alert("This tool can only be used on a live page");
+                    return;<%
+                }
+                %>
+
+                console.log("clicked");
+                $.ajax({
+                    method: "POST",
+                    url: '/invest/ajax_CouncilFinder.asp',
+                    data: $(this).serialize(),
+                    async: false,
+                    success: function (resp) {
+                        if (resp == null || resp == "") {
+                            alert("The council you have searched for does not exist");
+                        } else {
+                            //console.log(resp);
+                            var url = resp.split(',', 3);
+                            //console.log(url[2]);
+                            window.open(url[2], '_blank');
+                        }
+                    }
+                });
+                return false;
+            });
+        });
+    </script><%
 }
 %>

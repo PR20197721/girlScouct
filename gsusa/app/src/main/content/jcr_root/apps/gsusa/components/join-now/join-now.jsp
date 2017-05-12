@@ -38,9 +38,9 @@ String wrapper = bgExists || textExists ? "wrapper" : "";
        <p><%=text%></p><%
     }
     %><div class="<%=wrapper%>">
-        <a href="#" title="Join Now" class="join button arrow">
+        <a title="Join Now" class="join button arrow button-form">
             <%=callToActionName%>
-            <form class="formJoin hide">
+            <form class="formJoin button-form-target hide">
                 <label><%=title%></label>
                 <div>
                     <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" name="ZipJoin" placeholder="Enter ZIP Code" />
