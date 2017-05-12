@@ -87,7 +87,7 @@ public class VtkScaffoldingDataServlet extends SlingAllMethodsServlet {
 							String ypPath =  ypResource.getPath();
 							
 							yearPlanData = yearPlanData+DATA_TEMPLATE;
-							yearPlanData = yearPlanData.replaceAll("mytitle",name).replaceAll("mydata",ypPath);
+							yearPlanData = yearPlanData.replaceAll("mytitle",name).replaceAll("mydata",ypPath+"###"+name);
 							yearPlanData = yearPlanData+",";
 							
 						}//while 
