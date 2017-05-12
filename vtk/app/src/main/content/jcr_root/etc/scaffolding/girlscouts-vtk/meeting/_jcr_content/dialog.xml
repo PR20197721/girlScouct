@@ -53,8 +53,8 @@
                             value="Junior"/>
 						<multilevel
 							                            jcr:primaryType="nt:unstructured"
-							                            text="Multilevel"
-							                            value="Multilevel"/>
+							                            text="Multi-level"
+							                            value="Multi-level"/>
                     </options>
                 </level>
                 <name
@@ -237,7 +237,7 @@
 			                 itemId="tagsField9">
 			                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badgesfor20172018,'); } else { catTagsField.setValue(curVal.replace(/Badgesfor20172018,/g,'')); } }"/>			             
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017-2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017-2018,/g,'')); } }"/>			             
 			                </catTags9>
 			             </items>
 			         </fieldset1>
@@ -281,7 +281,7 @@
 				                 itemId="tagsField11" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
-                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_World_-_Change_It,/g,'')); } }"/>
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_World_-_Change_It,/g,'')); } }"/>
 				             </catTags11>
 				             <catTags12
 				                 jcr:primaryType="cq:Widget"
