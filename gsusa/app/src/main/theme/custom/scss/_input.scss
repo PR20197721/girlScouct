@@ -37,42 +37,6 @@
     }
 }
 
-.council-finder {
-    form section {
-        padding: 0 rem-calc(5) !important;
-        width: 100% !important;
-        white-space: normal;
-        display: table;
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-            width: 100%;
-            * {
-                height: rem-calc(37);
-            }
-        }
-        [type="text"],
-        [type="submit"],
-        select {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            float: none !important;
-            margin: 0 !important;
-        }
-        [type="text"],
-        select {
-            width: 100% !important;
-        }
-        [type="text"] {
-            padding-left: rem-calc(5);
-        }
-        [type="submit"] {
-            padding: 0 rem-calc(10) !important;
-            right: auto !important;
-        }
-    }
-}
-
 [name="find-cookies"] {
     .form-wrapper {
         //padding: rem-calc(5) !important;
