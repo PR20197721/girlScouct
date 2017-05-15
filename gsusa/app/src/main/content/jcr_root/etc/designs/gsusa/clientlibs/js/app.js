@@ -34,18 +34,33 @@ function bindSubmitHash(form) {
             pattern = hashElement.attr("pattern") || false,
             match = !pattern || (pattern && hash.match(pattern));
 
-        // Prevent double submit and invalid data (if a pattern is specified)
+        // Prevent double submit on redirect and invalid data (if a pattern is specified)
         if (form.submitted || !match) {
             return false;
         }
-        form.submitted = true;
 
-        // Go to the results page while maintaining query
+        // Do ajax request instead of redirect
+        if (form.ajax) {
+            if (form.live) {
+                alert("This tool can only be used on a live page");
+                return false;
+            }
+            $.ajax({
+                method: form.ajax.method || "POST",
+                url: form.ajax.url || "",
+                data: form.ajax.data || $(this).serialize(),
+                async: form.ajax.async || false,
+                success: form.ajax.success || function () {}
+            });
+            return false;
+        }
+
+        // Redirect to the results page while maintaining query
         window.location.href = form.redirectUrl + ".html" + window.location.search + "#" + hash;
         if (form.currentUrl == form.redirectUrl) {
             window.location.reload();
         }
-
+        form.submitted = true;
         return false;
     });
 }
@@ -98,25 +113,25 @@ function fixSlickSlideActive() {
     "use strict";
     //Detect ipad
     var touchOrClick = (navigator.userAgent.match(/iPad/i)) ? "touchstart" : "click";
-    
+
     $(document).on(touchOrClick, function (event) {
         var target = $(event.target),
             form = target.closest(".button-form-open").length,
             button = target.is(".button-form");
-        
+
         // Close all other open forms, including when clicking on a button
         if (!form) {
-            console.log("clicked outside form");
+            //console.log("clicked outside form");
             $(".button-form-open").removeClass("button-form-open").addClass("hide");
         }
-        
+        /*
         if (form) {
             console.log("clicked form");
         }
-        
+        */
         // Open child form
         if (button) {
-            console.log("clicked button");
+            //console.log("clicked button");
             target.find(".button-form-target.hide").removeClass("hide").addClass("button-form-open");
             target.find("input[type='text']").focus();
         }
@@ -200,7 +215,7 @@ function fixSlickSlideActive() {
                 $(".featured-stories").css('position', '');
             }
         });
-        
+
     }
 
     //header join now volunteer forms.
@@ -333,7 +348,7 @@ function fixSlickSlideActive() {
             }
         });
     }
-    
+
     $('.shop-slider').slick({
         dots: false,
         infinite: false,

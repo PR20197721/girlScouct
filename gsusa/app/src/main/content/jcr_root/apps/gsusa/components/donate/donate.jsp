@@ -53,42 +53,21 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.formDonate').submit(function (event) {
-                // Stop other events
-                if (event.preventDefault) {
-                    event.preventDefault();
-                } else {
-                    event.stop();
-                }
-                event.returnValue = false;
-                event.stopPropagation();
-                //event.stopImmediatePropagation();
-                
-                <% 
-                if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-                    %>alert("This tool can only be used on a live page");
-                    return;<%
-                }
-                %>
-
-                console.log("clicked");
-                $.ajax({
-                    method: "POST",
+            bindSubmitHash({
+                formElement: ".formDonate",
+                ajax: {
                     url: '/invest/ajax_CouncilFinder.asp',
-                    data: $(this).serialize(),
-                    async: false,
                     success: function (resp) {
                         if (resp == null || resp == "") {
                             alert("The council you have searched for does not exist");
                         } else {
-                            //console.log(resp);
+                            //console.log("Data: " + this.data);
                             var url = resp.split(',', 3);
-                            //console.log(url[2]);
                             window.open(url[2], '_blank');
                         }
                     }
-                });
-                return false;
+                },
+                live: <%=WCMMode.fromRequest(request) == WCMMode.EDIT%>
             });
         });
     </script><%
