@@ -272,8 +272,14 @@ public class POST extends SlingAllMethodsServlet {
 	                            String[] nextLine;
 	                            while((nextLine = csvR.readNext()) != null){
 	                                lineRead++;
-	                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
-	                                   lineOK++;
+	                                try{
+		                                if(performLine(request,nextLine,headers,pathIndex,rootNode,insertedResourceType,counter++,importType,contactsToCreate,allNames, scriptHelper, pathsToReplicate, councilName)) {
+		                                   lineOK++;
+		                                   rootNode.save();
+		                                }
+	                                }catch(Exception e){
+	                                	System.err.println("Line " + (lineRead + 1) + " failed to properly process or save");
+	                                	e.printStackTrace();
 	                                }
 	                            }
 	                            
@@ -316,7 +322,7 @@ public class POST extends SlingAllMethodsServlet {
                                 		}
                                 	}
 	                                try {
-	                                    rootNode.save();
+	                                	rootNode.save();
 	                                    htmlResponse = HtmlStatusResponseHelper.createStatusResponse(true,
 	                                        "Imported " + lineOK + "/" + lineRead + " lines");
 	                                } catch (RepositoryException e) {
@@ -363,16 +369,6 @@ public class POST extends SlingAllMethodsServlet {
 
     public boolean performLine(SlingHttpServletRequest request, String[] line, List<String> headers, int pathIndex, Node rootNode, String insertedResourceType, long counter, String importType, HashMap<String,ArrayList<Contact>> contactsToCreate, TreeSet<String> allNames, SlingScriptHelper scriptHelper, ArrayList<String> pathsToReplicate, String councilName) {
     	boolean updated = false;
-    	for(String s : line){
-    		System.out.println(s.replaceAll("[\\u2013\\u2014\\u2015]", "-")
-					.replaceAll("[\\u2017]", "_")
-					.replaceAll("[\\u2018\\u2019]","'")
-					.replaceAll("[\\u201C\\u201D]", "\"")
-					.replaceAll("[\\u201D\\u201E]","\"")
-					.replaceAll("[\\u2026]","...")
-					.replaceAll("[\\u2032]","\'")
-					.replaceAll("[\\u2033]","\""));
-    	}
         try {
             int headerSize = headers.size();
             List<String> values = new LinkedList<String>(Arrays.asList(line));
