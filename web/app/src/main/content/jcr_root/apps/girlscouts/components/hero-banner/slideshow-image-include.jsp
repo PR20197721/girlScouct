@@ -23,8 +23,8 @@ java.util.Collections,java.util.Comparator" %>
 
   // reiterate over and add the items into the slots
   ArrayList<Resource> imageList = new ArrayList<Resource>();
-  for(int i=1; i<slideShowCount+1;i++){
-    if(images.hasNext()) imageList.add(images.next());
+  while(images.hasNext()){
+	  imageList.add(images.next());
   }
   
   // sort
