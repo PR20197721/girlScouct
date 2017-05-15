@@ -79,39 +79,6 @@
     }
 }
 
-.camp-landing-hero .find-camp {
-    .form-wrapper {
-        //padding: rem-calc(5) !important;
-        width: 100% !important;
-        white-space: normal;
-        display: table;
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-            width: 100%;
-            * {
-                height: rem-calc(35);
-            }
-        }
-        [type="text"],
-        [type="submit"] {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            float: none !important;
-            position: relative !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
-        [type="text"] {
-            //width: 100% !important;
-        }
-        [type="submit"] {
-            padding: 0 rem-calc(7) !important;
-            right: auto !important;
-        }
-    }
-}
-
 .standalone-camp-finder .find-camp {
     display: table;
     > div {
