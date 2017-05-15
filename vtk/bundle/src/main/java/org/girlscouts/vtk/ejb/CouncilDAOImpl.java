@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
 
 import org.apache.felix.scr.annotations.Activate;
@@ -821,7 +822,7 @@ System.err.println("TESt: " + sb.toString());
 		      
 		        java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
 		      
-		        String sql="select * from nt:unstructured where jcr:path like '/vtk2016/%/finances/finalized'";
+		        String sql="select * from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null, null)+"%/finances/finalized'";
 		        		
 		        javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -833,11 +834,21 @@ System.err.println("TESt: " + sb.toString());
 		            StringTokenizer t= new StringTokenizer( path , "/");
 		            t.nextToken();
 		            String councilId = t.nextToken();
-		            sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId  );       
+		            
+		            java.util.Date submitTime=null;
+		            try{
+			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
+			            Node infoNode = session.getNode( timePath );	            
+			            submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() );
+		            }catch(Exception e){
+		            	e.printStackTrace();
+		            }
+		            
+		            sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"\","+  (submitTime==null ? "N/A"  : submitTime));       
 		        }
 		        
-		       
-System.err.println("FinRpt: "+ sb.toString());		
+		       		
+		        councilRpt.emailRpt( sb.toString(), "Report - Current # of Council's Who have Published Finance Form 2.0" ); 
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
