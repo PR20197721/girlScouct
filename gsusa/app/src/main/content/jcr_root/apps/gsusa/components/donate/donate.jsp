@@ -67,7 +67,7 @@ if (!zip && href.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                         }
                     }
                 },
-                live: <%=WCMMode.fromRequest(request) == WCMMode.EDIT%>
+                edit: <%=WCMMode.fromRequest(request) == WCMMode.EDIT%>
             });
         });
     </script><%

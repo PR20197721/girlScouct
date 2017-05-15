@@ -41,7 +41,7 @@ function bindSubmitHash(form) {
 
         // Do ajax request instead of redirect
         if (form.ajax) {
-            if (form.live) {
+            if (form.edit) {
                 alert("This tool can only be used on a live page");
                 return false;
             }
