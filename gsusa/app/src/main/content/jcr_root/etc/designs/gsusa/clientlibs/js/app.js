@@ -116,13 +116,13 @@ function fixSlickSlideActive() {
 
     $(document).on(touchOrClick, function (event) {
         var target = $(event.target),
-            form = target.closest(".button-form-open").length,
+            form = target.closest(".button-form-target.open").length,
             button = target.is(".button-form");
 
         // Close all other open forms, including when clicking on a button
         if (!form) {
             //console.log("clicked outside form");
-            $(".button-form-open").removeClass("button-form-open").addClass("hide");
+            $(".button-form-target.open").removeClass("open").addClass("hide");
         }
         /*
         if (form) {
@@ -132,7 +132,7 @@ function fixSlickSlideActive() {
         // Open child form
         if (button) {
             //console.log("clicked button");
-            target.find(".button-form-target.hide").removeClass("hide").addClass("button-form-open");
+            target.find(".button-form-target.hide").removeClass("hide").addClass("open");
             target.find("input[type='text']").focus();
         }
     });
