@@ -37,42 +37,6 @@
     }
 }
 
-.join-volunteer-block {
-    form {
-        padding: rem-calc(5) !important;
-        //position: relative !important;
-        bottom: 0;
-        left: 0;
-        width: 100% !important;
-        white-space: normal;
-        label {
-            margin-top: rem-calc(7);
-        }
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-            * {
-                height: rem-calc(37);
-            }
-        }
-        [type="text"],
-        [type="submit"] {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            float: none !important;
-            position: relative !important;
-            width: 100% !important;
-        }
-        [type="text"] {
-            width: 100% !important;
-        }
-        [type="submit"] {
-            width: 100%;
-            right: auto !important;
-        }
-    }
-}
-
 .footer-join,
 .footer-volunteer {
     form {

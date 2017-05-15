@@ -35,41 +35,42 @@
         padding: rem-calc(0 10 0 0);
     }
     form {
+        padding: rem-calc(5);
         position: absolute;
         bottom: 0;
+        left: 0;
+        width: 100%;
+        white-space: normal;
         background: $white;
-        width: 95.1%;
         z-index: 3;
-        padding-bottom: rem-calc(10);
-        padding-left: rem-calc(6);
         label {
+            margin-top: rem-calc(7);
             color: $primary-color;
             text-transform: uppercase;
             margin-bottom: rem-calc(11);
             font-size: rem-calc(15);
-            margin-top: rem-calc(12);
             line-height: 1;
         }
-        input[type="text"] {
-            width: 95%;
-            float: left;
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+            width: 100%;
+            * {
+                height: rem-calc(37);
+            }
+        }
+        [type="text"],
+        [type="submit"] {
+            width: 100%;
+            font-size: rem-calc(18);
+        }
+        [type="text"] {
             padding-left: rem-calc(10);
-            font-size: rem-calc(18);
-            // height: rem-calc(33);
         }
-        input[type="submit"] {
-            padding: rem-calc(9 5 7 5);
+        [type="submit"] {
+            padding: rem-calc(0 5);
             margin-bottom: 0;
-            position: absolute;
-            right: 5px;
-            font-size: rem-calc(18);
         }
-    }
-    &.form-no-image form {
-        width: 100%;
-    }
-    &.border form {
-        width: 91%;
     }
 }
 
