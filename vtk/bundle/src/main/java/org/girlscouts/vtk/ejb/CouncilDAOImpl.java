@@ -817,16 +817,9 @@ System.err.println("TESt: " + sb.toString());
 		try{
 			session = sessionFactory.getSession();
 		    sb.append("Council Finance Published Report generated on " + format1.format(new java.util.Date())+ " \n ");
-		        String limitRptToCouncil= null;
-		        limitRptToCouncil= limitRptToCouncil==null ? "" :  limitRptToCouncil.trim() ;
-		      
-		        java.util.HashSet<String> ageGroups = new java.util.HashSet<String>();
-		      
 		        String sql="select * from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null, null)+"%/finances/finalized'";
-		        		
 		        javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-		        java.util.Map container= new java.util.TreeMap();
 		        javax.jcr.query.QueryResult result = q.execute();
 		        for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 		            javax.jcr.query.Row r = it.nextRow();
@@ -838,8 +831,9 @@ System.err.println("TESt: " + sb.toString());
 		            java.util.Date submitTime=null;
 		            try{
 			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
-			            Node infoNode = session.getNode( timePath );	            
-			            submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() );
+			            Node infoNode = session.getNode( timePath );
+			            if( infoNode!=null)
+			            	submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() );
 		            }catch(Exception e){
 		            	e.printStackTrace();
 		            }
