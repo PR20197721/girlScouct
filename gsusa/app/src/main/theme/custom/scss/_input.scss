@@ -79,55 +79,6 @@
     }
 }
 
-.standalone-camp-finder .find-camp {
-    display: table;
-    > div {
-        display: table-cell;
-        vertical-align: middle;
-        float: none !important;
-        label {
-            float: none !important;
-            text-align: left !important;
-        }
-    }
-    .form-wrapper {
-        > div {
-            display: table-cell;
-            vertical-align: middle;
-            width: 100%;
-            * {
-                height: rem-calc(30);
-            }
-        }
-        [type="text"],
-        [type="submit"] {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-            float: none !important;
-            position: relative !important;
-            width: 100% !important;
-            margin: 0 !important;
-        }
-        [type="submit"] {
-            padding: 0 rem-calc(7) !important;
-            right: auto !important;
-        }
-    }
-}
-
-.mobile-camp-finder .find-camp {
-    .caption {
-        display: table-row;
-        label {
-            text-align: center !important;
-        }
-    }
-    .form-wrapper {
-        width: 100%;
-        padding: 0 15% rem-calc(15) 15% !important;
-    }
-}
-
 .camp-finder-options {
     select {
         padding-left: rem-calc(8) !important;

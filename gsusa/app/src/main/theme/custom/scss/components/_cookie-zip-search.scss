@@ -225,7 +225,7 @@
 }
 
 .standalone-camp-finder {
-    margin: rem-calc(15 0 15 0);
+    margin: rem-calc(15 0);
     @media #{$small-only} {
         &:not(.mobile-camp-finder) {
             #main &,
@@ -238,52 +238,79 @@
         margin: rem-calc(0 0 15 0);
     }
     .row {
-        margin-right: 0;
-        margin-left: 0;
+        margin: auto 0;
     }
     form {
         margin: 0 auto;
         width: 70%;
         height: 100%;
         padding: rem-calc(17 0);
+        display: table;
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+        }
         label {
-            float: left;
             margin-bottom: 0;
-            text-align: center;
+            text-align: left;
             color: $white;
             font-size: rem-calc(30);
             font-weight: 500;
         }
         .form-wrapper {
+            position: relative;
             width: 34.22619%;
-            float: right;
             margin-bottom: 0;
-            margin-top: 1.5%;
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+                * {
+                    height: rem-calc(30);
+                }
+            }
+            [type="text"],
+            [type="submit"] {
+                width: 100%;
+                margin: 0;
+            }
+            [type="text"] {
+                padding-left: rem-calc(10);
+                font-size: rem-calc(18);
+            }
+            [type="submit"] {
+                padding: 0 rem-calc(7);
+                border: none;
+                background-color: $primary-color;
+                color: $white;
+                font-size: rem-calc(18);
+                font-weight: 300;
+            }
         }
         @media #{$small-only} {
-            label {
-                float: none;
-                margin-right: 0;
-                font-size: rem-calc(22);
-                margin-bottom: rem-calc(15);
+            .caption {
+                display: table-row;
+                label {
+                    text-align: center;
+                    margin-right: 0;
+                    font-size: rem-calc(22);
+                    margin-bottom: rem-calc(15);
+                }
             }
             .form-wrapper {
-                width: 70%;
-                float: none;
-                margin: 0 auto rem-calc(15);
+                width: 100%;
+                padding: 0 15% rem-calc(15) 15%;
             }
         }
         @media #{$medium-up} {
             .three-cols .middle-col & {
                 label {
-                    float: none;
                     margin-right: 0;
                     font-size: rem-calc(20);
                     margin-bottom: rem-calc(15);
                 }
                 .form-wrapper {
                     width: 70%;
-                    float: none;
                     margin: 0 auto rem-calc(15);
                 }
             }
@@ -291,27 +318,6 @@
                 width: 65%;
                 margin-left: auto;
             }
-        }
-        input[type="text"] {
-            float: left;
-            padding-left: rem-calc(10);
-            height: rem-calc(30);
-            font-size: rem-calc(18);
-        }
-        .link-arrow {
-            border: none;
-            background-color: $primary-color;
-            float: left;
-            line-height: rem-calc(30);
-            padding: 0 4%;
-            position: absolute;
-            right: 0;
-            color: $white;
-            font-size: rem-calc(18);
-            font-weight: 300;
-        }
-        .form-wrapper {
-            position: relative;
         }
     }
 }
