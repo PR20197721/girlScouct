@@ -13,7 +13,7 @@ var boundHashForms = {};
 function bindSubmitHash(form) {
     "use strict";
 
-    // Ensure a single form binding
+    // Check if form exists and ensure a single form binding
     if (boundHashForms[form.formElement] || !$(form.formElement)) {
         return false;
     }
@@ -255,8 +255,8 @@ function fixSlickSlideActive() {
                 form: $('.formHeaderVolunteer'),
                 input: $('.formHeaderVolunteer input[type="text"]'),
                 button: $('.formHeaderVolunteer .button')
-            },
-            searchjoin = { //stand-alone volunteer and join now buttons.
+            };
+            /*searchjoin = { //stand-alone volunteer and join now buttons.
                 form: $('.formJoin'),
                 input: $('.formJoin input[type="text"]'),
                 button: $('.formJoin .button')
@@ -265,7 +265,7 @@ function fixSlickSlideActive() {
                 form: $('.formVolunteer'),
                 input: $('.formVolunteer input[type="text"]'),
                 button: $('.formVolunteer .button')
-            };
+            };*/
         //on ESC keypress close the input
         searchSlider.input.keyup(function (e) {
             if (e.which == 27) {
@@ -331,7 +331,7 @@ function fixSlickSlideActive() {
                 headercomptrigger(headervolunteer, event);
             }
         });
-        searchvolunteer.form.submit(function () {
+        /*searchvolunteer.form.submit(function () {
             if (searchvolunteer.input.val() != "") {
                 searchvolunteer.form.submit();
                 searchvolunteer.input.val('');
@@ -346,7 +346,7 @@ function fixSlickSlideActive() {
             } else {
                 return false;
             }
-        });
+        });*/
     }
 
     $('.shop-slider').slick({
