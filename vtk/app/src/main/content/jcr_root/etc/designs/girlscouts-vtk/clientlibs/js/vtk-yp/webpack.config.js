@@ -2,7 +2,7 @@ module.exports = {
     entry: "./vtk-yp.tsx",
     output: {
         filename: "vtk-yp-app.js",
-        path: __dirname + "/dist"
+        path: __dirname + "./../"
     },
 
     // Enable sourcemaps for debugging webpack's output.

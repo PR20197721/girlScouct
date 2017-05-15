@@ -14,6 +14,10 @@
   </div><!--/yearPlanSelection-->
 </section>
 
+<script>
+  var ________app________ = "<%=troop.getSfTroopAge()%>".split('-')[1].toLowerCase();
+</script>
+
 
 
 <div id="vtk-yp-main"></div>

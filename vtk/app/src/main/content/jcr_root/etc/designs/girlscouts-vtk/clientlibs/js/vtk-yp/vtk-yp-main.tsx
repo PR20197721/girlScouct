@@ -1,32 +1,82 @@
 import './vtk-yp-main.scss';
 
 import * as React from 'react';
+import * as data from './data'
 
 import Category from './category';
+import Header from './header';
 
-interface VtkMainYpProps {};
+interface VtkMainYpProps {
+    data : any;
+};
 
-interface VtkMainYpState {};
+interface VtkMainYpState {
+    pdf: string;
+};
 
-class VtkMainYp extends React.Component<VtkMainYpProps, VtkMainYpState> {
-    public render(): JSX.Element {
-        return (<div >
-            <div className="columns small-20 small-centered">
-                <h3 className="">Daisy Year Plan Libray for 2017-2018</h3>
-                <div className="row">
-                    <div className="small-24 medium-20 columns">
-                        <p>Each Year plan  topic offers a list of up to 15 pre-selected meetings</p>
+class VtkMainYp extends React.Component < VtkMainYpProps,
+    VtkMainYpState> {
+    
+
+    constructor() { 
+        super();
+        this.state = {
+            pdf:''
+        }
+    }
+
+
+    componentDidMount() {
+        data.getPDF().then((url) => { 
+            this.setState({pdf:url})
+        })
+    }    
+
+
+
+
+    public render() : JSX.Element {
+        //debugger;
+        const {header, bottom} = this.props.data;
+        const { title, subtitle } = header;
+        
+        console.log(this.props.data); return (
+            <div>
+                <div className="columns small-20 small-centered">
+                    <h3 className="">{title}</h3>
+                    <div className="row">
+                        <div className="small-24 medium-20 columns">
+                            <p>{subtitle}</p>
+                        </div>
+                        <div className="small-24 medium-4 columns">
+                            {this.state.pdf ? <a target="_blank" href={this.state.pdf}>Year Plan Overview</a> : null}
+                        </div>
+
                     </div>
-                    <div className="small-24 medium-4 columns">
-                        pdf
-                    </div>
+                </div>
+
+                {this
+                    .props
+                    .data
+                    .Category
+                    .map((cat, idx) => {
+                        return <Category key={idx} {...cat}/>
+                    })
+                }
+
+                <div className="columns small-24">
+                    <Header subTitle={bottom.subtitle} title={bottom.title} />
                     
-                </div>    
-            </div>    
-            <Category />
-        </div>);
+                    <div className="row">
+                        <div className="columns small-20 small-centered">
+                            <div className="columns small-12"><p>Customize - Mix and Match </p></div>
+                            <div className="columns small-12" style={{textAlign:'right'}}> <a href="#">View Meetings to Select</a></div>
+                        </div>    
+                    </div>
+                </div>
+            </div>)
+
     }
 }
 
 export default VtkMainYp;
-

@@ -5,7 +5,7 @@
   "main": "vtk-yp-app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack && npm run clean && npm run move",
+    "build": "webpack",
     "version": "npm version minor",
     "build:prod": "webpack -p && npm run version",
     "clean": "rm -rf ../vtk-yp-app.*",
@@ -27,6 +27,10 @@
     "@types/react": "^15.0.23",
     "@types/react-dom": "^15.5.0",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "@types/axios": "^0.9.34",
+     "axios": "^0.15.3",
+    "promise": "^7.1.1",
+    "@types/promise": "^7.1.30"
   }
 }

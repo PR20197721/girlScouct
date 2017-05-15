@@ -2,7 +2,9 @@ import * as React from 'react';
 
 import Meetings from './meetings';
 
-interface YplanTrackProps {};
+interface YplanTrackProps {
+    track: string;
+};
 
 interface YplanTrackState {
     isOpen?: boolean;
@@ -22,7 +24,7 @@ YplanTrackState > {
 
     public render(): JSX.Element {
         
-        
+            
         return (
             <div className="__year-plan-track-row">
 
@@ -30,13 +32,15 @@ YplanTrackState > {
 
                     <div className="table">
                         <div className="cell c16">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel itaque
+                            {this.props.track.split('###')[1]}
                         </div>
                         <div
                             className={this.state.isOpen
                             ? "click-preview cell c3 __open"
                             : "click-preview cell c3 __close"}
                             onClick={() => {
+
+                                console.log(this.props.track.split('###')[0])
                             this.setState({
                                 'isOpen': !this.state.isOpen
                             })
@@ -98,7 +102,7 @@ YplanTrackState > {
                     </div>
                 </div>
 
-                <div className="row">
+                <div className="">
                     <div
                         className="columns small-20 end small-centered"
                         style={{
