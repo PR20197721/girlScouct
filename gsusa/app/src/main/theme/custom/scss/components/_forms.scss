@@ -2,7 +2,6 @@ input[type="text"],
 form {
     margin: 0;
     padding: 0;
-    margin: 0;
 }
 
 .header .search-form {
@@ -82,7 +81,14 @@ form {
     }
 }
 
+
+/*
 input[type="submit"]::-moz-focus-inner {
     border: 0px;
     padding: 0px;
 }
+
+input[type="submit"] {
+    margin: 0;
+}
+*/
