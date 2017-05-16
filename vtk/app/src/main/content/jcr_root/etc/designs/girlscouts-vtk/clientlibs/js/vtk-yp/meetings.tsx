@@ -2,14 +2,21 @@ import * as React from 'react';
 
 import Meeting from './meeting';
 
-interface MeetingsProps {};
+interface MeetingsProps {
+    meetings:any[]
+};
 
 interface MeetingsState {};
 
 class Meetings extends React.Component < MeetingsProps,
-MeetingsState > {
+    MeetingsState> {
+    
+
 
     public render() : JSX.Element {
+    
+
+    
         let juan = [
             {
                 outdoor: true,

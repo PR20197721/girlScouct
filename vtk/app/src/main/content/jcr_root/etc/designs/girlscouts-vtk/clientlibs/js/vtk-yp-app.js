@@ -383,6 +383,88 @@ module.exports = React;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var axios_1 = __webpack_require__(20);
+exports.ULR = 'URL';
+function getYearPlan() {
+    return axios_1.default.get('http://localhost:4503/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+        .then(function (data) {
+        return parseJSONVTK(data.data);
+    });
+}
+exports.getYearPlan = getYearPlan;
+function getPDF() {
+    var level = "" + ________app________;
+    return axios_1.default.get('http://localhost:4503/content/dam/girlscouts-vtkcontent/PDF/' + level + '.2.json')
+        .then(function (d) {
+        for (var a in d.data) {
+            if (a.match(/.pdf/)) {
+                return window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '/' + a;
+            }
+        }
+    });
+}
+exports.getPDF = getPDF;
+function getMeetings(url) {
+    // Axios.defaults.headers.post['Content-Type'] = 'application/json';
+    return axios_1.default.get(window.location.origin + url + '.3.json').then(function (data) {
+        console.log('AJAX', data.data);
+        return data.data;
+    });
+}
+exports.getMeetings = getMeetings;
+function parseJSONVTK(json) {
+    var parts = [];
+    var currentCategory = 0;
+    var counting = 0;
+    var OtoR = {
+        header: {},
+        Category: [],
+        bottom: {}
+    };
+    for (var part in json) {
+        if (part === "jcr:primaryType" || part === "sling:resourceType") {
+            continue;
+        }
+        else {
+            counting++;
+        }
+        if (json[part].hasOwnProperty('level')) {
+            if (json[part]['level'] === "Grade") {
+                parts.push(json[part]);
+            }
+            else if (json[part]['level'] === "Category") {
+                json[part]['categories'] = [];
+                parts.push(json[part]);
+                currentCategory = parts.length - 1;
+            }
+        }
+        else {
+            parts[currentCategory]['categories'].push(json[part]);
+        }
+    }
+    parts.forEach(function (elemen, idx) {
+        if (idx == 0 && elemen.level == "Grade") {
+            OtoR['header'] = elemen;
+        }
+        if (idx > 0 && idx < parts.length - 1 && elemen.hasOwnProperty('categories')) {
+            OtoR['Category'].push(elemen);
+        }
+        if (idx == parts.length - 1) {
+            OtoR['bottom'] = elemen;
+        }
+    });
+    return OtoR;
+}
+exports.parseJSONVTK = parseJSONVTK;
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
@@ -478,80 +560,6 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 module.exports = defaults;
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var axios_1 = __webpack_require__(20);
-exports.ULR = 'URL';
-function getYearPlan() {
-    return axios_1.default.get('http://localhost:4503/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
-        .then(function (data) {
-        return parseJSONVTK(data.data);
-    });
-}
-exports.getYearPlan = getYearPlan;
-function getPDF() {
-    var level = "" + ________app________;
-    return axios_1.default.get('http://localhost:4503/content/dam/girlscouts-vtkcontent/PDF/' + level + '.2.json')
-        .then(function (d) {
-        for (var a in d.data) {
-            if (a.match(/.pdf/)) {
-                return window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '/' + a;
-            }
-        }
-    });
-}
-exports.getPDF = getPDF;
-function parseJSONVTK(json) {
-    var parts = [];
-    var currentCategory = 0;
-    var counting = 0;
-    var OtoR = {
-        header: {},
-        Category: [],
-        bottom: {}
-    };
-    for (var part in json) {
-        if (part === "jcr:primaryType" || part === "sling:resourceType") {
-            continue;
-        }
-        else {
-            counting++;
-        }
-        if (json[part].hasOwnProperty('level')) {
-            if (json[part]['level'] === "Grade") {
-                parts.push(json[part]);
-            }
-            else if (json[part]['level'] === "Category") {
-                json[part]['categories'] = [];
-                parts.push(json[part]);
-                currentCategory = parts.length - 1;
-            }
-        }
-        else {
-            parts[currentCategory]['categories'].push(json[part]);
-        }
-    }
-    parts.forEach(function (elemen, idx) {
-        if (idx == 0 && elemen.level == "Grade") {
-            OtoR['header'] = elemen;
-        }
-        if (idx > 0 && idx < parts.length - 1 && elemen.hasOwnProperty('categories')) {
-            OtoR['Category'].push(elemen);
-        }
-        if (idx == parts.length - 1) {
-            OtoR['bottom'] = elemen;
-        }
-    });
-    return OtoR;
-}
-exports.parseJSONVTK = parseJSONVTK;
-
 
 /***/ }),
 /* 4 */
@@ -1072,7 +1080,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(41);
 var React = __webpack_require__(1);
-var data = __webpack_require__(3);
+var data = __webpack_require__(2);
 var category_1 = __webpack_require__(13);
 var header_1 = __webpack_require__(4);
 ;
@@ -1319,7 +1327,7 @@ exports.tree = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaX
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
 var ReactDOM = __webpack_require__(12);
-var data = __webpack_require__(3);
+var data = __webpack_require__(2);
 var vtk_yp_main_1 = __webpack_require__(11);
 window.onload = function () {
     data.getYearPlan().then(function (response) {
@@ -1346,6 +1354,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
+var data = __webpack_require__(2);
 var meetings_1 = __webpack_require__(15);
 ;
 ;
@@ -1354,10 +1363,34 @@ var YplanTrack = (function (_super) {
     function YplanTrack() {
         var _this = _super.call(this) || this;
         _this.state = {
-            isOpen: false
+            isOpen: false,
+            meetings: []
         };
         return _this;
     }
+    YplanTrack.prototype.openPreview = function () {
+        var _this = this;
+        debugger;
+        if (!this.state.meetings.length) {
+            data
+                .getMeetings(this.props.track.split('###')[0])
+                .then(function (response) {
+                console.info(response);
+                _this.setState({
+                    'meetings': [response],
+                    'isOpen': !_this.state.isOpen
+                });
+            });
+        }
+        else {
+            this.setState({
+                'isOpen': !this.state.isOpen
+            });
+        }
+    };
+    YplanTrack.prototype.selectPlan = function (name, url) {
+        console.log(name, url);
+    };
     YplanTrack.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: "__year-plan-track-row" },
@@ -1367,10 +1400,7 @@ var YplanTrack = (function (_super) {
                     React.createElement("div", { className: this.state.isOpen
                             ? "click-preview cell c3 __open"
                             : "click-preview cell c3 __close", onClick: function () {
-                            console.log(_this.props.track.split('###')[0]);
-                            _this.setState({
-                                'isOpen': !_this.state.isOpen
-                            });
+                            _this.openPreview();
                         } }, "Preview"),
                     React.createElement("div", { className: "cell c3" },
                         React.createElement("div", { className: "btn button right" }, "SELECT")))),
@@ -1385,19 +1415,20 @@ var YplanTrack = (function (_super) {
                         React.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo laboriosam omnis molestias, corporis odio quisquam beatae. Sequi dolorem nostrum doloremque, cupiditate quod, maxime rem veniam corrupti accusantium, ea facilis ipsa!"),
                         React.createElement("h4", null, "DAISY PETALS/ BADGES")),
                     React.createElement("div", { className: "columns small-20 small-centered" },
-                        React.createElement(meetings_1.default, null),
+                        React.createElement(meetings_1.default, { meetings: this.state.meetings }),
                         React.createElement("br", null),
                         React.createElement("div", { className: "table" },
                             React.createElement("div", { className: "cell c16" }),
                             React.createElement("div", { className: this.state.isOpen
                                     ? "click-preview cell c3 __open"
                                     : "click-preview cell c3 __close", onClick: function () {
-                                    _this.setState({
-                                        'isOpen': !_this.state.isOpen
-                                    });
+                                    _this.openPreview();
                                 } }, "Preview"),
                             React.createElement("div", { className: "cell c3" },
-                                React.createElement("div", { className: "btn button right" }, "SELECT"))),
+                                React.createElement("div", { onClick: function () {
+                                        console.log('click');
+                                        _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                                    }, className: "btn button right" }, "SELECT"))),
                         React.createElement("br", null)))),
             React.createElement("div", { className: "" },
                 React.createElement("div", { className: "columns small-20 end small-centered", style: {
@@ -1418,7 +1449,7 @@ exports = module.exports = __webpack_require__(38)(undefined);
 
 
 // module
-exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    text-transform: uppercase;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track, #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table, #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: center; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00ae58;\n        font-weight: bold; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:after, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00ae58;\n        top: 2px;\n        left: 8px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:after, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00ae58 transparent transparent transparent;\n        top: 6px;\n        left: 8px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0; }\n        #vtk-yp-main .meeting .body ul li {\n          display: inline-block; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-left: 125px solid transparent;\n      border-right: 125px solid transparent;\n      border-top: 31px solid white;\n      float: right;\n      margin-right: 125px; }\n", ""]);
+exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    text-transform: uppercase;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track, #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table, #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: center; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button, #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00ae58;\n        font-weight: bold;\n        cursor: pointer; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:after, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00ae58;\n        top: 2px;\n        left: 8px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:after, #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00ae58 transparent transparent transparent;\n        top: 6px;\n        left: 8px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0; }\n        #vtk-yp-main .meeting .body ul li {\n          display: inline-block; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-left: 125px solid transparent;\n      border-right: 125px solid transparent;\n      border-top: 31px solid white;\n      float: right;\n      margin-right: 125px; }\n", ""]);
 
 // exports
 
@@ -1439,7 +1470,7 @@ module.exports = __webpack_require__(21);
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(9);
 var Axios = __webpack_require__(23);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 
 /**
  * Create an instance of Axios
@@ -1559,7 +1590,7 @@ module.exports = CancelToken;
 "use strict";
 
 
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(24);
 var dispatchRequest = __webpack_require__(25);
@@ -1713,7 +1744,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(28);
 var isCancel = __webpack_require__(7);
-var defaults = __webpack_require__(2);
+var defaults = __webpack_require__(3);
 
 /**
  * Throws a `Cancel` if cancellation has been requested.

@@ -1,6 +1,8 @@
 import * as React from 'react';
+import * as data from './data'
 
 import Meetings from './meetings';
+import { getMeetings } from './data';
 
 interface YplanTrackProps {
     track: string;
@@ -8,6 +10,7 @@ interface YplanTrackProps {
 
 interface YplanTrackState {
     isOpen?: boolean;
+    meetings?: any[];
 };
 
 class YplanTrack extends React.Component < YplanTrackProps,
@@ -18,9 +21,38 @@ YplanTrackState > {
         super();
 
         this.state = {
-            isOpen: false
+            isOpen: false,
+            meetings:[]
         }
     }
+
+
+
+    openPreview() {
+        debugger;
+            if (!this.state.meetings.length) {
+                data
+                    .getMeetings(this.props.track.split('###')[0])
+                    .then((response) => {
+
+                        console.info(response)
+                        this.setState({
+                            'meetings': [response],
+                            'isOpen': !this.state.isOpen
+                        });
+                    })
+            } else {
+                this.setState({
+                    'isOpen': !this.state.isOpen
+                })
+            }
+
+        }
+    
+
+        selectPlan(name:string,url:string) { 
+            console.log(name,url)
+        }
 
     public render(): JSX.Element {
         
@@ -39,11 +71,8 @@ YplanTrackState > {
                             ? "click-preview cell c3 __open"
                             : "click-preview cell c3 __close"}
                             onClick={() => {
-
-                                console.log(this.props.track.split('###')[0])
-                            this.setState({
-                                'isOpen': !this.state.isOpen
-                            })
+                                this.openPreview();
+                           
                         }}>
                             Preview
                         </div>
@@ -74,7 +103,7 @@ YplanTrackState > {
                         </div>
                         <div className="columns small-20 small-centered">
 
-                             <Meetings />
+                            <Meetings meetings={this.state.meetings} />
                         
 
                             <br />
@@ -85,14 +114,15 @@ YplanTrackState > {
                                         ? "click-preview cell c3 __open"
                                         : "click-preview cell c3 __close"}
                                         onClick={() => {
-                                        this.setState({
-                                            'isOpen': !this.state.isOpen
-                                        })
+                                            this.openPreview();
                                     }}>
                                         Preview
                                     </div>
                                     <div className="cell c3">
-                                        <div className="btn button right">SELECT</div>
+                                    <div onClick={() => {
+                                        console.log('click')
+                                        this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                    }} className="btn button right">SELECT</div>
                                     </div>
                                 </div>
                             <br />

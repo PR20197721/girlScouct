@@ -33,6 +33,14 @@ export function getPDF() {
 
 
 
+export function getMeetings(url: string) {
+    // Axios.defaults.headers.post['Content-Type'] = 'application/json';
+    return Axios.get(window.location.origin + url + '.3.json').then((data) => { 
+        console.log('AJAX',data.data)
+        return data.data;
+    })
+}
+
 
 
 
