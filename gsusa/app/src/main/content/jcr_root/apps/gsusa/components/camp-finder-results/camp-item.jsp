@@ -7,10 +7,22 @@
     <p>Camp Location: {{CampCity}}, {{CampState}}</p>
     <p>Camp Dates: {{DateDescription}}</p>
     <p>Length of Sessions: {{SessionDescription}}</p>
-    <p>Fees: {{Fee}}</p>
-    <p>Grades the Camp Serves: {{GradeDescription}}</p>
-    <p>Website: <a href="{{Website}}" target="_blank">{{Website}}</a></p>
-    <p>Contact Information: {{{Emails}}} or {{Phone}}</p>
+    {{#if Fee}}
+	    <p>Fees: {{Fee}}</p>
+    {{/if}}
+    {{#if GradeDescription}}
+    	<p>Grades the Camp Serves: {{GradeDescription}}</p>
+    {{/if}}
+    {{#if Website}}
+	    <p>Website: <a href="{{Website}}" target="_blank">{{Website}}</a></p>
+    {{/if}}
+	{{#if (or Emails Phone)}}
+	    <p>Contact Information: {{{Emails}}}   
+		{{#if (and Emails Phone)}}
+		    or 
+    	{{/if}}
+	    {{Phone}}</p>
+    {{/if}}
     
     {{#if CampDescription}}
 	    <div class="more-section">
