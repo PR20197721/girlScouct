@@ -72,7 +72,9 @@ String share = hasRightShareSection ? "share" : "noshare";
     <div class="wrapper clearfix" style="background: #<%=bgcolor%>">
         <div class="wrapper-inner clearfix" id="<%=id%>">
             <form class="find-cookies-<%=share%>" name="find-cookies">
-                <label for="zip-code"><%=mainText%></label>
+                <div class="caption">
+                    <label for="zip-code"><%=mainText%></label>
+                </div>
                 <div class="form-wrapper clearfix">
                     <div>
                         <input type="text" required pattern="[0-9]{5}" maxlength="5" title="5 Number Zip Code" class="zip-code" name="zip-code" placeholder="ZIP Code" />

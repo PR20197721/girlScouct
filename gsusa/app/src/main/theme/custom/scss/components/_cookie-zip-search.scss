@@ -27,6 +27,7 @@
         position: relative;
         z-index: 1;
         padding: rem-calc(13 0);
+        line-height: 0;
         &:before {
             @media #{$medium-up} {
                 content: "";
@@ -74,88 +75,89 @@
             }
         }
     }
-    .find-cookies,
-    .find-camp {
+    .find-cookies {
         @media #{$medium-up} {
             margin-left: 0;
         }
     }
     form {
-        label {
-            color: $white;
-            font-size: rem-calc(33);
-            font-weight: 300;
-            * {
+        $img-width: 235 + 30; //width of the image + 30px
+        display: inline-table;
+        width: 100%;
+        padding: rem-calc(0 10 0 $img-width);
+        > div {
+            display: table-cell;
+            vertical-align: middle;
+        }
+        .caption {
+            width: 52%;
+            label {
+                font-size: rem-calc(33);
+                font-weight: 300;
                 color: $white;
+                line-height: rem-calc(47);
             }
             @media #{$small-only} {
-                margin-bottom: rem-calc(15);
+                display: table-row;
                 text-align: center;
+                label {
+                    margin-bottom: rem-calc(15);
+                }
+            }
+        }
+        .form-wrapper {
+            width: 100%;
+            margin: 0;
+            @media #{$small-only} {
+                margin-top: rem-calc(10);
+            }
+            > div {
+                display: table-cell;
+                vertical-align: middle;
+                width: 100%;
+                * {
+                    height: rem-calc(47);
+                }
+            }
+            [type="text"],
+            [type="submit"] {
+                width: 100%;
+                margin: 0;
+            }
+            [type="text"] {
+                padding-left: rem-calc(10);
+                font-size: rem-calc(20);
+            }
+            [type="submit"] {
+                padding: 0 rem-calc(11);
+                border: none;
+                background-color: $primary-color;
+                color: $white;
+                font-size: rem-calc(18);
+                font-weight: 300;
             }
         }
         @media #{$small-only} {
-            // margin: rem-calc(20 0);
             padding: 0 20%;
         }
         @media #{$medium-up} {
-            width: 50%;
-            margin-left: rem-calc(265); //width of the image + 30px
-            .main-content & {
-                padding: 0 20px 0 0;
-            }
             .three-cols .middle-col & {
-                width: 54%;
-                margin-left: 15.4rem;
+                padding-left: rem-calc($img-width - 19);
                 label {
                     font-size: rem-calc(22);
                 }
-                input[type="text"] {
+                [type="text"] {
                     font-size: rem-calc(18);
                     padding-left: rem-calc(3);
                 }
+                [type="submit"] {
+                    padding: 0 rem-calc(5);
+                }
             }
-            .two-cols .middle-col & {
-                width: 66%;
-            }
-            .hero-section & {
-                width: 66%;
-            }
-            .form-wrapper {
-                width: 47%;
-                float: left;
-                margin: 0;
-            }
-            label {
-                float: left;
-                line-height: rem-calc(47);
-                display: inline;
-                width: 51%;
-                margin-right: 1%;
-            }
-        }
-        input[type="text"] {
-            float: left;
-            width: 100%;
-            padding-left: rem-calc(10);
-            height: rem-calc(47);
-            font-size: rem-calc(20);
-        }
-        .link-arrow {
-            border: none;
-            background-color: $primary-color;
-            float: left;
-            line-height: rem-calc(37);
-            padding: 5px 4%;
-            position: absolute;
-            right: 0;
-            color: $white;
-            font-size: rem-calc(18);
-            font-weight: 300;
-        }
-        .form-wrapper {
-            position: relative;
-            @media #{$small-only} {
-                margin-top: rem-calc(10);
+            &.find-cookies-share {
+                padding: 0;
+                margin-left: rem-calc($img-width);
+                width: 47.5%;
             }
         }
     }
@@ -216,6 +218,9 @@
 }
 
 .find-camp {
+    @media #{$medium-up} {
+        margin-left: 0;
+    }
     span {
         font-size: 70%;
         font-style: italic;

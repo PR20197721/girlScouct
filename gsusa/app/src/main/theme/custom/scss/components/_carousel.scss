@@ -645,8 +645,7 @@ div.carousel {
 
 .cookie-landing-hero {
     position: relative;
-    margin-top: rem-calc(12);
-    margin-bottom: rem-calc(12);
+    margin: rem-calc(12 0);
     .welcome-video-slider {
         max-height: rem-calc(334);
         overflow: hidden;
@@ -684,20 +683,38 @@ div.carousel {
                     background-size: contain;
                 }
                 form {
-                    float: none;
                     width: 100%;
                     padding: 0;
-                }
-                label {
-                    float: none;
-                    width: 100%;
-                    display: block;
-                    margin-bottom: rem-calc(20);
-                    text-align: center;
-                }
-                .form-wrapper {
-                    float: none;
-                    width: 100%;
+                    label {
+                        width: 100%;
+                        display: block;
+                        margin-bottom: rem-calc(20);
+                        text-align: center;
+                        font-size: rem-calc(33);
+                        font-weight: 300;
+                        color: $white;
+                        line-height: rem-calc(47);
+                    }
+                    .form-wrapper {
+                        width: 100%;
+                        display: table;
+                        > div {
+                            display: table-cell;
+                            vertical-align: middle;
+                            width: 100%;
+                            * {
+                                height: rem-calc(47);
+                            }
+                        }
+                        [type="text"],
+                        [type="submit"] {
+                            width: 100%;
+                            margin: 0;
+                        }
+                        [type="submit"] {
+                            padding: rem-calc(0 11);
+                        }
+                    }
                 }
             }
         }
