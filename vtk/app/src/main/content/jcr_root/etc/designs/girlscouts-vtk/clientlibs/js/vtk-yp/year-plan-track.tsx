@@ -16,20 +16,20 @@ interface YplanTrackState {
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
 
-    public state : YplanTrackState;
-    constructor() {
-        super();
+        public state : YplanTrackState;
+        constructor() {
+            super();
 
-        this.state = {
-            isOpen: false,
-            meetings:[]
+            this.state = {
+                isOpen: false,
+                meetings:[]
+            }
         }
-    }
 
 
 
-    openPreview() {
-        debugger;
+        openPreview() {
+
             if (!this.state.meetings.length) {
                 data
                     .getMeetings(this.props.track.split('###')[0])
@@ -77,7 +77,10 @@ YplanTrackState > {
                             Preview
                         </div>
                         <div className="cell c3">
-                            <div className="btn button right">SELECT</div>
+                            <div onClick={() => {
+                                            console.info('click')
+                                            this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                        }} className="btn button right">SELECT</div>
                         </div>
                     </div>
 
@@ -119,10 +122,10 @@ YplanTrackState > {
                                         Preview
                                     </div>
                                     <div className="cell c3">
-                                    <div onClick={() => {
-                                        console.log('click')
-                                        this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
-                                    }} className="btn button right">SELECT</div>
+                                        <div className="btn button right" onClick={() => {
+                                            console.info('click')
+                                            this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                        }} >SELECT</div>
                                     </div>
                                 </div>
                             <br />

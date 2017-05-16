@@ -1370,7 +1370,6 @@ var YplanTrack = (function (_super) {
     }
     YplanTrack.prototype.openPreview = function () {
         var _this = this;
-        debugger;
         if (!this.state.meetings.length) {
             data
                 .getMeetings(this.props.track.split('###')[0])
@@ -1403,7 +1402,10 @@ var YplanTrack = (function (_super) {
                             _this.openPreview();
                         } }, "Preview"),
                     React.createElement("div", { className: "cell c3" },
-                        React.createElement("div", { className: "btn button right" }, "SELECT")))),
+                        React.createElement("div", { onClick: function () {
+                                console.info('click');
+                                _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                            }, className: "btn button right" }, "SELECT")))),
             React.createElement("div", { className: "row" },
                 React.createElement("div", { className: this.state.isOpen
                         ? "__meetings"
@@ -1425,10 +1427,10 @@ var YplanTrack = (function (_super) {
                                     _this.openPreview();
                                 } }, "Preview"),
                             React.createElement("div", { className: "cell c3" },
-                                React.createElement("div", { onClick: function () {
-                                        console.log('click');
+                                React.createElement("div", { className: "btn button right", onClick: function () {
+                                        console.info('click');
                                         _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
-                                    }, className: "btn button right" }, "SELECT"))),
+                                    } }, "SELECT"))),
                         React.createElement("br", null)))),
             React.createElement("div", { className: "" },
                 React.createElement("div", { className: "columns small-20 end small-centered", style: {
