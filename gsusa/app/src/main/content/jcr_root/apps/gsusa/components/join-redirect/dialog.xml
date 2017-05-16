@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Join Redirect Hero">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <text
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Text"
+                        fieldDescription="Call To Action"
+                        defaultValue="JOIN!"
+                        name="./text"
+                        xtype="textfield"/>
+                    <boximage
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="GIRL Logo"
+                        fieldDescription="GIRL image in Box"
+                        rootPath="/content/dam"
+                        name="./boximage"
+                        xtype="textfield"/>    
+                    <images
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Images for the slider"
+                        fieldLabel="Images"
+                        name="./images"
+                        xtype="multifield">
+                        <fieldConfig
+                            jcr:primaryType="nt:unstructured"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
+                    </images>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Join Redirect Hero Mobile">
+                <items jcr:primaryType="cq:WidgetCollection">                    
+                    <backgroundimage
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Background Image"
+                    	fieldDescription="Background image for mobile"
+                    	name="./backgroundimage"
+                    	xtype="textfield" />
+                    <backgroundcolor
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Background Color"
+                    	fieldDescription="Background color in HEX ex FFFFFF"
+                    	name="./backgroundcolor"
+                    	xtype="textfield" />
+                    <backgroundcoloropactiy
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Background Color Opactiy"
+                    	fieldDescription="Background color opacity value in 0-100"
+                    	name="./backgroundcoloropactiy"
+                    	xtype="textfield" />                     
+                    <boximagemobile
+                    	jcr:primaryType="cq:Widget"
+                    	fieldLabel="Alternative to GIRL logo"
+                    	fieldDescription="Background color for mobile"
+                    	name="./boximagemobile"
+                    	xtype="textfield" />
+                </items>
+            </tab2>
+        </items>
+    </items>
+</jcr:root>
