@@ -5,13 +5,22 @@
 String text = properties.get("text", "");
 String[] images = properties.get("images", String[].class);
 
-Resource 
+Resource logo = resource.getChild("logo");
+String logoPath = "";
+if (logo != null) {
+	logoPath = ((ValueMap)logo.adaptTo(ValueMap.class)).get("logo", "");
+}
 
 // Mobile
 String backgroundColor = properties.get("backgroundcolor", "FFFFFF");
-String backgroundImage = properties.get("", "");
-String backgroundColorOpacity = properties.get("", "");
 String boxLogoMobile = properties.get("boximagemobile", "");
+
+Resource logoMobile = resource.getChild("logo");
+String logoMobilePath = "";
+if (logoMobile != null) {
+	logoMobilePath = ((ValueMap)logoMobile.adaptTo(ValueMap.class)).get("logomobile", "");
+}
+
 
 
 if (WCMMode.fromRequest(request) == WCMMode.EDIT && (images == null || images.length == 0)) {

@@ -22,7 +22,7 @@
                         fieldLabel="GIRL Logo"
                         fieldDescription="GIRL image in Box"
                         rootPath="/content/dam"
-                        name="./boximage"
+                        name="./logo"
                         xtype="textfield"/>    
                     <images
                         jcr:primaryType="cq:Widget"
@@ -40,30 +40,18 @@
             <tab2
                 jcr:primaryType="cq:Panel"
                 title="Join Redirect Hero Mobile">
-                <items jcr:primaryType="cq:WidgetCollection">                    
-                    <backgroundimage
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Background Image"
-                    	fieldDescription="Background image for mobile"
-                    	name="./backgroundimage"
-                    	xtype="textfield" />
+                <items jcr:primaryType="cq:WidgetCollection">         
                     <backgroundcolor
                     	jcr:primaryType="cq:Widget"
                     	fieldLabel="Background Color"
                     	fieldDescription="Background color in HEX ex FFFFFF"
                     	name="./backgroundcolor"
-                    	xtype="textfield" />
-                    <backgroundcoloropactiy
-                    	jcr:primaryType="cq:Widget"
-                    	fieldLabel="Background Color Opactiy"
-                    	fieldDescription="Background color opacity value in 0-100"
-                    	name="./backgroundcoloropactiy"
-                    	xtype="textfield" />                     
+                    	xtype="textfield" />               
                     <boximagemobile
                     	jcr:primaryType="cq:Widget"
                     	fieldLabel="Alternative to GIRL logo"
                     	fieldDescription="Background color for mobile"
-                    	name="./boximagemobile"
+                    	name="./logomobile"
                     	xtype="textfield" />
                 </items>
             </tab2>
