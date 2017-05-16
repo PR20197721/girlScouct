@@ -6,9 +6,9 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-            <tab1
+            <main
                 jcr:primaryType="cq:Panel"
-                title="Join Redirect Hero">
+                title="Join Redirect">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <text
                         jcr:primaryType="cq:Widget"
@@ -16,14 +16,7 @@
                         fieldDescription="Call To Action"
                         defaultValue="JOIN!"
                         name="./text"
-                        xtype="textfield"/>
-                    <boximage
-                        jcr:primaryType="cq:Widget"
-                        fieldLabel="GIRL Logo"
-                        fieldDescription="GIRL image in Box"
-                        rootPath="/content/dam"
-                        name="./logo"
-                        xtype="textfield"/>    
+                        xtype="textfield"/> 
                     <images
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Images for the slider"
@@ -36,10 +29,10 @@
                             xtype="pathfield"/>
                     </images>
                 </items>
-            </tab1>
-            <tab2
+            </main>
+            <mobile
                 jcr:primaryType="cq:Panel"
-                title="Join Redirect Hero Mobile">
+                title="Join Redirect Mobile">
                 <items jcr:primaryType="cq:WidgetCollection">         
                     <backgroundcolor
                     	jcr:primaryType="cq:Widget"
@@ -54,7 +47,47 @@
                     	name="./logomobile"
                     	xtype="textfield" />
                 </items>
-            </tab2>
+            </mobile>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thumbnail/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./thumbnail/fileName"
+                fileReferenceParameter="./thumbnail/fileReference"
+                mapParameter="./thumbnail/imageMap"
+                name="./logo"
+                requestSuffix="/thumbnail.img.png"
+                rotateParameter="./thumbnail/imageRotate"
+                title="Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thumbnail/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </image>
+            <mobileimage
+                jcr:primaryType="cq:Widget"
+                cropParameter="./mobileimage/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./mobileimage/fileName"
+                fileReferenceParameter="./mobileimage/fileReference"
+                mapParameter="./mobileimage/imageMap"
+                name="./logomobile"
+                requestSuffix="/mobileimage.img.png"
+                rotateParameter="./mobileimage/imageRotate"
+                title="Mobile Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./mobileimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </mobileimage>
         </items>
     </items>
 </jcr:root>
