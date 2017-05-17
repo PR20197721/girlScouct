@@ -35,7 +35,7 @@ export function getPDF() {
 
 export function getMeetings(url: string) {
 
-    return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url + '.3.json').then((data) => { 
+    return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => { 
         console.log('AJAX',data.data)
         return parseMeetings(data.data);
     })
@@ -107,8 +107,7 @@ export function parseMeetings(json: any) {
     var meetings_ = {
         desc: json.desc,
         name: json.name,
-        meetings: [],
-        id:json.id
+        meetings: json
     };
 
     for (var s in json.meetings) { 

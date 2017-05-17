@@ -15,7 +15,6 @@ interface YplanTrackState {
         desc: string;
         meetings: any[];
         name: string;
-        id: string;
     };
 };
 
@@ -33,8 +32,7 @@ YplanTrackState > {
             meetings: {
                 desc: '',
                 meetings: [],
-                name: '',
-                id: ''
+                name: ''
             }
         }
     }
@@ -51,8 +49,7 @@ YplanTrackState > {
                         'meetings': {
                             name: response.name,
                             desc: response.desc,
-                            meetings: response.meetings,
-                            id: response.id
+                            meetings: response.meetings
                         },
                         'isOpen': !this.state.isOpen
                     });
