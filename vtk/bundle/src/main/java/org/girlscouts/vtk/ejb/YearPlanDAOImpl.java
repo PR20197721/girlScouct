@@ -210,11 +210,12 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             	 }
              }
              
+             /*
            //sort meetings by position
      		Comparator<Meeting> comp = new BeanComparator("position");
      		if (meetingInfos != null)
      			Collections.sort(meetingInfos, comp);
-     		
+     		*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

@@ -44,8 +44,13 @@ import org.girlscouts.vtk.utils.VtkUtil;
 		protected void doGet(SlingHttpServletRequest request,
 				SlingHttpServletResponse response) throws ServerException,
 				IOException {
-			System.err.println("Start VTK Year Plan....");
-			java.util.List<Meeting> meetings =yearPlanUtil.getYearPlanJson("/content/girlscouts-vtk/yearPlanTemplates/yearplan2016/daisy/yearPlan1/");
+			String yearPlanPath = request.getParameter("ypp");
+			if( yearPlanPath ==null || "".trim().equals(yearPlanPath)){
+				//TODO error code here 
+				return;
+			}
+			
+			java.util.List<Meeting> meetings =yearPlanUtil.getYearPlanJson( yearPlanPath );
 			ObjectMapper mapper = new ObjectMapper();
 			response.getWriter().write((mapper.writeValueAsString(meetings)));
 		}
