@@ -1,4 +1,4 @@
-<section class="yp-wrapper">
+<!--<section class="yp-wrapper">
   <div class="sectionHeader">
     <div class="column large-20 medium-20 large-centered medium-centered" style="display:table; padding-left:0;">
     <span class="vkt-book-icon"></span> 
@@ -11,11 +11,12 @@
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
     </div> 
     <div id="cngYearPlan"></div>
-  </div><!--/yearPlanSelection-->
-</section>
+  </div>
+</section>-->
 
 <script>
   var ________app________ = "<%=troop.getSfTroopAge()%>".split('-')[1].toLowerCase();
+  var ________yp_________ = "<%= troop.getYearPlan() %>";
 </script>
 
 
