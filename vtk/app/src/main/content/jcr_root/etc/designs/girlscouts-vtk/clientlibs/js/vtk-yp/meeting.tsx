@@ -22,7 +22,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
         return (<div className="meeting">
             <div className="square">
                 <p>Meeting</p>
-                <p className='postion'>{this.props.id}</p>
+                <p className='postion'>{this.props.position}</p>
             </div>
             <div className="arrowGreen"></div>
             <div className="body">

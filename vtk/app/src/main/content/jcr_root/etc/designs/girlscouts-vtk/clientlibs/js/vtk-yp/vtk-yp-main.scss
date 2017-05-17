@@ -127,7 +127,7 @@
         clear: both;
         &:after {
             content: '';
-            display: inline-block;
+            // display: inline-block;
             width: 0;
             height: 0;
             border-left: 125px solid transparent;
