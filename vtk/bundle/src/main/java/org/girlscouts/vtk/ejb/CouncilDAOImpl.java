@@ -815,8 +815,10 @@ System.err.println("TESt: " + sb.toString());
 	        
 		StringBuffer sb= new StringBuffer();
 		try{
+			java.util.List<String> councils  = getCouncils( VtkUtil.getYearPlanBase(null, null)  );
 			session = sessionFactory.getSession();
-		    sb.append("Council Finance Published Report generated on " + format1.format(new java.util.Date())+ " \n ");
+			/*
+		        sb.append("Council Finance Published Report generated on " + format1.format(new java.util.Date())+ " \n ");
 		        String sql="select * from nt:unstructured where jcr:path like '"+ VtkUtil.getYearPlanBase(null, null)+"%/finances/finalized'";
 		        javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		        javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -827,7 +829,10 @@ System.err.println("TESt: " + sb.toString());
 		            StringTokenizer t= new StringTokenizer( path , "/");
 		            t.nextToken();
 		            String councilId = t.nextToken();
-		            
+		            */
+			   
+			   for(int i=0; i<councils.size();i++){
+				    String councilId= councils.get(i);
 		            java.util.Date submitTime=null;
 		            try{
 			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
@@ -857,6 +862,32 @@ System.err.println("TESt: " + sb.toString());
 	
 		
 		
+	}
+	
+	public java.util.List<String> getCouncils( String currYearPath ){
+		java.util.List<String> councils= new java.util.ArrayList();
+		Session session= null;
+		try{
+			
+			session = sessionFactory.getSession();
+			ResourceResolver resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+            Resource myResource = resourceResolver.getResource(currYearPath);
+            if( myResource==null) return null;
+            
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null) {
+					sessionFactory.closeSession(session);
+				}
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return councils;
 	}
 	
 }
