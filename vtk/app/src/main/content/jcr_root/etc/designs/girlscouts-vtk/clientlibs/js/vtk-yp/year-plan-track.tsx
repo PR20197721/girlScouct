@@ -66,7 +66,7 @@ YplanTrackState > {
         selectPlan(name:string,url:string) { 
             console.log(name, url)
             
-            chgYearPlan('2',url,name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/)
+            chgYearPlan('2',url,name)
         }
 
     public render(): JSX.Element {
@@ -134,10 +134,13 @@ YplanTrackState > {
                                         Preview
                                     </div>
                                     <div className="cell c3">
+                                    
                                         <div className="btn button right" onClick={() => {
                                  
                                             this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
                                         }} >SELECT</div>
+                                        
+                                        
                                     </div>
                                 </div>
                             <br />

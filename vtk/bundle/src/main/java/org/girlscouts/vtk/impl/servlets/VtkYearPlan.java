@@ -52,6 +52,8 @@ import org.girlscouts.vtk.utils.VtkUtil;
 			
 			java.util.List<Meeting> meetings =yearPlanUtil.getYearPlanJson( yearPlanPath );
 			ObjectMapper mapper = new ObjectMapper();
+			response.setCharacterEncoding("utf8");
+	        response.setContentType("application/json"); 
 			response.getWriter().write((mapper.writeValueAsString(meetings)));
 		}
 
