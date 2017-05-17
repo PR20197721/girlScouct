@@ -1,0 +1,140 @@
+#vtk-yp-main {
+    margin: 20px 0;
+    .__header {
+        background: #f6f6f6;
+        padding: 5px;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+    }
+    .__year-plan-track-row {
+        .__year-plan-track,.__meetings {
+        
+            padding: 5px 0;
+            .table {
+                width: 100%;
+                display: table;
+                font-size: 14px;
+                .cell {
+                    display: table-cell;
+                    vertical-align: middle;
+                }
+                .cell.c18 {
+                    width: 60%;
+                }
+                .cell.c3 {
+                    width: 20%;
+                    .button {
+                        width: 100%;
+                        margin: 0;
+                    }
+                    text-align: center;
+                }
+                .click-preview {
+                    color: #00ae58;
+                    font-weight: bold;
+                    cursor:pointer;
+                }
+                .click-preview.__close {
+                    &:after {
+                        position: relative;
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        display: inline-block;
+                        border-style: solid;
+                        border-color: transparent transparent transparent #00ae58;
+                        top: 2px;
+                        left: 8px;
+                        border-width: 7px;
+                    }
+                }
+                .click-preview.__open {
+                    &:after {
+                        position: relative;
+                        content: "";
+                        width: 0;
+                        height: 0;
+                        display: inline-block;
+                        border-style: solid;
+                        border-color: #00ae58 transparent transparent transparent;
+                        top: 6px;
+                        left: 8px;
+                        border-width: 7px;
+                    }
+                }
+            }
+        }
+    }
+    .__meetings {
+               padding-top:0px !important;
+        padding-bottom: 20px;
+        background-color: #e1e1e1;
+        .list-meetings {
+            background-color: white;
+            padding: 5px;
+        }
+    }
+    .meeting {
+        background-color: #f6f6f6;
+        margin-bottom: 10px;
+ 
+        &:last-child{
+             margin-bottom: 0px;
+        }
+        .square {
+            width: 83px;
+            height: 83px;
+            background-color: #00ae57;
+            display: inline-block;
+            p {
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                text-transform: uppercase;
+                color: white;
+                font-weight: 100;
+            }
+            .postion {
+                font-size: 30px;
+            }
+        }
+        .arrowGreen {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            border-left: 14px solid #00ae57;
+        }
+        .body {
+            display: inline-block;
+            padding: 0 0 0 40px;
+            ul{
+                list-style: none;
+                margin:0;
+                padding: 0;
+                li{
+                    display: inline-block;
+                }
+            }
+        
+        }
+    }
+    .big-arrow-white {
+        height: 50px;
+        float: right;
+        width: 100%;
+        clear: both;
+        &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 125px solid transparent;
+            border-right: 125px solid transparent;
+            border-top: 31px solid white;
+            float: right;
+            margin-right: 125px;
+        }
+    }
+}

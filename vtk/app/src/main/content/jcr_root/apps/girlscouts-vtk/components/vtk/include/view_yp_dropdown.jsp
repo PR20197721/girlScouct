@@ -14,5 +14,15 @@
   </div><!--/yearPlanSelection-->
 </section>
 
+<script>
+  var ________app________ = "<%=troop.getSfTroopAge()%>".split('-')[1].toLowerCase();
+</script>
+
+
+
+<div id="vtk-yp-main"></div>
+
+
+
 <div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>
 <script>getCngYearPlan();</script>
