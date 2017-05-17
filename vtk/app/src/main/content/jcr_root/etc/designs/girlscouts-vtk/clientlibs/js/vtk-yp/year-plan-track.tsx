@@ -66,7 +66,7 @@ YplanTrackState > {
         selectPlan(name:string,url:string) { 
             console.log(name, url)
             
-            chgYearPlan(/*'2',*/url,name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/)
+            chgYearPlan('2',url,name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/)
         }
 
     public render(): JSX.Element {

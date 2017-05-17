@@ -388,7 +388,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __webpack_require__(20);
 exports.ULR = 'URL';
 function getYearPlan() {
-    return axios_1.default.get('http://localhost:4503/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+    return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
         .then(function (data) {
         return parseJSONVTK(data.data);
     });
@@ -396,7 +396,7 @@ function getYearPlan() {
 exports.getYearPlan = getYearPlan;
 function getPDF() {
     var level = "" + ________app________;
-    return axios_1.default.get('http://localhost:4503/content/dam/girlscouts-vtkcontent/PDF/' + level + '.2.json')
+    return axios_1.default.get(window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '.2.json')
         .then(function (d) {
         for (var a in d.data) {
             if (a.match(/.pdf/)) {
@@ -1387,7 +1387,7 @@ var YplanTrack = (function (_super) {
     };
     YplanTrack.prototype.selectPlan = function (name, url) {
         console.log(name, url);
-        chgYearPlan(/*'2',*/ url, name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/);
+        chgYearPlan('2', url, name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/);
     };
     YplanTrack.prototype.render = function () {
         var _this = this;
