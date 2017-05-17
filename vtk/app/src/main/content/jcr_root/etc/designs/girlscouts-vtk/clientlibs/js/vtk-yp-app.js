@@ -73,7 +73,7 @@
 "use strict";
 
 
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 
 /*global toString:true*/
 
@@ -410,7 +410,7 @@ function getMeetings(url) {
     // Axios.defaults.headers.post['Content-Type'] = 'application/json';
     return axios_1.default.get(window.location.origin + url + '.3.json').then(function (data) {
         console.log('AJAX', data.data);
-        return data.data;
+        return parseMeetings(data.data);
     });
 }
 exports.getMeetings = getMeetings;
@@ -458,6 +458,23 @@ function parseJSONVTK(json) {
     return OtoR;
 }
 exports.parseJSONVTK = parseJSONVTK;
+function parseMeetings(json) {
+    var meetings_ = {
+        desc: json.desc,
+        name: json.name,
+        meetings: [],
+        id: json.id
+    };
+    for (var s in json.meetings) {
+        debugger;
+        if (s.match(/meeting/)) {
+            var index = parseInt(s.match(/[0-9]+/)[0]) - 1;
+            meetings_.meetings[index] = json.meetings[s];
+        }
+    }
+    return meetings_;
+}
+exports.parseMeetings = parseMeetings;
 
 
 /***/ }),
@@ -485,10 +502,10 @@ function getDefaultAdapter() {
   var adapter;
   if (typeof XMLHttpRequest !== 'undefined') {
     // For browsers use XHR adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   } else if (typeof process !== 'undefined') {
     // For node use HTTP adapter
-    adapter = __webpack_require__(5);
+    adapter = __webpack_require__(6);
   }
   return adapter;
 }
@@ -559,7 +576,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
 /* 4 */
@@ -603,6 +620,17 @@ exports.default = Header;
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.tree = "data:image/png;base64,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";
+exports.pdf = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEYr13AAAAAXNSR0IArs4c6QAAAY5JREFUOBGd000rBVEYwHFcXK6XUhQbK8XC2wpZ6Ja7sbCyUJY2JFsLK3tLxQfwAdhbiLKQImWtK5SrkPe3vP3/415uUWY89TtzZubMc54zc6aw4Dvq6e7iHRmUIZ5lvwRv8P4FrtCPIAppl+DN8eDKzybGpWo0oAMvaC2mMabRhXV04rd45eJ11gnHG8RN0IxJOEMjrCJMmCBWRLMIE1XC2Pg8/NlakUsveMSwnYixz/g2K7hEacSHHW4FaRMcw88TNXymxAR+37AvLn8SKyg3geV7kosknVlMYBALaEIKW/BzG1aQKKYxQf4SfOgBfXCzmGwO25jBDgwnTViB2zW/At+Jn3QM7g2/txM9YwotMEyesHOKVeR2YDv9HhijWEY3BtCLXGzSSXpyBkvObSSvhYkNBqVcgmWu4BZRwiUEW9n1paM8mR37lcAKav+RwBcfVOAyfA81qEPYcOKYf5MPH2IPazDO4UutQgWcxLHB38cxg3mMeOEIZjuA63Kw5T3BP/Ued9lzt72s1HFDH5a0UcFq1eaaAAAAAElFTkSuQmCC';
+
+
+/***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
@@ -610,7 +638,7 @@ var settle = __webpack_require__(27);
 var buildURL = __webpack_require__(30);
 var parseHeaders = __webpack_require__(36);
 var isURLSameOrigin = __webpack_require__(34);
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(29);
 
 module.exports = function xhrAdapter(config) {
@@ -781,10 +809,10 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -810,7 +838,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -822,7 +850,7 @@ module.exports = function isCancel(value) {
 
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -846,7 +874,7 @@ module.exports = function createError(message, config, code, response) {
 
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -864,7 +892,7 @@ module.exports = function bind(fn, thisArg) {
 
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -1054,7 +1082,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1081,7 +1109,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __webpack_require__(41);
 var React = __webpack_require__(1);
 var data = __webpack_require__(2);
-var category_1 = __webpack_require__(13);
+var tree_1 = __webpack_require__(5);
+var category_1 = __webpack_require__(14);
 var header_1 = __webpack_require__(4);
 ;
 ;
@@ -1104,14 +1133,16 @@ var VtkMainYp = (function (_super) {
         //debugger;
         var _a = this.props.data, header = _a.header, bottom = _a.bottom;
         var title = header.title, subtitle = header.subtitle;
-        console.log(this.props.data);
         return (React.createElement("div", null,
             React.createElement("div", { className: "columns small-20 small-centered" },
                 React.createElement("h3", { className: "" }, title),
                 React.createElement("div", { className: "row" },
-                    React.createElement("div", { className: "small-24 medium-20 columns" },
+                    React.createElement("div", { className: "small-24 medium-18 columns" },
                         React.createElement("p", null, subtitle)),
-                    React.createElement("div", { className: "small-24 medium-4 columns" }, this.state.pdf ? React.createElement("a", { target: "_blank", href: this.state.pdf }, "Year Plan Overview") : null))),
+                    React.createElement("div", { className: "small-24 medium-6 columns", style: { textAlign: 'right' } }, this.state.pdf ? React.createElement("a", { target: "_blank", href: this.state.pdf },
+                        " ",
+                        React.createElement("img", { src: tree_1.pdf }),
+                        "  Year Plan Overview") : null))),
             this
                 .props
                 .data
@@ -1135,13 +1166,13 @@ exports.default = VtkMainYp;
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, exports) {
 
 module.exports = ReactDOM;
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1176,7 +1207,6 @@ var Category = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Category.prototype.render = function () {
-        console.log("=========", this.props);
         return (React.createElement("div", { className: "column small-24" },
             React.createElement(header_1.default, { title: this.props.title, subTitle: this.props.subtitle }),
             this.props.categories.map(function (track, idx) {
@@ -1190,7 +1220,7 @@ exports.default = Category;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1207,7 +1237,7 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var tree_1 = __webpack_require__(16);
+var tree_1 = __webpack_require__(5);
 ;
 ;
 var Meeting = (function (_super) {
@@ -1216,10 +1246,11 @@ var Meeting = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meeting.prototype.render = function () {
+        console.log(this.props);
         return (React.createElement("div", { className: "meeting" },
             React.createElement("div", { className: "square" },
                 React.createElement("p", null, "Meeting"),
-                React.createElement("p", { className: 'postion' }, this.props.position)),
+                React.createElement("p", { className: 'postion' }, this.props.id)),
             React.createElement("div", { className: "arrowGreen" }),
             React.createElement("div", { className: "body" },
                 React.createElement("ul", null,
@@ -1238,7 +1269,7 @@ exports.default = Meeting;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1263,7 +1294,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var meeting_1 = __webpack_require__(14);
+var meeting_1 = __webpack_require__(15);
 ;
 ;
 var Meetings = (function (_super) {
@@ -1272,50 +1303,11 @@ var Meetings = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meetings.prototype.render = function () {
-        var juan = [
-            {
-                outdoor: true,
-                id: "D16TC01",
-                cat: "3 Cheers for Animals",
-                name: "Birdbath Award pt. 1",
-                blurb: "Daisies find out how to care for animals.",
-                level: "gstest",
-                position: 1
-            },
-            {
-                outdoor: false,
-                id: "D16TC02",
-                cat: "3 Cheers for Animals",
-                name: "Birdbath Award pt. 1",
-                blurb: "Daisies find out how to care for animals.",
-                level: "gstest",
-                position: 2
-            },
-            {
-                outdoor: true,
-                id: "D16TC03",
-                cat: "3 Cheers for Animals",
-                name: "Birdbath Award pt. 1",
-                blurb: "Daisies find out how to care for animals.",
-                level: "gstest",
-                position: 3
-            }
-        ];
-        return (React.createElement("div", { className: "list-meetings" }, juan.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.id }, meeting)); })));
+        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.id }, meeting)); }) : null));
     };
     return Meetings;
 }(React.Component));
 exports.default = Meetings;
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.tree = "data:image/png;base64,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";
 
 
 /***/ }),
@@ -1326,9 +1318,9 @@ exports.tree = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaX
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(12);
+var ReactDOM = __webpack_require__(13);
 var data = __webpack_require__(2);
-var vtk_yp_main_1 = __webpack_require__(11);
+var vtk_yp_main_1 = __webpack_require__(12);
 window.onload = function () {
     data.getYearPlan().then(function (response) {
         ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
@@ -1355,7 +1347,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
 var data = __webpack_require__(2);
-var meetings_1 = __webpack_require__(15);
+var meetings_1 = __webpack_require__(16);
 ;
 ;
 var YplanTrack = (function (_super) {
@@ -1364,19 +1356,25 @@ var YplanTrack = (function (_super) {
         var _this = _super.call(this) || this;
         _this.state = {
             isOpen: false,
-            meetings: []
+            meetings: {
+                desc: '',
+                meetings: [],
+                name: '',
+                id: ''
+            }
         };
         return _this;
     }
     YplanTrack.prototype.openPreview = function () {
         var _this = this;
-        if (!this.state.meetings.length) {
+        debugger;
+        if (!this.state.meetings.meetings.length) {
             data
                 .getMeetings(this.props.track.split('###')[0])
                 .then(function (response) {
-                console.info(response);
+                console.info('response', response);
                 _this.setState({
-                    'meetings': [response],
+                    'meetings': { name: response.name, desc: response.desc, meetings: response.meetings, id: response.id },
                     'isOpen': !_this.state.isOpen
                 });
             });
@@ -1389,6 +1387,7 @@ var YplanTrack = (function (_super) {
     };
     YplanTrack.prototype.selectPlan = function (name, url) {
         console.log(name, url);
+        chgYearPlan(/*'2',*/ url, name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/);
     };
     YplanTrack.prototype.render = function () {
         var _this = this;
@@ -1403,7 +1402,6 @@ var YplanTrack = (function (_super) {
                         } }, "Preview"),
                     React.createElement("div", { className: "cell c3" },
                         React.createElement("div", { onClick: function () {
-                                console.info('click');
                                 _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
                             }, className: "btn button right" }, "SELECT")))),
             React.createElement("div", { className: "row" },
@@ -1414,10 +1412,10 @@ var YplanTrack = (function (_super) {
                     React.createElement("div", { className: "columns small-20 small-centered" },
                         React.createElement("p", null,
                             React.createElement("b", null, "Year Plan Overview")),
-                        React.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo laboriosam omnis molestias, corporis odio quisquam beatae. Sequi dolorem nostrum doloremque, cupiditate quod, maxime rem veniam corrupti accusantium, ea facilis ipsa!"),
-                        React.createElement("h4", null, "DAISY PETALS/ BADGES")),
+                        React.createElement("p", null, this.state.meetings.desc),
+                        React.createElement("h4", null, this.state.meetings.name)),
                     React.createElement("div", { className: "columns small-20 small-centered" },
-                        React.createElement(meetings_1.default, { meetings: this.state.meetings }),
+                        React.createElement(meetings_1.default, { meetings: this.state.meetings.meetings }),
                         React.createElement("br", null),
                         React.createElement("div", { className: "table" },
                             React.createElement("div", { className: "cell c16" }),
@@ -1428,7 +1426,6 @@ var YplanTrack = (function (_super) {
                                 } }, "Preview"),
                             React.createElement("div", { className: "cell c3" },
                                 React.createElement("div", { className: "btn button right", onClick: function () {
-                                        console.info('click');
                                         _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
                                     } }, "SELECT"))),
                         React.createElement("br", null)))),
@@ -1470,7 +1467,7 @@ module.exports = __webpack_require__(21);
 
 
 var utils = __webpack_require__(0);
-var bind = __webpack_require__(9);
+var bind = __webpack_require__(10);
 var Axios = __webpack_require__(23);
 var defaults = __webpack_require__(3);
 
@@ -1505,9 +1502,9 @@ axios.create = function create(instanceConfig) {
 };
 
 // Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(6);
+axios.Cancel = __webpack_require__(7);
 axios.CancelToken = __webpack_require__(22);
-axios.isCancel = __webpack_require__(7);
+axios.isCancel = __webpack_require__(8);
 
 // Expose all/spread
 axios.all = function all(promises) {
@@ -1528,7 +1525,7 @@ module.exports.default = axios;
 "use strict";
 
 
-var Cancel = __webpack_require__(6);
+var Cancel = __webpack_require__(7);
 
 /**
  * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -1745,7 +1742,7 @@ module.exports = InterceptorManager;
 
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(28);
-var isCancel = __webpack_require__(7);
+var isCancel = __webpack_require__(8);
 var defaults = __webpack_require__(3);
 
 /**
@@ -1855,7 +1852,7 @@ module.exports = function enhanceError(error, config, code, response) {
 "use strict";
 
 
-var createError = __webpack_require__(8);
+var createError = __webpack_require__(9);
 
 /**
  * Resolve or reject a Promise based on response status.

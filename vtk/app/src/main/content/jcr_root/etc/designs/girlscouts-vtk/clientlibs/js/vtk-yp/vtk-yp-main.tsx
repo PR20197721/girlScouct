@@ -3,6 +3,8 @@ import './vtk-yp-main.scss';
 import * as React from 'react';
 import * as data from './data'
 
+import { pdf, tree } from './tree'
+
 import Category from './category';
 import Header from './header';
 
@@ -32,24 +34,21 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
         })
     }    
 
-
-
-
     public render() : JSX.Element {
         //debugger;
         const {header, bottom} = this.props.data;
         const { title, subtitle } = header;
         
-        console.log(this.props.data); return (
+     return (
             <div>
                 <div className="columns small-20 small-centered">
                     <h3 className="">{title}</h3>
                     <div className="row">
-                        <div className="small-24 medium-20 columns">
+                        <div className="small-24 medium-18 columns">
                             <p>{subtitle}</p>
                         </div>
-                        <div className="small-24 medium-4 columns">
-                            {this.state.pdf ? <a target="_blank" href={this.state.pdf}>Year Plan Overview</a> : null}
+                        <div className="small-24 medium-6 columns" style={{textAlign:'right'}}>
+                         {this.state.pdf ? <a target="_blank" href={this.state.pdf}> <img src={pdf} />  Year Plan Overview</a> : null}
                         </div>
 
                     </div>

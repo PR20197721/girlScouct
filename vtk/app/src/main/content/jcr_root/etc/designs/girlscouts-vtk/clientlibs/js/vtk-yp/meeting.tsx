@@ -16,13 +16,13 @@ interface MeetingState {};
 
 class Meeting extends React.Component<MeetingProps, MeetingState> {
     
-    
-    
+
     public render(): JSX.Element {
+            console.log(this.props)
         return (<div className="meeting">
             <div className="square">
                 <p>Meeting</p>
-                <p className='postion'>{this.props.position}</p>
+                <p className='postion'>{this.props.id}</p>
             </div>
             <div className="arrowGreen"></div>
             <div className="body">

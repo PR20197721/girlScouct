@@ -14,7 +14,6 @@ interface CategoryState {};
 class Category extends React.Component<CategoryProps, CategoryState> {
     public render(): JSX.Element {
 
-        console.log("=========",this.props)
 
         return (<div className="column small-24">
             <Header title={this.props.title} subTitle={this.props.subtitle} />

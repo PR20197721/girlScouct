@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as data from './data'
 
+import Meeting from './meeting';
 import Meetings from './meetings';
 import { getMeetings } from './data';
 
@@ -10,8 +11,15 @@ interface YplanTrackProps {
 
 interface YplanTrackState {
     isOpen?: boolean;
-    meetings?: any[];
+    meetings?: {
+        desc: string;
+        meetings: any[];
+        name: string;
+        id: string;
+    };
 };
+
+declare var chgYearPlan: any;
 
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
@@ -22,22 +30,27 @@ YplanTrackState > {
 
             this.state = {
                 isOpen: false,
-                meetings:[]
+                meetings: {
+                    desc: '',
+                    meetings: [],
+                    name: '',
+                    id:''
+                }
             }
-        }
+        }    
 
 
 
         openPreview() {
-
-            if (!this.state.meetings.length) {
+            debugger;
+            if (!this.state.meetings.meetings.length) {
                 data
                     .getMeetings(this.props.track.split('###')[0])
                     .then((response) => {
 
-                        console.info(response)
+                        console.info('response',response)
                         this.setState({
-                            'meetings': [response],
+                            'meetings': { name:response.name, desc:response.desc, meetings:response.meetings , id:response.id},
                             'isOpen': !this.state.isOpen
                         });
                     })
@@ -51,7 +64,9 @@ YplanTrackState > {
     
 
         selectPlan(name:string,url:string) { 
-            console.log(name,url)
+            console.log(name, url)
+            
+            chgYearPlan(/*'2',*/url,name /*'Brownie Journey Year: A World of Girls ', true ,'Brownie Journey Year: A World of Girls ', false*/)
         }
 
     public render(): JSX.Element {
@@ -78,7 +93,7 @@ YplanTrackState > {
                         </div>
                         <div className="cell c3">
                             <div onClick={() => {
-                                            console.info('click')
+                        
                                             this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
                                         }} className="btn button right">SELECT</div>
                         </div>
@@ -98,15 +113,12 @@ YplanTrackState > {
                             <p>
                                 <b>Year Plan Overview</b>
                             </p>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo
-                                laboriosam omnis molestias, corporis odio quisquam beatae. Sequi dolorem nostrum
-                                doloremque, cupiditate quod, maxime rem veniam corrupti accusantium, ea facilis
-                                ipsa!</p>
-                            <h4>DAISY PETALS/ BADGES</h4>
+                            <p>{this.state.meetings.desc}</p>
+                            <h4>{this.state.meetings.name}</h4>
                         </div>
                         <div className="columns small-20 small-centered">
 
-                            <Meetings meetings={this.state.meetings} />
+                            <Meetings meetings = {this.state.meetings.meetings} />
                         
 
                             <br />
@@ -123,7 +135,7 @@ YplanTrackState > {
                                     </div>
                                     <div className="cell c3">
                                         <div className="btn button right" onClick={() => {
-                                            console.info('click')
+                                 
                                             this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
                                         }} >SELECT</div>
                                     </div>

@@ -9,7 +9,7 @@ declare var ________app________: string;
 
 export function getYearPlan() { 
     return  Axios.get(
-        'http://localhost:4503/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+        window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
         .then((data) => { 
             return parseJSONVTK(data.data)
         });
@@ -19,7 +19,7 @@ export function getPDF() {
 
            const level: string = `${________app________}`;
     return Axios.get(
-        'http://localhost:4503/content/dam/girlscouts-vtkcontent/PDF/'+level+'.2.json')
+        window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/'+level+'.2.json')
         .then((d: any) => {
      
 
@@ -37,7 +37,7 @@ export function getMeetings(url: string) {
     // Axios.defaults.headers.post['Content-Type'] = 'application/json';
     return Axios.get(window.location.origin + url + '.3.json').then((data) => { 
         console.log('AJAX',data.data)
-        return data.data;
+        return parseMeetings(data.data);
     })
 }
 
@@ -103,4 +103,22 @@ export function parseJSONVTK(json:any) {
 }    
 
 
+export function parseMeetings(json: any) { 
+    var meetings_ = {
+        desc: json.desc,
+        name: json.name,
+        meetings: [],
+        id:json.id
+    };
+
+    for (var s in json.meetings) { 
+        debugger;
+        if (s.match(/meeting/)) { 
+            let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
+            meetings_.meetings[index] = json.meetings[s]
+        }
+    }
+ 
+   return meetings_;
+}
 
