@@ -14,7 +14,7 @@ class Meetings extends React.Component < MeetingsProps,
     public render() : JSX.Element {
         return (
             <div className="list-meetings">
-                {(this.props.meetings)?this.props.meetings.map((meeting, idx) => <Meeting key={meeting.id}    {...meeting} />):null}
+                {(this.props.meetings)?this.props.meetings.map((meeting, idx) => <Meeting key={meeting.id}  idx={idx}  {...meeting} />):null}
             </div>
         );
     }

@@ -9,7 +9,8 @@ interface MeetingProps {
                 name: string,
                 blurb: string,
                 level: string,
-                position: number
+                position: number,
+                idx:number
 };
 
 interface MeetingState {};
@@ -22,20 +23,20 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
         return (<div className="meeting">
             <div className="square">
                 <p>Meeting</p>
-                <p className='postion'>{this.props.position}</p>
+                <p className='postion'>{this.props.idx+1}</p>
             </div>
             <div className="arrowGreen"></div>
             <div className="body">
                 <ul>
-                    <li>
-                         {this.props.outdoor}<br /> {this.props.name}
+                    <li style={{fontSize:'14px'}}>
+                         <div>{this.props.name}</div>  <div>{this.props.cat}</div>  <div>{this.props.blurb}</div>
                     </li>
-                    <li>
-                        <img src="" alt=""/>
+                    <li style={{textAlign:"center"}}>
+                       {(this.props.outdoor)? <img src={tree} style={{'width':'60px','height':'60px'}} alt="" />:null}
+                    
                     </li>
-                     <li>
-                            {(this.props.outdoor)? <img src={tree} style={{'width':'60px','height':'60px'}} alt="" />:null}
-                    </li>
+                     <li style={{textAlign:"right"}}>
+                            <img src={"/content/dam/girlscouts-vtk/local/icon/meetings/"+this.props.id+".png"} style={{'width':'60px','height':'60px'}} alt=""/> </li>
                          
                 </ul>
             </div>         

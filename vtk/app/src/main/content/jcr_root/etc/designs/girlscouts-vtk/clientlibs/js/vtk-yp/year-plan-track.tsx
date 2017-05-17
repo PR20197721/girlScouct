@@ -54,18 +54,35 @@ YplanTrackState > {
                         'isOpen': !this.state.isOpen
                     });
                 })
+
         } else {
             this.setState({
                 'isOpen': !this.state.isOpen
             })
+
         }
 
     }
 
     selectPlan(name : string, url : string) {
         console.log(name, url)
+<<<<<<< HEAD
+        //planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName
+        chgYearPlan('2', url,'',name);
+=======
 
-        chgYearPlan('2', url, name)
+       // chgYearPlan('2', url, name)
+       //is this new year plan or replace 
+            var is_new_yp = true;
+            
+            //show meeting lib or redirect to emty YP
+            var is_show_meeting_lib = true;
+            
+            //year plan id from db
+            var year_plan_id = 1;
+            
+            chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA', is_new_yp, name, is_show_meeting_lib);
+>>>>>>> bde0743d951acff2a06461adaa32aa8423fddfd4
     }
 
     public render() : JSX.Element {return(
