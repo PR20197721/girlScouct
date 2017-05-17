@@ -16,6 +16,8 @@ interface VtkMainYpState {
     pdf: string;
 };
 
+declare var doMeetingLib : any;
+
 class VtkMainYp extends React.Component < VtkMainYpProps,
     VtkMainYpState> {
     
@@ -69,7 +71,9 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     <div className="row">
                         <div className="columns small-20 small-centered">
                             <div className="columns small-12"><p>Customize - Mix and Match </p></div>
-                            <div className="columns small-12" style={{textAlign:'right'}}> <a href="#">View Meetings to Select</a></div>
+                            <div onClick={()=>{
+                                doMeetingLib(true);    
+                            }} className="columns small-12 vtk-yp-link" > View Meetings to Select</div>
                         </div>    
                     </div>
                 </div>
