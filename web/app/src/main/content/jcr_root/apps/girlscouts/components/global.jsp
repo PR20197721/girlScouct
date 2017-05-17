@@ -72,6 +72,35 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 
     return displayRendition(rr,imagePath,renditionStr,additionalCss,imageWidth,alt,title);
 }
+public String getImageRenditionSrc(ResourceResolver rr, String imagePath, String renditionStr) {
+	if (renditionStr == null) return imagePath;
+	StringBuffer returnImage = new StringBuffer("");
+	try {
+		Resource imgResource = rr.resolve(imagePath);
+		ValueMap properties = imgResource.adaptTo(ValueMap.class);
+		
+		String fileReference = properties.get("fileReference", "");
+		Asset asset;
+		if (!fileReference.isEmpty()) {
+			asset = rr.resolve(fileReference).adaptTo(Asset.class);
+		} else {
+			asset = imgResource.adaptTo(Asset.class);
+		}
+
+		boolean isOriginal = false;
+		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
+		if (rendition == null) {
+			isOriginal = true;
+			rendition = asset.getOriginal();
+		}
+		
+		returnImage.append(rendition.getPath());
+	} catch (Exception e) {
+		log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+		return "";
+	}
+	return returnImage.toString();
+}
 %>
 <%!
 public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth,String altString,String titleString) {
