@@ -3,4 +3,7 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="Confirmation From"
     name="./confirmationFrom"
-    xtype="textfield"/>
+    evaluateValidatorsFirst="true"
+    xtype="textfield"
+    vtype="mailFormConfMailFromFieldValidator"
+    vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>

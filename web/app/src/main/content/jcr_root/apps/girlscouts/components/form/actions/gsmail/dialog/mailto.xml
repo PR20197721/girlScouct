@@ -3,4 +3,13 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="Mailto"
     name="./mailto"
-    xtype="multifield"/>
+    xtype="multifield"
+    validate="function(){
+        	return validateMailtoMultiField(this);
+        }" >>
+    <fieldConfig jcr:primaryType="nt:unstructured" 
+    	xtype="textfield"
+    	evaluateValidatorsFirst="true"
+    	vtype="mailFormEmailFieldValidator" 
+    	vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>
+</jcr:root>

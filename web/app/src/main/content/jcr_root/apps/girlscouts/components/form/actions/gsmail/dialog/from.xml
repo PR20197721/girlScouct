@@ -3,4 +3,7 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="From"
     name="./from"
-    xtype="textfield"/>
+    xtype="textfield"
+    evaluateValidatorsFirst="true"
+    vtype="mailFormEmailFieldValidator"
+    vtypeText="This field should be an e-mail address in the format 'user@example.com'"/>

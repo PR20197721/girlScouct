@@ -3,4 +3,7 @@
     jcr:primaryType="cq:Widget"
     fieldLabel="Subject"
     name="./subject"
-    xtype="textfield"/>
+    xtype="textfield"
+    evaluateValidatorsFirst="true"
+    vtype="mailFormSubjectFieldValidator"
+    vtypeText="Subject field is required."/>
