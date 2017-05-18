@@ -19,7 +19,10 @@ interface YplanTrackState {
 };
 
 declare var chgYearPlan : any;
+declare var ________app________: string;
 declare var ________app1________: string;
+declare var ________isYearPlan________: boolean;
+declare var ________currentYearPlanName________: string;
 
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
@@ -64,22 +67,23 @@ YplanTrackState > {
         }
 
     }
-
+/*
     selectPlan(name : string, url : string) {
         console.log(name, url)
-
-            var is_new_yp = true;
-            
-            //show meeting lib or redirect to emty YP
+        
+            var confMsg ="Are You Sure? You will lose customizations that you have made";
+        
+   			//show meeting lib or redirect to emty YP
             var is_show_meeting_lib = true;
+            if( ________app________ == 'senior' || 
+           		 ________app________ == 'ambassador' ||
+           		 	________app________ == 'cadette'){
+            	is_show_meeting_lib= false;
+            }
             
-            //year plan id from db
-            var year_plan_id = 1;
-            
-            chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA',  name, is_new_yp, is_show_meeting_lib);
-
-    }
-
+            chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+       }
+*/
     public render() : JSX.Element {return(
             <div className="__year-plan-track-row">
               
@@ -108,7 +112,7 @@ YplanTrackState > {
                                         ? "btn button right"
                                         : "btn button right inactive"}
                                         onClick={() => {
-                                        this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                        selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
                                     }}>{(________app1________!==this.props.track.split('###')[0])
                                             ? 'SELECT'
                                             : 'SELECTED'}</div>
@@ -168,7 +172,7 @@ YplanTrackState > {
                                                     ? "btn button right"
                                                     : "btn button right inactive"}
                                                     onClick={() => {
-                                                    this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                                    selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
                                                 }}>{(________app1________!==this.props.track.split('###')[0])
                                                         ? 'SELECT'
                                                         : 'SELECTED'}
@@ -201,3 +205,19 @@ YplanTrackState > {
 }
 
 export default YplanTrack;
+
+export function selectPlan(name : string, url : string) {
+        console.log(name, url)
+        
+            var confMsg ="Are You Sure? You will lose customizations that you have made";
+        
+   			//show meeting lib or redirect to emty YP
+            var is_show_meeting_lib = true;
+            if( ________app________ == 'senior' || 
+           		 ________app________ == 'ambassador' ||
+           		 	________app________ == 'cadette'){
+            	is_show_meeting_lib= false;
+            }
+            
+            chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+       }

@@ -6,11 +6,14 @@ export const ULR = 'URL';
 
 declare var ________app________: string;
 declare var ________app1________: string;
+declare var ________isYearPlan________: boolean;
+declare var ________currentYearPlanName________: string;
 
 
 export function getYearPlan() { 
+const level: string = `${________app________}`;
     return  Axios.get(
-       window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+       window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
      
        
         .then((data) => { 
