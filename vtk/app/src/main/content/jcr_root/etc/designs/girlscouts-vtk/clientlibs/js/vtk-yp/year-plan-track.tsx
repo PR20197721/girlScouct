@@ -19,6 +19,7 @@ interface YplanTrackState {
 };
 
 declare var chgYearPlan : any;
+declare var ________app1________: string;
 
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
@@ -81,37 +82,45 @@ YplanTrackState > {
 
     public render() : JSX.Element {return(
             <div className="__year-plan-track-row">
-                <div className="__year-plan-track columns small-20 small-centered">
-                    <div className="table">
-                        <div className="cell c16">
-                            {this
-                                .props
-                                .track
-                                .split('###')[1]}
+              
+                 <div className="columns small-20 small-centered" style={{padding:'0px'}}>
+                    <div className="row">
+                        <div className="__year-plan-track columns small-21">
+                            <div className="table">
+                                <div className="cell c16">
+                                    {this
+                                        .props
+                                        .track
+                                        .split('###')[1]}
+                                </div>
+                                <div
+                                    className={this.state.isOpen
+                                    ? "click-preview cell c3 __open"
+                                    : "click-preview cell c3 __close"}
+                                    onClick={() => {
+                                    this.openPreview();
+                                }}>
+                                {this.state.isOpen?'CLOSE PREVIEW':'PREVIEW'}
+                                </div>
+                                <div className="cell c3">
+                                    <div
+                                        className={(________app1________!==this.props.track.split('###')[0])
+                                        ? "btn button right"
+                                        : "btn button right inactive"}
+                                        onClick={() => {
+                                        this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                    }}>{(________app1________!==this.props.track.split('###')[0])
+                                            ? 'SELECT'
+                                            : 'SELECTED'}</div>
+                                </div>
+            
+                            </div>
                         </div>
-                        <div
-                            className={this.state.isOpen
-                            ? "click-preview cell c3 __open"
-                            : "click-preview cell c3 __close"}
-                            onClick={() => {
-                            this.openPreview();
-                        }}>
-                            Preview
+                        <div className="__year-plan-track columns small-3">
                         </div>
-                        <div className="cell c3">
-                            <div
-                                className={(true)
-                                ? "btn button right"
-                                : "btn button right inactive"}
-                                onClick={() => {
-                                this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
-                            }}>{(true)
-                                    ? 'SELECT'
-                                    : 'SELECTED'}</div>
-                        </div>
-     
                     </div>
                 </div>
+             
 
                     <div className="row">
                         <div
@@ -133,42 +142,58 @@ YplanTrackState > {
                                 <Meetings meetings={this.state.meetings.meetings}/>
 
                                 <br/>
-                                <div className="table">
-                                    <div className="cell c16"></div>
-                                    <div
-                                        className={this.state.isOpen
-                                        ? "click-preview cell c3 __open"
-                                        : "click-preview cell c3 __close"}
-                                        onClick={() => {
-                                        this.openPreview();
-                                    }}>
-                                        Preview
-                                    </div>
-                                    <div className="cell c3">
-
-                                        <div
-                                            className={(true)
-                                            ? "btn button right"
-                                            : "btn button right inactive"}
-                                            onClick={() => {
-                                            this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
-                                        }}>{(true)
-                                                ? 'SELECT'
-                                                : 'SELECTED'}</div>
-                                    </div>
-                                </div>
-                                <br/>
                             </div>
 
+                            <div className = "columns small-20 small-centered" style = {{padding:'0px'}}> 
+                                <div className="row" style={{
+                                    backgroundColor: 'transparent'
+                                }}>
+                                    <div className="columns small-21">
+                                        <div className="table">
+                                            <div className="cell c16"></div>
+                                            <div
+                                                className={this.state.isOpen
+                                                ? "click-preview cell c3 __open"
+                                                : "click-preview cell c3 __close"}
+                                                onClick={() => {
+                                                this.openPreview();
+                                            }}>
+                                                    {this.state.isOpen
+                                                        ? 'CLOSE PREVIEW'
+                                                        : 'PREVIEW'}
+                                            </div>
+                                            <div className="cell c3">
+                                                <div
+                                                    className={(________app1________!==this.props.track.split('###')[0])
+                                                    ? "btn button right"
+                                                    : "btn button right inactive"}
+                                                    onClick={() => {
+                                                    this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
+                                                }}>{(________app1________!==this.props.track.split('###')[0])
+                                                        ? 'SELECT'
+                                                        : 'SELECTED'}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
            
-                    <div className="">
-                        <div
-                            className="columns small-20 end small-centered"
-                            style={{
-                            borderBottom: '1px dotted black'
-                        }}></div>
+
+                    <div className="row">
+                        <div className="columns small-20 small-centered " style={{
+                                                   padding:'0px'
+                            }}> 
+                            <div
+                                className="columns small-21 end"
+                                style={{
+                                borderBottom: '1px dotted black',
+                                padding:'0px'
+                            }}></div>
+                        </div>
                     </div>
                 </div>
            

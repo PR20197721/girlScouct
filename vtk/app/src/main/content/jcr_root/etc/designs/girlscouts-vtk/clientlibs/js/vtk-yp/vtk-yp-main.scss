@@ -1,5 +1,9 @@
 #vtk-yp-main {
     margin: 20px 0;
+
+    .row:nth-child(n+2){
+        padding-bottom: 0px !important;
+    }
     .__header {
         background: #f6f6f6;
         padding: 5px;
@@ -10,6 +14,8 @@
         .__year-plan-track,
         .__meetings {
             padding: 5px 0;
+            // margin-left: -10px;
+            // margin-right: -10px;
             .table {
                 width: 100%;
                 display: table;
@@ -28,41 +34,41 @@
                         margin: 0;
                     }
                     .inactive{
-                        background-color: gray !important;
+                        background-color: #969696 !important;
                         pointer-events: none;
                     }
                     text-align: center;
                 }
                 .click-preview {
-                    color: #00ae58;
-                    font-weight: bold;
+                    color: #00A850;
+                    font-weight:600;
                     cursor: pointer;
                 }
                 .click-preview.__close {
-                    &:after {
+                    &:before {
                         position: relative;
                         content: "";
                         width: 0;
                         height: 0;
                         display: inline-block;
                         border-style: solid;
-                        border-color: transparent transparent transparent #00ae58;
+                        border-color: transparent transparent transparent #00A850;
                         top: 2px;
-                        left: 8px;
+                        right: 5px;
                         border-width: 7px;
                     }
                 }
                 .click-preview.__open {
-                    &:after {
+                    &:before {
                         position: relative;
                         content: "";
                         width: 0;
                         height: 0;
                         display: inline-block;
                         border-style: solid;
-                        border-color: #00ae58 transparent transparent transparent;
+                        border-color: #00A850 transparent transparent transparent;
                         top: 6px;
-                        left: 8px;
+                        right: 5px;
                         border-width: 7px;
                     }
                 }
@@ -138,14 +144,14 @@
         width: 100%;
         clear: both;
         &:after {
-            content: ''; // display: inline-block;
-            width: 0;
-            height: 0;
-            border-left: 125px solid transparent;
-            border-right: 125px solid transparent;
-            border-top: 31px solid white;
-            float: right;
-            margin-right: 125px;
+                content: '';
+                width: 0;
+                height: 0;
+                border-left: 40px solid transparent;
+                border-right: 40px solid transparent;
+                border-top: 20px solid white;
+                float: right;
+                margin-right: 307px;
         }
     }
      .vtk-yp-link{
