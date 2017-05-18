@@ -469,7 +469,7 @@ public class YearPlanUtil {
 	
 	public void test(){}
 	
-	public java.util.List<Meeting> getYearPlanJson(String yearPlanPath){
+	public YearPlan getYearPlanJson(String yearPlanPath){
 
 		return yearPlanDAO.getYearPlanJson(yearPlanPath);
 	}

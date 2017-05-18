@@ -25,6 +25,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -182,31 +183,60 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 		return toRet;
 	}
 	
-	public java.util.List<Meeting> getYearPlanJson( String yearPlanPath ){
-		java.util.List<Meeting> meetingInfos = new java.util.ArrayList();
+	public YearPlan getYearPlanJson( String yearPlanPath ){
+	
+		YearPlan yearPlan = null;
 		Session session = null;
 		try {
 			 session = sessionFactory.getSession();
 			 ResourceResolver resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
-             Resource myResource = resourceResolver.getResource( yearPlanPath + "/meetings" );
+			
+			 //year plan info
+			 Resource yearPlanResource = resourceResolver.getResource( yearPlanPath );
+			 if( yearPlanResource ==null ) return null;
+			 ValueMap yearValueMap = yearPlanResource.getValueMap();
+			 if(yearValueMap==null) return null;
+			 
+			 
+			 yearPlan = new YearPlan();
+			 yearPlan.setName( yearValueMap.get("name") ==null ? "" :  yearValueMap.get("name").toString());
+			 yearPlan.setDesc( yearValueMap.get("desc") ==null ? "" :  yearValueMap.get("desc").toString());
+			 
+			 java.util.List<MeetingE> meetingInfos = new java.util.ArrayList();
+             Resource myResource = yearPlanResource.getChild("meetings");
              if( myResource != null ){
             	 Iterable<Resource> meetings = myResource.getChildren();
             	 for (Resource meeting : meetings) {
             		 String refId = meeting.getValueMap().get("refId").toString();
-            		 
-            		 System.err.println("RefI: "+ refId);
             		 Resource meetingResource = resourceResolver.getResource( refId );
             		 if( meetingResource==null ) continue;
             		 ValueMap valueMap = meetingResource.getValueMap();
             		 if( valueMap==null) continue;
-            		 
             		 Meeting meetingInfo = new Meeting();
             		 meetingInfo.setName( valueMap.get("name").toString());
             		 meetingInfo.setBlurb(valueMap.get("blurb").toString());
             		 meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
             		 meetingInfo.setId(valueMap.get("id").toString());
             		 meetingInfo.setCat(valueMap.get("cat").toString());
-            		 meetingInfos.add( meetingInfo );
+            		 
+            		 //get activities
+            		 Iterable<Resource> meetingActivitiesResource = meetingResource.getChild( "activities" ).getChildren();
+            		 forActivities:for (Resource r_activities : meetingActivitiesResource) {
+            			 ValueMap activityValueMap = r_activities.getValueMap();
+            			 if( activityValueMap ==null ) continue;
+                		 String isOutdoorAvailable = activityValueMap.get("isOutdoorAvailable") ==null ? null : activityValueMap.get("isOutdoorAvailable").toString();
+                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {
+                			Activity activity = new Activity();
+                			activity.setIsOutdoorAvailable(true);
+                			java.util.List<Activity> activities = new java.util.ArrayList();
+                			activities.add(activity);
+                			meetingInfo.setActivities( activities );
+                			break forActivities;
+                		 }		 
+            		 }
+            		 MeetingE masterMeeting = new MeetingE();
+            		 masterMeeting.setMeetingInfo(meetingInfo);
+            		 meetingInfos.add( masterMeeting );
             	 }
              }
              
@@ -216,6 +246,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
      		if (meetingInfos != null)
      			Collections.sort(meetingInfos, comp);
      		*/
+             yearPlan.setMeetingEvents(meetingInfos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -226,6 +257,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-		return meetingInfos;
+		return yearPlan;
 	}
 }

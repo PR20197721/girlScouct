@@ -18,6 +18,7 @@ package org.girlscouts.vtk.impl.servlets;
 import org.girlscouts.vtk.ejb.TroopUtil;
 import org.girlscouts.vtk.ejb.YearPlanUtil;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.utils.VtkUtil;
 	import com.day.cq.commons.jcr.JcrUtil;
 	import org.codehaus.jackson.map.ObjectMapper;
@@ -50,11 +51,11 @@ import org.girlscouts.vtk.utils.VtkUtil;
 				return;
 			}
 			
-			java.util.List<Meeting> meetings =yearPlanUtil.getYearPlanJson( yearPlanPath );
+			YearPlan yearPlan =yearPlanUtil.getYearPlanJson( yearPlanPath );
 			ObjectMapper mapper = new ObjectMapper();
 			response.setCharacterEncoding("utf8");
 	        response.setContentType("application/json"); 
-			response.getWriter().write((mapper.writeValueAsString(meetings)));
+			response.getWriter().write((mapper.writeValueAsString(yearPlan)));
 		}
 
 		@Override
@@ -62,12 +63,7 @@ import org.girlscouts.vtk.utils.VtkUtil;
 				SlingHttpServletResponse response) throws ServerException,
 				IOException {
 
-			ResourceResolver resourceResolver = null;
-			try {
-				//
-			}catch(Exception e){
-				e.printStackTrace();
-			}
+			
 		}
 
 		

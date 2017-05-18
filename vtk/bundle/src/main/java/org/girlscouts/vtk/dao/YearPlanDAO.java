@@ -14,6 +14,6 @@ public interface YearPlanDAO {
 	public java.util.Date getLastModif(Troop troop);
 
 	public java.util.Date getLastModifByOthers(Troop troop, String sessionId);
-	public java.util.List<Meeting> getYearPlanJson( String yearPlanPath );
+	public YearPlan getYearPlanJson( String yearPlanPath );
 
 }
