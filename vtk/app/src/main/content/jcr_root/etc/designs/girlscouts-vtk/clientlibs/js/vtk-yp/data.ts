@@ -114,10 +114,11 @@ export function parseJSONVTK(json:any) {
 
 
 export function parseMeetings(json: any) { 
+    
     var meetings_ = {
         desc: json.desc,
         name: json.name,
-        meetings: json
+        meetings: json.meetingEvents
     };
 
     for (var s in json.meetings) { 
