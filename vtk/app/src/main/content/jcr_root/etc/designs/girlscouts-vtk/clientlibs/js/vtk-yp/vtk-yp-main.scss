@@ -34,7 +34,7 @@
                         margin: 0;
                     }
                     .inactive{
-                        background-color: gray !important;
+                        background-color: #969696 !important;
                         pointer-events: none;
                     }
                     text-align: center;
@@ -148,7 +148,7 @@
                 width: 0;
                 height: 0;
                 border-left: 40px solid transparent;
-                border-right: 48px solid transparent;
+                border-right: 40px solid transparent;
                 border-top: 20px solid white;
                 float: right;
                 margin-right: 307px;

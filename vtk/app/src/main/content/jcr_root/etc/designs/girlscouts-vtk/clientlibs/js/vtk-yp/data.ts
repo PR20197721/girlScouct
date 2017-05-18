@@ -5,6 +5,7 @@ import Axios from 'axios';
 export const ULR = 'URL';
 
 declare var ________app________: string;
+declare var ________app1________: string;
 
 
 export function getYearPlan() { 
@@ -39,6 +40,7 @@ export function getMeetings(url: string) {
 
     return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => { 
         console.log('AJAX',data.data)
+         debugger;
         return parseMeetings(data.data);
     })
 }

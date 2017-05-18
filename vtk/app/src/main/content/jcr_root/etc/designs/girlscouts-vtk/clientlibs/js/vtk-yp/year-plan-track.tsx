@@ -19,6 +19,7 @@ interface YplanTrackState {
 };
 
 declare var chgYearPlan : any;
+declare var ________app1________: string;
 
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
@@ -103,12 +104,12 @@ YplanTrackState > {
                                 </div>
                                 <div className="cell c3">
                                     <div
-                                        className={(true)
+                                        className={(________app1________!==this.props.track.split('###')[0])
                                         ? "btn button right"
                                         : "btn button right inactive"}
                                         onClick={() => {
                                         this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
-                                    }}>{(true)
+                                    }}>{(________app1________!==this.props.track.split('###')[0])
                                             ? 'SELECT'
                                             : 'SELECTED'}</div>
                                 </div>
@@ -158,17 +159,17 @@ YplanTrackState > {
                                                 this.openPreview();
                                             }}>
                                                     {this.state.isOpen
-                                                        ? 'Close Preview'
-                                                        : 'Preview'}
+                                                        ? 'CLOSE PREVIEW'
+                                                        : 'PREVIEW'}
                                             </div>
                                             <div className="cell c3">
                                                 <div
-                                                    className={(true)
+                                                    className={(________app1________!==this.props.track.split('###')[0])
                                                     ? "btn button right"
                                                     : "btn button right inactive"}
                                                     onClick={() => {
                                                     this.selectPlan(this.props.track.split('###')[1], this.props.track.split('###')[0])
-                                                }}>{(true)
+                                                }}>{(________app1________!==this.props.track.split('###')[0])
                                                         ? 'SELECT'
                                                         : 'SELECTED'}
                                                 </div>
