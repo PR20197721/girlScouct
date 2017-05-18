@@ -396,7 +396,7 @@ function getYearPlan() {
 exports.getYearPlan = getYearPlan;
 function getPDF() {
     var level = "" + ________app________;
-    return axios_1.default.get(window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '.2.json')
+    return axios_1.default.get(window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/' + level + '.1.json')
         .then(function (d) {
         for (var a in d.data) {
             if (a.match(/.pdf/)) {
@@ -409,6 +409,7 @@ exports.getPDF = getPDF;
 function getMeetings(url) {
     return axios_1.default.get(window.location.origin + '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then(function (data) {
         console.log('AJAX', data.data);
+        debugger;
         return parseMeetings(data.data);
     });
 }
@@ -603,10 +604,9 @@ var Header = (function (_super) {
     }
     Header.prototype.render = function () {
         return (React.createElement("div", { className: "row" },
-            React.createElement("div", { className: "columns small-20 small-centered" },
+            React.createElement("div", { className: "columns small-20 small-centered", style: { padding: '0px' } },
                 React.createElement("div", { className: "__header" }, this.props.title),
-                React.createElement("p", null,
-                    React.createElement("b", null, this.props.subTitle)))));
+                React.createElement("p", null, this.props.subTitle))));
     };
     return Header;
 }(React.Component));
@@ -1132,15 +1132,16 @@ var VtkMainYp = (function (_super) {
         var _a = this.props.data, header = _a.header, bottom = _a.bottom;
         var title = header.title, subtitle = header.subtitle;
         return (React.createElement("div", null,
-            React.createElement("div", { className: "columns small-20 small-centered" },
-                React.createElement("h3", { className: "" }, title),
-                React.createElement("div", { className: "row" },
-                    React.createElement("div", { className: "small-24 medium-18 columns" },
-                        React.createElement("p", null, subtitle)),
-                    React.createElement("div", { className: "small-24 medium-6 columns", style: { textAlign: 'right' } }, this.state.pdf ? React.createElement("a", { target: "_blank", href: this.state.pdf },
-                        " ",
-                        React.createElement("img", { src: tree_1.pdf }),
-                        "  Year Plan Overview") : null))),
+            React.createElement("div", null,
+                React.createElement("div", { className: "columns small-20 small-centered", style: { padding: '0px' } },
+                    React.createElement("h3", { className: "" }, title),
+                    React.createElement("div", { className: "row" },
+                        React.createElement("div", { className: "small-24 medium-18 columns" },
+                            React.createElement("p", null, subtitle)),
+                        React.createElement("div", { className: "small-24 medium-6 columns", style: { textAlign: 'right' } }, this.state.pdf ? React.createElement("a", { target: "_blank", href: this.state.pdf },
+                            " ",
+                            React.createElement("img", { src: tree_1.pdf }),
+                            "  Year Plan Overview") : null)))),
             this
                 .props
                 .data
@@ -1395,30 +1396,33 @@ var YplanTrack = (function (_super) {
         var is_show_meeting_lib = true;
         //year plan id from db
         var year_plan_id = 1;
-        chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA', is_new_yp, name, is_show_meeting_lib);
+        chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA', name, is_new_yp, is_show_meeting_lib);
     };
     YplanTrack.prototype.render = function () {
         var _this = this;
         return (React.createElement("div", { className: "__year-plan-track-row" },
-            React.createElement("div", { className: "__year-plan-track columns small-20 small-centered" },
-                React.createElement("div", { className: "table" },
-                    React.createElement("div", { className: "cell c16" }, this
-                        .props
-                        .track
-                        .split('###')[1]),
-                    React.createElement("div", { className: this.state.isOpen
-                            ? "click-preview cell c3 __open"
-                            : "click-preview cell c3 __close", onClick: function () {
-                            _this.openPreview();
-                        } }, "Preview"),
-                    React.createElement("div", { className: "cell c3" },
-                        React.createElement("div", { className: (true)
-                                ? "btn button right"
-                                : "btn button right inactive", onClick: function () {
-                                _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
-                            } }, (true)
-                            ? 'SELECT'
-                            : 'SELECTED')))),
+            React.createElement("div", { className: "columns small-20 small-centered", style: { padding: '0px' } },
+                React.createElement("div", { className: "row" },
+                    React.createElement("div", { className: "__year-plan-track columns small-21" },
+                        React.createElement("div", { className: "table" },
+                            React.createElement("div", { className: "cell c16" }, this
+                                .props
+                                .track
+                                .split('###')[1]),
+                            React.createElement("div", { className: this.state.isOpen
+                                    ? "click-preview cell c3 __open"
+                                    : "click-preview cell c3 __close", onClick: function () {
+                                    _this.openPreview();
+                                } }, this.state.isOpen ? 'CLOSE PREVIEW' : 'PREVIEW'),
+                            React.createElement("div", { className: "cell c3" },
+                                React.createElement("div", { className: (________app1________ !== this.props.track.split('###')[0])
+                                        ? "btn button right"
+                                        : "btn button right inactive", onClick: function () {
+                                        _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                                    } }, (________app1________ !== this.props.track.split('###')[0])
+                                    ? 'SELECT'
+                                    : 'SELECTED')))),
+                    React.createElement("div", { className: "__year-plan-track columns small-3" }))),
             React.createElement("div", { className: "row" },
                 React.createElement("div", { className: this.state.isOpen
                         ? "__meetings"
@@ -1431,27 +1435,38 @@ var YplanTrack = (function (_super) {
                         React.createElement("h4", null, this.state.meetings.name)),
                     React.createElement("div", { className: "columns small-20 small-centered" },
                         React.createElement(meetings_1.default, { meetings: this.state.meetings.meetings }),
-                        React.createElement("br", null),
-                        React.createElement("div", { className: "table" },
-                            React.createElement("div", { className: "cell c16" }),
-                            React.createElement("div", { className: this.state.isOpen
-                                    ? "click-preview cell c3 __open"
-                                    : "click-preview cell c3 __close", onClick: function () {
-                                    _this.openPreview();
-                                } }, "Preview"),
-                            React.createElement("div", { className: "cell c3" },
-                                React.createElement("div", { className: (true)
-                                        ? "btn button right"
-                                        : "btn button right inactive", onClick: function () {
-                                        _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
-                                    } }, (true)
-                                    ? 'SELECT'
-                                    : 'SELECTED'))),
-                        React.createElement("br", null)))),
-            React.createElement("div", { className: "" },
-                React.createElement("div", { className: "columns small-20 end small-centered", style: {
-                        borderBottom: '1px dotted black'
-                    } }))));
+                        React.createElement("br", null)),
+                    React.createElement("div", { className: "columns small-20 small-centered", style: { padding: '0px' } },
+                        React.createElement("div", { className: "row", style: {
+                                backgroundColor: 'transparent'
+                            } },
+                            React.createElement("div", { className: "columns small-21" },
+                                React.createElement("div", { className: "table" },
+                                    React.createElement("div", { className: "cell c16" }),
+                                    React.createElement("div", { className: this.state.isOpen
+                                            ? "click-preview cell c3 __open"
+                                            : "click-preview cell c3 __close", onClick: function () {
+                                            _this.openPreview();
+                                        } }, this.state.isOpen
+                                        ? 'CLOSE PREVIEW'
+                                        : 'PREVIEW'),
+                                    React.createElement("div", { className: "cell c3" },
+                                        React.createElement("div", { className: (________app1________ !== this.props.track.split('###')[0])
+                                                ? "btn button right"
+                                                : "btn button right inactive", onClick: function () {
+                                                _this.selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                                            } }, (________app1________ !== this.props.track.split('###')[0])
+                                            ? 'SELECT'
+                                            : 'SELECTED'))),
+                                React.createElement("br", null)))))),
+            React.createElement("div", { className: "row" },
+                React.createElement("div", { className: "columns small-20 small-centered ", style: {
+                        padding: '0px'
+                    } },
+                    React.createElement("div", { className: "columns small-21 end", style: {
+                            borderBottom: '1px dotted black',
+                            padding: '0px'
+                        } })))));
     };
     return YplanTrack;
 }(React.Component));
@@ -1467,7 +1482,7 @@ exports = module.exports = __webpack_require__(38)(undefined);
 
 
 // module
-exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    text-transform: uppercase;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: center; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: gray !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00ae58;\n        font-weight: bold;\n        cursor: pointer; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:after,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00ae58;\n        top: 2px;\n        left: 8px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:after,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:after {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00ae58 transparent transparent transparent;\n        top: 6px;\n        left: 8px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 125px solid transparent;\n      border-right: 125px solid transparent;\n      border-top: 31px solid white;\n      float: right;\n      margin-right: 125px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n", ""]);
+exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    text-transform: uppercase;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: center; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 5px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 5px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n", ""]);
 
 // exports
 
