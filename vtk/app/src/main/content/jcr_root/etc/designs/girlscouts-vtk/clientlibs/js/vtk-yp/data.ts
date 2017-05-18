@@ -21,7 +21,7 @@ export function getPDF() {
 
            const level: string = `${________app________}`;
     return Axios.get(
-        window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/'+level+'.2.json')
+        window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/'+level+'.1.json')
         .then((d: any) => {
      
 
