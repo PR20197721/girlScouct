@@ -9,7 +9,9 @@ declare var ________app________: string;
 
 export function getYearPlan() { 
     return  Axios.get(
-        window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+       window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+     
+       
         .then((data) => { 
             return parseJSONVTK(data.data)
         });

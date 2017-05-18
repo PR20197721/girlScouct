@@ -75,7 +75,7 @@ YplanTrackState > {
             //year plan id from db
             var year_plan_id = 1;
             
-            chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA', is_new_yp, name, is_show_meeting_lib);
+            chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA',  name, is_new_yp, is_show_meeting_lib);
 
     }
 
