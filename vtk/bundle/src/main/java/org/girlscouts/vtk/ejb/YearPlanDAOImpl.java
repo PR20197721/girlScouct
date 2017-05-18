@@ -1,11 +1,15 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import javax.jcr.Session;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
+
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -17,9 +21,14 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
@@ -34,6 +43,9 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 	@Reference
 	private SessionFactory sessionFactory;
 
+    @Reference
+    private org.apache.sling.api.resource.ResourceResolverFactory resolverFactory;
+    
 	@Activate
 	void activate() {
 	}
@@ -169,5 +181,82 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			}
 		}
 		return toRet;
+	}
+	
+	public YearPlan getYearPlanJson( String yearPlanPath ){
+	
+		YearPlan yearPlan = null;
+		Session session = null;
+		try {
+			 session = sessionFactory.getSession();
+			 ResourceResolver resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
+			
+			 //year plan info
+			 Resource yearPlanResource = resourceResolver.getResource( yearPlanPath );
+			 if( yearPlanResource ==null ) return null;
+			 ValueMap yearValueMap = yearPlanResource.getValueMap();
+			 if(yearValueMap==null) return null;
+			 
+			 
+			 yearPlan = new YearPlan();
+			 yearPlan.setName( yearValueMap.get("name") ==null ? "" :  yearValueMap.get("name").toString());
+			 yearPlan.setDesc( yearValueMap.get("desc") ==null ? "" :  yearValueMap.get("desc").toString());
+			 
+			 java.util.List<MeetingE> meetingInfos = new java.util.ArrayList();
+             Resource myResource = yearPlanResource.getChild("meetings");
+             if( myResource != null ){
+            	 Iterable<Resource> meetings = myResource.getChildren();
+            	 for (Resource meeting : meetings) {
+            		 String refId = meeting.getValueMap().get("refId").toString();
+            		 Resource meetingResource = resourceResolver.getResource( refId );
+            		 if( meetingResource==null ) continue;
+            		 ValueMap valueMap = meetingResource.getValueMap();
+            		 if( valueMap==null) continue;
+            		 Meeting meetingInfo = new Meeting();
+            		 meetingInfo.setName( valueMap.get("name").toString());
+            		 meetingInfo.setBlurb(valueMap.get("blurb").toString());
+            		 meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
+            		 meetingInfo.setId(valueMap.get("id").toString());
+            		 meetingInfo.setCat(valueMap.get("cat").toString());
+            		 
+            		 //get activities
+            		 Iterable<Resource> meetingActivitiesResource = meetingResource.getChild( "activities" ).getChildren();
+            		 forActivities:for (Resource r_activities : meetingActivitiesResource) {
+            			 ValueMap activityValueMap = r_activities.getValueMap();
+            			 if( activityValueMap ==null ) continue;
+                		 String isOutdoorAvailable = activityValueMap.get("isOutdoorAvailable") ==null ? null : activityValueMap.get("isOutdoorAvailable").toString();
+                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {
+                			Activity activity = new Activity();
+                			activity.setIsOutdoorAvailable(true);
+                			java.util.List<Activity> activities = new java.util.ArrayList();
+                			activities.add(activity);
+                			meetingInfo.setActivities( activities );
+                			break forActivities;
+                		 }		 
+            		 }
+            		 MeetingE masterMeeting = new MeetingE();
+            		 masterMeeting.setMeetingInfo(meetingInfo);
+            		 meetingInfos.add( masterMeeting );
+            	 }
+             }
+             
+             /*
+           //sort meetings by position
+     		Comparator<Meeting> comp = new BeanComparator("position");
+     		if (meetingInfos != null)
+     			Collections.sort(meetingInfos, comp);
+     		*/
+             yearPlan.setMeetingEvents(meetingInfos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return yearPlan;
 	}
 }

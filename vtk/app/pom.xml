@@ -84,6 +84,7 @@
           <exclude>**/*.scss</exclude>
           <exclude>**/*.scssc</exclude>
           <exclude>**/.sass-cache</exclude>
+          <exclude>**/node_modules/**</exclude>
         </excludes>
       </resource>
       <resource>
