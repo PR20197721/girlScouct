@@ -25,6 +25,7 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -193,19 +194,34 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             	 Iterable<Resource> meetings = myResource.getChildren();
             	 for (Resource meeting : meetings) {
             		 String refId = meeting.getValueMap().get("refId").toString();
-            		 
-            		 System.err.println("RefI: "+ refId);
             		 Resource meetingResource = resourceResolver.getResource( refId );
             		 if( meetingResource==null ) continue;
             		 ValueMap valueMap = meetingResource.getValueMap();
             		 if( valueMap==null) continue;
-            		 
             		 Meeting meetingInfo = new Meeting();
             		 meetingInfo.setName( valueMap.get("name").toString());
             		 meetingInfo.setBlurb(valueMap.get("blurb").toString());
             		 meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
             		 meetingInfo.setId(valueMap.get("id").toString());
             		 meetingInfo.setCat(valueMap.get("cat").toString());
+            		 
+            		 //get activities
+            		 Iterable<Resource> meetingActivitiesResource = meetingResource.getChild( "activities" ).getChildren();
+            		 forActivities:for (Resource r_activities : meetingActivitiesResource) {
+            			 ValueMap activityValueMap = r_activities.getValueMap();
+            			 if( activityValueMap ==null ) continue;
+                		 String isOutdoorAvailable = activityValueMap.get("isOutdoorAvailable") ==null ? null : activityValueMap.get("isOutdoorAvailable").toString();
+                		 if( isOutdoorAvailable!=null && isOutdoorAvailable.equals("true") ) {
+                			Activity activity = new Activity();
+                			activity.setIsOutdoorAvailable(true);
+                			java.util.List<Activity> activities = new java.util.ArrayList();
+                			activities.add(activity);
+                			meetingInfo.setActivities( activities );
+                			break forActivities;
+                		 }
+                			 
+            		 }
+            		 
             		 meetingInfos.add( meetingInfo );
             	 }
              }
