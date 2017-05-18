@@ -183,13 +183,27 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 		return toRet;
 	}
 	
-	public java.util.List<Meeting> getYearPlanJson( String yearPlanPath ){
-		java.util.List<Meeting> meetingInfos = new java.util.ArrayList();
+	public YearPlan getYearPlanJson( String yearPlanPath ){
+	
+		YearPlan yearPlan = null;
 		Session session = null;
 		try {
 			 session = sessionFactory.getSession();
 			 ResourceResolver resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);
-             Resource myResource = resourceResolver.getResource( yearPlanPath + "/meetings" );
+			
+			 //year plan info
+			 Resource yearPlanResource = resourceResolver.getResource( yearPlanPath );
+			 if( yearPlanResource ==null ) return null;
+			 ValueMap yearValueMap = yearPlanResource.getValueMap();
+			 if(yearValueMap==null) return null;
+			 
+			 
+			 yearPlan = new YearPlan();
+			 yearPlan.setName( yearValueMap.get("name") ==null ? "" :  yearValueMap.get("name").toString());
+			 yearPlan.setDesc( yearValueMap.get("desc") ==null ? "" :  yearValueMap.get("desc").toString());
+			 
+			 java.util.List<MeetingE> meetingInfos = new java.util.ArrayList();
+             Resource myResource = yearPlanResource.getChild("meetings");
              if( myResource != null ){
             	 Iterable<Resource> meetings = myResource.getChildren();
             	 for (Resource meeting : meetings) {
@@ -218,11 +232,11 @@ public class YearPlanDAOImpl implements YearPlanDAO {
                 			activities.add(activity);
                 			meetingInfo.setActivities( activities );
                 			break forActivities;
-                		 }
-                			 
+                		 }		 
             		 }
-            		 
-            		 meetingInfos.add( meetingInfo );
+            		 MeetingE masterMeeting = new MeetingE();
+            		 masterMeeting.setMeetingInfo(meetingInfo);
+            		 meetingInfos.add( masterMeeting );
             	 }
              }
              
@@ -232,6 +246,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
      		if (meetingInfos != null)
      			Collections.sort(meetingInfos, comp);
      		*/
+             yearPlan.setMeetingEvents(meetingInfos);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -242,6 +257,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-		return meetingInfos;
+		return yearPlan;
 	}
 }
