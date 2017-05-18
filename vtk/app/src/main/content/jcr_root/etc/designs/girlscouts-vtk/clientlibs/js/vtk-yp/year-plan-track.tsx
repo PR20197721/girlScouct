@@ -67,23 +67,7 @@ YplanTrackState > {
         }
 
     }
-/*
-    selectPlan(name : string, url : string) {
-        console.log(name, url)
-        
-            var confMsg ="Are You Sure? You will lose customizations that you have made";
-        
-   			//show meeting lib or redirect to emty YP
-            var is_show_meeting_lib = true;
-            if( ________app________ == 'senior' || 
-           		 ________app________ == 'ambassador' ||
-           		 	________app________ == 'cadette'){
-            	is_show_meeting_lib= false;
-            }
-            
-            chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
-       }
-*/
+
     public render() : JSX.Element {return(
             <div className="__year-plan-track-row">
               
