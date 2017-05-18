@@ -68,13 +68,14 @@ YplanTrackState > {
     selectPlan(name : string, url : string) {
         console.log(name, url)
 
+
             var is_new_yp = true;
             
             //show meeting lib or redirect to emty YP
             var is_show_meeting_lib = true;
             
             //year plan id from db
-            var year_plan_id = 1;
+            var year_plan_id = 1; //ID FROM ADELLA JSON
             
             chgYearPlan(year_plan_id, url, 'THIS_IS_ERR_MGS_QA',  name, is_new_yp, is_show_meeting_lib);
 

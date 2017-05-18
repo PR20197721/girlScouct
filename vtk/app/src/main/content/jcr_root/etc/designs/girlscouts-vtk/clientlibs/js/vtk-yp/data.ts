@@ -9,11 +9,17 @@ declare var ________app1________: string;
 
 
 export function getYearPlan() { 
+    //let level: string = `${________app________}`;
+
+        let level = 'daisy';
+
+    // to change
+    //console.log(window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
     return  Axios.get(
-       window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
-     
-       
+       window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
+
         .then((data) => { 
+            console.log(data);
             return parseJSONVTK(data.data)
         });
 }
