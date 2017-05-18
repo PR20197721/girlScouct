@@ -6,9 +6,18 @@ export const ULR = 'URL';
 
 declare var ________app________: string;
 declare var ________app1________: string;
+declare var ________isYearPlan________: boolean;
+declare var ________currentYearPlanName________: string;
 
 
 export function getYearPlan() { 
+<<<<<<< HEAD
+const level: string = `${________app________}`;
+    return  Axios.get(
+       window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
+     
+       
+=======
     //let level: string = `${________app________}`;
 
         let level = 'daisy';
@@ -18,6 +27,7 @@ export function getYearPlan() {
     return  Axios.get(
        window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
 
+>>>>>>> e3a49a398666bcc53f8fa295e3d15a47e14d0cf5
         .then((data) => { 
             console.log(data);
             return parseJSONVTK(data.data)
