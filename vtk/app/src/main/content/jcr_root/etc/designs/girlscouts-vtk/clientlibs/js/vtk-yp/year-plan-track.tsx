@@ -49,7 +49,6 @@ YplanTrackState > {
                 .getMeetings(this.props.track.split('###')[0])
                 .then((response) => {
 
-                    console.info('response', response)
                     this.setState({
                         'meetings': {
                             name: response.name,
@@ -195,7 +194,6 @@ YplanTrackState > {
 export default YplanTrack;
 
 export function selectPlan(name : string, url : string) {
-        console.log(name, url)
         
             var confMsg ="Are You Sure? You will lose customizations that you have made";
         

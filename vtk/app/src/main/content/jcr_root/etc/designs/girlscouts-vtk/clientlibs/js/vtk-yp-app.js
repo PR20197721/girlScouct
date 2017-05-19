@@ -388,7 +388,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = __webpack_require__(20);
 exports.ULR = 'URL';
 function getYearPlan() {
-    var level = 'daisy';
+    var level = "" + ________app________;
     return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
         .then(function (data) {
         console.log(data);
@@ -725,7 +725,6 @@ var YplanTrack = (function (_super) {
                             React.createElement("b", null, "Year Plan Overview")),
                         React.createElement("p", null, this.state.meetings.desc),
                         React.createElement("h4", null, this.state.meetings.name),
-                        React.createElement("br", null),
                         React.createElement("br", null)),
                     React.createElement("div", { className: "columns small-20 small-centered" },
                         React.createElement(meetings_1.default, { meetings: this.state.meetings.meetings }),

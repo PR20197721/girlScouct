@@ -38,7 +38,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
     }    
 
     public render() : JSX.Element {
-        //debugger;
+
         const {header, bottom} = this.props.data;
         const { title, subtitle } = header;
         
