@@ -199,7 +199,8 @@ export function selectPlan(name : string, url : string) {
         
    			//show meeting lib or redirect to emty YP
             var is_show_meeting_lib = true;
-            if( ________app________ == 'senior' || 
+            if( url !='' ||
+            	________app________ == 'senior' || 
            		 ________app________ == 'ambassador' ||
            		 	________app________ == 'cadette'){
             	is_show_meeting_lib= false;
