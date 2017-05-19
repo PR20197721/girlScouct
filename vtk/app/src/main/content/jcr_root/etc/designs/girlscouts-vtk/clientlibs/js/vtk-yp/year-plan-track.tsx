@@ -126,6 +126,7 @@ YplanTrackState > {
                                 </p>
                                 <p>{this.state.meetings.desc}</p>
                                 <h4>{this.state.meetings.name}</h4>
+                                <br /><br />
                             </div>
                             <div className="columns small-20 small-centered">
 
@@ -175,8 +176,9 @@ YplanTrackState > {
 
                     <div className="row">
                         <div className="columns small-20 small-centered " style={{
-                                                   padding:'0px'
-                            }}> 
+                    padding: '0px',
+                    marginTop: '60px'
+                }}> 
                             <div
                                 className="columns small-21 end"
                                 style={{

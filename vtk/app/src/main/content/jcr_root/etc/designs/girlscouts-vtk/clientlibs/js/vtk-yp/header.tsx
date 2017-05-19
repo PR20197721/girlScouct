@@ -13,7 +13,7 @@ class Header extends React.Component<HeaderProps, HeaderState> {
             <div className="row">
             <div className="columns small-20 small-centered" style={{padding:'0px'}}>
                 <div  className="__header" ><b>{this.props.title}</b></div>
-                 <p>{this.props.subTitle}</p>
+                 <p><b>{this.props.subTitle}</b></p>
                 </div>
             </div>    
            
