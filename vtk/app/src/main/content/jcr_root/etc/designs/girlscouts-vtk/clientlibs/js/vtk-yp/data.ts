@@ -17,7 +17,7 @@ const level: string = `${________app________}`;
        window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
 
         .then((data) => { 
-            console.log(data);
+
             return parseJSONVTK(data.data)
         });
 }
@@ -43,8 +43,6 @@ export function getPDF() {
 export function getMeetings(url: string) {
 
     return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => { 
-        console.log('AJAX',data.data)
-         debugger;
         return parseMeetings(data.data);
     })
 }
@@ -120,7 +118,7 @@ export function parseMeetings(json: any) {
     };
 
     for (var s in json.meetings) { 
-        debugger;
+
         if (s.match(/meeting/)) { 
             let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
             meetings_.meetings[index] = json.meetings[s]
