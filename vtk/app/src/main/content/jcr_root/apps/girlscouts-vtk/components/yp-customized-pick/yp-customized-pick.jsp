@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-	String customizedName = properties.get("customizedName","");
+	String customizedName = properties.get("title","");
     String linkText = properties.get("linkText","");
 %>
 
