@@ -43,7 +43,7 @@
                     color: #00A850;
                     font-weight:600;
                     cursor: pointer;
-                    padding-right: 8px;
+                    padding-right: 15px;
                 }
                 .click-preview.__close {
                     &:before {
@@ -55,7 +55,7 @@
                         border-style: solid;
                         border-color: transparent transparent transparent #00A850;
                         top: 2px;
-                        right: 5px;
+                        right: 0px;
                         border-width: 7px;
                     }
                 }
@@ -69,7 +69,7 @@
                         border-style: solid;
                         border-color: #00A850 transparent transparent transparent;
                         top: 6px;
-                        right: 5px;
+                        right: 0px;
                         border-width: 7px;
                     }
                 }
