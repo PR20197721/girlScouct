@@ -1100,7 +1100,7 @@ React.createElement(ActivityPlan),
             scrollTarget = ".touchscroll";
           }
 
-        var dom = $(this.getDOMNode());
+        var dom = $(ReactDOM.findDOMNode(this));
         var onReorder = this.props.onReorder;
         dom.sortable({
             items: "li:not(.ui-state-disabled)",
@@ -1121,7 +1121,7 @@ React.createElement(ActivityPlan),
         });
       },
       componentWillUpdate: function() {
-        var dom = $(this.getDOMNode());
+        var dom = $(ReactDOM.findDOMNode(this));
         if (Modernizr.touch) {
             scrollTarget = ".touchscroll";
           }
@@ -1164,7 +1164,7 @@ React.createElement(ActivityPlan),
     });
  }
 
-    React.render(
+    ReactDOM.render(
              <%
                 String elem = request.getParameter("elem");
                 if (elem != null) {

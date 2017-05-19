@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="{Long}450"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">        	
+            <maincontent
+                jcr:primaryType="cq:Panel"
+                title="Main Content">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<url
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="API Endpoint"
+                		fieldDescription="API url to send email info"
+                		defaultValue=""
+                		allowBlank="false"
+                		name="./url"
+                		xtype="textfield"/>
+                	<heading
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Heading"
+                		fieldDescription=""
+                		defaultValue="New article alerts!"
+                		name="./heading"
+                		xtype="textfield"/>
+                	<description
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Description"
+                		fieldDescription=""
+                		defaultValue="Get updates when new content is available."
+                		name="./description"
+                		xtype="textfield"/>
+                	<emailplaceholder
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Email Placeholder"
+                		fieldDescription=""
+                		defaultValue="Enter your email address here"
+                		name="./emailplaceholder"
+                		xtype="textfield"/>
+                	<emailplaceholdermobile
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Email Placeholder Mobile"
+                		fieldDescription="For mobile 320px and limit 25 chars"
+                		defaultValue="Enter your email!"
+                		name="./emailplaceholdermobile"
+                		xtype="textfield"/>
+                	<submitbuttontext
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Submit Text"
+                		fieldDescription=""
+                		defaultValue="SUBMIT"
+                		name="./submitbuttontext"
+                		xtype="textfield"/>
+                	<topborder
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Top Border"
+	                    fieldDescription="Check to apply border at top of the component"
+	                    name="./topborder"
+	                    type="checkbox"
+	            		xtype="selection"/>
+	            	<bottomborder
+	                    jcr:primaryType="cq:Widget"
+	                    fieldLabel="Bottom Border"
+	                    fieldDescription="Check to apply border at top of the component"
+	                    name="./bottomborder"
+	                    type="checkbox"
+	            		xtype="selection"/>       
+                </items>
+            </maincontent>
+            <submission
+                jcr:primaryType="cq:Panel"
+                title="Submission">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<errorheading
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Error Heading"
+                		fieldDescription=""
+                		defaultValue="Uh-oh!"
+                		name="./errorheading"
+                		xtype="textfield"/>
+                	<errordescription
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Error Description"
+                		fieldDescription=""
+                		defaultValue="That address is not valid. Please try again!"
+                		name="./errordescription"
+                		xtype="textfield"/>
+                	<successheading
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Success Heading"
+                		fieldDescription=""
+                		defaultValue="Yay! You're set!"
+                		name="./successheading"
+                		xtype="textfield"/>
+                	<successdescription
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Success Description"
+                		fieldDescription=""
+                		defaultValue="Be on the lookout for your confirmation email."
+                		name="./successdescription"
+                		xtype="textfield"/>       
+                	<alertemailexists
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Alert "
+                		fieldDescription="Alert message for when submitted email already exists"
+                		defaultValue="You are already signed up!"
+                		name="./alertemailexists"
+                		xtype="textfield"/> 
+                </items>
+            </submission>
+            <iconimage
+                jcr:primaryType="cq:Widget"
+                cropParameter="./iconimage/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./iconimage/fileName"
+                fileReferenceParameter="./iconimage/fileReference"
+                mapParameter="./iconimage/imageMap"
+                name="./iconimage"
+                requestSuffix="/iconimage.img.png"
+                rotateParameter="./thumbnail/imageRotate"
+                title="Icon Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./iconimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </iconimage>
+            <thankyouimage
+                jcr:primaryType="cq:Widget"
+                cropParameter="./thankyouimage/imageCrop"
+                ddGroups="media"
+                fileNameParameter="./thankyouimage/fileName"
+                fileReferenceParameter="./thankyouimage/fileReference"
+                mapParameter="./thankyouimage/imageMap"
+                name="./thankyouimage"
+                requestSuffix="/thankyouimage.img.png"
+                rotateParameter="./thankyouimage/imageRotate"
+                title="Thank You Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resource-type
+                        jcr:primaryType="cq:Widget"
+                        name="./thankyouimage/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </thankyouimage>
+            <sfmc
+                jcr:primaryType="cq:Panel"
+                title="SFMC">
+                <items jcr:primaryType="cq:WidgetCollection">
+                	<councilid
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Council ID"
+                		fieldDescription="3 digit Council ID"
+                		allowBlank="false"
+                		name="./cid"
+                		xtype="textfield"/>
+                	<dataextensionname
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Data Extension Name"
+                		fieldDescription=""
+                		allowBlank="false"
+                		name="./dataextensionname"
+                		xtype="textfield"/>
+                	<dataextensionkey
+                		jcr:primaryType="cq:Widget"
+                		fieldLabel="Data Extension Key"
+                		fieldDescription=""
+                		allowBlank="false"
+                		name="./dataextensionkey"
+                		xtype="textfield"/>      
+                </items>
+            </sfmc>
+        </items>
+    </items>
+</jcr:root>

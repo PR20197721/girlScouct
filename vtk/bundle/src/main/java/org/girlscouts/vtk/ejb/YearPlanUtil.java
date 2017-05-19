@@ -472,4 +472,9 @@ public class YearPlanUtil {
 	}
 	
 	public void test(){}
+	
+	public YearPlan getYearPlanJson(String yearPlanPath){
+
+		return yearPlanDAO.getYearPlanJson(yearPlanPath);
+	}
 }// edn class

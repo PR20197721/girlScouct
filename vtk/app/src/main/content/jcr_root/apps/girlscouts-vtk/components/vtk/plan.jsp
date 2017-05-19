@@ -376,7 +376,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
        
 
 
-          var dom = $(this.getDOMNode());
+          var dom = $(ReactDOM.findDOMNode(this));
           var onReorder = this.props.onReorder;
 
           dom.sortable({
@@ -407,7 +407,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
          scrollTarget = ".touchscroll";
        }
 
-        var dom = $(this.getDOMNode());
+
+        var dom = $(ReactDOM.findDOMNode(this));
         var onReorder = this.props.onReorder;
         dom.sortable({
         items: "li:not(.ui-state-disabled)",
@@ -476,7 +477,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         });
     }
 
-      React.render(
+      ReactDOM.render(
         React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X", pollInterval: 10000}),
           document.getElementById('thePlan')
         );
