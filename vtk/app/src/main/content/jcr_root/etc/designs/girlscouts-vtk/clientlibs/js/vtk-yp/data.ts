@@ -15,8 +15,6 @@ export function getYearPlan() {
 const level: string = `${________app________}`;
     return  Axios.get(
        window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
-     
-       
 
         .then((data) => { 
             console.log(data);
@@ -25,7 +23,7 @@ const level: string = `${________app________}`;
 }
     
 export function getPDF() {
-console.log("hello jc");
+
            const level: string = `${________app________}`;
     return Axios.get(
         window.location.origin + '/content/dam/girlscouts-vtkcontent/PDF/'+level+'.1.json')
