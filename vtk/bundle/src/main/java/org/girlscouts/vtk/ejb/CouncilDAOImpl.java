@@ -26,6 +26,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.Achievement;
@@ -69,6 +71,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 	@Reference
 	CouncilRpt councilRpt;
 	
+
+    @Reference
+    
+    private org.apache.sling.api.resource.ResourceResolverFactory resolverFactory;
+    
 	@Activate
 	void activate() {
 	}
@@ -836,6 +843,7 @@ System.err.println("TESt: " + sb.toString());
 		            java.util.Date submitTime=null;
 		            try{
 			            String timePath = VtkUtil.getYearPlanBase(null, null) +""+councilId +"/finances/template";
+			            if( !session.itemExists(timePath)) continue;
 			            Node infoNode = session.getNode( timePath );
 			            if( infoNode!=null)
 			            	submitTime = new java.util.Date( infoNode.getProperty("submitTime").getLong() );
@@ -874,7 +882,14 @@ System.err.println("TESt: " + sb.toString());
             Resource myResource = resourceResolver.getResource(currYearPath);
             if( myResource==null) return null;
             
-
+            Iterable<Resource> rcouncils = myResource.getChildren();
+       	 	for (Resource rcouncil : rcouncils) {
+       	 		String councilPath = rcouncil.getPath();
+      System.err.println("Path: "+ councilPath); 	 		
+       	 		String council = councilPath.substring( councilPath.lastIndexOf("/") +1);
+      System.err.println("council: "+ council); 
+       	 		councils.add(  council );
+       	 	}
 
 		} catch (Exception e) {
 			e.printStackTrace();
