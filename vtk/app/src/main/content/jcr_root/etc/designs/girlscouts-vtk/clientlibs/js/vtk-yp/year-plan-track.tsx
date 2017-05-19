@@ -7,6 +7,7 @@ import {getMeetings} from './data';
 
 interface YplanTrackProps {
     track : string;
+    isNew :string;
 };
 
 interface YplanTrackState {
@@ -79,7 +80,8 @@ YplanTrackState > {
                                     {this
                                         .props
                                         .track
-                                        .split('###')[1]}
+                                        .split('###')[1]} <span style={{marginLeft:'10px',color:'#FAA61A'}}>{(this.props.isNew=='isnew')?'NEW':null}</span> 
+
                                 </div>
                                 <div
                                     className={this.state.isOpen

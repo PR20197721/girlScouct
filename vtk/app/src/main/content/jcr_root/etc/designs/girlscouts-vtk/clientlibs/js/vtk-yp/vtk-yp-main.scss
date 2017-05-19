@@ -37,12 +37,13 @@
                         background-color: #969696 !important;
                         pointer-events: none;
                     }
-                    text-align: center;
+                    text-align: right;
                 }
                 .click-preview {
                     color: #00A850;
                     font-weight:600;
                     cursor: pointer;
+                    padding-right: 8px;
                 }
                 .click-preview.__close {
                     &:before {

@@ -11,6 +11,7 @@ interface MeetingProps {
                 level: string,
                 position: number,
                 idx:number
+                activities:any[] | null;
 };
 
 interface MeetingState {};
@@ -29,10 +30,10 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
             <div className="body">
                 <ul>
                     <li style={{fontSize:'14px'}}>
-                         <div>{this.props.name}</div>  <div>{this.props.cat}</div>  <div>{this.props.blurb}</div>
+                         <div>{this.props.name.toUpperCase()}</div>  <div>{this.props.cat}</div>  <div>{this.props.blurb}</div>
                     </li>
                     <li style={{textAlign:"center"}}>
-                       {(this.props.outdoor)? <img src={tree} style={{'width':'60px','height':'60px'}} alt="" />:null}
+                       {(this.props.activities && this.props.activities.length > 0)? <img src={tree} style={{'width':'60px','height':'60px'}} alt="" />:null}
                     
                     </li>
                      <li style={{textAlign:"right"}}>
