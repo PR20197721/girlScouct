@@ -18,8 +18,8 @@ class Category extends React.Component<CategoryProps, CategoryState> {
         return (<div className="column small-24">
             <Header title={this.props.title} subTitle={this.props.subtitle} />
 
-            {this.props.categories.map((track,idx) => { 
-                return <YplanTrack key={idx+track.track} {...track} />
+            {this.props.categories.map((track,idx,array) => { 
+                return <YplanTrack key={idx + track.track} {...track} last={array.length-1 == idx} />
             })}
 
 

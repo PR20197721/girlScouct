@@ -8,6 +8,7 @@ import { pdf, tree } from './tree'
 import Category from './category';
 import Header from './header';
 import {selectPlan} from './year-plan-track';
+
 interface VtkMainYpProps {
     data : any;
 };
@@ -58,16 +59,25 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     </div>
                 </div>
 
+                
                 {this
                     .props
                     .data
                     .Category
-                    .map((cat, idx) => {
-                        return <Category key={idx} {...cat}/>
+                    .map((cat, idx, arr) => {
+                        return <div>
+                            <Category key={idx} {...cat} />
+                           
+                        </div>
                     })
                 }
-
+               
+                 
                 <div className="columns small-24">
+                    {(this
+                    .props
+                    .data
+                    .Category.length)?<div style={{ marginBottom: '50px'}}></div>:null}
                     <Header subTitle={bottom.subtitle} title={bottom.title} />
                     
                     <div className="row">

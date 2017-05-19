@@ -7,7 +7,8 @@ import {getMeetings} from './data';
 
 interface YplanTrackProps {
     track : string;
-    isnew :string;
+    isnew: string;
+    last: boolean;
 };
 
 interface YplanTrackState {
@@ -43,7 +44,6 @@ YplanTrackState > {
     }
 
     openPreview() {
-        debugger;
         if (!this.state.meetings.meetings.length) {
             data
                 .getMeetings(this.props.track.split('###')[0])
@@ -76,7 +76,7 @@ YplanTrackState > {
                     <div className="row">
                         <div className="__year-plan-track columns small-21">
                             <div className="table">
-                                <div className="cell c16">
+                            <div className="cell c16" style={{paddingLeft:'5px'}}>
                                     {this
                                         .props
                                         .track
@@ -126,8 +126,8 @@ YplanTrackState > {
                                 </p>
                                 <p>{this.state.meetings.desc}</p>
                                 <h4>{this.state.meetings.name}</h4>
-                                <br /><br />
-                            </div>
+                                <br />
+                    </div>
                             <div className="columns small-20 small-centered">
 
                                 <Meetings meetings={this.state.meetings.meetings}/>
@@ -176,13 +176,13 @@ YplanTrackState > {
 
                     <div className="row">
                         <div className="columns small-20 small-centered " style={{
-                    padding: '0px',
-                    marginTop: '60px'
+                    padding: '0px'
+       
                 }}> 
                             <div
                                 className="columns small-21 end"
                                 style={{
-                                borderBottom: '1px dotted black',
+                                borderBottom: (this.props.last)?'none':'1px dashed black',
                                 padding:'0px'
                             }}></div>
                         </div>
