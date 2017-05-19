@@ -5,14 +5,19 @@ import Axios from 'axios';
 export const ULR = 'URL';
 
 declare var ________app________: string;
+declare var ________app1________: string;
+declare var ________isYearPlan________: boolean;
+declare var ________currentYearPlanName________: string;
 
 
 export function getYearPlan() { 
+
+const level: string = `${________app________}`;
     return  Axios.get(
-       window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
-     
-       
+       window.location.origin + '/content/vtkcontent/en/year-plan-library/'+level+'/_jcr_content/content/middle/par.1.json')
+
         .then((data) => { 
+            console.log(data);
             return parseJSONVTK(data.data)
         });
 }
@@ -39,6 +44,7 @@ export function getMeetings(url: string) {
 
     return Axios.get(window.location.origin+ '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then((data) => { 
         console.log('AJAX',data.data)
+         debugger;
         return parseMeetings(data.data);
     })
 }
@@ -106,10 +112,11 @@ export function parseJSONVTK(json:any) {
 
 
 export function parseMeetings(json: any) { 
+    
     var meetings_ = {
         desc: json.desc,
         name: json.name,
-        meetings: json
+        meetings: json.meetingEvents
     };
 
     for (var s in json.meetings) { 

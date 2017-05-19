@@ -7,7 +7,7 @@ import { pdf, tree } from './tree'
 
 import Category from './category';
 import Header from './header';
-
+import {selectPlan} from './year-plan-track';
 interface VtkMainYpProps {
     data : any;
 };
@@ -72,10 +72,12 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     
                     <div className="row">
                         <div className="columns small-20 small-centered">
-                            <div className="columns small-12"><p>Customize - Mix and Match </p></div>
+                            <div className="columns small-10" style={{padding:'0px',marginLeft:'-5px'}}><p>Customize - Mix and Match </p></div>
                             <div onClick={()=>{
-                                doMeetingLib(true);    
-                            }} className="columns small-12 vtk-yp-link" > View Meetings to Select</div>
+
+                                selectPlan('Custom Year Plan','');    
+                             }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>
+
                         </div>    
                     </div>
                 </div>

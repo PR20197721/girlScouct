@@ -12,8 +12,8 @@ class Header extends React.Component<HeaderProps, HeaderState> {
         return (
             <div className="row">
             <div className="columns small-20 small-centered" style={{padding:'0px'}}>
-                <div  className="__header" >{this.props.title}</div>
-                 <p style={{fontWeight:'600'}}>{this.props.subTitle}</p>
+                <div  className="__header" ><b>{this.props.title}</b></div>
+                 <p>{this.props.subTitle}</p>
                 </div>
             </div>    
            
