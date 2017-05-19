@@ -167,7 +167,7 @@ if(homepage.getContentResource().adaptTo(Node.class).hasProperty("event-cart")){
 		}
 	}
 	
-	if(!"".equals(properties.get("regClose",""))){
+	if(!"".equals(properties.get("regClose","")) && null != regOpenDate){
 		regCloseDate = GSDateTime.parse(properties.get("regClose",""),dtfIn);
 		if(dtz != null){
 			regCloseDate = regCloseDate.withZone(dtz);
