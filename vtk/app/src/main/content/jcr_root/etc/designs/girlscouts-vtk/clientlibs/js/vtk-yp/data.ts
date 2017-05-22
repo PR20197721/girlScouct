@@ -58,7 +58,8 @@ export function parseJSONVTK(json:any) {
     var OtoR = {
         header: {},
         Category: [],
-        bottom: {}
+        bottom: {},
+        bottomContent: {}
     }
 
     for (let part in json) {
@@ -85,6 +86,11 @@ export function parseJSONVTK(json:any) {
         } else {
         
             parts[currentCategory]['categories'].push(json[part])
+        }
+
+        if (json[part].hasOwnProperty('linkText')) { 
+            OtoR.bottomContent['linkText'] = json[part]['linkText'];
+            OtoR.bottomContent['title'] = json[part]['title'];
         }
     }
 
