@@ -6,11 +6,11 @@ import VtkMainYp from './vtk-yp-main';
 import { getYearPlan } from './data';
 
 window['startYPApp'] = function () {
-  window.onload = function () {
+
     data.getYearPlan().then((response) => {
       ReactDOM.render(<VtkMainYp data={response} />,
         document.getElementById("vtk-yp-main")
       );
     })
   }
-}
+

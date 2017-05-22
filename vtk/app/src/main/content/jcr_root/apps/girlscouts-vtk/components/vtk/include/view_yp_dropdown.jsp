@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div id="yearPlanSelection_" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
+  <div id="yearPlanSelection" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
     <!--<div class="row">
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
     </div> 
@@ -21,8 +21,9 @@
   var ________app1________ = "<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getRefId()%>";
   var ________currentYearPlanName________ = "<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>";
   var ________isYearPlan________ = "<%=troop.getYearPlan()!=null ? true: false %>";
-  
-  startYPApp()
+  window.onload = function () {
+    startYPApp();
+  }
 </script>
 
 

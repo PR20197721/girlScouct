@@ -1302,8 +1302,8 @@ var VtkMainYp = (function (_super) {
                 .data
                 .Category
                 .map(function (cat, idx, arr) {
-                return React.createElement("div", null,
-                    React.createElement(category_1.default, __assign({ key: idx }, cat)));
+                return React.createElement("div", { key: idx },
+                    React.createElement(category_1.default, __assign({}, cat)));
             }),
             React.createElement("div", { className: "columns small-24" },
                 (this
@@ -1484,11 +1484,9 @@ var ReactDOM = __webpack_require__(14);
 var data = __webpack_require__(2);
 var vtk_yp_main_1 = __webpack_require__(13);
 window['startYPApp'] = function () {
-    window.onload = function () {
-        data.getYearPlan().then(function (response) {
-            ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
-        });
-    };
+    data.getYearPlan().then(function (response) {
+        ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
+    });
 };
 
 
