@@ -421,7 +421,7 @@ function parseJSONVTK(json) {
         header: {},
         Category: [],
         bottom: {},
-        bottomContent: {}
+        customizedYearPlanContent: {}
     };
     for (var part in json) {
         if (part === "jcr:primaryType" || part === "sling:resourceType") {
@@ -444,8 +444,8 @@ function parseJSONVTK(json) {
             parts[currentCategory]['categories'].push(json[part]);
         }
         if (json[part].hasOwnProperty('linkText')) {
-            OtoR.bottomContent['linkText'] = json[part]['linkText'];
-            OtoR.bottomContent['title'] = json[part]['title'];
+            OtoR.customizedYearPlanContent['linkText'] = json[part]['linkText'];
+            OtoR.customizedYearPlanContent['title'] = json[part]['title'];
         }
     }
     parts.forEach(function (elemen, idx) {
@@ -1284,7 +1284,7 @@ var VtkMainYp = (function (_super) {
         });
     };
     VtkMainYp.prototype.render = function () {
-        var _a = this.props.data, header = _a.header, bottom = _a.bottom, bottomContent = _a.bottomContent;
+        var _a = this.props.data, header = _a.header, bottom = _a.bottom, customizedYearPlanContent = _a.customizedYearPlanContent;
         var title = header.title, subtitle = header.subtitle;
         return (React.createElement("div", null,
             React.createElement("div", null,
@@ -1314,12 +1314,12 @@ var VtkMainYp = (function (_super) {
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "columns small-20 small-centered" },
                         React.createElement("div", { className: "columns small-10", style: { padding: '0px', marginLeft: '-5px' } },
-                            React.createElement("p", null, bottomContent.title)),
+                            React.createElement("p", null, customizedYearPlanContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '');
                             }, className: "columns small-10 end vtk-yp-link" },
                             " ",
-                            bottomContent.linkText))))));
+                            customizedYearPlanContent.linkText))))));
     };
     return VtkMainYp;
 }(React.Component));
@@ -1483,10 +1483,12 @@ var React = __webpack_require__(1);
 var ReactDOM = __webpack_require__(14);
 var data = __webpack_require__(2);
 var vtk_yp_main_1 = __webpack_require__(13);
-window.onload = function () {
-    data.getYearPlan().then(function (response) {
-        ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
-    });
+window['startYPApp'] = function () {
+    window.onload = function () {
+        data.getYearPlan().then(function (response) {
+            ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
+        });
+    };
 };
 
 
