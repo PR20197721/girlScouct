@@ -209,11 +209,17 @@ export function selectPlan(name : string, url : string) {
 		  
 		    
 		    if(________isYearPlan________== false ){
-		    	var isConf =confirm("You have selected the Year Plan below for "+ ________app________ +" Troop "+  ________troopName________ +". Is this correct? Troop Year Plan "+ name);
+		    	var isConf =confirm("You have selected the Year Plan below for "+ ________app________ +" Troop "+  ________troopName________ +". Is this correct? Troop Year Plan "+ name);		   		
 		   		if( !isConf ){
 		   			return;
 		   		}
-		    } 
+		   		
+		    } else {
+			    var isConf = confirm("You want to replace your current Year Plan with the new Year Plan listed below for "+ ________app________  +" Troop  "+  ________troopName________ +". Is this correct?Current Year Plan: "+________currentYearPlanName________+" IMPORTANT: Any customizations you made will be lost. New Year Plan "+ name);
+		   		if( !isConf ){
+		   			return;
+		   		}
+		    }
             
            	chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
       		

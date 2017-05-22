@@ -769,11 +769,14 @@ function selectPlan(name, url) {
         ________app________ == 'cadette') {
         is_show_meeting_lib = false;
     }
-    alert("IsNewYr: " + ________isYearPlan________ + " : " + (________isYearPlan________ == false));
     if (________isYearPlan________ == false) {
-        alert("No YP");
         var isConf = confirm("You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct? Troop Year Plan " + name);
-        alert("conf? :" + isConf);
+        if (!isConf) {
+            return;
+        }
+    }
+    else {
+        var isConf = confirm("You want to replace your current Year Plan with the new Year Plan listed below for " + ________app________ + " Troop  " + ________troopName________ + ". Is this correct?Current Year Plan: " + ________currentYearPlanName________ + " IMPORTANT: Any customizations you made will be lost. New Year Plan " + name);
         if (!isConf) {
             return;
         }
