@@ -1,0 +1,38 @@
+//@import '../../constants';
+
+
+.vtk-popup{
+    position: fixed;
+    max-width: 600px;
+    z-index: 4000;
+    overflow: hidden;
+
+
+    .__header{
+        padding: 10px 10px ;
+        background-color: green;
+        width: 100%;
+        color:white;
+        text-transform: uppercase;
+    }
+    .__content{
+        padding: 20px;
+         width: 100%;
+         background-color: white;
+         overflow-x: hidden;
+         overflow-y: auto;
+    }
+
+    &.__hide{
+        visibility: hidden;
+    }
+}
+
+
+.__preview{
+    .__header{
+        & > .vtk-icon{
+            pointer-events: auto !important;
+        }
+    }
+}
