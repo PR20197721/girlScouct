@@ -123,13 +123,7 @@ export function parseMeetings(json: any) {
         meetings: json.meetingEvents
     };
 
-    for (var s in json.meetings) { 
 
-        if (s.match(/meeting/)) { 
-            let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
-            meetings_.meetings[index] = json.meetings[s]
-        }
-    }
  
    return meetings_;
 }
