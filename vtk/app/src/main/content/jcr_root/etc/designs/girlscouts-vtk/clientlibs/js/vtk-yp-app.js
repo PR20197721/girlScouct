@@ -769,10 +769,16 @@ function selectPlan(name, url) {
         ________app________ == 'cadette') {
         is_show_meeting_lib = false;
     }
-    if (________isYearPlan________) {
-        alert("You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct? Troop Year Plan " + name);
+    alert("IsNewYr: " + ________isYearPlan________ + " : " + (________isYearPlan________ == false));
+    if (________isYearPlan________ == false) {
+        alert("No YP");
+        var isConf = confirm("You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct? Troop Year Plan " + name);
+        alert("conf? :" + isConf);
+        if (!isConf) {
+            return;
+        }
     }
-    //chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+    chgYearPlan('', url, confMsg, name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
 }
 exports.selectPlan = selectPlan;
 

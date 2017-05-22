@@ -206,10 +206,15 @@ export function selectPlan(name : string, url : string) {
            		 	________app________ == 'cadette'){
             	is_show_meeting_lib= false;
             }
-		   
-		    if( ________isYearPlan________ ){
+		  
 		    
-		    	alert("You have selected the Year Plan below for "+ ________app________ +" Troop "+  ________troopName________ +". Is this correct? Troop Year Plan "+ name);
+		    if(________isYearPlan________== false ){
+		    	var isConf =confirm("You have selected the Year Plan below for "+ ________app________ +" Troop "+  ________troopName________ +". Is this correct? Troop Year Plan "+ name);
+		   		if( !isConf ){
+		   			return;
+		   		}
 		    } 
-            //chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+            
+           	chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+      		
        }

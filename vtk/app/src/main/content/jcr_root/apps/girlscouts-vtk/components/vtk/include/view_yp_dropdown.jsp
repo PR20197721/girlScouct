@@ -20,7 +20,7 @@
   var ________app________ = "<%=troop.getSfTroopAge()%>".split('-')[1].toLowerCase();
   var ________app1________ = "<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getRefId()%>";
   var ________currentYearPlanName________ = "<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>";
-  var ________isYearPlan________ = "<%=troop.getYearPlan()!=null ? true: false %>";
+  var ________isYearPlan________ = <%=troop.getYearPlan()!=null ? true: false %>;
   var ________troopName________ = "<%=troop.getSfTroopName() %>";
   
   
