@@ -391,7 +391,6 @@ function getYearPlan() {
     var level = "" + ________app________;
     return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
         .then(function (data) {
-        console.log(data);
         return parseJSONVTK(data.data);
     });
 }
@@ -410,8 +409,6 @@ function getPDF() {
 exports.getPDF = getPDF;
 function getMeetings(url) {
     return axios_1.default.get(window.location.origin + '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then(function (data) {
-        console.log('AJAX', data.data);
-        debugger;
         return parseMeetings(data.data);
     });
 }
@@ -423,7 +420,8 @@ function parseJSONVTK(json) {
     var OtoR = {
         header: {},
         Category: [],
-        bottom: {}
+        bottom: {},
+        bottomContent: {}
     };
     for (var part in json) {
         if (part === "jcr:primaryType" || part === "sling:resourceType") {
@@ -444,6 +442,10 @@ function parseJSONVTK(json) {
         }
         else {
             parts[currentCategory]['categories'].push(json[part]);
+        }
+        if (json[part].hasOwnProperty('linkText')) {
+            OtoR.bottomContent['linkText'] = json[part]['linkText'];
+            OtoR.bottomContent['title'] = json[part]['title'];
         }
     }
     parts.forEach(function (elemen, idx) {
@@ -467,7 +469,6 @@ function parseMeetings(json) {
         meetings: json.meetingEvents
     };
     for (var s in json.meetings) {
-        debugger;
         if (s.match(/meeting/)) {
             var index = parseInt(s.match(/[0-9]+/)[0]) - 1;
             meetings_.meetings[index] = json.meetings[s];
@@ -670,7 +671,6 @@ var YplanTrack = (function (_super) {
             data
                 .getMeetings(this.props.track.split('###')[0])
                 .then(function (response) {
-                console.info('response', response);
                 _this.setState({
                     'meetings': {
                         name: response.name,
@@ -765,7 +765,6 @@ var YplanTrack = (function (_super) {
 }(React.Component));
 exports.default = YplanTrack;
 function selectPlan(name, url) {
-    console.log(name, url);
     var confMsg = "Are You Sure? You will lose customizations that you have made";
     //show meeting lib or redirect to emty YP
     var is_show_meeting_lib = true;
@@ -1285,8 +1284,7 @@ var VtkMainYp = (function (_super) {
         });
     };
     VtkMainYp.prototype.render = function () {
-        //debugger;
-        var _a = this.props.data, header = _a.header, bottom = _a.bottom;
+        var _a = this.props.data, header = _a.header, bottom = _a.bottom, bottomContent = _a.bottomContent;
         var title = header.title, subtitle = header.subtitle;
         return (React.createElement("div", null,
             React.createElement("div", null,
@@ -1316,10 +1314,12 @@ var VtkMainYp = (function (_super) {
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "columns small-20 small-centered" },
                         React.createElement("div", { className: "columns small-10", style: { padding: '0px', marginLeft: '-5px' } },
-                            React.createElement("p", null, "Customize - Mix and Match ")),
+                            React.createElement("p", null, bottomContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '');
-                            }, className: "columns small-10 end vtk-yp-link" }, " View Meetings to Select"))))));
+                            }, className: "columns small-10 end vtk-yp-link" },
+                            " ",
+                            bottomContent.linkText))))));
     };
     return VtkMainYp;
 }(React.Component));
@@ -1407,7 +1407,6 @@ var Meeting = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meeting.prototype.render = function () {
-        console.log(this.props);
         return (React.createElement("div", { className: "meeting" },
             React.createElement("div", { className: "square" },
                 React.createElement("p", null, "Meeting"),
