@@ -90,7 +90,7 @@
             innerHtml.push('<div class="ytp-chrome-top">');
             innerHtml.push('<div class="ytp-title">');
             innerHtml.push('<div class="ytp-title-text">');
-            innerHtml.push('<a id="lazyYT-title-', id, '" class="ytp-title-link" tabindex="13" target="_blank" data-sessionlink="feature=player-title" href="https://www.youtube.com/watch?v=', id, '">');
+            innerHtml.push('<a id="lazyYT-title-', id, '" class="ytp-title-link" tabindex="13" target="_blank" data-sessionlink="feature=player-title" href="//www.youtube.com/watch?v=', id, '">');
             innerHtml.push((title) ? title : loading_text);
             innerHtml.push('</a>');
             innerHtml.push('</div>'); // /.ytp-title-text
@@ -116,7 +116,7 @@
         		}
         		proceed();
         	}
-        	img.src = "http://img.youtube.com/vi/" + id + "/maxresdefault.jpg";
+        	img.src = "//img.youtube.com/vi/" + id + "/maxresdefault.jpg";
         } else if (width > 480) {
         	var img = new Image();
         	img.onload= function(){
@@ -127,7 +127,7 @@
 	    		}
 	    		proceed();
         	}
-        	img.src = "http://img.youtube.com/vi/" + id + "/sddefault.jpg";
+        	img.src = "//img.youtube.com/vi/" + id + "/sddefault.jpg";
         } else if (width > 320) {
             thumb_img = 'hqdefault.jpg';
             proceed();
@@ -145,7 +145,7 @@
         function proceed(){
         
 	        $thumb = $el.find('.ytp-thumbnail').css({
-	            'background-image': ['url(http://img.youtube.com/vi/', id, '/', thumb_img, ')'].join('')
+	            'background-image': ['url(//img.youtube.com/vi/', id, '/', thumb_img, ')'].join('')
 	        })
 	            .addClass('lazyYT-image-loaded')
 	            .on('click', function (e) {
@@ -180,7 +180,7 @@
 	            });
 
 	        if ((!title && display_title) || display_duration) {
-	            var youtube_data_url = ['https://www.googleapis.com/youtube/v3/videos?id=', id, '&key=', settings.yt_api_key, '&part=snippet'];
+	            var youtube_data_url = ['//www.googleapis.com/youtube/v3/videos?id=', id, '&key=', settings.yt_api_key, '&part=snippet'];
 	            if (display_duration) youtube_data_url.push(',contentDetails'); // this extra info now costs some quota points, so we retrieve it only when necessary. More on quota: https://developers.google.com/youtube/v3/getting-started#quota
 	            
 	            $.getJSON(youtube_data_url.join(''), function (data) {

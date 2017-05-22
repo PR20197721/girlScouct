@@ -63,7 +63,6 @@
   <!-- Remember to add sub module to the changeVersion profile above as well -->
   <modules>
     <!-- For mvn clean: not to remove rubygems -->
-    <module>selective-clean</module>
     <module>bundle</module>
     <module>app</module>
   </modules>

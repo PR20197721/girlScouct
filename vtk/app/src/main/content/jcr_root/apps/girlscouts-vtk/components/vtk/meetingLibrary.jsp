@@ -9,6 +9,22 @@
 
 <%
 try{
+
+	  java.util.List newItems = new java.util.ArrayList(); 
+	  newItems.add("Badges for 2017-2018");
+	  newItems.add("Badges_Petals|Badges_for_2017-2018");
+
+	  newItems.add("Journey|It's_Your_World_-_Change_It");
+      newItems.add("It's Your World - Change It");
+
+	  newItems.add("Journey|STEM");
+      newItems.add("STEM");
+
+	  newItems.add("Journey|Outdoor");
+      newItems.add("Outdoor");
+
+
+
   boolean showVtkNav = true;
   String activeTab = "resource";
   String meetingPath = request.getParameter("mpath");
@@ -23,7 +39,7 @@ try{
   String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
-	
+
 	String find="";
 %>
   <div class="header clearfix">
@@ -143,6 +159,9 @@ try{
   if( meetings!=null)
    for(int i=0;i<meetings.size();i++){
 	  Meeting meeting = meetings.get(i);
+meeting.setLevel( meeting.getLevel().replace("-","_"));
+
+
 
 if( meeting!=null && meeting.getCatTags()!=null)
 	meeting.setCatTags( meeting.getCatTags().replaceAll(" ","_") );
@@ -288,8 +307,8 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			<span class="container" style="clear:both;">
 			<span class="terminal" data-price="<%if(level.contains("Daisy"))out.println("1");else if(level.contains("Brownie"))out.println("2");else if(level.contains("Junior"))out.println("3");else out.println(100);%>">
 			<div class="small-24 medium-12 column">
-			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=troop.getTroop().getGradeLevel().contains(level) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
-			   <label for="<%= id%>"><span></span><p><%=level %> </p></label>
+			   <input type="checkbox" name="_tag_m" id="<%= id%>" value="<%=level %>"  <%=(troop.getTroop().getGradeLevel().contains(level) || troop.getTroop().getGradeLevel().contains(level.replace("_","-")) ) ? "CHECKED" : "" %> onclick="doFilter(1)"/>
+			   <label for="<%= id%>"><span></span><p><%=level.replace("_","-")  %> </p></label>
 			</div>
 			</span>
 			</span>
@@ -345,6 +364,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 		while( itrCats.hasNext()){
 			String cat =  (String)itrCats.next();
+			String cat_fmted = cat.replaceAll("_", " ");
 			String id= (String) mCats.get(cat);
 			%>
 				
@@ -352,10 +372,16 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 				<div class="small-24 medium-12 large-6 column <%= !itrCats.hasNext() ? "end" : "" %>"  style="min-height:70px">
 					<input type="checkbox" name="_tag_c" id="<%= id%>" value="<%=cat %>"  onclick="doFilter(3)"/>
-					<label for="<%= id%>"><span></span><p> <%=cat.replaceAll("_", " ")  %></p></label>
+
+					
+					<label for="<%= id%>"><span></span>
+ 					<p> 
+ 						<%= cat_fmted %> 
+                        <span style="font-size:10px;color:#F9A61A;font-weight:bold;display:none;background:none;" id="vtkCatItem_<%= id%>">
+ 							<%= newItems.contains(cat_fmted) ? " NEW" : ""  %>
+ 						</span>
+ 					</p></label>
 				</div>
-
-
 			
 		
 			<%  } %>
@@ -632,7 +658,14 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 			listNodes =[];
 
 			$.each($(origin).children(), function(indx,el){
-				listNodes[orden.indexOf($(el).find('input').val())] = el;
+				if(orden.indexOf($(el).find('input').val())>=0){
+					listNodes[orden.indexOf($(el).find('input').val())] = el;
+				}else{
+					listNodes[orden.length + 1] = el;
+					orden.push($(el).find('input').val());
+					
+				}
+				
 			})
 		}else{
 			listNodes = $(origin).children();
@@ -865,9 +898,10 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			Meeting meeting = meetings.get(i);
 			if(!meeting.getLevel().equals(currentLevel)){
 				currentLevel=meeting.getLevel();
+				
 				%>
 				<div style="display:none;" class="meeting-age-separator column small-24 levelNav_<%= currentLevel %>" id="levelNav_<%= currentLevel %>">
-                    <%= currentLevel %>
+                    <%= currentLevel.replace("_","-") %>
                 </div>
 
 				<% 
@@ -1171,7 +1205,9 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 			document.getElementById("<%= id%>").style.display='none';
 			document.getElementById("<%= id%>").parentElement.style.display = 'none';
 			//document.getElementById("<%= id%>").removeAttribute('data-v');
-
+            if( document.getElementById("vtkCatItem_<%= id%>")!=null ){
+                document.getElementById("vtkCatItem_<%= id%>").style.display = 'none';
+            }
 
 			<%
 		}
@@ -1210,6 +1246,17 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 				for(var y = 0; y < <%=tp%>.length; y++){
 					document.getElementById(<%=tp%>[y]).style.display ='inline';
 					document.getElementById(<%=tp%>[y]).parentElement.style.display = 'inline';
+
+                    <%
+                	String searchNewItem="";
+                	for(int i=0;i<newItems.size();i++){
+                		searchNewItem += newItems.get(i) +", ";
+            		}
+            		%>     
+                        if( !!~ "<%=searchNewItem%>".indexOf( "<%=tp%>|"+ document.getElementById(<%=tp%>[y]).value)  ){
+
+                            document.getElementById("vtkCatItem_"+document.getElementById(<%=tp%>[y]).id).style.display ='inline';
+                        }
 
 				}//end for
 			   }//end if
@@ -1265,7 +1312,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		
 	}
 	
-	
+
 	function checkIfOnWasClickedX(configObject){
 
 		var  _arrayList = [], v, _hasOne;

@@ -6,13 +6,29 @@
     </div>
   </div>
 
-  <div id="yearPlanSelection" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> class="columns">
-    <div class="row">
+  <div id="yearPlanSelection_" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
+    <!--<div class="row">
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
     </div> 
-    <div id="cngYearPlan"></div>
-  </div><!--/yearPlanSelection-->
+    <div id="cngYearPlan"></div>-->
+    <div id="vtk-yp-main"></div>
+
+  </div>
 </section>
+
+<script>
+  var ________app________ = "<%=troop.getSfTroopAge()%>".split('-')[1].toLowerCase();
+  var ________app1________ = "<%=troop.getYearPlan()==null ? "" : troop.getYearPlan().getRefId()%>";
+  var ________currentYearPlanName________ = "<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>";
+  var ________isYearPlan________ = "<%=troop.getYearPlan()!=null ? true: false %>";
+  
+  
+</script>
+
+
+
+
+
 
 <div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>
 <script>getCngYearPlan();</script>

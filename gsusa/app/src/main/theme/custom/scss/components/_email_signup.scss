@@ -1,0 +1,133 @@
+$submit-width: 112px; 
+$mobile: "#{$screen} and (max-width: 415px)";
+$site-width: 960px; 
+
+$two-column: ".two-cols .middle-col &, .three-cols .hero-section &";
+$three-column: ".three-cols .middle-col &";
+
+/* email-signup component scss
+    There are three sizes
+      * one-column: spans page width, default
+      * two-column: .two-cols .middle-col
+                    .three-cols .hero-section
+      * three-column: .three-cols .middle-col
+      * right rail: .three-cols .right-col
+ */
+
+.email-signup {
+  .row {
+    font-size: rem-calc(20);
+    font-weight: 300;
+    margin: rem-calc(20 0);
+    color: $black;
+    @media (max-width: $site-width) {
+      margin: rem-calc(20 10);
+    }
+    #{$two-column}, #{$three-column} {
+      margin: rem-calc(20 0);
+    }
+    @media #{$mobile} {
+      margin: rem-calc(20 10);
+    }
+  }
+  .wrapper-inner {
+    position: relative;
+    z-index: 1;
+    padding: rem-calc(13 0);
+  }  
+  form {    
+    .left-image {
+      float: left;
+      padding-top: rem-calc(4);
+      #{$three-column} {
+        //padding-top: rem-calc(13);
+      }
+    }
+    .right-form {
+      padding-left: rem-calc(7);
+      overflow: hidden;
+    }
+    .text {
+      padding-top: rem-calc(8);
+      padding-bottom: rem-calc(7);
+      #{$three-column} {
+        line-height: 1.1;
+      }
+      @media #{$mobile} {
+        line-height: 1.1;
+      }
+    }
+    .mainText {
+      display: inline;
+      font-size: rem-calc(25); 
+      font-weight: bolder; 
+      #{$three-column} {
+        font-size: rem-calc(19);
+      }
+    } 
+    .subText {
+      display: inline;
+      font-size: rem-calc(17);  
+      font-weight: normal;
+      #{$three-column} {
+        font-size: rem-calc(16);
+      }
+    }
+    .error {
+      color: #FF0000;
+    }
+    .error, .success {
+      display: none;
+    }
+    .form-wrapper {
+      width: 100%;
+      height: rem-calc(40);
+      margin-bottom: rem-calc(18);
+      #{$three-column} {
+        margin-bottom: rem-calc(20);
+      }
+      input[name="email"] {
+        float: left;
+        max-width: 523px;
+        width: calc(100% - #{$submit-width} - 10px);
+        height: inherit; 
+        padding-left: rem-calc(20);
+        font-size: rem-calc(18);
+        #{$two-column} {
+          max-width: none;
+          width: calc(100% - #{$submit-width} - 10px);
+          @media #{$mobile} {
+            width: 100%;
+          }
+        }
+        #{$three-column} {
+          font-size: rem-calc(16);          
+        }
+        @media #{$mobile} {
+            width: 100%;
+        }
+      }
+      .submit-button {
+          height: inherit; 
+          width: $submit-width;
+          margin-left: rem-calc(10);
+          padding: 0;
+          border: none;
+          background-color: $primary-color;
+          color: $white;
+          font-size: rem-calc(18);
+          font-weight: 300;    
+          @media #{$mobile} {
+            float: right;
+            margin: rem-calc(10 0 0 0);
+          }      
+      }
+      img.success {
+        position: relative;
+        top: 4px;
+      }  
+    }
+
+  }
+}
+

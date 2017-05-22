@@ -51,6 +51,10 @@
                             jcr:primaryType="nt:unstructured"
                             text="Junior"
                             value="Junior"/>
+						<multilevel
+							                            jcr:primaryType="nt:unstructured"
+							                            text="Multi-level"
+							                            value="Multi-level"/>
                     </options>
                 </level>
                 <name
@@ -223,6 +227,18 @@
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Other,'); } else { catTagsField.setValue(curVal.replace(/Other,/g,'')); } }"/>
 			             </catTags8>
+			             <catTags9
+			             	jcr:primaryType="cq:Widget"
+			                 allowBlank="{Boolean}true"
+			                 fieldLabel="Badges for 2017-2018"
+			                 name="./Badgesfor20172018"
+			                 xtype="selection"
+			                 type="checkbox"
+			                 itemId="tagsField9">
+			                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Badges_for_2017-2018,'); } else { catTagsField.setValue(curVal.replace(/Badges_for_2017-2018,/g,'')); } }"/>			             
+			                </catTags9>
 			             </items>
 			         </fieldset1>
 			         <fieldset2
@@ -255,7 +271,42 @@
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Its_Your_Story_-_Tell_It,'); } else { catTagsField.setValue(curVal.replace(/Its_Your_Story_-_Tell_It,/g,'')); } }"/>
 				              </catTags10>
-				                 
+				              <catTags11
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="It's Your World - Change It!"
+				                 name="./itsYourWorld"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField11" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_World_-_Change_It,/g,'')); } }"/>
+				             </catTags11>
+				             <catTags12
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="Outdoor"
+				                 name="./outdoor"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField12" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Outdoor,'); } else { catTagsField.setValue(curVal.replace(/Outdoor,/g,'')); } }"/>
+				             </catTags12>
+				             <catTags13
+				                 jcr:primaryType="cq:Widget"
+				                 allowBlank="{Boolean}true"
+				                 fieldLabel="STEM"
+				                 name="./STEM"
+				                 xtype="selection"
+			                	 type="checkbox"
+				                 itemId="tagsField13" >
+				                 <listeners
+                                jcr:primaryType="nt:unstructured"
+                                selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTags'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'STEM,'); } else { catTagsField.setValue(curVal.replace(/STEM,/g,'')); } }"/>
+				             </catTags13>
 			            </items>
 	               </fieldset2>
 	                <catTags
