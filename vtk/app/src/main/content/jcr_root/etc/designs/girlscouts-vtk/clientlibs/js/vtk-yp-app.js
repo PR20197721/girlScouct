@@ -391,7 +391,6 @@ function getYearPlan() {
     var level = "" + ________app________;
     return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
         .then(function (data) {
-        console.log(data);
         return parseJSONVTK(data.data);
     });
 }
@@ -410,8 +409,6 @@ function getPDF() {
 exports.getPDF = getPDF;
 function getMeetings(url) {
     return axios_1.default.get(window.location.origin + '/content/girlscouts-vtk/en/vtk.vtkyearplan.html?ypp=' + url).then(function (data) {
-        console.log('AJAX', data.data);
-        debugger;
         return parseMeetings(data.data);
     });
 }
@@ -467,7 +464,6 @@ function parseMeetings(json) {
         meetings: json.meetingEvents
     };
     for (var s in json.meetings) {
-        debugger;
         if (s.match(/meeting/)) {
             var index = parseInt(s.match(/[0-9]+/)[0]) - 1;
             meetings_.meetings[index] = json.meetings[s];
@@ -670,7 +666,6 @@ var YplanTrack = (function (_super) {
             data
                 .getMeetings(this.props.track.split('###')[0])
                 .then(function (response) {
-                console.info('response', response);
                 _this.setState({
                     'meetings': {
                         name: response.name,
@@ -765,7 +760,6 @@ var YplanTrack = (function (_super) {
 }(React.Component));
 exports.default = YplanTrack;
 function selectPlan(name, url) {
-    console.log(name, url);
     var confMsg = "Are You Sure? You will lose customizations that you have made";
     //show meeting lib or redirect to emty YP
     var is_show_meeting_lib = true;
@@ -775,7 +769,10 @@ function selectPlan(name, url) {
         ________app________ == 'cadette') {
         is_show_meeting_lib = false;
     }
-    chgYearPlan('', url, confMsg, name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+    if (________isYearPlan________) {
+        alert("You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct? Troop Year Plan " + name);
+    }
+    //chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
 }
 exports.selectPlan = selectPlan;
 
@@ -1285,7 +1282,6 @@ var VtkMainYp = (function (_super) {
         });
     };
     VtkMainYp.prototype.render = function () {
-        //debugger;
         var _a = this.props.data, header = _a.header, bottom = _a.bottom;
         var title = header.title, subtitle = header.subtitle;
         return (React.createElement("div", null,
@@ -1407,7 +1403,6 @@ var Meeting = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meeting.prototype.render = function () {
-        console.log(this.props);
         return (React.createElement("div", { className: "meeting" },
             React.createElement("div", { className: "square" },
                 React.createElement("p", null, "Meeting"),

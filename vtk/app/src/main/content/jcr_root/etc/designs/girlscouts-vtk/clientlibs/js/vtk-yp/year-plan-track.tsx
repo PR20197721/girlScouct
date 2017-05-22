@@ -25,6 +25,7 @@ declare var ________app________: string;
 declare var ________app1________: string;
 declare var ________isYearPlan________: boolean;
 declare var ________currentYearPlanName________: string;
+declare var ________troopName________: string;
 
 class YplanTrack extends React.Component < YplanTrackProps,
 YplanTrackState > {
@@ -205,6 +206,10 @@ export function selectPlan(name : string, url : string) {
            		 	________app________ == 'cadette'){
             	is_show_meeting_lib= false;
             }
-            
-            chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
+		   
+		    if( ________isYearPlan________ ){
+		    
+		    	alert("You have selected the Year Plan below for "+ ________app________ +" Troop "+  ________troopName________ +". Is this correct? Troop Year Plan "+ name);
+		    } 
+            //chgYearPlan('', url, confMsg,  name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
        }

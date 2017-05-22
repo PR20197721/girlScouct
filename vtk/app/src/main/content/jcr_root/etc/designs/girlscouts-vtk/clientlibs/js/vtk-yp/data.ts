@@ -8,6 +8,7 @@ declare var ________app________: string;
 declare var ________app1________: string;
 declare var ________isYearPlan________: boolean;
 declare var ________currentYearPlanName________: string;
+declare var ________troopName________: string;
 
 
 export function getYearPlan() { 
