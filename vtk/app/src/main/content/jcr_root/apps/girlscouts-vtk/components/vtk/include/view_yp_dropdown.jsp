@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div id="yearPlanSelection" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
+  <div id="yearPlanSelection_" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> >
     <!--<div class="row">
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
     </div> 
