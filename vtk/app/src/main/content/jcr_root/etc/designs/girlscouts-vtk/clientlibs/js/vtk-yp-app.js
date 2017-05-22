@@ -700,7 +700,7 @@ var YplanTrack = (function (_super) {
                                     .track
                                     .split('###')[1],
                                 " ",
-                                React.createElement("span", { style: { marginLeft: '10px', color: '#FAA61A' } }, (this.props.isnew == 'isnew') ? 'NEW' : null)),
+                                React.createElement("span", { style: { marginLeft: '10px', color: '#FAA61A', fontWeight: 'bold' } }, (this.props.isnew == 'isnew') ? 'NEW' : null)),
                             React.createElement("div", { className: this.state.isOpen
                                     ? "click-preview cell c3 __open"
                                     : "click-preview cell c3 __close", onClick: function () {
