@@ -468,12 +468,12 @@ function parseMeetings(json) {
         name: json.name,
         meetings: json.meetingEvents
     };
-    for (var s in json.meetings) {
-        if (s.match(/meeting/)) {
-            var index = parseInt(s.match(/[0-9]+/)[0]) - 1;
-            meetings_.meetings[index] = json.meetings[s];
-        }
-    }
+    // for (var s in json.meetings) { 
+    //     if (s.match(/meeting/)) { 
+    //         let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
+    //         meetings_.meetings[index] = json.meetings[s]
+    //     }
+    // }
     return meetings_;
 }
 exports.parseMeetings = parseMeetings;
@@ -1465,7 +1465,7 @@ var Meetings = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meetings.prototype.render = function () {
-        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position, idx: idx }, meeting.meetingInfo)); }) : null));
+        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings.length) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position + idx, idx: idx }, meeting.meetingInfo)); }) : null));
     };
     return Meetings;
 }(React.Component));
