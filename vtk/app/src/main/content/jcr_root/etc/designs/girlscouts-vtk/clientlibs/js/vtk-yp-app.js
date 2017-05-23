@@ -389,7 +389,7 @@ var axios_1 = __webpack_require__(20);
 exports.ULR = 'URL';
 function getYearPlan() {
     var level = "" + ________app________;
-    return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/daisy/_jcr_content/content/middle/par.1.json')
+    return axios_1.default.get(window.location.origin + '/content/vtkcontent/en/year-plan-library/' + level + '/_jcr_content/content/middle/par.1.json')
         .then(function (data) {
         return parseJSONVTK(data.data);
     });
@@ -468,12 +468,6 @@ function parseMeetings(json) {
         name: json.name,
         meetings: json.meetingEvents
     };
-    // for (var s in json.meetings) { 
-    //     if (s.match(/meeting/)) { 
-    //         let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
-    //         meetings_.meetings[index] = json.meetings[s]
-    //     }
-    // }
     return meetings_;
 }
 exports.parseMeetings = parseMeetings;
@@ -1313,11 +1307,11 @@ var VtkMainYp = (function (_super) {
                 React.createElement(header_1.default, { subTitle: bottom.subtitle, title: bottom.title }),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "columns small-20 small-centered" },
-                        React.createElement("div", { className: "columns small-10", style: { padding: '0px', marginLeft: '-5px' } },
+                        React.createElement("div", { className: "columns small-17", style: { padding: '0px', marginLeft: '-5px' } },
                             React.createElement("p", null, customizedYearPlanContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '');
-                            }, className: "columns small-10 end vtk-yp-link" },
+                            }, className: "columns small-7 end vtk-yp-link" },
                             " ",
                             customizedYearPlanContent.linkText))))));
     };
@@ -1465,7 +1459,7 @@ var Meetings = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meetings.prototype.render = function () {
-        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings.length) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position + idx, idx: idx }, meeting.meetingInfo)); }) : null));
+        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings.length) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position + '-meeting-' + idx, idx: idx }, meeting.meetingInfo)); }) : null));
     };
     return Meetings;
 }(React.Component));
