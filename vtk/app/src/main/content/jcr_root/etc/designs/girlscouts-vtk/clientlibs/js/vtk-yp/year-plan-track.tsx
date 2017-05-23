@@ -7,7 +7,8 @@ import {getMeetings} from './data';
 
 interface YplanTrackProps {
     track : string;
-    isnew :string;
+    isnew: string;
+    last: boolean;
 };
 
 interface YplanTrackState {
@@ -43,13 +44,11 @@ YplanTrackState > {
     }
 
     openPreview() {
-        debugger;
         if (!this.state.meetings.meetings.length) {
             data
                 .getMeetings(this.props.track.split('###')[0])
                 .then((response) => {
 
-                    console.info('response', response)
                     this.setState({
                         'meetings': {
                             name: response.name,
@@ -76,11 +75,11 @@ YplanTrackState > {
                     <div className="row">
                         <div className="__year-plan-track columns small-21">
                             <div className="table">
-                                <div className="cell c16">
+                            <div className="cell c16" style={{paddingLeft:'5px'}}>
                                     {this
                                         .props
                                         .track
-                                        .split('###')[1]} <span style={{marginLeft:'10px',color:'#FAA61A'}}>{(this.props.isnew=='isnew')?'NEW':null}</span> 
+                                        .split('###')[1]} <span style={{marginLeft:'10px',color:'#FAA61A',fontWeight:'bold'}}>{(this.props.isnew=='isnew')?'NEW':null}</span> 
 
                                 </div>
                                 <div
@@ -126,7 +125,8 @@ YplanTrackState > {
                                 </p>
                                 <p>{this.state.meetings.desc}</p>
                                 <h4>{this.state.meetings.name}</h4>
-                            </div>
+                                <br />
+                    </div>
                             <div className="columns small-20 small-centered">
 
                                 <Meetings meetings={this.state.meetings.meetings}/>
@@ -175,12 +175,13 @@ YplanTrackState > {
 
                     <div className="row">
                         <div className="columns small-20 small-centered " style={{
-                                                   padding:'0px'
-                            }}> 
+                    padding: '0px'
+       
+                }}> 
                             <div
                                 className="columns small-21 end"
                                 style={{
-                                borderBottom: '1px dotted black',
+                                borderBottom: (this.props.last)?'none':'1px dashed black',
                                 padding:'0px'
                             }}></div>
                         </div>
@@ -193,7 +194,6 @@ YplanTrackState > {
 export default YplanTrack;
 
 export function selectPlan(name : string, url : string) {
-        console.log(name, url)
         
             var confMsg ="Are You Sure? You will lose customizations that you have made";
         

@@ -8,6 +8,7 @@ import { pdf, tree } from './tree'
 import Category from './category';
 import Header from './header';
 import {selectPlan} from './year-plan-track';
+
 interface VtkMainYpProps {
     data : any;
 };
@@ -37,8 +38,8 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
     }    
 
     public render() : JSX.Element {
-        //debugger;
-        const {header, bottom} = this.props.data;
+
+        const {header, bottom, customizedYearPlanContent} = this.props.data;
         const { title, subtitle } = header;
         
      return (
@@ -58,25 +59,34 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     </div>
                 </div>
 
+                
                 {this
                     .props
                     .data
                     .Category
-                    .map((cat, idx) => {
-                        return <Category key={idx} {...cat}/>
+                    .map((cat, idx, arr) => {
+                        return <div key={idx} >
+                            <Category {...cat} />
+                           
+                        </div>
                     })
                 }
-
+               
+                 
                 <div className="columns small-24">
+                    {(this
+                    .props
+                    .data
+                    .Category.length)?<div style={{ marginBottom: '50px'}}></div>:null}
                     <Header subTitle={bottom.subtitle} title={bottom.title} />
                     
                     <div className="row">
                         <div className="columns small-20 small-centered">
-                            <div className="columns small-10" style={{padding:'0px',marginLeft:'-5px'}}><p>Customize - Mix and Match </p></div>
+                            <div className="columns small-17" style={{padding:'0px',marginLeft:'-5px'}}><p>{customizedYearPlanContent.title}</p></div>
                             <div onClick={()=>{
 
                                 selectPlan('Custom Year Plan','');    
-                             }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>
+                             }} className="columns small-7 end vtk-yp-link" > {customizedYearPlanContent.linkText}</div>
 
                         </div>    
                     </div>

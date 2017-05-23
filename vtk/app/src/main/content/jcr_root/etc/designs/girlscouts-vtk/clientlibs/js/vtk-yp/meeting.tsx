@@ -20,7 +20,7 @@ class Meeting extends React.Component<MeetingProps, MeetingState> {
     
 
     public render(): JSX.Element {
-            console.log(this.props)
+
         return (<div className="meeting">
             <div className="square">
                 <p>Meeting</p>

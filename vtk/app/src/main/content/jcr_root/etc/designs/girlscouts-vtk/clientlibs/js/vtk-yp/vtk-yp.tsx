@@ -5,15 +5,12 @@ import * as data from './data'
 import VtkMainYp from './vtk-yp-main';
 import { getYearPlan } from './data';
 
-window.onload = function () { 
+window['startYPApp'] = function () {
 
-  data.getYearPlan().then((response)=>{
-        ReactDOM.render(<VtkMainYp data={response} />,
-            document.getElementById("vtk-yp-main")
-        );      
-  })
-        
-     
-
-}
+    data.getYearPlan().then((response) => {
+      ReactDOM.render(<VtkMainYp data={response} />,
+        document.getElementById("vtk-yp-main")
+      );
+    })
+  }
 
