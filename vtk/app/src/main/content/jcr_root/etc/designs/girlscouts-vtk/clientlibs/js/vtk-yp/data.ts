@@ -50,7 +50,8 @@ export function parseJSONVTK(json:any) {
     var OtoR = {
         header: {},
         Category: [],
-        bottom: {}
+        bottom: {},
+        customizedYearPlanContent: {}
     }
 
     for (let part in json) {
@@ -77,6 +78,11 @@ export function parseJSONVTK(json:any) {
         } else {
         
             parts[currentCategory]['categories'].push(json[part])
+        }
+
+        if (json[part].hasOwnProperty('linkText')) { 
+            OtoR.customizedYearPlanContent['linkText'] = json[part]['linkText'];
+            OtoR.customizedYearPlanContent['title'] = json[part]['title'];
         }
     }
 
@@ -107,13 +113,7 @@ export function parseMeetings(json: any) {
         meetings: json.meetingEvents
     };
 
-    for (var s in json.meetings) { 
 
-        if (s.match(/meeting/)) { 
-            let index = parseInt(s.match(/[0-9]+/)[0]) - 1;
-            meetings_.meetings[index] = json.meetings[s]
-        }
-    }
  
    return meetings_;
 }

@@ -71,7 +71,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
 
     public render() : JSX.Element {
 
-        const {header, bottom} = this.props.data;
+        const {header, bottom, customizedYearPlanContent} = this.props.data;
         const { title, subtitle } = header;
 
 
@@ -190,8 +190,10 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     .data
                     .Category
                     .map((cat, idx, arr) => {
+
                         return <div key={'category-'+idx}>
                             <Category  {...cat} store={this.store.bind(this)}/>
+
                            
                         </div>
                     })
@@ -207,13 +209,13 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                     
                     <div className="row">
                         <div className="columns small-20 small-centered">
-                            <div className="columns small-10" style={{padding:'0px',marginLeft:'-5px'}}><p>Customize - Mix and Match </p></div>
+                            <div className="columns small-17" style={{padding:'0px',marginLeft:'-5px'}}><p>{customizedYearPlanContent.title}</p></div>
                             <div onClick={()=>{
-
-                             selectPlan('Custom Year Plan', '', this.store.bind(this)); 
-                            
+                                selectPlan('Custom Year Plan', '', this.store.bind(this)); 
+                    
 
                              }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>
+
 
                         </div>    
                     </div>
