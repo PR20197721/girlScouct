@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 21);
+/******/ 	return __webpack_require__(__webpack_require__.s = 22);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -385,7 +385,7 @@ module.exports = React;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var axios_1 = __webpack_require__(24);
+var axios_1 = __webpack_require__(25);
 exports.ULR = 'URL';
 function getYearPlan() {
     var level = "" + ________app________;
@@ -472,6 +472,69 @@ function parseMeetings(json) {
     return meetings_;
 }
 exports.parseMeetings = parseMeetings;
+exports.modal = (function () {
+    var topics = {};
+    var hOP = topics.hasOwnProperty;
+    return {
+        subscribe: function (topic, listener) {
+            // Create the topic's object if not yet created
+            if (!hOP.call(topics, topic))
+                topics[topic] = [];
+            // Add the listener to queue
+            var index = topics[topic].push(listener) - 1;
+            // Provide handle back for removal of topic
+            return {
+                remove: function () {
+                    delete topics[topic][index];
+                }
+            };
+        },
+        publish: function (topic, info) {
+            // If the topic doesn't exist, or there's no listeners in queue, just leave
+            if (!hOP.call(topics, topic))
+                return;
+            // Cycle through topics queue, fire!
+            topics[topic].forEach(function (item) {
+                item(info != undefined ? info : {});
+            });
+        },
+        print: function () {
+            return topics;
+        }
+    };
+    // let _modal = {};
+    // function _reset() { }
+    // function _open() { }
+    // function _close() { }
+    // function _register() { }
+    // function _remove() { }
+    // return {
+    //     register: _register,
+    //     reset: _reset,
+    //     open: _open,
+    //     close: _close,
+    //     remove:_remove
+    // }
+})();
+exports.store = (function () {
+    var _global = {};
+    function _add(name, data) {
+        _global[name] = data;
+        return _global;
+    }
+    function _get(name) {
+        return (_global.hasOwnProperty('name')) ? _global[name] : {};
+    }
+    function _reset() {
+        _global = {};
+        return _global;
+    }
+    return {
+        add: _add,
+        get: _get,
+        reset: _reset,
+    };
+})();
 
 
 /***/ }),
@@ -482,7 +545,7 @@ exports.parseMeetings = parseMeetings;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(39);
+var normalizeHeaderName = __webpack_require__(40);
 
 var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 var DEFAULT_CONTENT_TYPE = {
@@ -643,8 +706,8 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
 var data = __webpack_require__(2);
+var data_1 = __webpack_require__(2);
 var meetings_1 = __webpack_require__(19);
-var vtk_popup_1 = __webpack_require__(20);
 ;
 ;
 var YplanTrack = (function (_super) {
@@ -706,7 +769,7 @@ var YplanTrack = (function (_super) {
                                 React.createElement("div", { className: (________app1________ !== this.props.track.split('###')[0])
                                         ? "btn button right"
                                         : "btn button right inactive", onClick: function () {
-                                        selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                                        selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0], _this.props.store);
                                     } }, (________app1________ !== this.props.track.split('###')[0])
                                     ? 'SELECT'
                                     : 'SELECTED')))),
@@ -743,7 +806,7 @@ var YplanTrack = (function (_super) {
                                         React.createElement("div", { className: (________app1________ !== this.props.track.split('###')[0])
                                                 ? "btn button right"
                                                 : "btn button right inactive", onClick: function () {
-                                                selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0]);
+                                                selectPlan(_this.props.track.split('###')[1], _this.props.track.split('###')[0], _this.props.store);
                                             } }, (________app1________ !== this.props.track.split('###')[0])
                                             ? 'SELECT'
                                             : 'SELECTED'))),
@@ -755,36 +818,27 @@ var YplanTrack = (function (_super) {
                     React.createElement("div", { className: "columns small-21 end", style: {
                             borderBottom: (this.props.last) ? 'none' : '1px dashed black',
                             padding: '0px'
-                        } }))),
-            React.createElement(vtk_popup_1.default, { name: "pop_submitted_form", title: "SELECT YEAR PLAN" },
-                React.createElement("p", null, "jkhkjhkjh"))));
+                        } })))));
     };
     return YplanTrack;
 }(React.Component));
 exports.default = YplanTrack;
-function selectPlan(name, url) {
-    var confMsg = "Are You Sure? You will lose customizations that you have made";
-    //show meeting lib or redirect to emty YP
-    var is_show_meeting_lib = true;
-    if (url != '' ||
-        ________app________ == 'senior' ||
-        ________app________ == 'ambassador' ||
-        ________app________ == 'cadette') {
-        is_show_meeting_lib = false;
-    }
-    if (________isYearPlan________ == false) {
-        var isConf = confirm("You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct? Troop Year Plan " + name);
-        if (!isConf) {
-            return;
-        }
+function selectPlan(name, url, store) {
+    if (store) {
+        store({
+            name: name,
+            url: url,
+            is_show_meeting_lib: (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette')
+                ? false : true
+        }, function () { data_1.modal.publish('pop-select', 'open'); });
     }
     else {
-        var isConf = confirm("You want to replace your current Year Plan with the new Year Plan listed below for " + ________app________ + " Troop  " + ________troopName________ + ". Is this correct?Current Year Plan: " + ________currentYearPlanName________ + " IMPORTANT: Any customizations you made will be lost. New Year Plan " + name);
-        if (!isConf) {
-            return;
+        var is_show_meeting_lib = true;
+        if (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette') {
+            is_show_meeting_lib = false;
         }
+        chgYearPlan('', url, '', name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
     }
-    chgYearPlan('', url, confMsg, name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
 }
 exports.selectPlan = selectPlan;
 
@@ -797,12 +851,12 @@ exports.selectPlan = selectPlan;
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(31);
-var buildURL = __webpack_require__(34);
-var parseHeaders = __webpack_require__(40);
-var isURLSameOrigin = __webpack_require__(38);
+var settle = __webpack_require__(32);
+var buildURL = __webpack_require__(35);
+var parseHeaders = __webpack_require__(41);
+var isURLSameOrigin = __webpack_require__(39);
 var createError = __webpack_require__(10);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(33);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(34);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -898,7 +952,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(36);
+      var cookies = __webpack_require__(37);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1019,7 +1073,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(30);
+var enhanceError = __webpack_require__(31);
 
 /**
  * Create an Error with the specified message, config, error code, and response.
@@ -1364,7 +1418,7 @@ var stylesInDom = {},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
-	fixUrls = __webpack_require__(42);
+	fixUrls = __webpack_require__(43);
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -1664,12 +1718,14 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(44);
+__webpack_require__(45);
 var React = __webpack_require__(1);
 var data = __webpack_require__(2);
 var tree_1 = __webpack_require__(5);
 var category_1 = __webpack_require__(17);
+var vtk_gray_1 = __webpack_require__(20);
 var header_1 = __webpack_require__(4);
+var vtk_popup_1 = __webpack_require__(21);
 var year_plan_track_1 = __webpack_require__(6);
 ;
 ;
@@ -1678,10 +1734,27 @@ var VtkMainYp = (function (_super) {
     function VtkMainYp() {
         var _this = _super.call(this) || this;
         _this.state = {
-            pdf: ''
+            pdf: '',
+            data: {
+                name: '',
+                url: '',
+                is_show_meeting_lib: true
+            }
         };
         return _this;
     }
+    VtkMainYp.prototype.store = function (state, func) {
+        this.setState({ data: state }, func);
+    };
+    VtkMainYp.prototype.reset = function () {
+        this.setState({
+            data: {
+                name: '',
+                url: '',
+                is_show_meeting_lib: true
+            }
+        });
+    };
     VtkMainYp.prototype.componentDidMount = function () {
         var _this = this;
         data.getPDF().then(function (url) {
@@ -1689,8 +1762,55 @@ var VtkMainYp = (function (_super) {
         });
     };
     VtkMainYp.prototype.render = function () {
+        var _this = this;
         var _a = this.props.data, header = _a.header, bottom = _a.bottom;
         var title = header.title, subtitle = header.subtitle;
+        function renderChild(state) {
+            return (________isYearPlan________ == true)
+                ? React.createElement("div", { className: state.data.name },
+                    React.createElement("p", null,
+                        React.createElement("b", null, "You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct?")),
+                    React.createElement("table", null,
+                        React.createElement("tbody", null,
+                            React.createElement("tr", null,
+                                React.createElement("td", null, "Troop Year Plan"),
+                                React.createElement("td", null, "" + state.data.name)))),
+                    React.createElement("table", { style: { width: '70%', margin: '0 auto' } },
+                        React.createElement("tbody", null,
+                            React.createElement("tr", null,
+                                React.createElement("td", { style: { textAlign: 'center' } },
+                                    React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () { data.modal.publish('pop-select', 'close'); } }, "NO, CANCEL")),
+                                React.createElement("td", { style: { textAlign: 'center' } },
+                                    React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () {
+                                            chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
+                                        } }, "YES, SELECT"))))))
+                : React.createElement("div", { className: state.data.name },
+                    React.createElement("p", null,
+                        React.createElement("b", null, "You want to replace your current Year Plan with the new Year Plan listed below for " + ________app________ + " Troop  " + ________troopName________ + ". Is this correct?")),
+                    React.createElement("table", null,
+                        React.createElement("tbody", null,
+                            React.createElement("tr", null,
+                                React.createElement("td", null, "Current Year Plan:"),
+                                React.createElement("td", null, "" + ________currentYearPlanName________,
+                                    React.createElement("br", null),
+                                    " ",
+                                    React.createElement("b", null, "IMPORTANT:"),
+                                    " ",
+                                    React.createElement("span", { style: { color: '#FAA61A' } }, "Any customizations you made will be lost."))),
+                            React.createElement("tr", null,
+                                React.createElement("td", null, "New Year Plan"),
+                                React.createElement("td", null,
+                                    " ", "" + state.data.name)))),
+                    React.createElement("table", { style: { width: '70%', margin: '0 auto' } },
+                        React.createElement("tbody", null,
+                            React.createElement("tr", null,
+                                React.createElement("td", { style: { textAlign: 'center' } },
+                                    React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () { data.modal.publish('pop-select', 'close'); } }, "NO, CANCEL")),
+                                React.createElement("td", { style: { textAlign: 'center' } },
+                                    React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () {
+                                            chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
+                                        } }, "YES, SELECT"))))));
+        }
         return (React.createElement("div", null,
             React.createElement("div", null,
                 React.createElement("div", { className: "columns small-20 small-centered", style: { padding: '0px' } },
@@ -1707,8 +1827,8 @@ var VtkMainYp = (function (_super) {
                 .data
                 .Category
                 .map(function (cat, idx, arr) {
-                return React.createElement("div", null,
-                    React.createElement(category_1.default, __assign({ key: idx }, cat)));
+                return React.createElement("div", { key: 'category-' + idx },
+                    React.createElement(category_1.default, __assign({}, cat, { store: _this.store.bind(_this) })));
             }),
             React.createElement("div", { className: "columns small-24" },
                 (this
@@ -1722,7 +1842,9 @@ var VtkMainYp = (function (_super) {
                             React.createElement("p", null, "Customize - Mix and Match ")),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '');
-                            }, className: "columns small-10 end vtk-yp-link" }, " View Meetings to Select"))))));
+                            }, className: "columns small-10 end vtk-yp-link" }, " View Meetings to Select")))),
+            React.createElement(vtk_gray_1.default, null),
+            React.createElement(vtk_popup_1.default, { name: "pop-select", title: "SELECT YEAR PLAN" }, renderChild(this.state))));
     };
     return VtkMainYp;
 }(React.Component));
@@ -1771,12 +1893,12 @@ var Category = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Category.prototype.render = function () {
+        var _this = this;
         return (React.createElement("div", { className: "column small-24" },
             React.createElement(header_1.default, { title: this.props.title, subTitle: this.props.subtitle }),
             this.props.categories.map(function (track, idx, array) {
-                return React.createElement(year_plan_track_1.default, __assign({ key: idx + track.track }, track, { last: array.length - 1 == idx }));
-            }),
-            React.createElement("br", null)));
+                return React.createElement(year_plan_track_1.default, __assign({ key: 'YplanTrack' + idx + track.track }, track, { last: array.length - 1 == idx, store: _this.props.store }));
+            })));
     };
     return Category;
 }(React.Component));
@@ -1892,9 +2014,84 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-__webpack_require__(43);
-//import * as ACTION from '../../store/actions'
 var React = __webpack_require__(1);
+var data_1 = __webpack_require__(2);
+;
+;
+var Gray = (function (_super) {
+    __extends(Gray, _super);
+    function Gray() {
+        var _this = _super.call(this) || this;
+        _this.state = {
+            height: 'auto',
+            showGray: false
+        };
+        return _this;
+    }
+    Gray.prototype.setDimension = function () {
+        this.setState({
+            height: document.documentElement.clientHeight
+        });
+    };
+    Gray.prototype.componentWillMount = function () {
+        var _this = this;
+        window.addEventListener('resize', function () {
+            _this.setDimension();
+        });
+        this._modal = data_1.modal.subscribe('gray', this.toggle.bind(this));
+        this.setDimension();
+    };
+    Gray.prototype.componentWillUnmount = function () {
+        window.removeEventListener('resize');
+        this._modal.remove();
+    };
+    Gray.prototype.hide = function () {
+        this.setState({ showGray: false });
+        document.body.style.overflowY = 'auto';
+    };
+    Gray.prototype.show = function () {
+        this.setDimension();
+        document.body.style.overflowY = 'hidden';
+        this.setState({ showGray: true });
+    };
+    Gray.prototype.toggle = function (action) {
+        if (action == 'open') {
+            this.show();
+        }
+        if (action == 'close') {
+            this.hide();
+        }
+    };
+    Gray.prototype.render = function () {
+        return (React.createElement("div", { className: (!this.state.showGray) ? "vtk-yp-gray __hidden" : "vtk-yp-gray", style: {
+                height: this.state.height
+            } }));
+    };
+    return Gray;
+}(React.Component));
+exports.default = Gray;
+
+
+/***/ }),
+/* 21 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+Object.defineProperty(exports, "__esModule", { value: true });
+__webpack_require__(44);
+var React = __webpack_require__(1);
+var data_1 = __webpack_require__(2);
 ;
 ;
 var VtkPopUp = (function (_super) {
@@ -1905,7 +2102,8 @@ var VtkPopUp = (function (_super) {
             top: 0,
             left: 0,
             maxHeight: 500,
-            width: 600
+            width: 600,
+            visible: false
         };
         return _this;
     }
@@ -1934,7 +2132,8 @@ var VtkPopUp = (function (_super) {
         }
     };
     VtkPopUp.prototype.componentWillMount = function () {
-        //store.dispatch(ACTION.MODALS.REGISTER(this.props.name))
+        this.modal = data_1.modal.subscribe(this.props.name, this.openclose.bind(this));
+        this.setDimentions();
     };
     VtkPopUp.prototype.componentWillReceiveProps = function (props) {
         document.body.style.overflowY = 'auto';
@@ -1954,18 +2153,34 @@ var VtkPopUp = (function (_super) {
     };
     VtkPopUp.prototype.componentWillUnmount = function () {
         document.body.style.overflowY = 'auto';
+        this.modal.remove();
+        window.removeEventListener('resize');
     };
-    VtkPopUp.prototype.hide = function (name) {
-        //store.dispatch(ACTION.MODALS.CLOSE(name))
+    VtkPopUp.prototype.hide = function () {
+        data_1.modal.publish('gray', 'close');
+        this.setState({ 'visible': false });
+    };
+    VtkPopUp.prototype.open = function () {
+        data_1.modal.publish('gray', 'open');
+        this.setState({ 'visible': true });
+    };
+    VtkPopUp.prototype.openclose = function (s) {
+        if (s == "close") {
+            this.hide();
+        }
+        if (s == "open") {
+            this.setDimentions();
+            this.open();
+        }
     };
     VtkPopUp.prototype.render = function () {
         var _this = this;
         var _a = this.props, title = _a.title, children = _a.children, name = _a.name;
         var events = {};
-        var visible = 'vtk-popup';
+        // let visible: string = 'vtk-popup';
         events = {
             onClick: function (e) {
-                _this.hide(name);
+                _this.hide();
             },
             style: {
                 "color": "white",
@@ -1974,22 +2189,19 @@ var VtkPopUp = (function (_super) {
                 "right": '5px'
             }
         };
-        /*
-                if (!modals[name]) {
-                    visible = 'vtk-popup __hide';
-                } else {
-                    visible = 'vtk-popup';
-                }
-        */
-        visible = 'vtk-popup';
-        return (React.createElement("div", { id: name, className: visible, style: {
+        var childrenWithProps = React.Children.map(this.props.children, function (child) { return React.cloneElement(child); });
+        return (React.createElement("div", { id: name, className: this.state.visible ? 'vtk-popup' : 'vtk-popup ___hide', style: {
                 left: this.state.left,
                 top: this.state.top,
                 width: this.state.width
             } },
-            React.createElement("div", { className: "__header" }, title),
-            React.createElement("div", { className: "__content" },
-                React.createElement("div", { className: "row" }, "hello word"))));
+            React.createElement("div", { className: "___header" },
+                React.createElement("div", null, title),
+                " ",
+                React.createElement("div", { onClick: function () { return data_1.modal.publish(_this.props.name, 'close'); }, style: { position: 'absolute', top: '5px', right: '10px' } },
+                    React.createElement("i", { className: "icon-button-circle-cross" }))),
+            React.createElement("div", { className: "___content" },
+                React.createElement("div", { className: "row" }, childrenWithProps))));
     };
     return VtkPopUp;
 }(React.Component));
@@ -1997,7 +2209,7 @@ exports.default = VtkPopUp;
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2015,20 +2227,6 @@ window.onload = function () {
 
 
 /***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(12)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, ".vtk-popup {\n  position: fixed;\n  max-width: 600px;\n  z-index: 4000;\n  overflow: hidden; }\n  .vtk-popup .__header {\n    padding: 10px 10px;\n    background-color: green;\n    width: 100%;\n    color: white;\n    text-transform: uppercase; }\n  .vtk-popup .__content {\n    padding: 20px;\n    width: 100%;\n    background-color: white;\n    overflow-x: hidden;\n    overflow-y: auto; }\n  .vtk-popup.__hide {\n    visibility: hidden; }\n\n.__preview .__header > .vtk-icon {\n  pointer-events: auto !important; }\n", ""]);
-
-// exports
-
-
-/***/ }),
 /* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2037,7 +2235,7 @@ exports = module.exports = __webpack_require__(12)(undefined);
 
 
 // module
-exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: right; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer;\n        padding-right: 20px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 0px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 0px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n", ""]);
+exports.push([module.i, ".vtk-popup {\n  position: fixed;\n  max-width: 600px;\n  z-index: 4000;\n  overflow: hidden;\n  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);\n  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75);\n  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.75); }\n  .vtk-popup .___header {\n    padding: 10px 10px;\n    background-color: #18aa51;\n    width: 100%;\n    color: white;\n    text-transform: uppercase; }\n  .vtk-popup .___content {\n    padding: 40px;\n    width: 100%;\n    background-color: white;\n    overflow-x: hidden;\n    overflow-y: auto;\n    font-size: 14px; }\n    .vtk-popup .___content table {\n      font-size: 14px;\n      vertical-align: top; }\n      .vtk-popup .___content table tr {\n        background-color: white !important;\n        font-size: 14px; }\n        .vtk-popup .___content table tr td {\n          font-size: 14px;\n          vertical-align: top; }\n  .vtk-popup.___hide {\n    visibility: hidden; }\n\n.__preview .__header > .vtk-icon {\n  pointer-events: auto !important; }\n", ""]);
 
 // exports
 
@@ -2046,10 +2244,24 @@ exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .ro
 /* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(25);
+exports = module.exports = __webpack_require__(12)(undefined);
+// imports
+
+
+// module
+exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: right; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer;\n        padding-right: 20px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 0px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 0px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n  #vtk-yp-main .vtk-yp-gray {\n    width: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n    z-index: 100;\n    background-color: black;\n    opacity: 0.8; }\n    #vtk-yp-main .vtk-yp-gray.__hidden {\n      visibility: hidden; }\n", ""]);
+
+// exports
+
 
 /***/ }),
 /* 25 */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = __webpack_require__(26);
+
+/***/ }),
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2057,7 +2269,7 @@ module.exports = __webpack_require__(25);
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(11);
-var Axios = __webpack_require__(27);
+var Axios = __webpack_require__(28);
 var defaults = __webpack_require__(3);
 
 /**
@@ -2092,14 +2304,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(8);
-axios.CancelToken = __webpack_require__(26);
+axios.CancelToken = __webpack_require__(27);
 axios.isCancel = __webpack_require__(9);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(41);
+axios.spread = __webpack_require__(42);
 
 module.exports = axios;
 
@@ -2108,7 +2320,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2172,7 +2384,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2180,10 +2392,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(3);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(28);
-var dispatchRequest = __webpack_require__(29);
-var isAbsoluteURL = __webpack_require__(37);
-var combineURLs = __webpack_require__(35);
+var InterceptorManager = __webpack_require__(29);
+var dispatchRequest = __webpack_require__(30);
+var isAbsoluteURL = __webpack_require__(38);
+var combineURLs = __webpack_require__(36);
 
 /**
  * Create a new instance of Axios
@@ -2264,7 +2476,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2323,14 +2535,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(32);
+var transformData = __webpack_require__(33);
 var isCancel = __webpack_require__(9);
 var defaults = __webpack_require__(3);
 
@@ -2409,7 +2621,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2435,7 +2647,7 @@ module.exports = function enhanceError(error, config, code, response) {
 
 
 /***/ }),
-/* 31 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2467,7 +2679,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 32 */
+/* 33 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2494,7 +2706,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 33 */
+/* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2537,7 +2749,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 34 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2612,7 +2824,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2631,7 +2843,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2691,7 +2903,7 @@ module.exports = (
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2712,7 +2924,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2787,7 +2999,7 @@ module.exports = (
 
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2806,7 +3018,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 40 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2850,7 +3062,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 41 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2884,7 +3096,7 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 42 */
+/* 43 */
 /***/ (function(module, exports) {
 
 
@@ -2979,13 +3191,13 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 43 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(22);
+var content = __webpack_require__(23);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;
@@ -3010,13 +3222,13 @@ if(false) {
 }
 
 /***/ }),
-/* 44 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(23);
+var content = __webpack_require__(24);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // Prepare cssTransformation
 var transform;

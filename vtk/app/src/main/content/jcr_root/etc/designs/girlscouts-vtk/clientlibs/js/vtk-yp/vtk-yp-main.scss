@@ -164,4 +164,18 @@
     .vtk-yp-link:hover{
         color:green !important;
     }
+
+    .vtk-yp-gray{
+         width: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 100;
+        background-color:black;
+        opacity: 0.8;
+
+        &.__hidden{
+            visibility: hidden;
+        }
+    }
 }

@@ -1,7 +1,8 @@
 import './vtk-popup.scss'
 
-//import * as ACTION from '../../store/actions'
 import * as React from "react"
+
+import { modal } from "./data"
 
 //import VtkIcon from './vtk-icon'
 //import {store} from '../../store/store'
@@ -9,7 +10,7 @@ import * as React from "react"
 interface IVtkPopUpProps {
     title : string,
   //  modals : any,
-    name : string
+    name: string
 };
 
 interface IVtkPopUpState {
@@ -24,14 +25,17 @@ interface IVtkPopUpState {
     top?: number,
     left?: number,
     maxHeight?: number | string,
-    width?: number | string
+    width?: number | string,
+    visible?:boolean
 };
 
 class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
 
     state : any;
     originalHeight : number;
-    setAttributes : any;
+    setAttributes: any;
+    modal:any;
+
 
     constructor() {
         super();
@@ -40,7 +44,8 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
             top: 0,
             left: 0,
             maxHeight: 500,
-            width: 600
+            width: 600,
+            visible:false
         }
     }
 
@@ -71,9 +76,10 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
 
     }
 
-    componentWillMount() {
-        //store.dispatch(ACTION.MODALS.REGISTER(this.props.name))
 
+    componentWillMount() {
+        this.modal = modal.subscribe(this.props.name, this.openclose.bind(this))
+        this.setDimentions();
     }
 
     componentWillReceiveProps(props: any) {
@@ -96,22 +102,49 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
 
     componentWillUnmount() {
         document.body.style.overflowY = 'auto';
+        this.modal.remove();
+        window.removeEventListener('resize')
     }
 
-    hide(name : string) {
-        //store.dispatch(ACTION.MODALS.CLOSE(name))
+    hide() {
+
+                    modal.publish('gray', 'close');
+        this.setState({ 'visible': false });
+  
     }
 
-    public render() : JSX.Element {
 
-        let {title, children, name} = this.props;
+    open() {
+                     modal.publish('gray', 'open');
+        this.setState({ 'visible': true });
+
+    }
+
+    openclose(s) { 
+
+
+        if (s == "close") { 
+
+            this.hide();
+        }
+        if (s == "open") { 
+ 
+            this.setDimentions();
+            this.open();
+        }
+
+    }
+
+    public render(): JSX.Element {
+
+        let { title, children, name } = this.props;
 
         let events: {} = {};
-        let visible: string = 'vtk-popup';
+        // let visible: string = 'vtk-popup';
 
         events = {
-            onClick: (e : any) => {
-                this.hide(name)
+            onClick: (e: any) => {
+                this.hide()
             },
 
             style: {
@@ -121,38 +154,39 @@ class VtkPopUp extends React.Component < IVtkPopUpProps,IVtkPopUpState > {
                 "right": '5px'
             }
         }
-/*
-        if (!modals[name]) {
-            visible = 'vtk-popup __hide';
-        } else {
-            visible = 'vtk-popup';
-        }
-*/
-   visible = 'vtk-popup';
-   
+
+
+
+        const childrenWithProps = React.Children.map(this.props.children,
+        (child:any) => React.cloneElement(child))
+  
+
         return (
-            <div
-                id={name}
-                className={visible}
-                style={{
-
-                left: this.state.left,
-                top: this.state.top,
-                width: this.state.width
-
-            }}>
-                <div className="__header">
-                    {title}
-                </div>
+            
+      
                 <div
-                    className="__content"
-                   >
-                    <div className="row">
-                        hello word
+                    id={name}
+                    className={this.state.visible ? 'vtk-popup' : 'vtk-popup ___hide'}
+                    style={{
+
+                        left: this.state.left,
+                        top: this.state.top,
+                        width: this.state.width
+
+                    }}>
+                    <div className="___header">
+                        <div>{title}</div> <div onClick={() => modal.publish(this.props.name,'close')} style={{ position: 'absolute', top: '5px', right: '10px' }}><i className="icon-button-circle-cross"></i></div>
                     </div>
-                </div>
-            </div>
-        );
+                    <div
+                        className="___content"
+                    >
+                        <div className="row">
+                        
+                        {childrenWithProps}
+                        </div>
+                    </div>
+                </div> )
+        ;
     }
 }
 
