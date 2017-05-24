@@ -82,7 +82,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                 ? <div className={state.data.name}>
                     <p>
                         <b>
-                            {`You have selected the Year Plan below for ${________app________} Troop ${________troopName________}. Is this correct?`}
+                            You have selected the Year Plan below for {`${________app________} Troop ${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
                     
@@ -104,7 +104,11 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                             <td style={{ textAlign: 'center' }}>
                                     <div className="btn button" style={{width:'100%'}} onClick={() => {
 
-                                    chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib)
+                                        chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib)
+
+                                        if (state.data.name === 'Custom Year Plan'){ 
+                                            data.modal.publish('pop-select', 'close')
+                                        }    
                                     
                                 }}>YES, SELECT</div>
                             </td>
@@ -118,7 +122,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                 : <div className={state.data.name}>
                     <p>
                         <b>
-                            {`You want to replace your current Year Plan with the new Year Plan listed below for ${________app________} Troop  ${________troopName________}. Is this correct?`}
+                            You want to replace your current Year Plan with the new Year Plan listed below for {`${________app________} Troop  ${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
 
@@ -126,7 +130,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                         <tbody>
                             <tr >
                                 <td>Current Year Plan:</td>
-                                <td>{`${________currentYearPlanName________}`}<br /> <b>IMPORTANT:</b> <span style={{color:'#FAA61A'}}>Any customizations you made will be lost.</span></td>
+                                <td>{`${________currentYearPlanName________}`}<br /> <b>IMPORTANT:</b> <span style={{color:'#FAA61A'}}><b>Any customizations you made will be lost.</b></span></td>
                             </tr>
                             <tr >
                                 <td>New Year Plan</td>
@@ -144,7 +148,11 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                             <td style={{ textAlign: 'center' }}>
                                     <div className="btn button" style={{width:'100%'}} onClick={() => {
 
-                                    chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib)
+                                        chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib)
+
+                                     if (state.data.name === 'Custom Year Plan'){ 
+                                            data.modal.publish('pop-select', 'close')
+                                        }        
                                     
                                 }}>YES, SELECT</div>
                             </td>
@@ -202,7 +210,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                             <div className="columns small-10" style={{padding:'0px',marginLeft:'-5px'}}><p>Customize - Mix and Match </p></div>
                             <div onClick={()=>{
 
-                             selectPlan('Custom Year Plan', ''); 
+                             selectPlan('Custom Year Plan', '', this.store.bind(this)); 
                             
 
                              }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>

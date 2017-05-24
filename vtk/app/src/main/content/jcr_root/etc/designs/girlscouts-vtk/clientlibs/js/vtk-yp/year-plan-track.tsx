@@ -207,24 +207,10 @@ export default YplanTrack;
 
 
 export function selectPlan(name: string, url: string, store?: Function) {
-
-
-
-    if (store) { 
-        store({
+       store({
             name: name,
             url:url,
             is_show_meeting_lib: (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette')
                 ? false : true
-        }, function () { modal.publish('pop-select', 'open') });
-    } else { 
-                   var is_show_meeting_lib = true;
-            if (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette') {
-                is_show_meeting_lib = false;
-            }
-
-            chgYearPlan('', url, '', name, ________isYearPlan________,
-                ________currentYearPlanName________, is_show_meeting_lib);
-        }    
-
+       }, function () { modal.publish('pop-select', 'open') });
 }

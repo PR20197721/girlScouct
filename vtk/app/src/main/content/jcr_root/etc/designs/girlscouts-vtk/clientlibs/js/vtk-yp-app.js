@@ -792,21 +792,12 @@ var YplanTrack = (function (_super) {
 }(React.Component));
 exports.default = YplanTrack;
 function selectPlan(name, url, store) {
-    if (store) {
-        store({
-            name: name,
-            url: url,
-            is_show_meeting_lib: (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette')
-                ? false : true
-        }, function () { data_1.modal.publish('pop-select', 'open'); });
-    }
-    else {
-        var is_show_meeting_lib = true;
-        if (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette') {
-            is_show_meeting_lib = false;
-        }
-        chgYearPlan('', url, '', name, ________isYearPlan________, ________currentYearPlanName________, is_show_meeting_lib);
-    }
+    store({
+        name: name,
+        url: url,
+        is_show_meeting_lib: (url != '' || ________app________ == 'senior' || ________app________ == 'ambassador' || ________app________ == 'cadette')
+            ? false : true
+    }, function () { data_1.modal.publish('pop-select', 'open'); });
 }
 exports.selectPlan = selectPlan;
 
@@ -1737,7 +1728,9 @@ var VtkMainYp = (function (_super) {
             return (________isYearPlan________ == false)
                 ? React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
-                        React.createElement("b", null, "You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct?")),
+                        React.createElement("b", null,
+                            "You have selected the Year Plan below for ", ________app________ + " Troop " + ________troopName________ + ".",
+                            "  Is this correct?")),
                     React.createElement("table", { style: { width: '70%' } },
                         React.createElement("tbody", null,
                             React.createElement("tr", null,
@@ -1751,10 +1744,15 @@ var VtkMainYp = (function (_super) {
                                 React.createElement("td", { style: { textAlign: 'center' } },
                                     React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () {
                                             chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
+                                            if (state.data.name === 'Custom Year Plan') {
+                                                data.modal.publish('pop-select', 'close');
+                                            }
                                         } }, "YES, SELECT"))))))
                 : React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
-                        React.createElement("b", null, "You want to replace your current Year Plan with the new Year Plan listed below for " + ________app________ + " Troop  " + ________troopName________ + ". Is this correct?")),
+                        React.createElement("b", null,
+                            "You want to replace your current Year Plan with the new Year Plan listed below for ", ________app________ + " Troop  " + ________troopName________ + ".",
+                            "  Is this correct?")),
                     React.createElement("table", null,
                         React.createElement("tbody", null,
                             React.createElement("tr", null,
@@ -1764,7 +1762,8 @@ var VtkMainYp = (function (_super) {
                                     " ",
                                     React.createElement("b", null, "IMPORTANT:"),
                                     " ",
-                                    React.createElement("span", { style: { color: '#FAA61A' } }, "Any customizations you made will be lost."))),
+                                    React.createElement("span", { style: { color: '#FAA61A' } },
+                                        React.createElement("b", null, "Any customizations you made will be lost.")))),
                             React.createElement("tr", null,
                                 React.createElement("td", null, "New Year Plan"),
                                 React.createElement("td", null,
@@ -1777,6 +1776,9 @@ var VtkMainYp = (function (_super) {
                                 React.createElement("td", { style: { textAlign: 'center' } },
                                     React.createElement("div", { className: "btn button", style: { width: '100%' }, onClick: function () {
                                             chgYearPlan('', state.data.url, '', state.data.name, ________isYearPlan________, ________currentYearPlanName________, state.data.is_show_meeting_lib);
+                                            if (state.data.name === 'Custom Year Plan') {
+                                                data.modal.publish('pop-select', 'close');
+                                            }
                                         } }, "YES, SELECT"))))));
         }
         return (React.createElement("div", null,
@@ -1809,7 +1811,7 @@ var VtkMainYp = (function (_super) {
                         React.createElement("div", { className: "columns small-10", style: { padding: '0px', marginLeft: '-5px' } },
                             React.createElement("p", null, "Customize - Mix and Match ")),
                         React.createElement("div", { onClick: function () {
-                                year_plan_track_1.selectPlan('Custom Year Plan', '');
+                                year_plan_track_1.selectPlan('Custom Year Plan', '', _this.store.bind(_this));
                             }, className: "columns small-10 end vtk-yp-link" }, " View Meetings to Select")))),
             React.createElement(vtk_gray_1.default, null),
             React.createElement(vtk_popup_1.default, { name: "pop-select", title: "SELECT YEAR PLAN" }, renderChild(this.state))));
