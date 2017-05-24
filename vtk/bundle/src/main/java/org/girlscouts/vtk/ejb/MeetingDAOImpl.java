@@ -2789,7 +2789,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 	
 
 public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
-
+System.err.println("testr: 0");
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
@@ -2807,7 +2807,7 @@ public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws Ill
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		
 		
-		
+		System.err.println("testr: 1");
 		
 String xmlDescriptor = 
 
@@ -2825,6 +2825,8 @@ String xmlDescriptor =
 "<field-descriptor fieldName=\"blurb\" jcrName=\"blurb\"/>"+
 "<field-descriptor fieldName=\"cat\" jcrName=\"cat\"/>"+
 "<field-descriptor fieldName=\"catTags\" jcrName=\"catTags\"/>"+
+"<field-descriptor fieldName=\"catTagsAlt\" jcrName=\"catTagsAlt\"/>"+
+"<field-descriptor fieldName=\"meetingPlanTypeAlt\" jcrName=\"meetingPlanTypeAlt\"/>"+
 "<field-descriptor fieldName=\"meetingPlanType\" jcrName=\"meetingPlanType\"/>"+
 
 
@@ -2833,7 +2835,7 @@ InputStream[] in = new InputStream[1];
 in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
 		 
-		 
+System.err.println("testr: 2");
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Field field = new Meeting().getClass().getDeclaredField("activities");
@@ -2846,6 +2848,9 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 	
+for(int i=0;i<meetings.size();i++){
+	System.err.println(meetings.get(i).getName()+" : "+ meetings.get(i).getMeetingPlanTypeAlt());		
+}
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2856,6 +2861,7 @@ in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 			ex.printStackTrace();
 		}
 	}
+	System.err.println("testr: 3");
 	return meetings;
 	
 
