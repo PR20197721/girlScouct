@@ -353,7 +353,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		<div class="list-of-categories column small-22 small-centered" style="display:none;padding-left:0;">
 			<div class="row">
 				<div class="column small-24">
-					<div class="vtk-meeting-filter_title"><span>3.</span> Select your  <span id="cat_selected"></span>  categories</div>
+					<div class="vtk-meeting-filter_title"><span>3.</span> Select your  <span id="cat_selected" style="font-size:14px !important;"></span>  categories</div>
 					<div id="vtk-meeting-group-categories"  class="row  wrap-vtk-meeting-group-categories">
 
 	  <!--  end carlos 3  -->
