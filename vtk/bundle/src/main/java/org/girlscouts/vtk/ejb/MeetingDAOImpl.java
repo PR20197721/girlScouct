@@ -2789,7 +2789,7 @@ public int getVtkAssetCount(User user, Troop troop, String path) throws IllegalA
 	
 
 public java.util.List<Meeting> getAllMeetings(User user, Troop troop) throws IllegalAccessException {
-System.err.println("testr: 0");
+
 	if (user != null
 			&& !userUtil.hasPermission(troop,
 					Permission.PERMISSION_VIEW_MEETING_ID))
@@ -2807,7 +2807,6 @@ System.err.println("testr: 0");
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		
 		
-		System.err.println("testr: 1");
 		
 String xmlDescriptor = 
 
@@ -2834,8 +2833,7 @@ String xmlDescriptor =
 InputStream[] in = new InputStream[1];
 in[0]=IOUtils.toInputStream(xmlDescriptor, "UTF-8");
 		 
-		 
-System.err.println("testr: 2");
+
 		ObjectContentManager ocm = new ObjectContentManagerImpl(session, in);//(session,mapper);
 		QueryManager queryManager = ocm.getQueryManager();
 		Field field = new Meeting().getClass().getDeclaredField("activities");
@@ -2848,9 +2846,7 @@ System.err.println("testr: 2");
 		if (meetings != null)
 			Collections.sort(meetings, comp);
 	
-for(int i=0;i<meetings.size();i++){
-	System.err.println(meetings.get(i).getName()+" : "+ meetings.get(i).getMeetingPlanTypeAlt());		
-}
+
 	} catch (Exception e) {
 		e.printStackTrace();
 	} finally {
@@ -2861,7 +2857,7 @@ for(int i=0;i<meetings.size();i++){
 			ex.printStackTrace();
 		}
 	}
-	System.err.println("testr: 3");
+
 	return meetings;
 	
 
