@@ -353,7 +353,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 		<div class="list-of-categories column small-22 small-centered" style="display:none;padding-left:0;">
 			<div class="row">
 				<div class="column small-24">
-					<div class="vtk-meeting-filter_title"><span>3.</span> Select your badge categories</div>
+					<div class="vtk-meeting-filter_title"><span>3.</span> Select your  <span id="cat_selected"></span>  categories</div>
 					<div id="vtk-meeting-group-categories"  class="row  wrap-vtk-meeting-group-categories">
 
 	  <!--  end carlos 3  -->
@@ -1061,6 +1061,11 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 		$(this).attr('checked', true);
 
+		if( clickSrc==2) {
+			var typeSelected = document.querySelector('[name="_tag_t"]:checked').value;
+            typeSelected= typeSelected.replace('/',' ').replace('_',' ');
+			document.getElementById("cat_selected").innerHTML = typeSelected;
+        }
 		
 		if( clickSrc==1 ){clearFilterTypes(); clearFilterCats();}
 		if( clickSrc==2 ){ clearFilterCats();}
