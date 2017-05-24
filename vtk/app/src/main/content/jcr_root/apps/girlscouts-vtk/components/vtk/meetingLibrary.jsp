@@ -897,7 +897,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%> ** <%=meeting.getMeetingPlanTypeAlt() %>** <%= meeting.getCatTagsAlt() %></p>
+						  <p class="title"><%=meeting.getName()%>  </p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
