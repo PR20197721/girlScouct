@@ -76,7 +76,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Meeting Plan Type"
                     name="./meetingPlanType"
-                    type="radiogroup"
+                    type="checkbox"
                     xtype="selection">
                     <options jcr:primaryType="cq:WidgetCollection">
                         <badges_petals
