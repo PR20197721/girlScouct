@@ -502,38 +502,6 @@ exports.modal = (function () {
             return topics;
         }
     };
-    // let _modal = {};
-    // function _reset() { }
-    // function _open() { }
-    // function _close() { }
-    // function _register() { }
-    // function _remove() { }
-    // return {
-    //     register: _register,
-    //     reset: _reset,
-    //     open: _open,
-    //     close: _close,
-    //     remove:_remove
-    // }
-})();
-exports.store = (function () {
-    var _global = {};
-    function _add(name, data) {
-        _global[name] = data;
-        return _global;
-    }
-    function _get(name) {
-        return (_global.hasOwnProperty('name')) ? _global[name] : {};
-    }
-    function _reset() {
-        _global = {};
-        return _global;
-    }
-    return {
-        add: _add,
-        get: _get,
-        reset: _reset,
-    };
 })();
 
 
@@ -1766,11 +1734,11 @@ var VtkMainYp = (function (_super) {
         var _a = this.props.data, header = _a.header, bottom = _a.bottom;
         var title = header.title, subtitle = header.subtitle;
         function renderChild(state) {
-            return (________isYearPlan________ == true)
+            return (________isYearPlan________ == false)
                 ? React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null, "You have selected the Year Plan below for " + ________app________ + " Troop " + ________troopName________ + ". Is this correct?")),
-                    React.createElement("table", null,
+                    React.createElement("table", { style: { width: '70%' } },
                         React.createElement("tbody", null,
                             React.createElement("tr", null,
                                 React.createElement("td", null, "Troop Year Plan"),

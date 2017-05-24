@@ -86,7 +86,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                         </b>
                     </p>
                     
-                    <table>
+                    <table style={{ width: '70%' }}>
                         <tbody>
                             <tr>
                                 <td>Troop Year Plan</td>
@@ -202,7 +202,9 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                             <div className="columns small-10" style={{padding:'0px',marginLeft:'-5px'}}><p>Customize - Mix and Match </p></div>
                             <div onClick={()=>{
 
-                                selectPlan('Custom Year Plan','');    
+                             selectPlan('Custom Year Plan', ''); 
+                            
+
                              }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>
 
                         </div>    
