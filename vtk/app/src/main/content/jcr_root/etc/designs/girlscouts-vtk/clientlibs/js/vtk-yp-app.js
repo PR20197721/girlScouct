@@ -1728,7 +1728,10 @@ var VtkMainYp = (function (_super) {
                 ? React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null,
-                            "You have selected the Year Plan below for ", ________app________ + " Troop " + ________troopName________ + ".",
+                            "You have selected the Year Plan below for ", "" + ________app________,
+                            "  ",
+                            (________troopName________.match(/troop/i).length) ? null : "Troop",
+                            "  ", ________troopName________ + ".",
                             "  Is this correct?")),
                     React.createElement("table", { style: { width: '70%' } },
                         React.createElement("tbody", null,
@@ -1750,7 +1753,10 @@ var VtkMainYp = (function (_super) {
                 : React.createElement("div", { className: state.data.name },
                     React.createElement("p", null,
                         React.createElement("b", null,
-                            "You want to replace your current Year Plan with the new Year Plan listed below for ", ________app________ + " Troop  " + ________troopName________ + ".",
+                            "You want to replace your current Year Plan with the new Year Plan listed below for ", "" + ________app________,
+                            "  ",
+                            (________troopName________.match(/troop/i).length) ? null : "Troop",
+                            "  ", ________troopName________ + ".",
                             "  Is this correct?")),
                     React.createElement("table", null,
                         React.createElement("tbody", null,
@@ -1811,7 +1817,7 @@ var VtkMainYp = (function (_super) {
                             React.createElement("p", null, customizedYearPlanContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '', _this.store.bind(_this));
-                            }, className: "columns small-5 end vtk-yp-link" }, " View Meetings to Select")))),
+                            }, className: "columns small-5 end vtk-yp-link" }, customizedYearPlanContent.linkText)))),
             React.createElement(vtk_gray_1.default, null),
             React.createElement(vtk_popup_1.default, { name: "pop-select", title: "SELECT YEAR PLAN" }, renderChild(this.state))));
     };

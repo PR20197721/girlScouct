@@ -82,7 +82,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                 ? <div className={state.data.name}>
                     <p>
                         <b>
-                            You have selected the Year Plan below for {`${________app________} Troop ${________troopName________}.`}  Is this correct?
+                            You have selected the Year Plan below for {`${________app________}`}  {(________troopName________.match(/troop/i).length)?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
                     
@@ -122,7 +122,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                 : <div className={state.data.name}>
                     <p>
                         <b>
-                            You want to replace your current Year Plan with the new Year Plan listed below for {`${________app________} Troop  ${________troopName________}.`}  Is this correct?
+                            You want to replace your current Year Plan with the new Year Plan listed below for {`${________app________}`}  {(________troopName________.match(/troop/i).length)?null:"Troop"}  {`${________troopName________}.`}  Is this correct?
                         </b>
                     </p>
 
@@ -214,7 +214,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                                 selectPlan('Custom Year Plan', '', this.store.bind(this)); 
                     
 
-                             }} className="columns small-5 end vtk-yp-link" > View Meetings to Select</div>
+                         }} className="columns small-5 end vtk-yp-link" >{customizedYearPlanContent.linkText}</div>
 
 
                         </div>    
