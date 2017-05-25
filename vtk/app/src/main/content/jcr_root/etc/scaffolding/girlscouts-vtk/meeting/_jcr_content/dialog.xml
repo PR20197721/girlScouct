@@ -1120,10 +1120,7 @@
                             jcr:primaryType="nt:unstructured"
                             text="N/A"
                             value=""/>
-                        <badges_petals
-                            jcr:primaryType="nt:unstructured"
-                            text="Badges/Petals"
-                            value="Badges_Petals"/>
+                        
                         <journey
                             jcr:primaryType="nt:unstructured"
                             text="Journey"
@@ -1144,7 +1141,17 @@
                             jcr:primaryType="nt:unstructured"
                             text="Bridging"
                             value="Bridging"/>
-                    </options>
+                      </options>
+                      <listeners
+                        jcr:primaryType="nt:unstructured"
+                        selectionchanged="function(me, val, isChecked) {var panel = me.findParentByType('panel');
+                        var tagsField3 = panel.getComponent('fieldset3');
+                        if (val == 'Journey') {tagsField3.show();tagsField3.enable();} else { 
+                        for(var i =9;i &lt; 14;i++) 
+                        {tagsField3.getComponent('tagsField' + i +'x').setValue(false);}tagsField3.disable();
+                         }}"/>
+             
+                    
                  </meetingPlanTypeAlt>
                  
                <fieldset3
@@ -1157,7 +1164,7 @@
 				                 jcr:primaryType="cq:Widget"
 				                 allowBlank="{Boolean}true"
 				                 fieldLabel="It's Your Planet - Love It!"
-				                 
+				                 name="./yourPlanetx"
 				                 xtype="selection"
 			                	 type="checkbox"
 				                 itemId="tagsField9x" >
@@ -1169,7 +1176,7 @@
 				                 jcr:primaryType="cq:Widget"
 				                 allowBlank="{Boolean}true"
 				                 fieldLabel="It's Your Story - Tell It!"
-				                 
+				                 name="./yourStoryx"
 				                 xtype="selection"
 			                	 type="checkbox"
 				                 itemId="tagsField10x" >
@@ -1182,10 +1189,10 @@
 				                 jcr:primaryType="cq:Widget"
 				                 allowBlank="{Boolean}true"
 				                 fieldLabel="It's Your World - Change It!"
-				                
+				                name="./yourWorldx"
 				                 xtype="selection"
 			                	 type="checkbox"
-				                 itemId="tagsField11" >
+				                 itemId="tagsField11x" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'It\\'s_Your_World_-_Change_It,'); } else { catTagsField.setValue(curVal.replace(/It\\'s_Your_World_-_Change_It,/g,'')); } }"/>
@@ -1194,10 +1201,10 @@
 				                 jcr:primaryType="cq:Widget"
 				                 allowBlank="{Boolean}true"
 				                 fieldLabel="Outdoor"
-				                 
+				                 name="./Outdoorx"
 				                 xtype="selection"
 			                	 type="checkbox"
-				                 itemId="tagsField12" >
+				                 itemId="tagsField12x" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'Outdoor,'); } else { catTagsField.setValue(curVal.replace(/Outdoor,/g,'')); } }"/>
@@ -1206,10 +1213,10 @@
 				                 jcr:primaryType="cq:Widget"
 				                 allowBlank="{Boolean}true"
 				                 fieldLabel="STEM"
-				                 
+				                 name="./STEMx"
 				                 xtype="selection"
 			                	 type="checkbox"
-				                 itemId="tagsField13" >
+				                 itemId="tagsField13x" >
 				                 <listeners
                                 jcr:primaryType="nt:unstructured"
                                 selectionchanged="function(me, val, isChecked) { var panel = me.findParentByType('panel').findParentByType('panel'); var catTagsField = panel.getComponent('catTagsAlt'); var curVal = catTagsField.getValue(); if (isChecked) {catTagsField.setValue(curVal + 'STEM,'); } else { catTagsField.setValue(curVal.replace(/STEM,/g,'')); } }"/>
