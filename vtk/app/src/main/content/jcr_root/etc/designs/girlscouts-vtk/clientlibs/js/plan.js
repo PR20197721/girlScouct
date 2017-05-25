@@ -5,7 +5,10 @@ function loadMeetings() {
 
 function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
 
-    if (confirmMsg != null && confirmMsg != '') {
+	 x1_1(planPath, planName,isMeetingLib);
+	 
+		/*
+	 if (confirmMsg != null && confirmMsg != '') {
 
         if (!confirm(confirmMsg)) {
             return;
@@ -32,17 +35,9 @@ function x(planId, planPath, confirmMsg, planName, isMeetingLib) {
         });
 
     }
-    /*
-    check_charcount.log(4);
-
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
-        cache: false
-    }).done(function( html ) {
-        //loadMeetings();
-        location.reload();
-    });
     */
+	 
+  
 }
 
 function x1_1(planPath, planName, isMeetingLib) {
