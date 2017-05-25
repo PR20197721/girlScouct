@@ -1213,6 +1213,8 @@ try{
             session.setAttribute("isHideVtkBanner", "true");
         }else if( request.getParameter("alex658Xf409Re49v") !=null){
         	try{ yearPlanUtil.GSMonthlyDetailedRpt(); }catch(Exception e){e.printStackTrace();}
+        }else if( request.getParameter("alex344") !=null){
+        	try{ yearPlanUtil.GSRptCouncilPublishFinance(); }catch(Exception e){e.printStackTrace();}
         
         } else {
 			//TODO throw ERROR CODE

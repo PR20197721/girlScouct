@@ -467,6 +467,10 @@ public class YearPlanUtil {
 		councilDAO.GSMonthlyDetailedRpt();
 	}
 	
+	public void GSRptCouncilPublishFinance(){
+		councilDAO.GSRptCouncilPublishFinance();
+	}
+	
 	public void test(){}
 	
 	public YearPlan getYearPlanJson(String yearPlanPath){
