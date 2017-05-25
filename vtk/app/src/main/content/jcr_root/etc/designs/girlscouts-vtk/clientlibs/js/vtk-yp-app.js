@@ -420,7 +420,8 @@ function parseJSONVTK(json) {
     var OtoR = {
         header: {},
         Category: [],
-        bottom: {}
+        bottom: {},
+        customizedYearPlanContent: {}
     };
     for (var part in json) {
         if (part === "jcr:primaryType" || part === "sling:resourceType") {
@@ -441,6 +442,10 @@ function parseJSONVTK(json) {
         }
         else {
             parts[currentCategory]['categories'].push(json[part]);
+        }
+        if (json[part].hasOwnProperty('linkText')) {
+            OtoR.customizedYearPlanContent['linkText'] = json[part]['linkText'];
+            OtoR.customizedYearPlanContent['title'] = json[part]['title'];
         }
     }
     parts.forEach(function (elemen, idx) {
@@ -463,14 +468,6 @@ function parseMeetings(json) {
         name: json.name,
         meetings: json.meetingEvents
     };
-
-    for (var s in json.meetings) {
-        if (s.match(/meeting/)) {
-            var index = parseInt(s.match(/[0-9]+/)[0]) - 1;
-            meetings_.meetings[index] = json.meetings[s];
-        }
-    }
-
     return meetings_;
 }
 exports.parseMeetings = parseMeetings;
@@ -729,7 +726,7 @@ var YplanTrack = (function (_super) {
                                     .track
                                     .split('###')[1],
                                 " ",
-                                React.createElement("span", { style: { marginLeft: '10px', color: '#FAA61A' } }, (this.props.isnew == 'isnew') ? 'NEW' : null)),
+                                React.createElement("span", { style: { marginLeft: '10px', color: '#FAA61A', fontWeight: 'bold' } }, (this.props.isnew == 'isnew') ? 'NEW' : null)),
                             React.createElement("div", { className: this.state.isOpen
                                     ? "click-preview cell c3 __open"
                                     : "click-preview cell c3 __close", onClick: function () {
@@ -1345,7 +1342,6 @@ process.umask = function() { return 0; };
 /* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
-
 /*
 	MIT License http://www.opensource.org/licenses/mit-license.php
 	Author Tobias Koppers @sokra
@@ -1381,7 +1377,6 @@ var stylesInDom = {},
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
 	fixUrls = __webpack_require__(43);
-
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -1726,7 +1721,7 @@ var VtkMainYp = (function (_super) {
     };
     VtkMainYp.prototype.render = function () {
         var _this = this;
-        var _a = this.props.data, header = _a.header, bottom = _a.bottom;
+        var _a = this.props.data, header = _a.header, bottom = _a.bottom, customizedYearPlanContent = _a.customizedYearPlanContent;
         var title = header.title, subtitle = header.subtitle;
         function renderChild(state) {
             return (________isYearPlan________ == false)
@@ -1812,11 +1807,11 @@ var VtkMainYp = (function (_super) {
                 React.createElement(header_1.default, { subTitle: bottom.subtitle, title: bottom.title }),
                 React.createElement("div", { className: "row" },
                     React.createElement("div", { className: "columns small-20 small-centered" },
-                        React.createElement("div", { className: "columns small-10", style: { padding: '0px', marginLeft: '-5px' } },
-                            React.createElement("p", null, "Customize - Mix and Match ")),
+                        React.createElement("div", { className: "columns small-17", style: { padding: '0px', marginLeft: '-5px' } },
+                            React.createElement("p", null, customizedYearPlanContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '', _this.store.bind(_this));
-                            }, className: "columns small-10 end vtk-yp-link" }, " View Meetings to Select")))),
+                            }, className: "columns small-5 end vtk-yp-link" }, " View Meetings to Select")))),
             React.createElement(vtk_gray_1.default, null),
             React.createElement(vtk_popup_1.default, { name: "pop-select", title: "SELECT YEAR PLAN" }, renderChild(this.state))));
     };
@@ -1955,9 +1950,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __webpack_require__(1);
-
-var meeting_1 = __webpack_require__(16);
-
+var meeting_1 = __webpack_require__(18);
 ;
 ;
 var Meetings = (function (_super) {
@@ -1966,268 +1959,11 @@ var Meetings = (function (_super) {
         return _super !== null && _super.apply(this, arguments) || this;
     }
     Meetings.prototype.render = function () {
-
-        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position, idx: idx }, meeting.meetingInfo)); }) : null));
-
+        return (React.createElement("div", { className: "list-meetings" }, (this.props.meetings.length) ? this.props.meetings.map(function (meeting, idx) { return React.createElement(meeting_1.default, __assign({ key: meeting.meetingInfo.position + '-meeting-' + idx, idx: idx }, meeting.meetingInfo)); }) : null));
     };
     return Meetings;
 }(React.Component));
 exports.default = Meetings;
-
-
-
-/***/ }),
-/* 18 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(1);
-var ReactDOM = __webpack_require__(14);
-var data = __webpack_require__(2);
-var vtk_yp_main_1 = __webpack_require__(13);
-window['startYPApp'] = function () {
-    data.getYearPlan().then(function (response) {
-        ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
-    });
-};
-
-
-/***/ }),
-/* 19 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(38)(undefined);
-// imports
-
-
-// module
-exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .row:nth-child(1) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: right; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer;\n        padding-right: 20px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 0px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 0px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n", ""]);
-
-// exports
-
-
-/***/ }),
-/* 20 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(21);
-
-/***/ }),
-/* 21 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var utils = __webpack_require__(0);
-var bind = __webpack_require__(11);
-var Axios = __webpack_require__(23);
-var defaults = __webpack_require__(3);
-
-/**
- * Create an instance of Axios
- *
- * @param {Object} defaultConfig The default config for the instance
- * @return {Axios} A new instance of Axios
- */
-function createInstance(defaultConfig) {
-  var context = new Axios(defaultConfig);
-  var instance = bind(Axios.prototype.request, context);
-
-  // Copy axios.prototype to instance
-  utils.extend(instance, Axios.prototype, context);
-
-  // Copy context to instance
-  utils.extend(instance, context);
-
-  return instance;
-}
-
-// Create the default instance to be exported
-var axios = createInstance(defaults);
-
-// Expose Axios class to allow class inheritance
-axios.Axios = Axios;
-
-// Factory for creating new instances
-axios.create = function create(instanceConfig) {
-  return createInstance(utils.merge(defaults, instanceConfig));
-};
-
-// Expose Cancel & CancelToken
-axios.Cancel = __webpack_require__(8);
-axios.CancelToken = __webpack_require__(22);
-axios.isCancel = __webpack_require__(9);
-
-// Expose all/spread
-axios.all = function all(promises) {
-  return Promise.all(promises);
-};
-axios.spread = __webpack_require__(37);
-
-module.exports = axios;
-
-// Allow use of default import syntax in TypeScript
-module.exports.default = axios;
-
-
-/***/ }),
-/* 22 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var Cancel = __webpack_require__(8);
-
-/**
- * A `CancelToken` is an object that can be used to request cancellation of an operation.
- *
- * @class
- * @param {Function} executor The executor function.
- */
-function CancelToken(executor) {
-  if (typeof executor !== 'function') {
-    throw new TypeError('executor must be a function.');
-  }
-
-  var resolvePromise;
-  this.promise = new Promise(function promiseExecutor(resolve) {
-    resolvePromise = resolve;
-  });
-
-  var token = this;
-  executor(function cancel(message) {
-    if (token.reason) {
-      // Cancellation has already been requested
-      return;
-    }
-
-    token.reason = new Cancel(message);
-    resolvePromise(token.reason);
-  });
-}
-
-/**
- * Throws a `Cancel` if cancellation has been requested.
- */
-CancelToken.prototype.throwIfRequested = function throwIfRequested() {
-  if (this.reason) {
-    throw this.reason;
-  }
-};
-
-/**
- * Returns an object that contains a new `CancelToken` and a function that, when called,
- * cancels the `CancelToken`.
- */
-CancelToken.source = function source() {
-  var cancel;
-  var token = new CancelToken(function executor(c) {
-    cancel = c;
-  });
-  return {
-    token: token,
-    cancel: cancel
-  };
-};
-
-module.exports = CancelToken;
-
-
-/***/ }),
-/* 23 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var defaults = __webpack_require__(3);
-var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(24);
-var dispatchRequest = __webpack_require__(25);
-var isAbsoluteURL = __webpack_require__(33);
-var combineURLs = __webpack_require__(31);
-
-/**
- * Create a new instance of Axios
- *
- * @param {Object} instanceConfig The default config for the instance
- */
-function Axios(instanceConfig) {
-  this.defaults = instanceConfig;
-  this.interceptors = {
-    request: new InterceptorManager(),
-    response: new InterceptorManager()
-  };
-}
-
-/**
- * Dispatch a request
- *
- * @param {Object} config The config specific for this request (merged with this.defaults)
- */
-Axios.prototype.request = function request(config) {
-  /*eslint no-param-reassign:0*/
-  // Allow for axios('example/url'[, config]) a la fetch API
-  if (typeof config === 'string') {
-    config = utils.merge({
-      url: arguments[0]
-    }, arguments[1]);
-  }
-
-  config = utils.merge(defaults, this.defaults, { method: 'get' }, config);
-
-  // Support baseURL config
-  if (config.baseURL && !isAbsoluteURL(config.url)) {
-    config.url = combineURLs(config.baseURL, config.url);
-  }
-
-  // Hook up interceptors middleware
-  var chain = [dispatchRequest, undefined];
-  var promise = Promise.resolve(config);
-
-  this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-    chain.unshift(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-    chain.push(interceptor.fulfilled, interceptor.rejected);
-  });
-
-  while (chain.length) {
-    promise = promise.then(chain.shift(), chain.shift());
-  }
-
-  return promise;
-};
-
-// Provide aliases for supported request methods
-utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url
-    }));
-  };
-});
-
-utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
-  /*eslint func-names:0*/
-  Axios.prototype[method] = function(url, data, config) {
-    return this.request(utils.merge(config || {}, {
-      method: method,
-      url: url,
-      data: data
-    }));
-  };
-});
-
-module.exports = Axios;
-
 
 
 /***/ }),
@@ -2452,7 +2188,7 @@ var React = __webpack_require__(1);
 var ReactDOM = __webpack_require__(16);
 var data = __webpack_require__(2);
 var vtk_yp_main_1 = __webpack_require__(15);
-window.onload = function () {
+window['startYPApp'] = function () {
     data.getYearPlan().then(function (response) {
         ReactDOM.render(React.createElement(vtk_yp_main_1.default, { data: response }), document.getElementById("vtk-yp-main"));
     });
@@ -2482,7 +2218,7 @@ exports = module.exports = __webpack_require__(12)(undefined);
 
 
 // module
-exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: right; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer;\n        padding-right: 20px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 0px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 0px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n  #vtk-yp-main .vtk-yp-gray {\n    width: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n    z-index: 100;\n    background-color: black;\n    opacity: 0.8; }\n    #vtk-yp-main .vtk-yp-gray.__hidden {\n      visibility: hidden; }\n", ""]);
+exports.push([module.i, "#vtk-yp-main {\n  margin: 20px 0; }\n  #vtk-yp-main .row:nth-child(n+2) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .row:nth-child(1) {\n    padding-bottom: 0px !important; }\n  #vtk-yp-main .__header {\n    background: #f6f6f6;\n    padding: 5px;\n    margin-bottom: 10px; }\n  #vtk-yp-main .__year-plan-track-row .__year-plan-track,\n  #vtk-yp-main .__year-plan-track-row .__meetings {\n    padding: 5px 0; }\n    #vtk-yp-main .__year-plan-track-row .__year-plan-track .table,\n    #vtk-yp-main .__year-plan-track-row .__meetings .table {\n      width: 100%;\n      display: table;\n      font-size: 14px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell {\n        display: table-cell;\n        vertical-align: middle; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c18,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c18 {\n        width: 60%; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 {\n        width: 20%;\n        text-align: right; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .button,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .button {\n          width: 100%;\n          margin: 0; }\n        #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .cell.c3 .inactive,\n        #vtk-yp-main .__year-plan-track-row .__meetings .table .cell.c3 .inactive {\n          background-color: #969696 !important;\n          pointer-events: none; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview {\n        color: #00A850;\n        font-weight: 600;\n        cursor: pointer;\n        padding-right: 20px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__close:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__close:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: transparent transparent transparent #00A850;\n        top: 2px;\n        right: 0px;\n        border-width: 7px; }\n      #vtk-yp-main .__year-plan-track-row .__year-plan-track .table .click-preview.__open:before,\n      #vtk-yp-main .__year-plan-track-row .__meetings .table .click-preview.__open:before {\n        position: relative;\n        content: \"\";\n        width: 0;\n        height: 0;\n        display: inline-block;\n        border-style: solid;\n        border-color: #00A850 transparent transparent transparent;\n        top: 6px;\n        right: 0px;\n        border-width: 7px; }\n  #vtk-yp-main .__meetings {\n    padding-top: 0px !important;\n    padding-bottom: 20px;\n    background-color: #e1e1e1; }\n    #vtk-yp-main .__meetings .list-meetings {\n      background-color: white;\n      padding: 5px; }\n  #vtk-yp-main .meeting {\n    background-color: #f6f6f6;\n    margin-bottom: 10px; }\n    #vtk-yp-main .meeting:last-child {\n      margin-bottom: 0px; }\n    #vtk-yp-main .meeting .square {\n      width: 83px;\n      height: 83px;\n      background-color: #00ae57;\n      display: inline-block;\n      float: left; }\n      #vtk-yp-main .meeting .square p {\n        margin: 0;\n        padding: 0;\n        text-align: center;\n        text-transform: uppercase;\n        color: white;\n        font-weight: 100; }\n      #vtk-yp-main .meeting .square .postion {\n        font-size: 30px; }\n    #vtk-yp-main .meeting .arrowGreen {\n      display: inline-block;\n      width: 0;\n      height: 0;\n      border-top: 16px solid transparent;\n      border-bottom: 16px solid transparent;\n      border-left: 14px solid #00ae57;\n      float: left;\n      margin-top: 27px; }\n    #vtk-yp-main .meeting .body {\n      display: inline-block;\n      padding: 0 0 0 40px;\n      width: 85%;\n      height: 80px; }\n      #vtk-yp-main .meeting .body ul {\n        list-style: none;\n        margin: 0;\n        padding: 0;\n        display: table;\n        width: 100%;\n        height: 80px; }\n        #vtk-yp-main .meeting .body ul li {\n          display: table-cell;\n          vertical-align: middle;\n          height: 80px; }\n  #vtk-yp-main .big-arrow-white {\n    height: 50px;\n    float: right;\n    width: 100%;\n    clear: both; }\n    #vtk-yp-main .big-arrow-white:after {\n      content: '';\n      width: 0;\n      height: 0;\n      border-left: 40px solid transparent;\n      border-right: 40px solid transparent;\n      border-top: 20px solid white;\n      float: right;\n      margin-right: 307px; }\n  #vtk-yp-main .vtk-yp-link {\n    cursor: pointer;\n    font-size: 14px;\n    color: #00ae58;\n    text-align: right; }\n  #vtk-yp-main .vtk-yp-link:hover {\n    color: green !important; }\n  #vtk-yp-main .vtk-yp-gray {\n    width: 100%;\n    position: fixed;\n    top: 0;\n    left: 0;\n    z-index: 100;\n    background-color: black;\n    opacity: 0.8; }\n    #vtk-yp-main .vtk-yp-gray.__hidden {\n      visibility: hidden; }\n", ""]);
 
 // exports
 

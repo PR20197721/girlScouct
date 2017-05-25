@@ -214,7 +214,7 @@ class VtkMainYp extends React.Component < VtkMainYpProps,
                                 selectPlan('Custom Year Plan', '', this.store.bind(this)); 
                     
 
-                             }} className="columns small-10 end vtk-yp-link" > View Meetings to Select</div>
+                             }} className="columns small-5 end vtk-yp-link" > View Meetings to Select</div>
 
 
                         </div>    
