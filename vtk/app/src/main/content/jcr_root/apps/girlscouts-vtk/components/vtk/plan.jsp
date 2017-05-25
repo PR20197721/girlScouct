@@ -189,7 +189,7 @@
                 return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "Hello! Your girl's Troop Leader has not yet set up the troop's Year Plan. Please contact the Troop Leader for more info on their use of the Volunteer Toolkit.");
 
             }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP' &&  <%= VtkUtil.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "true" : "false" %>  ){
-                yesPlan();
+                yesPlan.auto();
                 return React.createElement("h3",null);
             }else{
 

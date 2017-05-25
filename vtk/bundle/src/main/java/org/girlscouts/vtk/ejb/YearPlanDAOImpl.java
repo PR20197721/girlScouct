@@ -215,7 +215,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
             		 Meeting meetingInfo = new Meeting();
             		 meetingInfo.setName( valueMap.get("name").toString());
             		 meetingInfo.setBlurb(valueMap.get("blurb").toString());
-            		 meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
+            		 //meetingInfo.setPosition( Integer.parseInt( valueMap.get("position").toString() ) );
             		 meetingInfo.setId(valueMap.get("id").toString());
             		 meetingInfo.setCat(valueMap.get("cat").toString());
             		 
