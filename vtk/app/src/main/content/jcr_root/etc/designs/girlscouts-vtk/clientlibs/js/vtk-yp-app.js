@@ -1811,7 +1811,7 @@ var VtkMainYp = (function (_super) {
                             React.createElement("p", null, customizedYearPlanContent.title)),
                         React.createElement("div", { onClick: function () {
                                 year_plan_track_1.selectPlan('Custom Year Plan', '', _this.store.bind(_this));
-                            }, className: "columns small-5 end vtk-yp-link" }, " View Meetings to Select")))),
+                            }, className: "columns small-5 end vtk-yp-link" }, customizedYearPlanContent.linkText)))),
             React.createElement(vtk_gray_1.default, null),
             React.createElement(vtk_popup_1.default, { name: "pop-select", title: "SELECT YEAR PLAN" }, renderChild(this.state))));
     };
