@@ -1166,7 +1166,6 @@
 				                 fieldLabel="It's Your Planet - Love It!"
 				                 name="./yourPlanetx"
 				                 xtype="selection"
-				                 
 			                	 type="checkbox"
 				                 itemId="tagsField9x" >
 				                 <listeners
