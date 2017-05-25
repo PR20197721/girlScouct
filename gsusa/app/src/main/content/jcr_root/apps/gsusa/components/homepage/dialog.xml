@@ -80,6 +80,12 @@
                             fieldLabel="Facebook ID"
                             fieldDescription="Default Facebook ID for the Site"
                             name="./facebookId"/>
+                        <tracking
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
+                            fieldLabel="Tracking"
+                            xtype="textarea"
+                            name="./footerTracking"/>
                     </items>
                 </gsusa>
             </items>

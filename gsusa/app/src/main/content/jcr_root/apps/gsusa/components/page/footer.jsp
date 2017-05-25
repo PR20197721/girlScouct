@@ -60,5 +60,8 @@
         <img src="/etc/designs/gsusa/clientlibs/images/footer_logo.png" alt="footer logo" />
     </section>
 </div>
+
+<cq:include script="footer-tracking.jsp" />
+
 <!-- END of footer -->
 <!-- Version Animal Cracker -->

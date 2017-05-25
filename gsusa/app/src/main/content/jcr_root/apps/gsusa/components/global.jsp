@@ -26,6 +26,10 @@
 	com.day.cq.search.QueryBuilder,
 	com.day.cq.search.result.Hit,
 	javax.jcr.query.RowIterator" %>
+<%
+Page currentHomepage = currentPage.getAbsoluteParent(2);
+ValueMap currentSite = currentHomepage.getContentResource().adaptTo(ValueMap.class);
+%>
 <%!
 private static Logger log = LoggerFactory.getLogger("gsusa.components.global");
 
