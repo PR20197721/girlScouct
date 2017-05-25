@@ -851,10 +851,9 @@ System.err.println("TESt: " + sb.toString());
 		            	e.printStackTrace();
 		            }
 		            
-		            sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +"\","+  (submitTime==null ? "N/A"  : submitTime));       
+		            sb.append( (isHtml ? "<br/>" : "\n") + "\"" +cTrans.get(councilId)+"\","+ councilId +","+  (submitTime==null ? "N/A"  : submitTime));       
 		        }
-		        
-		       		
+		        	       		
 		        councilRpt.emailRpt( sb.toString(), "Report - Current # of Council's Who have Published Finance Form 2.0" ); 
 	} catch (Exception e) {
 		e.printStackTrace();
@@ -885,9 +884,9 @@ System.err.println("TESt: " + sb.toString());
             Iterable<Resource> rcouncils = myResource.getChildren();
        	 	for (Resource rcouncil : rcouncils) {
        	 		String councilPath = rcouncil.getPath();
-      System.err.println("Path: "+ councilPath); 	 		
+      	 		
        	 		String council = councilPath.substring( councilPath.lastIndexOf("/") +1);
-      System.err.println("council: "+ council); 
+      
        	 		councils.add(  council );
        	 	}
 
