@@ -213,6 +213,7 @@ String meetingDataUrl = "meeting." + elemParam + ".json";
 
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
+   alert('a'); 	  
         return { show: false };
       },
       toggle: function() {
@@ -941,18 +942,18 @@ React.createElement(ActivityPlan),
           this.dataWorker.getData(true);
       },
       getInitialState: function() {
-
+alert('a1');
         return {data: []};
       },
       componentDidMount: function() {
-
+alert('b ::  <%= meetingDataUrl %>');
         this.dataWorker = new VTKDataWorker('<%= meetingDataUrl %>', this, function(data) {
 
 
             this.setState({
                 data: data.yearPlan
             });
-
+alert("DataWorker")
             // console.log(data.yearPlan.meetingEvents[0].notes);
 
             // thisMeetingNotes = data.yearPlan.meetingEvents[0].notes;
@@ -960,17 +961,17 @@ React.createElement(ActivityPlan),
            // appVTK.data.set(data.yearPlan.meetingEvents[0].notes);
 
         }, 10000);
-
+alert('c');
         this.dataWorker.start();
-
+alert('d');
       },
       checkLocalUpdate: function(){
-
+alert("chkUpd..."+ isActivNew);
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
-
+alert('e');
           var x;
           var sched;
 
@@ -1089,7 +1090,8 @@ React.createElement(ActivityPlan),
         }
       },
       componentDidMount: function() {
-       try{
+alert(22);       
+    	  try{
            if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
                 replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf());
            }

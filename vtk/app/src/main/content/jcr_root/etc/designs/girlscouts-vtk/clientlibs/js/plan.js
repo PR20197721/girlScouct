@@ -1009,7 +1009,7 @@ function printYearPlans(reloginSelect) {
 }
 
 function replaceMeetingHref(mPath, mDate) {
-
+alert(11);
     var replaceMeeting = document.getElementById("replaceMeeting");
     var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
     if (replaceMeeting != null) {
@@ -2153,27 +2153,7 @@ var initNotes = (function(global, ModalVtk, $) {
 
     }
 
-    function rmMeetingHref(mPath, mDate, ageGroup, meetingName) {
 
-        var rmMeeting = document.getElementById("rmMeeting");
-        var rmMeetingSmall = document.getElementById("rmMeetingSmall");
-        if (rmMeeting != null) {
-            rmMeeting.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
-        }
-        if (rmMeetingSmall != null) {
-            mMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
-        }
-
-    }
-   
-    function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName){
-    	
-    	var isRm = confirm('Are you sure you want to delete the '+ ageGroup+' meeting, "'+meetingName+'" from your Year Plan?');
-    	if( isRm ){
-    		rmMeeting( mPath, mDate );
-    	}
-    }
-    
     $(function() {
         var editormain = Object.create(editor);
         var countermain = Object.create(counter);

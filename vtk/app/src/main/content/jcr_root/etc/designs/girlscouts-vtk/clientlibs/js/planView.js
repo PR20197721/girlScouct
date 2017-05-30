@@ -333,6 +333,47 @@ function isSafary(){
 	  return false;
 }
 
+function rmMeetingHref(mPath, mDate, ageGroup, meetingName) {
+
+    var rmMeeting = document.getElementById("rmMeeting");
+    var rmMeetingSmall = document.getElementById("rmMeetingSmall");
+    if (rmMeeting != null) {
+        rmMeeting.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
+    }
+    if (rmMeetingSmall != null) {
+        mMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"rmMeetingWithConf( mPath, mDate, ageGroup, meetingName )\">delete meeting</a>";
+    }
+
+}
+
+function rmMeetingWithConf(mPath, mDate, ageGroup, meetingName){
+	
+	var isRm = confirm('Are you sure you want to delete the '+ ageGroup+' meeting, "'+meetingName+'" from your Year Plan?');
+	if( isRm ){
+		rmMeetingSingle(  mDate, mPath );
+	}
+}
+
+
+
+function rmMeetingSingle(rmDate, mid) {
+alert("rmMeetingSingle...");
+    $.ajax({
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        type: 'POST',
+        data: {
+            act: 'RmMeeting',
+            rmDate: rmDate,
+            mid: mid,
+            a: Date.now()
+        },
+        success: function(result) {
+
+            vtkTrackerPushAction('RemoveMeeting');
+            self.location='/content/girlscouts-vtk/en/vtk.html';
+        }
+    });
+}
 
 
 var getDataIfModified;
