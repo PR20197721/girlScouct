@@ -252,6 +252,7 @@
 	                    	  if (meetingPath != null && meetingPath != ""  ) {
 	                          %>
 							<li id="replaceMeetingSmall"></li>
+							<li id="rmMeetingSmall"><a href="#" onclick="rmMeetingWithConf( '<%=meetingPath %>', '<%=planView.getSearchDate() %>', '<%=troop.getSfTroopAge() %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a></li>
 							<%
 	                        }
 				               }
@@ -369,6 +370,7 @@
                       if (meetingPath != null && meetingPath != "") {
                       %>
 						<li id="replaceMeeting"></li>
+						<li id="rmMeeting"><a href="#" onclick="rmMeetingWithConf( '<%=meetingPath %>', '<%=planView.getSearchDate() %>', '<%=troop.getSfTroopAge() %>', '<%=planView.getMeeting().getMeetingInfo().getName()%>' )">delete meeting</a></li>
 						<%
                       }
                   } catch (Exception te) {
