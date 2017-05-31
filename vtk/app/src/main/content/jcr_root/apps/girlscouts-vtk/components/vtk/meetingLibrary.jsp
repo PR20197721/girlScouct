@@ -40,6 +40,22 @@ try{
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user,troop);//, ageLevel);
 
+	
+java.util.List<Meeting> extraInfoMeetings= new java.util.ArrayList();
+for( int i=0;i<meetings.size();i++){
+	if( meetings.get(i).getMeetingPlanTypeAlt()!=null && !"".equals( meetings.get(i).getMeetingPlanTypeAlt() ) ){
+		Meeting _alteredMeeting = (Meeting) VtkUtil.deepClone(meetings.get(i) );
+		_alteredMeeting.setMeetingPlanType(meetings.get(i).getMeetingPlanTypeAlt());
+		_alteredMeeting.setCatTags(meetings.get(i).getCatTagsAlt());
+		extraInfoMeetings.add( _alteredMeeting );
+	}
+}
+meetings.addAll(extraInfoMeetings);
+
+
+
+
+	
 	String find="";
 %>
   <div class="header clearfix">
@@ -105,9 +121,7 @@ try{
 
 		if(myMeetings!=null) {
 		  for(int i=0;i< myMeetings.size();i++){
-			// ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
-			//if( request.getParameter("isReenter")!=null && meetingPath.equals( myMeetings.get(i).getPath() ) ) continue;
-
+		
 			String meetingId = myMeetings.get(i).getRefId();
 			meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
 		
@@ -174,15 +188,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 	  }
 	  String cats = meeting.getCatTags();
 	  if( cats!=null){
-	  /*
-	  List<Tag> catList= meeting.getCatTags();
-	  if( catList!=null ){
-		  ListIterator<Tag> li = catList.listIterator();
-		  while (li.hasNext()) {
-			  Tag temp = li.next();
-			  cats += temp.getName() + ",";
-		  }
-		  */
+	 
 	   StringTokenizer t = new StringTokenizer(cats, ",");
 
 		  while( t.hasMoreElements() ){
@@ -191,8 +197,7 @@ if( meeting!=null && meeting.getMeetingPlanType()!=null)
 
 			  mCats.put(theCat,  "MC_"+new java.util.Date().getTime() +"_"+ Math.random());
 
-			  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){// && !mCatsPerType.get(meeting.getMeetingPlanType()).contains(theCat) ){
-
+			  if( meeting.getMeetingPlanType()!=null && meeting.getCatTags()!=null){
 				  java.util.Set _x = mCatsPerType.get(meeting.getMeetingPlanType());
 
 				  if( _x==null ){
@@ -843,48 +848,8 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 		  //sort meetings by this specific order: dAisy > bRownie > jUnior
 		  if (meetings != null) {
 			  
-		  /*
-			  Collections.sort(meetings, new Comparator<Meeting>() {
-				  public int compare(Meeting o1, Meeting o2) {
-					  //return o1.getLevel().compareTo(o2.getLevel());
-					  return Character.compare(o1.getLevel().charAt(1), o2.getLevel().charAt(1)); 
-				  }
-			  });
-		  */
 		  
-		  /*
-			  Collections.sort(meetings, new Comparator() {
-
-			        public int compare(Object o1, Object o2) {
-
-			            String x1 = ((Meeting) o1).getLevel().charAt(1) +"";
-			            String x2 = ((Meeting) o2).getLevel().charAt(1) +"";
-			            int sComp = x1.compareTo(x2);
-
-			            if (sComp != 0) {
-			               return sComp;
-			            } else {
-			               String x3 = ((Meeting) o1).getName();
-			               String x4 = ((Meeting) o2).getName();
-			               return x3.compareTo(x4);
-			            }
-			    }});
-		  
-		  */
-		  
-		  /*
-			  Collections.sort(meetings,
-					  java.util.Comparator.comparing(p1 -> ((Meeting)p1).getLevel().charAt(1))
-		                     .thenComparing(p1 -> ((Meeting)p1).getName()) );
-		                     //.thenComparing(p1 -> p1.getArtist()));
-		  */
-		  
-		  
-		    /*
-              Collections.sort(meetings,
-                      java.util.Comparator.comparing(Meeting::getLevel)
-                             .thenComparing(Meeting::getName) );
-                          */
+		 
              
              meetings = VtkUtil.sortMeetings( meetings );
           
@@ -932,7 +897,7 @@ var meetingLibraryModal = new ModalVtk('meeting-library-modal');
 
 
 					   <div style="display:table-cell;height:inherit;vertical-align:middle;">
-						  <p class="title"><%=meeting.getName()%></p>
+						  <p class="title"><%=meeting.getName()%>  </p>
 						 
 						<p class="blurb"><%=meeting.getBlurb() %></p>
 						<p class="tags"> 
